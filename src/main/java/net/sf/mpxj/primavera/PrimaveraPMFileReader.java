@@ -1991,6 +1991,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
+   /**
+    * Process activity steps.
+    *
+    * @param activitySteps list of activity steps
+    */
    private void processActivitySteps(List<ActivityStepType> activitySteps)
    {
       List<ActivityStepType> steps = new ArrayList<>(activitySteps);

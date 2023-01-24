@@ -1219,6 +1219,9 @@ final class PrimaveraPMProjectWriter
       }
    }
 
+   /**
+    * Write all activity steps for project.
+    */
    private void writeActivitySteps()
    {
       List<Task> tasks = new ArrayList<>(m_projectFile.getTasks());
@@ -1227,6 +1230,11 @@ final class PrimaveraPMProjectWriter
       tasks.forEach(this::writeActivitySteps);
    }
 
+   /**
+    * Write activity steps for a task.
+    *
+    * @param task Task instance
+    */
    private void writeActivitySteps(Task task)
    {
       List<Step> items = task.getSteps();
