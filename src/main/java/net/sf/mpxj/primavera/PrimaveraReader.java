@@ -1817,12 +1817,6 @@ final class PrimaveraReader
          if (task != null)
          {
             List<ExpenseItem> items = task.getExpenseItems();
-            if (items == null)
-            {
-               items = new ArrayList<>();
-               task.setExpenseItems(items);
-            }
-
             ExpenseItem ei = new ExpenseItem(task);
             items.add(ei);
 
