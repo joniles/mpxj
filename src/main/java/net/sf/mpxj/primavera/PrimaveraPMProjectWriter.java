@@ -71,6 +71,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -87,6 +88,7 @@ import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityExpenseType;
 import net.sf.mpxj.primavera.schema.ActivityNoteType;
+import net.sf.mpxj.primavera.schema.ActivityStepType;
 import net.sf.mpxj.primavera.schema.ActivityType;
 import net.sf.mpxj.primavera.schema.BaselineProjectType;
 import net.sf.mpxj.primavera.schema.CalendarType;
@@ -151,6 +153,7 @@ final class PrimaveraPMProjectWriter
 
             m_wbs = project.getWBS();
             m_activities = project.getActivity();
+            m_activitySteps = project.getActivityStep();
             m_assignments = project.getResourceAssignment();
             m_relationships = project.getRelationship();
             m_expenses = project.getActivityExpense();
@@ -163,6 +166,7 @@ final class PrimaveraPMProjectWriter
             writeTasks();
             writeAssignments();
             writeExpenseItems();
+            writeActivitySteps();
          }
          else
          {
@@ -171,6 +175,7 @@ final class PrimaveraPMProjectWriter
 
             m_wbs = project.getWBS();
             m_activities = project.getActivity();
+            m_activitySteps = project.getActivityStep();
             m_assignments = project.getResourceAssignment();
             m_relationships = project.getRelationship();
             m_expenses = project.getActivityExpense();
@@ -195,6 +200,7 @@ final class PrimaveraPMProjectWriter
             writeTasks();
             writeAssignments();
             writeExpenseItems();
+            writeActivitySteps();
             writeTopics();
          }
       }
@@ -736,7 +742,7 @@ final class PrimaveraPMProjectWriter
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
       xml.setParentObjectId(mpxj.getParentResourceUniqueID());
-      xml.setResourceNotes(getResourceNotes(mpxj.getNotesObject()));
+      xml.setResourceNotes(getNotes(mpxj.getNotesObject()));
       xml.setResourceType(getResourceType(mpxj));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.RESOURCE, mpxj));
@@ -764,7 +770,7 @@ final class PrimaveraPMProjectWriter
       xml.setName(mpxj.getName());
       xml.setId(mpxj.getResourceID());
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
-      xml.setResponsibilities(getResourceNotes(mpxj.getNotesObject()));
+      xml.setResponsibilities(getNotes(mpxj.getNotesObject()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
    }
 
@@ -776,7 +782,7 @@ final class PrimaveraPMProjectWriter
     * @param notes notes text
     * @return Notes instance
     */
-   private String getResourceNotes(Notes notes)
+   private String getNotes(Notes notes)
    {
       String result;
       if (notes == null || notes.isEmpty())
@@ -1210,6 +1216,50 @@ final class PrimaveraPMProjectWriter
          expense.setUnitOfMeasure(item.getUnitOfMeasure());
          expense.setVendor(item.getVendor());
          expense.setWBSObjectId(parentObjectID);
+      }
+   }
+
+   /**
+    * Write all activity steps for project.
+    */
+   private void writeActivitySteps()
+   {
+      List<Task> tasks = new ArrayList<>(m_projectFile.getTasks());
+      tasks.sort((t1, t2) -> NumberHelper.compare(t1.getUniqueID(), t2.getUniqueID()));
+
+      tasks.forEach(this::writeActivitySteps);
+   }
+
+   /**
+    * Write activity steps for a task.
+    *
+    * @param task Task instance
+    */
+   private void writeActivitySteps(Task task)
+   {
+      List<Step> items = task.getSteps();
+      if (items.isEmpty())
+      {
+         return;
+      }
+
+      List<Step> steps = new ArrayList<>(items);
+      steps.sort((i1, i2) -> NumberHelper.compare(i1.getSequenceNumber(), i2.getSequenceNumber()));
+
+      Integer parentObjectID = task.getUniqueID();
+
+      for (Step step : steps)
+      {
+         ActivityStepType activityStep = m_factory.createActivityStepType();
+         m_activitySteps.add(activityStep);
+         activityStep.setActivityObjectId(task.getUniqueID());
+         activityStep.setDescription(getNotes(step.getDescriptionObject()));
+         activityStep.setName(step.getName());
+         activityStep.setObjectId(step.getUniqueID());
+         activityStep.setPercentComplete(Double.valueOf(NumberHelper.getDouble(step.getPercentComplete()) / 100.0));
+         activityStep.setIsCompleted(Boolean.valueOf(step.getComplete()));
+         activityStep.setSequenceNumber(step.getSequenceNumber());
+         activityStep.setWeight(step.getWeight());
       }
    }
 
@@ -2014,6 +2064,7 @@ final class PrimaveraPMProjectWriter
    private ObjectFactory m_factory;
    private List<WBSType> m_wbs;
    private List<ActivityType> m_activities;
+   private List<ActivityStepType> m_activitySteps;
    private List<ResourceAssignmentType> m_assignments;
    private List<RelationshipType> m_relationships;
    private List<ActivityExpenseType> m_expenses;

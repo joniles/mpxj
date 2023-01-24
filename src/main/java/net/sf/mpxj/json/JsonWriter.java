@@ -63,6 +63,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.RecurringData;
+import net.sf.mpxj.Step;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnitDefaultsContainer;
@@ -864,6 +865,12 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case STEP_LIST:
+         {
+            writeStepList(fieldName, value);
+            break;
+         }
+
          default:
          {
             // If we have an enum, ensure we write the name as it appears in the code.
@@ -1415,6 +1422,30 @@ public final class JsonWriter extends AbstractProjectWriter
          writeStringField("accrue_type", item.getAccrueType().name().toLowerCase());
          writeBooleanField("auto_compute_actuals", item.getAutoComputeActuals());
          writeStringField("unit_of_measure", item.getUnitOfMeasure());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeStepList(String fieldName, Object value) throws IOException
+   {
+      @SuppressWarnings("unchecked")
+      List<Step> list = (List<Step>) value;
+      if (list.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList(fieldName);
+      for (Step item : list)
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("unique_id", item.getUniqueID());
+         writeStringField("name", item.getName());
+         writeIntegerField("sequence_number", item.getSequenceNumber());
+         writeDoubleField("percent_complete", item.getPercentComplete());
+         writeDoubleField("weight", item.getWeight());
+         writeStringField("description", item.getDescription());
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();

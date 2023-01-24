@@ -232,6 +232,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          processPredecessors();
          processAssignments();
          processExpenseItems();
+         processActivitySteps();
          m_reader.rollupValues();
 
          project.updateStructure();
@@ -432,6 +433,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private void processExpenseItems()
    {
       m_reader.processExpenseItems(getRows("projcost", "proj_id", m_projectID));
+   }
+
+   /**
+    * Process activity steps.
+    */
+   private void processActivitySteps()
+   {
+      m_reader.processActivitySteps(getRows("taskproc", "proj_id", m_projectID));
    }
 
    /**
@@ -1104,6 +1113,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("clndr_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("clndr_name", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("clndr_type", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("complete_pct", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("cost_item_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("cost_per_qty2", XerFieldType.DOUBLE);
@@ -1169,6 +1179,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("plan_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("plan_start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("pred_task_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("proc_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("proc_wt", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("proj_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("reend_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("rem_late_start_date", XerFieldType.DATE);
@@ -1243,6 +1255,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       REQUIRED_TABLES.add("roles");
       REQUIRED_TABLES.add("rolerate");
       REQUIRED_TABLES.add("rsrccurvdata");
+      REQUIRED_TABLES.add("taskproc");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();

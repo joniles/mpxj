@@ -1021,6 +1021,7 @@ public enum TaskField implements FieldType
    LONGEST_PATH(DataType.BOOLEAN),
    ACTIVITY_CODES(DataType.ACTIVITY_CODE_LIST),
    SEQUENCE_NUMBER(DataType.INTEGER),
+   STEPS(DataType.STEP_LIST),
    FINISH(DataType.DATE),
 
    // KEEP THESE TOGETHER AND IN ORDER

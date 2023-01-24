@@ -113,6 +113,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processWorkContours();
          processAssignments();
          processExpenseItems();
+         processActivitySteps();
          m_reader.rollupValues();
 
          m_reader = null;
@@ -224,6 +225,14 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private void processExpenseItems() throws SQLException
    {
       m_reader.processExpenseItems(getRows("select * from " + m_schema + "projcost where proj_id=?", m_projectID));
+   }
+
+   /**
+    * Select the activity steps from the database.
+    */
+   private void processActivitySteps() throws SQLException
+   {
+      m_reader.processActivitySteps(getRows("select * from " + m_schema + "taskproc where proj_id=?", m_projectID));
    }
 
    /**

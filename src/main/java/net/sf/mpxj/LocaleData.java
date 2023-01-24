@@ -1041,6 +1041,7 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.LONGEST_PATH.getValue()] = "Longest Path";
       TASK_COLUMNS_ARRAY[TaskField.ACTIVITY_CODES.getValue()] = "Activity Codes";
       TASK_COLUMNS_ARRAY[TaskField.SEQUENCE_NUMBER.getValue()] = "Sequence Number";
+      TASK_COLUMNS_ARRAY[TaskField.STEPS.getValue()] = "Steps";
 
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD1.getValue()] = "Enterprise Custom Field 1";
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_CUSTOM_FIELD2.getValue()] = "Enterprise Custom Field 2";

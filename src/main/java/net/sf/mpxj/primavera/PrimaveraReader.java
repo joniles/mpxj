@@ -84,6 +84,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -1852,6 +1853,32 @@ final class PrimaveraReader
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
          }
+      }
+   }
+
+   /**
+    * Extract activity steps and add to their parent task.
+    *
+    * @param rows expense item rows
+    */
+   public void processActivitySteps(List<Row> rows)
+   {
+      for (Row row : rows)
+      {
+         Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
+         if (task == null)
+         {
+            continue;
+         }
+
+         Step step = new Step(task);
+         task.getSteps().add(step);
+         step.setUniqueID(row.getInteger("proc_id"));
+         step.setName(row.getString("proc_name"));
+         step.setPercentComplete(row.getDouble("complete_pct"));
+         step.setSequenceNumber(row.getInteger("seq_num"));
+         step.setWeight(row.getDouble("proc_wt"));
+         step.setDescriptionObject(getNotes(row.getString("proc_descr")));
       }
    }
 
