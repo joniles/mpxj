@@ -435,6 +435,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       m_reader.processExpenseItems(getRows("projcost", "proj_id", m_projectID));
    }
 
+   /**
+    * Process activity steps.
+    */
    private void processActivitySteps()
    {
       m_reader.processActivitySteps(getRows("taskproc", "proj_id", m_projectID));
