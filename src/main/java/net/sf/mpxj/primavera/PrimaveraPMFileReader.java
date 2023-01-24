@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -47,6 +48,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.RateSource;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.primavera.schema.ActivityStepType;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -440,6 +442,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processExpenseItems(activityExpenseType);
          processResourceRates(apibo);
          processRoleRates(apibo);
+         processActivitySteps(apibo);
          rollupValues();
 
          m_projectFile.updateStructure();
@@ -1987,6 +1990,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
          resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
+      }
+   }
+
+   private void processActivitySteps(APIBusinessObjects apibo)
+   {
+      List<ActivityStepType> steps = new ArrayList<>(apibo.getActivityStep());
+      steps.sort(Comparator.comparing(ActivityStepType::getSequenceNumber));
+
+      for (ActivityStepType step : steps)
+      {
+
       }
    }
 
