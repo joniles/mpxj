@@ -271,8 +271,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#10151-unreleased" class="md-nav__link">
-    10.15.1 (unreleased)
+  <a href="#10161-unreleased" class="md-nav__link">
+    10.16.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10160-2023-01-24" class="md-nav__link">
+    10.16.0 (2023-01-24)
   </a>
   
 </li>
@@ -2524,8 +2531,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#10151-unreleased" class="md-nav__link">
-    10.15.1 (unreleased)
+  <a href="#10161-unreleased" class="md-nav__link">
+    10.16.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10160-2023-01-24" class="md-nav__link">
+    10.16.0 (2023-01-24)
   </a>
   
 </li>
@@ -3982,7 +3996,16 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="10151-unreleased">10.15.1 (unreleased)</h2>
+<h2 id="10161-unreleased">10.16.1 (unreleased)</h2>
+<h2 id="10160-2023-01-24">10.16.0 (2023-01-24)</h2>
+<ul>
+<li>Improve accuracy when normalising timephased data.</li>
+<li>Add support for reading activity steps from XER files, PMXML files and Primavera databases.</li>
+<li>Add support for writing activity steps to PMXML files.</li>
+<li>Updated PMXML schema to version 22.12.</li>
+<li>Updated methods in the <code>GanttBarCommonStyle</code> and <code>GanttBarStyle</code> classes to use a <code>FieldType</code> instance rather than a <code>TaskField</code> instance to allow more flexibility. (Note: this may be a breaking change if you are currently using these classes.)</li>
+<li>Optionally include some Microsoft Project layout data in JSON output.</li>
+</ul>
 <h2 id="10150-2023-01-11">10.15.0 (2023-01-11)</h2>
 <ul>
 <li>Avoid wrtiting invalid characters to PMXML, MSPDI and Planner XML files.</li>
