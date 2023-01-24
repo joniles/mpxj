@@ -1246,8 +1246,6 @@ final class PrimaveraPMProjectWriter
       List<Step> steps = new ArrayList<>(items);
       steps.sort((i1, i2) -> NumberHelper.compare(i1.getSequenceNumber(), i2.getSequenceNumber()));
 
-      Integer parentObjectID = task.getUniqueID();
-
       for (Step step : steps)
       {
          ActivityStepType activityStep = m_factory.createActivityStepType();

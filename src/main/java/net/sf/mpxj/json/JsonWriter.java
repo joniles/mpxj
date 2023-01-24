@@ -38,12 +38,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.Column;
-import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
@@ -1420,7 +1417,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeDoubleField("planned_cost", item.getPlannedCost());
          writeDoubleField("planned_units", item.getPlannedUnits());
          writeStringField("accrue_type", item.getAccrueType().name().toLowerCase());
-         writeBooleanField("auto_compute_actuals", item.getAutoComputeActuals());
+         writeBooleanField("auto_compute_actuals", Boolean.valueOf(item.getAutoComputeActuals()));
          writeStringField("unit_of_measure", item.getUnitOfMeasure());
          m_writer.writeEndObject();
       }
