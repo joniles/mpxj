@@ -48,7 +48,7 @@ public class Step
 
    public void setSequenceNumber(Integer sequenceNumber)
    {
-      m_sequenceNumber = m_sequenceNumber;
+      m_sequenceNumber = sequenceNumber;
    }
 
    public Double getWeight()
@@ -61,10 +61,26 @@ public class Step
       m_weight = weight;
    }
 
+   public String getDescription()
+   {
+      return m_description == null ? "" : m_description.toString();
+   }
+
+   public Notes getDescriptionObject()
+   {
+      return m_description;
+   }
+
+   public void setDescriptionObject(Notes notes)
+   {
+      m_description = notes;
+   }
+
    private final Task m_task;
    private Integer m_uniqueID;
    private String m_name;
    private Double m_percentComplete;
    private Integer m_sequenceNumber;
    private Double m_weight;
+   private Notes m_description;
 }

@@ -47,6 +47,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.RateSource;
+import net.sf.mpxj.Step;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
 import org.apache.poi.util.ReplacingInputStream;
@@ -394,6 +395,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          List<RelationshipType> relationships;
          List<ResourceAssignmentType> assignments;
          List<ActivityExpenseType> activityExpenseType;
+         List<ActivityStepType> steps;
 
          if (projectObject instanceof ProjectType)
          {
@@ -405,6 +407,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             wbs = project.getWBS();
             projectNotes = project.getProjectNote();
             activities = project.getActivity();
+            steps = project.getActivityStep();
             activityNotes = project.getActivityNote();
             relationships = project.getRelationship();
             assignments = project.getResourceAssignment();
@@ -420,6 +423,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             wbs = project.getWBS();
             projectNotes = project.getProjectNote();
             activities = project.getActivity();
+            steps = project.getActivityStep();
             activityNotes = project.getActivityNote();
             relationships = project.getRelationship();
             assignments = project.getResourceAssignment();
@@ -442,7 +446,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processExpenseItems(activityExpenseType);
          processResourceRates(apibo);
          processRoleRates(apibo);
-         processActivitySteps(apibo);
+         processActivitySteps(steps);
          rollupValues();
 
          m_projectFile.updateStructure();
@@ -1987,14 +1991,27 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-   private void processActivitySteps(APIBusinessObjects apibo)
+   private void processActivitySteps(List<ActivityStepType> activitySteps)
    {
-      List<ActivityStepType> steps = new ArrayList<>(apibo.getActivityStep());
+      List<ActivityStepType> steps = new ArrayList<>(activitySteps);
       steps.sort(Comparator.comparing(ActivityStepType::getSequenceNumber));
 
-      for (ActivityStepType step : steps)
+      for (ActivityStepType activityStep : steps)
       {
+         Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(activityStep.getActivityObjectId()));
+         if (task == null)
+         {
+            continue;
+         }
 
+         Step step = new Step(task);
+         task.getSteps().add(step);
+         step.setName(activityStep.getName());
+         step.setSequenceNumber(activityStep.getSequenceNumber());
+         step.setUniqueID(activityStep.getObjectId());
+         step.setWeight(activityStep.getWeight());
+         step.setPercentComplete(Double.valueOf(NumberHelper.getDouble(activityStep.getPercentComplete()) * 100.0));
+         step.setDescriptionObject(getHtmlNote(activityStep.getDescription()));
       }
    }
 
