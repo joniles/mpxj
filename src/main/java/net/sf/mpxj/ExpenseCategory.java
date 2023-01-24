@@ -70,8 +70,7 @@ public class ExpenseCategory implements ProjectEntityWithUniqueID
     */
    @Deprecated public Integer getSequence()
    {
-      return
-               m_sequenceNumber;
+      return m_sequenceNumber;
    }
 
    /**
