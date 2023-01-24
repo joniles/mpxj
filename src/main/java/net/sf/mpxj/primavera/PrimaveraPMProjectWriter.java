@@ -1145,69 +1145,71 @@ final class PrimaveraPMProjectWriter
    private void writeExpenseItems(Task task)
    {
       List<ExpenseItem> items = task.getExpenseItems();
-      if (items != null && !items.isEmpty())
+      if (items.isEmpty())
       {
-         List<ExpenseItem> expenseItems = new ArrayList<>(items);
-         expenseItems.sort((i1, i2) -> NumberHelper.compare(i1.getUniqueID(), i2.getUniqueID()));
+         return;
+      }
 
-         Integer parentObjectID = task.getParentTask() == null ? null : task.getParentTask().getUniqueID();
+      List<ExpenseItem> expenseItems = new ArrayList<>(items);
+      expenseItems.sort((i1, i2) -> NumberHelper.compare(i1.getUniqueID(), i2.getUniqueID()));
 
-         for (ExpenseItem item : expenseItems)
+      Integer parentObjectID = task.getParentTask() == null ? null : task.getParentTask().getUniqueID();
+
+      for (ExpenseItem item : expenseItems)
+      {
+         ActivityExpenseType expense = m_factory.createActivityExpenseType();
+         m_expenses.add(expense);
+
+         //
+         // Item may be rejected on import if price per unit is not present
+         //
+         Double pricePerUnit = Optional.ofNullable(item.getPricePerUnit()).orElse(NumberHelper.DOUBLE_ZERO);
+
+         expense.setAccrualType(ACCRUE_TYPE_MAP.get(item.getAccrueType()));
+         //expense.setActivityId(value);
+         //expense.setActivityName(value);
+         expense.setActivityObjectId(task.getUniqueID());
+         expense.setActualCost(item.getActualCost());
+         expense.setActualUnits(item.getActualUnits());
+         //expense.setAtCompletionCost(item.getAtCompletionCost());
+         //expense.setAtCompletionUnits(item.getAtCompletionUnits());
+         expense.setAutoComputeActuals(Boolean.valueOf(item.getAutoComputeActuals()));
+         //expense.setCBSCode(value);
+         //expense.setCBSId(value);
+
+         if (item.getAccount() != null)
          {
-            ActivityExpenseType expense = m_factory.createActivityExpenseType();
-            m_expenses.add(expense);
-
-            //
-            // Item may be rejected on import if price per unit is not present
-            //
-            Double pricePerUnit = Optional.ofNullable(item.getPricePerUnit()).orElse(NumberHelper.DOUBLE_ZERO);
-
-            expense.setAccrualType(ACCRUE_TYPE_MAP.get(item.getAccrueType()));
-            //expense.setActivityId(value);
-            //expense.setActivityName(value);
-            expense.setActivityObjectId(task.getUniqueID());
-            expense.setActualCost(item.getActualCost());
-            expense.setActualUnits(item.getActualUnits());
-            //expense.setAtCompletionCost(item.getAtCompletionCost());
-            //expense.setAtCompletionUnits(item.getAtCompletionUnits());
-            expense.setAutoComputeActuals(Boolean.valueOf(item.getAutoComputeActuals()));
-            //expense.setCBSCode(value);
-            //expense.setCBSId(value);
-
-            if (item.getAccount() != null)
-            {
-               expense.setCostAccountObjectId(item.getAccount().getUniqueID());
-            }
-
-            //expense.setCreateDate(value);
-            //expense.setCreateUser(value);
-            expense.setDocumentNumber(item.getDocumentNumber());
-
-            if (item.getCategory() != null)
-            {
-               expense.setExpenseCategoryObjectId(item.getCategory().getUniqueID());
-            }
-
-            expense.setExpenseDescription(item.getDescription());
-
-            expense.setExpenseItem(item.getName());
-            //expense.setExpensePercentComplete(value);
-            //expense.setIsBaseline(value);
-            //expense.setIsTemplate(value);
-            //expense.setLastUpdateDate(value);
-            //expense.setLastUpdateUser(value);
-            expense.setObjectId(item.getUniqueID());
-            expense.setPlannedCost(item.getPlannedCost());
-            expense.setPlannedUnits(item.getPlannedUnits());
-            expense.setPricePerUnit(pricePerUnit);
-            //expense.setProjectId(PROJECT_ID);
-            expense.setProjectObjectId(m_projectObjectID);
-            expense.setRemainingCost(item.getRemainingCost());
-            expense.setRemainingUnits(item.getRemainingUnits());
-            expense.setUnitOfMeasure(item.getUnitOfMeasure());
-            expense.setVendor(item.getVendor());
-            expense.setWBSObjectId(parentObjectID);
+            expense.setCostAccountObjectId(item.getAccount().getUniqueID());
          }
+
+         //expense.setCreateDate(value);
+         //expense.setCreateUser(value);
+         expense.setDocumentNumber(item.getDocumentNumber());
+
+         if (item.getCategory() != null)
+         {
+            expense.setExpenseCategoryObjectId(item.getCategory().getUniqueID());
+         }
+
+         expense.setExpenseDescription(item.getDescription());
+
+         expense.setExpenseItem(item.getName());
+         //expense.setExpensePercentComplete(value);
+         //expense.setIsBaseline(value);
+         //expense.setIsTemplate(value);
+         //expense.setLastUpdateDate(value);
+         //expense.setLastUpdateUser(value);
+         expense.setObjectId(item.getUniqueID());
+         expense.setPlannedCost(item.getPlannedCost());
+         expense.setPlannedUnits(item.getPlannedUnits());
+         expense.setPricePerUnit(pricePerUnit);
+         //expense.setProjectId(PROJECT_ID);
+         expense.setProjectObjectId(m_projectObjectID);
+         expense.setRemainingCost(item.getRemainingCost());
+         expense.setRemainingUnits(item.getRemainingUnits());
+         expense.setUnitOfMeasure(item.getUnitOfMeasure());
+         expense.setVendor(item.getVendor());
+         expense.setWBSObjectId(parentObjectID);
       }
    }
 
