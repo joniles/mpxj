@@ -1,4 +1,6 @@
 package net.sf.mpxj;
+import net.sf.mpxj.common.NumberHelper;
+
 public class Step
 {
    public Step(Task task)
@@ -74,6 +76,11 @@ public class Step
    public void setDescriptionObject(Notes notes)
    {
       m_description = notes;
+   }
+
+   public boolean getComplete()
+   {
+      return NumberHelper.getDouble(m_percentComplete) == 100.0;
    }
 
    private final Task m_task;
