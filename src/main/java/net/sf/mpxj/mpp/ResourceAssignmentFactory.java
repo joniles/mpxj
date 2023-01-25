@@ -237,7 +237,7 @@ public class ResourceAssignmentFactory
                {
                   if (timephasedWorkData.length >= 30)
                   {
-                     assignment.setWorkContour(WorkContour.getInstance(MPPUtility.getShort(timephasedWorkData, 28)));
+                     assignment.setWorkContour(WorkContourHelper.getInstance(MPPUtility.getShort(timephasedWorkData, 28)));
                   }
                }
             }

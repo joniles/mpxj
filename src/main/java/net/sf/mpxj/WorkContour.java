@@ -56,22 +56,6 @@ public final class WorkContour
    }
 
    /**
-    * Retrieve an instance of the enum based on its int value.
-    * TODO: move this to MS Project specific code
-    *
-    * @param type int type
-    * @return enum instance
-    */
-   public static WorkContour getInstance(int type)
-   {
-      if (type < 0 || type >= TYPE_VALUES.length)
-      {
-         type = FLAT.m_value;
-      }
-      return TYPE_VALUES[type];
-   }
-
-   /**
     * Retrieve the values which define the curve.
     * The method returns an array of 21 doubles, each representing 5% of the duration.
     * This includes an entry for 0%. The total of the values in the array must be 100%.
@@ -141,20 +125,4 @@ public final class WorkContour
    public static final WorkContour BELL = new WorkContour("BELL", 6, 0.0, 0.5, 0.5, 1.5, 1.5, 4.0, 4.0, 7.5, 7.5, 11.5, 11.5, 11.5, 11.5, 7.5, 7.5, 4, 4, 1.5, 1.5, 0.5, 0.5);
    public static final WorkContour TURTLE = new WorkContour("TURTLE", 7, 0.0, 1.0, 1.0, 3.5, 3.5, 5.5, 5.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 5.5, 5.5, 3.5, 3.5, 1.0, 1.0);
    public static final WorkContour CONTOURED = new WorkContour("CONTOURED", 8, (double[]) null);
-
-   /**
-    * Array mapping int types to WorkContour instances.
-    */
-   private static final WorkContour[] TYPE_VALUES =
-   {
-      FLAT,
-      BACK_LOADED,
-      FRONT_LOADED,
-      DOUBLE_PEAK,
-      EARLY_PEAK,
-      LATE_PEAK,
-      BELL,
-      TURTLE,
-      CONTOURED
-   };
 }

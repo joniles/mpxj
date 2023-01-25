@@ -62,6 +62,7 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.common.XmlHelper;
 import net.sf.mpxj.mpp.MPPUtility;
+import net.sf.mpxj.mpp.WorkContourHelper;
 
 /**
  * This class contains methods used to perform the datatype conversions
@@ -597,7 +598,7 @@ public final class DatatypeConverter
     */
    public static final WorkContour parseWorkContour(String value)
    {
-      return (WorkContour.getInstance(NumberHelper.getInt(value)));
+      return (WorkContourHelper.getInstance(NumberHelper.getInt(value)));
    }
 
    /**
