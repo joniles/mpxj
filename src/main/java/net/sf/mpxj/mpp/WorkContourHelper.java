@@ -22,7 +22,9 @@
  */
 
 package net.sf.mpxj.mpp;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.WorkContour;
+import net.sf.mpxj.WorkContourContainer;
 
 /**
  * Helper methods for Microsoft Project representation of work contours.
@@ -35,13 +37,25 @@ public class WorkContourHelper
     * @param type int type
     * @return enum instance
     */
-   public static WorkContour getInstance(int type)
+   public static WorkContour getInstance(ProjectFile file, int type)
    {
+      WorkContour result;
       if (type < 0 || type >= TYPE_VALUES.length)
       {
-         return WorkContour.FLAT;
+         result = WorkContour.FLAT;
       }
-      return TYPE_VALUES[type];
+      else
+      {
+         result = TYPE_VALUES[type];
+      }
+
+      WorkContourContainer contours = file.getWorkContours();
+      if (contours.getByUniqueID(result.getUniqueID()) == null)
+      {
+         contours.add(result);
+      }
+
+      return result;
    }
 
    /**

@@ -46,6 +46,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.WorkContour;
+import net.sf.mpxj.WorkContourContainer;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.MultiDateFormat;
 import net.sf.mpxj.common.NumberHelper;
@@ -559,8 +560,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     */
    private void processAssignments()
    {
+      processWorkContours();
       List<Row> rows = getRows("taskrsrc", "proj_id", m_projectID);
-      m_reader.processAssignments(rows, processWorkContours());
+      m_reader.processAssignments(rows);
    }
 
    /**
@@ -568,15 +570,13 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     *
     * @return resource curves
     */
-   private Map<Integer, WorkContour> processWorkContours()
+   private void processWorkContours()
    {
-      Map<Integer, WorkContour> result = new HashMap<>();
+      WorkContourContainer contours = m_reader.getProject().getWorkContours();
 
       List<Row> rows = getRows("rsrccurvdata", null, null);
       for (Row row : rows)
       {
-         Integer id = row.getInteger("curv_id");
-         String name = row.getString("curv_name");
          double[] values =
          {
             NumberHelper.getDouble(row.getDouble("pct_usage_0")),
@@ -602,10 +602,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
             NumberHelper.getDouble(row.getDouble("pct_usage_20"))
          };
 
-         result.put(id, new WorkContour(id, name, values));
+         contours.add(new WorkContour(row.getInteger("curv_id"), row.getString("curv_name"), values));
       }
-
-      return result;
    }
 
    /**

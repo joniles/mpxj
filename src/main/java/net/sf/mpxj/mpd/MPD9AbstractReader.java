@@ -1561,7 +1561,7 @@ abstract class MPD9AbstractReader
          assignment.setUpdateNeeded(row.getBoolean("ASSN_UPDATE_NEEDED"));
          //assignment.setVAC(v);
          assignment.setWork(row.getDuration("ASSN_WORK"));
-         assignment.setWorkContour(WorkContourHelper.getInstance(row.getInt("ASSN_WORK_CONTOUR")));
+         assignment.setWorkContour(WorkContourHelper.getInstance(m_project, row.getInt("ASSN_WORK_CONTOUR")));
          //assignment.setWorkVariance();
 
          String notes = row.getString("ASSN_RTF_NOTES");

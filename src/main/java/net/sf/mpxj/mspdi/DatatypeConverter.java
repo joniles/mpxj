@@ -598,7 +598,7 @@ public final class DatatypeConverter
     */
    public static final WorkContour parseWorkContour(String value)
    {
-      return (WorkContourHelper.getInstance(NumberHelper.getInt(value)));
+      return (WorkContourHelper.getInstance(PARENT_FILE.get(), NumberHelper.getInt(value)));
    }
 
    /**
