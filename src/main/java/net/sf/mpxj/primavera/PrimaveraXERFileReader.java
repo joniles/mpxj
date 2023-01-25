@@ -567,8 +567,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
 
    /**
     * Process resource curves.
-    *
-    * @return resource curves
     */
    private void processWorkContours()
    {
