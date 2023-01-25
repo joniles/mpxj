@@ -1693,6 +1693,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private void processWorkContour(ResourceCurveType curve)
    {
+      if (m_projectFile.getWorkContours().getByUniqueID(curve.getObjectId()) != null)
+      {
+         return;
+      }
+
       ResourceCurveValuesType curveValues = curve.getValues();
 
       double[] values =

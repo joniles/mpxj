@@ -387,8 +387,13 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       {
          try
          {
+            Integer id = row.getInteger("curv_id");
+            if (contours.getByUniqueID(id) != null)
+            {
+               continue;
+            }
             double[] values = new StructuredTextParser().parse(row.getString("curv_data")).getChildren().stream().mapToDouble(r -> Double.parseDouble(r.getAttribute("PctUsage"))).toArray();
-            contours.add(new WorkContour(row.getInteger("curv_id"), row.getString("curv_name"), values));
+            contours.add(new WorkContour(id, row.getString("curv_name"), values));
          }
 
          catch (Exception ex)
