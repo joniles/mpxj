@@ -250,7 +250,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    private void writeWorkContours() throws IOException
    {
-      List<WorkContour> contours = m_projectFile.getWorkContours().stream().filter(w -> !w.isContourFlat() && !w.isContourManual()).sorted(Comparator.comparing(WorkContour::getUniqueID)).collect(Collectors.toList());
+      List<WorkContour> contours = m_projectFile.getWorkContours().stream().filter(w -> !w.isContourFlat()).sorted(Comparator.comparing(WorkContour::getUniqueID)).collect(Collectors.toList());
       if (contours.isEmpty())
       {
          return;
@@ -262,7 +262,10 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeStartObject(null);
          writeIntegerField("unique_id", contour.getUniqueID());
          writeStringField("name", contour.getName());
-         m_writer.writeList("curve_values", Arrays.stream(contour.getCurveValues()).mapToObj(Double::toString).collect(Collectors.toList()));
+         if (contour.getCurveValues() != null)
+         {
+            m_writer.writeList("curve_values", Arrays.stream(contour.getCurveValues()).mapToObj(Double::toString).collect(Collectors.toList()));
+         }
          m_writer.writeEndObject();
       }
 
