@@ -31,9 +31,9 @@ import java.util.stream.DoubleStream;
 public final class WorkContour implements ProjectEntityWithUniqueID
 {
    /**
-    * Private constructor.
+    * Constructor
     *
-    * @param uniqueID int version of the enum
+    * @param uniqueID unique ID
     * @param name work contour name
     * @param values curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100%
     */
@@ -44,11 +44,6 @@ public final class WorkContour implements ProjectEntityWithUniqueID
       m_curveValues = values;
    }
 
-   /**
-    * Retrieve the unique ID for this work contour.
-    *
-    * @return unique ID
-    */
    @Override public Integer getUniqueID()
    {
       return m_uniqueID;

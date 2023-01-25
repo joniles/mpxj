@@ -552,7 +552,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
-    * Retrueves the work contours availabe for this schedule.
+    * Retrieves the work contours available for this schedule.
     *
     * @return work contours
     */
