@@ -22,13 +22,13 @@
  */
 
 package net.sf.mpxj.mpp;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkContourContainer;
-import org.apache.poi.ss.formula.functions.T;
 
 /**
  * Helper methods for Microsoft Project representation of work contours.
@@ -38,8 +38,9 @@ public class WorkContourHelper
    /**
     * Retrieve a WorkContour instance based on its Microsoft Project ID value.
     *
-    * @param type int type
-    * @return enum instance
+    * @param file parent file
+    * @param type MS Project work contour ID
+    * @return WorkContour instance
     */
    public static WorkContour getInstance(ProjectFile file, int type)
    {
@@ -92,7 +93,7 @@ public class WorkContourHelper
    private static final Map<WorkContour, Integer> WORK_CONTOUR_MAP = new HashMap<>();
    static
    {
-      for (int index=0; index < TYPE_VALUES.length; index++)
+      for (int index = 0; index < TYPE_VALUES.length; index++)
       {
          WORK_CONTOUR_MAP.put(TYPE_VALUES[index], Integer.valueOf(index));
       }
