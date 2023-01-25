@@ -36,7 +36,7 @@ import org.apache.poi.ss.formula.functions.T;
 public class WorkContourHelper
 {
    /**
-    * Retrieve an instance of the enum based on its int value.
+    * Retrieve a WorkContour instance based on its Microsoft Project ID value.
     *
     * @param type int type
     * @return enum instance
@@ -62,6 +62,12 @@ public class WorkContourHelper
       return result;
    }
 
+   /**
+    * Given a WorkContour instance, retrieve its Microsoft Project ID value.
+    *
+    * @param contour WorkContour instance
+    * @return ID value
+    */
    public static Integer getID(WorkContour contour)
    {
       return WORK_CONTOUR_MAP.get(contour);

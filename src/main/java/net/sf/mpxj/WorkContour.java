@@ -35,13 +35,13 @@ public final class WorkContour implements ProjectEntityWithUniqueID
     *
     * @param uniqueID unique ID
     * @param name work contour name
-    * @param values curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100%
+    * @param curveValues curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100%
     */
-   public WorkContour(Integer uniqueID, String name, double... values)
+   public WorkContour(Integer uniqueID, String name, double... curveValues)
    {
       m_uniqueID = uniqueID;
       m_name = name;
-      m_curveValues = values;
+      m_curveValues = curveValues;
    }
 
    @Override public Integer getUniqueID()

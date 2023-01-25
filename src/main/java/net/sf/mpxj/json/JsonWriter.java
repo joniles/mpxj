@@ -248,6 +248,9 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeEndList();
    }
 
+   /**
+    * Write a list of work contours.
+    */
    private void writeWorkContours() throws IOException
    {
       List<WorkContour> contours = m_projectFile.getWorkContours().stream().filter(w -> !w.isContourFlat()).sorted(Comparator.comparing(WorkContour::getUniqueID)).collect(Collectors.toList());
