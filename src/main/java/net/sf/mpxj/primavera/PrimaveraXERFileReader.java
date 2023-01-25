@@ -575,6 +575,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       List<Row> rows = getRows("rsrccurvdata", null, null);
       for (Row row : rows)
       {
+         Integer id = row.getInteger("curv_id");
          String name = row.getString("curv_name");
          double[] values =
          {
@@ -601,7 +602,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
             NumberHelper.getDouble(row.getDouble("pct_usage_20"))
          };
 
-         result.put(row.getInteger("curv_id"), new WorkContour(name, values));
+         result.put(id, new WorkContour(id, name, values));
       }
 
       return result;

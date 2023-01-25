@@ -1695,6 +1695,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private void processWorkContour(ResourceCurveType curve)
    {
+      Integer id = curve.getObjectId();
       ResourceCurveValuesType curveValues = curve.getValues();
 
       double[] values =
@@ -1722,7 +1723,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          NumberHelper.getDouble(curveValues.getValue100()),
       };
 
-      m_workContours.put(curve.getObjectId(), new WorkContour(curve.getName(), values));
+      m_workContours.put(id, new WorkContour(id, curve.getName(), values));
    }
 
    /**
