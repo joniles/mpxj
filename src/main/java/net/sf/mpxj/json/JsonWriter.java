@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -208,6 +209,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
          m_writer.writeStartObject(null);
          writeCustomFields();
+         writeWorkContours();
          writeActivityCodes();
          writeProperties();
          writeCalendars();
@@ -243,6 +245,33 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          writeCustomField(field);
       }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write a list of work contours.
+    */
+   private void writeWorkContours() throws IOException
+   {
+      List<WorkContour> contours = m_projectFile.getWorkContours().stream().filter(w -> !w.isContourFlat()).sorted(Comparator.comparing(WorkContour::getUniqueID)).collect(Collectors.toList());
+      if (contours.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("work_contours");
+      for (WorkContour contour : contours)
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("unique_id", contour.getUniqueID());
+         writeStringField("name", contour.getName());
+         if (contour.getCurveValues() != null)
+         {
+            m_writer.writeList("curve_values", Arrays.stream(contour.getCurveValues()).mapToObj(Double::toString).collect(Collectors.toList()));
+         }
+         m_writer.writeEndObject();
+      }
+
       m_writer.writeEndList();
    }
 

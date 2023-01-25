@@ -367,7 +367,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_assignmentUdfCounters = new UserFieldCounters();
          m_fieldTypeMap = new HashMap<>();
          m_notebookTopics = new HashMap<>();
-         m_workContours = new HashMap<>();
 
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
@@ -470,7 +469,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_assignmentUdfCounters = null;
          m_fieldTypeMap = null;
          m_notebookTopics = null;
-         m_workContours = null;
          m_defaultCalendarObjectID = null;
       }
    }
@@ -1695,7 +1693,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private void processWorkContour(ResourceCurveType curve)
    {
-      Integer id = curve.getObjectId();
+      if (m_projectFile.getWorkContours().getByUniqueID(curve.getObjectId()) != null)
+      {
+         return;
+      }
+
       ResourceCurveValuesType curveValues = curve.getValues();
 
       double[] values =
@@ -1723,7 +1725,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          NumberHelper.getDouble(curveValues.getValue100()),
       };
 
-      m_workContours.put(id, new WorkContour(id, curve.getName(), values));
+      m_projectFile.getWorkContours().add(new WorkContour(curve.getObjectId(), curve.getName(), values));
    }
 
    /**
@@ -1767,7 +1769,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
             assignment.setActualOvertimeCost(row.getActualOvertimeCost());
             assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));
-            assignment.setWorkContour(m_workContours.get(row.getResourceCurveObjectId()));
+            assignment.setWorkContour(m_projectFile.getWorkContours().getByUniqueID(row.getResourceCurveObjectId()));
             assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getRateType(), Integer.valueOf(0)));
             assignment.setRole(m_projectFile.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getCostPerQuantity()));
@@ -2408,7 +2410,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private List<ExternalRelation> m_externalRelations;
    private boolean m_linkCrossProjectRelations;
    private Map<Integer, String> m_notebookTopics;
-   private Map<Integer, WorkContour> m_workContours;
    private Integer m_defaultCalendarObjectID;
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();

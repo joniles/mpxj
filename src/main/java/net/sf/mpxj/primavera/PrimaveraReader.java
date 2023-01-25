@@ -90,7 +90,6 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -1669,9 +1668,8 @@ final class PrimaveraReader
     * Process assignment data.
     *
     * @param rows assignment data
-    * @param workContours work contours
     */
-   public void processAssignments(List<Row> rows, Map<Integer, WorkContour> workContours)
+   public void processAssignments(List<Row> rows)
    {
       for (Row row : rows)
       {
@@ -1704,7 +1702,7 @@ final class PrimaveraReader
             Duration totalWork = Duration.add(actualWork, remainingWork, task.getEffectiveCalendar());
             assignment.setActualWork(actualWork);
             assignment.setWork(totalWork);
-            assignment.setWorkContour(workContours.get(row.getInteger("curv_id")));
+            assignment.setWorkContour(m_project.getWorkContours().getByUniqueID(row.getInteger("curv_id")));
             assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getString("rate_type"), Integer.valueOf(0)));
             assignment.setRole(m_project.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getDouble("cost_per_qty")));

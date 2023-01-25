@@ -144,7 +144,6 @@ final class PrimaveraPMProjectWriter
          m_topics = new HashMap<>();
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
          m_wbsSequence = new ObjectSequence(0);
-         m_workContours = new HashMap<>();
 
          if (baseline)
          {
@@ -211,7 +210,6 @@ final class PrimaveraPMProjectWriter
          m_wbsSequence = null;
          m_sortedCustomFieldsList = null;
          m_topics = null;
-         m_workContours = null;
       }
    }
 
@@ -388,46 +386,38 @@ final class PrimaveraPMProjectWriter
 
    private void writeResourceCurves()
    {
-      Set<WorkContour> workContours = m_projectFile.getResourceAssignments().stream().map(ResourceAssignment::getWorkContour).filter(w -> w != null && !w.isContourManual() && !w.isContourFlat()).collect(Collectors.toSet());
-      if (!workContours.isEmpty())
+      List<WorkContour> contours = m_projectFile.getWorkContours().stream().filter(w -> !w.isContourManual() && !w.isContourFlat()).sorted(Comparator.comparing(WorkContour::getName)).collect(Collectors.toList());
+
+      List<ResourceCurveType> curves = m_apibo.getResourceCurve();
+      for (WorkContour contour : contours)
       {
-         ObjectSequence id = new ObjectSequence(1);
-         List<WorkContour> sortedWorkContours = new ArrayList<>(workContours);
-         sortedWorkContours.sort(Comparator.comparing(WorkContour::getName));
-
-         List<ResourceCurveType> curves = m_apibo.getResourceCurve();
-         for (WorkContour contour : sortedWorkContours)
-         {
-            ResourceCurveType curve = m_factory.createResourceCurveType();
-            curves.add(curve);
-            curve.setObjectId(id.getNext());
-            curve.setName(contour.getName());
-            ResourceCurveValuesType values = m_factory.createResourceCurveValuesType();
-            curve.setValues(values);
-            values.setValue0(Double.valueOf(contour.getCurveValues()[0]));
-            values.setValue5(Double.valueOf(contour.getCurveValues()[1]));
-            values.setValue10(Double.valueOf(contour.getCurveValues()[2]));
-            values.setValue15(Double.valueOf(contour.getCurveValues()[3]));
-            values.setValue20(Double.valueOf(contour.getCurveValues()[4]));
-            values.setValue25(Double.valueOf(contour.getCurveValues()[5]));
-            values.setValue30(Double.valueOf(contour.getCurveValues()[6]));
-            values.setValue35(Double.valueOf(contour.getCurveValues()[7]));
-            values.setValue40(Double.valueOf(contour.getCurveValues()[8]));
-            values.setValue45(Double.valueOf(contour.getCurveValues()[9]));
-            values.setValue50(Double.valueOf(contour.getCurveValues()[10]));
-            values.setValue55(Double.valueOf(contour.getCurveValues()[11]));
-            values.setValue60(Double.valueOf(contour.getCurveValues()[12]));
-            values.setValue65(Double.valueOf(contour.getCurveValues()[13]));
-            values.setValue70(Double.valueOf(contour.getCurveValues()[14]));
-            values.setValue75(Double.valueOf(contour.getCurveValues()[15]));
-            values.setValue80(Double.valueOf(contour.getCurveValues()[16]));
-            values.setValue85(Double.valueOf(contour.getCurveValues()[17]));
-            values.setValue90(Double.valueOf(contour.getCurveValues()[18]));
-            values.setValue95(Double.valueOf(contour.getCurveValues()[19]));
-            values.setValue100(Double.valueOf(contour.getCurveValues()[20]));
-
-            m_workContours.put(contour, curve.getObjectId());
-         }
+         ResourceCurveType curve = m_factory.createResourceCurveType();
+         curves.add(curve);
+         curve.setObjectId(contour.getUniqueID());
+         curve.setName(contour.getName());
+         ResourceCurveValuesType values = m_factory.createResourceCurveValuesType();
+         curve.setValues(values);
+         values.setValue0(Double.valueOf(contour.getCurveValues()[0]));
+         values.setValue5(Double.valueOf(contour.getCurveValues()[1]));
+         values.setValue10(Double.valueOf(contour.getCurveValues()[2]));
+         values.setValue15(Double.valueOf(contour.getCurveValues()[3]));
+         values.setValue20(Double.valueOf(contour.getCurveValues()[4]));
+         values.setValue25(Double.valueOf(contour.getCurveValues()[5]));
+         values.setValue30(Double.valueOf(contour.getCurveValues()[6]));
+         values.setValue35(Double.valueOf(contour.getCurveValues()[7]));
+         values.setValue40(Double.valueOf(contour.getCurveValues()[8]));
+         values.setValue45(Double.valueOf(contour.getCurveValues()[9]));
+         values.setValue50(Double.valueOf(contour.getCurveValues()[10]));
+         values.setValue55(Double.valueOf(contour.getCurveValues()[11]));
+         values.setValue60(Double.valueOf(contour.getCurveValues()[12]));
+         values.setValue65(Double.valueOf(contour.getCurveValues()[13]));
+         values.setValue70(Double.valueOf(contour.getCurveValues()[14]));
+         values.setValue75(Double.valueOf(contour.getCurveValues()[15]));
+         values.setValue80(Double.valueOf(contour.getCurveValues()[16]));
+         values.setValue85(Double.valueOf(contour.getCurveValues()[17]));
+         values.setValue90(Double.valueOf(contour.getCurveValues()[18]));
+         values.setValue95(Double.valueOf(contour.getCurveValues()[19]));
+         values.setValue100(Double.valueOf(contour.getCurveValues()[20]));
       }
    }
 
@@ -1084,7 +1074,7 @@ final class PrimaveraPMProjectWriter
       xml.setActualUnits(getDuration(mpxj.getActualWork()));
       xml.setAtCompletionCost(NumberHelper.sumAsDouble(mpxj.getActualCost(), mpxj.getRemainingCost()));
       xml.setAtCompletionUnits(getDuration(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), task.getEffectiveCalendar())));
-      xml.setResourceCurveObjectId(m_workContours.get(mpxj.getWorkContour()));
+      xml.setResourceCurveObjectId(getWorkContourID(mpxj.getWorkContour()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setIsCostUnitsLinked(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
@@ -1107,6 +1097,16 @@ final class PrimaveraPMProjectWriter
       xml.setCostPerQuantity(writeRate(mpxj.getOverrideRate()));
       xml.setRateSource(RATE_SOURCE_MAP.get(mpxj.getRateSource()));
       xml.setCostAccountObjectId(mpxj.getCostAccount() == null ? null : mpxj.getCostAccount().getUniqueID());
+   }
+
+   private Integer getWorkContourID(WorkContour contour)
+   {
+      if (contour == null || contour.isContourFlat() || contour.isContourManual())
+      {
+         return null;
+      }
+
+      return contour.getUniqueID();
    }
 
    /**
@@ -2069,7 +2069,6 @@ final class PrimaveraPMProjectWriter
    private List<ProjectNoteType> m_projectNotes;
    private List<ActivityNoteType> m_activityNotes;
    private List<UDFAssignmentType> m_udf;
-   private Map<WorkContour, Integer> m_workContours;
 
    private ObjectSequence m_wbsSequence;
    private List<FieldType> m_sortedCustomFieldsList;

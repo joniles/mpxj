@@ -28,20 +28,30 @@ import java.util.stream.DoubleStream;
 /**
  * Instances of this class represent enumerated work contour values.
  */
-public final class WorkContour
+public final class WorkContour implements ProjectEntityWithUniqueID
 {
    /**
-    * Private constructor.
+    * Constructor
     *
+    * @param uniqueID unique ID
     * @param name work contour name
-    * @param id int version of the enum
-    * @param values curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100%
+    * @param curveValues curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100%
     */
-   public WorkContour(Integer id, String name, double... values)
+   public WorkContour(Integer uniqueID, String name, double... curveValues)
    {
-      m_id = id;
+      m_uniqueID = uniqueID;
       m_name = name;
-      m_curveValues = values;
+      m_curveValues = curveValues;
+   }
+
+   @Override public Integer getUniqueID()
+   {
+      return m_uniqueID;
+   }
+
+   @Override public void setUniqueID(Integer id)
+   {
+      throw new UnsupportedOperationException();
    }
 
    /**
@@ -98,7 +108,7 @@ public final class WorkContour
    /**
     * Internal representation of the enum int type.
     */
-   private final Integer m_id;
+   private final Integer m_uniqueID;
 
    /**
     * Curve representation - one value per 5% of duration, including 0%, 21 values, total of values needs to be 100%.

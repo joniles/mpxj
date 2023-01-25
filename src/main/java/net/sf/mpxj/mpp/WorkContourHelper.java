@@ -22,7 +22,13 @@
  */
 
 package net.sf.mpxj.mpp;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.WorkContour;
+import net.sf.mpxj.WorkContourContainer;
+import org.apache.poi.ss.formula.functions.T;
 
 /**
  * Helper methods for Microsoft Project representation of work contours.
@@ -30,18 +36,41 @@ import net.sf.mpxj.WorkContour;
 public class WorkContourHelper
 {
    /**
-    * Retrieve an instance of the enum based on its int value.
+    * Retrieve a WorkContour instance based on its Microsoft Project ID value.
     *
     * @param type int type
     * @return enum instance
     */
-   public static WorkContour getInstance(int type)
+   public static WorkContour getInstance(ProjectFile file, int type)
    {
+      WorkContour result;
       if (type < 0 || type >= TYPE_VALUES.length)
       {
-         return WorkContour.FLAT;
+         result = WorkContour.FLAT;
       }
-      return TYPE_VALUES[type];
+      else
+      {
+         result = TYPE_VALUES[type];
+      }
+
+      WorkContourContainer contours = file.getWorkContours();
+      if (contours.getByUniqueID(result.getUniqueID()) == null)
+      {
+         contours.add(result);
+      }
+
+      return result;
+   }
+
+   /**
+    * Given a WorkContour instance, retrieve its Microsoft Project ID value.
+    *
+    * @param contour WorkContour instance
+    * @return ID value
+    */
+   public static Integer getID(WorkContour contour)
+   {
+      return WORK_CONTOUR_MAP.get(contour);
    }
 
    /**
@@ -59,4 +88,13 @@ public class WorkContourHelper
       WorkContour.TURTLE,
       WorkContour.CONTOURED
    };
+
+   private static final Map<WorkContour, Integer> WORK_CONTOUR_MAP = new HashMap<>();
+   static
+   {
+      for (int index=0; index < TYPE_VALUES.length; index++)
+      {
+         WORK_CONTOUR_MAP.put(TYPE_VALUES[index], Integer.valueOf(index));
+      }
+   }
 }

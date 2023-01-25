@@ -586,8 +586,8 @@ public final class DatatypeConverter
    public static final String printWorkContour(WorkContour value)
    {
       // TODO: mapping from custom contours (e.g. from P6) to MS Project defaults
-      String result = WORK_CONTOUR_MAP.get(value);
-      return result == null ? WORK_CONTOUR_MAP.get(WorkContour.FLAT) : result;
+      Integer result = WorkContourHelper.getID(value);
+      return (result == null ? WorkContourHelper.getID(WorkContour.FLAT) : result).toString();
    }
 
    /**
@@ -598,7 +598,7 @@ public final class DatatypeConverter
     */
    public static final WorkContour parseWorkContour(String value)
    {
-      return (WorkContourHelper.getInstance(NumberHelper.getInt(value)));
+      return (WorkContourHelper.getInstance(PARENT_FILE.get(), NumberHelper.getInt(value)));
    }
 
    /**
@@ -2075,18 +2075,4 @@ public final class DatatypeConverter
 
    private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
    private static final BigDecimal BIGDECIMAL_ONE = BigDecimal.valueOf(1);
-
-   private static final Map<WorkContour, String> WORK_CONTOUR_MAP = new HashMap<>();
-   static
-   {
-      WORK_CONTOUR_MAP.put(WorkContour.FLAT, "0");
-      WORK_CONTOUR_MAP.put(WorkContour.BACK_LOADED, "1");
-      WORK_CONTOUR_MAP.put(WorkContour.FRONT_LOADED, "2");
-      WORK_CONTOUR_MAP.put(WorkContour.DOUBLE_PEAK, "3");
-      WORK_CONTOUR_MAP.put(WorkContour.EARLY_PEAK, "4");
-      WORK_CONTOUR_MAP.put(WorkContour.LATE_PEAK, "5");
-      WORK_CONTOUR_MAP.put(WorkContour.BELL, "6");
-      WORK_CONTOUR_MAP.put(WorkContour.TURTLE, "7");
-      WORK_CONTOUR_MAP.put(WorkContour.CONTOURED, "8");
-   }
 }
