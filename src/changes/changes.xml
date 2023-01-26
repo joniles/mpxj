@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="10.16.1">
+		<release date="unreleased" version="10.16.2">
+		</release>
+		<release date="2023-01-26" version="10.16.1">
 			<action dev="joniles" type="update">Updated to make resource curve definitions (work contours) available in the `WorkContourContainer`. This container is accessed using the `ProjectFile.getWorkContours()` method.</action>
 		</release>
 		<release date="2023-01-24" version="10.16.0">

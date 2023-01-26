@@ -1,6 +1,9 @@
 # Changelog
 
-## 10.16.1 (unreleased)
+## 10.16.2 (unreleased)
+
+## 10.16.1 (2023-01-26)
+* Updated to make resource curve definitions (work contours) available in the `WorkContourContainer`. This container is accessed using the `ProjectFile.getWorkContours()` method.
 
 ## 10.16.0 (2023-01-24)
 * Improve accuracy when normalising timephased data.
