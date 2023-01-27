@@ -163,6 +163,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
    /**
     * Maps an integer field ID to a field type.
     *
+    * @param file parent file
     * @param field field ID
     * @return field type
     */
@@ -174,7 +175,7 @@ public class GanttBarStyleFactory14 implements GanttBarStyleFactory
          return result;
       }
 
-      switch ((TaskField)result)
+      switch ((TaskField) result)
       {
          case START_TEXT:
          {

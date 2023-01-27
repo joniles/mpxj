@@ -84,12 +84,12 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -1668,9 +1668,8 @@ final class PrimaveraReader
     * Process assignment data.
     *
     * @param rows assignment data
-    * @param workContours work contours
     */
-   public void processAssignments(List<Row> rows, Map<Integer, WorkContour> workContours)
+   public void processAssignments(List<Row> rows)
    {
       for (Row row : rows)
       {
@@ -1703,7 +1702,7 @@ final class PrimaveraReader
             Duration totalWork = Duration.add(actualWork, remainingWork, task.getEffectiveCalendar());
             assignment.setActualWork(actualWork);
             assignment.setWork(totalWork);
-            assignment.setWorkContour(workContours.get(row.getInteger("curv_id")));
+            assignment.setWorkContour(m_project.getWorkContours().getByUniqueID(row.getInteger("curv_id")));
             assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getString("rate_type"), Integer.valueOf(0)));
             assignment.setRole(m_project.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getDouble("cost_per_qty")));
@@ -1813,16 +1812,10 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
-         Task task = m_project.getTaskByUniqueID(row.getInteger("task_id"));
+         Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
          if (task != null)
          {
             List<ExpenseItem> items = task.getExpenseItems();
-            if (items == null)
-            {
-               items = new ArrayList<>();
-               task.setExpenseItems(items);
-            }
-
             ExpenseItem ei = new ExpenseItem(task);
             items.add(ei);
 
@@ -1858,6 +1851,32 @@ final class PrimaveraReader
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
          }
+      }
+   }
+
+   /**
+    * Extract activity steps and add to their parent task.
+    *
+    * @param rows expense item rows
+    */
+   public void processActivitySteps(List<Row> rows)
+   {
+      for (Row row : rows)
+      {
+         Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
+         if (task == null)
+         {
+            continue;
+         }
+
+         Step step = new Step(task);
+         task.getSteps().add(step);
+         step.setUniqueID(row.getInteger("proc_id"));
+         step.setName(row.getString("proc_name"));
+         step.setPercentComplete(row.getDouble("complete_pct"));
+         step.setSequenceNumber(row.getInteger("seq_num"));
+         step.setWeight(row.getDouble("proc_wt"));
+         step.setDescriptionObject(getNotes(row.getString("proc_descr")));
       }
    }
 

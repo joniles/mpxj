@@ -557,6 +557,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * Retrieves the work contours available for this schedule.
+    *
+    * @return work contours
+    */
+   public WorkContourContainer getWorkContours()
+   {
+      return m_workContours;
+   }
+
+   /**
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project properties. If a calendar of this name cannot be found, then
     * the first calendar listed for the project will be returned. If the
@@ -687,5 +697,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
    private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
    private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer();
+   private final WorkContourContainer m_workContours = new WorkContourContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
 }

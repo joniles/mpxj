@@ -44,6 +44,7 @@ import net.sf.mpxj.Notes;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.WorkContour;
+import net.sf.mpxj.WorkContourContainer;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResultSetHelper;
@@ -113,6 +114,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processWorkContours();
          processAssignments();
          processExpenseItems();
+         processActivitySteps();
          m_reader.rollupValues();
 
          m_reader = null;
@@ -224,6 +226,14 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private void processExpenseItems() throws SQLException
    {
       m_reader.processExpenseItems(getRows("select * from " + m_schema + "projcost where proj_id=?", m_projectID));
+   }
+
+   /**
+    * Select the activity steps from the database.
+    */
+   private void processActivitySteps() throws SQLException
+   {
+      m_reader.processActivitySteps(getRows("select * from " + m_schema + "taskproc where proj_id=?", m_projectID));
    }
 
    /**
@@ -359,26 +369,29 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processAssignments() throws SQLException
    {
+      processWorkContours();
       List<Row> rows = getRows("select * from " + m_schema + "taskrsrc where proj_id=? and delete_date is null", m_projectID);
-      m_reader.processAssignments(rows, processWorkContours());
+      m_reader.processAssignments(rows);
    }
 
    /**
     * Process resource curves.
-    *
-    * @return work contours
     */
-   private Map<Integer, WorkContour> processWorkContours() throws SQLException
+   private void processWorkContours() throws SQLException
    {
-      Map<Integer, WorkContour> result = new HashMap<>();
+      WorkContourContainer contours = m_reader.getProject().getWorkContours();
       List<Row> rows = getRows("select * from " + m_schema + "rsrccurv");
       for (Row row : rows)
       {
          try
          {
-            String name = row.getString("curv_name");
+            Integer id = row.getInteger("curv_id");
+            if (contours.getByUniqueID(id) != null)
+            {
+               continue;
+            }
             double[] values = new StructuredTextParser().parse(row.getString("curv_data")).getChildren().stream().mapToDouble(r -> Double.parseDouble(r.getAttribute("PctUsage"))).toArray();
-            result.put(row.getInteger("curv_id"), new WorkContour(name, values));
+            contours.add(new WorkContour(id, row.getString("curv_name"), values));
          }
 
          catch (Exception ex)
@@ -386,8 +399,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             // Skip any curves we can't read
          }
       }
-
-      return result;
    }
 
    /**

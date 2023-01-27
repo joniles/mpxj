@@ -71,6 +71,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -87,6 +88,7 @@ import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityExpenseType;
 import net.sf.mpxj.primavera.schema.ActivityNoteType;
+import net.sf.mpxj.primavera.schema.ActivityStepType;
 import net.sf.mpxj.primavera.schema.ActivityType;
 import net.sf.mpxj.primavera.schema.BaselineProjectType;
 import net.sf.mpxj.primavera.schema.CalendarType;
@@ -142,7 +144,6 @@ final class PrimaveraPMProjectWriter
          m_topics = new HashMap<>();
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
          m_wbsSequence = new ObjectSequence(0);
-         m_workContours = new HashMap<>();
 
          if (baseline)
          {
@@ -151,6 +152,7 @@ final class PrimaveraPMProjectWriter
 
             m_wbs = project.getWBS();
             m_activities = project.getActivity();
+            m_activitySteps = project.getActivityStep();
             m_assignments = project.getResourceAssignment();
             m_relationships = project.getRelationship();
             m_expenses = project.getActivityExpense();
@@ -163,6 +165,7 @@ final class PrimaveraPMProjectWriter
             writeTasks();
             writeAssignments();
             writeExpenseItems();
+            writeActivitySteps();
          }
          else
          {
@@ -171,6 +174,7 @@ final class PrimaveraPMProjectWriter
 
             m_wbs = project.getWBS();
             m_activities = project.getActivity();
+            m_activitySteps = project.getActivityStep();
             m_assignments = project.getResourceAssignment();
             m_relationships = project.getRelationship();
             m_expenses = project.getActivityExpense();
@@ -195,6 +199,7 @@ final class PrimaveraPMProjectWriter
             writeTasks();
             writeAssignments();
             writeExpenseItems();
+            writeActivitySteps();
             writeTopics();
          }
       }
@@ -205,7 +210,6 @@ final class PrimaveraPMProjectWriter
          m_wbsSequence = null;
          m_sortedCustomFieldsList = null;
          m_topics = null;
-         m_workContours = null;
       }
    }
 
@@ -382,46 +386,38 @@ final class PrimaveraPMProjectWriter
 
    private void writeResourceCurves()
    {
-      Set<WorkContour> workContours = m_projectFile.getResourceAssignments().stream().map(ResourceAssignment::getWorkContour).filter(w -> w != null && !w.isContourManual() && !w.isContourFlat()).collect(Collectors.toSet());
-      if (!workContours.isEmpty())
+      List<WorkContour> contours = m_projectFile.getWorkContours().stream().filter(w -> !w.isContourManual() && !w.isContourFlat()).sorted(Comparator.comparing(WorkContour::getName)).collect(Collectors.toList());
+
+      List<ResourceCurveType> curves = m_apibo.getResourceCurve();
+      for (WorkContour contour : contours)
       {
-         ObjectSequence id = new ObjectSequence(1);
-         List<WorkContour> sortedWorkContours = new ArrayList<>(workContours);
-         sortedWorkContours.sort(Comparator.comparing(WorkContour::getName));
-
-         List<ResourceCurveType> curves = m_apibo.getResourceCurve();
-         for (WorkContour contour : sortedWorkContours)
-         {
-            ResourceCurveType curve = m_factory.createResourceCurveType();
-            curves.add(curve);
-            curve.setObjectId(id.getNext());
-            curve.setName(contour.getName());
-            ResourceCurveValuesType values = m_factory.createResourceCurveValuesType();
-            curve.setValues(values);
-            values.setValue0(Double.valueOf(contour.getCurveValues()[0]));
-            values.setValue5(Double.valueOf(contour.getCurveValues()[1]));
-            values.setValue10(Double.valueOf(contour.getCurveValues()[2]));
-            values.setValue15(Double.valueOf(contour.getCurveValues()[3]));
-            values.setValue20(Double.valueOf(contour.getCurveValues()[4]));
-            values.setValue25(Double.valueOf(contour.getCurveValues()[5]));
-            values.setValue30(Double.valueOf(contour.getCurveValues()[6]));
-            values.setValue35(Double.valueOf(contour.getCurveValues()[7]));
-            values.setValue40(Double.valueOf(contour.getCurveValues()[8]));
-            values.setValue45(Double.valueOf(contour.getCurveValues()[9]));
-            values.setValue50(Double.valueOf(contour.getCurveValues()[10]));
-            values.setValue55(Double.valueOf(contour.getCurveValues()[11]));
-            values.setValue60(Double.valueOf(contour.getCurveValues()[12]));
-            values.setValue65(Double.valueOf(contour.getCurveValues()[13]));
-            values.setValue70(Double.valueOf(contour.getCurveValues()[14]));
-            values.setValue75(Double.valueOf(contour.getCurveValues()[15]));
-            values.setValue80(Double.valueOf(contour.getCurveValues()[16]));
-            values.setValue85(Double.valueOf(contour.getCurveValues()[17]));
-            values.setValue90(Double.valueOf(contour.getCurveValues()[18]));
-            values.setValue95(Double.valueOf(contour.getCurveValues()[19]));
-            values.setValue100(Double.valueOf(contour.getCurveValues()[20]));
-
-            m_workContours.put(contour, curve.getObjectId());
-         }
+         ResourceCurveType curve = m_factory.createResourceCurveType();
+         curves.add(curve);
+         curve.setObjectId(contour.getUniqueID());
+         curve.setName(contour.getName());
+         ResourceCurveValuesType values = m_factory.createResourceCurveValuesType();
+         curve.setValues(values);
+         values.setValue0(Double.valueOf(contour.getCurveValues()[0]));
+         values.setValue5(Double.valueOf(contour.getCurveValues()[1]));
+         values.setValue10(Double.valueOf(contour.getCurveValues()[2]));
+         values.setValue15(Double.valueOf(contour.getCurveValues()[3]));
+         values.setValue20(Double.valueOf(contour.getCurveValues()[4]));
+         values.setValue25(Double.valueOf(contour.getCurveValues()[5]));
+         values.setValue30(Double.valueOf(contour.getCurveValues()[6]));
+         values.setValue35(Double.valueOf(contour.getCurveValues()[7]));
+         values.setValue40(Double.valueOf(contour.getCurveValues()[8]));
+         values.setValue45(Double.valueOf(contour.getCurveValues()[9]));
+         values.setValue50(Double.valueOf(contour.getCurveValues()[10]));
+         values.setValue55(Double.valueOf(contour.getCurveValues()[11]));
+         values.setValue60(Double.valueOf(contour.getCurveValues()[12]));
+         values.setValue65(Double.valueOf(contour.getCurveValues()[13]));
+         values.setValue70(Double.valueOf(contour.getCurveValues()[14]));
+         values.setValue75(Double.valueOf(contour.getCurveValues()[15]));
+         values.setValue80(Double.valueOf(contour.getCurveValues()[16]));
+         values.setValue85(Double.valueOf(contour.getCurveValues()[17]));
+         values.setValue90(Double.valueOf(contour.getCurveValues()[18]));
+         values.setValue95(Double.valueOf(contour.getCurveValues()[19]));
+         values.setValue100(Double.valueOf(contour.getCurveValues()[20]));
       }
    }
 
@@ -736,7 +732,7 @@ final class PrimaveraPMProjectWriter
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
       xml.setParentObjectId(mpxj.getParentResourceUniqueID());
-      xml.setResourceNotes(getResourceNotes(mpxj.getNotesObject()));
+      xml.setResourceNotes(getNotes(mpxj.getNotesObject()));
       xml.setResourceType(getResourceType(mpxj));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
       xml.getUDF().addAll(writeUDFType(FieldTypeClass.RESOURCE, mpxj));
@@ -764,7 +760,7 @@ final class PrimaveraPMProjectWriter
       xml.setName(mpxj.getName());
       xml.setId(mpxj.getResourceID());
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
-      xml.setResponsibilities(getResourceNotes(mpxj.getNotesObject()));
+      xml.setResponsibilities(getNotes(mpxj.getNotesObject()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
    }
 
@@ -776,7 +772,7 @@ final class PrimaveraPMProjectWriter
     * @param notes notes text
     * @return Notes instance
     */
-   private String getResourceNotes(Notes notes)
+   private String getNotes(Notes notes)
    {
       String result;
       if (notes == null || notes.isEmpty())
@@ -1078,7 +1074,7 @@ final class PrimaveraPMProjectWriter
       xml.setActualUnits(getDuration(mpxj.getActualWork()));
       xml.setAtCompletionCost(NumberHelper.sumAsDouble(mpxj.getActualCost(), mpxj.getRemainingCost()));
       xml.setAtCompletionUnits(getDuration(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), task.getEffectiveCalendar())));
-      xml.setResourceCurveObjectId(m_workContours.get(mpxj.getWorkContour()));
+      xml.setResourceCurveObjectId(getWorkContourID(mpxj.getWorkContour()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setIsCostUnitsLinked(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
@@ -1101,6 +1097,16 @@ final class PrimaveraPMProjectWriter
       xml.setCostPerQuantity(writeRate(mpxj.getOverrideRate()));
       xml.setRateSource(RATE_SOURCE_MAP.get(mpxj.getRateSource()));
       xml.setCostAccountObjectId(mpxj.getCostAccount() == null ? null : mpxj.getCostAccount().getUniqueID());
+   }
+
+   private Integer getWorkContourID(WorkContour contour)
+   {
+      if (contour == null || contour.isContourFlat() || contour.isContourManual())
+      {
+         return null;
+      }
+
+      return contour.getUniqueID();
    }
 
    /**
@@ -1145,69 +1151,113 @@ final class PrimaveraPMProjectWriter
    private void writeExpenseItems(Task task)
    {
       List<ExpenseItem> items = task.getExpenseItems();
-      if (items != null && !items.isEmpty())
+      if (items.isEmpty())
       {
-         List<ExpenseItem> expenseItems = new ArrayList<>(items);
-         expenseItems.sort((i1, i2) -> NumberHelper.compare(i1.getUniqueID(), i2.getUniqueID()));
+         return;
+      }
 
-         Integer parentObjectID = task.getParentTask() == null ? null : task.getParentTask().getUniqueID();
+      List<ExpenseItem> expenseItems = new ArrayList<>(items);
+      expenseItems.sort((i1, i2) -> NumberHelper.compare(i1.getUniqueID(), i2.getUniqueID()));
 
-         for (ExpenseItem item : expenseItems)
+      Integer parentObjectID = task.getParentTask() == null ? null : task.getParentTask().getUniqueID();
+
+      for (ExpenseItem item : expenseItems)
+      {
+         ActivityExpenseType expense = m_factory.createActivityExpenseType();
+         m_expenses.add(expense);
+
+         //
+         // Item may be rejected on import if price per unit is not present
+         //
+         Double pricePerUnit = Optional.ofNullable(item.getPricePerUnit()).orElse(NumberHelper.DOUBLE_ZERO);
+
+         expense.setAccrualType(ACCRUE_TYPE_MAP.get(item.getAccrueType()));
+         //expense.setActivityId(value);
+         //expense.setActivityName(value);
+         expense.setActivityObjectId(task.getUniqueID());
+         expense.setActualCost(item.getActualCost());
+         expense.setActualUnits(item.getActualUnits());
+         //expense.setAtCompletionCost(item.getAtCompletionCost());
+         //expense.setAtCompletionUnits(item.getAtCompletionUnits());
+         expense.setAutoComputeActuals(Boolean.valueOf(item.getAutoComputeActuals()));
+         //expense.setCBSCode(value);
+         //expense.setCBSId(value);
+
+         if (item.getAccount() != null)
          {
-            ActivityExpenseType expense = m_factory.createActivityExpenseType();
-            m_expenses.add(expense);
-
-            //
-            // Item may be rejected on import if price per unit is not present
-            //
-            Double pricePerUnit = Optional.ofNullable(item.getPricePerUnit()).orElse(NumberHelper.DOUBLE_ZERO);
-
-            expense.setAccrualType(ACCRUE_TYPE_MAP.get(item.getAccrueType()));
-            //expense.setActivityId(value);
-            //expense.setActivityName(value);
-            expense.setActivityObjectId(task.getUniqueID());
-            expense.setActualCost(item.getActualCost());
-            expense.setActualUnits(item.getActualUnits());
-            //expense.setAtCompletionCost(item.getAtCompletionCost());
-            //expense.setAtCompletionUnits(item.getAtCompletionUnits());
-            expense.setAutoComputeActuals(Boolean.valueOf(item.getAutoComputeActuals()));
-            //expense.setCBSCode(value);
-            //expense.setCBSId(value);
-
-            if (item.getAccount() != null)
-            {
-               expense.setCostAccountObjectId(item.getAccount().getUniqueID());
-            }
-
-            //expense.setCreateDate(value);
-            //expense.setCreateUser(value);
-            expense.setDocumentNumber(item.getDocumentNumber());
-
-            if (item.getCategory() != null)
-            {
-               expense.setExpenseCategoryObjectId(item.getCategory().getUniqueID());
-            }
-
-            expense.setExpenseDescription(item.getDescription());
-
-            expense.setExpenseItem(item.getName());
-            //expense.setExpensePercentComplete(value);
-            //expense.setIsBaseline(value);
-            //expense.setIsTemplate(value);
-            //expense.setLastUpdateDate(value);
-            //expense.setLastUpdateUser(value);
-            expense.setObjectId(item.getUniqueID());
-            expense.setPlannedCost(item.getPlannedCost());
-            expense.setPlannedUnits(item.getPlannedUnits());
-            expense.setPricePerUnit(pricePerUnit);
-            //expense.setProjectId(PROJECT_ID);
-            expense.setProjectObjectId(m_projectObjectID);
-            expense.setRemainingCost(item.getRemainingCost());
-            expense.setRemainingUnits(item.getRemainingUnits());
-            expense.setUnitOfMeasure(item.getUnitOfMeasure());
-            expense.setVendor(item.getVendor());
-            expense.setWBSObjectId(parentObjectID);
+            expense.setCostAccountObjectId(item.getAccount().getUniqueID());
          }
+
+         //expense.setCreateDate(value);
+         //expense.setCreateUser(value);
+         expense.setDocumentNumber(item.getDocumentNumber());
+
+         if (item.getCategory() != null)
+         {
+            expense.setExpenseCategoryObjectId(item.getCategory().getUniqueID());
+         }
+
+         expense.setExpenseDescription(item.getDescription());
+
+         expense.setExpenseItem(item.getName());
+         //expense.setExpensePercentComplete(value);
+         //expense.setIsBaseline(value);
+         //expense.setIsTemplate(value);
+         //expense.setLastUpdateDate(value);
+         //expense.setLastUpdateUser(value);
+         expense.setObjectId(item.getUniqueID());
+         expense.setPlannedCost(item.getPlannedCost());
+         expense.setPlannedUnits(item.getPlannedUnits());
+         expense.setPricePerUnit(pricePerUnit);
+         //expense.setProjectId(PROJECT_ID);
+         expense.setProjectObjectId(m_projectObjectID);
+         expense.setRemainingCost(item.getRemainingCost());
+         expense.setRemainingUnits(item.getRemainingUnits());
+         expense.setUnitOfMeasure(item.getUnitOfMeasure());
+         expense.setVendor(item.getVendor());
+         expense.setWBSObjectId(parentObjectID);
+      }
+   }
+
+   /**
+    * Write all activity steps for project.
+    */
+   private void writeActivitySteps()
+   {
+      List<Task> tasks = new ArrayList<>(m_projectFile.getTasks());
+      tasks.sort((t1, t2) -> NumberHelper.compare(t1.getUniqueID(), t2.getUniqueID()));
+
+      tasks.forEach(this::writeActivitySteps);
+   }
+
+   /**
+    * Write activity steps for a task.
+    *
+    * @param task Task instance
+    */
+   private void writeActivitySteps(Task task)
+   {
+      List<Step> items = task.getSteps();
+      if (items.isEmpty())
+      {
+         return;
+      }
+
+      List<Step> steps = new ArrayList<>(items);
+      steps.sort((i1, i2) -> NumberHelper.compare(i1.getSequenceNumber(), i2.getSequenceNumber()));
+
+      for (Step step : steps)
+      {
+         ActivityStepType activityStep = m_factory.createActivityStepType();
+         m_activitySteps.add(activityStep);
+         activityStep.setActivityObjectId(task.getUniqueID());
+         activityStep.setDescription(getNotes(step.getDescriptionObject()));
+         activityStep.setName(step.getName());
+         activityStep.setObjectId(step.getUniqueID());
+         activityStep.setPercentComplete(Double.valueOf(NumberHelper.getDouble(step.getPercentComplete()) / 100.0));
+         activityStep.setIsCompleted(Boolean.valueOf(step.getComplete()));
+         activityStep.setSequenceNumber(step.getSequenceNumber());
+         activityStep.setWeight(step.getWeight());
       }
    }
 
@@ -2012,13 +2062,13 @@ final class PrimaveraPMProjectWriter
    private ObjectFactory m_factory;
    private List<WBSType> m_wbs;
    private List<ActivityType> m_activities;
+   private List<ActivityStepType> m_activitySteps;
    private List<ResourceAssignmentType> m_assignments;
    private List<RelationshipType> m_relationships;
    private List<ActivityExpenseType> m_expenses;
    private List<ProjectNoteType> m_projectNotes;
    private List<ActivityNoteType> m_activityNotes;
    private List<UDFAssignmentType> m_udf;
-   private Map<WorkContour, Integer> m_workContours;
 
    private ObjectSequence m_wbsSequence;
    private List<FieldType> m_sortedCustomFieldsList;

@@ -24,7 +24,6 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.TableContainer;
 import net.sf.mpxj.View;
@@ -43,7 +42,6 @@ public abstract class AbstractView implements View
    public AbstractView(ProjectFile parent)
    {
       m_file = parent;
-      m_properties = parent.getProjectProperties();
       m_tables = parent.getTables();
    }
 
@@ -95,7 +93,6 @@ public abstract class AbstractView implements View
    }
 
    protected final ProjectFile m_file;
-   protected final ProjectProperties m_properties;
    protected final TableContainer m_tables;
    protected Integer m_id;
    protected String m_name;

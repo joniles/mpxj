@@ -1,6 +1,17 @@
 # Changelog
 
-## 10.15.1 (unreleased)
+## 10.16.2 (unreleased)
+
+## 10.16.1 (2023-01-26)
+* Updated to make resource curve definitions (work contours) available in the `WorkContourContainer`. This container is accessed using the `ProjectFile.getWorkContours()` method.
+
+## 10.16.0 (2023-01-24)
+* Improve accuracy when normalising timephased data.
+* Add support for reading activity steps from XER files, PMXML files and Primavera databases.
+* Add support for writing activity steps to PMXML files.
+* Updated PMXML schema to version 22.12.
+* Updated methods in the `GanttBarCommonStyle` and `GanttBarStyle` classes to use a `FieldType` instance rather than a `TaskField` instance to allow more flexibility. (Note: this may be a breaking change if you are currently using these classes.)
+* Optionally include some Microsoft Project layout data in JSON output.
 
 ## 10.15.0 (2023-01-11)
 * Avoid wrtiting invalid characters to PMXML, MSPDI and Planner XML files.

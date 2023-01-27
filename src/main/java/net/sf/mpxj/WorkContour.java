@@ -28,47 +28,30 @@ import java.util.stream.DoubleStream;
 /**
  * Instances of this class represent enumerated work contour values.
  */
-public final class WorkContour
+public final class WorkContour implements ProjectEntityWithUniqueID
 {
    /**
     * Constructor.
     *
+    * @param uniqueID unique ID
     * @param name work contour name
-    * @param values curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100%
+    * @param curveValues curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100%
     */
-   public WorkContour(String name, double... values)
+   public WorkContour(Integer uniqueID, String name, double... curveValues)
    {
-      this(name, -1, values);
-   }
-
-   /**
-    * Private constructor.
-    *
-    * @param name work contour name
-    * @param type int version of the enum
-    * @param values curve values, 21 values representing 5% duration intervals, including 0%, total of values must be 100%
-    */
-   private WorkContour(String name, int type, double... values)
-   {
+      m_uniqueID = uniqueID;
       m_name = name;
-      m_value = type;
-      m_curveValues = values;
+      m_curveValues = curveValues;
    }
 
-   /**
-    * Retrieve an instance of the enum based on its int value.
-    * TODO: move this to MS Project specific code
-    *
-    * @param type int type
-    * @return enum instance
-    */
-   public static WorkContour getInstance(int type)
+   @Override public Integer getUniqueID()
    {
-      if (type < 0 || type >= TYPE_VALUES.length)
-      {
-         type = FLAT.m_value;
-      }
-      return TYPE_VALUES[type];
+      return m_uniqueID;
+   }
+
+   @Override public void setUniqueID(Integer id)
+   {
+      throw new UnsupportedOperationException();
    }
 
    /**
@@ -125,36 +108,20 @@ public final class WorkContour
    /**
     * Internal representation of the enum int type.
     */
-   private final int m_value;
+   private final Integer m_uniqueID;
 
    /**
     * Curve representation - one value per 5% of duration, including 0%, 21 values, total of values needs to be 100%.
     */
    private final double[] m_curveValues;
 
-   public static final WorkContour FLAT = new WorkContour("FLAT", 0, 0.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0);
-   public static final WorkContour BACK_LOADED = new WorkContour("BACK_LOADED", 1, 0.0, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5);
-   public static final WorkContour FRONT_LOADED = new WorkContour("FRONT_LOADED", 2, 0.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5);
-   public static final WorkContour DOUBLE_PEAK = new WorkContour("DOUBLE_PEAK", 3, 0.0, 1.3, 2.5, 3.8, 5.1, 7.6, 10.1, 7.6, 5.1, 3.8, 2.5, 2.5, 2.5, 3.8, 5.1, 7.6, 10.1, 7.6, 5.1, 3.8, 2.5);
-   public static final WorkContour EARLY_PEAK = new WorkContour("EARLY_PEAK", 4, 0.0, 1.2, 2.5, 3.8, 5, 7.5, 10.1, 10.1, 10.1, 8.8, 7.5, 6.3, 5.0, 5.0, 5.0, 3.8, 2.5, 2.0, 1.5, 1.3, 1.0);
-   public static final WorkContour LATE_PEAK = new WorkContour("LATE_PEAK", 5, 0.0, 1.0, 1.3, 1.5, 2.0, 2.5, 3.8, 5.0, 5.0, 5.0, 6.3, 7.5, 8.8, 10.1, 10.1, 10.1, 7.5, 5, 3.8, 2.5, 1.2);
-   public static final WorkContour BELL = new WorkContour("BELL", 6, 0.0, 0.5, 0.5, 1.5, 1.5, 4.0, 4.0, 7.5, 7.5, 11.5, 11.5, 11.5, 11.5, 7.5, 7.5, 4, 4, 1.5, 1.5, 0.5, 0.5);
-   public static final WorkContour TURTLE = new WorkContour("TURTLE", 7, 0.0, 1.0, 1.0, 3.5, 3.5, 5.5, 5.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 5.5, 5.5, 3.5, 3.5, 1.0, 1.0);
-   public static final WorkContour CONTOURED = new WorkContour("CONTOURED", 8, (double[]) null);
-
-   /**
-    * Array mapping int types to WorkContour instances.
-    */
-   private static final WorkContour[] TYPE_VALUES =
-   {
-      FLAT,
-      BACK_LOADED,
-      FRONT_LOADED,
-      DOUBLE_PEAK,
-      EARLY_PEAK,
-      LATE_PEAK,
-      BELL,
-      TURTLE,
-      CONTOURED
-   };
+   public static final WorkContour FLAT = new WorkContour(Integer.valueOf(1), "FLAT", 0.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0);
+   public static final WorkContour BACK_LOADED = new WorkContour(Integer.valueOf(2), "BACK_LOADED", 0.0, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5);
+   public static final WorkContour FRONT_LOADED = new WorkContour(Integer.valueOf(3), "FRONT_LOADED", 0.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5);
+   public static final WorkContour DOUBLE_PEAK = new WorkContour(Integer.valueOf(4), "DOUBLE_PEAK", 0.0, 1.3, 2.5, 3.8, 5.1, 7.6, 10.1, 7.6, 5.1, 3.8, 2.5, 2.5, 2.5, 3.8, 5.1, 7.6, 10.1, 7.6, 5.1, 3.8, 2.5);
+   public static final WorkContour EARLY_PEAK = new WorkContour(Integer.valueOf(5), "EARLY_PEAK", 0.0, 1.2, 2.5, 3.8, 5, 7.5, 10.1, 10.1, 10.1, 8.8, 7.5, 6.3, 5.0, 5.0, 5.0, 3.8, 2.5, 2.0, 1.5, 1.3, 1.0);
+   public static final WorkContour LATE_PEAK = new WorkContour(Integer.valueOf(6), "LATE_PEAK", 0.0, 1.0, 1.3, 1.5, 2.0, 2.5, 3.8, 5.0, 5.0, 5.0, 6.3, 7.5, 8.8, 10.1, 10.1, 10.1, 7.5, 5, 3.8, 2.5, 1.2);
+   public static final WorkContour BELL = new WorkContour(Integer.valueOf(7), "BELL", 0.0, 0.5, 0.5, 1.5, 1.5, 4.0, 4.0, 7.5, 7.5, 11.5, 11.5, 11.5, 11.5, 7.5, 7.5, 4, 4, 1.5, 1.5, 0.5, 0.5);
+   public static final WorkContour TURTLE = new WorkContour(Integer.valueOf(8), "TURTLE", 0.0, 1.0, 1.0, 3.5, 3.5, 5.5, 5.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 5.5, 5.5, 3.5, 3.5, 1.0, 1.0);
+   public static final WorkContour CONTOURED = new WorkContour(Integer.valueOf(9), "CONTOURED", (double[]) null);
 }

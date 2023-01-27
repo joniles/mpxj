@@ -5,10 +5,19 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="10.16.0">
-			<action dev="joniles" type="update">Updated methods in the `GanttBarCommonStyle` and `GanttBarStyle` classes to use a `FieldType` instance rather than a `TaskField` instance to allow more flexibility. (Note: this may be a breaking change if you are currently using these classes.)</action>
-			<action dev="joniles" type="update">Optionally include Microsoft Project layout data in JSON output.</action>
+		<release date="unreleased" version="10.16.2">
+			<action dev="joniles" type="update">Updated to improve reading resource attributes from certain MPP14 files.</action>
+		</release>
+		<release date="2023-01-26" version="10.16.1">
+			<action dev="joniles" type="update">Updated to make resource curve definitions (work contours) available in the `WorkContourContainer`. This container is accessed using the `ProjectFile.getWorkContours()` method.</action>
+		</release>
+		<release date="2023-01-24" version="10.16.0">
 			<action dev="joniles" type="update">Improve accuracy when normalising timephased data.</action>
+			<action dev="joniles" type="add">Add support for reading activity steps from XER files, PMXML files and Primavera databases.</action>
+			<action dev="joniles" type="add">Add support for writing activity steps to PMXML files.</action>
+			<action dev="joniles" type="update">Updated PMXML schema to version 22.12.</action>
+			<action dev="joniles" type="update">Updated methods in the `GanttBarCommonStyle` and `GanttBarStyle` classes to use a `FieldType` instance rather than a `TaskField` instance to allow more flexibility. (Note: this may be a breaking change if you are currently using these classes.)</action>
+			<action dev="joniles" type="update">Optionally include some Microsoft Project layout data in JSON output.</action>
 		</release>
 		<release date="2023-01-11" version="10.15.0">
 			<action dev="joniles" type="update">Avoid wrtiting invalid characters to PMXML, MSPDI and Planner XML files.</action>

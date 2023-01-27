@@ -5273,6 +5273,26 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
+    * Retrieve steps for this task.
+    *
+    * @return list of steps
+    */
+   @SuppressWarnings("unchecked") public List<Step> getSteps()
+   {
+      return (List<Step>) get(TaskField.STEPS);
+   }
+
+   /**
+    * Set the steps for this task.
+    *
+    * @param steps list of steps
+    */
+   public void setSteps(List<Step> steps)
+   {
+      set(TaskField.STEPS, steps);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.
@@ -5854,6 +5874,16 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return new ArrayList<>();
    }
 
+   private List<ExpenseItem> defaultExpenseItems()
+   {
+      return new ArrayList<>();
+   }
+
+   private List<Step> defaultSteps()
+   {
+      return new ArrayList<>();
+   }
+
    /**
     * Array of field values.
     */
@@ -5911,6 +5941,8 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::defaultRelationList);
       CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::defaultRelationList);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODES, Task::defaultActivityCodesList);
+      CALCULATED_FIELD_MAP.put(TaskField.EXPENSE_ITEMS, Task::defaultExpenseItems);
+      CALCULATED_FIELD_MAP.put(TaskField.STEPS, Task::defaultSteps);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();

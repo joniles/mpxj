@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,7 +47,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.RateSource;
+import net.sf.mpxj.Step;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.primavera.schema.ActivityStepType;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -364,7 +367,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_assignmentUdfCounters = new UserFieldCounters();
          m_fieldTypeMap = new HashMap<>();
          m_notebookTopics = new HashMap<>();
-         m_workContours = new HashMap<>();
 
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
@@ -392,6 +394,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          List<RelationshipType> relationships;
          List<ResourceAssignmentType> assignments;
          List<ActivityExpenseType> activityExpenseType;
+         List<ActivityStepType> steps;
 
          if (projectObject instanceof ProjectType)
          {
@@ -403,6 +406,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             wbs = project.getWBS();
             projectNotes = project.getProjectNote();
             activities = project.getActivity();
+            steps = project.getActivityStep();
             activityNotes = project.getActivityNote();
             relationships = project.getRelationship();
             assignments = project.getResourceAssignment();
@@ -418,6 +422,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             wbs = project.getWBS();
             projectNotes = project.getProjectNote();
             activities = project.getActivity();
+            steps = project.getActivityStep();
             activityNotes = project.getActivityNote();
             relationships = project.getRelationship();
             assignments = project.getResourceAssignment();
@@ -440,6 +445,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processExpenseItems(activityExpenseType);
          processResourceRates(apibo);
          processRoleRates(apibo);
+         processActivitySteps(steps);
          rollupValues();
 
          m_projectFile.updateStructure();
@@ -463,7 +469,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_assignmentUdfCounters = null;
          m_fieldTypeMap = null;
          m_notebookTopics = null;
-         m_workContours = null;
          m_defaultCalendarObjectID = null;
       }
    }
@@ -770,16 +775,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (ActivityExpenseType item : expenseItems)
       {
-         Task task = m_projectFile.getTaskByUniqueID(item.getActivityObjectId());
+         Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(item.getActivityObjectId()));
          if (task != null)
          {
             List<ExpenseItem> items = task.getExpenseItems();
-            if (items == null)
-            {
-               items = new ArrayList<>();
-               task.setExpenseItems(items);
-            }
-
             ExpenseItem ei = new ExpenseItem(task);
             items.add(ei);
 
@@ -1694,6 +1693,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private void processWorkContour(ResourceCurveType curve)
    {
+      if (m_projectFile.getWorkContours().getByUniqueID(curve.getObjectId()) != null)
+      {
+         return;
+      }
+
       ResourceCurveValuesType curveValues = curve.getValues();
 
       double[] values =
@@ -1721,7 +1725,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          NumberHelper.getDouble(curveValues.getValue100()),
       };
 
-      m_workContours.put(curve.getObjectId(), new WorkContour(curve.getName(), values));
+      m_projectFile.getWorkContours().add(new WorkContour(curve.getObjectId(), curve.getName(), values));
    }
 
    /**
@@ -1765,7 +1769,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
             assignment.setActualOvertimeCost(row.getActualOvertimeCost());
             assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));
-            assignment.setWorkContour(m_workContours.get(row.getResourceCurveObjectId()));
+            assignment.setWorkContour(m_projectFile.getWorkContours().getByUniqueID(row.getResourceCurveObjectId()));
             assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getRateType(), Integer.valueOf(0)));
             assignment.setRole(m_projectFile.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getCostPerQuantity()));
@@ -1987,6 +1991,35 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
          resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
+      }
+   }
+
+   /**
+    * Process activity steps.
+    *
+    * @param activitySteps list of activity steps
+    */
+   private void processActivitySteps(List<ActivityStepType> activitySteps)
+   {
+      List<ActivityStepType> steps = new ArrayList<>(activitySteps);
+      steps.sort(Comparator.comparing(ActivityStepType::getSequenceNumber));
+
+      for (ActivityStepType activityStep : steps)
+      {
+         Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(activityStep.getActivityObjectId()));
+         if (task == null)
+         {
+            continue;
+         }
+
+         Step step = new Step(task);
+         task.getSteps().add(step);
+         step.setName(activityStep.getName());
+         step.setSequenceNumber(activityStep.getSequenceNumber());
+         step.setUniqueID(activityStep.getObjectId());
+         step.setWeight(activityStep.getWeight());
+         step.setPercentComplete(Double.valueOf(NumberHelper.getDouble(activityStep.getPercentComplete()) * 100.0));
+         step.setDescriptionObject(getHtmlNote(activityStep.getDescription()));
       }
    }
 
@@ -2377,7 +2410,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private List<ExternalRelation> m_externalRelations;
    private boolean m_linkCrossProjectRelations;
    private Map<Integer, String> m_notebookTopics;
-   private Map<Integer, WorkContour> m_workContours;
    private Integer m_defaultCalendarObjectID;
 
    private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();

@@ -46,6 +46,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.WorkContour;
+import net.sf.mpxj.WorkContourContainer;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.MultiDateFormat;
 import net.sf.mpxj.common.NumberHelper;
@@ -232,6 +233,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          processPredecessors();
          processAssignments();
          processExpenseItems();
+         processActivitySteps();
          m_reader.rollupValues();
 
          project.updateStructure();
@@ -435,6 +437,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Process activity steps.
+    */
+   private void processActivitySteps()
+   {
+      m_reader.processActivitySteps(getRows("taskproc", "proj_id", m_projectID));
+   }
+
+   /**
     * Process cost accounts.
     */
    private void processCostAccounts()
@@ -550,23 +560,27 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     */
    private void processAssignments()
    {
+      processWorkContours();
       List<Row> rows = getRows("taskrsrc", "proj_id", m_projectID);
-      m_reader.processAssignments(rows, processWorkContours());
+      m_reader.processAssignments(rows);
    }
 
    /**
     * Process resource curves.
-    *
-    * @return resource curves
     */
-   private Map<Integer, WorkContour> processWorkContours()
+   private void processWorkContours()
    {
-      Map<Integer, WorkContour> result = new HashMap<>();
+      WorkContourContainer contours = m_reader.getProject().getWorkContours();
 
       List<Row> rows = getRows("rsrccurvdata", null, null);
       for (Row row : rows)
       {
-         String name = row.getString("curv_name");
+         Integer id = row.getInteger("curv_id");
+         if (contours.getByUniqueID(id) != null)
+         {
+            continue;
+         }
+
          double[] values =
          {
             NumberHelper.getDouble(row.getDouble("pct_usage_0")),
@@ -592,10 +606,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
             NumberHelper.getDouble(row.getDouble("pct_usage_20"))
          };
 
-         result.put(row.getInteger("curv_id"), new WorkContour(name, values));
+         contours.add(new WorkContour(id, row.getString("curv_name"), values));
       }
-
-      return result;
    }
 
    /**
@@ -1104,6 +1116,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("clndr_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("clndr_name", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("clndr_type", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("complete_pct", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("cost_item_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("cost_per_qty2", XerFieldType.DOUBLE);
@@ -1169,6 +1182,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("plan_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("plan_start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("pred_task_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("proc_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("proc_wt", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("proj_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("reend_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("rem_late_start_date", XerFieldType.DATE);
@@ -1243,6 +1258,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       REQUIRED_TABLES.add("roles");
       REQUIRED_TABLES.add("rolerate");
       REQUIRED_TABLES.add("rsrccurvdata");
+      REQUIRED_TABLES.add("taskproc");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();

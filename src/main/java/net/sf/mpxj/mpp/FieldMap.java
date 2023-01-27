@@ -253,7 +253,6 @@ abstract class FieldMap
       return FieldTypeHelper.getInstance(m_file, fieldID);
    }
 
-
    /**
     * In some circumstances the var data key used in the file
     * does not match the var data key derived from the type.
@@ -323,7 +322,7 @@ abstract class FieldMap
     * Create a field map for enterprise custom fields.
     *
     * @param props props data
-    * @param c target class
+    * @param fieldTypeClass target class
     */
    public void createEnterpriseCustomFieldMap(Props props, FieldTypeClass fieldTypeClass)
    {
