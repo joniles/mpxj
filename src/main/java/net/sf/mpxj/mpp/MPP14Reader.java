@@ -1699,10 +1699,6 @@ final class MPP14Reader implements MPPVariantReader
             }
          }
 
-         if (resource.getGUID() == null)
-         {
-            System.out.println("HERE!");
-         }
          m_eventManager.fireResourceReadEvent(resource);
       }
    }
