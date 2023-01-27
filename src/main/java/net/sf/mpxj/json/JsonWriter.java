@@ -301,10 +301,8 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private int compareCustomFields(CustomField f1, CustomField f2)
    {
-      FieldType o1 = f1.getFieldType();
-      FieldType o2 = f2.getFieldType();
-      String name1 = o1.getFieldTypeClass().name() + "." + o1.getName() + " " + f1.getAlias();
-      String name2 = o2.getFieldTypeClass().name() + "." + o2.getName() + " " + f2.getAlias();
+      String name1 = f1.getFieldType().getFieldTypeClass().name() + "." + f1.getUniqueID() + "." + f1.getAlias();
+      String name2 = f2.getFieldType().getFieldTypeClass().name() + "." + + f2.getUniqueID() + "." + f2.getAlias();
       return name1.compareTo(name2);
    }
 
