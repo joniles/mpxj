@@ -36,7 +36,6 @@ import java.util.TreeMap;
 
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -1700,6 +1699,10 @@ final class MPP14Reader implements MPPVariantReader
             }
          }
 
+         if (resource.getGUID() == null)
+         {
+            System.out.println("HERE!");
+         }
          m_eventManager.fireResourceReadEvent(resource);
       }
    }
