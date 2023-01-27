@@ -25,6 +25,7 @@ package net.sf.mpxj.common;
 
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Set;
 
 import net.sf.mpxj.AccrueType;
@@ -47,7 +48,7 @@ import net.sf.mpxj.TimeUnit;
  * @param <E> field enumeration
  * @param <T> object type
  */
-public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
+public class PopulatedFields<E extends Enum<E> & FieldType, T extends FieldContainer>
 {
    /**
     * Constructor.
@@ -58,7 +59,7 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
     */
    public PopulatedFields(ProjectFile project, Class<E> fieldEnumType, Collection<T> collection)
    {
-      m_fieldEnumType = fieldEnumType;
+      m_fields = new HashSet<FieldType>(EnumSet.allOf(fieldEnumType));
       m_collection = collection;
 
       ProjectProperties props = project.getProjectProperties();
@@ -73,16 +74,16 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
     *
     * @return populated fields
     */
-   public Set<E> getPopulatedFields()
+   public Set<FieldType> getPopulatedFields()
    {
-      Set<E> unusedFields = EnumSet.allOf(m_fieldEnumType);
+      Set<FieldType> unusedFields = new HashSet<>(m_fields);
 
       for (FieldContainer item : m_collection)
       {
          unusedFields.removeIf(e -> fieldIsPopulated(item, (FieldType) e));
       }
 
-      Set<E> usedFields = EnumSet.allOf(m_fieldEnumType);
+      Set<FieldType> usedFields = new HashSet<>(m_fields);
       usedFields.removeAll(unusedFields);
 
       return usedFields;
@@ -205,7 +206,7 @@ public class PopulatedFields<E extends Enum<E>, T extends FieldContainer>
       return result;
    }
 
-   private final Class<E> m_fieldEnumType;
+   private final Set<FieldType> m_fields;
    private final Collection<T> m_collection;
    private final TimeUnit m_defaultDurationUnits;
    private final TaskType m_defaultTaskType;
