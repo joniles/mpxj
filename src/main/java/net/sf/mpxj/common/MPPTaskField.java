@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectFile;
@@ -56,7 +57,7 @@ public class MPPTaskField
             int id = (k.intValue() & 0xFFF) +1 ;
             String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
             String externalName = "Enterprise Custom Field " + id;
-            return new UserDefinedField(k, internalName, externalName, FieldTypeClass.TASK);
+            return new UserDefinedField(k, internalName, externalName, FieldTypeClass.TASK, DataType.CUSTOM);
          });
       }
 

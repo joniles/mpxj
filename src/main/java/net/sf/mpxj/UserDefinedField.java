@@ -3,12 +3,13 @@ import java.util.Locale;
 
 public class UserDefinedField implements FieldType
 {
-   public UserDefinedField(int id, String internalName, String externalName, FieldTypeClass fieldTypeClass)
+   public UserDefinedField(int id, String internalName, String externalName, FieldTypeClass fieldTypeClass, DataType dataType)
    {
       m_id = id;
       m_internalName = internalName;
       m_externalName = externalName;
       m_fieldTypeClass = fieldTypeClass;
+      m_dataType = dataType;
    }
 
    @Override public int getValue()
@@ -43,7 +44,7 @@ public class UserDefinedField implements FieldType
 
    @Override public DataType getDataType()
    {
-      return DataType.CUSTOM;
+      return m_dataType;
    }
 
    @Override public FieldType getUnitsType()
@@ -60,4 +61,5 @@ public class UserDefinedField implements FieldType
    private final FieldTypeClass m_fieldTypeClass;
    private final String m_externalName;
    private final String m_internalName;
+   private final DataType m_dataType;
 }

@@ -90,6 +90,8 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UserDefinedField;
+import net.sf.mpxj.UserDefinedFieldContainer;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -285,6 +287,8 @@ final class PrimaveraReader
    {
       // Process fields
       Map<Integer, String> tableNameMap = new HashMap<>();
+      UserDefinedFieldContainer container = m_project.getUserDefinedFields();
+
       for (Row row : fields)
       {
          Integer fieldId = row.getInteger("udf_type_id");
@@ -292,17 +296,20 @@ final class PrimaveraReader
          tableNameMap.put(fieldId, tableName);
 
          FieldTypeClass fieldTypeClass = FIELD_TYPE_MAP.get(tableName);
-         if (fieldTypeClass != null)
+         if (fieldTypeClass == null)
          {
-            String fieldDataType = row.getString("logical_data_type");
-            FieldType fieldType = allocateUserDefinedField(fieldTypeClass, UserFieldDataType.valueOf(fieldDataType));
-            if (fieldType != null)
-            {
-               String fieldName = row.getString("udf_type_label");
-               m_udfFields.put(fieldId, fieldType);
-               m_project.getCustomFields().add(fieldType).setAlias(fieldName).setUniqueID(fieldId);
-            }
+            continue;
          }
+
+         String internalName = row.getString("udf_type_name");
+         String externalName = row.getString("udf_type_label");
+         String fieldDataType = row.getString("logical_data_type");
+         DataType dataType = UserFieldDataType.getDataTypeFromXmlName(fieldDataType);
+         UserDefinedField fieldType = new UserDefinedField(fieldId, internalName, externalName, fieldTypeClass, dataType);
+         container.addField(fieldType);
+
+         m_udfFields.put(fieldId, fieldType);
+         m_project.getCustomFields().add(fieldType).setAlias(externalName).setUniqueID(fieldId);
       }
 
       // Process values
@@ -1065,72 +1072,6 @@ final class PrimaveraReader
             }
          }
       }
-   }
-
-   /**
-    * Allocate a UDF to one of the available custom fields.
-    *
-    * @param fieldTypeClass field type
-    * @param dataType field data type
-    * @return FieldType instance for allocated field
-    */
-   private FieldType allocateUserDefinedField(FieldTypeClass fieldTypeClass, UserFieldDataType dataType)
-   {
-      FieldType fieldType = null;
-
-      try
-      {
-         switch (fieldTypeClass)
-         {
-            case TASK:
-            {
-               do
-               {
-                  fieldType = m_taskUdfCounters.nextField(TaskField.class, dataType);
-               }
-               while (m_taskFields.containsKey(fieldType) || m_wbsFields.containsKey(fieldType));
-               break;
-            }
-
-            case RESOURCE:
-            {
-               do
-               {
-                  fieldType = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
-               }
-               while (m_resourceFields.containsKey(fieldType));
-               break;
-            }
-
-            case ASSIGNMENT:
-            {
-               do
-               {
-                  fieldType = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
-               }
-               while (m_assignmentFields.containsKey(fieldType));
-               break;
-            }
-
-            default:
-            {
-               break;
-            }
-         }
-      }
-
-      catch (Exception ex)
-      {
-         //
-         // SF#227: If we get an exception thrown here... it's likely that
-         // we've run out of user defined fields, for example
-         // there are only 30 TEXT fields. We'll ignore this: the user
-         // defined field won't be mapped to an alias, so we'll
-         // ignore it when we read in the values.
-         //
-      }
-
-      return fieldType;
    }
 
    /**

@@ -70,6 +70,49 @@ public class UserDefinedFieldContainer
       return m_projectFields.computeIfAbsent(id, createFunction);
    }
 
+   public void addField(UserDefinedField field)
+   {
+      Map<Integer, UserDefinedField> map;
+
+      switch(field.getFieldTypeClass())
+      {
+         case TASK:
+         {
+            map = m_taskFields;
+            break;
+         }
+
+         case RESOURCE:
+         {
+            map = m_resourceFields;
+            break;
+         }
+
+         case ASSIGNMENT:
+         {
+            map = m_assignmentFields;
+            break;
+         }
+
+         case PROJECT:
+         {
+            map = m_projectFields;
+            break;
+         }
+
+         default:
+         {
+            map = null;
+            break;
+         }
+      }
+
+      if (map != null)
+      {
+         map.put(field.getUniqueID(), field);
+      }
+   }
+
    public void addTaskField(UserDefinedField field)
    {
       m_taskFields.put(field.getUniqueID(), field);

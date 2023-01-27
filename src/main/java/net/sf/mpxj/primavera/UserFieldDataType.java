@@ -153,6 +153,11 @@ public enum UserFieldDataType
       return XML_NAME_MAP.get(name);
    }
 
+   public static DataType getDataTypeFromXmlName(String name)
+   {
+      return XML_TYPE_MAP.get(name);
+   }
+
    private final String[] m_defaultFieldNames;
 
    private static final Map<FieldTypeClass, String> SUBJECT_AREA_MAP = new HashMap<>();
@@ -176,4 +181,19 @@ public enum UserFieldDataType
       XML_NAME_MAP.put("Double", FT_FLOAT_2_DECIMALS);
       XML_NAME_MAP.put("Start Date", FT_START_DATE);
    }
+
+   private static final Map<String, DataType> XML_TYPE_MAP = new HashMap<>();
+   static
+   {
+      XML_TYPE_MAP.put("FT_TEXT", DataType.STRING);
+      XML_TYPE_MAP.put("FT_MONEY", DataType.CURRENCY);
+      XML_TYPE_MAP.put("FT_END_DATE", DataType.DATE);
+      XML_TYPE_MAP.put("FT_STATICTYPE", DataType.STRING);
+      XML_TYPE_MAP.put("FT_INT", DataType.INTEGER);
+      XML_TYPE_MAP.put("FT_FLOAT", DataType.NUMERIC);
+      XML_TYPE_MAP.put("FT_FLOAT_2_DECIMALS", DataType.NUMERIC);
+      XML_TYPE_MAP.put("FT_START_DATE", DataType.DATE);
+   }
 }
+
+
