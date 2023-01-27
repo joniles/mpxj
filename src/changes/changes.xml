@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.16.2">
+			<action dev="joniles" type="update">Updated to improve reading resource attributes from certain MPP14 files.</action>
 		</release>
 		<release date="2023-01-26" version="10.16.1">
 			<action dev="joniles" type="update">Updated to make resource curve definitions (work contours) available in the `WorkContourContainer`. This container is accessed using the `ProjectFile.getWorkContours()` method.</action>
