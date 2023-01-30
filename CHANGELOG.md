@@ -1,6 +1,9 @@
 # Changelog
 
-## 10.16.2 (unreleased)
+## 10.17.0 (unreleased)
+
+## 10.16.2 (2023-01-29)
+* Updated to improve reading resource attributes from certain MPP14 files.
 
 ## 10.16.1 (2023-01-26)
 * Updated to make resource curve definitions (work contours) available in the `WorkContourContainer`. This container is accessed using the `ProjectFile.getWorkContours()` method.
