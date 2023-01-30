@@ -24,6 +24,7 @@
 package net.sf.mpxj;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -240,18 +241,24 @@ public class CustomFieldContainer implements Iterable<CustomField>
       Set<FieldType> result = stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
 
       /// Populated task custom fields
+      Set<FieldType> extendedAndUserDefinedTaskFields = new HashSet<>(TaskFieldLists.EXTENDED_FIELDS);
+      extendedAndUserDefinedTaskFields.addAll(m_parent.getUserDefinedFields().getTaskFields());
       Set<FieldType> populatedTaskFields = m_parent.getTasks().getPopulatedFields();
-      populatedTaskFields.retainAll(TaskFieldLists.EXTENDED_FIELDS);
+      populatedTaskFields.retainAll(extendedAndUserDefinedTaskFields);
       result.addAll(populatedTaskFields);
 
       // Populated resource custom fields
+      Set<FieldType> extendedAndUserDefinedResourceFields = new HashSet<>(ResourceFieldLists.EXTENDED_FIELDS);
+      extendedAndUserDefinedResourceFields.addAll(m_parent.getUserDefinedFields().getResourceFields());
       Set<FieldType> populatedResourceFields = m_parent.getResources().getPopulatedFields();
-      populatedResourceFields.retainAll(ResourceFieldLists.EXTENDED_FIELDS);
+      populatedResourceFields.retainAll(extendedAndUserDefinedResourceFields);
       result.addAll(populatedResourceFields);
 
       // Populated assignment custom fields
+      Set<FieldType> extendedAndUserDefinedAssignmentFields = new HashSet<>(AssignmentFieldLists.EXTENDED_FIELDS);
+      extendedAndUserDefinedAssignmentFields.addAll(m_parent.getUserDefinedFields().getAssignmentFields());
       Set<FieldType> populatedAssignmentFields = m_parent.getResourceAssignments().getPopulatedFields();
-      populatedAssignmentFields.retainAll(AssignmentFieldLists.EXTENDED_FIELDS);
+      populatedAssignmentFields.retainAll(extendedAndUserDefinedAssignmentFields);
       result.addAll(populatedAssignmentFields);
 
       return result;
