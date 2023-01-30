@@ -8,8 +8,6 @@ public class UserDefinedFieldMap
 
    public FieldType map(UserDefinedField field)
    {
-      List<FieldType> x;
-
-      x.stream().
+      
    }
 }
