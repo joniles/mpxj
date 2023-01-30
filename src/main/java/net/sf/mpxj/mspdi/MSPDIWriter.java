@@ -91,10 +91,11 @@ import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
-import net.sf.mpxj.common.ProjectFieldLists;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
+import net.sf.mpxj.common.UserDefinedFieldMap;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
+import net.sf.mpxj.mpp.EnterpriseCustomFieldDataType;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.Exceptions;
@@ -221,14 +222,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          // Don't include field types which we can't map to a valid field id
          m_populatedCustomFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
 
-         // Don't write definitions for enterprise custom fields.
-         // MS Project fails to read MSPDI files with these definitions
-         // if they don't include the data type attribute.
-         // As we don't know the types of these fields presently,
-         // we're just reading the raw bytes for each value, so
-         // we never write them to the MSPDI file anyway.
-         // TODO: revisit this as we should now have the data to write these fields
-         m_populatedCustomFields.removeIf((x) -> x instanceof UserDefinedField);
+         m_sourceIsMicrosoftProject = MICROSOFT_PROJECT_FILES.contains(m_projectFile.getProjectProperties().getFileType());
+         m_userDefinedFieldMap = new UserDefinedFieldMap(TaskFieldLists.EXTENDED_FIELDS, ResourceFieldLists.EXTENDED_FIELDS, AssignmentFieldLists.EXTENDED_FIELDS);
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
@@ -356,10 +351,33 @@ public final class MSPDIWriter extends AbstractProjectWriter
       CustomFieldContainer customFieldContainer = m_projectFile.getCustomFields();
       for (FieldType fieldType : customFieldsList)
       {
+         boolean microsoftProjectUserDefinedField = false;
+         BigInteger customFieldType = null;
+
+         if (fieldType instanceof UserDefinedField)
+         {
+            if (m_sourceIsMicrosoftProject)
+            {
+               microsoftProjectUserDefinedField = fieldType instanceof UserDefinedField;
+               customFieldType = NumberHelper.getBigInteger(EnterpriseCustomFieldDataType.getIDFromDataType(fieldType.getDataType()));
+            }
+            else
+            {
+               // TODO: mapping
+               continue;
+            }
+         }
+
          Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
          list.add(attribute);
          attribute.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(fieldType)));
          attribute.setFieldName(fieldType.getName());
+
+         if (microsoftProjectUserDefinedField)
+         {
+            attribute.setUserDef(Boolean.TRUE);
+            attribute.setCFType(customFieldType);
+         }
 
          CustomField customField = customFieldContainer.get(fieldType);
          if (customField != null)
@@ -2429,6 +2447,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       0x40, // Saturday
    };
 
+   private static final Set<String> MICROSOFT_PROJECT_FILES = new HashSet<>(Arrays.asList("MPP", "MPX", "MSPDI", "MPD"));
+
    private ObjectFactory m_factory;
 
    private ProjectFile m_projectFile;
@@ -2440,6 +2460,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private Map<Integer, Integer> m_resouceCalendarMap;
 
    private Set<FieldType> m_populatedCustomFields;
+
+   private boolean m_sourceIsMicrosoftProject;
+   private UserDefinedFieldMap m_userDefinedFieldMap;
 
    private boolean m_compatibleOutput = true;
 

@@ -31,30 +31,46 @@ import net.sf.mpxj.DataType;
 /**
  * Lookup tabe for enterprise custom field types.
  */
-final class EnterpriseCustomFieldDataType
+public final class EnterpriseCustomFieldDataType
 {
    /**
-    * Lookup the type of an enterprise custom field based on it's integer ID.
+    * Lookup the type of an enterprise custom field based on its integer ID.
     *
     * @param value integer type ID
     * @return DataType instance
     */
-   public static DataType getDataType(int value)
+   public static DataType getDataTypeFromID(int value)
    {
-      return DATA_TYPES.get(Integer.valueOf(value));
+      return DATA_TYPE_MAP.get(Integer.valueOf(value));
+   }
+
+   public static Integer getIDFromDataType(DataType type)
+   {
+      return ID_MAP.get(type);
    }
 
    // https://docs.microsoft.com/en-us/office-project/xml-data-interchange/cftype-element?view=project-client-2016
-   private static final Map<Integer, DataType> DATA_TYPES = new HashMap<>();
+   private static final Map<Integer, DataType> DATA_TYPE_MAP = new HashMap<>();
    static
    {
-      DATA_TYPES.put(Integer.valueOf(0), DataType.CURRENCY);
-      DATA_TYPES.put(Integer.valueOf(1), DataType.DATE);
-      DATA_TYPES.put(Integer.valueOf(2), DataType.DURATION);
-      DATA_TYPES.put(Integer.valueOf(3), DataType.DATE); // Finish
-      DATA_TYPES.put(Integer.valueOf(4), DataType.BOOLEAN);
-      DATA_TYPES.put(Integer.valueOf(5), DataType.NUMERIC);
-      DATA_TYPES.put(Integer.valueOf(6), DataType.DATE); // Start
-      DATA_TYPES.put(Integer.valueOf(7), DataType.STRING);
+      DATA_TYPE_MAP.put(Integer.valueOf(0), DataType.CURRENCY);
+      DATA_TYPE_MAP.put(Integer.valueOf(1), DataType.DATE);
+      DATA_TYPE_MAP.put(Integer.valueOf(2), DataType.DURATION);
+      DATA_TYPE_MAP.put(Integer.valueOf(3), DataType.DATE); // Finish
+      DATA_TYPE_MAP.put(Integer.valueOf(4), DataType.BOOLEAN);
+      DATA_TYPE_MAP.put(Integer.valueOf(5), DataType.NUMERIC);
+      DATA_TYPE_MAP.put(Integer.valueOf(6), DataType.DATE); // Start
+      DATA_TYPE_MAP.put(Integer.valueOf(7), DataType.STRING);
+   }
+
+   private static final Map<DataType, Integer> ID_MAP = new HashMap<>();
+   static
+   {
+      ID_MAP.put(DataType.CURRENCY, Integer.valueOf(0));
+      ID_MAP.put(DataType.DATE, Integer.valueOf(1));
+      ID_MAP.put(DataType.DURATION, Integer.valueOf(2));
+      ID_MAP.put(DataType.BOOLEAN,Integer.valueOf(4));
+      ID_MAP.put(DataType.NUMERIC, Integer.valueOf(5));
+      ID_MAP.put(DataType.STRING, Integer.valueOf(7));
    }
 }
