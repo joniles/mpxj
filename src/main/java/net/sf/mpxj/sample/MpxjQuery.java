@@ -36,6 +36,7 @@ import net.sf.mpxj.ChildResourceContainer;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
@@ -535,9 +536,9 @@ public class MpxjQuery
     */
    private static void listPopulatedFields(ProjectFile file)
    {
-      Set<TaskField> tasks = file.getTasks().getPopulatedFields();
-      Set<ResourceField> resources = file.getResources().getPopulatedFields();
-      Set<AssignmentField> assignments = file.getResourceAssignments().getPopulatedFields();
+      Set<FieldType> tasks = file.getTasks().getPopulatedFields();
+      Set<FieldType> resources = file.getResources().getPopulatedFields();
+      Set<FieldType> assignments = file.getResourceAssignments().getPopulatedFields();
 
       System.out.println("Populated task fields: " + tasks.size() + "/" + TaskField.values().length);
       System.out.println("Populated resource fields: " + resources.size() + "/" + ResourceField.values().length);
