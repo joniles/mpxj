@@ -2305,28 +2305,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Retrieve an enterprise custom field value.
-    *
-    * @param index field index
-    * @return field value
-    */
-   public Object getEnterpriseCustomField(int index)
-   {
-      return get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
-   }
-
-   /**
-    * Set an enterprise custom field value.
-    *
-    * @param index field index
-    * @param value field value
-    */
-   public void setEnterpriseCustomField(int index, byte[] value)
-   {
-      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index), value);
-   }
-
-   /**
     * Set a baseline value.
     *
     * @param baselineNumber baseline index (1-10)

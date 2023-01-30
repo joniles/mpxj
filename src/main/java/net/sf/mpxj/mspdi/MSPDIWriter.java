@@ -228,7 +228,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
          // we're just reading the raw bytes for each value, so
          // we never write them to the MSPDI file anyway.
          // TODO: revisit this as we should now have the data to write these fields
-         m_populatedCustomFields.removeAll(ENTERPRISE_CUSTOM_FIELDS);
          m_populatedCustomFields.removeIf((x) -> x instanceof UserDefinedField);
 
          m_factory = new ObjectFactory();
@@ -2453,13 +2452,4 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
 
    private static final BigInteger NULL_CALENDAR_ID = BigInteger.valueOf(-1);
-
-   private static final Set<FieldType> ENTERPRISE_CUSTOM_FIELDS = new HashSet<>();
-   static
-   {
-      ENTERPRISE_CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD));
-      ENTERPRISE_CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD));
-      ENTERPRISE_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD));
-      ENTERPRISE_CUSTOM_FIELDS.addAll(Arrays.asList(ProjectFieldLists.ENTERPRISE_CUSTOM_FIELD));
-   }
 }

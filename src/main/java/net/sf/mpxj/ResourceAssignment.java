@@ -1859,28 +1859,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    }
 
    /**
-    * Retrieve an enterprise custom field value.
-    *
-    * @param index field index
-    * @return field value
-    */
-   public Object getEnterpriseCustomField(int index)
-   {
-      return get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
-   }
-
-   /**
-    * Set an enterprise custom field value.
-    *
-    * @param index field index
-    * @param value field value
-    */
-   public void setEnterpriseCustomField(int index, byte[] value)
-   {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index), value);
-   }
-
-   /**
     * Returns the regular work of this resource assignment.
     *
     * @return work

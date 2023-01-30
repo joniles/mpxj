@@ -47,6 +47,11 @@ public class UserDefinedField implements FieldType
       return m_dataType;
    }
 
+   public void setDataType(DataType dataType)
+   {
+      m_dataType = dataType;
+   }
+
    @Override public FieldType getUnitsType()
    {
       return null;
@@ -61,5 +66,5 @@ public class UserDefinedField implements FieldType
    private final FieldTypeClass m_fieldTypeClass;
    private final String m_externalName;
    private final String m_internalName;
-   private final DataType m_dataType;
+   private DataType m_dataType;
 }

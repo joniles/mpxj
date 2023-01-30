@@ -648,6 +648,4 @@ public final class MPPResourceField
    }
 
    public static final int RESOURCE_FIELD_BASE = 0x0C400000;
-
-   public static final Set<ResourceField> ENTERPRISE_CUSTOM_FIELDS = new HashSet<>(Arrays.asList(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD));
 }

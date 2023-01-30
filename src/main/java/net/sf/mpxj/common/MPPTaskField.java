@@ -1295,6 +1295,4 @@ public class MPPTaskField
    }
 
    public static final int TASK_FIELD_BASE = 0x0B400000;
-
-   public static final Set<TaskField> ENTERPRISE_CUSTOM_FIELDS = new HashSet<>(Arrays.asList(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD));
 }

@@ -1123,21 +1123,6 @@ abstract class FieldMap
                break;
             }
 
-            case CUSTOM:
-            {
-               CustomField cf = m_customFields.get(m_type);
-               DataType customDataType = cf == null ? null : cf.getCustomFieldDataType();
-               if (customDataType == null)
-               {
-                  result = varData.getByteArray(id, m_varDataKey);
-               }
-               else
-               {
-                  result = readVarData(customDataType, id, fixedData, varData);
-               }
-               break;
-            }
-
             default:
             {
                //System.out.println("**** UNSUPPORTED VAR DATA TYPE");

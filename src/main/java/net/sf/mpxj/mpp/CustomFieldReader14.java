@@ -28,6 +28,7 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
@@ -138,11 +139,11 @@ class CustomFieldReader14
             FieldType fieldType = FieldTypeHelper.getInstance(m_file, MPPUtility.getInt(m_data, offset));
 
             // Don't try to set the data type unless it's a custom field
-            if (fieldType.getDataType() == DataType.CUSTOM)
+            if (fieldType instanceof UserDefinedField && fieldType.getDataType() == DataType.CUSTOM)
             {
                CustomField customField = m_fields.getOrCreate(fieldType);
                int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
-               customField.setCustomFieldDataType(EnterpriseCustomFieldDataType.getDataType(dataTypeValue));
+               ((UserDefinedField) fieldType).setDataType(EnterpriseCustomFieldDataType.getDataType(dataTypeValue));
                //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
                //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, 88, false));
             }

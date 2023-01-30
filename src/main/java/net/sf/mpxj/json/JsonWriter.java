@@ -331,11 +331,6 @@ public final class JsonWriter extends AbstractProjectWriter
          writeFieldType("", field.getFieldType());
          m_writer.writeNameValuePair("field_alias", field.getAlias());
 
-         if (field.getCustomFieldDataType() != null)
-         {
-            m_writer.writeNameValuePair("field_data_type", field.getCustomFieldDataType().name().toLowerCase());
-         }
-
          m_writer.writeEndObject();
       }
    }
@@ -875,14 +870,6 @@ public final class JsonWriter extends AbstractProjectWriter
          case BINARY:
          {
             // Don't write binary data
-            break;
-         }
-
-         case CUSTOM:
-         {
-            CustomField customField = m_projectFile.getCustomFields().get(fieldType);
-            DataType customFieldType = customField == null ? DataType.STRING : customField.getCustomFieldDataType();
-            writeField(container, fieldType, fieldName, customFieldType, value);
             break;
          }
 

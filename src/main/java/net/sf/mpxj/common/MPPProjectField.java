@@ -84,6 +84,4 @@ public class MPPProjectField
    }
 
    public static final int PROJECT_FIELD_BASE = 0x0B600000;
-
-   private static final Set<ProjectField> ENTERPRISE_CUSTOM_FIELDS = new HashSet<>(Arrays.asList(ProjectFieldLists.ENTERPRISE_CUSTOM_FIELD));
 }

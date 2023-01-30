@@ -328,11 +328,7 @@ final class PrimaveraPMProjectWriter
          DataType dataType = type.getDataType();
          if (dataType == DataType.CUSTOM)
          {
-            dataType = cf == null ? null : cf.getCustomFieldDataType();
-            if (dataType == null)
-            {
-               dataType = DataType.BINARY;
-            }
+            dataType = DataType.BINARY;
          }
 
          UDFTypeType udf = m_factory.createUDFTypeType();
@@ -1584,11 +1580,7 @@ final class PrimaveraPMProjectWriter
                DataType dataType = fieldType.getDataType();
                if (dataType == DataType.CUSTOM)
                {
-                  dataType = cf == null ? null : cf.getCustomFieldDataType();
-                  if (dataType == null)
-                  {
-                     dataType = DataType.BINARY;
-                  }
+                  dataType = DataType.BINARY;
                }
 
                UDFAssignmentType udf = m_factory.createUDFAssignmentType();
