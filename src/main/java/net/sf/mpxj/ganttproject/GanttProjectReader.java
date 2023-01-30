@@ -386,6 +386,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
             continue;
          }
 
+         // TODO: convert to UserDefinedField
          //
          // Find the next available field of the correct type.
          //

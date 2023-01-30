@@ -1739,6 +1739,7 @@ final class AstaReader
     */
    private void processCustomFieldDefinitions(List<Row> definitions, Map<Integer, UserField> map)
    {
+      // TODO: convert to UserDefinedField
       UserFieldDataType<TaskField> taskTypes = new UserFieldDataType<>(TaskField.class);
       UserFieldDataType<ResourceField> resourceTypes = new UserFieldDataType<>(ResourceField.class);
       UserFieldDataType<AssignmentField> assignmentTypes = new UserFieldDataType<>(AssignmentField.class);

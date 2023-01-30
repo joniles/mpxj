@@ -2902,7 +2902,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     */
    public Set<FieldType> getPopulatedFields()
    {
-      return new PopulatedFields<>(getParentFile(), ProjectField.class, Collections.singletonList(this)).getPopulatedFields();
+      return new PopulatedFields<>(getParentFile(), ProjectField.class, getParentFile().getUserDefinedFields().getProjectFields(), Collections.singletonList(this)).getPopulatedFields();
    }
 
    /**
