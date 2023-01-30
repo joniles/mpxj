@@ -240,17 +240,17 @@ public class CustomFieldContainer implements Iterable<CustomField>
       Set<FieldType> result = stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
 
       /// Populated task custom fields
-      Set<TaskField> populatedTaskFields = m_parent.getTasks().getPopulatedFields();
+      Set<FieldType> populatedTaskFields = m_parent.getTasks().getPopulatedFields();
       populatedTaskFields.retainAll(TaskFieldLists.EXTENDED_FIELDS);
       result.addAll(populatedTaskFields);
 
       // Populated resource custom fields
-      Set<ResourceField> populatedResourceFields = m_parent.getResources().getPopulatedFields();
+      Set<FieldType> populatedResourceFields = m_parent.getResources().getPopulatedFields();
       populatedResourceFields.retainAll(ResourceFieldLists.EXTENDED_FIELDS);
       result.addAll(populatedResourceFields);
 
       // Populated assignment custom fields
-      Set<AssignmentField> populatedAssignmentFields = m_parent.getResourceAssignments().getPopulatedFields();
+      Set<FieldType> populatedAssignmentFields = m_parent.getResourceAssignments().getPopulatedFields();
       populatedAssignmentFields.retainAll(AssignmentFieldLists.EXTENDED_FIELDS);
       result.addAll(populatedAssignmentFields);
 

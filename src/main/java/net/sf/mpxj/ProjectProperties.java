@@ -2901,7 +2901,7 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
     *
     * @return set of populated fields
     */
-   public Set<ProjectField> getPopulatedFields()
+   public Set<FieldType> getPopulatedFields()
    {
       return new PopulatedFields<>(getParentFile(), ProjectField.class, Collections.singletonList(this)).getPopulatedFields();
    }

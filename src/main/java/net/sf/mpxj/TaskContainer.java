@@ -229,7 +229,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     *
     * @return set of populated fields
     */
-   public Set<TaskField> getPopulatedFields()
+   public Set<FieldType> getPopulatedFields()
    {
       return new PopulatedFields<>(m_projectFile, TaskField.class, this).getPopulatedFields();
    }

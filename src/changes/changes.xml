@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="10.17.0">
+			<action dev="joniles" type="update">Updated the `getPopulatedFields` methods to return a `Set` of `FieldType` rather than a `Set` of `TaskField`, `ResourceField` etc. (Note: this may be a breaking change if you are currently using these methods.)</action>
 		</release>
 		<release date="2023-01-29" version="10.16.2">
 			<action dev="joniles" type="update">Updated to improve reading resource attributes from certain MPP14 files.</action>

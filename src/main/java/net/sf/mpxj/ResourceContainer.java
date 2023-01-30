@@ -111,7 +111,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
     *
     * @return set of populated fields
     */
-   public Set<ResourceField> getPopulatedFields()
+   public Set<FieldType> getPopulatedFields()
    {
       return new PopulatedFields<>(m_projectFile, ResourceField.class, this).getPopulatedFields();
    }
