@@ -51,6 +51,7 @@ import net.sf.mpxj.ResourceRequestType;
 import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -341,11 +342,9 @@ abstract class FieldMap
          int index = 4;
          while (index < fieldMapData.length)
          {
-            //Looks like the custom fields have varying types, it may be that the last byte of the four represents the type?
-            //System.out.println(ByteArrayHelper.hexdump(fieldMapData, index, 4, false));
             int typeValue = MPPUtility.getInt(fieldMapData, index);
             FieldType type = getFieldType(typeValue);
-            if (type != null && type.getFieldTypeClass() == fieldTypeClass && type.toString().startsWith("Enterprise Custom Field"))
+            if (type != null && type.getFieldTypeClass() == fieldTypeClass && type instanceof UserDefinedField)
             {
                int varDataKey = (typeValue & 0xFFFF);
                FieldItem item = new FieldItem(type, FieldLocation.VAR_DATA, 0, 0, varDataKey, 0, 0);
