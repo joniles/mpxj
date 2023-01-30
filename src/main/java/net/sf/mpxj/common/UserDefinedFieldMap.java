@@ -8,6 +8,6 @@ public class UserDefinedFieldMap
 
    public FieldType map(UserDefinedField field)
    {
-      
+      return null;
    }
 }
