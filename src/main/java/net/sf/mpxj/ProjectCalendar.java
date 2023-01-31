@@ -1218,8 +1218,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * will refer to the base calendar where no hours are specified
     * in the derived calendar.
     *
-    * @param date tagre date
-    * @return working housr on the given date
+    * @param date target date
+    * @return working hours on the given date
     */
    public ProjectCalendarHours getHours(Date date)
    {

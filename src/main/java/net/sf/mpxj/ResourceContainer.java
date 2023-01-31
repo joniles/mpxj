@@ -130,7 +130,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
     * Retrieve the type of a custom field by its alias.
     *
     * @param alias custom field alias
-    * @return FielType instance
+    * @return FieldType instance
     */
    public FieldType getFieldTypeByAlias(String alias)
    {

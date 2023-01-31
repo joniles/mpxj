@@ -1701,7 +1701,7 @@ public final class DatatypeConverter
     * Parse rate.
     *
     * @param originalValue rate value
-    * @param targetUnits targetunits
+    * @param targetUnits target units
     * @return Rate instance
     */
    public static final Rate parseRate(BigDecimal originalValue, TimeUnit targetUnits)

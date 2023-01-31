@@ -85,7 +85,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Add an existing resurce as a child of the current resource.
+    * Add an existing resource as a child of the current resource.
     *
     * @param child child resource
     */
@@ -2763,7 +2763,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    /**
     * Retrieve the baseline budget cost.
     *
-    * @return baseline budgte cost value
+    * @return baseline budget cost value
     */
    public Number getBaselineBudgetCost()
    {
@@ -2771,7 +2771,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Set the baseline budgte cost.
+    * Set the baseline budget cost.
     *
     * @param value baseline budget cost value
     */

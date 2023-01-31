@@ -29,7 +29,7 @@ import java.util.Map;
 import net.sf.mpxj.DataType;
 
 /**
- * Lookup tabe for enterprise custom field types.
+ * Lookup table for enterprise custom field types.
  */
 final class EnterpriseCustomFieldDataType
 {
