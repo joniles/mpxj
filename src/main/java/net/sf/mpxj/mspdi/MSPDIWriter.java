@@ -229,6 +229,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          // TODO: revisit this as we should now have the data to write these fields
          m_populatedCustomFields.removeAll(ENTERPRISE_CUSTOM_FIELDS);
 
+         m_sortedPopulatedCustomFields = m_populatedCustomFields.stream().sorted(FieldTypeHelper.COMPARATOR).collect(Collectors.toList());
+
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
 
@@ -343,17 +345,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setExtendedAttributes(attributes);
       List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
 
-      List<FieldType> customFieldsList = new ArrayList<>(m_populatedCustomFields);
-
-      // Sort to ensure consistent order in file
-      customFieldsList.sort((o1, o2) -> {
-         String name1 = o1.getClass().getSimpleName() + "." + o1.name();
-         String name2 = o2.getClass().getSimpleName() + "." + o2.name();
-         return name1.compareTo(name2);
-      });
-
       CustomFieldContainer customFieldContainer = m_projectFile.getCustomFields();
-      for (FieldType fieldType : customFieldsList)
+      for (FieldType fieldType : m_sortedPopulatedCustomFields)
       {
          Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
          list.add(attribute);
@@ -2419,6 +2412,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private Map<Integer, Integer> m_resouceCalendarMap;
 
    private Set<FieldType> m_populatedCustomFields;
+   private List<FieldType> m_sortedPopulatedCustomFields;
 
    private boolean m_compatibleOutput = true;
 

@@ -1922,14 +1922,7 @@ final class PrimaveraPMProjectWriter
     */
    private void populateSortedCustomFieldsList()
    {
-      m_sortedCustomFieldsList = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(Objects::nonNull).filter(f -> f.getDataType() != null).collect(Collectors.toList());
-
-      // Sort to ensure consistent order in file
-      m_sortedCustomFieldsList.sort((o1, o2) -> {
-         String name1 = o1.getFieldTypeClass().name() + "." + o1.name();
-         String name2 = o2.getFieldTypeClass().name() + "." + o2.name();
-         return name1.compareTo(name2);
-      });
+      m_sortedCustomFieldsList = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(Objects::nonNull).filter(f -> f.getDataType() != null).sorted(FieldTypeHelper.COMPARATOR).collect(Collectors.toList());
    }
 
    /**
