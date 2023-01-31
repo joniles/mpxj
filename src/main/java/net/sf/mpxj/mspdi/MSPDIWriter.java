@@ -377,38 +377,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeOutlineCodes(Project project)
    {
       Project.OutlineCodes outlineCodes = null;
-      List<CustomField> allCustomFields = new ArrayList<>();
-      for (CustomField field : m_projectFile.getCustomFields())
-      {
-         allCustomFields.add(field);
-      }
-
-      allCustomFields.sort((customField1, customField2) -> {
-         FieldType o1 = customField1.getFieldType();
-         FieldType o2 = customField2.getFieldType();
-         String className1 = o1 == null ? "Unknown" : o1.getClass().getSimpleName();
-         String className2 = o2 == null ? "Unknown" : o2.getClass().getSimpleName();
-         String fieldName1 = o1 == null ? "Unknown" : o1.getName();
-         String fieldName2 = o2 == null ? "Unknown" : o2.getName();
-         String name1 = className1 + "." + fieldName1 + " " + customField1.getAlias();
-         String name2 = className2 + "." + fieldName2 + " " + customField2.getAlias();
-         return name1.compareTo(name2);
-      });
-
+      List<CustomField> allCustomFields = m_projectFile.getCustomFields().stream().filter(f -> !f.getLookupTable().isEmpty()).sorted().collect(Collectors.toList());
       for (CustomField field : allCustomFields)
       {
-         if (!field.getLookupTable().isEmpty())
+         if (outlineCodes == null)
          {
-            if (outlineCodes == null)
-            {
-               outlineCodes = m_factory.createProjectOutlineCodes();
-               project.setOutlineCodes(outlineCodes);
-            }
-
-            Project.OutlineCodes.OutlineCode outlineCode = m_factory.createProjectOutlineCodesOutlineCode();
-            outlineCodes.getOutlineCode().add(outlineCode);
-            writeOutlineCode(outlineCode, field);
+            outlineCodes = m_factory.createProjectOutlineCodes();
+            project.setOutlineCodes(outlineCodes);
          }
+
+         Project.OutlineCodes.OutlineCode outlineCode = m_factory.createProjectOutlineCodesOutlineCode();
+         outlineCodes.getOutlineCode().add(outlineCode);
+         writeOutlineCode(outlineCode, field);
       }
    }
 
