@@ -31,7 +31,7 @@ import net.sf.mpxj.common.FieldTypeHelper;
 /**
  * Configuration detail for a custom field.
  */
-public class CustomField implements Comparable
+public class CustomField implements Comparable<CustomField>
 {
    /**
     * Constructor.
@@ -165,9 +165,8 @@ public class CustomField implements Comparable
       return m_masks;
    }
 
-   @Override public int compareTo(Object o)
+   @Override public int compareTo(CustomField f)
    {
-      CustomField f = (CustomField)o;
       String name1 = getFieldType().getFieldTypeClass().name() + "." + getUniqueID() + "." + getAlias();
       String name2 = f.getFieldType().getFieldTypeClass().name() + "." + f.getUniqueID() + "." + f.getAlias();
       return name1.compareTo(name2);
