@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -218,7 +219,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_resouceCalendarMap = new HashMap<>();
 
          // Don't include field types which we can't map to a valid field id
-         m_populatedCustomFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
+         // Collect into a TreeSet to maintain sort order.
+         m_populatedCustomFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toCollection(() -> new TreeSet<>(FieldTypeHelper.COMPARATOR)));
 
          // Don't write definitions for enterprise custom fields.
          // MS Project fails to read MSPDI files with these definitions
@@ -228,8 +230,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
          // we never write them to the MSPDI file anyway.
          // TODO: revisit this as we should now have the data to write these fields
          m_populatedCustomFields.removeAll(ENTERPRISE_CUSTOM_FIELDS);
-
-         m_sortedPopulatedCustomFields = m_populatedCustomFields.stream().sorted(FieldTypeHelper.COMPARATOR).collect(Collectors.toList());
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
@@ -346,7 +346,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
 
       CustomFieldContainer customFieldContainer = m_projectFile.getCustomFields();
-      for (FieldType fieldType : m_sortedPopulatedCustomFields)
+      for (FieldType fieldType : m_populatedCustomFields)
       {
          Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
          list.add(attribute);
@@ -2412,7 +2412,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private Map<Integer, Integer> m_resouceCalendarMap;
 
    private Set<FieldType> m_populatedCustomFields;
-   private List<FieldType> m_sortedPopulatedCustomFields;
 
    private boolean m_compatibleOutput = true;
 
