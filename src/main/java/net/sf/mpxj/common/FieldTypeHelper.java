@@ -226,7 +226,7 @@ public final class FieldTypeHelper
    }
 
    /**
-    * In some circumstances MS Project refers to the text version of a field (e.g. Start Text rather than Star) when we
+    * In some circumstances MS Project refers to the text version of a field (e.g. Start Text rather than Start) when we
     * actually need to process the non-text version of the field. This method performs that mapping.
     *
     * @param field field to mapped
