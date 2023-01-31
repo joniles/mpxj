@@ -238,7 +238,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCustomFields() throws IOException
    {
-      List<CustomField> sortedCustomFieldsList = m_projectFile.getCustomFields().stream().filter(f -> f.getFieldType() != null).sorted(this::compareCustomFields).collect(Collectors.toList());
+      List<CustomField> sortedCustomFieldsList = m_projectFile.getCustomFields().stream().filter(f -> f.getFieldType() != null).sorted().collect(Collectors.toList());
       m_writer.writeStartList("custom_fields");
       for (CustomField field : sortedCustomFieldsList)
       {
@@ -290,20 +290,6 @@ public final class JsonWriter extends AbstractProjectWriter
          }
          m_writer.writeEndList();
       }
-   }
-
-   /**
-    * Comparator to ensure consistent ordering.
-    *
-    * @param f1 CustomField instance
-    * @param f2 CustomField instance
-    * @return comparison result
-    */
-   private int compareCustomFields(CustomField f1, CustomField f2)
-   {
-      String name1 = f1.getFieldType().getFieldTypeClass().name() + "." + f1.getUniqueID() + "." + f1.getAlias();
-      String name2 = f2.getFieldType().getFieldTypeClass().name() + "." + + f2.getUniqueID() + "." + f2.getAlias();
-      return name1.compareTo(name2);
    }
 
    /**

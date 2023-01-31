@@ -61,7 +61,7 @@ public class PopulatedFields<E extends Enum<E> & FieldType, T extends FieldConta
     */
    public PopulatedFields(ProjectFile project, Class<E> fieldEnumType, Collection<UserDefinedField> userDefinedFields, Collection<T> collection)
    {
-      m_fields = new HashSet<FieldType>(EnumSet.allOf(fieldEnumType));
+      m_fields = new HashSet<>(EnumSet.allOf(fieldEnumType));
       m_fields.addAll(userDefinedFields);
       m_collection = collection;
 
@@ -83,7 +83,7 @@ public class PopulatedFields<E extends Enum<E> & FieldType, T extends FieldConta
 
       for (FieldContainer item : m_collection)
       {
-         unusedFields.removeIf(e -> fieldIsPopulated(item, (FieldType) e));
+         unusedFields.removeIf(e -> fieldIsPopulated(item, e));
       }
 
       Set<FieldType> usedFields = new HashSet<>(m_fields);

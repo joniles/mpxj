@@ -79,7 +79,7 @@ final class ResourceModel
     * This method populates the resource model from data read from an MPX file.
     *
     * @param record data read from an MPX file
-    * @param isText flag indicating whether the tetxual or numeric data is being supplied
+    * @param isText flag indicating whether the textual or numeric data is being supplied
     */
    public void update(Record record, boolean isText) throws MPXJException
    {

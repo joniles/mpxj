@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.AccrueType;
-import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -61,6 +61,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -220,7 +221,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_resouceCalendarMap = new HashMap<>();
 
          // Don't include field types which we can't map to a valid field id
-         m_populatedCustomFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
+         // Collect into a TreeSet to maintain sort order.
+         m_populatedCustomFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toCollection(() -> new TreeSet<>(FieldTypeHelper.COMPARATOR)));
 
          m_sourceIsMicrosoftProject = MICROSOFT_PROJECT_FILES.contains(m_projectFile.getProjectProperties().getFileType());
          m_userDefinedFieldMap = new UserDefinedFieldMap(TaskFieldLists.EXTENDED_FIELDS, ResourceFieldLists.EXTENDED_FIELDS, AssignmentFieldLists.EXTENDED_FIELDS);
@@ -339,17 +341,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setExtendedAttributes(attributes);
       List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
 
-      List<FieldType> customFieldsList = new ArrayList<>(m_populatedCustomFields);
-
-      // Sort to ensure consistent order in file
-      customFieldsList.sort((o1, o2) -> {
-         String name1 = o1.getClass().getSimpleName() + "." + o1.name();
-         String name2 = o2.getClass().getSimpleName() + "." + o2.name();
-         return name1.compareTo(name2);
-      });
-
       CustomFieldContainer customFieldContainer = m_projectFile.getCustomFields();
-      for (FieldType fieldType : customFieldsList)
+      for (FieldType fieldType : m_populatedCustomFields)
       {
          boolean microsoftProjectUserDefinedField = false;
          BigInteger customFieldType = null;
@@ -396,38 +389,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeOutlineCodes(Project project)
    {
       Project.OutlineCodes outlineCodes = null;
-      List<CustomField> allCustomFields = new ArrayList<>();
-      for (CustomField field : m_projectFile.getCustomFields())
-      {
-         allCustomFields.add(field);
-      }
-
-      allCustomFields.sort((customField1, customField2) -> {
-         FieldType o1 = customField1.getFieldType();
-         FieldType o2 = customField2.getFieldType();
-         String className1 = o1 == null ? "Unknown" : o1.getClass().getSimpleName();
-         String className2 = o2 == null ? "Unknown" : o2.getClass().getSimpleName();
-         String fieldName1 = o1 == null ? "Unknown" : o1.getName();
-         String fieldName2 = o2 == null ? "Unknown" : o2.getName();
-         String name1 = className1 + "." + fieldName1 + " " + customField1.getAlias();
-         String name2 = className2 + "." + fieldName2 + " " + customField2.getAlias();
-         return name1.compareTo(name2);
-      });
-
+      List<CustomField> allCustomFields = m_projectFile.getCustomFields().stream().filter(f -> !f.getLookupTable().isEmpty()).sorted().collect(Collectors.toList());
       for (CustomField field : allCustomFields)
       {
-         if (!field.getLookupTable().isEmpty())
+         if (outlineCodes == null)
          {
-            if (outlineCodes == null)
-            {
-               outlineCodes = m_factory.createProjectOutlineCodes();
-               project.setOutlineCodes(outlineCodes);
-            }
-
-            Project.OutlineCodes.OutlineCode outlineCode = m_factory.createProjectOutlineCodesOutlineCode();
-            outlineCodes.getOutlineCode().add(outlineCode);
-            writeOutlineCode(outlineCode, field);
+            outlineCodes = m_factory.createProjectOutlineCodes();
+            project.setOutlineCodes(outlineCodes);
          }
+
+         Project.OutlineCodes.OutlineCode outlineCode = m_factory.createProjectOutlineCodesOutlineCode();
+         outlineCodes.getOutlineCode().add(outlineCode);
+         writeOutlineCode(outlineCode, field);
       }
    }
 
@@ -1166,27 +1139,23 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeResourceExtendedAttributes(Project.Resources.Resource xml, Resource mpx)
    {
-      Project.Resources.Resource.ExtendedAttribute attrib;
       List<Project.Resources.Resource.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
+      Set<FieldType> outlineCodes = new HashSet<>(Arrays.asList(ResourceFieldLists.CUSTOM_OUTLINE_CODE));
+      m_populatedCustomFields.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.RESOURCE && !outlineCodes.contains(f)).forEach(f -> writeResourceExtendedAttribute(extendedAttributes, mpx, f));
+   }
 
-      for (ResourceField mpxFieldID : ResourceFieldLists.EXTENDED_FIELDS)
+   private void writeResourceExtendedAttribute(List<Project.Resources.Resource.ExtendedAttribute> extendedAttributes, Resource mpx, FieldType mpxFieldID)
+   {
+      Object value = mpx.getCachedValue(mpxFieldID);
+
+      if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
-         if (!m_populatedCustomFields.contains(mpxFieldID))
-         {
-            continue;
-         }
-
-         Object value = mpx.getCachedValue(mpxFieldID);
-
-         if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
-         {
-            attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
-            extendedAttributes.add(attrib);
-            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
-            attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
-            setValueGUID(attrib, mpxFieldID);
-         }
+         Project.Resources.Resource.ExtendedAttribute attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
+         extendedAttributes.add(attrib);
+         attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
+         attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+         attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+         setValueGUID(attrib, mpxFieldID);
       }
    }
 
@@ -1657,25 +1626,22 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeTaskExtendedAttributes(Project.Tasks.Task xml, Task mpx)
    {
       List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
+      Set<FieldType> outlineCodes = new HashSet<>(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
+      m_populatedCustomFields.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.TASK && !outlineCodes.contains(f)).forEach(f -> writeTaskExtendedAttribute(extendedAttributes, mpx, f));
+   }
 
-      for (TaskField mpxFieldID : TaskFieldLists.EXTENDED_FIELDS)
+   private void writeTaskExtendedAttribute(List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes, Task mpx, FieldType mpxFieldID)
+   {
+      Object value = mpx.getCachedValue(mpxFieldID);
+
+      if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
-         if (!m_populatedCustomFields.contains(mpxFieldID))
-         {
-            continue;
-         }
-
-         Object value = mpx.getCachedValue(mpxFieldID);
-
-         if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
-         {
-            Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
-            extendedAttributes.add(attrib);
-            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
-            attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
-            setValueGUID(attrib, mpxFieldID);
-         }
+         Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
+         extendedAttributes.add(attrib);
+         attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
+         attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+         attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+         setValueGUID(attrib, mpxFieldID);
       }
    }
 
@@ -2134,26 +2100,21 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAssignmentExtendedAttributes(Project.Assignments.Assignment xml, ResourceAssignment mpx)
    {
-      Project.Assignments.Assignment.ExtendedAttribute attrib;
       List<Project.Assignments.Assignment.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
+      m_populatedCustomFields.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.ASSIGNMENT).forEach(f -> writeAssignmentExtendedAttribute(extendedAttributes, mpx, f));
+   }
 
-      for (AssignmentField mpxFieldID : AssignmentFieldLists.EXTENDED_FIELDS)
+   private void writeAssignmentExtendedAttribute(List<Project.Assignments.Assignment.ExtendedAttribute> extendedAttributes, ResourceAssignment mpx, FieldType mpxFieldID)
+   {
+      Object value = mpx.getCachedValue(mpxFieldID);
+
+      if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
-         if (!m_populatedCustomFields.contains(mpxFieldID))
-         {
-            continue;
-         }
-
-         Object value = mpx.getCachedValue(mpxFieldID);
-
-         if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
-         {
-            attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
-            extendedAttributes.add(attrib);
-            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
-            attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
-         }
+         Project.Assignments.Assignment.ExtendedAttribute attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
+         extendedAttributes.add(attrib);
+         attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
+         attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+         attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
       }
    }
 

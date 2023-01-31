@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.common;
 
+import java.util.Comparator;
 import java.util.Locale;
 
 import net.sf.mpxj.AssignmentField;
@@ -226,7 +227,7 @@ public final class FieldTypeHelper
    }
 
    /**
-    * In some circumstances MS Project refers to the text version of a field (e.g. Start Text rather than Star) when we
+    * In some circumstances MS Project refers to the text version of a field (e.g. Start Text rather than Start) when we
     * actually need to process the non-text version of the field. This method performs that mapping.
     *
     * @param field field to mapped
@@ -318,4 +319,9 @@ public final class FieldTypeHelper
       return result;
    }
 
+   public static final Comparator<FieldType> COMPARATOR = (o1, o2) -> {
+      String name1 = o1.getFieldTypeClass().name() + "." + o1.name();
+      String name2 = o2.getFieldTypeClass().name() + "." + o2.name();
+      return name1.compareTo(name2);
+   };
 }

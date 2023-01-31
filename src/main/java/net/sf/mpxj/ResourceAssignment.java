@@ -2759,7 +2759,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    /**
     * Retrieve the cost account for this resource assignment.
     *
-    * @return CostAccount instance for this resoure assignment
+    * @return CostAccount instance for this resource assignment
     */
    public CostAccount getCostAccount()
    {
