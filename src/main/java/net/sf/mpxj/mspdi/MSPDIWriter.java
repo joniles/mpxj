@@ -46,7 +46,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.AccrueType;
-import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -62,6 +61,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -1120,27 +1120,23 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeResourceExtendedAttributes(Project.Resources.Resource xml, Resource mpx)
    {
-      Project.Resources.Resource.ExtendedAttribute attrib;
       List<Project.Resources.Resource.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
+      Set<FieldType> outlineCodes = new HashSet<>(Arrays.asList(ResourceFieldLists.CUSTOM_OUTLINE_CODE));
+      m_populatedCustomFields.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.RESOURCE && !outlineCodes.contains(f)).forEach(f -> writeResourceExtendedAttribute(extendedAttributes, mpx, f));
+   }
 
-      for (ResourceField mpxFieldID : ResourceFieldLists.EXTENDED_FIELDS)
+   private void writeResourceExtendedAttribute(List<Project.Resources.Resource.ExtendedAttribute> extendedAttributes, Resource mpx, FieldType mpxFieldID)
+   {
+      Object value = mpx.getCachedValue(mpxFieldID);
+
+      if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
-         if (!m_populatedCustomFields.contains(mpxFieldID))
-         {
-            continue;
-         }
-
-         Object value = mpx.getCachedValue(mpxFieldID);
-
-         if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
-         {
-            attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
-            extendedAttributes.add(attrib);
-            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
-            attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
-            setValueGUID(attrib, mpxFieldID);
-         }
+         Project.Resources.Resource.ExtendedAttribute attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
+         extendedAttributes.add(attrib);
+         attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
+         attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+         attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+         setValueGUID(attrib, mpxFieldID);
       }
    }
 
@@ -1611,25 +1607,22 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeTaskExtendedAttributes(Project.Tasks.Task xml, Task mpx)
    {
       List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
+      Set<FieldType> outlineCodes = new HashSet<>(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
+      m_populatedCustomFields.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.TASK && !outlineCodes.contains(f)).forEach(f -> writeTaskExtendedAttribute(extendedAttributes, mpx, f));
+   }
 
-      for (TaskField mpxFieldID : TaskFieldLists.EXTENDED_FIELDS)
+   private void writeTaskExtendedAttribute(List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes, Task mpx, FieldType mpxFieldID)
+   {
+      Object value = mpx.getCachedValue(mpxFieldID);
+
+      if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
-         if (!m_populatedCustomFields.contains(mpxFieldID))
-         {
-            continue;
-         }
-
-         Object value = mpx.getCachedValue(mpxFieldID);
-
-         if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
-         {
-            Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
-            extendedAttributes.add(attrib);
-            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
-            attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
-            setValueGUID(attrib, mpxFieldID);
-         }
+         Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
+         extendedAttributes.add(attrib);
+         attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
+         attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+         attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+         setValueGUID(attrib, mpxFieldID);
       }
    }
 
@@ -2088,26 +2081,21 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAssignmentExtendedAttributes(Project.Assignments.Assignment xml, ResourceAssignment mpx)
    {
-      Project.Assignments.Assignment.ExtendedAttribute attrib;
       List<Project.Assignments.Assignment.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
+      m_populatedCustomFields.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.ASSIGNMENT).forEach(f -> writeAssignmentExtendedAttribute(extendedAttributes, mpx, f));
+   }
 
-      for (AssignmentField mpxFieldID : AssignmentFieldLists.EXTENDED_FIELDS)
+   private void writeAssignmentExtendedAttribute(List<Project.Assignments.Assignment.ExtendedAttribute> extendedAttributes, ResourceAssignment mpx, FieldType mpxFieldID)
+   {
+      Object value = mpx.getCachedValue(mpxFieldID);
+
+      if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
-         if (!m_populatedCustomFields.contains(mpxFieldID))
-         {
-            continue;
-         }
-
-         Object value = mpx.getCachedValue(mpxFieldID);
-
-         if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
-         {
-            attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
-            extendedAttributes.add(attrib);
-            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
-            attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
-            attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
-         }
+         Project.Assignments.Assignment.ExtendedAttribute attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
+         extendedAttributes.add(attrib);
+         attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
+         attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+         attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
       }
    }
 
