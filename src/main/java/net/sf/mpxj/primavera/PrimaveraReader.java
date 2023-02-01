@@ -135,13 +135,6 @@ final class PrimaveraReader
       m_taskFields = taskFields;
       m_assignmentFields = assignmentFields;
 
-      m_taskUdfCounters = taskUdfCounters;
-      m_taskUdfCounters.reset();
-      m_resourceUdfCounters = resourceUdfCounters;
-      m_resourceUdfCounters.reset();
-      m_assignmentUdfCounters = assignmentUdfCounters;
-      m_assignmentUdfCounters.reset();
-
       m_matchPrimaveraWBS = matchPrimaveraWBS;
       m_wbsIsFullPath = wbsIsFullPath;
    }
@@ -1118,7 +1111,7 @@ final class PrimaveraReader
                String text = row.getString("udf_text");
                if (text != null)
                {
-                  // before a normal boolean parse, we try to lookup the text as a P6 static type indicator UDF
+                  // before a normal boolean parse, we try to look up the text as a P6 static type indicator UDF
                   value = STATICTYPE_UDF_MAP.get(text);
                   if (value == null)
                   {
@@ -2187,10 +2180,6 @@ final class PrimaveraReader
    private final ClashMap m_roleClashMap = new ClashMap();
    private final DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
    private Integer m_defaultCalendarID;
-
-   private final UserFieldCounters m_taskUdfCounters;
-   private final UserFieldCounters m_resourceUdfCounters;
-   private final UserFieldCounters m_assignmentUdfCounters;
    private final Map<FieldType, String> m_resourceFields;
    private final Map<FieldType, String> m_roleFields;
    private final Map<FieldType, String> m_wbsFields;
