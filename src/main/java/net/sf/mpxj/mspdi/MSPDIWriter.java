@@ -224,7 +224,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_populatedCustomFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toCollection(() -> new TreeSet<>(FieldTypeHelper.COMPARATOR)));
 
          m_sourceIsMicrosoftProject = MICROSOFT_PROJECT_FILES.contains(m_projectFile.getProjectProperties().getFileType());
-         m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile);
+         m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile, false);
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
@@ -356,7 +356,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             }
             else
             {
-               mappedFieldType = m_userDefinedFieldMap.getTarget((UserDefinedField) fieldType);
+               mappedFieldType = m_userDefinedFieldMap.createMapping((UserDefinedField) fieldType);
             }
          }
 
@@ -1149,7 +1149,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
-         FieldType mappedFieldType = mpxFieldID instanceof UserDefinedField ? m_userDefinedFieldMap.getTarget((UserDefinedField)mpxFieldID) : mpxFieldID;
+         FieldType mappedFieldType = m_userDefinedFieldMap.getTarget(mpxFieldID);
          Project.Resources.Resource.ExtendedAttribute attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
          extendedAttributes.add(attrib);
          attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
@@ -1636,7 +1636,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
-         FieldType mappedFieldType = mpxFieldID instanceof UserDefinedField ? m_userDefinedFieldMap.getTarget((UserDefinedField)mpxFieldID) : mpxFieldID;
+         FieldType mappedFieldType = m_userDefinedFieldMap.getTarget(mpxFieldID);
          Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
          extendedAttributes.add(attrib);
          attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
@@ -2111,7 +2111,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
-         FieldType mappedFieldType = mpxFieldID instanceof UserDefinedField ? m_userDefinedFieldMap.getTarget((UserDefinedField)mpxFieldID) : mpxFieldID;
+         FieldType mappedFieldType = m_userDefinedFieldMap.getTarget(mpxFieldID);
          Project.Assignments.Assignment.ExtendedAttribute attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
          extendedAttributes.add(attrib);
          attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));

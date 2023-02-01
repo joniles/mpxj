@@ -92,7 +92,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
       m_calendarNameSet = new HashSet<>();
       m_calendarNameMap = new HashMap<>();
-      m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile);
+      m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile, true);
 
       try
       {

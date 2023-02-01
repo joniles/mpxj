@@ -3,7 +3,6 @@ import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.UserDefinedField;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +14,7 @@ import java.util.Set;
 
 public class UserDefinedFieldMap
 {
-   public UserDefinedFieldMap(ProjectFile file)
+   public UserDefinedFieldMap(ProjectFile file, boolean generateMappingNow)
    {
       // No action required if we have no user defined fields
       if (file == null || file.getUserDefinedFields().isEmpty())
@@ -35,13 +34,22 @@ public class UserDefinedFieldMap
          fieldList.stream().filter(f -> !populated.contains(f)).forEach(f -> getFieldList(f).add(f));
       }
 
-      // Generate a mapping for each user defined field
-      file.getUserDefinedFields().forEach(this::getTarget);
+      if (generateMappingNow)
+      {
+         // Generate a mapping for each user defined field
+         file.getUserDefinedFields().forEach(this::createMapping);
+      }
    }
 
-   public FieldType getTarget(UserDefinedField source)
+   public FieldType createMapping(FieldType source)
    {
-      return m_targetMap.computeIfAbsent(source, this::generateMapping);
+      return generateMapping(source);
+   }
+
+   public FieldType getTarget(FieldType source)
+   {
+      FieldType target = m_targetMap.get(source);
+      return target == null ? source : target;
    }
 
    public FieldType getSource(FieldType target)
@@ -50,7 +58,7 @@ public class UserDefinedFieldMap
       return source == null ? target : source;
    }
 
-   private FieldType generateMapping(UserDefinedField source)
+   private FieldType generateMapping(FieldType source)
    {
       List<FieldType> fieldList = getFieldList(source);
       if (fieldList.isEmpty())
@@ -62,6 +70,7 @@ public class UserDefinedFieldMap
       FieldType target = fieldList.isEmpty() ? null : fieldList.remove(0);
       if (target != null)
       {
+         m_targetMap.put(source, target);
          m_sourceMap.put(target, source);
       }
 
@@ -129,7 +138,7 @@ public class UserDefinedFieldMap
       return type;
    }
 
-   private final Map<UserDefinedField, FieldType> m_targetMap = new HashMap<>();
+   private final Map<FieldType, FieldType> m_targetMap = new HashMap<>();
    private final Map<FieldType, FieldType> m_sourceMap = new HashMap<>();
    private final Map<FieldTypeClass, Map<DataType, List<FieldType>>> m_fields = new HashMap<>();
 }
