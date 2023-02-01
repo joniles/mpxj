@@ -2,24 +2,33 @@ package net.sf.mpxj.common;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.UserDefinedField;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class UserDefinedFieldMap
 {
-   public UserDefinedFieldMap(List<? extends FieldType>... fields)
+   public UserDefinedFieldMap(ProjectFile file)
    {
-      for(List<? extends FieldType> fieldList : fields)
+      Set<FieldType> populated = new HashSet<>();
+      populated.addAll(file.getTasks().getPopulatedFields());
+      populated.addAll(file.getResources().getPopulatedFields());
+      populated.addAll(file.getResourceAssignments().getPopulatedFields());
+
+      for(List<? extends FieldType> fieldList : Arrays.asList(TaskFieldLists.EXTENDED_FIELDS, ResourceFieldLists.EXTENDED_FIELDS, AssignmentFieldLists.EXTENDED_FIELDS))
       {
-         fieldList.forEach(f -> getFieldList(f).add(f));
+         fieldList.stream().filter(f -> !populated.contains(f)).forEach(f -> getFieldList(f).add(f));
       }
    }
 
-   public FieldType map(UserDefinedField field)
+   public FieldType getMapping(UserDefinedField field)
    {
       return m_map.computeIfAbsent(field, this::generateMapping);
    }
