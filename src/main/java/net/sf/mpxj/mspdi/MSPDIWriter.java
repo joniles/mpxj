@@ -84,7 +84,6 @@ import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.UserDefinedField;
-import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -92,7 +91,6 @@ import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
-import net.sf.mpxj.common.ProjectFieldLists;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.common.UserDefinedFieldMap;
@@ -358,7 +356,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             }
             else
             {
-               mappedFieldType = m_userDefinedFieldMap.getMapping((UserDefinedField) fieldType);
+               mappedFieldType = m_userDefinedFieldMap.getTarget((UserDefinedField) fieldType);
             }
          }
 
@@ -1151,7 +1149,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
-         FieldType mappedFieldType = mpxFieldID instanceof UserDefinedField ? m_userDefinedFieldMap.getMapping((UserDefinedField)mpxFieldID) : mpxFieldID;
+         FieldType mappedFieldType = mpxFieldID instanceof UserDefinedField ? m_userDefinedFieldMap.getTarget((UserDefinedField)mpxFieldID) : mpxFieldID;
          Project.Resources.Resource.ExtendedAttribute attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
          extendedAttributes.add(attrib);
          attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
@@ -1638,7 +1636,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
-         FieldType mappedFieldType = mpxFieldID instanceof UserDefinedField ? m_userDefinedFieldMap.getMapping((UserDefinedField)mpxFieldID) : mpxFieldID;
+         FieldType mappedFieldType = mpxFieldID instanceof UserDefinedField ? m_userDefinedFieldMap.getTarget((UserDefinedField)mpxFieldID) : mpxFieldID;
          Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
          extendedAttributes.add(attrib);
          attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
@@ -2113,7 +2111,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
-         FieldType mappedFieldType = mpxFieldID instanceof UserDefinedField ? m_userDefinedFieldMap.getMapping((UserDefinedField)mpxFieldID) : mpxFieldID;
+         FieldType mappedFieldType = mpxFieldID instanceof UserDefinedField ? m_userDefinedFieldMap.getTarget((UserDefinedField)mpxFieldID) : mpxFieldID;
          Project.Assignments.Assignment.ExtendedAttribute attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
          extendedAttributes.add(attrib);
          attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));

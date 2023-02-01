@@ -3,14 +3,27 @@ package net.sf.mpxj;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.TreeSet;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 
-public class UserDefinedFieldContainer
+public class UserDefinedFieldContainer implements Iterable<UserDefinedField>
 {
+   public Set<UserDefinedField> getFields()
+   {
+      return m_fields;
+   }
+
    public Collection<UserDefinedField> getTaskFields()
    {
       return m_taskFields.values();
@@ -110,30 +123,38 @@ public class UserDefinedFieldContainer
       if (map != null)
       {
          map.put(field.getUniqueID(), field);
+         m_fields.add(field);
       }
    }
 
-   public void addTaskField(UserDefinedField field)
+   @Override public Iterator<UserDefinedField> iterator()
    {
-      m_taskFields.put(field.getUniqueID(), field);
+      return m_fields.iterator();
    }
 
-   public void addResourceField(UserDefinedField field)
+   @Override public void forEach(Consumer<? super UserDefinedField> action)
    {
-      m_resourceFields.put(field.getUniqueID(), field);
+      m_fields.forEach(action);
    }
 
-   public void addAssignmentField(UserDefinedField field)
+   @Override public Spliterator<UserDefinedField> spliterator()
    {
-      m_assignmentFields.put(field.getUniqueID(), field);
+      return m_fields.spliterator();
    }
-   public void addProjectField(UserDefinedField field)
+
+   public Stream<UserDefinedField> stream()
    {
-      m_projectFields.put(field.getUniqueID(), field);
+      return StreamSupport.stream(spliterator(), false);
+   }
+
+   public boolean isEmpty()
+   {
+      return m_fields.isEmpty();
    }
 
    private final Map<Integer, UserDefinedField> m_taskFields = new HashMap<>();
    private final Map<Integer, UserDefinedField> m_resourceFields = new HashMap<>();
    private final Map<Integer, UserDefinedField> m_assignmentFields = new HashMap<>();
    private final Map<Integer, UserDefinedField> m_projectFields = new HashMap<>();
+   private final Set<UserDefinedField> m_fields = new TreeSet<>(FieldTypeHelper.COMPARATOR);
 }
