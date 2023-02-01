@@ -18,7 +18,7 @@ public class UserDefinedFieldMap
    public UserDefinedFieldMap(ProjectFile file)
    {
       // No action required if we have no user defined fields
-      if (file.getUserDefinedFields().isEmpty())
+      if (file == null || file.getUserDefinedFields().isEmpty())
       {
          return;
       }
@@ -39,14 +39,15 @@ public class UserDefinedFieldMap
       file.getUserDefinedFields().forEach(this::getTarget);
    }
 
-   public FieldType getTarget(UserDefinedField field)
+   public FieldType getTarget(UserDefinedField source)
    {
-      return m_targetMap.computeIfAbsent(field, this::generateMapping);
+      return m_targetMap.computeIfAbsent(source, this::generateMapping);
    }
 
-   public FieldType getSource(FieldType field)
+   public FieldType getSource(FieldType target)
    {
-      return m_sourceMap.get(field);
+      FieldType source = m_sourceMap.get(target);
+      return source == null ? target : source;
    }
 
    private FieldType generateMapping(UserDefinedField source)

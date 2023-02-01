@@ -44,6 +44,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -66,6 +67,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
+import net.sf.mpxj.common.UserDefinedFieldMap;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -90,6 +92,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
       m_calendarNameSet = new HashSet<>();
       m_calendarNameMap = new HashMap<>();
+      m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile);
 
       try
       {
@@ -122,7 +125,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       if (!m_projectFile.getResources().isEmpty())
       {
-         m_resourceModel = new ResourceModel(m_projectFile, m_locale);
+         m_resourceModel = new ResourceModel(m_projectFile, m_locale, m_userDefinedFieldMap);
          m_writer.write(m_resourceModel.toString());
          for (Resource resource : m_projectFile.getResources())
          {
@@ -132,7 +135,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       if (!m_projectFile.getTasks().isEmpty())
       {
-         m_taskModel = new TaskModel(m_projectFile, m_locale);
+         m_taskModel = new TaskModel(m_projectFile, m_locale, m_userDefinedFieldMap);
          m_writer.write(m_taskModel.toString());
          writeTasks(m_projectFile.getChildTasks());
       }
@@ -519,7 +522,7 @@ public final class MPXWriter extends AbstractProjectWriter
             break;
          }
 
-         ResourceField resourceField = MPXResourceField.getMpxjField(mpxFieldType);
+         FieldType resourceField = m_userDefinedFieldMap.getSource(MPXResourceField.getMpxjField(mpxFieldType));
          Object value = record.get(resourceField);
          value = formatType(resourceField.getDataType(), value);
 
@@ -720,7 +723,7 @@ public final class MPXWriter extends AbstractProjectWriter
             break;
          }
 
-         TaskField taskField = MPXTaskField.getMpxjField(field);
+         FieldType taskField = m_userDefinedFieldMap.getSource(MPXTaskField.getMpxjField(field));
          Object value = record.get(taskField);
          value = formatType(taskField.getDataType(), value);
 
@@ -1586,4 +1589,5 @@ public final class MPXWriter extends AbstractProjectWriter
 
    private Set<String> m_calendarNameSet;
    private Map<Integer, String> m_calendarNameMap;
+   private UserDefinedFieldMap m_userDefinedFieldMap;
 }
