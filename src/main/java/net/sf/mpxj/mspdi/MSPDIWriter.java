@@ -92,7 +92,7 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
-import net.sf.mpxj.common.UserDefinedFieldMap;
+import net.sf.mpxj.mpp.UserDefinedFieldMap;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mpp.EnterpriseCustomFieldDataType;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
@@ -222,7 +222,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_populatedCustomFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
 
          m_sourceIsMicrosoftProject = MICROSOFT_PROJECT_FILES.contains(m_projectFile.getProjectProperties().getFileType());
-         m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile, false);
+         m_userDefinedFieldMap = UserDefinedFieldMap.getInstanceWithoutMappings(projectFile);
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();

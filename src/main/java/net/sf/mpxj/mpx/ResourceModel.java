@@ -32,7 +32,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
-import net.sf.mpxj.common.UserDefinedFieldMap;
+import net.sf.mpxj.mpp.UserDefinedFieldMap;
 
 /**
  * This class represents the resource table definition record in an MPX file.

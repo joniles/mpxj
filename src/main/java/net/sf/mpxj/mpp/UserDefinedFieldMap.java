@@ -1,8 +1,11 @@
-package net.sf.mpxj.common;
+package net.sf.mpxj.mpp;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.AssignmentFieldLists;
+import net.sf.mpxj.common.ResourceFieldLists;
+import net.sf.mpxj.common.TaskFieldLists;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +17,22 @@ import java.util.Set;
 
 public class UserDefinedFieldMap
 {
-   public UserDefinedFieldMap(ProjectFile file, boolean generateMappingNow)
+   public static UserDefinedFieldMap getEmptyInstance()
+   {
+      return EMPTY_INSTANCE;
+   }
+
+   public static UserDefinedFieldMap getInstanceWithoutMappings(ProjectFile file)
+   {
+      return new UserDefinedFieldMap(file, false);
+   }
+
+   public static UserDefinedFieldMap getInstanceWithMappings(ProjectFile file)
+   {
+      return new UserDefinedFieldMap(file, true);
+   }
+
+   private UserDefinedFieldMap(ProjectFile file, boolean generateMappingNow)
    {
       // No action required if we have no user defined fields
       if (file == null || file.getUserDefinedFields().isEmpty())
@@ -145,4 +163,6 @@ public class UserDefinedFieldMap
    private final Map<FieldType, FieldType> m_targetMap = new HashMap<>();
    private final Map<FieldType, FieldType> m_sourceMap = new HashMap<>();
    private final Map<FieldTypeClass, Map<DataType, List<FieldType>>> m_fields = new HashMap<>();
+
+   private static final UserDefinedFieldMap EMPTY_INSTANCE = new UserDefinedFieldMap(null, false);
 }

@@ -65,7 +65,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
-import net.sf.mpxj.common.UserDefinedFieldMap;
+import net.sf.mpxj.mpp.UserDefinedFieldMap;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 /**
@@ -90,7 +90,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
       m_calendarNameSet = new HashSet<>();
       m_calendarNameMap = new HashMap<>();
-      m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile, true);
+      m_userDefinedFieldMap = UserDefinedFieldMap.getInstanceWithMappings(projectFile);
 
       try
       {

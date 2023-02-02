@@ -33,7 +33,7 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.common.UserDefinedFieldMap;
+import net.sf.mpxj.mpp.UserDefinedFieldMap;
 
 /**
  * This class represents the task table definition record in an MPX file.
