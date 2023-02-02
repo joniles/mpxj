@@ -161,7 +161,7 @@ final class PrimaveraPMProjectWriter
             m_udf = project.getUDF();
 
             writeProjectProperties(project);
-            populateSortedCustomFieldsList();
+            populateUserDefinedFieldsList();
             writeTasks();
             writeAssignments();
             writeExpenseItems();
@@ -183,11 +183,11 @@ final class PrimaveraPMProjectWriter
             m_udf = project.getUDF();
 
             writeProjectProperties(project);
-            populateSortedCustomFieldsList();
+            populateUserDefinedFieldsList();
 
             writeUDF();
             writeCurrency();
-            writeUserFieldDefinitions();
+            writeUserDefinedFieldDefinitions();
             writeExpenseCategories();
             writeCostAccounts();
             writeResourceCurves();
@@ -208,14 +208,14 @@ final class PrimaveraPMProjectWriter
       {
          m_factory = null;
          m_wbsSequence = null;
-         m_sortedCustomFieldsList = null;
+         m_userDefinedFields = null;
          m_topics = null;
       }
    }
 
    private void writeUDF()
    {
-      m_udf.addAll(writeUDFType(FieldTypeClass.PROJECT, m_projectFile.getProjectProperties()));
+      m_udf.addAll(writeUserDefinedFieldAssignments(FieldTypeClass.PROJECT, m_projectFile.getProjectProperties()));
    }
 
    /**
@@ -317,9 +317,9 @@ final class PrimaveraPMProjectWriter
     * @author kmahan
     * @author lsong
     */
-   private void writeUserFieldDefinitions()
+   private void writeUserDefinedFieldDefinitions()
    {
-      for (FieldType type : m_sortedCustomFieldsList)
+      for (FieldType type : m_userDefinedFields)
       {
          CustomField cf = m_projectFile.getCustomFields().get(type);
          String title = cf != null && cf.getAlias() != null && !cf.getAlias().isEmpty() ? cf.getAlias() : type.getName();
@@ -735,7 +735,7 @@ final class PrimaveraPMProjectWriter
       xml.setResourceNotes(getNotes(mpxj.getNotesObject()));
       xml.setResourceType(getResourceType(mpxj));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
-      xml.getUDF().addAll(writeUDFType(FieldTypeClass.RESOURCE, mpxj));
+      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.RESOURCE, mpxj));
    }
 
    /**
@@ -988,7 +988,7 @@ final class PrimaveraPMProjectWriter
       xml.setType(getTaskType(mpxj));
       xml.setUnitsPercentComplete(getPercentage(mpxj.getPercentageWorkComplete()));
       xml.setWBSObjectId(parentObjectID);
-      xml.getUDF().addAll(writeUDFType(FieldTypeClass.TASK, mpxj));
+      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.TASK, mpxj));
 
       writeActivityNote(mpxj);
       writePredecessors(mpxj);
@@ -1092,7 +1092,7 @@ final class PrimaveraPMProjectWriter
       xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(parentTaskUniqueID);
-      xml.getUDF().addAll(writeUDFType(FieldTypeClass.ASSIGNMENT, mpxj));
+      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, mpxj));
       xml.setRateType(getRateType(mpxj.getRateIndex()));
       xml.setCostPerQuantity(writeRate(mpxj.getOverrideRate()));
       xml.setRateSource(RATE_SOURCE_MAP.get(mpxj.getRateSource()));
@@ -1566,12 +1566,12 @@ final class PrimaveraPMProjectWriter
     * @param mpxj parent entity
     * @return list of UDFAssignmentType instances
     */
-   private List<UDFAssignmentType> writeUDFType(FieldTypeClass type, FieldContainer mpxj)
+   private List<UDFAssignmentType> writeUserDefinedFieldAssignments(FieldTypeClass type, FieldContainer mpxj)
    {
       List<UDFAssignmentType> out = new ArrayList<>();
       CustomFieldContainer customFields = m_projectFile.getCustomFields();
 
-      for (FieldType fieldType : m_sortedCustomFieldsList)
+      for (FieldType fieldType : m_userDefinedFields)
       {
          if (type == fieldType.getFieldTypeClass())
          {
@@ -1920,9 +1920,9 @@ final class PrimaveraPMProjectWriter
     * Populate a sorted list of custom fields to ensure that these fields
     * are written to the file in a consistent order.
     */
-   private void populateSortedCustomFieldsList()
+   private void populateUserDefinedFieldsList()
    {
-      m_sortedCustomFieldsList = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(Objects::nonNull).filter(f -> f.getDataType() != null).sorted(FieldTypeHelper.COMPARATOR).collect(Collectors.toList());
+      m_userDefinedFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(Objects::nonNull).filter(f -> f.getDataType() != null).sorted(FieldTypeHelper.COMPARATOR).collect(Collectors.toList());
    }
 
    /**
@@ -2064,7 +2064,7 @@ final class PrimaveraPMProjectWriter
    private List<UDFAssignmentType> m_udf;
 
    private ObjectSequence m_wbsSequence;
-   private List<FieldType> m_sortedCustomFieldsList;
+   private List<FieldType> m_userDefinedFields;
    private Map<Integer, String> m_topics;
    private boolean m_activityTypePopulated;
 }
