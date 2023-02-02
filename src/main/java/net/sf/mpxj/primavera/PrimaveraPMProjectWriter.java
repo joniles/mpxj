@@ -319,6 +319,8 @@ final class PrimaveraPMProjectWriter
     */
    private void writeUserDefinedFieldDefinitions()
    {
+      List<UDFTypeType> fields = m_apibo.getUDFType();
+
       for (FieldType type : m_userDefinedFields)
       {
          CustomField cf = m_projectFile.getCustomFields().get(type);
@@ -340,8 +342,10 @@ final class PrimaveraPMProjectWriter
          udf.setDataType(UserFieldDataType.inferUserFieldDataType(dataType));
          udf.setSubjectArea(UserFieldDataType.inferUserFieldSubjectArea(type));
          udf.setTitle(title);
-         m_apibo.getUDFType().add(udf);
+         fields.add(udf);
       }
+
+      fields.sort(Comparator.comparing(UDFTypeType::getObjectId));
    }
 
    /**
@@ -1598,6 +1602,9 @@ final class PrimaveraPMProjectWriter
             }
          }
       }
+
+      out.sort(Comparator.comparing(UDFAssignmentType::getTypeObjectId));
+
       return out;
    }
 
@@ -1922,7 +1929,7 @@ final class PrimaveraPMProjectWriter
     */
    private void populateUserDefinedFieldsList()
    {
-      m_userDefinedFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(Objects::nonNull).filter(f -> f.getDataType() != null).sorted(FieldTypeHelper.COMPARATOR).collect(Collectors.toList());
+      m_userDefinedFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(Objects::nonNull).filter(f -> f.getDataType() != null).collect(Collectors.toList());
    }
 
    /**
