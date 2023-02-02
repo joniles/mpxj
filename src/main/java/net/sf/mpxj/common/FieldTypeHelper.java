@@ -32,8 +32,10 @@ import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Rate;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TaskField;
 
@@ -290,22 +292,54 @@ public final class FieldTypeHelper
          DataType dataType = type.getDataType();
          switch (dataType)
          {
+            case STRING:
+            case NOTES:
+            {
+               result = !(value.toString()).isEmpty();
+               break;
+            }
+
+            case NUMERIC:
+            case CURRENCY:
+            case PERCENTAGE:
+            case UNITS:
+            case INTEGER:
+            case SHORT:
+            {
+               result = ((Number) value).doubleValue() != 0.0;
+               break;
+            }
+
+            case WORK:
+            case DURATION:
+            {
+               // Baseline durations can have string values
+               if (value instanceof String)
+               {
+                  result = !((String) value).isEmpty();
+               }
+               else
+               {
+                  result = ((Duration) value).getDuration() != 0.0;
+               }
+               break;
+            }
+
+            case RATE:
+            {
+               result = ((Rate) value).getAmount() != 0.0;
+               break;
+            }
+
             case BOOLEAN:
             {
                result = ((Boolean) value).booleanValue();
                break;
             }
 
-            case CURRENCY:
-            case NUMERIC:
+            case PRIORITY:
             {
-               result = !NumberHelper.equals(((Number) value).doubleValue(), 0.0, 0.00001);
-               break;
-            }
-
-            case DURATION:
-            {
-               result = (((Duration) value).getDuration() != 0);
+               result = ((Priority) value).getValue() != Priority.MEDIUM;
                break;
             }
 

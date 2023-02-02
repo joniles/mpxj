@@ -107,7 +107,7 @@ public enum TimeUnit implements MpxjEnum
     *
     * @param type int version of the enum
     * @param name enum name
-    * @param elapsed trur if this is an elapsed duration
+    * @param elapsed true if this is an elapsed duration
     */
    TimeUnit(int type, String name, boolean elapsed)
    {
