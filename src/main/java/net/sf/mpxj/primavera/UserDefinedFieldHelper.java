@@ -1,6 +1,6 @@
 /*
- * file:       UserFieldCounters.java
- * author:     Mario Fuentes
+ * file:       UserDefinedFieldHelper.java
+ * author:     Jon Iles, Mario Fuentes
  * copyright:  (c) Packwood Software 2013
  * date:       22/03/2010
  */
@@ -33,68 +33,8 @@ import net.sf.mpxj.FieldTypeClass;
 /**
  * User defined field data types.
  */
-public enum UserFieldDataType
+final class UserDefinedFieldHelper
 {
-   FT_TEXT(new String[]
-   {
-      "TEXT",
-      "ENTERPRISE_TEXT"
-   }),
-   FT_START_DATE(new String[]
-   {
-      "START"
-   }),
-   FT_END_DATE(new String[]
-   {
-      "FINISH"
-   }),
-   FT_FLOAT(new String[]
-   {
-      "NUMBER",
-      "ENTERPRISE_NUMBER"
-   }),
-   FT_FLOAT_2_DECIMALS(new String[]
-   {
-      "NUMBER",
-      "ENTERPRISE_NUMBER"
-   }),
-   FT_INT(new String[]
-   {
-      "NUMBER",
-      "ENTERPRISE_NUMBER"
-   }),
-   FT_STATICTYPE(new String[]
-   {
-      "TEXT",
-      "ENTERPRISE_TEXT"
-   }),
-   FT_MONEY(new String[]
-   {
-      "COST",
-      "ENTERPRISE_COST"
-   });
-
-   /**
-    * Constructor.
-    *
-    * @param fieldNames default field names used to
-    * store user defined data of this type.
-    */
-   UserFieldDataType(String[] fieldNames)
-   {
-      this.m_defaultFieldNames = fieldNames;
-   }
-
-   /**
-    * Retrieve the default field names.
-    *
-    * @return default field names
-    */
-   public String[] getDefaultFieldNames()
-   {
-      return m_defaultFieldNames.clone();
-   }
-
    /**
     * Infers the Primavera user defined field data type from the MPXJ data type.
     *
@@ -142,23 +82,10 @@ public enum UserFieldDataType
       return result;
    }
 
-   /**
-    * Convert from the PMXML representation of the parent data type.
-    *
-    * @param name XML name
-    * @return UserFieldDataType instance
-    */
-   public static UserFieldDataType getInstanceFromXmlName(String name)
-   {
-      return XML_NAME_MAP.get(name);
-   }
-
    public static DataType getDataTypeFromXmlName(String name)
    {
       return XML_TYPE_MAP.get(name);
    }
-
-   private final String[] m_defaultFieldNames;
 
    private static final Map<FieldTypeClass, String> SUBJECT_AREA_MAP = new HashMap<>();
    static
@@ -168,18 +95,6 @@ public enum UserFieldDataType
       SUBJECT_AREA_MAP.put(FieldTypeClass.PROJECT, "Project");
       SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Resource Assignment");
       SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
-   }
-
-   private static final Map<String, UserFieldDataType> XML_NAME_MAP = new HashMap<>();
-   static
-   {
-      XML_NAME_MAP.put("Text", FT_TEXT);
-      XML_NAME_MAP.put("Cost", FT_MONEY);
-      XML_NAME_MAP.put("Finish Date", FT_END_DATE);
-      XML_NAME_MAP.put("Indicator", FT_TEXT);
-      XML_NAME_MAP.put("Integer", FT_INT);
-      XML_NAME_MAP.put("Double", FT_FLOAT_2_DECIMALS);
-      XML_NAME_MAP.put("Start Date", FT_START_DATE);
    }
 
    private static final Map<String, DataType> XML_TYPE_MAP = new HashMap<>();

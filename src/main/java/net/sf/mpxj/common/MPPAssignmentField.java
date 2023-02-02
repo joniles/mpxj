@@ -24,8 +24,6 @@
 package net.sf.mpxj.common;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.DataType;

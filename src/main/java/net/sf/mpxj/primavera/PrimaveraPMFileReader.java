@@ -46,8 +46,10 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.ActivityCodeScope;
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.RateSource;
 import net.sf.mpxj.Step;
+import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
 import org.apache.poi.util.ReplacingInputStream;
@@ -67,7 +69,6 @@ import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
-import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
@@ -95,7 +96,6 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
@@ -362,9 +362,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_activityClashMap = new ClashMap();
          m_roleClashMap = new ClashMap();
          m_activityCodeMap = new HashMap<>();
-         m_taskUdfCounters = new UserFieldCounters();
-         m_resourceUdfCounters = new UserFieldCounters();
-         m_assignmentUdfCounters = new UserFieldCounters();
          m_fieldTypeMap = new HashMap<>();
          m_notebookTopics = new HashMap<>();
 
@@ -464,9 +461,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_activityClashMap = null;
          m_roleClashMap = null;
          m_activityCodeMap = null;
-         m_taskUdfCounters = null;
-         m_resourceUdfCounters = null;
-         m_assignmentUdfCounters = null;
          m_fieldTypeMap = null;
          m_notebookTopics = null;
          m_defaultCalendarObjectID = null;
@@ -529,87 +523,18 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processUDF(UDFTypeType udf)
    {
-      FieldTypeClass fieldType = FIELD_TYPE_MAP.get(udf.getSubjectArea());
-      if (fieldType != null)
+      FieldTypeClass fieldTypeClass = FIELD_TYPE_MAP.get(udf.getSubjectArea());
+      if (fieldTypeClass == null)
       {
-         UserFieldDataType dataType = UserFieldDataType.getInstanceFromXmlName(udf.getDataType());
-         FieldType field = allocateUserDefinedField(fieldType, dataType);
-         if (field != null)
-         {
-            m_fieldTypeMap.put(udf.getObjectId(), field);
-            m_projectFile.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
-         }
-      }
-   }
-
-   /**
-    * Map the Primavera UDF to a custom field.
-    *
-    * @param fieldType parent object type
-    * @param dataType UDF data type
-    * @return FieldType instance
-    */
-   private FieldType allocateUserDefinedField(FieldTypeClass fieldType, UserFieldDataType dataType)
-   {
-      FieldType field = null;
-      CustomFieldContainer container = m_projectFile.getCustomFields();
-
-      try
-      {
-         switch (fieldType)
-         {
-            case TASK:
-            {
-               do
-               {
-                  field = m_taskUdfCounters.nextField(TaskField.class, dataType);
-               }
-               while (container.get(field) != null);
-
-               break;
-            }
-
-            case RESOURCE:
-            {
-               do
-               {
-                  field = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
-               }
-               while (container.get(field) != null);
-
-               break;
-            }
-
-            case ASSIGNMENT:
-            {
-               do
-               {
-                  field = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
-               }
-               while (container.get(field) != null);
-
-               break;
-            }
-
-            default:
-            {
-               break;
-            }
-         }
+         return;
       }
 
-      catch (Exception ex)
-      {
-         //
-         // SF#227: If we get an exception thrown here... it's likely that
-         // we've run out of user defined fields, for example
-         // there are only 30 TEXT fields. We'll ignore this: the user
-         // defined field won't be mapped to an alias, so we'll
-         // ignore it when we read in the values.
-         //
-      }
-
-      return field;
+      String internalName = "user_field_" + udf.getObjectId();
+      String externalName = udf.getTitle();
+      DataType dataType = UserDefinedFieldHelper.getDataTypeFromXmlName(udf.getDataType());
+      UserDefinedField field = new UserDefinedField(udf.getObjectId(), internalName, externalName, fieldTypeClass, dataType);
+      m_fieldTypeMap.put(udf.getObjectId(), field);
+      m_projectFile.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
    }
 
    private void processGlobalProperties(APIBusinessObjects apibo)
@@ -1256,7 +1181,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          //
          // We've tried the finish and actual finish fields... but we still have null.
          // P6 itself doesn't export PMXML like this.
-         // The sample I have that requires this code appears to have been been generated by Synchro.
+         // The sample I have that requires this code appears to have been generated by Synchro.
          //
          if (task.getFinish() == null)
          {
@@ -2403,9 +2328,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private ClashMap m_activityClashMap;
    private ClashMap m_roleClashMap;
    private Map<Integer, ActivityCodeValue> m_activityCodeMap;
-   private UserFieldCounters m_taskUdfCounters;
-   private UserFieldCounters m_resourceUdfCounters;
-   private UserFieldCounters m_assignmentUdfCounters;
    private Map<Integer, FieldType> m_fieldTypeMap;
    private List<ExternalRelation> m_externalRelations;
    private boolean m_linkCrossProjectRelations;

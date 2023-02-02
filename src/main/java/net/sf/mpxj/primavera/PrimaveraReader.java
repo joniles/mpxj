@@ -106,9 +106,6 @@ final class PrimaveraReader
    /**
     * Constructor.
     *
-    * @param taskUdfCounters UDF counters for tasks
-    * @param resourceUdfCounters UDF counters for resources
-    * @param assignmentUdfCounters UDF counters for assignments
     * @param resourceFields resource field mapping
     * @param wbsFields wbs field mapping
     * @param taskFields task field mapping
@@ -117,7 +114,7 @@ final class PrimaveraReader
     * @param matchPrimaveraWBS determine WBS behaviour
     * @param wbsIsFullPath determine the WBS attribute structure
     */
-   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
+   public PrimaveraReader(Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -297,7 +294,7 @@ final class PrimaveraReader
          String internalName = row.getString("udf_type_name");
          String externalName = row.getString("udf_type_label");
          String fieldDataType = row.getString("logical_data_type");
-         DataType dataType = UserFieldDataType.getDataTypeFromXmlName(fieldDataType);
+         DataType dataType = UserDefinedFieldHelper.getDataTypeFromXmlName(fieldDataType);
          UserDefinedField fieldType = new UserDefinedField(fieldId, internalName, externalName, fieldTypeClass, dataType);
          container.addField(fieldType);
 

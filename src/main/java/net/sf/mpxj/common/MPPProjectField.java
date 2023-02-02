@@ -23,14 +23,9 @@
 
 package net.sf.mpxj.common;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
-import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.UserDefinedField;
 

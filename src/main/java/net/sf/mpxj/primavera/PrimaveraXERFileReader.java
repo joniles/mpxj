@@ -162,7 +162,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
-            m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
+            m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
             ProjectFile project = readProject();
             externalRelations.addAll(m_reader.getExternalRelations());
 
@@ -859,39 +859,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Override the default field name mapping for Task user defined types.
-    *
-    * @param type target user defined data type
-    * @param fieldNames field names
-    */
-   public void setFieldNamesForTaskUdfType(UserFieldDataType type, String... fieldNames)
-   {
-      m_taskUdfCounters.setFieldNamesForType(type, fieldNames);
-   }
-
-   /**
-    * Override the default field name mapping for Resource user defined types.
-    *
-    * @param type target user defined data type
-    * @param fieldNames field names
-    */
-   public void setFieldNamesForResourceUdfType(UserFieldDataType type, String... fieldNames)
-   {
-      m_resourceUdfCounters.setFieldNamesForType(type, fieldNames);
-   }
-
-   /**
-    * Override the default field name mapping for Resource user defined types.
-    *
-    * @param type target user defined data type
-    * @param fieldNames field names
-    */
-   public void setFieldNamesForAssignmentUdfType(UserFieldDataType type, String... fieldNames)
-   {
-      m_assignmentUdfCounters.setFieldNamesForType(type, fieldNames);
-   }
-
-   /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
     *
     * @return Primavera field name to MPXJ field type map
@@ -1051,9 +1018,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
    private final DateFormat m_df = new MultiDateFormat("yyyy-MM-dd HH:mm", "yyyy-MM-dd");
-   private final UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
-   private final UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
-   private final UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
    private final Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();

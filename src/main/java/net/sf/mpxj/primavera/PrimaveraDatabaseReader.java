@@ -94,7 +94,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       try
       {
-         m_reader = new PrimaveraReader(m_taskUdfCounters, m_resourceUdfCounters, m_assignmentUdfCounters, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
+         m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
          ProjectFile project = m_reader.getProject();
          addListenersToProject(project);
 
@@ -561,39 +561,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    }
 
    /**
-    * Override the default field name mapping for Task user defined types.
-    *
-    * @param type target user defined data type
-    * @param fieldNames field names
-    */
-   public void setFieldNamesForTaskUdfType(UserFieldDataType type, String[] fieldNames)
-   {
-      m_taskUdfCounters.setFieldNamesForType(type, fieldNames);
-   }
-
-   /**
-    * Override the default field name mapping for Resource user defined types.
-    *
-    * @param type target user defined data type
-    * @param fieldNames field names
-    */
-   public void setFieldNamesForResourceUdfType(UserFieldDataType type, String[] fieldNames)
-   {
-      m_resourceUdfCounters.setFieldNamesForType(type, fieldNames);
-   }
-
-   /**
-    * Override the default field name mapping for Assignment user defined types.
-    *
-    * @param type target user defined data type
-    * @param fieldNames field names
-    */
-   public void setFieldNamesForAssignmentUdfType(UserFieldDataType type, String[] fieldNames)
-   {
-      m_assignmentUdfCounters.setFieldNamesForType(type, fieldNames);
-   }
-
-   /**
     * Customise the data retrieved by this reader by modifying the contents of this map.
     *
     * @return Primavera field name to MPXJ field type map
@@ -695,9 +662,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private DataSource m_dataSource;
    private Connection m_connection;
    private boolean m_allocatedConnection;
-   private final UserFieldCounters m_taskUdfCounters = new UserFieldCounters();
-   private final UserFieldCounters m_resourceUdfCounters = new UserFieldCounters();
-   private final UserFieldCounters m_assignmentUdfCounters = new UserFieldCounters();
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
 

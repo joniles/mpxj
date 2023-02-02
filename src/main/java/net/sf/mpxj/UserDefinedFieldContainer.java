@@ -14,8 +14,6 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import net.sf.mpxj.common.FieldTypeHelper;
-import net.sf.mpxj.common.NumberHelper;
-
 
 public class UserDefinedFieldContainer implements Iterable<UserDefinedField>
 {

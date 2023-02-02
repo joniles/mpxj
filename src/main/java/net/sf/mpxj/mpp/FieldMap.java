@@ -35,7 +35,6 @@ import java.util.Map.Entry;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.BookingType;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
