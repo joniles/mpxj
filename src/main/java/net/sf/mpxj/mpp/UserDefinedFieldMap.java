@@ -3,12 +3,9 @@ import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.common.AssignmentFieldLists;
-import net.sf.mpxj.common.ResourceFieldLists;
-import net.sf.mpxj.common.TaskFieldLists;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,17 +19,17 @@ public class UserDefinedFieldMap
       return EMPTY_INSTANCE;
    }
 
-   public static UserDefinedFieldMap getInstanceWithoutMappings(ProjectFile file)
+   public static UserDefinedFieldMap getInstanceWithoutMappings(ProjectFile file, List<FieldType> targetFieldList)
    {
-      return new UserDefinedFieldMap(file, false);
+      return new UserDefinedFieldMap(file, false, targetFieldList);
    }
 
-   public static UserDefinedFieldMap getInstanceWithMappings(ProjectFile file)
+   public static UserDefinedFieldMap getInstanceWithMappings(ProjectFile file, List<FieldType> targetFieldList)
    {
-      return new UserDefinedFieldMap(file, true);
+      return new UserDefinedFieldMap(file, true, targetFieldList);
    }
 
-   private UserDefinedFieldMap(ProjectFile file, boolean generateMappingNow)
+   private UserDefinedFieldMap(ProjectFile file, boolean generateMappingNow, List<FieldType> targetFieldList)
    {
       // No action required if we have no user defined fields
       if (file == null || file.getUserDefinedFields().isEmpty())
@@ -47,10 +44,7 @@ public class UserDefinedFieldMap
       populated.addAll(file.getResourceAssignments().getPopulatedFields());
 
       // Build a collection of potential target fields
-      for(List<? extends FieldType> fieldList : Arrays.asList(TaskFieldLists.EXTENDED_FIELDS, ResourceFieldLists.EXTENDED_FIELDS, AssignmentFieldLists.EXTENDED_FIELDS))
-      {
-         fieldList.stream().filter(f -> !populated.contains(f)).forEach(f -> getFieldList(f).add(f));
-      }
+      targetFieldList.stream().filter(f -> !populated.contains(f)).forEach(f -> getFieldList(f).add(f));
 
       if (generateMappingNow)
       {
@@ -90,10 +84,6 @@ public class UserDefinedFieldMap
       {
          m_targetMap.put(source, target);
          m_sourceMap.put(target, source);
-      }
-      else
-      {
-         System.out.println("here");
       }
 
       return target;
@@ -164,5 +154,5 @@ public class UserDefinedFieldMap
    private final Map<FieldType, FieldType> m_sourceMap = new HashMap<>();
    private final Map<FieldTypeClass, Map<DataType, List<FieldType>>> m_fields = new HashMap<>();
 
-   private static final UserDefinedFieldMap EMPTY_INSTANCE = new UserDefinedFieldMap(null, false);
+   private static final UserDefinedFieldMap EMPTY_INSTANCE = new UserDefinedFieldMap(null, false, Collections.emptyList());
 }

@@ -83,6 +83,7 @@ import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.UserDefinedField;
+import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -222,7 +223,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_populatedCustomFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
 
          m_sourceIsMicrosoftProject = MICROSOFT_PROJECT_FILES.contains(m_projectFile.getProjectProperties().getFileType());
-         m_userDefinedFieldMap = UserDefinedFieldMap.getInstanceWithoutMappings(projectFile);
+         m_userDefinedFieldMap = UserDefinedFieldMap.getInstanceWithoutMappings(projectFile, EXTENDED_FIELDS);
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
@@ -2441,4 +2442,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private static final BigInteger BIGINTEGER_ZERO = BigInteger.valueOf(0);
 
    private static final BigInteger NULL_CALENDAR_ID = BigInteger.valueOf(-1);
+
+   private static final List<FieldType> EXTENDED_FIELDS = new ArrayList<>();
+   static
+   {
+      EXTENDED_FIELDS.addAll(TaskFieldLists.EXTENDED_FIELDS);
+      EXTENDED_FIELDS.addAll(ResourceFieldLists.EXTENDED_FIELDS);
+      EXTENDED_FIELDS.addAll(AssignmentFieldLists.EXTENDED_FIELDS);
+   }
 }

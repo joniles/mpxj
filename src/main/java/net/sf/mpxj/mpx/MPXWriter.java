@@ -27,6 +27,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -90,7 +91,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
       m_calendarNameSet = new HashSet<>();
       m_calendarNameMap = new HashMap<>();
-      m_userDefinedFieldMap = UserDefinedFieldMap.getInstanceWithMappings(projectFile);
+      m_userDefinedFieldMap = UserDefinedFieldMap.getInstanceWithMappings(projectFile, EXTENDED_FIELDS);
 
       try
       {
@@ -1588,4 +1589,11 @@ public final class MPXWriter extends AbstractProjectWriter
    private Set<String> m_calendarNameSet;
    private Map<Integer, String> m_calendarNameMap;
    private UserDefinedFieldMap m_userDefinedFieldMap;
+
+   private static final List<FieldType> EXTENDED_FIELDS = new ArrayList<>();
+   static
+   {
+      EXTENDED_FIELDS.addAll(MPXTaskField.EXTENDED_FIELDS);
+      EXTENDED_FIELDS.addAll(MPXResourceField.EXTENDED_FIELDS);
+   }
 }
