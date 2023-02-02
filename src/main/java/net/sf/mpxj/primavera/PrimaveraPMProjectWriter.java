@@ -144,6 +144,7 @@ final class PrimaveraPMProjectWriter
          m_topics = new HashMap<>();
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
          m_wbsSequence = new ObjectSequence(0);
+         m_userDefinedFields = getUserdefinedFieldsSet();
 
          if (baseline)
          {
@@ -161,7 +162,6 @@ final class PrimaveraPMProjectWriter
             m_udf = project.getUDF();
 
             writeProjectProperties(project);
-            populateUserDefinedFieldsList();
             writeTasks();
             writeAssignments();
             writeExpenseItems();
@@ -183,8 +183,6 @@ final class PrimaveraPMProjectWriter
             m_udf = project.getUDF();
 
             writeProjectProperties(project);
-            populateUserDefinedFieldsList();
-
             writeUDF();
             writeCurrency();
             writeUserDefinedFieldDefinitions();
@@ -1923,13 +1921,9 @@ final class PrimaveraPMProjectWriter
       return result;
    }
 
-   /**
-    * Populate a sorted list of custom fields to ensure that these fields
-    * are written to the file in a consistent order.
-    */
-   private void populateUserDefinedFieldsList()
+   private Set<FieldType> getUserdefinedFieldsSet()
    {
-      m_userDefinedFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(Objects::nonNull).filter(f -> f.getDataType() != null).collect(Collectors.toList());
+      return m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(Objects::nonNull).filter(f -> f.getDataType() != null).collect(Collectors.toSet());
    }
 
    /**
@@ -1940,7 +1934,7 @@ final class PrimaveraPMProjectWriter
     */
    ProjectFile getProjectFile()
    {
-      return (m_projectFile);
+      return m_projectFile;
    }
 
    private static final Integer NOTEBOOK_TOPIC_OBJECT_ID = Integer.valueOf(1);
@@ -2071,7 +2065,7 @@ final class PrimaveraPMProjectWriter
    private List<UDFAssignmentType> m_udf;
 
    private ObjectSequence m_wbsSequence;
-   private List<FieldType> m_userDefinedFields;
+   private Set<FieldType> m_userDefinedFields;
    private Map<Integer, String> m_topics;
    private boolean m_activityTypePopulated;
 }

@@ -216,9 +216,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          m_customFieldValueItems = new HashMap<>();
          m_resouceCalendarMap = new HashMap<>();
-
-         // Don't include field types which we can't map to a valid field id
-         m_extendedAttributes = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
+         m_extendedAttributes = getExtendedAttributesSet();
 
          // Don't write definitions for enterprise custom fields.
          // MS Project fails to read MSPDI files with these definitions
@@ -2335,6 +2333,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
    ProjectFile getProjectFile()
    {
       return (m_projectFile);
+   }
+
+   private Set<FieldType> getExtendedAttributesSet()
+   {
+      return m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
    }
 
    /**
