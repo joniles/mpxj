@@ -294,7 +294,7 @@ final class PrimaveraReader
          String internalName = row.getString("udf_type_name");
          String externalName = row.getString("udf_type_label");
          String fieldDataType = row.getString("logical_data_type");
-         DataType dataType = UserDefinedFieldHelper.getDataTypeFromXmlName(fieldDataType);
+         DataType dataType = UserDefinedFieldHelper.getDataTypeFromName(fieldDataType);
          UserDefinedField fieldType = new UserDefinedField(fieldId, internalName, externalName, fieldTypeClass, dataType);
          container.addField(fieldType);
 

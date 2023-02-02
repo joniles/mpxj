@@ -82,6 +82,11 @@ final class UserDefinedFieldHelper
       return result;
    }
 
+   public static DataType getDataTypeFromName(String name)
+   {
+      return TYPE_MAP.get(name);
+   }
+
    public static DataType getDataTypeFromXmlName(String name)
    {
       return XML_TYPE_MAP.get(name);
@@ -97,17 +102,29 @@ final class UserDefinedFieldHelper
       SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
    }
 
+   private static final Map<String, DataType> TYPE_MAP = new HashMap<>();
+   static
+   {
+      TYPE_MAP.put("FT_TEXT", DataType.STRING);
+      TYPE_MAP.put("FT_MONEY", DataType.CURRENCY);
+      TYPE_MAP.put("FT_END_DATE", DataType.DATE);
+      TYPE_MAP.put("FT_STATICTYPE", DataType.STRING);
+      TYPE_MAP.put("FT_INT", DataType.INTEGER);
+      TYPE_MAP.put("FT_FLOAT", DataType.NUMERIC);
+      TYPE_MAP.put("FT_FLOAT_2_DECIMALS", DataType.NUMERIC);
+      TYPE_MAP.put("FT_START_DATE", DataType.DATE);
+   }
+
    private static final Map<String, DataType> XML_TYPE_MAP = new HashMap<>();
    static
    {
-      XML_TYPE_MAP.put("FT_TEXT", DataType.STRING);
-      XML_TYPE_MAP.put("FT_MONEY", DataType.CURRENCY);
-      XML_TYPE_MAP.put("FT_END_DATE", DataType.DATE);
-      XML_TYPE_MAP.put("FT_STATICTYPE", DataType.STRING);
-      XML_TYPE_MAP.put("FT_INT", DataType.INTEGER);
-      XML_TYPE_MAP.put("FT_FLOAT", DataType.NUMERIC);
-      XML_TYPE_MAP.put("FT_FLOAT_2_DECIMALS", DataType.NUMERIC);
-      XML_TYPE_MAP.put("FT_START_DATE", DataType.DATE);
+      XML_TYPE_MAP.put("Text", DataType.STRING);
+      XML_TYPE_MAP.put("Cost", DataType.CURRENCY);
+      XML_TYPE_MAP.put("Finish Date", DataType.DATE);
+      XML_TYPE_MAP.put("Indicator", DataType.STRING);
+      XML_TYPE_MAP.put("Integer", DataType.INTEGER);
+      XML_TYPE_MAP.put("Double", DataType.NUMERIC);
+      XML_TYPE_MAP.put("Start Date", DataType.DATE);
    }
 }
 
