@@ -3,6 +3,7 @@ package net.sf.mpxj;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -154,5 +155,5 @@ public class UserDefinedFieldContainer implements Iterable<UserDefinedField>
    private final Map<Integer, UserDefinedField> m_resourceFields = new HashMap<>();
    private final Map<Integer, UserDefinedField> m_assignmentFields = new HashMap<>();
    private final Map<Integer, UserDefinedField> m_projectFields = new HashMap<>();
-   private final Set<UserDefinedField> m_fields = new TreeSet<>(FieldTypeHelper.COMPARATOR);
+   private final Set<UserDefinedField> m_fields = new HashSet<>();
 }
