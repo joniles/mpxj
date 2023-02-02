@@ -293,8 +293,7 @@ final class PrimaveraReader
 
          String internalName = row.getString("udf_type_name");
          String externalName = row.getString("udf_type_label");
-         String fieldDataType = row.getString("logical_data_type");
-         DataType dataType = UserDefinedFieldHelper.getDataTypeFromName(fieldDataType);
+         DataType dataType = DATA_TYPE_MAP.get(row.getString("logical_data_type"));
          UserDefinedField fieldType = new UserDefinedField(fieldId, internalName, externalName, fieldTypeClass, dataType);
          container.addField(fieldType);
 
@@ -2369,6 +2368,19 @@ final class PrimaveraReader
       RATE_SOURCE_MAP.put("ST_Rsrc", RateSource.RESOURCE);
       RATE_SOURCE_MAP.put("ST_Role", RateSource.ROLE);
       RATE_SOURCE_MAP.put("ST_Custom", RateSource.OVERRIDE);
+   }
+
+   private static final Map<String, DataType> DATA_TYPE_MAP = new HashMap<>();
+   static
+   {
+      DATA_TYPE_MAP.put("FT_TEXT", DataType.STRING);
+      DATA_TYPE_MAP.put("FT_MONEY", DataType.CURRENCY);
+      DATA_TYPE_MAP.put("FT_END_DATE", DataType.DATE);
+      DATA_TYPE_MAP.put("FT_STATICTYPE", DataType.STRING);
+      DATA_TYPE_MAP.put("FT_INT", DataType.INTEGER);
+      DATA_TYPE_MAP.put("FT_FLOAT", DataType.NUMERIC);
+      DATA_TYPE_MAP.put("FT_FLOAT_2_DECIMALS", DataType.NUMERIC);
+      DATA_TYPE_MAP.put("FT_START_DATE", DataType.DATE);
    }
 
    private static final long EXCEPTION_EPOCH = -2209161599935L;

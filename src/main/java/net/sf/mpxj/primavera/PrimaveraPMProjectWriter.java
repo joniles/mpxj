@@ -333,10 +333,57 @@ final class PrimaveraPMProjectWriter
 
          UDFTypeType udf = m_factory.createUDFTypeType();
          udf.setObjectId(uniqueID);
-         udf.setDataType(UserDefinedFieldHelper.inferUserFieldDataType(dataType));
-         udf.setSubjectArea(UserDefinedFieldHelper.inferUserFieldSubjectArea(type));
+         udf.setDataType(inferUserFieldDataType(dataType));
+         udf.setSubjectArea(inferUserFieldSubjectArea(type));
          udf.setTitle(title);
          m_apibo.getUDFType().add(udf);
+      }
+   }
+
+   /**
+    * Infers the Primavera entity type based on the MPXJ field type.
+    *
+    * @author lsong
+    * @param fieldType MPXJ field type
+    * @return UDF subject area
+    */
+   private String inferUserFieldSubjectArea(FieldType fieldType)
+   {
+      String result = SUBJECT_AREA_MAP.get(fieldType.getFieldTypeClass());
+      if (result == null)
+      {
+         throw new RuntimeException("Unrecognized field type: " + fieldType);
+      }
+      return result;
+   }
+
+   /**
+    * Infers the Primavera user defined field data type from the MPXJ data type.
+    *
+    * @author kmahan
+    * @param dataType MPXJ data type
+    * @return string representation of data type
+    */
+   private String inferUserFieldDataType(DataType dataType)
+   {
+      switch (dataType)
+      {
+         case BINARY:
+         case STRING:
+         case DURATION:
+            return "Text";
+         case DATE:
+            return "Start Date";
+         case NUMERIC:
+            return "Double";
+         case BOOLEAN:
+         case INTEGER:
+         case SHORT:
+            return "Integer";
+         case CURRENCY:
+            return "Cost";
+         default:
+            throw new RuntimeException("Unconvertible data type: " + dataType);
       }
    }
 
@@ -2037,6 +2084,16 @@ final class PrimaveraPMProjectWriter
       RATE_SOURCE_MAP.put(RateSource.RESOURCE, "Resource");
       RATE_SOURCE_MAP.put(RateSource.OVERRIDE, "Override");
       RATE_SOURCE_MAP.put(RateSource.ROLE, "Role");
+   }
+
+   private static final Map<FieldTypeClass, String> SUBJECT_AREA_MAP = new HashMap<>();
+   static
+   {
+      SUBJECT_AREA_MAP.put(FieldTypeClass.TASK, "Activity");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.RESOURCE, "Resource");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.PROJECT, "Project");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Resource Assignment");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
    }
 
    private final ProjectFile m_projectFile;

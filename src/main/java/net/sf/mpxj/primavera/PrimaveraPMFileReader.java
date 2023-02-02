@@ -531,7 +531,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       String internalName = "user_field_" + udf.getObjectId();
       String externalName = udf.getTitle();
-      DataType dataType = UserDefinedFieldHelper.getDataTypeFromXmlName(udf.getDataType());
+      DataType dataType = DATA_TYPE_MAP.get(udf.getDataType());
       UserDefinedField field = new UserDefinedField(udf.getObjectId(), internalName, externalName, fieldTypeClass, dataType);
       m_fieldTypeMap.put(udf.getObjectId(), field);
       m_projectFile.getUserDefinedFields().addField(field);
@@ -2503,6 +2503,18 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       RATE_SOURCE_MAP.put("Resource", RateSource.RESOURCE);
       RATE_SOURCE_MAP.put("Role", RateSource.ROLE);
       RATE_SOURCE_MAP.put("Override", RateSource.OVERRIDE);
+   }
+
+   private static final Map<String, DataType> DATA_TYPE_MAP = new HashMap<>();
+   static
+   {
+      DATA_TYPE_MAP.put("Text", DataType.STRING);
+      DATA_TYPE_MAP.put("Cost", DataType.CURRENCY);
+      DATA_TYPE_MAP.put("Finish Date", DataType.DATE);
+      DATA_TYPE_MAP.put("Indicator", DataType.STRING);
+      DATA_TYPE_MAP.put("Integer", DataType.INTEGER);
+      DATA_TYPE_MAP.put("Double", DataType.NUMERIC);
+      DATA_TYPE_MAP.put("Start Date", DataType.DATE);
    }
 
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();
