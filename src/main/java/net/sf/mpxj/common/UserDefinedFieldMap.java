@@ -73,6 +73,10 @@ public class UserDefinedFieldMap
          m_targetMap.put(source, target);
          m_sourceMap.put(target, source);
       }
+      else
+      {
+         System.out.println("here");
+      }
 
       return target;
    }

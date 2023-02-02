@@ -230,12 +230,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Project project = m_factory.createProject();
 
          writeProjectProperties(project);
+         writeProjectExtendedAttributes(project);
          writeCalendars(project);
          writeResources(project);
          writeTasks(project);
          writeAssignments(project);
          writeOutlineCodes(project);
-         writeProjectExtendedAttributes(project);
 
          marshaller.marshal(project, stream);
       }

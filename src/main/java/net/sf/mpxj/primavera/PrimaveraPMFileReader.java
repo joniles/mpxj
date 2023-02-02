@@ -534,6 +534,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       DataType dataType = UserDefinedFieldHelper.getDataTypeFromXmlName(udf.getDataType());
       UserDefinedField field = new UserDefinedField(udf.getObjectId(), internalName, externalName, fieldTypeClass, dataType);
       m_fieldTypeMap.put(udf.getObjectId(), field);
+      m_projectFile.getUserDefinedFields().addField(field);
       m_projectFile.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
    }
 
