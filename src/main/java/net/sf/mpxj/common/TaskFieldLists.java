@@ -574,10 +574,10 @@ public final class TaskFieldLists
    static
    {
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_TEXT));
+      EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DATE));
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_START));
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FINISH));
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_COST));
-      EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DATE));
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FLAG));
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_NUMBER));
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION));
