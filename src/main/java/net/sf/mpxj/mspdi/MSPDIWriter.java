@@ -220,7 +220,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_resouceCalendarMap = new HashMap<>();
 
          // Don't include field types which we can't map to a valid field id
-         m_populatedCustomFields = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
+         m_extendedAttributes = m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
 
          m_sourceIsMicrosoftProject = MICROSOFT_PROJECT_FILES.contains(m_projectFile.getProjectProperties().getFileType());
          m_userDefinedFieldMap = UserDefinedFieldMap.getInstanceWithoutMappings(projectFile, EXTENDED_FIELDS);
@@ -229,7 +229,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Project project = m_factory.createProject();
 
          writeProjectProperties(project);
-         writeProjectExtendedAttributes(project);
+         writeExtendedAttributeDefinitions(project);
          writeCalendars(project);
          writeResources(project);
          writeTasks(project);
@@ -333,14 +333,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
     *
     * @param project Root node of the MSPDI file
     */
-   private void writeProjectExtendedAttributes(Project project)
+   private void writeExtendedAttributeDefinitions(Project project)
    {
       Project.ExtendedAttributes attributes = m_factory.createProjectExtendedAttributes();
       project.setExtendedAttributes(attributes);
       List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
 
       CustomFieldContainer customFieldContainer = m_projectFile.getCustomFields();
-      for (FieldType fieldType : m_populatedCustomFields)
+      for (FieldType fieldType : m_extendedAttributes)
       {
          boolean microsoftProjectUserDefinedField = false;
          BigInteger customFieldType = null;
@@ -1141,7 +1141,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       List<Project.Resources.Resource.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
       Set<FieldType> outlineCodes = new HashSet<>(Arrays.asList(ResourceFieldLists.CUSTOM_OUTLINE_CODE));
-      m_populatedCustomFields.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.RESOURCE && !outlineCodes.contains(f)).forEach(f -> writeResourceExtendedAttribute(extendedAttributes, mpx, f));
+      m_extendedAttributes.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.RESOURCE && !outlineCodes.contains(f)).forEach(f -> writeResourceExtendedAttribute(extendedAttributes, mpx, f));
       extendedAttributes.sort(Comparator.comparing(Project.Resources.Resource.ExtendedAttribute::getFieldID));
    }
 
@@ -1188,7 +1188,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       for (ResourceField mpxFieldID : ResourceFieldLists.CUSTOM_OUTLINE_CODE)
       {
-         if (!m_populatedCustomFields.contains(mpxFieldID))
+         if (!m_extendedAttributes.contains(mpxFieldID))
          {
             continue;
          }
@@ -1629,7 +1629,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
       Set<FieldType> outlineCodes = new HashSet<>(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
-      m_populatedCustomFields.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.TASK && !outlineCodes.contains(f)).forEach(f -> writeTaskExtendedAttribute(extendedAttributes, mpx, f));
+      m_extendedAttributes.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.TASK && !outlineCodes.contains(f)).forEach(f -> writeTaskExtendedAttribute(extendedAttributes, mpx, f));
       extendedAttributes.sort(Comparator.comparing(Project.Tasks.Task.ExtendedAttribute::getFieldID));
    }
 
@@ -1661,7 +1661,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       for (TaskField mpxFieldID : TaskFieldLists.CUSTOM_OUTLINE_CODE)
       {
-         if (!m_populatedCustomFields.contains(mpxFieldID))
+         if (!m_extendedAttributes.contains(mpxFieldID))
          {
             continue;
          }
@@ -2105,7 +2105,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeAssignmentExtendedAttributes(Project.Assignments.Assignment xml, ResourceAssignment mpx)
    {
       List<Project.Assignments.Assignment.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
-      m_populatedCustomFields.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.ASSIGNMENT).forEach(f -> writeAssignmentExtendedAttribute(extendedAttributes, mpx, f));
+      m_extendedAttributes.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.ASSIGNMENT).forEach(f -> writeAssignmentExtendedAttribute(extendedAttributes, mpx, f));
       extendedAttributes.sort(Comparator.comparing(Project.Assignments.Assignment.ExtendedAttribute::getFieldID));
    }
 
@@ -2426,7 +2426,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private Map<Integer, Integer> m_resouceCalendarMap;
 
-   private Set<FieldType> m_populatedCustomFields;
+   private Set<FieldType> m_extendedAttributes;
 
    private boolean m_sourceIsMicrosoftProject;
    private UserDefinedFieldMap m_userDefinedFieldMap;
