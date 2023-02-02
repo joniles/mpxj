@@ -5109,7 +5109,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Retreve the scheduled duration.
+    * Retrieve the scheduled duration.
     *
     * @return scheduled duration value
     */
@@ -5171,7 +5171,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    /**
     * Retrieve the baseline budget cost.
     *
-    * @return baseline budgte cost value
+    * @return baseline budget cost value
     */
    public Number getBaselineBudgetCost()
    {
@@ -5179,7 +5179,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Set the baseline budgte cost.
+    * Set the baseline budget cost.
     *
     * @param value baseline budget cost value
     */
