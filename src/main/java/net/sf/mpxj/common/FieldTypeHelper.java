@@ -352,10 +352,4 @@ public final class FieldTypeHelper
 
       return result;
    }
-
-   public static final Comparator<FieldType> COMPARATOR = (o1, o2) -> {
-      String name1 = o1.getFieldTypeClass().name() + "." + o1.name();
-      String name2 = o2.getFieldTypeClass().name() + "." + o2.name();
-      return name1.compareTo(name2);
-   };
 }

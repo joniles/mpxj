@@ -1188,11 +1188,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       for (ResourceField mpxFieldID : ResourceFieldLists.CUSTOM_OUTLINE_CODE)
       {
-         if (!m_extendedAttributes.contains(mpxFieldID))
-         {
-            continue;
-         }
-
          Object value = mpx.getCachedValue(mpxFieldID);
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
@@ -1661,11 +1656,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       for (TaskField mpxFieldID : TaskFieldLists.CUSTOM_OUTLINE_CODE)
       {
-         if (!m_extendedAttributes.contains(mpxFieldID))
-         {
-            continue;
-         }
-
          Object value = mpx.getCachedValue(mpxFieldID);
 
          if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
