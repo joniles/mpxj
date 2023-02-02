@@ -160,6 +160,12 @@ public class PopulatedFields<E extends Enum<E> & FieldType, T extends FieldConta
             break;
          }
 
+         case PRIORITY:
+         {
+            result = ((Priority) value).getValue() != Priority.MEDIUM;
+            break;
+         }
+
          case TIME_UNITS:
          {
             result = value != m_defaultDurationUnits;
@@ -169,12 +175,6 @@ public class PopulatedFields<E extends Enum<E> & FieldType, T extends FieldConta
          case TASK_TYPE:
          {
             result = value != m_defaultTaskType;
-            break;
-         }
-
-         case PRIORITY:
-         {
-            result = ((Priority) value).getValue() != Priority.MEDIUM;
             break;
          }
 
