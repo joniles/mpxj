@@ -29,6 +29,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -36,9 +37,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -2359,6 +2362,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private Set<FieldType> getExtendedAttributesSet()
    {
+      // All user configured fields
+      Set<FieldType> set = m_projectFile.getCustomFields().stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
+
+      // All user defined fields
+      set.addAll(m_projectFile.getUserDefinedFields().getFields());
+
+      // All extended fields with values
+      XXX -todo
+      Stream.of(m_projectFile.getTasks().getPopulatedFields(), m_projectFile.getResources().getPopulatedFields()).flatMap(Collection::stream).collect(Collectors.toSet());
+
       return m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
    }
 
