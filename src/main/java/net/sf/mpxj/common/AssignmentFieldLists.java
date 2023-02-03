@@ -508,21 +508,21 @@ public final class AssignmentFieldLists
    public static final List<AssignmentField> EXTENDED_FIELDS = new ArrayList<>();
    static
    {
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_COST));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_TEXT));
       EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DATE));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_COST));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DATE));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DURATION));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_FLAG));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_NUMBER));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_MULTI_VALUE));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_OUTLINE_CODE));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_TEXT));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_START));
       EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FINISH));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_COST));
       EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FLAG));
       EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_NUMBER));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_START));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_TEXT));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_TEXT));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DATE));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_COST));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_FLAG));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_NUMBER));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DURATION));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_OUTLINE_CODE));
+      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_MULTI_VALUE));
    }
 }
