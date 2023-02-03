@@ -45,6 +45,7 @@ import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
+import net.sf.mpxj.common.FieldLists;
 
 /**
  * Collect details of which fields are populated for each file type.
@@ -251,11 +252,10 @@ public class FieldReporter
    private static final Comparator<String> COMPARATOR = new AlphanumComparator();
 
    private static final Set<FieldType> EXTENDED_FIELDS = new HashSet<>();
+
    static
    {
-      EXTENDED_FIELDS.addAll(TaskFieldLists.EXTENDED_FIELDS);
-      EXTENDED_FIELDS.addAll(ResourceFieldLists.EXTENDED_FIELDS);
-      EXTENDED_FIELDS.addAll(AssignmentFieldLists.EXTENDED_FIELDS);
+      EXTENDED_FIELDS.addAll(FieldLists.EXTENDED_FIELDS);
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION_UNITS));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION_UNITS));
       EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION_UNITS));
