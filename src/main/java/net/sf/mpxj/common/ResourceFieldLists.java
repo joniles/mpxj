@@ -523,6 +523,7 @@ public final class ResourceFieldLists
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FLAG));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_NUMBER));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION));
+      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_OUTLINE_CODE));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_TEXT));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DATE));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_COST));

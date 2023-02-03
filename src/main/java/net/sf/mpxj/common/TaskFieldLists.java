@@ -785,6 +785,7 @@ public final class TaskFieldLists
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FLAG));
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_NUMBER));
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION));
+      EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_TEXT));
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DATE));
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_COST));
