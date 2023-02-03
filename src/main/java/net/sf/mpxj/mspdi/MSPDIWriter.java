@@ -2371,7 +2371,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
       set.addAll(m_projectFile.getUserDefinedFields().getFields());
 
       // All custom fields with values
-      set.addAll(m_projectFile.getPopulatedFields().stream().filter(f -> FieldLists.EXTENDED_FIELDS.contains(f)).collect(Collectors.toSet()));
+      set.addAll(m_projectFile.getPopulatedFields().stream().filter(FieldLists.EXTENDED_FIELDS::contains).collect(Collectors.toSet()));
+
+      // Remove unknown fields
+      set.removeIf(f -> FieldTypeHelper.getFieldID(f) == -1);
 
       return set;
    }

@@ -80,6 +80,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.FieldLists;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -144,7 +145,7 @@ final class PrimaveraPMProjectWriter
          m_topics = new HashMap<>();
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
          m_wbsSequence = new ObjectSequence(0);
-         m_userDefinedFields = getUserdefinedFieldsSet();
+         m_userDefinedFields = getUserDefinedFieldsSet();
 
          if (baseline)
          {
@@ -1960,9 +1961,18 @@ final class PrimaveraPMProjectWriter
       return result;
    }
 
-   private Set<FieldType> getUserdefinedFieldsSet()
+   private Set<FieldType> getUserDefinedFieldsSet()
    {
-      return m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(Objects::nonNull).filter(f -> f.getDataType() != null).collect(Collectors.toSet());
+      // All user configured fields
+      Set<FieldType> set = m_projectFile.getCustomFields().stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
+
+      // All custom fields with values
+      set.addAll(m_projectFile.getPopulatedFields().stream().filter(FieldLists.EXTENDED_FIELDS::contains).collect(Collectors.toSet()));
+
+      // Remove unknown fields
+      set.removeIf(f -> FieldTypeHelper.getFieldID(f) == -1);
+
+      return set;
    }
 
    /**
