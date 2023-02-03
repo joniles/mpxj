@@ -227,43 +227,6 @@ public class CustomFieldContainer implements Iterable<CustomField>
       return StreamSupport.stream(spliterator(), false);
    }
 
-   /**
-    * This method combines two sets of information: the list
-    * of configured custom fields (from this class) plus
-    * a lst of the custom fields which do not have configuration
-    * but are in use in the schedule.
-    *
-    * @return set of FieldTypes representing configured and in use fields
-    */
-   public Set<FieldType> getConfiguredAndPopulatedCustomFieldTypes()
-   {
-      // Configured custom fields
-      Set<FieldType> result = stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
-
-      /// Populated task custom fields
-      Set<FieldType> extendedAndUserDefinedTaskFields = new HashSet<>(TaskFieldLists.EXTENDED_FIELDS);
-      extendedAndUserDefinedTaskFields.addAll(m_parent.getUserDefinedFields().getTaskFields());
-      Set<FieldType> populatedTaskFields = m_parent.getTasks().getPopulatedFields();
-      populatedTaskFields.retainAll(extendedAndUserDefinedTaskFields);
-      result.addAll(populatedTaskFields);
-
-      // Populated resource custom fields
-      Set<FieldType> extendedAndUserDefinedResourceFields = new HashSet<>(ResourceFieldLists.EXTENDED_FIELDS);
-      extendedAndUserDefinedResourceFields.addAll(m_parent.getUserDefinedFields().getResourceFields());
-      Set<FieldType> populatedResourceFields = m_parent.getResources().getPopulatedFields();
-      populatedResourceFields.retainAll(extendedAndUserDefinedResourceFields);
-      result.addAll(populatedResourceFields);
-
-      // Populated assignment custom fields
-      Set<FieldType> extendedAndUserDefinedAssignmentFields = new HashSet<>(AssignmentFieldLists.EXTENDED_FIELDS);
-      extendedAndUserDefinedAssignmentFields.addAll(m_parent.getUserDefinedFields().getAssignmentFields());
-      Set<FieldType> populatedAssignmentFields = m_parent.getResourceAssignments().getPopulatedFields();
-      populatedAssignmentFields.retainAll(extendedAndUserDefinedAssignmentFields);
-      result.addAll(populatedAssignmentFields);
-
-      return result;
-   }
-
    private final ProjectFile m_parent;
    private final Map<FieldType, CustomField> m_configMap = new HashMap<>();
    private final Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<>();

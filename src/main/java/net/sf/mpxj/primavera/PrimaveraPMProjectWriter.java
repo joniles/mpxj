@@ -1966,6 +1966,9 @@ final class PrimaveraPMProjectWriter
       // All user configured fields
       Set<FieldType> set = m_projectFile.getCustomFields().stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
 
+      // All user defined fields
+      set.addAll(m_projectFile.getUserDefinedFields().getFields());
+
       // All custom fields with values
       set.addAll(m_projectFile.getPopulatedFields().stream().filter(FieldLists.EXTENDED_FIELDS::contains).collect(Collectors.toSet()));
 

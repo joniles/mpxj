@@ -48,7 +48,8 @@ public final class MPPAssignmentField
     */
    public static FieldType getInstance(ProjectFile project, int value)
    {
-      if ((value & 0x8000) != 0)
+      // The 0x4000 prefix appears to be specific to resource assignments.
+      if ((value & 0x8000) != 0 || (value & 0x4000) != 0)
       {
          return project.getUserDefinedFields().getAssignmentField(Integer.valueOf(value), (k)-> {
             int id = (k.intValue() & 0xFFF) +1 ;
