@@ -94,6 +94,7 @@ import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
+import net.sf.mpxj.common.ProjectFieldLists;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.mpp.UserDefinedFieldMap;
@@ -2368,9 +2369,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // All user defined fields
       set.addAll(m_projectFile.getUserDefinedFields().getFields());
 
-      // All extended fields with values
+      // All custom fields with values
+      List<FieldType> customFields = Stream.of(TaskFieldLists.EXTENDED_FIELDS, ResourceFieldLists.EXTENDED_FIELDS, AssignmentFieldLists.EXTENDED_FIELDS).flatMap(Collection::stream).collect(Collectors.toList());
       XXX -todo
-      Stream.of(m_projectFile.getTasks().getPopulatedFields(), m_projectFile.getResources().getPopulatedFields()).flatMap(Collection::stream).collect(Collectors.toSet());
+
+      set.addAll(m_projectFile.getPopulatedFields().stream().filter(f -> xxx.contains(f)).collect(Collectors.toSet()));
+
+      // all fields that have an ID
 
       return m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
    }
