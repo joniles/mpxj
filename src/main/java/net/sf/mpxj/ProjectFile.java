@@ -25,8 +25,12 @@ package net.sf.mpxj;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import net.sf.mpxj.common.NumberHelper;
 
@@ -675,6 +679,17 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    public void clearBaseline(int index)
    {
       new DefaultBaselineStrategy().clearBaseline(this, index);
+   }
+
+   /**
+    * A convenience method used to retrieve a set of FieldType instances representing
+    * all populated fields in the project.
+    *
+    * @return set of all populated fields
+    */
+   public Set<FieldType> getPopulatedFields()
+   {
+      return Stream.of(m_tasks.getPopulatedFields(), m_resources.getPopulatedFields(), m_assignments.getPopulatedFields(), m_properties.getPopulatedFields()).flatMap(Collection::stream).collect(Collectors.toSet());
    }
 
    private final ProjectConfig m_config = new ProjectConfig(this);
