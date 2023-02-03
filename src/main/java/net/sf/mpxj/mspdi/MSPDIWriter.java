@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -85,6 +86,7 @@ import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.FieldLists;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
@@ -2337,7 +2339,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private Set<FieldType> getExtendedAttributesSet()
    {
-      return m_projectFile.getCustomFields().getConfiguredAndPopulatedCustomFieldTypes().stream().filter(f -> FieldTypeHelper.getFieldID(f) != -1).collect(Collectors.toSet());
+      // All user configured fields
+      Set<FieldType> set = m_projectFile.getCustomFields().stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
+
+      // All custom fields with values
+      set.addAll(m_projectFile.getPopulatedFields().stream().filter(FieldLists.EXTENDED_FIELDS::contains).collect(Collectors.toSet()));
+
+      // Remove unknown fields
+      set.removeIf(f -> FieldTypeHelper.getFieldID(f) == -1);
+
+      return set;
    }
 
    /**
