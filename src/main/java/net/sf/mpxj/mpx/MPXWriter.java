@@ -91,7 +91,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_formats = new MPXJFormats(m_locale, LocaleData.getString(m_locale, LocaleData.NA), m_projectFile);
       m_calendarNameSet = new HashSet<>();
       m_calendarNameMap = new HashMap<>();
-      m_userDefinedFieldMap = UserDefinedFieldMap.getInstanceWithMappings(projectFile, EXTENDED_FIELDS);
+      m_userDefinedFieldMap = UserDefinedFieldMap.getInstanceWithMappings(projectFile, MAPPING_TARGET_CUSTOM_FIELDS);
 
       try
       {
@@ -1590,10 +1590,10 @@ public final class MPXWriter extends AbstractProjectWriter
    private Map<Integer, String> m_calendarNameMap;
    private UserDefinedFieldMap m_userDefinedFieldMap;
 
-   private static final List<FieldType> EXTENDED_FIELDS = new ArrayList<>();
+   private static final List<FieldType> MAPPING_TARGET_CUSTOM_FIELDS = new ArrayList<>();
    static
    {
-      EXTENDED_FIELDS.addAll(MPXTaskField.EXTENDED_FIELDS);
-      EXTENDED_FIELDS.addAll(MPXResourceField.EXTENDED_FIELDS);
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(MPXTaskField.EXTENDED_FIELDS);
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(MPXResourceField.EXTENDED_FIELDS);
    }
 }

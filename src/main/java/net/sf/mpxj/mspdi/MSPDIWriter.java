@@ -29,7 +29,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -94,7 +93,6 @@ import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
-import net.sf.mpxj.common.ProjectFieldLists;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.mpp.UserDefinedFieldMap;
@@ -225,7 +223,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_extendedAttributes = getExtendedAttributesSet();
 
          m_sourceIsMicrosoftProject = MICROSOFT_PROJECT_FILES.contains(m_projectFile.getProjectProperties().getFileType());
-         m_userDefinedFieldMap = UserDefinedFieldMap.getInstanceWithoutMappings(projectFile, EXTENDED_FIELDS);
+         m_userDefinedFieldMap = UserDefinedFieldMap.getInstanceWithoutMappings(projectFile, MAPPING_TARGET_CUSTOM_FIELDS);
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();
@@ -2452,11 +2450,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private static final BigInteger NULL_CALENDAR_ID = BigInteger.valueOf(-1);
 
-   private static final List<FieldType> EXTENDED_FIELDS = new ArrayList<>();
+   private static final List<FieldType> MAPPING_TARGET_CUSTOM_FIELDS = new ArrayList<>();
    static
    {
-      EXTENDED_FIELDS.addAll(TaskFieldLists.EXTENDED_FIELDS);
-      EXTENDED_FIELDS.addAll(ResourceFieldLists.EXTENDED_FIELDS);
-      EXTENDED_FIELDS.addAll(AssignmentFieldLists.EXTENDED_FIELDS);
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(TaskFieldLists.EXTENDED_FIELDS);
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(ResourceFieldLists.EXTENDED_FIELDS);
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(AssignmentFieldLists.EXTENDED_FIELDS);
    }
 }
