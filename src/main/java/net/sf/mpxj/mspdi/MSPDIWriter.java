@@ -2453,8 +2453,29 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private static final List<FieldType> MAPPING_TARGET_CUSTOM_FIELDS = new ArrayList<>();
    static
    {
-      MAPPING_TARGET_CUSTOM_FIELDS.addAll(TaskFieldLists.EXTENDED_FIELDS);
-      MAPPING_TARGET_CUSTOM_FIELDS.addAll(ResourceFieldLists.EXTENDED_FIELDS);
-      MAPPING_TARGET_CUSTOM_FIELDS.addAll(AssignmentFieldLists.EXTENDED_FIELDS);
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_TEXT));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DATE));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_START));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FINISH));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_COST));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_FLAG));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_NUMBER));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_TEXT));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DATE));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_START));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FINISH));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_COST));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FLAG));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_NUMBER));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_TEXT));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DATE));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_START));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FINISH));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_COST));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FLAG));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_NUMBER));
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
    }
 }
