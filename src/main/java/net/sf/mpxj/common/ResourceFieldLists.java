@@ -516,18 +516,18 @@ public final class ResourceFieldLists
    static
    {
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_TEXT));
+      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DATE));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_START));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FINISH));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_COST));
-      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DATE));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_FLAG));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_NUMBER));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION));
-      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_COST));
+      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_TEXT));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DATE));
-      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DURATION));
+      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_COST));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_FLAG));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_NUMBER));
-      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_TEXT));
+      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.ENTERPRISE_DURATION));
    }
 }
