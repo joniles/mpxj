@@ -37,10 +37,10 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-import net.sf.mpxj.CustomField;
-import net.sf.mpxj.CustomFieldContainer;
-import net.sf.mpxj.CustomFieldLookupTable;
-import net.sf.mpxj.CustomFieldValueDataType;
+import net.sf.mpxj.UserConfiguredField;
+import net.sf.mpxj.UserConfiguredFieldContainer;
+import net.sf.mpxj.UserConfiguredFieldLookupTable;
+import net.sf.mpxj.UserConfiguredFieldValueDataType;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
@@ -68,7 +68,7 @@ public class CustomFieldValueReader9
       m_file = file;
       m_properties = file.getProjectProperties();
       m_projectProps = projectProps;
-      m_container = file.getCustomFields();
+      m_container = file.getUserConfiguredFields();
    }
 
    /**
@@ -201,17 +201,17 @@ public class CustomFieldValueReader9
     */
    private void populateContainer(FieldType field, byte[] values, byte[] descriptions)
    {
-      CustomField config = m_container.getOrCreate(field);
-      CustomFieldLookupTable table = config.getLookupTable();
+      UserConfiguredField config = m_container.getOrCreate(field);
+      UserConfiguredFieldLookupTable table = config.getLookupTable();
       String fieldTypeName = config.getFieldType().getName();
       table.setGUID(UUID.nameUUIDFromBytes(fieldTypeName.getBytes()));
 
       List<Object> descriptionList = convertType(DataType.STRING, descriptions);
       List<Object> valueList = convertType(field.getDataType(), values);
-      CustomFieldValueDataType itemType = getDataType(field);
+      UserConfiguredFieldValueDataType itemType = getDataType(field);
       for (int index = 0; index < descriptionList.size(); index++)
       {
-         CustomFieldValueItem item = new CustomFieldValueItem(Integer.valueOf(++m_valueUniqueIDCounter));
+         UserConfiguredFieldValueItem item = new UserConfiguredFieldValueItem(Integer.valueOf(++m_valueUniqueIDCounter));
          item.setDescription((String) descriptionList.get(index));
          item.setType(itemType);
          item.setGUID(UUID.nameUUIDFromBytes((fieldTypeName + item.getUniqueID()).getBytes()));
@@ -232,15 +232,15 @@ public class CustomFieldValueReader9
     */
    private void populateContainer(FieldType field, List<Pair<String, String>> items)
    {
-      CustomField config = m_container.getOrCreate(field);
-      CustomFieldLookupTable table = config.getLookupTable();
+      UserConfiguredField config = m_container.getOrCreate(field);
+      UserConfiguredFieldLookupTable table = config.getLookupTable();
       String fieldTypeName = field == null ? "Unknown" : field.getName();
       table.setGUID(UUID.nameUUIDFromBytes(fieldTypeName.getBytes()));
-      CustomFieldValueDataType itemType = getDataType(field);
+      UserConfiguredFieldValueDataType itemType = getDataType(field);
 
       for (Pair<String, String> pair : items)
       {
-         CustomFieldValueItem item = new CustomFieldValueItem(Integer.valueOf(++m_valueUniqueIDCounter));
+         UserConfiguredFieldValueItem item = new UserConfiguredFieldValueItem(Integer.valueOf(++m_valueUniqueIDCounter));
          item.setValue(pair.getFirst());
          item.setDescription(pair.getSecond());
          item.setType(itemType);
@@ -332,9 +332,9 @@ public class CustomFieldValueReader9
     * @param field custom field
     * @return CustomFieldValueDataType instance
     */
-   private CustomFieldValueDataType getDataType(FieldType field)
+   private UserConfiguredFieldValueDataType getDataType(FieldType field)
    {
-      CustomFieldValueDataType result = null;
+      UserConfiguredFieldValueDataType result = null;
       if (field != null)
       {
          result = TYPE_MAP.get(field.getDataType());
@@ -342,7 +342,7 @@ public class CustomFieldValueReader9
 
       if (result == null)
       {
-         result = CustomFieldValueDataType.TEXT;
+         result = UserConfiguredFieldValueDataType.TEXT;
       }
       return result;
    }
@@ -351,19 +351,19 @@ public class CustomFieldValueReader9
    private final ProjectFile m_file;
    private final ProjectProperties m_properties;
    private final Props m_projectProps;
-   private final CustomFieldContainer m_container;
+   private final UserConfiguredFieldContainer m_container;
    private int m_valueUniqueIDCounter;
    private static final Integer VALUE = Integer.valueOf(1);
    private static final Integer DESCRIPTION = Integer.valueOf(2);
 
-   private static final Map<DataType, CustomFieldValueDataType> TYPE_MAP = new HashMap<>();
+   private static final Map<DataType, UserConfiguredFieldValueDataType> TYPE_MAP = new HashMap<>();
    static
    {
-      TYPE_MAP.put(DataType.STRING, CustomFieldValueDataType.TEXT);
-      TYPE_MAP.put(DataType.CURRENCY, CustomFieldValueDataType.COST);
-      TYPE_MAP.put(DataType.NUMERIC, CustomFieldValueDataType.NUMBER);
-      TYPE_MAP.put(DataType.DATE, CustomFieldValueDataType.DATE);
-      TYPE_MAP.put(DataType.DURATION, CustomFieldValueDataType.DURATION);
-      TYPE_MAP.put(DataType.BOOLEAN, CustomFieldValueDataType.FLAG);
+      TYPE_MAP.put(DataType.STRING, UserConfiguredFieldValueDataType.TEXT);
+      TYPE_MAP.put(DataType.CURRENCY, UserConfiguredFieldValueDataType.COST);
+      TYPE_MAP.put(DataType.NUMERIC, UserConfiguredFieldValueDataType.NUMBER);
+      TYPE_MAP.put(DataType.DATE, UserConfiguredFieldValueDataType.DATE);
+      TYPE_MAP.put(DataType.DURATION, UserConfiguredFieldValueDataType.DURATION);
+      TYPE_MAP.put(DataType.BOOLEAN, UserConfiguredFieldValueDataType.FLAG);
    }
 }

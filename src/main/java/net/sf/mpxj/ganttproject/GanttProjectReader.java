@@ -48,7 +48,7 @@ import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.CustomField;
+import net.sf.mpxj.UserConfiguredField;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
@@ -349,7 +349,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
 
          UserDefinedField fieldType = new UserDefinedField(id, internalName, externalName, FieldTypeClass.RESOURCE, type);
          container.addField(fieldType);
-         CustomField field = m_projectFile.getCustomFields().add(fieldType).setAlias(definition.getName());
+         UserConfiguredField field = m_projectFile.getUserConfiguredFields().add(fieldType).setAlias(definition.getName());
 
          String defaultValue = definition.getDefaultValue();
          if (defaultValue != null && defaultValue.isEmpty())
@@ -391,7 +391,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
 
          UserDefinedField fieldType = new UserDefinedField(id, internalName, externalName, FieldTypeClass.TASK, type);
          container.addField(fieldType);
-         CustomField field = m_projectFile.getCustomFields().add(fieldType).setAlias(definition.getName());
+         UserConfiguredField field = m_projectFile.getUserConfiguredFields().add(fieldType).setAlias(definition.getName());
 
          String defaultValue = definition.getDefaultvalue();
          if (defaultValue != null && defaultValue.isEmpty())

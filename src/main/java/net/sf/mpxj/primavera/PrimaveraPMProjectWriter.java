@@ -46,8 +46,8 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CurrencySymbolPosition;
-import net.sf.mpxj.CustomField;
-import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.UserConfiguredField;
+import net.sf.mpxj.UserConfiguredFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -322,9 +322,9 @@ final class PrimaveraPMProjectWriter
 
       for (FieldType type : m_userDefinedFields)
       {
-         CustomField cf = m_projectFile.getCustomFields().get(type);
-         String title = cf != null && cf.getAlias() != null && !cf.getAlias().isEmpty() ? cf.getAlias() : type.getName();
-         Integer uniqueID = cf == null ? Integer.valueOf(FieldTypeHelper.getFieldID(type)) : cf.getUniqueID();
+         UserConfiguredField field = m_projectFile.getUserConfiguredFields().get(type);
+         String title = field != null && field.getAlias() != null && !field.getAlias().isEmpty() ? field.getAlias() : type.getName();
+         Integer uniqueID = field == null ? Integer.valueOf(FieldTypeHelper.getFieldID(type)) : field.getUniqueID();
 
          DataType dataType = type.getDataType();
          if (dataType == DataType.CUSTOM)
@@ -1615,7 +1615,7 @@ final class PrimaveraPMProjectWriter
    private List<UDFAssignmentType> writeUserDefinedFieldAssignments(FieldTypeClass type, FieldContainer mpxj)
    {
       List<UDFAssignmentType> out = new ArrayList<>();
-      CustomFieldContainer customFields = m_projectFile.getCustomFields();
+      UserConfiguredFieldContainer userConfiguredFields = m_projectFile.getUserConfiguredFields();
 
       for (FieldType fieldType : m_userDefinedFields)
       {
@@ -1624,8 +1624,8 @@ final class PrimaveraPMProjectWriter
             Object value = mpxj.getCachedValue(fieldType);
             if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
             {
-               CustomField cf = customFields.get(fieldType);
-               int uniqueID = cf == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(cf.getUniqueID());
+               UserConfiguredField field = userConfiguredFields.get(fieldType);
+               int uniqueID = field == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(field.getUniqueID());
 
                DataType dataType = fieldType.getDataType();
                if (dataType == DataType.CUSTOM)
@@ -1964,7 +1964,7 @@ final class PrimaveraPMProjectWriter
    private Set<FieldType> getUserDefinedFieldsSet()
    {
       // All user configured fields
-      Set<FieldType> set = m_projectFile.getCustomFields().stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
+      Set<FieldType> set = m_projectFile.getUserConfiguredFields().stream().map(UserConfiguredField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
 
       // All user defined fields
       set.addAll(m_projectFile.getUserDefinedFields().getFields());

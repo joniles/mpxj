@@ -1718,26 +1718,26 @@ final class AstaReader
    }
 
    /**
-    * Extract custom field data.
+    * Extract user defined field data.
     *
-    * @param definitions custom field definitions
-    * @param data custom field data
+    * @param definitions user defined field definitions
+    * @param data user defined  field data
     */
-   public void processCustomFields(List<Row> definitions, List<Row> data)
+   public void processUserDefinedFields(List<Row> definitions, List<Row> data)
    {
       Map<Integer, UserField> map = new HashMap<>();
 
-      processCustomFieldDefinitions(definitions, map);
-      processCustomFieldData(data, map);
+      processUserDefinedFieldDefinitions(definitions, map);
+      processUserDefinedFieldData(data, map);
    }
 
    /**
-    * Process custom field configuration.
+    * Process user defined field definitions
     *
     * @param definitions field definitions
-    * @param map custom field map
+    * @param map user defined field map
     */
-   private void processCustomFieldDefinitions(List<Row> definitions, Map<Integer, UserField> map)
+   private void processUserDefinedFieldDefinitions(List<Row> definitions, Map<Integer, UserField> map)
    {
       // TODO: convert to UserDefinedField
       UserFieldDataType<TaskField> taskTypes = new UserFieldDataType<>(TaskField.class);
@@ -1775,7 +1775,7 @@ final class AstaReader
          if (field != null)
          {
             map.put(row.getInteger("UDF_ID"), new UserField(field, objectType, row.getInt("DATA_TYPE")));
-            m_project.getCustomFields().add(field).setAlias(row.getString("UDF_NAME"));
+            m_project.getUserConfiguredFields().add(field).setAlias(row.getString("UDF_NAME"));
          }
       }
    }
@@ -1786,7 +1786,7 @@ final class AstaReader
     * @param data custom field data
     * @param map field map
     */
-   private void processCustomFieldData(List<Row> data, Map<Integer, UserField> map)
+   private void processUserDefinedFieldData(List<Row> data, Map<Integer, UserField> map)
    {
       for (Row row : data)
       {

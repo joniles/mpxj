@@ -25,7 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.util.UUID;
 
-import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.UserConfiguredFieldContainer;
 
 /**
  * Core implementation to read fields from var data, including
@@ -38,9 +38,9 @@ abstract class VarDataFieldReader
     *
     * @param customFields custom fields container
     */
-   public VarDataFieldReader(CustomFieldContainer customFields)
+   public VarDataFieldReader(UserConfiguredFieldContainer customFields)
    {
-      m_customFields = customFields;
+      m_userConfiguredFields = customFields;
    }
 
    /**
@@ -64,14 +64,14 @@ abstract class VarDataFieldReader
          int uniqueId = MPPUtility.getInt(data, 2);
          UUID guid = MPPUtility.getGUID(data, 6);
 
-         CustomFieldValueItem item;
+         UserConfiguredFieldValueItem item;
          if (uniqueId == -1)
          {
-            item = m_customFields.getCustomFieldValueItemByGuid(guid);
+            item = m_userConfiguredFields.getUserConfiguredFieldValueItemByGuid(guid);
          }
          else
          {
-            item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
+            item = m_userConfiguredFields.getUserConfiguredFieldValueItemByUniqueID(uniqueId);
          }
 
          if (item == null)
@@ -112,7 +112,7 @@ abstract class VarDataFieldReader
     */
    protected abstract Object coerceValue(Object value);
 
-   private final CustomFieldContainer m_customFields;
+   private final UserConfiguredFieldContainer m_userConfiguredFields;
    private static final int VALUE_LIST_WITH_ID_MASK = 0x0701;
    private static final int VALUE_LIST_WITHOUT_ID_MASK = 0x0401;
 }

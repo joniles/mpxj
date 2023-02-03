@@ -32,9 +32,9 @@ import java.text.SimpleDateFormat;
 import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
-import net.sf.mpxj.CustomField;
-import net.sf.mpxj.CustomFieldContainer;
-import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.UserConfiguredField;
+import net.sf.mpxj.UserConfiguredFieldContainer;
+import net.sf.mpxj.UserConfiguredFieldLookupTable;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TaskField;
@@ -65,10 +65,10 @@ public class ProjectValueListsTest
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       ProjectFile project = new UniversalProjectReader().read(file);
-      CustomFieldContainer container = project.getCustomFields();
+      UserConfiguredFieldContainer container = project.getUserConfiguredFields();
 
-      CustomField config = container.get(TaskField.COST1);
-      CustomFieldLookupTable table = config.getLookupTable();
+      UserConfiguredField config = container.get(TaskField.COST1);
+      UserConfiguredFieldLookupTable table = config.getLookupTable();
       assertEquals(3, table.size());
       assertEquals(1, ((Number) table.get(0).getValue()).intValue());
       assertEquals("Description 1", table.get(0).getDescription());

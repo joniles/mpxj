@@ -25,7 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.util.Date;
 
-import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.UserConfiguredFieldContainer;
 
 /**
  * Read a timestamp field from the var data.
@@ -37,7 +37,7 @@ class TimestampVarDataFieldReader extends VarDataFieldReader
     *
     * @param customFields custom fields container
     */
-   public TimestampVarDataFieldReader(CustomFieldContainer customFields)
+   public TimestampVarDataFieldReader(UserConfiguredFieldContainer customFields)
    {
       super(customFields);
    }

@@ -34,7 +34,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.UserConfiguredFieldContainer;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
@@ -954,7 +954,7 @@ public class BasicTest
     */
    private void validateAliases(ProjectFile mpx)
    {
-      CustomFieldContainer fields = mpx.getCustomFields();
+      UserConfiguredFieldContainer fields = mpx.getUserConfiguredFields();
 
       assertEquals("Text1t", fields.get(TaskField.TEXT1).getAlias());
       assertEquals("Text2t", fields.get(TaskField.TEXT2).getAlias());

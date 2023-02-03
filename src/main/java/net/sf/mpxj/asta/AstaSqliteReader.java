@@ -213,7 +213,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
    {
       List<Row> definitions = getRows("select * from udf_defn");
       List<Row> data = getRows("select * from udf_data");
-      m_reader.processCustomFields(definitions, data);
+      m_reader.processUserDefinedFields(definitions, data);
    }
 
    /**

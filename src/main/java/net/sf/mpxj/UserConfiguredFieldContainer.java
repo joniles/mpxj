@@ -1,5 +1,5 @@
 /*
- * file:       CustomFieldContainer.java
+ * file:       UserConfiguredFieldContainer.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2002-20015
  * date:       28/04/2015
@@ -24,83 +24,77 @@
 package net.sf.mpxj;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.Pair;
-import net.sf.mpxj.common.ResourceFieldLists;
-import net.sf.mpxj.common.TaskFieldLists;
-import net.sf.mpxj.mpp.CustomFieldValueItem;
+import net.sf.mpxj.mpp.UserConfiguredFieldValueItem;
 
 /**
- * Container holding configuration details for all custom fields.
+ * Container holding configuration details for all user configured fields.
  */
-public class CustomFieldContainer implements Iterable<CustomField>
+public class UserConfiguredFieldContainer implements Iterable<UserConfiguredField>
 {
    /**
     * Constructor.
     *
     * @param parent parent project file
     */
-   public CustomFieldContainer(ProjectFile parent)
+   public UserConfiguredFieldContainer(ProjectFile parent)
    {
       m_parent = parent;
    }
 
    /**
-    * Retrieve configuration details for a given custom field.
+    * Retrieve configuration details for a given field.
     *
-    * @param field required custom field
+    * @param field required field
     * @return configuration detail
     * @deprecated use getOrCreate
     */
-   @Deprecated public CustomField getCustomField(FieldType field)
+   @Deprecated public UserConfiguredField getUserConfiguredField(FieldType field)
    {
       return getOrCreate(field);
    }
 
    /**
-    * Retrieve configuration details for a given custom field.
+    * Retrieve configuration details for a given field.
     * Return null if the field has not been configured.
     *
     * @param field target field type
     * @return field configuration, or null if not configured
     */
-   public CustomField get(FieldType field)
+   public UserConfiguredField get(FieldType field)
    {
       return m_configMap.get(field);
    }
 
    /**
-    * Retrieve configuration details for a given custom field,
-    * create a new CustomField entry if one does not exist.
+    * Retrieve configuration details for a given field,
+    * create a new UserConfiguredField entry if one does not exist.
     *
-    * @param field required custom field
+    * @param field required field
     * @return configuration detail
     */
-   public CustomField getOrCreate(FieldType field)
+   public UserConfiguredField getOrCreate(FieldType field)
    {
-      return m_configMap.computeIfAbsent(field, k -> new CustomField(field, this));
+      return m_configMap.computeIfAbsent(field, k -> new UserConfiguredField(field, this));
    }
 
    /**
-    * Add a new custom field. Overwrite any previous CustomField definition.
+    * Add a new UserConfiguredField field. Overwrite any previous UserConfiguredField definition.
     *
     * @param field field type
-    * @return new CustomField instance
+    * @return new UserConfiguredField instance
     */
-   public CustomField add(FieldType field)
+   public UserConfiguredField add(FieldType field)
    {
-      CustomField result = new CustomField(field, this);
+      UserConfiguredField result = new UserConfiguredField(field, this);
       m_configMap.put(field, result);
       return result;
    }
@@ -131,59 +125,59 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
-    * Retrieve a list of custom fields by type class.
+    * Retrieve a list of user configured fields by type class.
     *
     * @param typeClass required type class
-    * @return list of CustomField instances
+    * @return list of UserConfiguredField instances
     */
-   public List<CustomField> getCustomFieldsByFieldTypeClass(FieldTypeClass typeClass)
+   public List<UserConfiguredField> getUserConfiguredFieldsByFieldTypeClass(FieldTypeClass typeClass)
    {
       return stream().filter(f -> f.getFieldType().getFieldTypeClass() == typeClass).collect(Collectors.toList());
    }
 
    /**
-    * Return the number of custom fields.
+    * Return the number of user configured fields.
     *
-    * @return number of custom fields
+    * @return number of user configured fields
     */
    public int size()
    {
       return m_configMap.values().size();
    }
 
-   @Override public Iterator<CustomField> iterator()
+   @Override public Iterator<UserConfiguredField> iterator()
    {
       return m_configMap.values().iterator();
    }
 
    /**
-    * Retrieve a custom field value by its unique ID.
+    * Retrieve a user configured field value item by its unique ID.
     *
-    * @param uniqueID custom field value unique ID
-    * @return custom field value
+    * @param uniqueID user configured field value unique ID
+    * @return user configured field value item
     */
-   public CustomFieldValueItem getCustomFieldValueItemByUniqueID(int uniqueID)
+   public UserConfiguredFieldValueItem getUserConfiguredFieldValueItemByUniqueID(int uniqueID)
    {
       return m_valueMap.get(Integer.valueOf(uniqueID));
    }
 
    /**
-    * Retrieve a custom field value by its guid.
+    * Retrieve a user configured field value item by its guid.
     *
-    * @param guid custom field value guid
-    * @return custom field value
+    * @param guid user configured field value guid
+    * @return user configured field value item
     */
-   public CustomFieldValueItem getCustomFieldValueItemByGuid(UUID guid)
+   public UserConfiguredFieldValueItem getUserConfiguredFieldValueItemByGuid(UUID guid)
    {
       return m_guidMap.get(guid);
    }
 
    /**
-    * Add a value to the custom field value index.
+    * Add a value to the user configured field value index.
     *
-    * @param item custom field value
+    * @param item user configured field value item
     */
-   public void registerValue(CustomFieldValueItem item)
+   public void registerValue(UserConfiguredFieldValueItem item)
    {
       m_valueMap.put(item.getUniqueID(), item);
       if (item.getGUID() != null)
@@ -193,11 +187,11 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
-    * Remove a value from the custom field value index.
+    * Remove a value from the user configured field value index.
     *
-    * @param item custom field value
+    * @param item user configured field value item
     */
-   public void deregisterValue(CustomFieldValueItem item)
+   public void deregisterValue(UserConfiguredFieldValueItem item)
    {
       m_valueMap.remove(item.getUniqueID());
       if (item.getGUID() != null)
@@ -218,18 +212,18 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
-    * Return a stream of CustomFields.
+    * Return a stream of UserConfiguredField instances.
     *
     * @return Stream instance
     */
-   public Stream<CustomField> stream()
+   public Stream<UserConfiguredField> stream()
    {
       return StreamSupport.stream(spliterator(), false);
    }
 
    private final ProjectFile m_parent;
-   private final Map<FieldType, CustomField> m_configMap = new HashMap<>();
-   private final Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<>();
-   private final Map<UUID, CustomFieldValueItem> m_guidMap = new HashMap<>();
+   private final Map<FieldType, UserConfiguredField> m_configMap = new HashMap<>();
+   private final Map<Integer, UserConfiguredFieldValueItem> m_valueMap = new HashMap<>();
+   private final Map<UUID, UserConfiguredFieldValueItem> m_guidMap = new HashMap<>();
    private final Map<Pair<FieldTypeClass, String>, FieldType> m_aliasMap = new HashMap<>();
 }

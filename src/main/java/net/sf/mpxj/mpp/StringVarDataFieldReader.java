@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.UserConfiguredFieldContainer;
 
 /**
  * Read a string field from the var data.
@@ -35,7 +35,7 @@ class StringVarDataFieldReader extends VarDataFieldReader
     *
     * @param customFields custom fields container
     */
-   public StringVarDataFieldReader(CustomFieldContainer customFields)
+   public StringVarDataFieldReader(UserConfiguredFieldContainer customFields)
    {
       super(customFields);
    }

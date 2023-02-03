@@ -23,8 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.CustomField;
-import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.UserConfiguredField;
+import net.sf.mpxj.UserConfiguredFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
@@ -45,7 +45,7 @@ class CustomFieldReader12
    public CustomFieldReader12(ProjectFile file, byte[] data)
    {
       m_file = file;
-      m_fields = file.getCustomFields();
+      m_fields = file.getUserConfiguredFields();
       m_data = data;
    }
 
@@ -144,7 +144,7 @@ class CustomFieldReader12
             // Don't try to set the data type unless it's a custom field
             if (fieldType instanceof UserDefinedField && fieldType.getDataType() == DataType.CUSTOM)
             {
-               CustomField customField = m_fields.getOrCreate(fieldType);
+               UserConfiguredField field = m_fields.getOrCreate(fieldType);
                int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
                ((UserDefinedField) fieldType).setDataType(EnterpriseCustomFieldDataType.getDataTypeFromID(dataTypeValue));
                //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
@@ -157,6 +157,6 @@ class CustomFieldReader12
    }
 
    private final ProjectFile m_file;
-   private final CustomFieldContainer m_fields;
+   private final UserConfiguredFieldContainer m_fields;
    private final byte[] m_data;
 }

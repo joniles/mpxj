@@ -41,7 +41,7 @@ import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Column;
-import net.sf.mpxj.CustomField;
+import net.sf.mpxj.UserConfiguredField;
 import net.sf.mpxj.DataLink;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -440,7 +440,7 @@ public class ProjectTreeController
    private void addCustomFields(MpxjTreeNode parentNode, ProjectFile file)
    {
       // Function to generate a name for each custom field
-      Function<CustomField, String> name = f -> {
+      Function<UserConfiguredField, String> name = f -> {
          FieldType type = f.getFieldType();
          String result = type == null ? "(unknown)" : type.getFieldTypeClass() + "." + type;
          result = f.getAlias() == null || f.getAlias().isEmpty() ? result : result + " (" + f.getAlias() + ")";
@@ -448,8 +448,8 @@ public class ProjectTreeController
       };
 
       // Use a TreeMap to sort by name
-      Map<String, CustomField> map = file.getCustomFields().stream().collect(Collectors.toMap(name, Function.identity(), (u, v) -> u, TreeMap::new));
-      for (Map.Entry<String, CustomField> entry : map.entrySet())
+      Map<String, UserConfiguredField> map = file.getUserConfiguredFields().stream().collect(Collectors.toMap(name, Function.identity(), (u, v) -> u, TreeMap::new));
+      for (Map.Entry<String, UserConfiguredField> entry : map.entrySet())
       {
          MpxjTreeNode childNode = new MpxjTreeNode(entry.getValue())
          {

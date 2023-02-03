@@ -46,7 +46,7 @@ import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
-import net.sf.mpxj.CustomField;
+import net.sf.mpxj.UserConfiguredField;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -207,7 +207,7 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.setPretty(m_pretty);
 
          m_writer.writeStartObject(null);
-         writeCustomFields();
+         writeUserConfiguredFields();
          writeWorkContours();
          writeActivityCodes();
          writeProperties();
@@ -236,11 +236,12 @@ public final class JsonWriter extends AbstractProjectWriter
    /**
     * Write a list of custom field attributes.
     */
-   private void writeCustomFields() throws IOException
+   private void writeUserConfiguredFields() throws IOException
    {
-      List<CustomField> sortedCustomFieldsList = m_projectFile.getCustomFields().stream().filter(f -> f.getFieldType() != null).sorted().collect(Collectors.toList());
+      List<UserConfiguredField> sortedFieldsList = m_projectFile.getUserConfiguredFields().stream().filter(f -> f.getFieldType() != null).sorted().collect(Collectors.toList());
+      // TODO: rename this list
       m_writer.writeStartList("custom_fields");
-      for (CustomField field : sortedCustomFieldsList)
+      for (UserConfiguredField field : sortedFieldsList)
       {
          writeCustomField(field);
       }
@@ -301,7 +302,7 @@ public final class JsonWriter extends AbstractProjectWriter
     *
     * @param field custom field to write
     */
-   private void writeCustomField(CustomField field) throws IOException
+   private void writeCustomField(UserConfiguredField field) throws IOException
    {
       if (field.getAlias() != null)
       {
