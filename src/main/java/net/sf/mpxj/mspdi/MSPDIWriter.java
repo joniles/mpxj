@@ -46,6 +46,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.AccrueType;
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -1159,7 +1160,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
          FieldType mappedFieldType = m_userDefinedFieldMap.getTarget(mpxFieldID);
-         if (!(mappedFieldType instanceof UserDefinedField))
+         if (mappedFieldType instanceof ResourceField)
          {
             Project.Resources.Resource.ExtendedAttribute attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
             extendedAttributes.add(attrib);
@@ -1645,7 +1646,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
          FieldType mappedFieldType = m_userDefinedFieldMap.getTarget(mpxFieldID);
-         if (!(mappedFieldType instanceof UserDefinedField))
+         if (mappedFieldType instanceof TaskField)
          {
             Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
             extendedAttributes.add(attrib);
@@ -2119,7 +2120,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
          FieldType mappedFieldType = m_userDefinedFieldMap.getTarget(mpxFieldID);
-         if (!(mappedFieldType instanceof UserDefinedField))
+         if (mappedFieldType instanceof AssignmentField)
          {
             Project.Assignments.Assignment.ExtendedAttribute attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
             extendedAttributes.add(attrib);
