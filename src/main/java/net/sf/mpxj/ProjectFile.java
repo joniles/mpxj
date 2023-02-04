@@ -555,6 +555,11 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_costAccounts;
    }
 
+   /**
+    * Retrieves the user defined fields available for this schedule.
+    *
+    * @return user defined fields
+    */
    public UserDefinedFieldContainer getUserDefinedFields()
    {
       return m_userDefinedFields;
