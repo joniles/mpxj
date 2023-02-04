@@ -13,13 +13,134 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import net.sf.mpxj.common.FieldTypeHelper;
-
-public class UserDefinedFieldContainer implements Iterable<UserDefinedField>
+public class UserDefinedFieldContainer implements Collection<UserDefinedField>
 {
-   public Set<UserDefinedField> getFields()
+   @Override public Iterator<UserDefinedField> iterator()
    {
-      return m_fields;
+      return m_fields.iterator();
+   }
+
+   @Override public Object[] toArray()
+   {
+      return m_fields.toArray();
+   }
+
+   @Override public <T> T[] toArray(T[] a)
+   {
+      return m_fields.toArray(a);
+   }
+
+   @Override public boolean add(UserDefinedField field)
+   {
+      Map<Integer, UserDefinedField> map;
+
+      switch(field.getFieldTypeClass())
+      {
+         case TASK:
+         {
+            map = m_taskFields;
+            break;
+         }
+
+         case RESOURCE:
+         {
+            map = m_resourceFields;
+            break;
+         }
+
+         case ASSIGNMENT:
+         {
+            map = m_assignmentFields;
+            break;
+         }
+
+         case PROJECT:
+         {
+            map = m_projectFields;
+            break;
+         }
+
+         default:
+         {
+            map = null;
+            break;
+         }
+      }
+
+      if (map != null)
+      {
+         map.put(field.getUniqueID(), field);
+         m_fields.add(field);
+      }
+
+      return true;
+   }
+
+   @Override public boolean remove(Object o)
+   {
+      m_taskFields.remove(o);
+      m_resourceFields.remove(o);
+      m_assignmentFields.remove(o);
+      m_projectFields.remove(o);
+      return m_fields.remove(o);
+   }
+
+   @Override public boolean containsAll(Collection<?> c)
+   {
+      return m_fields.containsAll(c);
+   }
+
+   @Override public boolean addAll(Collection<? extends UserDefinedField> c)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   @Override public boolean removeAll(Collection<?> c)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   @Override public boolean retainAll(Collection<?> c)
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   @Override public void clear()
+   {
+      m_taskFields.clear();
+      m_resourceFields.clear();
+      m_assignmentFields.clear();
+      m_projectFields.clear();
+   }
+
+   @Override public void forEach(Consumer<? super UserDefinedField> action)
+   {
+      m_fields.forEach(action);
+   }
+
+   @Override public Spliterator<UserDefinedField> spliterator()
+   {
+      return m_fields.spliterator();
+   }
+
+   public Stream<UserDefinedField> stream()
+   {
+      return StreamSupport.stream(spliterator(), false);
+   }
+
+   @Override public int size()
+   {
+      return m_fields.size();
+   }
+
+   public boolean isEmpty()
+   {
+      return m_fields.isEmpty();
+   }
+
+   @Override public boolean contains(Object o)
+   {
+      return m_fields.contains(o);
    }
 
    public Collection<UserDefinedField> getTaskFields()
@@ -81,75 +202,10 @@ public class UserDefinedFieldContainer implements Iterable<UserDefinedField>
       return m_projectFields.computeIfAbsent(id, (i) -> addField(createFunction.apply(i)));
    }
 
-   public UserDefinedField addField(UserDefinedField field)
+   private UserDefinedField addField(UserDefinedField field)
    {
-      Map<Integer, UserDefinedField> map;
-
-      switch(field.getFieldTypeClass())
-      {
-         case TASK:
-         {
-            map = m_taskFields;
-            break;
-         }
-
-         case RESOURCE:
-         {
-            map = m_resourceFields;
-            break;
-         }
-
-         case ASSIGNMENT:
-         {
-            map = m_assignmentFields;
-            break;
-         }
-
-         case PROJECT:
-         {
-            map = m_projectFields;
-            break;
-         }
-
-         default:
-         {
-            map = null;
-            break;
-         }
-      }
-
-      if (map != null)
-      {
-         map.put(field.getUniqueID(), field);
-         m_fields.add(field);
-      }
-
+      add(field);
       return field;
-   }
-
-   @Override public Iterator<UserDefinedField> iterator()
-   {
-      return m_fields.iterator();
-   }
-
-   @Override public void forEach(Consumer<? super UserDefinedField> action)
-   {
-      m_fields.forEach(action);
-   }
-
-   @Override public Spliterator<UserDefinedField> spliterator()
-   {
-      return m_fields.spliterator();
-   }
-
-   public Stream<UserDefinedField> stream()
-   {
-      return StreamSupport.stream(spliterator(), false);
-   }
-
-   public boolean isEmpty()
-   {
-      return m_fields.isEmpty();
    }
 
    private final Map<Integer, UserDefinedField> m_taskFields = new HashMap<>();

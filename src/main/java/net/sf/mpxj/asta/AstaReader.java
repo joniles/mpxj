@@ -1770,7 +1770,7 @@ final class AstaReader
          String internalName = "user_field_" + id;
          String externalName = row.getString("UDF_NAME");
          UserDefinedField field = new UserDefinedField(id, internalName, externalName, fieldTypeClass, dataType);
-         userDefinedFields.addField(field);
+         userDefinedFields.add(field);
          userConfiguredFields.add(field).setAlias(externalName);
 
          objectTypeMap.put(id, objectType);

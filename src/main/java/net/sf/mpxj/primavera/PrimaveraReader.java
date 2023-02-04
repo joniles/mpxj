@@ -295,7 +295,7 @@ final class PrimaveraReader
          String externalName = row.getString("udf_type_label");
          DataType dataType = DATA_TYPE_MAP.get(row.getString("logical_data_type"));
          UserDefinedField fieldType = new UserDefinedField(fieldId, internalName, externalName, fieldTypeClass, dataType);
-         container.addField(fieldType);
+         container.add(fieldType);
 
          m_udfFields.put(fieldId, fieldType);
          m_project.getUserConfiguredFields().add(fieldType).setAlias(externalName).setUniqueID(fieldId);

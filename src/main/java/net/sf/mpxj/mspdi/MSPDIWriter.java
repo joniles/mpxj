@@ -2382,7 +2382,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Set<FieldType> set = m_projectFile.getUserConfiguredFields().stream().map(UserConfiguredField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
 
       // All user defined fields
-      set.addAll(m_projectFile.getUserDefinedFields().getFields());
+      set.addAll(m_projectFile.getUserDefinedFields());
 
       // All custom fields with values
       set.addAll(m_projectFile.getPopulatedFields().stream().filter(FieldLists.CUSTOM_FIELDS::contains).collect(Collectors.toSet()));
