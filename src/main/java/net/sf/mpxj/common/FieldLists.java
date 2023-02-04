@@ -1,7 +1,7 @@
 /*
  * file:       FieldLists.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2023
+ * copyright:  (c) Timephased Limited 2023
  * date:       2023-02-03
  */
 
