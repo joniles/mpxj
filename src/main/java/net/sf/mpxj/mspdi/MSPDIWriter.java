@@ -356,12 +356,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
             else
             {
                mappedFieldType = m_userDefinedFieldMap.createMapping(fieldType);
+               if (mappedFieldType == null)
+               {
+                  // We have run out of fields we can map user defined fields of this type to
+                  // continue through the rest of the list to see if there are other
+                  // user defined fields of different types we can still map.
+                  continue;
+               }
             }
-         }
-
-         if (mappedFieldType == null)
-         {
-            System.out.println("here");
          }
 
          Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
@@ -1157,12 +1159,15 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
          FieldType mappedFieldType = m_userDefinedFieldMap.getTarget(mpxFieldID);
-         Project.Resources.Resource.ExtendedAttribute attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
-         extendedAttributes.add(attrib);
-         attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
-         attrib.setValue(DatatypeConverter.printCustomField(this, value, mappedFieldType.getDataType()));
-         attrib.setDurationFormat(printCustomFieldDurationFormat(value));
-         setValueGUID(attrib, mappedFieldType);
+         if (!(mappedFieldType instanceof UserDefinedField))
+         {
+            Project.Resources.Resource.ExtendedAttribute attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
+            extendedAttributes.add(attrib);
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
+            attrib.setValue(DatatypeConverter.printCustomField(this, value, mappedFieldType.getDataType()));
+            attrib.setDurationFormat(printCustomFieldDurationFormat(value));
+            setValueGUID(attrib, mappedFieldType);
+         }
       }
    }
 
@@ -1640,12 +1645,15 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
          FieldType mappedFieldType = m_userDefinedFieldMap.getTarget(mpxFieldID);
-         Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
-         extendedAttributes.add(attrib);
-         attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
-         attrib.setValue(DatatypeConverter.printCustomField(this, value, mappedFieldType.getDataType()));
-         attrib.setDurationFormat(printCustomFieldDurationFormat(value));
-         setValueGUID(attrib, mappedFieldType);
+         if (!(mappedFieldType instanceof UserDefinedField))
+         {
+            Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
+            extendedAttributes.add(attrib);
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
+            attrib.setValue(DatatypeConverter.printCustomField(this, value, mappedFieldType.getDataType()));
+            attrib.setDurationFormat(printCustomFieldDurationFormat(value));
+            setValueGUID(attrib, mappedFieldType);
+         }
       }
    }
 
@@ -2111,11 +2119,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (FieldTypeHelper.valueIsNotDefault(mpxFieldID, value))
       {
          FieldType mappedFieldType = m_userDefinedFieldMap.getTarget(mpxFieldID);
-         Project.Assignments.Assignment.ExtendedAttribute attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
-         extendedAttributes.add(attrib);
-         attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
-         attrib.setValue(DatatypeConverter.printCustomField(this, value, mappedFieldType.getDataType()));
-         attrib.setDurationFormat(printCustomFieldDurationFormat(value));
+         if (!(mappedFieldType instanceof UserDefinedField))
+         {
+            Project.Assignments.Assignment.ExtendedAttribute attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
+            extendedAttributes.add(attrib);
+            attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
+            attrib.setValue(DatatypeConverter.printCustomField(this, value, mappedFieldType.getDataType()));
+            attrib.setDurationFormat(printCustomFieldDurationFormat(value));
+         }
       }
    }
 
