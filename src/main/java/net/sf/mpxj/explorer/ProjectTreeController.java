@@ -166,9 +166,9 @@ public class ProjectTreeController
       projectNode.add(groupsFolder);
       addGroups(groupsFolder, m_projectFile);
 
-      MpxjTreeNode customFieldsFolder = new MpxjTreeNode("Custom Fields");
-      projectNode.add(customFieldsFolder);
-      addCustomFields(customFieldsFolder, m_projectFile);
+      MpxjTreeNode userConfiguredFields = new MpxjTreeNode("User Configured Fields");
+      projectNode.add(userConfiguredFields);
+      addUserConfiguredFields(userConfiguredFields, m_projectFile);
 
       MpxjTreeNode filtersFolder = new MpxjTreeNode("Filters");
       projectNode.add(filtersFolder);
@@ -432,14 +432,14 @@ public class ProjectTreeController
    }
 
    /**
-    * Add custom fields to the tree.
+    * Add user configured fields to the tree.
     *
     * @param parentNode parent tree node
-    * @param file custom fields container
+    * @param file user configured fields container
     */
-   private void addCustomFields(MpxjTreeNode parentNode, ProjectFile file)
+   private void addUserConfiguredFields(MpxjTreeNode parentNode, ProjectFile file)
    {
-      // Function to generate a name for each custom field
+      // Function to generate a name for each user configured field
       Function<UserConfiguredField, String> name = f -> {
          FieldType type = f.getFieldType();
          String result = type == null ? "(unknown)" : type.getFieldTypeClass() + "." + type;

@@ -163,7 +163,7 @@ abstract class MPD9AbstractReader
          processLinks();
          processAssignments();
          processAssignmentBaselines();
-         processExtendedAttributes();
+         processCustomAttributes();
          processSubProjects();
          postProcessing();
 
@@ -329,9 +329,9 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * This method reads the extended task and resource attributes.
+    * This method reads the custom task and resource attributes.
     */
-   private void processExtendedAttributes() throws MpdException
+   private void processCustomAttributes() throws MpdException
    {
       processTextFields();
       processNumberFields();
@@ -375,7 +375,7 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Reads text field extended attributes.
+    * Reads text field custom attributes.
     */
    private void processTextFields() throws MpdException
    {
@@ -386,7 +386,7 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Reads number field extended attributes.
+    * Reads number field custom attributes.
     */
    private void processNumberFields() throws MpdException
    {
@@ -397,7 +397,7 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Reads flag field extended attributes.
+    * Reads flag field custom attributes.
     */
    private void processFlagFields() throws MpdException
    {
@@ -408,7 +408,7 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Reads duration field extended attributes.
+    * Reads duration field custom attributes.
     */
    private void processDurationFields() throws MpdException
    {
@@ -419,7 +419,7 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Reads date field extended attributes.
+    * Reads date field custom attributes.
     */
    private void processDateFields() throws MpdException
    {
@@ -1034,7 +1034,7 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Read a single text field extended attribute.
+    * Read a single text field custom attribute.
     *
     * @param row field data
     */
@@ -1044,7 +1044,7 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Read a single number field extended attribute.
+    * Read a single number field custom attribute.
     *
     * @param row field data
     */
@@ -1054,7 +1054,7 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Read a single flag field extended attribute.
+    * Read a single flag field custom attribute.
     *
     * @param row field data
     */
@@ -1064,7 +1064,7 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Read a single duration field extended attribute.
+    * Read a single duration field custom attribute.
     *
     * @param row field data
     */
@@ -1074,7 +1074,7 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Read a single date field extended attribute.
+    * Read a single date field custom attribute.
     *
     * @param row field data
     */
@@ -1084,7 +1084,7 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Read a single outline code field extended attribute.
+    * Read a single outline code field custom attribute.
     *
     * @param entityID parent entity
     * @param row field data
@@ -1095,9 +1095,9 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Generic method to process an extended attribute field.
+    * Generic method to process an custom attribute field.
     *
-    * @param row extended attribute data
+    * @param row custom attribute data
     * @param fieldIDColumn column containing the field ID
     * @param entityIDColumn column containing the entity ID
     * @param value field value
@@ -1108,9 +1108,9 @@ abstract class MPD9AbstractReader
    }
 
    /**
-    * Generic method to process an extended attribute field.
+    * Generic method to process an custom attribute field.
     *
-    * @param row extended attribute data
+    * @param row custom attribute data
     * @param fieldIDColumn column containing the field ID
     * @param entityID parent entity ID
     * @param value field value

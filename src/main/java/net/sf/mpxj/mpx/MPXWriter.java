@@ -1593,7 +1593,7 @@ public final class MPXWriter extends AbstractProjectWriter
    private static final List<FieldType> MAPPING_TARGET_CUSTOM_FIELDS = new ArrayList<>();
    static
    {
-      MAPPING_TARGET_CUSTOM_FIELDS.addAll(MPXTaskField.EXTENDED_FIELDS);
-      MAPPING_TARGET_CUSTOM_FIELDS.addAll(MPXResourceField.EXTENDED_FIELDS);
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(MPXTaskField.CUSTOM_FIELDS);
+      MAPPING_TARGET_CUSTOM_FIELDS.addAll(MPXResourceField.CUSTOM_FIELDS);
    }
 }

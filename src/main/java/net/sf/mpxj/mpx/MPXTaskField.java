@@ -208,9 +208,9 @@ final class MPXTaskField
       }
    }
 
-   public static final List<FieldType> EXTENDED_FIELDS = new ArrayList<>();
+   public static final List<FieldType> CUSTOM_FIELDS = new ArrayList<>();
    static
    {
-      Arrays.stream(MPX_MPXJ_ARRAY).filter(TaskFieldLists.EXTENDED_FIELDS::contains).forEach(EXTENDED_FIELDS::add);
+      Arrays.stream(MPX_MPXJ_ARRAY).filter(TaskFieldLists.CUSTOM_FIELDS::contains).forEach(CUSTOM_FIELDS::add);
    }
 }

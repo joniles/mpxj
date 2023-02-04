@@ -102,7 +102,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
          processTasks();
          processPredecessors();
          processAssignments();
-         processCustomFields();
+         processUserDefinedFields();
          processCodeLibraries();
 
          m_reader = null;
@@ -207,9 +207,9 @@ public class AstaSqliteReader extends AbstractProjectFileReader
    }
 
    /**
-    * Process custom fields.
+    * Process user defined fields.
     */
-   private void processCustomFields() throws SQLException
+   private void processUserDefinedFields() throws SQLException
    {
       List<Row> definitions = getRows("select * from udf_defn");
       List<Row> data = getRows("select * from udf_data");

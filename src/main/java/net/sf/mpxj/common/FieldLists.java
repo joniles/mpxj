@@ -35,5 +35,5 @@ import net.sf.mpxj.FieldType;
  */
 public final class FieldLists
 {
-   public static final List<FieldType> EXTENDED_FIELDS = Stream.of(TaskFieldLists.EXTENDED_FIELDS, ResourceFieldLists.EXTENDED_FIELDS, AssignmentFieldLists.EXTENDED_FIELDS).flatMap(Collection::stream).collect(Collectors.toList());
+   public static final List<FieldType> CUSTOM_FIELDS = Stream.of(TaskFieldLists.CUSTOM_FIELDS, ResourceFieldLists.CUSTOM_FIELDS, AssignmentFieldLists.CUSTOM_FIELDS).flatMap(Collection::stream).collect(Collectors.toList());
 }

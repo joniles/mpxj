@@ -505,24 +505,24 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_RESOURCE_OUTLINE_CODE29
    };
 
-   public static final List<AssignmentField> EXTENDED_FIELDS = new ArrayList<>();
+   public static final List<AssignmentField> CUSTOM_FIELDS = new ArrayList<>();
    static
    {
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_TEXT));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DATE));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_START));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FINISH));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_COST));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FLAG));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_NUMBER));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_TEXT));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DATE));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_COST));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_FLAG));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_NUMBER));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DURATION));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_OUTLINE_CODE));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_MULTI_VALUE));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_TEXT));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DATE));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_START));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FINISH));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_COST));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FLAG));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_NUMBER));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_TEXT));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DATE));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_COST));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_FLAG));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_NUMBER));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DURATION));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_OUTLINE_CODE));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_MULTI_VALUE));
    }
 }
