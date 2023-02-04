@@ -54,7 +54,7 @@ final class ModelUtility
       {
          case STRING:
          {
-            populated = !((String) value).isEmpty();
+            populated = !(value instanceof String) || !((String) value).isEmpty();
             break;
          }
 
@@ -68,7 +68,7 @@ final class ModelUtility
          case DURATION:
          case WORK:
          {
-            populated = value instanceof Duration && ((Duration) value).getDuration() != 0.0;
+            populated = !(value instanceof Duration) || ((Duration) value).getDuration() != 0.0;
             break;
          }
 

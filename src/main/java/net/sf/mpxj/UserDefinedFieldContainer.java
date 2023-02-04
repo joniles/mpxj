@@ -65,24 +65,24 @@ public class UserDefinedFieldContainer implements Iterable<UserDefinedField>
 
    public UserDefinedField getTaskField(Integer id, Function<Integer, UserDefinedField> createFunction)
    {
-      return m_taskFields.computeIfAbsent(id, createFunction);
+      return m_taskFields.computeIfAbsent(id, (i) -> addField(createFunction.apply(i)));
    }
 
    public UserDefinedField getResourceField(Integer id, Function<Integer, UserDefinedField> createFunction)
    {
-      return m_resourceFields.computeIfAbsent(id, createFunction);
+      return m_resourceFields.computeIfAbsent(id, (i) -> addField(createFunction.apply(i)));
    }
 
    public UserDefinedField getAssignmentField(Integer id, Function<Integer, UserDefinedField> createFunction)
    {
-      return m_assignmentFields.computeIfAbsent(id, createFunction);
+      return m_assignmentFields.computeIfAbsent(id, (i) -> addField(createFunction.apply(i)));
    }
    public UserDefinedField getProjectField(Integer id, Function<Integer, UserDefinedField> createFunction)
    {
-      return m_projectFields.computeIfAbsent(id, createFunction);
+      return m_projectFields.computeIfAbsent(id, (i) -> addField(createFunction.apply(i)));
    }
 
-   public void addField(UserDefinedField field)
+   public UserDefinedField addField(UserDefinedField field)
    {
       Map<Integer, UserDefinedField> map;
 
@@ -124,6 +124,8 @@ public class UserDefinedFieldContainer implements Iterable<UserDefinedField>
          map.put(field.getUniqueID(), field);
          m_fields.add(field);
       }
+
+      return field;
    }
 
    @Override public Iterator<UserDefinedField> iterator()

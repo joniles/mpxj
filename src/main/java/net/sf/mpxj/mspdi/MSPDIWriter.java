@@ -359,6 +359,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
             }
          }
 
+         if (mappedFieldType == null)
+         {
+            System.out.println("here");
+         }
+
          Project.ExtendedAttributes.ExtendedAttribute attribute = m_factory.createProjectExtendedAttributesExtendedAttribute();
          list.add(attribute);
          attribute.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(mappedFieldType)));

@@ -1749,10 +1749,19 @@ final class AstaReader
       for (Row row : definitions)
       {
          ObjectType objectType = ObjectType.getInstance(row.getInteger("OBJ_TYPE"));
-         FieldTypeClass fieldTypeClass = getFieldTypeClass(objectType);
-         DataType dataType = DATA_TYPE_MAP.get(row.getInteger("DATA_TYPE"));
+         if (objectType == null)
+         {
+            continue;
+         }
 
-         if (objectType == null || fieldTypeClass == null || dataType == null)
+         FieldTypeClass fieldTypeClass = getFieldTypeClass(objectType);
+         if (fieldTypeClass == null)
+         {
+            continue;
+         }
+
+         DataType dataType = DATA_TYPE_MAP.get(row.getInteger("DATA_TYPE"));
+         if (dataType == null)
          {
             continue;
          }

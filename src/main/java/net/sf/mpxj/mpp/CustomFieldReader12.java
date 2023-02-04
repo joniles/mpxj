@@ -146,7 +146,11 @@ class CustomFieldReader12
             {
                UserConfiguredField field = m_fields.getOrCreate(fieldType);
                int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
-               ((UserDefinedField) fieldType).setDataType(EnterpriseCustomFieldDataType.getDataTypeFromID(dataTypeValue));
+               DataType dataType = EnterpriseCustomFieldDataType.getDataTypeFromID(dataTypeValue);
+               if (dataType != null)
+               {
+                  ((UserDefinedField) fieldType).setDataType(dataType);
+               }
                //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
                //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, blockSize, false));
             }
