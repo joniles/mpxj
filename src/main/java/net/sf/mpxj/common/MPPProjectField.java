@@ -47,7 +47,7 @@ public class MPPProjectField
    {
       if ((value & 0x8000) != 0)
       {
-         return project.getUserDefinedFields().getProjectField(Integer.valueOf(value), (k)-> {
+         return project.getUserDefinedFields().getOrCreateProjectField(Integer.valueOf(value), (k)-> {
             int id = (k.intValue() & 0xFFF) +1 ;
             String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
             String externalName = "Enterprise Custom Field " + id;

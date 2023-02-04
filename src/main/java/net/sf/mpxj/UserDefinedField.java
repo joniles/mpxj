@@ -1,8 +1,43 @@
+/*
+ * file:       UserDefinedField.java
+ * author:     Jon Iles
+ * copyright:  (c) Timephased Ltd 2023
+ * date:       2023-02-04
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package net.sf.mpxj;
 import java.util.Locale;
 
+/**
+ * Represents a user defined field.
+ */
 public class UserDefinedField implements FieldType
 {
+   /**
+    * Constructor.
+    *
+    * @param id unique ID
+    * @param internalName internal name for this field
+    * @param externalName user-visible name for this field
+    * @param fieldTypeClass type of entity on which this field can be used
+    * @param dataType data type of this field
+    */
    public UserDefinedField(int id, String internalName, String externalName, FieldTypeClass fieldTypeClass, DataType dataType)
    {
       m_id = id;
@@ -17,6 +52,11 @@ public class UserDefinedField implements FieldType
       return m_id.intValue();
    }
 
+   /**
+    * Retrieve the unique ID.
+    *
+    * @return unique ID
+    */
    public Integer getUniqueID()
    {
       return m_id;
@@ -47,6 +87,11 @@ public class UserDefinedField implements FieldType
       return m_dataType;
    }
 
+   /**
+    * Set the data type of this field.
+    *
+    * @param dataType data  type
+    */
    public void setDataType(DataType dataType)
    {
       m_dataType = dataType;
