@@ -204,7 +204,7 @@ public class UserDefinedFieldContainer implements Collection<UserDefinedField>
 
    private UserDefinedField addField(UserDefinedField field)
    {
-      add(field);
+      m_fields.add(field);
       return field;
    }
 
