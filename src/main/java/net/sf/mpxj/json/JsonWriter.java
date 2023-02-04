@@ -79,6 +79,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
@@ -207,6 +208,7 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.setPretty(m_pretty);
 
          m_writer.writeStartObject(null);
+         writeUserDefinedFields();
          writeUserConfiguredFields();
          writeWorkContours();
          writeActivityCodes();
@@ -234,16 +236,39 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * Write a list of custom field attributes.
+    * Write a list of user defined fields.
+    */
+   private void writeUserDefinedFields() throws IOException
+   {
+      List<UserDefinedField> sortedFieldsList = m_projectFile.getUserDefinedFields().stream().sorted(Comparator.comparing(UserDefinedField::getUniqueID)).collect(Collectors.toList());
+      if (sortedFieldsList.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("user_defined_fields");
+      for (UserDefinedField field : sortedFieldsList)
+      {
+         writeUserDefinedField(field);
+      }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write a list of user configured fields.
     */
    private void writeUserConfiguredFields() throws IOException
    {
       List<UserConfiguredField> sortedFieldsList = m_projectFile.getUserConfiguredFields().stream().filter(f -> f.getFieldType() != null).sorted().collect(Collectors.toList());
-      // TODO: rename this list
-      m_writer.writeStartList("custom_fields");
+      if (sortedFieldsList.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("user_configured_fields");
       for (UserConfiguredField field : sortedFieldsList)
       {
-         writeCustomField(field);
+         writeUserConfiguredField(field);
       }
       m_writer.writeEndList();
    }
@@ -294,15 +319,15 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * Write attributes for an individual custom field.
+    * Write attributes for an individual user configured field.
     * Note that at present we are only writing a subset of the
     * available data... in this instance the field alias.
     * If the field does not have an alias we won't write an
     * entry.
     *
-    * @param field custom field to write
+    * @param field field to write
     */
-   private void writeCustomField(UserConfiguredField field) throws IOException
+   private void writeUserConfiguredField(UserConfiguredField field) throws IOException
    {
       if (field.getAlias() != null)
       {
@@ -320,6 +345,17 @@ public final class JsonWriter extends AbstractProjectWriter
 
          m_writer.writeEndObject();
       }
+   }
+
+   private void writeUserDefinedField(UserDefinedField field) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeIntegerField("unique_id", field.getUniqueID());
+      writeStringField("field_type_class", field.getFieldTypeClass().toString().toLowerCase());
+      writeStringField("data_type", field.getDataType().toString().toLowerCase());
+      writeStringField("internal_name", field.name().toLowerCase());
+      writeStringField("external_name", field.getName());
+      m_writer.writeEndObject();
    }
 
    /**

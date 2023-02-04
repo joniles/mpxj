@@ -1024,7 +1024,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       {
          FieldType mpxFieldID = FieldTypeHelper.getInstance(m_projectFile, Integer.parseInt(attrib.getFieldID()));
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
-         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
+         DatatypeConverter.parseCustomField(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
       }
    }
 
@@ -1546,7 +1546,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       {
          FieldType mpxFieldID = FieldTypeHelper.getInstance(m_projectFile, Integer.parseInt(attrib.getFieldID()));
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
-         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
+         DatatypeConverter.parseCustomField(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
       }
    }
 
@@ -1989,10 +1989,10 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
          //baseline.getBCWP()
          //baseline.getBCWS()
-         Number cost = DatatypeConverter.parseExtendedAttributeCurrency(baseline.getCost());
-         Date finish = DatatypeConverter.parseExtendedAttributeDate(baseline.getFinish());
+         Number cost = DatatypeConverter.parseCustomFieldCurrency(baseline.getCost());
+         Date finish = DatatypeConverter.parseCustomFieldDate(baseline.getFinish());
          //baseline.getNumber()
-         Date start = DatatypeConverter.parseExtendedAttributeDate(baseline.getStart());
+         Date start = DatatypeConverter.parseCustomFieldDate(baseline.getStart());
          Duration work = DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, baseline.getWork());
 
          if (number == 0)
@@ -2025,7 +2025,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       {
          FieldType mpxFieldID = FieldTypeHelper.getInstance(m_projectFile, Integer.parseInt(attrib.getFieldID()));
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(attrib.getDurationFormat(), null);
-         DatatypeConverter.parseExtendedAttribute(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
+         DatatypeConverter.parseCustomField(m_projectFile, mpx, attrib.getValue(), mpxFieldID, durationFormat);
       }
    }
 

@@ -1734,7 +1734,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setEnterpriseCost(int index, Number value)
    {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_COST, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_COST, index), value);
    }
 
    /**
@@ -1745,7 +1745,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getEnterpriseCost(int index)
    {
-      return (Number) get(selectField(AssignmentFieldLists.ENTERPRISE_COST, index));
+      return (Number) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_COST, index));
    }
 
    /**
@@ -1756,7 +1756,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setEnterpriseDate(int index, Date value)
    {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_DATE, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_DATE, index), value);
    }
 
    /**
@@ -1767,7 +1767,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getEnterpriseDate(int index)
    {
-      return (Date) get(selectField(AssignmentFieldLists.ENTERPRISE_DATE, index));
+      return (Date) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_DATE, index));
    }
 
    /**
@@ -1778,7 +1778,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setEnterpriseDuration(int index, Duration value)
    {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_DURATION, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_DURATION, index), value);
    }
 
    /**
@@ -1789,7 +1789,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return (Duration) get(selectField(AssignmentFieldLists.ENTERPRISE_DURATION, index));
+      return (Duration) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_DURATION, index));
    }
 
    /**
@@ -1800,7 +1800,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setEnterpriseFlag(int index, boolean value)
    {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_FLAG, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FLAG, index), value);
    }
 
    /**
@@ -1811,7 +1811,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return BooleanHelper.getBoolean((Boolean) get(selectField(AssignmentFieldLists.ENTERPRISE_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FLAG, index)));
    }
 
    /**
@@ -1822,7 +1822,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setEnterpriseNumber(int index, Number value)
    {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_NUMBER, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_NUMBER, index), value);
    }
 
    /**
@@ -1833,7 +1833,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getEnterpriseNumber(int index)
    {
-      return (Number) get(selectField(AssignmentFieldLists.ENTERPRISE_NUMBER, index));
+      return (Number) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_NUMBER, index));
    }
 
    /**
@@ -1844,7 +1844,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setEnterpriseText(int index, String value)
    {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_TEXT, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_TEXT, index), value);
    }
 
    /**
@@ -1855,7 +1855,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public String getEnterpriseText(int index)
    {
-      return (String) get(selectField(AssignmentFieldLists.ENTERPRISE_TEXT, index));
+      return (String) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_TEXT, index));
    }
 
    /**

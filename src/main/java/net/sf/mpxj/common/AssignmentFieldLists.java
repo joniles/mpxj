@@ -284,7 +284,7 @@ public final class AssignmentFieldLists
       AssignmentField.FLAG20
    };
 
-   public static final AssignmentField[] ENTERPRISE_COST =
+   public static final AssignmentField[] ENTERPRISE_CUSTOM_COST =
    {
       AssignmentField.ENTERPRISE_COST1,
       AssignmentField.ENTERPRISE_COST2,
@@ -298,7 +298,7 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_COST10
    };
 
-   public static final AssignmentField[] ENTERPRISE_DATE =
+   public static final AssignmentField[] ENTERPRISE_CUSTOM_DATE =
    {
       AssignmentField.ENTERPRISE_DATE1,
       AssignmentField.ENTERPRISE_DATE2,
@@ -332,7 +332,7 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_DATE30
    };
 
-   public static final AssignmentField[] ENTERPRISE_DURATION =
+   public static final AssignmentField[] ENTERPRISE_CUSTOM_DURATION =
    {
       AssignmentField.ENTERPRISE_DURATION1,
       AssignmentField.ENTERPRISE_DURATION2,
@@ -346,7 +346,7 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_DURATION10
    };
 
-   public static final AssignmentField[] ENTERPRISE_FLAG =
+   public static final AssignmentField[] ENTERPRISE_CUSTOM_FLAG =
    {
       AssignmentField.ENTERPRISE_FLAG1,
       AssignmentField.ENTERPRISE_FLAG2,
@@ -370,7 +370,7 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_FLAG20
    };
 
-   public static final AssignmentField[] ENTERPRISE_NUMBER =
+   public static final AssignmentField[] ENTERPRISE_CUSTOM_NUMBER =
    {
       AssignmentField.ENTERPRISE_NUMBER1,
       AssignmentField.ENTERPRISE_NUMBER2,
@@ -414,7 +414,7 @@ public final class AssignmentFieldLists
       AssignmentField.ENTERPRISE_NUMBER40
    };
 
-   public static final AssignmentField[] ENTERPRISE_TEXT =
+   public static final AssignmentField[] ENTERPRISE_CUSTOM_TEXT =
    {
       AssignmentField.ENTERPRISE_TEXT1,
       AssignmentField.ENTERPRISE_TEXT2,
@@ -516,12 +516,12 @@ public final class AssignmentFieldLists
       CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_FLAG));
       CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_NUMBER));
       CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
-      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_TEXT));
-      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DATE));
-      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_COST));
-      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_FLAG));
-      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_NUMBER));
-      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_DURATION));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_CUSTOM_TEXT));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_CUSTOM_DATE));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_CUSTOM_COST));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_CUSTOM_FLAG));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_CUSTOM_NUMBER));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_CUSTOM_DURATION));
       CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_OUTLINE_CODE));
       CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.ENTERPRISE_RESOURCE_MULTI_VALUE));
    }

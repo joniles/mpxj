@@ -1155,8 +1155,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Project.Resources.Resource.ExtendedAttribute attrib = m_factory.createProjectResourcesResourceExtendedAttribute();
          extendedAttributes.add(attrib);
          attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
-         attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mappedFieldType.getDataType()));
-         attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+         attrib.setValue(DatatypeConverter.printCustomField(this, value, mappedFieldType.getDataType()));
+         attrib.setDurationFormat(printCustomFieldDurationFormat(value));
          setValueGUID(attrib, mappedFieldType);
       }
    }
@@ -1195,7 +1195,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             Project.Resources.Resource.OutlineCode attrib = m_factory.createProjectResourcesResourceOutlineCode();
             outlineCodes.add(attrib);
             attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
-            setValueID(attrib, mpxFieldID, DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+            setValueID(attrib, mpxFieldID, DatatypeConverter.printCustomField(this, value, mpxFieldID.getDataType()));
          }
       }
    }
@@ -1638,8 +1638,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Project.Tasks.Task.ExtendedAttribute attrib = m_factory.createProjectTasksTaskExtendedAttribute();
          extendedAttributes.add(attrib);
          attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
-         attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mappedFieldType.getDataType()));
-         attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+         attrib.setValue(DatatypeConverter.printCustomField(this, value, mappedFieldType.getDataType()));
+         attrib.setDurationFormat(printCustomFieldDurationFormat(value));
          setValueGUID(attrib, mappedFieldType);
       }
    }
@@ -1663,7 +1663,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             Project.Tasks.Task.OutlineCode attrib = m_factory.createProjectTasksTaskOutlineCode();
             outlineCodes.add(attrib);
             attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mpxFieldID)));
-            setValueID(attrib, mpxFieldID, DatatypeConverter.printExtendedAttribute(this, value, mpxFieldID.getDataType()));
+            setValueID(attrib, mpxFieldID, DatatypeConverter.printCustomField(this, value, mpxFieldID.getDataType()));
          }
       }
    }
@@ -1735,7 +1735,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       DataType dataType = fieldType.getDataType();
       HashMap<String, UserConfiguredFieldValueItem> result = new HashMap<>();
       // TODO: this doesn't handle hierarchical value lookup
-      items.forEach(item -> result.put(DatatypeConverter.printExtendedAttribute(this, item.getValue(), dataType), item));
+      items.forEach(item -> result.put(DatatypeConverter.printCustomField(this, item.getValue(), dataType), item));
       return result;
    }
 
@@ -1745,7 +1745,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param value duration value
     * @return duration time units
     */
-   private BigInteger printExtendedAttributeDurationFormat(Object value)
+   private BigInteger printCustomFieldDurationFormat(Object value)
    {
       BigInteger result = null;
       if (value instanceof Duration)
@@ -2015,21 +2015,21 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (cost != null && cost.intValue() != 0)
       {
          populated = true;
-         baseline.setCost(DatatypeConverter.printExtendedAttributeCurrency(cost));
+         baseline.setCost(DatatypeConverter.printCustomFieldCurrency(cost));
       }
 
       Date date = mpxj.getBaselineFinish();
       if (date != null)
       {
          populated = true;
-         baseline.setFinish(DatatypeConverter.printExtendedAttributeDate(date));
+         baseline.setFinish(DatatypeConverter.printCustomFieldDate(date));
       }
 
       date = mpxj.getBaselineStart();
       if (date != null)
       {
          populated = true;
-         baseline.setStart(DatatypeConverter.printExtendedAttributeDate(date));
+         baseline.setStart(DatatypeConverter.printCustomFieldDate(date));
       }
 
       Duration duration = mpxj.getBaselineWork();
@@ -2054,21 +2054,21 @@ public final class MSPDIWriter extends AbstractProjectWriter
          if (cost != null && cost.intValue() != 0)
          {
             populated = true;
-            baseline.setCost(DatatypeConverter.printExtendedAttributeCurrency(cost));
+            baseline.setCost(DatatypeConverter.printCustomFieldCurrency(cost));
          }
 
          date = mpxj.getBaselineFinish(loop);
          if (date != null)
          {
             populated = true;
-            baseline.setFinish(DatatypeConverter.printExtendedAttributeDate(date));
+            baseline.setFinish(DatatypeConverter.printCustomFieldDate(date));
          }
 
          date = mpxj.getBaselineStart(loop);
          if (date != null)
          {
             populated = true;
-            baseline.setStart(DatatypeConverter.printExtendedAttributeDate(date));
+            baseline.setStart(DatatypeConverter.printCustomFieldDate(date));
          }
 
          duration = mpxj.getBaselineWork(loop);
@@ -2109,8 +2109,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Project.Assignments.Assignment.ExtendedAttribute attrib = m_factory.createProjectAssignmentsAssignmentExtendedAttribute();
          extendedAttributes.add(attrib);
          attrib.setFieldID(Integer.toString(FieldTypeHelper.getFieldID(mappedFieldType)));
-         attrib.setValue(DatatypeConverter.printExtendedAttribute(this, value, mappedFieldType.getDataType()));
-         attrib.setDurationFormat(printExtendedAttributeDurationFormat(value));
+         attrib.setValue(DatatypeConverter.printCustomField(this, value, mappedFieldType.getDataType()));
+         attrib.setDurationFormat(printCustomFieldDurationFormat(value));
       }
    }
 

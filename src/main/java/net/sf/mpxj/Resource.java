@@ -2180,7 +2180,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getEnterpriseCost(int index)
    {
-      return (Number) get(selectField(ResourceFieldLists.ENTERPRISE_COST, index));
+      return (Number) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_COST, index));
    }
 
    /**
@@ -2191,7 +2191,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseCost(int index, Number value)
    {
-      set(selectField(ResourceFieldLists.ENTERPRISE_COST, index), value);
+      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_COST, index), value);
    }
 
    /**
@@ -2202,7 +2202,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Date getEnterpriseDate(int index)
    {
-      return (Date) get(selectField(ResourceFieldLists.ENTERPRISE_DATE, index));
+      return (Date) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_DATE, index));
    }
 
    /**
@@ -2213,7 +2213,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseDate(int index, Date value)
    {
-      set(selectField(ResourceFieldLists.ENTERPRISE_DATE, index), value);
+      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_DATE, index), value);
    }
 
    /**
@@ -2224,7 +2224,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return (Duration) get(selectField(ResourceFieldLists.ENTERPRISE_DURATION, index));
+      return (Duration) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_DURATION, index));
    }
 
    /**
@@ -2235,7 +2235,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseDuration(int index, Duration value)
    {
-      set(selectField(ResourceFieldLists.ENTERPRISE_DURATION, index), value);
+      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_DURATION, index), value);
    }
 
    /**
@@ -2246,7 +2246,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return (BooleanHelper.getBoolean((Boolean) get(selectField(ResourceFieldLists.ENTERPRISE_FLAG, index))));
+      return (BooleanHelper.getBoolean((Boolean) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FLAG, index))));
    }
 
    /**
@@ -2257,7 +2257,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseFlag(int index, boolean value)
    {
-      set(selectField(ResourceFieldLists.ENTERPRISE_FLAG, index), value);
+      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FLAG, index), value);
    }
 
    /**
@@ -2268,7 +2268,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getEnterpriseNumber(int index)
    {
-      return (Number) get(selectField(ResourceFieldLists.ENTERPRISE_NUMBER, index));
+      return (Number) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_NUMBER, index));
    }
 
    /**
@@ -2279,7 +2279,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseNumber(int index, Number value)
    {
-      set(selectField(ResourceFieldLists.ENTERPRISE_NUMBER, index), value);
+      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_NUMBER, index), value);
    }
 
    /**
@@ -2290,7 +2290,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getEnterpriseText(int index)
    {
-      return (String) get(selectField(ResourceFieldLists.ENTERPRISE_TEXT, index));
+      return (String) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_TEXT, index));
    }
 
    /**
@@ -2301,7 +2301,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseText(int index, String value)
    {
-      set(selectField(ResourceFieldLists.ENTERPRISE_TEXT, index), value);
+      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_TEXT, index), value);
    }
 
    /**

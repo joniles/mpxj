@@ -3702,7 +3702,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Number getEnterpriseCost(int index)
    {
-      return (Number) get((selectField(TaskFieldLists.ENTERPRISE_COST, index)));
+      return (Number) get((selectField(TaskFieldLists.ENTERPRISE_CUSTOM_COST, index)));
    }
 
    /**
@@ -3713,7 +3713,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEnterpriseCost(int index, Number value)
    {
-      set(selectField(TaskFieldLists.ENTERPRISE_COST, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_COST, index), value);
    }
 
    /**
@@ -3724,7 +3724,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Date getEnterpriseDate(int index)
    {
-      return (Date) get((selectField(TaskFieldLists.ENTERPRISE_DATE, index)));
+      return (Date) get((selectField(TaskFieldLists.ENTERPRISE_CUSTOM_DATE, index)));
    }
 
    /**
@@ -3735,7 +3735,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEnterpriseDate(int index, Date value)
    {
-      set(selectField(TaskFieldLists.ENTERPRISE_DATE, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_DATE, index), value);
    }
 
    /**
@@ -3746,7 +3746,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return (Duration) get((selectField(TaskFieldLists.ENTERPRISE_DURATION, index)));
+      return (Duration) get((selectField(TaskFieldLists.ENTERPRISE_CUSTOM_DURATION, index)));
    }
 
    /**
@@ -3757,7 +3757,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEnterpriseDuration(int index, Duration value)
    {
-      set(selectField(TaskFieldLists.ENTERPRISE_DURATION, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_DURATION, index), value);
    }
 
    /**
@@ -3768,7 +3768,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return (BooleanHelper.getBoolean((Boolean) get(selectField(TaskFieldLists.ENTERPRISE_FLAG, index))));
+      return (BooleanHelper.getBoolean((Boolean) get(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_FLAG, index))));
    }
 
    /**
@@ -3779,7 +3779,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEnterpriseFlag(int index, boolean value)
    {
-      set(selectField(TaskFieldLists.ENTERPRISE_FLAG, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_FLAG, index), value);
    }
 
    /**
@@ -3790,7 +3790,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Number getEnterpriseNumber(int index)
    {
-      return (Number) get((selectField(TaskFieldLists.ENTERPRISE_NUMBER, index)));
+      return (Number) get((selectField(TaskFieldLists.ENTERPRISE_CUSTOM_NUMBER, index)));
    }
 
    /**
@@ -3801,7 +3801,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEnterpriseNumber(int index, Number value)
    {
-      set(selectField(TaskFieldLists.ENTERPRISE_NUMBER, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_NUMBER, index), value);
    }
 
    /**
@@ -3812,7 +3812,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public String getEnterpriseText(int index)
    {
-      return (String) get((selectField(TaskFieldLists.ENTERPRISE_TEXT, index)));
+      return (String) get((selectField(TaskFieldLists.ENTERPRISE_CUSTOM_TEXT, index)));
    }
 
    /**
@@ -3823,7 +3823,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEnterpriseText(int index, String value)
    {
-      set(selectField(TaskFieldLists.ENTERPRISE_TEXT, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_TEXT, index), value);
    }
 
    /**

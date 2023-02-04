@@ -228,7 +228,7 @@ public final class TaskFieldLists
       TaskField.OUTLINE_CODE10_INDEX
    };
 
-   public static final TaskField[] ENTERPRISE_COST =
+   public static final TaskField[] ENTERPRISE_CUSTOM_COST =
    {
       TaskField.ENTERPRISE_COST1,
       TaskField.ENTERPRISE_COST2,
@@ -242,7 +242,7 @@ public final class TaskFieldLists
       TaskField.ENTERPRISE_COST10
    };
 
-   public static final TaskField[] ENTERPRISE_DATE =
+   public static final TaskField[] ENTERPRISE_CUSTOM_DATE =
    {
       TaskField.ENTERPRISE_DATE1,
       TaskField.ENTERPRISE_DATE2,
@@ -276,7 +276,7 @@ public final class TaskFieldLists
       TaskField.ENTERPRISE_DATE30
    };
 
-   public static final TaskField[] ENTERPRISE_DURATION =
+   public static final TaskField[] ENTERPRISE_CUSTOM_DURATION =
    {
       TaskField.ENTERPRISE_DURATION1,
       TaskField.ENTERPRISE_DURATION2,
@@ -290,7 +290,7 @@ public final class TaskFieldLists
       TaskField.ENTERPRISE_DURATION10
    };
 
-   public static final TaskField[] ENTERPRISE_FLAG =
+   public static final TaskField[] ENTERPRISE_CUSTOM_FLAG =
    {
       TaskField.ENTERPRISE_FLAG1,
       TaskField.ENTERPRISE_FLAG2,
@@ -314,7 +314,7 @@ public final class TaskFieldLists
       TaskField.ENTERPRISE_FLAG20
    };
 
-   public static final TaskField[] ENTERPRISE_NUMBER =
+   public static final TaskField[] ENTERPRISE_CUSTOM_NUMBER =
    {
       TaskField.ENTERPRISE_NUMBER1,
       TaskField.ENTERPRISE_NUMBER2,
@@ -358,7 +358,7 @@ public final class TaskFieldLists
       TaskField.ENTERPRISE_NUMBER40
    };
 
-   public static final TaskField[] ENTERPRISE_TEXT =
+   public static final TaskField[] ENTERPRISE_CUSTOM_TEXT =
    {
       TaskField.ENTERPRISE_TEXT1,
       TaskField.ENTERPRISE_TEXT2,
@@ -582,11 +582,11 @@ public final class TaskFieldLists
       CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_NUMBER));
       CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION));
       CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
-      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_TEXT));
-      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DATE));
-      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_COST));
-      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_FLAG));
-      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_NUMBER));
-      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_DURATION));
+      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_CUSTOM_TEXT));
+      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_CUSTOM_DATE));
+      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_CUSTOM_COST));
+      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_CUSTOM_FLAG));
+      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_CUSTOM_NUMBER));
+      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.ENTERPRISE_CUSTOM_DURATION));
    }
 }
