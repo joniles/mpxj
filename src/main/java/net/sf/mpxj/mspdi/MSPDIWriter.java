@@ -356,7 +356,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             }
             else
             {
-               mappedFieldType = m_userDefinedFieldMap.createMapping(fieldType);
+               mappedFieldType = m_userDefinedFieldMap.generateMapping(fieldType);
                if (mappedFieldType == null)
                {
                   // We have run out of fields we can map user defined fields of this type to

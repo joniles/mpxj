@@ -1,4 +1,28 @@
+/*
+ * file:       UserDefinedFieldMap.java
+ * author:     Jon Iles
+ * copyright:  (c) Timephased Limited 2023
+ * date:       2023-02-05
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package net.sf.mpxj.mpp;
+
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
@@ -12,18 +36,45 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is used to generate a mapping between a set of user defined fields
+ * and a set of custom fields. This allows schedules exported from applications
+ * which make use of user defined fields to be imported into Microsoft Project
+ * with the values originally in user defined fields preserved and made available in
+ * Microsoft Project in custom fields.
+ */
 public class UserDefinedFieldMap
 {
+   /**
+    * Retrieve an empty instance. This instance is intended to be read only,
+    * but this is not enforced.
+    *
+    * @return empty instance
+    */
    public static UserDefinedFieldMap getEmptyInstance()
    {
       return EMPTY_INSTANCE;
    }
 
+   /**
+    * Create a new empty map without attempting to create any mappings.
+    *
+    * @param file parent project
+    * @param targetFieldList target set of custom fields into which values will be mapped
+    * @return UserDefinedFieldMap instance
+    */
    public static UserDefinedFieldMap getInstanceWithoutMappings(ProjectFile file, List<FieldType> targetFieldList)
    {
       return new UserDefinedFieldMap(file, false, targetFieldList);
    }
 
+   /**
+    * Create a new map and generate mappings for all user defined fields.
+    *
+    * @param file parent project
+    * @param targetFieldList target set of custom fields into which values will be mapped
+    * @return
+    */
    public static UserDefinedFieldMap getInstanceWithMappings(ProjectFile file, List<FieldType> targetFieldList)
    {
       return new UserDefinedFieldMap(file, true, targetFieldList);
@@ -49,28 +100,47 @@ public class UserDefinedFieldMap
       if (generateMappingNow)
       {
          // Generate a mapping for each user defined field
-         file.getUserDefinedFields().forEach(this::createMapping);
+         file.getUserDefinedFields().forEach(this::generateMapping);
       }
    }
 
-   public FieldType createMapping(FieldType source)
-   {
-      return generateMapping(source);
-   }
-
+   /**
+    * Given a source field, return the target field it should be mapped to.
+    * If no mapping is in place this method will return the source field
+    * supplied by the caller.
+    *
+    * @param source source field
+    * @return target field
+    */
    public FieldType getTarget(FieldType source)
    {
       FieldType target = m_targetMap.get(source);
       return target == null ? source : target;
    }
 
+   /**
+    * Given a target field, determine which field is being used as its source.
+    * If no mapping is in place this method will return the target field
+    * supplied by the caller.
+    *
+    * @param target target field
+    * @return source field
+    */
    public FieldType getSource(FieldType target)
    {
       FieldType source = m_sourceMap.get(target);
       return source == null ? target : source;
    }
 
-   private FieldType generateMapping(FieldType source)
+   /**
+    * Generate a mapping for a source field.
+    * If we have run out of target fields this method
+    * will return null.
+    *
+    * @param source source field
+    * @return target field or null
+    */
+   public FieldType generateMapping(FieldType source)
    {
       List<FieldType> fieldList = getFieldList(source);
       if (fieldList.isEmpty())
@@ -153,6 +223,5 @@ public class UserDefinedFieldMap
    private final Map<FieldType, FieldType> m_targetMap = new HashMap<>();
    private final Map<FieldType, FieldType> m_sourceMap = new HashMap<>();
    private final Map<FieldTypeClass, Map<DataType, List<FieldType>>> m_fields = new HashMap<>();
-
    private static final UserDefinedFieldMap EMPTY_INSTANCE = new UserDefinedFieldMap(null, false, Collections.emptyList());
 }
