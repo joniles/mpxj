@@ -347,6 +347,11 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
+   /**
+    * Write an individual user defined field.
+    *
+    * @param field user defined field
+    */
    private void writeUserDefinedField(UserDefinedField field) throws IOException
    {
       m_writer.writeStartObject(null);
