@@ -45,6 +45,12 @@ import java.util.Set;
  */
 public class UserDefinedFieldMap
 {
+   /**
+    * Constructor.
+    *
+    * @param file parent project
+    * @param targetFieldList list of custom fields we could potentially map user defined fields to
+    */
    public UserDefinedFieldMap(ProjectFile file, List<FieldType> targetFieldList)
    {
       // No action required if we have no user defined fields
