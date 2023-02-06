@@ -25,20 +25,20 @@ package net.sf.mpxj.mpp;
 
 import java.util.UUID;
 
-import net.sf.mpxj.UserConfiguredFieldValueDataType;
+import net.sf.mpxj.CustomFieldValueDataType;
 
 /**
  * Instances of this type represent a possible value for a custom field that is
  * using value lists.
  */
-public final class UserConfiguredFieldValueItem
+public final class CustomFieldValueItem
 {
    /**
     * Constructor.
     *
     * @param uniqueID item unique ID
     */
-   public UserConfiguredFieldValueItem(Integer uniqueID)
+   public CustomFieldValueItem(Integer uniqueID)
    {
       m_uniqueID = uniqueID;
    }
@@ -158,7 +158,7 @@ public final class UserConfiguredFieldValueItem
     *
     * @return value type
     */
-   public UserConfiguredFieldValueDataType getType()
+   public CustomFieldValueDataType getType()
    {
       return m_type;
    }
@@ -168,7 +168,7 @@ public final class UserConfiguredFieldValueItem
     *
     * @param type value type
     */
-   public void setType(UserConfiguredFieldValueDataType type)
+   public void setType(CustomFieldValueDataType type)
    {
       m_type = type;
    }
@@ -204,6 +204,6 @@ public final class UserConfiguredFieldValueItem
    private String m_description;
    private byte[] m_unknown;
    private Integer m_parentId;
-   private UserConfiguredFieldValueDataType m_type;
+   private CustomFieldValueDataType m_type;
    private boolean m_collapsed;
 }

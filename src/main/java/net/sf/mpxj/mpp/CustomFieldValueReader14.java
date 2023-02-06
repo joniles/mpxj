@@ -27,8 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import net.sf.mpxj.UserConfiguredFieldLookupTable;
-import net.sf.mpxj.UserConfiguredFieldValueDataType;
+import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -79,7 +79,7 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
       {
          Integer id = uniqueid[loop];
 
-         UserConfiguredFieldValueItem item = new UserConfiguredFieldValueItem(id);
+         CustomFieldValueItem item = new CustomFieldValueItem(id);
          byte[] value = m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE);
          item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
          item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
@@ -95,14 +95,14 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
          {
             item.setGUID(MPPUtility.getGUID(b2, 0));
             UUID lookupTableGuid = MPPUtility.getGUID(b2, fieldOffset);
-            item.setType(UserConfiguredFieldValueDataType.getInstance(MPPUtility.getShort(b2, typeOffset)));
+            item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(b2, typeOffset)));
             item.setValue(getTypedValue(item.getType(), value));
 
             m_container.registerValue(item);
             FieldType field = map.get(lookupTableGuid);
             if (field != null)
             {
-               UserConfiguredFieldLookupTable table = m_container.getOrCreate(field).getLookupTable();
+               CustomFieldLookupTable table = m_container.getOrCreate(field).getLookupTable();
                table.add(item);
                // It's like this to avoid creating empty lookup tables. Need to refactor!
                table.setGUID(lookupTableGuid);

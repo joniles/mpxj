@@ -46,8 +46,8 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CurrencySymbolPosition;
-import net.sf.mpxj.UserConfiguredField;
-import net.sf.mpxj.UserConfiguredFieldContainer;
+import net.sf.mpxj.CustomField;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -322,7 +322,7 @@ final class PrimaveraPMProjectWriter
 
       for (FieldType type : m_userDefinedFields)
       {
-         UserConfiguredField field = m_projectFile.getUserConfiguredFields().get(type);
+         CustomField field = m_projectFile.getCustomFields().get(type);
          String title = field != null && field.getAlias() != null && !field.getAlias().isEmpty() ? field.getAlias() : type.getName();
          Integer uniqueID = field == null ? Integer.valueOf(FieldTypeHelper.getFieldID(type)) : field.getUniqueID();
 
@@ -1615,7 +1615,7 @@ final class PrimaveraPMProjectWriter
    private List<UDFAssignmentType> writeUserDefinedFieldAssignments(FieldTypeClass type, FieldContainer mpxj)
    {
       List<UDFAssignmentType> out = new ArrayList<>();
-      UserConfiguredFieldContainer userConfiguredFields = m_projectFile.getUserConfiguredFields();
+      CustomFieldContainer customFields = m_projectFile.getCustomFields();
 
       for (FieldType fieldType : m_userDefinedFields)
       {
@@ -1624,7 +1624,7 @@ final class PrimaveraPMProjectWriter
             Object value = mpxj.getCachedValue(fieldType);
             if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
             {
-               UserConfiguredField field = userConfiguredFields.get(fieldType);
+               CustomField field = customFields.get(fieldType);
                int uniqueID = field == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(field.getUniqueID());
 
                DataType dataType = fieldType.getDataType();
@@ -1963,8 +1963,8 @@ final class PrimaveraPMProjectWriter
 
    private Set<FieldType> getUserDefinedFieldsSet()
    {
-      // All user configured fields
-      Set<FieldType> set = m_projectFile.getUserConfiguredFields().stream().map(UserConfiguredField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
+      // All custom fields with configuration
+      Set<FieldType> set = m_projectFile.getCustomFields().stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
 
       // All user defined fields
       set.addAll(m_projectFile.getUserDefinedFields());

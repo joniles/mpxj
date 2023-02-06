@@ -29,7 +29,7 @@ module MPXJ
 
       file = File.read(file_name)
       json_data = JSON.parse(file)
-      process_user_configured_fields(json_data)
+      process_custom_fields(json_data)
       process_properties(json_data)
       process_resources(json_data)
       process_tasks(json_data)
@@ -104,8 +104,8 @@ module MPXJ
 
     private
 
-    def process_user_configured_fields(json_data)
-      custom_fields = json_data["user_configured_fields"]
+    def process_custom_fields(json_data)
+      custom_fields = json_data["custom_fields"]
       custom_fields.each do |field|
         process_custom_field(field)
       end

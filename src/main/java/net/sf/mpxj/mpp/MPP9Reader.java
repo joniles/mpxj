@@ -39,7 +39,7 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-import net.sf.mpxj.UserConfiguredFieldContainer;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
@@ -765,7 +765,7 @@ final class MPP9Reader implements MPPVariantReader
       {
          int offset = 0;
          int index = 0;
-         UserConfiguredFieldContainer fields = m_file.getUserConfiguredFields();
+         CustomFieldContainer fields = m_file.getCustomFields();
          while (offset < data.length)
          {
             String alias = MPPUtility.getUnicodeString(data, offset);

@@ -1,5 +1,5 @@
 /*
- * file:       UserConfiguredFieldValueDataType.java
+ * file:       CustomFieldValueDataType.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software
  * date:       22/09/2019
@@ -26,9 +26,9 @@ package net.sf.mpxj;
 import net.sf.mpxj.common.EnumHelper;
 
 /**
- * Lookup tables of user configured field values use these as type identifiers.
+ * Enumeration used  by custom field values items to represent data types.
  */
-public enum UserConfiguredFieldValueDataType implements MpxjEnum
+public enum CustomFieldValueDataType implements MpxjEnum
 {
    DATE(4, 4, DataType.DATE),
    DURATION(6, 6, DataType.DURATION),
@@ -45,7 +45,7 @@ public enum UserConfiguredFieldValueDataType implements MpxjEnum
     * @param maskValue data type used in mask definition
     * @param type data type
     */
-   UserConfiguredFieldValueDataType(int value, int maskValue, DataType type)
+   CustomFieldValueDataType(int value, int maskValue, DataType type)
    {
       m_value = value;
       m_maskValue = maskValue;
@@ -58,7 +58,7 @@ public enum UserConfiguredFieldValueDataType implements MpxjEnum
     * @param type int type
     * @return enum instance
     */
-   public static UserConfiguredFieldValueDataType getInstance(int type)
+   public static CustomFieldValueDataType getInstance(int type)
    {
       if (type >= 0 && type < TYPE_VALUES.length)
       {
@@ -73,7 +73,7 @@ public enum UserConfiguredFieldValueDataType implements MpxjEnum
     * @param type mask value
     * @return enum instance
     */
-   public static UserConfiguredFieldValueDataType getInstanceByMaskValue(int type)
+   public static CustomFieldValueDataType getInstanceByMaskValue(int type)
    {
       if (type >= 0 && type < MASK_VALUES.length)
       {
@@ -115,12 +115,12 @@ public enum UserConfiguredFieldValueDataType implements MpxjEnum
    /**
     * Array mapping int types to enums.
     */
-   private static final UserConfiguredFieldValueDataType[] TYPE_VALUES = EnumHelper.createTypeArray(UserConfiguredFieldValueDataType.class, 21);
+   private static final CustomFieldValueDataType[] TYPE_VALUES = EnumHelper.createTypeArray(CustomFieldValueDataType.class, 21);
 
-   private static final UserConfiguredFieldValueDataType[] MASK_VALUES = new UserConfiguredFieldValueDataType[28];
+   private static final CustomFieldValueDataType[] MASK_VALUES = new CustomFieldValueDataType[28];
    static
    {
-      for (UserConfiguredFieldValueDataType value : values())
+      for (CustomFieldValueDataType value : values())
       {
          MASK_VALUES[value.getMaskValue()] = value;
       }

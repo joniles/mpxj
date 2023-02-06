@@ -67,7 +67,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.UserConfiguredFieldContainer;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
 import net.sf.mpxj.common.DateHelper;
@@ -1744,7 +1744,7 @@ final class AstaReader
    private void processUserDefinedFieldDefinitions(List<Row> definitions, Map<Integer, ObjectType> objectTypeMap, Map<Integer, FieldType> fieldMap)
    {
       UserDefinedFieldContainer userDefinedFields = m_project.getUserDefinedFields();
-      UserConfiguredFieldContainer userConfiguredFields = m_project.getUserConfiguredFields();
+      CustomFieldContainer customFields = m_project.getCustomFields();
 
       for (Row row : definitions)
       {
@@ -1771,7 +1771,7 @@ final class AstaReader
          String externalName = row.getString("UDF_NAME");
          UserDefinedField field = new UserDefinedField(id, internalName, externalName, fieldTypeClass, dataType);
          userDefinedFields.add(field);
-         userConfiguredFields.add(field).setAlias(externalName);
+         customFields.add(field).setAlias(externalName);
 
          objectTypeMap.put(id, objectType);
          fieldMap.put(id, field);

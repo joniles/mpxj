@@ -50,11 +50,11 @@ import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.UserConfiguredField;
-import net.sf.mpxj.UserConfiguredFieldContainer;
-import net.sf.mpxj.UserConfiguredFieldLookupTable;
-import net.sf.mpxj.UserConfiguredFieldValueDataType;
-import net.sf.mpxj.UserConfiguredFieldValueMask;
+import net.sf.mpxj.CustomField;
+import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueDataType;
+import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -97,7 +97,7 @@ import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.common.ResourceFieldLists;
 import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.mpp.UserDefinedFieldMap;
-import net.sf.mpxj.mpp.UserConfiguredFieldValueItem;
+import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mpp.EnterpriseCustomFieldDataType;
 import net.sf.mpxj.mspdi.schema.ObjectFactory;
 import net.sf.mpxj.mspdi.schema.Project;
@@ -340,7 +340,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setExtendedAttributes(attributes);
       List<Project.ExtendedAttributes.ExtendedAttribute> list = attributes.getExtendedAttribute();
 
-      UserConfiguredFieldContainer userConfiguredFieldContainer = m_projectFile.getUserConfiguredFields();
+      CustomFieldContainer customFieldContainer = m_projectFile.getCustomFields();
       for (FieldType fieldType : m_extendedAttributes)
       {
          boolean microsoftProjectUserDefinedField = false;
@@ -378,7 +378,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             attribute.setCFType(customFieldType);
          }
 
-         UserConfiguredField field = userConfiguredFieldContainer.get(fieldType);
+         CustomField field = customFieldContainer.get(fieldType);
          if (field != null)
          {
             attribute.setAlias(field.getAlias());
@@ -397,8 +397,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeOutlineCodes(Project project)
    {
       Project.OutlineCodes outlineCodes = null;
-      List<UserConfiguredField> allCustomFields = m_projectFile.getUserConfiguredFields().stream().filter(f -> !f.getLookupTable().isEmpty()).sorted().collect(Collectors.toList());
-      for (UserConfiguredField field : allCustomFields)
+      List<CustomField> allCustomFields = m_projectFile.getCustomFields().stream().filter(f -> !f.getLookupTable().isEmpty()).sorted().collect(Collectors.toList());
+      for (CustomField field : allCustomFields)
       {
          if (outlineCodes == null)
          {
@@ -418,12 +418,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param outlineCode outline codes root node
     * @param field custom field
     */
-   private void writeOutlineCode(Project.OutlineCodes.OutlineCode outlineCode, UserConfiguredField field)
+   private void writeOutlineCode(Project.OutlineCodes.OutlineCode outlineCode, CustomField field)
    {
       //
       // Header details
       //
-      UserConfiguredFieldLookupTable table = field.getLookupTable();
+      CustomFieldLookupTable table = field.getLookupTable();
       outlineCode.setFieldID(String.valueOf(FieldTypeHelper.getFieldID(field.getFieldType())));
       outlineCode.setGuid(table.getGUID());
       outlineCode.setEnterprise(Boolean.valueOf(table.getEnterprise()));
@@ -439,17 +439,17 @@ public final class MSPDIWriter extends AbstractProjectWriter
       outlineCode.setMasks(m_factory.createProjectOutlineCodesOutlineCodeMasks());
       if (field.getMasks().isEmpty())
       {
-         UserConfiguredFieldValueDataType type = table.get(0).getType();
+         CustomFieldValueDataType type = table.get(0).getType();
          if (type == null)
          {
-            type = UserConfiguredFieldValueDataType.TEXT;
+            type = CustomFieldValueDataType.TEXT;
          }
-         UserConfiguredFieldValueMask item = new UserConfiguredFieldValueMask(0, 1, ".", type);
+         CustomFieldValueMask item = new CustomFieldValueMask(0, 1, ".", type);
          writeMask(outlineCode, item);
       }
       else
       {
-         for (UserConfiguredFieldValueMask item : field.getMasks())
+         for (CustomFieldValueMask item : field.getMasks())
          {
             writeMask(outlineCode, item);
          }
@@ -461,7 +461,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Project.OutlineCodes.OutlineCode.Values values = m_factory.createProjectOutlineCodesOutlineCodeValues();
       outlineCode.setValues(values);
 
-      for (UserConfiguredFieldValueItem item : table)
+      for (CustomFieldValueItem item : table)
       {
          Project.OutlineCodes.OutlineCode.Values.Value value = m_factory.createProjectOutlineCodesOutlineCodeValuesValue();
          values.getValue().add(value);
@@ -475,12 +475,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param value parent node
     * @param item custom field item
     */
-   private void writeOutlineCodeValue(Project.OutlineCodes.OutlineCode.Values.Value value, UserConfiguredFieldValueItem item)
+   private void writeOutlineCodeValue(Project.OutlineCodes.OutlineCode.Values.Value value, CustomFieldValueItem item)
    {
-      UserConfiguredFieldValueDataType type = item.getType();
+      CustomFieldValueDataType type = item.getType();
       if (type == null)
       {
-         type = UserConfiguredFieldValueDataType.TEXT;
+         type = CustomFieldValueDataType.TEXT;
       }
       value.setDescription(item.getDescription());
       value.setFieldGUID(item.getGUID());
@@ -497,7 +497,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param outlineCode parent node
     * @param item mask element
     */
-   private void writeMask(Project.OutlineCodes.OutlineCode outlineCode, UserConfiguredFieldValueMask item)
+   private void writeMask(Project.OutlineCodes.OutlineCode outlineCode, CustomFieldValueMask item)
    {
       Project.OutlineCodes.OutlineCode.Masks.Mask mask = m_factory.createProjectOutlineCodesOutlineCodeMasksMask();
       outlineCode.getMasks().getMask().add(mask);
@@ -1180,7 +1180,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void setValueGUID(Project.Resources.Resource.ExtendedAttribute attrib, FieldType fieldType)
    {
-      UserConfiguredFieldValueItem valueItem = getValueItem(fieldType, attrib.getValue());
+      CustomFieldValueItem valueItem = getValueItem(fieldType, attrib.getValue());
       if (valueItem != null)
       {
          attrib.setValueGUID(valueItem.getGUID());
@@ -1220,7 +1220,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void setValueID(Project.Resources.Resource.OutlineCode attrib, FieldType fieldType, String formattedValue)
    {
-      UserConfiguredFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
+      CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
       if (valueItem != null)
       {
          attrib.setValueID(NumberHelper.getBigInteger(valueItem.getUniqueID()));
@@ -1690,7 +1690,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void setValueGUID(Project.Tasks.Task.ExtendedAttribute attrib, FieldType fieldType)
    {
-      UserConfiguredFieldValueItem valueItem = getValueItem(fieldType, attrib.getValue());
+      CustomFieldValueItem valueItem = getValueItem(fieldType, attrib.getValue());
       if (valueItem != null)
       {
          attrib.setValueGUID(valueItem.getGUID());
@@ -1706,7 +1706,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void setValueID(Project.Tasks.Task.OutlineCode attrib, FieldType fieldType, String formattedValue)
    {
-      UserConfiguredFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
+      CustomFieldValueItem valueItem = getValueItem(fieldType, formattedValue);
       if (valueItem != null)
       {
          attrib.setValueID(NumberHelper.getBigInteger(valueItem.getUniqueID()));
@@ -1720,14 +1720,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param formattedValue formatted value
     * @return lookup table entry
     */
-   private UserConfiguredFieldValueItem getValueItem(FieldType fieldType, String formattedValue)
+   private CustomFieldValueItem getValueItem(FieldType fieldType, String formattedValue)
    {
-      UserConfiguredFieldValueItem result = null;
+      CustomFieldValueItem result = null;
 
-      UserConfiguredField field = m_projectFile.getUserConfiguredFields().get(fieldType);
+      CustomField field = m_projectFile.getCustomFields().get(fieldType);
       if (field != null)
       {
-         List<UserConfiguredFieldValueItem> items = field.getLookupTable();
+         List<CustomFieldValueItem> items = field.getLookupTable();
          if (!items.isEmpty())
          {
             result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(fieldType, items)).get(formattedValue);
@@ -1744,10 +1744,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param items list of lookup table entries
     * @return cache of lookup table entries
     */
-   private HashMap<String, UserConfiguredFieldValueItem> getCustomFieldValueItemMap(FieldType fieldType, List<UserConfiguredFieldValueItem> items)
+   private HashMap<String, CustomFieldValueItem> getCustomFieldValueItemMap(FieldType fieldType, List<CustomFieldValueItem> items)
    {
       DataType dataType = fieldType.getDataType();
-      HashMap<String, UserConfiguredFieldValueItem> result = new HashMap<>();
+      HashMap<String, CustomFieldValueItem> result = new HashMap<>();
       // TODO: this doesn't handle hierarchical value lookup
       items.forEach(item -> result.put(DatatypeConverter.printCustomField(this, item.getValue(), dataType), item));
       return result;
@@ -2378,8 +2378,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private Set<FieldType> getExtendedAttributesSet()
    {
-      // All user configured fields
-      Set<FieldType> set = m_projectFile.getUserConfiguredFields().stream().map(UserConfiguredField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
+      // All custom fields with configuration
+      Set<FieldType> set = m_projectFile.getCustomFields().stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
 
       // All user defined fields
       set.addAll(m_projectFile.getUserDefinedFields());
@@ -2446,7 +2446,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private EventManager m_eventManager;
 
-   private Map<FieldType, Map<String, UserConfiguredFieldValueItem>> m_customFieldValueItems;
+   private Map<FieldType, Map<String, CustomFieldValueItem>> m_customFieldValueItems;
 
    private Map<Integer, Integer> m_resouceCalendarMap;
 

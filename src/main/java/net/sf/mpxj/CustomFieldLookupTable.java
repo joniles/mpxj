@@ -1,5 +1,5 @@
 /*
- * file:       UserConfiguredFieldLookupTable.java
+ * file:       CustomFieldLookupTable.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2002-20015
  * date:       28/04/2015
@@ -25,12 +25,12 @@ package net.sf.mpxj;
 
 import java.util.UUID;
 
-import net.sf.mpxj.mpp.UserConfiguredFieldValueItem;
+import net.sf.mpxj.mpp.CustomFieldValueItem;
 
 /**
  * Lookup table definition.
  */
-public class UserConfiguredFieldLookupTable extends ListWithCallbacks<UserConfiguredFieldValueItem>
+public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueItem>
 {
    /**
     * Retrieve the lookup table GUID.

@@ -1,5 +1,5 @@
 /*
- * file:       UserConfiguredFieldContainer.java
+ * file:       CustomFieldContainer.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2002-20015
  * date:       28/04/2015
@@ -33,12 +33,12 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import net.sf.mpxj.common.Pair;
-import net.sf.mpxj.mpp.UserConfiguredFieldValueItem;
+import net.sf.mpxj.mpp.CustomFieldValueItem;
 
 /**
- * Container holding configuration details for all user configured fields.
+ * Container holding configuration details for all custom fields.
  */
-public class UserConfiguredFieldContainer implements Iterable<UserConfiguredField>
+public class CustomFieldContainer implements Iterable<CustomField>
 {
    /**
     * Retrieve configuration details for a given field.
@@ -47,7 +47,7 @@ public class UserConfiguredFieldContainer implements Iterable<UserConfiguredFiel
     * @return configuration detail
     * @deprecated use getOrCreate
     */
-   @Deprecated public UserConfiguredField getUserConfiguredField(FieldType field)
+   @Deprecated public CustomField getCustomField(FieldType field)
    {
       return getOrCreate(field);
    }
@@ -59,32 +59,32 @@ public class UserConfiguredFieldContainer implements Iterable<UserConfiguredFiel
     * @param field target field type
     * @return field configuration, or null if not configured
     */
-   public UserConfiguredField get(FieldType field)
+   public CustomField get(FieldType field)
    {
       return m_configMap.get(field);
    }
 
    /**
     * Retrieve configuration details for a given field,
-    * create a new UserConfiguredField entry if one does not exist.
+    * create a new CustomField entry if one does not exist.
     *
     * @param field required field
     * @return configuration detail
     */
-   public UserConfiguredField getOrCreate(FieldType field)
+   public CustomField getOrCreate(FieldType field)
    {
-      return m_configMap.computeIfAbsent(field, k -> new UserConfiguredField(field, this));
+      return m_configMap.computeIfAbsent(field, k -> new CustomField(field, this));
    }
 
    /**
-    * Add a new UserConfiguredField field. Overwrite any previous UserConfiguredField definition.
+    * Add a new custom field. Overwrite any previous custom field definition.
     *
     * @param field field type
-    * @return new UserConfiguredField instance
+    * @return new CustomField instance
     */
-   public UserConfiguredField add(FieldType field)
+   public CustomField add(FieldType field)
    {
-      UserConfiguredField result = new UserConfiguredField(field, this);
+      CustomField result = new CustomField(field, this);
       m_configMap.put(field, result);
       return result;
    }
@@ -115,59 +115,59 @@ public class UserConfiguredFieldContainer implements Iterable<UserConfiguredFiel
    }
 
    /**
-    * Retrieve a list of user configured fields by type class.
+    * Retrieve a list of custom fields by type class.
     *
     * @param typeClass required type class
-    * @return list of UserConfiguredField instances
+    * @return list of CustomField instances
     */
-   public List<UserConfiguredField> getUserConfiguredFieldsByFieldTypeClass(FieldTypeClass typeClass)
+   public List<CustomField> getCustomFieldsByFieldTypeClass(FieldTypeClass typeClass)
    {
       return stream().filter(f -> f.getFieldType().getFieldTypeClass() == typeClass).collect(Collectors.toList());
    }
 
    /**
-    * Return the number of user configured fields.
+    * Return the number of custom fields.
     *
-    * @return number of user configured fields
+    * @return number of custom fields
     */
    public int size()
    {
       return m_configMap.values().size();
    }
 
-   @Override public Iterator<UserConfiguredField> iterator()
+   @Override public Iterator<CustomField> iterator()
    {
       return m_configMap.values().iterator();
    }
 
    /**
-    * Retrieve a user configured field value item by its unique ID.
+    * Retrieve a custom field value item by its unique ID.
     *
-    * @param uniqueID user configured field value unique ID
-    * @return user configured field value item
+    * @param uniqueID custom field value unique ID
+    * @return custom field value item
     */
-   public UserConfiguredFieldValueItem getUserConfiguredFieldValueItemByUniqueID(int uniqueID)
+   public CustomFieldValueItem getCustomFieldValueItemByUniqueID(int uniqueID)
    {
       return m_valueMap.get(Integer.valueOf(uniqueID));
    }
 
    /**
-    * Retrieve a user configured field value item by its guid.
+    * Retrieve a custom field value item by its guid.
     *
-    * @param guid user configured field value guid
-    * @return user configured field value item
+    * @param guid custom field value guid
+    * @return custom field value item
     */
-   public UserConfiguredFieldValueItem getUserConfiguredFieldValueItemByGuid(UUID guid)
+   public CustomFieldValueItem getCustomFieldValueItemByGuid(UUID guid)
    {
       return m_guidMap.get(guid);
    }
 
    /**
-    * Add a value to the user configured field value index.
+    * Add a value to the custom field value index.
     *
-    * @param item user configured field value item
+    * @param item custom field value item
     */
-   public void registerValue(UserConfiguredFieldValueItem item)
+   public void registerValue(CustomFieldValueItem item)
    {
       m_valueMap.put(item.getUniqueID(), item);
       if (item.getGUID() != null)
@@ -177,11 +177,11 @@ public class UserConfiguredFieldContainer implements Iterable<UserConfiguredFiel
    }
 
    /**
-    * Remove a value from the user configured field value index.
+    * Remove a value from the custom field value index.
     *
-    * @param item user configured field value item
+    * @param item custom field value item
     */
-   public void deregisterValue(UserConfiguredFieldValueItem item)
+   public void deregisterValue(CustomFieldValueItem item)
    {
       m_valueMap.remove(item.getUniqueID());
       if (item.getGUID() != null)
@@ -202,17 +202,17 @@ public class UserConfiguredFieldContainer implements Iterable<UserConfiguredFiel
    }
 
    /**
-    * Return a stream of UserConfiguredField instances.
+    * Return a stream of CustomField instances.
     *
     * @return Stream instance
     */
-   public Stream<UserConfiguredField> stream()
+   public Stream<CustomField> stream()
    {
       return StreamSupport.stream(spliterator(), false);
    }
 
-   private final Map<FieldType, UserConfiguredField> m_configMap = new HashMap<>();
-   private final Map<Integer, UserConfiguredFieldValueItem> m_valueMap = new HashMap<>();
-   private final Map<UUID, UserConfiguredFieldValueItem> m_guidMap = new HashMap<>();
+   private final Map<FieldType, CustomField> m_configMap = new HashMap<>();
+   private final Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<>();
+   private final Map<UUID, CustomFieldValueItem> m_guidMap = new HashMap<>();
    private final Map<Pair<FieldTypeClass, String>, FieldType> m_aliasMap = new HashMap<>();
 }

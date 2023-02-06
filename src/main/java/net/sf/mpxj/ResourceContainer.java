@@ -117,13 +117,13 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
    }
 
    /**
-    * Retrieve a list of resource user configured fields.
+    * Retrieve a list of resource custom fields.
     *
-    * @return resource user configured fields
+    * @return resource custom fields
     */
-   public List<UserConfiguredField> getUserConfiguredFields()
+   public List<CustomField> getCustomFields()
    {
-      return m_projectFile.getUserConfiguredFields().getUserConfiguredFieldsByFieldTypeClass(FieldTypeClass.RESOURCE);
+      return m_projectFile.getCustomFields().getCustomFieldsByFieldTypeClass(FieldTypeClass.RESOURCE);
    }
 
    /**
@@ -134,6 +134,6 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
     */
    public FieldType getFieldTypeByAlias(String alias)
    {
-      return m_projectFile.getUserConfiguredFields().getFieldTypeByAlias(FieldTypeClass.RESOURCE, alias);
+      return m_projectFile.getCustomFields().getFieldTypeByAlias(FieldTypeClass.RESOURCE, alias);
    }
 }

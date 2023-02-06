@@ -298,7 +298,7 @@ final class PrimaveraReader
          container.add(fieldType);
 
          m_udfFields.put(fieldId, fieldType);
-         m_project.getUserConfiguredFields().add(fieldType).setAlias(externalName).setUniqueID(fieldId);
+         m_project.getCustomFields().add(fieldType).setAlias(externalName).setUniqueID(fieldId);
       }
 
       // Process values

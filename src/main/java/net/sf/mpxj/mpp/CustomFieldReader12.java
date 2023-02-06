@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.UserConfiguredFieldContainer;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
@@ -44,7 +44,7 @@ class CustomFieldReader12
    public CustomFieldReader12(ProjectFile file, byte[] data)
    {
       m_file = file;
-      m_fields = file.getUserConfiguredFields();
+      m_fields = file.getCustomFields();
       m_data = data;
    }
 
@@ -159,6 +159,6 @@ class CustomFieldReader12
    }
 
    private final ProjectFile m_file;
-   private final UserConfiguredFieldContainer m_fields;
+   private final CustomFieldContainer m_fields;
    private final byte[] m_data;
 }

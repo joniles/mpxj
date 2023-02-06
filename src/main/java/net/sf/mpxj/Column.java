@@ -106,7 +106,7 @@ public final class Column
       {
          if (m_fieldType != null)
          {
-            UserConfiguredField field = m_project.getUserConfiguredFields().get(m_fieldType);
+            CustomField field = m_project.getCustomFields().get(m_fieldType);
             result = field == null ? null : field.getAlias();
             if (result == null || result.isEmpty())
             {

@@ -506,13 +506,13 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
-    * Retrieves the user configured fields for this project.
+    * Retrieves the custom fields for this project.
     *
-    * @return user configured fields
+    * @return custom fields
     */
-   public UserConfiguredFieldContainer getUserConfiguredFields()
+   public CustomFieldContainer getCustomFields()
    {
-      return m_userConfiguredFields;
+      return m_customFields;
    }
 
    /**
@@ -711,7 +711,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final SubProjectContainer m_subProjects = new SubProjectContainer();
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
-   private final UserConfiguredFieldContainer m_userConfiguredFields = new UserConfiguredFieldContainer();
+   private final CustomFieldContainer m_customFields = new CustomFieldContainer();
    private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer();
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);

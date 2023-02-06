@@ -50,10 +50,10 @@ import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.UserConfiguredField;
-import net.sf.mpxj.UserConfiguredFieldLookupTable;
-import net.sf.mpxj.UserConfiguredFieldValueDataType;
-import net.sf.mpxj.UserConfiguredFieldValueMask;
+import net.sf.mpxj.CustomField;
+import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueDataType;
+import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -93,7 +93,7 @@ import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.common.TimephasedNormaliser;
 import net.sf.mpxj.common.UnmarshalHelper;
-import net.sf.mpxj.mpp.UserConfiguredFieldValueItem;
+import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mspdi.schema.Project;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar.WorkWeeks.WorkWeek;
@@ -862,7 +862,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       String alias = attribute.getAlias();
       if (alias != null && alias.length() != 0)
       {
-         m_projectFile.getUserConfiguredFields().getOrCreate(field).setAlias(attribute.getAlias());
+         m_projectFile.getCustomFields().getOrCreate(field).setAlias(attribute.getAlias());
       }
    }
 
@@ -1573,7 +1573,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private String getOutlineCodeValue(FieldType mpxFieldID, BigInteger valueID)
    {
       String result = null;
-      UserConfiguredFieldValueItem item = getValueItem(mpxFieldID, valueID);
+      CustomFieldValueItem item = getValueItem(mpxFieldID, valueID);
       if (item != null && item.getValue() != null)
       {
          result = item.getValue().toString();
@@ -1599,14 +1599,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * @param valueID value ID
     * @return lookup table entry
     */
-   private UserConfiguredFieldValueItem getValueItem(FieldType fieldType, BigInteger valueID)
+   private CustomFieldValueItem getValueItem(FieldType fieldType, BigInteger valueID)
    {
-      UserConfiguredFieldValueItem result = null;
+      CustomFieldValueItem result = null;
 
-      UserConfiguredField field = m_projectFile.getUserConfiguredFields().get(fieldType);
+      CustomField field = m_projectFile.getCustomFields().get(fieldType);
       if (field != null)
       {
-         List<UserConfiguredFieldValueItem> items = field.getLookupTable();
+         List<CustomFieldValueItem> items = field.getLookupTable();
          if (!items.isEmpty())
          {
             result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(items)).get(valueID);
@@ -1622,9 +1622,9 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * @param items list of lookup table entries
     * @return cache of lookup table entries
     */
-   private HashMap<BigInteger, UserConfiguredFieldValueItem> getCustomFieldValueItemMap(List<UserConfiguredFieldValueItem> items)
+   private HashMap<BigInteger, CustomFieldValueItem> getCustomFieldValueItemMap(List<CustomFieldValueItem> items)
    {
-      HashMap<BigInteger, UserConfiguredFieldValueItem> result = new HashMap<>();
+      HashMap<BigInteger, CustomFieldValueItem> result = new HashMap<>();
       items.forEach(item -> result.put(BigInteger.valueOf(item.getUniqueID().intValue()), item));
       return result;
    }
@@ -1780,7 +1780,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          String newAlias = outlineCode.getAlias();
          if (newAlias != null && !newAlias.isEmpty())
          {
-            UserConfiguredField field = m_projectFile.getUserConfiguredFields().get(fieldType);
+            CustomField field = m_projectFile.getCustomFields().get(fieldType);
             String currentAlias = field == null ? null : field.getAlias();
 
             // Don't overwrite an alias we've read from extended attributes
@@ -1788,7 +1788,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             {
                if (field == null)
                {
-                  field = m_projectFile.getUserConfiguredFields().getOrCreate(fieldType);
+                  field = m_projectFile.getCustomFields().getOrCreate(fieldType);
                }
                field.setAlias(newAlias);
             }
@@ -1810,8 +1810,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       Project.OutlineCodes.OutlineCode.Values values = outlineCode.getValues();
       if (values != null)
       {
-         UserConfiguredField field = m_projectFile.getUserConfiguredFields().getOrCreate(fieldType);
-         UserConfiguredFieldLookupTable table = field.getLookupTable();
+         CustomField field = m_projectFile.getCustomFields().getOrCreate(fieldType);
+         CustomFieldLookupTable table = field.getLookupTable();
 
          table.setEnterprise(BooleanHelper.getBoolean(outlineCode.isEnterprise()));
          table.setAllLevelsRequired(BooleanHelper.getBoolean(outlineCode.isAllLevelsRequired()));
@@ -1823,12 +1823,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
          for (Project.OutlineCodes.OutlineCode.Values.Value value : values.getValue())
          {
-            UserConfiguredFieldValueItem item = new UserConfiguredFieldValueItem(NumberHelper.getInteger(value.getValueID()));
+            CustomFieldValueItem item = new CustomFieldValueItem(NumberHelper.getInteger(value.getValueID()));
             item.setDescription(value.getDescription());
             item.setGUID(value.getFieldGUID());
             item.setCollapsed(BooleanHelper.getBoolean(value.isIsCollapsed()));
             item.setParent(NumberHelper.getInteger(value.getParentValueID()));
-            item.setType(UserConfiguredFieldValueDataType.getInstance(NumberHelper.getInt(value.getType())));
+            item.setType(CustomFieldValueDataType.getInstance(NumberHelper.getInt(value.getType())));
             item.setValue(DatatypeConverter.parseOutlineCodeValue(value.getValue(), field.getFieldType().getDataType()));
             table.add(item);
          }
@@ -1846,19 +1846,19 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       Project.OutlineCodes.OutlineCode.Masks masks = outlineCode.getMasks();
       if (masks != null && !masks.getMask().isEmpty())
       {
-         UserConfiguredField field = m_projectFile.getUserConfiguredFields().getOrCreate(fieldType);
-         List<UserConfiguredFieldValueMask> maskList = field.getMasks();
+         CustomField field = m_projectFile.getCustomFields().getOrCreate(fieldType);
+         List<CustomFieldValueMask> maskList = field.getMasks();
          for (Project.OutlineCodes.OutlineCode.Masks.Mask mask : masks.getMask())
          {
             int length = NumberHelper.getInt(mask.getLength());
             int level = NumberHelper.getInt(mask.getLevel());
             String separator = mask.getSeparator();
-            UserConfiguredFieldValueDataType type = UserConfiguredFieldValueDataType.getInstanceByMaskValue(NumberHelper.getInt(mask.getType()));
+            CustomFieldValueDataType type = CustomFieldValueDataType.getInstanceByMaskValue(NumberHelper.getInt(mask.getType()));
             if (type == null)
             {
-               type = UserConfiguredFieldValueDataType.TEXT;
+               type = CustomFieldValueDataType.TEXT;
             }
-            UserConfiguredFieldValueMask item = new UserConfiguredFieldValueMask(length, level, separator, type);
+            CustomFieldValueMask item = new CustomFieldValueMask(length, level, separator, type);
             maskList.add(item);
          }
       }
@@ -2168,7 +2168,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private Map<UUID, FieldType> m_lookupTableMap;
-   private Map<FieldType, Map<BigInteger, UserConfiguredFieldValueItem>> m_customFieldValueItems;
+   private Map<FieldType, Map<BigInteger, CustomFieldValueItem>> m_customFieldValueItems;
 
    private static final RecurrenceType[] RECURRENCE_TYPES =
    {

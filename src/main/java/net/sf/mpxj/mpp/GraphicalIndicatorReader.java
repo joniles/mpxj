@@ -25,7 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.util.Date;
 
-import net.sf.mpxj.UserConfiguredFieldContainer;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.GraphicalIndicator;
@@ -50,7 +50,7 @@ public final class GraphicalIndicatorReader
    public void process(ProjectFile file, Props props)
    {
       m_file = file;
-      m_container = file.getUserConfiguredFields();
+      m_container = file.getCustomFields();
       m_properties = file.getProjectProperties();
       m_data = props.getByteArray(Props.TASK_FIELD_ATTRIBUTES);
 
@@ -264,7 +264,7 @@ public final class GraphicalIndicatorReader
    private byte[] m_data;
    private int m_headerOffset;
    private int m_dataOffset;
-   private UserConfiguredFieldContainer m_container;
+   private CustomFieldContainer m_container;
    private ProjectFile m_file;
    private ProjectProperties m_properties;
 }

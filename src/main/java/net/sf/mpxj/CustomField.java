@@ -1,5 +1,5 @@
 /*
- * file:       UserConfiguredField.java
+ * file:       CustomField.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2002-2015
  * date:       28/04/2015
@@ -31,7 +31,7 @@ import net.sf.mpxj.common.FieldTypeHelper;
 /**
  * Configuration detail for a field.
  */
-public class UserConfiguredField implements Comparable<UserConfiguredField>
+public class CustomField implements Comparable<CustomField>
 {
    /**
     * Constructor.
@@ -39,11 +39,11 @@ public class UserConfiguredField implements Comparable<UserConfiguredField>
     * @param field field
     * @param parent parent container
     */
-   public UserConfiguredField(FieldType field, UserConfiguredFieldContainer parent)
+   public CustomField(FieldType field, CustomFieldContainer parent)
    {
       m_field = field;
       m_parent = parent;
-      m_table = new UserConfiguredFieldLookupTable();
+      m_table = new CustomFieldLookupTable();
       m_indicator = new GraphicalIndicator();
       m_masks = new ArrayList<>();
    }
@@ -63,7 +63,7 @@ public class UserConfiguredField implements Comparable<UserConfiguredField>
     *
     * @return value lookup table
     */
-   public UserConfiguredFieldLookupTable getLookupTable()
+   public CustomFieldLookupTable getLookupTable()
    {
       return m_table;
    }
@@ -94,7 +94,7 @@ public class UserConfiguredField implements Comparable<UserConfiguredField>
     * @param alias field alias
     * @return this to allow method chaining
     */
-   public UserConfiguredField setAlias(String alias)
+   public CustomField setAlias(String alias)
    {
       m_alias = alias;
       m_parent.registerAlias(m_field, alias);
@@ -124,7 +124,7 @@ public class UserConfiguredField implements Comparable<UserConfiguredField>
     * @param uniqueID Unique ID
     * @return this to allow method chaining
     */
-   public UserConfiguredField setUniqueID(Integer uniqueID)
+   public CustomField setUniqueID(Integer uniqueID)
    {
       m_uniqueID = uniqueID;
       return this;
@@ -135,12 +135,12 @@ public class UserConfiguredField implements Comparable<UserConfiguredField>
     *
     * @return list of mask definitions
     */
-   public List<UserConfiguredFieldValueMask> getMasks()
+   public List<CustomFieldValueMask> getMasks()
    {
       return m_masks;
    }
 
-   @Override public int compareTo(UserConfiguredField f)
+   @Override public int compareTo(CustomField f)
    {
       String name1 = getFieldType().getFieldTypeClass().name() + "." + getUniqueID() + "." + getAlias();
       String name2 = f.getFieldType().getFieldTypeClass().name() + "." + f.getUniqueID() + "." + f.getAlias();
@@ -149,14 +149,14 @@ public class UserConfiguredField implements Comparable<UserConfiguredField>
 
    @Override public String toString()
    {
-      return "[UserConfiguredField field=" + m_field + " alias=" + m_alias + "]";
+      return "[CustomField field=" + m_field + " alias=" + m_alias + "]";
    }
 
    private final FieldType m_field;
-   private final UserConfiguredFieldContainer m_parent;
-   private final UserConfiguredFieldLookupTable m_table;
+   private final CustomFieldContainer m_parent;
+   private final CustomFieldLookupTable m_table;
    private final GraphicalIndicator m_indicator;
-   private final List<UserConfiguredFieldValueMask> m_masks;
+   private final List<CustomFieldValueMask> m_masks;
    private Integer m_uniqueID;
    private String m_alias;
 }

@@ -35,7 +35,7 @@ import java.util.Map.Entry;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.BookingType;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.UserConfiguredFieldContainer;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
@@ -71,10 +71,10 @@ abstract class FieldMap
    {
       m_file = file;
       m_properties = file.getProjectProperties();
-      m_userConfiguredFields = file.getUserConfiguredFields();
-      m_stringVarDataReader = new StringVarDataFieldReader(m_userConfiguredFields);
-      m_doubleVarDataReader = new DoubleVarDataFieldReader(m_userConfiguredFields);
-      m_timestampVarDataReader = new TimestampVarDataFieldReader(m_userConfiguredFields);
+      m_customFields = file.getCustomFields();
+      m_stringVarDataReader = new StringVarDataFieldReader(m_customFields);
+      m_doubleVarDataReader = new DoubleVarDataFieldReader(m_customFields);
+      m_timestampVarDataReader = new TimestampVarDataFieldReader(m_customFields);
    }
 
    /**
@@ -1314,7 +1314,7 @@ abstract class FieldMap
 
    protected final ProjectFile m_file;
    private final ProjectProperties m_properties;
-   final UserConfiguredFieldContainer m_userConfiguredFields;
+   final CustomFieldContainer m_customFields;
    final VarDataFieldReader m_stringVarDataReader;
    final VarDataFieldReader m_doubleVarDataReader;
    final VarDataFieldReader m_timestampVarDataReader;

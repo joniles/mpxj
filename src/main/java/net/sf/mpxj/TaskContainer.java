@@ -235,13 +235,13 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
    }
 
    /**
-    * Retrieve a list of task user configured fields.
+    * Retrieve a list of task custom fields.
     *
-    * @return task user configured fields
+    * @return task custom fields
     */
-   public List<UserConfiguredField> getUserConfiguredFields()
+   public List<CustomField> getCustomFields()
    {
-      return m_projectFile.getUserConfiguredFields().getUserConfiguredFieldsByFieldTypeClass(FieldTypeClass.TASK);
+      return m_projectFile.getCustomFields().getCustomFieldsByFieldTypeClass(FieldTypeClass.TASK);
    }
 
    /**
@@ -252,7 +252,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     */
    public FieldType getFieldTypeByAlias(String alias)
    {
-      return m_projectFile.getUserConfiguredFields().getFieldTypeByAlias(FieldTypeClass.TASK, alias);
+      return m_projectFile.getCustomFields().getFieldTypeByAlias(FieldTypeClass.TASK, alias);
    }
 
    @Override protected int firstUniqueID()

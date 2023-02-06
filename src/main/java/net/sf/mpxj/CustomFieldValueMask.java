@@ -1,5 +1,5 @@
 /*
- * file:       UserConfiguredFieldValueMask.java
+ * file:       CustomFieldValueMask.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software
  * date:       22/09/2019
@@ -24,9 +24,9 @@
 package net.sf.mpxj;
 
 /**
- * One element of the mask used to define the structured content of a user configured field.
+ * One element of the mask used to define the structured content of a custom field.
  */
-public class UserConfiguredFieldValueMask
+public class CustomFieldValueMask
 {
    /**
     * Constructor.
@@ -36,7 +36,7 @@ public class UserConfiguredFieldValueMask
     * @param separator separator
     * @param type value type
     */
-   public UserConfiguredFieldValueMask(int length, int level, String separator, UserConfiguredFieldValueDataType type)
+   public CustomFieldValueMask(int length, int level, String separator, CustomFieldValueDataType type)
    {
       m_length = length;
       m_level = level;
@@ -79,18 +79,18 @@ public class UserConfiguredFieldValueMask
     *
     * @return value type
     */
-   public UserConfiguredFieldValueDataType getType()
+   public CustomFieldValueDataType getType()
    {
       return m_type;
    }
 
    @Override public String toString()
    {
-      return String.format("[UserConfiguredFieldValueMask length=%d level=%d separator=%s type=%s]", Integer.valueOf(m_length), Integer.valueOf(m_level), m_separator, m_type);
+      return String.format("[CustomFieldValueMask length=%d level=%d separator=%s type=%s]", Integer.valueOf(m_length), Integer.valueOf(m_level), m_separator, m_type);
    }
 
    private final int m_length;
    private final int m_level;
    private final String m_separator;
-   private final UserConfiguredFieldValueDataType m_type;
+   private final CustomFieldValueDataType m_type;
 }

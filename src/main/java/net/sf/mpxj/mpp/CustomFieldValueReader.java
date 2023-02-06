@@ -23,8 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.UserConfiguredFieldContainer;
-import net.sf.mpxj.UserConfiguredFieldValueDataType;
+import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TimeUnit;
@@ -49,7 +49,7 @@ public abstract class CustomFieldValueReader
    {
       m_file = file;
       m_properties = file.getProjectProperties();
-      m_container = file.getUserConfiguredFields();
+      m_container = file.getCustomFields();
       m_outlineCodeVarMeta = outlineCodeVarMeta;
       m_outlineCodeVarData = outlineCodeVarData;
       m_outlineCodeFixedData = outlineCodeFixedData;
@@ -69,7 +69,7 @@ public abstract class CustomFieldValueReader
     * @param value raw value data
     * @return Java object
     */
-   protected Object getTypedValue(UserConfiguredFieldValueDataType type, byte[] value)
+   protected Object getTypedValue(CustomFieldValueDataType type, byte[] value)
    {
       Object result;
 
@@ -156,7 +156,7 @@ public abstract class CustomFieldValueReader
 
    protected final ProjectFile m_file;
    protected final ProjectProperties m_properties;
-   protected final UserConfiguredFieldContainer m_container;
+   protected final CustomFieldContainer m_container;
    protected final VarMeta m_outlineCodeVarMeta;
    protected final Var2Data m_outlineCodeVarData;
    protected final FixedData m_outlineCodeFixedData;

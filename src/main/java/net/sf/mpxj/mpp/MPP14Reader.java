@@ -1935,7 +1935,7 @@ final class MPP14Reader implements MPPVariantReader
       else
       {
          int uniqueId = varData.getInt(id, 2, type);
-         UserConfiguredFieldValueItem item = m_file.getUserConfiguredFields().getUserConfiguredFieldValueItemByUniqueID(uniqueId);
+         CustomFieldValueItem item = m_file.getCustomFields().getCustomFieldValueItemByUniqueID(uniqueId);
          if (item != null)
          {
             Object value = item.getValue();
@@ -1972,7 +1972,7 @@ final class MPP14Reader implements MPPVariantReader
          return "";
       }
 
-      UserConfiguredFieldValueItem item = m_file.getUserConfiguredFields().getUserConfiguredFieldValueItemByUniqueID(uniqueId);
+      CustomFieldValueItem item = m_file.getCustomFields().getCustomFieldValueItemByUniqueID(uniqueId);
       if (item != null)
       {
          Object value = item.getValue();

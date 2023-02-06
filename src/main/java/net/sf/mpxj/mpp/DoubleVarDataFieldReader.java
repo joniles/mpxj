@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.UserConfiguredFieldContainer;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -36,7 +36,7 @@ class DoubleVarDataFieldReader extends VarDataFieldReader
     *
     * @param customFields custom fields container
     */
-   public DoubleVarDataFieldReader(UserConfiguredFieldContainer customFields)
+   public DoubleVarDataFieldReader(CustomFieldContainer customFields)
    {
       super(customFields);
    }

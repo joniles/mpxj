@@ -348,7 +348,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
 
          UserDefinedField fieldType = new UserDefinedField(id, internalName, externalName, FieldTypeClass.RESOURCE, type);
          container.add(fieldType);
-         m_projectFile.getUserConfiguredFields().add(fieldType).setAlias(definition.getName());
+         m_projectFile.getCustomFields().add(fieldType).setAlias(definition.getName());
 
          String defaultValue = definition.getDefaultValue();
          if (defaultValue != null && defaultValue.isEmpty())
@@ -390,7 +390,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
 
          UserDefinedField fieldType = new UserDefinedField(id, internalName, externalName, FieldTypeClass.TASK, type);
          container.add(fieldType);
-         m_projectFile.getUserConfiguredFields().add(fieldType).setAlias(definition.getName());
+         m_projectFile.getCustomFields().add(fieldType).setAlias(definition.getName());
 
          String defaultValue = definition.getDefaultvalue();
          if (defaultValue != null && defaultValue.isEmpty())

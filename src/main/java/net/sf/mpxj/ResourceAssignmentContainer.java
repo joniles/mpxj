@@ -64,13 +64,13 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
    }
 
    /**
-    * Retrieve a list of resource assignment user configured fields.
+    * Retrieve a list of resource assignment custom fields.
     *
-    * @return resource assignment user configured fields
+    * @return resource assignment custom fields
     */
-   public List<UserConfiguredField> getUserConfiguredFields()
+   public List<CustomField> getCustomFields()
    {
-      return m_projectFile.getUserConfiguredFields().getUserConfiguredFieldsByFieldTypeClass(FieldTypeClass.ASSIGNMENT);
+      return m_projectFile.getCustomFields().getCustomFieldsByFieldTypeClass(FieldTypeClass.ASSIGNMENT);
    }
 
    /**
@@ -81,6 +81,6 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
     */
    public FieldType getFieldTypeByAlias(String alias)
    {
-      return m_projectFile.getUserConfiguredFields().getFieldTypeByAlias(FieldTypeClass.ASSIGNMENT, alias);
+      return m_projectFile.getCustomFields().getFieldTypeByAlias(FieldTypeClass.ASSIGNMENT, alias);
    }
 }

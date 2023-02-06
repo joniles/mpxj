@@ -25,8 +25,8 @@ package net.sf.mpxj.sample;
 
 import java.text.SimpleDateFormat;
 
-import net.sf.mpxj.UserConfiguredField;
-import net.sf.mpxj.UserConfiguredFieldContainer;
+import net.sf.mpxj.CustomField;
+import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -134,8 +134,8 @@ public class MpxjCreate
       //
       // Let's create an alias for TEXT1
       //
-      UserConfiguredFieldContainer userConfiguredFields = file.getUserConfiguredFields();
-      UserConfiguredField field = userConfiguredFields.add(TaskField.TEXT1);
+      CustomFieldContainer customFields = file.getCustomFields();
+      CustomField field = customFields.add(TaskField.TEXT1);
       field.setAlias("My Custom Field");
 
       //
