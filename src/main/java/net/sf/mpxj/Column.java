@@ -106,8 +106,8 @@ public final class Column
       {
          if (m_fieldType != null)
          {
-            CustomField field = m_project.getCustomFields().get(m_fieldType);
-            result = field == null ? null : field.getAlias();
+            CustomField cf = m_project.getCustomFields().get(m_fieldType);
+            result = cf == null ? null : cf.getAlias();
             if (result == null || result.isEmpty())
             {
                result = m_fieldType.getName(locale);
