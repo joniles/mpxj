@@ -47,6 +47,7 @@ final class ResourceModel
     *
     * @param file the parent file to which this record belongs.
     * @param locale target locale
+    * @param userDefinedFieldMap user defined field map
     */
    ResourceModel(ProjectFile file, Locale locale, UserDefinedFieldMap userDefinedFieldMap)
    {

@@ -43,6 +43,7 @@ public final class MPPResourceField
     * Retrieve an instance of the ResourceField class based on the data read from an
     * MS Project file.
     *
+    * @param project parent project
     * @param value value from an MS Project file
     * @return ResourceField instance
     */

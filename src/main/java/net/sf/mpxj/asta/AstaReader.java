@@ -1735,7 +1735,7 @@ final class AstaReader
    }
 
    /**
-    * Process user defined field definitions
+    * Process user defined field definitions.
     *
     * @param definitions field definitions
     * @param objectTypeMap id to object type map

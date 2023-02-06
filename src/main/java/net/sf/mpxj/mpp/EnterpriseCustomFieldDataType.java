@@ -34,7 +34,7 @@ import net.sf.mpxj.DataType;
 public final class EnterpriseCustomFieldDataType
 {
    /**
-    * Lookup the type of an enterprise custom field based on its integer ID.
+    * Look up the type of an enterprise custom field based on its integer ID.
     *
     * @param value integer type ID
     * @return DataType instance
@@ -44,6 +44,12 @@ public final class EnterpriseCustomFieldDataType
       return DATA_TYPE_MAP.get(Integer.valueOf(value));
    }
 
+   /**
+    * Look up the integer ID of an enterprise custom field data type.
+    * 
+    * @param type data type
+    * @return integer id
+    */
    public static Integer getIDFromDataType(DataType type)
    {
       return ID_MAP.get(type);

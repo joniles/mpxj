@@ -41,16 +41,6 @@ import net.sf.mpxj.mpp.UserConfiguredFieldValueItem;
 public class UserConfiguredFieldContainer implements Iterable<UserConfiguredField>
 {
    /**
-    * Constructor.
-    *
-    * @param parent parent project file
-    */
-   public UserConfiguredFieldContainer(ProjectFile parent)
-   {
-      m_parent = parent;
-   }
-
-   /**
     * Retrieve configuration details for a given field.
     *
     * @param field required field
@@ -221,7 +211,6 @@ public class UserConfiguredFieldContainer implements Iterable<UserConfiguredFiel
       return StreamSupport.stream(spliterator(), false);
    }
 
-   private final ProjectFile m_parent;
    private final Map<FieldType, UserConfiguredField> m_configMap = new HashMap<>();
    private final Map<Integer, UserConfiguredFieldValueItem> m_valueMap = new HashMap<>();
    private final Map<UUID, UserConfiguredFieldValueItem> m_guidMap = new HashMap<>();

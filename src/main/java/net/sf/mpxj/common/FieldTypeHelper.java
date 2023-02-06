@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.common;
 
-import java.util.Comparator;
 import java.util.Locale;
 
 import net.sf.mpxj.AssignmentField;

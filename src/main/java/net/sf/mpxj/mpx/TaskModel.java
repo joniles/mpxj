@@ -48,6 +48,7 @@ final class TaskModel
     *
     * @param file the parent file to which this record belongs.
     * @param locale target locale
+    * @param userDefinedFieldMap user defined field map
     */
    TaskModel(ProjectFile file, Locale locale, UserDefinedFieldMap userDefinedFieldMap)
    {

@@ -72,7 +72,6 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.SlackHelper;
 import net.sf.mpxj.common.Tokenizer;
-import net.sf.mpxj.mpp.UserDefinedFieldMap;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**

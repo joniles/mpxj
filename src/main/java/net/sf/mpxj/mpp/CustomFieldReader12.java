@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.UserConfiguredField;
 import net.sf.mpxj.UserConfiguredFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
@@ -144,7 +143,6 @@ class CustomFieldReader12
             // Don't try to set the data type unless it's a custom field
             if (fieldType instanceof UserDefinedField && fieldType.getDataType() == DataType.CUSTOM)
             {
-               UserConfiguredField field = m_fields.getOrCreate(fieldType);
                int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
                DataType dataType = EnterpriseCustomFieldDataType.getDataTypeFromID(dataTypeValue);
                if (dataType != null)

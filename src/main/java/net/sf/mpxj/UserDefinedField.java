@@ -38,7 +38,7 @@ public class UserDefinedField implements FieldType
     * @param fieldTypeClass type of entity on which this field can be used
     * @param dataType data type of this field
     */
-   public UserDefinedField(int id, String internalName, String externalName, FieldTypeClass fieldTypeClass, DataType dataType)
+   public UserDefinedField(Integer id, String internalName, String externalName, FieldTypeClass fieldTypeClass, DataType dataType)
    {
       m_id = id;
       m_internalName = internalName;
