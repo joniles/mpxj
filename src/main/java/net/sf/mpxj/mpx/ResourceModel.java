@@ -129,7 +129,9 @@ final class ResourceModel
       {
          for (int loop = 0; loop < MPXResourceField.MAX_FIELDS; loop++)
          {
-            FieldType field = m_userDefinedFieldMap.getSource(MPXResourceField.getMpxjField(loop));
+            FieldType field = MPXResourceField.getMpxjField(loop);
+            field = m_userDefinedFieldMap == null ? field : m_userDefinedFieldMap.getSource(field);
+
             Object value = resource.get(field);
             if (ModelUtility.isFieldPopulated(field, value))
             {

@@ -25,6 +25,7 @@
 package net.sf.mpxj.mpx;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -178,7 +179,7 @@ final class TaskModel
       boolean result = false;
       if (field != null)
       {
-         field = m_userDefinedFieldMap.getSource(field);
+         field = m_userDefinedFieldMap == null ? field : m_userDefinedFieldMap.getSource(field);
          Object value = task.get(field);
 
          // We never write these fields to the task record.
