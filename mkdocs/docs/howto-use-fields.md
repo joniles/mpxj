@@ -455,6 +455,15 @@ fields are defined, the `getPopulatedFields` field methods discussed in an
 earlier section will also return `UserdefinedField` instances to indicate where
 these fields have values in the schedule.
 
+> If you need to move schedules data between an application which supports user
+> defined fields and Microsoft Project, MPXJ will automatically map any user
+> defined fields to unused custom fields when writing and MSPDI or MPX file. Note
+> that as there are only a finite number of custom field available, it is
+> possible that not all user defined fields will be available when the resulting
+> file is opened in Microsoft Project.
+
+
+
 
 
 MPXJ uses the term "custom fields" to group together a couple of related
