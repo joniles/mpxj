@@ -1,7 +1,7 @@
 # How To: Use Fields
 Once you've read a schedule using MPXJ, and you have a `ProjectFile` instance
 with tasks, resources and resource assignments, how do you access the data
-represented by the fields provided by each of these entities? If you're
+represented as fields in each of these entities? If you're
 creating or updating a schedule, how can you assign values to fields? This
 section explains the different approaches you can take in each of these cases.
 
@@ -56,7 +56,7 @@ to access and modify the field with a convenient type safe interface.
 
 ## Field Enumerations
 What if we don't know ahead of time which fields we need to access? For example,
-what if our application allows users to chose which fields to display for
+what if our application allows users to choose which fields to display for
 each task? In this case we can use a data-driven approach to read and write
 fields, as shown in the example below.
 
@@ -219,14 +219,21 @@ which are not already present. This can be useful if you want to read a
 schedule using MPXJ, but retrieve only the fields which were in the original
 schedule, not calculated or inferred by MPXJ.
 
-## Indexed Fields
-So far we've seen how simple fields like Name and Start can be accessed
-and modified using both field-specific and generic methods. Many organizations
-rely on using general purpose fields like "Text 1" and "Date 1" to store
-information relevant to their schedules. If we look for methods like `setText1`
+## Custom Fields
+So far we've seen how simple fields like Name and Start can be accessed and
+modified using both field-specific and generic methods. Name and Start are
+examples of standard fields which might be provided and managed by schedule
+applications, and have a well understood meaning. What if we have some
+additional data we want to capture in our schedule, but that data doesn't fit
+into any of these standard fields?
+
+Microsoft Project's solution to this problem is Custom Fields. By default
+Microsoft Project provides a number of general purpose fields with names
+like "Text 1", "Text 2", "Date 1", "Date 2" and so on, which can be used to
+relevant vales as part of the schedule. If we look for methods like `setText1`
 or `setDate1` we won't find them, so how can we work with these fields?
 
-The answer is quite straightforward, for each of these "indexed" fields you'll
+The answer is quite straightforward, for each of these custom fields you'll
 find getter and setter methods which take an integer value, for example:
 
 ```java
@@ -245,7 +252,7 @@ text1 = (String)task.get(TaskField.TEXT1);
 System.out.println("Text 1 is: " + text1);
 ```
 
-For `Task`, `Resource` and `ResourceAssignment` the following indexed fields are
+For `Task`, `Resource` and `ResourceAssignment` the following custom fields are
 available for use:
 
 * Cost 1-10
@@ -264,10 +271,10 @@ are targeting specific fields. If we're reading a schedule whose contents are
 unknown to us, how can we tell which fields are actually populated? A typical
 use-case for this might be where we need to read a schedule, then present the
 user with the ability to select the columns they'd like to see in a tabular
-display of the schedule contents. If you look at the various enumerations which
+display of the schedule contents. If you look at the various enumerations we
 have mentioned previously in this section (`TaskField`, `ResourceField` and so
 on) you can see that there are a large number of possible fields a user could
-choose from, so ideally we only want to show a user field which actually
+choose from, so ideally we only want to show a user fields which actually
 contain non-default values.
 
 To solve this problem we need to use the appropriate `getPopulatedFields` method
@@ -287,6 +294,20 @@ classes which implement the `FieldContainer` interface, we'll query the
 container which holds those classes and call its `getPopulatedFields` method.
 In each case this will return a `Set` containing the enumeration values 
 representing fields which have non-default values.
+
+If you need to you can retrieve all of this information in one go:
+
+```java
+ProjectFile file = new UniversalProjectReader().read("example.mpp");
+
+Set<ProjectField> allFields = file.getPopulatedFields();
+```
+
+The set returned by the project's `getPopulatedFields` will contain all the
+populated fields from all entities which implement the `FieldContainer`
+interface. You'll need to remember to look at the `FieldTypeClass` value of
+each field in the resulting set to determine which entity the field belongs
+to. The following section provides more detail on this.
 
 ## FieldType
 Earlier in this section we noted that there were four main enumerations
@@ -312,11 +333,12 @@ name, suitable for display to end users (currently English is the default and
 only supported locale).
 
 The `getFieldTypeClass()` method returns a value from the `FieldTypeClass`
-enumeration which will help you to determine which class this `FieldType`
-belongs to. Finally the `getDataType()` method will return a value from the
-`DataType` enumeration which indicates the data type you will receive from the
-`get` method when accessing this field, and the type to pass to the `set`
-method when updating the field.
+enumeration which will help you to determine which kind of object this
+`FieldType` belongs to (for example task, resource, and so on). Finally the
+`getDataType()` method will return a value from the `DataType` enumeration
+which indicates the data type you will receive from the `get` method when
+accessing this field, and the type to pass to the `set` method when updating
+the field.
 
 Here's some example code to make this a little clearer:
 
@@ -344,7 +366,7 @@ fields we will display, we can use the data type of the selected field
 to determine how we format the value for display.
 
 ```java
-private String getStringValue(FieldContainer container, FieldType type)
+private String getValueAsText(FieldContainer container, FieldType type)
 {
     Object value = container.get(type);
     if (value == null)
@@ -394,7 +416,47 @@ creating new instances of `DecimalFormat` and `SimpleDateFormat` each time you
 need to format a value!)
 
 
-## Custom Fields
+## User Defined Fields
+In an earlier section we touched briefly on how Microsoft Project uses a fixed
+set of "custom fields" to allow you to store arbitrary data as part of the
+schedule. A more common approach in other applications is to allow you to
+create your own fields to represent the data you need to store - that way you
+can have exactly the fields you need, without needing to worry if you can fit
+your data into the fixed set of custom fields. In fact Microsoft Project also
+supports this concept, in the form of Enterprise Custom Fields, although these
+are only available if you are working with a schedule hosted in Project Server
+(Project 365).
+
+As you can imagine MPXJ can't provide dedicated getter and setter methods for
+these fields as it doesn't know ahead of time what they are - they're user
+defined! Instead we rely on the `get` and `set` methods to work with these
+fields.
+
+When a schedule is read  by MPXJ, each user defined field is represented
+internally by an instance of the  `UserDefinedField` class. This class
+implements the `FieldType` interface, and so can be used with the `get` and
+`set` methods to read and write these values.
+
+You can see which user defined fields exist in a project using
+code similar to the example below:
+
+```java
+for (UserDefinedField field : project.getUserDefinedFields())
+{
+    System.out.println("name(): " + field.name());
+    System.out.println("getName(): " + field.getName());
+    System.out.println("getFieldTypeClass(): " + field.getFieldTypeClass());
+    System.out.println("getDataType():" + field.getDataType());         
+}
+```
+
+As well as using the `getUserDefinedFields` method on the project to see which
+fields are defined, the `getPopulatedFields` field methods discussed in an
+earlier section will also return `UserdefinedField` instances to indicate where
+these fields have values in the schedule.
+
+
+
 MPXJ uses the term "custom fields" to group together a couple of related
 concepts. For Microsoft Project, generally speaking each entity
 (Task, Resource , Resource Assignment and so on) has a fixed set of fields
