@@ -224,7 +224,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_extendedAttributes = getExtendedAttributesSet();
 
          m_sourceIsMicrosoftProject = MICROSOFT_PROJECT_FILES.contains(m_projectFile.getProjectProperties().getFileType());
-         m_userDefinedFieldMap = UserDefinedFieldMap.getInstanceWithoutMappings(projectFile, MAPPING_TARGET_CUSTOM_FIELDS);
+         m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile, MAPPING_TARGET_CUSTOM_FIELDS);
 
          m_factory = new ObjectFactory();
          Project project = m_factory.createProject();

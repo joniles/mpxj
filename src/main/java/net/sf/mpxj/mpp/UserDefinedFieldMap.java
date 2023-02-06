@@ -45,42 +45,7 @@ import java.util.Set;
  */
 public class UserDefinedFieldMap
 {
-   /**
-    * Retrieve an empty instance. This instance is intended to be read only,
-    * but this is not enforced.
-    *
-    * @return empty instance
-    */
-   public static UserDefinedFieldMap getEmptyInstance()
-   {
-      return EMPTY_INSTANCE;
-   }
-
-   /**
-    * Create a new empty map without attempting to create any mappings.
-    *
-    * @param file parent project
-    * @param targetFieldList target set of custom fields into which values will be mapped
-    * @return UserDefinedFieldMap instance
-    */
-   public static UserDefinedFieldMap getInstanceWithoutMappings(ProjectFile file, List<FieldType> targetFieldList)
-   {
-      return new UserDefinedFieldMap(file, false, targetFieldList);
-   }
-
-   /**
-    * Create a new map and generate mappings for all user defined fields.
-    *
-    * @param file parent project
-    * @param targetFieldList target set of custom fields into which values will be mapped
-    * @return
-    */
-   public static UserDefinedFieldMap getInstanceWithMappings(ProjectFile file, List<FieldType> targetFieldList)
-   {
-      return new UserDefinedFieldMap(file, true, targetFieldList);
-   }
-
-   private UserDefinedFieldMap(ProjectFile file, boolean generateMappingNow, List<FieldType> targetFieldList)
+   public UserDefinedFieldMap(ProjectFile file, List<FieldType> targetFieldList)
    {
       // No action required if we have no user defined fields
       if (file == null || file.getUserDefinedFields().isEmpty())
@@ -96,12 +61,6 @@ public class UserDefinedFieldMap
 
       // Build a collection of potential target fields
       targetFieldList.stream().filter(f -> !populated.contains(f)).forEach(f -> getFieldList(f).add(f));
-
-      if (generateMappingNow)
-      {
-         // Generate a mapping for each user defined field
-         file.getUserDefinedFields().forEach(this::generateMapping);
-      }
    }
 
    /**
@@ -223,5 +182,4 @@ public class UserDefinedFieldMap
    private final Map<FieldType, FieldType> m_targetMap = new HashMap<>();
    private final Map<FieldType, FieldType> m_sourceMap = new HashMap<>();
    private final Map<FieldTypeClass, Map<DataType, List<FieldType>>> m_fields = new HashMap<>();
-   private static final UserDefinedFieldMap EMPTY_INSTANCE = new UserDefinedFieldMap(null, false, Collections.emptyList());
 }
