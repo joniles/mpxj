@@ -125,7 +125,7 @@ public class UserDefinedFieldMap
 
    private List<FieldType> getFieldList(FieldType field)
    {
-      return getFieldList(field.getFieldTypeClass(), field.getDataType());
+      return getFieldList(field.getFieldTypeClass(), normaliseDataType(field.getDataType()));
    }
 
    private List<FieldType> getFieldList(FieldTypeClass fieldTypeClass, DataType dataType)
@@ -159,12 +159,6 @@ public class UserDefinedFieldMap
          case WORK:
          {
             type = DataType.DURATION;
-            break;
-         }
-
-         case BINARY:
-         {
-            type = null;
             break;
          }
 
