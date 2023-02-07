@@ -25,12 +25,15 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -5404,20 +5407,15 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          return null;
       }
 
-      // Always calculated
-      if (field == TaskField.PARENT_TASK_UNIQUE_ID)
-      {
-         return getParentTaskUniqueID();
-      }
-
-      Object result = m_fields.get(field);
+      boolean alwaysCalculatedField = ALWAYS_CALCULATED_FIELDS.contains(field);
+      Object result = alwaysCalculatedField ? null : m_fields.get(field);
       if (result == null)
       {
          Function<Task, Object> f = CALCULATED_FIELD_MAP.get(field);
          if (f != null)
          {
             result = f.apply(this);
-            if (result != null)
+            if (result != null && !alwaysCalculatedField)
             {
                set(field, result);
             }
@@ -5576,7 +5574,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       m_eventsEnabled = true;
    }
 
-   private Integer getParentTaskUniqueID()
+   private Integer calculateParentTaskUniqueID()
    {
       return m_parent == null ? null : m_parent.getUniqueID();
    }
@@ -5896,10 +5894,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    private boolean m_expanded = true;
    private List<FieldListener> m_listeners;
 
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID));
+
    private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
-      CALCULATED_FIELD_MAP.put(TaskField.PARENT_TASK_UNIQUE_ID, Task::getParentTaskUniqueID);
+      CALCULATED_FIELD_MAP.put(TaskField.PARENT_TASK_UNIQUE_ID, Task::calculateParentTaskUniqueID);
       CALCULATED_FIELD_MAP.put(TaskField.START_VARIANCE, Task::calculateStartVariance);
       CALCULATED_FIELD_MAP.put(TaskField.FINISH_VARIANCE, Task::calculateFinishVariance);
       CALCULATED_FIELD_MAP.put(TaskField.START_SLACK, Task::calculateStartSlack);

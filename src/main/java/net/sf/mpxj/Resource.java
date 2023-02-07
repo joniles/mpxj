@@ -25,11 +25,14 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -2910,41 +2913,20 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
 
    @Override public Object get(FieldType field)
    {
-      // Always calculated
-      if (field instanceof ResourceField)
+      if (field == null)
       {
-         switch ((ResourceField) field)
-         {
-            case STANDARD_RATE:
-            {
-               return calculateStandardRate();
-            }
-
-            case OVERTIME_RATE:
-            {
-               return calculateOvertimeRate();
-            }
-
-            case COST_PER_USE:
-            {
-               return calculateCostPerUse();
-            }
-
-            default:
-            {
-               break;
-            }
-         }
+         return null;
       }
 
-      Object result = m_fields.get(field);
+      boolean alwaysCalculatedField = ALWAYS_CALCULATED_FIELDS.contains(field);
+      Object result = alwaysCalculatedField ? null : m_fields.get(field);
       if (result == null)
       {
          Function<Resource, Object> f = CALCULATED_FIELD_MAP.get(field);
          if (f != null)
          {
             result = f.apply(this);
-            if (result != null)
+            if (result != null && !alwaysCalculatedField)
             {
                set(field, result);
             }
@@ -3222,6 +3204,8 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    private final AvailabilityTable m_availability = new AvailabilityTable();
    private List<FieldListener> m_listeners;
 
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(ResourceField.STANDARD_RATE, ResourceField.OVERTIME_RATE, ResourceField.COST_PER_USE));
+
    private static final Map<FieldType, Function<Resource, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
@@ -3230,6 +3214,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       CALCULATED_FIELD_MAP.put(ResourceField.CV, Resource::calculateCV);
       CALCULATED_FIELD_MAP.put(ResourceField.SV, Resource::calculateSV);
       CALCULATED_FIELD_MAP.put(ResourceField.OVERALLOCATED, Resource::calculateOverallocated);
+      CALCULATED_FIELD_MAP.put(ResourceField.STANDARD_RATE, Resource::calculateStandardRate);
+      CALCULATED_FIELD_MAP.put(ResourceField.OVERTIME_RATE, Resource::calculateOvertimeRate);
+      CALCULATED_FIELD_MAP.put(ResourceField.COST_PER_USE, Resource::calculateCostPerUse);
       CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
       CALCULATED_FIELD_MAP.put(ResourceField.ROLE, Resource::defaultRoleFlag);
       CALCULATED_FIELD_MAP.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, Resource::defaultCalculateCostsFromUnits);

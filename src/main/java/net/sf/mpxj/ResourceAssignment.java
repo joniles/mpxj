@@ -25,12 +25,15 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -2938,36 +2941,20 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
 
    @Override public Object get(FieldType field)
    {
-      if (field instanceof AssignmentField)
+      if (field == null)
       {
-         // Always calculated
-         switch ((AssignmentField) field)
-         {
-            case START:
-            {
-               return calculateStart();
-            }
-
-            case FINISH:
-            {
-               return calculateFinish();
-            }
-
-            default:
-            {
-               break;
-            }
-         }
+         return null;
       }
 
-      Object result = m_fields.get(field);
+      boolean alwaysCalculatedField = ALWAYS_CALCULATED_FIELDS.contains(field);
+      Object result = alwaysCalculatedField ? null : m_fields.get(field);
       if (result == null)
       {
          Function<ResourceAssignment, Object> f = CALCULATED_FIELD_MAP.get(field);
          if (f != null)
          {
             result = f.apply(this);
-            if (result != null)
+            if (result != null && !alwaysCalculatedField)
             {
                set(field, result);
             }
@@ -3156,6 +3143,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public static final Double DEFAULT_UNITS = Double.valueOf(100);
 
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.START, AssignmentField.FINISH));
+
    private static final Map<FieldType, Function<ResourceAssignment, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
@@ -3167,6 +3156,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       CALCULATED_FIELD_MAP.put(AssignmentField.FINISH_VARIANCE, ResourceAssignment::calculateFinishVariance);
       CALCULATED_FIELD_MAP.put(AssignmentField.PERCENT_WORK_COMPLETE, ResourceAssignment::calculatePercentWorkComplete);
       CALCULATED_FIELD_MAP.put(AssignmentField.WORK_VARIANCE, ResourceAssignment::calculateWorkVariance);
+      CALCULATED_FIELD_MAP.put(AssignmentField.START, ResourceAssignment::calculateStart);
+      CALCULATED_FIELD_MAP.put(AssignmentField.FINISH, ResourceAssignment::calculateFinish);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_INDEX, ResourceAssignment::defaultRateIndex);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_SOURCE, ResourceAssignment::defaultRateSource);
       CALCULATED_FIELD_MAP.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, ResourceAssignment::defaultCalculateCostsFromUnits);
