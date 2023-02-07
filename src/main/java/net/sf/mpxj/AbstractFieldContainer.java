@@ -33,7 +33,6 @@ import net.sf.mpxj.listener.FieldListener;
 
 /**
  * Implementation of common functionality for the FieldContainer interface.
- * @param <T>
  */
 public abstract class AbstractFieldContainer<T> extends ProjectEntity implements FieldContainer
 {
