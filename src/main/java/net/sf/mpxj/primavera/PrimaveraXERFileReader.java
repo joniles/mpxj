@@ -219,9 +219,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          addListenersToProject(project);
 
          processProjectID();
+         processUserDefinedFields();
          processProjectProperties();
          processActivityCodes();
-         processUserDefinedFields();
          processExpenseCategories();
          processCostAccounts();
          processCalendars();
@@ -407,7 +407,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       // Process common attributes
       //
       List<Row> rows = getRows("project", "proj_id", m_projectID);
-      m_reader.processProjectProperties(rows);
+      m_reader.processProjectProperties(m_projectID, rows);
 
       //
       // Process XER-specific attributes

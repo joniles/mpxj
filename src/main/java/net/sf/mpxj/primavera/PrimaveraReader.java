@@ -161,12 +161,15 @@ final class PrimaveraReader
     *
     * @param rows project properties data.
     */
-   public void processProjectProperties(List<Row> rows)
+   public void processProjectProperties(Integer projectID, List<Row> rows)
    {
+      ProjectProperties properties = m_project.getProjectProperties();
+      properties.setUniqueID(projectID);
+      populateUserDefinedFieldValues("PROJECT", FieldTypeClass.PROJECT, properties, projectID);
+
       if (!rows.isEmpty())
       {
          Row row = rows.get(0);
-         ProjectProperties properties = m_project.getProjectProperties();
          properties.setBaselineProjectUniqueID(row.getInteger("sum_base_proj_id"));
          properties.setCreationDate(row.getDate("create_date"));
          properties.setCriticalActivityType(CRITICAL_ACTIVITY_MAP.getOrDefault(row.getString("critical_path_type"), CriticalActivityType.TOTAL_FLOAT));
@@ -176,13 +179,12 @@ final class PrimaveraReader
          properties.setDefaultTaskType(TASK_TYPE_MAP.get(row.getString("def_duration_type")));
          properties.setStatusDate(row.getDate("last_recalc_date"));
          properties.setFiscalYearStartMonth(row.getInteger("fy_start_month_num"));
-         properties.setUniqueID(row.getInteger("proj_id"));
          properties.setExportFlag(row.getBoolean("export_flag"));
          properties.setPlannedStart(row.getDate("plan_start_date"));
          properties.setScheduledFinish(row.getDate("scd_end_date"));
          properties.setMustFinishBy(row.getDate("plan_end_date"));
-         // cannot assign actual calendar yet as it has not been read yet
 
+         // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");
       }
    }
@@ -2303,6 +2305,7 @@ final class PrimaveraReader
       FIELD_TYPE_MAP.put("TASK", FieldTypeClass.TASK);
       FIELD_TYPE_MAP.put("RSRC", FieldTypeClass.RESOURCE);
       FIELD_TYPE_MAP.put("TASKRSRC", FieldTypeClass.ASSIGNMENT);
+      FIELD_TYPE_MAP.put("PROJECT", FieldTypeClass.PROJECT);
    }
 
    private static final Map<String, AccrueType> ACCRUE_TYPE_MAP = new HashMap<>();

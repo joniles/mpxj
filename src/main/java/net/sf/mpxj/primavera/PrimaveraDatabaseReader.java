@@ -99,9 +99,9 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          addListenersToProject(project);
 
          processAnalytics();
+         processUserDefinedFields();
          processProjectProperties();
          processActivityCodes();
-         processUserDefinedFields();
          processExpenseCategories();
          processCostAccounts();
          processCalendars();
@@ -188,7 +188,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       // Process common attributes
       //
       List<Row> rows = getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
-      m_reader.processProjectProperties(rows);
+      m_reader.processProjectProperties(m_projectID, rows);
 
       //
       // Process PMDB-specific attributes
