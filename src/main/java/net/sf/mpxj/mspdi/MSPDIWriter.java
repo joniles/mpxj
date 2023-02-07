@@ -351,11 +351,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
          {
             if (m_sourceIsMicrosoftProject)
             {
+               // This looks like it was originally a Microsoft Project enterprise custom field.
+               // We'll try to preserve its definition.
                microsoftProjectUserDefinedField = true;
                customFieldType = NumberHelper.getBigInteger(EnterpriseCustomFieldDataType.getIDFromDataType(fieldType.getDataType()));
             }
             else
             {
+               // This is a generic user defined field, so we'll try to map it to a custom field
                mappedFieldType = m_userDefinedFieldMap.generateMapping(fieldType);
                if (mappedFieldType == null)
                {
