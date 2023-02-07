@@ -26,7 +26,7 @@ package net.sf.mpxj;
 import net.sf.mpxj.common.EnumHelper;
 
 /**
- * Enumeration used  by custom field values items to represent data types.
+ * Enumeration used  by custom field value items to represent their data type.
  */
 public enum CustomFieldValueDataType implements MpxjEnum
 {

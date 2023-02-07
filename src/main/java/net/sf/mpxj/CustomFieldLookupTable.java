@@ -28,7 +28,7 @@ import java.util.UUID;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 
 /**
- * Lookup table definition.
+ * Lookup table definition for a custom field.
  */
 public class CustomFieldLookupTable extends ListWithCallbacks<CustomFieldValueItem>
 {
