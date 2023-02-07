@@ -219,96 +219,6 @@ which are not already present. This can be useful if you want to read a
 schedule using MPXJ, but retrieve only the fields which were in the original
 schedule, not calculated or inferred by MPXJ.
 
-## Custom Fields
-So far we've seen how simple fields like Name and Start can be accessed and
-modified using both field-specific and generic methods. Name and Start are
-examples of standard fields which might be provided and managed by schedule
-applications, and have a well understood meaning. What if we have some
-additional data we want to capture in our schedule, but that data doesn't fit
-into any of these standard fields?
-
-Microsoft Project's solution to this problem is Custom Fields. By default
-Microsoft Project provides a number of general purpose fields with names
-like "Text 1", "Text 2", "Date 1", "Date 2" and so on, which can be used to
-relevant vales as part of the schedule. If we look for methods like `setText1`
-or `setDate1` we won't find them, so how can we work with these fields?
-
-The answer is quite straightforward, for each of these custom fields you'll
-find getter and setter methods which take an integer value, for example:
-
-```java
-task.setText(1, "This is Text 1");
-String text1 = task.getText(1);
-System.out.println("Text 1 is: " + text1);
-```
-
-If you're working with the generic `get` and `set` methods, the situation is
-more straightforward as each individual field has its own enumeration, as 
-shown below:
-
-```java
-task.set(TaskField.TEXT1, "This is also Text 1");
-text1 = (String)task.get(TaskField.TEXT1);
-System.out.println("Text 1 is: " + text1);
-```
-
-For `Task`, `Resource` and `ResourceAssignment` the following custom fields are
-available for use:
-
-* Cost 1-10
-* Date 1-10
-* Duration 1-10
-* Flag 1-20
-* Finish 1-10
-* Number 1-20
-* Start 1-10
-* Text 1-30
-* Outline Code 1-10 (`Task` and `Resource` only)
-
-## Populated Fields
-So far we've touched on how to can read and write fields in examples where we
-are targeting specific fields. If we're reading a schedule whose contents are
-unknown to us, how can we tell which fields are actually populated? A typical
-use-case for this might be where we need to read a schedule, then present the
-user with the ability to select the columns they'd like to see in a tabular
-display of the schedule contents. If you look at the various enumerations we
-have mentioned previously in this section (`TaskField`, `ResourceField` and so
-on) you can see that there are a large number of possible fields a user could
-choose from, so ideally we only want to show a user fields which actually
-contain non-default values.
-
-To solve this problem we need to use the appropriate `getPopulatedFields` method
-for each of the entities we're interested in.
-
-```java
-ProjectFile file = new UniversalProjectReader().read("example.mpp");
-
-Set<ProjectField> projectFields = file.getProjectProperties().getPopulatedFields();
-Set<TaskField> taskFields = file.getTasks().getPopulatedFields();
-Set<ResourceField> resourceFields = file.getResources().getPopulatedFields();
-Set<AssignmentField> assignmentFields = file.getResourceAssignments().getPopulatedFields();
-```
-
-In the example above we're opening a sample file, then for each of the main
-classes which implement the `FieldContainer` interface, we'll query the
-container which holds those classes and call its `getPopulatedFields` method.
-In each case this will return a `Set` containing the enumeration values 
-representing fields which have non-default values.
-
-If you need to you can retrieve all of this information in one go:
-
-```java
-ProjectFile file = new UniversalProjectReader().read("example.mpp");
-
-Set<ProjectField> allFields = file.getPopulatedFields();
-```
-
-The set returned by the project's `getPopulatedFields` will contain all the
-populated fields from all entities which implement the `FieldContainer`
-interface. You'll need to remember to look at the `FieldTypeClass` value of
-each field in the resulting set to determine which entity the field belongs
-to. The following section provides more detail on this.
-
 ## FieldType
 Earlier in this section we noted that there were four main enumerations
 representing the fields which particular classes can contain.
@@ -318,9 +228,9 @@ representing the fields which particular classes can contain.
 * `TaskField`
 * `AssignmentField`
 
-What I didn't mention earlier is that each of these enumerations inherits from a
-the `FieldType` interface which defines a common set of methods each of
-these enumerations must implement. The most interesting of these methods are:
+What I didn't mention earlier is that each of these enumerations implements the
+`FieldType` interface which defines a common set of methods for each of these
+enumerations. The most interesting of these methods are:
 
 * `name()`
 * `getName()`
@@ -415,6 +325,211 @@ for display. (This is obviously a contrived example - I wouldn't recommend
 creating new instances of `DecimalFormat` and `SimpleDateFormat` each time you
 need to format a value!)
 
+## Custom Fields
+So far we've seen how simple fields like Name and Start can be accessed and
+modified using both field-specific and generic methods. Name and Start are
+examples of standard fields which might be provided and managed by schedule
+applications, and have a well understood meaning. What if we have some
+additional data we want to capture in our schedule, but that data doesn't fit
+into any of these standard fields?
+
+Microsoft Project's solution to this problem is Custom Fields. By default
+Microsoft Project provides a number of general purpose fields with names
+like "Text 1", "Text 2", "Date 1", "Date 2" and so on, which can be used to
+relevant vales as part of the schedule. If we look for methods like `setText1`
+or `setDate1` we won't find them, so how can we work with these fields?
+
+The answer is quite straightforward, for each of these custom fields you'll
+find getter and setter methods which take an integer value, for example:
+
+```java
+task.setText(1, "This is Text 1");
+String text1 = task.getText(1);
+System.out.println("Text 1 is: " + text1);
+```
+
+If you're working with the generic `get` and `set` methods, the situation is
+more straightforward as each individual field has its own enumeration, as 
+shown below:
+
+```java
+task.set(TaskField.TEXT1, "This is also Text 1");
+text1 = (String)task.get(TaskField.TEXT1);
+System.out.println("Text 1 is: " + text1);
+```
+
+For `Task`, `Resource` and `ResourceAssignment` the following custom fields are
+available for use:
+
+* Cost 1-10
+* Date 1-10
+* Duration 1-10
+* Flag 1-20
+* Finish 1-10
+* Number 1-20
+* Start 1-10
+* Text 1-30
+* Outline Code 1-10 (`Task` and `Resource` only)
+
+Microsoft Project allows users to configure custom fields. This facility can be
+used to do something as simple as provide an alias for the field, allowing it
+to be displayed with a meaningful name rather than something like "Text 1"
+or "Date 1". Alternatively there are more complex configurations available, for
+example constraining the values that can be entered for a field by using a
+lookup table, or providing a mask to enforce a particular format.
+
+Information about custom field configurations can be obtained from the
+`CustomFieldsContainer`. The sample code below provides a simple illustration
+of how we can query this data.
+
+```java
+ProjectFile file = new UniversalProjectReader().read("example.mpp");
+
+CustomFieldContainer container = file.getCustomFields();
+for (CustomField field : container)
+{
+    FieldType type = field.getFieldType();
+    String typeClass = type.getFieldTypeClass().toString();
+    String typeName = type.name();
+    String alias = field.getAlias();
+    System.out.println(typeClass + "." + typeName + "\t" + alias);
+}
+```
+
+Depending on how the custom fields in your schedule are configured,
+you'll see output like this:
+
+```
+TASK.TEXT1      Change Request Reason
+TASK.NUMBER1    Number of Widgets Required
+RESOURCE.DATE1  Significant Date
+```
+
+In the source above, the first thing we're retrieving from each `CustomField`
+instance is the `FieldType`, which identifies the field we're configuring. The
+values we retrieve here will be from one of the enumerations we've touched on
+previously in this section, for example `TaskField`, `ResourceField` and so
+on.
+
+The next thing we're doing in our sample code is to create a representation of
+the parent type to which this field belongs, followed by the name of the field
+itself (this is what's providing us with the value `TASK.TEXT1` for example).
+Finally we're displaying the alias which has been set by the user for this
+field.
+
+> It's important to note that for schedules from Microsoft
+> Project, there won't necessarily be a `CustomField` entry for
+> all of the custom fields in use in a schedule. For example, if a user has
+> added values to the "Text 1" field for each of the tasks in their schedule,
+> but have not configured Text 1 in some way (for example by setting an
+> alias or adding a lookup table) there won't be an entry for "Text 1" in the
+> `CustomFieldContainer`.
+
+As well as iterating through the collection of `CustomField` instances for the
+current schedule, you can directly request the `CustomField` instance for a
+specific field, as shown below:
+
+```java
+CustomField fieldConfiguration = container.get(TaskField.TEXT1);
+```
+
+One common use-case for the configuration data help in `CustomFieldContainer` is
+to locate particular information you are expecting to find in the schedule. For
+example, let's say that you know that the schedule you're reading should have a
+field on each task which users have named "Number of Widgets Required", and you
+want to read that data. You can determine which field you need by using
+a method call similar to the one shown below:
+
+```java
+FieldType fieldType = container.getFieldTypeByAlias(
+    FieldTypeClass.TASK,
+   "Number of Widgets Required");
+```
+
+Note that the first argument we need to pass identifies which parent entity
+we're expecting to find the field in. The `CustomFieldContainer` will have
+entries from all field containers (tasks, resources, resource assignments and
+so on) so this is used to locate the correct one - particularly useful if, for
+example, a task and a resource might both have a field with the same alias!
+Remember: this method will return `null` if we don't have a field with the
+alias you've provided.
+
+Once we have the `FieldType` of the field we're looking for,  we can use this to
+retrieve the value using the `get` method as we've seen earlier in this
+section:
+
+```java
+Task task = file.getTaskByID(Integer.valueOf(1));
+Object value = task.get(fieldType);
+```
+
+Finally, there are a couple of convenience methods to make retrieving a field by
+its alias easier. The first is that each "container" class for the various
+entities also provides a `getFieldTypeByAlias` method. If you know ahead of
+time you're looking for a field in a particular entity, this will simplify your
+code somewhat. The example below illustrates this: as we're looking for a task
+field we can go straight to the `TaskContainer` and ask for the field with the
+alias we're looking for:
+
+```java
+fieldType = file.getTasks().getFieldTypeByAlias("Number of Widgets Required");
+```
+
+Lastly, you _can_ actually retrieve the value of a field directly from the
+parent entity using its alias, as shown below:
+
+```java
+value = task.getFieldByAlias("Number of Widgets Required");
+```
+
+This is not recommended where you are iterating across multiple tasks to
+retrieve values: it's more efficient to look up the `FieldType` once before you
+start, then use that to retrieve the value you are interested in from each
+task.
+
+## Populated Fields
+So far we've touched on how to can read and write fields in examples where we
+are targeting specific fields. If we're reading a schedule whose contents are
+unknown to us, how can we tell which fields are actually populated? A typical
+use-case for this might be where we need to read a schedule, then present the
+user with the ability to select the columns they'd like to see in a tabular
+display of the schedule contents. If you look at the various enumerations we
+have mentioned previously in this section (`TaskField`, `ResourceField` and so
+on) you can see that there are a large number of possible fields a user could
+choose from, so ideally we only want to show a user fields which actually
+contain non-default values.
+
+To solve this problem we need to use the appropriate `getPopulatedFields` method
+for each of the entities we're interested in.
+
+```java
+ProjectFile file = new UniversalProjectReader().read("example.mpp");
+
+Set<ProjectField> projectFields = file.getProjectProperties().getPopulatedFields();
+Set<TaskField> taskFields = file.getTasks().getPopulatedFields();
+Set<ResourceField> resourceFields = file.getResources().getPopulatedFields();
+Set<AssignmentField> assignmentFields = file.getResourceAssignments().getPopulatedFields();
+```
+
+In the example above we're opening a sample file, then for each of the main
+classes which implement the `FieldContainer` interface, we'll query the
+container which holds those classes and call its `getPopulatedFields` method.
+In each case this will return a `Set` containing the enumeration values 
+representing fields which have non-default values.
+
+If you need to you can retrieve all of this information in one go:
+
+```java
+ProjectFile file = new UniversalProjectReader().read("example.mpp");
+
+Set<ProjectField> allFields = file.getPopulatedFields();
+```
+
+The set returned by the project's `getPopulatedFields` will contain all the
+populated fields from all entities which implement the `FieldContainer`
+interface. You'll need to remember to look at the `FieldTypeClass` value of
+each field in the resulting set to determine which entity the field belongs
+to. The following section provides more detail on this.
 
 ## User Defined Fields
 In an earlier section we touched briefly on how Microsoft Project uses a fixed
@@ -451,150 +566,21 @@ for (UserDefinedField field : project.getUserDefinedFields())
 ```
 
 As well as using the `getUserDefinedFields` method on the project to see which
-fields are defined, the `getPopulatedFields` field methods discussed in an
-earlier section will also return `UserdefinedField` instances to indicate where
-these fields have values in the schedule.
+fields are defined, the `getPopulatedFields` methods discussed in an earlier
+section will also return `UserDefinedField` instances if these fields have
+values in the schedule. Information about `UserDefinedField` instances is also
+available in the `CustomFieldContainer`. This means that when you read a
+schedule and you are expecting certain user defined fields to be present, you
+can use the `getFieldTypeByAlias` or `getFieldByAlias` methods to find the
+fields you are interested in by name, as described in an earlier section. 
 
-> If you need to move schedules data between an application which supports user
-> defined fields and Microsoft Project, MPXJ will automatically map any user
-> defined fields to unused custom fields when writing and MSPDI or MPX file. Note
-> that as there are only a finite number of custom field available, it is
-> possible that not all user defined fields will be available when the resulting
-> file is opened in Microsoft Project.
+> If you import schedules data from an application which supports user defined
+> fields and export to a Microsoft Project file format (MPX or MSPDI), MPXJ will
+> automatically map any user defined fields to unused custom fields. Note that as
+> there are only a finite number of custom field available, it is possible that
+> not all user defined fields will be available when the resulting file is opened
+> in Microsoft Project.
 
 
 
 
-
-MPXJ uses the term "custom fields" to group together a couple of related
-concepts. For Microsoft Project, generally speaking each entity
-(Task, Resource , Resource Assignment and so on) has a fixed set of fields
-available for use. The general purpose "indexed" fields (for example, Text
-1-10, Number 1-10 and so on) are available to be used as you wish to meet your
-own needs. Typically these can be customized by changing the label which is
-shown in Microsoft Project to identify this field to a meaningful reflecting
-its use. MPXJ refers to this as the field's alias.
-
-Along with simply renaming the field using an alias, there are a variety of
-other configuration options available allowing lookup tables to be created to
-make data entry for these fields easier, or constrain the values a user enters.
-Masks can also be applied to guide the accepted format of any data entered in
-the field.
-
-Other scheduling applications like P6 have the concept of User Defined Fields
-(UDFs) where the user has the ability to create entirely new fields, assign
-them a name and data type, and potentially provide other configuration like
-lookup tables. As noted elsewhere MPXJ follows Microsoft Project's model of
-using a fixed set of fields, so any UDFs defined in applications like P6 are
-mapped onto the available "indexed" fields. For example, the first text UDF a
-user defines for tasks in P6 might be mapped to the Text 1 field in MPXJ, the
-next text UDF a user defines might be Text 2 and so on.
-
-Now we've seen how MPXJ handles these fields, how can we use them?
-
-Information about custom field configurations can be obtained from the
-`CustomFieldsContainer`. The sample code below provides a simple illustration
-of how we can query this data.
-
-```java
-ProjectFile file = new UniversalProjectReader().read("example.mpp");
-
-CustomFieldContainer container = file.getCustomFields();
-for (CustomField field : container)
-{
-    FieldType type = field.getFieldType();
-    String typeClass = type.getFieldTypeClass().toString();
-    String typeName = type.name();
-    String alias = field.getAlias();
-    System.out.println(typeClass + "." + typeName + "\t" + alias);
-}
-```
-
-Depending on how your schedule is configured, you'll see output like this:
-
-```
-TASK.TEXT1      Change Request Reason
-TASK.NUMBER1    Number of Widgets Required
-RESOURCE.DATE1  Significant Date
-```
-
-In the source above, the first thing we're retrieving from each `CustomField`
-instance is the `FieldType`, which identifies the field we're configuring. The
-values we retrieve here will be from one of the enumerations we've touched on
-previously in this section, for example `TaskField`, `ResourceField` and so
-on.
-
-The next thing we're doing in our sample code is to create a representation of
-the parent type to which this field belongs, followed by the name of the field
-itself (this is what's providing us with the value `TASK.TEXT1` for example).
-Finally we're displaying the alias which has been set by the user for this
-field.
-
-> It's important to note that for schedules from Microsoft
-> Project, there won't necessarily be a `CustomField` entry for
-> the "indexed fields" in use in a schedule. For example, if a user has
-> added values to the "Text 1" field for each of the tasks in their schedule,
-> unless they have configured Text 1 in some way (for example by setting an
-> alias or adding a lookup table) there won't be an entry in the
-> `CustomFieldContainer`.
-
-As well as iterating through the collection of `CustomField` instances for the
-current schedule, you can directly request the `CustomField` instance for a
-specific field, as shown below:
-
-```java
-CustomField fieldConfiguration = container.get(TaskField.TEXT1);
-```
-
-One common use-case for the configuration data help in `CustomFieldContainer` is
-to locate particular information you are expecting to find in the schedule. For
-example, let's say that you know that the schedule you're reading should have a
-field on each task which users have named "Number of Widgets Required". You can
-determine which field contains this data using a method call similar to the one
-shown below:
-
-```java
-FieldType fieldType = container.getFieldTypeByAlias(FieldTypeClass.TASK,
-   "Number of Widgets Required");
-```
-
-Note that the first argument we need to pass identifies which parent entity
-we're expecting to find the field in. The `CustomFieldContainer` will have
-entries from all field containers (tasks, resources, resource assignments and
-son on) so this is used to locate the correct one - particularly useful if, for
-example, a task and a resource might both have a field with the same alias!
-Remember: this method will return `null` if we don't have a field with the
-alias you've provided.
-
-Once we have the `FieldType` of the field we're looking for,  we can use his to
-retrieve the value using the `get` method as we've seen earlier in this
-section:
-
-```java
-Task task = file.getTaskByID(Integer.valueOf(1));
-Object value = task.get(fieldType);
-```
-
-Finally, there are a couple of convenience methods to make retrieving a field by
-its alias easier. The first is that each "container" class for the various
-entities also provides a `getFieldTypeByAlias` method. If you know ahead of
-time you're looking for a field in a particular entity, this will simplify your
-code somewhat. The example below illustrates this: as we're looking for a task
-field we can go straight to the `TaskContainer` and ask for the field with the
-alias we're looking for:
-
-```java
-fieldType = file.getTasks().getFieldTypeByAlias("Number of Widgets Required");
-```
-
-Lastly, you _can_ actually retrieve the value of a field directly from the
-parent entity using its alias, as shown below:
-
-```java
-value = task.getFieldByAlias("Number of Widgets Required");
-```
-
-This is not recommended where you are iterating across multiple tasks to
-retrieve values: it's more efficient to look up the `FieldType` once before you
-start, then use that to retrieve the value you are interested in from each
-task.
