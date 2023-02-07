@@ -393,6 +393,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          List<ActivityExpenseType> activityExpenseType;
          List<ActivityStepType> steps;
 
+         processUdfDefintions(apibo);
+
          if (projectObject instanceof ProjectType)
          {
             ProjectType project = (ProjectType) projectObject;
@@ -427,7 +429,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
 
          processGlobalProperties(apibo);
-         processProjectUDFs(apibo);
          processExpenseCategories(apibo);
          processCostAccounts(apibo);
          processNotebookTopics(apibo);
@@ -508,11 +509,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @param apibo top level object
     */
-   private void processProjectUDFs(APIBusinessObjects apibo)
+   private void processUdfDefintions(APIBusinessObjects apibo)
    {
       for (UDFTypeType udf : apibo.getUDFType())
       {
-         processUDF(udf);
+         processUdfDefinition(udf);
       }
    }
 
@@ -521,7 +522,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @param udf UDF definition
     */
-   private void processUDF(UDFTypeType udf)
+   private void processUdfDefinition(UDFTypeType udf)
    {
       FieldTypeClass fieldTypeClass = FIELD_TYPE_MAP.get(udf.getSubjectArea());
       if (fieldTypeClass == null)
@@ -592,6 +593,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 
       processScheduleOptions(project.getScheduleOptions());
+      populateUserDefinedFieldValues(properties, project.getUDF());
    }
 
    private void processProjectProperties(BaselineProjectType project)
@@ -2417,6 +2419,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("WBS", FieldTypeClass.TASK);
       FIELD_TYPE_MAP.put("Resource", FieldTypeClass.RESOURCE);
       FIELD_TYPE_MAP.put("Resource Assignment", FieldTypeClass.ASSIGNMENT);
+      FIELD_TYPE_MAP.put("Project", FieldTypeClass.PROJECT);
    }
 
    private static final Map<String, AccrueType> ACCRUE_TYPE_MAP = new HashMap<>();

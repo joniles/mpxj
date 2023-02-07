@@ -20,6 +20,7 @@
 			<action dev="joniles" type="update">The various `getPopulatedFields` methods will include instances of `UserDefinedField` in their result if relevant.</action>
 			<action dev="joniles" type="update">All `ENTERPRISE_CUSTOM_FIELDn` enum values have been removed from `TaskField`, `ResourceField`, `AssignmentField` and `ProjectField`.</action>
 			<action dev="joniles" type="update">The `getEnterpriseCustomField` and `setEnterpriseCustomField` methods have been removed from `ProjectProperties`, Task`, `Resource` and `ResourceAssignment`.</action>
+			<action dev="joniles" type="update">Project UDFs are now read from P6 schedules.</action>
 		</release>
 		<release date="2023-01-29" version="10.16.2">
 			<action dev="joniles" type="update">Updated to improve reading resource attributes from certain MPP14 files.</action>
@@ -36,7 +37,7 @@
 			<action dev="joniles" type="update">Optionally include some Microsoft Project layout data in JSON output.</action>
 		</release>
 		<release date="2023-01-11" version="10.15.0">
-			<action dev="joniles" type="update">Avoid wrtiting invalid characters to PMXML, MSPDI and Planner XML files.</action>
+			<action dev="joniles" type="update">Avoid writing invalid characters to PMXML, MSPDI and Planner XML files.</action>
 			<action dev="joniles" type="update">Improve handling of slack values for schedules which only contain a value for total slack.</action>
 			<action dev="joniles" type="update">Add support for reading constraint type and constraint date from Phoenix schedule (based on a contribution by Rohit Sinha).</action>
 			<action dev="joniles" type="update">Improve timephased data calculation when assignment has zero units.</action>
@@ -110,7 +111,7 @@
 		</release>
 		<release date="2022-08-31" version="10.9.1">
 			<action dev="joniles" type="update">Ensure monthly and yearly recurrences are calculated correctly when the supplied start date is the same as the first recurrence date (Contributed by Rohit Sinha).</action>
-			<action dev="joniles" type="update">Add support for reading task calenadrs from Phoenix files (Contributed by Rohit Sinha).</action>
+			<action dev="joniles" type="update">Add support for reading task calendars from Phoenix files (Contributed by Rohit Sinha).</action>
 			<action dev="joniles" type="update">Improve reliability of ProjectCleanUtility when using the replacement strategy.</action>
 		</release>
 		<release date="2022-08-23" version="10.9.0">
@@ -180,8 +181,8 @@
 			<action dev="joniles" type="update">Updated `MSPDIWriter` to ensure any working weeks defined by a calendar are represented in the "legacy" exception definition used by Microsoft Project prior to 2007.</action>
 			<action dev="joniles" type="update">Updated `SDEFWriter` to ensure: only relevant calendars are written, and derived calendars are flattened.</action>
 			<action dev="joniles" type="update">When reading Planner schedules MPXJ will no longer create an "artificial" resource calendar for each resource. Resources will be linked directly to the calendar used in the original schedule.</action>
-			<action dev="joniles" type="update">Add suppport for reading the P6 calendar type and personal calendar flag from P6 schedules.</action>
-			<action dev="joniles" type="update">Add suppport for writing the calendar type and personal calendar flag to PMXML files.</action>
+			<action dev="joniles" type="update">Add support for reading the P6 calendar type and personal calendar flag from P6 schedules.</action>
+			<action dev="joniles" type="update">Add support for writing the calendar type and personal calendar flag to PMXML files.</action>
 			<action dev="joniles" type="update">Updated the calendar class hierarchy: `ProjectCalendar` and `ProjectCalendarWeek` both now inherit from a new class `ProjectCalendarDays`. Note that `ProjectCalendar` is no longer a subclass of `ProjectCalendarWeek`.</action>
 			<action dev="joniles" type="update">The `getHours` and `isWorkingDay` methods have been moved up to `ProjectCalendar` from the `ProjectCalendarWeek` class.</action>
 			<action dev="joniles" type="update">The `ProjectCalendar` method `copy` has been deprecated, without replacement.</action>
@@ -192,7 +193,7 @@
 		</release>
 		<release date="2022-05-05" version="10.4.0">
 			<action dev="joniles" type="update">Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).</action>
-			<action dev="joniles" type="update">The `ProjectProperties` methds `getDefaultCalendarName()` and `setDefaultCalendarName()` have been deprecated. Use `getDefaultCalendar()` and `setDefaultCalendar()` instead.</action>
+			<action dev="joniles" type="update">The `ProjectProperties` methods `getDefaultCalendarName()` and `setDefaultCalendarName()` have been deprecated. Use `getDefaultCalendar()` and `setDefaultCalendar()` instead.</action>
 			<action dev="joniles" type="update">Ensure that percent complete values can be read from MSPDI files even if the values are decimals.</action>
 			<action dev="joniles" type="update">Improve handling of the default calendar when reading certain MSPDI files.</action>
 			<action dev="joniles" type="update">Improve reading certain Phoenix PPX files.</action>
@@ -203,7 +204,7 @@
 		<release date="2022-04-29" version="10.3.0">
 			<action dev="joniles" type="update">General improvements to make calendar data read from different file formats more consistent.</action>
 			<action dev="joniles" type="update">When reading P6 and Powerproject schedules MPXJ will no longer create an "artificial" resource calendar for each resource. Resources will be linked directly to the calendars they use in the original schedule.</action>
-			<action dev="joniles" type="update">Update `MPXWriter` amd `MSPDIWriter` to ensure that, when writen, calendars are correctly structured in the form required by Microsoft Project.</action>
+			<action dev="joniles" type="update">Update `MPXWriter` and `MSPDIWriter` to ensure that, when written, calendars are correctly structured in the form required by Microsoft Project.</action>
 			<action dev="joniles" type="update">`JsonWriter` now includes calendar data as part of its output.</action>
 			<action dev="joniles" type="update">The `ProjectCalendar` methods `setMinutesPerDay`, `setMinutesPerWeek`, `setMinutesPerMonth` and `setMinutesPerYear` have been deprecated, use `setCalendarMinutesPerDay`, `setCalendarMinutesPerWeek`, `setCalendarMinutesPerMonth` and `setCalendarMinutesPerYear` instead.</action>
 			<action dev="joniles" type="update">The ProjectCalendar method `setResource` has been deprecated and will not be replaced. Use the Resource method `setCalendar` or `setCalendarUniqueID` to link a calendar with a resource.</action>
