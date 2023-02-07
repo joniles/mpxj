@@ -90,7 +90,7 @@ public abstract class AbstractFieldContainer<T> extends ProjectEntity implements
    {
       if (field != null)
       {
-         Object oldValue = m_fields.put(field, value);
+         Object oldValue = value == null ? m_fields.remove(field) : m_fields.put(field, value);
          if (m_eventsEnabled)
          {
             invalidateCache(field, oldValue);
