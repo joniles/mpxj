@@ -105,7 +105,7 @@ module MPXJ
     private
 
     def process_custom_fields(json_data)
-      custom_fields = json_data["custom_fields"]
+      custom_fields = json_data["custom_fields"] || []
       custom_fields.each do |field|
         process_custom_field(field)
       end
