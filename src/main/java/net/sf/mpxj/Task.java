@@ -25,7 +25,6 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,12 +41,11 @@ import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.TaskFieldLists;
-import net.sf.mpxj.listener.FieldListener;
 
 /**
  * This class represents a task record from a project file.
  */
-public final class Task extends ProjectEntity implements Comparable<Task>, ProjectEntityWithID, FieldContainer, ChildTaskContainer
+public final class Task extends AbstractFieldContainer<Task> implements Comparable<Task>, ProjectEntityWithID, ChildTaskContainer
 {
    /**
     * Default constructor.
@@ -5390,60 +5388,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return (fields[index - 1]);
    }
 
-   @Override public Object getCachedValue(FieldType field)
-   {
-      return m_fields.get(field);
-   }
-
-   @Deprecated @Override public Object getCurrentValue(FieldType field)
-   {
-      return get(field);
-   }
-
-   @Override public Object get(FieldType field)
-   {
-      if (field == null)
-      {
-         return null;
-      }
-
-      boolean alwaysCalculatedField = ALWAYS_CALCULATED_FIELDS.contains(field);
-      Object result = alwaysCalculatedField ? null : m_fields.get(field);
-      if (result == null)
-      {
-         Function<Task, Object> f = CALCULATED_FIELD_MAP.get(field);
-         if (f != null)
-         {
-            result = f.apply(this);
-            if (result != null && !alwaysCalculatedField)
-            {
-               set(field, result);
-            }
-         }
-      }
-
-      return result;
-   }
-
-   @Override public void set(FieldType field, Object value)
-   {
-      if (field != null)
-      {
-         Object oldValue = m_fields.put(field, value);
-         if (m_eventsEnabled)
-         {
-            invalidateCache(field);
-            fireFieldChangeEvent(field, oldValue, value);
-         }
-      }
-   }
-
    /**
     * Clear any cached calculated values which will be affected by this change.
     *
     * @param field modified field
     */
-   private void invalidateCache(FieldType field)
+   @Override void invalidateCache(FieldType field, Object newValue)
    {
       if (field == TaskField.UNIQUE_ID)
       {
@@ -5454,36 +5404,14 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
    }
 
-   /**
-    * Send a change event to any external listeners.
-    *
-    * @param field field changed
-    * @param oldValue old field value
-    * @param newValue new field value
-    */
-   private void fireFieldChangeEvent(FieldType field, Object oldValue, Object newValue)
+   @Override boolean getAlwaysCalculatedField(FieldType field)
    {
-      if (m_listeners != null)
-      {
-         m_listeners.forEach(l -> l.fieldChange(this, field, oldValue, newValue));
-      }
+      return ALWAYS_CALCULATED_FIELDS.contains(field);
    }
 
-   @Override public void addFieldListener(FieldListener listener)
+   @Override Function<Task, Object> getCalculationMethod(FieldType field)
    {
-      if (m_listeners == null)
-      {
-         m_listeners = new ArrayList<>();
-      }
-      m_listeners.add(listener);
-   }
-
-   @Override public void removeFieldListener(FieldListener listener)
-   {
-      if (m_listeners != null)
-      {
-         m_listeners.remove(listener);
-      }
+      return CALCULATED_FIELD_MAP.get(field);
    }
 
    /**
@@ -5556,22 +5484,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
          }
       }
       return result;
-   }
-
-   /**
-    * Disable events firing when fields are updated.
-    */
-   public void disableEvents()
-   {
-      m_eventsEnabled = false;
-   }
-
-   /**
-    * Enable events firing when fields are updated. This is the default state.
-    */
-   public void enableEvents()
-   {
-      m_eventsEnabled = true;
    }
 
    private Integer calculateParentTaskUniqueID()
@@ -5861,11 +5773,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Array of field values.
-    */
-   private final Map<FieldType, Object> m_fields = new HashMap<>();
-
-   /**
     * This is a reference to the parent task, as specified by the
     * outline level.
     */
@@ -5887,14 +5794,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    private RecurringTask m_recurringTask;
 
-   private boolean m_eventsEnabled = true;
    private boolean m_null;
    private boolean m_resumeValid;
    private String m_externalTaskProject;
    private boolean m_expanded = true;
-   private List<FieldListener> m_listeners;
 
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID));
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Collections.singletonList(TaskField.PARENT_TASK_UNIQUE_ID));
 
    private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static

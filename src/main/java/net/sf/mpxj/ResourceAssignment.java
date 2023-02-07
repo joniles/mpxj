@@ -41,12 +41,11 @@ import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.listener.FieldListener;
 
 /**
  * This class represents a resource assignment record from an MPX file.
  */
-public final class ResourceAssignment extends ProjectEntity implements ProjectEntityWithUniqueID, FieldContainer
+public final class ResourceAssignment extends AbstractFieldContainer<ResourceAssignment> implements ProjectEntityWithUniqueID
 {
    /**
     * Constructor.
@@ -2857,19 +2856,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       return ("[Resource Assignment task=" + getTask().getName() + " resource=" + (getResource() == null ? "Unassigned" : getResource().getName()) + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
    }
 
-   @Override public void set(FieldType field, Object value)
-   {
-      if (field != null)
-      {
-         Object oldValue = m_fields.put(field, value);
-         if (m_eventsEnabled)
-         {
-            invalidateCache(field);
-            fireFieldChangeEvent(field, oldValue, value);
-         }
-      }
-   }
-
    /**
     * This method inserts a name value pair into internal storage.
     *
@@ -2886,7 +2872,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     *
     * @param field modified field
     */
-   private void invalidateCache(FieldType field)
+   @Override protected void invalidateCache(FieldType field, Object newValue)
    {
       if (field == AssignmentField.UNIQUE_ID)
       {
@@ -2897,71 +2883,14 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
    }
 
-   /**
-    * Send a change event to any external listeners.
-    *
-    * @param field field changed
-    * @param oldValue old field value
-    * @param newValue new field value
-    */
-   private void fireFieldChangeEvent(FieldType field, Object oldValue, Object newValue)
+   @Override boolean getAlwaysCalculatedField(FieldType field)
    {
-      if (m_listeners != null)
-      {
-         m_listeners.forEach(l -> l.fieldChange(this, field, oldValue, newValue));
-      }
+      return ALWAYS_CALCULATED_FIELDS.contains(field);
    }
 
-   @Override public void addFieldListener(FieldListener listener)
+   @Override Function<ResourceAssignment, Object> getCalculationMethod(FieldType field)
    {
-      if (m_listeners == null)
-      {
-         m_listeners = new ArrayList<>();
-      }
-      m_listeners.add(listener);
-   }
-
-   @Override public void removeFieldListener(FieldListener listener)
-   {
-      if (m_listeners != null)
-      {
-         m_listeners.remove(listener);
-      }
-   }
-
-   @Override public Object getCachedValue(FieldType field)
-   {
-      return m_fields.get(field);
-   }
-
-   @Deprecated @Override public Object getCurrentValue(FieldType field)
-   {
-      return get(field);
-   }
-
-   @Override public Object get(FieldType field)
-   {
-      if (field == null)
-      {
-         return null;
-      }
-
-      boolean alwaysCalculatedField = ALWAYS_CALCULATED_FIELDS.contains(field);
-      Object result = alwaysCalculatedField ? null : m_fields.get(field);
-      if (result == null)
-      {
-         Function<ResourceAssignment, Object> f = CALCULATED_FIELD_MAP.get(field);
-         if (f != null)
-         {
-            result = f.apply(this);
-            if (result != null && !alwaysCalculatedField)
-            {
-               set(field, result);
-            }
-         }
-      }
-
-      return result;
+      return CALCULATED_FIELD_MAP.get(field);
    }
 
    private Number calculateOvertimeCost()
@@ -3092,29 +3021,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       return Boolean.TRUE;
    }
 
-   /**
-    * Disable events firing when fields are updated.
-    */
-   public void disableEvents()
-   {
-      m_eventsEnabled = false;
-   }
-
-   /**
-    * Enable events firing when fields are updated. This is the default state.
-    */
-   public void enableEvents()
-   {
-      m_eventsEnabled = true;
-   }
-
-   /**
-    * Array of field values.
-    */
-   private final Map<FieldType, Object> m_fields = new HashMap<>();
-
-   private boolean m_eventsEnabled = true;
-
    private TimephasedWorkContainer m_timephasedWork;
    private List<TimephasedCost> m_timephasedCost;
 
@@ -3124,7 +3030,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    private TimephasedWorkContainer m_timephasedOvertimeWork;
    private TimephasedWorkContainer m_timephasedActualOvertimeWork;
 
-   private List<FieldListener> m_listeners;
    private final TimephasedWorkContainer[] m_timephasedBaselineWork = new TimephasedWorkContainer[11];
    private final TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];
 

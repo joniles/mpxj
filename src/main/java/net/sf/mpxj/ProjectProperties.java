@@ -24,7 +24,6 @@
 
 package net.sf.mpxj;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,12 +38,11 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.PopulatedFields;
 import net.sf.mpxj.common.ProjectFieldLists;
-import net.sf.mpxj.listener.FieldListener;
 
 /**
  * This class represents a collection of properties relevant to the whole project.
  */
-public final class ProjectProperties extends ProjectEntity implements FieldContainer, TimeUnitDefaultsContainer
+public final class ProjectProperties extends AbstractFieldContainer<ProjectProperties> implements TimeUnitDefaultsContainer
 {
    /**
     * Default constructor.
@@ -2807,16 +2805,6 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       return (Date) get(ProjectField.PLANNED_START);
    }
 
-   @Override public void addFieldListener(FieldListener listener)
-   {
-      // We don't currently generate events for project properties
-   }
-
-   @Override public void removeFieldListener(FieldListener listener)
-   {
-      // We don't currently generate events for project properties
-   }
-
    /**
     * Maps a field index to a TaskField instance.
     *
@@ -2833,47 +2821,19 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
       return (fields[index - 1]);
    }
 
-   @Override public Object getCachedValue(FieldType field)
+   @Override void invalidateCache(FieldType field, Object newValue)
    {
-      return m_fields.get(field);
+
    }
 
-   @Deprecated @Override public Object getCurrentValue(FieldType field)
+   @Override boolean getAlwaysCalculatedField(FieldType field)
    {
-      return get(field);
+      return false;
    }
 
-   @Override public Object get(FieldType field)
+   @Override Function<ProjectProperties, Object> getCalculationMethod(FieldType field)
    {
-      if (field == null)
-      {
-         return null;
-      }
-
-      boolean alwaysCalculatedField = ALWAYS_CALCULATED_FIELDS.contains(field);
-      Object result = alwaysCalculatedField ? null : m_fields.get(field);
-      if (result == null)
-      {
-         Function<ProjectProperties, Object> f = CALCULATED_FIELD_MAP.get(field);
-         if (f != null)
-         {
-            result = f.apply(this);
-            if (result != null && !alwaysCalculatedField)
-            {
-               set(field, result);
-            }
-         }
-      }
-
-      return result;
-   }
-
-   @Override public void set(FieldType field, Object value)
-   {
-      if (field != null)
-      {
-         m_fields.put(field, value);
-      }
+      return CALCULATED_FIELD_MAP.get(field);
    }
 
    /**
@@ -2956,11 +2916,6 @@ public final class ProjectProperties extends ProjectEntity implements FieldConta
    {
       return Character.valueOf(DEFAULT_MPX_DELIMITER);
    }
-
-   /**
-    * Array of field values.
-    */
-   private final Map<FieldType, Object> m_fields = new HashMap<>();
 
    /**
     * Default time separator character.
