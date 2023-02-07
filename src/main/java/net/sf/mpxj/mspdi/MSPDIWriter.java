@@ -221,7 +221,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          m_customFieldValueItems = new HashMap<>();
          m_resouceCalendarMap = new HashMap<>();
-         m_extendedAttributes = getExtendedAttributesSet();
+         m_extendedAttributes = getExtendedAttributesList();
 
          m_sourceIsMicrosoftProject = MICROSOFT_PROJECT_FILES.contains(m_projectFile.getProjectProperties().getFileType());
          m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile, MAPPING_TARGET_CUSTOM_FIELDS);
@@ -388,8 +388,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
             attribute.setLtuid(field.getLookupTable().getGUID());
          }
       }
-
-      list.sort((Comparator.comparing(Project.ExtendedAttributes.ExtendedAttribute::getFieldID)));
    }
 
    /**
@@ -1153,7 +1151,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<Project.Resources.Resource.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
       Set<FieldType> outlineCodes = new HashSet<>(Arrays.asList(ResourceFieldLists.CUSTOM_OUTLINE_CODE));
       m_extendedAttributes.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.RESOURCE && !outlineCodes.contains(f)).forEach(f -> writeResourceExtendedAttribute(extendedAttributes, mpx, f));
-      extendedAttributes.sort(Comparator.comparing(Project.Resources.Resource.ExtendedAttribute::getFieldID));
    }
 
    private void writeResourceExtendedAttribute(List<Project.Resources.Resource.ExtendedAttribute> extendedAttributes, Resource mpx, FieldType mpxFieldID)
@@ -1639,7 +1636,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
       Set<FieldType> outlineCodes = new HashSet<>(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
       m_extendedAttributes.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.TASK && !outlineCodes.contains(f)).forEach(f -> writeTaskExtendedAttribute(extendedAttributes, mpx, f));
-      extendedAttributes.sort(Comparator.comparing(Project.Tasks.Task.ExtendedAttribute::getFieldID));
    }
 
    private void writeTaskExtendedAttribute(List<Project.Tasks.Task.ExtendedAttribute> extendedAttributes, Task mpx, FieldType mpxFieldID)
@@ -2113,7 +2109,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       List<Project.Assignments.Assignment.ExtendedAttribute> extendedAttributes = xml.getExtendedAttribute();
       m_extendedAttributes.stream().filter(f -> f.getFieldTypeClass() == FieldTypeClass.ASSIGNMENT).forEach(f -> writeAssignmentExtendedAttribute(extendedAttributes, mpx, f));
-      extendedAttributes.sort(Comparator.comparing(Project.Assignments.Assignment.ExtendedAttribute::getFieldID));
    }
 
    private void writeAssignmentExtendedAttribute(List<Project.Assignments.Assignment.ExtendedAttribute> extendedAttributes, ResourceAssignment mpx, FieldType mpxFieldID)
@@ -2379,7 +2374,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       return (m_projectFile);
    }
 
-   private Set<FieldType> getExtendedAttributesSet()
+   private List<FieldType> getExtendedAttributesList()
    {
       // All custom fields with configuration
       Set<FieldType> set = m_projectFile.getCustomFields().stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
@@ -2393,7 +2388,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // Remove unknown fields
       set.removeIf(f -> FieldTypeHelper.getFieldID(f) == -1);
 
-      return set;
+      return set.stream().sorted(Comparator.comparing(FieldTypeHelper::getFieldID)).collect(Collectors.toList());
    }
 
    /**
@@ -2453,7 +2448,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private Map<Integer, Integer> m_resouceCalendarMap;
 
-   private Set<FieldType> m_extendedAttributes;
+   private List<FieldType> m_extendedAttributes;
 
    private boolean m_sourceIsMicrosoftProject;
    private UserDefinedFieldMap m_userDefinedFieldMap;

@@ -240,7 +240,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeUserDefinedFields() throws IOException
    {
-      List<UserDefinedField> sortedFieldsList = m_projectFile.getUserDefinedFields().stream().sorted(Comparator.comparing(UserDefinedField::getUniqueID)).collect(Collectors.toList());
+      List<UserDefinedField> sortedFieldsList = m_projectFile.getUserDefinedFields().stream().sorted(Comparator.comparing(f -> FieldTypeHelper.getFieldID(f))).collect(Collectors.toList());
       if (sortedFieldsList.isEmpty())
       {
          return;
@@ -355,7 +355,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeUserDefinedField(UserDefinedField field) throws IOException
    {
       m_writer.writeStartObject(null);
-      writeIntegerField("unique_id", field.getUniqueID());
+      writeIntegerField("unique_id", FieldTypeHelper.getFieldID(field));
       writeStringField("field_type_class", field.getFieldTypeClass().toString().toLowerCase());
       writeStringField("data_type", field.getDataType().toString().toLowerCase());
       writeStringField("internal_name", field.name().toLowerCase());

@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -63,6 +64,7 @@ import net.sf.mpxj.ResourceAssignmentWorkgroupFields;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
@@ -92,7 +94,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_calendarNameSet = new HashSet<>();
       m_calendarNameMap = new HashMap<>();
       m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile, MAPPING_TARGET_CUSTOM_FIELDS);
-      projectFile.getUserDefinedFields().forEach(m_userDefinedFieldMap::generateMapping);
+      projectFile.getUserDefinedFields().stream().sorted(Comparator.comparing(UserDefinedField::getUniqueID)).forEach(m_userDefinedFieldMap::generateMapping);
 
       try
       {
