@@ -111,11 +111,11 @@ Baseline2 Date| |✓| |✓
 Baseline3 Date| |✓| |✓
 Baseline4 Date| |✓| |✓
 Baseline5 Date| |✓| |✓
-Baseline6 Date| |✓| | 
-Baseline7 Date| |✓| | 
-Baseline8 Date| |✓| | 
-Baseline9 Date| |✓| | 
-Baseline10 Date| | |✓| 
+Baseline6 Date| |✓| |✓
+Baseline7 Date| |✓| |✓
+Baseline8 Date| |✓| |✓
+Baseline9 Date| |✓| |✓
+Baseline10 Date| | |✓|✓
 Baseline Date| |✓|✓|✓
 
 ## Task
@@ -125,6 +125,7 @@ Field|MPP8|MPP9|MPP12|MPP14
 % Complete|✓|✓|✓|✓
 % Work Complete|✓|✓|✓|✓
 Active|✓|✓|✓|✓
+Activity Codes|✓|✓|✓|✓
 Actual Cost|✓|✓|✓|✓
 Actual Duration|✓|✓|✓|✓
 Actual Duration Units| |✓|✓|✓
@@ -148,13 +149,14 @@ Created|✓|✓|✓|✓
 Critical|✓|✓|✓|✓
 Deadline| |✓|✓|✓
 Duration|✓|✓|✓|✓
-Duration Units| |✓|✓| 
+Duration Units| |✓|✓|✓
 Duration Variance|✓|✓|✓|✓
 Early Finish|✓|✓|✓|✓
 Early Start|✓|✓|✓|✓
 Earned Value Method| | |✓|✓
 Effort Driven|✓|✓|✓|✓
 Estimated| |✓|✓|✓
+Expense Items|✓|✓|✓|✓
 External Task| |✓|✓|✓
 Finish|✓|✓|✓|✓
 Finish Slack|✓|✓|✓|✓
@@ -211,6 +213,7 @@ Sprint ID| | | |✓
 Start|✓|✓|✓|✓
 Start Slack|✓|✓|✓|✓
 Start Variance|✓|✓|✓|✓
+Steps|✓|✓|✓|✓
 Stop|✓|✓|✓|✓
 Subproject| |✓|✓|✓
 Subproject File| |✓| | 
@@ -524,27 +527,19 @@ Enterprise Custom Field 5| | |✓| 
 Enterprise Custom Field 6| | |✓| 
 Enterprise Custom Field 9| | |✓| 
 Enterprise Custom Field 10| | |✓| 
-Enterprise Custom Field 19| | | |✓
 Enterprise Custom Field 20| | | |✓
-Enterprise Custom Field 21| | | |✓
-Enterprise Custom Field 22| | |✓|✓
-Enterprise Custom Field 23| | |✓|✓
-Enterprise Custom Field 24| | | |✓
+Enterprise Custom Field 23| | | |✓
 Enterprise Custom Field 26| | | |✓
 Enterprise Custom Field 27| | | |✓
 Enterprise Custom Field 34| | | |✓
-Enterprise Custom Field 36| | | |✓
-Enterprise Custom Field 37| | | |✓
 Enterprise Custom Field 38| | | |✓
 Enterprise Custom Field 39| | | |✓
 Enterprise Custom Field 40| | | |✓
 Enterprise Custom Field 41| | | |✓
 Enterprise Custom Field 44| | | |✓
 Enterprise Custom Field 45| | | |✓
-Enterprise Custom Field 46| | | |✓
-Enterprise Custom Field 47| | | |✓
 Enterprise Custom Field 52| | | |✓
-Enterprise Custom Field 53| | |✓|✓
+Enterprise Custom Field 53| | |✓| 
 Enterprise Custom Field 54| | | |✓
 Enterprise Custom Field 55| | | |✓
 Enterprise Custom Field 56| | | |✓
@@ -554,43 +549,113 @@ Enterprise Custom Field 59| | | |✓
 Enterprise Custom Field 60| | |✓| 
 Enterprise Custom Field 61| | |✓|✓
 Enterprise Custom Field 62| | |✓| 
-Enterprise Custom Field 64| | | |✓
-Enterprise Custom Field 65| | |✓|✓
-Enterprise Custom Field 66| | |✓| 
-Enterprise Custom Field 67| | |✓| 
-Enterprise Custom Field 68| | |✓| 
-Enterprise Custom Field 80| | | |✓
+Enterprise Custom Field 65| | | |✓
 Enterprise Custom Field 83| | | |✓
-Enterprise Custom Field 91| | | |✓
 Enterprise Custom Field 93| | | |✓
-Enterprise Custom Field 96| | | |✓
-Enterprise Custom Field 98| | | |✓
-Enterprise Custom Field 99| | | |✓
-Enterprise Custom Field 100| | | |✓
-Enterprise Custom Field 104| | | |✓
-Enterprise Custom Field 105| | | |✓
-Enterprise Custom Field 111| | | |✓
-Enterprise Custom Field 112| | | |✓
 Enterprise Custom Field 114| | | |✓
-Enterprise Custom Field 115| | | |✓
 Enterprise Custom Field 116| | | |✓
-Enterprise Custom Field 117| | | |✓
-Enterprise Custom Field 118| | | |✓
-Enterprise Custom Field 120| | | |✓
-Enterprise Custom Field 130| | | |✓
-Enterprise Custom Field 131| | | |✓
-Enterprise Custom Field 135| | | |✓
-Enterprise Custom Field 136| | | |✓
 Enterprise Custom Field 137| | | |✓
-Enterprise Custom Field 141| | | |✓
 Enterprise Custom Field 142| | | |✓
 Enterprise Custom Field 145| | | |✓
 Enterprise Custom Field 160| | | |✓
-Enterprise Custom Field 161| | | |✓
-Enterprise Custom Field 162| | | |✓
-Enterprise Custom Field 163| | | |✓
 Enterprise Custom Field 174| | | |✓
 Enterprise Custom Field 196| | | |✓
+Enterprise Custom Field 202| | | |✓
+Enterprise Custom Field 206| | | |✓
+Enterprise Custom Field 235| | | |✓
+Enterprise Custom Field 237| | | |✓
+Enterprise Custom Field 247| | | |✓
+Enterprise Custom Field 248| | | |✓
+Enterprise Custom Field 256| | | |✓
+Enterprise Custom Field 260| | | |✓
+Enterprise Custom Field 261| | | |✓
+Enterprise Custom Field 262| | | |✓
+Enterprise Custom Field 264| | | |✓
+Enterprise Custom Field 265| | | |✓
+Enterprise Custom Field 268| | | |✓
+Enterprise Custom Field 269| | | |✓
+Enterprise Custom Field 274| | | |✓
+Enterprise Custom Field 275| | | |✓
+Enterprise Custom Field 276| | | |✓
+Enterprise Custom Field 278| | | |✓
+Enterprise Custom Field 279| | | |✓
+Enterprise Custom Field 280| | | |✓
+Enterprise Custom Field 281| | | |✓
+Enterprise Custom Field 283| | | |✓
+Enterprise Custom Field 284| | | |✓
+Enterprise Custom Field 285| | | |✓
+Enterprise Custom Field 286| | | |✓
+Enterprise Custom Field 289| | | |✓
+Enterprise Custom Field 290| | | |✓
+Enterprise Custom Field 291| | | |✓
+Enterprise Custom Field 293| | | |✓
+Enterprise Custom Field 294| | | |✓
+Enterprise Custom Field 297| | | |✓
+Enterprise Custom Field 298| | | |✓
+Enterprise Custom Field 299| | | |✓
+Enterprise Custom Field 300| | | |✓
+Enterprise Custom Field 303| | | |✓
+Enterprise Custom Field 304| | | |✓
+Enterprise Custom Field 305| | | |✓
+Enterprise Custom Field 306| | | |✓
+Enterprise Custom Field 307| | | |✓
+Enterprise Custom Field 308| | | |✓
+Enterprise Custom Field 309| | | |✓
+Enterprise Custom Field 310| | | |✓
+Enterprise Custom Field 311| | | |✓
+Enterprise Custom Field 315| | | |✓
+Enterprise Custom Field 317| | | |✓
+Enterprise Custom Field 321| | | |✓
+Enterprise Custom Field 322| | | |✓
+Enterprise Custom Field 325| | | |✓
+Enterprise Custom Field 328| | | |✓
+Enterprise Custom Field 329| | | |✓
+Enterprise Custom Field 340| | | |✓
+Enterprise Custom Field 352| | | |✓
+Enterprise Custom Field 353| | | |✓
+Enterprise Custom Field 354| | | |✓
+Enterprise Custom Field 355| | | |✓
+Enterprise Custom Field 356| | | |✓
+Enterprise Custom Field 358| | | |✓
+Enterprise Custom Field 359| | | |✓
+Enterprise Custom Field 360| | | |✓
+Enterprise Custom Field 361| | | |✓
+Enterprise Custom Field 362| | | |✓
+Enterprise Custom Field 363| | | |✓
+Enterprise Custom Field 372| | | |✓
+Enterprise Custom Field 373| | | |✓
+Enterprise Custom Field 374| | | |✓
+Enterprise Custom Field 377| | | |✓
+Enterprise Custom Field 384| | | |✓
+Enterprise Custom Field 387| | | |✓
+Enterprise Custom Field 388| | | |✓
+Enterprise Custom Field 401| | | |✓
+Enterprise Custom Field 402| | | |✓
+Enterprise Custom Field 403| | | |✓
+Enterprise Custom Field 404| | | |✓
+Enterprise Custom Field 405| | | |✓
+Enterprise Custom Field 406| | | |✓
+Enterprise Custom Field 407| | | |✓
+Enterprise Custom Field 414| | | |✓
+Enterprise Custom Field 415| | | |✓
+Enterprise Custom Field 416| | | |✓
+Enterprise Custom Field 418| | | |✓
+Enterprise Custom Field 420| | | |✓
+Enterprise Custom Field 422| | | |✓
+Enterprise Custom Field 429| | | |✓
+Enterprise Custom Field 430| | | |✓
+Enterprise Custom Field 431| | | |✓
+Enterprise Custom Field 433| | | |✓
+Enterprise Custom Field 437| | | |✓
+Enterprise Custom Field 438| | | |✓
+Enterprise Custom Field 439| | | |✓
+Enterprise Custom Field 440| | | |✓
+Enterprise Custom Field 441| | | |✓
+Enterprise Custom Field 467| | | |✓
+Enterprise Custom Field 486| | | |✓
+Enterprise Custom Field 492| | | |✓
+Enterprise Custom Field 493| | | |✓
+Enterprise Custom Field 511| | | |✓
 Enterprise Data| |✓| | 
 Enterprise Duration1 Units| | |✓|✓
 Enterprise Duration2 Units| | |✓|✓
@@ -648,6 +713,7 @@ Booking Type| | |✓|✓
 Budget| | |✓|✓
 Budget Cost| |✓|✓|✓
 Budget Work| | |✓|✓
+Calculate Costs From Units|✓|✓|✓|✓
 Calendar GUID| | |✓|✓
 Calendar Unique ID|✓|✓|✓|✓
 Code| |✓|✓|✓
@@ -905,7 +971,7 @@ Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Enterprise| | |✓|✓
 Enterprise Custom Field 3| | |✓| 
-Enterprise Custom Field 4| | |✓| 
+Enterprise Custom Field 4| | |✓|✓
 Enterprise Custom Field 5| | |✓| 
 Enterprise Custom Field 6| | |✓| 
 Enterprise Custom Field 7| | |✓| 
@@ -913,10 +979,8 @@ Enterprise Custom Field 8| | |✓| 
 Enterprise Custom Field 9| | |✓|✓
 Enterprise Custom Field 10| | |✓| 
 Enterprise Custom Field 11| | |✓| 
-Enterprise Custom Field 12| | |✓|✓
+Enterprise Custom Field 12| | |✓| 
 Enterprise Custom Field 13| | |✓| 
-Enterprise Custom Field 18| | | |✓
-Enterprise Custom Field 20| | | |✓
 Enterprise Data| |✓| | 
 Enterprise Duration1 Units| | |✓|✓
 Enterprise Duration2 Units| | |✓|✓
@@ -941,13 +1005,14 @@ Actual Overtime Work| |✓|✓|✓
 Actual Start| |✓|✓|✓
 Actual Work|✓|✓|✓|✓
 Actual Work Protected| | |✓| 
-Assignment Delay| |✓|✓| 
+Assignment Delay| |✓|✓|✓
 Assignment GUID| | |✓|✓
 Assignment Resource GUID| | |✓|✓
 Assignment Task GUID| | |✓|✓
 Assignment Units|✓|✓|✓|✓
 Budget Cost| | |✓|✓
 Budget Work| | |✓|✓
+Calculate Costs From Units|✓|✓|✓|✓
 Confirmed| |✓|✓|✓
 Cost|✓|✓|✓|✓
 Cost Rate Table| |✓|✓|✓
@@ -1070,16 +1135,16 @@ Timephased Baseline4 Cost| |✓| |✓
 Timephased Baseline4 Work| |✓| |✓
 Timephased Baseline5 Cost| |✓| |✓
 Timephased Baseline5 Work| |✓| |✓
-Timephased Baseline6 Cost| |✓| | 
-Timephased Baseline6 Work| |✓| | 
-Timephased Baseline7 Cost| |✓| | 
-Timephased Baseline7 Work| |✓| | 
-Timephased Baseline8 Cost| |✓| | 
-Timephased Baseline8 Work| |✓| | 
-Timephased Baseline9 Cost| |✓| | 
-Timephased Baseline9 Work| |✓| | 
-Timephased Baseline10 Cost| |✓|✓| 
-Timephased Baseline10 Work| |✓|✓| 
+Timephased Baseline6 Cost| |✓| |✓
+Timephased Baseline6 Work| |✓| |✓
+Timephased Baseline7 Cost| |✓| |✓
+Timephased Baseline7 Work| |✓| |✓
+Timephased Baseline8 Cost| |✓| |✓
+Timephased Baseline8 Work| |✓| |✓
+Timephased Baseline9 Cost| |✓| |✓
+Timephased Baseline9 Work| |✓| |✓
+Timephased Baseline10 Cost| |✓|✓|✓
+Timephased Baseline10 Work| |✓|✓|✓
 Timephased Baseline Cost| |✓|✓|✓
 Timephased Baseline Work| |✓|✓|✓
 
@@ -1216,4 +1281,18 @@ Text27| |✓|✓|✓
 Text28| |✓|✓|✓
 Text29| |✓|✓|✓
 Text30| |✓|✓|✓
+
+### Enterprise Fields
+Field|MPP8|MPP9|MPP12|MPP14
+---|---|---|---|---
+Enterprise Custom Field 16| | | |✓
+Enterprise Custom Field 203| | | |✓
+Enterprise Custom Field 223| | | |✓
+Enterprise Custom Field 225| | | |✓
+Enterprise Custom Field 227| | | |✓
+Enterprise Custom Field 229| | | |✓
+Enterprise Custom Field 231| | | |✓
+Enterprise Custom Field 398| | | |✓
+Enterprise Custom Field 400| | | |✓
+Enterprise Custom Field 410| | | |✓
 
