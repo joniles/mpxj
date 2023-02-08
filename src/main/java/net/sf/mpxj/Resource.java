@@ -2719,7 +2719,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return ("[Resource id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + "]");
    }
 
-
    /**
     * List of all assignments for this resource.
     */

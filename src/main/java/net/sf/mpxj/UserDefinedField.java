@@ -22,6 +22,7 @@
  */
 
 package net.sf.mpxj;
+
 import java.util.Locale;
 
 /**

@@ -355,7 +355,7 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeUserDefinedField(UserDefinedField field) throws IOException
    {
       m_writer.writeStartObject(null);
-      writeIntegerField("unique_id", FieldTypeHelper.getFieldID(field));
+      writeIntegerField("unique_id", Integer.valueOf(FieldTypeHelper.getFieldID(field)));
       writeStringField("field_type_class", field.getFieldTypeClass().toString().toLowerCase());
       writeStringField("data_type", field.getDataType().toString().toLowerCase());
       writeStringField("internal_name", field.name().toLowerCase());

@@ -136,7 +136,7 @@ public class UserDefinedFieldMap
 
    private DataType normaliseDataType(DataType type)
    {
-      switch(type)
+      switch (type)
       {
          case STRING:
          case DATE:

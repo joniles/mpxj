@@ -33,6 +33,8 @@ import net.sf.mpxj.listener.FieldListener;
 
 /**
  * Implementation of common functionality for the FieldContainer interface.
+ *
+ * @param <T> container type
  */
 public abstract class AbstractFieldContainer<T> extends ProjectEntity implements FieldContainer
 {
@@ -113,7 +115,7 @@ public abstract class AbstractFieldContainer<T> extends ProjectEntity implements
          Function<T, Object> f = getCalculationMethod(field);
          if (f != null)
          {
-            result = f.apply((T)this);
+            result = f.apply((T) this);
             if (result != null && !alwaysCalculatedField)
             {
                set(field, result);

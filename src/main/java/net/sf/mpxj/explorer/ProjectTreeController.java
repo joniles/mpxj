@@ -476,7 +476,7 @@ public class ProjectTreeController
    private void addUserDefinedFields(MpxjTreeNode parentNode, ProjectFile file)
    {
       // Function to generate a name for each user defined field
-      Function<UserDefinedField, String> name = f -> f.getFieldTypeClass().name() + " "+f.getName() + " (" + f.name() + " " + f.getDataType().name() + ")";
+      Function<UserDefinedField, String> name = f -> f.getFieldTypeClass().name() + " " + f.getName() + " (" + f.name() + " " + f.getDataType().name() + ")";
 
       // Use a TreeMap to sort by name
       Map<String, UserDefinedField> map = file.getUserDefinedFields().stream().collect(Collectors.toMap(name, Function.identity(), (u, v) -> u, TreeMap::new));

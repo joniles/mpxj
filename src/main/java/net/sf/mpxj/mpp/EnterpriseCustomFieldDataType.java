@@ -46,7 +46,7 @@ public final class EnterpriseCustomFieldDataType
 
    /**
     * Look up the integer ID of an enterprise custom field data type.
-    * 
+    *
     * @param type data type
     * @return integer id
     */
@@ -75,7 +75,7 @@ public final class EnterpriseCustomFieldDataType
       ID_MAP.put(DataType.CURRENCY, Integer.valueOf(0));
       ID_MAP.put(DataType.DATE, Integer.valueOf(1));
       ID_MAP.put(DataType.DURATION, Integer.valueOf(2));
-      ID_MAP.put(DataType.BOOLEAN,Integer.valueOf(4));
+      ID_MAP.put(DataType.BOOLEAN, Integer.valueOf(4));
       ID_MAP.put(DataType.NUMERIC, Integer.valueOf(5));
       ID_MAP.put(DataType.STRING, Integer.valueOf(7));
    }

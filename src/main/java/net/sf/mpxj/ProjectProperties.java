@@ -27,7 +27,6 @@ package net.sf.mpxj;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -2800,7 +2799,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
    @Override void invalidateCache(FieldType field, Object newValue)
    {
-
+      // No action required
    }
 
    @Override boolean getAlwaysCalculatedField(FieldType field)
@@ -3003,8 +3002,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     * Default minutes per week.
     */
    private static final Integer DEFAULT_MINUTES_PER_WEEK = Integer.valueOf(2400);
-
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>();
 
    private static final Map<FieldType, Function<ProjectProperties, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static

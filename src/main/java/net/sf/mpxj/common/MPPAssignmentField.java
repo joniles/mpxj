@@ -52,8 +52,8 @@ public final class MPPAssignmentField
       // The 0x4000 prefix appears to be specific to resource assignments - but don't appear to carry useful information
       if ((value & 0x8000) != 0)
       {
-         return project.getUserDefinedFields().getOrCreateAssignmentField(Integer.valueOf(value), (k)-> {
-            int id = (k.intValue() & 0xFFF) +1 ;
+         return project.getUserDefinedFields().getOrCreateAssignmentField(Integer.valueOf(value), (k) -> {
+            int id = (k.intValue() & 0xFFF) + 1;
             String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
             String externalName = "Enterprise Custom Field " + id;
             return new UserDefinedField(k, internalName, externalName, FieldTypeClass.ASSIGNMENT, DataType.CUSTOM);

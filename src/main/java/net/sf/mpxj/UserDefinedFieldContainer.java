@@ -70,7 +70,7 @@ public class UserDefinedFieldContainer implements Collection<UserDefinedField>
    {
       Map<Integer, UserDefinedField> map;
 
-      switch(field.getFieldTypeClass())
+      switch (field.getFieldTypeClass())
       {
          case TASK:
          {
