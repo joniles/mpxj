@@ -964,8 +964,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#indexed-fields" class="md-nav__link">
-    Indexed Fields
+  <a href="#fieldtype" class="md-nav__link">
+    FieldType
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-fields" class="md-nav__link">
+    Custom Fields
   </a>
   
 </li>
@@ -978,15 +985,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fieldtype" class="md-nav__link">
-    FieldType
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#custom-fields" class="md-nav__link">
-    Custom Fields
+  <a href="#user-defined-fields" class="md-nav__link">
+    User Defined Fields
   </a>
   
 </li>
@@ -1168,8 +1168,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#indexed-fields" class="md-nav__link">
-    Indexed Fields
+  <a href="#fieldtype" class="md-nav__link">
+    FieldType
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-fields" class="md-nav__link">
+    Custom Fields
   </a>
   
 </li>
@@ -1182,15 +1189,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fieldtype" class="md-nav__link">
-    FieldType
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#custom-fields" class="md-nav__link">
-    Custom Fields
+  <a href="#user-defined-fields" class="md-nav__link">
+    User Defined Fields
   </a>
   
 </li>
@@ -1214,7 +1214,7 @@
 <h1 id="how-to-use-fields">How To: Use Fields</h1>
 <p>Once you've read a schedule using MPXJ, and you have a <code>ProjectFile</code> instance
 with tasks, resources and resource assignments, how do you access the data
-represented by the fields provided by each of these entities? If you're
+represented as fields in each of these entities? If you're
 creating or updating a schedule, how can you assign values to fields? This
 section explains the different approaches you can take in each of these cases.</p>
 <h2 id="setter-and-getter-methods">Setter and Getter Methods</h2>
@@ -1252,7 +1252,7 @@ assignments you'll find a pair of getter and setter methods allowing you
 to access and modify the field with a convenient type safe interface.</p>
 <h2 id="field-enumerations">Field Enumerations</h2>
 <p>What if we don't know ahead of time which fields we need to access? For example,
-what if our application allows users to chose which fields to display for
+what if our application allows users to choose which fields to display for
 each task? In this case we can use a data-driven approach to read and write
 fields, as shown in the example below.</p>
 <div class="highlight"><pre><span></span><code><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addTask</span><span class="p">();</span>
@@ -1391,63 +1391,6 @@ Start Variance.</p>
 which are not already present. This can be useful if you want to read a
 schedule using MPXJ, but retrieve only the fields which were in the original
 schedule, not calculated or inferred by MPXJ.</p>
-<h2 id="indexed-fields">Indexed Fields</h2>
-<p>So far we've seen how simple fields like Name and Start can be accessed
-and modified using both field-specific and generic methods. Many organizations
-rely on using general purpose fields like "Text 1" and "Date 1" to store
-information relevant to their schedules. If we look for methods like <code>setText1</code>
-or <code>setDate1</code> we won't find them, so how can we work with these fields?</p>
-<p>The answer is quite straightforward, for each of these "indexed" fields you'll
-find getter and setter methods which take an integer value, for example:</p>
-<div class="highlight"><pre><span></span><code><span class="n">task</span><span class="p">.</span><span class="na">setText</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;This is Text 1&quot;</span><span class="p">);</span>
-<span class="n">String</span><span class="w"> </span><span class="n">text1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="na">getText</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Text 1 is: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">text1</span><span class="p">);</span>
-</code></pre></div>
-<p>If you're working with the generic <code>get</code> and <code>set</code> methods, the situation is
-more straightforward as each individual field has its own enumeration, as 
-shown below:</p>
-<div class="highlight"><pre><span></span><code><span class="n">task</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">TEXT1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;This is also Text 1&quot;</span><span class="p">);</span>
-<span class="n">text1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="p">)</span><span class="n">task</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">TEXT1</span><span class="p">);</span>
-<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Text 1 is: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">text1</span><span class="p">);</span>
-</code></pre></div>
-<p>For <code>Task</code>, <code>Resource</code> and <code>ResourceAssignment</code> the following indexed fields are
-available for use:</p>
-<ul>
-<li>Cost 1-10</li>
-<li>Date 1-10</li>
-<li>Duration 1-10</li>
-<li>Flag 1-20</li>
-<li>Finish 1-10</li>
-<li>Number 1-20</li>
-<li>Start 1-10</li>
-<li>Text 1-30</li>
-<li>Outline Code 1-10 (<code>Task</code> and <code>Resource</code> only)</li>
-</ul>
-<h2 id="populated-fields">Populated Fields</h2>
-<p>So far we've touched on how to can read and write fields in examples where we
-are targeting specific fields. If we're reading a schedule whose contents are
-unknown to us, how can we tell which fields are actually populated? A typical
-use-case for this might be where we need to read a schedule, then present the
-user with the ability to select the columns they'd like to see in a tabular
-display of the schedule contents. If you look at the various enumerations which
-have mentioned previously in this section (<code>TaskField</code>, <code>ResourceField</code> and so
-on) you can see that there are a large number of possible fields a user could
-choose from, so ideally we only want to show a user field which actually
-contain non-default values.</p>
-<p>To solve this problem we need to use the appropriate <code>getPopulatedFields</code> method
-for each of the entities we're interested in.</p>
-<div class="highlight"><pre><span></span><code><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">().</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;example.mpp&quot;</span><span class="p">);</span>
-
-<span class="n">Set</span><span class="o">&lt;</span><span class="n">ProjectField</span><span class="o">&gt;</span><span class="w"> </span><span class="n">projectFields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">getProjectProperties</span><span class="p">().</span><span class="na">getPopulatedFields</span><span class="p">();</span>
-<span class="n">Set</span><span class="o">&lt;</span><span class="n">TaskField</span><span class="o">&gt;</span><span class="w"> </span><span class="n">taskFields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">getTasks</span><span class="p">().</span><span class="na">getPopulatedFields</span><span class="p">();</span>
-<span class="n">Set</span><span class="o">&lt;</span><span class="n">ResourceField</span><span class="o">&gt;</span><span class="w"> </span><span class="n">resourceFields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">getResources</span><span class="p">().</span><span class="na">getPopulatedFields</span><span class="p">();</span>
-<span class="n">Set</span><span class="o">&lt;</span><span class="n">AssignmentField</span><span class="o">&gt;</span><span class="w"> </span><span class="n">assignmentFields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">getResourceAssignments</span><span class="p">().</span><span class="na">getPopulatedFields</span><span class="p">();</span>
-</code></pre></div>
-<p>In the example above we're opening a sample file, then for each of the main
-classes which implement the <code>FieldContainer</code> interface, we'll query the
-container which holds those classes and call its <code>getPopulatedFields</code> method.
-In each case this will return a <code>Set</code> containing the enumeration values 
-representing fields which have non-default values.</p>
 <h2 id="fieldtype">FieldType</h2>
 <p>Earlier in this section we noted that there were four main enumerations
 representing the fields which particular classes can contain.</p>
@@ -1457,9 +1400,9 @@ representing the fields which particular classes can contain.</p>
 <li><code>TaskField</code></li>
 <li><code>AssignmentField</code></li>
 </ul>
-<p>What I didn't mention earlier is that each of these enumerations inherits from a
-the <code>FieldType</code> interface which defines a common set of methods each of
-these enumerations must implement. The most interesting of these methods are:</p>
+<p>What I didn't mention earlier is that each of these enumerations implements the
+<code>FieldType</code> interface which defines a common set of methods for each of these
+enumerations. The most interesting of these methods are:</p>
 <ul>
 <li><code>name()</code></li>
 <li><code>getName()</code></li>
@@ -1471,11 +1414,12 @@ appears in the code. The <code>getName()</code> method returns a localized versi
 name, suitable for display to end users (currently English is the default and
 only supported locale).</p>
 <p>The <code>getFieldTypeClass()</code> method returns a value from the <code>FieldTypeClass</code>
-enumeration which will help you to determine which class this <code>FieldType</code>
-belongs to. Finally the <code>getDataType()</code> method will return a value from the
-<code>DataType</code> enumeration which indicates the data type you will receive from the
-<code>get</code> method when accessing this field, and the type to pass to the <code>set</code>
-method when updating the field.</p>
+enumeration which will help you to determine which kind of object this
+<code>FieldType</code> belongs to (for example task, resource, and so on). Finally the
+<code>getDataType()</code> method will return a value from the <code>DataType</code> enumeration
+which indicates the data type you will receive from the <code>get</code> method when
+accessing this field, and the type to pass to the <code>set</code> method when updating
+the field.</p>
 <p>Here's some example code to make this a little clearer:</p>
 <div class="highlight"><pre><span></span><code><span class="n">FieldType</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TaskField</span><span class="p">.</span><span class="na">START_VARIANCE</span><span class="p">;</span>
 
@@ -1494,7 +1438,7 @@ getDataType(): DURATION
 <p>Returning to our earlier example of how we might allow a user to select 
 fields we will display, we can use the data type of the selected field
 to determine how we format the value for display.</p>
-<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getStringValue</span><span class="p">(</span><span class="n">FieldContainer</span><span class="w"> </span><span class="n">container</span><span class="p">,</span><span class="w"> </span><span class="n">FieldType</span><span class="w"> </span><span class="n">type</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getValueAsText</span><span class="p">(</span><span class="n">FieldContainer</span><span class="w"> </span><span class="n">container</span><span class="p">,</span><span class="w"> </span><span class="n">FieldType</span><span class="w"> </span><span class="n">type</span><span class="p">)</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">Object</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">container</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">type</span><span class="p">);</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
@@ -1542,28 +1486,49 @@ for display. (This is obviously a contrived example - I wouldn't recommend
 creating new instances of <code>DecimalFormat</code> and <code>SimpleDateFormat</code> each time you
 need to format a value!)</p>
 <h2 id="custom-fields">Custom Fields</h2>
-<p>MPXJ uses the term "custom fields" to group together a couple of related
-concepts. For Microsoft Project, generally speaking each entity
-(Task, Resource , Resource Assignment and so on) has a fixed set of fields
-available for use. The general purpose "indexed" fields (for example, Text
-1-10, Number 1-10 and so on) are available to be used as you wish to meet your
-own needs. Typically these can be customized by changing the label which is
-shown in Microsoft Project to identify this field to a meaningful reflecting
-its use. MPXJ refers to this as the field's alias.</p>
-<p>Along with simply renaming the field using an alias, there are a variety of
-other configuration options available allowing lookup tables to be created to
-make data entry for these fields easier, or constrain the values a user enters.
-Masks can also be applied to guide the accepted format of any data entered in
-the field.</p>
-<p>Other scheduling applications like P6 have the concept of User Defined Fields
-(UDFs) where the user has the ability to create entirely new fields, assign
-them a name and data type, and potentially provide other configuration like
-lookup tables. As noted elsewhere MPXJ follows Microsoft Project's model of
-using a fixed set of fields, so any UDFs defined in applications like P6 are
-mapped onto the available "indexed" fields. For example, the first text UDF a
-user defines for tasks in P6 might be mapped to the Text 1 field in MPXJ, the
-next text UDF a user defines might be Text 2 and so on.</p>
-<p>Now we've seen how MPXJ handles these fields, how can we use them?</p>
+<p>So far we've seen how simple fields like Name and Start can be accessed and
+modified using both field-specific and generic methods. Name and Start are
+examples of standard fields which might be provided and managed by schedule
+applications, and have a well understood meaning. What if we have some
+additional data we want to capture in our schedule, but that data doesn't fit
+into any of these standard fields?</p>
+<p>Microsoft Project's solution to this problem is Custom Fields. By default
+Microsoft Project provides a number of general purpose fields with names
+like "Text 1", "Text 2", "Date 1", "Date 2" and so on, which can be used to
+relevant vales as part of the schedule. If we look for methods like <code>setText1</code>
+or <code>setDate1</code> we won't find them, so how can we work with these fields?</p>
+<p>The answer is quite straightforward, for each of these custom fields you'll
+find getter and setter methods which take an integer value, for example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">task</span><span class="p">.</span><span class="na">setText</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;This is Text 1&quot;</span><span class="p">);</span>
+<span class="n">String</span><span class="w"> </span><span class="n">text1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="na">getText</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Text 1 is: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">text1</span><span class="p">);</span>
+</code></pre></div>
+<p>If you're working with the generic <code>get</code> and <code>set</code> methods, the situation is
+more straightforward as each individual field has its own enumeration, as 
+shown below:</p>
+<div class="highlight"><pre><span></span><code><span class="n">task</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">TEXT1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;This is also Text 1&quot;</span><span class="p">);</span>
+<span class="n">text1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="p">)</span><span class="n">task</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">TEXT1</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Text 1 is: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">text1</span><span class="p">);</span>
+</code></pre></div>
+<p>For <code>Task</code>, <code>Resource</code> and <code>ResourceAssignment</code> the following custom fields are
+available for use:</p>
+<ul>
+<li>Cost 1-10</li>
+<li>Date 1-10</li>
+<li>Duration 1-10</li>
+<li>Flag 1-20</li>
+<li>Finish 1-10</li>
+<li>Number 1-20</li>
+<li>Start 1-10</li>
+<li>Text 1-30</li>
+<li>Outline Code 1-10 (<code>Task</code> and <code>Resource</code> only)</li>
+</ul>
+<p>Microsoft Project allows users to configure custom fields. This facility can be
+used to do something as simple as provide an alias for the field, allowing it
+to be displayed with a meaningful name rather than something like "Text 1"
+or "Date 1". Alternatively there are more complex configurations available, for
+example constraining the values that can be entered for a field by using a
+lookup table, or providing a mask to enforce a particular format.</p>
 <p>Information about custom field configurations can be obtained from the
 <code>CustomFieldsContainer</code>. The sample code below provides a simple illustration
 of how we can query this data.</p>
@@ -1579,7 +1544,8 @@ of how we can query this data.</p>
 <span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">typeClass</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;.&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">typeName</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;\t&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">alias</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Depending on how your schedule is configured, you'll see output like this:</p>
+<p>Depending on how the custom fields in your schedule are configured,
+you'll see output like this:</p>
 <div class="highlight"><pre><span></span><code>TASK.TEXT1      Change Request Reason
 TASK.NUMBER1    Number of Widgets Required
 RESOURCE.DATE1  Significant Date
@@ -1597,10 +1563,10 @@ field.</p>
 <blockquote>
 <p>It's important to note that for schedules from Microsoft
 Project, there won't necessarily be a <code>CustomField</code> entry for
-the "indexed fields" in use in a schedule. For example, if a user has
+all of the custom fields in use in a schedule. For example, if a user has
 added values to the "Text 1" field for each of the tasks in their schedule,
-unless they have configured Text 1 in some way (for example by setting an
-alias or adding a lookup table) there won't be an entry in the
+but have not configured Text 1 in some way (for example by setting an
+alias or adding a lookup table) there won't be an entry for "Text 1" in the
 <code>CustomFieldContainer</code>.</p>
 </blockquote>
 <p>As well as iterating through the collection of <code>CustomField</code> instances for the
@@ -1611,20 +1577,21 @@ specific field, as shown below:</p>
 <p>One common use-case for the configuration data help in <code>CustomFieldContainer</code> is
 to locate particular information you are expecting to find in the schedule. For
 example, let's say that you know that the schedule you're reading should have a
-field on each task which users have named "Number of Widgets Required". You can
-determine which field contains this data using a method call similar to the one
-shown below:</p>
-<div class="highlight"><pre><span></span><code><span class="n">FieldType</span><span class="w"> </span><span class="n">fieldType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">container</span><span class="p">.</span><span class="na">getFieldTypeByAlias</span><span class="p">(</span><span class="n">FieldTypeClass</span><span class="p">.</span><span class="na">TASK</span><span class="p">,</span>
+field on each task which users have named "Number of Widgets Required", and you
+want to read that data. You can determine which field you need by using
+a method call similar to the one shown below:</p>
+<div class="highlight"><pre><span></span><code><span class="n">FieldType</span><span class="w"> </span><span class="n">fieldType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">container</span><span class="p">.</span><span class="na">getFieldTypeByAlias</span><span class="p">(</span>
+<span class="w">    </span><span class="n">FieldTypeClass</span><span class="p">.</span><span class="na">TASK</span><span class="p">,</span>
 <span class="w">   </span><span class="s">&quot;Number of Widgets Required&quot;</span><span class="p">);</span>
 </code></pre></div>
 <p>Note that the first argument we need to pass identifies which parent entity
 we're expecting to find the field in. The <code>CustomFieldContainer</code> will have
 entries from all field containers (tasks, resources, resource assignments and
-son on) so this is used to locate the correct one - particularly useful if, for
+so on) so this is used to locate the correct one - particularly useful if, for
 example, a task and a resource might both have a field with the same alias!
 Remember: this method will return <code>null</code> if we don't have a field with the
 alias you've provided.</p>
-<p>Once we have the <code>FieldType</code> of the field we're looking for,  we can use his to
+<p>Once we have the <code>FieldType</code> of the field we're looking for,  we can use this to
 retrieve the value using the <code>get</code> method as we've seen earlier in this
 section:</p>
 <div class="highlight"><pre><span></span><code><span class="n">Task</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">getTaskByID</span><span class="p">(</span><span class="n">Integer</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
@@ -1647,6 +1614,85 @@ parent entity using its alias, as shown below:</p>
 retrieve values: it's more efficient to look up the <code>FieldType</code> once before you
 start, then use that to retrieve the value you are interested in from each
 task.</p>
+<h2 id="populated-fields">Populated Fields</h2>
+<p>So far we've touched on how to can read and write fields in examples where we
+are targeting specific fields. If we're reading a schedule whose contents are
+unknown to us, how can we tell which fields are actually populated? A typical
+use-case for this might be where we need to read a schedule, then present the
+user with the ability to select the columns they'd like to see in a tabular
+display of the schedule contents. If you look at the various enumerations we
+have mentioned previously in this section (<code>TaskField</code>, <code>ResourceField</code> and so
+on) you can see that there are a large number of possible fields a user could
+choose from, so ideally we only want to show a user fields which actually
+contain non-default values.</p>
+<p>To solve this problem we need to use the appropriate <code>getPopulatedFields</code> method
+for each of the entities we're interested in.</p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">().</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;example.mpp&quot;</span><span class="p">);</span>
+
+<span class="n">Set</span><span class="o">&lt;</span><span class="n">ProjectField</span><span class="o">&gt;</span><span class="w"> </span><span class="n">projectFields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">getProjectProperties</span><span class="p">().</span><span class="na">getPopulatedFields</span><span class="p">();</span>
+<span class="n">Set</span><span class="o">&lt;</span><span class="n">TaskField</span><span class="o">&gt;</span><span class="w"> </span><span class="n">taskFields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">getTasks</span><span class="p">().</span><span class="na">getPopulatedFields</span><span class="p">();</span>
+<span class="n">Set</span><span class="o">&lt;</span><span class="n">ResourceField</span><span class="o">&gt;</span><span class="w"> </span><span class="n">resourceFields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">getResources</span><span class="p">().</span><span class="na">getPopulatedFields</span><span class="p">();</span>
+<span class="n">Set</span><span class="o">&lt;</span><span class="n">AssignmentField</span><span class="o">&gt;</span><span class="w"> </span><span class="n">assignmentFields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">getResourceAssignments</span><span class="p">().</span><span class="na">getPopulatedFields</span><span class="p">();</span>
+</code></pre></div>
+<p>In the example above we're opening a sample file, then for each of the main
+classes which implement the <code>FieldContainer</code> interface, we'll query the
+container which holds those classes and call its <code>getPopulatedFields</code> method.
+In each case this will return a <code>Set</code> containing the enumeration values 
+representing fields which have non-default values.</p>
+<p>If you need to you can retrieve all of this information in one go:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">().</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;example.mpp&quot;</span><span class="p">);</span>
+
+<span class="n">Set</span><span class="o">&lt;</span><span class="n">ProjectField</span><span class="o">&gt;</span><span class="w"> </span><span class="n">allFields</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">getPopulatedFields</span><span class="p">();</span>
+</code></pre></div>
+<p>The set returned by the project's <code>getPopulatedFields</code> will contain all the
+populated fields from all entities which implement the <code>FieldContainer</code>
+interface. You'll need to remember to look at the <code>FieldTypeClass</code> value of
+each field in the resulting set to determine which entity the field belongs
+to. The following section provides more detail on this.</p>
+<h2 id="user-defined-fields">User Defined Fields</h2>
+<p>In an earlier section we touched briefly on how Microsoft Project uses a fixed
+set of "custom fields" to allow you to store arbitrary data as part of the
+schedule. A more common approach in other applications is to allow you to
+create your own fields to represent the data you need to store - that way you
+can have exactly the fields you need, without needing to worry if you can fit
+your data into the fixed set of custom fields. In fact Microsoft Project also
+supports this concept, in the form of Enterprise Custom Fields, although these
+are only available if you are working with a schedule hosted in Project Server
+(Project 365).</p>
+<p>As you can imagine MPXJ can't provide dedicated getter and setter methods for
+these fields as it doesn't know ahead of time what they are - they're user
+defined! Instead we rely on the <code>get</code> and <code>set</code> methods to work with these
+fields.</p>
+<p>When a schedule is read  by MPXJ, each user defined field is represented
+internally by an instance of the  <code>UserDefinedField</code> class. This class
+implements the <code>FieldType</code> interface, and so can be used with the <code>get</code> and
+<code>set</code> methods to read and write these values.</p>
+<p>You can see which user defined fields exist in a project using
+code similar to the example below:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">UserDefinedField</span><span class="w"> </span><span class="n">field</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">project</span><span class="p">.</span><span class="na">getUserDefinedFields</span><span class="p">())</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;name(): &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">field</span><span class="p">.</span><span class="na">name</span><span class="p">());</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;getName(): &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">field</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;getFieldTypeClass(): &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">field</span><span class="p">.</span><span class="na">getFieldTypeClass</span><span class="p">());</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;getDataType():&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">field</span><span class="p">.</span><span class="na">getDataType</span><span class="p">());</span><span class="w">         </span>
+<span class="p">}</span>
+</code></pre></div>
+<p>As well as using the <code>getUserDefinedFields</code> method on the project to see which
+fields are defined, the <code>getPopulatedFields</code> methods discussed in an earlier
+section will also return <code>UserDefinedField</code> instances if these fields have
+values in the schedule. Information about <code>UserDefinedField</code> instances is also
+available in the <code>CustomFieldContainer</code>. This means that when you read a
+schedule and you are expecting certain user defined fields to be present, you
+can use the <code>getFieldTypeByAlias</code> or <code>getFieldByAlias</code> methods to find the
+fields you are interested in by name, as described in an earlier section. </p>
+<blockquote>
+<p>If you import schedules data from an application which supports user defined
+fields and export to a Microsoft Project file format (MPX or MSPDI), MPXJ will
+automatically map any user defined fields to unused custom fields. Note that as
+there are only a finite number of custom field available, it is possible that
+not all user defined fields will be available when the resulting file is opened
+in Microsoft Project.</p>
+</blockquote>
 
 
   
