@@ -1,6 +1,25 @@
 # Changelog
 
-## 10.17.0 (unreleased)
+## 11.0.1 (unreleased)
+
+## 11.0.0 (2023-02-08)
+* User defined fields read from P6, Asta and GanttProject schedules are now represented by instances of `UserDefinedField`. They will no longer be mapped to custom field instances.
+* Enterprise Custom Fields read from MPP and MSPDI files are now represented by instances of `UserDefinedField`.
+* When writing MSPDI files, UserDefinedField instances which were originally read from enterprise custom fields will be written to the MSPDI file as enterprise custom fields.
+* When writing MSPDI files, UserDefinedField instances which were from applications other than Microsoft Project will automatically be mapped to available custom fields.
+* When writing MPX files, UserDefinedField instances will automatically be mapped to available custom fields.
+* The `UserDefinedField` type implements the `FieldType` interface and so can be used with the `FieldContainer` `get` and `set` methods to work with the contents of the user defined fields.
+* The `ProjectFile.getUserDefinedFields()` method has been added to provide access to all user defined fields defined in the project.
+* The `CustomFieldContainer` returned by `ProjectFile.getCustomFields()` will contain entries for all `UserDefinedField` instances.
+* The various `getFieldTypeByAlias` and `getFieldByAlias` methods will retrieve user defined fields by name.
+* Added the convenience method `ProjectFile.getPopulatedFields()` to retrieve details of all populated fields across the project. This avoids the caller having to individually retrieve the populated fields from the tasks container, resource container and so on.
+* Updated the `getPopulatedFields` methods to return a `Set` of `FieldType` rather than a `Set` of `TaskField`, `ResourceField` etc.
+* The various `getPopulatedFields` methods will include instances of `UserDefinedField` in the returned collection if relevant.
+* All `ENTERPRISE_CUSTOM_FIELDn` values have been removed from the `TaskField`, `ResourceField`, `AssignmentField` and `ProjectField` enumerations.
+* The `getEnterpriseCustomField` and `setEnterpriseCustomField` methods have been removed from `ProjectProperties`, Task`, `Resource` and `ResourceAssignment`.
+* Project UDFs are now read from P6 schedules.
+* Project UDFs are now written to PMXML files.
+* All code previously marked as deprecated has been removed.
 
 ## 10.16.2 (2023-01-29)
 * Updated to improve reading resource attributes from certain MPP14 files.
@@ -17,7 +36,7 @@
 * Optionally include some Microsoft Project layout data in JSON output.
 
 ## 10.15.0 (2023-01-11)
-* Avoid wrtiting invalid characters to PMXML, MSPDI and Planner XML files.
+* Avoid writing invalid characters to PMXML, MSPDI and Planner XML files.
 * Improve handling of slack values for schedules which only contain a value for total slack.
 * Add support for reading constraint type and constraint date from Phoenix schedule (based on a contribution by Rohit Sinha).
 * Improve timephased data calculation when assignment has zero units.
@@ -91,7 +110,7 @@
 
 ## 10.9.1 (2022-08-31)
 * Ensure monthly and yearly recurrences are calculated correctly when the supplied start date is the same as the first recurrence date (Contributed by Rohit Sinha).
-* Add support for reading task calenadrs from Phoenix files (Contributed by Rohit Sinha).
+* Add support for reading task calendars from Phoenix files (Contributed by Rohit Sinha).
 * Improve reliability of ProjectCleanUtility when using the replacement strategy.
 
 ## 10.9.0 (2022-08-23)
@@ -161,8 +180,8 @@
 * Updated `MSPDIWriter` to ensure any working weeks defined by a calendar are represented in the "legacy" exception definition used by Microsoft Project prior to 2007.
 * Updated `SDEFWriter` to ensure: only relevant calendars are written, and derived calendars are flattened.
 * When reading Planner schedules MPXJ will no longer create an "artificial" resource calendar for each resource. Resources will be linked directly to the calendar used in the original schedule.
-* Add suppport for reading the P6 calendar type and personal calendar flag from P6 schedules.
-* Add suppport for writing the calendar type and personal calendar flag to PMXML files.
+* Add support for reading the P6 calendar type and personal calendar flag from P6 schedules.
+* Add support for writing the calendar type and personal calendar flag to PMXML files.
 * Updated the calendar class hierarchy: `ProjectCalendar` and `ProjectCalendarWeek` both now inherit from a new class `ProjectCalendarDays`. Note that `ProjectCalendar` is no longer a subclass of `ProjectCalendarWeek`.
 * The `getHours` and `isWorkingDay` methods have been moved up to `ProjectCalendar` from the `ProjectCalendarWeek` class.
 * The `ProjectCalendar` method `copy` has been deprecated, without replacement.
@@ -173,7 +192,7 @@
 
 ## 10.4.0 (2022-05-05)
 * Remove `getParent`, `setParent`, and `isDerived` from `ProjectCalendarWeek`. (Note: this will be a breaking change if you were working with `ProjectCalendarWeek` directly).
-* The `ProjectProperties` methds `getDefaultCalendarName()` and `setDefaultCalendarName()` have been deprecated. Use `getDefaultCalendar()` and `setDefaultCalendar()` instead.
+* The `ProjectProperties` methods `getDefaultCalendarName()` and `setDefaultCalendarName()` have been deprecated. Use `getDefaultCalendar()` and `setDefaultCalendar()` instead.
 * Ensure that percent complete values can be read from MSPDI files even if the values are decimals.
 * Improve handling of the default calendar when reading certain MSPDI files.
 * Improve reading certain Phoenix PPX files.
@@ -184,7 +203,7 @@
 ## 10.3.0 (2022-04-29)
 * General improvements to make calendar data read from different file formats more consistent.
 * When reading P6 and Powerproject schedules MPXJ will no longer create an "artificial" resource calendar for each resource. Resources will be linked directly to the calendars they use in the original schedule.
-* Update `MPXWriter` amd `MSPDIWriter` to ensure that, when writen, calendars are correctly structured in the form required by Microsoft Project.
+* Update `MPXWriter` and `MSPDIWriter` to ensure that, when written, calendars are correctly structured in the form required by Microsoft Project.
 * `JsonWriter` now includes calendar data as part of its output.
 * The `ProjectCalendar` methods `setMinutesPerDay`, `setMinutesPerWeek`, `setMinutesPerMonth` and `setMinutesPerYear` have been deprecated, use `setCalendarMinutesPerDay`, `setCalendarMinutesPerWeek`, `setCalendarMinutesPerMonth` and `setCalendarMinutesPerYear` instead.
 * The ProjectCalendar method `setResource` has been deprecated and will not be replaced. Use the Resource method `setCalendar` or `setCalendarUniqueID` to link a calendar with a resource.

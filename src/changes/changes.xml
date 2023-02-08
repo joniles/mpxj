@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="11.0.0">
+		<release date="unreleased" version="11.0.1">
+		</release>
+		<release date="2023-02-08" version="11.0.0">
 			<action dev="joniles" type="update">User defined fields read from P6, Asta and GanttProject schedules are now represented by instances of `UserDefinedField`. They will no longer be mapped to custom field instances.</action>
 			<action dev="joniles" type="update">Enterprise Custom Fields read from MPP and MSPDI files are now represented by instances of `UserDefinedField`.</action>
 			<action dev="joniles" type="update">When writing MSPDI files, UserDefinedField instances which were originally read from enterprise custom fields will be written to the MSPDI file as enterprise custom fields.</action>
