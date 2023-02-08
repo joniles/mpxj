@@ -6,7 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="11.0.0">
-			<action dev="joniles" type="update">User defined fields read from P6, Asta and GanttProject are now represented by instances of `UserDefinedField`. They will no longer be mapped to custom field instances.</action>
+			<action dev="joniles" type="update">User defined fields read from P6, Asta and GanttProject schedules are now represented by instances of `UserDefinedField`. They will no longer be mapped to custom field instances.</action>
 			<action dev="joniles" type="update">Enterprise Custom Fields read from MPP and MSPDI files are now represented by instances of `UserDefinedField`.</action>
 			<action dev="joniles" type="update">When writing MSPDI files, UserDefinedField instances which were originally read from enterprise custom fields will be written to the MSPDI file as enterprise custom fields.</action>
 			<action dev="joniles" type="update">When writing MSPDI files, UserDefinedField instances which were from applications other than Microsoft Project will automatically be mapped to available custom fields.</action>
@@ -14,10 +14,10 @@
 			<action dev="joniles" type="update">The `UserDefinedField` type implements the `FieldType` interface and so can be used with the `FieldContainer` `get` and `set` methods to work with the contents of the user defined fields.</action>
 			<action dev="joniles" type="update">The `ProjectFile.getUserDefinedFields()` method has been added to provide access to all user defined fields defined in the project.</action>
 			<action dev="joniles" type="update">The `CustomFieldContainer` returned by `ProjectFile.getCustomFields()` will contain entries for all `UserDefinedField` instances.</action>
-			<action dev="joniles" type="update">The various `getFieldTypeByAlias` and `getFieldByAlias` methods will work with user defined fields.</action>
+			<action dev="joniles" type="update">The various `getFieldTypeByAlias` and `getFieldByAlias` methods will retrieve user defined fields by name.</action>
 			<action dev="joniles" type="update">Added the convenience method `ProjectFile.getPopulatedFields()` to retrieve details of all populated fields across the project. This avoids the caller having to individually retrieve the populated fields from the tasks container, resource container and so on.</action>
 			<action dev="joniles" type="update">Updated the `getPopulatedFields` methods to return a `Set` of `FieldType` rather than a `Set` of `TaskField`, `ResourceField` etc.</action>
-			<action dev="joniles" type="update">The various `getPopulatedFields` methods will include instances of `UserDefinedField` in their result if relevant.</action>
+			<action dev="joniles" type="update">The various `getPopulatedFields` methods will include instances of `UserDefinedField` in the returned collection if relevant.</action>
 			<action dev="joniles" type="update">All `ENTERPRISE_CUSTOM_FIELDn` values have been removed from the `TaskField`, `ResourceField`, `AssignmentField` and `ProjectField` enumerations.</action>
 			<action dev="joniles" type="update">The `getEnterpriseCustomField` and `setEnterpriseCustomField` methods have been removed from `ProjectProperties`, Task`, `Resource` and `ResourceAssignment`.</action>
 			<action dev="joniles" type="update">Project UDFs are now read from P6 schedules.</action>
