@@ -255,7 +255,7 @@ public class FieldReporter
 
    static
    {
-      EXTENDED_FIELDS.addAll(FieldLists.EXTENDED_FIELDS);
+      EXTENDED_FIELDS.addAll(FieldLists.CUSTOM_FIELDS);
       EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION_UNITS));
       EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION_UNITS));
       EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION_UNITS));

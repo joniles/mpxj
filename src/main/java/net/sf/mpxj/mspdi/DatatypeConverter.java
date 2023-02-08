@@ -69,23 +69,23 @@ import net.sf.mpxj.mpp.WorkContourHelper;
 public final class DatatypeConverter
 {
    /**
-    * Print an extended attribute currency value.
+    * Print a custom field currency value.
     *
     * @param value currency value
     * @return string representation
     */
-   public static final String printExtendedAttributeCurrency(Number value)
+   public static final String printCustomFieldCurrency(Number value)
    {
       return (value == null ? null : NUMBER_FORMAT.get().format(value.doubleValue() * 100));
    }
 
    /**
-    * Parse an extended attribute currency value.
+    * Parse a custom field currency value.
     *
     * @param value string representation
     * @return currency value
     */
-   public static final Number parseExtendedAttributeCurrency(String value)
+   public static final Number parseCustomFieldCurrency(String value)
    {
       Number result;
 
@@ -101,56 +101,56 @@ public final class DatatypeConverter
    }
 
    /**
-    * Print an extended attribute numeric value.
+    * Print a custom field numeric value.
     *
     * @param value numeric value
     * @return string representation
     */
-   public static final String printExtendedAttributeNumber(Number value)
+   public static final String printCustomFieldNumber(Number value)
    {
       return (NUMBER_FORMAT.get().format(value.doubleValue()));
    }
 
    /**
-    * Parse and extended attribute numeric value.
+    * Parse and custom field numeric value.
     *
     * @param value string representation
     * @return numeric value
     */
-   public static final Number parseExtendedAttributeNumber(String value)
+   public static final Number parseCustomFieldNumber(String value)
    {
       return (Double.valueOf(correctNumberFormat(value)));
    }
 
    /**
-    * Print an extended attribute boolean value.
+    * Print a custom field boolean value.
     *
     * @param value boolean value
     * @return string representation
     */
-   public static final String printExtendedAttributeBoolean(Boolean value)
+   public static final String printCustomFieldBoolean(Boolean value)
    {
       return (value.booleanValue() ? "1" : "0");
    }
 
    /**
-    * Parse an extended attribute boolean value.
+    * Parse a custom field boolean value.
     *
     * @param value string representation
     * @return boolean value
     */
-   public static final Boolean parseExtendedAttributeBoolean(String value)
+   public static final Boolean parseCustomFieldBoolean(String value)
    {
       return ((value.equals("1") ? Boolean.TRUE : Boolean.FALSE));
    }
 
    /**
-    * Print an extended attribute date value.
+    * Print a custom field date value.
     *
     * @param value date value
     * @return string representation
     */
-   public static final String printExtendedAttributeDate(Date value)
+   public static final String printCustomFieldDate(Date value)
    {
       return (value == null ? null : DATE_FORMAT.get().format(value));
    }
@@ -201,12 +201,12 @@ public final class DatatypeConverter
    }
 
    /**
-    * Parse an extended attribute date value.
+    * Parse a custom field date value.
     *
     * @param value string representation
     * @return date value
     */
-   public static final Date parseExtendedAttributeDate(String value)
+   public static final Date parseCustomFieldDate(String value)
    {
       Date result = null;
 
@@ -227,26 +227,26 @@ public final class DatatypeConverter
    }
 
    /**
-    * Print an extended attribute value.
+    * Print a custom field value.
     *
     * @param writer parent MSPDIWriter instance
     * @param value attribute value
     * @param type type of the value being passed
     * @return string representation
     */
-   public static final String printExtendedAttribute(MSPDIWriter writer, Object value, DataType type)
+   public static final String printCustomField(MSPDIWriter writer, Object value, DataType type)
    {
       String result;
 
       if (type == DataType.DATE)
       {
-         result = printExtendedAttributeDate((Date) value);
+         result = printCustomFieldDate((Date) value);
       }
       else
       {
          if (value instanceof Boolean)
          {
-            result = printExtendedAttributeBoolean((Boolean) value);
+            result = printCustomFieldBoolean((Boolean) value);
          }
          else
          {
@@ -258,13 +258,13 @@ public final class DatatypeConverter
             {
                if (type == DataType.CURRENCY)
                {
-                  result = printExtendedAttributeCurrency((Number) value);
+                  result = printCustomFieldCurrency((Number) value);
                }
                else
                {
                   if (value instanceof Number)
                   {
-                     result = printExtendedAttributeNumber((Number) value);
+                     result = printCustomFieldNumber((Number) value);
                   }
                   else
                   {
@@ -279,15 +279,15 @@ public final class DatatypeConverter
    }
 
    /**
-    * Parse an extended attribute value.
+    * Parse a custom field value.
     *
     * @param file parent file
     * @param mpx parent entity
     * @param value string value
     * @param mpxFieldID field ID
-    * @param durationFormat duration format associated with the extended attribute
+    * @param durationFormat duration format associated with the custom field
     */
-   public static final void parseExtendedAttribute(ProjectFile file, FieldContainer mpx, String value, FieldType mpxFieldID, TimeUnit durationFormat)
+   public static final void parseCustomField(ProjectFile file, FieldContainer mpx, String value, FieldType mpxFieldID, TimeUnit durationFormat)
    {
       if (mpxFieldID != null)
       {
@@ -301,25 +301,25 @@ public final class DatatypeConverter
 
             case DATE:
             {
-               mpx.set(mpxFieldID, parseExtendedAttributeDate(value));
+               mpx.set(mpxFieldID, parseCustomFieldDate(value));
                break;
             }
 
             case CURRENCY:
             {
-               mpx.set(mpxFieldID, parseExtendedAttributeCurrency(value));
+               mpx.set(mpxFieldID, parseCustomFieldCurrency(value));
                break;
             }
 
             case BOOLEAN:
             {
-               mpx.set(mpxFieldID, parseExtendedAttributeBoolean(value));
+               mpx.set(mpxFieldID, parseCustomFieldBoolean(value));
                break;
             }
 
             case NUMERIC:
             {
-               mpx.set(mpxFieldID, parseExtendedAttributeNumber(value));
+               mpx.set(mpxFieldID, parseCustomFieldNumber(value));
                break;
             }
 
@@ -362,13 +362,13 @@ public final class DatatypeConverter
          {
             if (type == DataType.CURRENCY)
             {
-               result = printExtendedAttributeCurrency((Number) value);
+               result = printCustomFieldCurrency((Number) value);
             }
             else
             {
                if (value instanceof Number)
                {
-                  result = printExtendedAttributeNumber((Number) value);
+                  result = printCustomFieldNumber((Number) value);
                }
                else
                {
@@ -408,13 +408,13 @@ public final class DatatypeConverter
 
          case CURRENCY:
          {
-            result = parseExtendedAttributeCurrency(value);
+            result = parseCustomFieldCurrency(value);
             break;
          }
 
          case NUMERIC:
          {
-            result = parseExtendedAttributeNumber(value);
+            result = parseCustomFieldNumber(value);
             break;
          }
 

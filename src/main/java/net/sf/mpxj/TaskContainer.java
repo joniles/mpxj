@@ -231,7 +231,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     */
    public Set<FieldType> getPopulatedFields()
    {
-      return new PopulatedFields<>(m_projectFile, TaskField.class, this).getPopulatedFields();
+      return new PopulatedFields<>(m_projectFile, TaskField.class, m_projectFile.getUserDefinedFields().getTaskFields(), this).getPopulatedFields();
    }
 
    /**
@@ -245,9 +245,9 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
    }
 
    /**
-    * Retrieve the type of a custom field by its alias.
+    * Retrieve the type of a field by its alias.
     *
-    * @param alias custom field alias
+    * @param alias field alias
     * @return FieldType instance
     */
    public FieldType getFieldTypeByAlias(String alias)

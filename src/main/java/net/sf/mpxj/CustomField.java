@@ -29,7 +29,7 @@ import java.util.List;
 import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
- * Configuration detail for a custom field.
+ * Configuration detail for a field.
  */
 public class CustomField implements Comparable<CustomField>
 {
@@ -59,7 +59,7 @@ public class CustomField implements Comparable<CustomField>
    }
 
    /**
-    * Retrieve the value lookup table associated with this custom field.
+    * Retrieve the value lookup table associated with this field.
     *
     * @return value lookup table
     */
@@ -69,7 +69,7 @@ public class CustomField implements Comparable<CustomField>
    }
 
    /**
-    * Retrieve the graphical indicator configuration for this custom field.
+    * Retrieve the graphical indicator configuration for this field.
     *
     * @return graphical indicator configuration
     */
@@ -131,31 +131,6 @@ public class CustomField implements Comparable<CustomField>
    }
 
    /**
-    * Retrieve the actual data type of a custom field.
-    * (Currently this is only relevant for enterprise custom fields).
-    * Returns null if this is not a custom field or if the type
-    * has not been set.
-    *
-    * @return custom field data type
-    */
-   public DataType getCustomFieldDataType()
-   {
-      return m_customFieldDataType;
-   }
-
-   /**
-    * Set the actual data type of a custom field.
-    *
-    * @param type custom field data type
-    * @return this to allow method chaining
-    */
-   public CustomField setCustomFieldDataType(DataType type)
-   {
-      m_customFieldDataType = type;
-      return this;
-   }
-
-   /**
     * Retrieve the mask definitions for this field.
     *
     * @return list of mask definitions
@@ -184,5 +159,4 @@ public class CustomField implements Comparable<CustomField>
    private final List<CustomFieldValueMask> m_masks;
    private Integer m_uniqueID;
    private String m_alias;
-   private DataType m_customFieldDataType;
 }

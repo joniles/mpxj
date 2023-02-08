@@ -40,6 +40,7 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UserDefinedField;
 
 /**
  * Given a collection of objects containing fields, return a set representing
@@ -54,12 +55,14 @@ public class PopulatedFields<E extends Enum<E> & FieldType, T extends FieldConta
     * Constructor.
     *
     * @param project parent project
-    * @param fieldEnumType enumeration representing the set of fields
+    * @param fieldEnumType enumeration representing the set of fields for the parent container
+    * @param userDefinedFields collection of user defined fields for the parent container
     * @param collection collection of objects containing fields
     */
-   public PopulatedFields(ProjectFile project, Class<E> fieldEnumType, Collection<T> collection)
+   public PopulatedFields(ProjectFile project, Class<E> fieldEnumType, Collection<UserDefinedField> userDefinedFields, Collection<T> collection)
    {
       m_fields = new HashSet<>(EnumSet.allOf(fieldEnumType));
+      m_fields.addAll(userDefinedFields);
       m_collection = collection;
 
       ProjectProperties props = project.getProjectProperties();

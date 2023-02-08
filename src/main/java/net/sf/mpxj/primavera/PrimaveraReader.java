@@ -90,6 +90,8 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UserDefinedField;
+import net.sf.mpxj.UserDefinedFieldContainer;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -104,9 +106,6 @@ final class PrimaveraReader
    /**
     * Constructor.
     *
-    * @param taskUdfCounters UDF counters for tasks
-    * @param resourceUdfCounters UDF counters for resources
-    * @param assignmentUdfCounters UDF counters for assignments
     * @param resourceFields resource field mapping
     * @param wbsFields wbs field mapping
     * @param taskFields task field mapping
@@ -115,7 +114,7 @@ final class PrimaveraReader
     * @param matchPrimaveraWBS determine WBS behaviour
     * @param wbsIsFullPath determine the WBS attribute structure
     */
-   public PrimaveraReader(UserFieldCounters taskUdfCounters, UserFieldCounters resourceUdfCounters, UserFieldCounters assignmentUdfCounters, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
+   public PrimaveraReader(Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -132,13 +131,6 @@ final class PrimaveraReader
       m_wbsFields = wbsFields;
       m_taskFields = taskFields;
       m_assignmentFields = assignmentFields;
-
-      m_taskUdfCounters = taskUdfCounters;
-      m_taskUdfCounters.reset();
-      m_resourceUdfCounters = resourceUdfCounters;
-      m_resourceUdfCounters.reset();
-      m_assignmentUdfCounters = assignmentUdfCounters;
-      m_assignmentUdfCounters.reset();
 
       m_matchPrimaveraWBS = matchPrimaveraWBS;
       m_wbsIsFullPath = wbsIsFullPath;
@@ -169,12 +161,15 @@ final class PrimaveraReader
     *
     * @param rows project properties data.
     */
-   public void processProjectProperties(List<Row> rows)
+   public void processProjectProperties(Integer projectID, List<Row> rows)
    {
+      ProjectProperties properties = m_project.getProjectProperties();
+      properties.setUniqueID(projectID);
+      populateUserDefinedFieldValues("PROJECT", FieldTypeClass.PROJECT, properties, projectID);
+
       if (!rows.isEmpty())
       {
          Row row = rows.get(0);
-         ProjectProperties properties = m_project.getProjectProperties();
          properties.setBaselineProjectUniqueID(row.getInteger("sum_base_proj_id"));
          properties.setCreationDate(row.getDate("create_date"));
          properties.setCriticalActivityType(CRITICAL_ACTIVITY_MAP.getOrDefault(row.getString("critical_path_type"), CriticalActivityType.TOTAL_FLOAT));
@@ -184,13 +179,12 @@ final class PrimaveraReader
          properties.setDefaultTaskType(TASK_TYPE_MAP.get(row.getString("def_duration_type")));
          properties.setStatusDate(row.getDate("last_recalc_date"));
          properties.setFiscalYearStartMonth(row.getInteger("fy_start_month_num"));
-         properties.setUniqueID(row.getInteger("proj_id"));
          properties.setExportFlag(row.getBoolean("export_flag"));
          properties.setPlannedStart(row.getDate("plan_start_date"));
          properties.setScheduledFinish(row.getDate("scd_end_date"));
          properties.setMustFinishBy(row.getDate("plan_end_date"));
-         // cannot assign actual calendar yet as it has not been read yet
 
+         // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");
       }
    }
@@ -285,6 +279,8 @@ final class PrimaveraReader
    {
       // Process fields
       Map<Integer, String> tableNameMap = new HashMap<>();
+      UserDefinedFieldContainer container = m_project.getUserDefinedFields();
+
       for (Row row : fields)
       {
          Integer fieldId = row.getInteger("udf_type_id");
@@ -292,17 +288,19 @@ final class PrimaveraReader
          tableNameMap.put(fieldId, tableName);
 
          FieldTypeClass fieldTypeClass = FIELD_TYPE_MAP.get(tableName);
-         if (fieldTypeClass != null)
+         if (fieldTypeClass == null)
          {
-            String fieldDataType = row.getString("logical_data_type");
-            FieldType fieldType = allocateUserDefinedField(fieldTypeClass, UserFieldDataType.valueOf(fieldDataType));
-            if (fieldType != null)
-            {
-               String fieldName = row.getString("udf_type_label");
-               m_udfFields.put(fieldId, fieldType);
-               m_project.getCustomFields().add(fieldType).setAlias(fieldName).setUniqueID(fieldId);
-            }
+            continue;
          }
+
+         String internalName = row.getString("udf_type_name");
+         String externalName = row.getString("udf_type_label");
+         DataType dataType = DATA_TYPE_MAP.get(row.getString("logical_data_type"));
+         UserDefinedField fieldType = new UserDefinedField(fieldId, internalName, externalName, fieldTypeClass, dataType);
+         container.add(fieldType);
+
+         m_udfFields.put(fieldId, fieldType);
+         m_project.getCustomFields().add(fieldType).setAlias(externalName).setUniqueID(fieldId);
       }
 
       // Process values
@@ -1068,72 +1066,6 @@ final class PrimaveraReader
    }
 
    /**
-    * Allocate a UDF to one of the available custom fields.
-    *
-    * @param fieldTypeClass field type
-    * @param dataType field data type
-    * @return FieldType instance for allocated field
-    */
-   private FieldType allocateUserDefinedField(FieldTypeClass fieldTypeClass, UserFieldDataType dataType)
-   {
-      FieldType fieldType = null;
-
-      try
-      {
-         switch (fieldTypeClass)
-         {
-            case TASK:
-            {
-               do
-               {
-                  fieldType = m_taskUdfCounters.nextField(TaskField.class, dataType);
-               }
-               while (m_taskFields.containsKey(fieldType) || m_wbsFields.containsKey(fieldType));
-               break;
-            }
-
-            case RESOURCE:
-            {
-               do
-               {
-                  fieldType = m_resourceUdfCounters.nextField(ResourceField.class, dataType);
-               }
-               while (m_resourceFields.containsKey(fieldType));
-               break;
-            }
-
-            case ASSIGNMENT:
-            {
-               do
-               {
-                  fieldType = m_assignmentUdfCounters.nextField(AssignmentField.class, dataType);
-               }
-               while (m_assignmentFields.containsKey(fieldType));
-               break;
-            }
-
-            default:
-            {
-               break;
-            }
-         }
-      }
-
-      catch (Exception ex)
-      {
-         //
-         // SF#227: If we get an exception thrown here... it's likely that
-         // we've run out of user defined fields, for example
-         // there are only 30 TEXT fields. We'll ignore this: the user
-         // defined field won't be mapped to an alias, so we'll
-         // ignore it when we read in the values.
-         //
-      }
-
-      return fieldType;
-   }
-
-   /**
     * Adds a user defined field value to a task.
     *
     * @param fieldType field type
@@ -1177,7 +1109,7 @@ final class PrimaveraReader
                String text = row.getString("udf_text");
                if (text != null)
                {
-                  // before a normal boolean parse, we try to lookup the text as a P6 static type indicator UDF
+                  // before a normal boolean parse, we try to look up the text as a P6 static type indicator UDF
                   value = STATICTYPE_UDF_MAP.get(text);
                   if (value == null)
                   {
@@ -2246,10 +2178,6 @@ final class PrimaveraReader
    private final ClashMap m_roleClashMap = new ClashMap();
    private final DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
    private Integer m_defaultCalendarID;
-
-   private final UserFieldCounters m_taskUdfCounters;
-   private final UserFieldCounters m_resourceUdfCounters;
-   private final UserFieldCounters m_assignmentUdfCounters;
    private final Map<FieldType, String> m_resourceFields;
    private final Map<FieldType, String> m_roleFields;
    private final Map<FieldType, String> m_wbsFields;
@@ -2377,6 +2305,7 @@ final class PrimaveraReader
       FIELD_TYPE_MAP.put("TASK", FieldTypeClass.TASK);
       FIELD_TYPE_MAP.put("RSRC", FieldTypeClass.RESOURCE);
       FIELD_TYPE_MAP.put("TASKRSRC", FieldTypeClass.ASSIGNMENT);
+      FIELD_TYPE_MAP.put("PROJECT", FieldTypeClass.PROJECT);
    }
 
    private static final Map<String, AccrueType> ACCRUE_TYPE_MAP = new HashMap<>();
@@ -2442,6 +2371,19 @@ final class PrimaveraReader
       RATE_SOURCE_MAP.put("ST_Rsrc", RateSource.RESOURCE);
       RATE_SOURCE_MAP.put("ST_Role", RateSource.ROLE);
       RATE_SOURCE_MAP.put("ST_Custom", RateSource.OVERRIDE);
+   }
+
+   private static final Map<String, DataType> DATA_TYPE_MAP = new HashMap<>();
+   static
+   {
+      DATA_TYPE_MAP.put("FT_TEXT", DataType.STRING);
+      DATA_TYPE_MAP.put("FT_MONEY", DataType.CURRENCY);
+      DATA_TYPE_MAP.put("FT_END_DATE", DataType.DATE);
+      DATA_TYPE_MAP.put("FT_STATICTYPE", DataType.STRING);
+      DATA_TYPE_MAP.put("FT_INT", DataType.INTEGER);
+      DATA_TYPE_MAP.put("FT_FLOAT", DataType.NUMERIC);
+      DATA_TYPE_MAP.put("FT_FLOAT_2_DECIMALS", DataType.NUMERIC);
+      DATA_TYPE_MAP.put("FT_START_DATE", DataType.DATE);
    }
 
    private static final long EXCEPTION_EPOCH = -2209161599935L;

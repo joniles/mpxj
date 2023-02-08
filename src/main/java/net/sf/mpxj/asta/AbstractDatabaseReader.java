@@ -91,7 +91,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
          processTasks();
          processPredecessors();
          processAssignments();
-         // TODO: custom field support (where is udf_data?)
+         // TODO: user defined field support (where is udf_data?)
 
          m_reader = null;
 

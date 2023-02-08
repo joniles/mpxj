@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.common;
 
-import java.util.Comparator;
 import java.util.Locale;
 
 import net.sf.mpxj.AssignmentField;
@@ -127,7 +126,7 @@ public final class FieldTypeHelper
 
          case MPPResourceField.RESOURCE_FIELD_BASE:
          {
-            result = MPPResourceField.getInstance(index);
+            result = MPPResourceField.getInstance(project, index);
             if (result == null)
             {
                result = getPlaceholder(ResourceField.class, index);
@@ -137,7 +136,7 @@ public final class FieldTypeHelper
 
          case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
          {
-            result = MPPAssignmentField.getInstance(index);
+            result = MPPAssignmentField.getInstance(project, index);
             if (result == null)
             {
                result = getPlaceholder(AssignmentField.class, index);
@@ -157,7 +156,7 @@ public final class FieldTypeHelper
 
          case MPPProjectField.PROJECT_FIELD_BASE:
          {
-            result = MPPProjectField.getInstance(index);
+            result = MPPProjectField.getInstance(project, index);
             if (result == null)
             {
                result = getPlaceholder(ProjectField.class, index);
@@ -237,33 +236,35 @@ public final class FieldTypeHelper
     */
    public static FieldType mapTextFields(FieldType field)
    {
-      if (field != null && field.getFieldTypeClass() == FieldTypeClass.TASK)
+      if (!(field instanceof TaskField))
       {
-         TaskField taskField = (TaskField) field;
-         switch (taskField)
+         return field;
+      }
+
+      TaskField taskField = (TaskField) field;
+      switch (taskField)
+      {
+         case START_TEXT:
          {
-            case START_TEXT:
-            {
-               field = TaskField.START;
-               break;
-            }
+            field = TaskField.START;
+            break;
+         }
 
-            case FINISH_TEXT:
-            {
-               field = TaskField.FINISH;
-               break;
-            }
+         case FINISH_TEXT:
+         {
+            field = TaskField.FINISH;
+            break;
+         }
 
-            case DURATION_TEXT:
-            {
-               field = TaskField.DURATION;
-               break;
-            }
+         case DURATION_TEXT:
+         {
+            field = TaskField.DURATION;
+            break;
+         }
 
-            default:
-            {
-               break;
-            }
+         default:
+         {
+            break;
          }
       }
 

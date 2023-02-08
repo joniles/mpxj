@@ -40,11 +40,11 @@ import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
-import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
@@ -52,6 +52,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -63,11 +64,12 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.UserDefinedField;
+import net.sf.mpxj.UserDefinedFieldContainer;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -1718,119 +1720,121 @@ final class AstaReader
    }
 
    /**
-    * Extract custom field data.
+    * Extract user defined field data.
     *
-    * @param definitions custom field definitions
-    * @param data custom field data
+    * @param definitions user defined field definitions
+    * @param data user defined  field data
     */
-   public void processCustomFields(List<Row> definitions, List<Row> data)
+   public void processUserDefinedFields(List<Row> definitions, List<Row> data)
    {
-      Map<Integer, UserField> map = new HashMap<>();
+      Map<Integer, ObjectType> objectTypeMap = new HashMap<>();
+      Map<Integer, FieldType> fieldMap = new HashMap<>();
 
-      processCustomFieldDefinitions(definitions, map);
-      processCustomFieldData(data, map);
+      processUserDefinedFieldDefinitions(definitions, objectTypeMap, fieldMap);
+      processUserDefinedFieldData(data, objectTypeMap, fieldMap);
    }
 
    /**
-    * Process custom field configuration.
+    * Process user defined field definitions.
     *
     * @param definitions field definitions
-    * @param map custom field map
+    * @param objectTypeMap id to object type map
+    * @param fieldMap id to user defined field map
     */
-   private void processCustomFieldDefinitions(List<Row> definitions, Map<Integer, UserField> map)
+   private void processUserDefinedFieldDefinitions(List<Row> definitions, Map<Integer, ObjectType> objectTypeMap, Map<Integer, FieldType> fieldMap)
    {
-      UserFieldDataType<TaskField> taskTypes = new UserFieldDataType<>(TaskField.class);
-      UserFieldDataType<ResourceField> resourceTypes = new UserFieldDataType<>(ResourceField.class);
-      UserFieldDataType<AssignmentField> assignmentTypes = new UserFieldDataType<>(AssignmentField.class);
+      UserDefinedFieldContainer userDefinedFields = m_project.getUserDefinedFields();
+      CustomFieldContainer customFields = m_project.getCustomFields();
 
       for (Row row : definitions)
       {
-         FieldType field = null;
-         int objectType = row.getInt("OBJ_TYPE");
-         switch (objectType)
+         ObjectType objectType = ObjectType.getInstance(row.getInteger("OBJ_TYPE"));
+         if (objectType == null)
          {
-            case BAR_OBJECT_TYPE:
-            case TASK_OBJECT_TYPE:
-            case MILESTONE_OBJECT_TYPE:
-            {
-               field = taskTypes.nextField(row.getInteger("DATA_TYPE"));
-               break;
-            }
-
-            case PERMANENT_RESOURCE_OBJECT_TYPE:
-            case CONSUMABLE_RESOURCE_OBJECT_TYPE:
-            {
-               field = resourceTypes.nextField(row.getInteger("DATA_TYPE"));
-               break;
-            }
-
-            case PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE:
-            {
-               field = assignmentTypes.nextField(row.getInteger("DATA_TYPE"));
-               break;
-            }
+            continue;
          }
 
-         if (field != null)
+         FieldTypeClass fieldTypeClass = getFieldTypeClass(objectType);
+         if (fieldTypeClass == null)
          {
-            map.put(row.getInteger("UDF_ID"), new UserField(field, objectType, row.getInt("DATA_TYPE")));
-            m_project.getCustomFields().add(field).setAlias(row.getString("UDF_NAME"));
+            continue;
          }
+
+         DataType dataType = DATA_TYPE_MAP.get(row.getInteger("DATA_TYPE"));
+         if (dataType == null)
+         {
+            continue;
+         }
+
+         Integer id = row.getInteger("UDF_ID");
+         String internalName = "user_field_" + id;
+         String externalName = row.getString("UDF_NAME");
+         UserDefinedField field = new UserDefinedField(id, internalName, externalName, fieldTypeClass, dataType);
+         userDefinedFields.add(field);
+         customFields.add(field).setAlias(externalName);
+
+         objectTypeMap.put(id, objectType);
+         fieldMap.put(id, field);
       }
    }
 
+   private FieldTypeClass getFieldTypeClass(ObjectType objectType)
+   {
+      FieldTypeClass fieldTypeClass = null;
+
+      switch (objectType)
+      {
+         case BAR_OBJECT_TYPE:
+         case TASK_OBJECT_TYPE:
+         case MILESTONE_OBJECT_TYPE:
+         {
+            fieldTypeClass = FieldTypeClass.TASK;
+            break;
+         }
+
+         case PERMANENT_RESOURCE_OBJECT_TYPE:
+         case CONSUMABLE_RESOURCE_OBJECT_TYPE:
+         {
+            fieldTypeClass = FieldTypeClass.RESOURCE;
+            break;
+         }
+
+         case PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE:
+         {
+            fieldTypeClass = FieldTypeClass.ASSIGNMENT;
+            break;
+         }
+      }
+
+      return fieldTypeClass;
+   }
+
    /**
-    * Process custom field data.
+    * Process user defined field data.
     *
-    * @param data custom field data
-    * @param map field map
+    * @param data user defined field data
+    * @param objectTypeMap id to object type map
+    * @param fieldMap id to field map
     */
-   private void processCustomFieldData(List<Row> data, Map<Integer, UserField> map)
+   private void processUserDefinedFieldData(List<Row> data, Map<Integer, ObjectType> objectTypeMap, Map<Integer, FieldType> fieldMap)
    {
       for (Row row : data)
       {
-         UserField field = map.get(row.getInteger("UDF_ID"));
+         Integer id = row.getInteger("UDF_ID");
+
+         FieldType field = fieldMap.get(id);
          if (field == null)
          {
             continue;
          }
 
-         Function<Integer, FieldContainer> mapper = null;
-         switch (field.getObjectType())
+         ObjectType objectType = objectTypeMap.get(id);
+         if (objectType == null)
          {
-            case BAR_OBJECT_TYPE:
-            {
-               mapper = m_barMap::get;
-               break;
-            }
-
-            case TASK_OBJECT_TYPE:
-            {
-               mapper = m_taskMap::get;
-               break;
-            }
-
-            case MILESTONE_OBJECT_TYPE:
-            {
-               mapper = m_milestoneMap::get;
-               break;
-            }
-
-            case PERMANENT_RESOURCE_OBJECT_TYPE:
-            case CONSUMABLE_RESOURCE_OBJECT_TYPE:
-            {
-               mapper = m_project::getResourceByUniqueID;
-               break;
-            }
-
-            // TODO: add support for consumable resource assignments
-            case PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE:
-            {
-               mapper = i -> m_project.getResourceAssignments().getByUniqueID(i);
-               break;
-            }
+            continue;
          }
 
+         Function<Integer, FieldContainer> mapper = getFieldContainerMapper(objectType);
          if (mapper == null)
          {
             continue;
@@ -1842,53 +1846,98 @@ final class AstaReader
             continue;
          }
 
-         // Ideally we'd just retrieve the correct type from the result set.
-         // Although the table metadata is correct, it appears that Asta is
-         // writing inconsistent data types in the records themselves, hence
-         // we have to work to ensure that we can convert what we get into
-         // the expected type.
-         Object value;
-         switch (field.getDataType())
+         container.set(field, getUserDefinedFieldValue(field.getDataType(), row));
+      }
+   }
+
+   private Function<Integer, FieldContainer> getFieldContainerMapper(ObjectType objectType)
+   {
+      Function<Integer, FieldContainer> mapper = null;
+      switch (objectType)
+      {
+         case BAR_OBJECT_TYPE:
          {
-            case 0:
-            {
-               value = getCustomFieldBoolean(row);
-               break;
-            }
-
-            case 6:
-            {
-               value = getCustomFieldInteger(row);
-               break;
-            }
-
-            case 8:
-            {
-               value = getCustomFieldDouble(row);
-               break;
-            }
-
-            case 13:
-            {
-               value = getCustomFieldDate(row);
-               break;
-            }
-
-            case 15:
-            {
-               value = getCustomFieldDuration(row);
-               break;
-            }
-
-            default:
-            {
-               value = getCustomFieldString(row);
-               break;
-            }
+            mapper = m_barMap::get;
+            break;
          }
 
-         container.set(field.getField(), value);
+         case TASK_OBJECT_TYPE:
+         {
+            mapper = m_taskMap::get;
+            break;
+         }
+
+         case MILESTONE_OBJECT_TYPE:
+         {
+            mapper = m_milestoneMap::get;
+            break;
+         }
+
+         case PERMANENT_RESOURCE_OBJECT_TYPE:
+         case CONSUMABLE_RESOURCE_OBJECT_TYPE:
+         {
+            mapper = m_project::getResourceByUniqueID;
+            break;
+         }
+
+         // TODO: add support for consumable resource assignments
+         case PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE:
+         {
+            mapper = i -> m_project.getResourceAssignments().getByUniqueID(i);
+            break;
+         }
       }
+
+      return mapper;
+   }
+
+   private Object getUserDefinedFieldValue(DataType type, Row row)
+   {
+      // Ideally we'd just retrieve the correct type from the result set.
+      // Although the table metadata is correct, it appears that Asta is
+      // writing inconsistent data types in the records themselves, hence
+      // we have to work to ensure that we can convert what we get into
+      // the expected type.
+      Object value;
+      switch (type)
+      {
+         case BOOLEAN:
+         {
+            value = getUserDefinedFieldBoolean(row);
+            break;
+         }
+
+         case INTEGER:
+         {
+            value = getUserDefinedFieldInteger(row);
+            break;
+         }
+
+         case NUMERIC:
+         {
+            value = getUserDefinedFieldDouble(row);
+            break;
+         }
+
+         case DATE:
+         {
+            value = getUserDefinedFieldDate(row);
+            break;
+         }
+
+         case DURATION:
+         {
+            value = getUserDefinedFieldDuration(row);
+            break;
+         }
+
+         default:
+         {
+            value = getUserDefinedFieldString(row);
+            break;
+         }
+      }
+      return value;
    }
 
    /**
@@ -1897,7 +1946,7 @@ final class AstaReader
     * @param row result set row
     * @return value
     */
-   private Integer getCustomFieldInteger(Row row)
+   private Integer getUserDefinedFieldInteger(Row row)
    {
       Integer result;
       Object value = row.getObject("DATA_AS_NUMBER");
@@ -1932,7 +1981,7 @@ final class AstaReader
     * @param row result set row
     * @return value
     */
-   private Double getCustomFieldDouble(Row row)
+   private Double getUserDefinedFieldDouble(Row row)
    {
       Double result;
       Object value = row.getObject("DATA_AS_NUMBER");
@@ -1967,9 +2016,9 @@ final class AstaReader
     * @param row result set row
     * @return value
     */
-   private Boolean getCustomFieldBoolean(Row row)
+   private Boolean getUserDefinedFieldBoolean(Row row)
    {
-      Integer result = getCustomFieldInteger(row);
+      Integer result = getUserDefinedFieldInteger(row);
       return Boolean.valueOf(result != null && result.intValue() == 1);
    }
 
@@ -1979,7 +2028,7 @@ final class AstaReader
     * @param row result set row
     * @return value
     */
-   private Date getCustomFieldDate(Row row)
+   private Date getUserDefinedFieldDate(Row row)
    {
       Object value = row.getObject("DATA_AS_DATE");
       if (!(value instanceof Date))
@@ -1995,10 +2044,10 @@ final class AstaReader
     * @param row result set row
     * @return value
     */
-   private Duration getCustomFieldDuration(Row row)
+   private Duration getUserDefinedFieldDuration(Row row)
    {
       // TODO: displayed time units defined by DATA_AS_ID
-      return Duration.getInstance(NumberHelper.getDouble(getCustomFieldDouble(row)), TimeUnit.HOURS);
+      return Duration.getInstance(NumberHelper.getDouble(getUserDefinedFieldDouble(row)), TimeUnit.HOURS);
    }
 
    /**
@@ -2007,7 +2056,7 @@ final class AstaReader
     * @param row result set row
     * @return value
     */
-   private String getCustomFieldString(Row row)
+   private String getUserDefinedFieldString(Row row)
    {
       Object value = row.getObject("DATA_AS_NOTE");
       return value == null ? null : value.toString();
@@ -2102,10 +2151,15 @@ final class AstaReader
       RelationType.START_FINISH
    };
 
-   private static final int BAR_OBJECT_TYPE = 16;
-   private static final int TASK_OBJECT_TYPE = 20;
-   private static final int MILESTONE_OBJECT_TYPE = 21;
-   private static final int CONSUMABLE_RESOURCE_OBJECT_TYPE = 50;
-   private static final int PERMANENT_RESOURCE_OBJECT_TYPE = 51;
-   private static final int PERMANENT_SCHEDULE_ALLOCATION_OBJECT_TYPE = 59;
+   private static final Map<Integer, DataType> DATA_TYPE_MAP = new HashMap<>();
+   static
+   {
+      DATA_TYPE_MAP.put(Integer.valueOf(0), DataType.BOOLEAN); // Boolean
+      DATA_TYPE_MAP.put(Integer.valueOf(6), DataType.INTEGER); // Integer
+      DATA_TYPE_MAP.put(Integer.valueOf(8), DataType.NUMERIC); // Float
+      DATA_TYPE_MAP.put(Integer.valueOf(9), DataType.STRING); // String
+      DATA_TYPE_MAP.put(Integer.valueOf(13), DataType.DATE); // Date
+      DATA_TYPE_MAP.put(Integer.valueOf(15), DataType.DURATION); // Duration
+      DATA_TYPE_MAP.put(Integer.valueOf(24), DataType.STRING); // URL
+   }
 }

@@ -113,7 +113,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
     */
    public Set<FieldType> getPopulatedFields()
    {
-      return new PopulatedFields<>(m_projectFile, ResourceField.class, this).getPopulatedFields();
+      return new PopulatedFields<>(m_projectFile, ResourceField.class, m_projectFile.getUserDefinedFields().getResourceFields(), this).getPopulatedFields();
    }
 
    /**
@@ -127,9 +127,9 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
    }
 
    /**
-    * Retrieve the type of a custom field by its alias.
+    * Retrieve the type of a field by its alias.
     *
-    * @param alias custom field alias
+    * @param alias field alias
     * @return FieldType instance
     */
    public FieldType getFieldTypeByAlias(String alias)

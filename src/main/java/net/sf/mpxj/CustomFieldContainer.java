@@ -27,17 +27,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.Pair;
-import net.sf.mpxj.common.ResourceFieldLists;
-import net.sf.mpxj.common.TaskFieldLists;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 
 /**
@@ -46,19 +41,9 @@ import net.sf.mpxj.mpp.CustomFieldValueItem;
 public class CustomFieldContainer implements Iterable<CustomField>
 {
    /**
-    * Constructor.
+    * Retrieve configuration details for a given field.
     *
-    * @param parent parent project file
-    */
-   public CustomFieldContainer(ProjectFile parent)
-   {
-      m_parent = parent;
-   }
-
-   /**
-    * Retrieve configuration details for a given custom field.
-    *
-    * @param field required custom field
+    * @param field required field
     * @return configuration detail
     * @deprecated use getOrCreate
     */
@@ -68,7 +53,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
-    * Retrieve configuration details for a given custom field.
+    * Retrieve configuration details for a given field.
     * Return null if the field has not been configured.
     *
     * @param field target field type
@@ -80,10 +65,10 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
-    * Retrieve configuration details for a given custom field,
+    * Retrieve configuration details for a given field,
     * create a new CustomField entry if one does not exist.
     *
-    * @param field required custom field
+    * @param field required field
     * @return configuration detail
     */
    public CustomField getOrCreate(FieldType field)
@@ -92,7 +77,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
-    * Add a new custom field. Overwrite any previous CustomField definition.
+    * Add a new custom field. Overwrite any previous custom field definition.
     *
     * @param field field type
     * @return new CustomField instance
@@ -156,10 +141,10 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
-    * Retrieve a custom field value by its unique ID.
+    * Retrieve a custom field value item by its unique ID.
     *
     * @param uniqueID custom field value unique ID
-    * @return custom field value
+    * @return custom field value item
     */
    public CustomFieldValueItem getCustomFieldValueItemByUniqueID(int uniqueID)
    {
@@ -167,10 +152,10 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
-    * Retrieve a custom field value by its guid.
+    * Retrieve a custom field value item by its guid.
     *
     * @param guid custom field value guid
-    * @return custom field value
+    * @return custom field value item
     */
    public CustomFieldValueItem getCustomFieldValueItemByGuid(UUID guid)
    {
@@ -180,7 +165,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
    /**
     * Add a value to the custom field value index.
     *
-    * @param item custom field value
+    * @param item custom field value item
     */
    public void registerValue(CustomFieldValueItem item)
    {
@@ -194,7 +179,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
    /**
     * Remove a value from the custom field value index.
     *
-    * @param item custom field value
+    * @param item custom field value item
     */
    public void deregisterValue(CustomFieldValueItem item)
    {
@@ -217,7 +202,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
-    * Return a stream of CustomFields.
+    * Return a stream of CustomField instances.
     *
     * @return Stream instance
     */
@@ -226,38 +211,6 @@ public class CustomFieldContainer implements Iterable<CustomField>
       return StreamSupport.stream(spliterator(), false);
    }
 
-   /**
-    * This method combines two sets of information: the list
-    * of configured custom fields (from this class) plus
-    * a lst of the custom fields which do not have configuration
-    * but are in use in the schedule.
-    *
-    * @return set of FieldTypes representing configured and in use fields
-    */
-   public Set<FieldType> getConfiguredAndPopulatedCustomFieldTypes()
-   {
-      // Configured custom fields
-      Set<FieldType> result = stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
-
-      /// Populated task custom fields
-      Set<FieldType> populatedTaskFields = m_parent.getTasks().getPopulatedFields();
-      populatedTaskFields.retainAll(TaskFieldLists.EXTENDED_FIELDS);
-      result.addAll(populatedTaskFields);
-
-      // Populated resource custom fields
-      Set<FieldType> populatedResourceFields = m_parent.getResources().getPopulatedFields();
-      populatedResourceFields.retainAll(ResourceFieldLists.EXTENDED_FIELDS);
-      result.addAll(populatedResourceFields);
-
-      // Populated assignment custom fields
-      Set<FieldType> populatedAssignmentFields = m_parent.getResourceAssignments().getPopulatedFields();
-      populatedAssignmentFields.retainAll(AssignmentFieldLists.EXTENDED_FIELDS);
-      result.addAll(populatedAssignmentFields);
-
-      return result;
-   }
-
-   private final ProjectFile m_parent;
    private final Map<FieldType, CustomField> m_configMap = new HashMap<>();
    private final Map<Integer, CustomFieldValueItem> m_valueMap = new HashMap<>();
    private final Map<UUID, CustomFieldValueItem> m_guidMap = new HashMap<>();

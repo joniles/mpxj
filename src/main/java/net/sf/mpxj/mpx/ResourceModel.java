@@ -28,10 +28,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
-import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.mpp.UserDefinedFieldMap;
 
 /**
  * This class represents the resource table definition record in an MPX file.
@@ -46,10 +47,12 @@ final class ResourceModel
     *
     * @param file the parent file to which this record belongs.
     * @param locale target locale
+    * @param userDefinedFieldMap user defined field map
     */
-   ResourceModel(ProjectFile file, Locale locale)
+   ResourceModel(ProjectFile file, Locale locale, UserDefinedFieldMap userDefinedFieldMap)
    {
       m_parentFile = file;
+      m_userDefinedFieldMap = userDefinedFieldMap;
       setLocale(locale);
    }
 
@@ -127,7 +130,9 @@ final class ResourceModel
       {
          for (int loop = 0; loop < MPXResourceField.MAX_FIELDS; loop++)
          {
-            ResourceField field = MPXResourceField.getMpxjField(loop);
+            FieldType field = MPXResourceField.getMpxjField(loop);
+            field = m_userDefinedFieldMap == null ? field : m_userDefinedFieldMap.getSource(field);
+
             Object value = resource.get(field);
             if (ModelUtility.isFieldPopulated(field, value))
             {
@@ -270,4 +275,5 @@ final class ResourceModel
     * Map to store Resource field Numbers.
     */
    private final HashMap<String, Integer> m_resourceNumbers = new HashMap<>();
+   private final UserDefinedFieldMap m_userDefinedFieldMap;
 }
