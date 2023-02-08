@@ -41,6 +41,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.ResourceFieldLists;
@@ -235,7 +236,7 @@ public class FieldReporter
 
    private void populate(Map<FieldType, Set<String>> map, Set<? extends FieldType> fields, String key)
    {
-      fields.forEach(f -> map.computeIfAbsent(f, k -> new HashSet<>()).add(key));
+      fields.stream().filter(f -> !(f instanceof UserDefinedField)).forEach(f -> map.computeIfAbsent(f, k -> new HashSet<>()).add(key));
    }
 
    private String getTypeFullName(FieldType field)
