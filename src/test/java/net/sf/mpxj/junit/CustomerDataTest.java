@@ -41,6 +41,7 @@ import java.util.function.Consumer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Before;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ProjectFile;
@@ -251,6 +252,7 @@ public class CustomerDataTest
    {
       if (useFieldReporter())
       {
+         TEST_COUNT = 0;
          FIELD_REPORTER.clear();
       }
    }
@@ -260,16 +262,24 @@ public class CustomerDataTest
     */
    @AfterClass public static void generateFieldReport() throws Exception
    {
-      if (useFieldReporter())
+      if (useFieldReporter() && TEST_COUNT == 12)
       {
          FIELD_REPORTER.report("mkdocs/docs/field-guide.md");
          FIELD_REPORTER.reportMpp("mkdocs/docs/mpp-field-guide.md");
       }
    }
 
+   /**
+    * Increment the counter for the number of tests run.
+    */
+   @Before public void incrementTestCount()
+   {
+      ++TEST_COUNT;
+   }
+
    private static boolean useFieldReporter()
    {
-      return OS_IS_WINDOWS && !JvmHelper.isIkvm();
+      return !JvmHelper.isIkvm();
    }
 
    /**
@@ -707,6 +717,7 @@ public class CustomerDataTest
    private static File DIFF_BASELINE_DIR;
    private static File DIFF_TEST_DIR;
 
+   private static int TEST_COUNT;
    private static final boolean OS_IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
    private static final FieldReporter FIELD_REPORTER = new FieldReporter();
    private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);

@@ -81,7 +81,7 @@ Minutes per Month|✓|✓|✓|✓
 Minutes per Week|✓|✓|✓|✓
 Minutes per Year|✓|✓|✓|✓
 Multiple Critical Paths| |✓|✓|✓
-New Tasj Start Is Project Start|✓|✓|✓|✓
+New Task Start Is Project Start|✓|✓|✓|✓
 New Tasks Are Manual| |✓|✓|✓
 New Tasks Estimated|✓|✓|✓|✓
 PM Text|✓|✓|✓|✓
@@ -111,11 +111,11 @@ Baseline2 Date| |✓| |✓
 Baseline3 Date| |✓| |✓
 Baseline4 Date| |✓| |✓
 Baseline5 Date| |✓| |✓
-Baseline6 Date| |✓| | 
-Baseline7 Date| |✓| | 
-Baseline8 Date| |✓| | 
-Baseline9 Date| |✓| | 
-Baseline10 Date| | |✓| 
+Baseline6 Date| |✓| |✓
+Baseline7 Date| |✓| |✓
+Baseline8 Date| |✓| |✓
+Baseline9 Date| |✓| |✓
+Baseline10 Date| | |✓|✓
 Baseline Date| |✓|✓|✓
 
 ## Task
@@ -125,6 +125,7 @@ Field|MPP8|MPP9|MPP12|MPP14
 % Complete|✓|✓|✓|✓
 % Work Complete|✓|✓|✓|✓
 Active|✓|✓|✓|✓
+Activity Codes|✓|✓|✓|✓
 Actual Cost|✓|✓|✓|✓
 Actual Duration|✓|✓|✓|✓
 Actual Duration Units| |✓|✓|✓
@@ -148,13 +149,14 @@ Created|✓|✓|✓|✓
 Critical|✓|✓|✓|✓
 Deadline| |✓|✓|✓
 Duration|✓|✓|✓|✓
-Duration Units| |✓|✓| 
+Duration Units| |✓|✓|✓
 Duration Variance|✓|✓|✓|✓
 Early Finish|✓|✓|✓|✓
 Early Start|✓|✓|✓|✓
 Earned Value Method| | |✓|✓
 Effort Driven|✓|✓|✓|✓
 Estimated| |✓|✓|✓
+Expense Items|✓|✓|✓|✓
 External Task| |✓|✓|✓
 Finish|✓|✓|✓|✓
 Finish Slack|✓|✓|✓|✓
@@ -211,6 +213,7 @@ Sprint ID| | | |✓
 Start|✓|✓|✓|✓
 Start Slack|✓|✓|✓|✓
 Start Variance|✓|✓|✓|✓
+Steps|✓|✓|✓|✓
 Stop|✓|✓|✓|✓
 Subproject| |✓|✓|✓
 Subproject File| |✓| | 
@@ -360,7 +363,7 @@ Baseline Fixed Cost Accrual| | |✓|✓
 Baseline Start|✓|✓|✓|✓
 Baseline Work|✓|✓|✓|✓
 
-### Extended Fields
+### Custom Fields
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Cost1| |✓|✓|✓
@@ -517,80 +520,6 @@ Text30| |✓|✓|✓
 ### Enterprise Fields
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
-Enterprise Custom Field 2| | |✓|✓
-Enterprise Custom Field 3| | |✓|✓
-Enterprise Custom Field 4| | |✓|✓
-Enterprise Custom Field 5| | |✓| 
-Enterprise Custom Field 6| | |✓| 
-Enterprise Custom Field 9| | |✓| 
-Enterprise Custom Field 10| | |✓| 
-Enterprise Custom Field 19| | | |✓
-Enterprise Custom Field 20| | | |✓
-Enterprise Custom Field 21| | | |✓
-Enterprise Custom Field 22| | |✓|✓
-Enterprise Custom Field 23| | |✓|✓
-Enterprise Custom Field 24| | | |✓
-Enterprise Custom Field 26| | | |✓
-Enterprise Custom Field 27| | | |✓
-Enterprise Custom Field 34| | | |✓
-Enterprise Custom Field 36| | | |✓
-Enterprise Custom Field 37| | | |✓
-Enterprise Custom Field 38| | | |✓
-Enterprise Custom Field 39| | | |✓
-Enterprise Custom Field 40| | | |✓
-Enterprise Custom Field 41| | | |✓
-Enterprise Custom Field 44| | | |✓
-Enterprise Custom Field 45| | | |✓
-Enterprise Custom Field 46| | | |✓
-Enterprise Custom Field 47| | | |✓
-Enterprise Custom Field 52| | | |✓
-Enterprise Custom Field 53| | |✓|✓
-Enterprise Custom Field 54| | | |✓
-Enterprise Custom Field 55| | | |✓
-Enterprise Custom Field 56| | | |✓
-Enterprise Custom Field 57| | | |✓
-Enterprise Custom Field 58| | | |✓
-Enterprise Custom Field 59| | | |✓
-Enterprise Custom Field 60| | |✓| 
-Enterprise Custom Field 61| | |✓|✓
-Enterprise Custom Field 62| | |✓| 
-Enterprise Custom Field 64| | | |✓
-Enterprise Custom Field 65| | |✓|✓
-Enterprise Custom Field 66| | |✓| 
-Enterprise Custom Field 67| | |✓| 
-Enterprise Custom Field 68| | |✓| 
-Enterprise Custom Field 80| | | |✓
-Enterprise Custom Field 83| | | |✓
-Enterprise Custom Field 91| | | |✓
-Enterprise Custom Field 93| | | |✓
-Enterprise Custom Field 96| | | |✓
-Enterprise Custom Field 98| | | |✓
-Enterprise Custom Field 99| | | |✓
-Enterprise Custom Field 100| | | |✓
-Enterprise Custom Field 104| | | |✓
-Enterprise Custom Field 105| | | |✓
-Enterprise Custom Field 111| | | |✓
-Enterprise Custom Field 112| | | |✓
-Enterprise Custom Field 114| | | |✓
-Enterprise Custom Field 115| | | |✓
-Enterprise Custom Field 116| | | |✓
-Enterprise Custom Field 117| | | |✓
-Enterprise Custom Field 118| | | |✓
-Enterprise Custom Field 120| | | |✓
-Enterprise Custom Field 130| | | |✓
-Enterprise Custom Field 131| | | |✓
-Enterprise Custom Field 135| | | |✓
-Enterprise Custom Field 136| | | |✓
-Enterprise Custom Field 137| | | |✓
-Enterprise Custom Field 141| | | |✓
-Enterprise Custom Field 142| | | |✓
-Enterprise Custom Field 145| | | |✓
-Enterprise Custom Field 160| | | |✓
-Enterprise Custom Field 161| | | |✓
-Enterprise Custom Field 162| | | |✓
-Enterprise Custom Field 163| | | |✓
-Enterprise Custom Field 174| | | |✓
-Enterprise Custom Field 196| | | |✓
 Enterprise Data| |✓| | 
 Enterprise Duration1 Units| | |✓|✓
 Enterprise Duration2 Units| | |✓|✓
@@ -648,6 +577,7 @@ Booking Type| | |✓|✓
 Budget| | |✓|✓
 Budget Cost| |✓|✓|✓
 Budget Work| | |✓|✓
+Calculate Costs From Units|✓|✓|✓|✓
 Calendar GUID| | |✓|✓
 Calendar Unique ID|✓|✓|✓|✓
 Code| |✓|✓|✓
@@ -746,7 +676,7 @@ Baseline Budget Work| | | |✓
 Baseline Cost| |✓|✓|✓
 Baseline Work|✓|✓|✓|✓
 
-### Extended Fields
+### Custom Fields
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Cost1| |✓|✓|✓
@@ -904,19 +834,6 @@ Text30| |✓|✓|✓
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Enterprise| | |✓|✓
-Enterprise Custom Field 3| | |✓| 
-Enterprise Custom Field 4| | |✓| 
-Enterprise Custom Field 5| | |✓| 
-Enterprise Custom Field 6| | |✓| 
-Enterprise Custom Field 7| | |✓| 
-Enterprise Custom Field 8| | |✓| 
-Enterprise Custom Field 9| | |✓|✓
-Enterprise Custom Field 10| | |✓| 
-Enterprise Custom Field 11| | |✓| 
-Enterprise Custom Field 12| | |✓|✓
-Enterprise Custom Field 13| | |✓| 
-Enterprise Custom Field 18| | | |✓
-Enterprise Custom Field 20| | | |✓
 Enterprise Data| |✓| | 
 Enterprise Duration1 Units| | |✓|✓
 Enterprise Duration2 Units| | |✓|✓
@@ -941,13 +858,14 @@ Actual Overtime Work| |✓|✓|✓
 Actual Start| |✓|✓|✓
 Actual Work|✓|✓|✓|✓
 Actual Work Protected| | |✓| 
-Assignment Delay| |✓|✓| 
+Assignment Delay| |✓|✓|✓
 Assignment GUID| | |✓|✓
 Assignment Resource GUID| | |✓|✓
 Assignment Task GUID| | |✓|✓
 Assignment Units|✓|✓|✓|✓
 Budget Cost| | |✓|✓
 Budget Work| | |✓|✓
+Calculate Costs From Units|✓|✓|✓|✓
 Confirmed| |✓|✓|✓
 Cost|✓|✓|✓|✓
 Cost Rate Table| |✓|✓|✓
@@ -1070,20 +988,20 @@ Timephased Baseline4 Cost| |✓| |✓
 Timephased Baseline4 Work| |✓| |✓
 Timephased Baseline5 Cost| |✓| |✓
 Timephased Baseline5 Work| |✓| |✓
-Timephased Baseline6 Cost| |✓| | 
-Timephased Baseline6 Work| |✓| | 
-Timephased Baseline7 Cost| |✓| | 
-Timephased Baseline7 Work| |✓| | 
-Timephased Baseline8 Cost| |✓| | 
-Timephased Baseline8 Work| |✓| | 
-Timephased Baseline9 Cost| |✓| | 
-Timephased Baseline9 Work| |✓| | 
-Timephased Baseline10 Cost| |✓|✓| 
-Timephased Baseline10 Work| |✓|✓| 
+Timephased Baseline6 Cost| |✓| |✓
+Timephased Baseline6 Work| |✓| |✓
+Timephased Baseline7 Cost| |✓| |✓
+Timephased Baseline7 Work| |✓| |✓
+Timephased Baseline8 Cost| |✓| |✓
+Timephased Baseline8 Work| |✓| |✓
+Timephased Baseline9 Cost| |✓| |✓
+Timephased Baseline9 Work| |✓| |✓
+Timephased Baseline10 Cost| |✓|✓|✓
+Timephased Baseline10 Work| |✓|✓|✓
 Timephased Baseline Cost| |✓|✓|✓
 Timephased Baseline Work| |✓|✓|✓
 
-### Extended Fields
+### Custom Fields
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Cost1| |✓|✓|✓
