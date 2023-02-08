@@ -67,18 +67,6 @@ public abstract class ProjectCalendarDays
    }
 
    /**
-    * Retrieve an array representing all of the calendar hours defined
-    * by this calendar.
-    *
-    * @return array of calendar hours
-    * @deprecated use {@code getCalendarHours}
-    */
-   @Deprecated public ProjectCalendarHours[] getHours()
-   {
-      return m_hours;
-   }
-
-   /**
     * This is a convenience method used to add a default set of calendar
     * hours to a calendar.
     */
@@ -145,36 +133,6 @@ public abstract class ProjectCalendarDays
    }
 
    /**
-    * Retrieve an array representing the days of the week for this calendar.
-    *
-    * @return array of days of the week
-    * @deprecated use {@code getDayType}
-    */
-   @Deprecated public DayType[] getDays()
-   {
-      return m_days;
-   }
-
-   /**
-    * This method allows the retrieval of the actual working day flag,
-    * which can take the values DEFAULT, WORKING, or NONWORKING. This differs
-    * from the isWorkingDay method as it retrieves the actual flag value.
-    * The isWorkingDay method will always refer back to the base calendar
-    * to get a boolean value if the underlying flag value is DEFAULT. If
-    * isWorkingDay were the only method available to access this flag,
-    * it would not be possible to determine that a resource calendar
-    * had one or more flags set to DEFAULT.
-    *
-    * @param day required day
-    * @return value of underlying working day flag
-    * @deprecated use {@code getCalendarDayType}
-    */
-   @Deprecated public DayType getWorkingDay(Day day)
-   {
-      return m_days[day.getValue() - 1];
-   }
-
-   /**
     * This method allows the retrieval of the actual working day flag,
     * which can take the values DEFAULT, WORKING, or NONWORKING. This differs
     * from the isWorkingDay method as it retrieves the actual flag value.
@@ -202,32 +160,6 @@ public abstract class ProjectCalendarDays
    public void setWorkingDay(Day day, boolean working)
    {
       setCalendarDayType(day, (working ? DayType.WORKING : DayType.NON_WORKING));
-   }
-
-   /**
-    * This is a convenience method provided to allow a day to be set
-    * as working or non-working, by using the day number to
-    * identify the required day.
-    *
-    * @param day required day
-    * @param working flag indicating if the day is a working day
-    * @deprecated use {@code setDayType}
-    */
-   @Deprecated public void setWorkingDay(Day day, DayType working)
-   {
-      m_days[day.getValue() - 1] = working;
-   }
-
-   /**
-    * Set the type of a given day.
-    *
-    * @param day required day
-    * @param type day type flag
-    * @deprecated use {@code setCalendarDayType}
-    */
-   @Deprecated public void setDayType(Day day, DayType type)
-   {
-      setCalendarDayType(day, type);
    }
 
    /**
@@ -264,9 +196,7 @@ public abstract class ProjectCalendarDays
             break;
          }
 
-         // Ideally we'd provide default hours here, but that causes backward compatibility issue
-         // We can deal with  this when we remove deprecated methods ready for version 11.0.0.
-         // TODO: Update implementation to derive DayType from hours in MPXJ 11.0.0
+         // TODO: Update implementation to derive DayType from hours
          case WORKING:
          {
             //            // Ensure working days have some hours

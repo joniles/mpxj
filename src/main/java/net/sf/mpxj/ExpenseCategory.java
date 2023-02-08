@@ -66,17 +66,6 @@ public class ExpenseCategory implements ProjectEntityWithUniqueID
     * Retrieve the sequence number.
     *
     * @return sequence number
-    * @deprecated use getSequenceNumber
-    */
-   @Deprecated public Integer getSequence()
-   {
-      return m_sequenceNumber;
-   }
-
-   /**
-    * Retrieve the sequence number.
-    *
-    * @return sequence number
     */
    public Integer getSequenceNumber()
    {

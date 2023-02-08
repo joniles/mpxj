@@ -39,46 +39,9 @@ public class ProjectCalendarHours extends AbstractList<DateRange>
       return m_ranges.add(range);
    }
 
-   /**
-    * Add a date range to the list of date ranges.
-    *
-    * @param range date range
-    * @deprecated use {@code add}
-    */
-   @Deprecated public void addRange(DateRange range)
-   {
-      add(range);
-   }
-
-   /**
-    * Retrieve the date range at the specified index.
-    * The index is zero based, and this method will return
-    * null if the requested date range does not exist.
-    *
-    * @param index range index
-    * @return date range instance
-    * @deprecated use {@code get}
-    */
-   @Deprecated public DateRange getRange(int index)
-   {
-      return get(index);
-   }
-
    @Override public DateRange set(int index, DateRange value)
    {
       return m_ranges.set(index, value);
-   }
-
-   /**
-    * Replace a date range at the specified index.
-    *
-    * @param index range index
-    * @param value DateRange instance
-    * @deprecated use {@code set}
-    */
-   @Deprecated public void setRange(int index, DateRange value)
-   {
-      set(index, value);
    }
 
    @Override public DateRange get(int index)
@@ -110,17 +73,6 @@ public class ProjectCalendarHours extends AbstractList<DateRange>
    @Override public int size()
    {
       return m_ranges.size();
-   }
-
-   /**
-    * Returns the number of date ranges associated with this instance.
-    *
-    * @return number of date ranges
-    * @deprecated use {@code size}
-    */
-   @Deprecated public int getRangeCount()
-   {
-      return size();
    }
 
    @Override public void clear()

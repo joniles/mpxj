@@ -369,9 +369,6 @@
 
 		<replace dir="${ikvm.src.dir}" token="public final class " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}                       public final class ">
 			<include name="**/*.java" />
-			<!-- Deprecated classes. TODO: remove this when classes removed -->
-			<exclude name="**/AstaDatabaseReader.java" />
-			<exclude name="**/AstaDatabaseFileReader.java" />
 		</replace>
 
 		<replace dir="${ikvm.src.dir}" token="public interface " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}                       public interface ">

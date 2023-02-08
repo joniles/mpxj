@@ -749,17 +749,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
-    * Sets standard rate for this resource.
-    *
-    * @param val value
-    * @deprecated configure this value in a cost rate table
-    */
-   @Deprecated public void setStandardRate(Rate val)
-   {
-      // Deprecated method
-   }
-
-   /**
     * Gets Standard Rate field value.
     *
     * @return Rate
@@ -767,27 +756,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    public Rate getStandardRate()
    {
       return (Rate) get(ResourceField.STANDARD_RATE);
-   }
-
-   /**
-    * Sets the format of the standard rate.
-    *
-    * @param units standard rate format
-    */
-   @Deprecated public void setStandardRateUnits(TimeUnit units)
-   {
-      // Deprecated method
-   }
-
-   /**
-    * Retrieves the format of the standard rate.
-    *
-    * @return standard rate format
-    */
-   @Deprecated public TimeUnit getStandardRateUnits()
-   {
-      Rate rate = getStandardRate();
-      return rate == null ? TimeUnit.HOURS : rate.getUnits();
    }
 
    /**
@@ -811,17 +779,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
-    * Sets the overtime rate for this resource.
-    *
-    * @param overtimeRate overtime rate value
-    * @deprecated configure this value in a cost rate table
-    */
-   @Deprecated public void setOvertimeRate(Rate overtimeRate)
-   {
-      // Deprecated method
-   }
-
-   /**
     * Retrieves the overtime rate for this resource.
     *
     * @return overtime rate
@@ -829,27 +786,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    public Rate getOvertimeRate()
    {
       return (Rate) get(ResourceField.OVERTIME_RATE);
-   }
-
-   /**
-    * Sets the format of the overtime rate.
-    *
-    * @param units overtime rate format
-    */
-   @Deprecated public void setOvertimeRateUnits(TimeUnit units)
-   {
-      // Deprecated method
-   }
-
-   /**
-    * Retrieves the format of the overtime rate.
-    *
-    * @return overtime rate format
-    */
-   @Deprecated public TimeUnit getOvertimeRateUnits()
-   {
-      Rate rate = getOvertimeRate();
-      return rate == null ? TimeUnit.HOURS : rate.getUnits();
    }
 
    /**
@@ -870,17 +806,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    public void setOvertimeCost(Number currency)
    {
       set(ResourceField.OVERTIME_COST, currency);
-   }
-
-   /**
-    * Set the cost per use.
-    *
-    * @param costPerUse cost per use
-    * @deprecated configure this value in a cost rate table
-    */
-   @Deprecated public void setCostPerUse(Number costPerUse)
-   {
-      // Deprecated method
    }
 
    /**
@@ -1367,51 +1292,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
-    * This method retrieves the calendar associated with this resource.
-    *
-    * @return ProjectCalendar instance
-    * @deprecated use getCalendar
-    */
-   @Deprecated public ProjectCalendar getResourceCalendar()
-   {
-      return getCalendar();
-   }
-
-   /**
-    * This method allows a pre-existing resource calendar to be attached to a
-    * resource.
-    *
-    * @param calendar resource calendar
-    * @deprecated use setCalendar
-    */
-   @Deprecated public void setResourceCalendar(ProjectCalendar calendar)
-   {
-      setCalendar(calendar);
-   }
-
-   /**
-    * Set the calendar unique ID.
-    *
-    * @param id calendar unique ID
-    * @deprecated use setCalendarUniqueID
-    */
-   @Deprecated public void setResourceCalendarUniqueID(Integer id)
-   {
-      setCalendarUniqueID(id);
-   }
-
-   /**
-    * Retrieve the calendar unique ID.
-    *
-    * @return calendar unique ID
-    * @deprecated use getCalendarUniqueID
-    */
-   @Deprecated public Integer getResourceCalendarUniqueID()
-   {
-      return getCalendarUniqueID();
-   }
-
-   /**
     * This method allows a calendar to be added to a resource.
     *
     * @return ResourceCalendar
@@ -1434,18 +1314,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       calendar.setName(name);
       setCalendar(calendar);
       return calendar;
-   }
-
-   /**
-    * This method allows a calendar to be added to a resource.
-    *
-    * @return ResourceCalendar
-    * @throws MPXJException if more than one calendar is added
-    * @deprecated use addCalendar
-    */
-   @Deprecated public ProjectCalendar addResourceCalendar() throws MPXJException
-   {
-      return addCalendar();
    }
 
    /**
@@ -1623,28 +1491,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    @Override public Integer getUniqueID()
    {
       return (Integer) get(ResourceField.UNIQUE_ID);
-   }
-
-   /**
-    * Gets Parent ID field value.
-    *
-    * @return value
-    * @deprecated use getParentResourceUniqueID()
-    */
-   @Deprecated public Integer getParentID()
-   {
-      return getParentResourceUniqueID();
-   }
-
-   /**
-    * Sets Parent ID of this resource.
-    *
-    * @param val Parent ID
-    * @deprecated use setParentResourceUniqueID()
-    */
-   @Deprecated public void setParentID(Integer val)
-   {
-      setParentResourceUniqueID(val);
    }
 
    /**
@@ -1861,226 +1707,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    public String getOutlineCode(int index)
    {
       return (String) get(selectField(ResourceFieldLists.CUSTOM_OUTLINE_CODE, index));
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    * @deprecated use setOutlineCode(1, value)
-    */
-   @Deprecated public void setOutlineCode1(String value)
-   {
-      set(ResourceField.OUTLINE_CODE1, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    * @deprecated use getOutlineCode(1)
-    */
-   @Deprecated public String getOutlineCode1()
-   {
-      return (String) get(ResourceField.OUTLINE_CODE1);
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    * @deprecated use setOutlineCode(2, value)
-    */
-   @Deprecated public void setOutlineCode2(String value)
-   {
-      set(ResourceField.OUTLINE_CODE2, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    * @deprecated use getOutlineCode(2)
-    */
-   @Deprecated public String getOutlineCode2()
-   {
-      return (String) get(ResourceField.OUTLINE_CODE2);
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    * @deprecated use setOutlineCode(3, value)
-    */
-   @Deprecated public void setOutlineCode3(String value)
-   {
-      set(ResourceField.OUTLINE_CODE3, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    * @deprecated use getOutlineCode(3)
-    */
-   @Deprecated public String getOutlineCode3()
-   {
-      return (String) get(ResourceField.OUTLINE_CODE3);
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    * @deprecated use setOutlineCode(4, value)
-    */
-   @Deprecated public void setOutlineCode4(String value)
-   {
-      set(ResourceField.OUTLINE_CODE4, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    * @deprecated use getOutlineCode(4)
-    */
-   @Deprecated public String getOutlineCode4()
-   {
-      return (String) get(ResourceField.OUTLINE_CODE4);
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    * @deprecated use setOutlineCode(5, value)
-    */
-   @Deprecated public void setOutlineCode5(String value)
-   {
-      set(ResourceField.OUTLINE_CODE5, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    * @deprecated use getOutlineCode(5)
-    */
-   @Deprecated public String getOutlineCode5()
-   {
-      return (String) get(ResourceField.OUTLINE_CODE5);
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    * @deprecated use setOutlineCode(6, value)
-    */
-   @Deprecated public void setOutlineCode6(String value)
-   {
-      set(ResourceField.OUTLINE_CODE6, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    * @deprecated use getOutlineCode(6)
-    */
-   @Deprecated public String getOutlineCode6()
-   {
-      return (String) get(ResourceField.OUTLINE_CODE6);
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    * @deprecated use setOutlineCode(7, value)
-    */
-   @Deprecated public void setOutlineCode7(String value)
-   {
-      set(ResourceField.OUTLINE_CODE7, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    * @deprecated use getOutlineCode(7)
-    */
-   @Deprecated public String getOutlineCode7()
-   {
-      return (String) get(ResourceField.OUTLINE_CODE7);
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    * @deprecated use setOutlineCode(8, value)
-    */
-   @Deprecated public void setOutlineCode8(String value)
-   {
-      set(ResourceField.OUTLINE_CODE8, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    * @deprecated use getOutlineCode(8)
-    */
-   @Deprecated public String getOutlineCode8()
-   {
-      return (String) get(ResourceField.OUTLINE_CODE8);
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    * @deprecated use setOutlineCode(9, value)
-    */
-   @Deprecated public void setOutlineCode9(String value)
-   {
-      set(ResourceField.OUTLINE_CODE9, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    * @deprecated use getOutlineCode(9)
-    */
-   @Deprecated public String getOutlineCode9()
-   {
-      return (String) get(ResourceField.OUTLINE_CODE9);
-   }
-
-   /**
-    * Sets the value of an outline code field.
-    *
-    * @param value outline code value
-    * @deprecated use setOutlineCode(10, value)
-    */
-   @Deprecated public void setOutlineCode10(String value)
-   {
-      set(ResourceField.OUTLINE_CODE10, value);
-   }
-
-   /**
-    * Retrieves the value of an outline code field.
-    *
-    * @return outline code value
-    * @deprecated use getOutlineCode(10)
-    */
-   @Deprecated public String getOutlineCode10()
-   {
-      return (String) get(ResourceField.OUTLINE_CODE10);
    }
 
    /**

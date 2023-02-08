@@ -42,18 +42,6 @@ public class CustomFieldContainer implements Iterable<CustomField>
 {
    /**
     * Retrieve configuration details for a given field.
-    *
-    * @param field required field
-    * @return configuration detail
-    * @deprecated use getOrCreate
-    */
-   @Deprecated public CustomField getCustomField(FieldType field)
-   {
-      return getOrCreate(field);
-   }
-
-   /**
-    * Retrieve configuration details for a given field.
     * Return null if the field has not been configured.
     *
     * @param field target field type
@@ -87,19 +75,6 @@ public class CustomFieldContainer implements Iterable<CustomField>
       CustomField result = new CustomField(field, this);
       m_configMap.put(field, result);
       return result;
-   }
-
-   /**
-    * Retrieve a field type from a particular entity using its alias.
-    *
-    * @param typeClass the type of entity we are interested in
-    * @param alias the alias
-    * @return the field type referred to be the alias, or null if not found
-    * @deprecated use getFieldTypeByAlias
-    */
-   @Deprecated public FieldType getFieldByAlias(FieldTypeClass typeClass, String alias)
-   {
-      return getFieldTypeByAlias(typeClass, alias);
    }
 
    /**

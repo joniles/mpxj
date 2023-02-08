@@ -3646,28 +3646,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Task splits contain the time up to which the splits are completed.
-    *
-    * @return Duration of completed time for the splits.
-    * @deprecated use getCompleteThrough()
-    */
-   @Deprecated public Date getSplitCompleteDuration()
-   {
-      return getCompleteThrough();
-   }
-
-   /**
-    * Set the time up to which the splits are completed.
-    *
-    * @param splitsComplete Duration of completed time for the splits.
-    * @deprecated use setCompleteThrough
-    */
-   @Deprecated void setSplitCompleteDuration(Date splitsComplete)
-   {
-      setCompleteThrough(splitsComplete);
-   }
-
-   /**
     * Removes this task from the project.
     */
    public void remove()

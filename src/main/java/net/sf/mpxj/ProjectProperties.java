@@ -564,29 +564,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Sets the Calendar used. 'Standard' if no value is set.
-    *
-    * @param calendarName Calendar name
-    * @deprecated use `setDefaultCalendar()` or `setDefaultCalendarUniqueID()`
-    */
-   @Deprecated public void setDefaultCalendarName(String calendarName)
-   {
-      setDefaultCalendar(getParentFile().getCalendars().getByName(calendarName));
-   }
-
-   /**
-    * Gets the Calendar used. 'Standard' if no value is set.
-    *
-    * @return Calendar name
-    * @deprecated use `getDefaultCalendar().getName()`
-    */
-   @Deprecated public String getDefaultCalendarName()
-   {
-      ProjectCalendar defaultCalendar = getDefaultCalendar();
-      return defaultCalendar == null ? null : defaultCalendar.getName();
-   }
-
-   /**
     * Set the default calendar for this project.
     *
     * @param calendar default calendar
