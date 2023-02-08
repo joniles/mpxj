@@ -22,6 +22,7 @@
 			<action dev="joniles" type="update">The `getEnterpriseCustomField` and `setEnterpriseCustomField` methods have been removed from `ProjectProperties`, Task`, `Resource` and `ResourceAssignment`.</action>
 			<action dev="joniles" type="update">Project UDFs are now read from P6 schedules.</action>
 			<action dev="joniles" type="update">Project UDFs are now written to PMXML files.</action>
+			<action dev="joniles" type="update">All code previously marked as deprecated has been removed.</action>
 		</release>
 		<release date="2023-01-29" version="10.16.2">
 			<action dev="joniles" type="update">Updated to improve reading resource attributes from certain MPP14 files.</action>

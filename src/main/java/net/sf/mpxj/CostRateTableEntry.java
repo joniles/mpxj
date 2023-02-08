@@ -50,22 +50,6 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
    /**
     * Constructor.
     *
-    * @param standardRate standard rate
-    * @param standardRateFormat standard rate format
-    * @param overtimeRate overtime rate
-    * @param overtimeRateFormat overtime rate format
-    * @param costPerUse cost per use
-    * @param startDate start date
-    * @param endDate end date
-    */
-   @Deprecated public CostRateTableEntry(Rate standardRate, TimeUnit standardRateFormat, Rate overtimeRate, TimeUnit overtimeRateFormat, Number costPerUse, Date startDate, Date endDate)
-   {
-      this(startDate, endDate, costPerUse, standardRate, overtimeRate);
-   }
-
-   /**
-    * Constructor.
-    *
     * @param startDate    start date
     * @param endDate      end date
     * @param costPerUse   cost per use
@@ -122,16 +106,6 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
    }
 
    /**
-    * Retrieves the format used when displaying the standard rate.
-    *
-    * @return standard rate format
-    */
-   @Deprecated public TimeUnit getStandardRateFormat()
-   {
-      return getStandardRate().getUnits();
-   }
-
-   /**
     * Retrieves the overtime rate represented by this entry.
     *
     * @return overtime rate
@@ -139,16 +113,6 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
    public Rate getOvertimeRate()
    {
       return getRate(1);
-   }
-
-   /**
-    * Retrieves the format used when displaying the overtime rate.
-    *
-    * @return overtime rate format
-    */
-   @Deprecated public TimeUnit getOvertimeRateFormat()
-   {
-      return getOvertimeRate().getUnits();
    }
 
    /**

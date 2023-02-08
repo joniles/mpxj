@@ -177,17 +177,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * Set the number of minutes per day for this calendar.
     *
     * @param minutes number of minutes
-    * @deprecated use setCalendarMinutesPerDay
-    */
-   @Deprecated public void setMinutesPerDay(Integer minutes)
-   {
-      setCalendarMinutesPerDay(minutes);
-   }
-
-   /**
-    * Set the number of minutes per day for this calendar.
-    *
-    * @param minutes number of minutes
     */
    public void setCalendarMinutesPerDay(Integer minutes)
    {
@@ -202,17 +191,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    public Integer getCalendarMinutesPerDay()
    {
       return m_calendarMinutesPerDay;
-   }
-
-   /**
-    * Set the number of minutes per week for this calendar.
-    *
-    * @param minutes number of minutes
-    * @deprecated use setCalendarMinutesPerWeek
-    */
-   @Deprecated public void setMinutesPerWeek(Integer minutes)
-   {
-      setCalendarMinutesPerWeek(minutes);
    }
 
    /**
@@ -239,17 +217,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * Set the number of minutes per month for this calendar.
     *
     * @param minutes number of minutes
-    * @deprecated use setCalendarMinutesPerMonth
-    */
-   @Deprecated public void setMinutesPerMonth(Integer minutes)
-   {
-      setCalendarMinutesPerMonth(minutes);
-   }
-
-   /**
-    * Set the number of minutes per month for this calendar.
-    *
-    * @param minutes number of minutes
     */
    public void setCalendarMinutesPerMonth(Integer minutes)
    {
@@ -264,17 +231,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    public Integer getCalendarMinutesPerMonth()
    {
       return m_calendarMinutesPerMonth;
-   }
-
-   /**
-    * Set the number of minutes per year for this calendar.
-    *
-    * @param minutes number of minutes
-    * @deprecated use setCalendarMinutesPerYear
-    */
-   @Deprecated public void setMinutesPerYear(Integer minutes)
-   {
-      setCalendarMinutesPerYear(minutes);
    }
 
    /**
@@ -1268,17 +1224,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    }
 
    /**
-    * Retrieve the resource to which this calendar is linked.
-    *
-    * @return resource instance
-    * @deprecated use getResources method to find resources associated with this calendar
-    */
-   @Deprecated public Resource getResource()
-   {
-      return getResources().stream().findFirst().orElse(null);
-   }
-
-   /**
     * Retrieve the number of resources using this calendar.
     *
     * @return number of resources
@@ -1286,20 +1231,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    public int getResourceCount()
    {
       return (int) getParentFile().getResources().stream().filter(r -> m_uniqueID.equals(r.getCalendarUniqueID())).count();
-   }
-
-   /**
-    * Sets the resource to which this calendar is linked. Note that this
-    * method updates the calendar's name to be the same as the resource name.
-    * If the resource does not yet have a name, then the calendar is given
-    * a default name.
-    *
-    * @param resource resource instance
-    * @deprecated no longer required, will be removed without replacement
-    */
-   @Deprecated public void setResource(Resource resource)
-   {
-      // Deprecated - do nothing
    }
 
    /**
@@ -1896,153 +1827,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       pw.println("]");
       pw.flush();
       return (os.toString());
-   }
-
-   /**
-    * Create a calendar based on the intersection of a task calendar and a resource calendar.
-    *
-    * @param file the parent file to which this record belongs.
-    * @param taskCalendar task calendar to merge
-    * @param resourceCalendar resource calendar to merge
-    * @deprecated Removed without replacement
-    */
-   @Deprecated public ProjectCalendar(ProjectFile file, ProjectCalendar taskCalendar, ProjectCalendar resourceCalendar)
-   {
-      m_projectFile = file;
-
-      // Merge the exceptions
-
-      // Merge the hours
-      for (int i = 1; i <= 7; i++)
-      {
-         Day day = Day.getInstance(i);
-
-         // Set working/non-working days
-         setWorkingDay(day, taskCalendar.isWorkingDay(day) && resourceCalendar.isWorkingDay(day));
-
-         ProjectCalendarHours hours = addCalendarHours(day);
-
-         int taskIndex = 0;
-         int resourceIndex = 0;
-
-         ProjectCalendarHours taskHours = taskCalendar.getHours(day);
-         ProjectCalendarHours resourceHours = resourceCalendar.getHours(day);
-
-         DateRange range1;
-         DateRange range2;
-
-         Date start;
-         Date end;
-
-         Date start1;
-         Date start2;
-         Date end1;
-         Date end2;
-         while (true)
-         {
-            // Find next range start
-            if (taskHours.size() > taskIndex)
-            {
-               range1 = taskHours.get(taskIndex);
-            }
-            else
-            {
-               break;
-            }
-
-            if (resourceHours.size() > resourceIndex)
-            {
-               range2 = resourceHours.get(resourceIndex);
-            }
-            else
-            {
-               break;
-            }
-
-            start1 = range1.getStart();
-            start2 = range2.getStart();
-            end1 = range1.getEnd();
-            end2 = range2.getEnd();
-
-            // Get the later start
-            if (start1.compareTo(start2) > 0)
-            {
-               start = start1;
-            }
-            else
-            {
-               start = start2;
-            }
-
-            // Get the earlier end
-            if (end1.compareTo(end2) < 0)
-            {
-               end = end1;
-               taskIndex++;
-            }
-            else
-            {
-               end = end2;
-               resourceIndex++;
-            }
-
-            if (end != null && end.compareTo(start) > 0)
-            {
-               // Found a block
-               hours.add(new DateRange(start, end));
-            }
-         }
-      }
-      // For now just combine the exceptions. Probably overkill (although it would be more accurate) to also merge the exceptions.
-      m_exceptions.addAll(taskCalendar.getCalendarExceptions());
-      m_exceptions.addAll(resourceCalendar.getCalendarExceptions());
-      m_expandedExceptions.clear();
-      m_exceptionsSorted = false;
-
-      m_workWeeks.addAll(taskCalendar.getWorkWeeks());
-      m_workWeeks.addAll(resourceCalendar.getWorkWeeks());
-      m_weeksSorted = false;
-   }
-
-   /**
-    * Copy the settings from another calendar to this calendar.
-    *
-    * @param cal calendar data source
-    * @deprecated without replacement
-    */
-   @Deprecated public void copy(ProjectCalendar cal)
-   {
-      setName(cal.getName());
-      setParent(cal.getParent());
-
-      m_calendarMinutesPerDay = cal.m_calendarMinutesPerDay;
-      m_calendarMinutesPerWeek = cal.m_calendarMinutesPerWeek;
-      m_calendarMinutesPerMonth = cal.m_calendarMinutesPerMonth;
-      m_calendarMinutesPerYear = cal.m_calendarMinutesPerYear;
-
-      for (ProjectCalendarException ex : cal.m_exceptions)
-      {
-         ProjectCalendarException copyException = addCalendarException(ex.getFromDate(), ex.getToDate());
-         for (DateRange range : ex)
-         {
-            copyException.add(new DateRange(range.getStart(), range.getEnd()));
-         }
-      }
-
-      for (Day day : Day.values())
-      {
-         setCalendarDayType(day, cal.getCalendarDayType(day));
-
-         ProjectCalendarHours hours = getCalendarHours(day);
-         if (hours != null)
-         {
-            ProjectCalendarHours copyHours = cal.addCalendarHours(day);
-            for (DateRange range : hours)
-            {
-               copyHours.add(new DateRange(range.getStart(), range.getEnd()));
-            }
-         }
-      }
    }
 
    /**

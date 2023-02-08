@@ -99,7 +99,7 @@ public abstract class AbstractFieldContainer<T> extends ProjectEntity implements
       }
    }
 
-   @Override public Object get(FieldType field)
+   @SuppressWarnings("unchecked") @Override public Object get(FieldType field)
    {
       if (field == null)
       {
@@ -127,11 +127,6 @@ public abstract class AbstractFieldContainer<T> extends ProjectEntity implements
    @Override public Object getCachedValue(FieldType field)
    {
       return m_fields.get(field);
-   }
-
-   @Deprecated @Override public Object getCurrentValue(FieldType field)
-   {
-      return get(field);
    }
 
    @Override public void addFieldListener(FieldListener listener)

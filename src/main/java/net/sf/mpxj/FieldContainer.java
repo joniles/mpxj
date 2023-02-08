@@ -58,15 +58,6 @@ public interface FieldContainer
    public Object getCachedValue(FieldType field);
 
    /**
-    * Retrieve a field value.
-    *
-    * @param field field identifier
-    * @return field value
-    * @deprecated use get() instead
-    */
-   @Deprecated public Object getCurrentValue(FieldType field);
-
-   /**
     * Add a listener to receive field events.
     *
     * @param listener target listener

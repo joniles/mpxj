@@ -154,28 +154,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Returns true if the WBS attribute of a summary task
-    * contains a dot separated list representing the WBS hierarchy.
-    *
-    * @return true if WBS attribute is a hierarchy
-    */
-   @Deprecated public boolean getWbsIsFullPath()
-   {
-      return false;
-   }
-
-   /**
-    * Sets a flag indicating if the WBS attribute of a summary task
-    * contains a dot separated list representing the WBS hierarchy.
-    *
-    * @param wbsIsFullPath true if WBS attribute is a hierarchy
-    */
-   @Deprecated public void setWbsIsFullPath(boolean wbsIsFullPath)
-   {
-      // Empty block
-   }
-
-   /**
     * Retrieve a flag indicating if, when using `realAll` to retrieve all
     * projects from a file, cross project relations should be linked together.
     *
