@@ -57,6 +57,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.json.JsonWriter;
 import net.sf.mpxj.mpx.MPXWriter;
@@ -166,9 +167,13 @@ public class ProjectTreeController
       projectNode.add(groupsFolder);
       addGroups(groupsFolder, m_projectFile);
 
-      MpxjTreeNode customFieldsFolder = new MpxjTreeNode("Custom Fields");
-      projectNode.add(customFieldsFolder);
-      addCustomFields(customFieldsFolder, m_projectFile);
+      MpxjTreeNode userDefinedFields = new MpxjTreeNode("User Defined Fields");
+      projectNode.add(userDefinedFields);
+      addUserDefinedFields(userDefinedFields, m_projectFile);
+
+      MpxjTreeNode customFields = new MpxjTreeNode("Custom Fields");
+      projectNode.add(customFields);
+      addCustomFields(customFields, m_projectFile);
 
       MpxjTreeNode filtersFolder = new MpxjTreeNode("Filters");
       projectNode.add(filtersFolder);
@@ -435,7 +440,7 @@ public class ProjectTreeController
     * Add custom fields to the tree.
     *
     * @param parentNode parent tree node
-    * @param file custom fields container
+    * @param file parent project
     */
    private void addCustomFields(MpxjTreeNode parentNode, ProjectFile file)
    {
@@ -450,6 +455,32 @@ public class ProjectTreeController
       // Use a TreeMap to sort by name
       Map<String, CustomField> map = file.getCustomFields().stream().collect(Collectors.toMap(name, Function.identity(), (u, v) -> u, TreeMap::new));
       for (Map.Entry<String, CustomField> entry : map.entrySet())
+      {
+         MpxjTreeNode childNode = new MpxjTreeNode(entry.getValue())
+         {
+            @Override public String toString()
+            {
+               return entry.getKey();
+            }
+         };
+         parentNode.add(childNode);
+      }
+   }
+
+   /**
+    * Add user defined fields to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param file parent project
+    */
+   private void addUserDefinedFields(MpxjTreeNode parentNode, ProjectFile file)
+   {
+      // Function to generate a name for each user defined field
+      Function<UserDefinedField, String> name = f -> f.getFieldTypeClass().name() + " "+f.getName() + " (" + f.name() + " " + f.getDataType().name() + ")";
+
+      // Use a TreeMap to sort by name
+      Map<String, UserDefinedField> map = file.getUserDefinedFields().stream().collect(Collectors.toMap(name, Function.identity(), (u, v) -> u, TreeMap::new));
+      for (Map.Entry<String, UserDefinedField> entry : map.entrySet())
       {
          MpxjTreeNode childNode = new MpxjTreeNode(entry.getValue())
          {

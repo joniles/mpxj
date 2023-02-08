@@ -25,11 +25,14 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -37,12 +40,11 @@ import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResourceFieldLists;
-import net.sf.mpxj.listener.FieldListener;
 
 /**
  * This class represents a resource used in a project.
  */
-public final class Resource extends ProjectEntity implements Comparable<Resource>, ProjectEntityWithID, FieldContainer, ChildResourceContainer
+public final class Resource extends AbstractFieldContainer<Resource> implements Comparable<Resource>, ProjectEntityWithID, ChildResourceContainer
 {
    /**
     * Default constructor.
@@ -2180,7 +2182,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getEnterpriseCost(int index)
    {
-      return (Number) get(selectField(ResourceFieldLists.ENTERPRISE_COST, index));
+      return (Number) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_COST, index));
    }
 
    /**
@@ -2191,7 +2193,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseCost(int index, Number value)
    {
-      set(selectField(ResourceFieldLists.ENTERPRISE_COST, index), value);
+      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_COST, index), value);
    }
 
    /**
@@ -2202,7 +2204,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Date getEnterpriseDate(int index)
    {
-      return (Date) get(selectField(ResourceFieldLists.ENTERPRISE_DATE, index));
+      return (Date) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_DATE, index));
    }
 
    /**
@@ -2213,7 +2215,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseDate(int index, Date value)
    {
-      set(selectField(ResourceFieldLists.ENTERPRISE_DATE, index), value);
+      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_DATE, index), value);
    }
 
    /**
@@ -2224,7 +2226,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return (Duration) get(selectField(ResourceFieldLists.ENTERPRISE_DURATION, index));
+      return (Duration) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_DURATION, index));
    }
 
    /**
@@ -2235,7 +2237,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseDuration(int index, Duration value)
    {
-      set(selectField(ResourceFieldLists.ENTERPRISE_DURATION, index), value);
+      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_DURATION, index), value);
    }
 
    /**
@@ -2246,7 +2248,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return (BooleanHelper.getBoolean((Boolean) get(selectField(ResourceFieldLists.ENTERPRISE_FLAG, index))));
+      return (BooleanHelper.getBoolean((Boolean) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FLAG, index))));
    }
 
    /**
@@ -2257,7 +2259,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseFlag(int index, boolean value)
    {
-      set(selectField(ResourceFieldLists.ENTERPRISE_FLAG, index), value);
+      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FLAG, index), value);
    }
 
    /**
@@ -2268,7 +2270,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public Number getEnterpriseNumber(int index)
    {
-      return (Number) get(selectField(ResourceFieldLists.ENTERPRISE_NUMBER, index));
+      return (Number) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_NUMBER, index));
    }
 
    /**
@@ -2279,7 +2281,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseNumber(int index, Number value)
    {
-      set(selectField(ResourceFieldLists.ENTERPRISE_NUMBER, index), value);
+      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_NUMBER, index), value);
    }
 
    /**
@@ -2290,7 +2292,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public String getEnterpriseText(int index)
    {
-      return (String) get(selectField(ResourceFieldLists.ENTERPRISE_TEXT, index));
+      return (String) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_TEXT, index));
    }
 
    /**
@@ -2301,29 +2303,7 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    public void setEnterpriseText(int index, String value)
    {
-      set(selectField(ResourceFieldLists.ENTERPRISE_TEXT, index), value);
-   }
-
-   /**
-    * Retrieve an enterprise custom field value.
-    *
-    * @param index field index
-    * @return field value
-    */
-   public Object getEnterpriseCustomField(int index)
-   {
-      return get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
-   }
-
-   /**
-    * Set an enterprise custom field value.
-    *
-    * @param index field index
-    * @param value field value
-    */
-   public void setEnterpriseCustomField(int index, byte[] value)
-   {
-      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD, index), value);
+      set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_TEXT, index), value);
    }
 
    /**
@@ -2920,85 +2900,13 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return (fields[index - 1]);
    }
 
-   @Override public Object getCachedValue(FieldType field)
-   {
-      return (field == null ? null : m_array[field.getValue()]);
-   }
-
-   @Deprecated @Override public Object getCurrentValue(FieldType field)
-   {
-      return get(field);
-   }
-
-   @Override public Object get(FieldType field)
-   {
-      if (!(field instanceof ResourceField))
-      {
-         return null;
-      }
-
-      // Always calculated
-      switch ((ResourceField) field)
-      {
-         case STANDARD_RATE:
-         {
-            return calculateStandardRate();
-         }
-
-         case OVERTIME_RATE:
-         {
-            return calculateOvertimeRate();
-         }
-
-         case COST_PER_USE:
-         {
-            return calculateCostPerUse();
-         }
-
-         default:
-         {
-            break;
-         }
-      }
-
-      Object result = m_array[field.getValue()];
-      if (result == null)
-      {
-         Function<Resource, Object> f = CALCULATED_FIELD_MAP.get(field);
-         if (f != null)
-         {
-            result = f.apply(this);
-            if (result != null)
-            {
-               set(field, result);
-            }
-         }
-      }
-
-      return result;
-   }
-
-   @Override public void set(FieldType field, Object value)
-   {
-      if (field != null)
-      {
-         int index = field.getValue();
-         if (m_eventsEnabled)
-         {
-            invalidateCache(field, value);
-            fireFieldChangeEvent(field, m_array[index], value);
-         }
-         m_array[index] = value;
-      }
-   }
-
    /**
     * Clear any cached calculated values which will be affected by this change.
     *
     * @param field modified field
     * @param newValue new value
     */
-   private void invalidateCache(FieldType field, Object newValue)
+   @Override protected void invalidateCache(FieldType field, Object newValue)
    {
       if (field == ResourceField.UNIQUE_ID)
       {
@@ -3018,36 +2926,14 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
    }
 
-   /**
-    * Send a change event to any external listeners.
-    *
-    * @param field field changed
-    * @param oldValue old field value
-    * @param newValue new field value
-    */
-   private void fireFieldChangeEvent(FieldType field, Object oldValue, Object newValue)
+   @Override protected boolean getAlwaysCalculatedField(FieldType field)
    {
-      if (m_listeners != null)
-      {
-         m_listeners.forEach(l -> l.fieldChange(this, field, oldValue, newValue));
-      }
+      return ALWAYS_CALCULATED_FIELDS.contains(field);
    }
 
-   @Override public void addFieldListener(FieldListener listener)
+   @Override protected Function<Resource, Object> getCalculationMethod(FieldType field)
    {
-      if (m_listeners == null)
-      {
-         m_listeners = new ArrayList<>();
-      }
-      m_listeners.add(listener);
-   }
-
-   @Override public void removeFieldListener(FieldListener listener)
-   {
-      if (m_listeners != null)
-      {
-         m_listeners.remove(listener);
-      }
+      return CALCULATED_FIELD_MAP.get(field);
    }
 
    /**
@@ -3170,22 +3056,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
    }
 
    /**
-    * Disable events firing when fields are updated.
-    */
-   public void disableEvents()
-   {
-      m_eventsEnabled = false;
-   }
-
-   /**
-    * Enable events firing when fields are updated. This is the default state.
-    */
-   public void enableEvents()
-   {
-      m_eventsEnabled = true;
-   }
-
-   /**
     * This method implements the only method in the Comparable interface. This
     * allows Resources to be compared and sorted based on their ID value. Note
     * that if the MPX/MPP file has been generated by MSP, the ID value will
@@ -3223,10 +3093,6 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       return ("[Resource id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + "]");
    }
 
-   /**
-    * Array of field values.
-    */
-   private final Object[] m_array = new Object[ResourceField.MAX_VALUE];
 
    /**
     * List of all assignments for this resource.
@@ -3239,13 +3105,13 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
     */
    private final List<Resource> m_children = new ArrayList<>();
 
-   private boolean m_eventsEnabled = true;
    private boolean m_null;
    private String m_activeDirectoryGUID;
 
    private final CostRateTable[] m_costRateTables;
    private final AvailabilityTable m_availability = new AvailabilityTable();
-   private List<FieldListener> m_listeners;
+
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(ResourceField.STANDARD_RATE, ResourceField.OVERTIME_RATE, ResourceField.COST_PER_USE));
 
    private static final Map<FieldType, Function<Resource, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
@@ -3255,6 +3121,9 @@ public final class Resource extends ProjectEntity implements Comparable<Resource
       CALCULATED_FIELD_MAP.put(ResourceField.CV, Resource::calculateCV);
       CALCULATED_FIELD_MAP.put(ResourceField.SV, Resource::calculateSV);
       CALCULATED_FIELD_MAP.put(ResourceField.OVERALLOCATED, Resource::calculateOverallocated);
+      CALCULATED_FIELD_MAP.put(ResourceField.STANDARD_RATE, Resource::calculateStandardRate);
+      CALCULATED_FIELD_MAP.put(ResourceField.OVERTIME_RATE, Resource::calculateOvertimeRate);
+      CALCULATED_FIELD_MAP.put(ResourceField.COST_PER_USE, Resource::calculateCostPerUse);
       CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
       CALCULATED_FIELD_MAP.put(ResourceField.ROLE, Resource::defaultRoleFlag);
       CALCULATED_FIELD_MAP.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, Resource::defaultCalculateCostsFromUnits);

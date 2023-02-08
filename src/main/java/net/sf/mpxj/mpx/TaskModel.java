@@ -26,14 +26,14 @@ package net.sf.mpxj.mpx;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.mpp.UserDefinedFieldMap;
 
 /**
  * This class represents the task table definition record in an MPX file.
@@ -48,10 +48,12 @@ final class TaskModel
     *
     * @param file the parent file to which this record belongs.
     * @param locale target locale
+    * @param userDefinedFieldMap user defined field map
     */
-   TaskModel(ProjectFile file, Locale locale)
+   TaskModel(ProjectFile file, Locale locale, UserDefinedFieldMap userDefinedFieldMap)
    {
       m_parentFile = file;
+      m_userDefinedFieldMap = userDefinedFieldMap;
       setLocale(locale);
    }
 
@@ -172,35 +174,24 @@ final class TaskModel
     * @param field target field
     * @return true if the field contains data
     */
-   @SuppressWarnings("unchecked") private boolean isFieldPopulated(Task task, TaskField field)
+   private boolean isFieldPopulated(Task task, FieldType field)
    {
       boolean result = false;
       if (field != null)
       {
+         field = m_userDefinedFieldMap == null ? field : m_userDefinedFieldMap.getSource(field);
          Object value = task.get(field);
-         switch (field)
+
+         // We never write these fields to the task record.
+         // We only write a predecessor entry rather than the successors entry
+         // We write notes as a separate record
+         if (field == TaskField.NOTES || field == TaskField.SUCCESSORS)
          {
-            // We never write these fields to the task record.
-            // We only write a predecessor entry rather than the successors entry
-            // We write notes as a separate record
-            case NOTES:
-            case SUCCESSORS:
-            {
-               result = false;
-               break;
-            }
-
-            case PREDECESSORS:
-            {
-               result = value != null && !((List<Relation>) value).isEmpty();
-               break;
-            }
-
-            default:
-            {
-               result = ModelUtility.isFieldPopulated(field, value);
-               break;
-            }
+            result = false;
+         }
+         else
+         {
+            result = ModelUtility.isFieldPopulated(field, value);
          }
       }
       return result;
@@ -308,4 +299,5 @@ final class TaskModel
     * Map used to store task field numbers.
     */
    private final HashMap<String, Integer> m_taskNumbers = new HashMap<>();
+   private final UserDefinedFieldMap m_userDefinedFieldMap;
 }

@@ -28,9 +28,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -39,12 +41,11 @@ import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.TaskFieldLists;
-import net.sf.mpxj.listener.FieldListener;
 
 /**
  * This class represents a task record from a project file.
  */
-public final class Task extends ProjectEntity implements Comparable<Task>, ProjectEntityWithID, FieldContainer, ChildTaskContainer
+public final class Task extends AbstractFieldContainer<Task> implements Comparable<Task>, ProjectEntityWithID, ChildTaskContainer
 {
    /**
     * Default constructor.
@@ -3702,7 +3703,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Number getEnterpriseCost(int index)
    {
-      return (Number) get((selectField(TaskFieldLists.ENTERPRISE_COST, index)));
+      return (Number) get((selectField(TaskFieldLists.ENTERPRISE_CUSTOM_COST, index)));
    }
 
    /**
@@ -3713,7 +3714,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEnterpriseCost(int index, Number value)
    {
-      set(selectField(TaskFieldLists.ENTERPRISE_COST, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_COST, index), value);
    }
 
    /**
@@ -3724,7 +3725,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Date getEnterpriseDate(int index)
    {
-      return (Date) get((selectField(TaskFieldLists.ENTERPRISE_DATE, index)));
+      return (Date) get((selectField(TaskFieldLists.ENTERPRISE_CUSTOM_DATE, index)));
    }
 
    /**
@@ -3735,7 +3736,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEnterpriseDate(int index, Date value)
    {
-      set(selectField(TaskFieldLists.ENTERPRISE_DATE, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_DATE, index), value);
    }
 
    /**
@@ -3746,7 +3747,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return (Duration) get((selectField(TaskFieldLists.ENTERPRISE_DURATION, index)));
+      return (Duration) get((selectField(TaskFieldLists.ENTERPRISE_CUSTOM_DURATION, index)));
    }
 
    /**
@@ -3757,7 +3758,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEnterpriseDuration(int index, Duration value)
    {
-      set(selectField(TaskFieldLists.ENTERPRISE_DURATION, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_DURATION, index), value);
    }
 
    /**
@@ -3768,7 +3769,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return (BooleanHelper.getBoolean((Boolean) get(selectField(TaskFieldLists.ENTERPRISE_FLAG, index))));
+      return (BooleanHelper.getBoolean((Boolean) get(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_FLAG, index))));
    }
 
    /**
@@ -3779,7 +3780,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEnterpriseFlag(int index, boolean value)
    {
-      set(selectField(TaskFieldLists.ENTERPRISE_FLAG, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_FLAG, index), value);
    }
 
    /**
@@ -3790,7 +3791,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public Number getEnterpriseNumber(int index)
    {
-      return (Number) get((selectField(TaskFieldLists.ENTERPRISE_NUMBER, index)));
+      return (Number) get((selectField(TaskFieldLists.ENTERPRISE_CUSTOM_NUMBER, index)));
    }
 
    /**
@@ -3801,7 +3802,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEnterpriseNumber(int index, Number value)
    {
-      set(selectField(TaskFieldLists.ENTERPRISE_NUMBER, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_NUMBER, index), value);
    }
 
    /**
@@ -3812,7 +3813,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public String getEnterpriseText(int index)
    {
-      return (String) get((selectField(TaskFieldLists.ENTERPRISE_TEXT, index)));
+      return (String) get((selectField(TaskFieldLists.ENTERPRISE_CUSTOM_TEXT, index)));
    }
 
    /**
@@ -3823,29 +3824,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    public void setEnterpriseText(int index, String value)
    {
-      set(selectField(TaskFieldLists.ENTERPRISE_TEXT, index), value);
-   }
-
-   /**
-    * Retrieve an enterprise custom field value.
-    *
-    * @param index field index
-    * @return field value
-    */
-   public Object getEnterpriseCustomField(int index)
-   {
-      return get(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
-   }
-
-   /**
-    * Set an enterprise custom field value.
-    *
-    * @param index field index
-    * @param value field value
-    */
-   public void setEnterpriseCustomField(int index, byte[] value)
-   {
-      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_FIELD, index), value);
+      set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_TEXT, index), value);
    }
 
    /**
@@ -5409,66 +5388,12 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return (fields[index - 1]);
    }
 
-   @Override public Object getCachedValue(FieldType field)
-   {
-      return (field == null ? null : m_array[field.getValue()]);
-   }
-
-   @Deprecated @Override public Object getCurrentValue(FieldType field)
-   {
-      return get(field);
-   }
-
-   @Override public Object get(FieldType field)
-   {
-      if (field == null)
-      {
-         return null;
-      }
-
-      // Always calculated
-      if (field == TaskField.PARENT_TASK_UNIQUE_ID)
-      {
-         return getParentTaskUniqueID();
-      }
-
-      Object result = m_array[field.getValue()];
-      if (result == null)
-      {
-         Function<Task, Object> f = CALCULATED_FIELD_MAP.get(field);
-         if (f != null)
-         {
-            result = f.apply(this);
-            if (result != null)
-            {
-               set(field, result);
-            }
-         }
-      }
-
-      return result;
-   }
-
-   @Override public void set(FieldType field, Object value)
-   {
-      if (field != null)
-      {
-         int index = field.getValue();
-         if (m_eventsEnabled)
-         {
-            invalidateCache(field);
-            fireFieldChangeEvent(field, m_array[index], value);
-         }
-         m_array[index] = value;
-      }
-   }
-
    /**
     * Clear any cached calculated values which will be affected by this change.
     *
     * @param field modified field
     */
-   private void invalidateCache(FieldType field)
+   @Override void invalidateCache(FieldType field, Object newValue)
    {
       if (field == TaskField.UNIQUE_ID)
       {
@@ -5479,36 +5404,14 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
    }
 
-   /**
-    * Send a change event to any external listeners.
-    *
-    * @param field field changed
-    * @param oldValue old field value
-    * @param newValue new field value
-    */
-   private void fireFieldChangeEvent(FieldType field, Object oldValue, Object newValue)
+   @Override boolean getAlwaysCalculatedField(FieldType field)
    {
-      if (m_listeners != null)
-      {
-         m_listeners.forEach(l -> l.fieldChange(this, field, oldValue, newValue));
-      }
+      return ALWAYS_CALCULATED_FIELDS.contains(field);
    }
 
-   @Override public void addFieldListener(FieldListener listener)
+   @Override Function<Task, Object> getCalculationMethod(FieldType field)
    {
-      if (m_listeners == null)
-      {
-         m_listeners = new ArrayList<>();
-      }
-      m_listeners.add(listener);
-   }
-
-   @Override public void removeFieldListener(FieldListener listener)
-   {
-      if (m_listeners != null)
-      {
-         m_listeners.remove(listener);
-      }
+      return CALCULATED_FIELD_MAP.get(field);
    }
 
    /**
@@ -5583,23 +5486,7 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
       return result;
    }
 
-   /**
-    * Disable events firing when fields are updated.
-    */
-   public void disableEvents()
-   {
-      m_eventsEnabled = false;
-   }
-
-   /**
-    * Enable events firing when fields are updated. This is the default state.
-    */
-   public void enableEvents()
-   {
-      m_eventsEnabled = true;
-   }
-
-   private Integer getParentTaskUniqueID()
+   private Integer calculateParentTaskUniqueID()
    {
       return m_parent == null ? null : m_parent.getUniqueID();
    }
@@ -5886,11 +5773,6 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
    }
 
    /**
-    * Array of field values.
-    */
-   private final Object[] m_array = new Object[TaskField.MAX_VALUE];
-
-   /**
     * This is a reference to the parent task, as specified by the
     * outline level.
     */
@@ -5912,17 +5794,17 @@ public final class Task extends ProjectEntity implements Comparable<Task>, Proje
     */
    private RecurringTask m_recurringTask;
 
-   private boolean m_eventsEnabled = true;
    private boolean m_null;
    private boolean m_resumeValid;
    private String m_externalTaskProject;
    private boolean m_expanded = true;
-   private List<FieldListener> m_listeners;
+
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Collections.singletonList(TaskField.PARENT_TASK_UNIQUE_ID));
 
    private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
-      CALCULATED_FIELD_MAP.put(TaskField.PARENT_TASK_UNIQUE_ID, Task::getParentTaskUniqueID);
+      CALCULATED_FIELD_MAP.put(TaskField.PARENT_TASK_UNIQUE_ID, Task::calculateParentTaskUniqueID);
       CALCULATED_FIELD_MAP.put(TaskField.START_VARIANCE, Task::calculateStartVariance);
       CALCULATED_FIELD_MAP.put(TaskField.FINISH_VARIANCE, Task::calculateFinishVariance);
       CALCULATED_FIELD_MAP.put(TaskField.START_SLACK, Task::calculateStartSlack);

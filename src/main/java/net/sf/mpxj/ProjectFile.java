@@ -506,9 +506,9 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
-    * Retrieves the custom field configuration for this project.
+    * Retrieves the custom fields for this project.
     *
-    * @return custom field configuration
+    * @return custom fields
     */
    public CustomFieldContainer getCustomFields()
    {
@@ -553,6 +553,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    public CostAccountContainer getCostAccounts()
    {
       return m_costAccounts;
+   }
+
+   /**
+    * Retrieves the user defined fields available for this schedule.
+    *
+    * @return user defined fields
+    */
+   public UserDefinedFieldContainer getUserDefinedFields()
+   {
+      return m_userDefinedFields;
    }
 
    /**
@@ -701,11 +711,12 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final SubProjectContainer m_subProjects = new SubProjectContainer();
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
-   private final CustomFieldContainer m_customFields = new CustomFieldContainer(this);
+   private final CustomFieldContainer m_customFields = new CustomFieldContainer();
    private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer();
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
    private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
+   private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer();
    private final WorkContourContainer m_workContours = new WorkContourContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
 }

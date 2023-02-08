@@ -23,7 +23,13 @@
 
 package net.sf.mpxj.mpx;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.common.TaskFieldLists;
 
 /**
  * Utility class used to map between the integer values held in an MPX file
@@ -200,5 +206,11 @@ final class MPXTaskField
             MPXJ_MPX_ARRAY[field.getValue()] = loop;
          }
       }
+   }
+
+   public static final List<FieldType> CUSTOM_FIELDS = new ArrayList<>();
+   static
+   {
+      Arrays.stream(MPX_MPXJ_ARRAY).filter(TaskFieldLists.CUSTOM_FIELDS::contains).forEach(CUSTOM_FIELDS::add);
    }
 }

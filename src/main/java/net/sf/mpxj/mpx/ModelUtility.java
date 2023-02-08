@@ -23,9 +23,12 @@
 
 package net.sf.mpxj.mpx;
 
+import java.util.List;
+
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.Relation;
 
 /**
  * Common code used to create MPX task and resource models.
@@ -39,7 +42,7 @@ final class ModelUtility
     * @param value field value
     * @return true if the field has a non-default value
     */
-   public static boolean isFieldPopulated(FieldType field, Object value)
+   @SuppressWarnings("unchecked") public static boolean isFieldPopulated(FieldType field, Object value)
    {
       if (value == null)
       {
@@ -51,7 +54,7 @@ final class ModelUtility
       {
          case STRING:
          {
-            populated = !((String) value).isEmpty();
+            populated = !(value instanceof String) || !((String) value).isEmpty();
             break;
          }
 
@@ -65,7 +68,7 @@ final class ModelUtility
          case DURATION:
          case WORK:
          {
-            populated = value instanceof Duration && ((Duration) value).getDuration() != 0.0;
+            populated = !(value instanceof Duration) || ((Duration) value).getDuration() != 0.0;
             break;
          }
 
@@ -78,6 +81,12 @@ final class ModelUtility
          case BOOLEAN:
          {
             populated = ((Boolean) value).booleanValue();
+            break;
+         }
+
+         case RELATION_LIST:
+         {
+            populated = !((List<Relation>) value).isEmpty();
             break;
          }
 

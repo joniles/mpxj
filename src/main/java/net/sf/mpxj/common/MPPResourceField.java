@@ -24,11 +24,13 @@
 package net.sf.mpxj.common;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.UserDefinedField;
 
 /**
  * Utility class used to map between the integer values held in MS Project
@@ -41,28 +43,29 @@ public final class MPPResourceField
     * Retrieve an instance of the ResourceField class based on the data read from an
     * MS Project file.
     *
+    * @param project parent project
     * @param value value from an MS Project file
     * @return ResourceField instance
     */
-   public static FieldType getInstance(int value)
+   public static FieldType getInstance(ProjectFile project, int value)
    {
-      ResourceField result = null;
+      if ((value & 0x8000) != 0)
+      {
+         return project.getUserDefinedFields().getOrCreateResourceField(Integer.valueOf(value), (k)-> {
+            int id = (k.intValue() & 0xFFF) +1 ;
+            String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
+            String externalName = "Enterprise Custom Field " + id;
+            return new UserDefinedField(k, internalName, externalName, FieldTypeClass.RESOURCE, DataType.CUSTOM);
+         });
+      }
 
+      ResourceField result = null;
       if (value >= 0 && value < FIELD_ARRAY.length)
       {
          result = FIELD_ARRAY[value];
       }
-      else
-      {
-         if ((value & 0x8000) != 0)
-         {
-            int baseValue = ResourceField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-            int id = baseValue + (value & 0xFFF);
-            result = ResourceField.getInstance(id);
-         }
-      }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -74,12 +77,9 @@ public final class MPPResourceField
    public static int getID(FieldType value)
    {
       int result;
-
-      if (ENTERPRISE_CUSTOM_FIELDS.contains(value))
+      if (value instanceof UserDefinedField)
       {
-         int baseValue = ResourceField.ENTERPRISE_CUSTOM_FIELD1.getValue();
-         int id = value.getValue() - baseValue;
-         result = 0x8000 + id;
+         result = value.getValue();
       }
       else
       {
@@ -647,6 +647,4 @@ public final class MPPResourceField
    }
 
    public static final int RESOURCE_FIELD_BASE = 0x0C400000;
-
-   public static final Set<ResourceField> ENTERPRISE_CUSTOM_FIELDS = new HashSet<>(Arrays.asList(ResourceFieldLists.ENTERPRISE_CUSTOM_FIELD));
 }

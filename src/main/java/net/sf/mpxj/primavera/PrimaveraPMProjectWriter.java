@@ -322,29 +322,72 @@ final class PrimaveraPMProjectWriter
 
       for (FieldType type : m_userDefinedFields)
       {
-         CustomField cf = m_projectFile.getCustomFields().get(type);
-         String title = cf != null && cf.getAlias() != null && !cf.getAlias().isEmpty() ? cf.getAlias() : type.getName();
-         Integer uniqueID = cf == null ? Integer.valueOf(FieldTypeHelper.getFieldID(type)) : cf.getUniqueID();
+         CustomField field = m_projectFile.getCustomFields().get(type);
+         String title = field != null && field.getAlias() != null && !field.getAlias().isEmpty() ? field.getAlias() : type.getName();
+         Integer uniqueID = field == null ? Integer.valueOf(FieldTypeHelper.getFieldID(type)) : field.getUniqueID();
 
          DataType dataType = type.getDataType();
          if (dataType == DataType.CUSTOM)
          {
-            dataType = cf == null ? null : cf.getCustomFieldDataType();
-            if (dataType == null)
-            {
-               dataType = DataType.BINARY;
-            }
+            dataType = DataType.BINARY;
          }
 
          UDFTypeType udf = m_factory.createUDFTypeType();
          udf.setObjectId(uniqueID);
-         udf.setDataType(UserFieldDataType.inferUserFieldDataType(dataType));
-         udf.setSubjectArea(UserFieldDataType.inferUserFieldSubjectArea(type));
+         udf.setDataType(inferUserFieldDataType(dataType));
+         udf.setSubjectArea(inferUserFieldSubjectArea(type));
          udf.setTitle(title);
          fields.add(udf);
       }
 
       fields.sort(Comparator.comparing(UDFTypeType::getObjectId));
+   }
+
+   /**
+    * Infers the Primavera entity type based on the MPXJ field type.
+    *
+    * @author lsong
+    * @param fieldType MPXJ field type
+    * @return UDF subject area
+    */
+   private String inferUserFieldSubjectArea(FieldType fieldType)
+   {
+      String result = SUBJECT_AREA_MAP.get(fieldType.getFieldTypeClass());
+      if (result == null)
+      {
+         throw new RuntimeException("Unrecognized field type: " + fieldType);
+      }
+      return result;
+   }
+
+   /**
+    * Infers the Primavera user defined field data type from the MPXJ data type.
+    *
+    * @author kmahan
+    * @param dataType MPXJ data type
+    * @return string representation of data type
+    */
+   private String inferUserFieldDataType(DataType dataType)
+   {
+      switch (dataType)
+      {
+         case BINARY:
+         case STRING:
+         case DURATION:
+            return "Text";
+         case DATE:
+            return "Start Date";
+         case NUMERIC:
+            return "Double";
+         case BOOLEAN:
+         case INTEGER:
+         case SHORT:
+            return "Integer";
+         case CURRENCY:
+            return "Cost";
+         default:
+            throw new RuntimeException("Unconvertible data type: " + dataType);
+      }
    }
 
    /**
@@ -1581,17 +1624,13 @@ final class PrimaveraPMProjectWriter
             Object value = mpxj.getCachedValue(fieldType);
             if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
             {
-               CustomField cf = customFields.get(fieldType);
-               int uniqueID = cf == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(cf.getUniqueID());
+               CustomField field = customFields.get(fieldType);
+               int uniqueID = field == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(field.getUniqueID());
 
                DataType dataType = fieldType.getDataType();
                if (dataType == DataType.CUSTOM)
                {
-                  dataType = cf == null ? null : cf.getCustomFieldDataType();
-                  if (dataType == null)
-                  {
-                     dataType = DataType.BINARY;
-                  }
+                  dataType = DataType.BINARY;
                }
 
                UDFAssignmentType udf = m_factory.createUDFAssignmentType();
@@ -1924,11 +1963,14 @@ final class PrimaveraPMProjectWriter
 
    private Set<FieldType> getUserDefinedFieldsSet()
    {
-      // All user configured fields
+      // All custom fields with configuration
       Set<FieldType> set = m_projectFile.getCustomFields().stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
 
+      // All user defined fields
+      set.addAll(m_projectFile.getUserDefinedFields());
+
       // All custom fields with values
-      set.addAll(m_projectFile.getPopulatedFields().stream().filter(FieldLists.EXTENDED_FIELDS::contains).collect(Collectors.toSet()));
+      set.addAll(m_projectFile.getPopulatedFields().stream().filter(FieldLists.CUSTOM_FIELDS::contains).collect(Collectors.toSet()));
 
       // Remove unknown fields
       set.removeIf(f -> FieldTypeHelper.getFieldID(f) == -1);
@@ -2056,6 +2098,16 @@ final class PrimaveraPMProjectWriter
       RATE_SOURCE_MAP.put(RateSource.RESOURCE, "Resource");
       RATE_SOURCE_MAP.put(RateSource.OVERRIDE, "Override");
       RATE_SOURCE_MAP.put(RateSource.ROLE, "Role");
+   }
+
+   private static final Map<FieldTypeClass, String> SUBJECT_AREA_MAP = new HashMap<>();
+   static
+   {
+      SUBJECT_AREA_MAP.put(FieldTypeClass.TASK, "Activity");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.RESOURCE, "Resource");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.PROJECT, "Project");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Resource Assignment");
+      SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
    }
 
    private final ProjectFile m_projectFile;

@@ -25,12 +25,15 @@
 package net.sf.mpxj;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -38,12 +41,11 @@ import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.listener.FieldListener;
 
 /**
  * This class represents a resource assignment record from an MPX file.
  */
-public final class ResourceAssignment extends ProjectEntity implements ProjectEntityWithUniqueID, FieldContainer
+public final class ResourceAssignment extends AbstractFieldContainer<ResourceAssignment> implements ProjectEntityWithUniqueID
 {
    /**
     * Constructor.
@@ -1734,7 +1736,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setEnterpriseCost(int index, Number value)
    {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_COST, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_COST, index), value);
    }
 
    /**
@@ -1745,7 +1747,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getEnterpriseCost(int index)
    {
-      return (Number) get(selectField(AssignmentFieldLists.ENTERPRISE_COST, index));
+      return (Number) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_COST, index));
    }
 
    /**
@@ -1756,7 +1758,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setEnterpriseDate(int index, Date value)
    {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_DATE, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_DATE, index), value);
    }
 
    /**
@@ -1767,7 +1769,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Date getEnterpriseDate(int index)
    {
-      return (Date) get(selectField(AssignmentFieldLists.ENTERPRISE_DATE, index));
+      return (Date) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_DATE, index));
    }
 
    /**
@@ -1778,7 +1780,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setEnterpriseDuration(int index, Duration value)
    {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_DURATION, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_DURATION, index), value);
    }
 
    /**
@@ -1789,7 +1791,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Duration getEnterpriseDuration(int index)
    {
-      return (Duration) get(selectField(AssignmentFieldLists.ENTERPRISE_DURATION, index));
+      return (Duration) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_DURATION, index));
    }
 
    /**
@@ -1800,7 +1802,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setEnterpriseFlag(int index, boolean value)
    {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_FLAG, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FLAG, index), value);
    }
 
    /**
@@ -1811,7 +1813,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public boolean getEnterpriseFlag(int index)
    {
-      return BooleanHelper.getBoolean((Boolean) get(selectField(AssignmentFieldLists.ENTERPRISE_FLAG, index)));
+      return BooleanHelper.getBoolean((Boolean) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FLAG, index)));
    }
 
    /**
@@ -1822,7 +1824,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setEnterpriseNumber(int index, Number value)
    {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_NUMBER, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_NUMBER, index), value);
    }
 
    /**
@@ -1833,7 +1835,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public Number getEnterpriseNumber(int index)
    {
-      return (Number) get(selectField(AssignmentFieldLists.ENTERPRISE_NUMBER, index));
+      return (Number) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_NUMBER, index));
    }
 
    /**
@@ -1844,7 +1846,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public void setEnterpriseText(int index, String value)
    {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_TEXT, index), value);
+      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_TEXT, index), value);
    }
 
    /**
@@ -1855,29 +1857,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public String getEnterpriseText(int index)
    {
-      return (String) get(selectField(AssignmentFieldLists.ENTERPRISE_TEXT, index));
-   }
-
-   /**
-    * Retrieve an enterprise custom field value.
-    *
-    * @param index field index
-    * @return field value
-    */
-   public Object getEnterpriseCustomField(int index)
-   {
-      return get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index));
-   }
-
-   /**
-    * Set an enterprise custom field value.
-    *
-    * @param index field index
-    * @param value field value
-    */
-   public void setEnterpriseCustomField(int index, byte[] value)
-   {
-      set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_FIELD, index), value);
+      return (String) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_TEXT, index));
    }
 
    /**
@@ -2876,20 +2856,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       return ("[Resource Assignment task=" + getTask().getName() + " resource=" + (getResource() == null ? "Unassigned" : getResource().getName()) + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
    }
 
-   @Override public void set(FieldType field, Object value)
-   {
-      if (field != null)
-      {
-         int index = field.getValue();
-         if (m_eventsEnabled)
-         {
-            invalidateCache(field);
-            fireFieldChangeEvent(field, m_array[index], value);
-         }
-         m_array[index] = value;
-      }
-   }
-
    /**
     * This method inserts a name value pair into internal storage.
     *
@@ -2906,7 +2872,7 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     *
     * @param field modified field
     */
-   private void invalidateCache(FieldType field)
+   @Override protected void invalidateCache(FieldType field, Object newValue)
    {
       if (field == AssignmentField.UNIQUE_ID)
       {
@@ -2917,89 +2883,14 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
    }
 
-   /**
-    * Send a change event to any external listeners.
-    *
-    * @param field field changed
-    * @param oldValue old field value
-    * @param newValue new field value
-    */
-   private void fireFieldChangeEvent(FieldType field, Object oldValue, Object newValue)
+   @Override boolean getAlwaysCalculatedField(FieldType field)
    {
-      if (m_listeners != null)
-      {
-         m_listeners.forEach(l -> l.fieldChange(this, field, oldValue, newValue));
-      }
+      return ALWAYS_CALCULATED_FIELDS.contains(field);
    }
 
-   @Override public void addFieldListener(FieldListener listener)
+   @Override Function<ResourceAssignment, Object> getCalculationMethod(FieldType field)
    {
-      if (m_listeners == null)
-      {
-         m_listeners = new ArrayList<>();
-      }
-      m_listeners.add(listener);
-   }
-
-   @Override public void removeFieldListener(FieldListener listener)
-   {
-      if (m_listeners != null)
-      {
-         m_listeners.remove(listener);
-      }
-   }
-
-   @Override public Object getCachedValue(FieldType field)
-   {
-      return (field == null ? null : m_array[field.getValue()]);
-   }
-
-   @Deprecated @Override public Object getCurrentValue(FieldType field)
-   {
-      return get(field);
-   }
-
-   @Override public Object get(FieldType field)
-   {
-      if (!(field instanceof AssignmentField))
-      {
-         return null;
-      }
-
-      // Always calculated
-      switch ((AssignmentField) field)
-      {
-         case START:
-         {
-            return calculateStart();
-         }
-
-         case FINISH:
-         {
-            return calculateFinish();
-         }
-
-         default:
-         {
-            break;
-         }
-      }
-
-      Object result = m_array[field.getValue()];
-      if (result == null)
-      {
-         Function<ResourceAssignment, Object> f = CALCULATED_FIELD_MAP.get(field);
-         if (f != null)
-         {
-            result = f.apply(this);
-            if (result != null)
-            {
-               set(field, result);
-            }
-         }
-      }
-
-      return result;
+      return CALCULATED_FIELD_MAP.get(field);
    }
 
    private Number calculateOvertimeCost()
@@ -3130,29 +3021,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       return Boolean.TRUE;
    }
 
-   /**
-    * Disable events firing when fields are updated.
-    */
-   public void disableEvents()
-   {
-      m_eventsEnabled = false;
-   }
-
-   /**
-    * Enable events firing when fields are updated. This is the default state.
-    */
-   public void enableEvents()
-   {
-      m_eventsEnabled = true;
-   }
-
-   /**
-    * Array of field values.
-    */
-   private final Object[] m_array = new Object[AssignmentField.MAX_VALUE];
-
-   private boolean m_eventsEnabled = true;
-
    private TimephasedWorkContainer m_timephasedWork;
    private List<TimephasedCost> m_timephasedCost;
 
@@ -3162,7 +3030,6 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
    private TimephasedWorkContainer m_timephasedOvertimeWork;
    private TimephasedWorkContainer m_timephasedActualOvertimeWork;
 
-   private List<FieldListener> m_listeners;
    private final TimephasedWorkContainer[] m_timephasedBaselineWork = new TimephasedWorkContainer[11];
    private final TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];
 
@@ -3181,6 +3048,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
     */
    public static final Double DEFAULT_UNITS = Double.valueOf(100);
 
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.START, AssignmentField.FINISH));
+
    private static final Map<FieldType, Function<ResourceAssignment, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
@@ -3192,6 +3061,8 @@ public final class ResourceAssignment extends ProjectEntity implements ProjectEn
       CALCULATED_FIELD_MAP.put(AssignmentField.FINISH_VARIANCE, ResourceAssignment::calculateFinishVariance);
       CALCULATED_FIELD_MAP.put(AssignmentField.PERCENT_WORK_COMPLETE, ResourceAssignment::calculatePercentWorkComplete);
       CALCULATED_FIELD_MAP.put(AssignmentField.WORK_VARIANCE, ResourceAssignment::calculateWorkVariance);
+      CALCULATED_FIELD_MAP.put(AssignmentField.START, ResourceAssignment::calculateStart);
+      CALCULATED_FIELD_MAP.put(AssignmentField.FINISH, ResourceAssignment::calculateFinish);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_INDEX, ResourceAssignment::defaultRateIndex);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_SOURCE, ResourceAssignment::defaultRateSource);
       CALCULATED_FIELD_MAP.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, ResourceAssignment::defaultCalculateCostsFromUnits);
