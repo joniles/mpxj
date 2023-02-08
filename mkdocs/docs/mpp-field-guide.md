@@ -81,7 +81,7 @@ Minutes per Month|✓|✓|✓|✓
 Minutes per Week|✓|✓|✓|✓
 Minutes per Year|✓|✓|✓|✓
 Multiple Critical Paths| |✓|✓|✓
-New Tasj Start Is Project Start|✓|✓|✓|✓
+New Task Start Is Project Start|✓|✓|✓|✓
 New Tasks Are Manual| |✓|✓|✓
 New Tasks Estimated|✓|✓|✓|✓
 PM Text|✓|✓|✓|✓
@@ -363,7 +363,7 @@ Baseline Fixed Cost Accrual| | |✓|✓
 Baseline Start|✓|✓|✓|✓
 Baseline Work|✓|✓|✓|✓
 
-### Extended Fields
+### Custom Fields
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Cost1| |✓|✓|✓
@@ -676,7 +676,7 @@ Baseline Budget Work| | | |✓
 Baseline Cost| |✓|✓|✓
 Baseline Work|✓|✓|✓|✓
 
-### Extended Fields
+### Custom Fields
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Cost1| |✓|✓|✓
@@ -1001,7 +1001,7 @@ Timephased Baseline10 Work| |✓|✓|✓
 Timephased Baseline Cost| |✓|✓|✓
 Timephased Baseline Work| |✓|✓|✓
 
-### Extended Fields
+### Custom Fields
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Cost1| |✓|✓|✓

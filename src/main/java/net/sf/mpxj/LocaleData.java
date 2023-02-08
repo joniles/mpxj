@@ -2194,7 +2194,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.CRITICAL_SLACK_LIMIT.getValue()] = "Critical Slack Limit";
       PROJECT_COLUMNS_ARRAY[ProjectField.BASELINE_FOR_EARNED_VALUE.getValue()] = "Baseline For Earned Value";
       PROJECT_COLUMNS_ARRAY[ProjectField.FISCAL_YEAR_START_MONTH.getValue()] = "Fiscal Year Start Month";
-      PROJECT_COLUMNS_ARRAY[ProjectField.NEW_TASK_START_IS_PROJECT_START.getValue()] = "New Tasj Start Is Project Start";
+      PROJECT_COLUMNS_ARRAY[ProjectField.NEW_TASK_START_IS_PROJECT_START.getValue()] = "New Task Start Is Project Start";
       PROJECT_COLUMNS_ARRAY[ProjectField.NEW_TASKS_ARE_MANUAL.getValue()] = "New Tasks Are Manual";
       PROJECT_COLUMNS_ARRAY[ProjectField.WEEK_START_DAY.getValue()] = "Week Start Day";
       PROJECT_COLUMNS_ARRAY[ProjectField.CUSTOM_PROPERTIES.getValue()] = "Custom Properties";

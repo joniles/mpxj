@@ -162,9 +162,9 @@ public class FieldReporter
       return type.getFieldTypeClass() == FieldTypeClass.ASSIGNMENT;
    }
 
-   private boolean isExtendedField(FieldType type)
+   private boolean isCustomField(FieldType type)
    {
-      return EXTENDED_FIELDS.contains(type);
+      return CUSTOM_FIELDS.contains(type);
    }
 
    private boolean isBaselineField(FieldType type)
@@ -179,12 +179,12 @@ public class FieldReporter
 
    private void writeTables(String title, PrintWriter pw, Set<String> keys, Map<FieldType, Set<String>> map, Predicate<Entry<FieldType, Set<String>>> filterPredicate)
    {
-      List<Entry<FieldType, Set<String>>> coreFields = map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).collect(Collectors.toList());
-      List<Entry<FieldType, Set<String>>> baselineFields = map.entrySet().stream().filter(filterPredicate).filter(e -> isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).collect(Collectors.toList());
-      List<Entry<FieldType, Set<String>>> extendedFields = map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && isExtendedField(e.getKey()) && !isEnterpriseField(e.getKey())).collect(Collectors.toList());
-      List<Entry<FieldType, Set<String>>> enterpriseFields = map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isExtendedField(e.getKey()) && isEnterpriseField(e.getKey())).collect(Collectors.toList());
+      List<Entry<FieldType, Set<String>>> coreFields = map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isCustomField(e.getKey()) && !isEnterpriseField(e.getKey())).collect(Collectors.toList());
+      List<Entry<FieldType, Set<String>>> baselineFields = map.entrySet().stream().filter(filterPredicate).filter(e -> isBaselineField(e.getKey()) && !isCustomField(e.getKey()) && !isEnterpriseField(e.getKey())).collect(Collectors.toList());
+      List<Entry<FieldType, Set<String>>> customFields = map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && isCustomField(e.getKey()) && !isEnterpriseField(e.getKey())).collect(Collectors.toList());
+      List<Entry<FieldType, Set<String>>> enterpriseFields = map.entrySet().stream().filter(filterPredicate).filter(e -> !isBaselineField(e.getKey()) && !isCustomField(e.getKey()) && isEnterpriseField(e.getKey())).collect(Collectors.toList());
 
-      if (coreFields.isEmpty() && baselineFields.isEmpty() && extendedFields.isEmpty() && enterpriseFields.isEmpty())
+      if (coreFields.isEmpty() && baselineFields.isEmpty() && customFields.isEmpty() && enterpriseFields.isEmpty())
       {
          return;
       }
@@ -194,7 +194,7 @@ public class FieldReporter
 
       writeTable("Core Fields", coreFields, pw, tableHeader, keys);
       writeTable("Baseline Fields", baselineFields, pw, tableHeader, keys);
-      writeTable("Extended Fields", extendedFields, pw, tableHeader, keys);
+      writeTable("Custom Fields", customFields, pw, tableHeader, keys);
       writeTable("Enterprise Fields", enterpriseFields, pw, tableHeader, keys);
    }
 
@@ -252,17 +252,17 @@ public class FieldReporter
 
    private static final Comparator<String> COMPARATOR = new AlphanumComparator();
 
-   private static final Set<FieldType> EXTENDED_FIELDS = new HashSet<>();
+   private static final Set<FieldType> CUSTOM_FIELDS = new HashSet<>();
 
    static
    {
-      EXTENDED_FIELDS.addAll(FieldLists.CUSTOM_FIELDS);
-      EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION_UNITS));
-      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION_UNITS));
-      EXTENDED_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION_UNITS));
-      EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
-      EXTENDED_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE_INDEX));
-      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_OUTLINE_CODE));
-      EXTENDED_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_OUTLINE_CODE_INDEX));
+      CUSTOM_FIELDS.addAll(FieldLists.CUSTOM_FIELDS);
+      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_DURATION_UNITS));
+      CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_DURATION_UNITS));
+      CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION_UNITS));
+      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE));
+      CUSTOM_FIELDS.addAll(Arrays.asList(TaskFieldLists.CUSTOM_OUTLINE_CODE_INDEX));
+      CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_OUTLINE_CODE));
+      CUSTOM_FIELDS.addAll(Arrays.asList(ResourceFieldLists.CUSTOM_OUTLINE_CODE_INDEX));
    }
 }

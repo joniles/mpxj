@@ -96,7 +96,7 @@ Minutes per Year|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|
 Multiple Critical Paths| | | | | | |✓|✓| | | | | | | | | | | | | | | 
 Must Finish By| | | | | | | | | | | | | |✓| |✓| | | | | | | 
 Name|✓| | |✓|✓|✓|✓| | |✓|✓|✓|✓|✓|✓|✓| |✓| | | | | 
-New Tasj Start Is Project Start|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+New Task Start Is Project Start|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 New Tasks Are Effort Driven| | | | | | |✓| | |✓| | | | | | | | | | | | | 
 New Tasks Are Manual|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓
 New Tasks Estimated|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
@@ -433,7 +433,7 @@ Baseline Fixed Cost Accrual| | | | | | | |✓| | | | | | | | | |
 Baseline Start|✓|✓|✓| | | |✓|✓|✓|✓| | | |✓|✓|✓| | | | | | | 
 Baseline Work| | | | | | |✓|✓|✓|✓| | | |✓|✓|✓| | | | | | | 
 
-### Extended Fields
+### Custom Fields
 Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)
 ---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
 Cost1| | |✓| | | |✓|✓|✓|✓| | | | | | | | | | | | | 
@@ -765,7 +765,7 @@ Baseline Budget Work| | | | | | | |✓| | | | | | | | | | | |�
 Baseline Cost| | | | | | | |✓|✓|✓| | | | | | | | | | | | | 
 Baseline Work| | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
 
-### Extended Fields
+### Custom Fields
 Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)
 ---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
 Cost1| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
@@ -1100,7 +1100,7 @@ Timephased Baseline10 Work| | | | | | | |✓| | | | | | | | | |�
 Timephased Baseline Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
 Timephased Baseline Work| | | | | | | |✓| | | | | | | | | | | | | | | 
 
-### Extended Fields
+### Custom Fields
 Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)
 ---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
 Cost1| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
