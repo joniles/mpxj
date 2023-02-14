@@ -175,6 +175,16 @@ public class Step
     *
     * @param notes step description
     */
+   public void setDescription(String notes)
+   {
+      m_description = notes == null ? null : new Notes(notes);
+   }
+
+   /**
+    * Set the step description.
+    *
+    * @param notes step description
+    */
    public void setDescriptionObject(Notes notes)
    {
       m_description = notes;

@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="11.0.1">
+			<action dev="joniles" type="update">Add `setDescription` method to `Step` class to make it simpler to add a plan text description.</action>
 		</release>
 		<release date="2023-02-08" version="11.0.0">
 			<action dev="joniles" type="update">User defined fields read from P6, Asta and GanttProject schedules are now represented by instances of `UserDefinedField`. They will no longer be mapped to custom field instances.</action>
