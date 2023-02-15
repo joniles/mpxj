@@ -229,7 +229,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
     */
    private void readActivityCode(Code code, Integer activityCodeSequence)
    {
-      ActivityCode activityCode = new ActivityCode(Integer.valueOf(++m_activityCodeUniqueID), ActivityCodeScope.GLOBAL, null, activityCodeSequence, code.getName());
+      ActivityCode activityCode = new ActivityCode(Integer.valueOf(++m_activityCodeUniqueID), ActivityCodeScope.GLOBAL, null, activityCodeSequence, code.getName(), false, null);
 
       UUID codeUUID = getCodeUUID(code.getUuid(), code.getName());
       int activityCodeValueSequence = 0;

@@ -43,13 +43,15 @@ public class ActivityCode
     * @param sequenceNumber sequence number
     * @param name activity code name
     */
-   public ActivityCode(Integer uniqueID, ActivityCodeScope scope, Integer scopeUniqueID, Integer sequenceNumber, String name)
+   public ActivityCode(Integer uniqueID, ActivityCodeScope scope, Integer scopeUniqueID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
    {
       m_uniqueID = uniqueID;
       m_scope = scope;
       m_scopeUniqueID = scopeUniqueID;
       m_sequenceNumber = sequenceNumber;
       m_name = name;
+      m_secure = secure;
+      m_maxLength = maxLength;
    }
 
    /**
@@ -107,6 +109,26 @@ public class ActivityCode
    }
 
    /**
+    * Retrieve the secure flag.
+    *
+    * @return secure flag
+    */
+   public boolean getSecure()
+   {
+      return m_secure;
+   }
+
+   /**
+    * Retrieve the max length.
+    *
+    * @return max length
+    */
+   public Integer getMaxLength()
+   {
+      return m_maxLength;
+   }
+
+   /**
     * Add a value to this activity code.
     *
     * @param uniqueID value unique ID
@@ -151,5 +173,7 @@ public class ActivityCode
    private final Integer m_scopeUniqueID;
    private final Integer m_sequenceNumber;
    private final String m_name;
+   private final boolean m_secure;
+   private final Integer m_maxLength;
    private final List<ActivityCodeValue> m_values = new ArrayList<>();
 }
