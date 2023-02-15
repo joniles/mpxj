@@ -1,6 +1,12 @@
 # Changelog
 
-## 11.0.1 (unreleased)
+## 11.1.1 (unreleased)
+
+## 11.1.0 (2023-02-15)
+* Write activity code definitions and activity code assignments to PMXML files.
+* Added support for "secure" and "max length" attributes to the `ActivityCode` class.
+* Added `getChildCodes` method to `ActivityCode` and `ActivityCodeValue` to make it easier to traverse activity code values hierarchically.
+* Added `setDescription` method to `Step` class to make it simpler to add a plan text description.
 
 ## 11.0.0 (2023-02-08)
 * User defined fields read from P6, Asta and GanttProject schedules are now represented by instances of `UserDefinedField`. They will no longer be mapped to custom field instances.

@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="11.1.0">
+		<release date="unreleased" version="11.1.1">
+		</release>
+		<release date="2023-02-15" version="11.1.0">
 			<action dev="joniles" type="update">Write activity code definitions and activity code assignments to PMXML files.</action>
 			<action dev="joniles" type="update">Added support for "secure" and "max length" attributes to the `ActivityCode` class.</action>
 			<action dev="joniles" type="update">Added `getChildCodes` method to `ActivityCode` and `ActivityCodeValue` to make it easier to traverse activity code values hierarchically.</action>
