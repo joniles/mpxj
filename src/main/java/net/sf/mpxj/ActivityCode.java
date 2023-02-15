@@ -42,6 +42,8 @@ public class ActivityCode
     * @param scopeUniqueID scope object unique ID
     * @param sequenceNumber sequence number
     * @param name activity code name
+    * @param secure secure flag
+    * @param maxLength max length
     */
    public ActivityCode(Integer uniqueID, ActivityCodeScope scope, Integer scopeUniqueID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
    {
