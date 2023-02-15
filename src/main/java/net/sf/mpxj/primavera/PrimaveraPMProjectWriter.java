@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.primavera;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -38,6 +39,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.AccrueType;
+import net.sf.mpxj.ActivityCode;
+import net.sf.mpxj.ActivityCodeScope;
+import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.ConstraintType;
@@ -87,6 +91,8 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
+import net.sf.mpxj.primavera.schema.ActivityCodeType;
+import net.sf.mpxj.primavera.schema.ActivityCodeTypeType;
 import net.sf.mpxj.primavera.schema.ActivityExpenseType;
 import net.sf.mpxj.primavera.schema.ActivityNoteType;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
@@ -97,6 +103,7 @@ import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions;
 import net.sf.mpxj.primavera.schema.CalendarType.HolidayOrExceptions.HolidayOrException;
 import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek;
 import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHours;
+import net.sf.mpxj.primavera.schema.CodeAssignmentType;
 import net.sf.mpxj.primavera.schema.CostAccountType;
 import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.ExpenseCategoryType;
@@ -185,6 +192,7 @@ final class PrimaveraPMProjectWriter
 
             writeProjectProperties(project);
             writeUDF();
+            writeActivityCodes();
             writeCurrency();
             writeUserDefinedFieldDefinitions();
             writeExpenseCategories();
@@ -1038,6 +1046,7 @@ final class PrimaveraPMProjectWriter
 
       writeActivityNote(mpxj);
       writePredecessors(mpxj);
+      writeActivityCodeAssignments(mpxj, xml);
    }
 
    /**
@@ -1647,6 +1656,101 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
+    * Write activity code definitions.
+    */
+   private void writeActivityCodes()
+   {
+      m_projectFile.getActivityCodes().stream().sorted(Comparator.comparing(ActivityCode::getSequenceNumber)).forEach(this::writeActivityCode);
+   }
+
+   /**
+    * Write an activity code definition.
+    *
+    * @param code activity code
+    */
+   private void writeActivityCode(ActivityCode code)
+   {
+      ActivityCodeTypeType xml = m_factory.createActivityCodeTypeType();
+      m_apibo.getActivityCodeType().add(xml);
+      xml.setObjectId(code.getUniqueID());
+      xml.setScope(ACTIVITY_CODE_SCOPE_MAP.get(code.getScope()));
+      xml.setSequenceNumber(code.getSequenceNumber());
+      xml.setName(code.getName());
+
+      if (code.getScope() != ActivityCodeScope.GLOBAL)
+      {
+         xml.setProjectObjectId(m_projectObjectID);
+      }
+
+      code.getChildValues().stream().sorted(Comparator.comparing(ActivityCodeValue::getSequenceNumber)).forEach(v -> writeActivityCodeValue(xml, null, v));
+   }
+
+   /**
+    * Write an activity code value.
+    *
+    * @param code parent activity code
+    * @param parentValue parent value
+    * @param value value to write
+    */
+   private void writeActivityCodeValue(ActivityCodeTypeType code, ActivityCodeType parentValue, ActivityCodeValue value)
+   {
+      ActivityCodeType xml = m_factory.createActivityCodeType();
+      m_apibo.getActivityCode().add(xml);
+      xml.setObjectId(value.getUniqueID());
+      xml.setProjectObjectId(code.getProjectObjectId());
+      xml.setCodeTypeObjectId(code.getObjectId());
+      xml.setParentObjectId(parentValue == null ? null : parentValue.getObjectId());
+      xml.setSequenceNumber(value.getSequenceNumber());
+      xml.setCodeValue(value.getName());
+      xml.setDescription(value.getDescription());
+      xml.setColor(getColor(value.getColor()));
+
+      value.getChildValues().stream().sorted(Comparator.comparing(ActivityCodeValue::getSequenceNumber)).forEach(v -> writeActivityCodeValue(code, xml, v));
+   }
+
+   /**
+    * Write activity code assignments for this task.
+    *
+    * @param task MPXJ task
+    * @param xml PMXML activity
+    */
+   private void writeActivityCodeAssignments(Task task, ActivityType xml)
+   {
+      task.getActivityCodes().forEach(v -> writeActivityCodeAssignment(xml, v));
+   }
+
+   /**
+    * Write an individual activity code assignment.
+    *
+    * @param xml PMXML activity
+    * @param value activity code value
+    */
+   private void writeActivityCodeAssignment(ActivityType xml, ActivityCodeValue value)
+   {
+      CodeAssignmentType assignment = m_factory.createCodeAssignmentType();
+      xml.getCode().add(assignment);
+      assignment.setTypeObjectId(value.getType().getUniqueID());
+      assignment.setValueObjectId(value.getUniqueID());
+   }
+
+   /**
+    * Convert a color to a string representation.
+    *
+    * @param color color to convert
+    * @return string representation
+    */
+   private String getColor(Color color)
+   {
+      if (color == null)
+      {
+         return null;
+      }
+
+      String result = "000000" + Integer.toHexString(color.getRGB()).toUpperCase();
+      return "#" + result.substring(result.length()-6);
+   }
+
+   /**
     * Sets the value of a UDF.
     *
     * @param udf user defined field
@@ -2108,6 +2212,14 @@ final class PrimaveraPMProjectWriter
       SUBJECT_AREA_MAP.put(FieldTypeClass.PROJECT, "Project");
       SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Resource Assignment");
       SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
+   }
+
+   private static final Map<ActivityCodeScope, String> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();
+   static
+   {
+      ACTIVITY_CODE_SCOPE_MAP.put(ActivityCodeScope.GLOBAL, "Global");
+      ACTIVITY_CODE_SCOPE_MAP.put(ActivityCodeScope.EPS, "EPS");
+      ACTIVITY_CODE_SCOPE_MAP.put(ActivityCodeScope.PROJECT, "Project");
    }
 
    private final ProjectFile m_projectFile;
