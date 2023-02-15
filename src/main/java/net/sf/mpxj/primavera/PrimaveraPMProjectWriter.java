@@ -1676,6 +1676,8 @@ final class PrimaveraPMProjectWriter
       xml.setScope(ACTIVITY_CODE_SCOPE_MAP.get(code.getScope()));
       xml.setSequenceNumber(code.getSequenceNumber());
       xml.setName(code.getName());
+      xml.setIsSecureCode(Boolean.valueOf(code.getSecure()));
+      xml.setLength(code.getMaxLength());
 
       if (code.getScope() != ActivityCodeScope.GLOBAL)
       {
