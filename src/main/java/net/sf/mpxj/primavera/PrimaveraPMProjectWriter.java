@@ -1731,8 +1731,8 @@ final class PrimaveraPMProjectWriter
    {
       CodeAssignmentType assignment = m_factory.createCodeAssignmentType();
       xml.getCode().add(assignment);
-      assignment.setTypeObjectId(value.getType().getUniqueID());
-      assignment.setValueObjectId(value.getUniqueID());
+      assignment.setTypeObjectId(NumberHelper.getInt(value.getType().getUniqueID()));
+      assignment.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
    }
 
    /**
@@ -1749,7 +1749,7 @@ final class PrimaveraPMProjectWriter
       }
 
       String result = "000000" + Integer.toHexString(color.getRGB()).toUpperCase();
-      return "#" + result.substring(result.length()-6);
+      return "#" + result.substring(result.length() - 6);
    }
 
    /**
