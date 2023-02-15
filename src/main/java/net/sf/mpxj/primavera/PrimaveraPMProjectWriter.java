@@ -1708,11 +1708,23 @@ final class PrimaveraPMProjectWriter
       value.getChildValues().stream().sorted(Comparator.comparing(ActivityCodeValue::getSequenceNumber)).forEach(v -> writeActivityCodeValue(code, xml, v));
    }
 
+   /**
+    * Write activity code assignments for this task.
+    *
+    * @param task MPXJ task
+    * @param xml PMXML activity
+    */
    private void writeActivityCodeAssignments(Task task, ActivityType xml)
    {
       task.getActivityCodes().forEach(v -> writeActivityCodeAssignment(xml, v));
    }
 
+   /**
+    * Write an individual activity code assignment.
+    *
+    * @param xml PMXML activity
+    * @param value activity code value
+    */
    private void writeActivityCodeAssignment(ActivityType xml, ActivityCodeValue value)
    {
       CodeAssignmentType assignment = m_factory.createCodeAssignmentType();
