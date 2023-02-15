@@ -26,6 +26,7 @@ package net.sf.mpxj;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Activity code type definition, contains a list of the valid
@@ -123,13 +124,26 @@ public class ActivityCode
    }
 
    /**
-    * Retrieve a list of values for this activity code.
+    * Retrieve a list of all values for this activity code,
+    * including child values from the hierarchy.
     *
     * @return list of ActivityCodeValue instances
     */
    public List<ActivityCodeValue> getValues()
    {
       return m_values;
+   }
+
+   /**
+    * Retrieve a list of top level values for his activity code.
+    * This excludes any child values from further down the
+    * hierarchy of values.
+    *
+    * @return list of ActivityCodeValue instances
+    */
+   public List<ActivityCodeValue> getChildValues()
+   {
+      return m_values.stream().filter(v -> v.getParent() == null).collect(Collectors.toList());
    }
 
    private final Integer m_uniqueID;

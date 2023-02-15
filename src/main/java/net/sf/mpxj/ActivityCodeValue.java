@@ -24,6 +24,8 @@
 package net.sf.mpxj;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents an individual activity code value.
@@ -127,7 +129,23 @@ public class ActivityCodeValue
     */
    public void setParent(ActivityCodeValue parent)
    {
+      if (m_parent != null)
+      {
+         m_parent.getChildValues().remove(this);
+      }
+
       m_parent = parent;
+      m_parent.getChildValues().add(this);
+   }
+
+   /**
+    * Retrieve any children of this value.
+    *
+    * @return list of ActivityCodeValue instances
+    */
+   public List<ActivityCodeValue> getChildValues()
+   {
+      return m_childValues;
    }
 
    @Override public String toString()
@@ -142,4 +160,6 @@ public class ActivityCodeValue
    private final String m_description;
    private final Color m_color;
    private ActivityCodeValue m_parent;
+
+   private final List<ActivityCodeValue> m_childValues = new ArrayList<>();
 }
