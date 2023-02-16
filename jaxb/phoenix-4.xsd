@@ -86,6 +86,7 @@
 																	<xs:complexType>
 																		<xs:attribute name="type" type="xs:string"></xs:attribute>
 																		<xs:attribute name="weekday" type="phoenixDay"></xs:attribute>
+																		<xs:attribute name="start" type="xs:dateTime"></xs:attribute>
 																	</xs:complexType>
 																</xs:element>
 															</xs:sequence>

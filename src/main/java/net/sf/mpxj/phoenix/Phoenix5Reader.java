@@ -274,6 +274,10 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
          {
             mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
          }
+
+         if (nonWorkingDay.getType().equals("daily")) {
+            mpxjCalendar.addCalendarException(nonWorkingDay.getStart());
+         }
       }
 
       // Add default working hours for working days
