@@ -271,7 +271,8 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
             mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
          }
 
-         if (nonWorkingDay.getType().equals("daily")) {
+         if (nonWorkingDay.getType().equals("daily"))
+         {
             mpxjCalendar.addCalendarException(nonWorkingDay.getStart());
          }
       }
