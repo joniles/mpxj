@@ -46,6 +46,8 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.common.SlackHelper;
 import org.xml.sax.SAXException;
 
@@ -277,7 +279,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
 
          if (nonWorkingDay.getType().equals("daily"))
          {
-            mpxjCalendar.addCalendarException(nonWorkingDay.getStart());
+            mpxjCalendar.addCalendarException(dailyRecurringData(nonWorkingDay));
          }
       }
 
@@ -291,6 +293,24 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
             hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
          }
       }
+   }
+
+   private RecurringData dailyRecurringData(NonWork nonWork)
+   {
+      RecurringData data = new RecurringData();
+      data.setRecurrenceType(RecurrenceType.DAILY);
+      data.setFrequency(nonWork.getInterval());
+      data.setStartDate(nonWork.getStart());
+      data.setUseEndDate(nonWork.getCount() == 0);
+      if (data.getUseEndDate())
+      {
+         data.setFinishDate(nonWork.getUntil());
+      }
+      else
+      {
+         data.setOccurrences(nonWork.getCount());
+      }
+      return data;
    }
 
    /**
