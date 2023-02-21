@@ -281,6 +281,17 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
          {
             mpxjCalendar.addCalendarException(dailyRecurringData(nonWorkingDay));
          }
+
+         if (nonWorkingDay.getType().equals("weekly"))
+         {
+            mpxjCalendar.addCalendarException(weeklyRecurringData(nonWorkingDay));
+         }
+
+         if (nonWorkingDay.getType().equals("monthly"))
+         {
+            mpxjCalendar.addCalendarException(monthlyRecurringData(nonWorkingDay));
+         }
+
       }
 
       // Add default working hours for working days
@@ -295,10 +306,10 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       }
    }
 
-   private RecurringData dailyRecurringData(NonWork nonWork)
+   private RecurringData recurringData(RecurrenceType type, NonWork nonWork)
    {
       RecurringData data = new RecurringData();
-      data.setRecurrenceType(RecurrenceType.DAILY);
+      data.setRecurrenceType(type);
       data.setFrequency(nonWork.getInterval());
       data.setStartDate(nonWork.getStart());
       data.setUseEndDate(nonWork.getCount() == 0);
@@ -310,6 +321,42 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       {
          data.setOccurrences(nonWork.getCount());
       }
+      return data;
+   }
+
+   private RecurringData dailyRecurringData(NonWork nonWork)
+   {
+      return recurringData(RecurrenceType.DAILY, nonWork);
+   }
+
+   private RecurringData weeklyRecurringData(NonWork nonWork)
+   {
+      RecurringData data = recurringData(RecurrenceType.WEEKLY, nonWork);
+
+      java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
+      data.setWeeklyDay(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)), true);
+      DateHelper.pushCalendar(calendar);
+
+      return data;
+   }
+
+   private RecurringData monthlyRecurringData(NonWork nonWork)
+   {
+      RecurringData data = recurringData(RecurrenceType.MONTHLY, nonWork);
+
+      data.setRelative(nonWork.getNthDow() != 0);
+      java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
+      if (data.getRelative())
+      {
+         data.setDayNumber(nonWork.getNthDow());
+         data.setDayOfWeek(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)));
+      }
+      else
+      {
+         data.setDayNumber(calendar.get(java.util.Calendar.DAY_OF_MONTH));
+      }
+      DateHelper.pushCalendar(calendar);
+
       return data;
    }
 
