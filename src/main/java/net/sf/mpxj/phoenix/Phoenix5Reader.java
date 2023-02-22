@@ -26,7 +26,6 @@ package net.sf.mpxj.phoenix;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -271,36 +270,39 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       System.out.println(mpxjCalendar.getName());
 
       // Mark non-working days
+      calendar.getNonWork().stream().filter(n -> NON_WORKING_DAY_MAP.containsKey(n.getType())).forEach(n -> NON_WORKING_DAY_MAP.get(n.getType()).apply(this, mpxjCalendar, n));
+
+      /*
       List<NonWork> nonWorkingDays = calendar.getNonWork();
       for (NonWork nonWorkingDay : nonWorkingDays)
       {
-         // TODO: handle recurring exceptions
          if (nonWorkingDay.getType().equals("internal_weekly"))
          {
-            mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
+            addNonWorkingDay(mpxjCalendar, nonWorkingDay);
          }
 
          if (nonWorkingDay.getType().equals("daily"))
          {
-            mpxjCalendar.addCalendarException(dailyRecurringData(nonWorkingDay));
+            addDailyRecurringException(mpxjCalendar, nonWorkingDay);
          }
 
          if (nonWorkingDay.getType().equals("weekly"))
          {
-            mpxjCalendar.addCalendarException(weeklyRecurringData(nonWorkingDay));
+            addWeeklyRecurringException(mpxjCalendar, nonWorkingDay);
          }
 
          if (nonWorkingDay.getType().equals("monthly"))
          {
-            mpxjCalendar.addCalendarException(monthlyRecurringData(nonWorkingDay));
+            addMonthlyRecurringException(mpxjCalendar, nonWorkingDay);
          }
 
          if (nonWorkingDay.getType().equals("yearly"))
          {
-            mpxjCalendar.addCalendarException(yearlyRecurringData(nonWorkingDay));
+            addYearlyRecurringException(mpxjCalendar, nonWorkingDay);
          }
       }
-
+*/
+      
       // Add default working hours for working days
       for (Day day : Day.values())
       {
@@ -311,6 +313,11 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
             hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
          }
       }
+   }
+
+   private void addNonWorkingDay(ProjectCalendar mpxjCalendar, NonWork nonWorkingDay)
+   {
+      mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
    }
 
    private RecurringData recurringData(RecurrenceType type, NonWork nonWork)
@@ -331,27 +338,22 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       return data;
    }
 
-   private RecurringData dailyRecurringData(NonWork nonWork)
+   private void addDailyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
       RecurringData data = recurringData(RecurrenceType.DAILY, nonWork);
-      Arrays.stream(data.getDates()).forEach(d -> System.out.println(d));
-      return data;
+      mpxjCalendar.addCalendarException(data);
    }
 
-   private RecurringData weeklyRecurringData(NonWork nonWork)
+   private void addWeeklyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
       RecurringData data = recurringData(RecurrenceType.WEEKLY, nonWork);
-
       java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
       data.setWeeklyDay(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)), true);
       DateHelper.pushCalendar(calendar);
-
-      Arrays.stream(data.getDates()).forEach(d -> System.out.println(d));
-
-      return data;
+      mpxjCalendar.addCalendarException(data);
    }
 
-   private RecurringData monthlyRecurringData(NonWork nonWork)
+   private void addMonthlyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
       RecurringData data = recurringData(RecurrenceType.MONTHLY, nonWork);
 
@@ -367,16 +369,12 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
          data.setDayNumber(calendar.get(java.util.Calendar.DAY_OF_MONTH));
       }
       DateHelper.pushCalendar(calendar);
-
-      Arrays.stream(data.getDates()).forEach(d -> System.out.println(d));
-
-      return data;
+      mpxjCalendar.addCalendarException(data);
    }
 
-   private RecurringData yearlyRecurringData(NonWork nonWork)
+   private void addYearlyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
       RecurringData data = recurringData(RecurrenceType.YEARLY, nonWork);
-
       data.setRelative(nonWork.getNthDow() != 0);
       java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
       data.setMonthNumber(calendar.get(java.util.Calendar.MONTH) + 1);
@@ -390,10 +388,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
          data.setDayNumber(calendar.get(java.util.Calendar.DAY_OF_MONTH));
       }
       DateHelper.pushCalendar(calendar);
-
-      Arrays.stream(data.getDates()).forEach(d -> System.out.println(d));
-
-      return data;
+      mpxjCalendar.addCalendarException(data);
    }
 
    /**
@@ -1093,6 +1088,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    }
 
    private static final Map<String, ActivityType> ACTIVITY_TYPE_MAP = new HashMap<>();
+
    static
    {
       ACTIVITY_TYPE_MAP.put("Task", ActivityType.TASK_DEPENDENT);
@@ -1104,6 +1100,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    }
 
    private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
+
    static
    {
       CONSTRAINT_TYPE_MAP.put("StartNoLater", ConstraintType.START_NO_LATER_THAN);
@@ -1113,5 +1110,21 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       CONSTRAINT_TYPE_MAP.put("AsLateAsPossible", ConstraintType.AS_LATE_AS_POSSIBLE);
       CONSTRAINT_TYPE_MAP.put("MustStartOn", ConstraintType.MUST_START_ON);
       CONSTRAINT_TYPE_MAP.put("MustFinishOn", ConstraintType.MUST_FINISH_ON);
+   }
+
+   interface NonWorkingDayFunction
+   {
+      void apply(Phoenix5Reader reader, ProjectCalendar mpxjCalendar, NonWork nonWorkingDay);
+   }
+
+   private static final Map<String, NonWorkingDayFunction> NON_WORKING_DAY_MAP = new HashMap<>();
+
+   static
+   {
+      NON_WORKING_DAY_MAP.put("internal_weekly", Phoenix5Reader::addNonWorkingDay);
+      NON_WORKING_DAY_MAP.put("daily", Phoenix5Reader::addDailyRecurringException);
+      NON_WORKING_DAY_MAP.put("weekly", Phoenix5Reader::addWeeklyRecurringException);
+      NON_WORKING_DAY_MAP.put("monthly", Phoenix5Reader::addMonthlyRecurringException);
+      NON_WORKING_DAY_MAP.put("yearly", Phoenix5Reader::addYearlyRecurringException);
    }
 }
