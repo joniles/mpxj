@@ -26,6 +26,7 @@ package net.sf.mpxj.phoenix;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -267,6 +268,8 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
          mpxjCalendar.setWorkingDay(day, true);
       }
 
+      System.out.println(mpxjCalendar.getName());
+
       // Mark non-working days
       List<NonWork> nonWorkingDays = calendar.getNonWork();
       for (NonWork nonWorkingDay : nonWorkingDays)
@@ -292,6 +295,10 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
             mpxjCalendar.addCalendarException(monthlyRecurringData(nonWorkingDay));
          }
 
+         if (nonWorkingDay.getType().equals("yearly"))
+         {
+            mpxjCalendar.addCalendarException(yearlyRecurringData(nonWorkingDay));
+         }
       }
 
       // Add default working hours for working days
@@ -326,7 +333,9 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
 
    private RecurringData dailyRecurringData(NonWork nonWork)
    {
-      return recurringData(RecurrenceType.DAILY, nonWork);
+      RecurringData data = recurringData(RecurrenceType.DAILY, nonWork);
+      Arrays.stream(data.getDates()).forEach(d -> System.out.println(d));
+      return data;
    }
 
    private RecurringData weeklyRecurringData(NonWork nonWork)
@@ -336,6 +345,8 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
       data.setWeeklyDay(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)), true);
       DateHelper.pushCalendar(calendar);
+
+      Arrays.stream(data.getDates()).forEach(d -> System.out.println(d));
 
       return data;
    }
@@ -356,6 +367,31 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
          data.setDayNumber(calendar.get(java.util.Calendar.DAY_OF_MONTH));
       }
       DateHelper.pushCalendar(calendar);
+
+      Arrays.stream(data.getDates()).forEach(d -> System.out.println(d));
+
+      return data;
+   }
+
+   private RecurringData yearlyRecurringData(NonWork nonWork)
+   {
+      RecurringData data = recurringData(RecurrenceType.YEARLY, nonWork);
+
+      data.setRelative(nonWork.getNthDow() != 0);
+      java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
+      data.setMonthNumber(calendar.get(java.util.Calendar.MONTH) + 1);
+      if (data.getRelative())
+      {
+         data.setDayNumber(nonWork.getNthDow());
+         data.setDayOfWeek(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)));
+      }
+      else
+      {
+         data.setDayNumber(calendar.get(java.util.Calendar.DAY_OF_MONTH));
+      }
+      DateHelper.pushCalendar(calendar);
+
+      Arrays.stream(data.getDates()).forEach(d -> System.out.println(d));
 
       return data;
    }
