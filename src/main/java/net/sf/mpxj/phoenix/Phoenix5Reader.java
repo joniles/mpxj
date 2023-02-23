@@ -326,8 +326,15 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
     */
    private void addDailyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
-      RecurringData data = recurringData(RecurrenceType.DAILY, nonWork);
-      mpxjCalendar.addCalendarException(data);
+      if (nonWork.getCount() == 1)
+      {
+         mpxjCalendar.addCalendarException(nonWork.getStart());
+      }
+      else
+      {
+         RecurringData data = recurringData(RecurrenceType.DAILY, nonWork);
+         mpxjCalendar.addCalendarException(data);
+      }
    }
 
    /**

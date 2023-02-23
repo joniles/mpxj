@@ -321,8 +321,15 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
     */
    private void addDailyRecurringException(ProjectCalendar mpxjCalendar, net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork nonWork)
    {
-      RecurringData data = recurringData(RecurrenceType.DAILY, nonWork);
-      mpxjCalendar.addCalendarException(data);
+      if (nonWork.getCount() == 1)
+      {
+         mpxjCalendar.addCalendarException(nonWork.getStart());
+      }
+      else
+      {
+         RecurringData data = recurringData(RecurrenceType.DAILY, nonWork);
+         mpxjCalendar.addCalendarException(data);
+      }
    }
 
    /**
