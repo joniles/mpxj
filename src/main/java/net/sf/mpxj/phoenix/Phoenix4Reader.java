@@ -84,6 +84,7 @@ import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Activi
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.ActivityCodes.Code.Value;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar;
+import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Relationships;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Relationships.Relationship;
 import net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Resources;
@@ -283,7 +284,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
     * @param mpxjCalendar MPXJ calendar
     * @param nonWorkingDay Phoenix non-working day
     */
-   private void addNonWorkingDay(ProjectCalendar mpxjCalendar, net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork nonWorkingDay)
+   private void addNonWorkingDay(ProjectCalendar mpxjCalendar, Calendar.NonWork nonWorkingDay)
    {
       mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
    }
@@ -295,7 +296,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
     * @param nonWork Phoenix non-working day
     * @return RecurringData instance
     */
-   private RecurringData recurringData(RecurrenceType type, net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork nonWork)
+   private RecurringData recurringData(RecurrenceType type, NonWork nonWork)
    {
       RecurringData data = new RecurringData();
       data.setRecurrenceType(type);
@@ -319,7 +320,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
     * @param mpxjCalendar MPXJ calendar
     * @param nonWork Phoenix non-working data
     */
-   private void addDailyRecurringException(ProjectCalendar mpxjCalendar, net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork nonWork)
+   private void addDailyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
       if (nonWork.getCount() == 1)
       {
@@ -338,7 +339,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
     * @param mpxjCalendar MPXJ calendar
     * @param nonWork Phoenix non-working data
     */
-   private void addWeeklyRecurringException(ProjectCalendar mpxjCalendar, net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork nonWork)
+   private void addWeeklyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
       RecurringData data = recurringData(RecurrenceType.WEEKLY, nonWork);
       java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
@@ -353,7 +354,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
     * @param mpxjCalendar MPXJ calendar
     * @param nonWork Phoenix non-working data
     */
-   private void addMonthlyRecurringException(ProjectCalendar mpxjCalendar, net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork nonWork)
+   private void addMonthlyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
       RecurringData data = recurringData(RecurrenceType.MONTHLY, nonWork);
 
@@ -378,7 +379,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
     * @param mpxjCalendar MPXJ calendar
     * @param nonWork Phoenix non-working data
     */
-   private void addYearlyRecurringException(ProjectCalendar mpxjCalendar, net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork nonWork)
+   private void addYearlyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
       RecurringData data = recurringData(RecurrenceType.YEARLY, nonWork);
       data.setRelative(nonWork.getNthDow() != 0);
@@ -1146,7 +1147,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
 
    interface NonWorkingDayFunction
    {
-      void apply(Phoenix4Reader reader, ProjectCalendar mpxjCalendar, net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar.NonWork nonWorkingDay);
+      void apply(Phoenix4Reader reader, ProjectCalendar mpxjCalendar, NonWork nonWorkingDay);
    }
 
    private static final Map<String, NonWorkingDayFunction> NON_WORKING_DAY_MAP = new HashMap<>();

@@ -1099,7 +1099,6 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    }
 
    private static final Map<String, ActivityType> ACTIVITY_TYPE_MAP = new HashMap<>();
-
    static
    {
       ACTIVITY_TYPE_MAP.put("Task", ActivityType.TASK_DEPENDENT);
@@ -1111,7 +1110,6 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    }
 
    private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
-
    static
    {
       CONSTRAINT_TYPE_MAP.put("StartNoLater", ConstraintType.START_NO_LATER_THAN);
