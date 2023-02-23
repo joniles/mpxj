@@ -360,6 +360,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
     */
    private void addMonthlyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
+      // TODO: support snap to end of month
       RecurringData data = recurringData(RecurrenceType.MONTHLY, nonWork);
 
       data.setRelative(nonWork.getNthDow() != 0);
@@ -385,6 +386,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
     */
    private void addYearlyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
+      // TODO: support snap to end of month
       RecurringData data = recurringData(RecurrenceType.YEARLY, nonWork);
       data.setRelative(nonWork.getNthDow() != 0);
       java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
