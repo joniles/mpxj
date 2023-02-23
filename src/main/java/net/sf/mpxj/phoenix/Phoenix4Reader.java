@@ -251,7 +251,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
     *
     * @param calendar calendar data
     */
-   private void readCalendar(net.sf.mpxj.phoenix.schema.phoenix4.Project.Storepoints.Storepoint.Calendars.Calendar calendar)
+   private void readCalendar(Calendar calendar)
    {
       // Create the calendar
       ProjectCalendar mpxjCalendar = m_projectFile.addCalendar();
