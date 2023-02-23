@@ -174,19 +174,26 @@ public final class DatatypeConverter
     */
    public static final Date parseDateTime(String value)
    {
+      if (value == null || value.isEmpty() || value.equals(NOT_A_DATE_TIME))
+      {
+         return null;
+      }
+
+      if (value.equals(PLUS_INFINITY))
+      {
+         return DateHelper.END_DATE_NA;
+      }
+
       Date result = null;
 
-      if (value != null && value.length() != 0 && !value.equals(NOT_A_DATE_TIME))
+      try
       {
-         try
-         {
-            result = DATE_FORMAT.get().parse(value);
-         }
+         result = DATE_FORMAT.get().parse(value);
+      }
 
-         catch (ParseException ex)
-         {
-            // Ignored
-         }
+      catch (ParseException ex)
+      {
+         // Ignored
       }
 
       return result;
@@ -357,6 +364,7 @@ public final class DatatypeConverter
    }
 
    private static final String NOT_A_DATE_TIME = "not-a-date-time";
+   private static final String PLUS_INFINITY = "+infinity";
 
    private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
       DateFormat df = new SimpleDateFormat("yyyyMMdd'T'HHmmss");

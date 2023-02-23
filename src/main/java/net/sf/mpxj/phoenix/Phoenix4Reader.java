@@ -45,6 +45,8 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.common.SlackHelper;
 import org.xml.sax.SAXException;
 
@@ -262,15 +264,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       }
 
       // Mark non-working days
-      List<NonWork> nonWorkingDays = calendar.getNonWork();
-      for (NonWork nonWorkingDay : nonWorkingDays)
-      {
-         // TODO: handle recurring exceptions
-         if (nonWorkingDay.getType().equals("internal_weekly"))
-         {
-            mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
-         }
-      }
+      calendar.getNonWork().stream().filter(n -> NON_WORKING_DAY_MAP.containsKey(n.getType())).forEach(n -> NON_WORKING_DAY_MAP.get(n.getType()).apply(this, mpxjCalendar, n));
 
       // Add default working hours for working days
       for (Day day : Day.values())
@@ -282,6 +276,128 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
             hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
          }
       }
+   }
+
+   /**
+    * Mark a single weekday as non-working.
+    *
+    * @param mpxjCalendar MPXJ calendar
+    * @param nonWorkingDay Phoenix non-working day
+    */
+   private void addNonWorkingDay(ProjectCalendar mpxjCalendar, Calendar.NonWork nonWorkingDay)
+   {
+      mpxjCalendar.setWorkingDay(nonWorkingDay.getWeekday(), false);
+   }
+
+   /**
+    * Create a RecurringData instance with common data.
+    *
+    * @param type recurrence type
+    * @param nonWork Phoenix non-working day
+    * @return RecurringData instance
+    */
+   private RecurringData recurringData(RecurrenceType type, NonWork nonWork)
+   {
+      RecurringData data = new RecurringData();
+      data.setRecurrenceType(type);
+      data.setFrequency(nonWork.getInterval());
+      data.setStartDate(nonWork.getStart());
+      data.setUseEndDate(nonWork.getCount() == 0);
+      if (data.getUseEndDate())
+      {
+         data.setFinishDate(nonWork.getUntil());
+      }
+      else
+      {
+         data.setOccurrences(nonWork.getCount());
+      }
+      return data;
+   }
+
+   /**
+    * Add a daily recurring exception.
+    *
+    * @param mpxjCalendar MPXJ calendar
+    * @param nonWork Phoenix non-working data
+    */
+   private void addDailyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
+   {
+      if (nonWork.getCount() == 1)
+      {
+         mpxjCalendar.addCalendarException(nonWork.getStart());
+      }
+      else
+      {
+         RecurringData data = recurringData(RecurrenceType.DAILY, nonWork);
+         mpxjCalendar.addCalendarException(data);
+      }
+   }
+
+   /**
+    * Add a weekly recurring exception.
+    *
+    * @param mpxjCalendar MPXJ calendar
+    * @param nonWork Phoenix non-working data
+    */
+   private void addWeeklyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
+   {
+      RecurringData data = recurringData(RecurrenceType.WEEKLY, nonWork);
+      java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
+      data.setWeeklyDay(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)), true);
+      DateHelper.pushCalendar(calendar);
+      mpxjCalendar.addCalendarException(data);
+   }
+
+   /**
+    * Add a monthly recurring exception.
+    *
+    * @param mpxjCalendar MPXJ calendar
+    * @param nonWork Phoenix non-working data
+    */
+   private void addMonthlyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
+   {
+      // TODO: support snap to end of month
+      RecurringData data = recurringData(RecurrenceType.MONTHLY, nonWork);
+
+      data.setRelative(nonWork.getNthDow() != 0);
+      java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
+      if (data.getRelative())
+      {
+         data.setDayNumber(nonWork.getNthDow());
+         data.setDayOfWeek(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)));
+      }
+      else
+      {
+         data.setDayNumber(calendar.get(java.util.Calendar.DAY_OF_MONTH));
+      }
+      DateHelper.pushCalendar(calendar);
+      mpxjCalendar.addCalendarException(data);
+   }
+
+   /**
+    * Add a yearly recurring exception.
+    *
+    * @param mpxjCalendar MPXJ calendar
+    * @param nonWork Phoenix non-working data
+    */
+   private void addYearlyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
+   {
+      // TODO: support snap to end of month
+      RecurringData data = recurringData(RecurrenceType.YEARLY, nonWork);
+      data.setRelative(nonWork.getNthDow() != 0);
+      java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
+      data.setMonthNumber(calendar.get(java.util.Calendar.MONTH) + 1);
+      if (data.getRelative())
+      {
+         data.setDayNumber(nonWork.getNthDow());
+         data.setDayOfWeek(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)));
+      }
+      else
+      {
+         data.setDayNumber(calendar.get(java.util.Calendar.DAY_OF_MONTH));
+      }
+      DateHelper.pushCalendar(calendar);
+      mpxjCalendar.addCalendarException(data);
    }
 
    /**
@@ -1029,5 +1145,20 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       CONSTRAINT_TYPE_MAP.put("AsLateAsPossible", ConstraintType.AS_LATE_AS_POSSIBLE);
       CONSTRAINT_TYPE_MAP.put("MustStartOn", ConstraintType.MUST_START_ON);
       CONSTRAINT_TYPE_MAP.put("MustFinishOn", ConstraintType.MUST_FINISH_ON);
+   }
+
+   interface NonWorkingDayFunction
+   {
+      void apply(Phoenix4Reader reader, ProjectCalendar mpxjCalendar, NonWork nonWorkingDay);
+   }
+
+   private static final Map<String, NonWorkingDayFunction> NON_WORKING_DAY_MAP = new HashMap<>();
+   static
+   {
+      NON_WORKING_DAY_MAP.put("internal_weekly", Phoenix4Reader::addNonWorkingDay);
+      NON_WORKING_DAY_MAP.put("daily", Phoenix4Reader::addDailyRecurringException);
+      NON_WORKING_DAY_MAP.put("weekly", Phoenix4Reader::addWeeklyRecurringException);
+      NON_WORKING_DAY_MAP.put("monthly", Phoenix4Reader::addMonthlyRecurringException);
+      NON_WORKING_DAY_MAP.put("yearly", Phoenix4Reader::addYearlyRecurringException);
    }
 }
