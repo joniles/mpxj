@@ -1,39 +1,33 @@
 # How To: Use Baselines
 
-One tool for measuring how a schedule has changed over time is to create a 
-baseline. A baseline allows a snapshot of a schedule to be taken at a point in
-time, then in future you can compare the current state of your schedule to the
-baseline you've captured to see what's different.
+One tool for measuring how a schedule has changed over time is to create a
+baseline. A baseline is a snapshot of a schedule taken at a point in time: at
+some point in the future you can compare the current state of your schedule to
+this snapshot as a way to understand what has changed.
 
-MPXJ supports reading baseline data from schedules created by Microsoft Project,
-Primavera P6, Asta Powerproject, Concept Draw PROJECT, Fasttrack, and Phoenix.
-There are two distinct approaches taken by these applications to manage
-baselines and these are typified by Microsoft Project and P6.
-
-Microsoft Project supports capturing 11 distinct baselines: one called
+Microsoft Project captures a baseline by taking copies of a small set of
+attributes for tasks, resources and resource assignments. The main attributes
+captured for each of these entities are Work, Cost, Duration, Start and Finish.
+These attributes can be stored as one of 11 distinct baselines: one called
 simply "Baseline", and the rest labelled "Baseline 1" through to "Baseline 10".
-In Microsoft Project you can select a menu option for the
-current project you are working with to take a new baseline. This copies the
-current state of your project into one of these baselines: you'll be given a
-choice of which baseline you would like to use at this point.
+If we pick Duration as an example attribute, the baseline value for this
+attribute might appear as "Baseline Duration", "Baseline 1 Duration", "Baseline
+2 Duration" and so on, depending on which set of baseline attributes you had
+chosen to capture your snapshot.
 
-Once you have populated a baseline you will have captured copies of attributes
-like Start, Finish, Duration, Fixed Cost, Fixed Cost Accrual and so on. 
+Capturing a baseline in Microsoft Project is as simple as selecting a menu
+option for the current project you are working with to take a new baseline.
+You'll be prompted to select which baseline you'd like to populate
+("Baseline", "Baseline 1", "Baseline 2" and so on) then the relevant attributes
+will be copied across to the set of baseline attributes you've selected.
 
-XXX explain better what's happening heer!
+The baseline attributes you have captured as part of this process have no
+special properties: by default they can be edited once they have been captured,
+and no recalculation takes place if they are edited (for example, if you change
+a baseline duration of a task, the baseline finish date of the task won't
+change).
 
-The
-exact set of attributes captured depend on which entity you are looking at
-(task, resource, resource assignment and so on). As you can see we have
-captured details of key elements of the current state of the schedule, rather
-than a copy of the entire schedule itself, but this is usually enough to
-understand how the schedule has changed.
 
-The baseline attributes you have captured as part of this
-process have no special properties: by default they can be edited once they
-have been captured, and no recalculation takes place if they are edited
-(for example, if you change a baseline duration of a task, the baseline finish
-date of the task won't change).
 
 Primavera P6 takes a different approach: instead of capturing a subset of
 the attributes from you current schedule and storing
