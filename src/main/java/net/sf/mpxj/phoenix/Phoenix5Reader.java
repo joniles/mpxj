@@ -306,7 +306,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       data.setRecurrenceType(type);
       data.setFrequency(nonWork.getInterval());
       data.setStartDate(nonWork.getStart());
-      data.setUseEndDate(nonWork.getCount() == 0);
+      data.setUseEndDate(NumberHelper.getInt(nonWork.getCount()) == 0);
       if (data.getUseEndDate())
       {
          data.setFinishDate(nonWork.getUntil());
@@ -326,7 +326,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
     */
    private void addDailyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
-      if (nonWork.getCount() == 1)
+      if (NumberHelper.getInt(nonWork.getCount()) == 1)
       {
          mpxjCalendar.addCalendarException(nonWork.getStart());
       }
@@ -363,7 +363,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       // TODO: support snap to end of month
       RecurringData data = recurringData(RecurrenceType.MONTHLY, nonWork);
 
-      data.setRelative(nonWork.getNthDow() != 0);
+      data.setRelative(NumberHelper.getInt(nonWork.getNthDow()) != 0);
       java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
       if (data.getRelative())
       {
@@ -372,7 +372,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       }
       else
       {
-         data.setDayNumber(calendar.get(java.util.Calendar.DAY_OF_MONTH));
+         data.setDayNumber(Integer.valueOf(calendar.get(java.util.Calendar.DAY_OF_MONTH)));
       }
       DateHelper.pushCalendar(calendar);
       mpxjCalendar.addCalendarException(data);
@@ -388,9 +388,9 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    {
       // TODO: support snap to end of month
       RecurringData data = recurringData(RecurrenceType.YEARLY, nonWork);
-      data.setRelative(nonWork.getNthDow() != 0);
+      data.setRelative(NumberHelper.getInt(nonWork.getNthDow()) != 0);
       java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
-      data.setMonthNumber(calendar.get(java.util.Calendar.MONTH) + 1);
+      data.setMonthNumber(Integer.valueOf(calendar.get(java.util.Calendar.MONTH) + 1));
       if (data.getRelative())
       {
          data.setDayNumber(nonWork.getNthDow());
@@ -398,7 +398,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       }
       else
       {
-         data.setDayNumber(calendar.get(java.util.Calendar.DAY_OF_MONTH));
+         data.setDayNumber(Integer.valueOf(calendar.get(java.util.Calendar.DAY_OF_MONTH)));
       }
       DateHelper.pushCalendar(calendar);
       mpxjCalendar.addCalendarException(data);
