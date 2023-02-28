@@ -36,6 +36,7 @@ import java.util.TreeMap;
 
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -278,7 +279,6 @@ final class MPP14Reader implements MPPVariantReader
          int uniqueIDOffset;
          int filePathOffset;
          int fileNameOffset;
-         byte[] itemHeaderFlags = new byte[4];
 
          /*int blockSize = MPPUtility.getInt(subProjData, offset);*/
          offset += 4;
@@ -296,8 +296,8 @@ final class MPP14Reader implements MPPVariantReader
             offset += 4;
 
             // 20 byte header: 16 bytes GUID, 4 bytes flags
-            MPPUtility.getByteArray(subProjData, itemHeaderOffset + 16, itemHeaderFlags.length, itemHeaderFlags, 0);
-            byte subProjectType = itemHeaderFlags[0];
+            //System.out.println(ByteArrayHelper.hexdump(subProjData, itemHeaderOffset+16, 4, false));
+            byte subProjectType = subProjData[itemHeaderOffset + 16];
 
             switch (subProjectType)
             {
