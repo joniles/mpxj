@@ -246,7 +246,7 @@ final class MPP9Reader implements MPPVariantReader
          int uniqueIDOffset;
          int filePathOffset;
          int fileNameOffset;
-         byte[] itemHeader = new byte[20];
+         byte[] itemHeaderFlags = new byte[4];
 
          /*int blockSize = MPPUtility.getInt(subProjData, offset);*/
          offset += 4;
@@ -263,8 +263,9 @@ final class MPP9Reader implements MPPVariantReader
             itemHeaderOffset = MPPUtility.getShort(subProjData, offset);
             offset += 4;
 
-            MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
-            byte subProjectType = itemHeader[16];
+            // 20 byte header: 16 bytes GUID, 4 bytes flags
+            MPPUtility.getByteArray(subProjData, itemHeaderOffset + 16, itemHeaderFlags.length, itemHeaderFlags, 0);
+            byte subProjectType = itemHeaderFlags[0];
 
             switch (subProjectType)
             {
@@ -297,7 +298,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -318,7 +319,7 @@ final class MPP9Reader implements MPPVariantReader
                   // Unknown offset
                   offset += 4;
 
-                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -340,7 +341,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -362,7 +363,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -382,7 +383,7 @@ final class MPP9Reader implements MPPVariantReader
                   // unknown offset
                   offset += 4;
 
-                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -400,7 +401,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  SubProject sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  SubProject sp = readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   m_file.getSubProjects().setResourceSubProject(sp);
                   break;
                }
@@ -417,7 +418,7 @@ final class MPP9Reader implements MPPVariantReader
                   offset += 4;
 
                   offset += 4;
-                  SubProject sp = readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  SubProject sp = readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   m_file.getSubProjects().setResourceSubProject(sp);
                   break;
                }
@@ -434,7 +435,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  SubProject sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
+                  SubProject sp = readSubProject(subProjData, itemHeaderOffset, -1, filePathOffset, fileNameOffset, index);
                   // 0x02 looks to be the link FROM the resource pool to a project that uses it
                   if (subProjectType == 0x04)
                   {
@@ -457,7 +458,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -488,7 +489,7 @@ final class MPP9Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  SubProject sp = readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index);
+                  SubProject sp = readSubProject(subProjData, itemHeaderOffset, -1, filePathOffset, fileNameOffset, index);
                   m_file.getSubProjects().setResourceSubProject(sp);
                   break;
                }
@@ -516,11 +517,16 @@ final class MPP9Reader implements MPPVariantReader
     * @param subprojectIndex index of the subproject, used to calculate unique id offset
     * @return new SubProject instance
     */
-   private SubProject readSubProject(byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int subprojectIndex)
+   private SubProject readSubProject(byte[] data, int headerOffset, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int subprojectIndex)
    {
       try
       {
          SubProject sp = new SubProject();
+
+         // We have a 20 byte header.
+         // First 16 bytes are the GUID of the target project
+         // Remaining 4 bytes are believed to be flags
+         sp.setProjectGUID(MPPUtility.getGUID(data, headerOffset));
 
          if (uniqueIDOffset != -1)
          {
@@ -1008,7 +1014,7 @@ final class MPP9Reader implements MPPVariantReader
          if (temp != null)
          {
             // Task with this id already exists... determine if this is the 'real' task by seeing
-            // if this task has some var data. This is sort of hokey, but it's the best method i have
+            // if this task has some var data. This is sort of hokey, but it's the best method I have
             // been able to see.
             if (!taskVarMeta.getUniqueIdentifierSet().contains(uniqueID))
             {

@@ -25,6 +25,7 @@ package net.sf.mpxj;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * This class represents a sub project.
@@ -154,6 +155,16 @@ public final class SubProject
       m_taskUniqueID = taskUniqueID;
    }
 
+   public void setProjectGUID(UUID guid)
+   {
+      m_projectGUID = guid;
+   }
+
+   public UUID getProjectGUID()
+   {
+      return m_projectGUID;
+   }
+
    /**
     * Check to see if the given task is an external task from this subproject.
     *
@@ -197,4 +208,5 @@ public final class SubProject
    private String m_fullPath;
    private String m_dosFileName;
    private String m_fileName;
+   private UUID m_projectGUID;
 }
