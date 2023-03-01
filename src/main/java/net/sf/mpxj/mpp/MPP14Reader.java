@@ -36,7 +36,6 @@ import java.util.TreeMap;
 
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -605,42 +604,7 @@ final class MPP14Reader implements MPPVariantReader
          int offset = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
          sp.setUniqueIDOffset(Integer.valueOf(offset));
 
-         if (uniqueIDOffset != -1)
-         {
-            int value = MPPUtility.getInt(data, uniqueIDOffset);
-
-            Integer taskUniqueID = value == 0 || value > ProjectEntityContainer.MS_PROJECT_MAX_UNIQUE_ID ? null : Integer.valueOf(value);
-            if (taskUniqueID != null)
-            {
-               switch (type)
-               {
-                  case SUBPROJECT_TASKUNIQUEID0:
-                  case SUBPROJECT_TASKUNIQUEID1:
-                  case SUBPROJECT_TASKUNIQUEID2:
-                  case SUBPROJECT_TASKUNIQUEID3:
-                  case SUBPROJECT_TASKUNIQUEID4:
-                  case SUBPROJECT_TASKUNIQUEID5:
-                  case SUBPROJECT_TASKUNIQUEID6:
-                  case SUBPROJECT_TASKUNIQUEID7:
-                  case SUBPROJECT_TASKUNIQUEID8:
-                  {
-                     sp.setTaskUniqueID(taskUniqueID);
-                     m_taskSubProjects.put(taskUniqueID, sp);
-                     break;
-                  }
-
-                  default:
-                  {
-                     if (value != 0)
-                     {
-                        sp.addExternalTaskUniqueID(taskUniqueID);
-                        m_taskSubProjects.put(taskUniqueID, sp);
-                     }
-                     break;
-                  }
-               }
-            }
-         }
+         processUniqueIdValues(sp, data, uniqueIDOffset);
 
          if (type == SUBPROJECT_TASKUNIQUEID4)
          {
@@ -768,6 +732,48 @@ final class MPP14Reader implements MPPVariantReader
       catch (ArrayIndexOutOfBoundsException ex)
       {
          return (null);
+      }
+   }
+
+   private void processUniqueIdValues(SubProject sp, byte[] data, int uniqueIDOffset)
+   {
+      if (uniqueIDOffset == -1)
+      {
+         return;
+      }
+
+      int value = MPPUtility.getInt(data, uniqueIDOffset);
+      int type = MPPUtility.getInt(data, uniqueIDOffset + 4);
+      Integer taskUniqueID = value == 0 || value > ProjectEntityContainer.MS_PROJECT_MAX_UNIQUE_ID ? null : Integer.valueOf(value);
+      if (taskUniqueID != null)
+      {
+         switch (type)
+         {
+            case SUBPROJECT_TASKUNIQUEID0:
+            case SUBPROJECT_TASKUNIQUEID1:
+            case SUBPROJECT_TASKUNIQUEID2:
+            case SUBPROJECT_TASKUNIQUEID3:
+            case SUBPROJECT_TASKUNIQUEID4:
+            case SUBPROJECT_TASKUNIQUEID5:
+            case SUBPROJECT_TASKUNIQUEID6:
+            case SUBPROJECT_TASKUNIQUEID7:
+            case SUBPROJECT_TASKUNIQUEID8:
+            {
+               sp.setTaskUniqueID(taskUniqueID);
+               m_taskSubProjects.put(taskUniqueID, sp);
+               break;
+            }
+
+            default:
+            {
+               if (value != 0)
+               {
+                  sp.addExternalTaskUniqueID(taskUniqueID);
+                  m_taskSubProjects.put(taskUniqueID, sp);
+               }
+               break;
+            }
+         }
       }
    }
 

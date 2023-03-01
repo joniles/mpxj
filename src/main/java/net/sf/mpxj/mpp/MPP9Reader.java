@@ -532,47 +532,7 @@ final class MPP9Reader implements MPPVariantReader
          int offset = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
          sp.setUniqueIDOffset(Integer.valueOf(offset));
 
-         if (uniqueIDOffset != -1)
-         {
-            int prev = 0;
-            int value = MPPUtility.getInt(data, uniqueIDOffset);
-            while (value != SUBPROJECT_LISTEND)
-            {
-               switch (value)
-               {
-                  case SUBPROJECT_TASKUNIQUEID0:
-                  case SUBPROJECT_TASKUNIQUEID1:
-                  case SUBPROJECT_TASKUNIQUEID2:
-                  case SUBPROJECT_TASKUNIQUEID3:
-                  case SUBPROJECT_TASKUNIQUEID4:
-                  case SUBPROJECT_TASKUNIQUEID5:
-                     // The previous value was for the subproject unique task id
-                     sp.setTaskUniqueID(Integer.valueOf(prev));
-                     m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
-                     prev = 0;
-                     break;
-
-                  default:
-                     if (prev != 0)
-                     {
-                        // The previous value was for an external task unique task id
-                        sp.addExternalTaskUniqueID(Integer.valueOf(prev));
-                        m_taskSubProjects.put(Integer.valueOf(prev), sp);
-                     }
-                     prev = value;
-                     break;
-               }
-               // Read the next value
-               uniqueIDOffset += 4;
-               value = MPPUtility.getInt(data, uniqueIDOffset);
-            }
-            if (prev != 0)
-            {
-               // The previous value was for an external task unique task id
-               sp.addExternalTaskUniqueID(Integer.valueOf(prev));
-               m_taskSubProjects.put(Integer.valueOf(prev), sp);
-            }
-         }
+         processUniqueIdValues(sp, data, uniqueIDOffset);
 
          //
          // First block header
@@ -693,6 +653,53 @@ final class MPP9Reader implements MPPVariantReader
       catch (ArrayIndexOutOfBoundsException ex)
       {
          return (null);
+      }
+   }
+
+   private void processUniqueIdValues(SubProject sp, byte[] data, int uniqueIDOffset)
+   {
+      if (uniqueIDOffset == -1)
+      {
+         return;
+      }
+
+      int prev = 0;
+      int value = MPPUtility.getInt(data, uniqueIDOffset);
+      while (value != SUBPROJECT_LISTEND)
+      {
+         switch (value)
+         {
+            case SUBPROJECT_TASKUNIQUEID0:
+            case SUBPROJECT_TASKUNIQUEID1:
+            case SUBPROJECT_TASKUNIQUEID2:
+            case SUBPROJECT_TASKUNIQUEID3:
+            case SUBPROJECT_TASKUNIQUEID4:
+            case SUBPROJECT_TASKUNIQUEID5:
+               // The previous value was for the subproject unique task id
+               sp.setTaskUniqueID(Integer.valueOf(prev));
+               m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
+               prev = 0;
+               break;
+
+            default:
+               if (prev != 0)
+               {
+                  // The previous value was for an external task unique task id
+                  sp.addExternalTaskUniqueID(Integer.valueOf(prev));
+                  m_taskSubProjects.put(Integer.valueOf(prev), sp);
+               }
+               prev = value;
+               break;
+         }
+         // Read the next value
+         uniqueIDOffset += 4;
+         value = MPPUtility.getInt(data, uniqueIDOffset);
+      }
+      if (prev != 0)
+      {
+         // The previous value was for an external task unique task id
+         sp.addExternalTaskUniqueID(Integer.valueOf(prev));
+         m_taskSubProjects.put(Integer.valueOf(prev), sp);
       }
    }
 
