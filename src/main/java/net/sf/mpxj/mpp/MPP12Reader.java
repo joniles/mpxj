@@ -583,7 +583,7 @@ final class MPP12Reader implements MPPVariantReader
          // First 16 bytes are the GUID of the target project
          // Remaining 4 bytes are believed to be flags
          sp.setProjectGUID(MPPUtility.getGUID(data, headerOffset));
-         int type = SUBPROJECT_TASKUNIQUEID0;
+         int type = uniqueIDOffset == -1 ? SUBPROJECT_TASKUNIQUEID0 : MPPUtility.getInt(data, uniqueIDOffset + 4);
 
          // Generate the unique id offset for this subproject
          int offset = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
@@ -592,7 +592,6 @@ final class MPP12Reader implements MPPVariantReader
          if (uniqueIDOffset != -1)
          {
             int value = MPPUtility.getInt(data, uniqueIDOffset);
-            type = MPPUtility.getInt(data, uniqueIDOffset + 4);
 
             Integer taskUniqueID = value == 0 || value > ProjectEntityContainer.MS_PROJECT_MAX_UNIQUE_ID ? null : Integer.valueOf(value);
             if (taskUniqueID != null)
