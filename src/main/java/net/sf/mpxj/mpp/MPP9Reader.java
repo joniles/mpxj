@@ -528,6 +528,10 @@ final class MPP9Reader implements MPPVariantReader
          // Remaining 4 bytes are believed to be flags
          sp.setProjectGUID(MPPUtility.getGUID(data, headerOffset));
 
+         // Generate the unique id offset for this subproject
+         int offset = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
+         sp.setUniqueIDOffset(Integer.valueOf(offset));
+
          if (uniqueIDOffset != -1)
          {
             int prev = 0;
@@ -568,10 +572,6 @@ final class MPP9Reader implements MPPVariantReader
                sp.addExternalTaskUniqueID(Integer.valueOf(prev));
                m_taskSubProjects.put(Integer.valueOf(prev), sp);
             }
-
-            // Now get the unique id offset for this subproject
-            value = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
-            sp.setUniqueIDOffset(Integer.valueOf(value));
          }
 
          //

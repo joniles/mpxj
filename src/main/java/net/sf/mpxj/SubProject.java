@@ -155,11 +155,21 @@ public final class SubProject
       m_taskUniqueID = taskUniqueID;
    }
 
+   /**
+    * Set the subproject GUID.
+    *
+    * @param guid subproject GUID
+    */
    public void setProjectGUID(UUID guid)
    {
       m_projectGUID = guid;
    }
 
+   /**
+    * Retrieve the subproject GUID.
+    *
+    * @return subproject GUID
+    */
    public UUID getProjectGUID()
    {
       return m_projectGUID;

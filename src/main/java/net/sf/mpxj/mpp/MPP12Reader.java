@@ -585,6 +585,10 @@ final class MPP12Reader implements MPPVariantReader
          sp.setProjectGUID(MPPUtility.getGUID(data, headerOffset));
          int type = SUBPROJECT_TASKUNIQUEID0;
 
+         // Generate the unique id offset for this subproject
+         int offset = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
+         sp.setUniqueIDOffset(Integer.valueOf(offset));
+
          if (uniqueIDOffset != -1)
          {
             int value = MPPUtility.getInt(data, uniqueIDOffset);
@@ -618,10 +622,6 @@ final class MPP12Reader implements MPPVariantReader
                      break;
                   }
                }
-
-               // Now get the unique id offset for this subproject
-               value = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
-               sp.setUniqueIDOffset(Integer.valueOf(value));
             }
          }
 
