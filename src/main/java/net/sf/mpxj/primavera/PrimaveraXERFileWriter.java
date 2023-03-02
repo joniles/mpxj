@@ -7,16 +7,16 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.function.BiFunction;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.Availability;
-import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
@@ -26,6 +26,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -66,6 +67,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeCurrencies();
          writeRoles();
          writeRoleRates();
+         writeResources();
          m_writer.flush();
       }
 
@@ -126,13 +128,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeRoles()
    {
       writeTable("ROLES", ROLE_COLUMNS);
-      m_file.getResources().stream().filter(Resource::getRole).forEach(r -> writeRecord(ROLE_COLUMNS, r));
+      m_file.getResources().stream().filter(Resource::getRole).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeRecord(ROLE_COLUMNS, r));
    }
 
    private void writeRoleRates()
    {
       writeTable("ROLERATE", ROLE_RATE_COLUMNS);
-      m_file.getResources().stream().filter(Resource::getRole).forEach(r -> writeRoleRates(r));
+      m_file.getResources().stream().filter(Resource::getRole).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(this::writeRoleRates);
    }
 
    private void writeRoleRates(Resource resource)
@@ -142,7 +144,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    private void writeRoleRates(Resource resource, CostRateTableEntry entry)
    {
-      writeRecord(ROLE_RATE_COLUMNS.values().stream().map(f -> f.apply(resource, entry)));
+      writeRecord(ROLE_RATE_COLUMNS.values().stream().map(f -> f.apply(this, resource, entry)));
+   }
+
+   private void writeResources()
+   {
+      writeTable("RSRC", RESOURCE_COLUMNS);
+      m_file.getResources().stream().filter(r -> !r.getRole().booleanValue()).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeRecord(RESOURCE_COLUMNS, r));
    }
 
    private void writeTable(String name, String[] columns)
@@ -161,7 +169,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
    }
 
-   private void writeTable(String name, Map<String, ? extends Object> map)
+   private void writeTable(String name, Map<String, ?> map)
    {
       try
       {
@@ -187,7 +195,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       try
       {
          m_writer.write("%R\t");
-         m_writer.write(data.map(c -> format(c)).collect(Collectors.joining("\t")));
+         m_writer.write(data.map(this::format).collect(Collectors.joining("\t")));
          m_writer.write("\n");
       }
 
@@ -216,7 +224,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       if (key instanceof FieldType)
       {
-         return container.get((FieldType)key);
+         return container.get((FieldType) key);
       }
 
       return key;
@@ -237,17 +245,27 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
       if (object instanceof Boolean)
       {
-         return ((Boolean)object).booleanValue() ? "Y" : "N";
+         return ((Boolean) object).booleanValue() ? "Y" : "N";
       }
 
       if (object instanceof Notes)
       {
-         return formatNotes((Notes)object);
+         return formatNotes((Notes) object);
       }
 
       if (object instanceof Rate)
       {
-         return formatRate((Rate)object);
+         return formatRate((Rate) object);
+      }
+
+      if (object instanceof UUID)
+      {
+         return formatUUID((UUID)object);
+      }
+
+      if (object instanceof ResourceType)
+      {
+         return formatResourceType((ResourceType)object);
       }
 
       return object.toString();
@@ -280,6 +298,40 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return m_rateFormat.format(rate.getAmount());
    }
 
+   private String formatUUID(UUID value)
+   {
+      byte[] data = new byte[16];
+      long lsb = value.getLeastSignificantBits();
+      long msb = value.getMostSignificantBits();
+
+      data[15] = (byte)(lsb & 0xff);
+      data[14] = (byte)(lsb >> 8 & 0xff);
+      data[13] = (byte)(lsb >> 16 & 0xff);
+      data[12] = (byte)(lsb >> 24 & 0xff);
+      data[11] = (byte)(lsb >> 32 & 0xff);
+      data[10] = (byte)(lsb >> 40 & 0xff);
+      data[9] = (byte)(lsb >> 48 & 0xff);
+      data[8] = (byte)(lsb >> 56 & 0xff);
+
+      data[6] = (byte)(msb & 0xff);
+      data[7] = (byte)(msb >> 8 & 0xff);
+      data[4] = (byte)(msb >> 16 & 0xff);
+      data[5] = (byte)(msb >> 24 & 0xff);
+      data[0] = (byte)(msb >> 32 & 0xff);
+      data[1] = (byte)(msb >> 40 & 0xff);
+      data[2] = (byte)(msb >> 48 & 0xff);
+      data[3] = (byte)(msb >> 56 & 0xff);
+
+      String result = javax.xml.bind.DatatypeConverter.printBase64Binary(data);
+
+      return result.substring(0, result.length()-2);
+   }
+
+   private String formatResourceType(ResourceType type)
+   {
+      return RESOURCE_TYPE_MAP.get(type);
+   }
+
    private String getMaxQuantityPerHour(Resource resource, CostRateTableEntry entry)
    {
       Availability availability = resource.getAvailability().getEntryByDate(entry.getStartDate());
@@ -305,6 +357,14 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private final DecimalFormat m_rateFormat = new DecimalFormat("0.0000");
 
    private final DecimalFormat m_maxUnitsFormat = new DecimalFormat("0.####");
+
+   private static final Map<ResourceType, String> RESOURCE_TYPE_MAP = new HashMap<>();
+   static
+   {
+      RESOURCE_TYPE_MAP.put(ResourceType.WORK, "RT_Labor");
+      RESOURCE_TYPE_MAP.put(ResourceType.MATERIAL, "RT_Mat");
+      RESOURCE_TYPE_MAP.put(ResourceType.COST, "RT_Equip");
+   }
 
    private static final String[] CURRENCY_COLUMNS = {
       "curr_id",
@@ -351,16 +411,58 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ROLE_COLUMNS.put("last_checksum", "");
    }
 
-   private static final Map<String, BiFunction<Resource, CostRateTableEntry, Object>> ROLE_RATE_COLUMNS = new LinkedHashMap<>();
+   private interface RoleRateFunction
    {
-      ROLE_RATE_COLUMNS.put("role_rate_id", (Resource r, CostRateTableEntry e) -> Integer.valueOf(m_roleRateUniqueID++));
-      ROLE_RATE_COLUMNS.put("role_id", (Resource r, CostRateTableEntry e) -> r.getUniqueID());
-      ROLE_RATE_COLUMNS.put("cost_per_qty", (Resource r, CostRateTableEntry e) -> e.getRate(0));
-      ROLE_RATE_COLUMNS.put("cost_per_qty2", (Resource r, CostRateTableEntry e) -> e.getRate(1));
-      ROLE_RATE_COLUMNS.put("cost_per_qty3", (Resource r, CostRateTableEntry e) -> e.getRate(2));
-      ROLE_RATE_COLUMNS.put("cost_per_qty4", (Resource r, CostRateTableEntry e) -> e.getRate(3));
-      ROLE_RATE_COLUMNS.put("cost_per_qty5", (Resource r, CostRateTableEntry e) -> e.getRate(4));
-      ROLE_RATE_COLUMNS.put("start_date", (Resource r, CostRateTableEntry e) -> e.getStartDate());
-      ROLE_RATE_COLUMNS.put("max_qty_per_hr", this::getMaxQuantityPerHour);
+      Object apply(PrimaveraXERFileWriter writer, Resource resource, CostRateTableEntry entry);
+   }
+
+   private static final Map<String, RoleRateFunction> ROLE_RATE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      ROLE_RATE_COLUMNS.put("role_rate_id", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> Integer.valueOf(w.m_roleRateUniqueID++));
+      ROLE_RATE_COLUMNS.put("role_id", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> r.getUniqueID());
+      ROLE_RATE_COLUMNS.put("cost_per_qty", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(0));
+      ROLE_RATE_COLUMNS.put("cost_per_qty2", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(1));
+      ROLE_RATE_COLUMNS.put("cost_per_qty3", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(2));
+      ROLE_RATE_COLUMNS.put("cost_per_qty4", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(3));
+      ROLE_RATE_COLUMNS.put("cost_per_qty5", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(4));
+      ROLE_RATE_COLUMNS.put("start_date", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getStartDate());
+      ROLE_RATE_COLUMNS.put("max_qty_per_hr", PrimaveraXERFileWriter::getMaxQuantityPerHour);
+   }
+
+   private static final Map<String, Object> RESOURCE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      RESOURCE_COLUMNS.put("rsrc_id", ResourceField.UNIQUE_ID);
+      RESOURCE_COLUMNS.put("parent_rsrc_id", ResourceField.PARENT_ID);
+      RESOURCE_COLUMNS.put("clndr_id", ResourceField.CALENDAR_UNIQUE_ID);
+      RESOURCE_COLUMNS.put("role_id", "");
+      RESOURCE_COLUMNS.put("shift_id", "");
+      RESOURCE_COLUMNS.put("user_id", "");
+      RESOURCE_COLUMNS.put("pobs_id", "");
+      RESOURCE_COLUMNS.put("guid", ResourceField.GUID);
+      RESOURCE_COLUMNS.put("rsrc_seq_num", ResourceField.SEQUENCE_NUMBER);
+      RESOURCE_COLUMNS.put("email_addr", ResourceField.EMAIL_ADDRESS);
+      RESOURCE_COLUMNS.put("employee_code", ResourceField.CODE);
+      RESOURCE_COLUMNS.put("office_phone", "");
+      RESOURCE_COLUMNS.put("other_phone", "");
+      RESOURCE_COLUMNS.put("rsrc_name", ResourceField.NAME);
+      RESOURCE_COLUMNS.put("rsrc_short_name", ResourceField.RESOURCE_ID);
+      RESOURCE_COLUMNS.put("rsrc_title_name", "");
+      RESOURCE_COLUMNS.put("def_qty_per_hr", "");
+      RESOURCE_COLUMNS.put("cost_qty_type", "QT_Hour");
+      RESOURCE_COLUMNS.put("ot_factor", "");
+      RESOURCE_COLUMNS.put("active_flag", ResourceField.ACTIVE);
+      RESOURCE_COLUMNS.put("auto_compute_act_flag", Boolean.TRUE);
+      RESOURCE_COLUMNS.put("def_cost_qty_link_flag", ResourceField.CALCULATE_COSTS_FROM_UNITS);
+      RESOURCE_COLUMNS.put("ot_flag", Boolean.FALSE);
+      RESOURCE_COLUMNS.put("curr_id", DEFAULT_CURRENCY.get("curr_id"));
+      RESOURCE_COLUMNS.put("unit_id", "");
+      RESOURCE_COLUMNS.put("rsrc_type", ResourceField.TYPE);
+      RESOURCE_COLUMNS.put("location_id", "");
+      RESOURCE_COLUMNS.put("rsrc_notes", ResourceField.NOTES);
+      RESOURCE_COLUMNS.put("load_tasks_flag", "");
+      RESOURCE_COLUMNS.put("level_flag", "");
+      RESOURCE_COLUMNS.put("last_checksum", "");
    }
 }
