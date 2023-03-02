@@ -2051,6 +2051,7 @@ final class PrimaveraReader
       map.put(ResourceField.RESOURCE_ID, "rsrc_short_name");
       map.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, "def_cost_qty_link_flag");
       map.put(ResourceField.SEQUENCE_NUMBER, "rsrc_seq_num");
+      map.put(ResourceField.ACTIVE, "active_flag");
 
       return map;
    }
