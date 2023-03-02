@@ -268,6 +268,8 @@ public class ProjectExplorer
       "json",
       "json",
       "mspdi",
-      "xml"
+      "xml",
+      "xer",
+      "xer"
    };
 }

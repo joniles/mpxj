@@ -64,6 +64,7 @@ import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
+import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
 import net.sf.mpxj.sdef.SDEFWriter;
 import net.sf.mpxj.utility.ProjectCleanUtility;
 import net.sf.mpxj.writer.ProjectWriter;
@@ -82,6 +83,7 @@ public class ProjectTreeController
       WRITER_MAP.put("PLANNER", PlannerWriter.class);
       WRITER_MAP.put("JSON", JsonWriter.class);
       WRITER_MAP.put("SDEF", SDEFWriter.class);
+      WRITER_MAP.put("XER", PrimaveraXERFileWriter.class);
    }
 
    final SimpleDateFormat m_timeFormat = new SimpleDateFormat("HH:mm");
