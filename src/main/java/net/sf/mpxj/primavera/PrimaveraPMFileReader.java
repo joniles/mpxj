@@ -953,6 +953,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setCalendar(m_projectFile.getCalendars().getByUniqueID(xml.getCalendarObjectId()));
          resource.setCalculateCostsFromUnits(BooleanHelper.getBoolean(xml.isCalculateCostFromUnits()));
          resource.setSequenceNumber(xml.getSequenceNumber());
+         resource.setActive(BooleanHelper.getBoolean(xml.isIsActive()));
+
          populateUserDefinedFieldValues(resource, xml.getUDF());
 
          m_eventManager.fireResourceReadEvent(resource);
