@@ -2639,6 +2639,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return Boolean.TRUE;
    }
 
+   /**
+    * Supply a default value for the active flag.
+    *
+    * @return calculate active flag default value
+    */
+   private Boolean defaultActive()
+   {
+      return Boolean.TRUE;
+   }
+
    private Double calculateSV()
    {
       Double variance = null;
@@ -2752,6 +2762,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
       CALCULATED_FIELD_MAP.put(ResourceField.ROLE, Resource::defaultRoleFlag);
       CALCULATED_FIELD_MAP.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, Resource::defaultCalculateCostsFromUnits);
+      CALCULATED_FIELD_MAP.put(ResourceField.ACTIVE, Resource::defaultActive);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();

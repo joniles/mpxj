@@ -781,7 +781,7 @@ final class PrimaveraPMProjectWriter
       xml.setEmployeeId(mpxj.getCode());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setId(getResourceID(mpxj));
-      xml.setIsActive(Boolean.TRUE);
+      xml.setIsActive(Boolean.valueOf(mpxj.getActive()));
       xml.setMaxUnitsPerTime(getPercentage(mpxj.getMaxUnits()));
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
