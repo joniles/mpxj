@@ -278,7 +278,6 @@ final class MPP14Reader implements MPPVariantReader
          int uniqueIDOffset;
          int filePathOffset;
          int fileNameOffset;
-         byte[] itemHeader = new byte[20];
 
          /*int blockSize = MPPUtility.getInt(subProjData, offset);*/
          offset += 4;
@@ -295,8 +294,9 @@ final class MPP14Reader implements MPPVariantReader
             itemHeaderOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
             offset += 4;
 
-            MPPUtility.getByteArray(subProjData, itemHeaderOffset, itemHeader.length, itemHeader, 0);
-            byte subProjectType = itemHeader[16];
+            // 20 byte header: 16 bytes GUID, 4 bytes flags
+            //System.out.println(ByteArrayHelper.hexdump(subProjData, itemHeaderOffset+16, 4, false));
+            byte subProjectType = subProjData[itemHeaderOffset + 16];
 
             switch (subProjectType)
             {
@@ -334,7 +334,7 @@ final class MPP14Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  readSubProjects(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProjects(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -357,7 +357,7 @@ final class MPP14Reader implements MPPVariantReader
                   // Unknown offset
                   offset += 4;
 
-                  readSubProjects(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProjects(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -380,7 +380,7 @@ final class MPP14Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  readSubProjects(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProjects(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -399,7 +399,7 @@ final class MPP14Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  readSubProjects(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProjects(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -419,7 +419,7 @@ final class MPP14Reader implements MPPVariantReader
                   // unknown offset
                   offset += 4;
 
-                  readSubProjects(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProjects(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -437,7 +437,7 @@ final class MPP14Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  m_file.getSubProjects().setResourceSubProject(readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index));
+                  m_file.getSubProjects().setResourceSubProject(readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index));
                   break;
                }
 
@@ -454,7 +454,7 @@ final class MPP14Reader implements MPPVariantReader
 
                   offset += 4;
 
-                  m_file.getSubProjects().setResourceSubProject(readSubProject(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index));
+                  m_file.getSubProjects().setResourceSubProject(readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index));
                   break;
                }
 
@@ -482,7 +482,7 @@ final class MPP14Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  m_file.getSubProjects().setResourceSubProject(readSubProject(subProjData, -1, filePathOffset, fileNameOffset, index));
+                  m_file.getSubProjects().setResourceSubProject(readSubProject(subProjData, itemHeaderOffset, -1, filePathOffset, fileNameOffset, index));
                   break;
                }
 
@@ -501,7 +501,7 @@ final class MPP14Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  readSubProjects(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProjects(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -519,7 +519,7 @@ final class MPP14Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getShort(subProjData, offset);
                   offset += 4;
 
-                  readSubProjects(subProjData, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  readSubProjects(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -534,7 +534,7 @@ final class MPP14Reader implements MPPVariantReader
                   fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
                   offset += 4;
 
-                  readSubProjects(subProjData, -1, filePathOffset, fileNameOffset, index);
+                  readSubProjects(subProjData, itemHeaderOffset, -1, filePathOffset, fileNameOffset, index);
                   break;
                }
 
@@ -569,11 +569,11 @@ final class MPP14Reader implements MPPVariantReader
     * @param fileNameOffset offset of file name
     * @param subprojectIndex index of the subproject, used to calculate unique id offset
     */
-   private void readSubProjects(byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int subprojectIndex)
+   private void readSubProjects(byte[] data, int itemHeaderOffset, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int subprojectIndex)
    {
       while (uniqueIDOffset < filePathOffset)
       {
-         readSubProject(data, uniqueIDOffset, filePathOffset, fileNameOffset, subprojectIndex++);
+         readSubProject(data, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, subprojectIndex++);
          uniqueIDOffset += 4;
       }
    }
@@ -588,54 +588,23 @@ final class MPP14Reader implements MPPVariantReader
     * @param subprojectIndex index of the subproject, used to calculate unique id offset
     * @return new SubProject instance
     */
-   private SubProject readSubProject(byte[] data, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int subprojectIndex)
+   private SubProject readSubProject(byte[] data, int headerOffset, int uniqueIDOffset, int filePathOffset, int fileNameOffset, int subprojectIndex)
    {
       try
       {
          SubProject sp = new SubProject();
-         int type = SUBPROJECT_TASKUNIQUEID0;
 
-         if (uniqueIDOffset != -1)
-         {
-            int value = MPPUtility.getInt(data, uniqueIDOffset);
-            type = MPPUtility.getInt(data, uniqueIDOffset + 4);
+         // We have a 20 byte header.
+         // First 16 bytes are the GUID of the target project
+         // Remaining 4 bytes are believed to be flags
+         sp.setProjectGUID(MPPUtility.getGUID(data, headerOffset));
+         int type = uniqueIDOffset == -1 ? SUBPROJECT_TASKUNIQUEID0 : MPPUtility.getInt(data, uniqueIDOffset + 4);
 
-            Integer taskUniqueID = value == 0 || value > ProjectEntityContainer.MS_PROJECT_MAX_UNIQUE_ID ? null : Integer.valueOf(value);
-            if (taskUniqueID != null)
-            {
-               switch (type)
-               {
-                  case SUBPROJECT_TASKUNIQUEID0:
-                  case SUBPROJECT_TASKUNIQUEID1:
-                  case SUBPROJECT_TASKUNIQUEID2:
-                  case SUBPROJECT_TASKUNIQUEID3:
-                  case SUBPROJECT_TASKUNIQUEID4:
-                  case SUBPROJECT_TASKUNIQUEID5:
-                  case SUBPROJECT_TASKUNIQUEID6:
-                  case SUBPROJECT_TASKUNIQUEID7:
-                  case SUBPROJECT_TASKUNIQUEID8:
-                  {
-                     sp.setTaskUniqueID(taskUniqueID);
-                     m_taskSubProjects.put(taskUniqueID, sp);
-                     break;
-                  }
+         // Generate the unique id offset for this subproject
+         int offset = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
+         sp.setUniqueIDOffset(Integer.valueOf(offset));
 
-                  default:
-                  {
-                     if (value != 0)
-                     {
-                        sp.addExternalTaskUniqueID(taskUniqueID);
-                        m_taskSubProjects.put(taskUniqueID, sp);
-                     }
-                     break;
-                  }
-               }
-
-               // Now get the unique id offset for this subproject
-               value = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
-               sp.setUniqueIDOffset(Integer.valueOf(value));
-            }
-         }
+         processUniqueIdValues(sp, data, uniqueIDOffset);
 
          if (type == SUBPROJECT_TASKUNIQUEID4)
          {
@@ -763,6 +732,48 @@ final class MPP14Reader implements MPPVariantReader
       catch (ArrayIndexOutOfBoundsException ex)
       {
          return (null);
+      }
+   }
+
+   private void processUniqueIdValues(SubProject sp, byte[] data, int uniqueIDOffset)
+   {
+      if (uniqueIDOffset == -1)
+      {
+         return;
+      }
+
+      int value = MPPUtility.getInt(data, uniqueIDOffset);
+      int type = MPPUtility.getInt(data, uniqueIDOffset + 4);
+      Integer taskUniqueID = value == 0 || value > ProjectEntityContainer.MS_PROJECT_MAX_UNIQUE_ID ? null : Integer.valueOf(value);
+      if (taskUniqueID != null)
+      {
+         switch (type)
+         {
+            case SUBPROJECT_TASKUNIQUEID0:
+            case SUBPROJECT_TASKUNIQUEID1:
+            case SUBPROJECT_TASKUNIQUEID2:
+            case SUBPROJECT_TASKUNIQUEID3:
+            case SUBPROJECT_TASKUNIQUEID4:
+            case SUBPROJECT_TASKUNIQUEID5:
+            case SUBPROJECT_TASKUNIQUEID6:
+            case SUBPROJECT_TASKUNIQUEID7:
+            case SUBPROJECT_TASKUNIQUEID8:
+            {
+               sp.setTaskUniqueID(taskUniqueID);
+               m_taskSubProjects.put(taskUniqueID, sp);
+               break;
+            }
+
+            default:
+            {
+               if (value != 0)
+               {
+                  sp.addExternalTaskUniqueID(taskUniqueID);
+                  m_taskSubProjects.put(taskUniqueID, sp);
+               }
+               break;
+            }
+         }
       }
    }
 
