@@ -637,7 +637,7 @@ Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|Ga
 % Work Complete| | | | | | | | | |✓| | | | | | | | | | | | | 
 ACWP| | | | | | |✓| | |✓| | | | | | | | | | | | | 
 Accrue At| | | | | | |✓|✓|✓|✓| | | | | | | |✓| | | | | 
-Active| | | | | | | | | |✓| | | | | | | |✓| | | |✓| 
+Active|✓|✓|✓| |✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| | |✓|✓|✓
 Actual Cost| | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
 Actual Overtime Cost| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Actual Overtime Work| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
