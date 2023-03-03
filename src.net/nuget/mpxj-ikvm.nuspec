@@ -10,6 +10,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Dependencies required by MPXJ</description>
         <summary>Dependencies required by MPXJ</summary>
+        <icon>icon.png</icon>
         <dependencies>
             <group targetFramework="netcoreapp3.1">
                 <dependency id="System.Configuration.ConfigurationManager" version="4.7.0" />
