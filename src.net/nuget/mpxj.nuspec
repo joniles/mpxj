@@ -16,6 +16,8 @@
         </dependencies>
     </metadata>
     <files>
+        <file src="icon.png" target="icon.png"/>
+
         <file src="..\lib\net45\mpxj.*" target="lib\net45"/>
         <file src="..\lib\netcoreapp3.1\mpxj.*" target="lib\netcoreapp3.1"/>
 
