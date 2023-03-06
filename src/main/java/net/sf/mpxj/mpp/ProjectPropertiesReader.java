@@ -26,6 +26,7 @@ package net.sf.mpxj.mpp;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.Duration;
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
@@ -80,7 +81,7 @@ public final class ProjectPropertiesReader
          ph.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));
          ph.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
          ph.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
-         ph.setCriticalSlackLimit(Integer.valueOf(props.getInt(Props.CRITICAL_SLACK_LIMIT)));
+         ph.setCriticalSlackLimit(Duration.getInstance(props.getInt(Props.CRITICAL_SLACK_LIMIT), TimeUnit.DAYS));
 
          ph.setCurrencyDigits(Integer.valueOf(props.getShort(Props.CURRENCY_DIGITS)));
          ph.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));

@@ -568,6 +568,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setPlannedStart(project.getPlannedStartDate());
       properties.setScheduledFinish(project.getScheduledFinishDate());
       properties.setMustFinishBy(project.getMustFinishByDate());
+      properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
+
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 
       processScheduleOptions(project.getScheduleOptions());
@@ -588,6 +590,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setUniqueID(project.getObjectId());
       properties.setExportFlag(false);
       properties.setMustFinishBy(project.getMustFinishByDate());
+      properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
+
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
    }
 

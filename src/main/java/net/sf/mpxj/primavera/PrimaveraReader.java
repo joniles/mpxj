@@ -184,6 +184,7 @@ final class PrimaveraReader
          properties.setPlannedStart(row.getDate("plan_start_date"));
          properties.setScheduledFinish(row.getDate("scd_end_date"));
          properties.setMustFinishBy(row.getDate("plan_end_date"));
+         properties.setCriticalSlackLimit(Duration.getInstance(row.getInt("critical_drtn_hr_cnt"), TimeUnit.HOURS));
 
          // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");
