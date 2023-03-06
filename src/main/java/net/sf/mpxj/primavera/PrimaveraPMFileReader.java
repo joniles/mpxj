@@ -954,7 +954,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setCalculateCostsFromUnits(BooleanHelper.getBoolean(xml.isCalculateCostFromUnits()));
          resource.setSequenceNumber(xml.getSequenceNumber());
          resource.setActive(BooleanHelper.getBoolean(xml.isIsActive()));
-
+         // Note: a default units per time value of zero represents an empty field in P6
+         resource.setMaxUnits(xml.getDefaultUnitsPerTime() == null || xml.getDefaultUnitsPerTime().doubleValue() == 0.0 ? null : NumberHelper.getDouble(NumberHelper.getDouble(xml.getDefaultUnitsPerTime()) * 100));
          populateUserDefinedFieldValues(resource, xml.getUDF());
 
          m_eventManager.fireResourceReadEvent(resource);

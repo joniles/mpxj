@@ -772,11 +772,15 @@ final class PrimaveraPMProjectWriter
          name = "(blank)";
       }
 
+      // Note: a default units per time value of zero represents an empty field in P6
+      Number maxUnits = mpxj.getMaxUnits();
+      Double defaultUnitsPerTime = maxUnits == null ? Double.valueOf(0) : Double.valueOf(maxUnits.doubleValue() / 100.0);
+
       xml.setAutoComputeActuals(Boolean.TRUE);
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getCalendar()));
       xml.setCurrencyObjectId(DEFAULT_CURRENCY_ID);
-      xml.setDefaultUnitsPerTime(Double.valueOf(1.0));
+      xml.setDefaultUnitsPerTime(defaultUnitsPerTime);
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setEmployeeId(mpxj.getCode());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
@@ -789,6 +793,7 @@ final class PrimaveraPMProjectWriter
       xml.setResourceNotes(getNotes(mpxj.getNotesObject()));
       xml.setResourceType(getResourceType(mpxj));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
+
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.RESOURCE, mpxj));
    }
 
