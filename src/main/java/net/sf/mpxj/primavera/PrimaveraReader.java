@@ -647,6 +647,9 @@ final class PrimaveraReader
 
          resource.setNotesObject(getNotes(resource.getNotes()));
 
+         Number defaultUnitsPerTime = row.getDouble("def_qty_per_hr");
+         //resource.setMaxUnits(defaultUnitsPerTime == null ? null : NumberHelper.getDouble(defaultUnitsPerTime.doubleValue() * 100));
+
          m_eventManager.fireResourceReadEvent(resource);
       }
    }

@@ -939,6 +939,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Resource resource = m_projectFile.addResource();
          m_roleClashMap.addID(xml.getObjectId());
 
+         Double defaultUnitsPerTime = xml.getDefaultUnitsPerTime();
+         if (defaultUnitsPerTime == null)
+         {
+            // Older versions of P^ appear to use MaxUnitsPerTime, so we'll fall back
+            // to this value if DefaultUnitsPerTime is not present
+            defaultUnitsPerTime = xml.getMaxUnitsPerTime();
+         }
+
          resource.setUniqueID(xml.getObjectId());
          resource.setName(xml.getName());
          resource.setCode(xml.getEmployeeId());
@@ -947,15 +955,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setNotesObject(getNotes(xml.getResourceNotes()));
          resource.setCreationDate(xml.getCreateDate());
          resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
-         resource.setMaxUnits(reversePercentage(xml.getMaxUnitsPerTime()));
+         // Note: a default units per time value of zero represents an empty field in P6
+         resource.setMaxUnits(defaultUnitsPerTime == null || defaultUnitsPerTime.doubleValue() == 0.0 ? null : NumberHelper.getDouble(defaultUnitsPerTime.doubleValue() * 100));
          resource.setParentResourceUniqueID(xml.getParentObjectId());
          resource.setResourceID(xml.getId());
          resource.setCalendar(m_projectFile.getCalendars().getByUniqueID(xml.getCalendarObjectId()));
          resource.setCalculateCostsFromUnits(BooleanHelper.getBoolean(xml.isCalculateCostFromUnits()));
          resource.setSequenceNumber(xml.getSequenceNumber());
          resource.setActive(BooleanHelper.getBoolean(xml.isIsActive()));
-         // Note: a default units per time value of zero represents an empty field in P6
-         resource.setMaxUnits(xml.getDefaultUnitsPerTime() == null || xml.getDefaultUnitsPerTime().doubleValue() == 0.0 ? null : NumberHelper.getDouble(NumberHelper.getDouble(xml.getDefaultUnitsPerTime()) * 100));
          populateUserDefinedFieldValues(resource, xml.getUDF());
 
          m_eventManager.fireResourceReadEvent(resource);

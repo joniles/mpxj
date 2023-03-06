@@ -780,19 +780,23 @@ final class PrimaveraPMProjectWriter
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getCalendar()));
       xml.setCurrencyObjectId(DEFAULT_CURRENCY_ID);
-      xml.setDefaultUnitsPerTime(defaultUnitsPerTime);
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setEmployeeId(mpxj.getCode());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setId(getResourceID(mpxj));
       xml.setIsActive(Boolean.valueOf(mpxj.getActive()));
-      xml.setMaxUnitsPerTime(getPercentage(mpxj.getMaxUnits()));
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
       xml.setParentObjectId(mpxj.getParentResourceUniqueID());
       xml.setResourceNotes(getNotes(mpxj.getNotesObject()));
       xml.setResourceType(getResourceType(mpxj));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
+
+      // Write both attributes for backward compatibility,
+      // "DefaultUnitsPerTime" is the value read by recent versions of P6
+      // MaxUnitsPerTime is ignored
+      xml.setDefaultUnitsPerTime(defaultUnitsPerTime);
+      xml.setMaxUnitsPerTime(defaultUnitsPerTime);
 
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.RESOURCE, mpxj));
    }
