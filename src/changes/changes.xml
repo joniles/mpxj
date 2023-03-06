@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">The Resource attribute Active now defaults to true if the schedule being read doesn't support or contain a value for this attribute.</action>
 			<action dev="joniles" type="update">Add suport for reading and writing the Resource's Active flag for P6 schedules.</action>
 			<action dev="joniles" type="update">Add suport for reading and writing the Resource's Default Units/Time value for P6 schedules.</action>
+			<action dev="joniles" type="update">Add suport for reading and writing the Project's Critical Slack Limit value for P6 schedules.</action>
 			<action dev="joniles" type="update">Fixed an issue reading certain types of Enterprise Custom Fields containing date values.</action>
 			<action dev="joniles" type="update">Ensure activity code value parent can be set to null.</action>
 			<action dev="joniles" type="update">Added NuGet package icon</action>
