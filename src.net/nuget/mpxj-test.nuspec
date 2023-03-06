@@ -10,11 +10,14 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Tests for MPXJ</description>
         <summary>Tests for MPXJ</summary>
+        <icon>icon.png</icon>
         <dependencies>
             <dependency id="net.sf.mpxj" version="0.0.0"/>
         </dependencies>
     </metadata>
     <files>
+        <file src="icon.png" target="icon.png"/>
+
         <file src="..\lib\net45\mpxj-test*.*" target="lib\net45"/>
         <file src="..\lib\net45\junit*.*" target="lib\net45"/>
 

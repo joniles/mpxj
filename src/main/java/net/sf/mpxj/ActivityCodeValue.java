@@ -135,7 +135,11 @@ public class ActivityCodeValue
       }
 
       m_parent = parent;
-      m_parent.getChildValues().add(this);
+
+      if (m_parent != null)
+      {
+         m_parent.getChildValues().add(this);
+      }
    }
 
    /**

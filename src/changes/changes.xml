@@ -9,6 +9,10 @@
 			<action dev="joniles" type="update">Added support for reading project calendar exceptions from Phoenix schedules (based on a contribution by Rohit Sinha).</action>
 			<action dev="joniles" type="update">The Resource attribute Active now defaults to true if the schedule being read doesn't support or contain a value for this attribute.</action>
 			<action dev="joniles" type="update">Ensure the Resource's Active flag is read and written for P6 schedules.</action>
+			<action dev="joniles" type="update">Fixed an issue reading certain types of Enterprise Custom Fields containing date values.</action>
+			<action dev="joniles" type="update">Ensure activity code value parent can be set to null.</action>
+			<action dev="joniles" type="update">Added NuGet package icon</action>
+			<action dev="joniles" type="update">Simplified  NuGet packaging</action>
 		</release>
 		<release date="2023-02-15" version="11.1.0">
 			<action dev="joniles" type="update">Write activity code definitions and activity code assignments to PMXML files.</action>
