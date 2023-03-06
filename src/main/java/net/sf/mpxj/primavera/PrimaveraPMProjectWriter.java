@@ -507,7 +507,7 @@ final class PrimaveraPMProjectWriter
       project.setCheckOutStatus(Boolean.FALSE);
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
       project.setCreateDate(mpxj.getCreationDate());
-      project.setCriticalActivityFloatLimit(NumberHelper.DOUBLE_ZERO);
+      project.setCriticalActivityFloatLimit(Double.valueOf(mpxj.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, mpxj).getDuration()));
       project.setCriticalActivityPathType(CRITICAL_ACTIVITY_MAP.get(mpxj.getCriticalActivityType()));
       project.setCurrentBaselineProjectObjectId(mpxj.getBaselineProjectUniqueID());
       project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
@@ -575,8 +575,8 @@ final class PrimaveraPMProjectWriter
       project.setCheckOutStatus(Boolean.FALSE);
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
       project.setCreateDate(mpxj.getCreationDate());
-      project.setCriticalActivityFloatLimit(NumberHelper.DOUBLE_ZERO);
-      project.setCriticalActivityPathType("Critical Float");
+      project.setCriticalActivityFloatLimit(Double.valueOf(mpxj.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, mpxj).getDuration()));
+      project.setCriticalActivityPathType(CRITICAL_ACTIVITY_MAP.get(mpxj.getCriticalActivityType()));
       project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
       project.setDefaultPriceTimeUnits("Hour");
       project.setDiscountApplicationPeriod("Month");
