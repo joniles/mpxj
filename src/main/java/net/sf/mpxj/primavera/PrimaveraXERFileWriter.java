@@ -18,15 +18,18 @@ import java.util.stream.Stream;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
+import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -70,6 +73,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeRoleRates();
          writeResources();
          writeResourceRates();
+         writeProject();
          m_writer.flush();
       }
 
@@ -159,6 +163,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("RSRC", RESOURCE_COLUMNS);
       m_file.getResources().stream().filter(r -> !r.getRole().booleanValue()).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeRecord(RESOURCE_COLUMNS, r));
+   }
+
+   private void writeProject()
+   {
+      writeTable("PROJECT", PROJECT_COLUMNS);
+      writeRecord(PROJECT_COLUMNS, m_file.getProjectProperties());
    }
 
    private void writeTable(String name, String[] columns)
@@ -286,6 +296,16 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          return formatResourceType((ResourceType)object);
       }
 
+      if (object instanceof CriticalActivityType)
+      {
+         return CRITICAL_ACTIVITY_MAP.get((CriticalActivityType)object);
+      }
+
+      if (object instanceof TaskType)
+      {
+         return TASK_TYPE_MAP.get((TaskType)object);
+      }
+
       return object.toString();
    }
 
@@ -386,6 +406,22 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_TYPE_MAP.put(ResourceType.WORK, "RT_Labor");
       RESOURCE_TYPE_MAP.put(ResourceType.MATERIAL, "RT_Mat");
       RESOURCE_TYPE_MAP.put(ResourceType.COST, "RT_Equip");
+   }
+
+   private static final Map<CriticalActivityType, String> CRITICAL_ACTIVITY_MAP = new HashMap<>();
+   static
+   {
+      CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.TOTAL_FLOAT, "CT_TotFloat");
+      CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.LONGEST_PATH, "CT_DrivPath");
+   }
+
+   private static final Map<TaskType, String> TASK_TYPE_MAP = new HashMap<>();
+   static
+   {
+      TASK_TYPE_MAP.put(TaskType.FIXED_DURATION, "DT_FixedDrtn");
+      TASK_TYPE_MAP.put(TaskType.FIXED_UNITS, "DT_FixedQty");
+      TASK_TYPE_MAP.put(TaskType.FIXED_WORK, "DT_FixedDUR2");
+      TASK_TYPE_MAP.put(TaskType.FIXED_WORK, "DT_FixedRate");
    }
 
    private static final String[] CURRENCY_COLUMNS = {
@@ -506,5 +542,82 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("load_tasks_flag", "");
       RESOURCE_COLUMNS.put("level_flag", "");
       RESOURCE_COLUMNS.put("last_checksum", "");
+   }
+
+   private static final Map<String, Object> PROJECT_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      PROJECT_COLUMNS.put("proj_id", ProjectField.UNIQUE_ID);
+      PROJECT_COLUMNS.put("fy_start_month_num", ProjectField.FISCAL_YEAR_START_MONTH);
+      PROJECT_COLUMNS.put("rsrc_self_add_flag", Boolean.TRUE);
+      PROJECT_COLUMNS.put("allow_complete_flag", Boolean.TRUE);
+      PROJECT_COLUMNS.put("rsrc_multi_assign_flag", Boolean.TRUE);
+      PROJECT_COLUMNS.put("checkout_flag", Boolean.FALSE);
+      PROJECT_COLUMNS.put("project_flag", Boolean.TRUE);
+      PROJECT_COLUMNS.put("step_complete_flag", Boolean.TRUE);
+      PROJECT_COLUMNS.put("cost_qty_recalc_flag", Boolean.TRUE);
+      PROJECT_COLUMNS.put("batch_sum_flag", Boolean.TRUE);
+      PROJECT_COLUMNS.put("name_sep_char", ".");
+      PROJECT_COLUMNS.put("def_complete_pct_type", "CP_Drtn");
+      PROJECT_COLUMNS.put("proj_short_name", ProjectField.PROJECT_ID);
+      PROJECT_COLUMNS.put("acct_id", "");
+      PROJECT_COLUMNS.put("orig_proj_id", "");
+      PROJECT_COLUMNS.put("source_proj_id", "");
+      PROJECT_COLUMNS.put("base_type_id", "");
+      PROJECT_COLUMNS.put("clndr_id", ProjectField.DEFAULT_CALENDAR_UNIQUE_ID);
+      PROJECT_COLUMNS.put("sum_base_proj_id", ProjectField.BASELINE_PROJECT_UNIQUE_ID);
+      PROJECT_COLUMNS.put("task_code_base", Integer.valueOf(1000));
+      PROJECT_COLUMNS.put("task_code_step", Integer.valueOf(10));
+      PROJECT_COLUMNS.put("priority_num", Integer.valueOf(10));
+      PROJECT_COLUMNS.put("wbs_max_sum_level", Integer.valueOf(0));
+      PROJECT_COLUMNS.put("strgy_priority_num", Integer.valueOf(100));
+      PROJECT_COLUMNS.put("last_checksum", "");
+
+      // HERE
+      PROJECT_COLUMNS.put("critical_drtn_hr_cnt", Integer.valueOf(0));
+      PROJECT_COLUMNS.put("def_cost_per_qty", "");
+      PROJECT_COLUMNS.put("last_recalc_date", ProjectField.STATUS_DATE);
+      PROJECT_COLUMNS.put("plan_start_date", ProjectField.PLANNED_START);
+      PROJECT_COLUMNS.put("plan_end_date", ProjectField.MUST_FINISH_BY);
+      PROJECT_COLUMNS.put("scd_end_date", ProjectField.SCHEDULED_FINISH);
+      PROJECT_COLUMNS.put("add_date", "");
+      PROJECT_COLUMNS.put("last_tasksum_date", "");
+      PROJECT_COLUMNS.put("fcst_start_date", "");
+      PROJECT_COLUMNS.put("def_duration_type", ProjectField.DEFAULT_TASK_TYPE);
+      PROJECT_COLUMNS.put("task_code_prefix", "");
+      PROJECT_COLUMNS.put("guid", ProjectField.GUID);
+      PROJECT_COLUMNS.put("def_qty_type", "");
+      PROJECT_COLUMNS.put("add_by_name", "");
+      PROJECT_COLUMNS.put("web_local_root_path", "");
+      PROJECT_COLUMNS.put("proj_url", "");
+      PROJECT_COLUMNS.put("def_rate_type", "");
+      PROJECT_COLUMNS.put("add_act_remain_flag", "");
+      PROJECT_COLUMNS.put("act_this_per_link_flag", "");
+      PROJECT_COLUMNS.put("def_task_type", "");
+      PROJECT_COLUMNS.put("act_pct_link_flag", "");
+      PROJECT_COLUMNS.put("critical_path_type", ProjectField.CRITICAL_ACTIVITY_TYPE);
+      PROJECT_COLUMNS.put("task_code_prefix_flag", "");
+      PROJECT_COLUMNS.put("def_rollup_dates_flag", "");
+      PROJECT_COLUMNS.put("use_project_baseline_flag", "");
+      PROJECT_COLUMNS.put("rem_target_link_flag", "");
+      PROJECT_COLUMNS.put("reset_planned_flag", "");
+      PROJECT_COLUMNS.put("allow_neg_act_flag", "");
+      PROJECT_COLUMNS.put("sum_assign_level", "");
+      PROJECT_COLUMNS.put("last_fin_dates_id", "");
+      PROJECT_COLUMNS.put("fintmpl_id", "");
+      PROJECT_COLUMNS.put("last_baseline_update_date", "");
+      PROJECT_COLUMNS.put("cr_external_key", "");
+      PROJECT_COLUMNS.put("apply_actuals_date", "");
+      PROJECT_COLUMNS.put("location_id", "");
+      PROJECT_COLUMNS.put("loaded_scope_level", "");
+      PROJECT_COLUMNS.put("export_flag", ProjectField.EXPORT_FLAG);
+      PROJECT_COLUMNS.put("new_fin_dates_id", "");
+      PROJECT_COLUMNS.put("baselines_to_export", "");
+      PROJECT_COLUMNS.put("baseline_names_to_export", "");
+      PROJECT_COLUMNS.put("next_data_date", "");
+      PROJECT_COLUMNS.put("close_period_flag", "");
+      PROJECT_COLUMNS.put("sum_refresh_date", "");
+      PROJECT_COLUMNS.put("trsrcsum_loaded", "");
+      PROJECT_COLUMNS.put("sumtask_loaded", "");
    }
 }
