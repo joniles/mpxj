@@ -573,7 +573,7 @@ abstract class MPD9AbstractReader
       properties.setCreationDate(row.getDate("PROJ_CREATION_DATE"));
       //properties.setExtendedCreationDate(row.getDate("PROJ_CREATION_DATE_EX")); // Not in MPP9 MPD?
       properties.setDefaultFixedCostAccrual(AccrueType.getInstance(row.getInt("PROJ_OPT_DEF_FIX_COST_ACCRUAL")));
-      properties.setCriticalSlackLimit(row.getInteger("PROJ_OPT_CRITICAL_SLACK_LIMIT"));
+      properties.setCriticalSlackLimit(Duration.getInstance(row.getInteger("PROJ_OPT_CRITICAL_SLACK_LIMIT"), TimeUnit.DAYS));
       //properties.setBaselineForEarnedValue;
       properties.setFiscalYearStartMonth(row.getInteger("PROJ_OPT_FY_START_MONTH"));
       //properties.setNewTaskStartIsProjectStart();

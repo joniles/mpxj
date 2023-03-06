@@ -1972,9 +1972,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return critical slack limit
     */
-   public Integer getCriticalSlackLimit()
+   public Duration getCriticalSlackLimit()
    {
-      return (Integer) get(ProjectField.CRITICAL_SLACK_LIMIT);
+      return (Duration) get(ProjectField.CRITICAL_SLACK_LIMIT);
    }
 
    /**
@@ -1982,7 +1982,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param criticalSlackLimit critical slack limit
     */
-   public void setCriticalSlackLimit(Integer criticalSlackLimit)
+   public void setCriticalSlackLimit(Duration criticalSlackLimit)
    {
       set(ProjectField.CRITICAL_SLACK_LIMIT, criticalSlackLimit);
    }
@@ -2941,7 +2941,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    /**
     * Default critical slack limit.
     */
-   private static final Integer DEFAULT_CRITICAL_SLACK_LIMIT = Integer.valueOf(0);
+   private static final Duration DEFAULT_CRITICAL_SLACK_LIMIT = Duration.getInstance(0, TimeUnit.DAYS);
 
    /**
     * Default baseline for earned value.

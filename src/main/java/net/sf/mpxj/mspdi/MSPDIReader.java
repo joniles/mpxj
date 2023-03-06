@@ -265,7 +265,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       properties.setCategory(project.getCategory());
       properties.setCompany(project.getCompany());
       properties.setCreationDate(project.getCreationDate());
-      properties.setCriticalSlackLimit(NumberHelper.getInteger(project.getCriticalSlackLimit()));
+      properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getInt(project.getCriticalSlackLimit()), TimeUnit.DAYS));
       properties.setCurrencyDigits(NumberHelper.getInteger(project.getCurrencyDigits()));
       properties.setCurrencyCode(project.getCurrencyCode());
       properties.setCurrencySymbol(project.getCurrencySymbol());
