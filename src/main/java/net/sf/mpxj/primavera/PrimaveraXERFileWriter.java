@@ -227,6 +227,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          return container.get((FieldType) key);
       }
 
+      if (key instanceof ExportFunction)
+      {
+         return ((ExportFunction)key).apply(container);
+      }
+
       return key;
    }
 
@@ -241,6 +246,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       if (object instanceof Date)
       {
          return m_timestampFormat.format(object);
+      }
+
+      if (object instanceof Double)
+      {
+         return m_doubleFormat.format(object);
       }
 
       if (object instanceof Boolean)
@@ -358,6 +368,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    private final DecimalFormat m_maxUnitsFormat = new DecimalFormat("0.####");
 
+   private final DecimalFormat m_doubleFormat = new DecimalFormat("0.####");
+
    private static final Map<ResourceType, String> RESOURCE_TYPE_MAP = new HashMap<>();
    static
    {
@@ -416,6 +428,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       Object apply(PrimaveraXERFileWriter writer, Resource resource, CostRateTableEntry entry);
    }
 
+   private interface ExportFunction
+   {
+      Object apply(Object source);
+   }
+
    private static final Map<String, RoleRateFunction> ROLE_RATE_COLUMNS = new LinkedHashMap<>();
    static
    {
@@ -449,7 +466,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("rsrc_name", ResourceField.NAME);
       RESOURCE_COLUMNS.put("rsrc_short_name", ResourceField.RESOURCE_ID);
       RESOURCE_COLUMNS.put("rsrc_title_name", "");
-      RESOURCE_COLUMNS.put("def_qty_per_hr", "");
+      RESOURCE_COLUMNS.put("def_qty_per_hr", (ExportFunction)(r) -> ((Resource)r).getMaxUnits() == null ? null : ((Resource)r).getMaxUnits().doubleValue() / 100.0);
       RESOURCE_COLUMNS.put("cost_qty_type", "QT_Hour");
       RESOURCE_COLUMNS.put("ot_factor", "");
       RESOURCE_COLUMNS.put("active_flag", ResourceField.ACTIVE);
