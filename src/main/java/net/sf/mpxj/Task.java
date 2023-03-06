@@ -5642,12 +5642,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return Boolean.FALSE;
       }
 
-      int criticalSlackLimit = NumberHelper.getInt(getParentFile().getProjectProperties().getCriticalSlackLimit());
-      if (criticalSlackLimit != 0 && totalSlack.getDuration() != 0 && totalSlack.getUnits() != TimeUnit.DAYS)
+      Duration criticalSlackLimit = getParentFile().getProjectProperties().getCriticalSlackLimit();
+      if (criticalSlackLimit.getDuration() != 0 && totalSlack.getDuration() != 0 && totalSlack.getUnits() != criticalSlackLimit.getUnits())
       {
-         totalSlack = totalSlack.convertUnits(TimeUnit.DAYS, getEffectiveCalendar());
+         totalSlack = totalSlack.convertUnits(criticalSlackLimit.getUnits(), getEffectiveCalendar());
       }
-      return Boolean.valueOf(totalSlack.getDuration() <= criticalSlackLimit && NumberHelper.getInt(getPercentageComplete()) != 100 && ((getTaskMode() == TaskMode.AUTO_SCHEDULED) || (getDurationText() == null && getStartText() == null && getFinishText() == null)));
+      return Boolean.valueOf(totalSlack.getDuration() <= criticalSlackLimit.getDuration() && NumberHelper.getInt(getPercentageComplete()) != 100 && ((getTaskMode() == TaskMode.AUTO_SCHEDULED) || (getDurationText() == null && getStartText() == null && getFinishText() == null)));
    }
 
    private Date calculateCompleteThrough()
