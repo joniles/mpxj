@@ -936,14 +936,6 @@
 		</replace>
 
 		<antcall target="nuget-pack">
-			<param name="nuget.spec" value="mpxj-ikvm"/>
-		</antcall>
-
-		<antcall target="nuget-pack">
-			<param name="nuget.spec" value="mpxj-common"/>
-		</antcall>
-
-		<antcall target="nuget-pack">
 			<param name="nuget.spec" value="mpxj"/>
 		</antcall>
 
@@ -994,14 +986,6 @@
 	</target>
 
 	<target name="nuget-deploy" depends="init" description="Deploy NuGet packages">
-		<antcall target="nuget-push">
-			<param name="nuget.package" value="mpxj-ikvm"/>
-		</antcall>
-
-		<antcall target="nuget-push">
-			<param name="nuget.package" value="mpxj-common"/>
-		</antcall>
-
 		<antcall target="nuget-push">
 			<param name="nuget.package" value="mpxj"/>
 		</antcall>
