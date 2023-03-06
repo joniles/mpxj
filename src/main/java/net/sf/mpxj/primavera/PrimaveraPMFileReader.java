@@ -942,7 +942,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Double defaultUnitsPerTime = xml.getDefaultUnitsPerTime();
          if (defaultUnitsPerTime == null)
          {
-            // Older versions of P^ appear to use MaxUnitsPerTime, so we'll fall back
+            // Older versions of P6 appear to use MaxUnitsPerTime, so we'll fall back
             // to this value if DefaultUnitsPerTime is not present
             defaultUnitsPerTime = xml.getMaxUnitsPerTime();
          }
