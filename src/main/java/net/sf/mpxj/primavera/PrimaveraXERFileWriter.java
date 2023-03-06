@@ -60,6 +60,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_file = projectFile;
       m_writer = new OutputStreamWriter(outputStream, getCharset());
       m_roleRateUniqueID = 1;
+      m_resourceRateUniqueID = 1;
 
       try
       {
@@ -68,6 +69,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeRoles();
          writeRoleRates();
          writeResources();
+         writeResourceRates();
          m_writer.flush();
       }
 
@@ -134,17 +136,23 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeRoleRates()
    {
       writeTable("ROLERATE", ROLE_RATE_COLUMNS);
-      m_file.getResources().stream().filter(Resource::getRole).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(this::writeRoleRates);
+      m_file.getResources().stream().filter(Resource::getRole).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeCostRateTableEntries(ROLE_RATE_COLUMNS, r));
    }
 
-   private void writeRoleRates(Resource resource)
+   private void writeResourceRates()
    {
-      resource.getCostRateTable(0).stream().filter(e -> e != CostRateTableEntry.DEFAULT_ENTRY).forEach(e -> writeRoleRates(resource, e));
+      writeTable("RSRCRATE", RESOURCE_RATE_COLUMNS);
+      m_file.getResources().stream().filter(r -> !r.getRole().booleanValue()).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeCostRateTableEntries(ROLE_RATE_COLUMNS, r));
    }
 
-   private void writeRoleRates(Resource resource, CostRateTableEntry entry)
+   private void writeCostRateTableEntries(Map<String, Object> columns, Resource resource)
    {
-      writeRecord(ROLE_RATE_COLUMNS.values().stream().map(f -> f.apply(this, resource, entry)));
+      resource.getCostRateTable(0).stream().filter(e -> e != CostRateTableEntry.DEFAULT_ENTRY).forEach(e -> writeCostRateTableEntry(columns, resource, e));
+   }
+
+   private void writeCostRateTableEntry(Map<String, Object> columns, Resource resource, CostRateTableEntry entry)
+   {
+      writeRecord(columns.values().stream().map(f -> f instanceof CostRateTableEntryFunction ? ((CostRateTableEntryFunction)f).apply(this, resource, entry) : f));
    }
 
    private void writeResources()
@@ -360,6 +368,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    private int m_roleRateUniqueID;
 
+   private int m_resourceRateUniqueID;
+
    private final Format m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
    private final Format m_timestampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -423,7 +433,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ROLE_COLUMNS.put("last_checksum", "");
    }
 
-   private interface RoleRateFunction
+   private interface CostRateTableEntryFunction
    {
       Object apply(PrimaveraXERFileWriter writer, Resource resource, CostRateTableEntry entry);
    }
@@ -433,18 +443,33 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       Object apply(Object source);
    }
 
-   private static final Map<String, RoleRateFunction> ROLE_RATE_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, Object> ROLE_RATE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      ROLE_RATE_COLUMNS.put("role_rate_id", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> Integer.valueOf(w.m_roleRateUniqueID++));
-      ROLE_RATE_COLUMNS.put("role_id", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> r.getUniqueID());
-      ROLE_RATE_COLUMNS.put("cost_per_qty", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(0));
-      ROLE_RATE_COLUMNS.put("cost_per_qty2", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(1));
-      ROLE_RATE_COLUMNS.put("cost_per_qty3", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(2));
-      ROLE_RATE_COLUMNS.put("cost_per_qty4", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(3));
-      ROLE_RATE_COLUMNS.put("cost_per_qty5", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(4));
-      ROLE_RATE_COLUMNS.put("start_date", (PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getStartDate());
-      ROLE_RATE_COLUMNS.put("max_qty_per_hr", PrimaveraXERFileWriter::getMaxQuantityPerHour);
+      ROLE_RATE_COLUMNS.put("role_rate_id", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> Integer.valueOf(w.m_roleRateUniqueID++));
+      ROLE_RATE_COLUMNS.put("role_id", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> r.getUniqueID());
+      ROLE_RATE_COLUMNS.put("cost_per_qty", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(0));
+      ROLE_RATE_COLUMNS.put("cost_per_qty2", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(1));
+      ROLE_RATE_COLUMNS.put("cost_per_qty3", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(2));
+      ROLE_RATE_COLUMNS.put("cost_per_qty4", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(3));
+      ROLE_RATE_COLUMNS.put("cost_per_qty5", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(4));
+      ROLE_RATE_COLUMNS.put("start_date", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getStartDate());
+      ROLE_RATE_COLUMNS.put("max_qty_per_hr", (CostRateTableEntryFunction)PrimaveraXERFileWriter::getMaxQuantityPerHour);
+   }
+
+   private static final Map<String, Object> RESOURCE_RATE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      RESOURCE_RATE_COLUMNS.put("rsrc_rate_id", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> Integer.valueOf(w.m_resourceRateUniqueID++));
+      RESOURCE_RATE_COLUMNS.put("rsrc_id", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> r.getUniqueID());
+      RESOURCE_RATE_COLUMNS.put("max_qty_per_hr", (CostRateTableEntryFunction)PrimaveraXERFileWriter::getMaxQuantityPerHour);
+      RESOURCE_RATE_COLUMNS.put("cost_per_qty", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(0));
+      RESOURCE_RATE_COLUMNS.put("start_date", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getStartDate());
+      RESOURCE_RATE_COLUMNS.put("shift_period_id", "");
+      RESOURCE_RATE_COLUMNS.put("cost_per_qty2", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(1));
+      RESOURCE_RATE_COLUMNS.put("cost_per_qty3", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(2));
+      RESOURCE_RATE_COLUMNS.put("cost_per_qty4", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(3));
+      RESOURCE_RATE_COLUMNS.put("cost_per_qty5", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(4));
    }
 
    private static final Map<String, Object> RESOURCE_COLUMNS = new LinkedHashMap<>();
