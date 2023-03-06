@@ -50,6 +50,6 @@
         <file src="..\lib\netcoreapp3.1\osx\*" target="build\netcoreapp3.1\osx"/>
         <file src="..\lib\netcoreapp3.1\linux\*" target="build\netcoreapp3.1\linux"/>
 
-        <file src="net.sf.mpxj-ikvm.targets" target="build"/>
+        <file src="native.targets" target="build\net.sf.mpxj.targets"/>
     </files>
 </package>
