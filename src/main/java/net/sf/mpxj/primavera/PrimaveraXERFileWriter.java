@@ -17,12 +17,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.Availability;
+import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
@@ -72,10 +74,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeHeader();
          writeCurrencies();
          writeRoles();
+         writeProject();
          writeRoleRates();
+         writeCalendars();
          writeResources();
          writeResourceRates();
-         writeProject();
+
          m_writer.flush();
       }
 
@@ -171,6 +175,17 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("PROJECT", PROJECT_COLUMNS);
       writeRecord(PROJECT_COLUMNS, m_file.getProjectProperties());
+   }
+
+   private void writeCalendars()
+   {
+      writeTable("CALENDAR", CALENDAR_COLUMNS);
+      m_file.getCalendars().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).forEach(c -> writeCalendar(c));
+   }
+
+   private void writeCalendar(ProjectCalendar calendar)
+   {
+      writeRecord(CALENDAR_COLUMNS.values().stream().map(f -> f == null ? null : f.apply(calendar)));
    }
 
    private void writeTable(String name, String[] columns)
@@ -610,5 +625,23 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("sum_refresh_date", "");
       PROJECT_COLUMNS.put("trsrcsum_loaded", "");
       PROJECT_COLUMNS.put("sumtask_loaded", "");
+   }
+
+   private static final Map<String, ExportFunction> CALENDAR_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      CALENDAR_COLUMNS.put("clndr_id", c -> ((ProjectCalendar)c).getUniqueID());
+      CALENDAR_COLUMNS.put("default_flag", c -> ((ProjectCalendar)c).getParentFile().getProjectProperties().getDefaultCalendar() == c);
+      CALENDAR_COLUMNS.put("clndr_name", c -> ((ProjectCalendar)c).getName());
+      CALENDAR_COLUMNS.put("proj_id", c -> ((ProjectCalendar)c).getType() == CalendarType.PROJECT ? ((ProjectCalendar) c).getParentFile().getProjectProperties().getUniqueID() : null);
+      CALENDAR_COLUMNS.put("base_clndr_id", c -> ((ProjectCalendar)c).getParent() == null ? null : ((ProjectCalendar)c).getParent().getUniqueID());
+      CALENDAR_COLUMNS.put("last_chng_date", null);
+      CALENDAR_COLUMNS.put("clndr_type", null);
+      CALENDAR_COLUMNS.put("day_hr_cnt", null);
+      CALENDAR_COLUMNS.put("week_hr_cnt", null);
+      CALENDAR_COLUMNS.put("month_hr_cnt", null);
+      CALENDAR_COLUMNS.put("year_hr_cnt", null);
+      CALENDAR_COLUMNS.put("rsrc_private", null);
+      CALENDAR_COLUMNS.put("clndr_data", null);
    }
 }
