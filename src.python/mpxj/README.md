@@ -80,7 +80,7 @@ properties.setAuthor("Jon Iles")
 
 # Let's create an alias for TEXT1
 customFields = file.getCustomFields()
-field = customFields.getCustomField(TaskField.TEXT1)
+field = customFields.getOrCreate(TaskField.TEXT1)
 field.setAlias("My Custom Field")
 
 # Add resources
