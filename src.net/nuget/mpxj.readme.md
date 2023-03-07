@@ -1,8 +1,8 @@
 # MPXJ
 
 [MPXJ](http://mpxj.org) is a Java library which allows a variety of project
-file formats and databases to be read and written. This NuGet uses
-the [IKVM](https://github.com/ikvm-revived/ikvm) to translate the Java library into a .Net assembly.
+file formats and databases to be read and written. This NuGet package uses
+[IKVM](https://github.com/ikvm-revived/ikvm) to translate the Java library into a .Net assembly.
 You can find details of the Java classes and methods in the [Javadocs](http://www.mpxj.org/apidocs/index.html).
 
 After installing this package you can either work with some of the simple built-in
