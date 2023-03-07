@@ -35,7 +35,7 @@ import net.sf.mpxj.TaskType;
 public final class TaskTypeHelper
 {
    /**
-    * Retrieve a task type by it's integer value.
+    * Retrieve a task type by its integer value.
     *
     * @param type task type value
     * @return TaskType instance
