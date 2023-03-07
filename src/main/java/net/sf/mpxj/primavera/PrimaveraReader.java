@@ -2244,10 +2244,10 @@ final class PrimaveraReader
    private static final Map<String, TaskType> TASK_TYPE_MAP = new HashMap<>();
    static
    {
-      TASK_TYPE_MAP.put("DT_FixedDrtn", TaskType.FIXED_DURATION);
-      TASK_TYPE_MAP.put("DT_FixedQty", TaskType.FIXED_UNITS);
-      TASK_TYPE_MAP.put("DT_FixedDUR2", TaskType.FIXED_WORK);
-      TASK_TYPE_MAP.put("DT_FixedRate", TaskType.FIXED_WORK);
+      TASK_TYPE_MAP.put("DT_FixedRate", TaskType.FIXED_UNITS); // Fixed Units/Time
+      TASK_TYPE_MAP.put("DT_FixedDrtn", TaskType.FIXED_DURATION); // Fixed Duration and Units/Time
+      TASK_TYPE_MAP.put("DT_FixedQty", TaskType.FIXED_WORK); // Fixed Units
+      TASK_TYPE_MAP.put("DT_FixedDUR2", TaskType.FIXED_DURATION); // Fixed Duration & Units
    }
 
    private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();

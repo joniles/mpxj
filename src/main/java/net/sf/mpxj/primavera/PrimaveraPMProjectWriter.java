@@ -2134,8 +2134,8 @@ final class PrimaveraPMProjectWriter
    static
    {
       DURATION_TYPE_MAP.put(TaskType.FIXED_DURATION, "Fixed Duration and Units/Time");
-      DURATION_TYPE_MAP.put(TaskType.FIXED_UNITS, "Fixed Units");
-      DURATION_TYPE_MAP.put(TaskType.FIXED_WORK, "Fixed Duration and Units");
+      DURATION_TYPE_MAP.put(TaskType.FIXED_UNITS, "Fixed Units/Time");
+      DURATION_TYPE_MAP.put(TaskType.FIXED_WORK, "Fixed Units");
    }
 
    private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = new HashMap<>();

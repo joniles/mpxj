@@ -2428,8 +2428,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       DURATION_TYPE_MAP.put("Fixed Units/Time", TaskType.FIXED_UNITS);
       DURATION_TYPE_MAP.put("Fixed Duration and Units/Time", TaskType.FIXED_DURATION);
-      DURATION_TYPE_MAP.put("Fixed Units", TaskType.FIXED_UNITS);
-      DURATION_TYPE_MAP.put("Fixed Duration and Units", TaskType.FIXED_WORK);
+      DURATION_TYPE_MAP.put("Fixed Units", TaskType.FIXED_WORK);
+      DURATION_TYPE_MAP.put("Fixed Duration and Units", TaskType.FIXED_DURATION);
    }
 
    private static final Map<String, PercentCompleteType> PERCENT_COMPLETE_TYPE = new HashMap<>();
