@@ -99,7 +99,6 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
@@ -1152,7 +1151,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setPrimaryResourceID(row.getPrimaryResourceObjectId());
          task.setSuspendDate(row.getSuspendDate());
          task.setResume(row.getResumeDate());
-         task.setType(DURATION_TYPE_MAP.get(row.getDurationType()));
+         task.setType(TaskTypeHelper.getInstanceFromXml(row.getDurationType()));
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
          task.setExternalEarlyStart(row.getExternalEarlyStartDate());
          task.setExternalLateFinish(row.getExternalLateFinishDate());
@@ -2421,15 +2420,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ACCRUE_TYPE_MAP.put("Uniform Over Activity", AccrueType.PRORATED);
       ACCRUE_TYPE_MAP.put("End of Activity", AccrueType.END);
       ACCRUE_TYPE_MAP.put("Start of Activity", AccrueType.START);
-   }
-
-   private static final Map<String, TaskType> DURATION_TYPE_MAP = new HashMap<>();
-   static
-   {
-      DURATION_TYPE_MAP.put("Fixed Units/Time", TaskType.FIXED_UNITS);
-      DURATION_TYPE_MAP.put("Fixed Duration and Units/Time", TaskType.FIXED_DURATION);
-      DURATION_TYPE_MAP.put("Fixed Units", TaskType.FIXED_UNITS);
-      DURATION_TYPE_MAP.put("Fixed Duration and Units", TaskType.FIXED_WORK);
    }
 
    private static final Map<String, PercentCompleteType> PERCENT_COMPLETE_TYPE = new HashMap<>();

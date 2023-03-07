@@ -88,7 +88,6 @@ import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
@@ -177,7 +176,7 @@ final class PrimaveraReader
          properties.setGUID(row.getUUID("guid"));
          properties.setProjectID(row.getString("proj_short_name"));
          properties.setName(row.getString("proj_short_name")); // Temporary, updated later from the WBS
-         properties.setDefaultTaskType(TASK_TYPE_MAP.get(row.getString("def_duration_type")));
+         properties.setDefaultTaskType(TaskTypeHelper.getInstanceFromXer(row.getString("def_duration_type")));
          properties.setStatusDate(row.getDate("last_recalc_date"));
          properties.setFiscalYearStartMonth(row.getInteger("fy_start_month_num"));
          properties.setExportFlag(row.getBoolean("export_flag"));
@@ -1932,7 +1931,7 @@ final class PrimaveraReader
 
             case TASK_TYPE:
             {
-               value = TASK_TYPE_MAP.get(row.getString(name));
+               value = TaskTypeHelper.getInstanceFromXer(row.getString(name));
                break;
             }
 
@@ -2239,15 +2238,6 @@ final class PrimaveraReader
       RELATION_TYPE_MAP.put("PR_FF", RelationType.FINISH_FINISH);
       RELATION_TYPE_MAP.put("PR_SS", RelationType.START_START);
       RELATION_TYPE_MAP.put("PR_SF", RelationType.START_FINISH);
-   }
-
-   private static final Map<String, TaskType> TASK_TYPE_MAP = new HashMap<>();
-   static
-   {
-      TASK_TYPE_MAP.put("DT_FixedDrtn", TaskType.FIXED_DURATION);
-      TASK_TYPE_MAP.put("DT_FixedQty", TaskType.FIXED_UNITS);
-      TASK_TYPE_MAP.put("DT_FixedDUR2", TaskType.FIXED_WORK);
-      TASK_TYPE_MAP.put("DT_FixedRate", TaskType.FIXED_WORK);
    }
 
    private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();

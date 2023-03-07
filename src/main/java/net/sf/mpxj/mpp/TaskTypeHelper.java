@@ -35,7 +35,7 @@ import net.sf.mpxj.TaskType;
 public final class TaskTypeHelper
 {
    /**
-    * Retrieve a task type by it's integer value.
+    * Retrieve a task type by its integer value.
     *
     * @param type task type value
     * @return TaskType instance
@@ -78,5 +78,6 @@ public final class TaskTypeHelper
       TYPE_MAP.put(TaskType.FIXED_UNITS, Integer.valueOf(0));
       TYPE_MAP.put(TaskType.FIXED_DURATION, Integer.valueOf(1));
       TYPE_MAP.put(TaskType.FIXED_WORK, Integer.valueOf(2));
+      TYPE_MAP.put(TaskType.FIXED_DURATION_AND_UNITS, Integer.valueOf(1));
    }
 }
