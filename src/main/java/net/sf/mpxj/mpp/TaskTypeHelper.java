@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.TaskType;
-import net.sf.mpxj.common.EnumHelper;
 
 /**
  * Provides methods to convert to and from Microsoft Project's representation
