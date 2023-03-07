@@ -60,6 +60,7 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.common.XmlHelper;
 import net.sf.mpxj.mpp.MPPUtility;
+import net.sf.mpxj.mpp.TaskTypeHelper;
 import net.sf.mpxj.mpp.WorkContourHelper;
 
 /**
@@ -629,7 +630,7 @@ public final class DatatypeConverter
     */
    public static final String printTaskType(TaskType value)
    {
-      return (Integer.toString(value == null ? TaskType.FIXED_UNITS.getValue() : value.getValue()));
+      return Integer.toString(TaskTypeHelper.getValue(value));
    }
 
    /**
@@ -640,7 +641,7 @@ public final class DatatypeConverter
     */
    public static final TaskType parseTaskType(String value)
    {
-      return (TaskType.getInstance(NumberHelper.getInt(value)));
+      return TaskTypeHelper.getInstance(NumberHelper.getInt(value));
    }
 
    /**

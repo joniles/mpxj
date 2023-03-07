@@ -859,7 +859,7 @@ abstract class FieldMap
 
                   case TASK_TYPE:
                   {
-                     result = TaskType.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     result = TaskTypeHelper.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
                      break;
                   }
 
