@@ -73,7 +73,7 @@ final class TaskTypeHelper
       XML_TYPE_MAP.put("Fixed Units/Time", TaskType.FIXED_UNITS);
       XML_TYPE_MAP.put("Fixed Duration and Units/Time", TaskType.FIXED_DURATION);
       XML_TYPE_MAP.put("Fixed Units", TaskType.FIXED_WORK);
-      XML_TYPE_MAP.put("Fixed Duration and Units", TaskType.FIXED_DURATION);
+      XML_TYPE_MAP.put("Fixed Duration and Units", TaskType.FIXED_DURATION_AND_UNITS);
    }
 
    private static final Map<String, TaskType> XER_TYPE_MAP = new HashMap<>();
@@ -82,7 +82,7 @@ final class TaskTypeHelper
       XER_TYPE_MAP.put("DT_FixedRate", TaskType.FIXED_UNITS); // Fixed Units/Time
       XER_TYPE_MAP.put("DT_FixedDrtn", TaskType.FIXED_DURATION); // Fixed Duration and Units/Time
       XER_TYPE_MAP.put("DT_FixedQty", TaskType.FIXED_WORK); // Fixed Units
-      XER_TYPE_MAP.put("DT_FixedDUR2", TaskType.FIXED_DURATION); // Fixed Duration & Units
+      XER_TYPE_MAP.put("DT_FixedDUR2", TaskType.FIXED_DURATION_AND_UNITS); // Fixed Duration & Units
    }
 
    private static final Map<TaskType, String> TYPE_XML_MAP = new HashMap<>();
@@ -91,5 +91,6 @@ final class TaskTypeHelper
       TYPE_XML_MAP.put(TaskType.FIXED_UNITS, "Fixed Units/Time");
       TYPE_XML_MAP.put(TaskType.FIXED_DURATION, "Fixed Duration and Units/Time");
       TYPE_XML_MAP.put(TaskType.FIXED_WORK, "Fixed Units");
+      TYPE_XML_MAP.put(TaskType.FIXED_DURATION_AND_UNITS, "Fixed Duration and Units");
    }
 }

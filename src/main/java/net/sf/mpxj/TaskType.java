@@ -30,5 +30,6 @@ public enum TaskType
 {
    FIXED_UNITS,
    FIXED_DURATION,
-   FIXED_WORK
+   FIXED_WORK,
+   FIXED_DURATION_AND_UNITS
 }

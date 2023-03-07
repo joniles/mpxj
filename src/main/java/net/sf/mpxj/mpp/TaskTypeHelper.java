@@ -78,5 +78,6 @@ public final class TaskTypeHelper
       TYPE_MAP.put(TaskType.FIXED_UNITS, Integer.valueOf(0));
       TYPE_MAP.put(TaskType.FIXED_DURATION, Integer.valueOf(1));
       TYPE_MAP.put(TaskType.FIXED_WORK, Integer.valueOf(2));
+      TYPE_MAP.put(TaskType.FIXED_DURATION_AND_UNITS, Integer.valueOf(1));
    }
 }
