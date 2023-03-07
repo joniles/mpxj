@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="11.2.0">
 			<action dev="joniles" type="update">The project property Critical Slack Limit is now represented as a `Duration` rather than as an `Integer`. (Potentially breaking change if you were using this property directly).</action>
+			<action dev="joniles" type="update">`TaskType` is now a simple enum with all Microsoft Project specific functionality moved into `TaskTypeHelper`. (Potentially breaking change if you were using the `TaskType` methods `getInstance` or `getValue` in your code)</action>
 			<action dev="joniles" type="update">Added support for reading project calendar exceptions from Phoenix schedules (based on a contribution by Rohit Sinha).</action>
 			<action dev="joniles" type="update">The Resource attribute Active now defaults to true if the schedule being read doesn't support or contain a value for this attribute.</action>
 			<action dev="joniles" type="update">Add suport for reading and writing the Resource's Active flag for P6 schedules.</action>
@@ -14,7 +15,6 @@
 			<action dev="joniles" type="update">Add suport for reading and writing the Project's Critical Slack Limit value for P6 schedules.</action>
 			<action dev="joniles" type="update">Fixed an issue reading certain types of Enterprise Custom Fields containing date values.</action>
 			<action dev="joniles" type="update">Ensure activity code value parent can be set to null.</action>
-			<action dev="joniles" type="update">`TaskType` is now a simple enum with all Microsoft Project specific functionality moved into `TaskTypeHelper`.</action>
 			<action dev="joniles" type="update">Added NuGet package icon</action>
 			<action dev="joniles" type="update">Simplified  NuGet packaging</action>
 		</release>
