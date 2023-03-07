@@ -789,7 +789,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       Integer id = row.getObjectId();
       calendar.setUniqueID(id);
       calendar.setName(row.getName());
-      calendar.setType(CALENDAR_TYPE_MAP.get(row.getType()));
+      calendar.setType(CalendarTypeHelper.getInstanceFromXml(row.getType()));
       calendar.setPersonal(BooleanHelper.getBoolean(row.isIsPersonal()));
 
       if (BooleanHelper.getBoolean(row.isIsDefault()) && m_defaultCalendarObjectID == null)
@@ -2448,14 +2448,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ACTIVITY_TYPE_MAP.put("Start Milestone", net.sf.mpxj.ActivityType.START_MILESTONE);
       ACTIVITY_TYPE_MAP.put("Finish Milestone", net.sf.mpxj.ActivityType.FINISH_MILESTONE);
       ACTIVITY_TYPE_MAP.put("WBS Summary", net.sf.mpxj.ActivityType.WBS_SUMMARY);
-   }
-
-   private static final Map<String, net.sf.mpxj.CalendarType> CALENDAR_TYPE_MAP = new HashMap<>();
-   static
-   {
-      CALENDAR_TYPE_MAP.put("Global", net.sf.mpxj.CalendarType.GLOBAL);
-      CALENDAR_TYPE_MAP.put("Project", net.sf.mpxj.CalendarType.PROJECT);
-      CALENDAR_TYPE_MAP.put("Resource", net.sf.mpxj.CalendarType.RESOURCE);
    }
 
    private static final Map<String, CriticalActivityType> CRITICAL_ACTIVITY_MAP = new HashMap<>();

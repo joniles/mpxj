@@ -675,7 +675,7 @@ final class PrimaveraPMProjectWriter
       xml.setIsPersonal(Boolean.valueOf(mpxj.getPersonal()));
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setType(CALENDAR_TYPE_MAP.get(mpxj.getType()));
+      xml.setType(CalendarTypeHelper.getXmlFromInstance(mpxj.getType()));
 
       xml.setHoursPerDay(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerDay()) / 60.0));
       xml.setHoursPerWeek(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerWeek()) / 60.0));
@@ -2179,14 +2179,6 @@ final class PrimaveraPMProjectWriter
    {
       CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.TOTAL_FLOAT, "Critical Float");
       CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.LONGEST_PATH, "Longest Path");
-   }
-
-   private static final Map<net.sf.mpxj.CalendarType, String> CALENDAR_TYPE_MAP = new HashMap<>();
-   static
-   {
-      CALENDAR_TYPE_MAP.put(net.sf.mpxj.CalendarType.GLOBAL, "Global");
-      CALENDAR_TYPE_MAP.put(net.sf.mpxj.CalendarType.PROJECT, "Project");
-      CALENDAR_TYPE_MAP.put(net.sf.mpxj.CalendarType.RESOURCE, "Resource");
    }
 
    private static final String[] RATE_TYPE_ARRAY = new String[]
