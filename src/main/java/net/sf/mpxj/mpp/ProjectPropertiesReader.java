@@ -87,7 +87,7 @@ public final class ProjectPropertiesReader
          ph.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
          ph.setCurrencyCode(props.getUnicodeString(Props.CURRENCY_CODE));
          //ph.setDecimalSeparator();
-         ph.setDefaultTaskType(TaskType.getInstance(props.getShort(Props.DEFAULT_TASK_TYPE)));
+         ph.setDefaultTaskType(TaskTypeHelper.getInstance(props.getShort(Props.DEFAULT_TASK_TYPE)));
          ph.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
          //ph.setThousandsSeparator();
          ph.setWeekStartDay(Day.getInstance(props.getShort(Props.WEEK_START_DAY) + 1));

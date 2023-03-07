@@ -690,7 +690,7 @@ final class MPP8Reader implements MPPVariantReader
          task.setText(29, taskExtData.getUnicodeString(TASK_TEXT29));
          task.setText(30, taskExtData.getUnicodeString(TASK_TEXT30));
          //task.setTotalSlack(); // Calculated value
-         task.setType(TaskType.getInstance(MPPUtility.getShort(data, 134)));
+         task.setType(TaskTypeHelper.getInstance(MPPUtility.getShort(data, 134)));
          task.setUniqueID(Integer.valueOf(uniqueID));
          //task.setUniqueIDPredecessors(); // Calculated value
          //task.setUniqueIDSuccessors(); // Calculated value

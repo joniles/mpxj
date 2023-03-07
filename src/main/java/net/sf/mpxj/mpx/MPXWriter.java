@@ -1331,7 +1331,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatTaskType(TaskType value)
    {
-      return (LocaleData.getString(m_locale, (value == TaskType.FIXED_DURATION ? LocaleData.YES : LocaleData.NO)));
+      return (LocaleData.getString(m_locale, (value == TaskType.FIXED_DURATION || value == TaskType.FIXED_DURATION_AND_UNITS ? LocaleData.YES : LocaleData.NO)));
    }
 
    /**
