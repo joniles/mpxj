@@ -25,11 +25,13 @@ import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -572,10 +574,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("wbs_max_sum_level", Integer.valueOf(0));
       PROJECT_COLUMNS.put("strgy_priority_num", Integer.valueOf(100));
       PROJECT_COLUMNS.put("last_checksum", "");
-
-      // HERE
-      PROJECT_COLUMNS.put("critical_drtn_hr_cnt", Integer.valueOf(0));
-      PROJECT_COLUMNS.put("def_cost_per_qty", "");
+      PROJECT_COLUMNS.put("critical_drtn_hr_cnt", (ExportFunction)o -> ((ProjectProperties)o).getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, (ProjectProperties)o).getDuration());
+      PROJECT_COLUMNS.put("def_cost_per_qty", Double.valueOf(100.0));
       PROJECT_COLUMNS.put("last_recalc_date", ProjectField.STATUS_DATE);
       PROJECT_COLUMNS.put("plan_start_date", ProjectField.PLANNED_START);
       PROJECT_COLUMNS.put("plan_end_date", ProjectField.MUST_FINISH_BY);
@@ -583,6 +583,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("add_date", "");
       PROJECT_COLUMNS.put("last_tasksum_date", "");
       PROJECT_COLUMNS.put("fcst_start_date", "");
+
+      // TODO: can we provide better support for the full set of values?
       PROJECT_COLUMNS.put("def_duration_type", ProjectField.DEFAULT_TASK_TYPE);
       PROJECT_COLUMNS.put("task_code_prefix", "");
       PROJECT_COLUMNS.put("guid", ProjectField.GUID);
