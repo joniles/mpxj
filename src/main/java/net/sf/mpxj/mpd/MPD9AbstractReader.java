@@ -71,6 +71,7 @@ import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.listener.ProjectListener;
+import net.sf.mpxj.mpp.TaskTypeHelper;
 import net.sf.mpxj.mpp.WorkContourHelper;
 
 /**
@@ -568,7 +569,7 @@ abstract class MPD9AbstractReader
       properties.setNewTasksEffortDriven(row.getBoolean("PROJ_OPT_NEW_ARE_EFFORT_DRIVEN"));
       //properties.setMoveRemainingStartsForward();
       //properties.setActualsInSync(row.getInt("PROJ_ACTUALS_SYNCH") != 0); // Not in MPP9 MPD?
-      properties.setDefaultTaskType(TaskType.getInstance(row.getInt("PROJ_OPT_DEF_TASK_TYPE")));
+      properties.setDefaultTaskType(TaskTypeHelper.getInstance(row.getInt("PROJ_OPT_DEF_TASK_TYPE")));
       //properties.setEarnedValueMethod();
       properties.setCreationDate(row.getDate("PROJ_CREATION_DATE"));
       //properties.setExtendedCreationDate(row.getDate("PROJ_CREATION_DATE_EX")); // Not in MPP9 MPD?
@@ -1402,7 +1403,7 @@ abstract class MPD9AbstractReader
          //task.setText29();
          //task.setText30();
          //task.setTotalSlack(row.getDuration("TASK_TOTAL_SLACK")); //@todo FIX ME
-         task.setType(TaskType.getInstance(row.getInt("TASK_TYPE")));
+         task.setType(TaskTypeHelper.getInstance(row.getInt("TASK_TYPE")));
          task.setUniqueID(uniqueID);
          //task.setUpdateNeeded();
          task.setWBS(row.getString("TASK_WBS"));
