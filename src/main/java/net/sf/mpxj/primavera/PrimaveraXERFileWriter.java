@@ -180,12 +180,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeCalendars()
    {
       writeTable("CALENDAR", CALENDAR_COLUMNS);
-      m_file.getCalendars().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).forEach(c -> writeCalendar(c));
+      m_file.getCalendars().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(this::writeCalendar);
    }
 
    private void writeCalendar(ProjectCalendar calendar)
    {
-      writeRecord(CALENDAR_COLUMNS.values().stream().map(f -> f == null ? null : f.apply(calendar)));
+      writeRecord(CALENDAR_COLUMNS.values().stream().map(f -> f.apply(calendar)));
    }
 
    private void writeTable(String name, String[] columns)
@@ -323,6 +323,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          return TaskTypeHelper.getXerFromInstance((TaskType) object);
       }
 
+      if (object instanceof CalendarType)
+      {
+         return CalendarTypeHelper.getXerFromInstance((CalendarType)object);
+      }
+
       return object.toString();
    }
 
@@ -396,6 +401,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
 
       return m_maxUnitsFormat.format(NumberHelper.getDouble(availability.getUnits()) / 100.0);
+   }
+
+   private static String getCalendarData(ProjectCalendar calendar)
+   {
+      return "";
    }
 
    private String m_encoding;
@@ -635,13 +645,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       CALENDAR_COLUMNS.put("clndr_name", c -> ((ProjectCalendar)c).getName());
       CALENDAR_COLUMNS.put("proj_id", c -> ((ProjectCalendar)c).getType() == CalendarType.PROJECT ? ((ProjectCalendar) c).getParentFile().getProjectProperties().getUniqueID() : null);
       CALENDAR_COLUMNS.put("base_clndr_id", c -> ((ProjectCalendar)c).getParent() == null ? null : ((ProjectCalendar)c).getParent().getUniqueID());
-      CALENDAR_COLUMNS.put("last_chng_date", null);
-      CALENDAR_COLUMNS.put("clndr_type", null);
-      CALENDAR_COLUMNS.put("day_hr_cnt", null);
-      CALENDAR_COLUMNS.put("week_hr_cnt", null);
-      CALENDAR_COLUMNS.put("month_hr_cnt", null);
-      CALENDAR_COLUMNS.put("year_hr_cnt", null);
-      CALENDAR_COLUMNS.put("rsrc_private", null);
-      CALENDAR_COLUMNS.put("clndr_data", null);
+      CALENDAR_COLUMNS.put("last_chng_date", c -> null);
+      CALENDAR_COLUMNS.put("clndr_type", c -> ((ProjectCalendar)c).getType());
+      CALENDAR_COLUMNS.put("day_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(((ProjectCalendar)c).getMinutesPerDay()) / 60));
+      CALENDAR_COLUMNS.put("week_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(((ProjectCalendar)c).getMinutesPerWeek()) / 60));
+      CALENDAR_COLUMNS.put("month_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(((ProjectCalendar)c).getMinutesPerMonth()) / 60));
+      CALENDAR_COLUMNS.put("year_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(((ProjectCalendar)c).getMinutesPerYear()) / 60));
+      CALENDAR_COLUMNS.put("rsrc_private", c -> ((ProjectCalendar)c).getPersonal());
+      CALENDAR_COLUMNS.put("clndr_data", c -> PrimaveraXERFileWriter.getCalendarData((ProjectCalendar)c));
    }
 }

@@ -87,7 +87,6 @@ import net.sf.mpxj.common.FieldLists;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityCodeType;
@@ -631,27 +630,8 @@ final class PrimaveraPMProjectWriter
    {
       for (ProjectCalendar calendar : m_projectFile.getCalendars())
       {
-         writeCalendar(normalizeCalendar(calendar));
+         writeCalendar(ProjectCalendarHelper.normalizeCalendar(calendar));
       }
-   }
-
-   /**
-    * Tries to ensure that the calendar structure we write matches P6's expectations.
-    *
-    * @param calendar calendar to normalize
-    * @return normalized calendar
-    */
-   private ProjectCalendar normalizeCalendar(ProjectCalendar calendar)
-   {
-      ProjectCalendar result = calendar;
-      if (calendar.getType() == net.sf.mpxj.CalendarType.GLOBAL && calendar.isDerived())
-      {
-         // Global calendars in P6 are not derived from other calendars.
-         // If this calendar is marked as a global calendar, and it is
-         // derived then we'll flatten it.
-         result = ProjectCalendarHelper.createTemporaryFlattenedCalendar(calendar);
-      }
-      return result;
    }
 
    /**
@@ -705,7 +685,7 @@ final class PrimaveraPMProjectWriter
       HolidayOrExceptions xmlExceptions = m_factory.createCalendarTypeHolidayOrExceptions();
       xml.setHolidayOrExceptions(xmlExceptions);
 
-      List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxj);
+      List<ProjectCalendarException> expandedExceptions = net.sf.mpxj.common.ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxj);
       if (!expandedExceptions.isEmpty())
       {
          Calendar calendar = DateHelper.popCalendar();
