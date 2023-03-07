@@ -67,6 +67,17 @@ final class TaskTypeHelper
       return TYPE_XML_MAP.get(value);
    }
 
+   /**
+    * Retrieve the string value representing a task type in an XER file.
+    *
+    * @param value TaskType instance
+    * @return string value
+    */
+   public static String getXerFromInstance(TaskType value)
+   {
+      return TYPE_XER_MAP.get(value);
+   }
+
    private static final Map<String, TaskType> XML_TYPE_MAP = new HashMap<>();
    static
    {
@@ -92,5 +103,14 @@ final class TaskTypeHelper
       TYPE_XML_MAP.put(TaskType.FIXED_DURATION, "Fixed Duration and Units/Time");
       TYPE_XML_MAP.put(TaskType.FIXED_WORK, "Fixed Units");
       TYPE_XML_MAP.put(TaskType.FIXED_DURATION_AND_UNITS, "Fixed Duration and Units");
+   }
+
+   private static final Map<TaskType, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(TaskType.FIXED_UNITS, "DT_FixedRate"); // Fixed Units/Time
+      TYPE_XER_MAP.put(TaskType.FIXED_DURATION, "DT_FixedDrtn"); // Fixed Duration and Units/Time
+      TYPE_XER_MAP.put(TaskType.FIXED_WORK, "DT_FixedQty"); // Fixed Units
+      TYPE_XER_MAP.put(TaskType.FIXED_DURATION_AND_UNITS, "DT_FixedDUR2"); // Fixed Duration & Units
    }
 }

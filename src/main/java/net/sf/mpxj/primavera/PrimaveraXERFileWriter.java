@@ -305,7 +305,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
       if (object instanceof TaskType)
       {
-         return TASK_TYPE_MAP.get((TaskType)object);
+         return TaskTypeHelper.getXerFromInstance((TaskType) object);
       }
 
       return object.toString();
@@ -415,15 +415,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.TOTAL_FLOAT, "CT_TotFloat");
       CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.LONGEST_PATH, "CT_DrivPath");
-   }
-
-   private static final Map<TaskType, String> TASK_TYPE_MAP = new HashMap<>();
-   static
-   {
-      TASK_TYPE_MAP.put(TaskType.FIXED_DURATION, "DT_FixedDrtn");
-      TASK_TYPE_MAP.put(TaskType.FIXED_UNITS, "DT_FixedQty");
-      TASK_TYPE_MAP.put(TaskType.FIXED_WORK, "DT_FixedDUR2");
-      TASK_TYPE_MAP.put(TaskType.FIXED_WORK, "DT_FixedRate");
    }
 
    private static final String[] CURRENCY_COLUMNS = {
@@ -580,38 +571,36 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("plan_start_date", ProjectField.PLANNED_START);
       PROJECT_COLUMNS.put("plan_end_date", ProjectField.MUST_FINISH_BY);
       PROJECT_COLUMNS.put("scd_end_date", ProjectField.SCHEDULED_FINISH);
-      PROJECT_COLUMNS.put("add_date", "");
+      PROJECT_COLUMNS.put("add_date", ProjectField.CREATION_DATE);
       PROJECT_COLUMNS.put("last_tasksum_date", "");
       PROJECT_COLUMNS.put("fcst_start_date", "");
-
-      // TODO: can we provide better support for the full set of values?
       PROJECT_COLUMNS.put("def_duration_type", ProjectField.DEFAULT_TASK_TYPE);
       PROJECT_COLUMNS.put("task_code_prefix", "");
       PROJECT_COLUMNS.put("guid", ProjectField.GUID);
-      PROJECT_COLUMNS.put("def_qty_type", "");
-      PROJECT_COLUMNS.put("add_by_name", "");
+      PROJECT_COLUMNS.put("def_qty_type", "QT_Hour");
+      PROJECT_COLUMNS.put("add_by_name", "admin");
       PROJECT_COLUMNS.put("web_local_root_path", "");
       PROJECT_COLUMNS.put("proj_url", "");
-      PROJECT_COLUMNS.put("def_rate_type", "");
-      PROJECT_COLUMNS.put("add_act_remain_flag", "");
-      PROJECT_COLUMNS.put("act_this_per_link_flag", "");
-      PROJECT_COLUMNS.put("def_task_type", "");
-      PROJECT_COLUMNS.put("act_pct_link_flag", "");
+      PROJECT_COLUMNS.put("def_rate_type", "COST_PER_QTY");
+      PROJECT_COLUMNS.put("add_act_remain_flag", Boolean.FALSE);
+      PROJECT_COLUMNS.put("act_this_per_link_flag", Boolean.TRUE);
+      PROJECT_COLUMNS.put("def_task_type", "TT_Task");
+      PROJECT_COLUMNS.put("act_pct_link_flag",Boolean.FALSE);
       PROJECT_COLUMNS.put("critical_path_type", ProjectField.CRITICAL_ACTIVITY_TYPE);
-      PROJECT_COLUMNS.put("task_code_prefix_flag", "");
-      PROJECT_COLUMNS.put("def_rollup_dates_flag", "");
-      PROJECT_COLUMNS.put("use_project_baseline_flag", "");
-      PROJECT_COLUMNS.put("rem_target_link_flag", "");
-      PROJECT_COLUMNS.put("reset_planned_flag", "");
-      PROJECT_COLUMNS.put("allow_neg_act_flag", "");
-      PROJECT_COLUMNS.put("sum_assign_level", "");
+      PROJECT_COLUMNS.put("task_code_prefix_flag", Boolean.TRUE);
+      PROJECT_COLUMNS.put("def_rollup_dates_flag", Boolean.TRUE);
+      PROJECT_COLUMNS.put("use_project_baseline_flag", Boolean.TRUE);
+      PROJECT_COLUMNS.put("rem_target_link_flag", Boolean.TRUE);
+      PROJECT_COLUMNS.put("reset_planned_flag", Boolean.FALSE);
+      PROJECT_COLUMNS.put("allow_neg_act_flag", Boolean.FALSE);
+      PROJECT_COLUMNS.put("sum_assign_level", "SL_Taskrsrc");
       PROJECT_COLUMNS.put("last_fin_dates_id", "");
       PROJECT_COLUMNS.put("fintmpl_id", "");
       PROJECT_COLUMNS.put("last_baseline_update_date", "");
       PROJECT_COLUMNS.put("cr_external_key", "");
       PROJECT_COLUMNS.put("apply_actuals_date", "");
       PROJECT_COLUMNS.put("location_id", "");
-      PROJECT_COLUMNS.put("loaded_scope_level", "");
+      PROJECT_COLUMNS.put("loaded_scope_level", Integer.valueOf(7));
       PROJECT_COLUMNS.put("export_flag", ProjectField.EXPORT_FLAG);
       PROJECT_COLUMNS.put("new_fin_dates_id", "");
       PROJECT_COLUMNS.put("baselines_to_export", "");
