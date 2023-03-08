@@ -23,10 +23,6 @@
 
 package net.sf.mpxj.primavera;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,29 +34,17 @@ import java.util.stream.Collectors;
 public class StructuredTextWriter
 {
    /**
-    * Write a StructuredTextRecord to the output stream using the default character set.
+    * Return a string representing the StructuredTextRecord instance in structured text format.
     *
-    * @param stream output stream
     * @param record StructuredTextRecord instance
     */
-   public void write(OutputStream stream, StructuredTextRecord record)  throws IOException
+   public String write(StructuredTextRecord record)
    {
-      write(stream, record, StructuredTextParser.DEFAULT_CHARSET);
-   }
-
-   /**
-    * Write a StructuredTextRecord to the output stream using the supplied character set.
-    *
-    * @param stream output stream
-    * @param record StructuredTextRecord instance
-    * @param charset character set
-    */
-   public void write(OutputStream stream, StructuredTextRecord record, Charset charset) throws IOException
-   {
-      m_writer = new OutputStreamWriter(stream, charset);
-      write(record);
-      m_writer.flush();
-      m_writer = null;
+      m_buffer = new StringBuilder();
+      writeRecord(record);
+      String result = m_buffer.toString();
+      m_buffer = null;
+      return result;
    }
 
    /**
@@ -68,29 +52,30 @@ public class StructuredTextWriter
     *
     * @param record StructuredTextRecord instance
     */
-   private void write(StructuredTextRecord record) throws IOException
+   private void writeRecord(StructuredTextRecord record)
    {
-      m_writer.write("(");
 
-      m_writer.write(record.getRecordNumber());
-      m_writer.write("||");
-      m_writer.write(record.getRecordName());
+      m_buffer.append("(");
 
-      m_writer.write("(");
-      m_writer.write(record.getAttributes().entrySet().stream().filter(e -> !IGNORED_KEYS.contains(e.getKey())).map(e -> e.getKey() + "|" + e.getValue()).collect(Collectors.joining("|")));
-      m_writer.write(")");
+      m_buffer.append(record.getRecordNumber());
+      m_buffer.append("||");
+      m_buffer.append(record.getRecordName());
 
-      m_writer.write("(");
+      m_buffer.append("(");
+      m_buffer.append(record.getAttributes().entrySet().stream().filter(e -> !IGNORED_KEYS.contains(e.getKey())).map(e -> e.getKey() + "|" + e.getValue()).collect(Collectors.joining("|")));
+      m_buffer.append(")");
+
+      m_buffer.append("(");
       for (StructuredTextRecord child : record.getChildren())
       {
-         write(child);
+         writeRecord(child);
       }
-      m_writer.write(")");
+      m_buffer.append(")");
 
-      m_writer.write(")");
+      m_buffer.append(")");
    }
 
-   private OutputStreamWriter m_writer;
+   private StringBuilder m_buffer;
 
    private static final Set<String> IGNORED_KEYS = new HashSet<>(Arrays.asList(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE));
 }

@@ -621,6 +621,8 @@ final class PrimaveraReader
          long daysFromEpoch = Integer.parseInt(exception.getAttribute("d"));
          Date startEx = DateHelper.getDateFromLong(EXCEPTION_EPOCH + (daysFromEpoch * DateHelper.MS_PER_DAY));
 
+         long test = (DateHelper.getLongFromDate(startEx) - EXCEPTION_EPOCH) / DateHelper.MS_PER_DAY;
+
          ProjectCalendarException pce = calendar.addCalendarException(startEx, startEx);
          for (StructuredTextRecord exceptionHours : exception.getChildren())
          {
@@ -2374,7 +2376,7 @@ final class PrimaveraReader
       DATA_TYPE_MAP.put("FT_START_DATE", DataType.DATE);
    }
 
-   private static final long EXCEPTION_EPOCH = -2209161599935L;
+   static final long EXCEPTION_EPOCH = -2209161599935L;
 
    static final String DEFAULT_WBS_SEPARATOR = ".";
 }

@@ -3,15 +3,20 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -20,11 +25,15 @@ import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
+import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarException;
+import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
@@ -35,6 +44,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
@@ -405,7 +415,99 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    private static String getCalendarData(ProjectCalendar calendar)
    {
-      return "";
+      StructuredTextRecord root = new StructuredTextRecord();
+      root.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
+      root.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, "CalendarData");
+      root.addChild(getDaysOfWeek(calendar));
+      root.addChild(getExceptions(calendar));
+      return new StructuredTextWriter().write(root);
+   }
+
+   private static StructuredTextRecord getDaysOfWeek(ProjectCalendar calendar)
+   {
+      StructuredTextRecord daysOfWeekRecord = new StructuredTextRecord();
+      daysOfWeekRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
+      daysOfWeekRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, "DaysOfWeek");
+
+      DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+      for(Day day : Day.values())
+      {
+         StructuredTextRecord dayRecord = new StructuredTextRecord();
+         daysOfWeekRecord.addChild(dayRecord);
+
+         dayRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
+         dayRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, Integer.toString(day.getValue()));
+
+         ProjectCalendarHours hours = calendar.getCalendarHours(day);
+         int hoursIndex = 0;
+         for (DateRange range : hours)
+         {
+            StructuredTextRecord hoursRecord = new StructuredTextRecord();
+            dayRecord.addChild(hoursRecord);
+
+            hoursRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
+            hoursRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, Integer.toString(hoursIndex++));
+            hoursRecord.addAttribute("f", timeFormat.format(range.getEnd()));
+            hoursRecord.addAttribute("s", timeFormat.format(range.getStart()));
+         }
+      }
+
+      return daysOfWeekRecord;
+   }
+
+   private static StructuredTextRecord getExceptions(ProjectCalendar projectCalendar)
+   {
+      StructuredTextRecord exceptionsRecord = new StructuredTextRecord();
+      exceptionsRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
+      exceptionsRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, "Exceptions");
+
+      int exceptionIndex = 0;
+      Calendar calendar = DateHelper.popCalendar();
+      Set<Date> exceptionDates = new HashSet<>();
+      DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+      List<ProjectCalendarException> exceptions = net.sf.mpxj.common.ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(projectCalendar);
+      for (ProjectCalendarException exception : exceptions)
+      {
+         calendar.setTime(exception.getFromDate());
+         while (calendar.getTimeInMillis() < exception.getToDate().getTime())
+         {
+            Date exceptionDate = calendar.getTime();
+
+            // Prevent duplicate exception dates being written.
+            // P6 will fail to import files with duplicate exceptions.
+            if (!exceptionDates.add(exceptionDate))
+            {
+               continue;
+            }
+
+            long dateValue = (long)Math.ceil((double)(DateHelper.getLongFromDate(exception.getFromDate()) - PrimaveraReader.EXCEPTION_EPOCH) / DateHelper.MS_PER_DAY);
+
+            StructuredTextRecord exceptionRecord = new StructuredTextRecord();
+            exceptionsRecord.addChild(exceptionRecord);
+            exceptionRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
+            exceptionRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, Integer.toString(exceptionIndex++));
+            exceptionRecord.addAttribute("d", Long.toString(dateValue));
+
+            int hoursIndex = 0;
+            for (DateRange range : exception)
+            {
+               StructuredTextRecord hoursRecord = new StructuredTextRecord();
+               exceptionRecord.addChild(hoursRecord);
+               hoursRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
+               hoursRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, Integer.toString(hoursIndex++));
+               hoursRecord.addAttribute("f", timeFormat.format(range.getEnd()));
+               hoursRecord.addAttribute("s", timeFormat.format(range.getStart()));
+            }
+
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+         }
+      }
+
+      DateHelper.pushCalendar(calendar);
+
+      return exceptionsRecord;
    }
 
    private String m_encoding;

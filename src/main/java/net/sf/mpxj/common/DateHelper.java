@@ -306,6 +306,12 @@ public final class DateHelper
       return (new Date(date - tz.getRawOffset()));
    }
 
+   public static long getLongFromDate(Date date)
+   {
+      TimeZone tz = TimeZone.getDefault();
+      return date.getTime() + tz.getRawOffset();
+   }
+
    /**
     * Creates a timestamp from the equivalent long value. This conversion
     * takes account of the time zone and any daylight savings time.
