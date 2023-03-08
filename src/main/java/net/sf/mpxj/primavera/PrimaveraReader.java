@@ -620,7 +620,7 @@ final class PrimaveraReader
       {
          long daysFromEpoch = Integer.parseInt(exception.getAttribute("d"));
          Date startEx = DateHelper.getDateFromLong(EXCEPTION_EPOCH + (daysFromEpoch * DateHelper.MS_PER_DAY));
-         
+
          ProjectCalendarException pce = calendar.addCalendarException(startEx, startEx);
          for (StructuredTextRecord exceptionHours : exception.getChildren())
          {
