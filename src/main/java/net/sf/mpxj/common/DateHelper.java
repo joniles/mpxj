@@ -306,6 +306,13 @@ public final class DateHelper
       return (new Date(date - tz.getRawOffset()));
    }
 
+   /**
+    * Generates a long from a Date instance.
+    * This conversion takes account of the time zone.
+    *
+    * @param date Date instance
+    * @return date expressed as a long integer
+    */
    public static long getLongFromDate(Date date)
    {
       TimeZone tz = TimeZone.getDefault();
