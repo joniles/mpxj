@@ -39,6 +39,9 @@ import java.util.stream.Collectors;
  */
 public class StructuredTextRecord
 {
+   /**
+    * Constructor to create an empty record.
+    */
    public StructuredTextRecord()
    {
       m_attributes= new LinkedHashMap<>();
@@ -127,11 +130,22 @@ public class StructuredTextRecord
       return m_childrenByName.get(name);
    }
 
+   /**
+    * Add an attribute to the record.
+    *
+    * @param name attribute name
+    * @param value attribute value
+    */
    public void addAttribute(String name, String value)
    {
       m_attributes.put(name, value);
    }
 
+   /**
+    * Add a child to the record.
+    *
+    * @param child StructuredTextRecord instance
+    */
    public void addChild(StructuredTextRecord child)
    {
       m_children.add(child);
