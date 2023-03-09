@@ -16,6 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.CostRateTableEntry;
@@ -344,6 +345,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          return CalendarTypeHelper.getXerFromInstance((CalendarType)object);
       }
 
+      if (object instanceof ActivityType)
+      {
+         return ActivityTypeHelper.getXerFromInstance((ActivityType)object);
+
+      }
       return object.toString();
    }
 
@@ -620,7 +626,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("def_rate_type", "COST_PER_QTY");
       PROJECT_COLUMNS.put("add_act_remain_flag", Boolean.FALSE);
       PROJECT_COLUMNS.put("act_this_per_link_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("def_task_type", "TT_Task");
+      PROJECT_COLUMNS.put("def_task_type", ActivityType.TASK_DEPENDENT);
       PROJECT_COLUMNS.put("act_pct_link_flag",Boolean.FALSE);
       PROJECT_COLUMNS.put("critical_path_type", ProjectField.CRITICAL_ACTIVITY_TYPE);
       PROJECT_COLUMNS.put("task_code_prefix_flag", Boolean.TRUE);
@@ -710,7 +716,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("lock_plan_flag", Boolean.FALSE);
       ACTIVITY_COLUMNS.put("auto_compute_act_flag", Boolean.TRUE);
       ACTIVITY_COLUMNS.put("complete_pct_type", null);
-      ACTIVITY_COLUMNS.put("task_type", null);
+      ACTIVITY_COLUMNS.put("task_type", TaskField.ACTIVITY_TYPE);
       ACTIVITY_COLUMNS.put("duration_type", null);
       ACTIVITY_COLUMNS.put("status_code", null);
       ACTIVITY_COLUMNS.put("task_code", null);
