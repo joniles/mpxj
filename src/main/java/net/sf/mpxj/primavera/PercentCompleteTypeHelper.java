@@ -72,6 +72,22 @@ final class PercentCompleteTypeHelper
       return TYPE_XML_MAP.get(value);
    }
 
+   /**
+    * Retrieve the string value representing a percent complete type in an XER file.
+    *
+    * @param value PercentCompleteType instance
+    * @return string value
+    */
+   public static String getXerFromInstance(PercentCompleteType value)
+   {
+      if (value == null)
+      {
+         value = PercentCompleteType.DURATION;
+      }
+
+      return TYPE_XER_MAP.get(value);
+   }
+
    private static final Map<String, PercentCompleteType> XML_TYPE_MAP = new HashMap<>();
    static
    {
@@ -98,4 +114,11 @@ final class PercentCompleteTypeHelper
       XER_TYPE_MAP.put("CP_Units", PercentCompleteType.UNITS);
    }
 
+   private static final Map<PercentCompleteType, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(PercentCompleteType.PHYSICAL, "CP_Phys");
+      TYPE_XER_MAP.put(PercentCompleteType.DURATION, "CP_Drtn");
+      TYPE_XER_MAP.put(PercentCompleteType.UNITS, "CP_Units");
+   }
 }

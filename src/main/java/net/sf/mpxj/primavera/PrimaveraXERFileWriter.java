@@ -25,6 +25,7 @@ import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
+import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
@@ -348,8 +349,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       if (object instanceof ActivityType)
       {
          return ActivityTypeHelper.getXerFromInstance((ActivityType)object);
-
       }
+
+      if (object instanceof PercentCompleteType)
+      {
+         return PercentCompleteTypeHelper.getXerFromInstance((PercentCompleteType)object);
+      }
+
       return object.toString();
    }
 
@@ -593,7 +599,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("cost_qty_recalc_flag", Boolean.TRUE);
       PROJECT_COLUMNS.put("batch_sum_flag", Boolean.TRUE);
       PROJECT_COLUMNS.put("name_sep_char", ".");
-      PROJECT_COLUMNS.put("def_complete_pct_type", "CP_Drtn");
+      PROJECT_COLUMNS.put("def_complete_pct_type", PercentCompleteType.DURATION);
       PROJECT_COLUMNS.put("proj_short_name", ProjectField.PROJECT_ID);
       PROJECT_COLUMNS.put("acct_id", "");
       PROJECT_COLUMNS.put("orig_proj_id", "");
@@ -715,7 +721,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("est_wt", Integer.valueOf(1));
       ACTIVITY_COLUMNS.put("lock_plan_flag", Boolean.FALSE);
       ACTIVITY_COLUMNS.put("auto_compute_act_flag", Boolean.TRUE);
-      ACTIVITY_COLUMNS.put("complete_pct_type", null);
+      ACTIVITY_COLUMNS.put("complete_pct_type", TaskField.PERCENT_COMPLETE_TYPE);
       ACTIVITY_COLUMNS.put("task_type", TaskField.ACTIVITY_TYPE);
       ACTIVITY_COLUMNS.put("duration_type", null);
       ACTIVITY_COLUMNS.put("status_code", null);
