@@ -1047,7 +1047,7 @@ final class PrimaveraPMProjectWriter
       xml.setStartDate(mpxj.getStart());
       xml.setStatus(getActivityStatus(mpxj));
       xml.setSuspendDate(mpxj.getSuspendDate());
-      xml.setType(getTaskType(mpxj));
+      xml.setType(ActivityTypeHelper.getXmlFromInstance(mpxj.getActivityType()));
       xml.setUnitsPercentComplete(getPercentage(mpxj.getPercentageWorkComplete()));
       xml.setWBSObjectId(parentObjectID);
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.TASK, mpxj));
@@ -1055,19 +1055,6 @@ final class PrimaveraPMProjectWriter
       writeActivityNote(mpxj);
       writePredecessors(mpxj);
       writeActivityCodeAssignments(mpxj, xml);
-   }
-
-   /**
-    * Attempts to locate the activity type value extracted from an existing P6 schedule.
-    * If present, we assume the value is valid.
-    * Returns "Resource Dependent" as the default value.
-    *
-    * @param task parent task
-    * @return activity type
-    */
-   private String getTaskType(Task task)
-   {
-      return task.getActivityType() == null ? "Resource Dependent" : ACTIVITY_TYPE_MAP.get(task.getActivityType());
    }
 
    /**
@@ -2158,20 +2145,6 @@ final class PrimaveraPMProjectWriter
       PERCENT_COMPLETE_TYPE.put(PercentCompleteType.DURATION, "Duration");
       PERCENT_COMPLETE_TYPE.put(PercentCompleteType.UNITS, "Units");
       PERCENT_COMPLETE_TYPE.put(PercentCompleteType.SCOPE, "Scope");
-   }
-
-   private static final Map<net.sf.mpxj.ActivityType, String> ACTIVITY_TYPE_MAP = new HashMap<>();
-   static
-   {
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.TASK_DEPENDENT, "Task Dependent");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.RESOURCE_DEPENDENT, "Resource Dependent");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.LEVEL_OF_EFFORT, "Level of Effort");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.START_MILESTONE, "Start Milestone");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.FINISH_MILESTONE, "Finish Milestone");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.WBS_SUMMARY, "WBS Summary");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.START_FLAG, "Start Milestone");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.FINISH_FLAG, "Finish Milestone");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.HAMMOCK, "Resource Dependent");
    }
 
    private static final Map<CriticalActivityType, String> CRITICAL_ACTIVITY_MAP = new HashMap<>();

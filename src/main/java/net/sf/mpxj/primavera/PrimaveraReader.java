@@ -45,7 +45,6 @@ import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ActivityStatus;
-import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ConstraintType;
@@ -950,7 +949,7 @@ final class PrimaveraReader
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
          task.setActivityStatus(STATUS_MAP.get(row.getString("status_code")));
-         task.setActivityType(ACTIVITY_TYPE_MAP.get(row.getString("task_type")));
+         task.setActivityType(ActivityTypeHelper.getInstanceFromXer(row.getString("task_type")));
 
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
          task.setIgnoreResourceCalendar(!"TT_Rsrc".equals(row.getString("task_type")));
@@ -2249,17 +2248,6 @@ final class PrimaveraReader
       MILESTONE_MAP.put("TT_Mile", Boolean.TRUE);
       MILESTONE_MAP.put("TT_FinMile", Boolean.TRUE);
       MILESTONE_MAP.put("TT_WBS", Boolean.FALSE);
-   }
-
-   private static final Map<String, ActivityType> ACTIVITY_TYPE_MAP = new HashMap<>();
-   static
-   {
-      ACTIVITY_TYPE_MAP.put("TT_Task", ActivityType.TASK_DEPENDENT);
-      ACTIVITY_TYPE_MAP.put("TT_Rsrc", ActivityType.RESOURCE_DEPENDENT);
-      ACTIVITY_TYPE_MAP.put("TT_LOE", ActivityType.LEVEL_OF_EFFORT);
-      ACTIVITY_TYPE_MAP.put("TT_Mile", ActivityType.START_MILESTONE);
-      ACTIVITY_TYPE_MAP.put("TT_FinMile", ActivityType.FINISH_MILESTONE);
-      ACTIVITY_TYPE_MAP.put("TT_WBS", ActivityType.WBS_SUMMARY);
    }
 
    /*
