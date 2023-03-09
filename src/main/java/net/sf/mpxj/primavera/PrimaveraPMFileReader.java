@@ -1109,7 +1109,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setName(row.getName());
          task.setNotesObject(notes);
 
-         task.setPercentCompleteType(PERCENT_COMPLETE_TYPE.get(row.getPercentCompleteType()));
+         task.setPercentCompleteType(PercentCompleteTypeHelper.getInstanceFromXml(row.getPercentCompleteType()));
          task.setPercentageComplete(reversePercentage(row.getDurationPercentComplete()));
          task.setPhysicalPercentComplete(reversePercentage(row.getPhysicalPercentComplete()));
          task.setPercentageWorkComplete(reversePercentage(row.getUnitsPercentComplete()));
@@ -2420,15 +2420,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ACCRUE_TYPE_MAP.put("Uniform Over Activity", AccrueType.PRORATED);
       ACCRUE_TYPE_MAP.put("End of Activity", AccrueType.END);
       ACCRUE_TYPE_MAP.put("Start of Activity", AccrueType.START);
-   }
-
-   private static final Map<String, PercentCompleteType> PERCENT_COMPLETE_TYPE = new HashMap<>();
-   static
-   {
-      PERCENT_COMPLETE_TYPE.put("Physical", PercentCompleteType.PHYSICAL);
-      PERCENT_COMPLETE_TYPE.put("Duration", PercentCompleteType.DURATION);
-      PERCENT_COMPLETE_TYPE.put("Units", PercentCompleteType.UNITS);
-      PERCENT_COMPLETE_TYPE.put("Scope", PercentCompleteType.SCOPE);
    }
 
    private static final Map<String, ActivityStatus> STATUS_MAP = new HashMap<>();
