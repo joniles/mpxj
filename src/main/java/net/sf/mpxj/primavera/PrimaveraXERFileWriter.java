@@ -82,6 +82,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeWBS();
          writeResources();
          writeResourceRates();
+         writeActivities();
 
          m_writer.flush();
       }
@@ -190,6 +191,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("PROJWBS", WBS_COLUMNS);
       m_file.getTasks().stream().filter(Task::getSummary).sorted(Comparator.comparing(Task::getUniqueID)).forEach(t -> writeRecord(WBS_COLUMNS, t));
+   }
+
+   private void writeActivities()
+   {
+      writeTable("TASK", ACTIVITY_COLUMNS);
+      m_file.getTasks().stream().filter(t -> !t.getSummary()).sorted(Comparator.comparing(Task::getUniqueID)).forEach(t -> writeRecord(ACTIVITY_COLUMNS, t));
    }
 
    private void writeCalendar(ProjectCalendar calendar)
@@ -688,5 +695,70 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("guid", TaskField.GUID);
       WBS_COLUMNS.put("tmpl_guid", "");
       WBS_COLUMNS.put("plan_open_state", "");
+   }
+
+   private static final Map<String, Object> ACTIVITY_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      ACTIVITY_COLUMNS.put("task_id", TaskField.UNIQUE_ID);
+      ACTIVITY_COLUMNS.put("proj_id", (ExportFunction)t -> ((Task)t).getParentFile().getProjectProperties().getUniqueID());
+      ACTIVITY_COLUMNS.put("wbs_id",TaskField.PARENT_TASK_UNIQUE_ID);
+      ACTIVITY_COLUMNS.put("clndr_id", TaskField.CALENDAR_UNIQUE_ID);
+      ACTIVITY_COLUMNS.put("phys_complete_pct", TaskField.PHYSICAL_PERCENT_COMPLETE);
+      ACTIVITY_COLUMNS.put("rev_fdbk_flag", Boolean.FALSE);
+      ACTIVITY_COLUMNS.put("est_wt", Integer.valueOf(1));
+      ACTIVITY_COLUMNS.put("lock_plan_flag", Boolean.FALSE);
+      ACTIVITY_COLUMNS.put("auto_compute_act_flag", Boolean.TRUE);
+      ACTIVITY_COLUMNS.put("complete_pct_type", null);
+      ACTIVITY_COLUMNS.put("task_type", null);
+      ACTIVITY_COLUMNS.put("duration_type", null);
+      ACTIVITY_COLUMNS.put("status_code", null);
+      ACTIVITY_COLUMNS.put("task_code", null);
+      ACTIVITY_COLUMNS.put("task_name", null);
+      ACTIVITY_COLUMNS.put("rsrc_id", null);
+      ACTIVITY_COLUMNS.put("total_float_hr_cnt", null);
+      ACTIVITY_COLUMNS.put("free_float_hr_cnt", null);
+      ACTIVITY_COLUMNS.put("remain_drtn_hr_cnt", null);
+      ACTIVITY_COLUMNS.put("act_work_qty", null);
+      ACTIVITY_COLUMNS.put("remain_work_qty", null);
+      ACTIVITY_COLUMNS.put("target_work_qty", null);
+      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", null);
+      ACTIVITY_COLUMNS.put("target_equip_qty", null);
+      ACTIVITY_COLUMNS.put("act_equip_qty", null);
+      ACTIVITY_COLUMNS.put("remain_equip_qty", null);
+      ACTIVITY_COLUMNS.put("cstr_date", null);
+      ACTIVITY_COLUMNS.put("act_start_date", null);
+      ACTIVITY_COLUMNS.put("act_end_date", null);
+      ACTIVITY_COLUMNS.put("late_start_date", null);
+      ACTIVITY_COLUMNS.put("late_end_date", null);
+      ACTIVITY_COLUMNS.put("expect_end_date", null);
+      ACTIVITY_COLUMNS.put("early_start_date", null);
+      ACTIVITY_COLUMNS.put("early_end_date", null);
+      ACTIVITY_COLUMNS.put("restart_date", null);
+      ACTIVITY_COLUMNS.put("reend_date", null);
+      ACTIVITY_COLUMNS.put("target_start_date", null);
+      ACTIVITY_COLUMNS.put("target_end_date", null);
+      ACTIVITY_COLUMNS.put("rem_late_start_date", null);
+      ACTIVITY_COLUMNS.put("rem_late_end_date", null);
+      ACTIVITY_COLUMNS.put("cstr_type", null);
+      ACTIVITY_COLUMNS.put("priority_type", null);
+      ACTIVITY_COLUMNS.put("suspend_date", null);
+      ACTIVITY_COLUMNS.put("resume_date", null);
+      ACTIVITY_COLUMNS.put("float_path", null);
+      ACTIVITY_COLUMNS.put("float_path_order", null);
+      ACTIVITY_COLUMNS.put("guid", null);
+      ACTIVITY_COLUMNS.put("tmpl_guid", null);
+      ACTIVITY_COLUMNS.put("cstr_date2", null);
+      ACTIVITY_COLUMNS.put("cstr_type2", null);
+      ACTIVITY_COLUMNS.put("driving_path_flag", null);
+      ACTIVITY_COLUMNS.put("act_this_per_work_qty", null);
+      ACTIVITY_COLUMNS.put("act_this_per_equip_qty", null);
+      ACTIVITY_COLUMNS.put("external_early_start_date", null);
+      ACTIVITY_COLUMNS.put("external_late_end_date", null);
+      ACTIVITY_COLUMNS.put("create_date", null);
+      ACTIVITY_COLUMNS.put("update_date", null);
+      ACTIVITY_COLUMNS.put("create_user", null);
+      ACTIVITY_COLUMNS.put("update_user", null);
+      ACTIVITY_COLUMNS.put("location_id", null);
    }
 }
