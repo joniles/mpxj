@@ -32,6 +32,8 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
@@ -77,6 +79,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeProject();
          writeRoleRates();
          writeCalendars();
+         writeWBS();
          writeResources();
          writeResourceRates();
 
@@ -181,6 +184,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("CALENDAR", CALENDAR_COLUMNS);
       m_file.getCalendars().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(this::writeCalendar);
+   }
+
+   private void writeWBS()
+   {
+      writeTable("PROJWBS", WBS_COLUMNS);
+      m_file.getTasks().stream().filter(Task::getSummary).sorted(Comparator.comparing(Task::getUniqueID)).forEach(t -> writeRecord(WBS_COLUMNS, t));
    }
 
    private void writeCalendar(ProjectCalendar calendar)
@@ -648,5 +657,36 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       CALENDAR_COLUMNS.put("year_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(((ProjectCalendar)c).getMinutesPerYear()) / 60));
       CALENDAR_COLUMNS.put("rsrc_private", c -> ((ProjectCalendar)c).getPersonal());
       CALENDAR_COLUMNS.put("clndr_data", c -> new ProjectCalendarStructuredTextWriter().getCalendarData((ProjectCalendar)c));
+   }
+
+   private static final Map<String, Object> WBS_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      WBS_COLUMNS.put("wbs_id", TaskField.UNIQUE_ID);
+      WBS_COLUMNS.put("proj_id", (ExportFunction)t -> ((Task)t).getParentFile().getProjectProperties().getUniqueID() );
+      WBS_COLUMNS.put("obs_id", "");
+      WBS_COLUMNS.put("seq_num", TaskField.SEQUENCE_NUMBER);
+      WBS_COLUMNS.put("est_wt", Integer.valueOf(1));
+      WBS_COLUMNS.put("proj_node_flag", Boolean.FALSE);
+      WBS_COLUMNS.put("sum_data_flag", Boolean.TRUE);
+      WBS_COLUMNS.put("status_code", "WS_Open");
+      WBS_COLUMNS.put("wbs_short_name", (ExportFunction)t -> TaskHelper.getWbsCode((Task)t));
+      WBS_COLUMNS.put("wbs_name", TaskField.NAME);
+      WBS_COLUMNS.put("phase_id", "");
+      WBS_COLUMNS.put("parent_wbs_id", TaskField.PARENT_TASK_UNIQUE_ID);
+      WBS_COLUMNS.put("ev_user_pct", TaskField.PLANNED_COST);
+      WBS_COLUMNS.put("ev_etc_user_value", "");
+      WBS_COLUMNS.put("orig_cost", "");
+      WBS_COLUMNS.put("indep_remain_total_cost", "");
+      WBS_COLUMNS.put("ann_dscnt_rate_pct", "");
+      WBS_COLUMNS.put("dscnt_period_type", "");
+      WBS_COLUMNS.put("indep_remain_work_qty", "");
+      WBS_COLUMNS.put("anticip_start_date", "");
+      WBS_COLUMNS.put("anticip_end_date", "");
+      WBS_COLUMNS.put("ev_compute_type", "EC_Cmp_pct");
+      WBS_COLUMNS.put("ev_etc_compute_type", "EC_Cmp_pct");
+      WBS_COLUMNS.put("guid", TaskField.GUID);
+      WBS_COLUMNS.put("tmpl_guid", "");
+      WBS_COLUMNS.put("plan_open_state", "");
    }
 }
