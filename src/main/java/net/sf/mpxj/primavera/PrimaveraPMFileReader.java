@@ -1146,7 +1146,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
          task.setActivityID(row.getId());
-         task.setActivityType(ACTIVITY_TYPE_MAP.get(row.getType()));
+         task.setActivityType(ActivityTypeHelper.getInstanceFromXml(row.getType()));
          task.setActivityStatus(STATUS_MAP.get(row.getStatus()));
          task.setPrimaryResourceID(row.getPrimaryResourceObjectId());
          task.setSuspendDate(row.getSuspendDate());
@@ -2437,17 +2437,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       STATUS_MAP.put("Not Started", ActivityStatus.NOT_STARTED);
       STATUS_MAP.put("In Progress", ActivityStatus.IN_PROGRESS);
       STATUS_MAP.put("Completed", ActivityStatus.COMPLETED);
-   }
-
-   private static final Map<String, net.sf.mpxj.ActivityType> ACTIVITY_TYPE_MAP = new HashMap<>();
-   static
-   {
-      ACTIVITY_TYPE_MAP.put("Task Dependent", net.sf.mpxj.ActivityType.TASK_DEPENDENT);
-      ACTIVITY_TYPE_MAP.put("Resource Dependent", net.sf.mpxj.ActivityType.RESOURCE_DEPENDENT);
-      ACTIVITY_TYPE_MAP.put("Level of Effort", net.sf.mpxj.ActivityType.LEVEL_OF_EFFORT);
-      ACTIVITY_TYPE_MAP.put("Start Milestone", net.sf.mpxj.ActivityType.START_MILESTONE);
-      ACTIVITY_TYPE_MAP.put("Finish Milestone", net.sf.mpxj.ActivityType.FINISH_MILESTONE);
-      ACTIVITY_TYPE_MAP.put("WBS Summary", net.sf.mpxj.ActivityType.WBS_SUMMARY);
    }
 
    private static final Map<String, CriticalActivityType> CRITICAL_ACTIVITY_MAP = new HashMap<>();
