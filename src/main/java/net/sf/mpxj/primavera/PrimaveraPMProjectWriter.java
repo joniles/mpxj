@@ -954,7 +954,7 @@ final class PrimaveraPMProjectWriter
       xml.setIsLongestPath(BooleanHelper.getBoolean(mpxj.getLongestPath()) ? Boolean.TRUE : null);
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setPercentCompleteType(getPercentCompleteType(mpxj.getPercentCompleteType()));
+      xml.setPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(mpxj.getPercentCompleteType()));
       xml.setPercentComplete(getPercentComplete(mpxj));
       xml.setPhysicalPercentComplete(getPercentage(mpxj.getPhysicalPercentComplete()));
       xml.setPrimaryConstraintType(CONSTRAINT_TYPE_MAP.get(mpxj.getConstraintType()));
@@ -1853,11 +1853,6 @@ final class PrimaveraPMProjectWriter
       return result;
    }
 
-   private String getPercentCompleteType(PercentCompleteType value)
-   {
-      return PERCENT_COMPLETE_TYPE.get(value == null ? PercentCompleteType.DURATION : value);
-   }
-
    /**
     * Returns the reported percent complete value for this task.
     *
@@ -2073,15 +2068,6 @@ final class PrimaveraPMProjectWriter
       ACCRUE_TYPE_MAP.put(AccrueType.PRORATED, "Uniform Over Activity");
       ACCRUE_TYPE_MAP.put(AccrueType.END, "End of Activity");
       ACCRUE_TYPE_MAP.put(AccrueType.START, "Start of Activity");
-   }
-
-   private static final Map<PercentCompleteType, String> PERCENT_COMPLETE_TYPE = new HashMap<>();
-   static
-   {
-      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.PHYSICAL, "Physical");
-      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.DURATION, "Duration");
-      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.UNITS, "Units");
-      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.SCOPE, "Scope");
    }
 
    private static final Map<CriticalActivityType, String> CRITICAL_ACTIVITY_MAP = new HashMap<>();

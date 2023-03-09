@@ -954,7 +954,7 @@ final class PrimaveraReader
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
          task.setIgnoreResourceCalendar(!"TT_Rsrc".equals(row.getString("task_type")));
 
-         task.setPercentCompleteType(PERCENT_COMPLETE_TYPE.get(row.getString("complete_pct_type")));
+         task.setPercentCompleteType(PercentCompleteTypeHelper.getInstanceFromXer(row.getString("complete_pct_type")));
          task.setPercentageWorkComplete(calculateUnitsPercentComplete(row));
          task.setPercentageComplete(calculateDurationPercentComplete(row));
          task.setPhysicalPercentComplete(calculatePhysicalPercentComplete(row));
@@ -2298,14 +2298,6 @@ final class PrimaveraReader
       ACCRUE_TYPE_MAP.put("CL_Uniform", AccrueType.PRORATED);
       ACCRUE_TYPE_MAP.put("CL_End", AccrueType.END);
       ACCRUE_TYPE_MAP.put("CL_Start", AccrueType.START);
-   }
-
-   private static final Map<String, PercentCompleteType> PERCENT_COMPLETE_TYPE = new HashMap<>();
-   static
-   {
-      PERCENT_COMPLETE_TYPE.put("CP_Phys", PercentCompleteType.PHYSICAL);
-      PERCENT_COMPLETE_TYPE.put("CP_Drtn", PercentCompleteType.DURATION);
-      PERCENT_COMPLETE_TYPE.put("CP_Units", PercentCompleteType.UNITS);
    }
 
    private static final Map<String, ActivityStatus> STATUS_MAP = new HashMap<>();
