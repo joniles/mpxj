@@ -79,6 +79,7 @@ import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
@@ -488,10 +489,10 @@ final class PrimaveraPMProjectWriter
       //
       Date plannedStart = Optional.ofNullable(Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate)).orElseGet(mpxj::getCurrentDate);
 
-      project.setActivityDefaultActivityType("Task Dependent");
+      project.setActivityDefaultActivityType(ActivityTypeHelper.getXmlFromInstance(net.sf.mpxj.ActivityType.TASK_DEPENDENT));
       project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
-      project.setActivityDefaultDurationType("Fixed Duration and Units");
-      project.setActivityDefaultPercentCompleteType("Duration");
+      project.setActivityDefaultDurationType(TaskTypeHelper.getXmlFromInstance(TaskType.FIXED_DURATION_AND_UNITS));
+      project.setActivityDefaultPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(PercentCompleteType.DURATION));
       project.setActivityDefaultPricePerUnit(NumberHelper.DOUBLE_ZERO);
       project.setActivityIdBasedOnSelectedActivity(Boolean.TRUE);
       project.setActivityIdIncrement(Integer.valueOf(10));
@@ -501,7 +502,7 @@ final class PrimaveraPMProjectWriter
       project.setAddActualToRemaining(Boolean.FALSE);
       project.setAllowNegativeActualUnitsFlag(Boolean.FALSE);
       project.setAssignmentDefaultDrivingFlag(Boolean.TRUE);
-      project.setAssignmentDefaultRateType("Price / Unit");
+      project.setAssignmentDefaultRateType(RATE_TYPE_ARRAY[0]);
       project.setCheckOutStatus(Boolean.FALSE);
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
       project.setCreateDate(mpxj.getCreationDate());
@@ -557,10 +558,10 @@ final class PrimaveraPMProjectWriter
       //
       Date plannedStart = Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate);
 
-      project.setActivityDefaultActivityType("Task Dependent");
+      project.setActivityDefaultActivityType(ActivityTypeHelper.getXmlFromInstance(net.sf.mpxj.ActivityType.TASK_DEPENDENT));
       project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
-      project.setActivityDefaultDurationType("Fixed Duration and Units");
-      project.setActivityDefaultPercentCompleteType("Duration");
+      project.setActivityDefaultDurationType(TaskTypeHelper.getXmlFromInstance(TaskType.FIXED_DURATION_AND_UNITS));
+      project.setActivityDefaultPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(PercentCompleteType.DURATION));
       project.setActivityDefaultPricePerUnit(NumberHelper.DOUBLE_ZERO);
       project.setActivityIdBasedOnSelectedActivity(Boolean.TRUE);
       project.setActivityIdIncrement(Integer.valueOf(10));
@@ -569,7 +570,7 @@ final class PrimaveraPMProjectWriter
       project.setActivityPercentCompleteBasedOnActivitySteps(Boolean.FALSE);
       project.setAddActualToRemaining(Boolean.FALSE);
       project.setAssignmentDefaultDrivingFlag(Boolean.TRUE);
-      project.setAssignmentDefaultRateType("Price / Unit");
+      project.setAssignmentDefaultRateType(RATE_TYPE_ARRAY[0]);
       project.setCheckOutStatus(Boolean.FALSE);
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
       project.setCreateDate(mpxj.getCreationDate());
@@ -1073,7 +1074,6 @@ final class PrimaveraPMProjectWriter
       xml.setPlannedUnits(getDuration(mpxj.getPlannedWork()));
       xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setProjectObjectId(m_projectObjectID);
-      xml.setRateSource("Resource");
       xml.setRemainingCost(getDouble(mpxj.getRemainingCost()));
       xml.setRemainingDuration(getDuration(mpxj.getRemainingWork()));
       xml.setRemainingUnits(getDuration(mpxj.getRemainingWork()));
