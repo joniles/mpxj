@@ -731,10 +731,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("task_type", TaskField.ACTIVITY_TYPE);
       ACTIVITY_COLUMNS.put("duration_type", TaskField.TYPE);
       ACTIVITY_COLUMNS.put("status_code", (ExportFunction)t -> ActivityStatusHelper.getActivityStatus((Task)t));
-      ACTIVITY_COLUMNS.put("task_code", null);
-      ACTIVITY_COLUMNS.put("task_name", null);
-      ACTIVITY_COLUMNS.put("rsrc_id", null);
-      ACTIVITY_COLUMNS.put("total_float_hr_cnt", null);
+      ACTIVITY_COLUMNS.put("task_code", TaskField.ACTIVITY_ID);
+      ACTIVITY_COLUMNS.put("task_name", TaskField.NAME);
+      ACTIVITY_COLUMNS.put("rsrc_id", TaskField.PRIMARY_RESOURCE_ID);
+      ACTIVITY_COLUMNS.put("total_float_hr_cnt", null); // TaskField.TOTAL_SLACK TODO: duration conversion
       ACTIVITY_COLUMNS.put("free_float_hr_cnt", null);
       ACTIVITY_COLUMNS.put("remain_drtn_hr_cnt", null);
       ACTIVITY_COLUMNS.put("act_work_qty", null);
