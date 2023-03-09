@@ -44,7 +44,6 @@ import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
-import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ConstraintType;
@@ -948,7 +947,7 @@ final class PrimaveraReader
          processFields(m_taskFields, row, task);
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
-         task.setActivityStatus(STATUS_MAP.get(row.getString("status_code")));
+         task.setActivityStatus(ActivityStatusHelper.getInstanceFromXer(row.getString("status_code")));
          task.setActivityType(ActivityTypeHelper.getInstanceFromXer(row.getString("task_type")));
 
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
@@ -2298,14 +2297,6 @@ final class PrimaveraReader
       ACCRUE_TYPE_MAP.put("CL_Uniform", AccrueType.PRORATED);
       ACCRUE_TYPE_MAP.put("CL_End", AccrueType.END);
       ACCRUE_TYPE_MAP.put("CL_Start", AccrueType.START);
-   }
-
-   private static final Map<String, ActivityStatus> STATUS_MAP = new HashMap<>();
-   static
-   {
-      STATUS_MAP.put("TK_NotStart", ActivityStatus.NOT_STARTED);
-      STATUS_MAP.put("TK_Active", ActivityStatus.IN_PROGRESS);
-      STATUS_MAP.put("TK_Complete", ActivityStatus.COMPLETED);
    }
 
    private static final Map<String, CriticalActivityType> CRITICAL_ACTIVITY_MAP = new HashMap<>();

@@ -1046,7 +1046,7 @@ final class PrimaveraPMProjectWriter
       }
 
       xml.setStartDate(mpxj.getStart());
-      xml.setStatus(getActivityStatus(mpxj));
+      xml.setStatus(ActivityStatusHelper.getXmlFromInstance(ActivityStatusHelper.getActivityStatus(mpxj)));
       xml.setSuspendDate(mpxj.getSuspendDate());
       xml.setType(ActivityTypeHelper.getXmlFromInstance(mpxj.getActivityType()));
       xml.setUnitsPercentComplete(getPercentage(mpxj.getPercentageWorkComplete()));
@@ -2012,33 +2012,6 @@ final class PrimaveraPMProjectWriter
          return RATE_TYPE_ARRAY[0];
       }
       return RATE_TYPE_ARRAY[index.intValue()];
-   }
-
-   /**
-    * Retrieve an activity status.
-    *
-    * @param mpxj MPXJ Task instance
-    * @return activity status
-    */
-   private String getActivityStatus(Task mpxj)
-   {
-      String result;
-      if (mpxj.getActualStart() == null)
-      {
-         result = "Not Started";
-      }
-      else
-      {
-         if (mpxj.getActualFinish() == null)
-         {
-            result = "In Progress";
-         }
-         else
-         {
-            result = "Completed";
-         }
-      }
-      return result;
    }
 
    /**

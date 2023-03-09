@@ -60,7 +60,6 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
-import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ChildTaskContainer;
@@ -1147,7 +1146,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setCreateDate(row.getCreateDate());
          task.setActivityID(row.getId());
          task.setActivityType(ActivityTypeHelper.getInstanceFromXml(row.getType()));
-         task.setActivityStatus(STATUS_MAP.get(row.getStatus()));
+         task.setActivityStatus(ActivityStatusHelper.getInstanceFromXml(row.getStatus()));
          task.setPrimaryResourceID(row.getPrimaryResourceObjectId());
          task.setSuspendDate(row.getSuspendDate());
          task.setResume(row.getResumeDate());
@@ -2420,14 +2419,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ACCRUE_TYPE_MAP.put("Uniform Over Activity", AccrueType.PRORATED);
       ACCRUE_TYPE_MAP.put("End of Activity", AccrueType.END);
       ACCRUE_TYPE_MAP.put("Start of Activity", AccrueType.START);
-   }
-
-   private static final Map<String, ActivityStatus> STATUS_MAP = new HashMap<>();
-   static
-   {
-      STATUS_MAP.put("Not Started", ActivityStatus.NOT_STARTED);
-      STATUS_MAP.put("In Progress", ActivityStatus.IN_PROGRESS);
-      STATUS_MAP.put("Completed", ActivityStatus.COMPLETED);
    }
 
    private static final Map<String, CriticalActivityType> CRITICAL_ACTIVITY_MAP = new HashMap<>();
