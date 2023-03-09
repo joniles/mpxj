@@ -16,6 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
@@ -354,6 +355,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       if (object instanceof PercentCompleteType)
       {
          return PercentCompleteTypeHelper.getXerFromInstance((PercentCompleteType)object);
+      }
+
+      if (object instanceof ActivityStatus)
+      {
+         return ActivityStatusHelper.getXerFromInstance((ActivityStatus)object);
       }
 
       return object.toString();
@@ -724,7 +730,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("complete_pct_type", TaskField.PERCENT_COMPLETE_TYPE);
       ACTIVITY_COLUMNS.put("task_type", TaskField.ACTIVITY_TYPE);
       ACTIVITY_COLUMNS.put("duration_type", TaskField.TYPE);
-      ACTIVITY_COLUMNS.put("status_code", null);
+      ACTIVITY_COLUMNS.put("status_code", (ExportFunction)t -> ActivityStatusHelper.getActivityStatus((Task)t));
       ACTIVITY_COLUMNS.put("task_code", null);
       ACTIVITY_COLUMNS.put("task_name", null);
       ACTIVITY_COLUMNS.put("rsrc_id", null);
