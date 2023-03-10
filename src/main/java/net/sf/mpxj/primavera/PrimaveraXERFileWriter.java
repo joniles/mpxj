@@ -291,78 +291,21 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    private String format(Object object)
    {
-      // TODO: do we need to implement type-specific defaults?
       if (object == null)
       {
          return "";
       }
 
-      if (object instanceof Date)
-      {
-         return m_timestampFormat.format(object);
-      }
-
-      if (object instanceof Double)
-      {
-         return m_doubleFormat.format(object);
-      }
-
-      if (object instanceof Boolean)
-      {
-         return ((Boolean) object).booleanValue() ? "Y" : "N";
-      }
-
+      // Handle objects which may be subclasses
       if (object instanceof Notes)
       {
          return formatNotes((Notes) object);
       }
 
-      if (object instanceof Rate)
-      {
-         return formatRate((Rate) object);
-      }
+      // Handle objects we can identify by class name
+      FormatFunction f = FORMAT_MAP.get(object.getClass());
 
-      if (object instanceof UUID)
-      {
-         return formatUUID((UUID)object);
-      }
-
-      if (object instanceof ResourceType)
-      {
-         return formatResourceType((ResourceType)object);
-      }
-
-      if (object instanceof CriticalActivityType)
-      {
-         return CRITICAL_ACTIVITY_MAP.get((CriticalActivityType)object);
-      }
-
-      if (object instanceof TaskType)
-      {
-         return TaskTypeHelper.getXerFromInstance((TaskType) object);
-      }
-
-      if (object instanceof CalendarType)
-      {
-         return CalendarTypeHelper.getXerFromInstance((CalendarType)object);
-      }
-
-      if (object instanceof ActivityType)
-      {
-         return ActivityTypeHelper.getXerFromInstance((ActivityType)object);
-      }
-
-      if (object instanceof PercentCompleteType)
-      {
-         return PercentCompleteTypeHelper.getXerFromInstance((PercentCompleteType)object);
-      }
-
-      if (object instanceof ActivityStatus)
-      {
-         return ActivityStatusHelper.getXerFromInstance((ActivityStatus)object);
-      }
-
-      return object.toString();
+      return f == null ? object.toString() : f.apply(this, object);
    }
 
    private String formatDate(Date date)
@@ -524,6 +467,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private interface ExportFunction
    {
       Object apply(Object source);
+   }
+
+   private interface FormatFunction
+   {
+      String apply(PrimaveraXERFileWriter writer, Object source);
    }
 
    private static final Map<String, Object> ROLE_RATE_COLUMNS = new LinkedHashMap<>();
@@ -778,5 +726,22 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("create_user", null);
       ACTIVITY_COLUMNS.put("update_user", null);
       ACTIVITY_COLUMNS.put("location_id", null);
+   }
+
+   private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
+   static
+   {
+      FORMAT_MAP.put(Date.class, (w, o) -> w.m_timestampFormat.format(o));
+      FORMAT_MAP.put(Double.class, (w, o) -> w.m_doubleFormat.format(o));
+      FORMAT_MAP.put(Boolean.class, (w, o) -> ((Boolean) o).booleanValue() ? "Y" : "N");
+      FORMAT_MAP.put(Rate.class, (w, o) -> w.formatRate((Rate) o));
+      FORMAT_MAP.put(UUID.class, (w, o) -> w.formatUUID((UUID)o));
+      FORMAT_MAP.put(ResourceType.class, (w, o) -> w.formatResourceType((ResourceType)o));
+      FORMAT_MAP.put(CriticalActivityType.class, (w, o) -> CRITICAL_ACTIVITY_MAP.get((CriticalActivityType)o));
+      FORMAT_MAP.put(TaskType.class, (w, o) -> TaskTypeHelper.getXerFromInstance((TaskType) o));
+      FORMAT_MAP.put(CalendarType.class, (w, o) -> CalendarTypeHelper.getXerFromInstance((CalendarType)o));
+      FORMAT_MAP.put(ActivityType.class, (w, o) -> ActivityTypeHelper.getXerFromInstance((ActivityType)o));
+      FORMAT_MAP.put(PercentCompleteType.class, (w, o) -> PercentCompleteTypeHelper.getXerFromInstance((PercentCompleteType)o));
+      FORMAT_MAP.put(ActivityStatus.class, (w, o) -> ActivityStatusHelper.getXerFromInstance((ActivityStatus)o));
    }
 }
