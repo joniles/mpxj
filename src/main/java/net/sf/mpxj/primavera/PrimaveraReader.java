@@ -170,7 +170,7 @@ final class PrimaveraReader
          Row row = rows.get(0);
          properties.setBaselineProjectUniqueID(row.getInteger("sum_base_proj_id"));
          properties.setCreationDate(row.getDate("create_date"));
-         properties.setCriticalActivityType(CRITICAL_ACTIVITY_MAP.getOrDefault(row.getString("critical_path_type"), CriticalActivityType.TOTAL_FLOAT));
+         properties.setCriticalActivityType(CriticalActivityTypeHelper.getInstanceFromXer(row.getString("critical_path_type")));
          properties.setGUID(row.getUUID("guid"));
          properties.setProjectID(row.getString("proj_short_name"));
          properties.setName(row.getString("proj_short_name")); // Temporary, updated later from the WBS
@@ -2288,13 +2288,6 @@ final class PrimaveraReader
       ACCRUE_TYPE_MAP.put("CL_Uniform", AccrueType.PRORATED);
       ACCRUE_TYPE_MAP.put("CL_End", AccrueType.END);
       ACCRUE_TYPE_MAP.put("CL_Start", AccrueType.START);
-   }
-
-   private static final Map<String, CriticalActivityType> CRITICAL_ACTIVITY_MAP = new HashMap<>();
-   static
-   {
-      CRITICAL_ACTIVITY_MAP.put("CT_TotFloat", CriticalActivityType.TOTAL_FLOAT);
-      CRITICAL_ACTIVITY_MAP.put("CT_DrivPath", CriticalActivityType.LONGEST_PATH);
    }
 
    private static final Map<String, ActivityCodeScope> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();

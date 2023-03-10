@@ -554,7 +554,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       properties.setBaselineProjectUniqueID(project.getCurrentBaselineProjectObjectId());
       properties.setCreationDate(project.getCreateDate());
-      properties.setCriticalActivityType(CRITICAL_ACTIVITY_MAP.getOrDefault(project.getCriticalActivityPathType(), CriticalActivityType.TOTAL_FLOAT));
+      properties.setCriticalActivityType(CriticalActivityTypeHelper.getInstanceFromXml(project.getCriticalActivityPathType()));
       properties.setFinishDate(project.getFinishDate());
       properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
       properties.setName(project.getName());
@@ -2410,13 +2410,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ACCRUE_TYPE_MAP.put("Uniform Over Activity", AccrueType.PRORATED);
       ACCRUE_TYPE_MAP.put("End of Activity", AccrueType.END);
       ACCRUE_TYPE_MAP.put("Start of Activity", AccrueType.START);
-   }
-
-   private static final Map<String, CriticalActivityType> CRITICAL_ACTIVITY_MAP = new HashMap<>();
-   static
-   {
-      CRITICAL_ACTIVITY_MAP.put("Critical Float", CriticalActivityType.TOTAL_FLOAT);
-      CRITICAL_ACTIVITY_MAP.put("Longest Path", CriticalActivityType.LONGEST_PATH);
    }
 
    private static final Map<String, ActivityCodeScope> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();
