@@ -1923,7 +1923,7 @@ final class PrimaveraReader
 
             case RESOURCE_TYPE:
             {
-               value = RESOURCE_TYPE_MAP.get(row.getString(name));
+               value = ResourceTypeHelper.getInstanceFromXer(row.getString(name));
                break;
             }
 
@@ -2195,15 +2195,6 @@ final class PrimaveraReader
 
    private final Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
    private final Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
-
-   private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RESOURCE_TYPE_MAP.put(null, ResourceType.WORK);
-      RESOURCE_TYPE_MAP.put("RT_Labor", ResourceType.WORK);
-      RESOURCE_TYPE_MAP.put("RT_Mat", ResourceType.MATERIAL);
-      RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.COST);
-   }
 
    private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
    static

@@ -789,7 +789,7 @@ final class PrimaveraPMProjectWriter
       xml.setObjectId(mpxj.getUniqueID());
       xml.setParentObjectId(mpxj.getParentResourceUniqueID());
       xml.setResourceNotes(getNotes(mpxj.getNotesObject()));
-      xml.setResourceType(getResourceType(mpxj));
+      xml.setResourceType(ResourceTypeHelper.getXmlFromInstance(mpxj.getType()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
 
       // Write both attributes for backward compatibility,
@@ -1856,45 +1856,6 @@ final class PrimaveraPMProjectWriter
    private String getDayName(Day day)
    {
       return DAY_NAMES[day.getValue() - 1];
-   }
-
-   /**
-    * Formats a resource type.
-    *
-    * @param resource MPXJ resource
-    * @return Primavera resource type
-    */
-   private String getResourceType(Resource resource)
-   {
-      String result;
-      net.sf.mpxj.ResourceType type = resource.getType();
-      if (type == null)
-      {
-         type = net.sf.mpxj.ResourceType.WORK;
-      }
-
-      switch (type)
-      {
-         case MATERIAL:
-         {
-            result = "Material";
-            break;
-         }
-
-         case COST:
-         {
-            result = "Nonlabor";
-            break;
-         }
-
-         default:
-         {
-            result = "Labor";
-            break;
-         }
-      }
-
-      return result;
    }
 
    /**

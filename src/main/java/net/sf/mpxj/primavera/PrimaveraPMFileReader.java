@@ -956,7 +956,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setGUID(DatatypeConverter.parseUUID(xml.getGUID()));
          resource.setNotesObject(getNotes(xml.getResourceNotes()));
          resource.setCreationDate(xml.getCreateDate());
-         resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
+         resource.setType(ResourceTypeHelper.getInstanceFromXml(xml.getResourceType()));
          // Note: a default units per time value of zero represents an empty field in P6
          resource.setMaxUnits(defaultUnitsPerTime == null || defaultUnitsPerTime.doubleValue() == 0.0 ? null : NumberHelper.getDouble(defaultUnitsPerTime.doubleValue() * 100));
          resource.setParentResourceUniqueID(xml.getParentObjectId());
@@ -2327,15 +2327,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private boolean m_linkCrossProjectRelations;
    private Map<Integer, String> m_notebookTopics;
    private Integer m_defaultCalendarObjectID;
-
-   private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RESOURCE_TYPE_MAP.put(null, net.sf.mpxj.ResourceType.WORK);
-      RESOURCE_TYPE_MAP.put("Labor", net.sf.mpxj.ResourceType.WORK);
-      RESOURCE_TYPE_MAP.put("Material", net.sf.mpxj.ResourceType.MATERIAL);
-      RESOURCE_TYPE_MAP.put("Nonlabor", net.sf.mpxj.ResourceType.COST);
-   }
 
    private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
    static
