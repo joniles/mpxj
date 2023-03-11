@@ -22,6 +22,7 @@ import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HtmlNotes;
@@ -335,6 +336,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return m_rateFormat.format(rate.getAmount());
    }
 
+   private String formatDuration(Duration duration)
+   {
+      // TODO
+      return "";
+   }
+
    private String formatUUID(UUID value)
    {
       byte[] data = new byte[16];
@@ -394,6 +401,21 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    private final DecimalFormat m_doubleFormat = new DecimalFormat("0.####");
 
+   private interface CostRateTableEntryFunction
+   {
+      Object apply(PrimaveraXERFileWriter writer, Resource resource, CostRateTableEntry entry);
+   }
+
+   private interface ExportFunction
+   {
+      Object apply(Object source);
+   }
+
+   private interface FormatFunction
+   {
+      String apply(PrimaveraXERFileWriter writer, Object source);
+   }
+
    private static final String[] CURRENCY_COLUMNS = {
       "curr_id",
       "decimal_digit_cnt",
@@ -437,21 +459,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ROLE_COLUMNS.put("cost_qty_type", "QT_Hour");
       ROLE_COLUMNS.put("role_descr", ResourceField.NOTES);
       ROLE_COLUMNS.put("last_checksum", "");
-   }
-
-   private interface CostRateTableEntryFunction
-   {
-      Object apply(PrimaveraXERFileWriter writer, Resource resource, CostRateTableEntry entry);
-   }
-
-   private interface ExportFunction
-   {
-      Object apply(Object source);
-   }
-
-   private interface FormatFunction
-   {
-      String apply(PrimaveraXERFileWriter writer, Object source);
    }
 
    private static final Map<String, Object> ROLE_RATE_COLUMNS = new LinkedHashMap<>();
