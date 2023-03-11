@@ -48,7 +48,6 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
@@ -508,7 +507,7 @@ final class PrimaveraPMProjectWriter
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
       project.setCreateDate(mpxj.getCreationDate());
       project.setCriticalActivityFloatLimit(Double.valueOf(mpxj.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, mpxj).getDuration()));
-      project.setCriticalActivityPathType(CRITICAL_ACTIVITY_MAP.get(mpxj.getCriticalActivityType()));
+      project.setCriticalActivityPathType(CriticalActivityTypeHelper.getXmlFromInstance(mpxj.getCriticalActivityType()));
       project.setCurrentBaselineProjectObjectId(mpxj.getBaselineProjectUniqueID());
       project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
       project.setDefaultPriceTimeUnits("Hour");
@@ -576,7 +575,7 @@ final class PrimaveraPMProjectWriter
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
       project.setCreateDate(mpxj.getCreationDate());
       project.setCriticalActivityFloatLimit(Double.valueOf(mpxj.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, mpxj).getDuration()));
-      project.setCriticalActivityPathType(CRITICAL_ACTIVITY_MAP.get(mpxj.getCriticalActivityType()));
+      project.setCriticalActivityPathType(CriticalActivityTypeHelper.getXmlFromInstance(mpxj.getCriticalActivityType()));
       project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
       project.setDefaultPriceTimeUnits("Hour");
       project.setDiscountApplicationPeriod("Month");
@@ -789,7 +788,7 @@ final class PrimaveraPMProjectWriter
       xml.setObjectId(mpxj.getUniqueID());
       xml.setParentObjectId(mpxj.getParentResourceUniqueID());
       xml.setResourceNotes(getNotes(mpxj.getNotesObject()));
-      xml.setResourceType(getResourceType(mpxj));
+      xml.setResourceType(ResourceTypeHelper.getXmlFromInstance(mpxj.getType()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
 
       // Write both attributes for backward compatibility,
@@ -1859,45 +1858,6 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Formats a resource type.
-    *
-    * @param resource MPXJ resource
-    * @return Primavera resource type
-    */
-   private String getResourceType(Resource resource)
-   {
-      String result;
-      net.sf.mpxj.ResourceType type = resource.getType();
-      if (type == null)
-      {
-         type = net.sf.mpxj.ResourceType.WORK;
-      }
-
-      switch (type)
-      {
-         case MATERIAL:
-         {
-            result = "Material";
-            break;
-         }
-
-         case COST:
-         {
-            result = "Nonlabor";
-            break;
-         }
-
-         default:
-         {
-            result = "Labor";
-            break;
-         }
-      }
-
-      return result;
-   }
-
-   /**
     * Formats a percentage value.
     *
     * @param number MPXJ percentage value
@@ -2104,13 +2064,6 @@ final class PrimaveraPMProjectWriter
       ACCRUE_TYPE_MAP.put(AccrueType.PRORATED, "Uniform Over Activity");
       ACCRUE_TYPE_MAP.put(AccrueType.END, "End of Activity");
       ACCRUE_TYPE_MAP.put(AccrueType.START, "Start of Activity");
-   }
-
-   private static final Map<CriticalActivityType, String> CRITICAL_ACTIVITY_MAP = new HashMap<>();
-   static
-   {
-      CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.TOTAL_FLOAT, "Critical Float");
-      CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.LONGEST_PATH, "Longest Path");
    }
 
    private static final String[] RATE_TYPE_ARRAY = new String[]
