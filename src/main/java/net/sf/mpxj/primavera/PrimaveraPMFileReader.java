@@ -554,7 +554,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       properties.setBaselineProjectUniqueID(project.getCurrentBaselineProjectObjectId());
       properties.setCreationDate(project.getCreateDate());
-      properties.setCriticalActivityType(CRITICAL_ACTIVITY_MAP.getOrDefault(project.getCriticalActivityPathType(), CriticalActivityType.TOTAL_FLOAT));
+      properties.setCriticalActivityType(CriticalActivityTypeHelper.getInstanceFromXml(project.getCriticalActivityPathType()));
       properties.setFinishDate(project.getFinishDate());
       properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
       properties.setName(project.getName());
@@ -956,7 +956,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setGUID(DatatypeConverter.parseUUID(xml.getGUID()));
          resource.setNotesObject(getNotes(xml.getResourceNotes()));
          resource.setCreationDate(xml.getCreateDate());
-         resource.setType(RESOURCE_TYPE_MAP.get(xml.getResourceType()));
+         resource.setType(ResourceTypeHelper.getInstanceFromXml(xml.getResourceType()));
          // Note: a default units per time value of zero represents an empty field in P6
          resource.setMaxUnits(defaultUnitsPerTime == null || defaultUnitsPerTime.doubleValue() == 0.0 ? null : NumberHelper.getDouble(defaultUnitsPerTime.doubleValue() * 100));
          resource.setParentResourceUniqueID(xml.getParentObjectId());
@@ -2328,15 +2328,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private Map<Integer, String> m_notebookTopics;
    private Integer m_defaultCalendarObjectID;
 
-   private static final Map<String, net.sf.mpxj.ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RESOURCE_TYPE_MAP.put(null, net.sf.mpxj.ResourceType.WORK);
-      RESOURCE_TYPE_MAP.put("Labor", net.sf.mpxj.ResourceType.WORK);
-      RESOURCE_TYPE_MAP.put("Material", net.sf.mpxj.ResourceType.MATERIAL);
-      RESOURCE_TYPE_MAP.put("Nonlabor", net.sf.mpxj.ResourceType.COST);
-   }
-
    private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
    static
    {
@@ -2419,13 +2410,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ACCRUE_TYPE_MAP.put("Uniform Over Activity", AccrueType.PRORATED);
       ACCRUE_TYPE_MAP.put("End of Activity", AccrueType.END);
       ACCRUE_TYPE_MAP.put("Start of Activity", AccrueType.START);
-   }
-
-   private static final Map<String, CriticalActivityType> CRITICAL_ACTIVITY_MAP = new HashMap<>();
-   static
-   {
-      CRITICAL_ACTIVITY_MAP.put("Critical Float", CriticalActivityType.TOTAL_FLOAT);
-      CRITICAL_ACTIVITY_MAP.put("Longest Path", CriticalActivityType.LONGEST_PATH);
    }
 
    private static final Map<String, ActivityCodeScope> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();

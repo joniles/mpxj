@@ -170,7 +170,7 @@ final class PrimaveraReader
          Row row = rows.get(0);
          properties.setBaselineProjectUniqueID(row.getInteger("sum_base_proj_id"));
          properties.setCreationDate(row.getDate("create_date"));
-         properties.setCriticalActivityType(CRITICAL_ACTIVITY_MAP.getOrDefault(row.getString("critical_path_type"), CriticalActivityType.TOTAL_FLOAT));
+         properties.setCriticalActivityType(CriticalActivityTypeHelper.getInstanceFromXer(row.getString("critical_path_type")));
          properties.setGUID(row.getUUID("guid"));
          properties.setProjectID(row.getString("proj_short_name"));
          properties.setName(row.getString("proj_short_name")); // Temporary, updated later from the WBS
@@ -1923,7 +1923,7 @@ final class PrimaveraReader
 
             case RESOURCE_TYPE:
             {
-               value = RESOURCE_TYPE_MAP.get(row.getString(name));
+               value = ResourceTypeHelper.getInstanceFromXer(row.getString(name));
                break;
             }
 
@@ -2196,15 +2196,6 @@ final class PrimaveraReader
    private final Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
    private final Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
 
-   private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RESOURCE_TYPE_MAP.put(null, ResourceType.WORK);
-      RESOURCE_TYPE_MAP.put("RT_Labor", ResourceType.WORK);
-      RESOURCE_TYPE_MAP.put("RT_Mat", ResourceType.MATERIAL);
-      RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.COST);
-   }
-
    private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
    static
    {
@@ -2297,13 +2288,6 @@ final class PrimaveraReader
       ACCRUE_TYPE_MAP.put("CL_Uniform", AccrueType.PRORATED);
       ACCRUE_TYPE_MAP.put("CL_End", AccrueType.END);
       ACCRUE_TYPE_MAP.put("CL_Start", AccrueType.START);
-   }
-
-   private static final Map<String, CriticalActivityType> CRITICAL_ACTIVITY_MAP = new HashMap<>();
-   static
-   {
-      CRITICAL_ACTIVITY_MAP.put("CT_TotFloat", CriticalActivityType.TOTAL_FLOAT);
-      CRITICAL_ACTIVITY_MAP.put("CT_DrivPath", CriticalActivityType.LONGEST_PATH);
    }
 
    private static final Map<String, ActivityCodeScope> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();
