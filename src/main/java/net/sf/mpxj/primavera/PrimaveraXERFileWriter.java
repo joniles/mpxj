@@ -364,11 +364,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return result.substring(0, result.length()-2);
    }
 
-   private String formatResourceType(ResourceType type)
-   {
-      return RESOURCE_TYPE_MAP.get(type);
-   }
-
    private String getMaxQuantityPerHour(Resource resource, CostRateTableEntry entry)
    {
       Availability availability = resource.getAvailability().getEntryByDate(entry.getStartDate());
@@ -398,21 +393,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private final DecimalFormat m_maxUnitsFormat = new DecimalFormat("0.####");
 
    private final DecimalFormat m_doubleFormat = new DecimalFormat("0.####");
-
-   private static final Map<ResourceType, String> RESOURCE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RESOURCE_TYPE_MAP.put(ResourceType.WORK, "RT_Labor");
-      RESOURCE_TYPE_MAP.put(ResourceType.MATERIAL, "RT_Mat");
-      RESOURCE_TYPE_MAP.put(ResourceType.COST, "RT_Equip");
-   }
-
-   private static final Map<CriticalActivityType, String> CRITICAL_ACTIVITY_MAP = new HashMap<>();
-   static
-   {
-      CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.TOTAL_FLOAT, "CT_TotFloat");
-      CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.LONGEST_PATH, "CT_DrivPath");
-   }
 
    private static final String[] CURRENCY_COLUMNS = {
       "curr_id",
@@ -736,8 +716,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       FORMAT_MAP.put(Boolean.class, (w, o) -> ((Boolean) o).booleanValue() ? "Y" : "N");
       FORMAT_MAP.put(Rate.class, (w, o) -> w.formatRate((Rate) o));
       FORMAT_MAP.put(UUID.class, (w, o) -> w.formatUUID((UUID)o));
-      FORMAT_MAP.put(ResourceType.class, (w, o) -> w.formatResourceType((ResourceType)o));
-      FORMAT_MAP.put(CriticalActivityType.class, (w, o) -> CRITICAL_ACTIVITY_MAP.get((CriticalActivityType)o));
+      FORMAT_MAP.put(ResourceType.class, (w, o) -> ResourceTypeHelper.getXerFromInstance((ResourceType)o));
+      FORMAT_MAP.put(CriticalActivityType.class, (w, o) -> CriticalActivityTypeHelper.getXerFromInstance((CriticalActivityType)o));
       FORMAT_MAP.put(TaskType.class, (w, o) -> TaskTypeHelper.getXerFromInstance((TaskType) o));
       FORMAT_MAP.put(CalendarType.class, (w, o) -> CalendarTypeHelper.getXerFromInstance((CalendarType)o));
       FORMAT_MAP.put(ActivityType.class, (w, o) -> ActivityTypeHelper.getXerFromInstance((ActivityType)o));
