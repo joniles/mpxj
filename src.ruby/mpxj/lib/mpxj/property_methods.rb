@@ -288,7 +288,7 @@ module MPXJ
     #
     # @return Critical Slack Limit value
     def critical_slack_limit
-      get_integer_value(attribute_values['critical_slack_limit'])
+      get_duration_value(attribute_values['critical_slack_limit'])
     end
 
     # Retrieve the Currency Code value
@@ -1011,7 +1011,7 @@ module MPXJ
       'cost' => :currency,
       'creation_date' => :date,
       'critical_activity_type' => :critical_activity_type,
-      'critical_slack_limit' => :integer,
+      'critical_slack_limit' => :duration,
       'currency_code' => :string,
       'currency_digits' => :integer,
       'currency_symbol' => :string,
