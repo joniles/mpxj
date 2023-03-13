@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.sf.mpxj.FieldTypeClass;
-import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -511,6 +510,7 @@ final class MPP9Reader implements MPPVariantReader
     * Method used to read the sub project details from a byte array.
     *
     * @param data byte array
+    * @param headerOffset header offset
     * @param uniqueIDOffset offset of unique ID
     * @param filePathOffset offset of file path
     * @param fileNameOffset offset of file name

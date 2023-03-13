@@ -65,7 +65,7 @@ public final class TaskTypeHelper
       return TYPE_MAP.get(type).intValue();
    }
 
-   private static final TaskType[] TYPE_VALUES=
+   private static final TaskType[] TYPE_VALUES =
    {
       TaskType.FIXED_UNITS,
       TaskType.FIXED_DURATION,

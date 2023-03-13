@@ -273,7 +273,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setCategory(properties.getCategory());
       project.setCompany(properties.getCompany());
       project.setCreationDate(properties.getCreationDate());
-      project.setCriticalSlackLimit(NumberHelper.getBigInteger(properties.getCriticalSlackLimit().convertUnits(TimeUnit.DAYS, properties).getDuration()));
+      project.setCriticalSlackLimit(NumberHelper.getBigInteger(Double.valueOf(properties.getCriticalSlackLimit().convertUnits(TimeUnit.DAYS, properties).getDuration())));
       project.setCurrencyCode(properties.getCurrencyCode());
       project.setCurrencyDigits(BigInteger.valueOf(properties.getCurrencyDigits().intValue()));
       project.setCurrencySymbol(properties.getCurrencySymbol());
