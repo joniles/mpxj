@@ -161,6 +161,16 @@ namespace net.sf.mpxj.MpxjUtilities
             return Color.FromArgb(color.getRGB());
         }
 
+        /// <summary>
+        /// Convert a Java Date instance to a .Net TimeOnly instance.
+        /// </summary>
+        /// <param name="date">Java Date</param>
+        /// <returns>TimeOnly instance</returns>
+        public static TimeOnly ToTimeOnly(this java.util.Date date)
+        {
+            return TimeOnly.FromDateTime(date.ToDateTime());
+        }
+
         //
         // Conversion from .Net to Java
         //
@@ -313,6 +323,16 @@ namespace net.sf.mpxj.MpxjUtilities
         public static java.lang.Double? ToJavaDouble(this double? d)
         {
             return d == null ? null : java.lang.Double.valueOf(d.Value);
+        }
+
+        /// <summary>
+        /// Converts a TimeOnly instance to a Java Date instance.
+        /// </summary>
+        /// <param name="t">TimeOnly instance</param>
+        /// <returns>Jave Date instance</returns>
+        public static java.util.Date ToJavaDate(this TimeOnly t)
+        {
+            return (DateTime.Today.Date + t.ToTimeSpan()).ToJavaDate();
         }
 
         /// <summary>
