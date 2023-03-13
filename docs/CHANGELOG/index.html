@@ -271,8 +271,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1111-unreleased" class="md-nav__link">
-    11.1.1 (unreleased)
+  <a href="#1121-unreleased" class="md-nav__link">
+    11.2.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1120-2023-03-13" class="md-nav__link">
+    11.2.0 (2023-03-13)
   </a>
   
 </li>
@@ -2559,8 +2566,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1111-unreleased" class="md-nav__link">
-    11.1.1 (unreleased)
+  <a href="#1121-unreleased" class="md-nav__link">
+    11.2.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1120-2023-03-13" class="md-nav__link">
+    11.2.0 (2023-03-13)
   </a>
   
 </li>
@@ -4052,7 +4066,23 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1111-unreleased">11.1.1 (unreleased)</h2>
+<h2 id="1121-unreleased">11.2.1 (unreleased)</h2>
+<h2 id="1120-2023-03-13">11.2.0 (2023-03-13)</h2>
+<ul>
+<li>The project property Critical Slack Limit is now represented as a <code>Duration</code> rather than as an <code>Integer</code>. (Potentially breaking change if you were using this property directly).</li>
+<li><code>TaskType</code> is now a simple enum with all Microsoft Project specific functionality moved into <code>TaskTypeHelper</code>. (Potentially breaking change if you were using the <code>TaskType</code> methods <code>getInstance</code> or <code>getValue</code> in your code)</li>
+<li>When reading the task type from P6 schedule the mapping to the MPXJ <code>TaskType</code> enum has been updated to more closely match P6. The main changes are that the P6 type "Fixed Units" now maps to <code>TaskType.FIXED_WORK</code> and the "Fixed Duration &amp; Units" type now maps to a new enumeration value <code>TaskType.FIXED_DURATION_AND_UNITS</code>.</li>
+<li>Added support for reading project calendar exceptions from Phoenix schedules (based on a contribution by Rohit Sinha).</li>
+<li>The Resource attribute Active now defaults to true if the schedule being read doesn't support or contain a value for this attribute.</li>
+<li>Add suport for reading and writing the Resource's Active flag for P6 schedules.</li>
+<li>Add suport for reading and writing the Resource's Default Units/Time value for P6 schedules.</li>
+<li>Add suport for reading and writing the Project's Critical Slack Limit value for P6 schedules.</li>
+<li>Fixed an issue reading certain types of Enterprise Custom Fields containing date values.</li>
+<li>Ensure activity code value parent can be set to null.</li>
+<li>Improved existing .Net extension methods and added support for more types.</li>
+<li>Added NuGet package icon</li>
+<li>Simplified  NuGet packaging</li>
+</ul>
 <h2 id="1110-2023-02-15">11.1.0 (2023-02-15)</h2>
 <ul>
 <li>Write activity code definitions and activity code assignments to PMXML files.</li>
@@ -4101,7 +4131,7 @@
 <ul>
 <li>Avoid writing invalid characters to PMXML, MSPDI and Planner XML files.</li>
 <li>Improve handling of slack values for schedules which only contain a value for total slack.</li>
-<li>Add support for reading constraint type and constraint date from Phoenix schedule (based on a contribution by Rohit Sinha).</li>
+<li>Add support for reading constraint type and constraint date from Phoenix schedules (based on a contribution by Rohit Sinha).</li>
 <li>Improve timephased data calculation when assignment has zero units.</li>
 <li>Improve handling of very large duration values when reading and writing MSPDI files.</li>
 <li>Ensure the Task attributes Active, Constraint Type, Task Mode, and Type always have a value.</li>
