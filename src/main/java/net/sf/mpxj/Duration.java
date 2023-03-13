@@ -91,7 +91,12 @@ public final class Duration implements Comparable<Duration>
     */
    public Duration convertUnits(TimeUnit type, TimeUnitDefaultsContainer defaults)
    {
-      return (convertUnits(m_duration, m_units, type, defaults));
+      if (type == m_units)
+      {
+         return this;
+      }
+
+      return convertUnits(m_duration, m_units, type, defaults);
    }
 
    /**
