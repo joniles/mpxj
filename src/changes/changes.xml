@@ -16,6 +16,7 @@
 			<action dev="joniles" type="update">Add suport for reading and writing the Project's Critical Slack Limit value for P6 schedules.</action>
 			<action dev="joniles" type="update">Fixed an issue reading certain types of Enterprise Custom Fields containing date values.</action>
 			<action dev="joniles" type="update">Ensure activity code value parent can be set to null.</action>
+			<action dev="joniles" type="update">Improved existing .Net extension methods and added support for more types.</action>
 			<action dev="joniles" type="update">Added NuGet package icon</action>
 			<action dev="joniles" type="update">Simplified  NuGet packaging</action>
 		</release>
