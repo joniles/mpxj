@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Threading;
 
 namespace net.sf.mpxj.MpxjUtilities
 {
@@ -14,6 +12,8 @@ namespace net.sf.mpxj.MpxjUtilities
     /// </summary>
     public static class MpxjExtensionMethods
     {
+        private static readonly ThreadLocal<java.util.Calendar> JavaCalendar = new ThreadLocal<java.util.Calendar>(() => java.util.Calendar.getInstance());
+
         //
         // Conversion from Java to .Net
         //
@@ -30,11 +30,11 @@ namespace net.sf.mpxj.MpxjUtilities
                 throw new ArgumentNullException();
             }
 
-            var calendar = DateHelper.popCalendar();
+            var calendar = JavaCalendar.Value;
 
             calendar.setTime(javaDate);
 
-            var result = new DateTime(
+            return new DateTime(
                 calendar.get(java.util.Calendar.YEAR),
                 calendar.get(java.util.Calendar.MONTH) + 1,
                 calendar.get(java.util.Calendar.DAY_OF_MONTH),
@@ -43,10 +43,6 @@ namespace net.sf.mpxj.MpxjUtilities
                 calendar.get(java.util.Calendar.SECOND),
                 calendar.get(java.util.Calendar.MILLISECOND)
             );
-
-            DateHelper.pushCalendar(calendar);
-
-            return result;
         }
 
         /// <summary>
@@ -56,7 +52,7 @@ namespace net.sf.mpxj.MpxjUtilities
         /// <returns>DateTime instance</returns>
         public static DateTime? ToNullableDateTime(this java.util.Date javaDate)
         {
-            return javaDate == null ? null : javaDate.ToDateTime();
+            return javaDate?.ToDateTime();
         }
 
         /// <summary>
@@ -76,7 +72,7 @@ namespace net.sf.mpxj.MpxjUtilities
         /// <returns>Nullable int</returns>
         public static int? ToNullableInt(this java.lang.Number n)
         {
-            return n == null ? (int?)null : n.intValue();
+            return n?.intValue();
         }
 
         /// <summary>
@@ -96,9 +92,8 @@ namespace net.sf.mpxj.MpxjUtilities
         /// <returns>nullable long value</returns>
         public static long? ToNullableLong(this java.lang.Number n)
         {
-            return n == null ? null : n.longValue();
+            return n?.longValue();
         }
-
 
         /// <summary>
         /// Convert a Java Number instance to a .Net decimal.
@@ -137,7 +132,7 @@ namespace net.sf.mpxj.MpxjUtilities
         /// <returns>Nullable double</returns>
         public static double? ToNullableDouble(this java.lang.Number n)
         {
-            return n == null ? (double?)null : n.doubleValue();
+            return n?.doubleValue();
         }
 
         /// <summary>
@@ -148,27 +143,7 @@ namespace net.sf.mpxj.MpxjUtilities
 
         public static Guid ToGuid(this java.util.UUID u)
         {
-            return u == null ? Guid.Empty : new(u.toString());
-        }
-
-        /// <summary>
-        /// Convert a Java Color instance to a .Net Color.
-        /// </summary>
-        /// <param name="color">Java Color</param>
-        /// <returns>Color instance</returns>
-        public static Color ToColor(this java.awt.Color color)
-        {
-            return Color.FromArgb(color.getRGB());
-        }
-
-        /// <summary>
-        /// Convert a Java Date instance to a .Net TimeOnly instance.
-        /// </summary>
-        /// <param name="date">Java Date</param>
-        /// <returns>TimeOnly instance</returns>
-        public static TimeOnly ToTimeOnly(this java.util.Date date)
-        {
-            return TimeOnly.FromDateTime(date.ToDateTime());
+            return u == null ? Guid.Empty : new Guid(u.toString());
         }
 
         //
@@ -182,7 +157,7 @@ namespace net.sf.mpxj.MpxjUtilities
         /// <returns>Java Date instance</returns>
         public static java.util.Date ToJavaDate(this DateTime d)
         {
-            var calendar = DateHelper.popCalendar();
+            var calendar = JavaCalendar.Value;
             calendar.set(java.util.Calendar.YEAR, d.Year);
             calendar.set(java.util.Calendar.MONTH, d.Month - 1);
             calendar.set(java.util.Calendar.DAY_OF_MONTH, d.Day);
@@ -190,9 +165,7 @@ namespace net.sf.mpxj.MpxjUtilities
             calendar.set(java.util.Calendar.MINUTE, d.Minute);
             calendar.set(java.util.Calendar.SECOND, d.Second);
             calendar.set(java.util.Calendar.MILLISECOND, d.Millisecond);
-            var result = calendar.getTime();
-            DateHelper.pushCalendar(calendar);
-            return result;
+            return calendar.getTime();
         }
 
         /// <summary>
@@ -200,7 +173,7 @@ namespace net.sf.mpxj.MpxjUtilities
         /// </summary>
         /// <param name="d">Nullable DateTime instance</param>
         /// <returns>Java Date instance</returns>
-        public static java.util.Date? ToJavaDate(this DateTime? d)
+        public static java.util.Date ToJavaDate(this DateTime? d)
         {
             return d == null ? null : ToJavaDate(d.Value);
         }
@@ -210,19 +183,9 @@ namespace net.sf.mpxj.MpxjUtilities
         /// </summary>
         /// <param name="g">Guid instance</param>
         /// <returns>Java UUID instance</returns>
-        public static java.util.UUID? ToJavaUUID(this Guid g)
+        public static java.util.UUID ToJavaUUID(this Guid g)
         {
             return g == Guid.Empty ? null : java.util.UUID.fromString(g.ToString());
-        }
-
-        /// <summary>
-        /// Converts a Color instance to a Java Color instance.
-        /// </summary>
-        /// <param name="c">Color instance</param>
-        /// <returns>Java Color instance</returns>
-        public static java.awt.Color ToJavaColor(this Color c)
-        {
-            return new java.awt.Color(c.R, c.G, c.B);
         }
 
         /// <summary>
@@ -240,7 +203,7 @@ namespace net.sf.mpxj.MpxjUtilities
         /// </summary>
         /// <param name="i">nullable int value</param>
         /// <returns>Java Integer instance</returns>
-        public static java.lang.Integer? ToJavaInteger(this int? i)
+        public static java.lang.Integer ToJavaInteger(this int? i)
         {
             return i == null ? null : java.lang.Integer.valueOf(i.Value);
         }
@@ -260,7 +223,7 @@ namespace net.sf.mpxj.MpxjUtilities
         /// </summary>
         /// <param name="l">nullable long value</param>
         /// <returns>Java Integer instance</returns>
-        public static java.lang.Integer? ToJavaInteger(this long? l)
+        public static java.lang.Integer ToJavaInteger(this long? l)
         {
             return l == null ? null : java.lang.Integer.valueOf((int)l);
         }
@@ -280,7 +243,7 @@ namespace net.sf.mpxj.MpxjUtilities
         /// </summary>
         /// <param name="f">nullable float value</param>
         /// <returns>Java Double instance</returns>
-        public static java.lang.Double? ToJavaDouble(this float? f)
+        public static java.lang.Double ToJavaDouble(this float? f)
         {
             return f == null ? null : java.lang.Double.valueOf(f.Value);
         }
@@ -300,7 +263,7 @@ namespace net.sf.mpxj.MpxjUtilities
         /// </summary>
         /// <param name="d">nullable decimal value</param>
         /// <returns>Java Double instance</returns>
-        public static java.lang.Double? ToJavaDouble(this decimal? d)
+        public static java.lang.Double ToJavaDouble(this decimal? d)
         {
             return d == null ? null : java.lang.Double.valueOf((double)d.Value);
         }
@@ -320,19 +283,9 @@ namespace net.sf.mpxj.MpxjUtilities
         /// </summary>
         /// <param name="d">nullable double value</param>
         /// <returns>Java Double instance</returns>
-        public static java.lang.Double? ToJavaDouble(this double? d)
+        public static java.lang.Double ToJavaDouble(this double? d)
         {
             return d == null ? null : java.lang.Double.valueOf(d.Value);
-        }
-
-        /// <summary>
-        /// Converts a TimeOnly instance to a Java Date instance.
-        /// </summary>
-        /// <param name="t">TimeOnly instance</param>
-        /// <returns>Jave Date instance</returns>
-        public static java.util.Date ToJavaDate(this TimeOnly t)
-        {
-            return (DateTime.Today.Date + t.ToTimeSpan()).ToJavaDate();
         }
 
         /// <summary>
