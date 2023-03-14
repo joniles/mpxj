@@ -29,6 +29,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.PercentCompleteType;
+import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
@@ -702,21 +703,21 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("rem_late_start_date", TaskField.REMAINING_LATE_START);
       ACTIVITY_COLUMNS.put("rem_late_end_date", TaskField.REMAINING_LATE_FINISH);
       ACTIVITY_COLUMNS.put("cstr_type", TaskField.CONSTRAINT_TYPE);
-      ACTIVITY_COLUMNS.put("priority_type", null);
-      ACTIVITY_COLUMNS.put("suspend_date", null);
-      ACTIVITY_COLUMNS.put("resume_date", null);
+      ACTIVITY_COLUMNS.put("priority_type", TaskField.PRIORITY);
+      ACTIVITY_COLUMNS.put("suspend_date", TaskField.SUSPEND_DATE);
+      ACTIVITY_COLUMNS.put("resume_date", TaskField.RESUME);
       ACTIVITY_COLUMNS.put("float_path", null);
       ACTIVITY_COLUMNS.put("float_path_order", null);
-      ACTIVITY_COLUMNS.put("guid", null);
+      ACTIVITY_COLUMNS.put("guid", TaskField.GUID);
       ACTIVITY_COLUMNS.put("tmpl_guid", null);
-      ACTIVITY_COLUMNS.put("cstr_date2", null);
-      ACTIVITY_COLUMNS.put("cstr_type2", null);
+      ACTIVITY_COLUMNS.put("cstr_date2", TaskField.SECONDARY_CONSTRAINT_DATE);
+      ACTIVITY_COLUMNS.put("cstr_type2", TaskField.SECONDARY_CONSTRAINT_TYPE);
       ACTIVITY_COLUMNS.put("driving_path_flag", null);
       ACTIVITY_COLUMNS.put("act_this_per_work_qty", null);
       ACTIVITY_COLUMNS.put("act_this_per_equip_qty", null);
       ACTIVITY_COLUMNS.put("external_early_start_date", null);
       ACTIVITY_COLUMNS.put("external_late_end_date", null);
-      ACTIVITY_COLUMNS.put("create_date", null);
+      ACTIVITY_COLUMNS.put("create_date", TaskField.CREATED);
       ACTIVITY_COLUMNS.put("update_date", null);
       ACTIVITY_COLUMNS.put("create_user", null);
       ACTIVITY_COLUMNS.put("update_user", null);
@@ -740,5 +741,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       FORMAT_MAP.put(ActivityStatus.class, (w, o) -> ActivityStatusHelper.getXerFromInstance((ActivityStatus)o));
       FORMAT_MAP.put(Duration.class, (w, o) -> w.formatDuration((Duration)o));
       FORMAT_MAP.put(ConstraintType.class, (w, o) -> ConstraintTypeHelper.getXerFromInstance((ConstraintType)o));
+      FORMAT_MAP.put(Priority.class, (w, o) -> PriorityHelper.getXerFromInstance((Priority)o));
    }
 }
