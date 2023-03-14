@@ -44,7 +44,6 @@ import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
-import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -957,7 +956,7 @@ final class PrimaveraPMProjectWriter
       xml.setPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(mpxj.getPercentCompleteType()));
       xml.setPercentComplete(getPercentComplete(mpxj));
       xml.setPhysicalPercentComplete(getPercentage(mpxj.getPhysicalPercentComplete()));
-      xml.setPrimaryConstraintType(CONSTRAINT_TYPE_MAP.get(mpxj.getConstraintType()));
+      xml.setPrimaryConstraintType(ConstraintTypeHelper.getXmlFromInstance(mpxj.getConstraintType()));
       xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
       xml.setPrimaryResourceObjectId(mpxj.getPrimaryResourceID());
       xml.setPlannedDuration(getDuration(mpxj.getPlannedDuration() == null ? mpxj.getDuration() : mpxj.getPlannedDuration()));
@@ -982,6 +981,8 @@ final class PrimaveraPMProjectWriter
          xml.setResumeDate(mpxj.getResume());
       }
 
+      xml.setSecondaryConstraintDate(mpxj.getSecondaryConstraintDate());
+      xml.setSecondaryConstraintType(ConstraintTypeHelper.getXmlFromInstance(mpxj.getSecondaryConstraintType()));
       xml.setStartDate(mpxj.getStart());
       xml.setStatus(ActivityStatusHelper.getXmlFromInstance(ActivityStatusHelper.getActivityStatus(mpxj)));
       xml.setSuspendDate(mpxj.getSuspendDate());
@@ -1979,20 +1980,6 @@ final class PrimaveraPMProjectWriter
       RELATION_TYPE_MAP.put(RelationType.FINISH_FINISH, "Finish to Finish");
       RELATION_TYPE_MAP.put(RelationType.START_START, "Start to Start");
       RELATION_TYPE_MAP.put(RelationType.START_FINISH, "Start to Finish");
-   }
-
-   private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = new HashMap<>();
-   static
-   {
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_ON, "Start On");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_LATER_THAN, "Start On or Before");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_EARLIER_THAN, "Start On or After");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_ON, "Finish On");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_LATER_THAN, "Finish On or Before");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_EARLIER_THAN, "Finish On or After");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_START_ON, "Mandatory Start");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
    }
 
    private static final Map<AccrueType, String> ACCRUE_TYPE_MAP = new HashMap<>();
