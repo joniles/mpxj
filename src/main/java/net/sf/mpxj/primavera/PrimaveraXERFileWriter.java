@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
@@ -89,6 +91,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeResources();
          writeResourceRates();
          writeActivities();
+         writePredecessors();
 
          m_writer.flush();
       }
@@ -203,6 +206,17 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("TASK", ACTIVITY_COLUMNS);
       m_file.getTasks().stream().filter(t -> !t.getSummary()).sorted(Comparator.comparing(Task::getUniqueID)).forEach(t -> writeRecord(ACTIVITY_COLUMNS, t));
+   }
+
+   private void writePredecessors()
+   {
+      writeTable("TASKPRED", PREDECESSOR_COLUMNS);
+      m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getPredecessors).flatMap(Collection::stream).sorted(Comparator.comparing(Relation::getUniqueID)).forEach(this::writeRelation);
+   }
+
+   private void writeRelation(Relation relation)
+   {
+      writeRecord(PREDECESSOR_COLUMNS.values().stream().map(f -> f.apply(relation)));
    }
 
    private void writeCalendar(ProjectCalendar calendar)
@@ -722,6 +736,22 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("create_user", null);
       ACTIVITY_COLUMNS.put("update_user", null);
       ACTIVITY_COLUMNS.put("location_id", null);
+   }
+
+   private static final Map<String, ExportFunction> PREDECESSOR_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      PREDECESSOR_COLUMNS.put("task_pred_id", r -> ((Relation)r).getUniqueID());
+      PREDECESSOR_COLUMNS.put("task_id", r -> ((Relation)r).getSourceTask().getUniqueID());
+      PREDECESSOR_COLUMNS.put("pred_task_id", r -> ((Relation)r).getTargetTask().getUniqueID());
+      PREDECESSOR_COLUMNS.put("proj_id", r -> ((Relation)r).getSourceTask().getParentFile().getProjectProperties().getUniqueID());
+      PREDECESSOR_COLUMNS.put("pred_proj_id", r -> ((Relation)r).getTargetTask().getParentFile().getProjectProperties().getUniqueID());
+      PREDECESSOR_COLUMNS.put("pred_type", r -> null);
+      PREDECESSOR_COLUMNS.put("lag_hr_cnt", r -> ((Relation)r).getLag());
+      PREDECESSOR_COLUMNS.put("comments", r -> null);
+      PREDECESSOR_COLUMNS.put("float_path", r -> null);
+      PREDECESSOR_COLUMNS.put("aref", r -> null);
+      PREDECESSOR_COLUMNS.put("arls", r -> null);
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
