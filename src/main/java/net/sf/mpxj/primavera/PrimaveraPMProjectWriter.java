@@ -1043,6 +1043,8 @@ final class PrimaveraPMProjectWriter
          xml.setResumeDate(mpxj.getResume());
       }
 
+      xml.setSecondaryConstraintDate(mpxj.getSecondaryConstraintDate());
+      xml.setSecondaryConstraintType(ConstraintTypeHelper.getXmlFromInstance(mpxj.getSecondaryConstraintType()));
       xml.setStartDate(mpxj.getStart());
       xml.setStatus(ActivityStatusHelper.getXmlFromInstance(ActivityStatusHelper.getActivityStatus(mpxj)));
       xml.setSuspendDate(mpxj.getSuspendDate());

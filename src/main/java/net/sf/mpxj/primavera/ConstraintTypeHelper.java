@@ -27,6 +27,10 @@ import java.util.Map;
 
 import net.sf.mpxj.ConstraintType;
 
+/**
+ * Provides methods to convert to and from Primavera's representation
+ * of constraint types.
+ */
 final class ConstraintTypeHelper
 {
    /**
