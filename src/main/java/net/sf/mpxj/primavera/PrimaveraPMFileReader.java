@@ -1131,9 +1131,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          // task.setCost(NumberHelper.sumAsDouble(row.getAtCompletionLaborCost(), row.getAtCompletionNonLaborCost(), row.getAtCompletionMaterialCost(), row.getAtCompletionExpenseCost()));
 
          task.setConstraintDate(row.getPrimaryConstraintDate());
-         task.setConstraintType(CONSTRAINT_TYPE_MAP.get(row.getPrimaryConstraintType()));
+         task.setConstraintType(ConstraintTypeHelper.getInstanceFromXml(row.getPrimaryConstraintType()));
          task.setSecondaryConstraintDate(row.getSecondaryConstraintDate());
-         task.setSecondaryConstraintType(CONSTRAINT_TYPE_MAP.get(row.getSecondaryConstraintType()));
+         task.setSecondaryConstraintType(ConstraintTypeHelper.getInstanceFromXml(row.getSecondaryConstraintType()));
          task.setActualStart(row.getActualStartDate());
          task.setActualFinish(row.getActualFinishDate());
          task.setPlannedStart(row.getPlannedStartDate());
@@ -2327,20 +2327,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private boolean m_linkCrossProjectRelations;
    private Map<Integer, String> m_notebookTopics;
    private Integer m_defaultCalendarObjectID;
-
-   private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
-   static
-   {
-      CONSTRAINT_TYPE_MAP.put("Start On", ConstraintType.START_ON);
-      CONSTRAINT_TYPE_MAP.put("Start On or Before", ConstraintType.START_NO_LATER_THAN);
-      CONSTRAINT_TYPE_MAP.put("Start On or After", ConstraintType.START_NO_EARLIER_THAN);
-      CONSTRAINT_TYPE_MAP.put("Finish On", ConstraintType.FINISH_ON);
-      CONSTRAINT_TYPE_MAP.put("Finish On or Before", ConstraintType.FINISH_NO_LATER_THAN);
-      CONSTRAINT_TYPE_MAP.put("Finish On or After", ConstraintType.FINISH_NO_EARLIER_THAN);
-      CONSTRAINT_TYPE_MAP.put("As Late As Possible", ConstraintType.AS_LATE_AS_POSSIBLE);
-      CONSTRAINT_TYPE_MAP.put("Mandatory Start", ConstraintType.MUST_START_ON);
-      CONSTRAINT_TYPE_MAP.put("Mandatory Finish", ConstraintType.MUST_FINISH_ON);
-   }
 
    private static final Map<String, Priority> PRIORITY_MAP = new HashMap<>();
    static
