@@ -1142,7 +1142,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setRemainingEarlyFinish(row.getRemainingEarlyFinishDate());
          task.setRemainingLateStart(row.getRemainingLateStartDate());
          task.setRemainingLateFinish(row.getRemainingLateFinishDate());
-         task.setPriority(PRIORITY_MAP.get(row.getLevelingPriority()));
+         task.setPriority(PriorityHelper.getInstanceFromXml(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
          task.setActivityID(row.getId());
          task.setActivityType(ActivityTypeHelper.getInstanceFromXml(row.getType()));
@@ -2327,16 +2327,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private boolean m_linkCrossProjectRelations;
    private Map<Integer, String> m_notebookTopics;
    private Integer m_defaultCalendarObjectID;
-
-   private static final Map<String, Priority> PRIORITY_MAP = new HashMap<>();
-   static
-   {
-      PRIORITY_MAP.put("Top", Priority.getInstance(Priority.HIGHEST));
-      PRIORITY_MAP.put("High", Priority.getInstance(Priority.HIGH));
-      PRIORITY_MAP.put("Normal", Priority.getInstance(Priority.MEDIUM));
-      PRIORITY_MAP.put("Low", Priority.getInstance(Priority.LOW));
-      PRIORITY_MAP.put("Lowest", Priority.getInstance(Priority.LOWEST));
-   }
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static

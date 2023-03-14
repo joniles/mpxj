@@ -66,7 +66,6 @@ import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.PercentCompleteType;
-import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -1940,7 +1939,7 @@ final class PrimaveraReader
 
             case PRIORITY:
             {
-               value = PRIORITY_MAP.get(row.getString(name));
+               value = PriorityHelper.getInstanceFromXer(row.getString(name));
                break;
             }
 
@@ -2194,16 +2193,6 @@ final class PrimaveraReader
 
    private final Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
    private final Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
-
-   private static final Map<String, Priority> PRIORITY_MAP = new HashMap<>();
-   static
-   {
-      PRIORITY_MAP.put("PT_Top", Priority.getInstance(Priority.HIGHEST));
-      PRIORITY_MAP.put("PT_High", Priority.getInstance(Priority.HIGH));
-      PRIORITY_MAP.put("PT_Normal", Priority.getInstance(Priority.MEDIUM));
-      PRIORITY_MAP.put("PT_Low", Priority.getInstance(Priority.LOW));
-      PRIORITY_MAP.put("PT_Lowest", Priority.getInstance(Priority.LOWEST));
-   }
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static
