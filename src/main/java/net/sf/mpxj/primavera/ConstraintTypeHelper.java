@@ -66,6 +66,17 @@ final class ConstraintTypeHelper
       return TYPE_XML_MAP.get(value);
    }
 
+   /**
+    * Retrieve the string value representing a constraint type in an XER file.
+    *
+    * @param value ConstraintType instance
+    * @return string value
+    */
+   public static String getXerFromInstance(ConstraintType value)
+   {
+      return TYPE_XER_MAP.get(value);
+   }
+
    private static final Map<String, ConstraintType> XML_TYPE_MAP = new HashMap<>();
    static
    {
@@ -106,5 +117,20 @@ final class ConstraintTypeHelper
       XER_TYPE_MAP.put("CS_ALAP", ConstraintType.AS_LATE_AS_POSSIBLE);
       XER_TYPE_MAP.put("CS_MANDSTART", ConstraintType.MUST_START_ON);
       XER_TYPE_MAP.put("CS_MANDFIN", ConstraintType.MUST_FINISH_ON);
+   }
+
+   private static final Map<ConstraintType, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(ConstraintType.AS_SOON_AS_POSSIBLE, "");
+      TYPE_XER_MAP.put(ConstraintType.START_ON, "CS_MSO");
+      TYPE_XER_MAP.put(ConstraintType.START_NO_LATER_THAN, "CS_MSOB");
+      TYPE_XER_MAP.put(ConstraintType.START_NO_EARLIER_THAN, "CS_MSOA");
+      TYPE_XER_MAP.put(ConstraintType.FINISH_ON, "CS_MEO");
+      TYPE_XER_MAP.put(ConstraintType.FINISH_NO_LATER_THAN, "CS_MEOB");
+      TYPE_XER_MAP.put(ConstraintType.FINISH_NO_EARLIER_THAN, "CS_MEOA");
+      TYPE_XER_MAP.put(ConstraintType.AS_LATE_AS_POSSIBLE, "CS_ALAP");
+      TYPE_XER_MAP.put(ConstraintType.MUST_START_ON, "CS_MANDSTART");
+      TYPE_XER_MAP.put(ConstraintType.MUST_FINISH_ON, "CS_MANDFIN");
    }
 }

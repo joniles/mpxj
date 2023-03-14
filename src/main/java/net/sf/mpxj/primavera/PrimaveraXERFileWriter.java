@@ -20,6 +20,7 @@ import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
+import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.Duration;
@@ -700,7 +701,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("target_end_date", TaskField.PLANNED_FINISH);
       ACTIVITY_COLUMNS.put("rem_late_start_date", TaskField.REMAINING_LATE_START);
       ACTIVITY_COLUMNS.put("rem_late_end_date", TaskField.REMAINING_LATE_FINISH);
-      ACTIVITY_COLUMNS.put("cstr_type", null);
+      ACTIVITY_COLUMNS.put("cstr_type", TaskField.CONSTRAINT_TYPE);
       ACTIVITY_COLUMNS.put("priority_type", null);
       ACTIVITY_COLUMNS.put("suspend_date", null);
       ACTIVITY_COLUMNS.put("resume_date", null);
@@ -738,5 +739,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       FORMAT_MAP.put(PercentCompleteType.class, (w, o) -> PercentCompleteTypeHelper.getXerFromInstance((PercentCompleteType)o));
       FORMAT_MAP.put(ActivityStatus.class, (w, o) -> ActivityStatusHelper.getXerFromInstance((ActivityStatus)o));
       FORMAT_MAP.put(Duration.class, (w, o) -> w.formatDuration((Duration)o));
+      FORMAT_MAP.put(ConstraintType.class, (w, o) -> ConstraintTypeHelper.getXerFromInstance((ConstraintType)o));
    }
 }
