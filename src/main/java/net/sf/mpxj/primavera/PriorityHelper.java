@@ -38,7 +38,7 @@ final class PriorityHelper
     * Retrieve a priority by its value from a PMXML file.
     *
     * @param value priority value
-    * @return Priosity instance
+    * @return Priority instance
     */
    public static Priority getInstanceFromXml(String value)
    {
@@ -49,11 +49,44 @@ final class PriorityHelper
     * Retrieve a priority by its value from an XER file or P6 database.
     *
     * @param value priority value
-    * @return Priosity instance
+    * @return Priority instance
     */
    public static Priority getInstanceFromXer(String value)
    {
       return XER_TYPE_MAP.get(value);
+   }
+
+   /**
+    * Retrieve the string value representing a priority in a PMXML file.
+    *
+    * @param value Priority instance
+    * @return string value
+    */
+   public static String getXmlFromInstance(Priority value)
+   {
+      return TYPE_XML_MAP.get(getNamedInstance(value));
+   }
+
+   /**
+    * Convert an arbitrary integer priority value into one of the named priority values.
+    *
+    * @param priority Priority instance
+    * @return name Priority instance
+    */
+   private static Priority getNamedInstance(Priority priority)
+   {
+      if (priority == null)
+      {
+         return Priority.getInstance(Priority.MEDIUM);
+      }
+
+      int value = ((priority.getValue() + 50) / 100) * 100;
+      if (value > Priority.HIGHEST)
+      {
+         value = Priority.HIGHEST;
+      }
+
+      return Priority.getInstance(value);
    }
 
    private static final Map<String, Priority> XML_TYPE_MAP = new HashMap<>();
@@ -64,6 +97,20 @@ final class PriorityHelper
       XML_TYPE_MAP.put("Normal", Priority.getInstance(Priority.MEDIUM));
       XML_TYPE_MAP.put("Low", Priority.getInstance(Priority.LOW));
       XML_TYPE_MAP.put("Lowest", Priority.getInstance(Priority.LOWEST));
+   }
+
+   private static final Map<Priority, String> TYPE_XML_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XML_MAP.put(Priority.getInstance(Priority.HIGHEST), "Top");
+      TYPE_XML_MAP.put(Priority.getInstance(Priority.VERY_HIGH), "Top");
+      TYPE_XML_MAP.put(Priority.getInstance(Priority.HIGHER), "High");
+      TYPE_XML_MAP.put(Priority.getInstance(Priority.HIGH), "High");
+      TYPE_XML_MAP.put(Priority.getInstance(Priority.MEDIUM), "Normal");
+      TYPE_XML_MAP.put(Priority.getInstance(Priority.LOW), "Low");
+      TYPE_XML_MAP.put(Priority.getInstance(Priority.LOWER), "Low");
+      TYPE_XML_MAP.put(Priority.getInstance(Priority.VERY_LOW), "Lowest");
+      TYPE_XML_MAP.put(Priority.getInstance(Priority.LOWEST), "Lowest");
    }
 
    private static final Map<String, Priority> XER_TYPE_MAP = new HashMap<>();

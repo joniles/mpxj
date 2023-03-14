@@ -1013,6 +1013,7 @@ final class PrimaveraPMProjectWriter
       xml.setId(mpxj.getActivityID() == null ? mpxj.getWBS() : mpxj.getActivityID());
       // Note that P6 doesn't write this attribute to PMXML, but appears to read it
       xml.setIsLongestPath(BooleanHelper.getBoolean(mpxj.getLongestPath()) ? Boolean.TRUE : null);
+      xml.setLevelingPriority(PriorityHelper.getXmlFromInstance(mpxj.getPriority()));
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(mpxj.getPercentCompleteType()));
