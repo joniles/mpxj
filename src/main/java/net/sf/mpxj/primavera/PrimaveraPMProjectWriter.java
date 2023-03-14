@@ -70,7 +70,6 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.RateSource;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Step;
@@ -1179,7 +1178,7 @@ final class PrimaveraPMProjectWriter
          xml.setSuccessorActivityObjectId(mpxj.getSourceTask().getUniqueID());
          xml.setPredecessorProjectObjectId(m_projectObjectID);
          xml.setSuccessorProjectObjectId(m_projectObjectID);
-         xml.setType(RELATION_TYPE_MAP.get(mpxj.getType()));
+         xml.setType(RelationTypeHelper.getXmlFromInstance(mpxj.getType()));
       }
    }
 
@@ -2036,15 +2035,6 @@ final class PrimaveraPMProjectWriter
       "Friday",
       "Saturday"
    };
-
-   private static final Map<RelationType, String> RELATION_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RELATION_TYPE_MAP.put(RelationType.FINISH_START, "Finish to Start");
-      RELATION_TYPE_MAP.put(RelationType.FINISH_FINISH, "Finish to Finish");
-      RELATION_TYPE_MAP.put(RelationType.START_START, "Start to Start");
-      RELATION_TYPE_MAP.put(RelationType.START_FINISH, "Start to Finish");
-   }
 
    private static final Map<AccrueType, String> ACCRUE_TYPE_MAP = new HashMap<>();
    static

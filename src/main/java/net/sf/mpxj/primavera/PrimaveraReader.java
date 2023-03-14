@@ -1540,7 +1540,7 @@ final class PrimaveraReader
          Task successorTask = m_project.getTaskByUniqueID(successorID);
          Task predecessorTask = m_project.getTaskByUniqueID(predecessorID);
 
-         RelationType type = getRelationType(row.getString("pred_type"));
+         RelationType type = RelationTypeHelper.getInstanceFromXer(row.getString("pred_type"));
          Duration lag = row.getDuration("lag_hr_cnt");
 
          if (successorTask != null && predecessorTask != null)
@@ -1569,31 +1569,6 @@ final class PrimaveraReader
             }
          }
       }
-   }
-
-   /**
-    * Look up the relation type between tasks.
-    *
-    * @param value string representation of a relation type
-    * @return RelationType instance
-    */
-   private RelationType getRelationType(String value)
-   {
-      RelationType result = null;
-      if (value != null)
-      {
-         // We have examples from XER files where the relation type is in the form
-         // PR_FF1, PR_FF2 and so on. We'll try to handle this by stripping off any
-         // suffix to determine the original relation type.
-         if (value.length() > 5)
-         {
-            value = value.substring(0, 5);
-         }
-         result = RELATION_TYPE_MAP.get(value);
-      }
-
-      // Default to Finish-Start if we can't determine the type
-      return result == null ? RelationType.FINISH_START : result;
    }
 
    /**
@@ -2193,15 +2168,6 @@ final class PrimaveraReader
 
    private final Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
    private final Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
-
-   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RELATION_TYPE_MAP.put("PR_FS", RelationType.FINISH_START);
-      RELATION_TYPE_MAP.put("PR_FF", RelationType.FINISH_FINISH);
-      RELATION_TYPE_MAP.put("PR_SS", RelationType.START_START);
-      RELATION_TYPE_MAP.put("PR_SF", RelationType.START_FINISH);
-   }
 
    private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();
    static
