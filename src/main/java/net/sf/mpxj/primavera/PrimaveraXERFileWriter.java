@@ -336,12 +336,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return m_rateFormat.format(rate.getAmount());
    }
 
-   private String formatDuration(Duration duration)
-   {
-      // TODO
-      return "";
-   }
-
    private String formatUUID(UUID value)
    {
       byte[] data = new byte[16];
@@ -369,6 +363,16 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       String result = javax.xml.bind.DatatypeConverter.printBase64Binary(data);
 
       return result.substring(0, result.length()-2);
+   }
+
+   private String formatDuration(Duration duration)
+   {
+      if (duration == null)
+      {
+         return "";
+      }
+
+      return m_doubleFormat.format(duration.convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration());
    }
 
    private String getMaxQuantityPerHour(Resource resource, CostRateTableEntry entry)
@@ -669,30 +673,33 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("task_code", TaskField.ACTIVITY_ID);
       ACTIVITY_COLUMNS.put("task_name", TaskField.NAME);
       ACTIVITY_COLUMNS.put("rsrc_id", TaskField.PRIMARY_RESOURCE_ID);
-      ACTIVITY_COLUMNS.put("total_float_hr_cnt", null); // TaskField.TOTAL_SLACK TODO: duration conversion
-      ACTIVITY_COLUMNS.put("free_float_hr_cnt", null);
-      ACTIVITY_COLUMNS.put("remain_drtn_hr_cnt", null);
-      ACTIVITY_COLUMNS.put("act_work_qty", null);
-      ACTIVITY_COLUMNS.put("remain_work_qty", null);
-      ACTIVITY_COLUMNS.put("target_work_qty", null);
-      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", null);
-      ACTIVITY_COLUMNS.put("target_equip_qty", null);
-      ACTIVITY_COLUMNS.put("act_equip_qty", null);
-      ACTIVITY_COLUMNS.put("remain_equip_qty", null);
-      ACTIVITY_COLUMNS.put("cstr_date", null);
-      ACTIVITY_COLUMNS.put("act_start_date", null);
-      ACTIVITY_COLUMNS.put("act_end_date", null);
-      ACTIVITY_COLUMNS.put("late_start_date", null);
-      ACTIVITY_COLUMNS.put("late_end_date", null);
+
+      // TODO: should be blank if complete
+      ACTIVITY_COLUMNS.put("total_float_hr_cnt", TaskField.TOTAL_SLACK);
+      ACTIVITY_COLUMNS.put("free_float_hr_cnt", TaskField.FREE_SLACK);
+
+      ACTIVITY_COLUMNS.put("remain_drtn_hr_cnt", TaskField.REMAINING_DURATION);
+      ACTIVITY_COLUMNS.put("act_work_qty", TaskField.ACTUAL_WORK);
+      ACTIVITY_COLUMNS.put("remain_work_qty", TaskField.REMAINING_WORK);
+      ACTIVITY_COLUMNS.put("target_work_qty", TaskField.PLANNED_WORK);
+      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", TaskField.PLANNED_DURATION);
+      ACTIVITY_COLUMNS.put("target_equip_qty", Integer.valueOf(0));
+      ACTIVITY_COLUMNS.put("act_equip_qty", Integer.valueOf(0));
+      ACTIVITY_COLUMNS.put("remain_equip_qty", Integer.valueOf(0));
+      ACTIVITY_COLUMNS.put("cstr_date", TaskField.CONSTRAINT_DATE);
+      ACTIVITY_COLUMNS.put("act_start_date", TaskField.ACTUAL_START);
+      ACTIVITY_COLUMNS.put("act_end_date", TaskField.ACTUAL_FINISH);
+      ACTIVITY_COLUMNS.put("late_start_date", TaskField.LATE_START);
+      ACTIVITY_COLUMNS.put("late_end_date", TaskField.LATE_FINISH);
       ACTIVITY_COLUMNS.put("expect_end_date", null);
-      ACTIVITY_COLUMNS.put("early_start_date", null);
-      ACTIVITY_COLUMNS.put("early_end_date", null);
-      ACTIVITY_COLUMNS.put("restart_date", null);
-      ACTIVITY_COLUMNS.put("reend_date", null);
-      ACTIVITY_COLUMNS.put("target_start_date", null);
-      ACTIVITY_COLUMNS.put("target_end_date", null);
-      ACTIVITY_COLUMNS.put("rem_late_start_date", null);
-      ACTIVITY_COLUMNS.put("rem_late_end_date", null);
+      ACTIVITY_COLUMNS.put("early_start_date", TaskField.EARLY_START);
+      ACTIVITY_COLUMNS.put("early_end_date", TaskField.EARLY_FINISH);
+      ACTIVITY_COLUMNS.put("restart_date", TaskField.REMAINING_EARLY_START);
+      ACTIVITY_COLUMNS.put("reend_date", TaskField.REMAINING_EARLY_FINISH);
+      ACTIVITY_COLUMNS.put("target_start_date", TaskField.PLANNED_START);
+      ACTIVITY_COLUMNS.put("target_end_date", TaskField.PLANNED_FINISH);
+      ACTIVITY_COLUMNS.put("rem_late_start_date", TaskField.REMAINING_LATE_START);
+      ACTIVITY_COLUMNS.put("rem_late_end_date", TaskField.REMAINING_LATE_FINISH);
       ACTIVITY_COLUMNS.put("cstr_type", null);
       ACTIVITY_COLUMNS.put("priority_type", null);
       ACTIVITY_COLUMNS.put("suspend_date", null);
@@ -730,5 +737,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       FORMAT_MAP.put(ActivityType.class, (w, o) -> ActivityTypeHelper.getXerFromInstance((ActivityType)o));
       FORMAT_MAP.put(PercentCompleteType.class, (w, o) -> PercentCompleteTypeHelper.getXerFromInstance((PercentCompleteType)o));
       FORMAT_MAP.put(ActivityStatus.class, (w, o) -> ActivityStatusHelper.getXerFromInstance((ActivityStatus)o));
+      FORMAT_MAP.put(Duration.class, (w, o) -> w.formatDuration((Duration)o));
    }
 }
