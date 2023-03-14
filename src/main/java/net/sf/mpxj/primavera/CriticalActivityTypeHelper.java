@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.CriticalActivityType;
-import net.sf.mpxj.TaskType;
 
 /**
  * Provides methods to convert to and from Primavera's representation
