@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="11.2.0">
+		<release date="unreleased" version="11.2.1">
+		</release>
+		<release date="2023-03-13" version="11.2.0">
 			<action dev="joniles" type="update">The project property Critical Slack Limit is now represented as a `Duration` rather than as an `Integer`. (Potentially breaking change if you were using this property directly).</action>
 			<action dev="joniles" type="update">`TaskType` is now a simple enum with all Microsoft Project specific functionality moved into `TaskTypeHelper`. (Potentially breaking change if you were using the `TaskType` methods `getInstance` or `getValue` in your code)</action>
 			<action dev="joniles" type="update">When reading the task type from P6 schedule the mapping to the MPXJ `TaskType` enum has been updated to more closely match P6. The main changes are that the P6 type "Fixed Units" now maps to `TaskType.FIXED_WORK` and the "Fixed Duration &amp; Units" type now maps to a new enumeration value `TaskType.FIXED_DURATION_AND_UNITS`.</action>
@@ -16,6 +18,7 @@
 			<action dev="joniles" type="update">Add suport for reading and writing the Project's Critical Slack Limit value for P6 schedules.</action>
 			<action dev="joniles" type="update">Fixed an issue reading certain types of Enterprise Custom Fields containing date values.</action>
 			<action dev="joniles" type="update">Ensure activity code value parent can be set to null.</action>
+			<action dev="joniles" type="update">Improved existing .Net extension methods and added support for more types.</action>
 			<action dev="joniles" type="update">Added NuGet package icon</action>
 			<action dev="joniles" type="update">Simplified  NuGet packaging</action>
 		</release>

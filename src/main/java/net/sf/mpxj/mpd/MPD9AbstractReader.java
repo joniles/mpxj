@@ -62,7 +62,6 @@ import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
@@ -574,7 +573,7 @@ abstract class MPD9AbstractReader
       properties.setCreationDate(row.getDate("PROJ_CREATION_DATE"));
       //properties.setExtendedCreationDate(row.getDate("PROJ_CREATION_DATE_EX")); // Not in MPP9 MPD?
       properties.setDefaultFixedCostAccrual(AccrueType.getInstance(row.getInt("PROJ_OPT_DEF_FIX_COST_ACCRUAL")));
-      properties.setCriticalSlackLimit(Duration.getInstance(row.getInteger("PROJ_OPT_CRITICAL_SLACK_LIMIT"), TimeUnit.DAYS));
+      properties.setCriticalSlackLimit(Duration.getInstance(row.getInt("PROJ_OPT_CRITICAL_SLACK_LIMIT"), TimeUnit.DAYS));
       //properties.setBaselineForEarnedValue;
       properties.setFiscalYearStartMonth(row.getInteger("PROJ_OPT_FY_START_MONTH"));
       //properties.setNewTaskStartIsProjectStart();

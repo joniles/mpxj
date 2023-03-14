@@ -1,6 +1,21 @@
 # Changelog
 
-## 11.1.1 (unreleased)
+## 11.2.1 (unreleased)
+
+## 11.2.0 (2023-03-13)
+* The project property Critical Slack Limit is now represented as a `Duration` rather than as an `Integer`. (Potentially breaking change if you were using this property directly).
+* `TaskType` is now a simple enum with all Microsoft Project specific functionality moved into `TaskTypeHelper`. (Potentially breaking change if you were using the `TaskType` methods `getInstance` or `getValue` in your code)
+* When reading the task type from P6 schedule the mapping to the MPXJ `TaskType` enum has been updated to more closely match P6. The main changes are that the P6 type "Fixed Units" now maps to `TaskType.FIXED_WORK` and the "Fixed Duration & Units" type now maps to a new enumeration value `TaskType.FIXED_DURATION_AND_UNITS`.
+* Added support for reading project calendar exceptions from Phoenix schedules (based on a contribution by Rohit Sinha).
+* The Resource attribute Active now defaults to true if the schedule being read doesn't support or contain a value for this attribute.
+* Add suport for reading and writing the Resource's Active flag for P6 schedules.
+* Add suport for reading and writing the Resource's Default Units/Time value for P6 schedules.
+* Add suport for reading and writing the Project's Critical Slack Limit value for P6 schedules.
+* Fixed an issue reading certain types of Enterprise Custom Fields containing date values.
+* Ensure activity code value parent can be set to null.
+* Improved existing .Net extension methods and added support for more types.
+* Added NuGet package icon
+* Simplified  NuGet packaging
 
 ## 11.1.0 (2023-02-15)
 * Write activity code definitions and activity code assignments to PMXML files.
@@ -44,7 +59,7 @@
 ## 10.15.0 (2023-01-11)
 * Avoid writing invalid characters to PMXML, MSPDI and Planner XML files.
 * Improve handling of slack values for schedules which only contain a value for total slack.
-* Add support for reading constraint type and constraint date from Phoenix schedule (based on a contribution by Rohit Sinha).
+* Add support for reading constraint type and constraint date from Phoenix schedules (based on a contribution by Rohit Sinha).
 * Improve timephased data calculation when assignment has zero units.
 * Improve handling of very large duration values when reading and writing MSPDI files.
 * Ensure the Task attributes Active, Constraint Type, Task Mode, and Type always have a value.

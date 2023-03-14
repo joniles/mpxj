@@ -7,7 +7,7 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="11.1.0" />
+		<property name="current.version" value="11.2.0" />
 
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="c:/java/apache-maven-3.8.5/bin/mvn.cmd"/>
@@ -18,7 +18,6 @@
 		<property name="ikvmc.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmc.exe" />
 		<property name="ikvmstub.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmstub.exe" />
 		<property name="tlbexp.net45.cmd" value="${basedir}/../NETFX 4.5.1 Tools/tlbexp.exe" />
-		<property name="msbuild.net45.cmd" value="C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe" />
 		<property name="ikvm.nca31.dir" value="${basedir}/../ikvm-netcoreapp3.1" />
 		<property name="ikvmc.nca31.cmd" value="${ikvm.nca31.dir}/ikvmc.exe" />
 		<property name="ikvmstub.nca31.cmd" value="${ikvm.nca31.dir}/ikvmstub.exe" />
@@ -282,9 +281,9 @@
 
 		<available file="${ikvmc.net45.cmd}" property="ikvm.net45.available" />
 		<available file="${tlbexp.net45.cmd}" property="tlbexp.available" />
-		<condition property="msbuild.net45.available">
+		<condition property="dotnet.available">
 			<and>
-				<available file="${msbuild.net45.cmd}" property="msbuild.net45.available" />
+				<available file="dotnet.exe" filepath="${env.Path}" property="dotnet.available" />
 				<isset property="ikvm.net45.available"/>
 			</and>
 		</condition>
@@ -311,9 +310,9 @@
 		<property name="mpxj-utilities.nca31.dll" value="${lib.nca31.dir}\MpxjUtilities.dll" />
 
 		<available file="${ikvmc.nca31.cmd}" property="ikvm.nca31.available" />
-		<condition property="dotnet.nca31.available">
+		<condition property="dotnet.available">
 			<and>
-				<available file="dotnet.exe" filepath="${env.Path}" property="dotnet.nca31.available" />
+				<available file="dotnet.exe" filepath="${env.Path}" property="dotnet.available" />
 				<isset property="ikvm.nca31.available"/>
 			</and>
 		</condition>
@@ -744,7 +743,7 @@
 		<delete dir="${ikvm.working.dir}" />
 	</target>
 
-	<target name="vs-net45-dll" depends="ikvm-net45-dll" description="Build .Net DLLs using Visual Studio" if="msbuild.net45.available">
+	<target name="vs-net45-dll" depends="ikvm-net45-dll" description="Build .Net DLLs using Visual Studio" if="dotnet.available">
 		<delete includeemptydirs="true">
 			<fileset dir="${basedir}/src.net/utilities" defaultexcludes="false">
 				<include name="bin" />
@@ -752,13 +751,13 @@
 			</fileset>
 		</delete>
 
-		<exec executable="${msbuild.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="src.net/utilities/MpxjUtilities.net45.csproj /p:Configuration=Debug" />
+		<exec executable="dotnet" dir="${basedir}" failonerror="true">
+			<arg line="build src.net/utilities/MpxjUtilities.net45.csproj" />
 		</exec>
-		<copy file="src.net/utilities/bin/Debug/MpxjUtilities.dll" tofile="${mpxj-utilities.net45.dll}"/>
+		<copy file="src.net/utilities/bin/Debug/net45/MpxjUtilities.dll" tofile="${mpxj-utilities.net45.dll}"/>
 	</target>
 
-	<target name="vs-nca31-dll" depends="ikvm-nca31-dll" description="Build .Net DLLs using Visual Studio" if="dotnet.nca31.available">
+	<target name="vs-nca31-dll" depends="ikvm-nca31-dll" description="Build .Net DLLs using Visual Studio" if="dotnet.available">
 		<delete includeemptydirs="true">
 			<fileset dir="${basedir}/src.net/utilities" defaultexcludes="false">
 				<include name="bin" />
