@@ -1598,26 +1598,32 @@ final class PrimaveraReader
             ResourceAssignment assignment = task.addResourceAssignment(resource);
             processFields(m_assignmentFields, row, assignment);
 
-            populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
-            populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
-
-            // include actual overtime work in work calculations
-            Duration remainingWork = row.getDuration("remain_qty");
-            Duration actualOvertimeWork = row.getDuration("act_ot_qty");
-            Duration actualRegularWork = row.getDuration("act_reg_qty");
-            Duration actualWork = Duration.add(actualOvertimeWork, actualRegularWork, task.getEffectiveCalendar());
-            Duration totalWork = Duration.add(actualWork, remainingWork, task.getEffectiveCalendar());
-            assignment.setActualWork(actualWork);
-            assignment.setWork(totalWork);
             assignment.setWorkContour(m_project.getWorkContours().getByUniqueID(row.getInteger("curv_id")));
             assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getString("rate_type"), Integer.valueOf(0)));
             assignment.setRole(m_project.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getDouble("cost_per_qty")));
             assignment.setRateSource(RATE_SOURCE_MAP.getOrDefault(row.getString("cost_per_qty_source_type"), RateSource.RESOURCE));
 
-            // include actual overtime cost in cost calculations
-            assignment.setActualCost(NumberHelper.sumAsDouble(row.getDouble("act_reg_cost"), row.getDouble("act_ot_cost")));
-            assignment.setCost(NumberHelper.sumAsDouble(assignment.getActualCost(), assignment.getRemainingCost()));
+            populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
+            populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
+
+            // calculate work
+            Duration remainingWork = assignment.getRemainingWork();
+            Duration actualRegularWork = row.getDuration("act_reg_qty");
+            Duration actualOvertimeWork = assignment.getActualOvertimeWork();
+            Duration actualWork = Duration.add(actualRegularWork, actualOvertimeWork, task.getEffectiveCalendar());
+            assignment.setActualWork(actualWork);
+            Duration totalWork = Duration.add(actualWork, remainingWork, task.getEffectiveCalendar());
+            assignment.setWork(totalWork);
+
+            // calculate cost
+            Number remainingCost = assignment.getRemainingCost();
+            Number actualRegularCost = row.getDouble("act_reg_cost");
+            Number actualOvertimeCost = row.getDouble("act_ot_cost");
+            Number actualCost = NumberHelper.sumAsDouble(actualRegularCost, actualOvertimeCost);
+            assignment.setActualCost(actualCost);
+            Number totalCost = NumberHelper.sumAsDouble(actualCost, remainingCost);
+            assignment.setCost(totalCost);
 
             // roll up to parent task
             task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), assignment.getPlannedCost()));
