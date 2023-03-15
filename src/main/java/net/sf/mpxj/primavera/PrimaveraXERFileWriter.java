@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ConstraintType;
@@ -39,6 +40,7 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
@@ -93,6 +95,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeResourceRates();
          writeActivities();
          writePredecessors();
+         writeResourceAssignments();
 
          m_writer.flush();
       }
@@ -213,6 +216,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("TASKPRED", PREDECESSOR_COLUMNS);
       m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getPredecessors).flatMap(Collection::stream).sorted(Comparator.comparing(Relation::getUniqueID)).forEach(this::writeRelation);
+   }
+
+   private void writeResourceAssignments()
+   {
+      writeTable("TASKRSRC", RESOURCE_ASSIGNMENT_COLUMNS);
+      m_file.getResourceAssignments().stream().sorted(Comparator.comparing(ResourceAssignment::getUniqueID)).forEach(t -> writeRecord(RESOURCE_ASSIGNMENT_COLUMNS, t));
    }
 
    private void writeRelation(Relation relation)
@@ -753,6 +762,58 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PREDECESSOR_COLUMNS.put("float_path", r -> null);
       PREDECESSOR_COLUMNS.put("aref", r -> null);
       PREDECESSOR_COLUMNS.put("arls", r -> null);
+   }
+
+   private static final Map<String, Object> RESOURCE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_id", AssignmentField.UNIQUE_ID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("task_id", AssignmentField.TASK_UNIQUE_ID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("proj_id", (ExportFunction)a -> ((ResourceAssignment)a).getParentFile().getProjectProperties().getUniqueID());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_qty_link_flag", AssignmentField.CALCULATE_COSTS_FROM_UNITS);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("role_id", AssignmentField.ROLE_UNIQUE_ID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("acct_id", AssignmentField.COST_ACCOUNT_UNIQUE_ID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_id", AssignmentField.RESOURCE_UNIQUE_ID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("pobs_id", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("skill_level", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty", AssignmentField.REMAINING_WORK);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty", AssignmentField.PLANNED_WORK);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty_per_hr", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_lag_drtn_hr_cnt", AssignmentField.ASSIGNMENT_DELAY);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty_per_hr", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_qty", AssignmentField.ACTUAL_OVERTIME_WORK);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_qty", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("relag_drtn_hr_cnt", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("ot_factor", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty", AssignmentField.OVERRIDE_RATE);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_cost", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_cost", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_cost", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_start_date", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_end_date", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("restart_date", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("reend_date", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_start_date", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_end_date", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_start_date", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_end_date", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rollup_dates_flag", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_crv", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_crv", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("actual_crv", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("ts_pend_act_end_flag", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("guid", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rate_type", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("create_user", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("create_date", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("has_rsrchours", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_sum_id", null);
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
