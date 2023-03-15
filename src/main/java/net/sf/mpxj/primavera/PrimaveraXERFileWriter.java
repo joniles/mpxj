@@ -412,6 +412,14 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return m_maxUnitsFormat.format(NumberHelper.getDouble(availability.getUnits()) / 100.0);
    }
 
+   private static Duration getActualRegularWork(ResourceAssignment assignment)
+   {
+      ProjectProperties properties = assignment.getParentFile().getProjectProperties();
+      Duration actualWork = assignment.getActualWork().convertUnits(TimeUnit.HOURS, properties);
+      Duration actualOvertimeWork = assignment.getActualOvertimeWork().convertUnits(TimeUnit.HOURS, properties);
+      return Duration.getInstance(actualWork.getDuration() - actualOvertimeWork.getDuration(), TimeUnit.HOURS);
+   }
+
    private String m_encoding;
    private Charset m_charset;
    private ProjectFile m_file;
@@ -782,11 +790,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_lag_drtn_hr_cnt", AssignmentField.ASSIGNMENT_DELAY);
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty_per_hr", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_qty", AssignmentField.ACTUAL_OVERTIME_WORK);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_qty", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_qty", (ExportFunction)a -> getActualRegularWork((ResourceAssignment)a));
       RESOURCE_ASSIGNMENT_COLUMNS.put("relag_drtn_hr_cnt", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("ot_factor", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty", AssignmentField.OVERRIDE_RATE);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_cost", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_cost", AssignmentField.PLANNED_COST);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_cost", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_cost", null);
