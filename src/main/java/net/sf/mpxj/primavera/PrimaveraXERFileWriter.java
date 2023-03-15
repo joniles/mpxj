@@ -824,10 +824,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", (ExportFunction)a -> CurveHelper.getCurveID(((ResourceAssignment)a).getWorkContour()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", (ExportFunction)a -> ResourceTypeHelper.getXerFromInstance(((ResourceAssignment)a).getResource().getType()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", "ST_Rsrc");
       RESOURCE_ASSIGNMENT_COLUMNS.put("create_user", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("create_date", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("create_date", AssignmentField.CREATED);
       RESOURCE_ASSIGNMENT_COLUMNS.put("has_rsrchours", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_sum_id", null);
    }
