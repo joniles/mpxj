@@ -23,6 +23,7 @@ import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ConstraintType;
+import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.Duration;
@@ -86,6 +87,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       {
          writeHeader();
          writeCurrencies();
+         writeCostAccounts();
          writeRoles();
          writeProject();
          writeRoleRates();
@@ -224,6 +226,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_file.getResourceAssignments().stream().sorted(Comparator.comparing(ResourceAssignment::getUniqueID)).forEach(t -> writeRecord(RESOURCE_ASSIGNMENT_COLUMNS, t));
    }
 
+   private void writeCostAccounts()
+   {
+      writeTable("ACCOUNT", COST_ACCOUNT_COLUMNS);
+      m_file.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(a -> writeCostAccount(a));
+   }
+
    private void writeRelation(Relation relation)
    {
       writeRecord(PREDECESSOR_COLUMNS.values().stream().map(f -> f.apply(relation)));
@@ -232,6 +240,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeCalendar(ProjectCalendar calendar)
    {
       writeRecord(CALENDAR_COLUMNS.values().stream().map(f -> f.apply(calendar)));
+   }
+
+   private void writeCostAccount(CostAccount account)
+   {
+      writeRecord(COST_ACCOUNT_COLUMNS.values().stream().map(f -> f.apply(account)));
    }
 
    private void writeTable(String name, String[] columns)
@@ -830,6 +843,17 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("create_date", AssignmentField.CREATED);
       RESOURCE_ASSIGNMENT_COLUMNS.put("has_rsrchours", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_sum_id", null);
+   }
+
+   private static final Map<String, ExportFunction> COST_ACCOUNT_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      COST_ACCOUNT_COLUMNS.put("acct_id", a -> ((CostAccount)a).getUniqueID());
+      COST_ACCOUNT_COLUMNS.put("parent_acct_id", a -> ((CostAccount)a).getParent() == null ? null : ((CostAccount)a).getParent().getUniqueID());
+      COST_ACCOUNT_COLUMNS.put("acct_seq_num", a -> ((CostAccount)a).getSequenceNumber());
+      COST_ACCOUNT_COLUMNS.put("acct_name", a -> ((CostAccount)a).getID());
+      COST_ACCOUNT_COLUMNS.put("acct_short_name", a -> ((CostAccount)a).getName());
+      COST_ACCOUNT_COLUMNS.put("acct_descr", a -> ((CostAccount)a).getDescription());
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
