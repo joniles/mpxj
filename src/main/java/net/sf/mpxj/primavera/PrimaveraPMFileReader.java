@@ -63,7 +63,6 @@ import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTableEntry;
@@ -83,7 +82,6 @@ import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.PercentCompleteType;
-import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -1574,7 +1572,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Task successorTask = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(successorID));
          Task predecessorTask = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(predecessorID));
 
-         RelationType type = RELATION_TYPE_MAP.get(row.getType());
+         RelationType type = RelationTypeHelper.getInstanceFromXml(row.getType());
          Duration lag = getDuration(row.getLag());
 
          if (successorTask != null && predecessorTask != null)
@@ -2327,15 +2325,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private boolean m_linkCrossProjectRelations;
    private Map<Integer, String> m_notebookTopics;
    private Integer m_defaultCalendarObjectID;
-
-   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RELATION_TYPE_MAP.put("Finish to Start", RelationType.FINISH_START);
-      RELATION_TYPE_MAP.put("Finish to Finish", RelationType.FINISH_FINISH);
-      RELATION_TYPE_MAP.put("Start to Start", RelationType.START_START);
-      RELATION_TYPE_MAP.put("Start to Finish", RelationType.START_FINISH);
-   }
 
    private static final Map<String, Day> DAY_MAP = new HashMap<>();
    static
