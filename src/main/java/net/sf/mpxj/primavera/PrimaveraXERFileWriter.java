@@ -823,7 +823,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("rate_type", (ExportFunction)a -> RateTypeHelper.getXerFromInstance(((ResourceAssignment)a).getRateIndex()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", (ExportFunction)a -> CurveHelper.getCurveID(((ResourceAssignment)a).getWorkContour()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("create_user", null);
