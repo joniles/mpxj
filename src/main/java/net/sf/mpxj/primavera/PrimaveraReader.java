@@ -1619,7 +1619,7 @@ final class PrimaveraReader
             // calculate cost
             Number remainingCost = assignment.getRemainingCost();
             Number actualRegularCost = row.getDouble("act_reg_cost");
-            Number actualOvertimeCost = row.getDouble("act_ot_cost");
+            Number actualOvertimeCost = assignment.getActualOvertimeCost();
             Number actualCost = NumberHelper.sumAsDouble(actualRegularCost, actualOvertimeCost);
             assignment.setActualCost(actualCost);
             Number totalCost = NumberHelper.sumAsDouble(actualCost, remainingCost);
