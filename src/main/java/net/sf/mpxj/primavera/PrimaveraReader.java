@@ -1602,11 +1602,9 @@ final class PrimaveraReader
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
 
             // include actual overtime work in work calculations
-            Duration remainingWork = row.getDuration("remain_qty");
-            Duration actualOvertimeWork = row.getDuration("act_ot_qty");
             Duration actualRegularWork = row.getDuration("act_reg_qty");
-            Duration actualWork = Duration.add(actualOvertimeWork, actualRegularWork, task.getEffectiveCalendar());
-            Duration totalWork = Duration.add(actualWork, remainingWork, task.getEffectiveCalendar());
+            Duration actualWork = Duration.add(actualRegularWork, assignment.getActualOvertimeWork(), task.getEffectiveCalendar());
+            Duration totalWork = Duration.add(actualWork, assignment.getRemainingWork(), task.getEffectiveCalendar());
             assignment.setActualWork(actualWork);
             assignment.setWork(totalWork);
             assignment.setWorkContour(m_project.getWorkContours().getByUniqueID(row.getInteger("curv_id")));
