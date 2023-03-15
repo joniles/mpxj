@@ -420,6 +420,14 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return Duration.getInstance(actualWork.getDuration() - actualOvertimeWork.getDuration(), TimeUnit.HOURS);
    }
 
+   private static Double getActualRegularCost(ResourceAssignment assignment)
+   {
+      ProjectProperties properties = assignment.getParentFile().getProjectProperties();
+      Number actualCost = assignment.getActualCost();
+      Number actualOvertimeCost = assignment.getActualOvertimeCost();
+      return Double.valueOf(actualCost.doubleValue() - actualOvertimeCost.doubleValue());
+   }
+
    private String m_encoding;
    private Charset m_charset;
    private ProjectFile m_file;
@@ -795,23 +803,23 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("ot_factor", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty", AssignmentField.OVERRIDE_RATE);
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_cost", AssignmentField.PLANNED_COST);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_cost", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_cost", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_start_date", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_end_date", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", (ExportFunction)a -> getActualRegularCost((ResourceAssignment)a));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_cost", AssignmentField.ACTUAL_OVERTIME_COST);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_cost", AssignmentField.REMAINING_COST);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_start_date", AssignmentField.ACTUAL_START);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_end_date", AssignmentField.ACTUAL_FINISH);
       RESOURCE_ASSIGNMENT_COLUMNS.put("restart_date", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("reend_date", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_start_date", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_end_date", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_start_date", AssignmentField.PLANNED_START);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_end_date", AssignmentField.PLANNED_FINISH);
       RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_start_date", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_end_date", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rollup_dates_flag", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rollup_dates_flag", Boolean.TRUE);
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_crv", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_crv", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("actual_crv", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("ts_pend_act_end_flag", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("guid", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("ts_pend_act_end_flag", Boolean.FALSE);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("guid", AssignmentField.GUID);
       RESOURCE_ASSIGNMENT_COLUMNS.put("rate_type", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", null);
