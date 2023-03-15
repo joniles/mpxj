@@ -37,6 +37,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
+import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
@@ -746,7 +747,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PREDECESSOR_COLUMNS.put("pred_task_id", r -> ((Relation)r).getTargetTask().getUniqueID());
       PREDECESSOR_COLUMNS.put("proj_id", r -> ((Relation)r).getSourceTask().getParentFile().getProjectProperties().getUniqueID());
       PREDECESSOR_COLUMNS.put("pred_proj_id", r -> ((Relation)r).getTargetTask().getParentFile().getProjectProperties().getUniqueID());
-      PREDECESSOR_COLUMNS.put("pred_type", r -> null);
+      PREDECESSOR_COLUMNS.put("pred_type", r -> ((Relation)r).getType());
       PREDECESSOR_COLUMNS.put("lag_hr_cnt", r -> ((Relation)r).getLag());
       PREDECESSOR_COLUMNS.put("comments", r -> null);
       PREDECESSOR_COLUMNS.put("float_path", r -> null);
@@ -772,5 +773,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       FORMAT_MAP.put(Duration.class, (w, o) -> w.formatDuration((Duration)o));
       FORMAT_MAP.put(ConstraintType.class, (w, o) -> ConstraintTypeHelper.getXerFromInstance((ConstraintType)o));
       FORMAT_MAP.put(Priority.class, (w, o) -> PriorityHelper.getXerFromInstance((Priority)o));
+      FORMAT_MAP.put(RelationType.class, (w, o) -> RelationTypeHelper.getXerFromInstance((RelationType)o));
    }
 }
