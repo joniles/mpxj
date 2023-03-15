@@ -1599,7 +1599,7 @@ final class PrimaveraReader
             processFields(m_assignmentFields, row, assignment);
 
             assignment.setWorkContour(m_project.getWorkContours().getByUniqueID(row.getInteger("curv_id")));
-            assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getString("rate_type"), Integer.valueOf(0)));
+            assignment.setRateIndex(RateTypeHelper.getInstanceFromXer(row.getString("rate_type")));
             assignment.setRole(m_project.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getDouble("cost_per_qty")));
             assignment.setRateSource(RATE_SOURCE_MAP.getOrDefault(row.getString("cost_per_qty_source_type"), RateSource.RESOURCE));
@@ -2242,16 +2242,6 @@ final class PrimaveraReader
       ACTIVITY_CODE_SCOPE_MAP.put("AS_Global", ActivityCodeScope.GLOBAL);
       ACTIVITY_CODE_SCOPE_MAP.put("AS_EPS", ActivityCodeScope.EPS);
       ACTIVITY_CODE_SCOPE_MAP.put("AS_Project", ActivityCodeScope.PROJECT);
-   }
-
-   private static final Map<String, Integer> RATE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RATE_TYPE_MAP.put("COST_PER_QTY", Integer.valueOf(0));
-      RATE_TYPE_MAP.put("COST_PER_QTY2", Integer.valueOf(1));
-      RATE_TYPE_MAP.put("COST_PER_QTY3", Integer.valueOf(2));
-      RATE_TYPE_MAP.put("COST_PER_QTY4", Integer.valueOf(3));
-      RATE_TYPE_MAP.put("COST_PER_QTY5", Integer.valueOf(4));
    }
 
    private static final Map<String, RateSource> RATE_SOURCE_MAP = new HashMap<>();

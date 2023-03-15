@@ -499,7 +499,7 @@ final class PrimaveraPMProjectWriter
       project.setAddActualToRemaining(Boolean.FALSE);
       project.setAllowNegativeActualUnitsFlag(Boolean.FALSE);
       project.setAssignmentDefaultDrivingFlag(Boolean.TRUE);
-      project.setAssignmentDefaultRateType(RATE_TYPE_ARRAY[0]);
+      project.setAssignmentDefaultRateType(RateTypeHelper.getXmlFromInstance(Integer.valueOf(0)));
       project.setCheckOutStatus(Boolean.FALSE);
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
       project.setCreateDate(mpxj.getCreationDate());
@@ -567,7 +567,7 @@ final class PrimaveraPMProjectWriter
       project.setActivityPercentCompleteBasedOnActivitySteps(Boolean.FALSE);
       project.setAddActualToRemaining(Boolean.FALSE);
       project.setAssignmentDefaultDrivingFlag(Boolean.TRUE);
-      project.setAssignmentDefaultRateType(RATE_TYPE_ARRAY[0]);
+      project.setAssignmentDefaultRateType(RateTypeHelper.getXmlFromInstance(Integer.valueOf(0)));
       project.setCheckOutStatus(Boolean.FALSE);
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
       project.setCreateDate(mpxj.getCreationDate());
@@ -1081,7 +1081,7 @@ final class PrimaveraPMProjectWriter
       xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(parentTaskUniqueID);
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, mpxj));
-      xml.setRateType(getRateType(mpxj.getRateIndex()));
+      xml.setRateType(RateTypeHelper.getXmlFromInstance(mpxj.getRateIndex()));
       xml.setCostPerQuantity(writeRate(mpxj.getOverrideRate()));
       xml.setRateSource(RATE_SOURCE_MAP.get(mpxj.getRateSource()));
       xml.setCostAccountObjectId(mpxj.getCostAccount() == null ? null : mpxj.getCostAccount().getUniqueID());
@@ -1899,21 +1899,6 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Convert a rate index to a rate type.
-    *
-    * @param index rate index
-    * @return rate type
-    */
-   private String getRateType(Integer index)
-   {
-      if (index == null || index.intValue() < 0 || index.intValue() > RATE_TYPE_ARRAY.length)
-      {
-         return RATE_TYPE_ARRAY[0];
-      }
-      return RATE_TYPE_ARRAY[index.intValue()];
-   }
-
-   /**
     * Generate a default Resource ID for a resource.
     *
     * @param resource Resource instance
@@ -1980,15 +1965,6 @@ final class PrimaveraPMProjectWriter
       ACCRUE_TYPE_MAP.put(AccrueType.END, "End of Activity");
       ACCRUE_TYPE_MAP.put(AccrueType.START, "Start of Activity");
    }
-
-   private static final String[] RATE_TYPE_ARRAY = new String[]
-   {
-      "Price / Unit",
-      "Price / Unit 2",
-      "Price / Unit 3",
-      "Price / Unit 4",
-      "Price / Unit 5"
-   };
 
    private static final Map<RateSource, String> RATE_SOURCE_MAP = new HashMap<>();
    static
