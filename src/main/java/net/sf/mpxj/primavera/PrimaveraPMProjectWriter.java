@@ -1125,7 +1125,7 @@ final class PrimaveraPMProjectWriter
       xml.setActualUnits(getDuration(mpxj.getActualWork()));
       xml.setAtCompletionCost(NumberHelper.sumAsDouble(mpxj.getActualCost(), mpxj.getRemainingCost()));
       xml.setAtCompletionUnits(getDuration(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), task.getEffectiveCalendar())));
-      xml.setResourceCurveObjectId(getWorkContourID(mpxj.getWorkContour()));
+      xml.setResourceCurveObjectId(CurveHelper.getCurveID(mpxj.getWorkContour()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setIsCostUnitsLinked(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
@@ -1147,16 +1147,6 @@ final class PrimaveraPMProjectWriter
       xml.setCostPerQuantity(writeRate(mpxj.getOverrideRate()));
       xml.setRateSource(RATE_SOURCE_MAP.get(mpxj.getRateSource()));
       xml.setCostAccountObjectId(mpxj.getCostAccount() == null ? null : mpxj.getCostAccount().getUniqueID());
-   }
-
-   private Integer getWorkContourID(WorkContour contour)
-   {
-      if (contour == null || contour.isContourFlat() || contour.isContourManual())
-      {
-         return null;
-      }
-
-      return contour.getUniqueID();
    }
 
    /**
