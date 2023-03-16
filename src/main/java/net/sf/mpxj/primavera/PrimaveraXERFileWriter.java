@@ -27,6 +27,7 @@ import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HtmlNotes;
@@ -86,6 +87,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       try
       {
          writeHeader();
+         writeExpenseCategories();
          writeCurrencies();
          writeCostAccounts();
          writeRoles();
@@ -230,6 +232,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("ACCOUNT", COST_ACCOUNT_COLUMNS);
       m_file.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(a -> writeRecord(COST_ACCOUNT_COLUMNS, a));
+   }
+
+   private void writeExpenseCategories()
+   {
+      writeTable("COSTTYPE", EXPENSE_CATEGORY_COLUMNS);
+      m_file.getExpenseCategories().stream().sorted(Comparator.comparing(ExpenseCategory::getUniqueID)).forEach(a -> writeRecord(EXPENSE_CATEGORY_COLUMNS, a));
    }
 
    private void writeTable(String name, Map<String, ?> map)
@@ -799,6 +807,14 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       COST_ACCOUNT_COLUMNS.put("acct_name", a -> ((CostAccount)a).getID());
       COST_ACCOUNT_COLUMNS.put("acct_short_name", a -> ((CostAccount)a).getName());
       COST_ACCOUNT_COLUMNS.put("acct_descr", a -> ((CostAccount)a).getDescription());
+   }
+
+   private static final Map<String, ExportFunction> EXPENSE_CATEGORY_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      EXPENSE_CATEGORY_COLUMNS.put("cost_type_id", c -> ((ExpenseCategory)c).getUniqueID());
+      EXPENSE_CATEGORY_COLUMNS.put("seq_num", c -> ((ExpenseCategory)c).getSequenceNumber());
+      EXPENSE_CATEGORY_COLUMNS.put("cost_type", c -> ((ExpenseCategory)c).getName());
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
