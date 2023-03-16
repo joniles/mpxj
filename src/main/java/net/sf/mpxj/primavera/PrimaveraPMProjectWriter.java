@@ -1109,7 +1109,7 @@ final class PrimaveraPMProjectWriter
       else
       {
          xml.setResourceObjectId(mpxj.getResourceUniqueID());
-         xml.setRoleObjectId(mpxj.getRole() == null ? null : mpxj.getRole().getUniqueID());
+         xml.setRoleObjectId(mpxj.getRoleUniqueID());
       }
 
       xml.setActivityObjectId(mpxj.getTaskUniqueID());

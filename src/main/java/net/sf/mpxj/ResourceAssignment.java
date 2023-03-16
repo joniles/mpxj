@@ -552,6 +552,26 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Retrieve the role unique ID in which this resource assignment is being performed.
+    *
+    * @return Resource unique ID representing a role
+    */
+   public Integer getRoleUniqueID()
+   {
+      return (Integer) get(AssignmentField.ROLE_UNIQUE_ID);
+   }
+
+   /**
+    * Set the unique ID of the role in which this resource assignment is being performed.
+    *
+    * @param id Resource unique ID representing a role
+    */
+   public void setRoleUniqueID(Integer id)
+   {
+      set(AssignmentField.ROLE_UNIQUE_ID, id);
+   }
+
+   /**
     * Retrieve the role in which this resource assignment is being performed.
     *
     * @return Resource instance representing a role
