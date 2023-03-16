@@ -445,7 +445,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       ROLE_COLUMNS.put("role_id", Resource::getUniqueID);
-      ROLE_COLUMNS.put("parent_role_id", r -> r.getParentResource() == null ? null : r.getParentResource().getUniqueID());
+      ROLE_COLUMNS.put("parent_role_id", Resource::getParentResourceUniqueID);
       ROLE_COLUMNS.put("seq_num", Resource::getSequenceNumber);
       ROLE_COLUMNS.put("role_name", Resource::getName);
       ROLE_COLUMNS.put("role_short_name", Resource::getResourceID);
