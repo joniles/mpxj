@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
-import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ConstraintType;
@@ -29,14 +28,12 @@ import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseItem;
-import net.sf.mpxj.FieldContainer;
-import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectField;
+import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
@@ -44,10 +41,8 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
@@ -264,14 +259,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
    }
 
-   private void writeRecord(Map<String, ExportFunction> columns, Object object)
+   private <T> void writeRecord(Map<String, ExportFunction<T>> columns, T object)
    {
       writeRecord(columns.values().stream().map(f -> f.apply(object)));
-   }
-
-   private void writeRecord(Map<String, Object> columns, FieldContainer container)
-   {
-      writeRecord(columns.values().stream().map(c -> getData(container, c)));
    }
 
    private void writeRecord(Stream<Object> data)
@@ -287,21 +277,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       {
          throw new RuntimeException(ex);
       }
-   }
-
-   private Object getData(FieldContainer container, Object key)
-   {
-      if (key instanceof FieldType)
-      {
-         return container.get((FieldType) key);
-      }
-
-      if (key instanceof ExportFunction)
-      {
-         return ((ExportFunction)key).apply(container);
-      }
-
-      return key;
    }
 
    private String format(Object object)
@@ -440,9 +415,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       Object apply(PrimaveraXERFileWriter writer, Resource resource, CostRateTableEntry entry);
    }
 
-   private interface ExportFunction
+   private interface ExportFunction<T>
    {
-      Object apply(Object source);
+      Object apply(T source);
    }
 
    private interface FormatFunction
@@ -466,19 +441,19 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       CURRENCY_COLUMNS.put("base_exch_rate", "1");
    }
 
-   private static final Map<String, Object> ROLE_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<Resource>> ROLE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      ROLE_COLUMNS.put("role_id", ResourceField.UNIQUE_ID);
-      ROLE_COLUMNS.put("parent_role_id", ResourceField.PARENT_ID);
-      ROLE_COLUMNS.put("seq_num", ResourceField.SEQUENCE_NUMBER);
-      ROLE_COLUMNS.put("role_name", ResourceField.NAME);
-      ROLE_COLUMNS.put("role_short_name", ResourceField.RESOURCE_ID);
-      ROLE_COLUMNS.put("pobs_id", "");
-      ROLE_COLUMNS.put("def_cost_qty_link_flag", ResourceField.CALCULATE_COSTS_FROM_UNITS);
-      ROLE_COLUMNS.put("cost_qty_type", "QT_Hour");
-      ROLE_COLUMNS.put("role_descr", ResourceField.NOTES);
-      ROLE_COLUMNS.put("last_checksum", "");
+      ROLE_COLUMNS.put("role_id", Resource::getUniqueID);
+      ROLE_COLUMNS.put("parent_role_id", r -> r.getParentResource() == null ? null : r.getParentResource().getUniqueID());
+      ROLE_COLUMNS.put("seq_num", Resource::getSequenceNumber);
+      ROLE_COLUMNS.put("role_name", Resource::getName);
+      ROLE_COLUMNS.put("role_short_name", Resource::getResourceID);
+      ROLE_COLUMNS.put("pobs_id", r -> "");
+      ROLE_COLUMNS.put("def_cost_qty_link_flag", Resource::getCalculateCostsFromUnits);
+      ROLE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
+      ROLE_COLUMNS.put("role_descr", Resource::getNotesObject);
+      ROLE_COLUMNS.put("last_checksum", r -> "");
    }
 
    private static final Map<String, Object> ROLE_RATE_COLUMNS = new LinkedHashMap<>();
@@ -510,337 +485,337 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_RATE_COLUMNS.put("cost_per_qty5", (CostRateTableEntryFunction)(PrimaveraXERFileWriter w, Resource r, CostRateTableEntry e) -> e.getRate(4));
    }
 
-   private static final Map<String, Object> RESOURCE_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<Resource>> RESOURCE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      RESOURCE_COLUMNS.put("rsrc_id", ResourceField.UNIQUE_ID);
-      RESOURCE_COLUMNS.put("parent_rsrc_id", ResourceField.PARENT_ID);
-      RESOURCE_COLUMNS.put("clndr_id", ResourceField.CALENDAR_UNIQUE_ID);
-      RESOURCE_COLUMNS.put("role_id", "");
-      RESOURCE_COLUMNS.put("shift_id", "");
-      RESOURCE_COLUMNS.put("user_id", "");
-      RESOURCE_COLUMNS.put("pobs_id", "");
-      RESOURCE_COLUMNS.put("guid", ResourceField.GUID);
-      RESOURCE_COLUMNS.put("rsrc_seq_num", ResourceField.SEQUENCE_NUMBER);
-      RESOURCE_COLUMNS.put("email_addr", ResourceField.EMAIL_ADDRESS);
-      RESOURCE_COLUMNS.put("employee_code", ResourceField.CODE);
-      RESOURCE_COLUMNS.put("office_phone", "");
-      RESOURCE_COLUMNS.put("other_phone", "");
-      RESOURCE_COLUMNS.put("rsrc_name", ResourceField.NAME);
-      RESOURCE_COLUMNS.put("rsrc_short_name", ResourceField.RESOURCE_ID);
-      RESOURCE_COLUMNS.put("rsrc_title_name", "");
-      RESOURCE_COLUMNS.put("def_qty_per_hr", (ExportFunction)(r) -> ((Resource)r).getMaxUnits() == null ? null : ((Resource)r).getMaxUnits().doubleValue() / 100.0);
-      RESOURCE_COLUMNS.put("cost_qty_type", "QT_Hour");
-      RESOURCE_COLUMNS.put("ot_factor", "");
-      RESOURCE_COLUMNS.put("active_flag", ResourceField.ACTIVE);
-      RESOURCE_COLUMNS.put("auto_compute_act_flag", Boolean.TRUE);
-      RESOURCE_COLUMNS.put("def_cost_qty_link_flag", ResourceField.CALCULATE_COSTS_FROM_UNITS);
-      RESOURCE_COLUMNS.put("ot_flag", Boolean.FALSE);
-      RESOURCE_COLUMNS.put("curr_id", CURRENCY_COLUMNS.get("curr_id"));
-      RESOURCE_COLUMNS.put("unit_id", "");
-      RESOURCE_COLUMNS.put("rsrc_type", ResourceField.TYPE);
-      RESOURCE_COLUMNS.put("location_id", "");
-      RESOURCE_COLUMNS.put("rsrc_notes", ResourceField.NOTES);
-      RESOURCE_COLUMNS.put("load_tasks_flag", "");
-      RESOURCE_COLUMNS.put("level_flag", "");
-      RESOURCE_COLUMNS.put("last_checksum", "");
+      RESOURCE_COLUMNS.put("rsrc_id", Resource::getUniqueID);
+      RESOURCE_COLUMNS.put("parent_rsrc_id", Resource::getParentResourceUniqueID);
+      RESOURCE_COLUMNS.put("clndr_id", Resource::getCalendarUniqueID);
+      RESOURCE_COLUMNS.put("role_id", r -> "");
+      RESOURCE_COLUMNS.put("shift_id", r -> "");
+      RESOURCE_COLUMNS.put("user_id", r -> "");
+      RESOURCE_COLUMNS.put("pobs_id", r -> "");
+      RESOURCE_COLUMNS.put("guid", Resource::getGUID);
+      RESOURCE_COLUMNS.put("rsrc_seq_num", Resource::getSequenceNumber);
+      RESOURCE_COLUMNS.put("email_addr", Resource::getEmailAddress);
+      RESOURCE_COLUMNS.put("employee_code", Resource::getCode);
+      RESOURCE_COLUMNS.put("office_phone", r -> "");
+      RESOURCE_COLUMNS.put("other_phone", r -> "");
+      RESOURCE_COLUMNS.put("rsrc_name", Resource::getName);
+      RESOURCE_COLUMNS.put("rsrc_short_name", Resource::getResourceID);
+      RESOURCE_COLUMNS.put("rsrc_title_name", r -> "");
+      RESOURCE_COLUMNS.put("def_qty_per_hr", r -> r.getMaxUnits() == null ? null : r.getMaxUnits().doubleValue() / 100.0);
+      RESOURCE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
+      RESOURCE_COLUMNS.put("ot_factor", r -> "");
+      RESOURCE_COLUMNS.put("active_flag", Resource::getActive);
+      RESOURCE_COLUMNS.put("auto_compute_act_flag", r -> Boolean.TRUE);
+      RESOURCE_COLUMNS.put("def_cost_qty_link_flag", Resource::getCalculateCostsFromUnits);
+      RESOURCE_COLUMNS.put("ot_flag", r -> Boolean.FALSE);
+      RESOURCE_COLUMNS.put("curr_id", r -> CURRENCY_COLUMNS.get("curr_id"));
+      RESOURCE_COLUMNS.put("unit_id", r -> "");
+      RESOURCE_COLUMNS.put("rsrc_type", Resource::getType);
+      RESOURCE_COLUMNS.put("location_id", r -> "");
+      RESOURCE_COLUMNS.put("rsrc_notes", Resource::getNotesObject);
+      RESOURCE_COLUMNS.put("load_tasks_flag", r -> "");
+      RESOURCE_COLUMNS.put("level_flag", r -> "");
+      RESOURCE_COLUMNS.put("last_checksum", r -> "");
    }
 
-   private static final Map<String, Object> PROJECT_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<ProjectProperties>> PROJECT_COLUMNS = new LinkedHashMap<>();
    static
    {
-      PROJECT_COLUMNS.put("proj_id", ProjectField.UNIQUE_ID);
-      PROJECT_COLUMNS.put("fy_start_month_num", ProjectField.FISCAL_YEAR_START_MONTH);
-      PROJECT_COLUMNS.put("rsrc_self_add_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("allow_complete_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("rsrc_multi_assign_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("checkout_flag", Boolean.FALSE);
-      PROJECT_COLUMNS.put("project_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("step_complete_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("cost_qty_recalc_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("batch_sum_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("name_sep_char", ".");
-      PROJECT_COLUMNS.put("def_complete_pct_type", PercentCompleteType.DURATION);
-      PROJECT_COLUMNS.put("proj_short_name", ProjectField.PROJECT_ID);
-      PROJECT_COLUMNS.put("acct_id", "");
-      PROJECT_COLUMNS.put("orig_proj_id", "");
-      PROJECT_COLUMNS.put("source_proj_id", "");
-      PROJECT_COLUMNS.put("base_type_id", "");
-      PROJECT_COLUMNS.put("clndr_id", ProjectField.DEFAULT_CALENDAR_UNIQUE_ID);
-      PROJECT_COLUMNS.put("sum_base_proj_id", ProjectField.BASELINE_PROJECT_UNIQUE_ID);
-      PROJECT_COLUMNS.put("task_code_base", Integer.valueOf(1000));
-      PROJECT_COLUMNS.put("task_code_step", Integer.valueOf(10));
-      PROJECT_COLUMNS.put("priority_num", Integer.valueOf(10));
-      PROJECT_COLUMNS.put("wbs_max_sum_level", Integer.valueOf(0));
-      PROJECT_COLUMNS.put("strgy_priority_num", Integer.valueOf(100));
-      PROJECT_COLUMNS.put("last_checksum", "");
-      PROJECT_COLUMNS.put("critical_drtn_hr_cnt", (ExportFunction)o -> ((ProjectProperties)o).getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, (ProjectProperties)o).getDuration());
-      PROJECT_COLUMNS.put("def_cost_per_qty", Double.valueOf(100.0));
-      PROJECT_COLUMNS.put("last_recalc_date", ProjectField.STATUS_DATE);
-      PROJECT_COLUMNS.put("plan_start_date", ProjectField.PLANNED_START);
-      PROJECT_COLUMNS.put("plan_end_date", ProjectField.MUST_FINISH_BY);
-      PROJECT_COLUMNS.put("scd_end_date", ProjectField.SCHEDULED_FINISH);
-      PROJECT_COLUMNS.put("add_date", ProjectField.CREATION_DATE);
-      PROJECT_COLUMNS.put("last_tasksum_date", "");
-      PROJECT_COLUMNS.put("fcst_start_date", "");
-      PROJECT_COLUMNS.put("def_duration_type", ProjectField.DEFAULT_TASK_TYPE);
-      PROJECT_COLUMNS.put("task_code_prefix", "");
-      PROJECT_COLUMNS.put("guid", ProjectField.GUID);
-      PROJECT_COLUMNS.put("def_qty_type", "QT_Hour");
-      PROJECT_COLUMNS.put("add_by_name", "admin");
-      PROJECT_COLUMNS.put("web_local_root_path", "");
-      PROJECT_COLUMNS.put("proj_url", "");
-      PROJECT_COLUMNS.put("def_rate_type", "COST_PER_QTY");
-      PROJECT_COLUMNS.put("add_act_remain_flag", Boolean.FALSE);
-      PROJECT_COLUMNS.put("act_this_per_link_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("def_task_type", ActivityType.TASK_DEPENDENT);
-      PROJECT_COLUMNS.put("act_pct_link_flag",Boolean.FALSE);
-      PROJECT_COLUMNS.put("critical_path_type", ProjectField.CRITICAL_ACTIVITY_TYPE);
-      PROJECT_COLUMNS.put("task_code_prefix_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("def_rollup_dates_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("use_project_baseline_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("rem_target_link_flag", Boolean.TRUE);
-      PROJECT_COLUMNS.put("reset_planned_flag", Boolean.FALSE);
-      PROJECT_COLUMNS.put("allow_neg_act_flag", Boolean.FALSE);
-      PROJECT_COLUMNS.put("sum_assign_level", "SL_Taskrsrc");
-      PROJECT_COLUMNS.put("last_fin_dates_id", "");
-      PROJECT_COLUMNS.put("fintmpl_id", "");
-      PROJECT_COLUMNS.put("last_baseline_update_date", "");
-      PROJECT_COLUMNS.put("cr_external_key", "");
-      PROJECT_COLUMNS.put("apply_actuals_date", "");
-      PROJECT_COLUMNS.put("location_id", "");
-      PROJECT_COLUMNS.put("loaded_scope_level", Integer.valueOf(7));
-      PROJECT_COLUMNS.put("export_flag", ProjectField.EXPORT_FLAG);
-      PROJECT_COLUMNS.put("new_fin_dates_id", "");
-      PROJECT_COLUMNS.put("baselines_to_export", "");
-      PROJECT_COLUMNS.put("baseline_names_to_export", "");
-      PROJECT_COLUMNS.put("next_data_date", "");
-      PROJECT_COLUMNS.put("close_period_flag", "");
-      PROJECT_COLUMNS.put("sum_refresh_date", "");
-      PROJECT_COLUMNS.put("trsrcsum_loaded", "");
-      PROJECT_COLUMNS.put("sumtask_loaded", "");
+      PROJECT_COLUMNS.put("proj_id", ProjectProperties::getUniqueID);
+      PROJECT_COLUMNS.put("fy_start_month_num", ProjectProperties::getFiscalYearStartMonth);
+      PROJECT_COLUMNS.put("rsrc_self_add_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("allow_complete_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("rsrc_multi_assign_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("checkout_flag", p -> Boolean.FALSE);
+      PROJECT_COLUMNS.put("project_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("step_complete_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("cost_qty_recalc_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("batch_sum_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("name_sep_char", p -> ".");
+      PROJECT_COLUMNS.put("def_complete_pct_type", p -> PercentCompleteType.DURATION);
+      PROJECT_COLUMNS.put("proj_short_name", ProjectProperties::getProjectID);
+      PROJECT_COLUMNS.put("acct_id", p -> "");
+      PROJECT_COLUMNS.put("orig_proj_id", p -> "");
+      PROJECT_COLUMNS.put("source_proj_id", p -> "");
+      PROJECT_COLUMNS.put("base_type_id", p -> "");
+      PROJECT_COLUMNS.put("clndr_id", p -> p.getDefaultCalendar() == null ? null : p.getDefaultCalendar().getUniqueID());
+      PROJECT_COLUMNS.put("sum_base_proj_id", ProjectProperties::getBaselineProjectUniqueID);
+      PROJECT_COLUMNS.put("task_code_base", p -> Integer.valueOf(1000));
+      PROJECT_COLUMNS.put("task_code_step", p -> Integer.valueOf(10));
+      PROJECT_COLUMNS.put("priority_num", p -> Integer.valueOf(10));
+      PROJECT_COLUMNS.put("wbs_max_sum_level", p -> Integer.valueOf(0));
+      PROJECT_COLUMNS.put("strgy_priority_num", p -> Integer.valueOf(100));
+      PROJECT_COLUMNS.put("last_checksum", p -> "");
+      PROJECT_COLUMNS.put("critical_drtn_hr_cnt", p -> p.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, p).getDuration());
+      PROJECT_COLUMNS.put("def_cost_per_qty", p -> Double.valueOf(100.0));
+      PROJECT_COLUMNS.put("last_recalc_date", ProjectProperties::getStatusDate);
+      PROJECT_COLUMNS.put("plan_start_date", ProjectProperties::getPlannedStart);
+      PROJECT_COLUMNS.put("plan_end_date", ProjectProperties::getMustFinishBy);
+      PROJECT_COLUMNS.put("scd_end_date", ProjectProperties::getScheduledFinish);
+      PROJECT_COLUMNS.put("add_date", ProjectProperties::getCreationDate);
+      PROJECT_COLUMNS.put("last_tasksum_date", p -> "");
+      PROJECT_COLUMNS.put("fcst_start_date", p -> "");
+      PROJECT_COLUMNS.put("def_duration_type", ProjectProperties::getDefaultTaskType);
+      PROJECT_COLUMNS.put("task_code_prefix", p -> "");
+      PROJECT_COLUMNS.put("guid", ProjectProperties::getGUID);
+      PROJECT_COLUMNS.put("def_qty_type", p -> "QT_Hour");
+      PROJECT_COLUMNS.put("add_by_name", p -> "admin");
+      PROJECT_COLUMNS.put("web_local_root_path", p -> "");
+      PROJECT_COLUMNS.put("proj_url", p -> "");
+      PROJECT_COLUMNS.put("def_rate_type", p -> RateTypeHelper.getXerFromInstance(Integer.valueOf(0)));
+      PROJECT_COLUMNS.put("add_act_remain_flag", p -> Boolean.FALSE);
+      PROJECT_COLUMNS.put("act_this_per_link_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("def_task_type", p -> ActivityType.TASK_DEPENDENT);
+      PROJECT_COLUMNS.put("act_pct_link_flag", p -> Boolean.FALSE);
+      PROJECT_COLUMNS.put("critical_path_type", ProjectProperties::getCriticalActivityType);
+      PROJECT_COLUMNS.put("task_code_prefix_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("def_rollup_dates_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("use_project_baseline_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("rem_target_link_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("reset_planned_flag", p -> Boolean.FALSE);
+      PROJECT_COLUMNS.put("allow_neg_act_flag", p -> Boolean.FALSE);
+      PROJECT_COLUMNS.put("sum_assign_level", p -> "SL_Taskrsrc");
+      PROJECT_COLUMNS.put("last_fin_dates_id", p -> "");
+      PROJECT_COLUMNS.put("fintmpl_id", p -> "");
+      PROJECT_COLUMNS.put("last_baseline_update_date", p -> "");
+      PROJECT_COLUMNS.put("cr_external_key", p -> "");
+      PROJECT_COLUMNS.put("apply_actuals_date", p -> "");
+      PROJECT_COLUMNS.put("location_id", p -> "");
+      PROJECT_COLUMNS.put("loaded_scope_level", p -> Integer.valueOf(7));
+      PROJECT_COLUMNS.put("export_flag", ProjectProperties::getExportFlag);
+      PROJECT_COLUMNS.put("new_fin_dates_id", p -> "");
+      PROJECT_COLUMNS.put("baselines_to_export", p -> "");
+      PROJECT_COLUMNS.put("baseline_names_to_export", p -> "");
+      PROJECT_COLUMNS.put("next_data_date", p -> "");
+      PROJECT_COLUMNS.put("close_period_flag", p -> "");
+      PROJECT_COLUMNS.put("sum_refresh_date", p -> "");
+      PROJECT_COLUMNS.put("trsrcsum_loaded", p -> "");
+      PROJECT_COLUMNS.put("sumtask_loaded", p -> "");
    }
 
-   private static final Map<String, ExportFunction> CALENDAR_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<ProjectCalendar>> CALENDAR_COLUMNS = new LinkedHashMap<>();
    static
    {
-      CALENDAR_COLUMNS.put("clndr_id", c -> ((ProjectCalendar)c).getUniqueID());
-      CALENDAR_COLUMNS.put("default_flag", c -> ((ProjectCalendar)c).getParentFile().getProjectProperties().getDefaultCalendar() == c);
-      CALENDAR_COLUMNS.put("clndr_name", c -> ((ProjectCalendar)c).getName());
-      CALENDAR_COLUMNS.put("proj_id", c -> ((ProjectCalendar)c).getType() == CalendarType.PROJECT ? ((ProjectCalendar) c).getParentFile().getProjectProperties().getUniqueID() : null);
-      CALENDAR_COLUMNS.put("base_clndr_id", c -> ((ProjectCalendar)c).getParent() == null ? null : ((ProjectCalendar)c).getParent().getUniqueID());
+      CALENDAR_COLUMNS.put("clndr_id", ProjectCalendar::getUniqueID);
+      CALENDAR_COLUMNS.put("default_flag", c -> c.getParentFile().getProjectProperties().getDefaultCalendar() == c);
+      CALENDAR_COLUMNS.put("clndr_name", ProjectCalendarDays::getName);
+      CALENDAR_COLUMNS.put("proj_id", c -> c.getType() == CalendarType.PROJECT ? c.getParentFile().getProjectProperties().getUniqueID() : null);
+      CALENDAR_COLUMNS.put("base_clndr_id", c -> c.getParent() == null ? null : c.getParent().getUniqueID());
       CALENDAR_COLUMNS.put("last_chng_date", c -> null);
-      CALENDAR_COLUMNS.put("clndr_type", c -> ((ProjectCalendar)c).getType());
-      CALENDAR_COLUMNS.put("day_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(((ProjectCalendar)c).getMinutesPerDay()) / 60));
-      CALENDAR_COLUMNS.put("week_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(((ProjectCalendar)c).getMinutesPerWeek()) / 60));
-      CALENDAR_COLUMNS.put("month_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(((ProjectCalendar)c).getMinutesPerMonth()) / 60));
-      CALENDAR_COLUMNS.put("year_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(((ProjectCalendar)c).getMinutesPerYear()) / 60));
-      CALENDAR_COLUMNS.put("rsrc_private", c -> ((ProjectCalendar)c).getPersonal());
-      CALENDAR_COLUMNS.put("clndr_data", c -> new ProjectCalendarStructuredTextWriter().getCalendarData((ProjectCalendar)c));
+      CALENDAR_COLUMNS.put("clndr_type", ProjectCalendar::getType);
+      CALENDAR_COLUMNS.put("day_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerDay()) / 60));
+      CALENDAR_COLUMNS.put("week_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerWeek()) / 60));
+      CALENDAR_COLUMNS.put("month_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerMonth()) / 60));
+      CALENDAR_COLUMNS.put("year_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerYear()) / 60));
+      CALENDAR_COLUMNS.put("rsrc_private", ProjectCalendar::getPersonal);
+      CALENDAR_COLUMNS.put("clndr_data", c -> new ProjectCalendarStructuredTextWriter().getCalendarData(c));
    }
 
-   private static final Map<String, Object> WBS_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<Task>> WBS_COLUMNS = new LinkedHashMap<>();
    static
    {
-      WBS_COLUMNS.put("wbs_id", TaskField.UNIQUE_ID);
-      WBS_COLUMNS.put("proj_id", (ExportFunction)t -> ((Task)t).getParentFile().getProjectProperties().getUniqueID() );
-      WBS_COLUMNS.put("obs_id", "");
-      WBS_COLUMNS.put("seq_num", TaskField.SEQUENCE_NUMBER);
-      WBS_COLUMNS.put("est_wt", Integer.valueOf(1));
-      WBS_COLUMNS.put("proj_node_flag", Boolean.FALSE);
-      WBS_COLUMNS.put("sum_data_flag", Boolean.TRUE);
-      WBS_COLUMNS.put("status_code", "WS_Open");
-      WBS_COLUMNS.put("wbs_short_name", (ExportFunction)t -> TaskHelper.getWbsCode((Task)t));
-      WBS_COLUMNS.put("wbs_name", TaskField.NAME);
-      WBS_COLUMNS.put("phase_id", "");
-      WBS_COLUMNS.put("parent_wbs_id", TaskField.PARENT_TASK_UNIQUE_ID);
-      WBS_COLUMNS.put("ev_user_pct", TaskField.PLANNED_COST);
-      WBS_COLUMNS.put("ev_etc_user_value", "");
-      WBS_COLUMNS.put("orig_cost", "");
-      WBS_COLUMNS.put("indep_remain_total_cost", "");
-      WBS_COLUMNS.put("ann_dscnt_rate_pct", "");
-      WBS_COLUMNS.put("dscnt_period_type", "");
-      WBS_COLUMNS.put("indep_remain_work_qty", "");
-      WBS_COLUMNS.put("anticip_start_date", "");
-      WBS_COLUMNS.put("anticip_end_date", "");
-      WBS_COLUMNS.put("ev_compute_type", "EC_Cmp_pct");
-      WBS_COLUMNS.put("ev_etc_compute_type", "EC_Cmp_pct");
-      WBS_COLUMNS.put("guid", TaskField.GUID);
-      WBS_COLUMNS.put("tmpl_guid", "");
-      WBS_COLUMNS.put("plan_open_state", "");
+      WBS_COLUMNS.put("wbs_id", Task::getUniqueID);
+      WBS_COLUMNS.put("proj_id", t -> (t).getParentFile().getProjectProperties().getUniqueID() );
+      WBS_COLUMNS.put("obs_id", t -> "");
+      WBS_COLUMNS.put("seq_num", Task::getSequenceNumber);
+      WBS_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
+      WBS_COLUMNS.put("proj_node_flag", t -> Boolean.FALSE);
+      WBS_COLUMNS.put("sum_data_flag", t -> Boolean.TRUE);
+      WBS_COLUMNS.put("status_code", t -> "WS_Open");
+      WBS_COLUMNS.put("wbs_short_name", TaskHelper::getWbsCode);
+      WBS_COLUMNS.put("wbs_name", Task::getName);
+      WBS_COLUMNS.put("phase_id", t -> "");
+      WBS_COLUMNS.put("parent_wbs_id", t -> t.getParentTask() == null ? null : t.getParentTask().getUniqueID());
+      WBS_COLUMNS.put("ev_user_pct", Task::getPlannedCost);
+      WBS_COLUMNS.put("ev_etc_user_value", t -> "");
+      WBS_COLUMNS.put("orig_cost", t -> "");
+      WBS_COLUMNS.put("indep_remain_total_cost", t -> "");
+      WBS_COLUMNS.put("ann_dscnt_rate_pct", t -> "");
+      WBS_COLUMNS.put("dscnt_period_type", t -> "");
+      WBS_COLUMNS.put("indep_remain_work_qty", t -> "");
+      WBS_COLUMNS.put("anticip_start_date", t -> "");
+      WBS_COLUMNS.put("anticip_end_date", t -> "");
+      WBS_COLUMNS.put("ev_compute_type", t -> "EC_Cmp_pct");
+      WBS_COLUMNS.put("ev_etc_compute_type", t -> "EC_Cmp_pct");
+      WBS_COLUMNS.put("guid", Task::getGUID);
+      WBS_COLUMNS.put("tmpl_guid", t -> "");
+      WBS_COLUMNS.put("plan_open_state", t -> "");
    }
 
-   private static final Map<String, Object> ACTIVITY_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<Task>> ACTIVITY_COLUMNS = new LinkedHashMap<>();
    static
    {
-      ACTIVITY_COLUMNS.put("task_id", TaskField.UNIQUE_ID);
-      ACTIVITY_COLUMNS.put("proj_id", (ExportFunction)t -> ((Task)t).getParentFile().getProjectProperties().getUniqueID());
-      ACTIVITY_COLUMNS.put("wbs_id",TaskField.PARENT_TASK_UNIQUE_ID);
-      ACTIVITY_COLUMNS.put("clndr_id", TaskField.CALENDAR_UNIQUE_ID);
-      ACTIVITY_COLUMNS.put("phys_complete_pct", TaskField.PHYSICAL_PERCENT_COMPLETE);
-      ACTIVITY_COLUMNS.put("rev_fdbk_flag", Boolean.FALSE);
-      ACTIVITY_COLUMNS.put("est_wt", Integer.valueOf(1));
-      ACTIVITY_COLUMNS.put("lock_plan_flag", Boolean.FALSE);
-      ACTIVITY_COLUMNS.put("auto_compute_act_flag", Boolean.TRUE);
-      ACTIVITY_COLUMNS.put("complete_pct_type", TaskField.PERCENT_COMPLETE_TYPE);
-      ACTIVITY_COLUMNS.put("task_type", TaskField.ACTIVITY_TYPE);
-      ACTIVITY_COLUMNS.put("duration_type", TaskField.TYPE);
-      ACTIVITY_COLUMNS.put("status_code", (ExportFunction)t -> ActivityStatusHelper.getActivityStatus((Task)t));
-      ACTIVITY_COLUMNS.put("task_code", TaskField.ACTIVITY_ID);
-      ACTIVITY_COLUMNS.put("task_name", TaskField.NAME);
-      ACTIVITY_COLUMNS.put("rsrc_id", TaskField.PRIMARY_RESOURCE_ID);
+      ACTIVITY_COLUMNS.put("task_id", Task::getUniqueID);
+      ACTIVITY_COLUMNS.put("proj_id", t -> t.getParentFile().getProjectProperties().getUniqueID());
+      ACTIVITY_COLUMNS.put("wbs_id", t -> t.getParentTask().getUniqueID());
+      ACTIVITY_COLUMNS.put("clndr_id", Task::getCalendarUniqueID);
+      ACTIVITY_COLUMNS.put("phys_complete_pct", Task::getPhysicalPercentComplete);
+      ACTIVITY_COLUMNS.put("rev_fdbk_flag", t -> Boolean.FALSE);
+      ACTIVITY_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
+      ACTIVITY_COLUMNS.put("lock_plan_flag", t -> Boolean.FALSE);
+      ACTIVITY_COLUMNS.put("auto_compute_act_flag", t -> Boolean.TRUE);
+      ACTIVITY_COLUMNS.put("complete_pct_type", Task::getPercentCompleteType);
+      ACTIVITY_COLUMNS.put("task_type", Task::getActivityType);
+      ACTIVITY_COLUMNS.put("duration_type", Task::getType);
+      ACTIVITY_COLUMNS.put("status_code", ActivityStatusHelper::getActivityStatus);
+      ACTIVITY_COLUMNS.put("task_code", Task::getActivityID);
+      ACTIVITY_COLUMNS.put("task_name", Task::getName);
+      ACTIVITY_COLUMNS.put("rsrc_id", Task::getPrimaryResourceID);
 
       // TODO: should be blank if complete
-      ACTIVITY_COLUMNS.put("total_float_hr_cnt", TaskField.TOTAL_SLACK);
-      ACTIVITY_COLUMNS.put("free_float_hr_cnt", TaskField.FREE_SLACK);
+      ACTIVITY_COLUMNS.put("total_float_hr_cnt", Task::getTotalSlack);
+      ACTIVITY_COLUMNS.put("free_float_hr_cnt", Task::getFreeSlack);
 
-      ACTIVITY_COLUMNS.put("remain_drtn_hr_cnt", TaskField.REMAINING_DURATION);
-      ACTIVITY_COLUMNS.put("act_work_qty", TaskField.ACTUAL_WORK);
-      ACTIVITY_COLUMNS.put("remain_work_qty", TaskField.REMAINING_WORK);
-      ACTIVITY_COLUMNS.put("target_work_qty", TaskField.PLANNED_WORK);
-      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", TaskField.PLANNED_DURATION);
-      ACTIVITY_COLUMNS.put("target_equip_qty", Integer.valueOf(0));
-      ACTIVITY_COLUMNS.put("act_equip_qty", Integer.valueOf(0));
-      ACTIVITY_COLUMNS.put("remain_equip_qty", Integer.valueOf(0));
-      ACTIVITY_COLUMNS.put("cstr_date", TaskField.CONSTRAINT_DATE);
-      ACTIVITY_COLUMNS.put("act_start_date", TaskField.ACTUAL_START);
-      ACTIVITY_COLUMNS.put("act_end_date", TaskField.ACTUAL_FINISH);
-      ACTIVITY_COLUMNS.put("late_start_date", TaskField.LATE_START);
-      ACTIVITY_COLUMNS.put("late_end_date", TaskField.LATE_FINISH);
-      ACTIVITY_COLUMNS.put("expect_end_date", null);
-      ACTIVITY_COLUMNS.put("early_start_date", TaskField.EARLY_START);
-      ACTIVITY_COLUMNS.put("early_end_date", TaskField.EARLY_FINISH);
-      ACTIVITY_COLUMNS.put("restart_date", TaskField.REMAINING_EARLY_START);
-      ACTIVITY_COLUMNS.put("reend_date", TaskField.REMAINING_EARLY_FINISH);
-      ACTIVITY_COLUMNS.put("target_start_date", TaskField.PLANNED_START);
-      ACTIVITY_COLUMNS.put("target_end_date", TaskField.PLANNED_FINISH);
-      ACTIVITY_COLUMNS.put("rem_late_start_date", TaskField.REMAINING_LATE_START);
-      ACTIVITY_COLUMNS.put("rem_late_end_date", TaskField.REMAINING_LATE_FINISH);
-      ACTIVITY_COLUMNS.put("cstr_type", TaskField.CONSTRAINT_TYPE);
-      ACTIVITY_COLUMNS.put("priority_type", TaskField.PRIORITY);
-      ACTIVITY_COLUMNS.put("suspend_date", TaskField.SUSPEND_DATE);
-      ACTIVITY_COLUMNS.put("resume_date", TaskField.RESUME);
-      ACTIVITY_COLUMNS.put("float_path", null);
-      ACTIVITY_COLUMNS.put("float_path_order", null);
-      ACTIVITY_COLUMNS.put("guid", TaskField.GUID);
-      ACTIVITY_COLUMNS.put("tmpl_guid", null);
-      ACTIVITY_COLUMNS.put("cstr_date2", TaskField.SECONDARY_CONSTRAINT_DATE);
-      ACTIVITY_COLUMNS.put("cstr_type2", TaskField.SECONDARY_CONSTRAINT_TYPE);
-      ACTIVITY_COLUMNS.put("driving_path_flag", null);
-      ACTIVITY_COLUMNS.put("act_this_per_work_qty", null);
-      ACTIVITY_COLUMNS.put("act_this_per_equip_qty", null);
-      ACTIVITY_COLUMNS.put("external_early_start_date", null);
-      ACTIVITY_COLUMNS.put("external_late_end_date", null);
-      ACTIVITY_COLUMNS.put("create_date", TaskField.CREATED);
-      ACTIVITY_COLUMNS.put("update_date", null);
-      ACTIVITY_COLUMNS.put("create_user", null);
-      ACTIVITY_COLUMNS.put("update_user", null);
-      ACTIVITY_COLUMNS.put("location_id", null);
+      ACTIVITY_COLUMNS.put("remain_drtn_hr_cnt", Task::getRemainingDuration);
+      ACTIVITY_COLUMNS.put("act_work_qty", Task::getActualWork);
+      ACTIVITY_COLUMNS.put("remain_work_qty", Task::getRemainingWork);
+      ACTIVITY_COLUMNS.put("target_work_qty", Task::getPlannedWork);
+      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", Task::getPlannedDuration);
+      ACTIVITY_COLUMNS.put("target_equip_qty", t -> Integer.valueOf(0));
+      ACTIVITY_COLUMNS.put("act_equip_qty", t -> Integer.valueOf(0));
+      ACTIVITY_COLUMNS.put("remain_equip_qty", t -> Integer.valueOf(0));
+      ACTIVITY_COLUMNS.put("cstr_date", Task::getConstraintDate);
+      ACTIVITY_COLUMNS.put("act_start_date", Task::getActualStart);
+      ACTIVITY_COLUMNS.put("act_end_date", Task::getActualFinish);
+      ACTIVITY_COLUMNS.put("late_start_date", Task::getLateStart);
+      ACTIVITY_COLUMNS.put("late_end_date", Task::getLateFinish);
+      ACTIVITY_COLUMNS.put("expect_end_date", t -> null);
+      ACTIVITY_COLUMNS.put("early_start_date", Task::getEarlyStart);
+      ACTIVITY_COLUMNS.put("early_end_date", Task::getEarlyFinish);
+      ACTIVITY_COLUMNS.put("restart_date", Task::getRemainingEarlyStart);
+      ACTIVITY_COLUMNS.put("reend_date", Task::getRemainingEarlyFinish);
+      ACTIVITY_COLUMNS.put("target_start_date", Task::getPlannedStart);
+      ACTIVITY_COLUMNS.put("target_end_date", Task::getPlannedFinish);
+      ACTIVITY_COLUMNS.put("rem_late_start_date", Task::getRemainingLateStart);
+      ACTIVITY_COLUMNS.put("rem_late_end_date", Task::getRemainingLateFinish);
+      ACTIVITY_COLUMNS.put("cstr_type", Task::getConstraintType);
+      ACTIVITY_COLUMNS.put("priority_type", Task::getPriority);
+      ACTIVITY_COLUMNS.put("suspend_date", Task::getSuspendDate);
+      ACTIVITY_COLUMNS.put("resume_date", Task::getResume);
+      ACTIVITY_COLUMNS.put("float_path", t -> null);
+      ACTIVITY_COLUMNS.put("float_path_order", t -> null);
+      ACTIVITY_COLUMNS.put("guid", Task::getGUID);
+      ACTIVITY_COLUMNS.put("tmpl_guid", t -> null);
+      ACTIVITY_COLUMNS.put("cstr_date2", Task::getSecondaryConstraintDate);
+      ACTIVITY_COLUMNS.put("cstr_type2", Task::getSecondaryConstraintType);
+      ACTIVITY_COLUMNS.put("driving_path_flag", t -> null);
+      ACTIVITY_COLUMNS.put("act_this_per_work_qty", t -> null);
+      ACTIVITY_COLUMNS.put("act_this_per_equip_qty", t -> null);
+      ACTIVITY_COLUMNS.put("external_early_start_date", t -> null);
+      ACTIVITY_COLUMNS.put("external_late_end_date", t -> null);
+      ACTIVITY_COLUMNS.put("create_date", Task::getCreateDate);
+      ACTIVITY_COLUMNS.put("update_date", t -> null);
+      ACTIVITY_COLUMNS.put("create_user", t -> null);
+      ACTIVITY_COLUMNS.put("update_user", t -> null);
+      ACTIVITY_COLUMNS.put("location_id", t -> null);
    }
 
-   private static final Map<String, ExportFunction> PREDECESSOR_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<Relation>> PREDECESSOR_COLUMNS = new LinkedHashMap<>();
    static
    {
-      PREDECESSOR_COLUMNS.put("task_pred_id", r -> ((Relation)r).getUniqueID());
-      PREDECESSOR_COLUMNS.put("task_id", r -> ((Relation)r).getSourceTask().getUniqueID());
-      PREDECESSOR_COLUMNS.put("pred_task_id", r -> ((Relation)r).getTargetTask().getUniqueID());
-      PREDECESSOR_COLUMNS.put("proj_id", r -> ((Relation)r).getSourceTask().getParentFile().getProjectProperties().getUniqueID());
-      PREDECESSOR_COLUMNS.put("pred_proj_id", r -> ((Relation)r).getTargetTask().getParentFile().getProjectProperties().getUniqueID());
-      PREDECESSOR_COLUMNS.put("pred_type", r -> ((Relation)r).getType());
-      PREDECESSOR_COLUMNS.put("lag_hr_cnt", r -> ((Relation)r).getLag());
+      PREDECESSOR_COLUMNS.put("task_pred_id", Relation::getUniqueID);
+      PREDECESSOR_COLUMNS.put("task_id", r -> r.getSourceTask().getUniqueID());
+      PREDECESSOR_COLUMNS.put("pred_task_id", r -> r.getTargetTask().getUniqueID());
+      PREDECESSOR_COLUMNS.put("proj_id", r -> r.getSourceTask().getParentFile().getProjectProperties().getUniqueID());
+      PREDECESSOR_COLUMNS.put("pred_proj_id", r -> r.getTargetTask().getParentFile().getProjectProperties().getUniqueID());
+      PREDECESSOR_COLUMNS.put("pred_type", Relation::getType);
+      PREDECESSOR_COLUMNS.put("lag_hr_cnt", Relation::getLag);
       PREDECESSOR_COLUMNS.put("comments", r -> null);
       PREDECESSOR_COLUMNS.put("float_path", r -> null);
       PREDECESSOR_COLUMNS.put("aref", r -> null);
       PREDECESSOR_COLUMNS.put("arls", r -> null);
    }
 
-   private static final Map<String, Object> RESOURCE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<ResourceAssignment>> RESOURCE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
    static
    {
-      RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_id", AssignmentField.UNIQUE_ID);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("task_id", AssignmentField.TASK_UNIQUE_ID);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("proj_id", (ExportFunction)a -> ((ResourceAssignment)a).getParentFile().getProjectProperties().getUniqueID());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_qty_link_flag", AssignmentField.CALCULATE_COSTS_FROM_UNITS);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("role_id", AssignmentField.ROLE_UNIQUE_ID);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("acct_id", AssignmentField.COST_ACCOUNT_UNIQUE_ID);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_id", AssignmentField.RESOURCE_UNIQUE_ID);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("pobs_id", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("skill_level", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty", AssignmentField.REMAINING_WORK);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty", AssignmentField.PLANNED_WORK);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty_per_hr", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_lag_drtn_hr_cnt", AssignmentField.ASSIGNMENT_DELAY);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty_per_hr", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_qty", AssignmentField.ACTUAL_OVERTIME_WORK);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_qty", (ExportFunction)a -> getActualRegularWork((ResourceAssignment)a));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("relag_drtn_hr_cnt", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("ot_factor", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty", AssignmentField.OVERRIDE_RATE);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_cost", AssignmentField.PLANNED_COST);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", (ExportFunction)a -> getActualRegularCost((ResourceAssignment)a));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_cost", AssignmentField.ACTUAL_OVERTIME_COST);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_cost", AssignmentField.REMAINING_COST);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_start_date", AssignmentField.ACTUAL_START);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_end_date", AssignmentField.ACTUAL_FINISH);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("restart_date", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("reend_date", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_start_date", AssignmentField.PLANNED_START);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_end_date", AssignmentField.PLANNED_FINISH);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_start_date", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_end_date", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rollup_dates_flag", Boolean.TRUE);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_crv", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_crv", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("actual_crv", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("ts_pend_act_end_flag", Boolean.FALSE);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("guid", AssignmentField.GUID);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rate_type", (ExportFunction)a -> RateTypeHelper.getXerFromInstance(((ResourceAssignment)a).getRateIndex()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", (ExportFunction)a -> CurveHelper.getCurveID(((ResourceAssignment)a).getWorkContour()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", (ExportFunction)a -> ResourceTypeHelper.getXerFromInstance(((ResourceAssignment)a).getResource().getType()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", "ST_Rsrc");
-      RESOURCE_ASSIGNMENT_COLUMNS.put("create_user", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("create_date", AssignmentField.CREATED);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("has_rsrchours", null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_sum_id", null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_id", ResourceAssignment::getUniqueID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("task_id", ResourceAssignment::getTaskUniqueID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("proj_id", r -> r.getParentFile().getProjectProperties().getUniqueID());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_qty_link_flag", ResourceAssignment::getCalculateCostsFromUnits);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("role_id", r -> r.getRole() == null ? null : r.getRole().getUniqueID());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("acct_id", r -> r.getCostAccount() == null ? null : r.getCostAccount().getUniqueID());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_id", ResourceAssignment::getResourceUniqueID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("pobs_id", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("skill_level", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty", ResourceAssignment::getRemainingWork);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty", ResourceAssignment::getPlannedWork);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty_per_hr", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_lag_drtn_hr_cnt", ResourceAssignment::getDelay);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty_per_hr", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_qty", ResourceAssignment::getActualOvertimeWork);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_qty", PrimaveraXERFileWriter::getActualRegularWork);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("relag_drtn_hr_cnt", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("ot_factor", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty", ResourceAssignment::getOverrideRate);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_cost", ResourceAssignment::getPlannedCost);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", PrimaveraXERFileWriter::getActualRegularCost);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_cost", ResourceAssignment::getActualOvertimeCost);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_cost", ResourceAssignment::getRemainingCost);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_start_date", ResourceAssignment::getActualStart);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_end_date", ResourceAssignment::getActualFinish);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("restart_date", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("reend_date", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_start_date", ResourceAssignment::getPlannedStart);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_end_date", ResourceAssignment::getPlannedFinish);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_start_date", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_end_date", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rollup_dates_flag", r -> Boolean.TRUE);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_crv", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_crv", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("actual_crv", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("ts_pend_act_end_flag", r -> Boolean.FALSE);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("guid", ResourceAssignment::getGUID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rate_type", r -> RateTypeHelper.getXerFromInstance(r.getRateIndex()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", r -> CurveHelper.getCurveID(r.getWorkContour()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", r -> ResourceTypeHelper.getXerFromInstance(r.getResource().getType()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", r -> "ST_Rsrc");
+      RESOURCE_ASSIGNMENT_COLUMNS.put("create_user", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("create_date", ResourceAssignment::getCreateDate);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("has_rsrchours", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_sum_id", r -> null);
    }
 
-   private static final Map<String, ExportFunction> COST_ACCOUNT_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<CostAccount>> COST_ACCOUNT_COLUMNS = new LinkedHashMap<>();
    static
    {
-      COST_ACCOUNT_COLUMNS.put("acct_id", a -> ((CostAccount)a).getUniqueID());
-      COST_ACCOUNT_COLUMNS.put("parent_acct_id", a -> ((CostAccount)a).getParent() == null ? null : ((CostAccount)a).getParent().getUniqueID());
-      COST_ACCOUNT_COLUMNS.put("acct_seq_num", a -> ((CostAccount)a).getSequenceNumber());
-      COST_ACCOUNT_COLUMNS.put("acct_name", a -> ((CostAccount)a).getID());
-      COST_ACCOUNT_COLUMNS.put("acct_short_name", a -> ((CostAccount)a).getName());
-      COST_ACCOUNT_COLUMNS.put("acct_descr", a -> ((CostAccount)a).getDescription());
+      COST_ACCOUNT_COLUMNS.put("acct_id", CostAccount::getUniqueID);
+      COST_ACCOUNT_COLUMNS.put("parent_acct_id", a -> a.getParent() == null ? null : a.getParent().getUniqueID());
+      COST_ACCOUNT_COLUMNS.put("acct_seq_num", CostAccount::getSequenceNumber);
+      COST_ACCOUNT_COLUMNS.put("acct_name", CostAccount::getID);
+      COST_ACCOUNT_COLUMNS.put("acct_short_name", CostAccount::getName);
+      COST_ACCOUNT_COLUMNS.put("acct_descr", CostAccount::getDescription);
    }
 
-   private static final Map<String, ExportFunction> EXPENSE_CATEGORY_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<ExpenseCategory>> EXPENSE_CATEGORY_COLUMNS = new LinkedHashMap<>();
    static
    {
-      EXPENSE_CATEGORY_COLUMNS.put("cost_type_id", c -> ((ExpenseCategory)c).getUniqueID());
-      EXPENSE_CATEGORY_COLUMNS.put("seq_num", c -> ((ExpenseCategory)c).getSequenceNumber());
-      EXPENSE_CATEGORY_COLUMNS.put("cost_type", c -> ((ExpenseCategory)c).getName());
+      EXPENSE_CATEGORY_COLUMNS.put("cost_type_id", ExpenseCategory::getUniqueID);
+      EXPENSE_CATEGORY_COLUMNS.put("seq_num", ExpenseCategory::getSequenceNumber);
+      EXPENSE_CATEGORY_COLUMNS.put("cost_type", ExpenseCategory::getName);
    }
 
-   private static final Map<String, ExportFunction> EXPENSE_ITEM_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<ExpenseItem>> EXPENSE_ITEM_COLUMNS = new LinkedHashMap<>();
    static
    {
-      EXPENSE_ITEM_COLUMNS.put("cost_item_id", i -> ((ExpenseItem)i).getUniqueID());
-      EXPENSE_ITEM_COLUMNS.put("acct_id", i -> ((ExpenseItem)i).getAccount() == null ? null : ((ExpenseItem)i).getAccount().getUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("cost_item_id", ExpenseItem::getUniqueID);
+      EXPENSE_ITEM_COLUMNS.put("acct_id", i -> i.getAccount() == null ? null : i.getAccount().getUniqueID());
       EXPENSE_ITEM_COLUMNS.put("pobs_id", i -> null);
-      EXPENSE_ITEM_COLUMNS.put("cost_type_id", i -> ((ExpenseItem)i).getCategory().getUniqueID());
-      EXPENSE_ITEM_COLUMNS.put("proj_id", i -> ((ExpenseItem)i).getTask().getParentFile().getProjectProperties().getUniqueID());
-      EXPENSE_ITEM_COLUMNS.put("task_id", i -> ((ExpenseItem)i).getTask().getUniqueID());
-      EXPENSE_ITEM_COLUMNS.put("cost_name", i -> ((ExpenseItem)i).getName());
-      EXPENSE_ITEM_COLUMNS.put("po_number", i -> ((ExpenseItem)i).getDocumentNumber());
-      EXPENSE_ITEM_COLUMNS.put("vendor_name",i -> ((ExpenseItem)i).getVendor());
-      EXPENSE_ITEM_COLUMNS.put("act_cost", i -> ((ExpenseItem)i).getActualCost());
-      EXPENSE_ITEM_COLUMNS.put("cost_per_qty", i -> ((ExpenseItem)i).getPricePerUnit());
-      EXPENSE_ITEM_COLUMNS.put("remain_cost", i -> ((ExpenseItem)i).getRemainingCost());
-      EXPENSE_ITEM_COLUMNS.put("target_cost", i -> ((ExpenseItem)i).getPlannedCost());
+      EXPENSE_ITEM_COLUMNS.put("cost_type_id", i -> i.getCategory().getUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("proj_id", i -> i.getTask().getParentFile().getProjectProperties().getUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("task_id", i -> i.getTask().getUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("cost_name", ExpenseItem::getName);
+      EXPENSE_ITEM_COLUMNS.put("po_number", ExpenseItem::getDocumentNumber);
+      EXPENSE_ITEM_COLUMNS.put("vendor_name", ExpenseItem::getVendor);
+      EXPENSE_ITEM_COLUMNS.put("act_cost", ExpenseItem::getActualCost);
+      EXPENSE_ITEM_COLUMNS.put("cost_per_qty", ExpenseItem::getPricePerUnit);
+      EXPENSE_ITEM_COLUMNS.put("remain_cost", ExpenseItem::getRemainingCost);
+      EXPENSE_ITEM_COLUMNS.put("target_cost", ExpenseItem::getPlannedCost);
       EXPENSE_ITEM_COLUMNS.put("cost_load_type", i -> null); // accrue type
       EXPENSE_ITEM_COLUMNS.put("auto_compute_act_flag", i -> null);
       EXPENSE_ITEM_COLUMNS.put("target_qty", i -> null);
