@@ -199,7 +199,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeCalendars()
    {
       writeTable("CALENDAR", CALENDAR_COLUMNS);
-      m_file.getCalendars().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(this::writeCalendar);
+      m_file.getCalendars().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(c -> writeRecord(CALENDAR_COLUMNS, c));
    }
 
    private void writeWBS()
@@ -217,7 +217,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writePredecessors()
    {
       writeTable("TASKPRED", PREDECESSOR_COLUMNS);
-      m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getPredecessors).flatMap(Collection::stream).sorted(Comparator.comparing(Relation::getUniqueID)).forEach(this::writeRelation);
+      m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getPredecessors).flatMap(Collection::stream).sorted(Comparator.comparing(Relation::getUniqueID)).forEach(r -> writeRecord(PREDECESSOR_COLUMNS, r));
    }
 
    private void writeResourceAssignments()
@@ -229,22 +229,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeCostAccounts()
    {
       writeTable("ACCOUNT", COST_ACCOUNT_COLUMNS);
-      m_file.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(a -> writeCostAccount(a));
+      m_file.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(a -> writeRecord(COST_ACCOUNT_COLUMNS, a));
    }
-
-   private void writeRelation(Relation relation)
+   
+   private void writeRecord(Map<String, ExportFunction> columns, Object object)
    {
-      writeRecord(PREDECESSOR_COLUMNS.values().stream().map(f -> f.apply(relation)));
-   }
-
-   private void writeCalendar(ProjectCalendar calendar)
-   {
-      writeRecord(CALENDAR_COLUMNS.values().stream().map(f -> f.apply(calendar)));
-   }
-
-   private void writeCostAccount(CostAccount account)
-   {
-      writeRecord(COST_ACCOUNT_COLUMNS.values().stream().map(f -> f.apply(account)));
+      writeRecord(columns.values().stream().map(f -> f.apply(object)));
    }
 
    private void writeTable(String name, String[] columns)
