@@ -905,8 +905,6 @@ final class PrimaveraPMProjectWriter
       WBSType xml = m_factory.createWBSType();
       m_wbs.add(xml);
 
-      Task parentTask = mpxj.getParentTask();
-      Integer parentObjectID = parentTask == null ? null : parentTask.getUniqueID();
       String name = mpxj.getName();
       if (name == null || name.isEmpty())
       {
@@ -918,7 +916,7 @@ final class PrimaveraPMProjectWriter
       xml.setName(name);
 
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setParentObjectId(parentObjectID);
+      xml.setParentObjectId(mpxj.getParentTaskUniqueID());
       xml.setProjectObjectId(m_projectObjectID);
       xml.setSequenceNumber(sequence);
 
@@ -981,11 +979,11 @@ final class PrimaveraPMProjectWriter
       ActivityType xml = m_factory.createActivityType();
       m_activities.add(xml);
 
-      Task parentTask = mpxj.getParentTask();
+      Integer parentTaskUniqueID = mpxj.getParentTaskUniqueID();
       Integer parentObjectID = null;
-      if (parentTask != null && parentTask.getUniqueID().intValue() != 0)
+      if (parentTaskUniqueID != null && parentTaskUniqueID.intValue() != 0)
       {
-         parentObjectID = parentTask.getUniqueID();
+         parentObjectID = parentTaskUniqueID;
       }
 
       String name = mpxj.getName();
@@ -1092,8 +1090,6 @@ final class PrimaveraPMProjectWriter
       m_assignments.add(xml);
 
       Task task = mpxj.getTask();
-      Task parentTask = task.getParentTask();
-      Integer parentTaskUniqueID = parentTask == null ? null : parentTask.getUniqueID();
 
       //
       // P6 import may fail if planned start, planned finish, and actual overtime units are not populated
@@ -1142,7 +1138,7 @@ final class PrimaveraPMProjectWriter
       xml.setRemainingUnits(getDuration(mpxj.getRemainingWork()));
       xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setStartDate(mpxj.getStart());
-      xml.setWBSObjectId(parentTaskUniqueID);
+      xml.setWBSObjectId(task.getParentTaskUniqueID());
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, mpxj));
       xml.setRateType(RateTypeHelper.getXmlFromInstance(mpxj.getRateIndex()));
       xml.setCostPerQuantity(writeRate(mpxj.getOverrideRate()));
@@ -1200,8 +1196,6 @@ final class PrimaveraPMProjectWriter
       List<ExpenseItem> expenseItems = new ArrayList<>(items);
       expenseItems.sort((i1, i2) -> NumberHelper.compare(i1.getUniqueID(), i2.getUniqueID()));
 
-      Integer parentObjectID = task.getParentTask() == null ? null : task.getParentTask().getUniqueID();
-
       for (ExpenseItem item : expenseItems)
       {
          ActivityExpenseType expense = m_factory.createActivityExpenseType();
@@ -1256,7 +1250,7 @@ final class PrimaveraPMProjectWriter
          expense.setRemainingUnits(item.getRemainingUnits());
          expense.setUnitOfMeasure(item.getUnitOfMeasure());
          expense.setVendor(item.getVendor());
-         expense.setWBSObjectId(parentObjectID);
+         expense.setWBSObjectId(task.getParentTaskUniqueID());
       }
    }
 
