@@ -28,6 +28,7 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
+import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HtmlNotes;
@@ -98,6 +99,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeResources();
          writeResourceRates();
          writeActivities();
+         writeExpenseItems();
          writePredecessors();
          writeResourceAssignments();
 
@@ -238,6 +240,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("COSTTYPE", EXPENSE_CATEGORY_COLUMNS);
       m_file.getExpenseCategories().stream().sorted(Comparator.comparing(ExpenseCategory::getUniqueID)).forEach(a -> writeRecord(EXPENSE_CATEGORY_COLUMNS, a));
+   }
+
+   private void writeExpenseItems()
+   {
+      writeTable("PROJCOST", EXPENSE_ITEM_COLUMNS);
+      m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getExpenseItems).flatMap(Collection::stream).sorted(Comparator.comparing(ExpenseItem::getUniqueID)).forEach(i -> writeRecord(EXPENSE_ITEM_COLUMNS, i));
    }
 
    private void writeTable(String name, Map<String, ?> map)
@@ -815,6 +823,30 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       EXPENSE_CATEGORY_COLUMNS.put("cost_type_id", c -> ((ExpenseCategory)c).getUniqueID());
       EXPENSE_CATEGORY_COLUMNS.put("seq_num", c -> ((ExpenseCategory)c).getSequenceNumber());
       EXPENSE_CATEGORY_COLUMNS.put("cost_type", c -> ((ExpenseCategory)c).getName());
+   }
+
+   private static final Map<String, ExportFunction> EXPENSE_ITEM_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      EXPENSE_ITEM_COLUMNS.put("cost_item_id", i -> ((ExpenseItem)i).getUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("acct_id", i -> ((ExpenseItem)i).getAccount() == null ? null : ((ExpenseItem)i).getAccount().getUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("pobs_id", i -> null);
+      EXPENSE_ITEM_COLUMNS.put("cost_type_id", i -> ((ExpenseItem)i).getCategory().getUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("proj_id", i -> ((ExpenseItem)i).getTask().getParentFile().getProjectProperties().getUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("task_id", i -> ((ExpenseItem)i).getTask().getUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("cost_name", i -> ((ExpenseItem)i).getName());
+      EXPENSE_ITEM_COLUMNS.put("po_number", i -> ((ExpenseItem)i).getDocumentNumber());
+      EXPENSE_ITEM_COLUMNS.put("vendor_name",i -> ((ExpenseItem)i).getVendor());
+      EXPENSE_ITEM_COLUMNS.put("act_cost", i -> ((ExpenseItem)i).getActualCost());
+      EXPENSE_ITEM_COLUMNS.put("cost_per_qty", i -> ((ExpenseItem)i).getPricePerUnit());
+      EXPENSE_ITEM_COLUMNS.put("remain_cost", i -> ((ExpenseItem)i).getRemainingCost());
+      EXPENSE_ITEM_COLUMNS.put("target_cost", i -> ((ExpenseItem)i).getPlannedCost());
+      EXPENSE_ITEM_COLUMNS.put("cost_load_type", i -> null); // accrue type
+      EXPENSE_ITEM_COLUMNS.put("auto_compute_act_flag", i -> null);
+      EXPENSE_ITEM_COLUMNS.put("target_qty", i -> null);
+      EXPENSE_ITEM_COLUMNS.put("qty_name", i -> null);
+      EXPENSE_ITEM_COLUMNS.put("cost_descr", i -> null);
+      EXPENSE_ITEM_COLUMNS.put("contract_manager_import", i -> null);
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
