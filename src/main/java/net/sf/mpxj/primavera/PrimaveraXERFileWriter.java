@@ -135,7 +135,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          "admin",
          "dbxDatabaseNoName",
          "Project Management",
-         DEFAULT_CURRENCY.get("curr_short_name")
+         CURRENCY_COLUMNS.get("curr_short_name")
       };
 
       try
@@ -153,7 +153,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeCurrencies()
    {
       writeTable("CURRTYPE", CURRENCY_COLUMNS);
-      writeRecord(CURRENCY_COLUMNS, DEFAULT_CURRENCY);
+      writeRecord(CURRENCY_COLUMNS.values().stream());
    }
 
    private void writeRoles()
@@ -232,27 +232,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_file.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(a -> writeRecord(COST_ACCOUNT_COLUMNS, a));
    }
 
-   private void writeRecord(Map<String, ExportFunction> columns, Object object)
-   {
-      writeRecord(columns.values().stream().map(f -> f.apply(object)));
-   }
-
-   private void writeTable(String name, String[] columns)
-   {
-      try
-      {
-         m_writer.write("%T\t" + name + "\n");
-         m_writer.write("%F\t");
-         m_writer.write(String.join("\t", columns));
-         m_writer.write("\n");
-      }
-
-      catch (IOException ex)
-      {
-         throw new RuntimeException(ex);
-      }
-   }
-
    private void writeTable(String name, Map<String, ?> map)
    {
       try
@@ -269,9 +248,14 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
    }
 
-   private void writeRecord(String[] columns, Map<String, Object> data)
+   private void writeRecord(Map<String, ExportFunction> columns, Object object)
    {
-      writeRecord(Arrays.stream(columns).map(c -> format(data.get(c))));
+      writeRecord(columns.values().stream().map(f -> f.apply(object)));
+   }
+
+   private void writeRecord(Map<String, Object> columns, FieldContainer container)
+   {
+      writeRecord(columns.values().stream().map(c -> getData(container, c)));
    }
 
    private void writeRecord(Stream<Object> data)
@@ -287,11 +271,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       {
          throw new RuntimeException(ex);
       }
-   }
-
-   private void writeRecord(Map<String, Object> columns, FieldContainer container)
-   {
-      writeRecord(columns.values().stream().map(c -> getData(container, c)));
    }
 
    private Object getData(FieldContainer container, Object key)
@@ -455,34 +434,20 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       String apply(PrimaveraXERFileWriter writer, Object source);
    }
 
-   private static final String[] CURRENCY_COLUMNS = {
-      "curr_id",
-      "decimal_digit_cnt",
-      "curr_symbol",
-      "decimal_symbol",
-      "digit_group_symbol",
-      "pos_curr_fmt_type",
-      "neg_curr_fmt_type",
-      "curr_type",
-      "curr_short_name",
-      "group_digit_cnt",
-      "base_exch_rate"
-   };
-
-   private static final Map<String, Object> DEFAULT_CURRENCY = new HashMap<>();
+   private static final Map<String, Object> CURRENCY_COLUMNS = new LinkedHashMap<>();
    static
    {
-      DEFAULT_CURRENCY.put("curr_id", "1");
-      DEFAULT_CURRENCY.put("decimal_digit_cnt", "2");
-      DEFAULT_CURRENCY.put("curr_symbol", "$");
-      DEFAULT_CURRENCY.put("decimal_symbol", ".");
-      DEFAULT_CURRENCY.put("digit_group_symbol", ",");
-      DEFAULT_CURRENCY.put("pos_curr_fmt_type", "#1.1");
-      DEFAULT_CURRENCY.put("neg_curr_fmt_type", "(#1.1)");
-      DEFAULT_CURRENCY.put("curr_type", "US Dollar");
-      DEFAULT_CURRENCY.put("curr_short_name", "USD");
-      DEFAULT_CURRENCY.put("group_digit_cnt", "3");
-      DEFAULT_CURRENCY.put("base_exch_rate", "1");
+      CURRENCY_COLUMNS.put("curr_id", "1");
+      CURRENCY_COLUMNS.put("decimal_digit_cnt", "2");
+      CURRENCY_COLUMNS.put("curr_symbol", "$");
+      CURRENCY_COLUMNS.put("decimal_symbol", ".");
+      CURRENCY_COLUMNS.put("digit_group_symbol", ",");
+      CURRENCY_COLUMNS.put("pos_curr_fmt_type", "#1.1");
+      CURRENCY_COLUMNS.put("neg_curr_fmt_type", "(#1.1)");
+      CURRENCY_COLUMNS.put("curr_type", "US Dollar");
+      CURRENCY_COLUMNS.put("curr_short_name", "USD");
+      CURRENCY_COLUMNS.put("group_digit_cnt", "3");
+      CURRENCY_COLUMNS.put("base_exch_rate", "1");
    }
 
    private static final Map<String, Object> ROLE_COLUMNS = new LinkedHashMap<>();
@@ -555,7 +520,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("auto_compute_act_flag", Boolean.TRUE);
       RESOURCE_COLUMNS.put("def_cost_qty_link_flag", ResourceField.CALCULATE_COSTS_FROM_UNITS);
       RESOURCE_COLUMNS.put("ot_flag", Boolean.FALSE);
-      RESOURCE_COLUMNS.put("curr_id", DEFAULT_CURRENCY.get("curr_id"));
+      RESOURCE_COLUMNS.put("curr_id", CURRENCY_COLUMNS.get("curr_id"));
       RESOURCE_COLUMNS.put("unit_id", "");
       RESOURCE_COLUMNS.put("rsrc_type", ResourceField.TYPE);
       RESOURCE_COLUMNS.put("location_id", "");
