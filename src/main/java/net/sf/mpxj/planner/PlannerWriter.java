@@ -762,14 +762,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
          case DEFAULT:
          {
-            if (mpxjCalendar.getParent() == null)
-            {
-               result = false;
-            }
-            else
-            {
-               result = isWorkingDay(mpxjCalendar.getParent(), day);
-            }
+            result = mpxjCalendar.getParent() == null ? false :isWorkingDay(mpxjCalendar.getParent(), day);
             break;
          }
       }

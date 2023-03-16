@@ -488,7 +488,7 @@ final class PrimaveraPMProjectWriter
       Date plannedStart = Optional.ofNullable(Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate)).orElseGet(mpxj::getCurrentDate);
 
       project.setActivityDefaultActivityType(ActivityTypeHelper.getXmlFromInstance(net.sf.mpxj.ActivityType.TASK_DEPENDENT));
-      project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
+      project.setActivityDefaultCalendarObjectId(mpxj.getDefaultCalendarUniqueID());
       project.setActivityDefaultDurationType(TaskTypeHelper.getXmlFromInstance(TaskType.FIXED_DURATION_AND_UNITS));
       project.setActivityDefaultPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(PercentCompleteType.DURATION));
       project.setActivityDefaultPricePerUnit(NumberHelper.DOUBLE_ZERO);
@@ -557,7 +557,7 @@ final class PrimaveraPMProjectWriter
       Date plannedStart = Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate);
 
       project.setActivityDefaultActivityType(ActivityTypeHelper.getXmlFromInstance(net.sf.mpxj.ActivityType.TASK_DEPENDENT));
-      project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
+      project.setActivityDefaultCalendarObjectId(mpxj.getDefaultCalendarUniqueID());
       project.setActivityDefaultDurationType(TaskTypeHelper.getXmlFromInstance(TaskType.FIXED_DURATION_AND_UNITS));
       project.setActivityDefaultPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(PercentCompleteType.DURATION));
       project.setActivityDefaultPricePerUnit(NumberHelper.DOUBLE_ZERO);
@@ -668,7 +668,7 @@ final class PrimaveraPMProjectWriter
          name = "(blank)";
       }
 
-      xml.setBaseCalendarObjectId(getCalendarUniqueID(mpxj.getParent()));
+      xml.setBaseCalendarObjectId(mpxj.getParentUniqueID());
       xml.setIsDefault(Boolean.valueOf(mpxj == m_projectFile.getDefaultCalendar()));
       xml.setIsPersonal(Boolean.valueOf(mpxj.getPersonal()));
       xml.setName(name);
@@ -775,7 +775,7 @@ final class PrimaveraPMProjectWriter
 
       xml.setAutoComputeActuals(Boolean.TRUE);
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
-      xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getCalendar()));
+      xml.setCalendarObjectId(mpxj.getCalendarUniqueID());
       xml.setCurrencyObjectId(DEFAULT_CURRENCY_ID);
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setEmployeeId(mpxj.getCode());
@@ -997,12 +997,13 @@ final class PrimaveraPMProjectWriter
       // Not required, but keeps Asta import happy if we ensure that planned start and finish are populated.
       Date plannedStart = mpxj.getPlannedStart() == null ? mpxj.getStart() : mpxj.getPlannedStart();
       Date plannedFinish = mpxj.getPlannedFinish() == null ? mpxj.getFinish() : mpxj.getPlannedFinish();
+      ProjectCalendar effectiveCalendar = mpxj.getEffectiveCalendar();
 
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualDuration(getDuration(mpxj.getActualDuration()));
       xml.setActualFinishDate(mpxj.getActualFinish());
       xml.setAtCompletionDuration(getDuration(mpxj.getDuration()));
-      xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getEffectiveCalendar()));
+      xml.setCalendarObjectId(effectiveCalendar == null ? null : effectiveCalendar.getUniqueID());
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setDurationType(TaskTypeHelper.getXmlFromInstance(mpxj.getType()));
       xml.setExternalEarlyStartDate(mpxj.getExternalEarlyStart());
@@ -1937,17 +1938,6 @@ final class PrimaveraPMProjectWriter
    private Date getEndTime(Date date)
    {
       return new Date(date.getTime() - 60000);
-   }
-
-   /**
-    * Retrieve a calendar unique ID.
-    *
-    * @param calendar ProjectCalendar instance
-    * @return calendar unique ID
-    */
-   private Integer getCalendarUniqueID(ProjectCalendar calendar)
-   {
-      return calendar == null ? null : calendar.getUniqueID();
    }
 
    /**
