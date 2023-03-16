@@ -231,7 +231,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       writeTable("ACCOUNT", COST_ACCOUNT_COLUMNS);
       m_file.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(a -> writeRecord(COST_ACCOUNT_COLUMNS, a));
    }
-   
+
    private void writeRecord(Map<String, ExportFunction> columns, Object object)
    {
       writeRecord(columns.values().stream().map(f -> f.apply(object)));
@@ -291,17 +291,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    private void writeRecord(Map<String, Object> columns, FieldContainer container)
    {
-      try
-      {
-         m_writer.write("%R\t");
-         m_writer.write(columns.values().stream().map(c -> format(getData(container, c))).collect(Collectors.joining("\t")));
-         m_writer.write("\n");
-      }
-
-      catch (IOException ex)
-      {
-         throw new RuntimeException(ex);
-      }
+      writeRecord(columns.values().stream().map(c -> getData(container, c)));
    }
 
    private Object getData(FieldContainer container, Object key)
