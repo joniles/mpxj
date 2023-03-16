@@ -563,6 +563,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Set the default calendar unique ID for this project.
+    *
+    * @param id default calendar unique ID
+    */
+   public void setDefaultCalendarUniqueID(Integer id)
+   {
+      set(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID, id);
+   }
+
+   /**
+    * Retrieve the default calendar unique ID for this project.
+    *
+    * @return default calendar unique ID
+    */
+   public Integer getDefaultCalendarUniqueID()
+   {
+      return (Integer) get(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID);
+   }
+
+   /**
     * Set the default calendar for this project.
     *
     * @param calendar default calendar

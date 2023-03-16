@@ -8,6 +8,7 @@
 		<release date="unreleased" version="11.2.1">
 			<action dev="joniles" type="update">Ensure secondary constraint date and type are written to PMXML files.</action>
 			<action dev="joniles" type="update">Ensure leveling priority is written to PMXML files.</action>
+			<action dev="joniles" type="update">Add method to allow the project's default calendar unique ID to be set and retrieved..</action>
 		</release>
 		<release date="2023-03-13" version="11.2.0">
 			<action dev="joniles" type="update">The project property Critical Slack Limit is now represented as a `Duration` rather than as an `Integer`. (Potentially breaking change if you were using this property directly).</action>
