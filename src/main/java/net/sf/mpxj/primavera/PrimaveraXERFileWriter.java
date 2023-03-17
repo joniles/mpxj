@@ -837,7 +837,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       RESOURCE_CURVE_COLUMNS.put("curv_id", WorkContour::getUniqueID);
       RESOURCE_CURVE_COLUMNS.put("curv_name", WorkContour::getName);
-      RESOURCE_CURVE_COLUMNS.put("default_flag", r -> Boolean.FALSE);
+      RESOURCE_CURVE_COLUMNS.put("default_flag", WorkContour::isContourDefault);
       RESOURCE_CURVE_COLUMNS.put("pct_usage_0", r -> r.getCurveValues()[0]);
       RESOURCE_CURVE_COLUMNS.put("pct_usage_1", r -> r.getCurveValues()[1]);
       RESOURCE_CURVE_COLUMNS.put("pct_usage_2", r -> r.getCurveValues()[2]);
