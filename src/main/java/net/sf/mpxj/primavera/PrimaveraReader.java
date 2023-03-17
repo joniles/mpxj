@@ -221,7 +221,7 @@ final class PrimaveraReader
 
       for (Row row : types)
       {
-         ActivityCode code = new ActivityCode(m_project, row.getInteger("actv_code_type_id"), ActivityCodeScopeHelper.getInstanceFromXer(row.getString("actv_code_type_scope")), row.getInteger("proj_id"), row.getInteger("seq_num"), row.getString("actv_code_type"), row.getBoolean("super_flag"), row.getInteger("actv_short_len"));
+         ActivityCode code = new ActivityCode(m_project, row.getInteger("actv_code_type_id"), ActivityCodeScopeHelper.getInstanceFromXer(row.getString("actv_code_type_scope")), row.getInteger("wbs_id"), row.getInteger("proj_id"), row.getInteger("seq_num"), row.getString("actv_code_type"), row.getBoolean("super_flag"), row.getInteger("actv_short_len"));
          container.add(code);
          map.put(code.getUniqueID(), code);
       }

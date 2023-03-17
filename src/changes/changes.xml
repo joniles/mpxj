@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="11.2.1">
+			<action dev="joniles" type="update">Updated the `ActivityCode` class to ensure that both the scope Project ID and EPS ID can be represented when reading a P6 schedule. (Potentially breaking change if you were using this class).</action>
 			<action dev="joniles" type="update">Ensure secondary constraint date and type are written to PMXML files.</action>
 			<action dev="joniles" type="update">Ensure leveling priority is written to PMXML files.</action>
 			<action dev="joniles" type="update">Add methods to allow the project's default calendar unique ID to be set and retrieved.</action>
