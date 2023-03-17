@@ -97,6 +97,16 @@ public class CostAccount implements ProjectEntityWithUniqueID
    }
 
    /**
+    * Retrieve the parent cost account unique ID.
+    *
+    * @return parent cost account unique ID
+    */
+   public Integer getParentUniqueID()
+   {
+      return m_parent == null ? null : m_parent.getUniqueID();
+   }
+
+   /**
     * Retrieve the parent cost account.
     *
     * @return parent cost account

@@ -416,7 +416,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       m_writer.writeStartObject(null);
       writeMandatoryIntegerField("unique_id", calendar.getUniqueID());
-      writeMandatoryIntegerField("parent_unique_id", calendar.getParent() == null ? null : calendar.getParent().getUniqueID());
+      writeMandatoryIntegerField("parent_unique_id", calendar.getParentUniqueID());
       writeStringField("name", calendar.getName());
       writeStringField("type", calendar.getType().toString());
       writeBooleanField("personal", Boolean.valueOf(calendar.getPersonal()));
@@ -1443,14 +1443,8 @@ public final class JsonWriter extends AbstractProjectWriter
          writeIntegerField("unique_id", item.getUniqueID());
          writeStringField("name", item.getName());
          writeStringField("description", item.getDescription());
-         if (item.getAccount() != null)
-         {
-            writeIntegerField("account_unique_id", item.getAccount().getUniqueID());
-         }
-         if (item.getCategory() != null)
-         {
-            writeIntegerField("category_unique_id", item.getCategory().getUniqueID());
-         }
+         writeIntegerField("account_unique_id", item.getAccountUniqueID());
+         writeIntegerField("category_unique_id", item.getCategoryUniqueID());
          writeStringField("document_number", item.getDocumentNumber());
          writeStringField("vendor", item.getVendor());
          writeDoubleField("at_completion_cost", item.getAtCompletionCost());

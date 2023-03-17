@@ -2687,7 +2687,17 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Task getParentTask()
    {
-      return (m_parent);
+      return m_parent;
+   }
+
+   /**
+    * Retrieve the unique ID of the parent task.
+    *
+    * @return parent task unique ID, or null if there is no parent class
+    */
+   public Integer getParentTaskUniqueID()
+   {
+      return m_parent == null ? null : m_parent.getUniqueID();
    }
 
    /**

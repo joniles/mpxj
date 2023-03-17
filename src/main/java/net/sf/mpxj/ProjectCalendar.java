@@ -451,6 +451,16 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    }
 
    /**
+    * Retrieve the parent calendar unique ID.
+    *
+    * @return parent calendar uniqu eID, or null if there is no parent calendar
+    */
+   public Integer getParentUniqueID()
+   {
+      return m_parent == null ? null : m_parent.getUniqueID();
+   }
+
+   /**
     * This method is provided to allow an absolute period of time
     * represented by start and end dates into a duration in working
     * days based on this calendar instance. This method takes account

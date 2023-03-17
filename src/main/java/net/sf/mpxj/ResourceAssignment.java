@@ -552,6 +552,26 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Retrieve the role unique ID in which this resource assignment is being performed.
+    *
+    * @return Resource unique ID representing a role
+    */
+   public Integer getRoleUniqueID()
+   {
+      return (Integer) get(AssignmentField.ROLE_UNIQUE_ID);
+   }
+
+   /**
+    * Set the unique ID of the role in which this resource assignment is being performed.
+    *
+    * @param id Resource unique ID representing a role
+    */
+   public void setRoleUniqueID(Integer id)
+   {
+      set(AssignmentField.ROLE_UNIQUE_ID, id);
+   }
+
+   /**
     * Retrieve the role in which this resource assignment is being performed.
     *
     * @return Resource instance representing a role
@@ -2756,6 +2776,26 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    public void setCalculateCostsFromUnits(boolean calculateCostsFromUnits)
    {
       set(AssignmentField.CALCULATE_COSTS_FROM_UNITS, calculateCostsFromUnits);
+   }
+
+   /**
+    * Retrieve the cost account unique ID for this resource assignment.
+    *
+    * @return cost account unique ID
+    */
+   public Integer getCostAccountUniqueID()
+   {
+      return (Integer) get(AssignmentField.COST_ACCOUNT_UNIQUE_ID);
+   }
+
+   /**
+    * Set the cost account unique ID for this resource assignment.
+    *
+    * @param id cost account unique ID
+    */
+   public void setCostAccountUniqueID(Integer id)
+   {
+      set(AssignmentField.COST_ACCOUNT_UNIQUE_ID, id);
    }
 
    /**
