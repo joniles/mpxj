@@ -1641,7 +1641,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          NumberHelper.getDouble(curveValues.getValue100()),
       };
 
-      m_projectFile.getWorkContours().add(new WorkContour(curve.getObjectId(), curve.getName(), values));
+      m_projectFile.getWorkContours().add(new WorkContour(curve.getObjectId(), curve.getName(), BooleanHelper.getBoolean(curve.isIsDefault()), values));
    }
 
    /**

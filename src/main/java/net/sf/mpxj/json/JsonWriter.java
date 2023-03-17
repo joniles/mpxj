@@ -290,6 +290,7 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeStartObject(null);
          writeIntegerField("unique_id", contour.getUniqueID());
          writeStringField("name", contour.getName());
+         writeBooleanField("default", contour.isContourDefault());
          if (contour.getCurveValues() != null)
          {
             m_writer.writeList("curve_values", Arrays.stream(contour.getCurveValues()).mapToObj(Double::toString).collect(Collectors.toList()));
