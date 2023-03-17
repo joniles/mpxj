@@ -900,8 +900,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_CODE_COLUMNS.put("actv_short_len", ActivityCode::getMaxLength);
       ACTIVITY_CODE_COLUMNS.put("seq_num", ActivityCode::getSequenceNumber);
       ACTIVITY_CODE_COLUMNS.put("actv_code_type", ActivityCode::getName);
-      ACTIVITY_CODE_COLUMNS.put("proj_id", c -> c.getScope() == ActivityCodeScope.PROJECT ? c.getParentFile().getProjectProperties().getUniqueID() : null);
-      ACTIVITY_CODE_COLUMNS.put("wbs_id", c -> null);
+      ACTIVITY_CODE_COLUMNS.put("proj_id", ActivityCode::getScopeProjectUniqueID);
+      ACTIVITY_CODE_COLUMNS.put("wbs_id", ActivityCode::getScopeEpsUniqueID);
       ACTIVITY_CODE_COLUMNS.put("actv_code_type_scope", ActivityCode::getScope);
    }
 
