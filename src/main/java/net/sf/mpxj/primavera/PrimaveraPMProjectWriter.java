@@ -38,7 +38,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
@@ -1201,7 +1200,7 @@ final class PrimaveraPMProjectWriter
          //
          Double pricePerUnit = Optional.ofNullable(item.getPricePerUnit()).orElse(NumberHelper.DOUBLE_ZERO);
 
-         expense.setAccrualType(ACCRUE_TYPE_MAP.get(item.getAccrueType()));
+         expense.setAccrualType(AccrueTypeHelper.getXmlFromInstance(item.getAccrueType()));
          //expense.setActivityId(value);
          //expense.setActivityName(value);
          expense.setActivityObjectId(task.getUniqueID());
@@ -1979,14 +1978,6 @@ final class PrimaveraPMProjectWriter
       "Friday",
       "Saturday"
    };
-
-   private static final Map<AccrueType, String> ACCRUE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      ACCRUE_TYPE_MAP.put(AccrueType.PRORATED, "Uniform Over Activity");
-      ACCRUE_TYPE_MAP.put(AccrueType.END, "End of Activity");
-      ACCRUE_TYPE_MAP.put(AccrueType.START, "Start of Activity");
-   }
 
    private static final Map<RateSource, String> RATE_SOURCE_MAP = new HashMap<>();
    static

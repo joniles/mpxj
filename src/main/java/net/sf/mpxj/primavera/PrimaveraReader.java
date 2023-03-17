@@ -39,7 +39,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeScope;
@@ -1733,7 +1732,7 @@ final class PrimaveraReader
             items.add(ei);
 
             ei.setAccount(m_project.getCostAccounts().getByUniqueID(row.getInteger("acct_id")));
-            ei.setAccrueType(ACCRUE_TYPE_MAP.get(row.getString("cost_load_type")));
+            ei.setAccrueType(AccrueTypeHelper.getInstanceFromXer(row.getString("cost_load_type")));
             ei.setActualCost(row.getDouble("act_cost"));
             ei.setAutoComputeActuals(row.getBoolean("auto_compute_act_flag"));
             ei.setCategory(m_project.getExpenseCategories().getByUniqueID(row.getInteger("cost_type_id")));
@@ -2226,14 +2225,6 @@ final class PrimaveraReader
       FIELD_TYPE_MAP.put("RSRC", FieldTypeClass.RESOURCE);
       FIELD_TYPE_MAP.put("TASKRSRC", FieldTypeClass.ASSIGNMENT);
       FIELD_TYPE_MAP.put("PROJECT", FieldTypeClass.PROJECT);
-   }
-
-   private static final Map<String, AccrueType> ACCRUE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      ACCRUE_TYPE_MAP.put("CL_Uniform", AccrueType.PRORATED);
-      ACCRUE_TYPE_MAP.put("CL_End", AccrueType.END);
-      ACCRUE_TYPE_MAP.put("CL_Start", AccrueType.START);
    }
 
    private static final Map<String, ActivityCodeScope> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();

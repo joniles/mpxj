@@ -56,7 +56,6 @@ import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
@@ -689,7 +688,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             items.add(ei);
 
             ei.setAccount(m_projectFile.getCostAccounts().getByUniqueID(item.getCostAccountObjectId()));
-            ei.setAccrueType(ACCRUE_TYPE_MAP.get(item.getAccrualType()));
+            ei.setAccrueType(AccrueTypeHelper.getInstanceFromXml(item.getAccrualType()));
             ei.setActualCost(item.getActualCost());
             ei.setActualUnits(item.getActualUnits());
             ei.setAtCompletionUnits(item.getAtCompletionUnits());
@@ -2367,14 +2366,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("Resource", FieldTypeClass.RESOURCE);
       FIELD_TYPE_MAP.put("Resource Assignment", FieldTypeClass.ASSIGNMENT);
       FIELD_TYPE_MAP.put("Project", FieldTypeClass.PROJECT);
-   }
-
-   private static final Map<String, AccrueType> ACCRUE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      ACCRUE_TYPE_MAP.put("Uniform Over Activity", AccrueType.PRORATED);
-      ACCRUE_TYPE_MAP.put("End of Activity", AccrueType.END);
-      ACCRUE_TYPE_MAP.put("Start of Activity", AccrueType.START);
    }
 
    private static final Map<String, ActivityCodeScope> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();
