@@ -816,11 +816,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       EXPENSE_ITEM_COLUMNS.put("cost_per_qty", ExpenseItem::getPricePerUnit);
       EXPENSE_ITEM_COLUMNS.put("remain_cost", ExpenseItem::getRemainingCost);
       EXPENSE_ITEM_COLUMNS.put("target_cost", ExpenseItem::getPlannedCost);
-      EXPENSE_ITEM_COLUMNS.put("cost_load_type", i -> null); // accrue type
-      EXPENSE_ITEM_COLUMNS.put("auto_compute_act_flag", i -> null);
-      EXPENSE_ITEM_COLUMNS.put("target_qty", i -> null);
-      EXPENSE_ITEM_COLUMNS.put("qty_name", i -> null);
-      EXPENSE_ITEM_COLUMNS.put("cost_descr", i -> null);
+      EXPENSE_ITEM_COLUMNS.put("cost_load_type", i -> AccrueTypeHelper.getXerFromInstance(i.getAccrueType()));
+      EXPENSE_ITEM_COLUMNS.put("auto_compute_act_flag", ExpenseItem::getAutoComputeActuals);
+      EXPENSE_ITEM_COLUMNS.put("target_qty", ExpenseItem::getPlannedUnits);
+      EXPENSE_ITEM_COLUMNS.put("qty_name", ExpenseItem::getUnitOfMeasure);
+      EXPENSE_ITEM_COLUMNS.put("cost_descr", ExpenseItem::getDescription);
       EXPENSE_ITEM_COLUMNS.put("contract_manager_import", i -> null);
    }
 
