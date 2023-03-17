@@ -40,19 +40,19 @@ public class ActivityCode
     * @param parentFile parent file
     * @param uniqueID activity code unique ID
     * @param scope activity code scope
-    * @param scopeEpsID scope EPS Unique ID
-    * @param scopeProjectID scope Project Unique ID
+    * @param scopeEpsUniqueID scope EPS Unique ID
+    * @param scopeProjectUniqueID scope Project Unique ID
     * @param sequenceNumber sequence number
     * @param name activity code name
     * @param secure secure flag
     * @param maxLength max length
     */
-   public ActivityCode(ProjectFile parentFile, Integer uniqueID, ActivityCodeScope scope, Integer scopeEpsID, Integer scopeProjectID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
+   public ActivityCode(ProjectFile parentFile, Integer uniqueID, ActivityCodeScope scope, Integer scopeEpsUniqueID, Integer scopeProjectUniqueID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
    {
       m_uniqueID = uniqueID;
       m_scope = scope;
-      m_scopeEpsUniqueID = scopeEpsID;
-      m_scopeProjectUniqueID = scopeProjectID;
+      m_scopeEpsUniqueID = scopeEpsUniqueID;
+      m_scopeProjectUniqueID = scopeProjectUniqueID;
       m_sequenceNumber = sequenceNumber;
       m_name = name;
       m_secure = secure;
