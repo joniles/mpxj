@@ -391,7 +391,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
                continue;
             }
             double[] values = new StructuredTextParser().parse(row.getString("curv_data")).getChildren().stream().mapToDouble(r -> Double.parseDouble(r.getAttribute("PctUsage"))).toArray();
-            contours.add(new WorkContour(id, row.getString("curv_name"), values));
+            contours.add(new WorkContour(id, row.getString("curv_name"), row.getBoolean("default_flag"), values));
          }
 
          catch (Exception ex)
