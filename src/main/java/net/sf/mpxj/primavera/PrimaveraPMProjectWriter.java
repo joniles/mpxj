@@ -425,12 +425,7 @@ final class PrimaveraPMProjectWriter
          cat.setName(account.getName());
          cat.setDescription(account.getDescription());
          cat.setSequenceNumber(account.getSequenceNumber());
-
-         if (account.getParent() != null)
-         {
-            cat.setParentObjectId(account.getParent().getUniqueID());
-         }
-
+         cat.setParentObjectId(account.getParentUniqueID());
          costAccounts.add(cat);
       }
    }
@@ -1217,21 +1212,11 @@ final class PrimaveraPMProjectWriter
          expense.setAutoComputeActuals(Boolean.valueOf(item.getAutoComputeActuals()));
          //expense.setCBSCode(value);
          //expense.setCBSId(value);
-
-         if (item.getAccount() != null)
-         {
-            expense.setCostAccountObjectId(item.getAccount().getUniqueID());
-         }
-
+         expense.setCostAccountObjectId(item.getAccountUniqueID());
          //expense.setCreateDate(value);
          //expense.setCreateUser(value);
          expense.setDocumentNumber(item.getDocumentNumber());
-
-         if (item.getCategory() != null)
-         {
-            expense.setExpenseCategoryObjectId(item.getCategory().getUniqueID());
-         }
-
+         expense.setExpenseCategoryObjectId(item.getCategoryUniqueID());
          expense.setExpenseDescription(item.getDescription());
 
          expense.setExpenseItem(item.getName());

@@ -13,6 +13,9 @@
 			<action dev="joniles" type="update">Add method to allow a task's parent task unique ID to be retrieved.</action>
 			<action dev="joniles" type="update">Add methods to allow a resource assignment's role unique ID to be set and retrieved.</action>
 			<action dev="joniles" type="update">Add methods to allow a resource assignment's cost account unique ID to be set and retrieved.</action>
+			<action dev="joniles" type="update">Add method to allow a cost account's parent unique ID to be retrieved.</action>
+			<action dev="joniles" type="update">Add method to allow an expense item's cost account unique ID to be retrieved.</action>
+			<action dev="joniles" type="update">Add method to allow an expense item's category unique ID to be retrieved.</action>
 		</release>
 		<release date="2023-03-13" version="11.2.0">
 			<action dev="joniles" type="update">The project property Critical Slack Limit is now represented as a `Duration` rather than as an `Integer`. (Potentially breaking change if you were using this property directly).</action>

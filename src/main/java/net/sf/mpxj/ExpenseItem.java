@@ -79,6 +79,16 @@ public final class ExpenseItem
    }
 
    /**
+    * Retrieve the unique ID of the cost account associated with this expense item.
+    *
+    * @return cost account unique ID for this expense item
+    */
+   public Integer getAccountUniqueID()
+   {
+      return m_account == null ? null : m_account.getUniqueID();
+   }
+
+   /**
     * Retrieve the cost account associated with this expense item.
     *
     * @return cost account for this expense item
@@ -96,6 +106,16 @@ public final class ExpenseItem
    public void setAccount(CostAccount account)
    {
       m_account = account;
+   }
+
+   /**
+    * Retrieve the unique ID of the expense category associated with this expense item.
+    *
+    * @return expense category unique ID for this expense item
+    */
+   public Integer getCategoryUniqueID()
+   {
+      return m_category == null ? null : m_category.getUniqueID();
    }
 
    /**
