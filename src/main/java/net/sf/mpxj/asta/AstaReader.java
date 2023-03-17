@@ -2071,7 +2071,7 @@ final class AstaReader
       for (Row row : types)
       {
          Integer sequenceNumber = Integer.valueOf(codeMap.size() + 1);
-         ActivityCode code = new ActivityCode(m_project, row.getInteger("ID"), ActivityCodeScope.GLOBAL, null, sequenceNumber, row.getString("NAME"), false, null);
+         ActivityCode code = new ActivityCode(m_project, row.getInteger("ID"), ActivityCodeScope.GLOBAL, null, null, sequenceNumber, row.getString("NAME"), false, null);
          container.add(code);
          codeMap.put(code.getUniqueID(), code);
       }
