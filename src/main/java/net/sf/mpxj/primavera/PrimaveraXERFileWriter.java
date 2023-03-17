@@ -45,6 +45,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -85,6 +86,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeHeader();
          writeExpenseCategories();
          writeCurrencies();
+         writeResourceCurves();
          writeCostAccounts();
          writeRoles();
          writeProject();
@@ -241,6 +243,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("PROJCOST", EXPENSE_ITEM_COLUMNS);
       m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getExpenseItems).flatMap(Collection::stream).sorted(Comparator.comparing(ExpenseItem::getUniqueID)).forEach(i -> writeRecord(EXPENSE_ITEM_COLUMNS, i));
+   }
+
+   private void writeResourceCurves()
+   {
+      writeTable("RSRCCURVDATA", RESOURCE_CURVE_COLUMNS);
+      m_file.getWorkContours().stream().sorted(Comparator.comparing(WorkContour::getUniqueID)).forEach(r -> writeRecord(RESOURCE_CURVE_COLUMNS, r));
    }
 
    private void writeTable(String name, Map<String, ?> map)
@@ -822,6 +830,35 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       EXPENSE_ITEM_COLUMNS.put("qty_name", ExpenseItem::getUnitOfMeasure);
       EXPENSE_ITEM_COLUMNS.put("cost_descr", ExpenseItem::getDescription);
       EXPENSE_ITEM_COLUMNS.put("contract_manager_import", i -> null);
+   }
+
+   private static final Map<String, ExportFunction<WorkContour>> RESOURCE_CURVE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      RESOURCE_CURVE_COLUMNS.put("curv_id", WorkContour::getUniqueID);
+      RESOURCE_CURVE_COLUMNS.put("curv_name", WorkContour::getName);
+      RESOURCE_CURVE_COLUMNS.put("default_flag", r -> Boolean.FALSE);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_0", r -> r.getCurveValues()[0]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_1", r -> r.getCurveValues()[1]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_2", r -> r.getCurveValues()[2]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_3", r -> r.getCurveValues()[3]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_4", r -> r.getCurveValues()[4]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_5", r -> r.getCurveValues()[5]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_6", r -> r.getCurveValues()[6]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_7", r -> r.getCurveValues()[7]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_8", r -> r.getCurveValues()[8]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_9", r -> r.getCurveValues()[9]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_10", r -> r.getCurveValues()[10]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_11", r -> r.getCurveValues()[11]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_12", r -> r.getCurveValues()[12]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_13", r -> r.getCurveValues()[13]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_14", r -> r.getCurveValues()[14]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_15", r -> r.getCurveValues()[15]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_16", r -> r.getCurveValues()[16]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_17", r -> r.getCurveValues()[17]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_18", r -> r.getCurveValues()[18]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_19", r -> r.getCurveValues()[19]);
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_20", r -> r.getCurveValues()[20]);
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
