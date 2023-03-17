@@ -541,7 +541,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("orig_proj_id", p -> "");
       PROJECT_COLUMNS.put("source_proj_id", p -> "");
       PROJECT_COLUMNS.put("base_type_id", p -> "");
-      PROJECT_COLUMNS.put("clndr_id", p -> p.getDefaultCalendar() == null ? null : p.getDefaultCalendar().getUniqueID());
+      PROJECT_COLUMNS.put("clndr_id", ProjectProperties::getDefaultCalendarUniqueID);
       PROJECT_COLUMNS.put("sum_base_proj_id", ProjectProperties::getBaselineProjectUniqueID);
       PROJECT_COLUMNS.put("task_code_base", p -> Integer.valueOf(1000));
       PROJECT_COLUMNS.put("task_code_step", p -> Integer.valueOf(10));
@@ -603,7 +603,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       CALENDAR_COLUMNS.put("default_flag", c -> c.getParentFile().getProjectProperties().getDefaultCalendar() == c);
       CALENDAR_COLUMNS.put("clndr_name", ProjectCalendarDays::getName);
       CALENDAR_COLUMNS.put("proj_id", c -> c.getType() == CalendarType.PROJECT ? c.getParentFile().getProjectProperties().getUniqueID() : null);
-      CALENDAR_COLUMNS.put("base_clndr_id", c -> c.getParent() == null ? null : c.getParent().getUniqueID());
+      CALENDAR_COLUMNS.put("base_clndr_id", ProjectCalendar::getParentUniqueID);
       CALENDAR_COLUMNS.put("last_chng_date", c -> null);
       CALENDAR_COLUMNS.put("clndr_type", ProjectCalendar::getType);
       CALENDAR_COLUMNS.put("day_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerDay()) / 60));
@@ -628,7 +628,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("wbs_short_name", TaskHelper::getWbsCode);
       WBS_COLUMNS.put("wbs_name", Task::getName);
       WBS_COLUMNS.put("phase_id", t -> "");
-      WBS_COLUMNS.put("parent_wbs_id", t -> t.getParentTask() == null ? null : t.getParentTask().getUniqueID());
+      WBS_COLUMNS.put("parent_wbs_id", Task::getParentTaskUniqueID);
       WBS_COLUMNS.put("ev_user_pct", Task::getPlannedCost);
       WBS_COLUMNS.put("ev_etc_user_value", t -> "");
       WBS_COLUMNS.put("orig_cost", t -> "");
@@ -736,8 +736,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("task_id", ResourceAssignment::getTaskUniqueID);
       RESOURCE_ASSIGNMENT_COLUMNS.put("proj_id", r -> r.getParentFile().getProjectProperties().getUniqueID());
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_qty_link_flag", ResourceAssignment::getCalculateCostsFromUnits);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("role_id", r -> r.getRole() == null ? null : r.getRole().getUniqueID());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("acct_id", r -> r.getCostAccount() == null ? null : r.getCostAccount().getUniqueID());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("role_id", ResourceAssignment::getRoleUniqueID);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("acct_id", ResourceAssignment::getCostAccountUniqueID);
       RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_id", ResourceAssignment::getResourceUniqueID);
       RESOURCE_ASSIGNMENT_COLUMNS.put("pobs_id", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("skill_level", r -> null);
@@ -785,7 +785,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       COST_ACCOUNT_COLUMNS.put("acct_id", CostAccount::getUniqueID);
-      COST_ACCOUNT_COLUMNS.put("parent_acct_id", a -> a.getParent() == null ? null : a.getParent().getUniqueID());
+      COST_ACCOUNT_COLUMNS.put("parent_acct_id", CostAccount::getParentUniqueID);
       COST_ACCOUNT_COLUMNS.put("acct_seq_num", CostAccount::getSequenceNumber);
       COST_ACCOUNT_COLUMNS.put("acct_name", CostAccount::getID);
       COST_ACCOUNT_COLUMNS.put("acct_short_name", CostAccount::getName);
@@ -804,7 +804,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       EXPENSE_ITEM_COLUMNS.put("cost_item_id", ExpenseItem::getUniqueID);
-      EXPENSE_ITEM_COLUMNS.put("acct_id", i -> i.getAccount() == null ? null : i.getAccount().getUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("acct_id", ExpenseItem::getAccountUniqueID);
       EXPENSE_ITEM_COLUMNS.put("pobs_id", i -> null);
       EXPENSE_ITEM_COLUMNS.put("cost_type_id", i -> i.getCategory().getUniqueID());
       EXPENSE_ITEM_COLUMNS.put("proj_id", i -> i.getTask().getParentFile().getProjectProperties().getUniqueID());
