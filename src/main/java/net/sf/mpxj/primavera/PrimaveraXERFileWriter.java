@@ -17,6 +17,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.Availability;
@@ -95,6 +96,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeCalendars();
          writeWBS();
          writeResources();
+         writeActivityCodes();
          writeResourceRates();
          writeActivities();
          writeActivitySteps();
@@ -257,6 +259,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("TASKPROC", ACTIVITY_STEP_COLUMNS);
       m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getSteps).flatMap(Collection::stream).sorted(Comparator.comparing(Step::getUniqueID)).forEach(s -> writeRecord(ACTIVITY_STEP_COLUMNS, s));
+   }
+
+   private void writeActivityCodes()
+   {
+      writeTable("ACTVTYPE", ACTIVITY_CODE_COLUMNS);
+      m_file.getActivityCodes().stream().sorted(Comparator.comparing(ActivityCode::getUniqueID)).forEach(c -> writeRecord(ACTIVITY_CODE_COLUMNS, c));
    }
 
    private void writeTable(String name, Map<String, ?> map)
@@ -634,7 +642,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       WBS_COLUMNS.put("wbs_id", Task::getUniqueID);
-      WBS_COLUMNS.put("proj_id", t -> (t).getParentFile().getProjectProperties().getUniqueID() );
+      WBS_COLUMNS.put("proj_id", t -> t.getParentFile().getProjectProperties().getUniqueID() );
       WBS_COLUMNS.put("obs_id", t -> "");
       WBS_COLUMNS.put("seq_num", Task::getSequenceNumber);
       WBS_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
@@ -881,6 +889,18 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_STEP_COLUMNS.put("proc_wt", Step::getWeight);
       ACTIVITY_STEP_COLUMNS.put("complete_pct", Step::getPercentComplete);
       ACTIVITY_STEP_COLUMNS.put("proc_descr", Step::getDescriptionObject);
+   }
+
+   private static final Map<String, ExportFunction<ActivityCode>> ACTIVITY_CODE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      ACTIVITY_CODE_COLUMNS.put("actv_code_type_id", c -> c.getUniqueID());
+      ACTIVITY_CODE_COLUMNS.put("actv_short_len", c -> c.getMaxLength());
+      ACTIVITY_CODE_COLUMNS.put("seq_num", c -> c.getSequenceNumber());
+      ACTIVITY_CODE_COLUMNS.put("actv_code_type", c -> c.getName());
+      ACTIVITY_CODE_COLUMNS.put("proj_id", c -> null);
+      ACTIVITY_CODE_COLUMNS.put("wbs_id", c -> null);
+      ACTIVITY_CODE_COLUMNS.put("actv_code_type_scope", c -> null);
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
