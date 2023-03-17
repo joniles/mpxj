@@ -2779,6 +2779,26 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Retrieve the cost account unique ID for this resource assignment.
+    *
+    * @return cost account unique ID
+    */
+   public Integer getCostAccountUniqueID()
+   {
+      return (Integer) get(AssignmentField.COST_ACCOUNT_UNIQUE_ID);
+   }
+
+   /**
+    * Set the cost account unique ID for this resource assignment.
+    *
+    * @param id cost account unique ID
+    */
+   public void setCostAccountUniqueID(Integer id)
+   {
+      set(AssignmentField.COST_ACCOUNT_UNIQUE_ID, id);
+   }
+
+   /**
     * Retrieve the cost account for this resource assignment.
     *
     * @return CostAccount instance for this resource assignment

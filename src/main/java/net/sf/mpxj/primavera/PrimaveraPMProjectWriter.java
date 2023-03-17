@@ -1143,7 +1143,7 @@ final class PrimaveraPMProjectWriter
       xml.setRateType(RateTypeHelper.getXmlFromInstance(mpxj.getRateIndex()));
       xml.setCostPerQuantity(writeRate(mpxj.getOverrideRate()));
       xml.setRateSource(RATE_SOURCE_MAP.get(mpxj.getRateSource()));
-      xml.setCostAccountObjectId(mpxj.getCostAccount() == null ? null : mpxj.getCostAccount().getUniqueID());
+      xml.setCostAccountObjectId(mpxj.getCostAccountUniqueID());
    }
 
    /**
