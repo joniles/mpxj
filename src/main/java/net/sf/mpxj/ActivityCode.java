@@ -37,6 +37,7 @@ public class ActivityCode
    /**
     * Constructor.
     *
+    * @param parentFile parent file
     * @param uniqueID activity code unique ID
     * @param scope activity code scope
     * @param scopeUniqueID scope object unique ID
@@ -45,8 +46,9 @@ public class ActivityCode
     * @param secure secure flag
     * @param maxLength max length
     */
-   public ActivityCode(Integer uniqueID, ActivityCodeScope scope, Integer scopeUniqueID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
+   public ActivityCode(ProjectFile parentFile, Integer uniqueID, ActivityCodeScope scope, Integer scopeUniqueID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
    {
+      m_parentFile = parentFile;
       m_uniqueID = uniqueID;
       m_scope = scope;
       m_scopeUniqueID = scopeUniqueID;
@@ -54,6 +56,16 @@ public class ActivityCode
       m_name = name;
       m_secure = secure;
       m_maxLength = maxLength;
+   }
+
+   /**
+    * Retrieve the parent file.
+    *
+    * @return ProjectFile instance
+    */
+   public ProjectFile getParentFile()
+   {
+      return m_parentFile;
    }
 
    /**
@@ -170,6 +182,7 @@ public class ActivityCode
       return m_values.stream().filter(v -> v.getParent() == null).collect(Collectors.toList());
    }
 
+   private final ProjectFile m_parentFile;
    private final Integer m_uniqueID;
    private final ActivityCodeScope m_scope;
    private final Integer m_scopeUniqueID;

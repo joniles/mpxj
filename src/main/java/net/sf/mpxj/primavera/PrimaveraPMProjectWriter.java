@@ -1637,7 +1637,7 @@ final class PrimaveraPMProjectWriter
       ActivityCodeTypeType xml = m_factory.createActivityCodeTypeType();
       m_apibo.getActivityCodeType().add(xml);
       xml.setObjectId(code.getUniqueID());
-      xml.setScope(ACTIVITY_CODE_SCOPE_MAP.get(code.getScope()));
+      xml.setScope(ActivityCodeScopeHelper.getXmlFromInstance(code.getScope()));
       xml.setSequenceNumber(code.getSequenceNumber());
       xml.setName(code.getName());
       xml.setIsSecureCode(Boolean.valueOf(code.getSecure()));
@@ -1995,14 +1995,6 @@ final class PrimaveraPMProjectWriter
       SUBJECT_AREA_MAP.put(FieldTypeClass.PROJECT, "Project");
       SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Resource Assignment");
       SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
-   }
-
-   private static final Map<ActivityCodeScope, String> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();
-   static
-   {
-      ACTIVITY_CODE_SCOPE_MAP.put(ActivityCodeScope.GLOBAL, "Global");
-      ACTIVITY_CODE_SCOPE_MAP.put(ActivityCodeScope.EPS, "EPS");
-      ACTIVITY_CODE_SCOPE_MAP.put(ActivityCodeScope.PROJECT, "Project");
    }
 
    private final ProjectFile m_projectFile;
