@@ -42,6 +42,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.Step;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
@@ -96,6 +97,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeResources();
          writeResourceRates();
          writeActivities();
+         writeActivitySteps();
          writeExpenseItems();
          writePredecessors();
          writeResourceAssignments();
@@ -249,6 +251,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("RSRCCURVDATA", RESOURCE_CURVE_COLUMNS);
       m_file.getWorkContours().stream().sorted(Comparator.comparing(WorkContour::getUniqueID)).forEach(r -> writeRecord(RESOURCE_CURVE_COLUMNS, r));
+   }
+
+   private void writeActivitySteps()
+   {
+      writeTable("TASKPROC", ACTIVITY_STEP_COLUMNS);
+      m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getSteps).flatMap(Collection::stream).sorted(Comparator.comparing(Step::getUniqueID)).forEach(s -> writeRecord(ACTIVITY_STEP_COLUMNS, s));
    }
 
    private void writeTable(String name, Map<String, ?> map)
@@ -859,6 +867,20 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_CURVE_COLUMNS.put("pct_usage_18", r -> r.getCurveValues()[18]);
       RESOURCE_CURVE_COLUMNS.put("pct_usage_19", r -> r.getCurveValues()[19]);
       RESOURCE_CURVE_COLUMNS.put("pct_usage_20", r -> r.getCurveValues()[20]);
+   }
+
+   private static final Map<String, ExportFunction<Step>> ACTIVITY_STEP_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      ACTIVITY_STEP_COLUMNS.put("proc_id", Step::getUniqueID);
+      ACTIVITY_STEP_COLUMNS.put("task_id", s -> s.getTask().getUniqueID());
+      ACTIVITY_STEP_COLUMNS.put("proj_id", s -> s.getTask().getParentFile().getProjectProperties().getUniqueID());
+      ACTIVITY_STEP_COLUMNS.put("seq_num", Step::getSequenceNumber);
+      ACTIVITY_STEP_COLUMNS.put("proc_name", Step::getName);
+      ACTIVITY_STEP_COLUMNS.put("complete_flag", Step::getComplete);
+      ACTIVITY_STEP_COLUMNS.put("proc_wt", Step::getWeight);
+      ACTIVITY_STEP_COLUMNS.put("complete_pct", Step::getPercentComplete);
+      ACTIVITY_STEP_COLUMNS.put("proc_descr", Step::getDescriptionObject);
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
