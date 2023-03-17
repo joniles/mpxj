@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.ActivityCodeScope;
+import net.sf.mpxj.TaskType;
 
 /**
  * Provides methods to convert to and from Primavera's representation
@@ -67,6 +68,17 @@ final class ActivityCodeScopeHelper
       return TYPE_XML_MAP.get(value);
    }
 
+   /**
+    * Retrieve the string value representing an activity code scope in an XER file.
+    *
+    * @param value ActivityCodeScope instance
+    * @return string value
+    */
+   public static String getXerFromInstance(ActivityCodeScope value)
+   {
+      return TYPE_XER_MAP.get(value);
+   }
+
    private static final Map<String, ActivityCodeScope> XML_TYPE_MAP = new HashMap<>();
    static
    {
@@ -89,5 +101,13 @@ final class ActivityCodeScopeHelper
       TYPE_XML_MAP.put(ActivityCodeScope.GLOBAL, "Global");
       TYPE_XML_MAP.put(ActivityCodeScope.EPS, "EPS");
       TYPE_XML_MAP.put(ActivityCodeScope.PROJECT, "Project");
+   }
+
+   private static final Map<ActivityCodeScope, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(ActivityCodeScope.GLOBAL, "AS_Global");
+      TYPE_XER_MAP.put(ActivityCodeScope.EPS, "AS_EPS");
+      TYPE_XER_MAP.put(ActivityCodeScope.PROJECT, "AS_Project");
    }
 }

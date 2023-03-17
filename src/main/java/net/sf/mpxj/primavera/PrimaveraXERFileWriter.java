@@ -17,7 +17,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
+import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.Availability;
@@ -840,7 +842,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       EXPENSE_ITEM_COLUMNS.put("cost_per_qty", ExpenseItem::getPricePerUnit);
       EXPENSE_ITEM_COLUMNS.put("remain_cost", ExpenseItem::getRemainingCost);
       EXPENSE_ITEM_COLUMNS.put("target_cost", ExpenseItem::getPlannedCost);
-      EXPENSE_ITEM_COLUMNS.put("cost_load_type", i -> AccrueTypeHelper.getXerFromInstance(i.getAccrueType()));
+      EXPENSE_ITEM_COLUMNS.put("cost_load_type", ExpenseItem::getAccrueType);
       EXPENSE_ITEM_COLUMNS.put("auto_compute_act_flag", ExpenseItem::getAutoComputeActuals);
       EXPENSE_ITEM_COLUMNS.put("target_qty", ExpenseItem::getPlannedUnits);
       EXPENSE_ITEM_COLUMNS.put("qty_name", ExpenseItem::getUnitOfMeasure);
@@ -894,13 +896,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<ActivityCode>> ACTIVITY_CODE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      ACTIVITY_CODE_COLUMNS.put("actv_code_type_id", c -> c.getUniqueID());
-      ACTIVITY_CODE_COLUMNS.put("actv_short_len", c -> c.getMaxLength());
-      ACTIVITY_CODE_COLUMNS.put("seq_num", c -> c.getSequenceNumber());
-      ACTIVITY_CODE_COLUMNS.put("actv_code_type", c -> c.getName());
-      ACTIVITY_CODE_COLUMNS.put("proj_id", c -> null);
+      ACTIVITY_CODE_COLUMNS.put("actv_code_type_id", ActivityCode::getUniqueID);
+      ACTIVITY_CODE_COLUMNS.put("actv_short_len", ActivityCode::getMaxLength);
+      ACTIVITY_CODE_COLUMNS.put("seq_num", ActivityCode::getSequenceNumber);
+      ACTIVITY_CODE_COLUMNS.put("actv_code_type", ActivityCode::getName);
+      ACTIVITY_CODE_COLUMNS.put("proj_id", c -> c.getScope() == ActivityCodeScope.PROJECT ? c.getParentFile().getProjectProperties().getUniqueID() : null);
       ACTIVITY_CODE_COLUMNS.put("wbs_id", c -> null);
-      ACTIVITY_CODE_COLUMNS.put("actv_code_type_scope", c -> null);
+      ACTIVITY_CODE_COLUMNS.put("actv_code_type_scope", ActivityCode::getScope);
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
@@ -922,5 +924,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       FORMAT_MAP.put(ConstraintType.class, (w, o) -> ConstraintTypeHelper.getXerFromInstance((ConstraintType)o));
       FORMAT_MAP.put(Priority.class, (w, o) -> PriorityHelper.getXerFromInstance((Priority)o));
       FORMAT_MAP.put(RelationType.class, (w, o) -> RelationTypeHelper.getXerFromInstance((RelationType)o));
+      FORMAT_MAP.put(AccrueType.class, (w, o) -> AccrueTypeHelper.getXerFromInstance((AccrueType)o));
+      FORMAT_MAP.put(ActivityCodeScope.class, (w, o) -> ActivityCodeScopeHelper.getXerFromInstance((ActivityCodeScope)o));
    }
 }
