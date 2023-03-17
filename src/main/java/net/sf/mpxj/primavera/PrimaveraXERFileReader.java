@@ -606,7 +606,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
             NumberHelper.getDouble(row.getDouble("pct_usage_20"))
          };
 
-         contours.add(new WorkContour(id, row.getString("curv_name"), values));
+         contours.add(new WorkContour(id, row.getString("curv_name"), row.getBoolean("default_flag"), values));
       }
    }
 
