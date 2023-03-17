@@ -40,32 +40,23 @@ public class ActivityCode
     * @param parentFile parent file
     * @param uniqueID activity code unique ID
     * @param scope activity code scope
-    * @param scopeUniqueID scope object unique ID
+    * @param scopeEpsUniqueID scope EPS Unique ID
+    * @param scopeProjectUniqueID scope Project Unique ID
     * @param sequenceNumber sequence number
     * @param name activity code name
     * @param secure secure flag
     * @param maxLength max length
     */
-   public ActivityCode(ProjectFile parentFile, Integer uniqueID, ActivityCodeScope scope, Integer scopeUniqueID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
+   public ActivityCode(ProjectFile parentFile, Integer uniqueID, ActivityCodeScope scope, Integer scopeEpsUniqueID, Integer scopeProjectUniqueID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
    {
-      m_parentFile = parentFile;
       m_uniqueID = uniqueID;
       m_scope = scope;
-      m_scopeUniqueID = scopeUniqueID;
+      m_scopeEpsUniqueID = scopeEpsUniqueID;
+      m_scopeProjectUniqueID = scopeProjectUniqueID;
       m_sequenceNumber = sequenceNumber;
       m_name = name;
       m_secure = secure;
       m_maxLength = maxLength;
-   }
-
-   /**
-    * Retrieve the parent file.
-    *
-    * @return ProjectFile instance
-    */
-   public ProjectFile getParentFile()
-   {
-      return m_parentFile;
    }
 
    /**
@@ -89,17 +80,23 @@ public class ActivityCode
    }
 
    /**
-    * Returns the ID of the scope to which this activity code
-    * belongs. This will be {@code null} if the scope is
-    * Global. If the scope if Project, this value will be the
-    * project ID. Finally if the scope is EPS this will be
-    * the ID of the EPS object.
+    * Scope project unique ID.
     *
-    * @return scope ID
+    * @return project unique ID
     */
-   public Integer getScopeUniqueID()
+   public Integer getScopeProjectUniqueID()
    {
-      return m_scopeUniqueID;
+      return m_scopeProjectUniqueID;
+   }
+
+   /**
+    * Scope EPS unique ID.
+    *
+    * @return EPS unique ID
+    */
+   public Integer getScopeEpsUniqueID()
+   {
+      return m_scopeEpsUniqueID;
    }
 
    /**
@@ -182,10 +179,10 @@ public class ActivityCode
       return m_values.stream().filter(v -> v.getParent() == null).collect(Collectors.toList());
    }
 
-   private final ProjectFile m_parentFile;
    private final Integer m_uniqueID;
    private final ActivityCodeScope m_scope;
-   private final Integer m_scopeUniqueID;
+   private final Integer m_scopeEpsUniqueID;
+   private final Integer m_scopeProjectUniqueID;
    private final Integer m_sequenceNumber;
    private final String m_name;
    private final boolean m_secure;
