@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeScope;
+import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.Availability;
@@ -101,6 +102,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeActivityCodes();
          writeResourceRates();
          writeActivities();
+         writeActivityCodeValues();
          writeActivitySteps();
          writeExpenseItems();
          writePredecessors();
@@ -267,6 +269,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("ACTVTYPE", ACTIVITY_CODE_COLUMNS);
       m_file.getActivityCodes().stream().sorted(Comparator.comparing(ActivityCode::getUniqueID)).forEach(c -> writeRecord(ACTIVITY_CODE_COLUMNS, c));
+   }
+
+   private void writeActivityCodeValues()
+   {
+      writeTable("ACTVCODE", ACTIVITY_CODE_VALUE_COLUMNS);
+      m_file.getActivityCodes().stream().map(ActivityCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeRecord(ACTIVITY_CODE_VALUE_COLUMNS, v));
    }
 
    private void writeTable(String name, Map<String, ?> map)
@@ -903,6 +911,19 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_CODE_COLUMNS.put("proj_id", ActivityCode::getScopeProjectUniqueID);
       ACTIVITY_CODE_COLUMNS.put("wbs_id", ActivityCode::getScopeEpsUniqueID);
       ACTIVITY_CODE_COLUMNS.put("actv_code_type_scope", ActivityCode::getScope);
+   }
+
+   private static final Map<String, ExportFunction<ActivityCodeValue>> ACTIVITY_CODE_VALUE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_id", ActivityCodeValue::getUniqueID);
+      ACTIVITY_CODE_VALUE_COLUMNS.put("parent_actv_code_id", a -> null); // TODO: direct access required
+      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_type_id", a -> a.getType().getUniqueID());
+      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_name", ActivityCodeValue::getDescription);
+      ACTIVITY_CODE_VALUE_COLUMNS.put("short_name", ActivityCodeValue::getName);
+      ACTIVITY_CODE_VALUE_COLUMNS.put("seq_num", ActivityCodeValue::getSequenceNumber);
+      ACTIVITY_CODE_VALUE_COLUMNS.put("color", ActivityCodeValue::getColor); // TODO: formatter required
+      ACTIVITY_CODE_VALUE_COLUMNS.put("total_assignments", a -> null);
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
