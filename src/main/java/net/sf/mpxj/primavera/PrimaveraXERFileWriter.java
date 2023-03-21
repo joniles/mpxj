@@ -1,4 +1,5 @@
 package net.sf.mpxj.primavera;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -52,6 +53,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
@@ -922,7 +924,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_name", ActivityCodeValue::getDescription);
       ACTIVITY_CODE_VALUE_COLUMNS.put("short_name", ActivityCodeValue::getName);
       ACTIVITY_CODE_VALUE_COLUMNS.put("seq_num", ActivityCodeValue::getSequenceNumber);
-      ACTIVITY_CODE_VALUE_COLUMNS.put("color", ActivityCodeValue::getColor); // TODO: formatter required
+      ACTIVITY_CODE_VALUE_COLUMNS.put("color", ActivityCodeValue::getColor);
       ACTIVITY_CODE_VALUE_COLUMNS.put("total_assignments", a -> null);
    }
 
@@ -947,5 +949,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       FORMAT_MAP.put(RelationType.class, (w, o) -> RelationTypeHelper.getXerFromInstance((RelationType)o));
       FORMAT_MAP.put(AccrueType.class, (w, o) -> AccrueTypeHelper.getXerFromInstance((AccrueType)o));
       FORMAT_MAP.put(ActivityCodeScope.class, (w, o) -> ActivityCodeScopeHelper.getXerFromInstance((ActivityCodeScope)o));
+      FORMAT_MAP.put(Color.class, (w, o) -> ColorHelper.getHexColor((Color)o));
    }
 }
