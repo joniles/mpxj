@@ -123,6 +123,16 @@ public class ActivityCodeValue
    }
 
    /**
+    * Retrieve the parent ActivityCodeValue unique ID.
+    *
+    * @return parent ActivityCodeValue unique ID
+    */
+   public Integer getParentUniqueID()
+   {
+      return m_parent == null ? null : m_parent.getUniqueID();
+   }
+
+   /**
     * Set the parent ActivityCodeValue.
     *
     * @param parent parent ActivityCodeValue
