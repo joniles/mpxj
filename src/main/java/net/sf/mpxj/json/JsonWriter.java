@@ -83,6 +83,7 @@ import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.mpp.GanttBarStyle;
@@ -1413,9 +1414,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value != null)
       {
-         String stringValue = "000000" + Integer.toHexString(value.getRGB()).toUpperCase();
-         stringValue = "#" + stringValue.substring(stringValue.length() - 6);
-         m_writer.writeNameValuePair(name, stringValue);
+         m_writer.writeNameValuePair(name, ColorHelper.getHtmlColor(value));
       }
    }
 
