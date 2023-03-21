@@ -97,6 +97,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeExpenseCategories();
          writeCurrencies();
          writeResourceCurves();
+         writeUdfDefinitions();
          writeCostAccounts();
          writeRoles();
          writeProject();
@@ -292,6 +293,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeActivityCodeAssignments(Task task, List<ActivityCodeValue> values)
    {
       values.stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeRecord(ACTIVITY_CODE_ASSIGNMENT_COLUMNS, new Pair<>(task, v)));
+   }
+
+   private void writeUdfDefinitions()
+   {
+      writeTable("UDFTYPE", UDF_TYPE_COLUMNS);
    }
 
    private void writeTable(String name, Map<String, ?> map)
@@ -950,6 +956,19 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_type_id", p -> p.getSecond().getType().getUniqueID());
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_id", p -> p.getSecond().getUniqueID());
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("proj_id", p -> p.getFirst().getParentFile().getProjectProperties().getUniqueID());
+   }
+
+   private static final Map<String, ExportFunction<ActivityCodeValue>> UDF_TYPE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      UDF_TYPE_COLUMNS.put("udf_type_id", u -> null);
+      UDF_TYPE_COLUMNS.put("table_name", u -> null);
+      UDF_TYPE_COLUMNS.put("udf_type_name", u -> null);
+      UDF_TYPE_COLUMNS.put("udf_type_label", u -> null);
+      UDF_TYPE_COLUMNS.put("logical_data_type", u -> null);
+      UDF_TYPE_COLUMNS.put("super_flag", u -> null);
+      UDF_TYPE_COLUMNS.put("indicator_expression", u -> null);
+      UDF_TYPE_COLUMNS.put("summary_indicator_expression", u -> null);
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
