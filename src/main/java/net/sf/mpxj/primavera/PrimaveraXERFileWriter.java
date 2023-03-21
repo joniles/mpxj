@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -56,6 +58,7 @@ import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.writer.AbstractProjectWriter;
 
 public class PrimaveraXERFileWriter extends AbstractProjectWriter
@@ -109,6 +112,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeExpenseItems();
          writePredecessors();
          writeResourceAssignments();
+         writeActivityCodeAssignments();
 
          m_writer.flush();
       }
@@ -277,6 +281,17 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("ACTVCODE", ACTIVITY_CODE_VALUE_COLUMNS);
       m_file.getActivityCodes().stream().map(ActivityCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeRecord(ACTIVITY_CODE_VALUE_COLUMNS, v));
+   }
+
+   private void writeActivityCodeAssignments()
+   {
+      writeTable("TASKACTV", ACTIVITY_CODE_ASSIGNMENT_COLUMNS);
+      m_file.getTasks().stream().filter(t -> !t.getSummary()).collect(Collectors.toMap(t -> t, Task::getActivityCodes, (u, v) -> u, TreeMap::new)).forEach(this::writeActivityCodeAssignments);
+   }
+
+   private void writeActivityCodeAssignments(Task task, List<ActivityCodeValue> values)
+   {
+      values.stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeRecord(ACTIVITY_CODE_ASSIGNMENT_COLUMNS, new Pair<>(task, v)));
    }
 
    private void writeTable(String name, Map<String, ?> map)
@@ -926,6 +941,15 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_CODE_VALUE_COLUMNS.put("seq_num", ActivityCodeValue::getSequenceNumber);
       ACTIVITY_CODE_VALUE_COLUMNS.put("color", ActivityCodeValue::getColor);
       ACTIVITY_CODE_VALUE_COLUMNS.put("total_assignments", a -> null);
+   }
+
+   private static final Map<String, ExportFunction<Pair<Task, ActivityCodeValue>>> ACTIVITY_CODE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("task_id", p -> p.getFirst().getUniqueID());
+      ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_type_id", p -> p.getSecond().getType().getUniqueID());
+      ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_id", p -> p.getSecond().getUniqueID());
+      ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("proj_id", p -> p.getFirst().getParentFile().getProjectProperties().getUniqueID());
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
