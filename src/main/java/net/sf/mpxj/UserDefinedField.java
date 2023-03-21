@@ -123,8 +123,8 @@ public class UserDefinedField implements FieldType
 
    private final Integer m_id;
    private final FieldTypeClass m_fieldTypeClass;
+   private final boolean m_summaryTaskOnly;
    private final String m_externalName;
    private final String m_internalName;
    private DataType m_dataType;
-   private boolean m_summaryTaskOnly;
 }
