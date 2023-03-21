@@ -359,6 +359,7 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeStartObject(null);
       writeIntegerField("unique_id", Integer.valueOf(FieldTypeHelper.getFieldID(field)));
       writeStringField("field_type_class", field.getFieldTypeClass().toString().toLowerCase());
+      writeBooleanField("summary_task_only", field.getSummaryTaskOnly());
       writeStringField("data_type", field.getDataType().toString().toLowerCase());
       writeStringField("internal_name", field.name().toLowerCase());
       writeStringField("external_name", field.getName());

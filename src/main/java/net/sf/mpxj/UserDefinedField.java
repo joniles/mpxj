@@ -39,12 +39,13 @@ public class UserDefinedField implements FieldType
     * @param fieldTypeClass type of entity on which this field can be used
     * @param dataType data type of this field
     */
-   public UserDefinedField(Integer id, String internalName, String externalName, FieldTypeClass fieldTypeClass, DataType dataType)
+   public UserDefinedField(Integer id, String internalName, String externalName, FieldTypeClass fieldTypeClass, boolean summaryTaskOnly, DataType dataType)
    {
       m_id = id;
       m_internalName = internalName;
       m_externalName = externalName;
       m_fieldTypeClass = fieldTypeClass;
+      m_summaryTaskOnly = summaryTaskOnly;
       m_dataType = dataType;
    }
 
@@ -61,6 +62,11 @@ public class UserDefinedField implements FieldType
    public Integer getUniqueID()
    {
       return m_id;
+   }
+
+   public boolean getSummaryTaskOnly()
+   {
+      return m_summaryTaskOnly;
    }
 
    @Override public FieldTypeClass getFieldTypeClass()
@@ -113,4 +119,5 @@ public class UserDefinedField implements FieldType
    private final String m_externalName;
    private final String m_internalName;
    private DataType m_dataType;
+   private boolean m_summaryTaskOnly;
 }

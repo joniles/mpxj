@@ -1769,7 +1769,7 @@ final class AstaReader
          Integer id = row.getInteger("UDF_ID");
          String internalName = "user_field_" + id;
          String externalName = row.getString("UDF_NAME");
-         UserDefinedField field = new UserDefinedField(id, internalName, externalName, fieldTypeClass, dataType);
+         UserDefinedField field = new UserDefinedField(id, internalName, externalName, fieldTypeClass, false, dataType);
          userDefinedFields.add(field);
          customFields.add(field).setAlias(externalName);
 
