@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.primavera;
 
-import java.awt.Color;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -86,6 +85,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
 import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.SlackHelper;
@@ -231,7 +231,7 @@ final class PrimaveraReader
          ActivityCode code = map.get(row.getInteger("actv_code_type_id"));
          if (code != null)
          {
-            ActivityCodeValue value = code.addValue(row.getInteger("actv_code_id"), row.getInteger("seq_num"), row.getString("short_name"), row.getString("actv_code_name"), getColor(row.getString("color")));
+            ActivityCodeValue value = code.addValue(row.getInteger("actv_code_id"), row.getInteger("seq_num"), row.getString("short_name"), row.getString("actv_code_name"), ColorHelper.parseHexColor(row.getString("color")));
             m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }
@@ -252,16 +252,6 @@ final class PrimaveraReader
          List<Integer> list = m_activityCodeAssignments.computeIfAbsent(taskID, k -> new ArrayList<>());
          list.add(row.getInteger("actv_code_id"));
       }
-   }
-
-   private Color getColor(String value)
-   {
-      Color result = null;
-      if (value != null && value.length() > 0)
-      {
-         result = new Color(Integer.parseInt(value, 16));
-      }
-      return result;
    }
 
    /**

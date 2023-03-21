@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.primavera;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -79,6 +78,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldLists;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -1669,7 +1669,7 @@ final class PrimaveraPMProjectWriter
       xml.setSequenceNumber(value.getSequenceNumber());
       xml.setCodeValue(value.getName());
       xml.setDescription(value.getDescription());
-      xml.setColor(getColor(value.getColor()));
+      xml.setColor(ColorHelper.getHtmlColor(value.getColor()));
 
       value.getChildValues().stream().sorted(Comparator.comparing(ActivityCodeValue::getSequenceNumber)).forEach(v -> writeActivityCodeValue(code, xml, v));
    }
@@ -1697,23 +1697,6 @@ final class PrimaveraPMProjectWriter
       xml.getCode().add(assignment);
       assignment.setTypeObjectId(NumberHelper.getInt(value.getType().getUniqueID()));
       assignment.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
-   }
-
-   /**
-    * Convert a color to a string representation.
-    *
-    * @param color color to convert
-    * @return string representation
-    */
-   private String getColor(Color color)
-   {
-      if (color == null)
-      {
-         return null;
-      }
-
-      String result = "000000" + Integer.toHexString(color.getRGB()).toUpperCase();
-      return "#" + result.substring(result.length() - 6);
    }
 
    /**

@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.primavera;
 
-import java.awt.Color;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,6 +48,7 @@ import net.sf.mpxj.DataType;
 import net.sf.mpxj.RateSource;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.UserDefinedField;
+import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
 import org.apache.poi.util.ReplacingInputStream;
@@ -621,7 +621,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ActivityCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ActivityCodeValue value = code.addValue(typeValue.getObjectId(), typeValue.getSequenceNumber(), typeValue.getCodeValue(), typeValue.getDescription(), getColor(typeValue.getColor()));
+            ActivityCodeValue value = code.addValue(typeValue.getObjectId(), typeValue.getSequenceNumber(), typeValue.getCodeValue(), typeValue.getDescription(), ColorHelper.parseHtmlColor(typeValue.getColor()));
             m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }
@@ -635,16 +635,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             child.setParent(parent);
          }
       }
-   }
-
-   private Color getColor(String value)
-   {
-      Color result = null;
-      if (value != null && value.length() > 1 && value.charAt(0) == '#')
-      {
-         result = new Color(Integer.parseInt(value.substring(1), 16));
-      }
-      return result;
    }
 
    /**
