@@ -496,7 +496,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processUdfDefinition(UDFTypeType udf)
    {
-      FieldTypeClass fieldTypeClass = FIELD_TYPE_MAP.get(udf.getSubjectArea());
+      FieldTypeClass fieldTypeClass = FieldTypeClassHelper.getInstanceFromXml(udf.getSubjectArea());
       if (fieldTypeClass == null)
       {
          return;
@@ -2346,16 +2346,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       MILESTONE_MAP.put("Start Milestone", Boolean.TRUE);
       MILESTONE_MAP.put("Finish Milestone", Boolean.TRUE);
       MILESTONE_MAP.put("WBS Summary", Boolean.FALSE);
-   }
-
-   private static final Map<String, FieldTypeClass> FIELD_TYPE_MAP = new HashMap<>();
-   static
-   {
-      FIELD_TYPE_MAP.put("Activity", FieldTypeClass.TASK);
-      FIELD_TYPE_MAP.put("WBS", FieldTypeClass.TASK);
-      FIELD_TYPE_MAP.put("Resource", FieldTypeClass.RESOURCE);
-      FIELD_TYPE_MAP.put("Resource Assignment", FieldTypeClass.ASSIGNMENT);
-      FIELD_TYPE_MAP.put("Project", FieldTypeClass.PROJECT);
    }
 
    private static final Map<String, RateSource> RATE_SOURCE_MAP = new HashMap<>();
