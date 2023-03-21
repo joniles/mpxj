@@ -64,6 +64,13 @@ public class UserDefinedField implements FieldType
       return m_id;
    }
 
+   /**
+    * For a user defined field with a FieldTypeClas of TASK,  this method
+    * returns true if this is a user defined field for WBS
+    * (represented as summary tasks in MPXJ).
+    *
+    * @return true if this is a WBS user defined field
+    */
    public boolean getSummaryTaskOnly()
    {
       return m_summaryTaskOnly;
