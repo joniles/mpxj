@@ -272,16 +272,17 @@ final class PrimaveraReader
          String tableName = row.getString("table_name");
          tableNameMap.put(fieldId, tableName);
 
-         FieldTypeClass fieldTypeClass = FIELD_TYPE_MAP.get(tableName);
+         FieldTypeClass fieldTypeClass = FieldTypeClassHelper.getInstanceFromXer(tableName);
          if (fieldTypeClass == null)
          {
             continue;
          }
 
+         boolean summaryTaskOnly = tableName.equals("PROJWBS");
          String internalName = row.getString("udf_type_name");
          String externalName = row.getString("udf_type_label");
          DataType dataType = DATA_TYPE_MAP.get(row.getString("logical_data_type"));
-         UserDefinedField fieldType = new UserDefinedField(fieldId, internalName, externalName, fieldTypeClass, dataType);
+         UserDefinedField fieldType = new UserDefinedField(fieldId, internalName, externalName, fieldTypeClass, summaryTaskOnly, dataType);
          container.add(fieldType);
 
          m_udfFields.put(fieldId, fieldType);
@@ -2204,16 +2205,6 @@ final class PrimaveraReader
       STATICTYPE_UDF_MAP.put("UDF_G2", Boolean.FALSE); // yellow !
       STATICTYPE_UDF_MAP.put("UDF_G3", Boolean.TRUE); // green check
       STATICTYPE_UDF_MAP.put("UDF_G4", Boolean.TRUE); // blue star
-   }
-
-   private static final Map<String, FieldTypeClass> FIELD_TYPE_MAP = new HashMap<>();
-   static
-   {
-      FIELD_TYPE_MAP.put("PROJWBS", FieldTypeClass.TASK);
-      FIELD_TYPE_MAP.put("TASK", FieldTypeClass.TASK);
-      FIELD_TYPE_MAP.put("RSRC", FieldTypeClass.RESOURCE);
-      FIELD_TYPE_MAP.put("TASKRSRC", FieldTypeClass.ASSIGNMENT);
-      FIELD_TYPE_MAP.put("PROJECT", FieldTypeClass.PROJECT);
    }
 
    private static final Map<String, RateSource> RATE_SOURCE_MAP = new HashMap<>();

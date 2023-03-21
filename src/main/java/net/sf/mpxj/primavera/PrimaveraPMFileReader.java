@@ -496,16 +496,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processUdfDefinition(UDFTypeType udf)
    {
-      FieldTypeClass fieldTypeClass = FIELD_TYPE_MAP.get(udf.getSubjectArea());
+      FieldTypeClass fieldTypeClass = FieldTypeClassHelper.getInstanceFromXml(udf.getSubjectArea());
       if (fieldTypeClass == null)
       {
          return;
       }
 
+      boolean summaryTaskOnly = udf.getSubjectArea().equals("WBS");
       String internalName = "user_field_" + udf.getObjectId();
       String externalName = udf.getTitle();
       DataType dataType = DATA_TYPE_MAP.get(udf.getDataType());
-      UserDefinedField field = new UserDefinedField(udf.getObjectId(), internalName, externalName, fieldTypeClass, dataType);
+      UserDefinedField field = new UserDefinedField(udf.getObjectId(), internalName, externalName, fieldTypeClass, summaryTaskOnly, dataType);
       m_fieldTypeMap.put(udf.getObjectId(), field);
       m_projectFile.getUserDefinedFields().add(field);
       m_projectFile.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
@@ -2345,16 +2346,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       MILESTONE_MAP.put("Start Milestone", Boolean.TRUE);
       MILESTONE_MAP.put("Finish Milestone", Boolean.TRUE);
       MILESTONE_MAP.put("WBS Summary", Boolean.FALSE);
-   }
-
-   private static final Map<String, FieldTypeClass> FIELD_TYPE_MAP = new HashMap<>();
-   static
-   {
-      FIELD_TYPE_MAP.put("Activity", FieldTypeClass.TASK);
-      FIELD_TYPE_MAP.put("WBS", FieldTypeClass.TASK);
-      FIELD_TYPE_MAP.put("Resource", FieldTypeClass.RESOURCE);
-      FIELD_TYPE_MAP.put("Resource Assignment", FieldTypeClass.ASSIGNMENT);
-      FIELD_TYPE_MAP.put("Project", FieldTypeClass.PROJECT);
    }
 
    private static final Map<String, RateSource> RATE_SOURCE_MAP = new HashMap<>();

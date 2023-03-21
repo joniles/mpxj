@@ -76,6 +76,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.ColorHelper;
@@ -217,7 +218,7 @@ final class PrimaveraPMProjectWriter
 
    private void writeUDF()
    {
-      m_udf.addAll(writeUserDefinedFieldAssignments(FieldTypeClass.PROJECT, m_projectFile.getProjectProperties()));
+      m_udf.addAll(writeUserDefinedFieldAssignments(FieldTypeClass.PROJECT, false, m_projectFile.getProjectProperties()));
    }
 
    /**
@@ -338,29 +339,12 @@ final class PrimaveraPMProjectWriter
          UDFTypeType udf = m_factory.createUDFTypeType();
          udf.setObjectId(uniqueID);
          udf.setDataType(inferUserFieldDataType(dataType));
-         udf.setSubjectArea(inferUserFieldSubjectArea(type));
+         udf.setSubjectArea(FieldTypeClassHelper.getXmlFromInstance(type));
          udf.setTitle(title);
          fields.add(udf);
       }
 
       fields.sort(Comparator.comparing(UDFTypeType::getObjectId));
-   }
-
-   /**
-    * Infers the Primavera entity type based on the MPXJ field type.
-    *
-    * @author lsong
-    * @param fieldType MPXJ field type
-    * @return UDF subject area
-    */
-   private String inferUserFieldSubjectArea(FieldType fieldType)
-   {
-      String result = SUBJECT_AREA_MAP.get(fieldType.getFieldTypeClass());
-      if (result == null)
-      {
-         throw new RuntimeException("Unrecognized field type: " + fieldType);
-      }
-      return result;
    }
 
    /**
@@ -769,7 +753,7 @@ final class PrimaveraPMProjectWriter
       xml.setDefaultUnitsPerTime(defaultUnitsPerTime);
       xml.setMaxUnitsPerTime(defaultUnitsPerTime);
 
-      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.RESOURCE, mpxj));
+      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.RESOURCE, false, mpxj));
    }
 
    /**
@@ -896,8 +880,8 @@ final class PrimaveraPMProjectWriter
 
       xml.setStatus("Active");
 
-      // TODO: we don't currently write WBS UDF values as we don't distinguish between WBS and Activity UDFs
-      // xml.getUDF().addAll(writeUDFType(FieldTypeClass.TASK, mpxj));
+      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.TASK, true, mpxj));
+
       writeWbsNote(mpxj);
    }
 
@@ -982,7 +966,7 @@ final class PrimaveraPMProjectWriter
       xml.setType(ActivityTypeHelper.getXmlFromInstance(mpxj.getActivityType()));
       xml.setUnitsPercentComplete(getPercentage(mpxj.getPercentageWorkComplete()));
       xml.setWBSObjectId(parentObjectID);
-      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.TASK, mpxj));
+      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.TASK, false, mpxj));
 
       writeActivityNote(mpxj);
       writePredecessors(mpxj);
@@ -1071,7 +1055,7 @@ final class PrimaveraPMProjectWriter
       xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(task.getParentTaskUniqueID());
-      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, mpxj));
+      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, false, mpxj));
       xml.setRateType(RateTypeHelper.getXmlFromInstance(mpxj.getRateIndex()));
       xml.setCostPerQuantity(writeRate(mpxj.getOverrideRate()));
       xml.setRateSource(RATE_SOURCE_MAP.get(mpxj.getRateSource()));
@@ -1523,32 +1507,46 @@ final class PrimaveraPMProjectWriter
     * @param mpxj parent entity
     * @return list of UDFAssignmentType instances
     */
-   private List<UDFAssignmentType> writeUserDefinedFieldAssignments(FieldTypeClass type, FieldContainer mpxj)
+   private List<UDFAssignmentType> writeUserDefinedFieldAssignments(FieldTypeClass type, boolean summaryTaskOnly, FieldContainer mpxj)
    {
       List<UDFAssignmentType> out = new ArrayList<>();
       CustomFieldContainer customFields = m_projectFile.getCustomFields();
 
       for (FieldType fieldType : m_userDefinedFields)
       {
-         if (type == fieldType.getFieldTypeClass())
+         if (type != fieldType.getFieldTypeClass())
          {
-            Object value = mpxj.getCachedValue(fieldType);
-            if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
+            continue;
+         }
+
+         // For the moment we're restricting writing WBS UDF assignments only to
+         // UserDefinedField instances with summaryTaskOnly set to true
+         // (which will typically be for values read from a P6 schedule originally)
+         // TODO: consider if we can map non task user defined fields from other schedules to WBS UDF
+         if (type == FieldTypeClass.TASK && summaryTaskOnly)
+         {
+            if (fieldType instanceof TaskField || (fieldType instanceof UserDefinedField && !((UserDefinedField)fieldType).getSummaryTaskOnly()))
             {
-               CustomField field = customFields.get(fieldType);
-               int uniqueID = field == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(field.getUniqueID());
-
-               DataType dataType = fieldType.getDataType();
-               if (dataType == DataType.CUSTOM)
-               {
-                  dataType = DataType.BINARY;
-               }
-
-               UDFAssignmentType udf = m_factory.createUDFAssignmentType();
-               udf.setTypeObjectId(uniqueID);
-               setUserFieldValue(udf, dataType, value);
-               out.add(udf);
+               continue;
             }
+         }
+
+         Object value = mpxj.getCachedValue(fieldType);
+         if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
+         {
+            CustomField field = customFields.get(fieldType);
+            int uniqueID = field == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(field.getUniqueID());
+
+            DataType dataType = fieldType.getDataType();
+            if (dataType == DataType.CUSTOM)
+            {
+               dataType = DataType.BINARY;
+            }
+
+            UDFAssignmentType udf = m_factory.createUDFAssignmentType();
+            udf.setTypeObjectId(uniqueID);
+            setUserFieldValue(udf, dataType, value);
+            out.add(udf);
          }
       }
 
@@ -1905,16 +1903,6 @@ final class PrimaveraPMProjectWriter
       RATE_SOURCE_MAP.put(RateSource.RESOURCE, "Resource");
       RATE_SOURCE_MAP.put(RateSource.OVERRIDE, "Override");
       RATE_SOURCE_MAP.put(RateSource.ROLE, "Role");
-   }
-
-   private static final Map<FieldTypeClass, String> SUBJECT_AREA_MAP = new HashMap<>();
-   static
-   {
-      SUBJECT_AREA_MAP.put(FieldTypeClass.TASK, "Activity");
-      SUBJECT_AREA_MAP.put(FieldTypeClass.RESOURCE, "Resource");
-      SUBJECT_AREA_MAP.put(FieldTypeClass.PROJECT, "Project");
-      SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Resource Assignment");
-      SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
    }
 
    private final ProjectFile m_projectFile;

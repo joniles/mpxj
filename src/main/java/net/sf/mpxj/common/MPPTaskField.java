@@ -55,7 +55,7 @@ public class MPPTaskField
             int id = (k.intValue() & 0xFFF) + 1;
             String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
             String externalName = "Enterprise Custom Field " + id;
-            return new UserDefinedField(k, internalName, externalName, FieldTypeClass.TASK, DataType.CUSTOM);
+            return new UserDefinedField(k, internalName, externalName, FieldTypeClass.TASK, false, DataType.CUSTOM);
          });
       }
 

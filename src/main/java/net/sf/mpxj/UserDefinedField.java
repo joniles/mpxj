@@ -39,12 +39,13 @@ public class UserDefinedField implements FieldType
     * @param fieldTypeClass type of entity on which this field can be used
     * @param dataType data type of this field
     */
-   public UserDefinedField(Integer id, String internalName, String externalName, FieldTypeClass fieldTypeClass, DataType dataType)
+   public UserDefinedField(Integer id, String internalName, String externalName, FieldTypeClass fieldTypeClass, boolean summaryTaskOnly, DataType dataType)
    {
       m_id = id;
       m_internalName = internalName;
       m_externalName = externalName;
       m_fieldTypeClass = fieldTypeClass;
+      m_summaryTaskOnly = summaryTaskOnly;
       m_dataType = dataType;
    }
 
@@ -61,6 +62,18 @@ public class UserDefinedField implements FieldType
    public Integer getUniqueID()
    {
       return m_id;
+   }
+
+   /**
+    * For a user defined field with a FieldTypeClas of TASK,  this method
+    * returns true if this is a user defined field for WBS
+    * (represented as summary tasks in MPXJ).
+    *
+    * @return true if this is a WBS user defined field
+    */
+   public boolean getSummaryTaskOnly()
+   {
+      return m_summaryTaskOnly;
    }
 
    @Override public FieldTypeClass getFieldTypeClass()
@@ -110,6 +123,7 @@ public class UserDefinedField implements FieldType
 
    private final Integer m_id;
    private final FieldTypeClass m_fieldTypeClass;
+   private final boolean m_summaryTaskOnly;
    private final String m_externalName;
    private final String m_internalName;
    private DataType m_dataType;
