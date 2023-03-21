@@ -917,7 +917,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_id", ActivityCodeValue::getUniqueID);
-      ACTIVITY_CODE_VALUE_COLUMNS.put("parent_actv_code_id", a -> null); // TODO: direct access required
+      ACTIVITY_CODE_VALUE_COLUMNS.put("parent_actv_code_id", ActivityCodeValue::getParentUniqueID);
       ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_type_id", a -> a.getType().getUniqueID());
       ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_name", ActivityCodeValue::getDescription);
       ACTIVITY_CODE_VALUE_COLUMNS.put("short_name", ActivityCodeValue::getName);
