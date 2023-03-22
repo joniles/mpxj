@@ -65,7 +65,6 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
-import net.sf.mpxj.RateSource;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
@@ -1088,7 +1087,7 @@ final class PrimaveraPMProjectWriter
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, false, mpxj));
       xml.setRateType(RateTypeHelper.getXmlFromInstance(mpxj.getRateIndex()));
       xml.setCostPerQuantity(writeRate(mpxj.getOverrideRate()));
-      xml.setRateSource(RATE_SOURCE_MAP.get(mpxj.getRateSource()));
+      xml.setRateSource(RateSourceHelper.getXmlFromInstance(mpxj.getRateSource()));
       xml.setCostAccountObjectId(mpxj.getCostAccountUniqueID());
    }
 
@@ -1910,14 +1909,6 @@ final class PrimaveraPMProjectWriter
       "Friday",
       "Saturday"
    };
-
-   private static final Map<RateSource, String> RATE_SOURCE_MAP = new HashMap<>();
-   static
-   {
-      RATE_SOURCE_MAP.put(RateSource.RESOURCE, "Resource");
-      RATE_SOURCE_MAP.put(RateSource.OVERRIDE, "Override");
-      RATE_SOURCE_MAP.put(RateSource.ROLE, "Role");
-   }
 
    private final ProjectFile m_projectFile;
    private final APIBusinessObjects m_apibo;
