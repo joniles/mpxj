@@ -23,11 +23,14 @@
 
 package net.sf.mpxj.primavera;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.CustomField;
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.FieldLists;
@@ -60,5 +63,82 @@ final class UdfHelper
       set.removeIf(f -> net.sf.mpxj.common.FieldTypeHelper.getFieldID(f) == -1);
 
       return set;
+   }
+
+   /**
+    * Retrieve a UDF data type by its value from a PMXML file.
+    *
+    * @param value UDF data type value
+    * @return DataType instance
+    */
+   public static DataType getDataTypeFromXml(String value)
+   {
+      return DATA_TYPE_FROM_XML.get(value);
+   }
+
+   /**
+    * Retrieve a UDF data type by its value from an XER file or P6 database.
+    *
+    * @param value UDF data type value
+    * @return DataType instance
+    */
+   public static DataType getDataTypeFromXer(String value)
+   {
+      return DATA_TYPE_FROM_XER.get(value);
+   }
+
+   /**
+    * Retrieve the string value representing a UDF data type in a PMXML file.
+    *
+    * @param value DataType instance
+    * @return string value
+    */
+   public static String getXmlFromInstance(DataType value)
+   {
+      String result = XML_FROM_DATA_TYPE.get(value);
+      if (result == null)
+      {
+         throw new RuntimeException("Unconvertible data type: " + value);
+      }
+      return result;
+   }
+
+   private static final Map<String, DataType> DATA_TYPE_FROM_XER = new HashMap<>();
+   static
+   {
+      DATA_TYPE_FROM_XER.put("FT_TEXT", DataType.STRING);
+      DATA_TYPE_FROM_XER.put("FT_MONEY", DataType.CURRENCY);
+      DATA_TYPE_FROM_XER.put("FT_END_DATE", DataType.DATE);
+      DATA_TYPE_FROM_XER.put("FT_STATICTYPE", DataType.STRING);
+      DATA_TYPE_FROM_XER.put("FT_INT", DataType.INTEGER);
+      DATA_TYPE_FROM_XER.put("FT_FLOAT", DataType.NUMERIC);
+      DATA_TYPE_FROM_XER.put("FT_FLOAT_2_DECIMALS", DataType.NUMERIC);
+      DATA_TYPE_FROM_XER.put("FT_START_DATE", DataType.DATE);
+   }
+
+   private static final Map<String, DataType> DATA_TYPE_FROM_XML = new HashMap<>();
+   static
+   {
+      DATA_TYPE_FROM_XML.put("Text", DataType.STRING);
+      DATA_TYPE_FROM_XML.put("Cost", DataType.CURRENCY);
+      DATA_TYPE_FROM_XML.put("Finish Date", DataType.DATE);
+      DATA_TYPE_FROM_XML.put("Indicator", DataType.STRING);
+      DATA_TYPE_FROM_XML.put("Integer", DataType.INTEGER);
+      DATA_TYPE_FROM_XML.put("Double", DataType.NUMERIC);
+      DATA_TYPE_FROM_XML.put("Start Date", DataType.DATE);
+   }
+
+   private static final Map<DataType, String> XML_FROM_DATA_TYPE = new HashMap<>();
+   static
+   {
+      XML_FROM_DATA_TYPE.put(DataType.BINARY, "Text");
+      XML_FROM_DATA_TYPE.put(DataType.STRING, "Text");
+      XML_FROM_DATA_TYPE.put(DataType.DURATION, "Text");
+      XML_FROM_DATA_TYPE.put(DataType.DATE, "Start Date");
+      XML_FROM_DATA_TYPE.put(DataType.NUMERIC, "Double");
+      XML_FROM_DATA_TYPE.put(DataType.BOOLEAN, "Integer");
+      XML_FROM_DATA_TYPE.put(DataType.INTEGER, "Integer");
+      XML_FROM_DATA_TYPE.put(DataType.SHORT, "Integer");
+      XML_FROM_DATA_TYPE.put(DataType.CURRENCY, "Cost");
    }
 }
