@@ -337,43 +337,13 @@ final class PrimaveraPMProjectWriter
 
          UDFTypeType udf = m_factory.createUDFTypeType();
          udf.setObjectId(uniqueID);
-         udf.setDataType(inferUserFieldDataType(dataType));
+         udf.setDataType(UdfHelper.getXmlFromInstance(dataType));
          udf.setSubjectArea(FieldTypeClassHelper.getXmlFromInstance(type));
          udf.setTitle(title);
          fields.add(udf);
       }
 
       fields.sort(Comparator.comparing(UDFTypeType::getObjectId));
-   }
-
-   /**
-    * Infers the Primavera user defined field data type from the MPXJ data type.
-    *
-    * @author kmahan
-    * @param dataType MPXJ data type
-    * @return string representation of data type
-    */
-   private String inferUserFieldDataType(DataType dataType)
-   {
-      switch (dataType)
-      {
-         case BINARY:
-         case STRING:
-         case DURATION:
-            return "Text";
-         case DATE:
-            return "Start Date";
-         case NUMERIC:
-            return "Double";
-         case BOOLEAN:
-         case INTEGER:
-         case SHORT:
-            return "Integer";
-         case CURRENCY:
-            return "Cost";
-         default:
-            throw new RuntimeException("Unconvertible data type: " + dataType);
-      }
    }
 
    /**
