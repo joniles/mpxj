@@ -70,7 +70,6 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
-import net.sf.mpxj.RateSource;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -1591,7 +1590,7 @@ final class PrimaveraReader
             assignment.setRateIndex(RateTypeHelper.getInstanceFromXer(row.getString("rate_type")));
             assignment.setRole(m_project.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getDouble("cost_per_qty")));
-            assignment.setRateSource(RATE_SOURCE_MAP.getOrDefault(row.getString("cost_per_qty_source_type"), RateSource.RESOURCE));
+            assignment.setRateSource(RateSourceHelper.getInstanceFromXer(row.getString("cost_per_qty_source_type")));
 
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
@@ -2187,6 +2186,7 @@ final class PrimaveraReader
       TIME_UNIT_MAP.put("QT_Year", TimeUnit.YEARS);
    }
    */
+   
    private static final Map<String, CurrencySymbolPosition> CURRENCY_SYMBOL_POSITION_MAP = new HashMap<>();
    static
    {
@@ -2205,14 +2205,6 @@ final class PrimaveraReader
       STATICTYPE_UDF_MAP.put("UDF_G2", Boolean.FALSE); // yellow !
       STATICTYPE_UDF_MAP.put("UDF_G3", Boolean.TRUE); // green check
       STATICTYPE_UDF_MAP.put("UDF_G4", Boolean.TRUE); // blue star
-   }
-
-   private static final Map<String, RateSource> RATE_SOURCE_MAP = new HashMap<>();
-   static
-   {
-      RATE_SOURCE_MAP.put("ST_Rsrc", RateSource.RESOURCE);
-      RATE_SOURCE_MAP.put("ST_Role", RateSource.ROLE);
-      RATE_SOURCE_MAP.put("ST_Custom", RateSource.OVERRIDE);
    }
 
    static final long EXCEPTION_EPOCH = -2209161599935L;
