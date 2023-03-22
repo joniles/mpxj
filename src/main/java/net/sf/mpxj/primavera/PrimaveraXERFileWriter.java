@@ -57,6 +57,7 @@ import net.sf.mpxj.Step;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ColorHelper;
@@ -452,6 +453,26 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       Number actualCost = assignment.getActualCost();
       Number actualOvertimeCost = assignment.getActualOvertimeCost();
       return Double.valueOf(actualCost.doubleValue() - actualOvertimeCost.doubleValue());
+   }
+
+   private static Integer getUdfTypeID(FieldType type, CustomField field)
+   {
+      return field == null ? Integer.valueOf(FieldTypeHelper.getFieldID(type)) : field.getUniqueID();
+   }
+
+   private static String getUdfTypeName(FieldType type, CustomField field)
+   {
+      if (type instanceof UserDefinedField)
+      {
+         return type.name();
+      }
+
+      return "user_field_" + getUdfTypeID(type, field);
+   }
+
+   private static String getUdfTypeLabel(FieldType type, CustomField field)
+   {
+      return field != null && field.getAlias() != null && !field.getAlias().isEmpty() ? field.getAlias() : type.getName();
    }
 
    private String m_encoding;
@@ -967,14 +988,14 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<Pair<FieldType, CustomField>>> UDF_TYPE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      UDF_TYPE_COLUMNS.put("udf_type_id", p -> p.getSecond() == null ? Integer.valueOf(FieldTypeHelper.getFieldID(p.getFirst())) : p.getSecond().getUniqueID());
+      UDF_TYPE_COLUMNS.put("udf_type_id", p -> getUdfTypeID(p.getFirst(), p.getSecond()));
       UDF_TYPE_COLUMNS.put("table_name", p -> FieldTypeClassHelper.getXerFromInstance(p.getFirst()));
-      UDF_TYPE_COLUMNS.put("udf_type_name", u -> null);
-      UDF_TYPE_COLUMNS.put("udf_type_label", p -> p.getSecond() != null && p.getSecond().getAlias() != null && !p.getSecond().getAlias().isEmpty() ? p.getSecond().getAlias() : p.getFirst().getName());
+      UDF_TYPE_COLUMNS.put("udf_type_name", p-> getUdfTypeName(p.getFirst(), p.getSecond()));
+      UDF_TYPE_COLUMNS.put("udf_type_label", p -> getUdfTypeLabel(p.getFirst(), p.getSecond()));
       UDF_TYPE_COLUMNS.put("logical_data_type", p -> p.getFirst().getDataType());
-      UDF_TYPE_COLUMNS.put("super_flag", u -> null);
-      UDF_TYPE_COLUMNS.put("indicator_expression", u -> null);
-      UDF_TYPE_COLUMNS.put("summary_indicator_expression", u -> null);
+      UDF_TYPE_COLUMNS.put("super_flag", p -> Boolean.FALSE);
+      UDF_TYPE_COLUMNS.put("indicator_expression", p -> null);
+      UDF_TYPE_COLUMNS.put("summary_indicator_expression", p -> null);
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
