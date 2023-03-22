@@ -93,7 +93,7 @@ final class UdfHelper
     * @param value DataType instance
     * @return string value
     */
-   public static String getXmlFromInstance(DataType value)
+   public static String getXmlFromDataType(DataType value)
    {
       String result = XML_FROM_DATA_TYPE.get(value);
       if (result == null)
