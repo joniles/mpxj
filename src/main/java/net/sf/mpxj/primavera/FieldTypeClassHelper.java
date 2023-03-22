@@ -80,6 +80,28 @@ final class FieldTypeClassHelper
       return result;
    }
 
+   /**
+    * Retrieve the string value representing a field type class in an XER file.
+    *
+    * @param fieldType FieldType instance
+    * @return string value
+    */
+   public static String getXerFromInstance(FieldType fieldType)
+   {
+      String result = TYPE_XER_MAP.get(fieldType.getFieldTypeClass());
+      if (result == null)
+      {
+         throw new RuntimeException("Unrecognized field type: " + fieldType);
+      }
+
+      if (result.equals("TASK") && fieldType instanceof UserDefinedField && ((UserDefinedField)fieldType).getSummaryTaskOnly())
+      {
+         result = "PROJWBS";
+      }
+
+      return result;
+   }
+
    private static final Map<String, FieldTypeClass> XML_TYPE_MAP = new HashMap<>();
    static
    {
@@ -108,5 +130,14 @@ final class FieldTypeClassHelper
       TYPE_XML_MAP.put(FieldTypeClass.PROJECT, "Project");
       TYPE_XML_MAP.put(FieldTypeClass.ASSIGNMENT, "Resource Assignment");
       TYPE_XML_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
+   }
+
+   private static final Map<FieldTypeClass, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(FieldTypeClass.TASK, "TASK");
+      TYPE_XER_MAP.put(FieldTypeClass.RESOURCE, "RSRC");
+      TYPE_XER_MAP.put(FieldTypeClass.ASSIGNMENT, "TASKRSRC");
+      TYPE_XER_MAP.put(FieldTypeClass.PROJECT, "PROJECT");
    }
 }

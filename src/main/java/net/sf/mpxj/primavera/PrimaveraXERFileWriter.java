@@ -32,9 +32,12 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
+import net.sf.mpxj.CustomField;
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseItem;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.PercentCompleteType;
@@ -57,6 +60,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ColorHelper;
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
@@ -299,6 +303,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeUdfDefinitions()
    {
       writeTable("UDFTYPE", UDF_TYPE_COLUMNS);
+      UdfHelper.getUserDefinedFieldsSet(m_file).stream().map(f -> new Pair<>(f, m_file.getCustomFields().get(f))).sorted(Comparator.comparing(p -> p.getSecond() == null ? Integer.valueOf(FieldTypeHelper.getFieldID(p.getFirst())) : p.getSecond().getUniqueID())).forEach(p -> writeRecord(UDF_TYPE_COLUMNS, p));
    }
 
    private void writeTable(String name, Map<String, ?> map)
@@ -959,14 +964,14 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("proj_id", p -> p.getFirst().getParentFile().getProjectProperties().getUniqueID());
    }
 
-   private static final Map<String, ExportFunction<ActivityCodeValue>> UDF_TYPE_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<Pair<FieldType, CustomField>>> UDF_TYPE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      UDF_TYPE_COLUMNS.put("udf_type_id", u -> null);
-      UDF_TYPE_COLUMNS.put("table_name", u -> null);
+      UDF_TYPE_COLUMNS.put("udf_type_id", p -> p.getSecond() == null ? Integer.valueOf(FieldTypeHelper.getFieldID(p.getFirst())) : p.getSecond().getUniqueID());
+      UDF_TYPE_COLUMNS.put("table_name", p -> FieldTypeClassHelper.getXerFromInstance(p.getFirst()));
       UDF_TYPE_COLUMNS.put("udf_type_name", u -> null);
-      UDF_TYPE_COLUMNS.put("udf_type_label", u -> null);
-      UDF_TYPE_COLUMNS.put("logical_data_type", u -> null);
+      UDF_TYPE_COLUMNS.put("udf_type_label", p -> p.getSecond() != null && p.getSecond().getAlias() != null && !p.getSecond().getAlias().isEmpty() ? p.getSecond().getAlias() : p.getFirst().getName());
+      UDF_TYPE_COLUMNS.put("logical_data_type", p -> p.getFirst().getDataType());
       UDF_TYPE_COLUMNS.put("super_flag", u -> null);
       UDF_TYPE_COLUMNS.put("indicator_expression", u -> null);
       UDF_TYPE_COLUMNS.put("summary_indicator_expression", u -> null);
@@ -995,5 +1000,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       FORMAT_MAP.put(ActivityCodeScope.class, (w, o) -> ActivityCodeScopeHelper.getXerFromInstance((ActivityCodeScope)o));
       FORMAT_MAP.put(Color.class, (w, o) -> ColorHelper.getHexColor((Color)o));
       FORMAT_MAP.put(RateSource.class, (w, o) -> RateSourceHelper.getXerFromInstance((RateSource)o));
+      // FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType)o));
    }
 }
