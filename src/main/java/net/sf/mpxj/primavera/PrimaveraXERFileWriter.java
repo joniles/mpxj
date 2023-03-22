@@ -1000,6 +1000,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       FORMAT_MAP.put(ActivityCodeScope.class, (w, o) -> ActivityCodeScopeHelper.getXerFromInstance((ActivityCodeScope)o));
       FORMAT_MAP.put(Color.class, (w, o) -> ColorHelper.getHexColor((Color)o));
       FORMAT_MAP.put(RateSource.class, (w, o) -> RateSourceHelper.getXerFromInstance((RateSource)o));
-      // FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType)o));
+      FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType)o));
    }
 }
