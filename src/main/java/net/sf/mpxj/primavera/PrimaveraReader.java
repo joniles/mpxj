@@ -2186,7 +2186,7 @@ final class PrimaveraReader
       TIME_UNIT_MAP.put("QT_Year", TimeUnit.YEARS);
    }
    */
-   
+
    private static final Map<String, CurrencySymbolPosition> CURRENCY_SYMBOL_POSITION_MAP = new HashMap<>();
    static
    {

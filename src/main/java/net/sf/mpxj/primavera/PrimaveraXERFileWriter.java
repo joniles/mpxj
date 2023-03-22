@@ -44,6 +44,7 @@ import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
+import net.sf.mpxj.RateSource;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
@@ -830,8 +831,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", r -> CurveHelper.getCurveID(r.getWorkContour()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", r -> ResourceTypeHelper.getXerFromInstance(r.getResource().getType()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", r -> "ST_Rsrc");
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", r -> r.getResource().getType());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", ResourceAssignment::getRateSource);
       RESOURCE_ASSIGNMENT_COLUMNS.put("create_user", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("create_date", ResourceAssignment::getCreateDate);
       RESOURCE_ASSIGNMENT_COLUMNS.put("has_rsrchours", r -> null);
@@ -993,5 +994,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       FORMAT_MAP.put(AccrueType.class, (w, o) -> AccrueTypeHelper.getXerFromInstance((AccrueType)o));
       FORMAT_MAP.put(ActivityCodeScope.class, (w, o) -> ActivityCodeScopeHelper.getXerFromInstance((ActivityCodeScope)o));
       FORMAT_MAP.put(Color.class, (w, o) -> ColorHelper.getHexColor((Color)o));
+      FORMAT_MAP.put(RateSource.class, (w, o) -> RateSourceHelper.getXerFromInstance((RateSource)o));
    }
 }
