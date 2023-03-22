@@ -335,7 +335,7 @@ final class PrimaveraPMProjectWriter
 
          UDFTypeType udf = m_factory.createUDFTypeType();
          udf.setObjectId(uniqueID);
-         udf.setDataType(UdfHelper.getXmlFromInstance(dataType));
+         udf.setDataType(UdfHelper.getXmlFromDataType(dataType));
          udf.setSubjectArea(FieldTypeClassHelper.getXmlFromInstance(type));
          udf.setTitle(title);
          fields.add(udf);
