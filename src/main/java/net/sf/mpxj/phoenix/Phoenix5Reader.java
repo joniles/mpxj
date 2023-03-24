@@ -180,6 +180,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       mpxjProperties.setName(phoenixSettings.getTitle());
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
       mpxjProperties.setStatusDate(storepoint.getDataDate());
+      mpxjProperties.setStartDate(storepoint.getStart());
    }
 
    /**
