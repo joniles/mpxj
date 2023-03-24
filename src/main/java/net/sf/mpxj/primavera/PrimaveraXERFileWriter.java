@@ -1,4 +1,5 @@
 package net.sf.mpxj.primavera;
+
 import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -7,14 +8,17 @@ import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.TreeMap;
 import java.util.LinkedHashMap;
+import java.util.Set;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,6 +30,7 @@ import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ConstraintType;
@@ -37,6 +42,7 @@ import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseItem;
+import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
@@ -44,6 +50,7 @@ import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDays;
+import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
@@ -52,13 +59,16 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.WorkContour;
+import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -120,6 +130,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writePredecessors();
          writeResourceAssignments();
          writeActivityCodeAssignments();
+         writeUdfValues();
+         writeTrailer();
 
          m_writer.flush();
       }
@@ -164,6 +176,19 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       {
          m_writer.write(Arrays.stream(data).map(this::format).collect(Collectors.joining("\t")));
          m_writer.write("\n");
+      }
+
+      catch (IOException ex)
+      {
+         throw new RuntimeException(ex);
+      }
+   }
+
+   private void writeTrailer()
+   {
+      try
+      {
+         m_writer.write("%E\n");
       }
 
       catch (IOException ex)
@@ -305,6 +330,130 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       writeTable("UDFTYPE", UDF_TYPE_COLUMNS);
       UdfHelper.getUserDefinedFieldsSet(m_file).stream().map(f -> new Pair<>(f, m_file.getCustomFields().get(f))).sorted(Comparator.comparing(p -> p.getSecond() == null ? Integer.valueOf(FieldTypeHelper.getFieldID(p.getFirst())) : p.getSecond().getUniqueID())).forEach(p -> writeRecord(UDF_TYPE_COLUMNS, p));
+   }
+
+   private void writeUdfValues()
+   {
+      Set<FieldType> fields = UdfHelper.getUserDefinedFieldsSet(m_file);
+
+      List<Map<String, Object>> records = new ArrayList<>();
+      records.addAll(writeActivityUdfValues(fields));
+      records.addAll(writeWbsUdfValues(fields));
+      records.addAll(writeResourceUdfValues(fields));
+      records.addAll(writeResourceAssignmentUdfValues(fields));
+      records.addAll(writeProjectUdfValues(fields));
+      records.removeIf(Objects::isNull);
+
+      records.sort((r1, r2) -> {
+         Integer id1 = (Integer)r1.get("udf_type_id");
+         Integer id2 = (Integer)r2.get("udf_type_id");
+         int result = id1.compareTo(id2);
+         if (result == 0)
+         {
+            id1 = (Integer)r1.get("fk_id");
+            id2 = (Integer)r2.get("fk_id");
+            result = id1.compareTo(id2);
+         }
+         return result;
+      });
+
+      writeTable("UDFVALUE", UDF_ASSIGNMENT_COLUMNS);
+      records.forEach(r -> writeRecord(UDF_ASSIGNMENT_COLUMNS, r));
+   }
+
+   private List<Map<String, Object>> writeActivityUdfValues(Set<FieldType> allFields)
+   {
+      Set<FieldType> fields = allFields.stream().filter(f -> "TASK".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
+      return m_file.getTasks().stream().filter(t -> !t.getSummary()).map(t -> writeUdfAssignments(fields, TaskField.UNIQUE_ID, t)).flatMap(Collection::stream).collect(Collectors.toList());
+   }
+
+   private List<Map<String, Object>> writeWbsUdfValues(Set<FieldType> allFields)
+   {
+      Set<FieldType> fields = allFields.stream().filter(f -> "PROJWBS".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
+      return m_file.getTasks().stream().filter(Task::getSummary).map(t -> writeUdfAssignments(fields, TaskField.UNIQUE_ID, t)).flatMap(Collection::stream).collect(Collectors.toList());
+   }
+
+   private List<Map<String, Object>> writeResourceUdfValues(Set<FieldType> allFields)
+   {
+      Set<FieldType> fields = allFields.stream().filter(f -> "RSRC".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
+      return m_file.getResources().stream().map(r -> writeUdfAssignments(fields, ResourceField.UNIQUE_ID, r)).flatMap(Collection::stream).collect(Collectors.toList());
+   }
+
+   private List<Map<String, Object>> writeResourceAssignmentUdfValues(Set<FieldType> allFields)
+   {
+      Set<FieldType> fields = allFields.stream().filter(f -> "TASKRSRC".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
+      return m_file.getResourceAssignments().stream().map(a -> writeUdfAssignments(fields, AssignmentField.UNIQUE_ID, a)).flatMap(Collection::stream).collect(Collectors.toList());
+   }
+
+   private List<Map<String, Object>> writeProjectUdfValues(Set<FieldType> allFields)
+   {
+      Set<FieldType> fields = allFields.stream().filter(f -> "PROJECT".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
+      return writeUdfAssignments(fields, ProjectField.UNIQUE_ID, m_file.getProjectProperties());
+   }
+
+   private List<Map<String, Object>> writeUdfAssignments(Set<FieldType> fields, FieldType uniqueID, FieldContainer container)
+   {
+      Integer projectID = container instanceof Resource ? null : m_file.getProjectProperties().getUniqueID();
+      Integer entityId = (Integer)container.get(uniqueID);
+      return fields.stream().map(f -> writeUdfAssignment(f, projectID, entityId, container.get(f))).collect(Collectors.toList());
+   }
+
+   private Map<String, Object> writeUdfAssignment(FieldType type, Integer projectID, Integer entityID, Object value)
+   {
+      if (value == null)
+      {
+         return null;
+      }
+
+      Map<String, Object> record = new HashMap<>();
+
+      record.put("udf_type_id", getUdfTypeID(type));
+      record.put("fk_id", entityID);
+      record.put("proj_id", projectID);
+
+      switch (type.getDataType())
+      {
+         case DURATION:
+         case STRING:
+         {
+            record.put("udf_text", value.toString());
+            break;
+         }
+
+         case CURRENCY:
+         case INTEGER:
+         case SHORT:
+         case NUMERIC:
+         {
+            record.put("udf_number", value);
+            break;
+         }
+
+         case BINARY:
+         {
+            // Ignore binary values
+            break;
+         }
+
+         case DATE:
+         {
+            record.put("udf_date", value);
+            break;
+         }
+
+         case BOOLEAN:
+         {
+            record.put("udf_number", (BooleanHelper.getBoolean((Boolean) value) ? Integer.valueOf(1) : Integer.valueOf(0)));
+            break;
+         }
+
+         default:
+         {
+            throw new RuntimeException("Unconvertible data type: " + type.getDataType());
+         }
+      }
+
+      return record;
    }
 
    private void writeTable(String name, Map<String, ?> map)
@@ -455,19 +604,19 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return Double.valueOf(actualCost.doubleValue() - actualOvertimeCost.doubleValue());
    }
 
-   private static Integer getUdfTypeID(FieldType type, CustomField field)
+   private static Integer getUdfTypeID(FieldType type)
    {
-      return field == null ? Integer.valueOf(FieldTypeHelper.getFieldID(type)) : field.getUniqueID();
+      return type instanceof UserDefinedField ? ((UserDefinedField)type).getUniqueID() : Integer.valueOf(FieldTypeHelper.getFieldID(type));
    }
 
-   private static String getUdfTypeName(FieldType type, CustomField field)
+   private static String getUdfTypeName(FieldType type)
    {
       if (type instanceof UserDefinedField)
       {
          return type.name();
       }
 
-      return "user_field_" + getUdfTypeID(type, field);
+      return "user_field_" + getUdfTypeID(type);
    }
 
    private static String getUdfTypeLabel(FieldType type, CustomField field)
@@ -988,14 +1137,26 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<Pair<FieldType, CustomField>>> UDF_TYPE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      UDF_TYPE_COLUMNS.put("udf_type_id", p -> getUdfTypeID(p.getFirst(), p.getSecond()));
+      UDF_TYPE_COLUMNS.put("udf_type_id", p -> getUdfTypeID(p.getFirst()));
       UDF_TYPE_COLUMNS.put("table_name", p -> FieldTypeClassHelper.getXerFromInstance(p.getFirst()));
-      UDF_TYPE_COLUMNS.put("udf_type_name", p-> getUdfTypeName(p.getFirst(), p.getSecond()));
+      UDF_TYPE_COLUMNS.put("udf_type_name", p-> getUdfTypeName(p.getFirst()));
       UDF_TYPE_COLUMNS.put("udf_type_label", p -> getUdfTypeLabel(p.getFirst(), p.getSecond()));
       UDF_TYPE_COLUMNS.put("logical_data_type", p -> p.getFirst().getDataType());
       UDF_TYPE_COLUMNS.put("super_flag", p -> Boolean.FALSE);
       UDF_TYPE_COLUMNS.put("indicator_expression", p -> null);
       UDF_TYPE_COLUMNS.put("summary_indicator_expression", p -> null);
+   }
+
+   private static final Map<String, ExportFunction<Map<String, Object>>> UDF_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      UDF_ASSIGNMENT_COLUMNS.put("udf_type_id", u -> u.get("udf_type_id"));
+      UDF_ASSIGNMENT_COLUMNS.put("fk_id", u -> u.get("fk_id"));
+      UDF_ASSIGNMENT_COLUMNS.put("proj_id", u -> u.get("proj_id"));
+      UDF_ASSIGNMENT_COLUMNS.put("udf_date", u -> u.get("udf_date"));
+      UDF_ASSIGNMENT_COLUMNS.put("udf_number", u -> u.get("udf_number"));
+      UDF_ASSIGNMENT_COLUMNS.put("udf_text", u -> u.get("udf_text"));
+      UDF_ASSIGNMENT_COLUMNS.put("udf_code_id", u -> u.get("udf_code_id"));
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
