@@ -1085,29 +1085,9 @@ final class PrimaveraReader
                break;
             }
 
-            case GUID:
             case INTEGER:
             {
-               value = row.getInteger("udf_code_id");
-               break;
-            }
-
-            case BOOLEAN:
-            {
-               String text = row.getString("udf_text");
-               if (text != null)
-               {
-                  // before a normal boolean parse, we try to look up the text as a P6 static type indicator UDF
-                  value = STATICTYPE_UDF_MAP.get(text);
-                  if (value == null)
-                  {
-                     value = Boolean.valueOf(row.getBoolean("udf_text"));
-                  }
-               }
-               else
-               {
-                  value = Boolean.valueOf(row.getBoolean("udf_number"));
-               }
+               value = row.getInteger("udf_number");
                break;
             }
 

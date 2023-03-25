@@ -10,6 +10,7 @@
 			<action dev="joniles" type="update">Ensure secondary constraint date and type are written to PMXML files.</action>
 			<action dev="joniles" type="update">Ensure leveling priority is written to PMXML files.</action>
 			<action dev="joniles" type="update">Ensure WBS UDF values are written to PMXML files.</action>
+			<action dev="joniles" type="update">Ensure integer UDF values are read correctly from XER files and P6 databases.</action>
 			<action dev="joniles" type="update">Add methods to allow the project's default calendar unique ID to be set and retrieved.</action>
 			<action dev="joniles" type="update">Add method to allow a calendar's parent calendar unique ID to be retrieved.</action>
 			<action dev="joniles" type="update">Add method to allow a task's parent task unique ID to be retrieved.</action>
