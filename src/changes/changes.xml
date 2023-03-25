@@ -10,6 +10,7 @@
 			<action dev="joniles" type="update">Ensure secondary constraint date and type are written to PMXML files.</action>
 			<action dev="joniles" type="update">Ensure leveling priority is written to PMXML files.</action>
 			<action dev="joniles" type="update">Ensure WBS UDF values are written to PMXML files.</action>
+			<action dev="joniles" type="update">Ensure integer UDF values are read correctly from XER files and P6 databases.</action>
 			<action dev="joniles" type="update">Add methods to allow the project's default calendar unique ID to be set and retrieved.</action>
 			<action dev="joniles" type="update">Add method to allow a calendar's parent calendar unique ID to be retrieved.</action>
 			<action dev="joniles" type="update">Add method to allow a task's parent task unique ID to be retrieved.</action>
@@ -19,6 +20,7 @@
 			<action dev="joniles" type="update">Add method to allow an expense item's cost account unique ID to be retrieved.</action>
 			<action dev="joniles" type="update">Add method to allow an expense item's category unique ID to be retrieved.</action>
 			<action dev="joniles" type="update">Added `WorkContour.isDefault()` method to allow "built in" resouce curves/work contours to be distinguished from user defined curves.</action>
+			<action dev="joniles" type="update">Updated to retrieve the project's start date from Phoenix PPX files (Contributed by Rohit Sinha).</action>
 		</release>
 		<release date="2023-03-13" version="11.2.0">
 			<action dev="joniles" type="update">The project property Critical Slack Limit is now represented as a `Duration` rather than as an `Integer`. (Potentially breaking change if you were using this property directly).</action>
