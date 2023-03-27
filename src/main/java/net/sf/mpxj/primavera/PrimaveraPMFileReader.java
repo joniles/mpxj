@@ -45,6 +45,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.NotesTopic;
+import net.sf.mpxj.NotesTopicContainer;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.ColorHelper;
@@ -114,6 +116,7 @@ import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHo
 import net.sf.mpxj.primavera.schema.CodeAssignmentType;
 import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.GlobalPreferencesType;
+import net.sf.mpxj.primavera.schema.NotebookTopicType;
 import net.sf.mpxj.primavera.schema.ProjectNoteType;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
@@ -334,7 +337,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_roleClashMap = new ClashMap();
          m_activityCodeMap = new HashMap<>();
          m_fieldTypeMap = new HashMap<>();
-         m_notebookTopics = new HashMap<>();
 
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
@@ -434,7 +436,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_roleClashMap = null;
          m_activityCodeMap = null;
          m_fieldTypeMap = null;
-         m_notebookTopics = null;
          m_defaultCalendarObjectID = null;
       }
    }
@@ -1929,13 +1930,31 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Create a map of notebook topic names.
+    * Populate notebook topics
     *
     * @param apibo top level object
     */
    private void processNotebookTopics(APIBusinessObjects apibo)
    {
-      apibo.getNotebookTopic().forEach(t -> m_notebookTopics.put(t.getObjectId(), t.getName()));
+      apibo.getNotebookTopic().forEach(this::processNotebookTopic);
+   }
+
+   /**
+    * Populate an individual notebook topic.
+    *
+    * @param xml notebook topic data
+    */
+   private void processNotebookTopic(NotebookTopicType xml)
+   {
+      Integer uniqueID = xml.getObjectId();
+      Integer sequenceNumber = xml.getSequenceNumber();
+      boolean epsFlag = xml.isAvailableForEPS();
+      boolean projectFlag = xml.isAvailableForProject();
+      boolean wbsFlag = xml.isAvailableForWBS();
+      boolean activityFlag = xml.isAvailableForActivity();
+      String name = xml.getName();
+
+      m_projectFile.getNotesTopics().add(new NotesTopic(uniqueID, sequenceNumber, name, epsFlag, projectFlag, wbsFlag, activityFlag));
    }
 
    /**
@@ -1970,6 +1989,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private Map<Integer, Notes> getNotes(Map<Integer, Map<Integer, List<String>>> map)
    {
+      NotesTopicContainer topics = m_projectFile.getNotesTopics();
       Map<Integer, Notes> result = new HashMap<>();
 
       for (Map.Entry<Integer, Map<Integer, List<String>>> entry : map.entrySet())
@@ -1977,7 +1997,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          List<Notes> list = new ArrayList<>();
          for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
          {
-            topicEntry.getValue().stream().map(this::getHtmlNote).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topicEntry.getKey(), m_notebookTopics.get(topicEntry.getKey()), n)));
+            NotesTopic topic = topics.getByUniqueID(topicEntry.getKey()) == null ? topics.getDefaultTopic() : topics.getByUniqueID(topicEntry.getKey());
+            topicEntry.getValue().stream().map(this::getHtmlNote).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topic, n)));
          }
          result.put(entry.getKey(), new ParentNotes(list));
       }
@@ -2311,7 +2332,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private Map<Integer, FieldType> m_fieldTypeMap;
    private List<ExternalRelation> m_externalRelations;
    private boolean m_linkCrossProjectRelations;
-   private Map<Integer, String> m_notebookTopics;
    private Integer m_defaultCalendarObjectID;
 
    private static final Map<String, Day> DAY_MAP = new HashMap<>();
