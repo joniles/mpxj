@@ -1125,6 +1125,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("loginal_data_type", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("max_qty_per_hr", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("memo_type_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("memo_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("month_hr_cnt", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("orig_cost", XerFieldType.CURRENCY);
       FIELD_TYPE_MAP.put("parent_acct_id", XerFieldType.INTEGER);
@@ -1202,6 +1203,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("udf_type_label", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("udf_type_name", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("wbs_id", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("wbs_memo_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("week_hr_cnt", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("year_hr_cnt", XerFieldType.DOUBLE);
    }

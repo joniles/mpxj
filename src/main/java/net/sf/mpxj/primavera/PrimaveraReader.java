@@ -1167,15 +1167,12 @@ final class PrimaveraReader
     */
    public Map<Integer, Notes> getNotes(List<Row> rows, String uniqueIDColumn, String entityIdColumn, String textColumn)
    {
-      Map<Integer, List<Row>> map = rows.stream().collect(Collectors.groupingBy(r -> r.getInteger(entityIdColumn), Collectors.mapping(r -> r, Collectors.toList())));
+      Map<Integer, List<Row>> map = rows.stream().sorted(Comparator.comparing(r -> r.getInteger(uniqueIDColumn))).collect(Collectors.groupingBy(r -> r.getInteger(entityIdColumn), Collectors.mapping(r -> r, Collectors.toList())));
       NotesTopicContainer topics = m_project.getNotesTopics();
       Map<Integer, Notes> result = new HashMap<>();
 
       for (Map.Entry<Integer, List<Row>> entry : map.entrySet())
       {
-         List<Row> notesList = entry.getValue();
-         notesList.sort(Comparator.comparing(r -> r.getInteger(uniqueIDColumn)));
-
          List<Notes> list = new ArrayList<>();
          for (Row row : entry.getValue())
          {
