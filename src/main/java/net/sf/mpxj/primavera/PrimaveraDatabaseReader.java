@@ -348,8 +348,8 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       List<Row> wbs = getRows("select * from " + m_schema + "projwbs where proj_id=? and delete_date is null order by parent_wbs_id,seq_num", m_projectID);
       List<Row> tasks = getRows("select * from " + m_schema + "task where proj_id=? and delete_date is null", m_projectID);
-      Map<Integer, Notes> wbsNotes = m_reader.getNotes(getRows("select * from " + m_schema + "wbsmemo where proj_id=?", m_projectID), "wbs_id", "wbs_memo");
-      Map<Integer, Notes> taskNotes = m_reader.getNotes(getRows("select * from " + m_schema + "taskmemo where proj_id=?", m_projectID), "task_id", "task_memo");
+      Map<Integer, Notes> wbsNotes = m_reader.getNotes(getRows("select * from " + m_schema + "wbsmemo where proj_id=?", m_projectID), "wbs_memo_id", "wbs_id", "wbs_memo");
+      Map<Integer, Notes> taskNotes = m_reader.getNotes(getRows("select * from " + m_schema + "taskmemo where proj_id=?", m_projectID), "memo_id", "task_id", "task_memo");
 
       m_reader.processTasks(wbs, tasks, wbsNotes, taskNotes);
    }

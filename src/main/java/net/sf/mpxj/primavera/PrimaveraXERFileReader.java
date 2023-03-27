@@ -547,8 +547,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    {
       List<Row> wbs = getRows("projwbs", "proj_id", m_projectID);
       List<Row> tasks = getRows("task", "proj_id", m_projectID);
-      Map<Integer, Notes> wbsNotes = m_reader.getNotes(getRows("wbsmemo", "proj_id", m_projectID), "wbs_id", "wbs_memo");
-      Map<Integer, Notes> taskNotes = m_reader.getNotes(getRows("taskmemo", "proj_id", m_projectID), "task_id", "task_memo");
+      Map<Integer, Notes> wbsNotes = m_reader.getNotes(getRows("wbsmemo", "proj_id", m_projectID), "wbs_memo_id", "wbs_id", "wbs_memo");
+      Map<Integer, Notes> taskNotes = m_reader.getNotes(getRows("taskmemo", "proj_id", m_projectID), "memo_id", "task_id", "task_memo");
 
       wbs.sort(WBS_ROW_COMPARATOR);
       m_reader.processTasks(wbs, tasks, wbsNotes, taskNotes);
