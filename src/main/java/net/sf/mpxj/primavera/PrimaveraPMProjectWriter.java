@@ -1378,8 +1378,8 @@ final class PrimaveraPMProjectWriter
          // TODO: enable
          //xml.setAvailableForEPS(Boolean.valueOf(entry.getEps()));
          //xml.setAvailableForProject(Boolean.valueOf(entry.getProject()));
-         xml.setAvailableForActivity(Boolean.valueOf(entry.getActivity()));
-         xml.setAvailableForWBS(Boolean.valueOf(entry.getWbs()));
+         xml.setAvailableForActivity(Boolean.valueOf(entry.getAvailableForActivity()));
+         xml.setAvailableForWBS(Boolean.valueOf(entry.getAvailableForWBS()));
          xml.setName(entry.getName());
          xml.setObjectId(entry.getUniqueID());
          xml.setSequenceNumber(entry.getSequenceNumber());

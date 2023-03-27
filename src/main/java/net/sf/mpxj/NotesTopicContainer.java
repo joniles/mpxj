@@ -37,6 +37,11 @@ public class NotesTopicContainer extends ProjectEntityContainer<NotesTopic>
       super(projectFile);
    }
 
+   /**
+    * Retrieve a default NotesTopic instance, creating it if it doesn't already exist.
+    *
+    * @return default NotesTopic instance
+    */
    public NotesTopic getDefaultTopic()
    {
       NotesTopicContainer topics = m_projectFile.getNotesTopics();
