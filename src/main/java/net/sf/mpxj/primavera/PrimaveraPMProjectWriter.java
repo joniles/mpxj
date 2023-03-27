@@ -1375,9 +1375,8 @@ final class PrimaveraPMProjectWriter
          NotebookTopicType xml = m_factory.createNotebookTopicType();
          m_apibo.getNotebookTopic().add(xml);
 
-         // TODO: enable
-         //xml.setAvailableForEPS(Boolean.valueOf(entry.getEps()));
-         //xml.setAvailableForProject(Boolean.valueOf(entry.getProject()));
+         xml.setAvailableForEPS(Boolean.valueOf(entry.getAvailableForEPS()));
+         xml.setAvailableForProject(Boolean.valueOf(entry.getAvailableForProject()));
          xml.setAvailableForActivity(Boolean.valueOf(entry.getAvailableForActivity()));
          xml.setAvailableForWBS(Boolean.valueOf(entry.getAvailableForWBS()));
          xml.setName(entry.getName());
