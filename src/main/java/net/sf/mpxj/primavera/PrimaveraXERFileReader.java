@@ -224,6 +224,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          processActivityCodes();
          processExpenseCategories();
          processCostAccounts();
+         processNotebookTopics();
          processCalendars();
          processResources();
          processRoles();
@@ -453,6 +454,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Process notebook topics.
+    */
+   private void processNotebookTopics()
+   {
+      m_reader.processNotebookTopics(getRows("memotype", null, null));
+   }
+
+   /**
     * Process activity code data.
     */
    private void processActivityCodes()
@@ -538,9 +547,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    {
       List<Row> wbs = getRows("projwbs", "proj_id", m_projectID);
       List<Row> tasks = getRows("task", "proj_id", m_projectID);
-      Map<Integer, String> topics = m_reader.getNotebookTopics(getRows("memotype", null, null));
-      Map<Integer, Notes> wbsNotes = m_reader.getNotes(topics, getRows("wbsmemo", "proj_id", m_projectID), "wbs_id", "wbs_memo");
-      Map<Integer, Notes> taskNotes = m_reader.getNotes(topics, getRows("taskmemo", "proj_id", m_projectID), "task_id", "task_memo");
+      Map<Integer, Notes> wbsNotes = m_reader.getNotes(getRows("wbsmemo", "proj_id", m_projectID), "wbs_id", "wbs_memo");
+      Map<Integer, Notes> taskNotes = m_reader.getNotes(getRows("taskmemo", "proj_id", m_projectID), "task_id", "task_memo");
 
       wbs.sort(WBS_ROW_COMPARATOR);
       m_reader.processTasks(wbs, tasks, wbsNotes, taskNotes);
