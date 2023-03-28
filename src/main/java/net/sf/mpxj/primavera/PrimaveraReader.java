@@ -28,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1160,24 +1161,37 @@ final class PrimaveraReader
     * Extract notes.
     *
     * @param rows notebook rows
-    * @param idColumn id column name
+    * @param uniqueIDColumn note unique ID column name
+    * @param entityIdColumn entity id column name
     * @param textColumn text column name
     * @return note text
     */
-   public Map<Integer, Notes> getNotes(List<Row> rows, String idColumn, String textColumn)
+   public Map<Integer, Notes> getNotes(List<Row> rows, String uniqueIDColumn, String entityIdColumn, String textColumn)
    {
-      Map<Integer, Map<Integer, List<String>>> map = rows.stream().collect(Collectors.groupingBy(r -> r.getInteger(idColumn), Collectors.groupingBy(r -> r.getInteger("memo_type_id"), Collectors.mapping(r -> r.getString(textColumn), Collectors.toList()))));
+      Map<Integer, List<Row>> map = rows.stream().sorted(Comparator.comparing(r -> r.getInteger(uniqueIDColumn))).collect(Collectors.groupingBy(r -> r.getInteger(entityIdColumn), Collectors.mapping(r -> r, Collectors.toList())));
       NotesTopicContainer topics = m_project.getNotesTopics();
       Map<Integer, Notes> result = new HashMap<>();
 
-      for (Map.Entry<Integer, Map<Integer, List<String>>> entry : map.entrySet())
+      for (Map.Entry<Integer, List<Row>> entry : map.entrySet())
       {
          List<Notes> list = new ArrayList<>();
-         for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
+         for (Row row : entry.getValue())
          {
-            NotesTopic topic = topics.getByUniqueID(topicEntry.getKey()) == null ? topics.getDefaultTopic() : topics.getByUniqueID(topicEntry.getKey());
-            topicEntry.getValue().stream().map(this::getHtmlNote).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topic, n)));
+            HtmlNotes notes = getHtmlNote(row.getString(textColumn));
+            if (notes == null || notes.isEmpty())
+            {
+               continue;
+            }
+
+            NotesTopic topic = topics.getByUniqueID(row.getInteger("memo_type_id"));
+            if (topic == null)
+            {
+               topic = topics.getDefaultTopic();
+            }
+
+            list.add(new StructuredNotes(row.getInteger(uniqueIDColumn), topic, notes));
          }
+
          result.put(entry.getKey(), new ParentNotes(list));
       }
 
