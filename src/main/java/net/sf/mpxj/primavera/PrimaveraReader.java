@@ -28,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,6 +62,8 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
+import net.sf.mpxj.NotesTopic;
+import net.sf.mpxj.NotesTopicContainer;
 import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.ProjectCalendar;
@@ -1127,40 +1130,68 @@ final class PrimaveraReader
    }
 
    /**
-    * Create a map of notebook topics.
+    * Populate notebook topics.
     *
     * @param rows notebook topic rows
-    * @return notebook topic map
     */
-   public Map<Integer, String> getNotebookTopics(List<Row> rows)
+   public void processNotebookTopics(List<Row> rows)
    {
-      Map<Integer, String> topics = new HashMap<>();
-      rows.forEach(row -> topics.put(row.getInteger("memo_type_id"), row.getString("memo_type")));
-      return topics;
+      rows.forEach(this::processNotebookTopic);
    }
 
    /**
-    * Convert the P6 notes to plain text.
+    * Populate an individual notebook topic.
     *
-    * @param topics topic map
+    * @param row notebook topic row
+    */
+   private void processNotebookTopic(Row row)
+   {
+      Integer uniqueID = row.getInteger("memo_type_id");
+      Integer sequenceNumber = row.getInteger("seq_num");
+      boolean epsFlag = row.getBoolean("eps_flag");
+      boolean projectFlag = row.getBoolean("proj_flag");
+      boolean wbsFlag = row.getBoolean("wbs_flag");
+      boolean activityFlag = row.getBoolean("task_flag");
+      String name = row.getString("memo_type");
+
+      m_project.getNotesTopics().add(new NotesTopic(uniqueID, sequenceNumber, name, epsFlag, projectFlag, wbsFlag, activityFlag));
+   }
+
+   /**
+    * Extract notes.
+    *
     * @param rows notebook rows
-    * @param idColumn id column name
+    * @param uniqueIDColumn note unique ID column name
+    * @param entityIdColumn entity id column name
     * @param textColumn text column name
     * @return note text
     */
-   public Map<Integer, Notes> getNotes(Map<Integer, String> topics, List<Row> rows, String idColumn, String textColumn)
+   public Map<Integer, Notes> getNotes(List<Row> rows, String uniqueIDColumn, String entityIdColumn, String textColumn)
    {
-      Map<Integer, Map<Integer, List<String>>> map = rows.stream().collect(Collectors.groupingBy(r -> r.getInteger(idColumn), Collectors.groupingBy(r -> r.getInteger("memo_type_id"), Collectors.mapping(r -> r.getString(textColumn), Collectors.toList()))));
-
+      Map<Integer, List<Row>> map = rows.stream().sorted(Comparator.comparing(r -> r.getInteger(uniqueIDColumn))).collect(Collectors.groupingBy(r -> r.getInteger(entityIdColumn), Collectors.mapping(r -> r, Collectors.toList())));
+      NotesTopicContainer topics = m_project.getNotesTopics();
       Map<Integer, Notes> result = new HashMap<>();
 
-      for (Map.Entry<Integer, Map<Integer, List<String>>> entry : map.entrySet())
+      for (Map.Entry<Integer, List<Row>> entry : map.entrySet())
       {
          List<Notes> list = new ArrayList<>();
-         for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
+         for (Row row : entry.getValue())
          {
-            topicEntry.getValue().stream().map(this::getHtmlNote).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topicEntry.getKey(), topics.get(topicEntry.getKey()), n)));
+            HtmlNotes notes = getHtmlNote(row.getString(textColumn));
+            if (notes == null || notes.isEmpty())
+            {
+               continue;
+            }
+
+            NotesTopic topic = topics.getByUniqueID(row.getInteger("memo_type_id"));
+            if (topic == null)
+            {
+               topic = topics.getDefaultTopic();
+            }
+
+            list.add(new StructuredNotes(row.getInteger(uniqueIDColumn), topic, notes));
          }
+
          result.put(entry.getKey(), new ParentNotes(list));
       }
 
@@ -2174,17 +2205,6 @@ final class PrimaveraReader
       CURRENCY_SYMBOL_POSITION_MAP.put("1.1#", CurrencySymbolPosition.AFTER);
       CURRENCY_SYMBOL_POSITION_MAP.put("# 1.1", CurrencySymbolPosition.BEFORE_WITH_SPACE);
       CURRENCY_SYMBOL_POSITION_MAP.put("1.1 #", CurrencySymbolPosition.AFTER_WITH_SPACE);
-   }
-
-   private static final Map<String, Boolean> STATICTYPE_UDF_MAP = new HashMap<>();
-   static
-   {
-      // this is a judgement call on how the static type indicator values would be best translated to a flag
-      STATICTYPE_UDF_MAP.put("UDF_G0", Boolean.FALSE); // no indicator
-      STATICTYPE_UDF_MAP.put("UDF_G1", Boolean.FALSE); // red x
-      STATICTYPE_UDF_MAP.put("UDF_G2", Boolean.FALSE); // yellow !
-      STATICTYPE_UDF_MAP.put("UDF_G3", Boolean.TRUE); // green check
-      STATICTYPE_UDF_MAP.put("UDF_G4", Boolean.TRUE); // blue star
    }
 
    static final long EXCEPTION_EPOCH = -2209161599935L;

@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -45,6 +46,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.ColorHelper;
@@ -114,6 +116,7 @@ import net.sf.mpxj.primavera.schema.CalendarType.StandardWorkWeek.StandardWorkHo
 import net.sf.mpxj.primavera.schema.CodeAssignmentType;
 import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.GlobalPreferencesType;
+import net.sf.mpxj.primavera.schema.NotebookTopicType;
 import net.sf.mpxj.primavera.schema.ProjectNoteType;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
@@ -334,7 +337,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_roleClashMap = new ClashMap();
          m_activityCodeMap = new HashMap<>();
          m_fieldTypeMap = new HashMap<>();
-         m_notebookTopics = new HashMap<>();
 
          m_projectFile = new ProjectFile();
          m_eventManager = m_projectFile.getEventManager();
@@ -434,7 +436,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_roleClashMap = null;
          m_activityCodeMap = null;
          m_fieldTypeMap = null;
-         m_notebookTopics = null;
          m_defaultCalendarObjectID = null;
       }
    }
@@ -1929,13 +1930,31 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Create a map of notebook topic names.
+    * Populate notebook topics.
     *
     * @param apibo top level object
     */
    private void processNotebookTopics(APIBusinessObjects apibo)
    {
-      apibo.getNotebookTopic().forEach(t -> m_notebookTopics.put(t.getObjectId(), t.getName()));
+      apibo.getNotebookTopic().forEach(this::processNotebookTopic);
+   }
+
+   /**
+    * Populate an individual notebook topic.
+    *
+    * @param xml notebook topic data
+    */
+   private void processNotebookTopic(NotebookTopicType xml)
+   {
+      Integer uniqueID = xml.getObjectId();
+      Integer sequenceNumber = xml.getSequenceNumber();
+      boolean epsFlag = xml.isAvailableForEPS().booleanValue();
+      boolean projectFlag = xml.isAvailableForProject().booleanValue();
+      boolean wbsFlag = xml.isAvailableForWBS().booleanValue();
+      boolean activityFlag = xml.isAvailableForActivity().booleanValue();
+      String name = xml.getName();
+
+      m_projectFile.getNotesTopics().add(new NotesTopic(uniqueID, sequenceNumber, name, epsFlag, projectFlag, wbsFlag, activityFlag));
    }
 
    /**
@@ -1946,8 +1965,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private Map<Integer, Notes> getWbsNotes(List<ProjectNoteType> notes)
    {
-      Map<Integer, Map<Integer, List<String>>> map = notes.stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.groupingBy(ProjectNoteType::getNotebookTopicObjectId, Collectors.mapping(ProjectNoteType::getNote, Collectors.toList()))));
-      return getNotes(map);
+      Map<Integer, List<ProjectNoteType>> map = notes.stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.toList()));
+      return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new ParentNotes(e.getValue().stream().map(n -> getNote(n.getObjectId(), n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList()))));
    }
 
    /**
@@ -1958,31 +1977,25 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private Map<Integer, Notes> getActivityNotes(List<ActivityNoteType> notes)
    {
-      Map<Integer, Map<Integer, List<String>>> map = notes.stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.groupingBy(ActivityNoteType::getNotebookTopicObjectId, Collectors.mapping(ActivityNoteType::getNote, Collectors.toList()))));
-      return getNotes(map);
+      Map<Integer, List<ActivityNoteType>> map = notes.stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.toList()));
+      return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new ParentNotes(e.getValue().stream().map(n -> getNote(n.getObjectId(), n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList()))));
    }
 
-   /**
-    * Create note text from multiple notebook topics and entries.
-    *
-    * @param map notebook data
-    * @return map of object IDs and note text
-    */
-   private Map<Integer, Notes> getNotes(Map<Integer, Map<Integer, List<String>>> map)
+   private Notes getNote(Integer uniqueID, Integer topicID, String text)
    {
-      Map<Integer, Notes> result = new HashMap<>();
-
-      for (Map.Entry<Integer, Map<Integer, List<String>>> entry : map.entrySet())
+      HtmlNotes note = getHtmlNote(text);
+      if (note == null || note.isEmpty())
       {
-         List<Notes> list = new ArrayList<>();
-         for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
-         {
-            topicEntry.getValue().stream().map(this::getHtmlNote).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topicEntry.getKey(), m_notebookTopics.get(topicEntry.getKey()), n)));
-         }
-         result.put(entry.getKey(), new ParentNotes(list));
+         return null;
       }
 
-      return result;
+      NotesTopic topic = m_projectFile.getNotesTopics().getByUniqueID(topicID);
+      if (topic == null)
+      {
+         topic = m_projectFile.getNotesTopics().getDefaultTopic();
+      }
+
+      return new StructuredNotes(uniqueID, topic, note);
    }
 
    /**
@@ -2311,7 +2324,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private Map<Integer, FieldType> m_fieldTypeMap;
    private List<ExternalRelation> m_externalRelations;
    private boolean m_linkCrossProjectRelations;
-   private Map<Integer, String> m_notebookTopics;
    private Integer m_defaultCalendarObjectID;
 
    private static final Map<String, Day> DAY_MAP = new HashMap<>();

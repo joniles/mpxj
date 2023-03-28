@@ -291,7 +291,7 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeStartObject(null);
          writeIntegerField("unique_id", contour.getUniqueID());
          writeStringField("name", contour.getName());
-         writeBooleanField("default", contour.isContourDefault());
+         writeBooleanField("default", Boolean.valueOf(contour.isContourDefault()));
          if (contour.getCurveValues() != null)
          {
             m_writer.writeList("curve_values", Arrays.stream(contour.getCurveValues()).mapToObj(Double::toString).collect(Collectors.toList()));
@@ -359,7 +359,7 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeStartObject(null);
       writeIntegerField("unique_id", Integer.valueOf(FieldTypeHelper.getFieldID(field)));
       writeStringField("field_type_class", field.getFieldTypeClass().toString().toLowerCase());
-      writeBooleanField("summary_task_only", field.getSummaryTaskOnly());
+      writeBooleanField("summary_task_only", Boolean.valueOf(field.getSummaryTaskOnly()));
       writeStringField("data_type", field.getDataType().toString().toLowerCase());
       writeStringField("internal_name", field.name().toLowerCase());
       writeStringField("external_name", field.getName());

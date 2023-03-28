@@ -28,7 +28,6 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +57,7 @@ import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
+import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.ProjectCalendar;
@@ -142,7 +142,6 @@ final class PrimaveraPMProjectWriter
       try
       {
          m_factory = new ObjectFactory();
-         m_topics = new HashMap<>();
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
          m_wbsSequence = new ObjectSequence(0);
          m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_projectFile);
@@ -209,7 +208,6 @@ final class PrimaveraPMProjectWriter
          m_factory = null;
          m_wbsSequence = null;
          m_userDefinedFields = null;
-         m_topics = null;
       }
    }
 
@@ -1310,17 +1308,18 @@ final class PrimaveraPMProjectWriter
     */
    private void writeTopics()
    {
-      int sequenceNumber = 1;
-      for (Map.Entry<Integer, String> entry : m_topics.entrySet())
+      for (NotesTopic entry : m_projectFile.getNotesTopics())
       {
-         NotebookTopicType topic = m_factory.createNotebookTopicType();
-         m_apibo.getNotebookTopic().add(topic);
+         NotebookTopicType xml = m_factory.createNotebookTopicType();
+         m_apibo.getNotebookTopic().add(xml);
 
-         topic.setAvailableForActivity(Boolean.TRUE);
-         topic.setAvailableForWBS(Boolean.TRUE);
-         topic.setName(entry.getValue());
-         topic.setObjectId(entry.getKey());
-         topic.setSequenceNumber(Integer.valueOf(sequenceNumber++));
+         xml.setAvailableForEPS(Boolean.valueOf(entry.getAvailableForEPS()));
+         xml.setAvailableForProject(Boolean.valueOf(entry.getAvailableForProject()));
+         xml.setAvailableForActivity(Boolean.valueOf(entry.getAvailableForActivity()));
+         xml.setAvailableForWBS(Boolean.valueOf(entry.getAvailableForWBS()));
+         xml.setName(entry.getName());
+         xml.setObjectId(entry.getUniqueID());
+         xml.setSequenceNumber(entry.getSequenceNumber());
       }
    }
 
@@ -1357,9 +1356,8 @@ final class PrimaveraPMProjectWriter
       ProjectNoteType xml = m_factory.createProjectNoteType();
       m_projectNotes.add(xml);
 
-      m_topics.put(NOTEBOOK_TOPIC_OBJECT_ID, "Notes");
       xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
-      xml.setNotebookTopicObjectId(NOTEBOOK_TOPIC_OBJECT_ID);
+      xml.setNotebookTopicObjectId(m_projectFile.getNotesTopics().getDefaultTopic().getUniqueID());
       xml.setObjectId(m_sequences.getWbsNoteObjectID());
       xml.setProjectObjectId(m_projectObjectID);
       xml.setWBSObjectId(task.getUniqueID());
@@ -1380,10 +1378,9 @@ final class PrimaveraPMProjectWriter
          ProjectNoteType xml = m_factory.createProjectNoteType();
          m_projectNotes.add(xml);
 
-         m_topics.put(structuredNotes.getTopicID(), structuredNotes.getTopicName());
          xml.setNote(htmlNotes.getHtml());
          xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
-         xml.setObjectId(m_sequences.getWbsNoteObjectID());
+         xml.setObjectId(structuredNotes.getUniqueID());
          xml.setProjectObjectId(m_projectObjectID);
          xml.setWBSObjectId(task.getUniqueID());
       }
@@ -1422,9 +1419,8 @@ final class PrimaveraPMProjectWriter
       ActivityNoteType xml = m_factory.createActivityNoteType();
       m_activityNotes.add(xml);
 
-      m_topics.put(NOTEBOOK_TOPIC_OBJECT_ID, "Notes");
       xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
-      xml.setNotebookTopicObjectId(NOTEBOOK_TOPIC_OBJECT_ID);
+      xml.setNotebookTopicObjectId(m_projectFile.getNotesTopics().getDefaultTopic().getUniqueID());
       xml.setObjectId(m_sequences.getActivityNoteObjectID());
       xml.setProjectObjectId(m_projectObjectID);
       xml.setActivityObjectId(task.getUniqueID());
@@ -1445,10 +1441,9 @@ final class PrimaveraPMProjectWriter
          ActivityNoteType xml = m_factory.createActivityNoteType();
          m_activityNotes.add(xml);
 
-         m_topics.put(structuredNotes.getTopicID(), structuredNotes.getTopicName());
          xml.setNote(htmlNotes.getHtml());
          xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
-         xml.setObjectId(m_sequences.getActivityNoteObjectID());
+         xml.setObjectId(structuredNotes.getUniqueID());
          xml.setProjectObjectId(m_projectObjectID);
          xml.setActivityObjectId(task.getUniqueID());
       }
@@ -1471,6 +1466,7 @@ final class PrimaveraPMProjectWriter
     *
     * @author lsong
     * @param type parent entity type
+    * @param summaryTaskOnly true if we're writing assignments for WBS
     * @param mpxj parent entity
     * @return list of UDFAssignmentType instances
     */
@@ -1492,7 +1488,7 @@ final class PrimaveraPMProjectWriter
          // TODO: consider if we can map non task user defined fields from other schedules to WBS UDF
          if (type == FieldTypeClass.TASK && summaryTaskOnly)
          {
-            if (fieldType instanceof TaskField || (fieldType instanceof UserDefinedField && !((UserDefinedField)fieldType).getSummaryTaskOnly()))
+            if (fieldType instanceof TaskField || (fieldType instanceof UserDefinedField && !((UserDefinedField) fieldType).getSummaryTaskOnly()))
             {
                continue;
             }
@@ -1831,7 +1827,6 @@ final class PrimaveraPMProjectWriter
       return m_projectFile;
    }
 
-   private static final Integer NOTEBOOK_TOPIC_OBJECT_ID = Integer.valueOf(1);
    private static final String DEFAULT_PROJECT_ID = "PROJECT";
    private static final String RESOURCE_ID_PREFIX = "RESOURCE-";
    private static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);
@@ -1865,6 +1860,5 @@ final class PrimaveraPMProjectWriter
 
    private ObjectSequence m_wbsSequence;
    private Set<FieldType> m_userDefinedFields;
-   private Map<Integer, String> m_topics;
    private boolean m_activityTypePopulated;
 }
