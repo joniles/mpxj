@@ -1,82 +1,62 @@
 package net.sf.mpxj.primavera;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.TreeMap;
 import java.util.LinkedHashMap;
-import java.util.Set;
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
-import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
-import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
-import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CustomField;
-import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
-import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.PercentCompleteType;
-import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
-import net.sf.mpxj.Rate;
-import net.sf.mpxj.RateSource;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
-import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.CharsetHelper;
-import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
-import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.writer.AbstractProjectWriter;
@@ -107,10 +87,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    @Override public void write(ProjectFile projectFile, OutputStream outputStream) throws IOException
    {
       m_file = projectFile;
-      m_writer = new OutputStreamWriter(outputStream, getCharset());
-      m_roleRateObjectID = new ObjectSequence(1);
-      m_resourceRateObjectID = new ObjectSequence(1);
-      m_wbsNoteObjectID = new ObjectSequence(1);
+      m_writer = new XerWriter(projectFile, new OutputStreamWriter(outputStream, getCharset()));
+      m_rateObjectID = new ObjectSequence(1);
+      m_noteObjectID = new ObjectSequence(1);
 
       // We need to do this first to ensure the default topic is created if required
       populateWbsNotes();
@@ -143,7 +122,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeResourceAssignments();
          writeActivityCodeAssignments();
          writeUdfValues();
-         writeTrailer();
+         m_writer.writeTrailer();
 
          m_writer.flush();
       }
@@ -175,7 +154,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       Object[] data = {
          "ERMHDR",
          "20.12",
-         formatDate(new Date()),
+         new DateOnly(new Date()),
          "Project",
          "admin",
          "admin",
@@ -184,52 +163,30 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          CURRENCY_COLUMNS.get("curr_short_name")
       };
 
-      try
-      {
-         m_writer.write(Arrays.stream(data).map(this::format).collect(Collectors.joining("\t")));
-         m_writer.write("\n");
-      }
-
-      catch (IOException ex)
-      {
-         throw new RuntimeException(ex);
-      }
-   }
-
-   private void writeTrailer()
-   {
-      try
-      {
-         m_writer.write("%E\n");
-      }
-
-      catch (IOException ex)
-      {
-         throw new RuntimeException(ex);
-      }
+      m_writer.writeHeader(data);
    }
 
    private void writeCurrencies()
    {
-      writeTable("CURRTYPE", CURRENCY_COLUMNS);
-      writeRecord(CURRENCY_COLUMNS.values().stream());
+      m_writer.writeTable("CURRTYPE", CURRENCY_COLUMNS);
+      m_writer.writeRecord(CURRENCY_COLUMNS.values().stream());
    }
 
    private void writeRoles()
    {
-      writeTable("ROLES", ROLE_COLUMNS);
-      m_file.getResources().stream().filter(Resource::getRole).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeRecord(ROLE_COLUMNS, r));
+      m_writer.writeTable("ROLES", ROLE_COLUMNS);
+      m_file.getResources().stream().filter(Resource::getRole).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> m_writer.writeRecord(ROLE_COLUMNS, r));
    }
 
    private void writeRoleRates()
    {
-      writeTable("ROLERATE", ROLE_RATE_COLUMNS);
+      m_writer.writeTable("ROLERATE", ROLE_RATE_COLUMNS);
       m_file.getResources().stream().filter(Resource::getRole).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeCostRateTableEntries(ROLE_RATE_COLUMNS, r));
    }
 
    private void writeResourceRates()
    {
-      writeTable("RSRCRATE", RESOURCE_RATE_COLUMNS);
+      m_writer.writeTable("RSRCRATE", RESOURCE_RATE_COLUMNS);
       m_file.getResources().stream().filter(r -> !r.getRole().booleanValue()).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeCostRateTableEntries(RESOURCE_RATE_COLUMNS, r));
    }
 
@@ -241,7 +198,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeCostRateTableEntry(Map<String, ExportFunction<Map<String, Object>>> columns, Resource resource, CostRateTableEntry entry)
    {
       Map<String, Object> map = new HashMap<>();
-      map.put("object_id", m_roleRateObjectID.getNext());
+      map.put("object_id", m_rateObjectID.getNext());
       map.put("entity_id", resource.getUniqueID());
       map.put("cost_per_qty", entry.getRate(0));
       map.put("cost_per_qty2", entry.getRate(1));
@@ -251,108 +208,108 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       map.put("start_date", entry.getStartDate());
       map.put("max_qty_per_hr", getMaxQuantityPerHour(resource, entry));
 
-      writeRecord(columns, map);
+      m_writer.writeRecord(columns, map);
    }
 
    private void writeResources()
    {
-      writeTable("RSRC", RESOURCE_COLUMNS);
-      m_file.getResources().stream().filter(r -> !r.getRole().booleanValue()).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeRecord(RESOURCE_COLUMNS, r));
+      m_writer.writeTable("RSRC", RESOURCE_COLUMNS);
+      m_file.getResources().stream().filter(r -> !r.getRole().booleanValue()).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> m_writer.writeRecord(RESOURCE_COLUMNS, r));
    }
 
    private void writeProject()
    {
-      writeTable("PROJECT", PROJECT_COLUMNS);
-      writeRecord(PROJECT_COLUMNS, m_file.getProjectProperties());
+      m_writer.writeTable("PROJECT", PROJECT_COLUMNS);
+      m_writer.writeRecord(PROJECT_COLUMNS, m_file.getProjectProperties());
    }
 
    private void writeCalendars()
    {
-      writeTable("CALENDAR", CALENDAR_COLUMNS);
-      m_file.getCalendars().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(c -> writeRecord(CALENDAR_COLUMNS, c));
+      m_writer.writeTable("CALENDAR", CALENDAR_COLUMNS);
+      m_file.getCalendars().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(c -> m_writer.writeRecord(CALENDAR_COLUMNS, c));
    }
 
    private void writeWBS()
    {
-      writeTable("PROJWBS", WBS_COLUMNS);
-      m_file.getTasks().stream().filter(Task::getSummary).sorted(Comparator.comparing(Task::getUniqueID)).forEach(t -> writeRecord(WBS_COLUMNS, t));
+      m_writer.writeTable("PROJWBS", WBS_COLUMNS);
+      m_file.getTasks().stream().filter(Task::getSummary).sorted(Comparator.comparing(Task::getUniqueID)).forEach(t -> m_writer.writeRecord(WBS_COLUMNS, t));
    }
 
    private void writeActivities()
    {
-      writeTable("TASK", ACTIVITY_COLUMNS);
-      m_file.getTasks().stream().filter(t -> !t.getSummary()).sorted(Comparator.comparing(Task::getUniqueID)).forEach(t -> writeRecord(ACTIVITY_COLUMNS, t));
+      m_writer.writeTable("TASK", ACTIVITY_COLUMNS);
+      m_file.getTasks().stream().filter(t -> !t.getSummary()).sorted(Comparator.comparing(Task::getUniqueID)).forEach(t -> m_writer.writeRecord(ACTIVITY_COLUMNS, t));
    }
 
    private void writePredecessors()
    {
-      writeTable("TASKPRED", PREDECESSOR_COLUMNS);
-      m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getPredecessors).flatMap(Collection::stream).sorted(Comparator.comparing(Relation::getUniqueID)).forEach(r -> writeRecord(PREDECESSOR_COLUMNS, r));
+      m_writer.writeTable("TASKPRED", PREDECESSOR_COLUMNS);
+      m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getPredecessors).flatMap(Collection::stream).sorted(Comparator.comparing(Relation::getUniqueID)).forEach(r -> m_writer.writeRecord(PREDECESSOR_COLUMNS, r));
    }
 
    private void writeResourceAssignments()
    {
-      writeTable("TASKRSRC", RESOURCE_ASSIGNMENT_COLUMNS);
-      m_file.getResourceAssignments().stream().sorted(Comparator.comparing(ResourceAssignment::getUniqueID)).forEach(t -> writeRecord(RESOURCE_ASSIGNMENT_COLUMNS, t));
+      m_writer.writeTable("TASKRSRC", RESOURCE_ASSIGNMENT_COLUMNS);
+      m_file.getResourceAssignments().stream().sorted(Comparator.comparing(ResourceAssignment::getUniqueID)).forEach(t -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_COLUMNS, t));
    }
 
    private void writeCostAccounts()
    {
-      writeTable("ACCOUNT", COST_ACCOUNT_COLUMNS);
-      m_file.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(a -> writeRecord(COST_ACCOUNT_COLUMNS, a));
+      m_writer.writeTable("ACCOUNT", COST_ACCOUNT_COLUMNS);
+      m_file.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(a -> m_writer.writeRecord(COST_ACCOUNT_COLUMNS, a));
    }
 
    private void writeExpenseCategories()
    {
-      writeTable("COSTTYPE", EXPENSE_CATEGORY_COLUMNS);
-      m_file.getExpenseCategories().stream().sorted(Comparator.comparing(ExpenseCategory::getUniqueID)).forEach(a -> writeRecord(EXPENSE_CATEGORY_COLUMNS, a));
+      m_writer.writeTable("COSTTYPE", EXPENSE_CATEGORY_COLUMNS);
+      m_file.getExpenseCategories().stream().sorted(Comparator.comparing(ExpenseCategory::getUniqueID)).forEach(a -> m_writer.writeRecord(EXPENSE_CATEGORY_COLUMNS, a));
    }
 
    private void writeExpenseItems()
    {
-      writeTable("PROJCOST", EXPENSE_ITEM_COLUMNS);
-      m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getExpenseItems).flatMap(Collection::stream).sorted(Comparator.comparing(ExpenseItem::getUniqueID)).forEach(i -> writeRecord(EXPENSE_ITEM_COLUMNS, i));
+      m_writer.writeTable("PROJCOST", EXPENSE_ITEM_COLUMNS);
+      m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getExpenseItems).flatMap(Collection::stream).sorted(Comparator.comparing(ExpenseItem::getUniqueID)).forEach(i -> m_writer.writeRecord(EXPENSE_ITEM_COLUMNS, i));
    }
 
    private void writeResourceCurves()
    {
-      writeTable("RSRCCURVDATA", RESOURCE_CURVE_COLUMNS);
-      m_file.getWorkContours().stream().sorted(Comparator.comparing(WorkContour::getUniqueID)).forEach(r -> writeRecord(RESOURCE_CURVE_COLUMNS, r));
+      m_writer.writeTable("RSRCCURVDATA", RESOURCE_CURVE_COLUMNS);
+      m_file.getWorkContours().stream().sorted(Comparator.comparing(WorkContour::getUniqueID)).forEach(r -> m_writer.writeRecord(RESOURCE_CURVE_COLUMNS, r));
    }
 
    private void writeActivitySteps()
    {
-      writeTable("TASKPROC", ACTIVITY_STEP_COLUMNS);
-      m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getSteps).flatMap(Collection::stream).sorted(Comparator.comparing(Step::getUniqueID)).forEach(s -> writeRecord(ACTIVITY_STEP_COLUMNS, s));
+      m_writer.writeTable("TASKPROC", ACTIVITY_STEP_COLUMNS);
+      m_file.getTasks().stream().filter(t -> !t.getSummary()).map(Task::getSteps).flatMap(Collection::stream).sorted(Comparator.comparing(Step::getUniqueID)).forEach(s -> m_writer.writeRecord(ACTIVITY_STEP_COLUMNS, s));
    }
 
    private void writeActivityCodes()
    {
-      writeTable("ACTVTYPE", ACTIVITY_CODE_COLUMNS);
-      m_file.getActivityCodes().stream().sorted(Comparator.comparing(ActivityCode::getUniqueID)).forEach(c -> writeRecord(ACTIVITY_CODE_COLUMNS, c));
+      m_writer.writeTable("ACTVTYPE", ACTIVITY_CODE_COLUMNS);
+      m_file.getActivityCodes().stream().sorted(Comparator.comparing(ActivityCode::getUniqueID)).forEach(c -> m_writer.writeRecord(ACTIVITY_CODE_COLUMNS, c));
    }
 
    private void writeActivityCodeValues()
    {
-      writeTable("ACTVCODE", ACTIVITY_CODE_VALUE_COLUMNS);
-      m_file.getActivityCodes().stream().map(ActivityCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeRecord(ACTIVITY_CODE_VALUE_COLUMNS, v));
+      m_writer.writeTable("ACTVCODE", ACTIVITY_CODE_VALUE_COLUMNS);
+      m_file.getActivityCodes().stream().map(ActivityCode::getValues).flatMap(Collection::stream).sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ACTIVITY_CODE_VALUE_COLUMNS, v));
    }
 
    private void writeActivityCodeAssignments()
    {
-      writeTable("TASKACTV", ACTIVITY_CODE_ASSIGNMENT_COLUMNS);
+      m_writer.writeTable("TASKACTV", ACTIVITY_CODE_ASSIGNMENT_COLUMNS);
       m_file.getTasks().stream().filter(t -> !t.getSummary()).collect(Collectors.toMap(t -> t, Task::getActivityCodes, (u, v) -> u, TreeMap::new)).forEach(this::writeActivityCodeAssignments);
    }
 
    private void writeActivityCodeAssignments(Task task, List<ActivityCodeValue> values)
    {
-      values.stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeRecord(ACTIVITY_CODE_ASSIGNMENT_COLUMNS, new Pair<>(task, v)));
+      values.stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ACTIVITY_CODE_ASSIGNMENT_COLUMNS, new Pair<>(task, v)));
    }
 
    private void writeUdfDefinitions()
    {
-      writeTable("UDFTYPE", UDF_TYPE_COLUMNS);
-      UdfHelper.getUserDefinedFieldsSet(m_file).stream().map(f -> new Pair<>(f, m_file.getCustomFields().get(f))).sorted(Comparator.comparing(p -> p.getSecond() == null ? Integer.valueOf(FieldTypeHelper.getFieldID(p.getFirst())) : p.getSecond().getUniqueID())).forEach(p -> writeRecord(UDF_TYPE_COLUMNS, p));
+      m_writer.writeTable("UDFTYPE", UDF_TYPE_COLUMNS);
+      UdfHelper.getUserDefinedFieldsSet(m_file).stream().map(f -> new Pair<>(f, m_file.getCustomFields().get(f))).sorted(Comparator.comparing(p -> p.getSecond() == null ? Integer.valueOf(FieldTypeHelper.getFieldID(p.getFirst())) : p.getSecond().getUniqueID())).forEach(p -> m_writer.writeRecord(UDF_TYPE_COLUMNS, p));
    }
 
    private void writeUdfValues()
@@ -380,8 +337,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          return result;
       });
 
-      writeTable("UDFVALUE", UDF_ASSIGNMENT_COLUMNS);
-      records.forEach(r -> writeRecord(UDF_ASSIGNMENT_COLUMNS, r));
+      m_writer.writeTable("UDFVALUE", UDF_ASSIGNMENT_COLUMNS);
+      records.forEach(r -> m_writer.writeRecord(UDF_ASSIGNMENT_COLUMNS, r));
    }
 
    private List<Map<String, Object>> writeActivityUdfValues(Set<FieldType> allFields)
@@ -481,20 +438,20 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    private void writeNoteTypes()
    {
-      writeTable("MEMOTYPE", NOTE_TYPE_COLUMNS);
-      m_file.getNotesTopics().stream().sorted(Comparator.comparing(NotesTopic::getUniqueID)).forEach(n -> writeRecord(NOTE_TYPE_COLUMNS, n));
+      m_writer.writeTable("MEMOTYPE", NOTE_TYPE_COLUMNS);
+      m_file.getNotesTopics().stream().sorted(Comparator.comparing(NotesTopic::getUniqueID)).forEach(n -> m_writer.writeRecord(NOTE_TYPE_COLUMNS, n));
    }
 
    private void writeWbsNotes()
    {
-      writeTable("WBSMEMO", WBS_NOTE_COLUMNS);
-      m_wbsNotes.forEach(n -> writeRecord(WBS_NOTE_COLUMNS, n));
+      m_writer.writeTable("WBSMEMO", WBS_NOTE_COLUMNS);
+      m_wbsNotes.forEach(n -> m_writer.writeRecord(WBS_NOTE_COLUMNS, n));
    }
 
    private void writeActivityNotes()
    {
-      writeTable("TASKMEMO", ACTIVITY_NOTE_COLUMNS);
-      m_activityNotes.forEach(n -> writeRecord(ACTIVITY_NOTE_COLUMNS, n));
+      m_writer.writeTable("TASKMEMO", ACTIVITY_NOTE_COLUMNS);
+      m_activityNotes.forEach(n -> m_writer.writeRecord(ACTIVITY_NOTE_COLUMNS, n));
    }
 
    private void populateWbsNotes()
@@ -536,7 +493,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          return (StructuredNotes) notes;
       }
 
-      return new StructuredNotes(m_wbsNoteObjectID.getNext(), m_file.getNotesTopics().getDefaultTopic(), notes);
+      return new StructuredNotes(m_noteObjectID.getNext(), m_file.getNotesTopics().getDefaultTopic(), notes);
    }
 
    private Map<String, Object> createNotesMap(Task task, StructuredNotes notes)
@@ -550,126 +507,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return map;
    }
 
-   private void writeTable(String name, Map<String, ?> map)
-   {
-      try
-      {
-         m_writer.write("%T\t" + name + "\n");
-         m_writer.write("%F\t");
-         m_writer.write(String.join("\t", map.keySet()));
-         m_writer.write("\n");
-      }
-
-      catch (IOException ex)
-      {
-         throw new RuntimeException(ex);
-      }
-   }
-
-   private <T> void writeRecord(Map<String, ExportFunction<T>> columns, T object)
-   {
-      writeRecord(columns.values().stream().map(f -> f.apply(object)));
-   }
-
-   private void writeRecord(Stream<Object> data)
-   {
-      try
-      {
-         m_writer.write("%R\t");
-         m_writer.write(data.map(this::format).collect(Collectors.joining("\t")));
-         m_writer.write("\n");
-      }
-
-      catch (IOException ex)
-      {
-         throw new RuntimeException(ex);
-      }
-   }
-
-   private String format(Object object)
-   {
-      if (object == null)
-      {
-         return "";
-      }
-
-      // Handle objects which may be subclasses
-      if (object instanceof Notes)
-      {
-         return formatNotes((Notes) object);
-      }
-
-      // Handle objects we can identify by class name
-      FormatFunction f = FORMAT_MAP.get(object.getClass());
-
-      return f == null ? object.toString() : f.apply(this, object);
-   }
-
-   private String formatDate(Date date)
-   {
-      return m_dateFormat.format(date);
-   }
-
-   private String formatNotes(Notes notes)
-   {
-      String result;
-      if (notes == null || notes.isEmpty())
-      {
-         // TODO: switch to null to remove the tag - check import
-         result = "";
-      }
-      else
-      {
-         result = notes instanceof HtmlNotes ? ((HtmlNotes) notes).getHtml() : HtmlHelper.getHtmlFromPlainText(notes.toString());
-         result = result.replace("\n", "\u007F\u007F");
-      }
-
-      return result;
-   }
-
-   private String formatRate(Rate rate)
-   {
-      return m_rateFormat.format(rate.getAmount());
-   }
-
-   private String formatUUID(UUID value)
-   {
-      byte[] data = new byte[16];
-      long lsb = value.getLeastSignificantBits();
-      long msb = value.getMostSignificantBits();
-
-      data[15] = (byte)(lsb & 0xff);
-      data[14] = (byte)(lsb >> 8 & 0xff);
-      data[13] = (byte)(lsb >> 16 & 0xff);
-      data[12] = (byte)(lsb >> 24 & 0xff);
-      data[11] = (byte)(lsb >> 32 & 0xff);
-      data[10] = (byte)(lsb >> 40 & 0xff);
-      data[9] = (byte)(lsb >> 48 & 0xff);
-      data[8] = (byte)(lsb >> 56 & 0xff);
-
-      data[6] = (byte)(msb & 0xff);
-      data[7] = (byte)(msb >> 8 & 0xff);
-      data[4] = (byte)(msb >> 16 & 0xff);
-      data[5] = (byte)(msb >> 24 & 0xff);
-      data[0] = (byte)(msb >> 32 & 0xff);
-      data[1] = (byte)(msb >> 40 & 0xff);
-      data[2] = (byte)(msb >> 48 & 0xff);
-      data[3] = (byte)(msb >> 56 & 0xff);
-
-      String result = javax.xml.bind.DatatypeConverter.printBase64Binary(data);
-
-      return result.substring(0, result.length()-2);
-   }
-
-   private String formatDuration(Duration duration)
-   {
-      if (duration == null)
-      {
-         return "";
-      }
-
-      return m_doubleFormat.format(duration.convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration());
-   }
 
    private String getMaxQuantityPerHour(Resource resource, CostRateTableEntry entry)
    {
@@ -721,34 +558,23 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private String m_encoding;
    private Charset m_charset;
    private ProjectFile m_file;
-   private OutputStreamWriter m_writer;
+   private XerWriter m_writer;
 
-   private ObjectSequence m_roleRateObjectID;
-   private ObjectSequence m_resourceRateObjectID;
-   private ObjectSequence m_wbsNoteObjectID;
+   private ObjectSequence m_rateObjectID;
+   private ObjectSequence m_noteObjectID;
 
    private List<Map<String, Object>> m_wbsNotes;
    private List<Map<String, Object>> m_activityNotes;
 
-   private final Format m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-   private final Format m_timestampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-   private final DecimalFormat m_rateFormat = new DecimalFormat("0.0000");
 
    private final DecimalFormat m_maxUnitsFormat = new DecimalFormat("0.####");
 
-   private final DecimalFormat m_doubleFormat = new DecimalFormat("0.####");
 
-   private interface ExportFunction<T>
+   interface ExportFunction<T>
    {
       Object apply(T source);
    }
 
-   private interface FormatFunction
-   {
-      String apply(PrimaveraXERFileWriter writer, Object source);
-   }
 
    private static final Map<String, Object> CURRENCY_COLUMNS = new LinkedHashMap<>();
    static
@@ -784,16 +610,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<Map<String, Object>>> ROLE_RATE_COLUMNS = new LinkedHashMap<>();
    static
    {
-//      ROLE_RATE_COLUMNS.put("role_rate_id", (w, r, e) -> w.m_roleRateObjectID.getNext());
-//      ROLE_RATE_COLUMNS.put("role_id", (w, r, e) -> r.getUniqueID());
-//      ROLE_RATE_COLUMNS.put("cost_per_qty", (w, r, e) -> e.getRate(0));
-//      ROLE_RATE_COLUMNS.put("cost_per_qty2", (w, r, e) -> e.getRate(1));
-//      ROLE_RATE_COLUMNS.put("cost_per_qty3", (w, r, e) -> e.getRate(2));
-//      ROLE_RATE_COLUMNS.put("cost_per_qty4", (w, r, e) -> e.getRate(3));
-//      ROLE_RATE_COLUMNS.put("cost_per_qty5", (w, r, e) -> e.getRate(4));
-//      ROLE_RATE_COLUMNS.put("start_date", (w, r, e) -> e.getStartDate());
-//      ROLE_RATE_COLUMNS.put("max_qty_per_hr", PrimaveraXERFileWriter::getMaxQuantityPerHour);
-
       ROLE_RATE_COLUMNS.put("role_rate_id", m -> m.get("object_id"));
       ROLE_RATE_COLUMNS.put("role_id", m -> m.get("entity_id"));
       ROLE_RATE_COLUMNS.put("cost_per_qty", m -> m.get("cost_per_qty"));
@@ -808,17 +624,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<Map<String, Object>>> RESOURCE_RATE_COLUMNS = new LinkedHashMap<>();
    static
    {
-//      RESOURCE_RATE_COLUMNS.put("rsrc_rate_id", (w, r, e) -> w.m_resourceRateObjectID.getNext());
-//      RESOURCE_RATE_COLUMNS.put("rsrc_id", (w, r, e) -> r.getUniqueID());
-//      RESOURCE_RATE_COLUMNS.put("max_qty_per_hr", PrimaveraXERFileWriter::getMaxQuantityPerHour);
-//      RESOURCE_RATE_COLUMNS.put("cost_per_qty", (w, r, e) -> e.getRate(0));
-//      RESOURCE_RATE_COLUMNS.put("start_date", (w, r, e) -> e.getStartDate());
-//      RESOURCE_RATE_COLUMNS.put("shift_period_id", (w, r, e) -> "");
-//      RESOURCE_RATE_COLUMNS.put("cost_per_qty2", (w, r, e) -> e.getRate(1));
-//      RESOURCE_RATE_COLUMNS.put("cost_per_qty3", (w, r, e) -> e.getRate(2));
-//      RESOURCE_RATE_COLUMNS.put("cost_per_qty4", (w, r, e) -> e.getRate(3));
-//      RESOURCE_RATE_COLUMNS.put("cost_per_qty5", (w, r, e) -> e.getRate(4));
-
       RESOURCE_RATE_COLUMNS.put("rsrc_rate_id", m -> m.get("object_id"));
       RESOURCE_RATE_COLUMNS.put("rsrc_id", m -> m.get("entity_id"));
       RESOURCE_RATE_COLUMNS.put("max_qty_per_hr", m -> m.get("max_qty_per_hr"));
@@ -1302,31 +1107,5 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_NOTE_COLUMNS.put("memo_type_id", n -> n.get("memo_type_id"));
       ACTIVITY_NOTE_COLUMNS.put("proj_id", n -> n.get("proj_id"));
       ACTIVITY_NOTE_COLUMNS.put("task_memo", n -> n.get("entity_memo"));
-   }
-
-   private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
-   static
-   {
-      FORMAT_MAP.put(Date.class, (w, o) -> w.m_timestampFormat.format(o));
-      FORMAT_MAP.put(Double.class, (w, o) -> w.m_doubleFormat.format(o));
-      FORMAT_MAP.put(Boolean.class, (w, o) -> ((Boolean) o).booleanValue() ? "Y" : "N");
-      FORMAT_MAP.put(Rate.class, (w, o) -> w.formatRate((Rate) o));
-      FORMAT_MAP.put(UUID.class, (w, o) -> w.formatUUID((UUID)o));
-      FORMAT_MAP.put(ResourceType.class, (w, o) -> ResourceTypeHelper.getXerFromInstance((ResourceType)o));
-      FORMAT_MAP.put(CriticalActivityType.class, (w, o) -> CriticalActivityTypeHelper.getXerFromInstance((CriticalActivityType)o));
-      FORMAT_MAP.put(TaskType.class, (w, o) -> TaskTypeHelper.getXerFromInstance((TaskType) o));
-      FORMAT_MAP.put(CalendarType.class, (w, o) -> CalendarTypeHelper.getXerFromInstance((CalendarType)o));
-      FORMAT_MAP.put(ActivityType.class, (w, o) -> ActivityTypeHelper.getXerFromInstance((ActivityType)o));
-      FORMAT_MAP.put(PercentCompleteType.class, (w, o) -> PercentCompleteTypeHelper.getXerFromInstance((PercentCompleteType)o));
-      FORMAT_MAP.put(ActivityStatus.class, (w, o) -> ActivityStatusHelper.getXerFromInstance((ActivityStatus)o));
-      FORMAT_MAP.put(Duration.class, (w, o) -> w.formatDuration((Duration)o));
-      FORMAT_MAP.put(ConstraintType.class, (w, o) -> ConstraintTypeHelper.getXerFromInstance((ConstraintType)o));
-      FORMAT_MAP.put(Priority.class, (w, o) -> PriorityHelper.getXerFromInstance((Priority)o));
-      FORMAT_MAP.put(RelationType.class, (w, o) -> RelationTypeHelper.getXerFromInstance((RelationType)o));
-      FORMAT_MAP.put(AccrueType.class, (w, o) -> AccrueTypeHelper.getXerFromInstance((AccrueType)o));
-      FORMAT_MAP.put(ActivityCodeScope.class, (w, o) -> ActivityCodeScopeHelper.getXerFromInstance((ActivityCodeScope)o));
-      FORMAT_MAP.put(Color.class, (w, o) -> ColorHelper.getHexColor((Color)o));
-      FORMAT_MAP.put(RateSource.class, (w, o) -> RateSourceHelper.getXerFromInstance((RateSource)o));
-      FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType)o));
    }
 }
