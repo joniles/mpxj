@@ -1161,7 +1161,8 @@ final class PrimaveraReader
     * Extract notes.
     *
     * @param rows notebook rows
-    * @param entityIdColumn id column name
+    * @param uniqueIDColumn note unique ID column name
+    * @param entityIdColumn entity id column name
     * @param textColumn text column name
     * @return note text
     */
