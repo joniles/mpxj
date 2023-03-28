@@ -46,6 +46,7 @@ import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HtmlNotes;
 import net.sf.mpxj.Notes;
+import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
@@ -112,6 +113,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeHeader();
          writeExpenseCategories();
          writeCurrencies();
+         writeNoteTypes();
          writeResourceCurves();
          writeUdfDefinitions();
          writeCostAccounts();
@@ -454,6 +456,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
 
       return record;
+   }
+
+   private void writeNoteTypes()
+   {
+      writeTable("MEMOTYPE", NOTE_TYPE_COLUMNS);
+      m_file.getNotesTopics().stream().sorted(Comparator.comparing(NotesTopic::getUniqueID)).forEach(n -> writeRecord(NOTE_TYPE_COLUMNS, n));
    }
 
    private void writeTable(String name, Map<String, ?> map)
@@ -1157,6 +1165,18 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       UDF_ASSIGNMENT_COLUMNS.put("udf_number", u -> u.get("udf_number"));
       UDF_ASSIGNMENT_COLUMNS.put("udf_text", u -> u.get("udf_text"));
       UDF_ASSIGNMENT_COLUMNS.put("udf_code_id", u -> u.get("udf_code_id"));
+   }
+
+   private static final Map<String, ExportFunction<NotesTopic>> NOTE_TYPE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      NOTE_TYPE_COLUMNS.put("memo_type_id", n -> n.getUniqueID());
+      NOTE_TYPE_COLUMNS.put("seq_num", n -> n.getSequenceNumber());
+      NOTE_TYPE_COLUMNS.put("eps_flag", n -> n.getAvailableForEPS());
+      NOTE_TYPE_COLUMNS.put("proj_flag", n -> n.getAvailableForProject());
+      NOTE_TYPE_COLUMNS.put("wbs_flag", n -> n.getAvailableForWBS());
+      NOTE_TYPE_COLUMNS.put("task_flag", n -> n.getAvailableForActivity());
+      NOTE_TYPE_COLUMNS.put("memo_type", n -> n.getName());
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
