@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -508,7 +507,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    }
 
 
-   private String getMaxQuantityPerHour(Resource resource, CostRateTableEntry entry)
+   private Object getMaxQuantityPerHour(Resource resource, CostRateTableEntry entry)
    {
       Availability availability = resource.getAvailability().getEntryByDate(entry.getStartDate());
       if (availability == null)
@@ -516,7 +515,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          return "0";
       }
 
-      return m_maxUnitsFormat.format(NumberHelper.getDouble(availability.getUnits()) / 100.0);
+      return new MaxUnits(availability.getUnits());
    }
 
    private static Duration getActualRegularWork(ResourceAssignment assignment)
@@ -565,9 +564,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    private List<Map<String, Object>> m_wbsNotes;
    private List<Map<String, Object>> m_activityNotes;
-
-
-   private final DecimalFormat m_maxUnitsFormat = new DecimalFormat("0.####");
 
 
    interface ExportFunction<T>

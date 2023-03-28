@@ -35,6 +35,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.HtmlHelper;
+import net.sf.mpxj.common.NumberHelper;
 
 final class XerWriter
 {
@@ -199,6 +200,7 @@ final class XerWriter
    private final Format m_timestampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
    private final DecimalFormat m_doubleFormat = new DecimalFormat("0.####");
    private final DecimalFormat m_rateFormat = new DecimalFormat("0.0000");
+   private final DecimalFormat m_maxUnitsFormat = new DecimalFormat("0.####");
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
    static
@@ -225,5 +227,6 @@ final class XerWriter
       FORMAT_MAP.put(Color.class, (w, o) -> ColorHelper.getHexColor((Color)o));
       FORMAT_MAP.put(RateSource.class, (w, o) -> RateSourceHelper.getXerFromInstance((RateSource)o));
       FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType)o));
+      FORMAT_MAP.put(MaxUnits.class, (w, o) -> w.m_maxUnitsFormat.format(NumberHelper.getDouble(((MaxUnits)o).toNumber()) / 100.0));
    }
 }
