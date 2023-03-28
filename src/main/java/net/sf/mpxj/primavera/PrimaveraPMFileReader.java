@@ -1967,14 +1967,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private Map<Integer, Notes> getWbsNotes(List<ProjectNoteType> notes)
    {
       Map<Integer, List<ProjectNoteType>> map = notes.stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.toList()));
-
-      Map<Integer, Notes> result = new HashMap<>();
-      for(Map.Entry<Integer, List<ProjectNoteType>> entry : map.entrySet())
-      {
-         result.put(entry.getKey(), new ParentNotes(entry.getValue().stream().map(n -> getNote(n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList())));
-      }
-
-      return result;
+      return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new ParentNotes(e.getValue().stream().map(n -> getNote(n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList()))));
    }
 
    /**
@@ -1986,14 +1979,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private Map<Integer, Notes> getActivityNotes(List<ActivityNoteType> notes)
    {
       Map<Integer, List<ActivityNoteType>> map = notes.stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.toList()));
-
-      Map<Integer, Notes> result = new HashMap<>();
-      for(Map.Entry<Integer, List<ActivityNoteType>> entry : map.entrySet())
-      {
-         result.put(entry.getKey(), new ParentNotes(entry.getValue().stream().map(n -> getNote(n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList())));
-      }
-
-      return result;
+      return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new ParentNotes(e.getValue().stream().map(n -> getNote(n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList()))));
    }
 
    private Notes getNote(Integer topicID, String text)
