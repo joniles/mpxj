@@ -1965,7 +1965,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private Map<Integer, Notes> getWbsNotes(List<ProjectNoteType> notes)
    {
-      Map<Integer, Map<Integer, List<String>>> map = notes.stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.groupingBy(ProjectNoteType::getNotebookTopicObjectId, Collectors.mapping(ProjectNoteType::getNote, Collectors.toList()))));
+      Map<Integer, Map<Integer, List<HtmlNotes>>> map = notes.stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.groupingBy(ProjectNoteType::getNotebookTopicObjectId, Collectors.mapping(n -> getHtmlNote(n.getNote()), Collectors.toList()))));
       return getNotes(map);
    }
 
@@ -1977,7 +1977,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private Map<Integer, Notes> getActivityNotes(List<ActivityNoteType> notes)
    {
-      Map<Integer, Map<Integer, List<String>>> map = notes.stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.groupingBy(ActivityNoteType::getNotebookTopicObjectId, Collectors.mapping(ActivityNoteType::getNote, Collectors.toList()))));
+      Map<Integer, Map<Integer, List<HtmlNotes>>> map = notes.stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.groupingBy(ActivityNoteType::getNotebookTopicObjectId, Collectors.mapping(n -> getHtmlNote(n.getNote()), Collectors.toList()))));
       return getNotes(map);
    }
 
@@ -1987,18 +1987,18 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * @param map notebook data
     * @return map of object IDs and note text
     */
-   private Map<Integer, Notes> getNotes(Map<Integer, Map<Integer, List<String>>> map)
+   private Map<Integer, Notes> getNotes(Map<Integer, Map<Integer, List<HtmlNotes>>> map)
    {
       NotesTopicContainer topics = m_projectFile.getNotesTopics();
       Map<Integer, Notes> result = new HashMap<>();
 
-      for (Map.Entry<Integer, Map<Integer, List<String>>> entry : map.entrySet())
+      for (Map.Entry<Integer, Map<Integer, List<HtmlNotes>>> entry : map.entrySet())
       {
          List<Notes> list = new ArrayList<>();
-         for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
+         for (Map.Entry<Integer, List<HtmlNotes>> topicEntry : entry.getValue().entrySet())
          {
             NotesTopic topic = topics.getByUniqueID(topicEntry.getKey()) == null ? topics.getDefaultTopic() : topics.getByUniqueID(topicEntry.getKey());
-            topicEntry.getValue().stream().map(this::getHtmlNote).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topic, n)));
+            topicEntry.getValue().stream().filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topic, n)));
          }
          result.put(entry.getKey(), new ParentNotes(list));
       }
