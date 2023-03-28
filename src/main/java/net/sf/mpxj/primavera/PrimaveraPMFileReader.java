@@ -1965,8 +1965,33 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private Map<Integer, Notes> getWbsNotes(List<ProjectNoteType> notes)
    {
-      Map<Integer, Map<Integer, List<HtmlNotes>>> map = notes.stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.groupingBy(ProjectNoteType::getNotebookTopicObjectId, Collectors.mapping(n -> getHtmlNote(n.getNote()), Collectors.toList()))));
-      return getNotes(map);
+      Map<Integer, List<ProjectNoteType>> map = notes.stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.toList()));
+
+      Map<Integer, Notes> result = new HashMap<>();
+      for(Map.Entry<Integer, List<ProjectNoteType>> entry : map.entrySet())
+      {
+         List<Notes> notesList = new ArrayList<>();
+
+         for (ProjectNoteType xml : entry.getValue())
+         {
+            HtmlNotes note = getHtmlNote(xml.getNote());
+            if (note == null || note.isEmpty())
+            {
+               continue;
+            }
+
+            NotesTopic topic = m_projectFile.getNotesTopics().getByUniqueID(xml.getNotebookTopicObjectId());
+            if (topic == null)
+            {
+               topic = m_projectFile.getNotesTopics().getDefaultTopic();
+            }
+
+            notesList.add(new StructuredNotes(topic, note));
+         }
+         result.put(entry.getKey(), new ParentNotes(notesList));
+      }
+
+      return result;
    }
 
    /**
@@ -1977,30 +2002,30 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private Map<Integer, Notes> getActivityNotes(List<ActivityNoteType> notes)
    {
-      Map<Integer, Map<Integer, List<HtmlNotes>>> map = notes.stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.groupingBy(ActivityNoteType::getNotebookTopicObjectId, Collectors.mapping(n -> getHtmlNote(n.getNote()), Collectors.toList()))));
-      return getNotes(map);
-   }
+      Map<Integer, List<ActivityNoteType>> map = notes.stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.toList()));
 
-   /**
-    * Create note text from multiple notebook topics and entries.
-    *
-    * @param map notebook data
-    * @return map of object IDs and note text
-    */
-   private Map<Integer, Notes> getNotes(Map<Integer, Map<Integer, List<HtmlNotes>>> map)
-   {
-      NotesTopicContainer topics = m_projectFile.getNotesTopics();
       Map<Integer, Notes> result = new HashMap<>();
-
-      for (Map.Entry<Integer, Map<Integer, List<HtmlNotes>>> entry : map.entrySet())
+      for(Map.Entry<Integer, List<ActivityNoteType>> entry : map.entrySet())
       {
-         List<Notes> list = new ArrayList<>();
-         for (Map.Entry<Integer, List<HtmlNotes>> topicEntry : entry.getValue().entrySet())
+         List<Notes> notesList = new ArrayList<>();
+
+         for (ActivityNoteType xml : entry.getValue())
          {
-            NotesTopic topic = topics.getByUniqueID(topicEntry.getKey()) == null ? topics.getDefaultTopic() : topics.getByUniqueID(topicEntry.getKey());
-            topicEntry.getValue().stream().filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topic, n)));
+            HtmlNotes note = getHtmlNote(xml.getNote());
+            if (note == null || note.isEmpty())
+            {
+               continue;
+            }
+
+            NotesTopic topic = m_projectFile.getNotesTopics().getByUniqueID(xml.getNotebookTopicObjectId());
+            if (topic == null)
+            {
+               topic = m_projectFile.getNotesTopics().getDefaultTopic();
+            }
+
+            notesList.add(new StructuredNotes(topic, note));
          }
-         result.put(entry.getKey(), new ParentNotes(list));
+         result.put(entry.getKey(), new ParentNotes(notesList));
       }
 
       return result;
