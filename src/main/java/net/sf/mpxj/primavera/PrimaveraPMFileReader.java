@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -1970,25 +1971,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       Map<Integer, Notes> result = new HashMap<>();
       for(Map.Entry<Integer, List<ProjectNoteType>> entry : map.entrySet())
       {
-         List<Notes> notesList = new ArrayList<>();
-
-         for (ProjectNoteType xml : entry.getValue())
-         {
-            HtmlNotes note = getHtmlNote(xml.getNote());
-            if (note == null || note.isEmpty())
-            {
-               continue;
-            }
-
-            NotesTopic topic = m_projectFile.getNotesTopics().getByUniqueID(xml.getNotebookTopicObjectId());
-            if (topic == null)
-            {
-               topic = m_projectFile.getNotesTopics().getDefaultTopic();
-            }
-
-            notesList.add(new StructuredNotes(topic, note));
-         }
-         result.put(entry.getKey(), new ParentNotes(notesList));
+         result.put(entry.getKey(), new ParentNotes(entry.getValue().stream().map(n -> getNote(n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList())));
       }
 
       return result;
@@ -2007,28 +1990,27 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       Map<Integer, Notes> result = new HashMap<>();
       for(Map.Entry<Integer, List<ActivityNoteType>> entry : map.entrySet())
       {
-         List<Notes> notesList = new ArrayList<>();
-
-         for (ActivityNoteType xml : entry.getValue())
-         {
-            HtmlNotes note = getHtmlNote(xml.getNote());
-            if (note == null || note.isEmpty())
-            {
-               continue;
-            }
-
-            NotesTopic topic = m_projectFile.getNotesTopics().getByUniqueID(xml.getNotebookTopicObjectId());
-            if (topic == null)
-            {
-               topic = m_projectFile.getNotesTopics().getDefaultTopic();
-            }
-
-            notesList.add(new StructuredNotes(topic, note));
-         }
-         result.put(entry.getKey(), new ParentNotes(notesList));
+         result.put(entry.getKey(), new ParentNotes(entry.getValue().stream().map(n -> getNote(n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList())));
       }
 
       return result;
+   }
+
+   private Notes getNote(Integer topicID, String text)
+   {
+      HtmlNotes note = getHtmlNote(text);
+      if (note == null || note.isEmpty())
+      {
+         return null;
+      }
+
+      NotesTopic topic = m_projectFile.getNotesTopics().getByUniqueID(topicID);
+      if (topic == null)
+      {
+         topic = m_projectFile.getNotesTopics().getDefaultTopic();
+      }
+
+      return new StructuredNotes(topic, note);
    }
 
    /**
