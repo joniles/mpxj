@@ -49,12 +49,7 @@ public class NotesTopic implements ProjectEntityWithUniqueID
       m_availableForActivity = availableForActivity;
    }
 
-   /**
-    * Retrieve the unique ID.
-    *
-    * @return unique ID
-    */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return m_uniqueID;
    }

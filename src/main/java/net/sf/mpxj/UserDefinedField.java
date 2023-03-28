@@ -37,6 +37,7 @@ public class UserDefinedField implements FieldType
     * @param internalName internal name for this field
     * @param externalName user-visible name for this field
     * @param fieldTypeClass type of entity on which this field can be used
+    * @param summaryTaskOnly flag is true if this IDF can only be applied to summary tasks (WBS) 
     * @param dataType data type of this field
     */
    public UserDefinedField(Integer id, String internalName, String externalName, FieldTypeClass fieldTypeClass, boolean summaryTaskOnly, DataType dataType)

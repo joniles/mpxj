@@ -1528,6 +1528,7 @@ final class PrimaveraPMProjectWriter
     *
     * @author lsong
     * @param type parent entity type
+    * @param summaryTaskOnly true if we're writing assignments for WBS
     * @param mpxj parent entity
     * @return list of UDFAssignmentType instances
     */

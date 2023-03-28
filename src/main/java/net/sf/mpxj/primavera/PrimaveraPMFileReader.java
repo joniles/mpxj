@@ -1930,7 +1930,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Populate notebook topics
+    * Populate notebook topics.
     *
     * @param apibo top level object
     */
@@ -1948,10 +1948,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       Integer uniqueID = xml.getObjectId();
       Integer sequenceNumber = xml.getSequenceNumber();
-      boolean epsFlag = xml.isAvailableForEPS();
-      boolean projectFlag = xml.isAvailableForProject();
-      boolean wbsFlag = xml.isAvailableForWBS();
-      boolean activityFlag = xml.isAvailableForActivity();
+      boolean epsFlag = xml.isAvailableForEPS().booleanValue();
+      boolean projectFlag = xml.isAvailableForProject().booleanValue();
+      boolean wbsFlag = xml.isAvailableForWBS().booleanValue();
+      boolean activityFlag = xml.isAvailableForActivity().booleanValue();
       String name = xml.getName();
 
       m_projectFile.getNotesTopics().add(new NotesTopic(uniqueID, sequenceNumber, name, epsFlag, projectFlag, wbsFlag, activityFlag));
