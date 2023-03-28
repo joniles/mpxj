@@ -31,14 +31,26 @@ public class StructuredNotes extends Notes
    /**
     * Constructor.
     *
+    * @param uniqueID unique ID
     * @param topic notes topic
     * @param notes Notes instance
     */
-   public StructuredNotes(NotesTopic topic, Notes notes)
+   public StructuredNotes(Integer uniqueID, NotesTopic topic, Notes notes)
    {
       super(StructuredNotes.getStructuredText(topic.getName(), notes));
+      m_uniqueID = uniqueID;
       m_topic = topic;
       m_notes = notes;
+   }
+
+   /**
+    * Retrieve the unique ID of these notes.
+    *
+    * @return unique ID
+    */
+   public Integer getUniqueID()
+   {
+      return m_uniqueID;
    }
 
    /**
@@ -95,6 +107,7 @@ public class StructuredNotes extends Notes
       return result;
    }
 
+   private final Integer m_uniqueID;
    private final NotesTopic m_topic;
    private final Notes m_notes;
 }

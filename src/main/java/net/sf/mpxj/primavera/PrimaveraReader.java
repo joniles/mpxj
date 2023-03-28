@@ -1188,7 +1188,7 @@ final class PrimaveraReader
                topic = topics.getDefaultTopic();
             }
 
-            list.add(new StructuredNotes(topic, notes));
+            list.add(new StructuredNotes(row.getInteger(uniqueIDColumn), topic, notes));
          }
 
          result.put(entry.getKey(), new ParentNotes(list));

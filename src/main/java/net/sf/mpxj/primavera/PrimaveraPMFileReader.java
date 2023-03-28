@@ -47,7 +47,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.NotesTopic;
-import net.sf.mpxj.NotesTopicContainer;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.ColorHelper;
@@ -1967,7 +1966,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private Map<Integer, Notes> getWbsNotes(List<ProjectNoteType> notes)
    {
       Map<Integer, List<ProjectNoteType>> map = notes.stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.toList()));
-      return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new ParentNotes(e.getValue().stream().map(n -> getNote(n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList()))));
+      return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new ParentNotes(e.getValue().stream().map(n -> getNote(n.getObjectId(), n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList()))));
    }
 
    /**
@@ -1979,10 +1978,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private Map<Integer, Notes> getActivityNotes(List<ActivityNoteType> notes)
    {
       Map<Integer, List<ActivityNoteType>> map = notes.stream().filter(n -> n.getActivityObjectId() != null).collect(Collectors.groupingBy(ActivityNoteType::getActivityObjectId, Collectors.toList()));
-      return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new ParentNotes(e.getValue().stream().map(n -> getNote(n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList()))));
+      return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new ParentNotes(e.getValue().stream().map(n -> getNote(n.getObjectId(), n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList()))));
    }
 
-   private Notes getNote(Integer topicID, String text)
+   private Notes getNote(Integer uniqueID, Integer topicID, String text)
    {
       HtmlNotes note = getHtmlNote(text);
       if (note == null || note.isEmpty())
@@ -1996,7 +1995,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          topic = m_projectFile.getNotesTopics().getDefaultTopic();
       }
 
-      return new StructuredNotes(topic, note);
+      return new StructuredNotes(uniqueID, topic, note);
    }
 
    /**

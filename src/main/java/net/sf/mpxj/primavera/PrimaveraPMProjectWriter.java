@@ -1442,7 +1442,7 @@ final class PrimaveraPMProjectWriter
 
          xml.setNote(htmlNotes.getHtml());
          xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
-         xml.setObjectId(m_sequences.getWbsNoteObjectID());
+         xml.setObjectId(structuredNotes.getUniqueID());
          xml.setProjectObjectId(m_projectObjectID);
          xml.setWBSObjectId(task.getUniqueID());
       }
@@ -1505,7 +1505,7 @@ final class PrimaveraPMProjectWriter
 
          xml.setNote(htmlNotes.getHtml());
          xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
-         xml.setObjectId(m_sequences.getActivityNoteObjectID());
+         xml.setObjectId(structuredNotes.getUniqueID());
          xml.setProjectObjectId(m_projectObjectID);
          xml.setActivityObjectId(task.getUniqueID());
       }
