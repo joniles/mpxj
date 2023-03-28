@@ -72,7 +72,7 @@ final class FieldTypeClassHelper
          throw new RuntimeException("Unrecognized field type: " + fieldType);
       }
 
-      if (result.equals("Activity") && fieldType instanceof UserDefinedField && ((UserDefinedField)fieldType).getSummaryTaskOnly())
+      if (result.equals("Activity") && fieldType instanceof UserDefinedField && ((UserDefinedField) fieldType).getSummaryTaskOnly())
       {
          result = "WBS";
       }

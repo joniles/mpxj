@@ -1550,7 +1550,7 @@ final class PrimaveraPMProjectWriter
          // TODO: consider if we can map non task user defined fields from other schedules to WBS UDF
          if (type == FieldTypeClass.TASK && summaryTaskOnly)
          {
-            if (fieldType instanceof TaskField || (fieldType instanceof UserDefinedField && !((UserDefinedField)fieldType).getSummaryTaskOnly()))
+            if (fieldType instanceof TaskField || (fieldType instanceof UserDefinedField && !((UserDefinedField) fieldType).getSummaryTaskOnly()))
             {
                continue;
             }

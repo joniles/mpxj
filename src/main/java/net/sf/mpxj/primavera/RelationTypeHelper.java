@@ -28,7 +28,6 @@ import java.util.Map;
 
 import net.sf.mpxj.RelationType;
 
-
 /**
  * Provides methods to convert to and from Primavera's representation
  * of relation types.

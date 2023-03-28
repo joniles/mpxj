@@ -130,12 +130,12 @@ public final class WorkContour implements ProjectEntityWithUniqueID
    private final double[] m_curveValues;
 
    public static final WorkContour FLAT = new WorkContour(Integer.valueOf(1), "FLAT", true, 0.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0);
-   public static final WorkContour BACK_LOADED = new WorkContour(Integer.valueOf(2), "BACK_LOADED", true,0.0, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5);
-   public static final WorkContour FRONT_LOADED = new WorkContour(Integer.valueOf(3), "FRONT_LOADED", true,0.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5);
-   public static final WorkContour DOUBLE_PEAK = new WorkContour(Integer.valueOf(4), "DOUBLE_PEAK", true,0.0, 1.3, 2.5, 3.8, 5.1, 7.6, 10.1, 7.6, 5.1, 3.8, 2.5, 2.5, 2.5, 3.8, 5.1, 7.6, 10.1, 7.6, 5.1, 3.8, 2.5);
-   public static final WorkContour EARLY_PEAK = new WorkContour(Integer.valueOf(5), "EARLY_PEAK", true,0.0, 1.2, 2.5, 3.8, 5, 7.5, 10.1, 10.1, 10.1, 8.8, 7.5, 6.3, 5.0, 5.0, 5.0, 3.8, 2.5, 2.0, 1.5, 1.3, 1.0);
-   public static final WorkContour LATE_PEAK = new WorkContour(Integer.valueOf(6), "LATE_PEAK",true, 0.0, 1.0, 1.3, 1.5, 2.0, 2.5, 3.8, 5.0, 5.0, 5.0, 6.3, 7.5, 8.8, 10.1, 10.1, 10.1, 7.5, 5, 3.8, 2.5, 1.2);
-   public static final WorkContour BELL = new WorkContour(Integer.valueOf(7), "BELL", true,0.0, 0.5, 0.5, 1.5, 1.5, 4.0, 4.0, 7.5, 7.5, 11.5, 11.5, 11.5, 11.5, 7.5, 7.5, 4, 4, 1.5, 1.5, 0.5, 0.5);
-   public static final WorkContour TURTLE = new WorkContour(Integer.valueOf(8), "TURTLE", true,0.0, 1.0, 1.0, 3.5, 3.5, 5.5, 5.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 5.5, 5.5, 3.5, 3.5, 1.0, 1.0);
+   public static final WorkContour BACK_LOADED = new WorkContour(Integer.valueOf(2), "BACK_LOADED", true, 0.0, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5);
+   public static final WorkContour FRONT_LOADED = new WorkContour(Integer.valueOf(3), "FRONT_LOADED", true, 0.0, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5);
+   public static final WorkContour DOUBLE_PEAK = new WorkContour(Integer.valueOf(4), "DOUBLE_PEAK", true, 0.0, 1.3, 2.5, 3.8, 5.1, 7.6, 10.1, 7.6, 5.1, 3.8, 2.5, 2.5, 2.5, 3.8, 5.1, 7.6, 10.1, 7.6, 5.1, 3.8, 2.5);
+   public static final WorkContour EARLY_PEAK = new WorkContour(Integer.valueOf(5), "EARLY_PEAK", true, 0.0, 1.2, 2.5, 3.8, 5, 7.5, 10.1, 10.1, 10.1, 8.8, 7.5, 6.3, 5.0, 5.0, 5.0, 3.8, 2.5, 2.0, 1.5, 1.3, 1.0);
+   public static final WorkContour LATE_PEAK = new WorkContour(Integer.valueOf(6), "LATE_PEAK", true, 0.0, 1.0, 1.3, 1.5, 2.0, 2.5, 3.8, 5.0, 5.0, 5.0, 6.3, 7.5, 8.8, 10.1, 10.1, 10.1, 7.5, 5, 3.8, 2.5, 1.2);
+   public static final WorkContour BELL = new WorkContour(Integer.valueOf(7), "BELL", true, 0.0, 0.5, 0.5, 1.5, 1.5, 4.0, 4.0, 7.5, 7.5, 11.5, 11.5, 11.5, 11.5, 7.5, 7.5, 4, 4, 1.5, 1.5, 0.5, 0.5);
+   public static final WorkContour TURTLE = new WorkContour(Integer.valueOf(8), "TURTLE", true, 0.0, 1.0, 1.0, 3.5, 3.5, 5.5, 5.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 5.5, 5.5, 3.5, 3.5, 1.0, 1.0);
    public static final WorkContour CONTOURED = new WorkContour(Integer.valueOf(9), "CONTOURED", false, (double[]) null);
 }
