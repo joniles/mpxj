@@ -114,6 +114,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
       // We need to do this first to ensure the default topic is created if required
       populateWbsNotes();
+      populateActivityNotes();
 
       try
       {
@@ -137,6 +138,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeActivityCodeValues();
          writeActivitySteps();
          writeExpenseItems();
+         writeActivityNotes();
          writePredecessors();
          writeResourceAssignments();
          writeActivityCodeAssignments();
@@ -478,11 +480,27 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_wbsNotes.forEach(n -> writeRecord(WBS_NOTE_COLUMNS, n));
    }
 
+   private void writeActivityNotes()
+   {
+      writeTable("TASKMEMO", ACTIVITY_NOTE_COLUMNS);
+      m_activityNotes.forEach(n -> writeRecord(ACTIVITY_NOTE_COLUMNS, n));
+   }
+
    private void populateWbsNotes()
    {
-      Map<Task, List<List<Notes>>> nestedList = m_file.getTasks().stream().filter(Task::getSummary).collect(Collectors.groupingBy(t -> t, Collectors.mapping(t -> expandParentNotes(t.getNotesObject()), Collectors.toList())));
+      m_wbsNotes = populateNotes(m_file.getTasks().stream().filter(Task::getSummary));
+   }
+
+   private void populateActivityNotes()
+   {
+      m_activityNotes = populateNotes(m_file.getTasks().stream().filter(t -> !t.getSummary()));
+   }
+
+   private List<Map<String,Object>> populateNotes(Stream<Task> stream)
+   {
+      Map<Task, List<List<Notes>>> nestedList = stream.collect(Collectors.groupingBy(t -> t, Collectors.mapping(t -> expandParentNotes(t.getNotesObject()), Collectors.toList())));
       Map<Task, List<StructuredNotes>> flatList = nestedList.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().stream().flatMap(Collection::stream).map(this::createStructuredNotes).collect(Collectors.toList())));
-      m_wbsNotes = flatList.entrySet().stream().map(e -> e.getValue().stream().map(n -> createWbsNotesMap(e.getKey(), n)).collect(Collectors.toList())).flatMap(Collection::stream).sorted(Comparator.comparing(n -> (Integer)n.get("wbs_memo_id"))).collect(Collectors.toList());
+      return flatList.entrySet().stream().map(e -> e.getValue().stream().map(n -> createNotesMap(e.getKey(), n)).collect(Collectors.toList())).flatMap(Collection::stream).sorted(Comparator.comparing(n -> (Integer)n.get("entity_memo_id"))).collect(Collectors.toList());
    }
 
    private List<Notes> expandParentNotes(Notes notes)
@@ -510,14 +528,14 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return new StructuredNotes(m_wbsNoteObjectID.getNext(), m_file.getNotesTopics().getDefaultTopic(), notes);
    }
 
-   private Map<String, Object> createWbsNotesMap(Task task, StructuredNotes notes)
+   private Map<String, Object> createNotesMap(Task task, StructuredNotes notes)
    {
       Map<String, Object> map = new HashMap<>();
-      map.put("wbs_memo_id", notes.getUniqueID());
+      map.put("entity_memo_id", notes.getUniqueID());
       map.put("proj_id", task.getParentFile().getProjectProperties().getUniqueID());
       map.put("memo_type_id", notes.getTopicID());
-      map.put("wbs_id", task.getUniqueID());
-      map.put("wbs_memo", notes.getNotes());
+      map.put("entity_id", task.getUniqueID());
+      map.put("entity_memo", notes.getNotes());
       return map;
    }
 
@@ -699,6 +717,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private ObjectSequence m_wbsNoteObjectID;
 
    private List<Map<String, Object>> m_wbsNotes;
+   private List<Map<String, Object>> m_activityNotes;
 
    private final Format m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -1241,11 +1260,21 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<Map<String,Object>>> WBS_NOTE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      WBS_NOTE_COLUMNS.put("wbs_memo_id", n -> n.get("wbs_memo_id"));
+      WBS_NOTE_COLUMNS.put("wbs_memo_id", n -> n.get("entity_memo_id"));
       WBS_NOTE_COLUMNS.put("proj_id", n -> n.get("proj_id"));
       WBS_NOTE_COLUMNS.put("memo_type_id", n -> n.get("memo_type_id"));
-      WBS_NOTE_COLUMNS.put("wbs_id", n -> n.get("wbs_id"));
-      WBS_NOTE_COLUMNS.put("wbs_memo", n -> n.get("wbs_memo"));
+      WBS_NOTE_COLUMNS.put("wbs_id", n -> n.get("entity_id"));
+      WBS_NOTE_COLUMNS.put("wbs_memo", n -> n.get("entity_memo"));
+   }
+
+   private static final Map<String, ExportFunction<Map<String,Object>>> ACTIVITY_NOTE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      ACTIVITY_NOTE_COLUMNS.put("memo_id", n -> n.get("entity_memo_id"));
+      ACTIVITY_NOTE_COLUMNS.put("task_id", n -> n.get("entity_id"));
+      ACTIVITY_NOTE_COLUMNS.put("memo_type_id", n -> n.get("memo_type_id"));
+      ACTIVITY_NOTE_COLUMNS.put("proj_id", n -> n.get("proj_id"));
+      ACTIVITY_NOTE_COLUMNS.put("task_memo", n -> n.get("entity_memo"));
    }
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
