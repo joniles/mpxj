@@ -108,8 +108,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       m_file = projectFile;
       m_writer = new OutputStreamWriter(outputStream, getCharset());
-      m_roleRateUniqueID = 1;
-      m_resourceRateUniqueID = 1;
+      m_roleRateObjectID = new ObjectSequence(1);
+      m_resourceRateObjectID = new ObjectSequence(1);
       m_wbsNoteObjectID = new ObjectSequence(1);
 
       // We need to do this first to ensure the default topic is created if required
@@ -694,10 +694,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private ProjectFile m_file;
    private OutputStreamWriter m_writer;
 
-   private int m_roleRateUniqueID;
-
-   private int m_resourceRateUniqueID;
-
+   private ObjectSequence m_roleRateObjectID;
+   private ObjectSequence m_resourceRateObjectID;
    private ObjectSequence m_wbsNoteObjectID;
 
    private List<Map<String, Object>> m_wbsNotes;
@@ -761,7 +759,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, CostRateTableEntryFunction> ROLE_RATE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      ROLE_RATE_COLUMNS.put("role_rate_id", (w, r, e) -> Integer.valueOf(w.m_roleRateUniqueID++));
+      ROLE_RATE_COLUMNS.put("role_rate_id", (w, r, e) -> w.m_roleRateObjectID.getNext());
       ROLE_RATE_COLUMNS.put("role_id", (w, r, e) -> r.getUniqueID());
       ROLE_RATE_COLUMNS.put("cost_per_qty", (w, r, e) -> e.getRate(0));
       ROLE_RATE_COLUMNS.put("cost_per_qty2", (w, r, e) -> e.getRate(1));
@@ -775,7 +773,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, CostRateTableEntryFunction> RESOURCE_RATE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      RESOURCE_RATE_COLUMNS.put("rsrc_rate_id", (w, r, e) -> Integer.valueOf(w.m_resourceRateUniqueID++));
+      RESOURCE_RATE_COLUMNS.put("rsrc_rate_id", (w, r, e) -> w.m_resourceRateObjectID.getNext());
       RESOURCE_RATE_COLUMNS.put("rsrc_id", (w, r, e) -> r.getUniqueID());
       RESOURCE_RATE_COLUMNS.put("max_qty_per_hr", PrimaveraXERFileWriter::getMaxQuantityPerHour);
       RESOURCE_RATE_COLUMNS.put("cost_per_qty", (w, r, e) -> e.getRate(0));
