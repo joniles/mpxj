@@ -1004,7 +1004,7 @@ final class PrimaveraReader
          }
          else
          {
-            durationAtCompletion = Duration.add(task.getActualDuration(), task.getRemainingDuration(), task.getEffectiveCalendar());
+            durationAtCompletion = task.getActualDuration() != null && task.getActualDuration().getDuration() != 0 ? task.getActualDuration() : task.getRemainingDuration();
          }
          task.setDuration(durationAtCompletion);
 
