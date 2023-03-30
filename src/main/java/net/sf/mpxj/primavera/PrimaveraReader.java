@@ -996,7 +996,15 @@ final class PrimaveraReader
          }
 
          // Calculate duration at completion
-         Duration durationAtCompletion = Duration.add(task.getActualDuration(), task.getRemainingDuration(), task.getEffectiveCalendar());
+         Duration durationAtCompletion;
+         if (task.getActualDuration() != null && task.getActualDuration().getDuration() != 0 && task.getRemainingDuration() != null && task.getRemainingDuration().getDuration() != 0)
+         {
+            durationAtCompletion = task.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
+         }
+         else
+         {
+            durationAtCompletion = task.getActualDuration() != null && task.getActualDuration().getDuration() != 0 ? task.getActualDuration() : task.getRemainingDuration();
+         }
          task.setDuration(durationAtCompletion);
 
          if (forceCriticalToFalse)

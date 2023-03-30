@@ -23,6 +23,7 @@
 			<action dev="joniles" type="update">Updated to retrieve the project's start date from Phoenix PPX files (Contributed by Rohit Sinha).</action>
 			<action dev="joniles" type="update">Provide access to notebook topics from P6 schedules via the `ProjectFile.getNotesTopics()` method.</action>
 			<action dev="joniles" type="update">Capture unique ID of Activity and WBS notes from P6 schedules.</action>
+			<action dev="joniles" type="update">Improve the calculation used to determine At Completion Duration of activities when reading XER files and P6 databases.</action>
 		</release>
 		<release date="2023-03-13" version="11.2.0">
 			<action dev="joniles" type="update">The project property Critical Slack Limit is now represented as a `Duration` rather than as an `Integer`. (Potentially breaking change if you were using this property directly).</action>
