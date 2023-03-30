@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostAccount;
@@ -996,7 +997,15 @@ final class PrimaveraReader
          }
 
          // Calculate duration at completion
-         Duration durationAtCompletion = Duration.add(task.getActualDuration(), task.getRemainingDuration(), task.getEffectiveCalendar());
+         Duration durationAtCompletion;
+         if (task.getActualDuration() != null && task.getActualDuration().getDuration() != 0 && task.getRemainingDuration() != null && task.getRemainingDuration().getDuration() != 0)
+         {
+            durationAtCompletion = task.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
+         }
+         else
+         {
+            durationAtCompletion = Duration.add(task.getActualDuration(), task.getRemainingDuration(), task.getEffectiveCalendar());
+         }
          task.setDuration(durationAtCompletion);
 
          if (forceCriticalToFalse)
