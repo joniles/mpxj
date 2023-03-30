@@ -144,6 +144,23 @@ final class TimephasedDataFactory
          }
       }
 
+      for (TimephasedWork work : list)
+      {
+         Duration calculated;
+         if (work.getTotalAmount().getDuration() == 0)
+         {
+            calculated = Duration.getInstance(0, TimeUnit.MINUTES);
+         }
+         else {
+            // TODO: need to fix the seconds/minutes rounding in the XsdDuration class
+            Duration total = work.getTotalAmount();
+            Duration calculatedTotal = calendar.getWork(work.getStart(), work.getFinish(), TimeUnit.MINUTES);
+            double calculatedAmount = (480.0 * total.getDuration()) / calculatedTotal.getDuration();
+            calculated = Duration.getInstance(calculatedAmount, TimeUnit.MINUTES);
+         }
+         work.setAmountPerDay(calculated);
+      }
+
       return list;
    }
 
