@@ -154,4 +154,33 @@ public class XsdDurationTest
       xsdDuration = new XsdDuration(duration);
       Assert.assertEquals("P0Y13M0DT0H0M0S", xsdDuration.print(true));
    }
+   @Test public void testPrintFromYearsDuration()
+   {
+      Duration duration;
+      XsdDuration xsdDuration;
+
+      duration = Duration.getInstance(1, TimeUnit.YEARS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P1Y0M0DT0H0M0S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(1.000000034446649, TimeUnit.YEARS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P1Y0M0DT0H0M1S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(1.000002066798942, TimeUnit.YEARS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P1Y0M0DT0H1M0S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(1.000124007936508, TimeUnit.YEARS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P1Y0M0DT1H0M0S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(1.00297619047619, TimeUnit.YEARS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P1Y0M1DT0H0M0S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(1.083333333333333, TimeUnit.YEARS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P1Y1M0DT0H0M0S", xsdDuration.print(true));
+   }
 }
