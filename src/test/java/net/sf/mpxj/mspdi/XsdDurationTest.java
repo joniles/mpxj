@@ -81,5 +81,47 @@ public class XsdDurationTest
       duration = Duration.getInstance(1, TimeUnit.DAYS);
       xsdDuration = new XsdDuration(duration);
       Assert.assertEquals("P0Y0M1DT0H0M0S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(1.000011574, TimeUnit.DAYS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P0Y0M1DT0H0M1S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(1.0006944, TimeUnit.DAYS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P0Y0M1DT0H1M0S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(1.04167, TimeUnit.DAYS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P0Y0M1DT1H0M0S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(33, TimeUnit.DAYS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P0Y0M33DT0H0M0S", xsdDuration.print(true));
+   }
+
+   @Test public void testPrintFromWeekssDuration()
+   {
+      Duration duration;
+      XsdDuration xsdDuration;
+
+      duration = Duration.getInstance(1, TimeUnit.WEEKS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P0Y0M7DT0H0M0S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(1.000001653439153, TimeUnit.WEEKS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P0Y0M7DT0H0M1S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(1.000099206349206, TimeUnit.WEEKS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P0Y0M7DT0H1M0S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(1.005952380952381, TimeUnit.WEEKS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P0Y0M7DT1H0M0S", xsdDuration.print(true));
+
+      duration = Duration.getInstance(5, TimeUnit.WEEKS);
+      xsdDuration = new XsdDuration(duration);
+      Assert.assertEquals("P0Y0M35DT0H0M0S", xsdDuration.print(true));
    }
 }
