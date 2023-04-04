@@ -5,7 +5,7 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="11.2.1">
+		<release date="unreleased" version="11.3.0">
 			<action dev="joniles" type="update">Updated the `ActivityCode` class to ensure that both the scope Project ID and EPS ID can be represented when reading a P6 schedule. (Potentially breaking change if you were using this class).</action>
 			<action dev="joniles" type="update">Ensure secondary constraint date and type are written to PMXML files.</action>
 			<action dev="joniles" type="update">Ensure leveling priority is written to PMXML files.</action>
@@ -24,7 +24,8 @@
 			<action dev="joniles" type="update">Provide access to notebook topics from P6 schedules via the `ProjectFile.getNotesTopics()` method.</action>
 			<action dev="joniles" type="update">Capture unique ID of Activity and WBS notes from P6 schedules.</action>
 			<action dev="joniles" type="update">Improve the calculation used to determine At Completion Duration of activities when reading XER files and P6 databases.</action>
-			<action dev="joniles" type="update">Improve accuracy of certain duration values written to MSPDI files.</action>
+			<action dev="joniles" type="update">Improve representation of certain duration values written to MSPDI files.</action>
+			<action dev="joniles" type="update">Improve accuracy of certain work calculations where the specified time period does not start with a working day.</action>
 		</release>
 		<release date="2023-03-13" version="11.2.0">
 			<action dev="joniles" type="update">The project property Critical Slack Limit is now represented as a `Duration` rather than as an `Integer`. (Potentially breaking change if you were using this property directly).</action>
