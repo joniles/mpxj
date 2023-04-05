@@ -521,17 +521,17 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static Duration getActualRegularWork(ResourceAssignment assignment)
    {
       ProjectProperties properties = assignment.getParentFile().getProjectProperties();
-      Duration actualWork = assignment.getActualWork().convertUnits(TimeUnit.HOURS, properties);
-      Duration actualOvertimeWork = assignment.getActualOvertimeWork().convertUnits(TimeUnit.HOURS, properties);
+      Duration actualWork = assignment.getActualWork() == null ? Duration.getInstance(0, TimeUnit.HOURS) : assignment.getActualWork().convertUnits(TimeUnit.HOURS, properties);
+      Duration actualOvertimeWork = assignment.getActualOvertimeWork() == null ? Duration.getInstance(0, TimeUnit.HOURS) : assignment.getActualOvertimeWork().convertUnits(TimeUnit.HOURS, properties);
       return Duration.getInstance(actualWork.getDuration() - actualOvertimeWork.getDuration(), TimeUnit.HOURS);
    }
 
    private static Double getActualRegularCost(ResourceAssignment assignment)
    {
       ProjectProperties properties = assignment.getParentFile().getProjectProperties();
-      Number actualCost = assignment.getActualCost();
-      Number actualOvertimeCost = assignment.getActualOvertimeCost();
-      return Double.valueOf(actualCost.doubleValue() - actualOvertimeCost.doubleValue());
+      double actualCost = NumberHelper.getDouble(assignment.getActualCost());
+      double actualOvertimeCost = NumberHelper.getDouble(assignment.getActualOvertimeCost());
+      return Double.valueOf(actualCost - actualOvertimeCost);
    }
 
    private static Integer getUdfTypeID(FieldType type)
@@ -797,7 +797,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       ACTIVITY_COLUMNS.put("task_id", Task::getUniqueID);
       ACTIVITY_COLUMNS.put("proj_id", t -> t.getParentFile().getProjectProperties().getUniqueID());
-      ACTIVITY_COLUMNS.put("wbs_id", t -> t.getParentTask().getUniqueID());
+      ACTIVITY_COLUMNS.put("wbs_id", t -> t.getParentTask() == null ? null : t.getParentTask().getUniqueID());
       ACTIVITY_COLUMNS.put("clndr_id", Task::getCalendarUniqueID);
       ACTIVITY_COLUMNS.put("phys_complete_pct", Task::getPhysicalPercentComplete);
       ACTIVITY_COLUMNS.put("rev_fdbk_flag", t -> Boolean.FALSE);
