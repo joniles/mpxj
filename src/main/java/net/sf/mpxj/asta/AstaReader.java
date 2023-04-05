@@ -93,6 +93,7 @@ final class AstaReader
       config.setAutoResourceUniqueID(false);
       config.setAutoAssignmentUniqueID(false);
       config.setAutoCalendarUniqueID(false);
+      config.setAutoRelationUniqueID(false);
       config.setBaselineStrategy(new AstaBaselineStrategy());
 
       m_project.getProjectProperties().setFileApplication("Asta");

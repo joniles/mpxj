@@ -230,6 +230,27 @@ public class ProjectConfig
    }
 
    /**
+    * Used to set whether the relation unique ID field is automatically populated.
+    *
+    * @param flag true if automatic unique ID required.
+    */
+   public void setAutoRelationUniqueID(boolean flag)
+   {
+      m_autoRelationUniqueID = flag;
+   }
+
+   /**
+    * Retrieve the flag that determines whether the relation unique ID
+    * is generated automatically.
+    *
+    * @return boolean, default is false.
+    */
+   public boolean getAutoRelationUniqueID()
+   {
+      return m_autoRelationUniqueID;
+   }
+
+   /**
     * This method is used to retrieve the next unique ID for a task.
     *
     * @return next unique ID
@@ -287,6 +308,16 @@ public class ProjectConfig
    public int getNextResourceID()
    {
       return ++m_resourceID;
+   }
+
+   /**
+    * This method is used to retrieve the next unique ID for a relation.
+    *
+    * @return next unique ID
+    */
+   public int getNextRelationUniqueID()
+   {
+      return ++m_relationUniqueID;
    }
 
    /**
@@ -463,6 +494,12 @@ public class ProjectConfig
    private boolean m_autoResourceID = true;
 
    /**
+    * Indicating whether the unique ID of a relation should be
+    * calculated on creation, or will be manually set.
+    */
+   private boolean m_autoRelationUniqueID = true;
+
+   /**
     * Counter used to populate the unique ID field of a task.
     */
    private int m_taskUniqueID;
@@ -491,6 +528,11 @@ public class ProjectConfig
     * Counter used to populate the ID field of a resource.
     */
    private int m_resourceID;
+
+   /**
+    * Counter used to populate the unique ID field of a relation.
+    */
+   private int m_relationUniqueID;
 
    /**
     * Set to true provides compatibility with MS Project versions prior to 2007.
