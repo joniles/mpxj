@@ -148,6 +148,7 @@ abstract class MPD9AbstractReader
          config.setAutoWBS(false);
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
+         config.setAutoRelationUniqueID(false);
 
          m_project.getProjectProperties().setFileApplication("Microsoft");
          m_project.getProjectProperties().setFileType("MPD");

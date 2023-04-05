@@ -464,6 +464,8 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    @SuppressWarnings("unchecked") public Relation addPredecessor(Task targetTask, RelationType type, Duration lag)
    {
+      ProjectConfig projectConfig = getParentFile().getProjectConfig();
+
       //
       // Ensure that we have a valid lag duration
       //
@@ -503,6 +505,10 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       if (predecessorRelation == null)
       {
          predecessorRelation = new Relation(this, targetTask, type, lag);
+         if (projectConfig.getAutoRelationUniqueID())
+         {
+            predecessorRelation.setUniqueID(Integer.valueOf(projectConfig.getNextRelationUniqueID()));
+         }
          predecessorList.add(predecessorRelation);
       }
 
@@ -537,10 +543,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       if (successorRelation == null)
       {
          successorRelation = new Relation(targetTask, this, type, lag);
+         if (projectConfig.getAutoRelationUniqueID())
+         {
+            successorRelation.setUniqueID(Integer.valueOf(projectConfig.getNextRelationUniqueID()));
+         }
          successorList.add(successorRelation);
       }
 
-      return (predecessorRelation);
+      return predecessorRelation;
    }
 
    /**
