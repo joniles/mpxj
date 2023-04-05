@@ -46,6 +46,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
@@ -273,7 +274,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeResourceCurves()
    {
       m_writer.writeTable("RSRCCURVDATA", RESOURCE_CURVE_COLUMNS);
-      m_file.getWorkContours().stream().sorted(Comparator.comparing(WorkContour::getUniqueID)).forEach(r -> m_writer.writeRecord(RESOURCE_CURVE_COLUMNS, r));
+      m_file.getWorkContours().stream().filter(w -> !w.isContourManual() && !w.isContourFlat()).sorted(Comparator.comparing(WorkContour::getUniqueID)).forEach(r -> m_writer.writeRecord(RESOURCE_CURVE_COLUMNS, r));
    }
 
    private void writeActivitySteps()
@@ -920,7 +921,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", r -> CurveHelper.getCurveID(r.getWorkContour()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", r -> r.getResource().getType());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", r -> r.getResource() == null ? ResourceType.WORK : r.getResource().getType());
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", ResourceAssignment::getRateSource);
       RESOURCE_ASSIGNMENT_COLUMNS.put("create_user", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("create_date", ResourceAssignment::getCreateDate);
