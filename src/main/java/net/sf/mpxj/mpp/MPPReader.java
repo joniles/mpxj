@@ -142,6 +142,7 @@ public final class MPPReader extends AbstractProjectStreamReader
          config.setAutoWBS(false);
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
+         config.setAutoRelationUniqueID(false);
 
          addListenersToProject(projectFile);
 
