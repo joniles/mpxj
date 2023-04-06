@@ -466,7 +466,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    private List<Map<String,Object>> populateNotes(Stream<Task> stream)
    {
-      Map<Task, List<List<Notes>>> nestedList = stream.collect(Collectors.groupingBy(t -> t, Collectors.mapping(t -> expandParentNotes(t.getNotesObject()), Collectors.toList())));
+      Map<Task, List<List<Notes>>> nestedList = stream.collect(Collectors.groupingBy(t -> t, LinkedHashMap::new, Collectors.mapping(t -> expandParentNotes(t.getNotesObject()), Collectors.toList())));
       Map<Task, List<StructuredNotes>> flatList = nestedList.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().stream().flatMap(Collection::stream).map(this::createStructuredNotes).collect(Collectors.toList())));
       return flatList.entrySet().stream().map(e -> e.getValue().stream().map(n -> createNotesMap(e.getKey(), n)).collect(Collectors.toList())).flatMap(Collection::stream).sorted(Comparator.comparing(n -> (Integer)n.get("entity_memo_id"))).collect(Collectors.toList());
    }
