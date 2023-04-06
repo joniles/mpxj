@@ -130,6 +130,8 @@ final class PrimaveraReader
 
       m_matchPrimaveraWBS = matchPrimaveraWBS;
       m_wbsIsFullPath = wbsIsFullPath;
+
+      m_relationObjectID = new ObjectSequence(1);
    }
 
    /**
@@ -1542,6 +1544,12 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
+         Integer uniqueID = row.getInteger("task_pred_id");
+         if (uniqueID == null)
+         {
+            uniqueID = m_relationObjectID.getNext();
+         }
+
          Integer successorID = m_activityClashMap.getID(row.getInteger("task_id"));
          Integer predecessorID = m_activityClashMap.getID(row.getInteger("pred_task_id"));
 
@@ -1554,7 +1562,7 @@ final class PrimaveraReader
          if (successorTask != null && predecessorTask != null)
          {
             Relation relation = successorTask.addPredecessor(predecessorTask, type, lag);
-            relation.setUniqueID(row.getInteger("task_pred_id"));
+            relation.setUniqueID(uniqueID);
             m_eventManager.fireRelationReadEvent(relation);
          }
          else
@@ -1564,7 +1572,7 @@ final class PrimaveraReader
             {
                ExternalRelation relation = new ExternalRelation(predecessorID, successorTask, type, lag, true);
                m_externalRelations.add(relation);
-               relation.setUniqueID(row.getInteger("task_pred_id"));
+               relation.setUniqueID(uniqueID);
             }
             else
             {
@@ -1572,7 +1580,7 @@ final class PrimaveraReader
                {
                   ExternalRelation relation = new ExternalRelation(successorID, predecessorTask, type, lag, false);
                   m_externalRelations.add(relation);
-                  relation.setUniqueID(row.getInteger("task_pred_id"));
+                  relation.setUniqueID(uniqueID);
                }
             }
          }
@@ -2182,6 +2190,8 @@ final class PrimaveraReader
 
    private final Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
    private final Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
+
+   private final ObjectSequence m_relationObjectID;
 
    private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();
    static
