@@ -798,7 +798,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       ACTIVITY_COLUMNS.put("task_id", Task::getUniqueID);
       ACTIVITY_COLUMNS.put("proj_id", t -> t.getParentFile().getProjectProperties().getUniqueID());
-      ACTIVITY_COLUMNS.put("wbs_id", t -> t.getParentTask() == null ? null : t.getParentTask().getUniqueID());
+      ACTIVITY_COLUMNS.put("wbs_id", Task::getParentTaskUniqueID);
       ACTIVITY_COLUMNS.put("clndr_id", Task::getCalendarUniqueID);
       ACTIVITY_COLUMNS.put("phys_complete_pct", Task::getPhysicalPercentComplete);
       ACTIVITY_COLUMNS.put("rev_fdbk_flag", t -> Boolean.FALSE);
@@ -954,7 +954,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       EXPENSE_ITEM_COLUMNS.put("cost_item_id", ExpenseItem::getUniqueID);
       EXPENSE_ITEM_COLUMNS.put("acct_id", ExpenseItem::getAccountUniqueID);
       EXPENSE_ITEM_COLUMNS.put("pobs_id", i -> null);
-      EXPENSE_ITEM_COLUMNS.put("cost_type_id", i -> i.getCategory().getUniqueID());
+      EXPENSE_ITEM_COLUMNS.put("cost_type_id", ExpenseItem::getCategoryUniqueID);
       EXPENSE_ITEM_COLUMNS.put("proj_id", i -> i.getTask().getParentFile().getProjectProperties().getUniqueID());
       EXPENSE_ITEM_COLUMNS.put("task_id", i -> i.getTask().getUniqueID());
       EXPENSE_ITEM_COLUMNS.put("cost_name", ExpenseItem::getName);
