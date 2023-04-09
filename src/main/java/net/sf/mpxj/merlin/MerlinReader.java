@@ -155,6 +155,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       config.setAutoCalendarUniqueID(false);
       config.setAutoTaskUniqueID(false);
       config.setAutoResourceUniqueID(false);
+      config.setAutoRelationUniqueID(false);
 
       m_project.getProjectProperties().setFileApplication("Merlin");
       m_project.getProjectProperties().setFileType("SQLITE");
