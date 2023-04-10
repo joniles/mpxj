@@ -178,14 +178,14 @@ final class TimephasedDataFactory
                   time /= 1000;
                   Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
 
-                  time = MPPUtility.getDouble(data, 8);
-                  time /= 2000;
-                  time *= 6;
-                  Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
+                  // Originally this value was used to calculate the amount per day,
+                  // but the value proved to be unreliable in some circumstances resulting
+                  // in negative durations.
+                  // MPPUtility.getDouble(data, 8);
 
                   TimephasedWork work = new TimephasedWork();
                   work.setStart(timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume());
-                  work.setAmountPerDay(workPerDay);
+
                   work.setFinish(assignment.getFinish());
                   work.setTotalAmount(totalWork);
                   list.add(work);
@@ -222,10 +222,10 @@ final class TimephasedDataFactory
                Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.MINUTES);
                previousCumulativeWork = currentCumulativeWork;
 
-               time = MPPUtility.getDouble(data, index + 12);
-               time /= 2000;
-               time *= 6;
-               Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
+               // Originally this value was used to calculate the amount per day,
+               // but the value proved to be unreliable in some circumstances resulting
+               // in negative durations.
+               // MPPUtility.getDouble(data, index + 12);
 
                int currentModifiedFlag = MPPUtility.getShort(data, index + 22);
                boolean modified = (currentBlock > 0 && previousModifiedFlag != 0 && currentModifiedFlag == 0) || ((currentModifiedFlag & 0x3000) != 0);
@@ -233,7 +233,6 @@ final class TimephasedDataFactory
 
                TimephasedWork work = new TimephasedWork();
                work.setStart(start);
-               work.setAmountPerDay(workPerDay);
                work.setModified(modified);
                work.setTotalAmount(totalWork);
 
