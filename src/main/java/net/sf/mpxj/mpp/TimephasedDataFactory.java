@@ -285,6 +285,24 @@ final class TimephasedDataFactory
          }
       }
 
+      for (TimephasedWork work : list)
+      {
+         Duration amountPerDay;
+         if (work.getTotalAmount().getDuration() == 0)
+         {
+            amountPerDay = Duration.getInstance(0, TimeUnit.MINUTES);
+         }
+         else
+         {
+            Duration totalWorkInMinutes = work.getTotalAmount();
+            Duration calculatedTotalWorkInMinutes = calendar.getWork(work.getStart(), work.getFinish(), TimeUnit.MINUTES);
+            double minutesPerDay = 8.0 * 60.0;
+            double calculatedAmountPerDay = (minutesPerDay * totalWorkInMinutes.getDuration()) / calculatedTotalWorkInMinutes.getDuration();
+            amountPerDay = Duration.getInstance(calculatedAmountPerDay, TimeUnit.MINUTES);
+         }
+         work.setAmountPerDay(amountPerDay);
+      }
+
       return list;
    }
 
