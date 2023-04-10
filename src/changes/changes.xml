@@ -26,6 +26,7 @@
 			<action dev="joniles" type="update">Improve the calculation used to determine At Completion Duration of activities when reading XER files and P6 databases.</action>
 			<action dev="joniles" type="update">Improve representation of certain duration values written to MSPDI files.</action>
 			<action dev="joniles" type="update">Improve accuracy of certain work calculations where the specified time period does not start with a working day.</action>
+			<action dev="joniles" type="update">Fix an issue which caused negative timephased work values to be generated when reading certain MPP files.</action>
 		</release>
 		<release date="2023-03-13" version="11.2.0">
 			<action dev="joniles" type="update">The project property Critical Slack Limit is now represented as a `Duration` rather than as an `Integer`. (Potentially breaking change if you were using this property directly).</action>
