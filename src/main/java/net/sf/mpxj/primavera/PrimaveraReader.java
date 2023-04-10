@@ -899,16 +899,15 @@ final class PrimaveraReader
          }
          else
          {
-            m_project.getChildTasks().remove(task);
-            parentTask.getChildTasks().add(task);
-
-            if (m_wbsIsFullPath)
-            {
-               task.setWBS(parentTask.getWBS() + DEFAULT_WBS_SEPARATOR + task.getWBS());
-            }
+            parentTask.addChildTask(task);
          }
 
          task.setActivityID(task.getWBS());
+      }
+
+      if (m_wbsIsFullPath)
+      {
+         m_project.getChildTasks().forEach(t -> populateWBS(null, t));
       }
 
       //
@@ -1035,6 +1034,16 @@ final class PrimaveraReader
       new ActivitySorter(wbsTasks).sort(m_project);
 
       updateStructure();
+   }
+
+   private void populateWBS(Task parent, Task task)
+   {
+      if (parent != null)
+      {
+         task.setWBS(parent.getWBS() + DEFAULT_WBS_SEPARATOR + task.getWBS());
+         task.setActivityID(task.getWBS());
+      }
+      task.getChildTasks().forEach(t -> populateWBS(task, t));
    }
 
    private void populateBaselineFromCurrentProject(Task task)
