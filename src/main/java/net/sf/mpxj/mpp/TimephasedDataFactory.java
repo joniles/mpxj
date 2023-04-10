@@ -95,10 +95,11 @@ final class TimephasedDataFactory
             previousCumulativeWork = currentCumulativeWork;
             assignmentDuration /= 1000;
             Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.MINUTES);
-            time = (long) MPPUtility.getDouble(data, index + 12);
-            time /= 125;
-            time *= 6;
-            Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
+
+            // Originally this value was used to calculate the amount per day,
+            // but the value proved to be unreliable in some circumstances resulting
+            // in negative durations.
+            // MPPUtility.getDouble(data, index + 12);
 
             Date start;
             if (startWork.getDuration() == 0)
@@ -112,7 +113,6 @@ final class TimephasedDataFactory
 
             TimephasedWork assignment = new TimephasedWork();
             assignment.setStart(start);
-            assignment.setAmountPerDay(workPerDay);
             assignment.setTotalAmount(totalWork);
 
             if (previousAssignment != null)
@@ -146,19 +146,20 @@ final class TimephasedDataFactory
 
       for (TimephasedWork work : list)
       {
-         Duration calculated;
+         Duration amountPerDay;
          if (work.getTotalAmount().getDuration() == 0)
          {
-            calculated = Duration.getInstance(0, TimeUnit.MINUTES);
+            amountPerDay = Duration.getInstance(0, TimeUnit.MINUTES);
          }
-         else {
-            // TODO: need to fix the seconds/minutes rounding in the XsdDuration class
-            Duration total = work.getTotalAmount();
-            Duration calculatedTotal = calendar.getWork(work.getStart(), work.getFinish(), TimeUnit.MINUTES);
-            double calculatedAmount = (480.0 * total.getDuration()) / calculatedTotal.getDuration();
-            calculated = Duration.getInstance(calculatedAmount, TimeUnit.MINUTES);
+         else
+         {
+            Duration totalWorkInMinutes = work.getTotalAmount();
+            Duration calculatedTotalWorkInMinutes = calendar.getWork(work.getStart(), work.getFinish(), TimeUnit.MINUTES);
+            double minutesPerDay = 8.0 * 60.0;
+            double calculatedAmountPerDay = (minutesPerDay * totalWorkInMinutes.getDuration()) / calculatedTotalWorkInMinutes.getDuration();
+            amountPerDay = Duration.getInstance(calculatedAmountPerDay, TimeUnit.MINUTES);
          }
-         work.setAmountPerDay(calculated);
+         work.setAmountPerDay(amountPerDay);
       }
 
       return list;
