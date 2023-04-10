@@ -899,8 +899,7 @@ final class PrimaveraReader
          }
          else
          {
-            m_project.getChildTasks().remove(task);
-            parentTask.getChildTasks().add(task);
+            parentTask.addChildTask(task);
 
             if (m_wbsIsFullPath)
             {
