@@ -60,89 +60,92 @@ final class TimephasedDataFactory
    public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, ResourceAssignment resourceAssignment, byte[] data)
    {
       List<TimephasedWork> list = new ArrayList<>();
-
-      if (calendar != null && data != null && data.length > 26 && MPPUtility.getShort(data, 0) > 0)
+      if (calendar == null || data == null || data.length <= 26 || MPPUtility.getShort(data, 0) == 0)
       {
-         Date startDate = resourceAssignment.getStart();
-         double finishTime = MPPUtility.getInt(data, 24);
+         return list;
+      }
 
-         int blockCount = MPPUtility.getShort(data, 0);
-         double previousCumulativeWork = 0;
-         TimephasedWork previousAssignment = null;
+      Date startDate = resourceAssignment.getStart();
+      double finishTime = MPPUtility.getInt(data, 24);
 
-         int index = 32;
-         int currentBlock = 0;
-         while (currentBlock < blockCount && index + 20 <= data.length)
+      int blockCount = MPPUtility.getShort(data, 0);
+      double previousCumulativeWork = 0;
+      TimephasedWork previousAssignment = null;
+
+      int index = 32;
+      int currentBlock = 0;
+      while (currentBlock < blockCount && index + 20 <= data.length)
+      {
+         double time = MPPUtility.getInt(data, index);
+
+         // If the start of this block is before the start of the assignment, or after the end of the assignment
+         // the values don't make sense, so we'll just set the start of this block to be the start of the assignment.
+         // This deals with an issue where odd timephased data like this was causing an MPP file to be read
+         // extremely slowly.
+         if (time < 0 || time > finishTime)
          {
-            double time = MPPUtility.getInt(data, index);
-
-            // If the start of this block is before the start of the assignment, or after the end of the assignment
-            // the values don't make sense, so we'll just set the start of this block to be the start of the assignment.
-            // This deals with an issue where odd timephased data like this was causing an MPP file to be read
-            // extremely slowly.
-            if (time < 0 || time > finishTime)
-            {
-               time = 0;
-            }
-            else
-            {
-               time /= 80;
-            }
-            Duration startWork = Duration.getInstance(time, TimeUnit.MINUTES);
-
-            double currentCumulativeWork = (long) MPPUtility.getDouble(data, index + 4);
-            double assignmentDuration = currentCumulativeWork - previousCumulativeWork;
-            previousCumulativeWork = currentCumulativeWork;
-            assignmentDuration /= 1000;
-            Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.MINUTES);
-            time = (long) MPPUtility.getDouble(data, index + 12);
-            time /= 125;
-            time *= 6;
-            Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
-
-            Date start;
-            if (startWork.getDuration() == 0)
-            {
-               start = startDate;
-            }
-            else
-            {
-               start = calendar.getDate(startDate, startWork, true);
-            }
-
-            TimephasedWork assignment = new TimephasedWork();
-            assignment.setStart(start);
-            assignment.setAmountPerDay(workPerDay);
-            assignment.setTotalAmount(totalWork);
-
-            if (previousAssignment != null)
-            {
-               Date finish = calendar.getDate(startDate, startWork, false);
-               previousAssignment.setFinish(finish);
-               if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
-               {
-                  list.remove(list.size() - 1);
-               }
-            }
-
-            list.add(assignment);
-            previousAssignment = assignment;
-
-            index += 20;
-            ++currentBlock;
+            time = 0;
          }
+         else
+         {
+            time /= 80;
+         }
+         Duration startWork = Duration.getInstance(time, TimeUnit.MINUTES);
+
+         double currentCumulativeWork = (long) MPPUtility.getDouble(data, index + 4);
+         double assignmentDuration = currentCumulativeWork - previousCumulativeWork;
+         previousCumulativeWork = currentCumulativeWork;
+         assignmentDuration /= 1000;
+         Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.MINUTES);
+
+         // Originally this value was used to calculate the amount per day,
+         // but the value proved to be unreliable in some circumstances resulting
+         // in negative durations.
+         // MPPUtility.getDouble(data, index + 12);
+
+         Date start;
+         if (startWork.getDuration() == 0)
+         {
+            start = startDate;
+         }
+         else
+         {
+            start = calendar.getDate(startDate, startWork, true);
+         }
+
+         TimephasedWork assignment = new TimephasedWork();
+         assignment.setStart(start);
+         assignment.setTotalAmount(totalWork);
 
          if (previousAssignment != null)
          {
-            Duration finishWork = Duration.getInstance(finishTime / 80, TimeUnit.MINUTES);
-            Date finish = calendar.getDate(startDate, finishWork, false);
+            Date finish = calendar.getDate(startDate, startWork, false);
             previousAssignment.setFinish(finish);
             if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
             {
                list.remove(list.size() - 1);
             }
          }
+
+         list.add(assignment);
+         previousAssignment = assignment;
+
+         index += 20;
+         ++currentBlock;
       }
+
+      if (previousAssignment != null)
+      {
+         Duration finishWork = Duration.getInstance(finishTime / 80, TimeUnit.MINUTES);
+         Date finish = calendar.getDate(startDate, finishWork, false);
+         previousAssignment.setFinish(finish);
+         if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
+         {
+            list.remove(list.size() - 1);
+         }
+      }
+
+      calculateAmountPerDay(calendar, list);
 
       return list;
    }
@@ -175,14 +178,14 @@ final class TimephasedDataFactory
                   time /= 1000;
                   Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
 
-                  time = MPPUtility.getDouble(data, 8);
-                  time /= 2000;
-                  time *= 6;
-                  Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
+                  // Originally this value was used to calculate the amount per day,
+                  // but the value proved to be unreliable in some circumstances resulting
+                  // in negative durations.
+                  // MPPUtility.getDouble(data, 8);
 
                   TimephasedWork work = new TimephasedWork();
                   work.setStart(timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume());
-                  work.setAmountPerDay(workPerDay);
+
                   work.setFinish(assignment.getFinish());
                   work.setTotalAmount(totalWork);
                   list.add(work);
@@ -219,10 +222,10 @@ final class TimephasedDataFactory
                Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.MINUTES);
                previousCumulativeWork = currentCumulativeWork;
 
-               time = MPPUtility.getDouble(data, index + 12);
-               time /= 2000;
-               time *= 6;
-               Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
+               // Originally this value was used to calculate the amount per day,
+               // but the value proved to be unreliable in some circumstances resulting
+               // in negative durations.
+               // MPPUtility.getDouble(data, index + 12);
 
                int currentModifiedFlag = MPPUtility.getShort(data, index + 22);
                boolean modified = (currentBlock > 0 && previousModifiedFlag != 0 && currentModifiedFlag == 0) || ((currentModifiedFlag & 0x3000) != 0);
@@ -230,7 +233,6 @@ final class TimephasedDataFactory
 
                TimephasedWork work = new TimephasedWork();
                work.setStart(start);
-               work.setAmountPerDay(workPerDay);
                work.setModified(modified);
                work.setTotalAmount(totalWork);
 
@@ -265,6 +267,8 @@ final class TimephasedDataFactory
             }
          }
       }
+
+      calculateAmountPerDay(calendar, list);
 
       return list;
    }
@@ -415,5 +419,32 @@ final class TimephasedDataFactory
    private boolean costEquals(double lhs, double rhs)
    {
       return NumberHelper.equals(lhs, rhs, 0.00001);
+   }
+
+   /**
+    * Calculate the amount per day attribute for each TimephasedWork instance.
+    *
+    * @param calendar effective calendar to use for the calculation
+    * @param list list of TimephasedWork instances
+    */
+   private void calculateAmountPerDay(ProjectCalendar calendar, List<TimephasedWork> list)
+   {
+      for (TimephasedWork work : list)
+      {
+         Duration amountPerDay;
+         if (work.getTotalAmount().getDuration() == 0)
+         {
+            amountPerDay = Duration.getInstance(0, TimeUnit.MINUTES);
+         }
+         else
+         {
+            Duration totalWorkInMinutes = work.getTotalAmount();
+            Duration calculatedTotalWorkInMinutes = calendar.getWork(work.getStart(), work.getFinish(), TimeUnit.MINUTES);
+            double minutesPerDay = 8.0 * 60.0;
+            double calculatedAmountPerDay = (minutesPerDay * totalWorkInMinutes.getDuration()) / calculatedTotalWorkInMinutes.getDuration();
+            amountPerDay = Duration.getInstance(calculatedAmountPerDay, TimeUnit.MINUTES);
+         }
+         work.setAmountPerDay(amountPerDay);
+      }
    }
 }
