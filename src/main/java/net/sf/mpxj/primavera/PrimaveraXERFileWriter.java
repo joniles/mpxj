@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -898,10 +899,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("relag_drtn_hr_cnt", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("ot_factor", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty", ResourceAssignment::getOverrideRate);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_cost", ResourceAssignment::getPlannedCost);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", PrimaveraXERFileWriter::getActualRegularCost);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_cost", ResourceAssignment::getActualOvertimeCost);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_cost", ResourceAssignment::getRemainingCost);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_cost", r -> Currency.getInstance(r.getPlannedCost()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", r -> Currency.getInstance(PrimaveraXERFileWriter.getActualRegularCost(r)));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_cost", r -> Currency.getInstance(r.getActualOvertimeCost()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_cost", r -> Currency.getInstance(r.getRemainingCost()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_start_date", ResourceAssignment::getActualStart);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_end_date", ResourceAssignment::getActualFinish);
       RESOURCE_ASSIGNMENT_COLUMNS.put("restart_date", r -> null);
@@ -917,8 +918,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("ts_pend_act_end_flag", r -> Boolean.FALSE);
       RESOURCE_ASSIGNMENT_COLUMNS.put("guid", ResourceAssignment::getGUID);
       RESOURCE_ASSIGNMENT_COLUMNS.put("rate_type", r -> RateTypeHelper.getXerFromInstance(r.getRateIndex()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", r -> null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", r -> Currency.ZERO);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", r -> Integer.valueOf(0));
       RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", r -> CurveHelper.getCurveID(r.getWorkContour()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", r -> r.getResource() == null ? ResourceType.WORK : r.getResource().getType());
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", ResourceAssignment::getRateSource);
