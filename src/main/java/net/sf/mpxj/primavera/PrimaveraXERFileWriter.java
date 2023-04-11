@@ -717,6 +717,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return availability == null ? MaxUnits.ZERO : new MaxUnits(availability.getUnits());
    }
 
+   /**
+    * Calculate actual regular work for a resource assignment.
+    *
+    * @param assignment resource assignment
+    * @return actual regular work
+    */
    private static Duration getActualRegularWork(ResourceAssignment assignment)
    {
       ProjectProperties properties = assignment.getParentFile().getProjectProperties();
@@ -725,6 +731,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return Duration.getInstance(actualWork.getDuration() - actualOvertimeWork.getDuration(), TimeUnit.HOURS);
    }
 
+   /**
+    * Calculate actual regular cost for a resource assignment.
+    *
+    * @param assignment resource assignment
+    * @return actual regular cost
+    */
    private static Double getActualRegularCost(ResourceAssignment assignment)
    {
       ProjectProperties properties = assignment.getParentFile().getProjectProperties();
@@ -733,11 +745,23 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return Double.valueOf(actualCost - actualOvertimeCost);
    }
 
+   /**
+    * Determine the UDF Type unique ID.
+    *
+    * @param type UDF field type
+    * @return unique ID
+    */
    private static Integer getUdfTypeID(FieldType type)
    {
       return type instanceof UserDefinedField ? ((UserDefinedField)type).getUniqueID() : Integer.valueOf(FieldTypeHelper.getFieldID(type));
    }
 
+   /**
+    * Determine the UDF type name.
+    *
+    * @param type UDF field type
+    * @return UDF type name
+    */
    private static String getUdfTypeName(FieldType type)
    {
       if (type instanceof UserDefinedField)
@@ -748,6 +772,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return "user_field_" + getUdfTypeID(type);
    }
 
+   /**
+    * Determine the UDF type label.
+    *
+    * @param type UDF field type
+    * @param field custom field for the field type
+    * @return label text
+    */
    private static String getUdfTypeLabel(FieldType type, CustomField field)
    {
       return field != null && field.getAlias() != null && !field.getAlias().isEmpty() ? field.getAlias() : type.getName();
