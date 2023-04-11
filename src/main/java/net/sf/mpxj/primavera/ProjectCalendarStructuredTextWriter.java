@@ -80,7 +80,8 @@ class ProjectCalendarStructuredTextWriter
          dayRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
          dayRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, Integer.toString(day.getValue()));
 
-         writeHours(dayRecord, calendar.getCalendarHours(day));
+         // Working days/hours are not inherited between calendars, just exceptions.
+         writeHours(dayRecord, calendar.getHours(day));
       }
 
       return daysOfWeekRecord;
@@ -109,6 +110,7 @@ class ProjectCalendarStructuredTextWriter
          while (javaCalendar.getTimeInMillis() < exception.getToDate().getTime())
          {
             Date exceptionDate = javaCalendar.getTime();
+            javaCalendar.add(Calendar.DAY_OF_YEAR, 1);
 
             // Prevent duplicate exception dates being written.
             // P6 will fail to import files with duplicate exceptions.
@@ -126,8 +128,6 @@ class ProjectCalendarStructuredTextWriter
             exceptionRecord.addAttribute("d", Long.toString(dateValue));
 
             writeHours(exceptionRecord, exception);
-
-            javaCalendar.add(Calendar.DAY_OF_YEAR, 1);
          }
       }
 

@@ -161,6 +161,7 @@ final class UdfHelper
    private static final Map<DataType, String> XER_FROM_DATA_TYPE = new HashMap<>();
    static
    {
+      XER_FROM_DATA_TYPE.put(DataType.CUSTOM, "FT_TEXT");
       XER_FROM_DATA_TYPE.put(DataType.BINARY, "FT_TEXT");
       XER_FROM_DATA_TYPE.put(DataType.STRING, "FT_TEXT");
       XER_FROM_DATA_TYPE.put(DataType.DURATION, "FT_TEXT");
