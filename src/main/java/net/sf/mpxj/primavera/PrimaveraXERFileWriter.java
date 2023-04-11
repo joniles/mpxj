@@ -43,6 +43,7 @@ import java.util.stream.Stream;
 
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
@@ -973,7 +974,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       CALENDAR_COLUMNS.put("clndr_id", ProjectCalendar::getUniqueID);
-      // TODO: update MPXJ to understand the concept of a global default calendar as used by P6
       CALENDAR_COLUMNS.put("default_flag", c -> c.getParentFile().getProjectProperties().getDefaultCalendar() == c);
       CALENDAR_COLUMNS.put("clndr_name", ProjectCalendarDays::getName);
       CALENDAR_COLUMNS.put("proj_id", c -> c.getType() == CalendarType.PROJECT ? c.getParentFile().getProjectProperties().getUniqueID() : null);
@@ -1038,11 +1038,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("task_code", Task::getActivityID);
       ACTIVITY_COLUMNS.put("task_name", Task::getName);
       ACTIVITY_COLUMNS.put("rsrc_id", Task::getPrimaryResourceID);
-
-      // TODO: should be blank if complete
-      ACTIVITY_COLUMNS.put("total_float_hr_cnt", Task::getTotalSlack);
-      ACTIVITY_COLUMNS.put("free_float_hr_cnt", Task::getFreeSlack);
-
+      ACTIVITY_COLUMNS.put("total_float_hr_cnt", t -> t.getActivityStatus() == ActivityStatus.COMPLETED ? null : t.getTotalSlack());
+      ACTIVITY_COLUMNS.put("free_float_hr_cnt", t -> t.getActivityStatus() == ActivityStatus.COMPLETED ? null : t.getFreeSlack());
       ACTIVITY_COLUMNS.put("remain_drtn_hr_cnt", Task::getRemainingDuration);
       ACTIVITY_COLUMNS.put("act_work_qty", Task::getActualWork);
       ACTIVITY_COLUMNS.put("remain_work_qty", Task::getRemainingWork);
