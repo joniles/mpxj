@@ -1,4 +1,27 @@
+/*
+ * file:       XerWriter.java
+ * author:     Jon Iles
+ * copyright:  (c) Packwood Software 2023
+ * date:       07/03/2023
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
 package net.sf.mpxj.primavera;
+
 import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -37,14 +60,28 @@ import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
 
+/**
+ * Handles writing records to an XER file.
+ */
 final class XerWriter
 {
+   /**
+    * Constructor.
+    *
+    * @param file project to write
+    * @param writer Writer instance to receive XER records
+    */
    public XerWriter(ProjectFile file, OutputStreamWriter writer)
    {
       m_file = file;
       m_writer = writer;
    }
 
+   /**
+    * Write the XER file's header record.
+    *
+    * @param data header data
+    */
    public void writeHeader(Object[] data)
    {
       try
@@ -59,6 +96,12 @@ final class XerWriter
       }
    }
 
+   /**
+    * Write a table definition to an XER file.
+    *
+    * @param name table name
+    * @param map table fields
+    */
    public void writeTable(String name, Map<String, ?> map)
    {
       try
@@ -75,11 +118,23 @@ final class XerWriter
       }
    }
 
+   /**
+    * Write a table row to an XER file.
+    *
+    * @param columns functions used to create the table data
+    * @param object source object for data
+    * @param <T> source object type
+    */
    public <T> void writeRecord(Map<String, PrimaveraXERFileWriter.ExportFunction<T>> columns, T object)
    {
       writeRecord(columns.values().stream().map(f -> f.apply(object)));
    }
 
+   /**
+    * Write a table row to an XER file.
+    *
+    * @param data field data for a table row
+    */
    public void writeRecord(Stream<Object> data)
    {
       try
@@ -95,6 +150,9 @@ final class XerWriter
       }
    }
 
+   /**
+    * Write the XER file trailer.
+    */
    public void writeTrailer()
    {
       try
@@ -108,11 +166,20 @@ final class XerWriter
       }
    }
 
+   /**
+    * Flush the writer.
+    */
    public void flush() throws IOException
    {
       m_writer.flush();
    }
 
+   /**
+    * Format a field value to be written to an XER file.
+    *
+    * @param object field value
+    * @return formatted field value
+    */
    private String format(Object object)
    {
       if (object == null)
@@ -132,12 +199,17 @@ final class XerWriter
       return f == null ? object.toString() : f.apply(this, object);
    }
 
+   /**
+    * Format a Notes object.
+    *
+    * @param notes Notes instance
+    * @return formatted notes
+    */
    private String formatNotes(Notes notes)
    {
       String result;
       if (notes == null || notes.isEmpty())
       {
-         // TODO: switch to null to remove the tag - check import
          result = "";
       }
       else
@@ -149,6 +221,12 @@ final class XerWriter
       return result;
    }
 
+   /**
+    * Format a UUID.
+    *
+    * @param value UUID instance
+    * @return formatted UUID value
+    */
    private String formatUUID(UUID value)
    {
       byte[] data = new byte[16];
@@ -178,6 +256,12 @@ final class XerWriter
       return result.substring(0, result.length()-2);
    }
 
+   /**
+    * Format a Duration instance.
+    *
+    * @param duration Duration instance
+    * @return formatted value
+    */
    private String formatDuration(Duration duration)
    {
       if (duration == null)
@@ -195,7 +279,6 @@ final class XerWriter
 
    private final ProjectFile m_file;
    private final OutputStreamWriter m_writer;
-
    private final Format m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
    private final Format m_timestampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
    private final DecimalFormat m_doubleFormat = new DecimalFormat("0.######");
