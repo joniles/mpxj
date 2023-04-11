@@ -119,6 +119,7 @@ final class PrimaveraReader
       config.setAutoResourceUniqueID(false);
       config.setAutoAssignmentUniqueID(false);
       config.setAutoWBS(false);
+      config.setAutoRelationUniqueID(false);
       config.setBaselineStrategy(new PrimaveraBaselineStrategy());
 
       m_resourceFields = resourceFields;
@@ -129,6 +130,8 @@ final class PrimaveraReader
 
       m_matchPrimaveraWBS = matchPrimaveraWBS;
       m_wbsIsFullPath = wbsIsFullPath;
+
+      m_relationObjectID = new ObjectSequence(1);
    }
 
    /**
@@ -896,16 +899,15 @@ final class PrimaveraReader
          }
          else
          {
-            m_project.getChildTasks().remove(task);
-            parentTask.getChildTasks().add(task);
-
-            if (m_wbsIsFullPath)
-            {
-               task.setWBS(parentTask.getWBS() + DEFAULT_WBS_SEPARATOR + task.getWBS());
-            }
+            parentTask.addChildTask(task);
          }
 
          task.setActivityID(task.getWBS());
+      }
+
+      if (m_wbsIsFullPath)
+      {
+         m_project.getChildTasks().forEach(t -> populateWBS(null, t));
       }
 
       //
@@ -996,7 +998,15 @@ final class PrimaveraReader
          }
 
          // Calculate duration at completion
-         Duration durationAtCompletion = Duration.add(task.getActualDuration(), task.getRemainingDuration(), task.getEffectiveCalendar());
+         Duration durationAtCompletion;
+         if (task.getActualDuration() != null && task.getActualDuration().getDuration() != 0 && task.getRemainingDuration() != null && task.getRemainingDuration().getDuration() != 0)
+         {
+            durationAtCompletion = task.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
+         }
+         else
+         {
+            durationAtCompletion = task.getActualDuration() != null && task.getActualDuration().getDuration() != 0 ? task.getActualDuration() : task.getRemainingDuration();
+         }
          task.setDuration(durationAtCompletion);
 
          if (forceCriticalToFalse)
@@ -1024,6 +1034,16 @@ final class PrimaveraReader
       new ActivitySorter(wbsTasks).sort(m_project);
 
       updateStructure();
+   }
+
+   private void populateWBS(Task parent, Task task)
+   {
+      if (parent != null)
+      {
+         task.setWBS(parent.getWBS() + DEFAULT_WBS_SEPARATOR + task.getWBS());
+         task.setActivityID(task.getWBS());
+      }
+      task.getChildTasks().forEach(t -> populateWBS(task, t));
    }
 
    private void populateBaselineFromCurrentProject(Task task)
@@ -1533,6 +1553,12 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
+         Integer uniqueID = row.getInteger("task_pred_id");
+         if (uniqueID == null)
+         {
+            uniqueID = m_relationObjectID.getNext();
+         }
+
          Integer successorID = m_activityClashMap.getID(row.getInteger("task_id"));
          Integer predecessorID = m_activityClashMap.getID(row.getInteger("pred_task_id"));
 
@@ -1545,7 +1571,7 @@ final class PrimaveraReader
          if (successorTask != null && predecessorTask != null)
          {
             Relation relation = successorTask.addPredecessor(predecessorTask, type, lag);
-            relation.setUniqueID(row.getInteger("task_pred_id"));
+            relation.setUniqueID(uniqueID);
             m_eventManager.fireRelationReadEvent(relation);
          }
          else
@@ -1555,7 +1581,7 @@ final class PrimaveraReader
             {
                ExternalRelation relation = new ExternalRelation(predecessorID, successorTask, type, lag, true);
                m_externalRelations.add(relation);
-               relation.setUniqueID(row.getInteger("task_pred_id"));
+               relation.setUniqueID(uniqueID);
             }
             else
             {
@@ -1563,7 +1589,7 @@ final class PrimaveraReader
                {
                   ExternalRelation relation = new ExternalRelation(successorID, predecessorTask, type, lag, false);
                   m_externalRelations.add(relation);
-                  relation.setUniqueID(row.getInteger("task_pred_id"));
+                  relation.setUniqueID(uniqueID);
                }
             }
          }
@@ -2173,6 +2199,8 @@ final class PrimaveraReader
 
    private final Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
    private final Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
+
+   private final ObjectSequence m_relationObjectID;
 
    private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();
    static

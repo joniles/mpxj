@@ -1454,6 +1454,15 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
             if (currentDate.getTime() < canonicalEndDate.getTime())
             {
+               // If the first working day is the same as the start date, we leave
+               // the date alone to preserve the start time. If we have moved past
+               // the start date to find the first working day, reset the time
+               // of day to ensure that we use all working hours on this day.
+               if (currentDate.getTime() != startDate.getTime())
+               {
+                  currentDate = DateHelper.getDayStartDate(currentDate);
+               }
+
                //
                // Calculate the amount of working time for this day
                //

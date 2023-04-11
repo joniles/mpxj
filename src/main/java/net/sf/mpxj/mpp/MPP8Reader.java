@@ -824,6 +824,7 @@ final class MPP8Reader implements MPPVariantReader
                      TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 22));
                      Duration lag = MPPUtility.getDuration(MPPUtility.getInt(data, 24), durationUnits);
                      Relation relation = task2.addPredecessor(task1, type, lag);
+                     relation.setUniqueID(MPPUtility.getInt(data, 0));
                      m_eventManager.fireRelationReadEvent(relation);
                   }
                }
