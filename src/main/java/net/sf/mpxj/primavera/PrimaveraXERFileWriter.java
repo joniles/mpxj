@@ -959,10 +959,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       EXPENSE_ITEM_COLUMNS.put("cost_name", ExpenseItem::getName);
       EXPENSE_ITEM_COLUMNS.put("po_number", ExpenseItem::getDocumentNumber);
       EXPENSE_ITEM_COLUMNS.put("vendor_name", ExpenseItem::getVendor);
-      EXPENSE_ITEM_COLUMNS.put("act_cost", i -> new Currency(i.getActualCost()));
-      EXPENSE_ITEM_COLUMNS.put("cost_per_qty", i -> new Currency(i.getPricePerUnit()));
-      EXPENSE_ITEM_COLUMNS.put("remain_cost", i -> new Currency(i.getRemainingCost()));
-      EXPENSE_ITEM_COLUMNS.put("target_cost", i -> new Currency(i.getPlannedCost()));
+      EXPENSE_ITEM_COLUMNS.put("act_cost", i -> Currency.getInstance(i.getActualCost()));
+      EXPENSE_ITEM_COLUMNS.put("cost_per_qty", i -> Currency.getInstance(i.getPricePerUnit()));
+      EXPENSE_ITEM_COLUMNS.put("remain_cost", i -> Currency.getInstance(i.getRemainingCost()));
+      EXPENSE_ITEM_COLUMNS.put("target_cost", i -> Currency.getInstance(i.getPlannedCost()));
       EXPENSE_ITEM_COLUMNS.put("cost_load_type", ExpenseItem::getAccrueType);
       EXPENSE_ITEM_COLUMNS.put("auto_compute_act_flag", ExpenseItem::getAutoComputeActuals);
       EXPENSE_ITEM_COLUMNS.put("target_qty", ExpenseItem::getPlannedUnits);

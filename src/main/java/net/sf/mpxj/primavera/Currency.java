@@ -49,5 +49,16 @@ final class Currency
 
    private final Number m_number;
 
+   /**
+    * Return a new Currency instance, or null if the caller passes null.
+    *
+    * @param number value to be wrapped
+    * @return Currency instance or null
+    */
+   public static final Currency getInstance(Number number)
+   {
+      return number == null ? null : new Currency(number);
+   }
+
    public static final Currency ZERO = new Currency(Double.valueOf(0));
 }
