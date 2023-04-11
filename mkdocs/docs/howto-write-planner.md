@@ -1,6 +1,6 @@
 # How To: Write Planner files
 
-[Gnome Planner](https://wiki.gnome.org/Apps/Planner) is a simple corss platform planning tool. MPXJ can be used
+[Gnome Planner](https://wiki.gnome.org/Apps/Planner) is a simple cross platform planning tool. MPXJ can be used
 to write a schedule as a Planner file, which the Gnome Planner application
 can open.
 
