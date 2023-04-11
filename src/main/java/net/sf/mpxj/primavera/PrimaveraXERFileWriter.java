@@ -566,12 +566,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> m_wbsNotes;
    private List<Map<String, Object>> m_activityNotes;
 
-
    interface ExportFunction<T>
    {
       Object apply(T source);
    }
-
 
    private static final Map<String, Object> CURRENCY_COLUMNS = new LinkedHashMap<>();
    static
@@ -698,7 +696,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("strgy_priority_num", p -> Integer.valueOf(100));
       PROJECT_COLUMNS.put("last_checksum", p -> "");
       PROJECT_COLUMNS.put("critical_drtn_hr_cnt", p -> p.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, p).getDuration());
-      PROJECT_COLUMNS.put("def_cost_per_qty", p -> Double.valueOf(100.0));
+      PROJECT_COLUMNS.put("def_cost_per_qty", p -> new Currency(Double.valueOf(100.0)));
       PROJECT_COLUMNS.put("last_recalc_date", ProjectProperties::getStatusDate);
       PROJECT_COLUMNS.put("plan_start_date", ProjectProperties::getPlannedStart);
       PROJECT_COLUMNS.put("plan_end_date", ProjectProperties::getMustFinishBy);
@@ -748,6 +746,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       CALENDAR_COLUMNS.put("clndr_id", ProjectCalendar::getUniqueID);
+      // TODO: update MPXJ to understand the concept of a global default calendar as used by P6
       CALENDAR_COLUMNS.put("default_flag", c -> c.getParentFile().getProjectProperties().getDefaultCalendar() == c);
       CALENDAR_COLUMNS.put("clndr_name", ProjectCalendarDays::getName);
       CALENDAR_COLUMNS.put("proj_id", c -> c.getType() == CalendarType.PROJECT ? c.getParentFile().getProjectProperties().getUniqueID() : null);
@@ -777,17 +776,17 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("wbs_name", Task::getName);
       WBS_COLUMNS.put("phase_id", t -> "");
       WBS_COLUMNS.put("parent_wbs_id", Task::getParentTaskUniqueID);
-      WBS_COLUMNS.put("ev_user_pct", Task::getPlannedCost);
-      WBS_COLUMNS.put("ev_etc_user_value", t -> "");
-      WBS_COLUMNS.put("orig_cost", t -> "");
-      WBS_COLUMNS.put("indep_remain_total_cost", t -> "");
+      WBS_COLUMNS.put("ev_user_pct", t -> Integer.valueOf(6));
+      WBS_COLUMNS.put("ev_etc_user_value", t -> Double.valueOf(0.88));
+      WBS_COLUMNS.put("orig_cost", t -> Currency.ZERO);
+      WBS_COLUMNS.put("indep_remain_total_cost", t -> Currency.ZERO);
       WBS_COLUMNS.put("ann_dscnt_rate_pct", t -> "");
       WBS_COLUMNS.put("dscnt_period_type", t -> "");
-      WBS_COLUMNS.put("indep_remain_work_qty", t -> "");
+      WBS_COLUMNS.put("indep_remain_work_qty", t -> Integer.valueOf(0));
       WBS_COLUMNS.put("anticip_start_date", t -> "");
       WBS_COLUMNS.put("anticip_end_date", t -> "");
       WBS_COLUMNS.put("ev_compute_type", t -> "EC_Cmp_pct");
-      WBS_COLUMNS.put("ev_etc_compute_type", t -> "EC_Cmp_pct");
+      WBS_COLUMNS.put("ev_etc_compute_type", t -> "EE_PF_cpi");
       WBS_COLUMNS.put("guid", Task::getGUID);
       WBS_COLUMNS.put("tmpl_guid", t -> "");
       WBS_COLUMNS.put("plan_open_state", t -> "");
@@ -960,10 +959,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       EXPENSE_ITEM_COLUMNS.put("cost_name", ExpenseItem::getName);
       EXPENSE_ITEM_COLUMNS.put("po_number", ExpenseItem::getDocumentNumber);
       EXPENSE_ITEM_COLUMNS.put("vendor_name", ExpenseItem::getVendor);
-      EXPENSE_ITEM_COLUMNS.put("act_cost", ExpenseItem::getActualCost);
-      EXPENSE_ITEM_COLUMNS.put("cost_per_qty", ExpenseItem::getPricePerUnit);
-      EXPENSE_ITEM_COLUMNS.put("remain_cost", ExpenseItem::getRemainingCost);
-      EXPENSE_ITEM_COLUMNS.put("target_cost", ExpenseItem::getPlannedCost);
+      EXPENSE_ITEM_COLUMNS.put("act_cost", i -> new Currency(i.getActualCost()));
+      EXPENSE_ITEM_COLUMNS.put("cost_per_qty", i -> new Currency(i.getPricePerUnit()));
+      EXPENSE_ITEM_COLUMNS.put("remain_cost", i -> new Currency(i.getRemainingCost()));
+      EXPENSE_ITEM_COLUMNS.put("target_cost", i -> new Currency(i.getPlannedCost()));
       EXPENSE_ITEM_COLUMNS.put("cost_load_type", ExpenseItem::getAccrueType);
       EXPENSE_ITEM_COLUMNS.put("auto_compute_act_flag", ExpenseItem::getAutoComputeActuals);
       EXPENSE_ITEM_COLUMNS.put("target_qty", ExpenseItem::getPlannedUnits);

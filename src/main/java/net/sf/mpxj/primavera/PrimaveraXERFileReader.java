@@ -473,8 +473,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Process schedule options from SCHEDOPTIONS. This table only seems to exist
-    * in XER files, not P6 databases.
+    * Process schedule options from SCHEDOPTIONS.
+    * This is represented as the PROJPROP table in a P6 database.
     */
    private void processScheduleOptions()
    {

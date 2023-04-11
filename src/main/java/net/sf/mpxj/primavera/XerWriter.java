@@ -198,8 +198,8 @@ final class XerWriter
 
    private final Format m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
    private final Format m_timestampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-   private final DecimalFormat m_doubleFormat = new DecimalFormat("0.####");
-   private final DecimalFormat m_rateFormat = new DecimalFormat("0.0000");
+   private final DecimalFormat m_doubleFormat = new DecimalFormat("0.######");
+   private final DecimalFormat m_currencyFormat = new DecimalFormat("0.0000");
    private final DecimalFormat m_maxUnitsFormat = new DecimalFormat("0.####");
 
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
@@ -209,7 +209,7 @@ final class XerWriter
       FORMAT_MAP.put(Date.class, (w, o) -> w.m_timestampFormat.format(o));
       FORMAT_MAP.put(Double.class, (w, o) -> w.m_doubleFormat.format(o));
       FORMAT_MAP.put(Boolean.class, (w, o) -> ((Boolean) o).booleanValue() ? "Y" : "N");
-      FORMAT_MAP.put(Rate.class, (w, o) -> w.m_rateFormat.format(((Rate)o).getAmount()));
+      FORMAT_MAP.put(Rate.class, (w, o) -> w.m_currencyFormat.format(((Rate)o).getAmount()));
       FORMAT_MAP.put(UUID.class, (w, o) -> w.formatUUID((UUID)o));
       FORMAT_MAP.put(ResourceType.class, (w, o) -> ResourceTypeHelper.getXerFromInstance((ResourceType)o));
       FORMAT_MAP.put(CriticalActivityType.class, (w, o) -> CriticalActivityTypeHelper.getXerFromInstance((CriticalActivityType)o));
@@ -228,5 +228,6 @@ final class XerWriter
       FORMAT_MAP.put(RateSource.class, (w, o) -> RateSourceHelper.getXerFromInstance((RateSource)o));
       FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType)o));
       FORMAT_MAP.put(MaxUnits.class, (w, o) -> w.m_maxUnitsFormat.format(NumberHelper.getDouble(((MaxUnits)o).toNumber()) / 100.0));
+      FORMAT_MAP.put(Currency.class, (w, o) -> w.m_currencyFormat.format(((Currency)o).toNumber()));
    }
 }
