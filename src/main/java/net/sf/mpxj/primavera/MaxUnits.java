@@ -48,4 +48,6 @@ final class MaxUnits
    }
 
    private final Number m_number;
+
+   public static final MaxUnits ZERO = new MaxUnits(Integer.valueOf(0));
 }
