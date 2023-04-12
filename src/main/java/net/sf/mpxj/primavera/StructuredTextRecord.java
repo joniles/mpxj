@@ -44,8 +44,8 @@ public class StructuredTextRecord
     */
    public StructuredTextRecord()
    {
-      m_attributes= new LinkedHashMap<>();
-      m_children  = new ArrayList<>();
+      m_attributes = new LinkedHashMap<>();
+      m_children = new ArrayList<>();
       m_childrenByName = Collections.emptyMap();
    }
 

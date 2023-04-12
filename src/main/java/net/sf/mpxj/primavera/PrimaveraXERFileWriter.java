@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj.primavera;
 
 import java.io.IOException;
@@ -178,7 +179,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeHeader()
    {
-      Object[] data = {
+      Object[] data =
+      {
          "ERMHDR",
          "20.12",
          new DateOnly(m_file.getProjectProperties().getCurrentDate()),
@@ -434,13 +436,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       records.removeIf(Objects::isNull);
 
       records.sort((r1, r2) -> {
-         Integer id1 = (Integer)r1.get("udf_type_id");
-         Integer id2 = (Integer)r2.get("udf_type_id");
+         Integer id1 = (Integer) r1.get("udf_type_id");
+         Integer id2 = (Integer) r2.get("udf_type_id");
          int result = id1.compareTo(id2);
          if (result == 0)
          {
-            id1 = (Integer)r1.get("fk_id");
-            id2 = (Integer)r2.get("fk_id");
+            id1 = (Integer) r1.get("fk_id");
+            id2 = (Integer) r2.get("fk_id");
             result = id1.compareTo(id2);
          }
          return result;
@@ -521,7 +523,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeUdfAssignments(Set<FieldType> fields, FieldType uniqueID, FieldContainer container)
    {
       Integer projectID = container instanceof Resource ? null : m_file.getProjectProperties().getUniqueID();
-      Integer entityId = (Integer)container.get(uniqueID);
+      Integer entityId = (Integer) container.get(uniqueID);
       return fields.stream().map(f -> writeUdfAssignment(f, projectID, entityId, container.get(f))).collect(Collectors.toList());
    }
 
@@ -641,11 +643,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     * @param stream tasks
     * @return notes records
     */
-   private List<Map<String,Object>> populateNotes(Stream<Task> stream)
+   private List<Map<String, Object>> populateNotes(Stream<Task> stream)
    {
       Map<Task, List<List<Notes>>> nestedList = stream.collect(Collectors.groupingBy(t -> t, LinkedHashMap::new, Collectors.mapping(t -> expandParentNotes(t.getNotesObject()), Collectors.toList())));
       Map<Task, List<StructuredNotes>> flatList = nestedList.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().stream().flatMap(Collection::stream).map(this::createStructuredNotes).collect(Collectors.toList())));
-      return flatList.entrySet().stream().map(e -> e.getValue().stream().map(n -> createNotesMap(e.getKey(), n)).collect(Collectors.toList())).flatMap(Collection::stream).sorted(Comparator.comparing(n -> (Integer)n.get("entity_memo_id"))).collect(Collectors.toList());
+      return flatList.entrySet().stream().map(e -> e.getValue().stream().map(n -> createNotesMap(e.getKey(), n)).collect(Collectors.toList())).flatMap(Collection::stream).sorted(Comparator.comparing(n -> (Integer) n.get("entity_memo_id"))).collect(Collectors.toList());
    }
 
    /**
@@ -663,7 +665,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
       if (notes instanceof ParentNotes)
       {
-         return ((ParentNotes)notes).getChildNotes();
+         return ((ParentNotes) notes).getChildNotes();
       }
 
       return Collections.singletonList(notes);
@@ -751,7 +753,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private static Integer getUdfTypeID(FieldType type)
    {
-      return type instanceof UserDefinedField ? ((UserDefinedField)type).getUniqueID() : Integer.valueOf(FieldTypeHelper.getFieldID(type));
+      return type instanceof UserDefinedField ? ((UserDefinedField) type).getUniqueID() : Integer.valueOf(FieldTypeHelper.getFieldID(type));
    }
 
    /**
@@ -989,7 +991,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       WBS_COLUMNS.put("wbs_id", t -> t.getUniqueID());
-      WBS_COLUMNS.put("proj_id", t -> t.getParentFile().getProjectProperties().getUniqueID() );
+      WBS_COLUMNS.put("proj_id", t -> t.getParentFile().getProjectProperties().getUniqueID());
       WBS_COLUMNS.put("obs_id", t -> "");
       WBS_COLUMNS.put("seq_num", t -> t.getSequenceNumber());
       WBS_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
@@ -1195,9 +1197,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<WorkContour>> RESOURCE_CURVE_COLUMNS = new LinkedHashMap<>();
    static
    {
-      RESOURCE_CURVE_COLUMNS.put("curv_id", r-> r.getUniqueID());
-      RESOURCE_CURVE_COLUMNS.put("curv_name", r-> r.getName());
-      RESOURCE_CURVE_COLUMNS.put("default_flag", r-> Boolean.valueOf(r.isContourDefault()));
+      RESOURCE_CURVE_COLUMNS.put("curv_id", r -> r.getUniqueID());
+      RESOURCE_CURVE_COLUMNS.put("curv_name", r -> r.getName());
+      RESOURCE_CURVE_COLUMNS.put("default_flag", r -> Boolean.valueOf(r.isContourDefault()));
       RESOURCE_CURVE_COLUMNS.put("pct_usage_0", r -> Double.valueOf(r.getCurveValues()[0]));
       RESOURCE_CURVE_COLUMNS.put("pct_usage_1", r -> Double.valueOf(r.getCurveValues()[1]));
       RESOURCE_CURVE_COLUMNS.put("pct_usage_2", r -> Double.valueOf(r.getCurveValues()[2]));
@@ -1274,7 +1276,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       UDF_TYPE_COLUMNS.put("udf_type_id", p -> getUdfTypeID(p.getFirst()));
       UDF_TYPE_COLUMNS.put("table_name", p -> FieldTypeClassHelper.getXerFromInstance(p.getFirst()));
-      UDF_TYPE_COLUMNS.put("udf_type_name", p-> getUdfTypeName(p.getFirst()));
+      UDF_TYPE_COLUMNS.put("udf_type_name", p -> getUdfTypeName(p.getFirst()));
       UDF_TYPE_COLUMNS.put("udf_type_label", p -> getUdfTypeLabel(p.getFirst(), p.getSecond()));
       UDF_TYPE_COLUMNS.put("logical_data_type", p -> p.getFirst().getDataType());
       UDF_TYPE_COLUMNS.put("super_flag", p -> Boolean.FALSE);
@@ -1306,7 +1308,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       NOTE_TYPE_COLUMNS.put("memo_type", n -> n.getName());
    }
 
-   private static final Map<String, ExportFunction<Map<String,Object>>> WBS_NOTE_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<Map<String, Object>>> WBS_NOTE_COLUMNS = new LinkedHashMap<>();
    static
    {
       WBS_NOTE_COLUMNS.put("wbs_memo_id", n -> n.get("entity_memo_id"));
@@ -1316,7 +1318,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_NOTE_COLUMNS.put("wbs_memo", n -> n.get("entity_memo"));
    }
 
-   private static final Map<String, ExportFunction<Map<String,Object>>> ACTIVITY_NOTE_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<Map<String, Object>>> ACTIVITY_NOTE_COLUMNS = new LinkedHashMap<>();
    static
    {
       ACTIVITY_NOTE_COLUMNS.put("memo_id", n -> n.get("entity_memo_id"));

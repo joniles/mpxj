@@ -38,7 +38,7 @@ public class XsdDurationTest
     */
    @Test public void testPrintFromNullDuration()
    {
-      XsdDuration xsdDuration = new XsdDuration((Duration)null);
+      XsdDuration xsdDuration = new XsdDuration((Duration) null);
       Assert.assertEquals("PT0H0M0S", xsdDuration.print(true));
    }
 
@@ -200,7 +200,7 @@ public class XsdDurationTest
       xsdDuration = new XsdDuration(duration);
       Assert.assertEquals("P0Y13M0DT0H0M0S", xsdDuration.print(true));
    }
-   
+
    /**
     * Ensure a duration in years is handled.
     */

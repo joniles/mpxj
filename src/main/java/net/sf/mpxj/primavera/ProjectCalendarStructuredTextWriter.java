@@ -72,7 +72,7 @@ class ProjectCalendarStructuredTextWriter
       daysOfWeekRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
       daysOfWeekRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, "DaysOfWeek");
 
-      for(Day day : Day.values())
+      for (Day day : Day.values())
       {
          StructuredTextRecord dayRecord = new StructuredTextRecord();
          daysOfWeekRecord.addChild(dayRecord);
@@ -119,7 +119,7 @@ class ProjectCalendarStructuredTextWriter
                continue;
             }
 
-            long dateValue = (long)Math.ceil((double)(DateHelper.getLongFromDate(exception.getFromDate()) - PrimaveraReader.EXCEPTION_EPOCH) / DateHelper.MS_PER_DAY);
+            long dateValue = (long) Math.ceil((double) (DateHelper.getLongFromDate(exception.getFromDate()) - PrimaveraReader.EXCEPTION_EPOCH) / DateHelper.MS_PER_DAY);
 
             StructuredTextRecord exceptionRecord = new StructuredTextRecord();
             exceptionsRecord.addChild(exceptionRecord);

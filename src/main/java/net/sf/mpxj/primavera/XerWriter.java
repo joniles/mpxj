@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj.primavera;
 
 import java.awt.Color;
@@ -233,27 +234,27 @@ final class XerWriter
       long lsb = value.getLeastSignificantBits();
       long msb = value.getMostSignificantBits();
 
-      data[15] = (byte)(lsb & 0xff);
-      data[14] = (byte)(lsb >> 8 & 0xff);
-      data[13] = (byte)(lsb >> 16 & 0xff);
-      data[12] = (byte)(lsb >> 24 & 0xff);
-      data[11] = (byte)(lsb >> 32 & 0xff);
-      data[10] = (byte)(lsb >> 40 & 0xff);
-      data[9] = (byte)(lsb >> 48 & 0xff);
-      data[8] = (byte)(lsb >> 56 & 0xff);
+      data[15] = (byte) (lsb & 0xff);
+      data[14] = (byte) (lsb >> 8 & 0xff);
+      data[13] = (byte) (lsb >> 16 & 0xff);
+      data[12] = (byte) (lsb >> 24 & 0xff);
+      data[11] = (byte) (lsb >> 32 & 0xff);
+      data[10] = (byte) (lsb >> 40 & 0xff);
+      data[9] = (byte) (lsb >> 48 & 0xff);
+      data[8] = (byte) (lsb >> 56 & 0xff);
 
-      data[6] = (byte)(msb & 0xff);
-      data[7] = (byte)(msb >> 8 & 0xff);
-      data[4] = (byte)(msb >> 16 & 0xff);
-      data[5] = (byte)(msb >> 24 & 0xff);
-      data[0] = (byte)(msb >> 32 & 0xff);
-      data[1] = (byte)(msb >> 40 & 0xff);
-      data[2] = (byte)(msb >> 48 & 0xff);
-      data[3] = (byte)(msb >> 56 & 0xff);
+      data[6] = (byte) (msb & 0xff);
+      data[7] = (byte) (msb >> 8 & 0xff);
+      data[4] = (byte) (msb >> 16 & 0xff);
+      data[5] = (byte) (msb >> 24 & 0xff);
+      data[0] = (byte) (msb >> 32 & 0xff);
+      data[1] = (byte) (msb >> 40 & 0xff);
+      data[2] = (byte) (msb >> 48 & 0xff);
+      data[3] = (byte) (msb >> 56 & 0xff);
 
       String result = javax.xml.bind.DatatypeConverter.printBase64Binary(data);
 
-      return result.substring(0, result.length()-2);
+      return result.substring(0, result.length() - 2);
    }
 
    /**
@@ -288,29 +289,29 @@ final class XerWriter
    private static final Map<Class<?>, FormatFunction> FORMAT_MAP = new HashMap<>();
    static
    {
-      FORMAT_MAP.put(DateOnly.class, (w, o) -> w.m_dateFormat.format(((DateOnly)o).toDate()));
+      FORMAT_MAP.put(DateOnly.class, (w, o) -> w.m_dateFormat.format(((DateOnly) o).toDate()));
       FORMAT_MAP.put(Date.class, (w, o) -> w.m_timestampFormat.format(o));
       FORMAT_MAP.put(Double.class, (w, o) -> w.m_doubleFormat.format(o));
       FORMAT_MAP.put(Boolean.class, (w, o) -> ((Boolean) o).booleanValue() ? "Y" : "N");
-      FORMAT_MAP.put(Rate.class, (w, o) -> w.m_currencyFormat.format(((Rate)o).getAmount()));
-      FORMAT_MAP.put(UUID.class, (w, o) -> w.formatUUID((UUID)o));
-      FORMAT_MAP.put(ResourceType.class, (w, o) -> ResourceTypeHelper.getXerFromInstance((ResourceType)o));
-      FORMAT_MAP.put(CriticalActivityType.class, (w, o) -> CriticalActivityTypeHelper.getXerFromInstance((CriticalActivityType)o));
+      FORMAT_MAP.put(Rate.class, (w, o) -> w.m_currencyFormat.format(((Rate) o).getAmount()));
+      FORMAT_MAP.put(UUID.class, (w, o) -> w.formatUUID((UUID) o));
+      FORMAT_MAP.put(ResourceType.class, (w, o) -> ResourceTypeHelper.getXerFromInstance((ResourceType) o));
+      FORMAT_MAP.put(CriticalActivityType.class, (w, o) -> CriticalActivityTypeHelper.getXerFromInstance((CriticalActivityType) o));
       FORMAT_MAP.put(TaskType.class, (w, o) -> TaskTypeHelper.getXerFromInstance((TaskType) o));
-      FORMAT_MAP.put(CalendarType.class, (w, o) -> CalendarTypeHelper.getXerFromInstance((CalendarType)o));
-      FORMAT_MAP.put(ActivityType.class, (w, o) -> ActivityTypeHelper.getXerFromInstance((ActivityType)o));
-      FORMAT_MAP.put(PercentCompleteType.class, (w, o) -> PercentCompleteTypeHelper.getXerFromInstance((PercentCompleteType)o));
-      FORMAT_MAP.put(ActivityStatus.class, (w, o) -> ActivityStatusHelper.getXerFromInstance((ActivityStatus)o));
-      FORMAT_MAP.put(Duration.class, (w, o) -> w.formatDuration((Duration)o));
-      FORMAT_MAP.put(ConstraintType.class, (w, o) -> ConstraintTypeHelper.getXerFromInstance((ConstraintType)o));
-      FORMAT_MAP.put(Priority.class, (w, o) -> PriorityHelper.getXerFromInstance((Priority)o));
-      FORMAT_MAP.put(RelationType.class, (w, o) -> RelationTypeHelper.getXerFromInstance((RelationType)o));
-      FORMAT_MAP.put(AccrueType.class, (w, o) -> AccrueTypeHelper.getXerFromInstance((AccrueType)o));
-      FORMAT_MAP.put(ActivityCodeScope.class, (w, o) -> ActivityCodeScopeHelper.getXerFromInstance((ActivityCodeScope)o));
-      FORMAT_MAP.put(Color.class, (w, o) -> ColorHelper.getHexColor((Color)o));
-      FORMAT_MAP.put(RateSource.class, (w, o) -> RateSourceHelper.getXerFromInstance((RateSource)o));
-      FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType)o));
-      FORMAT_MAP.put(MaxUnits.class, (w, o) -> w.m_maxUnitsFormat.format(NumberHelper.getDouble(((MaxUnits)o).toNumber()) / 100.0));
-      FORMAT_MAP.put(Currency.class, (w, o) -> w.m_currencyFormat.format(((Currency)o).toNumber()));
+      FORMAT_MAP.put(CalendarType.class, (w, o) -> CalendarTypeHelper.getXerFromInstance((CalendarType) o));
+      FORMAT_MAP.put(ActivityType.class, (w, o) -> ActivityTypeHelper.getXerFromInstance((ActivityType) o));
+      FORMAT_MAP.put(PercentCompleteType.class, (w, o) -> PercentCompleteTypeHelper.getXerFromInstance((PercentCompleteType) o));
+      FORMAT_MAP.put(ActivityStatus.class, (w, o) -> ActivityStatusHelper.getXerFromInstance((ActivityStatus) o));
+      FORMAT_MAP.put(Duration.class, (w, o) -> w.formatDuration((Duration) o));
+      FORMAT_MAP.put(ConstraintType.class, (w, o) -> ConstraintTypeHelper.getXerFromInstance((ConstraintType) o));
+      FORMAT_MAP.put(Priority.class, (w, o) -> PriorityHelper.getXerFromInstance((Priority) o));
+      FORMAT_MAP.put(RelationType.class, (w, o) -> RelationTypeHelper.getXerFromInstance((RelationType) o));
+      FORMAT_MAP.put(AccrueType.class, (w, o) -> AccrueTypeHelper.getXerFromInstance((AccrueType) o));
+      FORMAT_MAP.put(ActivityCodeScope.class, (w, o) -> ActivityCodeScopeHelper.getXerFromInstance((ActivityCodeScope) o));
+      FORMAT_MAP.put(Color.class, (w, o) -> ColorHelper.getHexColor((Color) o));
+      FORMAT_MAP.put(RateSource.class, (w, o) -> RateSourceHelper.getXerFromInstance((RateSource) o));
+      FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType) o));
+      FORMAT_MAP.put(MaxUnits.class, (w, o) -> w.m_maxUnitsFormat.format(NumberHelper.getDouble(((MaxUnits) o).toNumber()) / 100.0));
+      FORMAT_MAP.put(Currency.class, (w, o) -> w.m_currencyFormat.format(((Currency) o).toNumber()));
    }
 }
