@@ -37,6 +37,7 @@ public class StructuredTextWriter
     * Return a string representing the StructuredTextRecord instance in structured text format.
     *
     * @param record StructuredTextRecord instance
+    * @return string representation
     */
    public String write(StructuredTextRecord record)
    {

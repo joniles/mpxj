@@ -33,13 +33,18 @@ import org.junit.Test;
  */
 public class XsdDurationTest
 {
+   /**
+    * Ensure a null duration is handled.
+    */
    @Test public void testPrintFromNullDuration()
    {
-      Duration duration = null;
-      XsdDuration xsdDuration = new XsdDuration(duration);
+      XsdDuration xsdDuration = new XsdDuration((Duration)null);
       Assert.assertEquals("PT0H0M0S", xsdDuration.print(true));
    }
 
+   /**
+    * Ensure zero duration is handled.
+    */
    @Test public void testPrintFromZeroDuration()
    {
       Duration duration = Duration.getInstance(0, TimeUnit.HOURS);
@@ -47,6 +52,9 @@ public class XsdDurationTest
       Assert.assertEquals("PT0H0M0S", xsdDuration.print(true));
    }
 
+   /**
+    * Ensure a duration in minutes is handled.
+    */
    @Test public void testPrintFromMinutesDuration()
    {
       Duration duration;
@@ -69,6 +77,9 @@ public class XsdDurationTest
       Assert.assertEquals("PT0H70M0S", xsdDuration.print(true));
    }
 
+   /**
+    * Ensure a duration in hours is handled.
+    */
    @Test public void testPrintFromHoursDuration()
    {
       Duration duration;
@@ -99,6 +110,9 @@ public class XsdDurationTest
       Assert.assertEquals("PT30H0M0S", xsdDuration.print(true));
    }
 
+   /**
+    * Ensure a duration in days is handled.
+    */
    @Test public void testPrintFromDaysDuration()
    {
       Duration duration;
@@ -125,6 +139,9 @@ public class XsdDurationTest
       Assert.assertEquals("P0Y0M33DT0H0M0S", xsdDuration.print(true));
    }
 
+   /**
+    * Ensure a duration in weeks is handled.
+    */
    @Test public void testPrintFromWeeksDuration()
    {
       Duration duration;
@@ -151,6 +168,9 @@ public class XsdDurationTest
       Assert.assertEquals("P0Y0M35DT0H0M0S", xsdDuration.print(true));
    }
 
+   /**
+    * Ensure a duration in months is handled.
+    */
    @Test public void testPrintFromMonthsDuration()
    {
       Duration duration;
@@ -180,6 +200,10 @@ public class XsdDurationTest
       xsdDuration = new XsdDuration(duration);
       Assert.assertEquals("P0Y13M0DT0H0M0S", xsdDuration.print(true));
    }
+   
+   /**
+    * Ensure a duration in years is handled.
+    */
    @Test public void testPrintFromYearsDuration()
    {
       Duration duration;

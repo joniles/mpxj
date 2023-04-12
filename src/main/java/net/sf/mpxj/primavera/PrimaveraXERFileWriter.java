@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -739,7 +738,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private static Double getActualRegularCost(ResourceAssignment assignment)
    {
-      ProjectProperties properties = assignment.getParentFile().getProjectProperties();
       double actualCost = NumberHelper.getDouble(assignment.getActualCost());
       double actualOvertimeCost = NumberHelper.getDouble(assignment.getActualOvertimeCost());
       return Double.valueOf(actualCost - actualOvertimeCost);
@@ -823,7 +821,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ROLE_COLUMNS.put("role_name", r -> r.getName());
       ROLE_COLUMNS.put("role_short_name", r -> r.getResourceID());
       ROLE_COLUMNS.put("pobs_id", r -> "");
-      ROLE_COLUMNS.put("def_cost_qty_link_flag", r -> r.getCalculateCostsFromUnits());
+      ROLE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       ROLE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
       ROLE_COLUMNS.put("role_descr", r -> r.getNotesObject());
       ROLE_COLUMNS.put("last_checksum", r -> "");
@@ -877,12 +875,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("rsrc_name", r -> r.getName());
       RESOURCE_COLUMNS.put("rsrc_short_name", r -> r.getResourceID());
       RESOURCE_COLUMNS.put("rsrc_title_name", r -> "");
-      RESOURCE_COLUMNS.put("def_qty_per_hr", r -> r.getMaxUnits() == null ? null : r.getMaxUnits().doubleValue() / 100.0);
+      RESOURCE_COLUMNS.put("def_qty_per_hr", r -> r.getMaxUnits() == null ? null : Double.valueOf(r.getMaxUnits().doubleValue() / 100.0));
       RESOURCE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
       RESOURCE_COLUMNS.put("ot_factor", r -> "");
-      RESOURCE_COLUMNS.put("active_flag", r -> r.getActive());
+      RESOURCE_COLUMNS.put("active_flag", r -> Boolean.valueOf(r.getActive()));
       RESOURCE_COLUMNS.put("auto_compute_act_flag", r -> Boolean.TRUE);
-      RESOURCE_COLUMNS.put("def_cost_qty_link_flag", r -> r.getCalculateCostsFromUnits());
+      RESOURCE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       RESOURCE_COLUMNS.put("ot_flag", r -> Boolean.FALSE);
       RESOURCE_COLUMNS.put("curr_id", r -> CURRENCY_COLUMNS.get("curr_id"));
       RESOURCE_COLUMNS.put("unit_id", r -> "");
@@ -922,7 +920,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("wbs_max_sum_level", p -> Integer.valueOf(0));
       PROJECT_COLUMNS.put("strgy_priority_num", p -> Integer.valueOf(100));
       PROJECT_COLUMNS.put("last_checksum", p -> "");
-      PROJECT_COLUMNS.put("critical_drtn_hr_cnt", p -> p.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, p).getDuration());
+      PROJECT_COLUMNS.put("critical_drtn_hr_cnt", p -> Double.valueOf(p.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, p).getDuration()));
       PROJECT_COLUMNS.put("def_cost_per_qty", p -> new Currency(Double.valueOf(100.0)));
       PROJECT_COLUMNS.put("last_recalc_date", p -> p.getStatusDate());
       PROJECT_COLUMNS.put("plan_start_date", p -> p.getPlannedStart());
@@ -958,7 +956,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("apply_actuals_date", p -> "");
       PROJECT_COLUMNS.put("location_id", p -> "");
       PROJECT_COLUMNS.put("loaded_scope_level", p -> Integer.valueOf(7));
-      PROJECT_COLUMNS.put("export_flag", p -> p.getExportFlag());
+      PROJECT_COLUMNS.put("export_flag", p -> Boolean.valueOf(p.getExportFlag()));
       PROJECT_COLUMNS.put("new_fin_dates_id", p -> "");
       PROJECT_COLUMNS.put("baselines_to_export", p -> "");
       PROJECT_COLUMNS.put("baseline_names_to_export", p -> "");
@@ -973,7 +971,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       CALENDAR_COLUMNS.put("clndr_id", c -> c.getUniqueID());
-      CALENDAR_COLUMNS.put("default_flag", c -> c.getParentFile().getProjectProperties().getDefaultCalendar() == c);
+      CALENDAR_COLUMNS.put("default_flag", c -> Boolean.valueOf(c.getParentFile().getProjectProperties().getDefaultCalendar() == c));
       CALENDAR_COLUMNS.put("clndr_name", c -> c.getName());
       CALENDAR_COLUMNS.put("proj_id", c -> c.getType() == CalendarType.PROJECT ? c.getParentFile().getProjectProperties().getUniqueID() : null);
       CALENDAR_COLUMNS.put("base_clndr_id", c -> c.getParentUniqueID());
@@ -983,7 +981,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       CALENDAR_COLUMNS.put("week_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerWeek()) / 60));
       CALENDAR_COLUMNS.put("month_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerMonth()) / 60));
       CALENDAR_COLUMNS.put("year_hr_cnt", c -> Integer.valueOf(NumberHelper.getInt(c.getMinutesPerYear()) / 60));
-      CALENDAR_COLUMNS.put("rsrc_private", c -> c.getPersonal());
+      CALENDAR_COLUMNS.put("rsrc_private", c -> Boolean.valueOf(c.getPersonal()));
       CALENDAR_COLUMNS.put("clndr_data", c -> new ProjectCalendarStructuredTextWriter().getCalendarData(c));
    }
 
@@ -1105,7 +1103,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("taskrsrc_id", r -> r.getUniqueID());
       RESOURCE_ASSIGNMENT_COLUMNS.put("task_id", r -> r.getTaskUniqueID());
       RESOURCE_ASSIGNMENT_COLUMNS.put("proj_id", r -> r.getParentFile().getProjectProperties().getUniqueID());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_qty_link_flag", r -> r.getCalculateCostsFromUnits());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("role_id", r -> r.getRoleUniqueID());
       RESOURCE_ASSIGNMENT_COLUMNS.put("acct_id", r -> r.getCostAccountUniqueID());
       RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_id", r -> r.getResourceUniqueID());
@@ -1187,7 +1185,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       EXPENSE_ITEM_COLUMNS.put("remain_cost", i -> Currency.getInstance(i.getRemainingCost()));
       EXPENSE_ITEM_COLUMNS.put("target_cost", i -> Currency.getInstance(i.getPlannedCost()));
       EXPENSE_ITEM_COLUMNS.put("cost_load_type", i -> i.getAccrueType());
-      EXPENSE_ITEM_COLUMNS.put("auto_compute_act_flag", i -> i.getAutoComputeActuals());
+      EXPENSE_ITEM_COLUMNS.put("auto_compute_act_flag", i -> Boolean.valueOf(i.getAutoComputeActuals()));
       EXPENSE_ITEM_COLUMNS.put("target_qty", i -> i.getPlannedUnits());
       EXPENSE_ITEM_COLUMNS.put("qty_name", i -> i.getUnitOfMeasure());
       EXPENSE_ITEM_COLUMNS.put("cost_descr", i -> i.getDescription());
@@ -1199,28 +1197,28 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       RESOURCE_CURVE_COLUMNS.put("curv_id", r-> r.getUniqueID());
       RESOURCE_CURVE_COLUMNS.put("curv_name", r-> r.getName());
-      RESOURCE_CURVE_COLUMNS.put("default_flag", r-> r.isContourDefault());
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_0", r -> r.getCurveValues()[0]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_1", r -> r.getCurveValues()[1]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_2", r -> r.getCurveValues()[2]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_3", r -> r.getCurveValues()[3]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_4", r -> r.getCurveValues()[4]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_5", r -> r.getCurveValues()[5]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_6", r -> r.getCurveValues()[6]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_7", r -> r.getCurveValues()[7]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_8", r -> r.getCurveValues()[8]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_9", r -> r.getCurveValues()[9]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_10", r -> r.getCurveValues()[10]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_11", r -> r.getCurveValues()[11]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_12", r -> r.getCurveValues()[12]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_13", r -> r.getCurveValues()[13]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_14", r -> r.getCurveValues()[14]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_15", r -> r.getCurveValues()[15]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_16", r -> r.getCurveValues()[16]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_17", r -> r.getCurveValues()[17]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_18", r -> r.getCurveValues()[18]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_19", r -> r.getCurveValues()[19]);
-      RESOURCE_CURVE_COLUMNS.put("pct_usage_20", r -> r.getCurveValues()[20]);
+      RESOURCE_CURVE_COLUMNS.put("default_flag", r-> Boolean.valueOf(r.isContourDefault()));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_0", r -> Double.valueOf(r.getCurveValues()[0]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_1", r -> Double.valueOf(r.getCurveValues()[1]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_2", r -> Double.valueOf(r.getCurveValues()[2]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_3", r -> Double.valueOf(r.getCurveValues()[3]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_4", r -> Double.valueOf(r.getCurveValues()[4]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_5", r -> Double.valueOf(r.getCurveValues()[5]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_6", r -> Double.valueOf(r.getCurveValues()[6]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_7", r -> Double.valueOf(r.getCurveValues()[7]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_8", r -> Double.valueOf(r.getCurveValues()[8]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_9", r -> Double.valueOf(r.getCurveValues()[9]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_10", r -> Double.valueOf(r.getCurveValues()[10]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_11", r -> Double.valueOf(r.getCurveValues()[11]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_12", r -> Double.valueOf(r.getCurveValues()[12]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_13", r -> Double.valueOf(r.getCurveValues()[13]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_14", r -> Double.valueOf(r.getCurveValues()[14]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_15", r -> Double.valueOf(r.getCurveValues()[15]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_16", r -> Double.valueOf(r.getCurveValues()[16]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_17", r -> Double.valueOf(r.getCurveValues()[17]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_18", r -> Double.valueOf(r.getCurveValues()[18]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_19", r -> Double.valueOf(r.getCurveValues()[19]));
+      RESOURCE_CURVE_COLUMNS.put("pct_usage_20", r -> Double.valueOf(r.getCurveValues()[20]));
    }
 
    private static final Map<String, ExportFunction<Step>> ACTIVITY_STEP_COLUMNS = new LinkedHashMap<>();
@@ -1231,7 +1229,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_STEP_COLUMNS.put("proj_id", s -> s.getTask().getParentFile().getProjectProperties().getUniqueID());
       ACTIVITY_STEP_COLUMNS.put("seq_num", s -> s.getSequenceNumber());
       ACTIVITY_STEP_COLUMNS.put("proc_name", s -> s.getName());
-      ACTIVITY_STEP_COLUMNS.put("complete_flag", s -> s.getComplete());
+      ACTIVITY_STEP_COLUMNS.put("complete_flag", s -> Boolean.valueOf(s.getComplete()));
       ACTIVITY_STEP_COLUMNS.put("proc_wt", s -> s.getWeight());
       ACTIVITY_STEP_COLUMNS.put("complete_pct", s -> s.getPercentComplete());
       ACTIVITY_STEP_COLUMNS.put("proc_descr", s -> s.getDescriptionObject());
@@ -1301,10 +1299,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       NOTE_TYPE_COLUMNS.put("memo_type_id", n -> n.getUniqueID());
       NOTE_TYPE_COLUMNS.put("seq_num", n -> n.getSequenceNumber());
-      NOTE_TYPE_COLUMNS.put("eps_flag", n -> n.getAvailableForEPS());
-      NOTE_TYPE_COLUMNS.put("proj_flag", n -> n.getAvailableForProject());
-      NOTE_TYPE_COLUMNS.put("wbs_flag", n -> n.getAvailableForWBS());
-      NOTE_TYPE_COLUMNS.put("task_flag", n -> n.getAvailableForActivity());
+      NOTE_TYPE_COLUMNS.put("eps_flag", n -> Boolean.valueOf(n.getAvailableForEPS()));
+      NOTE_TYPE_COLUMNS.put("proj_flag", n -> Boolean.valueOf(n.getAvailableForProject()));
+      NOTE_TYPE_COLUMNS.put("wbs_flag", n -> Boolean.valueOf(n.getAvailableForWBS()));
+      NOTE_TYPE_COLUMNS.put("task_flag", n -> Boolean.valueOf(n.getAvailableForActivity()));
       NOTE_TYPE_COLUMNS.put("memo_type", n -> n.getName());
    }
 
