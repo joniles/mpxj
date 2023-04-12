@@ -39,7 +39,7 @@ final class XsdDuration
     *
     * @param duration value formatted as an xsd:duration
     */
-   XsdDuration(String duration)
+   public XsdDuration(String duration)
    {
       if (duration != null)
       {
@@ -106,7 +106,7 @@ final class XsdDuration
     *
     * @param duration An MPX duration.
     */
-   XsdDuration(Duration duration)
+   public XsdDuration(Duration duration)
    {
       if (duration == null)
       {
