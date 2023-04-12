@@ -67,6 +67,17 @@ final class AccrueTypeHelper
       return TYPE_XML_MAP.get(value);
    }
 
+   /**
+    * Retrieve the string value representing an accrue type in an XER file.
+    *
+    * @param value AccrueType instance
+    * @return string value
+    */
+   public static String getXerFromInstance(AccrueType value)
+   {
+      return TYPE_XER_MAP.get(value);
+   }
+
    private static final Map<String, AccrueType> XML_TYPE_MAP = new HashMap<>();
    static
    {
@@ -91,4 +102,11 @@ final class AccrueTypeHelper
       TYPE_XML_MAP.put(AccrueType.START, "Start of Activity");
    }
 
+   private static final Map<AccrueType, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(AccrueType.PRORATED, "CL_Uniform");
+      TYPE_XER_MAP.put(AccrueType.END, "CL_End");
+      TYPE_XER_MAP.put(AccrueType.START, "CL_Start");
+   }
 }

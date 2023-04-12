@@ -68,6 +68,17 @@ final class PriorityHelper
    }
 
    /**
+    * Retrieve the string value representing a priority in an XER file.
+    *
+    * @param value Priority instance
+    * @return string value
+    */
+   public static String getXerFromInstance(Priority value)
+   {
+      return TYPE_XER_MAP.get(value);
+   }
+
+   /**
     * Convert an arbitrary integer priority value into one of the named priority values.
     *
     * @param priority Priority instance
@@ -121,5 +132,19 @@ final class PriorityHelper
       XER_TYPE_MAP.put("PT_Normal", Priority.getInstance(Priority.MEDIUM));
       XER_TYPE_MAP.put("PT_Low", Priority.getInstance(Priority.LOW));
       XER_TYPE_MAP.put("PT_Lowest", Priority.getInstance(Priority.LOWEST));
+   }
+
+   private static final Map<Priority, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(Priority.getInstance(Priority.HIGHEST), "PT_Top");
+      TYPE_XER_MAP.put(Priority.getInstance(Priority.VERY_HIGH), "PT_Top");
+      TYPE_XER_MAP.put(Priority.getInstance(Priority.HIGHER), "PT_High");
+      TYPE_XER_MAP.put(Priority.getInstance(Priority.HIGH), "PT_High");
+      TYPE_XER_MAP.put(Priority.getInstance(Priority.MEDIUM), "PT_Normal");
+      TYPE_XER_MAP.put(Priority.getInstance(Priority.LOW), "PT_Low");
+      TYPE_XER_MAP.put(Priority.getInstance(Priority.LOWER), "PT_Low");
+      TYPE_XER_MAP.put(Priority.getInstance(Priority.VERY_LOW), "PT_Lowest");
+      TYPE_XER_MAP.put(Priority.getInstance(Priority.LOWEST), "PT_Lowest");
    }
 }

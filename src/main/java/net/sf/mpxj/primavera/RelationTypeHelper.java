@@ -80,6 +80,17 @@ final class RelationTypeHelper
       return TYPE_XML_MAP.get(value);
    }
 
+   /**
+    * Retrieve the string value representing a relation type in an XER file.
+    *
+    * @param value RelationType instance
+    * @return string value
+    */
+   public static String getXerFromInstance(RelationType value)
+   {
+      return TYPE_XER_MAP.get(value);
+   }
+
    private static final Map<String, RelationType> XML_TYPE_MAP = new HashMap<>();
    static
    {
@@ -105,5 +116,14 @@ final class RelationTypeHelper
       XER_TYPE_MAP.put("PR_FF", RelationType.FINISH_FINISH);
       XER_TYPE_MAP.put("PR_SS", RelationType.START_START);
       XER_TYPE_MAP.put("PR_SF", RelationType.START_FINISH);
+   }
+
+   private static final Map<RelationType, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(RelationType.FINISH_START, "PR_FS");
+      TYPE_XER_MAP.put(RelationType.FINISH_FINISH, "PR_FF");
+      TYPE_XER_MAP.put(RelationType.START_START, "PR_SS");
+      TYPE_XER_MAP.put(RelationType.START_FINISH, "PR_SF");
    }
 }

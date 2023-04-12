@@ -65,6 +65,7 @@ nav:
     - 'Planner files' : 'howto-write-planner.md'
     - 'SDEF files' : 'howto-write-sdef.md'
     - 'PMXML files' : 'howto-write-pmxml.md'
+    - 'XER files' : 'howto-write-xer.md'
   - 'How to Use...':
       - 'Calendars': 'howto-use-calendars.md'
       - 'Fields': 'howto-use-fields.md'

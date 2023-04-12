@@ -66,10 +66,26 @@ final class ActivityTypeHelper
    {
       if (value == null)
       {
-         return "Resource Dependent";
+         value = ActivityType.RESOURCE_DEPENDENT;
       }
 
       return TYPE_XML_MAP.get(value);
+   }
+
+   /**
+    * Retrieve the string value representing an activity type in an XER file.
+    *
+    * @param value ActivityType instance
+    * @return string value
+    */
+   public static String getXerFromInstance(ActivityType value)
+   {
+      if (value == null)
+      {
+         value = ActivityType.RESOURCE_DEPENDENT;
+      }
+
+      return TYPE_XER_MAP.get(value);
    }
 
    private static final Map<String, net.sf.mpxj.ActivityType> XML_TYPE_MAP = new HashMap<>();
@@ -106,5 +122,16 @@ final class ActivityTypeHelper
       XER_TYPE_MAP.put("TT_Mile", ActivityType.START_MILESTONE);
       XER_TYPE_MAP.put("TT_FinMile", ActivityType.FINISH_MILESTONE);
       XER_TYPE_MAP.put("TT_WBS", ActivityType.WBS_SUMMARY);
+   }
+
+   private static final Map<ActivityType, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(ActivityType.TASK_DEPENDENT, "TT_Task");
+      TYPE_XER_MAP.put(ActivityType.RESOURCE_DEPENDENT, "TT_Rsrc");
+      TYPE_XER_MAP.put(ActivityType.LEVEL_OF_EFFORT, "TT_LOE");
+      TYPE_XER_MAP.put(ActivityType.START_MILESTONE, "TT_Mile");
+      TYPE_XER_MAP.put(ActivityType.FINISH_MILESTONE, "TT_FinMile");
+      TYPE_XER_MAP.put(ActivityType.WBS_SUMMARY, "TT_WBS");
    }
 }

@@ -23,7 +23,9 @@
 
 package net.sf.mpxj.primavera;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,6 +39,16 @@ import java.util.stream.Collectors;
  */
 public class StructuredTextRecord
 {
+   /**
+    * Constructor to create an empty record.
+    */
+   public StructuredTextRecord()
+   {
+      m_attributes= new LinkedHashMap<>();
+      m_children  = new ArrayList<>();
+      m_childrenByName = Collections.emptyMap();
+   }
+
    /**
     * Constructor.
     *
@@ -116,6 +128,27 @@ public class StructuredTextRecord
    public StructuredTextRecord getChild(String name)
    {
       return m_childrenByName.get(name);
+   }
+
+   /**
+    * Add an attribute to the record.
+    *
+    * @param name attribute name
+    * @param value attribute value
+    */
+   public void addAttribute(String name, String value)
+   {
+      m_attributes.put(name, value);
+   }
+
+   /**
+    * Add a child to the record.
+    *
+    * @param child StructuredTextRecord instance
+    */
+   public void addChild(StructuredTextRecord child)
+   {
+      m_children.add(child);
    }
 
    private final Map<String, String> m_attributes;

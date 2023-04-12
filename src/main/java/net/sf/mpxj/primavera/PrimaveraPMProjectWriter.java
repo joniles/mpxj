@@ -82,7 +82,6 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityCodeType;
@@ -572,27 +571,8 @@ final class PrimaveraPMProjectWriter
    {
       for (ProjectCalendar calendar : m_projectFile.getCalendars())
       {
-         writeCalendar(normalizeCalendar(calendar));
+         writeCalendar(ProjectCalendarHelper.normalizeCalendar(calendar));
       }
-   }
-
-   /**
-    * Tries to ensure that the calendar structure we write matches P6's expectations.
-    *
-    * @param calendar calendar to normalize
-    * @return normalized calendar
-    */
-   private ProjectCalendar normalizeCalendar(ProjectCalendar calendar)
-   {
-      ProjectCalendar result = calendar;
-      if (calendar.getType() == net.sf.mpxj.CalendarType.GLOBAL && calendar.isDerived())
-      {
-         // Global calendars in P6 are not derived from other calendars.
-         // If this calendar is marked as a global calendar, and it is
-         // derived then we'll flatten it.
-         result = ProjectCalendarHelper.createTemporaryFlattenedCalendar(calendar);
-      }
-      return result;
    }
 
    /**
@@ -646,7 +626,7 @@ final class PrimaveraPMProjectWriter
       HolidayOrExceptions xmlExceptions = m_factory.createCalendarTypeHolidayOrExceptions();
       xml.setHolidayOrExceptions(xmlExceptions);
 
-      List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxj);
+      List<ProjectCalendarException> expandedExceptions = net.sf.mpxj.common.ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxj);
       if (!expandedExceptions.isEmpty())
       {
          Calendar calendar = DateHelper.popCalendar();
@@ -854,7 +834,7 @@ final class PrimaveraPMProjectWriter
          name = "(blank)";
       }
 
-      xml.setCode(getWbsCode(mpxj));
+      xml.setCode(TaskHelper.getWbsCode(mpxj));
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setName(name);
 
@@ -868,48 +848,6 @@ final class PrimaveraPMProjectWriter
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.TASK, true, mpxj));
 
       writeWbsNote(mpxj);
-   }
-
-   /**
-    * Retrieve the WBS code attribute.
-    *
-    * @param task Task instance
-    * @return WBS code attribute
-    */
-   private String getWbsCode(Task task)
-   {
-      // If we don't have a WBS code, use a default value
-      String code = task.getWBS();
-      if (code == null || code.length() == 0)
-      {
-         code = DEFAULT_WBS_CODE;
-      }
-      else
-      {
-         String prefix = null;
-
-         if (task.getParentTask() == null && m_projectFile.getProjectProperties().getProjectID() != null)
-         {
-            prefix = m_projectFile.getProjectProperties().getProjectID() + PrimaveraReader.DEFAULT_WBS_SEPARATOR;
-         }
-         else
-         {
-            if (task.getParentTask() != null)
-            {
-               prefix = task.getParentTask().getWBS() + PrimaveraReader.DEFAULT_WBS_SEPARATOR;
-            }
-         }
-
-         // If we have a parent task, and it looks like WBS contains the full path
-         // (including the parent's WBS), remove the parent's WBS. This matches
-         // how P6 exports this value. This test is brittle as it assumes
-         // the default WBS separator has been used.
-         if (prefix != null && code.startsWith(prefix))
-         {
-            code = code.substring(prefix.length());
-         }
-      }
-      return code;
    }
 
    /**
@@ -1891,7 +1829,6 @@ final class PrimaveraPMProjectWriter
 
    private static final String DEFAULT_PROJECT_ID = "PROJECT";
    private static final String RESOURCE_ID_PREFIX = "RESOURCE-";
-   private static final String DEFAULT_WBS_CODE = "WBS";
    private static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);
 
    private static final String[] DAY_NAMES =

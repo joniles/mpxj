@@ -38,6 +38,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -593,9 +594,10 @@ public class CustomerDataTest
       boolean json = testBaseline(name, project, baselineDirectory, "json", ".json", JsonWriter.class, jsonConfig);
       boolean planner = testBaseline(name, project, baselineDirectory, "planner", ".xml", PlannerWriter.class, null);
       boolean sdef = testBaseline(name, project, baselineDirectory, "sdef", ".sdef", SDEFWriter.class, null);
+      boolean xer = testBaseline(name, project, baselineDirectory, "xer", ".xer", PrimaveraXERFileWriter.class, null);
       boolean mpx = testBaseline(name, project, baselineDirectory, "mpx", ".mpx", MPXWriter.class, mpxConfig);
 
-      return mspdi && pmxml && json && planner && sdef && mpx;
+      return mspdi && pmxml && json && planner && sdef && xer && mpx;
    }
 
    /**

@@ -67,6 +67,17 @@ final class CalendarTypeHelper
       return TYPE_XML_MAP.get(value);
    }
 
+   /**
+    * Retrieve the string value representing a calendar type in an XER file.
+    *
+    * @param value CalendarType instance
+    * @return string value
+    */
+   public static String getXerFromInstance(CalendarType value)
+   {
+      return TYPE_XER_MAP.get(value);
+   }
+
    private static final Map<String, CalendarType> XML_TYPE_MAP = new HashMap<>();
    static
    {
@@ -83,11 +94,19 @@ final class CalendarTypeHelper
       TYPE_XML_MAP.put(CalendarType.RESOURCE, "Resource");
    }
 
-   private static final Map<String, net.sf.mpxj.CalendarType> XER_TYPE_MAP = new HashMap<>();
+   private static final Map<String, CalendarType> XER_TYPE_MAP = new HashMap<>();
    static
    {
       XER_TYPE_MAP.put("CA_Base", CalendarType.GLOBAL);
       XER_TYPE_MAP.put("CA_Project", CalendarType.PROJECT);
       XER_TYPE_MAP.put("CA_Rsrc", CalendarType.RESOURCE);
+   }
+
+   private static final Map<CalendarType, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(CalendarType.GLOBAL, "CA_Base");
+      TYPE_XER_MAP.put(CalendarType.PROJECT, "CA_Project");
+      TYPE_XER_MAP.put(CalendarType.RESOURCE, "CA_Rsrc");
    }
 }

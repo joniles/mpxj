@@ -2225,6 +2225,7 @@ final class PrimaveraReader
       TIME_UNIT_MAP.put("QT_Year", TimeUnit.YEARS);
    }
    */
+
    private static final Map<String, CurrencySymbolPosition> CURRENCY_SYMBOL_POSITION_MAP = new HashMap<>();
    static
    {
@@ -2234,7 +2235,7 @@ final class PrimaveraReader
       CURRENCY_SYMBOL_POSITION_MAP.put("1.1 #", CurrencySymbolPosition.AFTER_WITH_SPACE);
    }
 
-   private static final long EXCEPTION_EPOCH = -2209161599935L;
+   static final long EXCEPTION_EPOCH = -2209161599935L;
 
    static final String DEFAULT_WBS_SEPARATOR = ".";
 }

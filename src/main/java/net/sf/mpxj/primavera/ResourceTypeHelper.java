@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.TaskType;
 
 /**
  * Provides methods to convert to and from Primavera's representation
@@ -67,6 +68,17 @@ final class ResourceTypeHelper
       return TYPE_XML_MAP.get(value);
    }
 
+   /**
+    * Retrieve the string value representing a resource type in an XER file.
+    *
+    * @param value ResourceType instance
+    * @return string value
+    */
+   public static String getXerFromInstance(ResourceType value)
+   {
+      return TYPE_XER_MAP.get(value);
+   }
+
    private static final Map<String, ResourceType> XML_TYPE_MAP = new HashMap<>();
    static
    {
@@ -93,4 +105,11 @@ final class ResourceTypeHelper
       XER_TYPE_MAP.put("RT_Equip", ResourceType.COST);
    }
 
+   private static final Map<ResourceType, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(ResourceType.WORK, "RT_Labor");
+      TYPE_XER_MAP.put(ResourceType.MATERIAL, "RT_Mat");
+      TYPE_XER_MAP.put(ResourceType.COST, "RT_Equip");
+   }
 }

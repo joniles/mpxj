@@ -67,6 +67,17 @@ final class RateSourceHelper
       return TYPE_XML_MAP.get(value);
    }
 
+   /**
+    * Retrieve the string value representing a rate source in an XER file.
+    *
+    * @param value RateSource instance
+    * @return string value
+    */
+   public static String getXerFromInstance(RateSource value)
+   {
+      return TYPE_XER_MAP.get(value);
+   }
+
    private static final Map<String, RateSource> XML_TYPE_MAP = new HashMap<>();
    static
    {
@@ -89,5 +100,13 @@ final class RateSourceHelper
       TYPE_XML_MAP.put(RateSource.RESOURCE, "Resource");
       TYPE_XML_MAP.put(RateSource.OVERRIDE, "Override");
       TYPE_XML_MAP.put(RateSource.ROLE, "Role");
+   }
+
+   private static final Map<RateSource, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(RateSource.RESOURCE, "ST_Rsrc");
+      TYPE_XER_MAP.put(RateSource.ROLE, "ST_Role");
+      TYPE_XER_MAP.put(RateSource.OVERRIDE, "ST_Custom");
    }
 }

@@ -67,6 +67,17 @@ final class CriticalActivityTypeHelper
       return TYPE_XML_MAP.get(value);
    }
 
+   /**
+    * Retrieve the string value representing a critical activity type in an XER file.
+    *
+    * @param value CriticalActivityType instance
+    * @return string value
+    */
+   public static String getXerFromInstance(CriticalActivityType value)
+   {
+      return TYPE_XER_MAP.get(value);
+   }
+
    private static final Map<String, CriticalActivityType> XML_TYPE_MAP = new HashMap<>();
    static
    {
@@ -86,5 +97,12 @@ final class CriticalActivityTypeHelper
    {
       XER_TYPE_MAP.put("CT_TotFloat", CriticalActivityType.TOTAL_FLOAT);
       XER_TYPE_MAP.put("CT_DrivPath", CriticalActivityType.LONGEST_PATH);
+   }
+
+   private static final Map<CriticalActivityType, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(CriticalActivityType.TOTAL_FLOAT, "CT_TotFloat");
+      TYPE_XER_MAP.put(CriticalActivityType.LONGEST_PATH, "CT_DrivPath");
    }
 }

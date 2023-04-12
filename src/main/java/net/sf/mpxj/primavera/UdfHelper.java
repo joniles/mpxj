@@ -103,6 +103,22 @@ final class UdfHelper
       return result;
    }
 
+   /**
+    * Retrieve the string value representing a UDF data type in an XER file.
+    *
+    * @param value DataType instance
+    * @return string value
+    */
+   public static String getXerFromDataType(DataType value)
+   {
+      String result = XER_FROM_DATA_TYPE.get(value);
+      if (result == null)
+      {
+         throw new RuntimeException("Unconvertible data type: " + value);
+      }
+      return result;
+   }
+
    private static final Map<String, DataType> DATA_TYPE_FROM_XER = new HashMap<>();
    static
    {
@@ -140,5 +156,20 @@ final class UdfHelper
       XML_FROM_DATA_TYPE.put(DataType.INTEGER, "Integer");
       XML_FROM_DATA_TYPE.put(DataType.SHORT, "Integer");
       XML_FROM_DATA_TYPE.put(DataType.CURRENCY, "Cost");
+   }
+
+   private static final Map<DataType, String> XER_FROM_DATA_TYPE = new HashMap<>();
+   static
+   {
+      XER_FROM_DATA_TYPE.put(DataType.CUSTOM, "FT_TEXT");
+      XER_FROM_DATA_TYPE.put(DataType.BINARY, "FT_TEXT");
+      XER_FROM_DATA_TYPE.put(DataType.STRING, "FT_TEXT");
+      XER_FROM_DATA_TYPE.put(DataType.DURATION, "FT_TEXT");
+      XER_FROM_DATA_TYPE.put(DataType.DATE, "FT_START_DATE");
+      XER_FROM_DATA_TYPE.put(DataType.NUMERIC, "FT_FLOAT");
+      XER_FROM_DATA_TYPE.put(DataType.BOOLEAN, "FT_INT");
+      XER_FROM_DATA_TYPE.put(DataType.INTEGER, "FT_INT");
+      XER_FROM_DATA_TYPE.put(DataType.SHORT, "FT_INT");
+      XER_FROM_DATA_TYPE.put(DataType.CURRENCY, "FT_MONEY");
    }
 }

@@ -70,6 +70,22 @@ final class RateTypeHelper
       return TYPE_XML_ARRAY[value.intValue()];
    }
 
+   /**
+    * Retrieve the string value representing a rate type in an XER file.
+    *
+    * @param value rate type index
+    * @return string value
+    */
+   public static String getXerFromInstance(Integer value)
+   {
+      if (value == null || value.intValue() < 0 || value.intValue() >= TYPE_XER_ARRAY.length)
+      {
+         value = DEFAULT_VALUE;
+      }
+
+      return TYPE_XER_ARRAY[value.intValue()];
+   }
+
    private static final Integer DEFAULT_VALUE = Integer.valueOf(0);
 
    private static final Map<String, Integer> XML_TYPE_MAP = new HashMap<>();
@@ -99,5 +115,14 @@ final class RateTypeHelper
       "Price / Unit 3",
       "Price / Unit 4",
       "Price / Unit 5"
+   };
+
+   private static final String[] TYPE_XER_ARRAY = new String[]
+   {
+      "COST_PER_QTY",
+      "COST_PER_QTY2",
+      "COST_PER_QTY3",
+      "COST_PER_QTY4",
+      "COST_PER_QTY5",
    };
 }

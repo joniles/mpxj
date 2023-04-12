@@ -95,6 +95,17 @@ final class ActivityStatusHelper
       return TYPE_XML_MAP.get(value);
    }
 
+   /**
+    * Retrieve the string value representing an activity status in an XER file.
+    *
+    * @param value ActivityStatus instance
+    * @return string value
+    */
+   public static String getXerFromInstance(ActivityStatus value)
+   {
+      return TYPE_XER_MAP.get(value);
+   }
+
    private static final Map<String, ActivityStatus> XML_TYPE_MAP = new HashMap<>();
    static
    {
@@ -117,5 +128,13 @@ final class ActivityStatusHelper
       XER_TYPE_MAP.put("TK_NotStart", ActivityStatus.NOT_STARTED);
       XER_TYPE_MAP.put("TK_Active", ActivityStatus.IN_PROGRESS);
       XER_TYPE_MAP.put("TK_Complete", ActivityStatus.COMPLETED);
+   }
+
+   private static final Map<ActivityStatus, String> TYPE_XER_MAP = new HashMap<>();
+   static
+   {
+      TYPE_XER_MAP.put(ActivityStatus.NOT_STARTED, "TK_NotStart");
+      TYPE_XER_MAP.put(ActivityStatus.IN_PROGRESS, "TK_Active");
+      TYPE_XER_MAP.put(ActivityStatus.COMPLETED, "TK_Complete");
    }
 }
