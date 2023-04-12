@@ -382,6 +382,10 @@
 			<include name="**/*.java" />
 		</replace>
 
+		<replace dir="${ikvm.src.dir}" token="final class XsdDuration" value="public final class XsdDuration">
+			<include name="**/mspdi/XsdDuration.java" />
+		</replace>
+
 		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}::${commons-logging.classpath}:${jackcess.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
@@ -439,6 +443,10 @@
 				<exclude name="**/CustomerDataTestCharacterEscapeHandler*"/>
 			</fileset>
 		</copy>
+
+		<replace dir="${ikvm.src.dir}" token="final class XsdDuration" value="public final class XsdDuration">
+			<include name="**/mspdi/XsdDuration.java" />
+		</replace>
 
 		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
