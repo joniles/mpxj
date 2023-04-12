@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2023-03-13</li>
+        <li id="publishDate">Last Published: 2023-04-12</li>
           </ul>
         </div>
       </header>
@@ -68,8 +68,110 @@
 <h2><a name="MPXJ_Changes"></a>MPXJ Changes</h2><section>
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
-<h3 id="a11.2.1">Release 11.2.1 &#x2013; unreleased</h3>
+<h3 id="a11.3.1">Release 11.3.1 &#x2013; unreleased</h3>
 <p>No changes in this release.</p></section><section>
+<h3 id="a11.3.0">Release 11.3.0 &#x2013; 2023-04-12</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Implemented `PrimaveraXERFileWriter` to allow MPXJ to write XER files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated the `ActivityCode` class to ensure that both the scope Project ID and EPS ID can be represented when reading a P6 schedule. (Potentially breaking change if you were using this class).</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure secondary constraint date and type are written to PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure leveling priority is written to PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure WBS UDF values are written to PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure integer UDF values are read correctly from XER files and P6 databases.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add methods to allow the project's default calendar unique ID to be set and retrieved.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add method to allow a calendar's parent calendar unique ID to be retrieved.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add method to allow a task's parent task unique ID to be retrieved.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add methods to allow a resource assignment's role unique ID to be set and retrieved.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add methods to allow a resource assignment's cost account unique ID to be set and retrieved.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add method to allow a cost account's parent unique ID to be retrieved.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add method to allow an expense item's cost account unique ID to be retrieved.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add method to allow an expense item's category unique ID to be retrieved.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added `WorkContour.isDefault()` method to allow &quot;built in&quot; resouce curves/work contours to be distinguished from user defined curves.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated to retrieve the project's start date from Phoenix PPX files (Contributed by Rohit Sinha).</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Provide access to notebook topics from P6 schedules via the `ProjectFile.getNotesTopics()` method.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Capture unique ID of Activity and WBS notes from P6 schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve the calculation used to determine At Completion Duration of activities when reading XER files and P6 databases.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve representation of certain duration values written to MSPDI files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve accuracy of certain work calculations where the specified time period does not start with a working day.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Fix an issue which caused negative timephased work values to be generated when reading certain MPP files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Fix an issue reading XER files where the `critical_drtn_hr_cnt` field is expressed a decimal rather than an integer.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Fix an issue populating the WBS attribute for activities read from certain XER files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a11.2.0">Release 11.2.0 &#x2013; 2023-03-13</h3>
 <table border="0" class="table table-striped">
 <tr class="b">

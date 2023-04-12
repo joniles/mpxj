@@ -736,13 +736,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#user-defined-fields" class="md-nav__link">
-    User Defined Fields
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#reading-additional-attributes" class="md-nav__link">
     Reading Additional Attributes
   </a>
@@ -931,6 +924,62 @@
     <li class="md-nav__item">
       <a href="../howto-write-mspdi/" class="md-nav__link">
         MSPDI files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-planner/" class="md-nav__link">
+        Planner files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-sdef/" class="md-nav__link">
+        SDEF files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-pmxml/" class="md-nav__link">
+        PMXML files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-xer/" class="md-nav__link">
+        XER files
       </a>
     </li>
   
@@ -1175,13 +1224,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#user-defined-fields" class="md-nav__link">
-    User Defined Fields
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#reading-additional-attributes" class="md-nav__link">
     Reading Additional Attributes
   </a>
@@ -1343,48 +1385,6 @@ the code for the current WBS entry (in the example above <code>wbs2</code>) call
 <span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setWbsIsFullPath</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 </code></pre></div>
-<h3 id="user-defined-fields">User Defined Fields</h3>
-<p>MPXJ attempts to map user defined fields from P6 to the custom fields.
-When MPXJ reads user defined fields from the database, it will assign
-each new user defined field to a new custom attribute. For example when
-the first custom text field is read, it will be stored in TEXT1, the next
-custom text field will be stored in TEXT2, and so on.</p>
-<p>It is possible that there are more user defined values in the database than
-there are custom attributes of a specific type in the MPXJ data model. For
-example the task entity only has TEXT to TEXT30 attributes, so if the database
-has more than 30 text user defined attributes, the default mapping switches to
-using ENTERPRISE_TEXT fields.</p>
-<p>The list below shows the default mappings used by MPXJ. Where there is more than
-one item shown for each user defined type, this indicates how MPXJ "overflows"
-from one custom type to another.</p>
-<ul>
-<li>FT_TEXT: TEXT, ENTERPRISE_TEXT</li>
-<li>FT_START_DATE: START</li>
-<li>FT_END_DATE: FINISH</li>
-<li>FT_FLOAT_2_DECIMALS: NUMBER, ENTERPRISE_NUMBER</li>
-<li>FT_INT: NUMBER, ENTERPRISE_NUMBER</li>
-<li>FT_STATICTYPE: TEXT, ENTERPRISE_TEXT</li>
-<li>FT_MONEY: COST, ENTERPRISE_COST</li>
-</ul>
-<p>You can modify the default mappings used between P6 user defined fields and MPXJ
-custom fields using the methods shown in the code sample below:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraDatabaseReader</span><span class="p">;</span>
-
-<span class="p">...</span>
-
-<span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
-<span class="n">reader</span><span class="p">.</span><span class="na">setFieldNamesForTaskUdfType</span><span class="p">(</span><span class="n">UserFieldDataType</span><span class="p">.</span><span class="na">FT_TEXT</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;ENTERPRISE_TEXT&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;TEXT&quot;</span><span class="p">);</span>
-<span class="n">reader</span><span class="p">.</span><span class="na">setFieldNamesForResourceUdfType</span><span class="p">(</span><span class="n">UserFieldDataType</span><span class="p">.</span><span class="na">FT_START_DATE</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;DATE&quot;</span><span class="p">);</span>
-<span class="n">reader</span><span class="p">.</span><span class="na">setFieldNamesForAssignmentUdfType</span><span class="p">(</span><span class="n">UserFieldDataType</span><span class="p">.</span><span class="na">FT_END_DATE</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;DATE&quot;</span><span class="p">);</span>
-</code></pre></div>
-<p>As the sample shows, a method is provided for the three main entity types:
-tasks, resources and resource assignments. The first argument you pass to these
-methods is the P6 user defined field type, followed by a list of names, for
-example to use the fields DATE1, DATE2 and so on in MPXJ, you would pass in
-<code>"DATE"</code>. To allow values to overflow from one custom field type to another, you
-can simply pass additional values (see the <code>setFieldNamesForTaskUdfType</code> example
-above).</p>
 <h3 id="reading-additional-attributes">Reading Additional Attributes</h3>
 <p>A data-driven approach is used to extract the attributes used by MPXJ from the
 database. You can if you wish change the way attributes are read from the file,
