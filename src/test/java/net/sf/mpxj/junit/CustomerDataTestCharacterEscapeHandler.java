@@ -33,7 +33,7 @@ import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
  * with the XML output from the IKVM version. This makes it easier to
  * manage regression testing with a common set of baseline data.
  * NOTE: this class will only be present in the Java test jar, it
- * won't compile under IKVM due to the different JAB classes used
+ * won't compile under IKVM due to the different JAXB classes used
  * in each case. This is why the class is instantiated by name when used,
  * it avoids a hard dependency, and if the class is not found its is
  * simply ignored. See {@code MarshallerHelper} for more details.
