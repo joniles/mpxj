@@ -100,6 +100,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
          processAnalytics();
          processUserDefinedFields();
+         processLocations();
          processProjectProperties();
          processActivityCodes();
          processExpenseCategories();
@@ -211,6 +212,11 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       }
 
       processSchedulingProjectProperties();
+   }
+
+   private void processLocations() throws SQLException
+   {
+      m_reader.processLocations(getRows("select * from " + m_schema + "location"));
    }
 
    /**

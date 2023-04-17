@@ -6,6 +6,7 @@ public class Location implements ProjectEntityWithUniqueID
    {
       m_addressLine1 = builder.m_addressLine1;
       m_addressLine2 = builder.m_addressLine2;
+      m_addressLine3 = builder.m_addressLine3;
       m_city = builder.m_city;
       m_country = builder.m_country;
       m_countryCode = builder.m_countryCode;
@@ -29,8 +30,74 @@ public class Location implements ProjectEntityWithUniqueID
       throw new UnsupportedOperationException();
    }
 
+   public String getAddressLine1()
+   {
+      return m_addressLine1;
+   }
+
+   public String getAddressLine2()
+   {
+      return m_addressLine2;
+   }
+
+   public String getAddressLine3()
+   {
+      return m_addressLine3;
+   }
+
+   public String getCity()
+   {
+      return m_city;
+   }
+
+   public String getCountry()
+   {
+      return m_country;
+   }
+
+   public String getCountryCode()
+   {
+      return m_countryCode;
+   }
+
+   public Double getLatitude()
+   {
+      return m_latitude;
+   }
+
+   public Double getLongitude()
+   {
+      return m_longitude;
+   }
+
+   public String getMunicipality()
+   {
+      return m_municipality;
+   }
+
+   public String getName()
+   {
+      return m_name;
+   }
+
+   public String getPostalCode()
+   {
+      return m_postalCode;
+   }
+
+   public String getState()
+   {
+      return m_state;
+   }
+
+   public String getStateCode()
+   {
+      return m_stateCode;
+   }
+
    private final String m_addressLine1;
    private final String m_addressLine2;
+   private final String m_addressLine3;
    private final String m_city;
    private final String m_country;
    private final String m_countryCode;
@@ -54,6 +121,12 @@ public class Location implements ProjectEntityWithUniqueID
       public Builder addressLine2(String value)
       {
          m_addressLine2 = value;
+         return this;
+      }
+
+      public Builder addressLine3(String value)
+      {
+         m_addressLine3 = value;
          return this;
       }
 
@@ -123,8 +196,14 @@ public class Location implements ProjectEntityWithUniqueID
          return this;
       }
 
+      public Location build()
+      {
+         return new Location(this);
+      }
+
       private  String m_addressLine1;
       private  String m_addressLine2;
+      private  String m_addressLine3;
       private  String m_city;
       private  String m_country;
       private  String m_countryCode;

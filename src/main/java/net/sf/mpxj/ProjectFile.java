@@ -561,7 +561,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_notesTopics;
    }
 
-   public LocationContainer getLOcations()
+   public LocationContainer getLocations()
    {
       return m_locations;
    }

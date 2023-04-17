@@ -220,6 +220,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
 
          processProjectID();
          processUserDefinedFields();
+         processLocations();
          processProjectProperties();
          processActivityCodes();
          processExpenseCategories();
@@ -419,6 +420,11 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       }
 
       processScheduleOptions();
+   }
+
+   private void processLocations()
+   {
+      m_reader.processLocations(getRows("location", null, null));
    }
 
    /**
@@ -1122,7 +1128,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("last_recalc_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("late_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("late_start_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("latitude", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("location_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("loginal_data_type", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("longitude", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("max_qty_per_hr", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("memo_type_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("memo_id", XerFieldType.INTEGER);
@@ -1236,6 +1245,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       REQUIRED_TABLES.add("rolerate");
       REQUIRED_TABLES.add("rsrccurvdata");
       REQUIRED_TABLES.add("taskproc");
+      REQUIRED_TABLES.add("location");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();

@@ -61,6 +61,8 @@ import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.HtmlNotes;
+import net.sf.mpxj.Location;
+import net.sf.mpxj.LocationContainer;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.NotesTopicContainer;
@@ -187,6 +189,31 @@ final class PrimaveraReader
          // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");
       }
+   }
+
+   public void processLocations(List<Row> locations)
+   {
+      LocationContainer container = m_project.getLocations();
+      locations.forEach(
+         row -> container.add(
+            new Location.Builder()
+               .uniqueID(row.getInteger("location_id"))
+               .name(row.getString("location_name"))
+               .addressLine1(row.getString("address_line1"))
+               .addressLine2(row.getString("address_line2"))
+               .addressLine3(row.getString("address_line3"))
+               .city(row.getString("city_name"))
+               .municipality(row.getString("municipality_name"))
+               .state(row.getString("state_name"))
+               .stateCode(row.getString("state_code"))
+               .country(row.getString("country_name"))
+               .countryCode(row.getString("country_code"))
+               .postalCode(row.getString("postal_code"))
+               .latitude(row.getDouble("latitude"))
+               .longitude(row.getDouble("longitude"))
+               .build()
+         )
+      );
    }
 
    /**

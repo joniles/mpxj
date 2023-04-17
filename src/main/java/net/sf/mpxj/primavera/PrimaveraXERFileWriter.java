@@ -56,6 +56,7 @@ import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.Location;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.ParentNotes;
@@ -125,6 +126,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeHeader();
          writeExpenseCategories();
          writeCurrencies();
+         writeLocations();
          writeNoteTypes();
          writeResourceCurves();
          writeUdfDefinitions();
@@ -344,6 +346,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       m_writer.writeTable("COSTTYPE", EXPENSE_CATEGORY_COLUMNS);
       m_file.getExpenseCategories().stream().sorted(Comparator.comparing(ExpenseCategory::getUniqueID)).forEach(a -> m_writer.writeRecord(EXPENSE_CATEGORY_COLUMNS, a));
+   }
+
+   private void writeLocations()
+   {
+      m_writer.writeTable("LOCATION", LOCATION_COLUMNS);
+      m_file.getLocations().stream().sorted(Comparator.comparing(Location::getUniqueID)).forEach(l -> m_writer.writeRecord(LOCATION_COLUMNS, l));
    }
 
    /**
@@ -1168,6 +1176,26 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       EXPENSE_CATEGORY_COLUMNS.put("cost_type_id", e -> e.getUniqueID());
       EXPENSE_CATEGORY_COLUMNS.put("seq_num", e -> e.getSequenceNumber());
       EXPENSE_CATEGORY_COLUMNS.put("cost_type", e -> e.getName());
+   }
+
+   private static final Map<String, ExportFunction<Location>> LOCATION_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      LOCATION_COLUMNS.put("location_id", l -> l.getUniqueID());
+      LOCATION_COLUMNS.put("location_name", l -> l.getName());
+      LOCATION_COLUMNS.put("location_type", l -> l.getCity() != null ? "City" : "LT_Point");
+      LOCATION_COLUMNS.put("address_line1", l -> l.getAddressLine1());
+      LOCATION_COLUMNS.put("address_line2", l -> l.getAddressLine2());
+      LOCATION_COLUMNS.put("address_line3", l -> l.getAddressLine3());
+      LOCATION_COLUMNS.put("city_name", l -> l.getCity());
+      LOCATION_COLUMNS.put("municipality_name", l -> l.getMunicipality());
+      LOCATION_COLUMNS.put("state_name", l -> l.getState());
+      LOCATION_COLUMNS.put("state_code", l -> l.getStateCode());
+      LOCATION_COLUMNS.put("country_name", l -> l.getCountry());
+      LOCATION_COLUMNS.put("country_code", l -> l.getCountryCode());
+      LOCATION_COLUMNS.put("postal_code", l -> l.getPostalCode());
+      LOCATION_COLUMNS.put("longitude", l -> l.getLongitude());
+      LOCATION_COLUMNS.put("latitude", l -> l.getLatitude());
    }
 
    private static final Map<String, ExportFunction<ExpenseItem>> EXPENSE_ITEM_COLUMNS = new LinkedHashMap<>();
