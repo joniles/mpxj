@@ -561,6 +561,11 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_notesTopics;
    }
 
+   public LocationContainer getLOcations()
+   {
+      return m_locations;
+   }
+
    /**
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project properties. If a calendar of this name cannot be found, then
@@ -705,5 +710,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer();
    private final WorkContourContainer m_workContours = new WorkContourContainer(this);
    private final NotesTopicContainer m_notesTopics = new NotesTopicContainer(this);
+   private final LocationContainer m_locations = new LocationContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
 }
