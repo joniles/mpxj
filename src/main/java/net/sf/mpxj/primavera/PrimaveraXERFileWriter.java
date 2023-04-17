@@ -792,6 +792,15 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return field != null && field.getAlias() != null && !field.getAlias().isEmpty() ? field.getAlias() : type.getName();
    }
 
+   private static boolean locationIsCity(Location location)
+   {
+      return location.getCity() != null && !location.getCity().isEmpty() &&
+         location.getState() != null && !location.getState().isEmpty() &&
+         location.getStateCode() != null && !location.getStateCode().isEmpty() &&
+         location.getCountry() != null && !location.getCountry().isEmpty() &
+         location.getCountryCode() != null && !location.getCountryCode().isEmpty();
+   }
+
    private String m_encoding;
    private Charset m_charset;
    private ProjectFile m_file;
@@ -1183,7 +1192,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       LOCATION_COLUMNS.put("location_id", l -> l.getUniqueID());
       LOCATION_COLUMNS.put("location_name", l -> l.getName());
-      LOCATION_COLUMNS.put("location_type", l -> l.getCity() != null ? "City" : "LT_Point");
+      LOCATION_COLUMNS.put("location_type", l -> locationIsCity(l) ? "City" : "LT_Point");
       LOCATION_COLUMNS.put("address_line1", l -> l.getAddressLine1());
       LOCATION_COLUMNS.put("address_line2", l -> l.getAddressLine2());
       LOCATION_COLUMNS.put("address_line3", l -> l.getAddressLine3());
