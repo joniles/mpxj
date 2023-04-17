@@ -350,6 +350,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
    private void writeLocations()
    {
+      if (m_file.getLocations().isEmpty())
+      {
+         return;
+      }
+         
       m_writer.writeTable("LOCATION", LOCATION_COLUMNS);
       m_file.getLocations().stream().sorted(Comparator.comparing(Location::getUniqueID)).forEach(l -> m_writer.writeRecord(LOCATION_COLUMNS, l));
    }

@@ -46,6 +46,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.Location;
+import net.sf.mpxj.LocationContainer;
 import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.UserDefinedField;
@@ -368,6 +370,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          List<ActivityStepType> steps;
 
          processUdfDefintions(apibo);
+         processLocations(apibo);
 
          if (projectObject instanceof ProjectType)
          {
@@ -637,6 +640,29 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             child.setParent(parent);
          }
       }
+   }
+
+   private void processLocations(APIBusinessObjects apibo)
+   {
+      LocationContainer container = m_projectFile.getLocations();
+      apibo.getLocation().forEach(c -> container.add(
+         new Location.Builder()
+            .uniqueID(c.getObjectId())
+            .name(c.getName())
+            .addressLine1(c.getAddressLine1())
+            .addressLine2(c.getAddressLine2())
+            .city(c.getCity())
+            .municipality(c.getMunicipality())
+            .state(c.getState())
+            .stateCode(c.getStateCode())
+            .country(c.getCountry())
+            .countryCode(c.getCountryCode())
+            .postalCode(c.getPostalCode())
+            .latitude(c.getLatitude())
+            .longitude(c.getLongitude())
+            .build()
+         )
+      );
    }
 
    /**

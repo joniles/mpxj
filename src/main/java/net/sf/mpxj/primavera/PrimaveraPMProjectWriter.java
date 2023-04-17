@@ -56,6 +56,7 @@ import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.HtmlNotes;
+import net.sf.mpxj.Location;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.ParentNotes;
@@ -100,6 +101,7 @@ import net.sf.mpxj.primavera.schema.CodeAssignmentType;
 import net.sf.mpxj.primavera.schema.CostAccountType;
 import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.ExpenseCategoryType;
+import net.sf.mpxj.primavera.schema.LocationType;
 import net.sf.mpxj.primavera.schema.NotebookTopicType;
 import net.sf.mpxj.primavera.schema.ObjectFactory;
 import net.sf.mpxj.primavera.schema.ProjectNoteType;
@@ -182,6 +184,7 @@ final class PrimaveraPMProjectWriter
             m_activityNotes = project.getActivityNote();
             m_udf = project.getUDF();
 
+            writeLocations();
             writeProjectProperties(project);
             writeUDF();
             writeActivityCodes();
@@ -340,6 +343,29 @@ final class PrimaveraPMProjectWriter
       }
 
       fields.sort(Comparator.comparing(UDFTypeType::getObjectId));
+   }
+
+   private void writeLocations()
+   {
+      List<LocationType> locations = m_apibo.getLocation();
+      for (Location location : m_projectFile.getLocations())
+      {
+         LocationType lt = m_factory.createLocationType();
+         lt.setObjectId(location.getUniqueID());
+         lt.setName(location.getName());
+         lt.setAddressLine1(location.getAddressLine1());
+         lt.setAddressLine2(location.getAddressLine2());
+         lt.setCity(location.getCity());
+         lt.setCountry(location.getCountry());
+         lt.setCountryCode(location.getCountryCode());
+         lt.setMunicipality(location.getMunicipality());
+         lt.setPostalCode(location.getPostalCode());
+         lt.setState(location.getState());
+         lt.setStateCode(location.getStateCode());
+         lt.setLatitude(location.getLatitude());
+         lt.setLongitude(location.getLongitude());
+         locations.add(lt);
+      }
    }
 
    /**
