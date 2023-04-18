@@ -24,7 +24,7 @@
 package net.sf.mpxj;
 
 /**
- * Represents the notes topic available to the current project.
+ * Represents the notes topics available to the current project.
  */
 public class NotesTopicContainer extends ProjectEntityContainer<NotesTopic>
 {

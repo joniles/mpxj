@@ -561,6 +561,11 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_notesTopics;
    }
 
+   /**
+    * Retrieve the locations available for this schedule.
+    *
+    * @return locations
+    */
    public LocationContainer getLocations()
    {
       return m_locations;
