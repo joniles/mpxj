@@ -2802,6 +2802,46 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Retrieves the location unique ID.
+    *
+    * @return location unique ID
+    */
+   public Integer getLocationUniqueID()
+   {
+      return (Integer) get(ProjectField.LOCATION_UNIQUE_ID);
+   }
+
+   /**
+    * Sets the location unique ID.
+    *
+    * @param uniqueID location unique ID
+    */
+   public void setLocationUniqueID(Integer uniqueID)
+   {
+      set(ProjectField.LOCATION_UNIQUE_ID, uniqueID);
+   }
+
+   /**
+    * Retrieves the location.
+    *
+    * @return location.
+    */
+   public Location getLocation()
+   {
+      return getParentFile().getLocations().getByUniqueID(getLocationUniqueID());
+   }
+
+   /**
+    * Sets the location.
+    *
+    * @param location location
+    */
+   public void setLocation(Location location)
+   {
+      setLocationUniqueID(location == null ? null : location.getUniqueID());
+   }
+
+   /**
     * Maps a field index to a TaskField instance.
     *
     * @param fields array of fields used as the basis for the mapping.

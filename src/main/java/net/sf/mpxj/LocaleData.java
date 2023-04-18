@@ -1042,6 +1042,7 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.ACTIVITY_CODES.getValue()] = "Activity Codes";
       TASK_COLUMNS_ARRAY[TaskField.SEQUENCE_NUMBER.getValue()] = "Sequence Number";
       TASK_COLUMNS_ARRAY[TaskField.STEPS.getValue()] = "Steps";
+      TASK_COLUMNS_ARRAY[TaskField.LOCATION_UNIQUE_ID.getValue()] = "Location Unique ID";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";
@@ -1595,6 +1596,7 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.ROLE.getValue()] = "Role";
       RESOURCE_COLUMNS_ARRAY[ResourceField.CALCULATE_COSTS_FROM_UNITS.getValue()] = "Calculate Costs From Units";
       RESOURCE_COLUMNS_ARRAY[ResourceField.SEQUENCE_NUMBER.getValue()] = "Sequence Number";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.LOCATION_UNIQUE_ID.getValue()] = "Location Unique ID";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.START.getValue()] = "Start";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_UNITS.getValue()] = "Assignment Units";
@@ -2240,6 +2242,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.MUST_FINISH_BY.getValue()] = "Must Finish By";
       PROJECT_COLUMNS_ARRAY[ProjectField.SCHEDULED_FINISH.getValue()] = "Scheduled Finish";
       PROJECT_COLUMNS_ARRAY[ProjectField.PLANNED_START.getValue()] = "Planned Start";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LOCATION_UNIQUE_ID.getValue()] = "Location Unique ID";
    }
 
    private static final Object[][] RESOURCES =

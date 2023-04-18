@@ -1,8 +1,8 @@
 /*
- * file:       NotesTopicContainer.java
+ * file:       LocationContainer.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software
- * date:       2023-03-27
+ * date:       2023-04-18
  */
 
 /*
@@ -20,36 +20,20 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-
 package net.sf.mpxj;
 
 /**
- * Represents the notes topics available to the current project.
+ * Represents the locations available to the current project.
  */
-public class NotesTopicContainer extends ProjectEntityContainer<NotesTopic>
+public class LocationContainer extends ProjectEntityContainer<Location>
 {
    /**
     * Constructor.
     *
     * @param projectFile parent project
     */
-   public NotesTopicContainer(ProjectFile projectFile)
+   public LocationContainer(ProjectFile projectFile)
    {
       super(projectFile);
-   }
-
-   /**
-    * Retrieve a default NotesTopic instance, creating it if it doesn't already exist.
-    *
-    * @return default NotesTopic instance
-    */
-   public NotesTopic getDefaultTopic()
-   {
-      NotesTopicContainer topics = m_projectFile.getNotesTopics();
-      if (topics.getByUniqueID(NotesTopic.DEFAULT.getUniqueID()) == null)
-      {
-         topics.add(NotesTopic.DEFAULT);
-      }
-      return NotesTopic.DEFAULT;
    }
 }

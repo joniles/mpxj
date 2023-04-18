@@ -56,6 +56,7 @@ import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.Location;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.ParentNotes;
@@ -125,6 +126,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeHeader();
          writeExpenseCategories();
          writeCurrencies();
+         writeLocations();
          writeNoteTypes();
          writeResourceCurves();
          writeUdfDefinitions();
@@ -344,6 +346,20 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       m_writer.writeTable("COSTTYPE", EXPENSE_CATEGORY_COLUMNS);
       m_file.getExpenseCategories().stream().sorted(Comparator.comparing(ExpenseCategory::getUniqueID)).forEach(a -> m_writer.writeRecord(EXPENSE_CATEGORY_COLUMNS, a));
+   }
+
+   /**
+    * Write locations.
+    */
+   private void writeLocations()
+   {
+      if (m_file.getLocations().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("LOCATION", LOCATION_COLUMNS);
+      m_file.getLocations().stream().sorted(Comparator.comparing(Location::getUniqueID)).forEach(l -> m_writer.writeRecord(LOCATION_COLUMNS, l));
    }
 
    /**
@@ -784,6 +800,21 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return field != null && field.getAlias() != null && !field.getAlias().isEmpty() ? field.getAlias() : type.getName();
    }
 
+   /**
+    * Determine if a location is a city.
+    *
+    * @param location location
+    * @return true if location is a city
+    */
+   private static boolean locationIsCity(Location location)
+   {
+      return location.getCity() != null && !location.getCity().isEmpty() &&
+         location.getState() != null && !location.getState().isEmpty() &&
+         location.getStateCode() != null && !location.getStateCode().isEmpty() &&
+         location.getCountry() != null && !location.getCountry().isEmpty() &
+         location.getCountryCode() != null && !location.getCountryCode().isEmpty();
+   }
+
    private String m_encoding;
    private Charset m_charset;
    private ProjectFile m_file;
@@ -887,7 +918,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("curr_id", r -> CURRENCY_COLUMNS.get("curr_id"));
       RESOURCE_COLUMNS.put("unit_id", r -> "");
       RESOURCE_COLUMNS.put("rsrc_type", r -> r.getType());
-      RESOURCE_COLUMNS.put("location_id", r -> "");
+      RESOURCE_COLUMNS.put("location_id", r -> r.getLocationUniqueID());
       RESOURCE_COLUMNS.put("rsrc_notes", r -> r.getNotesObject());
       RESOURCE_COLUMNS.put("load_tasks_flag", r -> "");
       RESOURCE_COLUMNS.put("level_flag", r -> "");
@@ -956,7 +987,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("last_baseline_update_date", p -> "");
       PROJECT_COLUMNS.put("cr_external_key", p -> "");
       PROJECT_COLUMNS.put("apply_actuals_date", p -> "");
-      PROJECT_COLUMNS.put("location_id", p -> "");
+      PROJECT_COLUMNS.put("location_id", p -> p.getLocationUniqueID());
       PROJECT_COLUMNS.put("loaded_scope_level", p -> Integer.valueOf(7));
       PROJECT_COLUMNS.put("export_flag", p -> Boolean.valueOf(p.getExportFlag()));
       PROJECT_COLUMNS.put("new_fin_dates_id", p -> "");
@@ -1080,7 +1111,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("update_date", t -> null);
       ACTIVITY_COLUMNS.put("create_user", t -> null);
       ACTIVITY_COLUMNS.put("update_user", t -> null);
-      ACTIVITY_COLUMNS.put("location_id", t -> null);
+      ACTIVITY_COLUMNS.put("location_id", t -> t.getLocationUniqueID());
    }
 
    private static final Map<String, ExportFunction<Relation>> PREDECESSOR_COLUMNS = new LinkedHashMap<>();
@@ -1168,6 +1199,26 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       EXPENSE_CATEGORY_COLUMNS.put("cost_type_id", e -> e.getUniqueID());
       EXPENSE_CATEGORY_COLUMNS.put("seq_num", e -> e.getSequenceNumber());
       EXPENSE_CATEGORY_COLUMNS.put("cost_type", e -> e.getName());
+   }
+
+   private static final Map<String, ExportFunction<Location>> LOCATION_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      LOCATION_COLUMNS.put("location_id", l -> l.getUniqueID());
+      LOCATION_COLUMNS.put("location_name", l -> l.getName());
+      LOCATION_COLUMNS.put("location_type", l -> locationIsCity(l) ? "City" : "LT_Point");
+      LOCATION_COLUMNS.put("address_line1", l -> l.getAddressLine1());
+      LOCATION_COLUMNS.put("address_line2", l -> l.getAddressLine2());
+      LOCATION_COLUMNS.put("address_line3", l -> l.getAddressLine3());
+      LOCATION_COLUMNS.put("city_name", l -> l.getCity());
+      LOCATION_COLUMNS.put("municipality_name", l -> l.getMunicipality());
+      LOCATION_COLUMNS.put("state_name", l -> l.getState());
+      LOCATION_COLUMNS.put("state_code", l -> l.getStateCode());
+      LOCATION_COLUMNS.put("country_name", l -> l.getCountry());
+      LOCATION_COLUMNS.put("country_code", l -> l.getCountryCode());
+      LOCATION_COLUMNS.put("postal_code", l -> l.getPostalCode());
+      LOCATION_COLUMNS.put("longitude", l -> l.getLongitude());
+      LOCATION_COLUMNS.put("latitude", l -> l.getLatitude());
    }
 
    private static final Map<String, ExportFunction<ExpenseItem>> EXPENSE_ITEM_COLUMNS = new LinkedHashMap<>();

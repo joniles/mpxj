@@ -61,6 +61,8 @@ import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.HtmlNotes;
+import net.sf.mpxj.Location;
+import net.sf.mpxj.LocationContainer;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.NotesTopicContainer;
@@ -183,10 +185,41 @@ final class PrimaveraReader
          properties.setScheduledFinish(row.getDate("scd_end_date"));
          properties.setMustFinishBy(row.getDate("plan_end_date"));
          properties.setCriticalSlackLimit(Duration.getInstance(row.getInt("critical_drtn_hr_cnt"), TimeUnit.HOURS));
+         properties.setLocationUniqueID(row.getInteger("location_id"));
 
          // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");
       }
+   }
+
+   /**
+    * Process locations.
+    *
+    * @param locations locations data
+    */
+   public void processLocations(List<Row> locations)
+   {
+      LocationContainer container = m_project.getLocations();
+      locations.forEach(
+         row -> container.add(
+            new Location.Builder()
+               .uniqueID(row.getInteger("location_id"))
+               .name(row.getString("location_name"))
+               .addressLine1(row.getString("address_line1"))
+               .addressLine2(row.getString("address_line2"))
+               .addressLine3(row.getString("address_line3"))
+               .city(row.getString("city_name"))
+               .municipality(row.getString("municipality_name"))
+               .state(row.getString("state_name"))
+               .stateCode(row.getString("state_code"))
+               .country(row.getString("country_name"))
+               .countryCode(row.getString("country_code"))
+               .postalCode(row.getString("postal_code"))
+               .latitude(row.getDouble("latitude"))
+               .longitude(row.getDouble("longitude"))
+               .build()
+         )
+      );
    }
 
    /**
@@ -2057,6 +2090,7 @@ final class PrimaveraReader
       map.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, "def_cost_qty_link_flag");
       map.put(ResourceField.SEQUENCE_NUMBER, "rsrc_seq_num");
       map.put(ResourceField.ACTIVE, "active_flag");
+      map.put(ResourceField.LOCATION_UNIQUE_ID, "location_id");
 
       return map;
    }
@@ -2147,6 +2181,7 @@ final class PrimaveraReader
       map.put(TaskField.EXTERNAL_EARLY_START, "external_early_start_date");
       map.put(TaskField.EXTERNAL_LATE_FINISH, "external_late_end_date");
       map.put(TaskField.LONGEST_PATH, "driving_path_flag");
+      map.put(TaskField.LOCATION_UNIQUE_ID, "location_id");
 
       return map;
    }
