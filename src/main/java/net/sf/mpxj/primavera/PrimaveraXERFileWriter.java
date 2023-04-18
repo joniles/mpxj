@@ -348,6 +348,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_file.getExpenseCategories().stream().sorted(Comparator.comparing(ExpenseCategory::getUniqueID)).forEach(a -> m_writer.writeRecord(EXPENSE_CATEGORY_COLUMNS, a));
    }
 
+   /**
+    * Write locations.
+    */
    private void writeLocations()
    {
       if (m_file.getLocations().isEmpty())
@@ -797,6 +800,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return field != null && field.getAlias() != null && !field.getAlias().isEmpty() ? field.getAlias() : type.getName();
    }
 
+   /**
+    * Determine if a location is a city.
+    *
+    * @param location location
+    * @return true if location is a city
+    */
    private static boolean locationIsCity(Location location)
    {
       return location.getCity() != null && !location.getCity().isEmpty() &&
