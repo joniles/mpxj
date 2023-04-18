@@ -599,6 +599,7 @@ public enum ResourceField implements FieldType
    ROLE(DataType.BOOLEAN),
    CALCULATE_COSTS_FROM_UNITS(DataType.BOOLEAN),
    SEQUENCE_NUMBER(DataType.INTEGER),
+   LOCATION_UNIQUE_ID(DataType.INTEGER),
    FINISH(DataType.DATE);
 
    /**

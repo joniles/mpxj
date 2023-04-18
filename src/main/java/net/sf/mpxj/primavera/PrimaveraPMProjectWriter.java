@@ -512,6 +512,7 @@ final class PrimaveraPMProjectWriter
       project.setSummaryLevel("Assignment Level");
       project.setUseProjectBaselineForEarnedValue(Boolean.TRUE);
       project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
+      project.setLocationObjectId(mpxj.getLocationUniqueID());
    }
 
    private void writeProjectProperties(BaselineProjectType project)
@@ -737,6 +738,7 @@ final class PrimaveraPMProjectWriter
       xml.setResourceNotes(getNotes(mpxj.getNotesObject()));
       xml.setResourceType(ResourceTypeHelper.getXmlFromInstance(mpxj.getType()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
+      xml.setLocationObjectId(mpxj.getLocationUniqueID());
 
       // Write both attributes for backward compatibility,
       // "DefaultUnitsPerTime" is the value read by recent versions of P6
@@ -919,6 +921,7 @@ final class PrimaveraPMProjectWriter
       // Note that P6 doesn't write this attribute to PMXML, but appears to read it
       xml.setIsLongestPath(BooleanHelper.getBoolean(mpxj.getLongestPath()) ? Boolean.TRUE : null);
       xml.setLevelingPriority(PriorityHelper.getXmlFromInstance(mpxj.getPriority()));
+      xml.setLocationObjectId(mpxj.getLocationUniqueID());
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(mpxj.getPercentCompleteType()));

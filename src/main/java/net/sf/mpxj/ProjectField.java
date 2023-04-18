@@ -168,7 +168,8 @@ public enum ProjectField implements FieldType
    MUST_FINISH_BY(DataType.DATE),
    SCHEDULED_FINISH(DataType.DATE),
    PLANNED_START(DataType.DATE),
-   FINISH_DATE(DataType.DATE);
+   FINISH_DATE(DataType.DATE),
+   LOCATION_UNIQUE_ID(DataType.INTEGER);
 
    /**
     * Constructor.

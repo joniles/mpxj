@@ -354,7 +354,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       {
          return;
       }
-         
+
       m_writer.writeTable("LOCATION", LOCATION_COLUMNS);
       m_file.getLocations().stream().sorted(Comparator.comparing(Location::getUniqueID)).forEach(l -> m_writer.writeRecord(LOCATION_COLUMNS, l));
    }
@@ -909,7 +909,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("curr_id", r -> CURRENCY_COLUMNS.get("curr_id"));
       RESOURCE_COLUMNS.put("unit_id", r -> "");
       RESOURCE_COLUMNS.put("rsrc_type", r -> r.getType());
-      RESOURCE_COLUMNS.put("location_id", r -> "");
+      RESOURCE_COLUMNS.put("location_id", r -> r.getLocationUniqueID());
       RESOURCE_COLUMNS.put("rsrc_notes", r -> r.getNotesObject());
       RESOURCE_COLUMNS.put("load_tasks_flag", r -> "");
       RESOURCE_COLUMNS.put("level_flag", r -> "");
@@ -978,7 +978,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("last_baseline_update_date", p -> "");
       PROJECT_COLUMNS.put("cr_external_key", p -> "");
       PROJECT_COLUMNS.put("apply_actuals_date", p -> "");
-      PROJECT_COLUMNS.put("location_id", p -> "");
+      PROJECT_COLUMNS.put("location_id", p -> p.getLocationUniqueID());
       PROJECT_COLUMNS.put("loaded_scope_level", p -> Integer.valueOf(7));
       PROJECT_COLUMNS.put("export_flag", p -> Boolean.valueOf(p.getExportFlag()));
       PROJECT_COLUMNS.put("new_fin_dates_id", p -> "");
@@ -1102,7 +1102,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("update_date", t -> null);
       ACTIVITY_COLUMNS.put("create_user", t -> null);
       ACTIVITY_COLUMNS.put("update_user", t -> null);
-      ACTIVITY_COLUMNS.put("location_id", t -> null);
+      ACTIVITY_COLUMNS.put("location_id", t -> t.getLocationUniqueID());
    }
 
    private static final Map<String, ExportFunction<Relation>> PREDECESSOR_COLUMNS = new LinkedHashMap<>();

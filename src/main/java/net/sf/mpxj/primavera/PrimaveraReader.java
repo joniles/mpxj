@@ -185,6 +185,7 @@ final class PrimaveraReader
          properties.setScheduledFinish(row.getDate("scd_end_date"));
          properties.setMustFinishBy(row.getDate("plan_end_date"));
          properties.setCriticalSlackLimit(Duration.getInstance(row.getInt("critical_drtn_hr_cnt"), TimeUnit.HOURS));
+         properties.setLocationUniqueID(row.getInteger("location_id"));
 
          // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");
@@ -2084,6 +2085,7 @@ final class PrimaveraReader
       map.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, "def_cost_qty_link_flag");
       map.put(ResourceField.SEQUENCE_NUMBER, "rsrc_seq_num");
       map.put(ResourceField.ACTIVE, "active_flag");
+      map.put(ResourceField.LOCATION_UNIQUE_ID, "location_id");
 
       return map;
    }
@@ -2174,6 +2176,7 @@ final class PrimaveraReader
       map.put(TaskField.EXTERNAL_EARLY_START, "external_early_start_date");
       map.put(TaskField.EXTERNAL_LATE_FINISH, "external_late_end_date");
       map.put(TaskField.LONGEST_PATH, "driving_path_flag");
+      map.put(TaskField.LOCATION_UNIQUE_ID, "location_id");
 
       return map;
    }

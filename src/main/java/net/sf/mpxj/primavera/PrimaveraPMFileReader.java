@@ -568,6 +568,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setScheduledFinish(project.getScheduledFinishDate());
       properties.setMustFinishBy(project.getMustFinishByDate());
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
+      properties.setLocationUniqueID(project.getLocationObjectId());
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 
@@ -979,6 +980,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setCalculateCostsFromUnits(BooleanHelper.getBoolean(xml.isCalculateCostFromUnits()));
          resource.setSequenceNumber(xml.getSequenceNumber());
          resource.setActive(BooleanHelper.getBoolean(xml.isIsActive()));
+         resource.setLocationUniqueID(xml.getLocationObjectId());
 
          populateUserDefinedFieldValues(resource, xml.getUDF());
 
@@ -1169,6 +1171,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setExternalEarlyStart(row.getExternalEarlyStartDate());
          task.setExternalLateFinish(row.getExternalLateFinishDate());
          task.setLongestPath(row.isIsLongestPath());
+         task.setLocationUniqueID(row.getLocationObjectId());
 
          if (parentTask != null)
          {

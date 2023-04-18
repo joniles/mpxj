@@ -1022,6 +1022,7 @@ public enum TaskField implements FieldType
    ACTIVITY_CODES(DataType.ACTIVITY_CODE_LIST),
    SEQUENCE_NUMBER(DataType.INTEGER),
    STEPS(DataType.STEP_LIST),
+   LOCATION_UNIQUE_ID(DataType.INTEGER),
    FINISH(DataType.DATE);
 
    /**
