@@ -271,8 +271,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1121-unreleased" class="md-nav__link">
-    11.2.1 (unreleased)
+  <a href="#1131-unreleased" class="md-nav__link">
+    11.3.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1130-2023-04-12" class="md-nav__link">
+    11.3.0 (2023-04-12)
   </a>
   
 </li>
@@ -2364,6 +2371,62 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-planner/" class="md-nav__link">
+        Planner files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-sdef/" class="md-nav__link">
+        SDEF files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-pmxml/" class="md-nav__link">
+        PMXML files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-write-xer/" class="md-nav__link">
+        XER files
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -2566,8 +2629,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1121-unreleased" class="md-nav__link">
-    11.2.1 (unreleased)
+  <a href="#1131-unreleased" class="md-nav__link">
+    11.3.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1130-2023-04-12" class="md-nav__link">
+    11.3.0 (2023-04-12)
   </a>
   
 </li>
@@ -4066,7 +4136,34 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1121-unreleased">11.2.1 (unreleased)</h2>
+<h2 id="1131-unreleased">11.3.1 (unreleased)</h2>
+<h2 id="1130-2023-04-12">11.3.0 (2023-04-12)</h2>
+<ul>
+<li>Implemented <code>PrimaveraXERFileWriter</code> to allow MPXJ to write XER files.</li>
+<li>Updated the <code>ActivityCode</code> class to ensure that both the scope Project ID and EPS ID can be represented when reading a P6 schedule. (Potentially breaking change if you were using this class).</li>
+<li>Ensure secondary constraint date and type are written to PMXML files.</li>
+<li>Ensure leveling priority is written to PMXML files.</li>
+<li>Ensure WBS UDF values are written to PMXML files.</li>
+<li>Ensure integer UDF values are read correctly from XER files and P6 databases.</li>
+<li>Add methods to allow the project's default calendar unique ID to be set and retrieved.</li>
+<li>Add method to allow a calendar's parent calendar unique ID to be retrieved.</li>
+<li>Add method to allow a task's parent task unique ID to be retrieved.</li>
+<li>Add methods to allow a resource assignment's role unique ID to be set and retrieved.</li>
+<li>Add methods to allow a resource assignment's cost account unique ID to be set and retrieved.</li>
+<li>Add method to allow a cost account's parent unique ID to be retrieved.</li>
+<li>Add method to allow an expense item's cost account unique ID to be retrieved.</li>
+<li>Add method to allow an expense item's category unique ID to be retrieved.</li>
+<li>Added <code>WorkContour.isDefault()</code> method to allow "built in" resouce curves/work contours to be distinguished from user defined curves.</li>
+<li>Updated to retrieve the project's start date from Phoenix PPX files (Contributed by Rohit Sinha).</li>
+<li>Provide access to notebook topics from P6 schedules via the <code>ProjectFile.getNotesTopics()</code> method.</li>
+<li>Capture unique ID of Activity and WBS notes from P6 schedules.</li>
+<li>Improve the calculation used to determine At Completion Duration of activities when reading XER files and P6 databases.</li>
+<li>Improve representation of certain duration values written to MSPDI files.</li>
+<li>Improve accuracy of certain work calculations where the specified time period does not start with a working day.</li>
+<li>Fix an issue which caused negative timephased work values to be generated when reading certain MPP files.</li>
+<li>Fix an issue reading XER files where the <code>critical_drtn_hr_cnt</code> field is expressed a decimal rather than an integer.</li>
+<li>Fix an issue populating the WBS attribute for activities read from certain XER files.</li>
+</ul>
 <h2 id="1120-2023-03-13">11.2.0 (2023-03-13)</h2>
 <ul>
 <li>The project property Critical Slack Limit is now represented as a <code>Duration</code> rather than as an <code>Integer</code>. (Potentially breaking change if you were using this property directly).</li>

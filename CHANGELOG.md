@@ -1,6 +1,32 @@
 # Changelog
 
-## 11.2.1 (unreleased)
+## 11.3.1 (unreleased)
+
+## 11.3.0 (2023-04-12)
+* Implemented `PrimaveraXERFileWriter` to allow MPXJ to write XER files.
+* Updated the `ActivityCode` class to ensure that both the scope Project ID and EPS ID can be represented when reading a P6 schedule. (Potentially breaking change if you were using this class).
+* Ensure secondary constraint date and type are written to PMXML files.
+* Ensure leveling priority is written to PMXML files.
+* Ensure WBS UDF values are written to PMXML files.
+* Ensure integer UDF values are read correctly from XER files and P6 databases.
+* Add methods to allow the project's default calendar unique ID to be set and retrieved.
+* Add method to allow a calendar's parent calendar unique ID to be retrieved.
+* Add method to allow a task's parent task unique ID to be retrieved.
+* Add methods to allow a resource assignment's role unique ID to be set and retrieved.
+* Add methods to allow a resource assignment's cost account unique ID to be set and retrieved.
+* Add method to allow a cost account's parent unique ID to be retrieved.
+* Add method to allow an expense item's cost account unique ID to be retrieved.
+* Add method to allow an expense item's category unique ID to be retrieved.
+* Added `WorkContour.isDefault()` method to allow "built in" resouce curves/work contours to be distinguished from user defined curves.
+* Updated to retrieve the project's start date from Phoenix PPX files (Contributed by Rohit Sinha).
+* Provide access to notebook topics from P6 schedules via the `ProjectFile.getNotesTopics()` method.
+* Capture unique ID of Activity and WBS notes from P6 schedules.
+* Improve the calculation used to determine At Completion Duration of activities when reading XER files and P6 databases.
+* Improve representation of certain duration values written to MSPDI files.
+* Improve accuracy of certain work calculations where the specified time period does not start with a working day.
+* Fix an issue which caused negative timephased work values to be generated when reading certain MPP files.
+* Fix an issue reading XER files where the `critical_drtn_hr_cnt` field is expressed a decimal rather than an integer.
+* Fix an issue populating the WBS attribute for activities read from certain XER files.
 
 ## 11.2.0 (2023-03-13)
 * The project property Critical Slack Limit is now represented as a `Duration` rather than as an `Integer`. (Potentially breaking change if you were using this property directly).
