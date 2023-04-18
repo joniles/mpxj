@@ -19,6 +19,7 @@
           <package name="" withSubpackages="true" static="true" />
         </value>
       </option>
+      <option name="ENABLE_JAVADOC_FORMATTING" value="false" />
       <option name="JD_ALIGN_PARAM_COMMENTS" value="false" />
       <option name="JD_ALIGN_EXCEPTION_COMMENTS" value="false" />
       <option name="JD_P_AT_EMPTY_LINES" value="false" />
@@ -56,6 +57,7 @@
       <option name="ARRAY_INITIALIZER_LBRACE_ON_NEXT_LINE" value="true" />
       <option name="ARRAY_INITIALIZER_RBRACE_ON_NEXT_LINE" value="true" />
       <option name="IF_BRACE_FORCE" value="3" />
+      <option name="DOWHILE_BRACE_FORCE" value="3" />
       <option name="WHILE_BRACE_FORCE" value="3" />
       <option name="FOR_BRACE_FORCE" value="3" />
       <option name="METHOD_ANNOTATION_WRAP" value="0" />
