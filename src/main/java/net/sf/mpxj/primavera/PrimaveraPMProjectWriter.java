@@ -345,6 +345,9 @@ final class PrimaveraPMProjectWriter
       fields.sort(Comparator.comparing(UDFTypeType::getObjectId));
    }
 
+   /**
+    * Write locations.
+    */
    private void writeLocations()
    {
       List<LocationType> locations = m_apibo.getLocation();

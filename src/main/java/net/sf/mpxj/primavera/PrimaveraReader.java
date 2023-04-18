@@ -192,6 +192,11 @@ final class PrimaveraReader
       }
    }
 
+   /**
+    * Process locations.
+    *
+    * @param locations locations data
+    */
    public void processLocations(List<Row> locations)
    {
       LocationContainer container = m_project.getLocations();

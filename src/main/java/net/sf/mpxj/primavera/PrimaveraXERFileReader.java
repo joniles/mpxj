@@ -422,6 +422,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       processScheduleOptions();
    }
 
+   /**
+    * Process locations.
+    */
    private void processLocations()
    {
       m_reader.processLocations(getRows("location", null, null));
