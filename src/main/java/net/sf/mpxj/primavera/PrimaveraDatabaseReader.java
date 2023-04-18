@@ -214,6 +214,9 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       processSchedulingProjectProperties();
    }
 
+   /**
+    * Select the locations from the database.
+    */
    private void processLocations() throws SQLException
    {
       m_reader.processLocations(getRows("select * from " + m_schema + "location"));

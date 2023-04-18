@@ -643,6 +643,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
+   /**
+    * Process locations.
+    *
+    * @param apibo top level object
+    */
    private void processLocations(APIBusinessObjects apibo)
    {
       LocationContainer container = m_projectFile.getLocations();
