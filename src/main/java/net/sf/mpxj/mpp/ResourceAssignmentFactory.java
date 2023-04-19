@@ -212,7 +212,7 @@ public class ResourceAssignmentFactory
             List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData);
 
             assignment.setActualStart(timephasedActualWork.isEmpty() ? null : assignment.getStart());
-            assignment.setActualFinish((assignment.getRemainingWork().getDuration() == 0 && resource != null) ? assignment.getFinish() : null);
+            assignment.setActualFinish((task.getActualStart() != null && assignment.getRemainingWork().getDuration() == 0 && resource != null) ? assignment.getFinish() : null);
 
             if (!task.getMilestone() && !processedSplits.contains(task))
             {
