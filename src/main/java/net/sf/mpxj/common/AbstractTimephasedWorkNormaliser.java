@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 
@@ -42,28 +44,27 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
     *
     * @param list assignment data
     */
-   protected void mergeSameWork(List<TimephasedWork> list)
+   protected void mergeSameWork(ResourceAssignment assignment, List<TimephasedWork> list)
    {
       List<TimephasedWork> result = new ArrayList<>();
 
-      TimephasedWork previousAssignment = null;
-      for (TimephasedWork assignment : list)
+      TimephasedWork previousTimephasedWork = null;
+      for (TimephasedWork currentTimephasedWork : list)
       {
-         if (previousAssignment == null)
+         if (previousTimephasedWork == null)
          {
-            assignment.setAmountPerDay(assignment.getTotalAmount());
-            result.add(assignment);
+            currentTimephasedWork.setAmountPerDay(currentTimephasedWork.getTotalAmount());
+            result.add(currentTimephasedWork);
          }
          else
          {
-            Duration previousAssignmentWork = previousAssignment.getAmountPerDay();
-            Duration assignmentWork = assignment.getTotalAmount();
-
-            if (NumberHelper.equals(previousAssignmentWork.getDuration(), assignmentWork.getDuration(), 0.01))
+            if (workCanBeMerged(assignment, previousTimephasedWork, currentTimephasedWork))
             {
-               Date assignmentStart = previousAssignment.getStart();
-               Date assignmentFinish = assignment.getFinish();
-               double total = previousAssignment.getTotalAmount().getDuration();
+               Duration assignmentWork = currentTimephasedWork.getTotalAmount();
+
+               Date assignmentStart = previousTimephasedWork.getStart();
+               Date assignmentFinish = currentTimephasedWork.getFinish();
+               double total = previousTimephasedWork.getTotalAmount().getDuration();
                total += assignmentWork.getDuration();
                Duration totalWork = Duration.getInstance(total, TimeUnit.MINUTES);
 
@@ -74,20 +75,55 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
                merged.setTotalAmount(totalWork);
 
                result.remove(result.size() - 1);
-               assignment = merged;
+               currentTimephasedWork = merged;
             }
             else
             {
-               assignment.setAmountPerDay(assignment.getTotalAmount());
+               currentTimephasedWork.setAmountPerDay(currentTimephasedWork.getTotalAmount());
             }
-            result.add(assignment);
+            result.add(currentTimephasedWork);
          }
 
-         previousAssignment = assignment;
+         previousTimephasedWork = currentTimephasedWork;
       }
 
       list.clear();
       list.addAll(result);
+   }
+
+   private boolean workCanBeMerged(ResourceAssignment assignment, TimephasedWork previousTimephasedWork, TimephasedWork currentTimephasedWork)
+   {
+      Duration previousAmount = previousTimephasedWork.getAmountPerDay();
+      Duration currentAmount = currentTimephasedWork.getTotalAmount();
+
+      boolean sameDuration = NumberHelper.equals(previousAmount.getDuration(), currentAmount.getDuration(), 0.01);
+      if (!sameDuration)
+      {
+         return false;
+      }
+
+      if (sameDuration && previousAmount.getDuration() == 0)
+      {
+         return true;
+      }
+
+      return timephasedWorkHasStandardHours(assignment, previousTimephasedWork) && timephasedWorkHasStandardHours(assignment, currentTimephasedWork);
+   }
+
+   private boolean timephasedWorkHasStandardHours(ResourceAssignment assignment, TimephasedWork timephasedWork)
+   {
+      ProjectCalendarHours hours = assignment.getCalendar().getHours(timephasedWork.getStart());
+      Date hoursStart = DateHelper.getCanonicalTime(hours.get(0).getStart());
+      Date workStart = DateHelper.getCanonicalTime(timephasedWork.getStart());
+      if (DateHelper.compare(hoursStart, workStart) != 0)
+      {
+         return false;
+      }
+
+      Date hoursEnd = DateHelper.getCanonicalTime(hours.get(hours.size()-1).getEnd());
+      Date workEnd = DateHelper.getCanonicalTime(timephasedWork.getFinish());
+
+      return DateHelper.compare(hoursEnd, workEnd) == 0;
    }
 
    /**
