@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
@@ -44,7 +45,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
     *
     * @param list assignment data
     */
-   protected void mergeSameWork(ResourceAssignment assignment, List<TimephasedWork> list)
+   protected void mergeSameWork(ProjectCalendar calendar, ResourceAssignment assignment, List<TimephasedWork> list)
    {
       List<TimephasedWork> result = new ArrayList<>();
 
@@ -58,7 +59,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
          }
          else
          {
-            if (workCanBeMerged(assignment, previousTimephasedWork, currentTimephasedWork))
+            if (workCanBeMerged(calendar, assignment, previousTimephasedWork, currentTimephasedWork))
             {
                Duration assignmentWork = currentTimephasedWork.getTotalAmount();
 
@@ -91,7 +92,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
       list.addAll(result);
    }
 
-   private boolean workCanBeMerged(ResourceAssignment assignment, TimephasedWork previousTimephasedWork, TimephasedWork currentTimephasedWork)
+   private boolean workCanBeMerged(ProjectCalendar calendar, ResourceAssignment assignment, TimephasedWork previousTimephasedWork, TimephasedWork currentTimephasedWork)
    {
       Duration previousAmount = previousTimephasedWork.getAmountPerDay();
       Duration currentAmount = currentTimephasedWork.getTotalAmount();
@@ -102,28 +103,29 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
          return false;
       }
 
-      if (sameDuration && previousAmount.getDuration() == 0)
+      boolean zeroDuration = NumberHelper.equals(previousAmount.getDuration(), 0, 0.01);
+      if (sameDuration && zeroDuration)
       {
          return true;
       }
 
-      return timephasedWorkHasStandardHours(assignment, previousTimephasedWork) && timephasedWorkHasStandardHours(assignment, currentTimephasedWork);
+      return timephasedWorkHasStandardHours(calendar, assignment, previousTimephasedWork) && timephasedWorkHasStandardHours(calendar, assignment, currentTimephasedWork);
    }
 
-   private boolean timephasedWorkHasStandardHours(ResourceAssignment assignment, TimephasedWork timephasedWork)
+   private boolean timephasedWorkHasStandardHours(ProjectCalendar calendar, ResourceAssignment assignment, TimephasedWork timephasedWork)
    {
-      ProjectCalendarHours hours = assignment.getCalendar().getHours(timephasedWork.getStart());
+      ProjectCalendarHours hours = calendar.getHours(timephasedWork.getStart());
+
       Date hoursStart = DateHelper.getCanonicalTime(hours.get(0).getStart());
       Date workStart = DateHelper.getCanonicalTime(timephasedWork.getStart());
-      if (DateHelper.compare(hoursStart, workStart) != 0)
+      if (DateHelper.compare(assignment.getStart(), timephasedWork.getStart()) !=0 && DateHelper.compare(hoursStart, workStart) != 0)
       {
          return false;
       }
 
       Date hoursEnd = DateHelper.getCanonicalTime(hours.get(hours.size()-1).getEnd());
       Date workEnd = DateHelper.getCanonicalTime(timephasedWork.getFinish());
-
-      return DateHelper.compare(hoursEnd, workEnd) == 0;
+      return DateHelper.compare(assignment.getFinish(), timephasedWork.getFinish()) == 0 || DateHelper.compare(hoursEnd, workEnd) == 0;
    }
 
    /**
