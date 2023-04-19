@@ -267,56 +267,58 @@ public class ResourceAssignmentFactory
     */
    private void createTimephasedData(ProjectFile file, ResourceAssignment assignment, List<TimephasedWork> timephasedPlanned, List<TimephasedWork> timephasedComplete)
    {
-      if (timephasedPlanned.isEmpty() && timephasedComplete.isEmpty())
+      if (!timephasedPlanned.isEmpty() || !timephasedComplete.isEmpty())
       {
-         Duration totalMinutes = assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
+         return;
+      }
 
-         Duration workPerDay;
+      Duration totalMinutes = assignment.getWork().convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
 
-         if (assignment.getResource() == null || assignment.getResource().getType() == ResourceType.WORK)
+      Duration workPerDay;
+
+      if (assignment.getResource() == null || assignment.getResource().getType() == ResourceType.WORK)
+      {
+         workPerDay = totalMinutes.getDuration() == 0 ? totalMinutes : ResourceAssignmentFactory.DEFAULT_NORMALIZER_WORK_PER_DAY;
+         int units = NumberHelper.getInt(assignment.getUnits());
+         if (units != 100)
          {
-            workPerDay = totalMinutes.getDuration() == 0 ? totalMinutes : ResourceAssignmentFactory.DEFAULT_NORMALIZER_WORK_PER_DAY;
-            int units = NumberHelper.getInt(assignment.getUnits());
-            if (units != 100)
-            {
-               workPerDay = Duration.getInstance((workPerDay.getDuration() * units) / 100.0, workPerDay.getUnits());
-            }
+            workPerDay = Duration.getInstance((workPerDay.getDuration() * units) / 100.0, workPerDay.getUnits());
+         }
+      }
+      else
+      {
+         if (assignment.getVariableRateUnits() == null)
+         {
+            Duration workingDays = assignment.getCalendar().getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.DAYS);
+            double units = NumberHelper.getDouble(assignment.getUnits());
+            double unitsPerDayAsMinutes = (units * 60) / (workingDays.getDuration() * 100);
+            workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);
          }
          else
          {
-            if (assignment.getVariableRateUnits() == null)
-            {
-               Duration workingDays = assignment.getCalendar().getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.DAYS);
-               double units = NumberHelper.getDouble(assignment.getUnits());
-               double unitsPerDayAsMinutes = (units * 60) / (workingDays.getDuration() * 100);
-               workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);
-            }
-            else
-            {
-               double unitsPerHour = NumberHelper.getDouble(assignment.getUnits());
-               workPerDay = ResourceAssignmentFactory.DEFAULT_NORMALIZER_WORK_PER_DAY;
-               Duration hoursPerDay = workPerDay.convertUnits(TimeUnit.HOURS, file.getProjectProperties());
-               double unitsPerDayAsHours = (unitsPerHour * hoursPerDay.getDuration()) / 100;
-               double unitsPerDayAsMinutes = unitsPerDayAsHours * 60;
-               workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);
-            }
+            double unitsPerHour = NumberHelper.getDouble(assignment.getUnits());
+            workPerDay = ResourceAssignmentFactory.DEFAULT_NORMALIZER_WORK_PER_DAY;
+            Duration hoursPerDay = workPerDay.convertUnits(TimeUnit.HOURS, file.getProjectProperties());
+            double unitsPerDayAsHours = (unitsPerHour * hoursPerDay.getDuration()) / 100;
+            double unitsPerDayAsMinutes = unitsPerDayAsHours * 60;
+            workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);
          }
-
-         Duration overtimeWork = assignment.getOvertimeWork();
-         if (overtimeWork != null && overtimeWork.getDuration() != 0)
-         {
-            Duration totalOvertimeMinutes = overtimeWork.convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
-            totalMinutes = Duration.getInstance(totalMinutes.getDuration() - totalOvertimeMinutes.getDuration(), TimeUnit.MINUTES);
-         }
-
-         TimephasedWork tra = new TimephasedWork();
-         tra.setStart(assignment.getStart());
-         tra.setAmountPerDay(workPerDay);
-         tra.setModified(false);
-         tra.setFinish(assignment.getFinish());
-         tra.setTotalAmount(totalMinutes);
-         timephasedPlanned.add(tra);
       }
+
+      Duration overtimeWork = assignment.getOvertimeWork();
+      if (overtimeWork != null && overtimeWork.getDuration() != 0)
+      {
+         Duration totalOvertimeMinutes = overtimeWork.convertUnits(TimeUnit.MINUTES, file.getProjectProperties());
+         totalMinutes = Duration.getInstance(totalMinutes.getDuration() - totalOvertimeMinutes.getDuration(), TimeUnit.MINUTES);
+      }
+
+      TimephasedWork tra = new TimephasedWork();
+      tra.setStart(assignment.getStart());
+      tra.setAmountPerDay(workPerDay);
+      tra.setModified(false);
+      tra.setFinish(assignment.getFinish());
+      tra.setTotalAmount(totalMinutes);
+      timephasedPlanned.add(tra);
    }
 
    private static final Integer MPP9_CREATION_DATA = Integer.valueOf(138);
