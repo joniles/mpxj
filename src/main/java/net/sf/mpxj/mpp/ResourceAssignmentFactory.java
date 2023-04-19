@@ -211,8 +211,18 @@ public class ResourceAssignmentFactory
             List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedWorkData, timephasedActualWork, resourceType);
             List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData);
 
-            assignment.setActualStart(timephasedActualWork.isEmpty() ? null : assignment.getStart());
-            assignment.setActualFinish((assignment.getRemainingWork().getDuration() == 0 && resource != null) ? assignment.getFinish() : null);
+            if (task.getDuration() == null || task.getDuration().getDuration() == 0)
+            {
+               // If we have a zero duration task, we'll set the assignment actual start and finish based on the task actual start and finish
+               assignment.setActualStart(task.getActualStart() != null ? assignment.getStart() : null);
+               assignment.setActualFinish(task.getActualFinish() != null ? assignment.getFinish() : null);
+            }
+            else
+            {
+               // We have a task with a duration, try to determine the assignment actual start and finish values
+               assignment.setActualFinish((task.getActualStart() != null && assignment.getRemainingWork().getDuration() == 0 && resource != null) ? assignment.getFinish() : null);
+               assignment.setActualStart(assignment.getActualFinish() != null || !timephasedActualWork.isEmpty() ? assignment.getStart() : null);
+            }
 
             if (!task.getMilestone() && !processedSplits.contains(task))
             {
