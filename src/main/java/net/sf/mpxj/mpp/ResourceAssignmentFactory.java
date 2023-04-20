@@ -267,7 +267,7 @@ public class ResourceAssignmentFactory
     */
    private void createTimephasedData(ProjectFile file, ResourceAssignment assignment, List<TimephasedWork> timephasedPlanned, List<TimephasedWork> timephasedComplete)
    {
-      if (!timephasedPlanned.isEmpty() || !timephasedComplete.isEmpty())
+      if (!timephasedPlanned.isEmpty() || !timephasedComplete.isEmpty() || assignment.getTask().getDuration() == null || assignment.getTask().getDuration().getDuration() == 0)
       {
          return;
       }
