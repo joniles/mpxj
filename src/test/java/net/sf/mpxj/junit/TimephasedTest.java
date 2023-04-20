@@ -166,28 +166,6 @@ public class TimephasedTest
       testTimephased(timephased, "11/12/2008 08:00", "11/12/2008 15:00", 0.6, 0.6);
       timephasedComplete = assignment.getTimephasedActualWork();
       assertEquals(0, timephasedComplete.size());
-      timephased = timephasedPlanned.get(0);
-      testTimephased(timephased, "20/11/2008 09:00", "20/11/2008 17:00", 7.0, 7.0);
-      timephased = timephasedPlanned.get(1);
-      testTimephased(timephased, "21/11/2008 08:00", "25/11/2008 17:00", 24.0, 8.0);
-      timephased = timephasedPlanned.get(2);
-      testTimephased(timephased, "26/11/2008 08:00", "26/11/2008 17:00", 7.625, 7.625);
-      timephased = timephasedPlanned.get(3);
-      testTimephased(timephased, "27/11/2008 08:00", "28/11/2008 17:00", 12.0, 6.0);
-      timephased = timephasedPlanned.get(4);
-      testTimephased(timephased, "01/12/2008 08:00", "01/12/2008 17:00", 5.875, 5.875);
-      timephased = timephasedPlanned.get(5);
-      testTimephased(timephased, "02/12/2008 08:00", "04/12/2008 17:00", 12.0, 4.0);
-      timephased = timephasedPlanned.get(6);
-      testTimephased(timephased, "05/12/2008 08:00", "05/12/2008 17:00", 2.125, 2.125);
-      timephased = timephasedPlanned.get(7);
-      testTimephased(timephased, "08/12/2008 08:00", "08/12/2008 17:00", 1.7, 1.7);
-      timephased = timephasedPlanned.get(8);
-      testTimephased(timephased, "09/12/2008 08:00", "09/12/2008 17:00", 1.2, 1.2);
-      timephased = timephasedPlanned.get(9);
-      testTimephased(timephased, "10/12/2008 08:00", "10/12/2008 17:00", 0.875, 0.875);
-      timephased = timephasedPlanned.get(10);
-      testTimephased(timephased, "11/12/2008 08:00", "11/12/2008 15:00", 0.6, 0.6);
 
       //
       // Back loaded assignment
