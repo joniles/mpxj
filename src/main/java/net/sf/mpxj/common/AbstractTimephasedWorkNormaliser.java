@@ -28,6 +28,9 @@ import java.util.Date;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 
@@ -42,28 +45,27 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
     *
     * @param list assignment data
     */
-   protected void mergeSameWork(List<TimephasedWork> list)
+   protected void mergeSameWork(ProjectCalendar calendar, ResourceAssignment assignment, List<TimephasedWork> list)
    {
       List<TimephasedWork> result = new ArrayList<>();
 
-      TimephasedWork previousAssignment = null;
-      for (TimephasedWork assignment : list)
+      TimephasedWork previousTimephasedWork = null;
+      for (TimephasedWork currentTimephasedWork : list)
       {
-         if (previousAssignment == null)
+         if (previousTimephasedWork == null)
          {
-            assignment.setAmountPerDay(assignment.getTotalAmount());
-            result.add(assignment);
+            currentTimephasedWork.setAmountPerDay(currentTimephasedWork.getTotalAmount());
+            result.add(currentTimephasedWork);
          }
          else
          {
-            Duration previousAssignmentWork = previousAssignment.getAmountPerDay();
-            Duration assignmentWork = assignment.getTotalAmount();
-
-            if (NumberHelper.equals(previousAssignmentWork.getDuration(), assignmentWork.getDuration(), 0.01))
+            if (workCanBeMerged(calendar, assignment, previousTimephasedWork, currentTimephasedWork))
             {
-               Date assignmentStart = previousAssignment.getStart();
-               Date assignmentFinish = assignment.getFinish();
-               double total = previousAssignment.getTotalAmount().getDuration();
+               Duration assignmentWork = currentTimephasedWork.getTotalAmount();
+
+               Date assignmentStart = previousTimephasedWork.getStart();
+               Date assignmentFinish = currentTimephasedWork.getFinish();
+               double total = previousTimephasedWork.getTotalAmount().getDuration();
                total += assignmentWork.getDuration();
                Duration totalWork = Duration.getInstance(total, TimeUnit.MINUTES);
 
@@ -74,20 +76,77 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
                merged.setTotalAmount(totalWork);
 
                result.remove(result.size() - 1);
-               assignment = merged;
+               currentTimephasedWork = merged;
             }
             else
             {
-               assignment.setAmountPerDay(assignment.getTotalAmount());
+               currentTimephasedWork.setAmountPerDay(currentTimephasedWork.getTotalAmount());
             }
-            result.add(assignment);
+            result.add(currentTimephasedWork);
          }
 
-         previousAssignment = assignment;
+         previousTimephasedWork = currentTimephasedWork;
       }
 
       list.clear();
       list.addAll(result);
+   }
+
+   /**
+    * Determine if two Timephased Work instance can be merged.
+    * They can be merged if they represent the same amount of work, and if they represent a non-zero amount of
+    * work, if their strat and end pint align with the start and end of the day (or of the assignment).
+    *
+    * @param calendar effective calendar for the resource assignment
+    * @param assignment resource assignment
+    * @param previousTimephasedWork TimephasedWork instance
+    * @param currentTimephasedWork TimephasedWork instance
+    * @return true if the TimephasedWork instances can be merged.
+    */
+   private boolean workCanBeMerged(ProjectCalendar calendar, ResourceAssignment assignment, TimephasedWork previousTimephasedWork, TimephasedWork currentTimephasedWork)
+   {
+      Duration previousAmount = previousTimephasedWork.getAmountPerDay();
+      Duration currentAmount = currentTimephasedWork.getTotalAmount();
+
+      boolean sameDuration = NumberHelper.equals(previousAmount.getDuration(), currentAmount.getDuration(), 0.01);
+      if (!sameDuration)
+      {
+         return false;
+      }
+
+      boolean zeroDuration = NumberHelper.equals(previousAmount.getDuration(), 0, 0.01);
+      if (sameDuration && zeroDuration)
+      {
+         return true;
+      }
+
+      return timephasedWorkHasStandardHours(calendar, assignment, previousTimephasedWork) && timephasedWorkHasStandardHours(calendar, assignment, currentTimephasedWork);
+   }
+
+   /**
+    * Determine if the TimephasedWork instance aligns with the start and end of a day or the assignment.
+    * If this is the case we're assuming that we don't have a custom start or end point for the work which
+    * we need to preserve.
+    *
+    * @param calendar effective calendar for the resource assignment
+    * @param assignment resource assignment
+    * @param timephasedWork TimephasedWork instance
+    * @return true if the TimephasedWork instance aligns with the start and end of the day
+    */
+   private boolean timephasedWorkHasStandardHours(ProjectCalendar calendar, ResourceAssignment assignment, TimephasedWork timephasedWork)
+   {
+      ProjectCalendarHours hours = calendar.getHours(timephasedWork.getStart());
+
+      Date calendarStart = DateHelper.getCanonicalTime(hours.get(0).getStart());
+      Date timephasedStart = DateHelper.getCanonicalTime(timephasedWork.getStart());
+      if (DateHelper.compare(assignment.getStart(), timephasedWork.getStart()) !=0 && DateHelper.compare(calendarStart, timephasedStart) != 0)
+      {
+         return false;
+      }
+
+      Date calendarEnd = DateHelper.getCanonicalTime(hours.get(hours.size()-1).getEnd());
+      Date timephasedEnd = DateHelper.getCanonicalTime(timephasedWork.getFinish());
+      return DateHelper.compare(assignment.getFinish(), timephasedWork.getFinish()) == 0 || DateHelper.compare(calendarEnd, timephasedEnd) == 0;
    }
 
    /**

@@ -62,7 +62,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
       //dumpList(list);
       mergeSameDay(calendar, list);
       //dumpList(list);
-      mergeSameWork(list);
+      mergeSameWork(calendar, assignment, list);
       //dumpList(list);
       convertToHours(list);
       //dumpList(list);

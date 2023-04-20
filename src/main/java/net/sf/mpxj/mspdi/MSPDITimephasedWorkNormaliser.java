@@ -61,7 +61,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
       //dumpList("split days", result);
       mergeSameDay(calendar, list);
       //dumpList("mergeSameDay", result);
-      mergeSameWork(list);
+      mergeSameWork(calendar, assignment, list);
       //dumpList("mergeSameWork", result);
       validateSameDay(calendar, list);
       convertToHours(list);
