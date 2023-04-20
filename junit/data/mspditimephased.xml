@@ -8204,14 +8204,14 @@
 				<Type>1</Type>
 				<UID>4</UID>
 				<Start>2008-12-04T16:30:00</Start>
-				<Finish>2008-12-04T17:30:00</Finish>
+				<Finish>2008-12-04T17:00:00</Finish>
 				<Unit>1</Unit>
 				<Value>PT0H15M0S</Value>
 			</TimephasedData>
 			<TimephasedData>
 				<Type>1</Type>
 				<UID>4</UID>
-				<Start>2008-12-04T17:30:00</Start>
+				<Start>2008-12-04T17:00:00</Start>
 				<Finish>2008-12-04T18:30:00</Finish>
 				<Unit>1</Unit>
 			</TimephasedData>
@@ -9070,14 +9070,14 @@
 				<Type>1</Type>
 				<UID>6</UID>
 				<Start>2008-12-04T16:30:00</Start>
-				<Finish>2008-12-04T17:30:00</Finish>
+				<Finish>2008-12-04T17:00:00</Finish>
 				<Unit>1</Unit>
 				<Value>PT0H22M30S</Value>
 			</TimephasedData>
 			<TimephasedData>
 				<Type>1</Type>
 				<UID>6</UID>
-				<Start>2008-12-04T17:30:00</Start>
+				<Start>2008-12-04T17:-0:00</Start>
 				<Finish>2008-12-04T18:30:00</Finish>
 				<Unit>1</Unit>
 			</TimephasedData>
@@ -9343,14 +9343,14 @@
 				<Type>1</Type>
 				<UID>8</UID>
 				<Start>2008-12-02T16:30:00</Start>
-				<Finish>2008-12-02T17:30:00</Finish>
+				<Finish>2008-12-02T17:00:00</Finish>
 				<Unit>1</Unit>
 				<Value>PT0H30M0S</Value>
 			</TimephasedData>
 			<TimephasedData>
 				<Type>1</Type>
 				<UID>8</UID>
-				<Start>2008-12-02T17:30:00</Start>
+				<Start>2008-12-02T17:00:00</Start>
 				<Finish>2008-12-02T18:30:00</Finish>
 				<Unit>1</Unit>
 			</TimephasedData>
@@ -24298,14 +24298,14 @@
 				<Type>1</Type>
 				<UID>82</UID>
 				<Start>2008-12-02T16:20:00</Start>
-				<Finish>2008-12-02T17:20:00</Finish>
+				<Finish>2008-12-02T17:00:00</Finish>
 				<Unit>1</Unit>
 				<Value>PT1H0M0S</Value>
 			</TimephasedData>
 			<TimephasedData>
 				<Type>1</Type>
 				<UID>82</UID>
-				<Start>2008-12-02T17:20:00</Start>
+				<Start>2008-12-02T17:00:00</Start>
 				<Finish>2008-12-02T18:20:00</Finish>
 				<Unit>1</Unit>
 			</TimephasedData>
