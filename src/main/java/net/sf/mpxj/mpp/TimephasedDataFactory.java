@@ -60,7 +60,7 @@ final class TimephasedDataFactory
    public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, ResourceAssignment resourceAssignment, byte[] data)
    {
       List<TimephasedWork> list = new ArrayList<>();
-      if (calendar == null || data == null || data.length <= 26 || MPPUtility.getShort(data, 0) == 0)
+      if (calendar == null || data == null || data.length <= 26 || MPPUtility.getShort(data, 0) == 0 || resourceAssignment.getTask().getDuration() == null || resourceAssignment.getTask().getDuration().getDuration() == 0)
       {
          return list;
       }
@@ -165,7 +165,7 @@ final class TimephasedDataFactory
    public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, ResourceAssignment assignment, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
    {
       List<TimephasedWork> list = new ArrayList<>();
-      if (data == null || data.length == 0)
+      if (data == null || data.length == 0  || assignment.getTask().getDuration() == null || assignment.getTask().getDuration().getDuration() == 0)
       {
          return list;
       }
