@@ -92,6 +92,17 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
       list.addAll(result);
    }
 
+   /**
+    * Determine if two Timephased Work instance can be merged.
+    * They can be merged if they represent the same amount of work, and if they represent a non-zero amount of
+    * work, if their strat and end pint align with the start and end of the day (or of the assignment).
+    *
+    * @param calendar effective calendar for the resource assignment
+    * @param assignment resource assignment
+    * @param previousTimephasedWork TimephasedWork instance
+    * @param currentTimephasedWork TimephasedWork instance
+    * @return true if the TimephasedWork instances can be merged.
+    */
    private boolean workCanBeMerged(ProjectCalendar calendar, ResourceAssignment assignment, TimephasedWork previousTimephasedWork, TimephasedWork currentTimephasedWork)
    {
       Duration previousAmount = previousTimephasedWork.getAmountPerDay();
@@ -112,20 +123,30 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
       return timephasedWorkHasStandardHours(calendar, assignment, previousTimephasedWork) && timephasedWorkHasStandardHours(calendar, assignment, currentTimephasedWork);
    }
 
+   /**
+    * Determine if the TimephasedWork instance aligns with the start and end of a day or the assignment.
+    * If this is the case we're assuming that we don't have a custom start or end point for the work which
+    * we need to preserve.
+    *
+    * @param calendar effective calendar for the resource assignment
+    * @param assignment resource assignment
+    * @param timephasedWork TimephasedWork instance
+    * @return true if the TimephasedWork instance aligns with the start and end of the day
+    */
    private boolean timephasedWorkHasStandardHours(ProjectCalendar calendar, ResourceAssignment assignment, TimephasedWork timephasedWork)
    {
       ProjectCalendarHours hours = calendar.getHours(timephasedWork.getStart());
 
-      Date hoursStart = DateHelper.getCanonicalTime(hours.get(0).getStart());
-      Date workStart = DateHelper.getCanonicalTime(timephasedWork.getStart());
-      if (DateHelper.compare(assignment.getStart(), timephasedWork.getStart()) !=0 && DateHelper.compare(hoursStart, workStart) != 0)
+      Date calendarStart = DateHelper.getCanonicalTime(hours.get(0).getStart());
+      Date timephasedStart = DateHelper.getCanonicalTime(timephasedWork.getStart());
+      if (DateHelper.compare(assignment.getStart(), timephasedWork.getStart()) !=0 && DateHelper.compare(calendarStart, timephasedStart) != 0)
       {
          return false;
       }
 
-      Date hoursEnd = DateHelper.getCanonicalTime(hours.get(hours.size()-1).getEnd());
-      Date workEnd = DateHelper.getCanonicalTime(timephasedWork.getFinish());
-      return DateHelper.compare(assignment.getFinish(), timephasedWork.getFinish()) == 0 || DateHelper.compare(hoursEnd, workEnd) == 0;
+      Date calendarEnd = DateHelper.getCanonicalTime(hours.get(hours.size()-1).getEnd());
+      Date timephasedEnd = DateHelper.getCanonicalTime(timephasedWork.getFinish());
+      return DateHelper.compare(assignment.getFinish(), timephasedWork.getFinish()) == 0 || DateHelper.compare(calendarEnd, timephasedEnd) == 0;
    }
 
    /**
