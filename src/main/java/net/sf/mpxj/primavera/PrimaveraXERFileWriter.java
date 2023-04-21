@@ -811,7 +811,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return location.getCity() != null && !location.getCity().isEmpty() &&
          location.getState() != null && !location.getState().isEmpty() &&
          location.getStateCode() != null && !location.getStateCode().isEmpty() &&
-         location.getCountry() != null && !location.getCountry().isEmpty() &
+         location.getCountry() != null && !location.getCountry().isEmpty() &&
          location.getCountryCode() != null && !location.getCountryCode().isEmpty();
    }
 
