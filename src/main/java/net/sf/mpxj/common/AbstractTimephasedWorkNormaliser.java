@@ -43,6 +43,8 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
     * Merges individual days together into time spans where the
     * same work is undertaken each day.
     *
+    * @param calendar effective calendar for the assignment
+    * @param assignment resource assignment 
     * @param list assignment data
     */
    protected void mergeSameWork(ProjectCalendar calendar, ResourceAssignment assignment, List<TimephasedWork> list)
@@ -115,7 +117,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
       }
 
       boolean zeroDuration = NumberHelper.equals(previousAmount.getDuration(), 0, 0.01);
-      if (sameDuration && zeroDuration)
+      if (zeroDuration)
       {
          return true;
       }
