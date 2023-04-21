@@ -399,19 +399,19 @@ public class Location implements ProjectEntityWithUniqueID
          return new Location(this);
       }
 
-      private  String m_addressLine1;
-      private  String m_addressLine2;
-      private  String m_addressLine3;
-      private  String m_city;
-      private  String m_country;
-      private  String m_countryCode;
-      private  Double m_latitude;
-      private  Double m_longitude;
-      private  String m_municipality;
-      private  String m_name;
-      private  Integer m_uniqueID;
-      private  String m_postalCode;
-      private  String m_state;
-      private  String m_stateCode;
+      private String m_addressLine1;
+      private String m_addressLine2;
+      private String m_addressLine3;
+      private String m_city;
+      private String m_country;
+      private String m_countryCode;
+      private Double m_latitude;
+      private Double m_longitude;
+      private String m_municipality;
+      private String m_name;
+      private Integer m_uniqueID;
+      private String m_postalCode;
+      private String m_state;
+      private String m_stateCode;
    }
 }

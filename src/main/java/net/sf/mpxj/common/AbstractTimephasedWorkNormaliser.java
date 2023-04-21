@@ -44,7 +44,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
     * same work is undertaken each day.
     *
     * @param calendar effective calendar for the assignment
-    * @param assignment resource assignment 
+    * @param assignment resource assignment
     * @param list assignment data
     */
    protected void mergeSameWork(ProjectCalendar calendar, ResourceAssignment assignment, List<TimephasedWork> list)
@@ -141,12 +141,12 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
 
       Date calendarStart = DateHelper.getCanonicalTime(hours.get(0).getStart());
       Date timephasedStart = DateHelper.getCanonicalTime(timephasedWork.getStart());
-      if (DateHelper.compare(assignment.getStart(), timephasedWork.getStart()) !=0 && DateHelper.compare(calendarStart, timephasedStart) != 0)
+      if (DateHelper.compare(assignment.getStart(), timephasedWork.getStart()) != 0 && DateHelper.compare(calendarStart, timephasedStart) != 0)
       {
          return false;
       }
 
-      Date calendarEnd = DateHelper.getCanonicalTime(hours.get(hours.size()-1).getEnd());
+      Date calendarEnd = DateHelper.getCanonicalTime(hours.get(hours.size() - 1).getEnd());
       Date timephasedEnd = DateHelper.getCanonicalTime(timephasedWork.getFinish());
       return DateHelper.compare(assignment.getFinish(), timephasedWork.getFinish()) == 0 || DateHelper.compare(calendarEnd, timephasedEnd) == 0;
    }

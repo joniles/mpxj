@@ -5309,7 +5309,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       setLocationUniqueID(location == null ? null : location.getUniqueID());
    }
 
-
    /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
