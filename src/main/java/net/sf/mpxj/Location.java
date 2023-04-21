@@ -26,7 +26,7 @@ package net.sf.mpxj;
 /**
  * Represents a location, use to tag projects, resources and activities.
  */
-public class Location implements ProjectEntityWithUniqueID
+public final class Location implements ProjectEntityWithUniqueID
 {
    /**
     * Constructor used by builder.
