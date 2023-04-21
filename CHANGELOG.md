@@ -1,6 +1,11 @@
 # Changelog
 
-## 11.3.1 (unreleased)
+## 11.3.2 (unreleased)
+
+## 11.3.1 (2023-04-21)
+* Improve accuracy of resource assignment Actual Start and Actual Finish dates when reading MPP files.
+* Avoid generating timephased data for zero duration tasks.
+* Improve preservation of custom timephased data start and end times.
 
 ## 11.3.0 (2023-04-12)
 * Implemented `PrimaveraXERFileWriter` to allow MPXJ to write XER files.

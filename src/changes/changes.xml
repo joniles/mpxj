@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="11.3.1">
+		<release date="unreleased" version="11.3.2">
+		</release>
+		<release date="2023-04-21" version="11.3.1">
 			<action dev="joniles" type="update">Improve accuracy of resource assignment Actual Start and Actual Finish dates when reading MPP files.</action>
 			<action dev="joniles" type="update">Avoid generating timephased data for zero duration tasks.</action>
 			<action dev="joniles" type="update">Improve preservation of custom timephased data start and end times.</action>

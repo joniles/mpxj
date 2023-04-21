@@ -606,6 +606,13 @@ module MPXJ
       get_date_value(attribute_values['last_saved'])
     end
 
+    # Retrieve the Location Unique ID value
+    #
+    # @return Location Unique ID value
+    def location_unique_id
+      get_integer_value(attribute_values['location_unique_id'])
+    end
+
     # Retrieve the Manager value
     #
     # @return Manager value
@@ -1057,6 +1064,7 @@ module MPXJ
       'lastprinted' => :date,
       'last_author' => :string,
       'last_saved' => :date,
+      'location_unique_id' => :integer,
       'manager' => :string,
       'microsoft_project_server_url' => :boolean,
       'minutes_per_day' => :integer,

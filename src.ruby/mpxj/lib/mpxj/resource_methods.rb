@@ -2902,6 +2902,13 @@ module MPXJ
       get_boolean_value(attribute_values['linked_fields'])
     end
 
+    # Retrieve the Location Unique ID value
+    #
+    # @return Location Unique ID value
+    def location_unique_id
+      get_integer_value(attribute_values['location_unique_id'])
+    end
+
     # Retrieve the Material Label value
     #
     # @return Material Label value
@@ -4283,6 +4290,7 @@ module MPXJ
       'initials' => :string,
       'leveling_delay' => :string,
       'linked_fields' => :boolean,
+      'location_unique_id' => :integer,
       'material_label' => :string,
       'max_units' => :units,
       'modify_on_integrate' => :boolean,

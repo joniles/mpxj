@@ -5079,6 +5079,13 @@ module MPXJ
       get_boolean_value(attribute_values['linked_fields'])
     end
 
+    # Retrieve the Location Unique ID value
+    #
+    # @return Location Unique ID value
+    def location_unique_id
+      get_integer_value(attribute_values['location_unique_id'])
+    end
+
     # Retrieve the Longest Path value
     #
     # @return Longest Path value
@@ -7513,6 +7520,7 @@ module MPXJ
       'leveling_delay_units' => :time_units,
       'level_assignments' => :boolean,
       'linked_fields' => :boolean,
+      'location_unique_id' => :integer,
       'longest_path' => :boolean,
       'mail' => :string,
       'manager' => :string,
