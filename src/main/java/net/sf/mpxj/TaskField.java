@@ -1023,6 +1023,7 @@ public enum TaskField implements FieldType
    SEQUENCE_NUMBER(DataType.INTEGER),
    STEPS(DataType.STEP_LIST),
    LOCATION_UNIQUE_ID(DataType.INTEGER),
+   //SUBPROJECT_GUID(DataType.GUID),
    FINISH(DataType.DATE);
 
    /**

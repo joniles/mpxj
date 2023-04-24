@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.UUID;
 
 import net.sf.mpxj.common.ByteArrayHelper;
 
@@ -224,6 +225,25 @@ class Props extends MPPComponent
    }
 
    /**
+    * Retrieves a UUID value from the propetyy data.
+    *
+    * @param type Type identifier
+    * @return UUID value
+    */
+   public UUID getUUID(Integer type)
+   {
+      UUID result = null;
+
+      byte[] item = m_map.get(type);
+      if (item != null)
+      {
+         result = MPPUtility.getGUID(item, 0);
+      }
+
+      return result;
+   }
+
+   /**
     * Retrieve the set of keys represented by this instance.
     *
     * @return key set
@@ -283,6 +303,7 @@ class Props extends MPPComponent
    public static final Integer END_TIME = Integer.valueOf(37748769);
 
    public static final Integer WEEK_START_DAY = Integer.valueOf(37748773);
+   public static final Integer GUID = Integer.valueOf(37748777);
    public static final Integer FISCAL_YEAR_START_MONTH = Integer.valueOf(37748780);
    public static final Integer DEFAULT_TASK_TYPE = Integer.valueOf(37748785);
    public static final Integer HONOR_CONSTRAINTS = Integer.valueOf(37748794);

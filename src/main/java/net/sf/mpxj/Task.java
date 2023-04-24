@@ -1408,12 +1408,44 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * project's path and file name.
     *
     * @param val - String
-    * @deprecated this is now derived from the SubProject instance linked to this task
+    * @deprecated use setSubprojectFile
     */
    @Deprecated public void setSubprojectName(String val)
    {
-
+      setSubprojectFile(val);
    }
+
+   /**
+    * The Subproject File field contains the name of a project inserted into
+    * the active project file. The Subproject File field contains the inserted
+    * project's path and file name.
+    *
+    * @param val - String
+    */
+   public void setSubprojectFile(String val)
+   {
+      set(TaskField.SUBPROJECT_FILE, val);
+   }
+
+   /**
+    * Set the GUID of the linked subproject file.
+    *
+    * @param guid subproject GUID
+    */
+//   public void setSubprojectGUID(UUID guid)
+//   {
+//      set(TaskField.SUBPROJECT_GUID, guid);
+//   }
+
+   /**
+    * Retrieve the GUID of the linked subproject file.
+    *
+    * @return subproject GUID
+    */
+//   public UUID getSubprojectGUID()
+//   {
+//      return (UUID)get(TaskField.SUBPROJECT_GUID);
+//   }
 
    /**
     * The Summary field indicates whether a task is a summary task.

@@ -63,6 +63,7 @@ public final class ProjectPropertiesReader
       {
          // MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
          ProjectProperties ph = file.getProjectProperties();
+         ph.setGUID(props.getUUID(Props.GUID));
          ph.setStartDate(props.getTimestamp(Props.PROJECT_START_DATE));
          ph.setFinishDate(props.getTimestamp(Props.PROJECT_FINISH_DATE));
          ph.setScheduleFrom(ScheduleFrom.getInstance(1 - props.getShort(Props.SCHEDULE_FROM)));

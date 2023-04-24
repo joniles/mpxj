@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="11.3.2">
+			<action dev="joniles" type="update">Added support for redaing the Project GUID from MPP files.</action>
 			<action dev="joniles" type="update">Marked the Task method `setExternalTaskProject` as deprecated. This value is derived from the SubProject instance linked to the task.</action>
 			<action dev="joniles" type="update">Marked the Task method `getExternalTaskProject` as deprecated. Use `getSubprojectFile` instead.</action>
 			<action dev="joniles" type="update">Marked the Task method `setSubprojectName` as deprecated. This value is now derived from the `SubProject` instance link to the task.</action>
