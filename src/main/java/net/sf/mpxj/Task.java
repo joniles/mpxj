@@ -3012,14 +3012,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    @Deprecated public String getExternalTaskProject()
    {
-      return null;
+      return getSubprojectFile();
    }
 
    /**
     * Sets the external task project file name.
     *
     * @param externalTaskProject external task project file name
-    * @deprecated value derived from the SubProject lnked to this task
+    * @deprecated value derived from the SubProject linked to this task
     */
    @Deprecated public void setExternalTaskProject(String externalTaskProject)
    {
