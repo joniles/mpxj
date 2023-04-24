@@ -286,6 +286,7 @@ Steps|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Stop| | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
 Subproject| | | | | | |✓|✓| | | | | | | | | | | | | | | 
 Subproject File| | | | | | |✓|✓| | | | | | | | | | | | | | | 
+Subproject GUID| | | | | | | |✓| | | | | | | | | | | | | | | 
 Subproject Task ID| | | | | | | |✓| | | | | | | | | | | | | | | 
 Subproject Tasks Unique ID Offset| | | | | | | |✓| | | | | | | | | | | | | | | 
 Subproject Unique Task ID| | | | | | | |✓| | | | | | | | | | | | | | | 

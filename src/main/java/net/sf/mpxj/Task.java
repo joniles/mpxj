@@ -1432,20 +1432,20 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param guid subproject GUID
     */
-//   public void setSubprojectGUID(UUID guid)
-//   {
-//      set(TaskField.SUBPROJECT_GUID, guid);
-//   }
+   public void setSubprojectGUID(UUID guid)
+   {
+      set(TaskField.SUBPROJECT_GUID, guid);
+   }
 
    /**
     * Retrieve the GUID of the linked subproject file.
     *
     * @return subproject GUID
     */
-//   public UUID getSubprojectGUID()
-//   {
-//      return (UUID)get(TaskField.SUBPROJECT_GUID);
-//   }
+   public UUID getSubprojectGUID()
+   {
+      return (UUID)get(TaskField.SUBPROJECT_GUID);
+   }
 
    /**
     * The Summary field indicates whether a task is a summary task.
