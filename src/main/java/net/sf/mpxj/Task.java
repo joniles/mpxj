@@ -2946,10 +2946,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * to generate the task ID shown in the master project.
     *
     * @param offset unique ID offset
+    * @deprecated this value is derived from the SubProject instance linked to this task
     */
-   public void setSubprojectTasksUniqueIDOffset(Integer offset)
+   @Deprecated public void setSubprojectTasksUniqueIDOffset(Integer offset)
    {
-      set(TaskField.SUBPROJECT_TASKS_UNIQUEID_OFFSET, offset);
+
    }
 
    /**
@@ -5764,6 +5765,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return getSubProject() == null ? null : getSubProject().getFullPath();
    }
 
+   public Integer calculateSubprojectTasksUniqueIdOffset()
+   {
+      return getSubProject() == null ? null : getSubProject().getUniqueIDOffset();
+   }
+
    /**
     * Supply a default value for constraint type.
     *
@@ -5873,6 +5879,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, Task::calculateTotalSlack);
       CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
       CALCULATED_FIELD_MAP.put(TaskField.SUBPROJECT_FILE, Task::calculateSubprojectFile);
+      CALCULATED_FIELD_MAP.put(TaskField.SUBPROJECT_TASKS_UNIQUEID_OFFSET, Task::calculateSubprojectTasksUniqueIdOffset);
       CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);

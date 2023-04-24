@@ -10,6 +10,7 @@
 			<action dev="joniles" type="update">Marked the Task method `getExternalTaskProject` as deprecated. Use `getSubprojectFile` instead.</action>
 			<action dev="joniles" type="update">Marked the Task method `setSubprojectName` as deprecated. This value is now derived from the `SubProject` instance link to the task.</action>
 			<action dev="joniles" type="update">Marked the Task method `getSubprojectName` as deprecated. Use `getSubprojectFile` instead.</action>
+			<action dev="joniles" type="update">Marked the Task method `setSubprojectTasksUniqueIDOffset` This value is now derived from the `SubProject` instance link to the task.</action>
 		</release>
 		<release date="2023-04-21" version="11.3.1">
 			<action dev="joniles" type="update">Improve accuracy of resource assignment Actual Start and Actual Finish dates when reading MPP files.</action>
