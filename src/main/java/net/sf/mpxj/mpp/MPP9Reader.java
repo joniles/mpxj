@@ -533,8 +533,8 @@ final class MPP9Reader implements MPPVariantReader
          sp.setProjectGUID(MPPUtility.getGUID(data, headerOffset));
 
          // Generate the unique id offset for this subproject
-         int offset = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
-         sp.setUniqueIDOffset(Integer.valueOf(offset));
+         //int offset = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
+         //sp.setUniqueIDOffset(Integer.valueOf(offset));
 
          processUniqueIdValues(sp, data, uniqueIDOffset);
 

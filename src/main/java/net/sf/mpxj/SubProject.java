@@ -111,28 +111,6 @@ public final class SubProject
    }
 
    /**
-    * Retrieves the offset applied to task unique IDs
-    * from the sub project.
-    *
-    * @return unique ID offset
-    */
-   public Integer getUniqueIDOffset()
-   {
-      return (m_uniqueIDOffset);
-   }
-
-   /**
-    * Set the offset applied to task unique IDs
-    * from the sub project.
-    *
-    * @param uniqueIDOffset unique ID offset
-    */
-   public void setUniqueIDOffset(Integer uniqueIDOffset)
-   {
-      m_uniqueIDOffset = uniqueIDOffset;
-   }
-
-   /**
     * Retrieve the unique ID of the task to which this subproject
     * relates.
     *
@@ -175,11 +153,10 @@ public final class SubProject
 
    @Override public String toString()
    {
-      return ("[SubProject taskUniqueID=" + m_taskUniqueID + " uniqueIDOffset=" + m_uniqueIDOffset + " path=" + m_fullPath + "]");
+      return ("[SubProject taskUniqueID=" + m_taskUniqueID + " path=" + m_fullPath + "]");
    }
 
    private Integer m_taskUniqueID;
-   private Integer m_uniqueIDOffset;
    private String m_dosFullPath;
    private String m_fullPath;
    private String m_dosFileName;

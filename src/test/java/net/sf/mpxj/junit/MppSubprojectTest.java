@@ -132,7 +132,6 @@ public class MppSubprojectTest
 
       if (isMPP)
       {
-         assertEquals(Integer.valueOf(8388608), subprojectA.getUniqueIDOffset()); // MPD needs to be fixed
          assertEquals(Integer.valueOf(8388608), taskSubprojectA.getSubprojectTasksUniqueIDOffset());
          assertEquals(Integer.valueOf(0), taskSubprojectA.getSubprojectTaskUniqueID());
       }

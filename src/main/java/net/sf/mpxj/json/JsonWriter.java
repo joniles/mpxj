@@ -1232,7 +1232,6 @@ public final class JsonWriter extends AbstractProjectWriter
       writeStringField("file_name", sp.getFileName());
       writeStringField("full_path", sp.getFullPath());
       writeIntegerField("task_unique_id", sp.getTaskUniqueID());
-      writeIntegerField("unique_id_offset", sp.getUniqueIDOffset());
       m_writer.writeEndObject();
    }
 
