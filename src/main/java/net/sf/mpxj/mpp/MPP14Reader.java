@@ -29,9 +29,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.TreeMap;
 
 import net.sf.mpxj.FieldTypeClass;
@@ -179,6 +181,7 @@ final class MPP14Reader implements MPPVariantReader
 
       m_fontBases = new HashMap<>();
       m_taskSubProjects = new HashMap<>();
+      m_externalTasks = new HashSet<>();
       m_taskOrder = new TreeMap<>();
       m_nullTaskOrder = new TreeMap<>();
       m_parentTasks = new HashMap<>();
@@ -204,6 +207,7 @@ final class MPP14Reader implements MPPVariantReader
       m_taskOrder = null;
       m_nullTaskOrder = null;
       m_taskSubProjects = null;
+      m_externalTasks = null;
       m_outlineCodeVarMeta = null;
       m_projectProps = null;
       m_inputStreamFactory = null;
@@ -770,7 +774,7 @@ final class MPP14Reader implements MPPVariantReader
             {
                if (value != 0)
                {
-                  sp.addExternalTaskUniqueID(taskUniqueID);
+                  m_externalTasks.add(taskUniqueID);
                   m_taskSubProjects.put(taskUniqueID, sp);
                }
                break;
@@ -1254,17 +1258,13 @@ final class MPP14Reader implements MPPVariantReader
          }
 
          //
-         // Set the sub project flag
+         // Set the subproject and external task flag
          //
-         SubProject sp = m_taskSubProjects.get(task.getUniqueID());
-         task.setSubProject(sp);
-
-         //
-         // Set the external flag
-         //
-         if (sp != null)
+         task.setSubProject(m_taskSubProjects.get(task.getUniqueID()));
+         if (m_externalTasks.contains(task.getUniqueID()))
          {
-            task.setExternalTask(sp.isExternalTask(task.getUniqueID()));
+            // The condition preserves external tasks which no longer have an associated subproject filename
+            task.setExternalTask(m_externalTasks.contains(task.getUniqueID()));
          }
 
          //
@@ -2023,6 +2023,7 @@ final class MPP14Reader implements MPPVariantReader
    private Props m_projectProps;
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, SubProject> m_taskSubProjects;
+   private Set<Integer> m_externalTasks;
    private DirectoryEntry m_projectDir;
    private DirectoryEntry m_viewDir;
    private Map<Long, Integer> m_taskOrder;

@@ -1226,7 +1226,6 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       SubProject sp = (SubProject) value;
       m_writer.writeStartObject(fieldName);
-
       writeStringField("project_guid", sp.getProjectGUID());
       writeStringField("dos_file_name", sp.getDosFileName());
       writeStringField("dos_full_path", sp.getDosFullPath());
@@ -1234,16 +1233,6 @@ public final class JsonWriter extends AbstractProjectWriter
       writeStringField("full_path", sp.getFullPath());
       writeIntegerField("task_unique_id", sp.getTaskUniqueID());
       writeIntegerField("unique_id_offset", sp.getUniqueIDOffset());
-
-      m_writer.writeStartList("all_external_task_unique_ids");
-      for (Integer id : sp.getAllExternalTaskUniqueIDs())
-      {
-         m_writer.writeStartObject(null);
-         writeIntegerField("id", id);
-         m_writer.writeEndObject();
-      }
-      m_writer.writeEndList();
-
       m_writer.writeEndObject();
    }
 

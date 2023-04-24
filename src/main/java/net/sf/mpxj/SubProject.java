@@ -23,12 +23,10 @@
 
 package net.sf.mpxj;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**
- * This class represents a sub project.
+ * This class represents a subproject.
  */
 public final class SubProject
 {
@@ -175,45 +173,13 @@ public final class SubProject
       return m_projectGUID;
    }
 
-   /**
-    * Check to see if the given task is an external task from this subproject.
-    *
-    * @param taskUniqueID task unique ID
-    * @return true if the task is external
-    */
-   public boolean isExternalTask(Integer taskUniqueID)
-   {
-      return m_externalTaskUniqueIDs.contains(taskUniqueID);
-   }
-
-   /**
-    * This package-private method is used to add external task unique id.
-    *
-    * @param externalTaskUniqueID external task unique id
-    */
-   public void addExternalTaskUniqueID(Integer externalTaskUniqueID)
-   {
-      m_externalTaskUniqueIDs.add(externalTaskUniqueID);
-   }
-
-   /**
-    * Retrieves all the external task unique ids for this project file.
-    *
-    * @return all sub project details
-    */
-   public List<Integer> getAllExternalTaskUniqueIDs()
-   {
-      return (m_externalTaskUniqueIDs);
-   }
-
    @Override public String toString()
    {
-      return ("[SubProject taskUniqueID=" + m_taskUniqueID + " uniqueIDOffset=" + m_uniqueIDOffset + " path=" + m_fullPath + " externalTaskUniqueIDs=" + m_externalTaskUniqueIDs + "]");
+      return ("[SubProject taskUniqueID=" + m_taskUniqueID + " uniqueIDOffset=" + m_uniqueIDOffset + " path=" + m_fullPath + "]");
    }
 
    private Integer m_taskUniqueID;
    private Integer m_uniqueIDOffset;
-   private final List<Integer> m_externalTaskUniqueIDs = new ArrayList<>();
    private String m_dosFullPath;
    private String m_fullPath;
    private String m_dosFileName;

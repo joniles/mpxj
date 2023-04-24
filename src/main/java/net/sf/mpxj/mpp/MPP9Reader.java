@@ -28,8 +28,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import net.sf.mpxj.FieldTypeClass;
@@ -179,6 +181,7 @@ final class MPP9Reader implements MPPVariantReader
 
       m_fontBases = new HashMap<>();
       m_taskSubProjects = new HashMap<>();
+      m_externalTasks = new HashSet<>();
       m_taskOrder = new TreeMap<>();
       m_nullTaskOrder = new TreeMap<>();
 
@@ -203,6 +206,7 @@ final class MPP9Reader implements MPPVariantReader
       m_taskOrder = null;
       m_nullTaskOrder = null;
       m_taskSubProjects = null;
+      m_externalTasks = null;
    }
 
    /**
@@ -663,7 +667,7 @@ final class MPP9Reader implements MPPVariantReader
          return;
       }
 
-      int prev = 0;
+      Integer prev = 0;
       int value = MPPUtility.getInt(data, uniqueIDOffset);
       while (value != SUBPROJECT_LISTEND)
       {
@@ -675,31 +679,36 @@ final class MPP9Reader implements MPPVariantReader
             case SUBPROJECT_TASKUNIQUEID3:
             case SUBPROJECT_TASKUNIQUEID4:
             case SUBPROJECT_TASKUNIQUEID5:
-               // The previous value was for the subproject unique task id
-               sp.setTaskUniqueID(Integer.valueOf(prev));
-               m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
-               prev = 0;
+            {
+               sp.setTaskUniqueID(prev);
+               m_taskSubProjects.put(prev, sp);
+               prev = Integer.valueOf(0);
                break;
+            }
 
             default:
+            {
                if (prev != 0)
                {
                   // The previous value was for an external task unique task id
-                  sp.addExternalTaskUniqueID(Integer.valueOf(prev));
-                  m_taskSubProjects.put(Integer.valueOf(prev), sp);
+                  m_externalTasks.add(prev);
+                  m_taskSubProjects.put(prev, sp);
                }
-               prev = value;
+               prev = Integer.valueOf(value);
                break;
+            }
          }
+
          // Read the next value
          uniqueIDOffset += 4;
          value = MPPUtility.getInt(data, uniqueIDOffset);
       }
-      if (prev != 0)
+
+      if (prev.intValue() != 0)
       {
          // The previous value was for an external task unique task id
-         sp.addExternalTaskUniqueID(Integer.valueOf(prev));
-         m_taskSubProjects.put(Integer.valueOf(prev), sp);
+         m_externalTasks.add(prev);
+         m_taskSubProjects.put(prev, sp);
       }
    }
 
@@ -1173,18 +1182,15 @@ final class MPP9Reader implements MPPVariantReader
          }
 
          //
-         // Set the sub project flag
+         // Set the subproject and external task flag
          //
-         SubProject sp = m_taskSubProjects.get(task.getUniqueID());
-         task.setSubProject(sp);
-
-         //
-         // Set the external flag
-         //
-         if (sp != null)
+         task.setSubProject(m_taskSubProjects.get(task.getUniqueID()));
+         if (m_externalTasks.contains(task.getUniqueID()))
          {
-            task.setExternalTask(sp.isExternalTask(task.getUniqueID()));
+            // The condition preserves external tasks which no longer have an associated subproject filename
+            task.setExternalTask(m_externalTasks.contains(task.getUniqueID()));
          }
+
 
          //
          // If we have a WBS value from the MPP file, don't autogenerate
@@ -2009,6 +2015,7 @@ final class MPP9Reader implements MPPVariantReader
    private Props9 m_projectProps;
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, SubProject> m_taskSubProjects;
+   private Set<Integer> m_externalTasks;
    private DirectoryEntry m_projectDir;
    private DirectoryEntry m_viewDir;
    private Map<Integer, Integer> m_taskOrder;
