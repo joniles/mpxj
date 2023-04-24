@@ -1247,10 +1247,9 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat());
 
-         SubProject subProject = null;
          if (BooleanHelper.getBoolean(xml.isIsSubproject()))
          {
-            subProject = new SubProject();
+            SubProject subProject = new SubProject();
             subProject.setFullPath(xml.getSubprojectName());
             mpx.setSubProject(subProject);
             mpx.setSubprojectReadOnly(BooleanHelper.getBoolean(xml.isIsSubprojectReadOnly()));

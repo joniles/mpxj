@@ -125,7 +125,6 @@ public class MppSubprojectTest
       assertTrue(expectedFilenameA.contains(subprojectA.getFileName()));
       //subprojectA.getDosFullPath(); don't need to test
       assertTrue(subprojectA.getFullPath().contains(expectedFilenameA));
-      assertEquals(Integer.valueOf(2), subprojectA.getTaskUniqueID());
 
       //assertEquals(null, taskSubprojectA.getSubprojectName());  // TODO: why is this null?
       assertFalse(taskSubprojectA.getSubprojectReadOnly());

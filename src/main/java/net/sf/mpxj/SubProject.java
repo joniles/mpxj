@@ -111,27 +111,6 @@ public final class SubProject
    }
 
    /**
-    * Retrieve the unique ID of the task to which this subproject
-    * relates.
-    *
-    * @return task Unique ID
-    */
-   public Integer getTaskUniqueID()
-   {
-      return (m_taskUniqueID);
-   }
-
-   /**
-    * Set the unique ID of the task to which this subproject relates.
-    *
-    * @param taskUniqueID task unique ID
-    */
-   public void setTaskUniqueID(Integer taskUniqueID)
-   {
-      m_taskUniqueID = taskUniqueID;
-   }
-
-   /**
     * Set the subproject GUID.
     *
     * @param guid subproject GUID
@@ -153,10 +132,9 @@ public final class SubProject
 
    @Override public String toString()
    {
-      return ("[SubProject taskUniqueID=" + m_taskUniqueID + " path=" + m_fullPath + "]");
+      return ("[SubProject  path=" + m_fullPath + "]");
    }
 
-   private Integer m_taskUniqueID;
    private String m_dosFullPath;
    private String m_fullPath;
    private String m_dosFileName;

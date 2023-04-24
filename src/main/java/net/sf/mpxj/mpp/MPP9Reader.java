@@ -680,7 +680,6 @@ final class MPP9Reader implements MPPVariantReader
             case SUBPROJECT_TASKUNIQUEID4:
             case SUBPROJECT_TASKUNIQUEID5:
             {
-               sp.setTaskUniqueID(prev);
                m_taskSubProjects.put(prev, sp);
                prev = Integer.valueOf(0);
                break;

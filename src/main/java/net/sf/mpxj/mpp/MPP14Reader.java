@@ -765,7 +765,6 @@ final class MPP14Reader implements MPPVariantReader
             case SUBPROJECT_TASKUNIQUEID7:
             case SUBPROJECT_TASKUNIQUEID8:
             {
-               sp.setTaskUniqueID(taskUniqueID);
                m_taskSubProjects.put(taskUniqueID, sp);
                break;
             }
