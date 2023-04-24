@@ -1247,6 +1247,15 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat());
 
+         SubProject subProject = null;
+         if (BooleanHelper.getBoolean(xml.isIsSubproject()))
+         {
+            subProject = new SubProject();
+            subProject.setFullPath(xml.getSubprojectName());
+            mpx.setSubProject(subProject);
+            mpx.setSubprojectReadOnly(BooleanHelper.getBoolean(xml.isIsSubprojectReadOnly()));
+         }
+
          mpx.setActive(xml.isActive() == null || BooleanHelper.getBoolean(xml.isActive()));
          mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
          mpx.setActualDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualDuration()));
@@ -1384,9 +1393,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //mpx.setStart5();
          mpx.setStartVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getStartVariance()));
          mpx.setStop(xml.getStop());
-         mpx.setSubProject(BooleanHelper.getBoolean(xml.isIsSubproject()) ? new SubProject() : null);
-         mpx.setSubprojectName(xml.getSubprojectName());
-         mpx.setSubprojectReadOnly(BooleanHelper.getBoolean(xml.isIsSubprojectReadOnly()));
          //mpx.setSuccessors();
          // Rely on the presence of child tasks to determine if this is a summary task rather than using this attribute
          //mpx.setSummary(BooleanHelper.getBoolean(xml.isSummary()));

@@ -216,7 +216,7 @@ Start Variance|✓|✓|✓|✓
 Steps|✓|✓|✓|✓
 Stop|✓|✓|✓|✓
 Subproject| |✓|✓|✓
-Subproject File| |✓| | 
+Subproject File| |✓|✓|✓
 Subproject Task ID| |✓|✓|✓
 Subproject Tasks Unique ID Offset| |✓|✓|✓
 Subproject Unique Task ID| |✓|✓|✓

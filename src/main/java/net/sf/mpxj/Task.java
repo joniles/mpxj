@@ -1408,10 +1408,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * project's path and file name.
     *
     * @param val - String
+    * @deprecated this is now derived from the SubProject instance linked to this task
     */
-   public void setSubprojectName(String val)
+   @Deprecated public void setSubprojectName(String val)
    {
-      set(TaskField.SUBPROJECT_FILE, val);
+
    }
 
    /**
@@ -2543,8 +2544,19 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * the current task.
     *
     * @return sub project file path
+    * @deprecated use getSubprojectFile
     */
-   public String getSubprojectName()
+   @Deprecated  public String getSubprojectName()
+   {
+      return getSubprojectFile();
+   }
+   /**
+    * Contains the file name and path of the sub project represented by
+    * the current task.
+    *
+    * @return sub project file path
+    */
+   public String getSubprojectFile()
    {
       return (String) get(TaskField.SUBPROJECT_FILE);
    }
@@ -2995,20 +3007,22 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Retrieves the external task project file name.
     *
     * @return external task project file name
+    * @deprecated use getSubprojectFile
     */
-   public String getExternalTaskProject()
+   @Deprecated public String getExternalTaskProject()
    {
-      return (m_externalTaskProject);
+      return null;
    }
 
    /**
     * Sets the external task project file name.
     *
     * @param externalTaskProject external task project file name
+    * @deprecated value derived from the SubProject lnked to this task
     */
-   public void setExternalTaskProject(String externalTaskProject)
+   @Deprecated public void setExternalTaskProject(String externalTaskProject)
    {
-      m_externalTaskProject = externalTaskProject;
+
    }
 
    /**
@@ -5745,6 +5759,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return value;
    }
 
+   public String calculateSubprojectFile()
+   {
+      return getSubProject() == null ? null : getSubProject().getFullPath();
+   }
+
    /**
     * Supply a default value for constraint type.
     *
@@ -5834,7 +5853,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private boolean m_null;
    private boolean m_resumeValid;
-   private String m_externalTaskProject;
    private boolean m_expanded = true;
 
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Collections.singletonList(TaskField.PARENT_TASK_UNIQUE_ID));
@@ -5854,6 +5872,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.SV, Task::calculateSV);
       CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, Task::calculateTotalSlack);
       CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
+      CALCULATED_FIELD_MAP.put(TaskField.SUBPROJECT_FILE, Task::calculateSubprojectFile);
       CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
