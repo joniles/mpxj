@@ -834,7 +834,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (hours == null)
          {
             calendar.setWorkingDay(day, day != Day.SATURDAY && day != Day.SUNDAY);
-            calendar.addDefaultCalendarHours(day);
+            if (calendar.isWorkingDay(day))
+            {
+               calendar.addCalendarHours(day).add(new DateRange(DateHelper.getTime(8, 0), DateHelper.getTime(16, 0)));
+            }
             continue;
          }
 
