@@ -1226,7 +1226,6 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       SubProject sp = (SubProject) value;
       m_writer.writeStartObject(fieldName);
-      writeStringField("project_guid", sp.getProjectGUID());
       writeStringField("dos_file_name", sp.getDosFileName());
       writeStringField("dos_full_path", sp.getDosFullPath());
       writeStringField("file_name", sp.getFileName());

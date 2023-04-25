@@ -23,8 +23,6 @@
 
 package net.sf.mpxj;
 
-import java.util.UUID;
-
 /**
  * This class represents a subproject.
  */
@@ -110,26 +108,6 @@ public final class SubProject
       m_fullPath = fullPath;
    }
 
-   /**
-    * Set the subproject GUID.
-    *
-    * @param guid subproject GUID
-    */
-   public void setProjectGUID(UUID guid)
-   {
-      m_projectGUID = guid;
-   }
-
-   /**
-    * Retrieve the subproject GUID.
-    *
-    * @return subproject GUID
-    */
-   public UUID getProjectGUID()
-   {
-      return m_projectGUID;
-   }
-
    @Override public String toString()
    {
       return ("[SubProject  path=" + m_fullPath + "]");
@@ -139,5 +117,4 @@ public final class SubProject
    private String m_fullPath;
    private String m_dosFileName;
    private String m_fileName;
-   private UUID m_projectGUID;
 }

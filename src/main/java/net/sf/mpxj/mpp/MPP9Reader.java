@@ -528,9 +528,9 @@ final class MPP9Reader implements MPPVariantReader
          SubProject sp = new SubProject();
 
          // We have a 20 byte header.
-         // First 16 bytes are the GUID of the target project
+         // First 16 bytes are (most of the time) the GUID of the target project
          // Remaining 4 bytes are believed to be flags
-         sp.setProjectGUID(MPPUtility.getGUID(data, headerOffset));
+         //sp.setProjectGUID(MPPUtility.getGUID(data, headerOffset));
 
          // Generate the unique id offset for this subproject
          //int offset = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
