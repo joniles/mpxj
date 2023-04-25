@@ -39,6 +39,7 @@ like to be featured in this list.
 * i-lign [www.ilign.com](http://ilign.com)
 * IBM TRIRIGA [www.ibm.com/uk-en/marketplace/ibm-tririga](https://www.ibm.com/uk-en/marketplace/ibm-tririga)
 * Incremental [www.incremental.eu.com](http://www.incremental.eu.com)
+* Ingantt [ingantt.com](https://ingantt.com/)
 * Intellisys [www.webintellisys.com](http://www.webintellisys.com)
 * Lean Station [leanstation.com/](https://leanstation.com/)
 * LibrePlan [www.libreplan.dev](http://www.libreplan.dev)
