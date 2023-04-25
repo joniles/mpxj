@@ -433,36 +433,7 @@ final class PrimaveraReader
          }
       }
 
-      // Check for working time
-      boolean hasWorkingTime = false;
-      for(Day day : Day.values())
-      {
-         ProjectCalendarHours hours = calendar.getCalendarHours(day);
-         hasWorkingTime = hours != null && !hours.isEmpty();
-         if (hasWorkingTime)
-         {
-            break;
-         }
-      }
-
-      if (!hasWorkingTime)
-      {
-         // if there is not DaysOfWeek data, Primavera seems to default to Mon-Fri, 8:00-16:00
-         DateRange defaultHourRange = new DateRange(DateHelper.getTime(8, 0), DateHelper.getTime(16, 0));
-         for (Day day : Day.values())
-         {
-            ProjectCalendarHours hours = calendar.addCalendarHours(day);
-            if (day != Day.SATURDAY && day != Day.SUNDAY)
-            {
-               calendar.setWorkingDay(day, true);
-               hours.add(defaultHourRange);
-            }
-            else
-            {
-               calendar.setWorkingDay(day, false);
-            }
-         }
-      }
+      ProjectCalendarHelper.ensureWorkingTime(calendar);
 
       //
       // Try and extract minutes per period from the calendar row
