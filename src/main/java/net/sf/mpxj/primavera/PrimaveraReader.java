@@ -422,17 +422,7 @@ final class PrimaveraReader
          StructuredTextRecord daysOfWeek = root.getChild("DaysOfWeek");
          StructuredTextRecord exceptions = root.getChild("Exceptions");
 
-         if (daysOfWeek == null)
-         {
-            if (row.getInteger("base_clndr_id") == null)
-            {
-               // We have a base calendar, but we don't have any days specified.
-               // Populate the calendar with a default working week.
-               calendar.addDefaultCalendarDays();
-               calendar.addDefaultCalendarHours();
-            }
-         }
-         else
+         if (daysOfWeek != null)
          {
             processCalendarDays(calendar, daysOfWeek);
          }
@@ -442,24 +432,8 @@ final class PrimaveraReader
             processCalendarExceptions(calendar, exceptions);
          }
       }
-      else
-      {
-         // if there is not DaysOfWeek data, Primavera seems to default to Mon-Fri, 8:00-16:00
-         DateRange defaultHourRange = new DateRange(DateHelper.getTime(8, 0), DateHelper.getTime(16, 0));
-         for (Day day : Day.values())
-         {
-            ProjectCalendarHours hours = calendar.addCalendarHours(day);
-            if (day != Day.SATURDAY && day != Day.SUNDAY)
-            {
-               calendar.setWorkingDay(day, true);
-               hours.add(defaultHourRange);
-            }
-            else
-            {
-               calendar.setWorkingDay(day, false);
-            }
-         }
-      }
+
+      ProjectCalendarHelper.ensureWorkingTime(calendar);
 
       //
       // Try and extract minutes per period from the calendar row

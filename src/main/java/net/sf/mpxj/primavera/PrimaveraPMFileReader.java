@@ -834,7 +834,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (hours == null)
          {
             calendar.setWorkingDay(day, day != Day.SATURDAY && day != Day.SUNDAY);
-            calendar.addDefaultCalendarHours(day);
+            if (calendar.isWorkingDay(day))
+            {
+               calendar.addCalendarHours(day).add(ProjectCalendarHelper.getDefaultCalendarHours());
+            }
             continue;
          }
 
@@ -876,6 +879,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
          }
       }
+
+      ProjectCalendarHelper.ensureWorkingTime(calendar);
 
       //
       // Try and extract minutes per period from the calendar row

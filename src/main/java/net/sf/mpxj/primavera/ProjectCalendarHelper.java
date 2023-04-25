@@ -24,7 +24,11 @@
 package net.sf.mpxj.primavera;
 
 import net.sf.mpxj.CalendarType;
+import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.common.DateHelper;
 
 /**
  * Common methods to support working with P6 calendars.
@@ -48,5 +52,55 @@ final class ProjectCalendarHelper
          result = net.sf.mpxj.common.ProjectCalendarHelper.createTemporaryFlattenedCalendar(calendar);
       }
       return result;
+   }
+
+   /**
+    * Ensure that a calendar has some working time. If it does not,
+    * update the calendar using default values.
+    *
+    * @param calendar calendar to check
+    */
+   public static void ensureWorkingTime(ProjectCalendar calendar)
+   {
+      // Check for working time
+      boolean hasWorkingTime = false;
+      for(Day day : Day.values())
+      {
+         ProjectCalendarHours hours = calendar.getCalendarHours(day);
+         hasWorkingTime = hours != null && !hours.isEmpty();
+         if (hasWorkingTime)
+         {
+            break;
+         }
+      }
+
+      if (!hasWorkingTime)
+      {
+         // if there is not DaysOfWeek data, Primavera seems to default to Mon-Fri, 8:00-16:00
+         DateRange defaultHourRange = getDefaultCalendarHours();
+         for (Day day : Day.values())
+         {
+            ProjectCalendarHours hours = calendar.addCalendarHours(day);
+            if (day != Day.SATURDAY && day != Day.SUNDAY)
+            {
+               calendar.setWorkingDay(day, true);
+               hours.add(defaultHourRange);
+            }
+            else
+            {
+               calendar.setWorkingDay(day, false);
+            }
+         }
+      }
+   }
+
+   /**
+    * Create a new DareRange instance containing the default calendar hours used by P6.
+    *
+    * @return default calendar hours
+    */
+   public static DateRange getDefaultCalendarHours()
+   {
+      return new DateRange(DateHelper.getTime(8, 0), DateHelper.getTime(16, 0));
    }
 }
