@@ -64,7 +64,7 @@ final class ProjectCalendarHelper
    {
       // Check for working time
       boolean hasWorkingTime = false;
-      for(Day day : Day.values())
+      for (Day day : Day.values())
       {
          ProjectCalendarHours hours = calendar.getCalendarHours(day);
          hasWorkingTime = hours != null && !hours.isEmpty();

@@ -30,7 +30,7 @@ import net.sf.mpxj.TaskField;
 /**
  * Strategies used to assign baselines for Primavera schedules.
  */
-public class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
+public final class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
 {
    private PrimaveraBaselineStrategy(TaskField[] sourceFields)
    {
@@ -54,7 +54,8 @@ public class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
 
    private final TaskField[] m_sourceFields;
 
-   public static final PrimaveraBaselineStrategy PLANNED_DATES = new PrimaveraBaselineStrategy(new TaskField[]{
+   public static final PrimaveraBaselineStrategy PLANNED_DATES = new PrimaveraBaselineStrategy(new TaskField[]
+   {
       TaskField.PLANNED_COST,
       TaskField.PLANNED_DURATION,
       TaskField.PLANNED_FINISH,
@@ -64,7 +65,8 @@ public class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
       TaskField.PLANNED_WORK
    });
 
-   public static final PrimaveraBaselineStrategy CURRENT_DATES = new PrimaveraBaselineStrategy(new TaskField[]{
+   public static final PrimaveraBaselineStrategy CURRENT_DATES = new PrimaveraBaselineStrategy(new TaskField[]
+   {
       TaskField.COST,
       TaskField.DURATION,
       TaskField.FINISH,
