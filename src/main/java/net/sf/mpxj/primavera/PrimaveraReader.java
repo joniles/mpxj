@@ -122,7 +122,7 @@ final class PrimaveraReader
       config.setAutoAssignmentUniqueID(false);
       config.setAutoWBS(false);
       config.setAutoRelationUniqueID(false);
-      config.setBaselineStrategy(new PrimaveraBaselineStrategy());
+      config.setBaselineStrategy(new PrimaveraPlannedDateBaselineStrategy());
 
       m_resourceFields = resourceFields;
       m_roleFields = roleFields;

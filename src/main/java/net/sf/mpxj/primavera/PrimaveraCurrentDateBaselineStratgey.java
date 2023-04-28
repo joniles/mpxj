@@ -1,8 +1,8 @@
 /*
- * file:       PrimaveraBaselineStrategy.java
+ * file:       PrimaveraCurrentDateBaselineStrategy.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2021
- * date:       23/02/2021
+ * date:       28/04/2023
  */
 
 /*
@@ -20,25 +20,30 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-
 package net.sf.mpxj.primavera;
 
-import net.sf.mpxj.DefaultBaselineStrategy;
-import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 
 /**
- * Abstract class shared by strategy implementations used to assign baselines for Primavera schedules.
+ * Represents the baseline strategy used by P6 when the "Earned Value Calculation"
+ * method is set to "At Completion values with current dates"
+ * or "Budgeted values with current dates".
  */
-abstract class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
+public class PrimaveraCurrentDateBaselineStratgey extends PrimaveraBaselineStrategy
 {
-   @Override protected Object getKeyForTask(Task task)
+   @Override protected TaskField[] getSourceFields()
    {
-      String activityID = task.getCanonicalActivityID();
-
-      // For Activities, the Activity ID is sufficient to uniquely identify a
-      // task. For WBS entries the value in Activity ID may not be unique.
-      // For WBS entries we include an additional value to get around this.
-      return task.getSummary() ? activityID + " " + task.getOutlineLevel() : activityID;
+      return SOURCE_FIELDS;
    }
+
+   private static final TaskField[] SOURCE_FIELDS =
+      {
+         TaskField.COST,
+         TaskField.DURATION,
+         TaskField.FINISH,
+         TaskField.FIXED_COST_ACCRUAL,
+         TaskField.FIXED_COST,
+         TaskField.START,
+         TaskField.WORK
+      };
 }
