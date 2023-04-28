@@ -30,7 +30,7 @@ import net.sf.mpxj.TaskField;
 /**
  * Abstract class shared by strategy implementations used to assign baselines for Primavera schedules.
  */
-abstract class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
+public abstract class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
 {
    @Override protected Object getKeyForTask(Task task)
    {
