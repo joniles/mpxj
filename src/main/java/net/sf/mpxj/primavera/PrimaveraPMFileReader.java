@@ -2386,7 +2386,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private List<ExternalRelation> m_externalRelations;
    private boolean m_linkCrossProjectRelations;
    private Integer m_defaultCalendarObjectID;
-   private PrimaveraBaselineStrategy m_baselineStrategy = new PrimaveraPlannedDateBaselineStrategy();
+   private PrimaveraBaselineStrategy m_baselineStrategy = PrimaveraBaselineStrategy.PLANNED_DATES;
 
    private static final Map<String, Day> DAY_MAP = new HashMap<>();
    static
