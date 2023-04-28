@@ -175,7 +175,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    /**
     * Set the strategy to use when populating baseline fields.
-    * The default is PrimaveraPlannedDateBaselineStrategy.
+    * The default is the planned dates strategy.
     *
     * @param strategy baseline strategy
     */
