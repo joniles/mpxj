@@ -62,6 +62,7 @@ Finish Date|✓|✓|✓|✓
 Fiscal Year Start|✓|✓|✓|✓
 Fiscal Year Start Month|✓|✓|✓|✓
 Full Application Name|✓|✓|✓|✓
+GUID|✓|✓|✓|✓
 Honor Constraints|✓|✓|✓|✓
 Hyperlink Base|✓|✓|✓|✓
 Keywords|✓|✓|✓|✓
