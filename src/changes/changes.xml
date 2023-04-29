@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="11.3.2">
+		<release date="unreleased" version="11.3.3">
+		</release>
+		<release date="2023-04-29" version="11.3.2">
 			<action dev="joniles" type="update">Improve default values provided for P6 calendars with missing data.</action>
 			<action dev="joniles" type="update">Implement both "planned dates" and "current dates" strategies for populating P6 baselines.</action>
 			<action dev="joniles" type="update">Ensure the Project GUID is read from MPP files.</action>
