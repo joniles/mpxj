@@ -707,6 +707,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#baselines" class="md-nav__link">
+    Baselines
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1216,6 +1223,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#baselines" class="md-nav__link">
+    Baselines
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1323,6 +1337,31 @@ MPXJ will attempt to link these relations across projects: </p>
 
 <span class="n">PrimaveraPMFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraPMFileReader</span><span class="p">();</span>
 <span class="n">reader</span><span class="p">.</span><span class="na">setLinkCrossProjectRelations</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="n">InputStream</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">ProjectFile</span><span class="o">&gt;</span><span class="w"> </span><span class="n">files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">readAll</span><span class="p">(</span><span class="n">is</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="baselines">Baselines</h3>
+<p>Users can export PMXML files from P6 which contain the baseline project
+along with the main project being exported. When the <code>readAll</code> method
+is used to read a PMXML file, MPXJ will attempt to populate the baseline
+fields of the main project if it can locate the baseline project in
+the PMXML file.</p>
+<p>By default the "Planned Dates" strategy is used to populate baseline fields,
+which is the approach P6 uses when the "Earned Value Calculation" method is
+set to  "Budgeted values with planned dates".</p>
+<p><code>PrimaveraPMFileReader</code> provides a method allowing the strategy to be changed,
+thus allowing you to select the "Current Dates" strategy, which is the approach
+used by P6 when the Earned Value Calculation method is set to "At Completion
+values with current dates" or "Budgeted values with current dates". The example
+below illustrates how this method is used:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraBaselineStrategy</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraPMFileReader</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="n">PrimaveraPMFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraPMFileReader</span><span class="p">();</span>
+<span class="n">reader</span><span class="p">.</span><span class="na">setBaselineStrategy</span><span class="p">(</span><span class="n">PrimaveraBaselineStrategy</span><span class="p">.</span><span class="na">CURRENT_DATES</span><span class="p">);</span>
 <span class="n">InputStream</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
 <span class="n">List</span><span class="o">&lt;</span><span class="n">ProjectFile</span><span class="o">&gt;</span><span class="w"> </span><span class="n">files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">readAll</span><span class="p">(</span><span class="n">is</span><span class="p">);</span>
 </code></pre></div>
