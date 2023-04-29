@@ -174,6 +174,27 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Set the strategy to use when populating baseline fields.
+    * The default is the planned dates strategy.
+    *
+    * @param strategy baseline strategy
+    */
+   public void setBaselineStrategy(PrimaveraBaselineStrategy strategy)
+   {
+      m_baselineStrategy = strategy;
+   }
+
+   /**
+    * Retrieve the strategy to use when populating baseline fields.
+    *
+    * @return baseline strategy
+    */
+   public PrimaveraBaselineStrategy getBaselineStrategy()
+   {
+      return m_baselineStrategy;
+   }
+
+   /**
     * Populates a Map instance representing the IDs and names of
     * projects available in the current file.
     *
@@ -350,7 +371,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          config.setAutoAssignmentUniqueID(false);
          config.setAutoWBS(false);
          config.setAutoRelationUniqueID(false);
-         config.setBaselineStrategy(new PrimaveraBaselineStrategy());
+         config.setBaselineStrategy(m_baselineStrategy);
 
          m_projectFile.getProjectProperties().setFileApplication("Primavera");
          m_projectFile.getProjectProperties().setFileType("PMXML");
@@ -834,7 +855,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (hours == null)
          {
             calendar.setWorkingDay(day, day != Day.SATURDAY && day != Day.SUNDAY);
-            calendar.addDefaultCalendarHours(day);
+            if (calendar.isWorkingDay(day))
+            {
+               calendar.addCalendarHours(day).add(ProjectCalendarHelper.getDefaultCalendarHours());
+            }
             continue;
          }
 
@@ -876,6 +900,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
          }
       }
+
+      ProjectCalendarHelper.ensureWorkingTime(calendar);
 
       //
       // Try and extract minutes per period from the calendar row
@@ -2360,6 +2386,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private List<ExternalRelation> m_externalRelations;
    private boolean m_linkCrossProjectRelations;
    private Integer m_defaultCalendarObjectID;
+   private PrimaveraBaselineStrategy m_baselineStrategy = PrimaveraBaselineStrategy.PLANNED_DATES;
 
    private static final Map<String, Day> DAY_MAP = new HashMap<>();
    static

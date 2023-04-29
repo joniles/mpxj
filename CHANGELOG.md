@@ -1,6 +1,11 @@
 # Changelog
 
-## 11.3.2 (unreleased)
+## 11.3.3 (unreleased)
+
+## 11.3.2 (2023-04-29)
+* Improve default values provided for P6 calendars with missing data.
+* Implement both "planned dates" and "current dates" strategies for populating P6 baselines.
+* Ensure the Project GUID is read from MPP files.
 
 ## 11.3.1 (2023-04-21)
 * Improve accuracy of resource assignment Actual Start and Actual Finish dates when reading MPP files.

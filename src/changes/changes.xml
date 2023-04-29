@@ -5,13 +5,17 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="11.3.2">
-			<action dev="joniles" type="update">Added support for reading the Project GUID from MPP files.</action>
+		<release date="unreleased" version="11.3.3">
 			<action dev="joniles" type="update">Added support for reading the task attribute Subproject GUID from MPP files.</action>
 			<action dev="joniles" type="update">Marked the Task method `setExternalTaskProject` as deprecated. This value is derived from the SubProject instance linked to the task.</action>
 			<action dev="joniles" type="update">Marked the Task method `getExternalTaskProject` as deprecated. Use `getSubprojectFile` instead.</action>
 			<action dev="joniles" type="update">Marked the Task method `setSubprojectName` as deprecated. This value is now derived from the `SubProject` instance link to the task.</action>
 			<action dev="joniles" type="update">Marked the Task method `getSubprojectName` as deprecated. Use `getSubprojectFile` instead.</action>
+		</release>
+		<release date="2023-04-29" version="11.3.2">
+			<action dev="joniles" type="update">Improve default values provided for P6 calendars with missing data.</action>
+			<action dev="joniles" type="update">Implement both "planned dates" and "current dates" strategies for populating P6 baselines.</action>
+			<action dev="joniles" type="update">Ensure the Project GUID is read from MPP files.</action>
 		</release>
 		<release date="2023-04-21" version="11.3.1">
 			<action dev="joniles" type="update">Improve accuracy of resource assignment Actual Start and Actual Finish dates when reading MPP files.</action>
