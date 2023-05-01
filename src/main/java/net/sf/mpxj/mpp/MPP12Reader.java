@@ -1476,8 +1476,11 @@ final class MPP12Reader implements MPPVariantReader
          SubProject sp = currentTask.getSubProject();
          if (sp == null)
          {
-            currentTask.setSubProject(currentSubProject);
-            currentTask.setSubprojectFile(currentSubProject.getFullPath());
+            if (currentSubProject != null)
+            {
+               currentTask.setSubProject(currentSubProject);
+               currentTask.setSubprojectFile(currentSubProject.getFullPath());
+            }
          }
          else
          {
