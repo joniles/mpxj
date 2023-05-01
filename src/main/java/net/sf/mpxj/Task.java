@@ -2939,7 +2939,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Integer getSubprojectTaskUniqueID()
    {
-      return (Integer) get(TaskField.SUBPROJECT_UNIQUE_TASK_ID);
+      return (Integer) get(TaskField.SUBPROJECT_TASK_UNIQUE_ID);
    }
 
    /**
@@ -2949,7 +2949,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void setSubprojectTaskUniqueID(Integer subprojectUniqueTaskID)
    {
-      set(TaskField.SUBPROJECT_UNIQUE_TASK_ID, subprojectUniqueTaskID);
+      set(TaskField.SUBPROJECT_TASK_UNIQUE_ID, subprojectUniqueTaskID);
    }
 
    /**
@@ -3034,6 +3034,16 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public void setExternalTask(boolean externalTask)
    {
       set(TaskField.EXTERNAL_TASK, externalTask);
+   }
+
+   /**
+    * Retrieves the external project flag.
+    *
+    * @return true if this task represent an external project
+    */
+   public boolean getExternalProject()
+   {
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.EXTERNAL_PROJECT)));
    }
 
    /**
@@ -5792,6 +5802,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return value;
    }
 
+   private Boolean calculateExternalProject()
+   {
+      return Boolean.valueOf(getSubprojectFile() != null && !getExternalTask());
+   }
+
    /**
     * Supply a default value for constraint type.
     *
@@ -5901,6 +5916,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, Task::calculateTotalSlack);
       CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
       CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
+      CALCULATED_FIELD_MAP.put(TaskField.EXTERNAL_PROJECT, Task::calculateExternalProject);
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
@@ -5929,5 +5945,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       dependencies.calculatedField(TaskField.TOTAL_SLACK).dependsOn(TaskField.START_SLACK, TaskField.FINISH_SLACK);
       dependencies.calculatedField(TaskField.CRITICAL).dependsOn(TaskField.TOTAL_SLACK);
       dependencies.calculatedField(TaskField.COMPLETE_THROUGH).dependsOn(TaskField.DURATION, TaskField.ACTUAL_START, TaskField.PERCENT_COMPLETE);
+      dependencies.calculatedField(TaskField.EXTERNAL_PROJECT).dependsOn(TaskField.SUBPROJECT_FILE, TaskField.EXTERNAL_TASK);
    }
 }

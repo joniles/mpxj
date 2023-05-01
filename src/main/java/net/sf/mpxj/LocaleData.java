@@ -201,6 +201,7 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.ASSIGNMENT.getValue()] = "Assignment";
       TASK_COLUMNS_ARRAY[TaskField.OVERALLOCATED.getValue()] = "Overallocated";
       TASK_COLUMNS_ARRAY[TaskField.EXTERNAL_TASK.getValue()] = "External Task";
+      TASK_COLUMNS_ARRAY[TaskField.EXTERNAL_PROJECT.getValue()] = "External Project";
       TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT_READ_ONLY.getValue()] = "Subproject Read Only";
       TASK_COLUMNS_ARRAY[TaskField.RESPONSE_PENDING.getValue()] = "Response Pending";
       TASK_COLUMNS_ARRAY[TaskField.TEAMSTATUS_PENDING.getValue()] = "TeamStatus Pending";
@@ -666,7 +667,7 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.DURATION9_UNITS.getValue()] = "Duration9 Units";
       TASK_COLUMNS_ARRAY[TaskField.DURATION10_UNITS.getValue()] = "Duration10 Units";
       TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT_TASKS_UNIQUEID_OFFSET.getValue()] = "Subproject Tasks Unique ID Offset";
-      TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT_UNIQUE_TASK_ID.getValue()] = "Subproject Unique Task ID";
+      TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT_TASK_UNIQUE_ID.getValue()] = "Subproject Task Unique ID";
       TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT_TASK_ID.getValue()] = "Subproject Task ID";
       TASK_COLUMNS_ARRAY[TaskField.HYPERLINK_DATA.getValue()] = "Hyperlink Data";
       TASK_COLUMNS_ARRAY[TaskField.RECURRING_DATA.getValue()] = "Recurring Data";

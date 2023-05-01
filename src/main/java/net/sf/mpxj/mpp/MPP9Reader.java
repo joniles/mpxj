@@ -37,6 +37,7 @@ import java.util.TreeMap;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.NumberHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -1063,10 +1064,9 @@ final class MPP9Reader implements MPPVariantReader
          task.setEstimated(getDurationEstimated(MPPUtility.getShort(data, fieldMap.getFixedDataOffset(TaskField.ACTUAL_DURATION_UNITS))));
 
          task.setExpanded(((metaData[12] & 0x02) == 0));
-         Integer externalTaskID = task.getSubprojectTaskID();
-         if (externalTaskID != null && externalTaskID.intValue() != 0)
+
+         if (NumberHelper.getInt(task.getSubprojectTaskID()) != 0)
          {
-            task.setSubprojectTaskID(externalTaskID);
             task.setExternalTask(true);
             externalTasks.add(task);
          }
@@ -1193,12 +1193,11 @@ final class MPP9Reader implements MPPVariantReader
             task.setSubprojectFile(sp.getFullPath());
          }
 
-         if (m_externalTasks.contains(task.getUniqueID()))
+         if (m_externalTasks.contains(task.getUniqueID()) && NumberHelper.getInt(task.getSubprojectTaskUniqueID()) != 0)
          {
             // The condition preserves external tasks which no longer have an associated subproject filename
             task.setExternalTask(m_externalTasks.contains(task.getUniqueID()));
          }
-
 
          //
          // If we have a WBS value from the MPP file, don't autogenerate

@@ -1141,8 +1141,7 @@ final class MPP14Reader implements MPPVariantReader
 
          task.setEstimated(getDurationEstimated(MPPUtility.getShort(data, fieldMap.getFixedDataOffset(TaskField.ACTUAL_DURATION_UNITS))));
 
-         Integer externalTaskID = task.getSubprojectTaskID();
-         if (externalTaskID != null && externalTaskID.intValue() != 0)
+         if (NumberHelper.getInt(task.getSubprojectTaskID()) != 0)
          {
             task.setExternalTask(true);
             externalTasks.add(task);
@@ -1268,7 +1267,7 @@ final class MPP14Reader implements MPPVariantReader
             task.setSubprojectFile(sp.getFullPath());
          }
 
-         if (m_externalTasks.contains(task.getUniqueID()))
+         if (m_externalTasks.contains(task.getUniqueID()) && NumberHelper.getInt(task.getSubprojectTaskUniqueID()) != 0)
          {
             // The condition preserves external tasks which no longer have an associated subproject filename
             task.setExternalTask(m_externalTasks.contains(task.getUniqueID()));
