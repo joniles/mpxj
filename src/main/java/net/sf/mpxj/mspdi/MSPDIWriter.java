@@ -1412,7 +1412,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setGUID(mpx.getGUID());
       xml.setHideBar(Boolean.valueOf(mpx.getHideBar()));
       xml.setIsNull(Boolean.valueOf(mpx.getNull()));
-      xml.setIsSubproject(Boolean.valueOf(mpx.getSubProject() != null));
+      xml.setIsSubproject(Boolean.valueOf(mpx.getExternalProject()));
       xml.setIsSubprojectReadOnly(Boolean.valueOf(mpx.getSubprojectReadOnly()));
       xml.setHyperlink(mpx.getHyperlink());
       xml.setHyperlinkAddress(mpx.getHyperlinkAddress());

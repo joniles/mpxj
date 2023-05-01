@@ -252,7 +252,7 @@ Preleveled Finish| | | | | | |✓|✓| |✓| | | | | | | | | | 
 Preleveled Start| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Primary Resource Unique ID| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Priority| |✓| | |✓| |✓|✓|✓|✓| | |✓|✓|✓|✓| | | | | | | 
-Project| | | | | | | |✓|✓|✓| | | | |✓|✓| | | | | | | 
+Project| | | | | | | | |✓|✓| | | | |✓|✓| | | | | | | 
 Recalc Outline Codes| | | | | | | |✓| | | | | | | | | | | | | | | 
 Recurring| | | | | | | |✓|✓|✓| | | | | | | | | | | | | 
 Recurring Data| | | | | | | |✓| | | | | | | | | | | | | | | 
