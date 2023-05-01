@@ -530,11 +530,11 @@ final class MPP9Reader implements MPPVariantReader
          // We have a 20 byte header.
          // First 16 bytes are (most of the time) the GUID of the target project
          // Remaining 4 bytes are believed to be flags
-         //sp.setProjectGUID(MPPUtility.getGUID(data, headerOffset));
+         sp.setProjectGUID(MPPUtility.getGUID(data, headerOffset));
 
          // Generate the unique id offset for this subproject
-         //int offset = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
-         //sp.setUniqueIDOffset(Integer.valueOf(offset));
+         int offset = 0x00800000 + ((subprojectIndex - 1) * 0x00400000);
+         sp.setUniqueIDOffset(Integer.valueOf(offset));
 
          processUniqueIdValues(sp, data, uniqueIDOffset);
 
@@ -680,6 +680,7 @@ final class MPP9Reader implements MPPVariantReader
             case SUBPROJECT_TASKUNIQUEID4:
             case SUBPROJECT_TASKUNIQUEID5:
             {
+               sp.setTaskUniqueID(prev);
                m_taskSubProjects.put(prev, sp);
                prev = Integer.valueOf(0);
                break;
@@ -690,6 +691,7 @@ final class MPP9Reader implements MPPVariantReader
                if (prev != 0)
                {
                   // The previous value was for an external task unique task id
+                  sp.addExternalTaskUniqueID(prev);
                   m_externalTasks.add(prev);
                   m_taskSubProjects.put(prev, sp);
                }
@@ -706,6 +708,7 @@ final class MPP9Reader implements MPPVariantReader
       if (prev.intValue() != 0)
       {
          // The previous value was for an external task unique task id
+         sp.addExternalTaskUniqueID(prev);
          m_externalTasks.add(prev);
          m_taskSubProjects.put(prev, sp);
       }
