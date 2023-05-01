@@ -34,6 +34,7 @@ import java.util.List;
 
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -477,7 +478,7 @@ final class MPP8Reader implements MPPVariantReader
          flags[2] = (byte) (data[270] & data[305]);
 
          task = m_file.addTask();
-
+         System.out.println(ByteArrayHelper.hexdump(data, false));
          task.setActualCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 234)) / 100));
          task.setActualDuration(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, 74), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 72), defaultProjectTimeUnits)));
          task.setActualFinish(MPPUtility.getTimestamp(data, 108));

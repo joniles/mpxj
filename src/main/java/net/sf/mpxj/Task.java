@@ -5792,11 +5792,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return value;
    }
 
-   public String calculateSubprojectFile()
-   {
-      return getSubProject() == null ? null : getSubProject().getFullPath();
-   }
-
    /**
     * Supply a default value for constraint type.
     *
@@ -5905,7 +5900,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.SV, Task::calculateSV);
       CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, Task::calculateTotalSlack);
       CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
-      CALCULATED_FIELD_MAP.put(TaskField.SUBPROJECT_FILE, Task::calculateSubprojectFile);
       CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);

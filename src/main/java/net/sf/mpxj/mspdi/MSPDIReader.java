@@ -1252,6 +1252,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             SubProject subProject = new SubProject();
             subProject.setFullPath(xml.getSubprojectName());
             mpx.setSubProject(subProject);
+            mpx.setSubprojectFile(xml.getSubprojectName());
             mpx.setSubprojectReadOnly(BooleanHelper.getBoolean(xml.isIsSubprojectReadOnly()));
          }
 

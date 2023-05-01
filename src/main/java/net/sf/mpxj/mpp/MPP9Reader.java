@@ -1186,7 +1186,13 @@ final class MPP9Reader implements MPPVariantReader
          //
          // Set the subproject and external task flag
          //
-         task.setSubProject(m_taskSubProjects.get(task.getUniqueID()));
+         SubProject sp = m_taskSubProjects.get(task.getUniqueID());
+         if (sp != null)
+         {
+            task.setSubProject(sp);
+            task.setSubprojectFile(sp.getFullPath());
+         }
+
          if (m_externalTasks.contains(task.getUniqueID()))
          {
             // The condition preserves external tasks which no longer have an associated subproject filename
@@ -1535,6 +1541,7 @@ final class MPP9Reader implements MPPVariantReader
          if (sp == null)
          {
             currentTask.setSubProject(currentSubProject);
+            currentTask.setSubprojectFile(currentSubProject.getFullPath());
          }
          else
          {
