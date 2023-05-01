@@ -2582,11 +2582,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    {
       return getSubprojectFile();
    }
+
    /**
-    * Contains the file name and path of the sub project represented by
+    * Contains the file name and path of the subproject represented by
     * the current task.
     *
-    * @return sub project file path
+    * @return subproject file path
     */
    public String getSubprojectFile()
    {
