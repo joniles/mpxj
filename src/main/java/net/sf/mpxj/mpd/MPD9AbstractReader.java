@@ -366,7 +366,8 @@ abstract class MPD9AbstractReader
             SubProject sp = new SubProject();
             sp.setFileName(fileName);
             sp.setFullPath(subProjectFileName);
-            //sp.setUniqueIDOffset(Integer.valueOf(offset));
+            sp.setUniqueIDOffset(Integer.valueOf(offset));
+            sp.setTaskUniqueID(task.getUniqueID());
             task.setSubProject(sp);
 
             ++subprojectIndex;
