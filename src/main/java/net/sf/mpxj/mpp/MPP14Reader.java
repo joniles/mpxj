@@ -774,6 +774,7 @@ final class MPP14Reader implements MPPVariantReader
             {
                if (value != 0)
                {
+                  sp.addExternalTaskUniqueID(taskUniqueID);
                   m_externalTasks.add(taskUniqueID);
                   m_taskSubProjects.put(taskUniqueID, sp);
                }
