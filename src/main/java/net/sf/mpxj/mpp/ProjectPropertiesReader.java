@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.common.ByteArrayHelper;
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
