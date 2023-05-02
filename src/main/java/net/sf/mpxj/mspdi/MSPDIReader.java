@@ -1686,45 +1686,49 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private void readPredecessor(Task currTask, Project.Tasks.Task.PredecessorLink link)
    {
       BigInteger uid = link.getPredecessorUID();
-      if (uid != null)
+      if (uid == null)
       {
-         Task prevTask = m_projectFile.getTaskByUniqueID(Integer.valueOf(uid.intValue()));
-         if (prevTask != null)
+         return;
+      }
+
+      Task prevTask = m_projectFile.getTaskByUniqueID(Integer.valueOf(uid.intValue()));
+      if (prevTask == null)
+      {
+         return;
+      }
+
+      RelationType type;
+      if (link.getType() != null)
+      {
+         type = RelationType.getInstance(link.getType().intValue());
+      }
+      else
+      {
+         type = RelationType.FINISH_START;
+      }
+
+      TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
+
+      Duration lagDuration;
+      int lag = NumberHelper.getInt(link.getLinkLag());
+      if (lag == 0)
+      {
+         lagDuration = Duration.getInstance(0, lagUnits);
+      }
+      else
+      {
+         if (lagUnits == TimeUnit.PERCENT || lagUnits == TimeUnit.ELAPSED_PERCENT)
          {
-            RelationType type;
-            if (link.getType() != null)
-            {
-               type = RelationType.getInstance(link.getType().intValue());
-            }
-            else
-            {
-               type = RelationType.FINISH_START;
-            }
-
-            TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
-
-            Duration lagDuration;
-            int lag = NumberHelper.getInt(link.getLinkLag());
-            if (lag == 0)
-            {
-               lagDuration = Duration.getInstance(0, lagUnits);
-            }
-            else
-            {
-               if (lagUnits == TimeUnit.PERCENT || lagUnits == TimeUnit.ELAPSED_PERCENT)
-               {
-                  lagDuration = Duration.getInstance(lag, lagUnits);
-               }
-               else
-               {
-                  lagDuration = Duration.convertUnits(lag / 10.0, TimeUnit.MINUTES, lagUnits, m_projectFile.getProjectProperties());
-               }
-            }
-
-            Relation relation = currTask.addPredecessor(prevTask, type, lagDuration);
-            m_eventManager.fireRelationReadEvent(relation);
+            lagDuration = Duration.getInstance(lag, lagUnits);
+         }
+         else
+         {
+            lagDuration = Duration.convertUnits(lag / 10.0, TimeUnit.MINUTES, lagUnits, m_projectFile.getProjectProperties());
          }
       }
+
+      Relation relation = currTask.addPredecessor(prevTask, type, lagDuration);
+      m_eventManager.fireRelationReadEvent(relation);
    }
 
    /**
