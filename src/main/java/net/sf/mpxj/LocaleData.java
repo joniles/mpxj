@@ -2245,6 +2245,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.SCHEDULED_FINISH.getValue()] = "Scheduled Finish";
       PROJECT_COLUMNS_ARRAY[ProjectField.PLANNED_START.getValue()] = "Planned Start";
       PROJECT_COLUMNS_ARRAY[ProjectField.LOCATION_UNIQUE_ID.getValue()] = "Location Unique ID";
+      PROJECT_COLUMNS_ARRAY[ProjectField.RESOURCE_POOL_FILE.getValue()] = "Resource Pool File";
    }
 
    private static final Object[][] RESOURCES =

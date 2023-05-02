@@ -2842,6 +2842,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Retrieve the resource pool file associated with this project.
+    *
+    * @return resource pool file
+    */
+   public String getResourcePoolFile()
+   {
+      return (String)get(ProjectField.RESOURCE_POOL_FILE);
+   }
+
+   /**
+    * Set the resource pool file associated with this project.
+    *
+    * @param file resource pool file
+    */
+   public void setResourcePoolFile(String file)
+   {
+      set(ProjectField.RESOURCE_POOL_FILE, file);
+   }
+
+   /**
     * Maps a field index to a TaskField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
