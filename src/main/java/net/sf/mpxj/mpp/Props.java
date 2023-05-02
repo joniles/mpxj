@@ -232,15 +232,23 @@ class Props extends MPPComponent
     */
    public UUID getUUID(Integer type)
    {
-      UUID result = null;
-
       byte[] item = m_map.get(type);
-      if (item != null)
+      if (item == null)
       {
-         result = MPPUtility.getGUID(item, 0);
+         return null;
       }
 
-      return result;
+      if (item.length > 16)
+      {
+         // MPP9 stores a string representation of the GUID
+         String value = MPPUtility.getUnicodeString(item, 0, 76);
+         if (value.length() == 38 && value.charAt(0) == '{' && value.charAt(37) == '}')
+         {
+            return UUID.fromString(value.substring(1, 37));
+         }
+      }
+
+      return MPPUtility.getGUID(item, 0);
    }
 
    /**
