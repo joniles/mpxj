@@ -35,7 +35,7 @@ Content Status| |✓|✓|✓
 Content Type| |✓|✓|✓
 Creation Date|✓|✓|✓|✓
 Critical Activity Type|✓|✓|✓|✓
-Critical Slack Limit| |✓| | 
+Critical Slack Limit| |✓|✓| 
 Currency Code| |✓|✓|✓
 Currency Digits|✓|✓|✓|✓
 Currency Symbol|✓|✓|✓|✓
@@ -159,7 +159,7 @@ Effort Driven|✓|✓|✓|✓
 Estimated| |✓|✓|✓
 Expense Items|✓|✓|✓|✓
 External Project| |✓|✓|✓
-External Task| | |✓| 
+External Task| |✓|✓|✓
 Finish|✓|✓|✓|✓
 Finish Slack|✓|✓|✓|✓
 Finish Variance|✓|✓|✓|✓
@@ -195,6 +195,7 @@ Predecessors|✓|✓|✓|✓
 Preleveled Finish|✓|✓|✓|✓
 Preleveled Start|✓|✓|✓|✓
 Priority|✓|✓|✓|✓
+Project| |✓|✓|✓
 Recalc Outline Codes| | |✓|✓
 Recurring|✓|✓|✓|✓
 Recurring Data| |✓|✓|✓
@@ -219,8 +220,8 @@ Stop|✓|✓|✓|✓
 Subproject| |✓|✓|✓
 Subproject File| |✓|✓|✓
 Subproject GUID| | |✓|✓
-Subproject Task ID| | |✓| 
-Subproject Task Unique ID| | |✓| 
+Subproject Task ID| |✓|✓|✓
+Subproject Task Unique ID| |✓|✓|✓
 Subproject Tasks Unique ID Offset| |✓|✓|✓
 Successors|✓|✓|✓|✓
 Summary|✓|✓|✓|✓
