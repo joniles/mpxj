@@ -465,8 +465,9 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * Retrieves all the subprojects for this project.
     *
     * @return all subproject details
+    * @deprecated use the attributes on individual tasks to retrieve subproject details
     */
-   public SubProjectContainer getSubProjects()
+   @Deprecated public SubProjectContainer getSubProjects()
    {
       return m_subProjects;
    }
