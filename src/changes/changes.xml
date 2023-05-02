@@ -5,12 +5,20 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="11.3.3">
-			<action dev="joniles" type="update">Added support for reading the task attribute Subproject GUID from MPP files.</action>
-			<action dev="joniles" type="update">Marked the Task method `setExternalTaskProject` as deprecated. This value is derived from the SubProject instance linked to the task.</action>
-			<action dev="joniles" type="update">Marked the Task method `getExternalTaskProject` as deprecated. Use `getSubprojectFile` instead.</action>
-			<action dev="joniles" type="update">Marked the Task method `setSubprojectName` as deprecated. This value is now derived from the `SubProject` instance link to the task.</action>
+		<release date="unreleased" version="11.4.0">
+			<action dev="joniles" type="update">Added the "Resource Pool File" attribute to ProjectProperties, which represent the full path the the resource pool used by an MPP file. This attibute is accessible via the `getResourcePoolFile` and `setResourcePoolFile` methods.</action>
+			<action dev="joniles" type="update">Added support for reading the task attribute Subproject GUID from MPP files. This attribute can be accessed via the `getSubprojectGUID` and `setSubprojectGUID` methods.</action>
+			<action dev="joniles" type="update">Added support for the task attribute "External Project". When this attribute is true it indicates that the task represents a subproject. The attribute is accessed via the `getExternalProject` and `setExternalProject` methods.</action>
+			<action dev="joniles" type="update">Marked the Task method `setSubprojectName` as deprecated. Use the `setSubProjectFile` method instead.</action>
 			<action dev="joniles" type="update">Marked the Task method `getSubprojectName` as deprecated. Use `getSubprojectFile` instead.</action>
+			<action dev="joniles" type="update">Marked the Task method `setExternalTaskProject` as deprecated. Use the `setSubprojectFile` method instead.</action>
+			<action dev="joniles" type="update">Marked the Task method `getExternalTaskProject` as deprecated. Use the `getSubprojectFile` method instead.</action>
+			
+
+
+
+			
+			
 		</release>
 		<release date="2023-04-29" version="11.3.2">
 			<action dev="joniles" type="update">Improve default values provided for P6 calendars with missing data.</action>
