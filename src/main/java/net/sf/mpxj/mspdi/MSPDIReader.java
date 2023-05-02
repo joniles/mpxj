@@ -43,6 +43,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.CalendarType;
+import net.sf.mpxj.ChildTaskContainer;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -1691,7 +1692,16 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          return;
       }
 
-      Task prevTask = m_projectFile.getTaskByUniqueID(Integer.valueOf(uid.intValue()));
+      Task prevTask;
+      if (BooleanHelper.getBoolean(link.isCrossProject()))
+      {
+         prevTask = createExternalTaskPlaceholder(currTask, link);
+      }
+      else
+      {
+         prevTask = m_projectFile.getTaskByUniqueID(Integer.valueOf(uid.intValue()));
+      }
+
       if (prevTask == null)
       {
          return;
@@ -1729,6 +1739,43 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
       Relation relation = currTask.addPredecessor(prevTask, type, lagDuration);
       m_eventManager.fireRelationReadEvent(relation);
+   }
+
+   /**
+    * We try to use the minimal data present in an MSPDI file to recreate the structure
+    * we'd see if we read the equivalent MPP file containing external tasks.
+    *
+    * @param currTask current task
+    * @param link link data
+    * @return excternal task placeholder for predecessor task
+    */
+   private Task createExternalTaskPlaceholder(Task currTask, Project.Tasks.Task.PredecessorLink link)
+   {
+      String crossProjectName = link.getCrossProjectName();
+      if (crossProjectName == null || crossProjectName.isEmpty())
+      {
+         return null;
+      }
+
+      int splitIndex = crossProjectName.lastIndexOf('\\');
+      String subprojectFile = splitIndex == -1 ? crossProjectName : crossProjectName.substring(0, splitIndex);
+      Integer subprojectTaskID = splitIndex + 1 >= crossProjectName.length() ? null : NumberHelper.getInt(crossProjectName.substring(splitIndex + 1));
+
+      Task task = m_projectFile.addTask();
+      task.setName("External Task");
+      task.setExternalTask(true);
+      task.setSubprojectFile(subprojectFile);
+      task.setSubprojectTaskID(subprojectTaskID);
+      task.setOutlineLevel(currTask.getOutlineLevel());
+      task.setUniqueID(NumberHelper.getInteger(link.getPredecessorUID()));
+      task.setID(currTask.getID());
+      currTask.setID(Integer.valueOf(currTask.getID().intValue()+1));
+
+      ChildTaskContainer container = currTask.getParentTask() == null ? m_projectFile : currTask.getParentTask();
+      int insertionIndex = container.getChildTasks().indexOf(currTask);
+      container.getChildTasks().add(insertionIndex, task);
+
+      return task;
    }
 
    /**

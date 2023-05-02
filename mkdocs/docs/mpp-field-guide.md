@@ -89,6 +89,7 @@ PM Text|✓|✓|✓|✓
 Presentation Format| |✓|✓|✓
 Project File Path| |✓|✓|✓
 Project Title|✓|✓|✓|✓
+Resource Pool File| |✓|✓|✓
 Revision|✓|✓|✓|✓
 Schedule From|✓|✓|✓|✓
 Short Application Name|✓|✓|✓|✓

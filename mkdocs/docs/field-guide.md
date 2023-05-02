@@ -109,6 +109,7 @@ Project Externally Edited| | | | | | | | | |✓| | | | | | | | 
 Project File Path| | | | | | | |✓| | | | | | | | | | | | | | | 
 Project ID| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Project Title|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Resource Pool File| | | | | | | |✓| | | | | | | | | | | | | | | 
 Revision| | | | | | | |✓| |✓| | | | | | | | | | | | | 
 Schedule From|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Scheduled Finish| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 

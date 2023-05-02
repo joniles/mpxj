@@ -1857,6 +1857,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       if (predecessor.getExternalTask())
       {
+         // Note that MS Project doesn't actually read external task data correctly,
+         // even if it wrote the file itself. We'll just replicate what MS Project writes.
          link.setCrossProjectName(predecessor.getSubprojectFile() + "\\" + predecessor.getSubprojectTaskID());
       }
 
