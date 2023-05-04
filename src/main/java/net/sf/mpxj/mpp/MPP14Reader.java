@@ -1268,6 +1268,7 @@ final class MPP14Reader implements MPPVariantReader
          SubProject sp = m_taskSubProjects.get(task.getUniqueID());
          if (sp != null)
          {
+            //noinspection deprecation
             task.setSubProject(sp);
             task.setSubprojectFile(sp.getFullPath());
          }
@@ -1517,11 +1518,13 @@ final class MPP14Reader implements MPPVariantReader
 
       for (Task currentTask : externalTasks)
       {
+         //noinspection deprecation
          SubProject sp = currentTask.getSubProject();
          if (sp == null)
          {
             if (currentSubProject != null)
             {
+               //noinspection deprecation
                currentTask.setSubProject(currentSubProject);
                currentTask.setSubprojectFile(currentSubProject.getFullPath());
             }

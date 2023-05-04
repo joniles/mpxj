@@ -118,6 +118,7 @@ public class MppSubprojectTest
       assertEquals("SubprojectB-9", taskSubprojectB.getName());
 
       // Subproject A
+      //noinspection deprecation
       SubProject subprojectA = taskSubprojectA.getSubProject();
       assertNotNull(subprojectA);
       final String expectedFilenameA = "\\SubprojectA-9.mpp";

@@ -3733,21 +3733,23 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Retrieve the sub project represented by this task.
+    * Retrieve the subproject represented by this task.
     *
     * @return sub project
+    * @deprecated use the task's subproject attributes
     */
-   public SubProject getSubProject()
+   @Deprecated public SubProject getSubProject()
    {
       return (SubProject) get(TaskField.SUBPROJECT);
    }
 
    /**
-    * Set the sub project represented by this task.
+    * Set the subproject represented by this task.
     *
     * @param subProject sub project
+    * @deprecated use the task's subproject attributes
     */
-   public void setSubProject(SubProject subProject)
+   @Deprecated public void setSubProject(SubProject subProject)
    {
       set(TaskField.SUBPROJECT, subProject);
    }
