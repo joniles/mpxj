@@ -1044,6 +1044,9 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.SEQUENCE_NUMBER.getValue()] = "Sequence Number";
       TASK_COLUMNS_ARRAY[TaskField.STEPS.getValue()] = "Steps";
       TASK_COLUMNS_ARRAY[TaskField.LOCATION_UNIQUE_ID.getValue()] = "Location Unique ID";
+      TASK_COLUMNS_ARRAY[TaskField.EXPANDED.getValue()] = "Expanded";
+      TASK_COLUMNS_ARRAY[TaskField.RESUME_VALID.getValue()] = "Resume Valid";
+      TASK_COLUMNS_ARRAY[TaskField.NULL.getValue()] = "Null";
       TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT_GUID.getValue()] = "Subproject GUID";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";

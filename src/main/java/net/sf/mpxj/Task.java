@@ -2854,7 +2854,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public boolean getNull()
    {
-      return (m_null);
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.NULL)));
    }
 
    /**
@@ -2864,7 +2864,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void setNull(boolean isNull)
    {
-      m_null = isNull;
+      set(TaskField.NULL, isNull);
    }
 
    /**
@@ -2874,7 +2874,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public boolean getResumeValid()
    {
-      return (m_resumeValid);
+      return BooleanHelper.getBoolean((Boolean) get(TaskField.RESUME_VALID));
    }
 
    /**
@@ -2884,7 +2884,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void setResumeValid(boolean resumeValid)
    {
-      m_resumeValid = resumeValid;
+      set(TaskField.RESUME_VALID, resumeValid);
    }
 
    /**
@@ -2894,7 +2894,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public boolean getRecurring()
    {
-      return (BooleanHelper.getBoolean((Boolean) get(TaskField.RECURRING)));
+      return BooleanHelper.getBoolean((Boolean) get(TaskField.RECURRING));
    }
 
    /**
@@ -3620,7 +3620,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public boolean getExpanded()
    {
-      return (m_expanded);
+      return BooleanHelper.getBoolean((Boolean) get(TaskField.EXPANDED));
    }
 
    /**
@@ -3633,7 +3633,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void setExpanded(boolean expanded)
    {
-      m_expanded = expanded;
+      set(TaskField.EXPANDED, expanded);
    }
 
    /**
@@ -5872,6 +5872,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return new ArrayList<>();
    }
 
+   private Boolean defaultExpanded()
+   {
+      return Boolean.TRUE;
+   }
+
    /**
     * This is a reference to the parent task, as specified by the
     * outline level.
@@ -5893,10 +5898,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Recurring task details associated with this task.
     */
    private RecurringTask m_recurringTask;
-
-   private boolean m_null;
-   private boolean m_resumeValid;
-   private boolean m_expanded = true;
 
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Collections.singletonList(TaskField.PARENT_TASK_UNIQUE_ID));
 
@@ -5926,6 +5927,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODES, Task::defaultActivityCodesList);
       CALCULATED_FIELD_MAP.put(TaskField.EXPENSE_ITEMS, Task::defaultExpenseItems);
       CALCULATED_FIELD_MAP.put(TaskField.STEPS, Task::defaultSteps);
+      CALCULATED_FIELD_MAP.put(TaskField.EXPANDED, Task::defaultExpanded);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
