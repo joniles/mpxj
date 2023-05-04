@@ -3754,13 +3754,26 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       set(TaskField.SUBPROJECT, subProject);
    }
 
+   /**
+    * If this task represents an external project (subproject), calling this method
+    * will attempt to read the subproject file, the link the tasks from
+    * the subproject file as children of this current task.
+    * <p/>
+    * Calling this method on a task which does not represent an external project
+    * will have no effect.
+    *
+    * @return a ProjectFile instance for the subproject, or null if no project was loaded
+    */
    public ProjectFile expandSubproject() throws MPXJException
    {
+      // Do nothing if this is not an external project task, or we can't load the subproject
       if (!getExternalProject() || getSubprojectObject() == null)
       {
          return null;
       }
 
+      // If the subproject contains a summary task we can ignore it
+      // the current task is in effect the summary task.
       Task summaryTask = m_subproject.getTaskByID(Integer.valueOf(0));
       if (summaryTask == null)
       {
@@ -3774,6 +3787,17 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return m_subproject;
    }
 
+   /**
+    * If this task is an external project task or an external predecessor task,
+    * attempt to load the project to which it refers. We will try the full path for the project
+    * and either the process working directory, or the directory the caller supplied to
+    * ProjectFile.setSubprojectWorkingDirectory.
+    * <p/>
+    * Note that the ProjectFile instance is cached once it has been read, so multiple calls
+    * to this method don't incur the cost of finding and re-reading the project.
+    *
+    * @return ProjectFile instance or null if the project could not be located or read
+    */
    public ProjectFile getSubprojectObject() throws MPXJException
    {
       // file is already loaded
