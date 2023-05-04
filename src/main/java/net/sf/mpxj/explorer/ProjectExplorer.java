@@ -32,6 +32,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -173,7 +174,8 @@ public class ProjectExplorer
             ProjectFile projectFile = new UniversalProjectReader().read(file);
             if (projectFile == null)
             {
-               throw new IllegalArgumentException("Unsupported file type");
+               JOptionPane.showMessageDialog(m_frame, "Unsupported file type");
+               return;
             }
             tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile));
             mntmSave.setEnabled(true);
@@ -194,7 +196,8 @@ public class ProjectExplorer
             List<ProjectFile> projectFiles = new UniversalProjectReader().readAll(file);
             if (projectFiles.isEmpty())
             {
-               throw new IllegalArgumentException("Unsupported file type");
+               JOptionPane.showMessageDialog(m_frame, "Unsupported file type");
+               return;
             }
 
             int index = 1;
