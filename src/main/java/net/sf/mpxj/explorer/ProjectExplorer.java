@@ -177,6 +177,11 @@ public class ProjectExplorer
                JOptionPane.showMessageDialog(m_frame, "Unsupported file type");
                return;
             }
+
+            // If we want to automatically expand subprojects...
+            //projectFile.setSubprojectWorkingDirectory(file.getParentFile());
+            //projectFile.expandSubprojects();
+
             tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile));
             mntmSave.setEnabled(true);
             mntmClean.setEnabled(true);

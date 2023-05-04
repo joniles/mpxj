@@ -158,6 +158,7 @@ Early Start|✓|✓|✓|✓
 Earned Value Method| | |✓|✓
 Effort Driven|✓|✓|✓|✓
 Estimated| |✓|✓|✓
+Expanded|✓|✓|✓|✓
 Expense Items|✓|✓|✓|✓
 External Project| |✓|✓|✓
 External Task| |✓|✓|✓
@@ -187,6 +188,7 @@ Manual Duration Units| | | |✓
 Marked| |✓|✓|✓
 Milestone|✓|✓|✓|✓
 Notes|✓|✓|✓|✓
+Null| |✓|✓|✓
 Outline Level|✓|✓|✓|✓
 Outline Number|✓|✓|✓|✓
 Overtime Cost|✓|✓|✓|✓

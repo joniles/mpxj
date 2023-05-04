@@ -23,6 +23,7 @@
 
 package net.sf.mpxj;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -706,6 +707,17 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       }
    }
 
+   public void setSubprojectWorkingDirectory(File workingDirectory)
+   {
+      m_subprojectWorkingDirectory = workingDirectory;
+   }
+
+   public File getSubprojectWorkingDirectory()
+   {
+      return m_subprojectWorkingDirectory;
+   }
+
+   private File m_subprojectWorkingDirectory;
    private final ProjectConfig m_config = new ProjectConfig(this);
    private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);

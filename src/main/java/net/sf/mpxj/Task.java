@@ -3759,35 +3759,51 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return null;
       }
 
-      m_children.addAll(m_subproject.getChildTasks());
+      Task summaryTask = m_subproject.getTaskByID(Integer.valueOf(0));
+      if (summaryTask == null)
+      {
+         m_children.addAll(m_subproject.getChildTasks());
+      }
+      else
+      {
+         m_children.addAll(summaryTask.getChildTasks());
+      }
 
       return m_subproject;
    }
 
    public ProjectFile getSubprojectObject() throws MPXJException
    {
+      // file is already loaded
       if (m_subproject != null)
       {
          return m_subproject;
       }
 
+      // we don't have a subproject or an external predecessor task
       if (!getExternalTask() && !getExternalProject())
       {
          return null;
       }
 
+      File workingDirectory = null;
       String fileName = getSubprojectFile();
+
+      // Try to find the file using the full path
       File file = new File(fileName);
       if (!file.exists())
       {
-         // We'll always have a path with Windows separators
+         // No luck, so we split the path - we'll always have a path with Windows separators
          int index = fileName.lastIndexOf("\\");
          if (index == -1)
          {
             return null;
          }
 
-         file = new File(fileName.substring(index+1));
+         // try the process working directory, or a caller supplied search directory
+         String name = fileName.substring(index+1);
+         workingDirectory = getParentFile().getSubprojectWorkingDirectory();
+         file = workingDirectory == null ? new File(name) : new File(workingDirectory, name);
          if (!file.exists())
          {
             return null;
@@ -3795,6 +3811,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       }
 
       m_subproject = new UniversalProjectReader().read(file);
+      if (m_subproject != null)
+      {
+         // subproject inherits the searhc directory
+         m_subproject.setSubprojectWorkingDirectory(workingDirectory);
+      }
 
       return m_subproject;
    }
