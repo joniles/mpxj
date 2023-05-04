@@ -694,6 +694,18 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return Stream.of(m_tasks.getPopulatedFields(), m_resources.getPopulatedFields(), m_assignments.getPopulatedFields(), m_properties.getPopulatedFields()).flatMap(Collection::stream).collect(Collectors.toSet());
    }
 
+   public void expandSubprojects() throws MPXJException
+   {
+      for (Task task : getTasks())
+      {
+         ProjectFile file = task.expandSubproject();
+         if (file != null)
+         {
+            file.expandSubprojects();
+         }
+      }
+   }
+
    private final ProjectConfig m_config = new ProjectConfig(this);
    private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);

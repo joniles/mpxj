@@ -24,6 +24,7 @@
 
 package net.sf.mpxj;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -41,6 +42,7 @@ import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.TaskFieldLists;
+import net.sf.mpxj.reader.UniversalProjectReader;
 
 /**
  * This class represents a task record from a project file.
@@ -3750,6 +3752,53 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       set(TaskField.SUBPROJECT, subProject);
    }
 
+   public ProjectFile expandSubproject() throws MPXJException
+   {
+      if (!getExternalProject() || getSubprojectObject() == null)
+      {
+         return null;
+      }
+
+      m_children.addAll(m_subproject.getChildTasks());
+
+      return m_subproject;
+   }
+
+   public ProjectFile getSubprojectObject() throws MPXJException
+   {
+      if (m_subproject != null)
+      {
+         return m_subproject;
+      }
+
+      if (!getExternalTask() && !getExternalProject())
+      {
+         return null;
+      }
+
+      String fileName = getSubprojectFile();
+      File file = new File(fileName);
+      if (!file.exists())
+      {
+         // We'll always have a path with Windows separators
+         int index = fileName.lastIndexOf("\\");
+         if (index == -1)
+         {
+            return null;
+         }
+
+         file = new File(fileName.substring(index+1));
+         if (!file.exists())
+         {
+            return null;
+         }
+      }
+
+      m_subproject = new UniversalProjectReader().read(file);
+
+      return m_subproject;
+   }
+
    /**
     * Retrieve an enterprise field value.
     *
@@ -5898,6 +5947,8 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Recurring task details associated with this task.
     */
    private RecurringTask m_recurringTask;
+
+   private ProjectFile m_subproject;
 
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Collections.singletonList(TaskField.PARENT_TASK_UNIQUE_ID));
 
