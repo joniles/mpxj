@@ -139,8 +139,58 @@ file.expandSubprojects();
 ```
 
 ## External Predecessors
+The second way an external project can be referenced in a Microsoft Project
+schedule is through the use of an external predecessor task. Project allows you
+to enter the task ID for a predecessor in the form `myproject.mpp\123` which
+translates selects the task with ID `123` in `myproject.mpp` as the predecessor
+of the task in the schedule you are working on.
+
+When you use an external predecessor task like this, Project includes
+a "placeholder" task in your current schedule which represents the task in the
+external project and has a copy of all of the relevant attributes of the task
+from the external project. In many cases this placeholder task is all you need
+to work with  the schedule.
+
+When you are working with MPXJ, how can you identify that you are looking
+at a placeholder task representing an external predecessor? The sample
+code below illustrates this:
+
+```java
+ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+for (Task task : file.getTasks())
+{
+    if (task.getExternalTask())
+    {
+        System.out.println(task.getName() + " is an external predecessor");
+        System.out.println("The path to the file containing this task is: "
+            + task.getSubprojectFile());
+        System.out.println("The ID of the task in this file is: "
+            + task.getSubprojectTaskID());
+        System.out.println("The Unique ID of the task in this file is: "
+            + task.getSubprojectTaskUniqueID());
+    }
+}
+```
+
+As the code above illustrates, if the `getExternalTask` method return true, the
+task is an external predecessor. As illustrated by the code there are three
+relevant attributes: Subproject File (the location of the external project this
+predecessor belongs to), and the Subproject Task ID and Subproject Task Unique
+ID which are the ID and Unique ID of the task in the schedule it comes from.
+
+As with a task representing an external project, you can retrieve the project
+for an external predecessor task using the `getSubprojectObject` method. Note
+however that the `expandSubproject` method will have no effect as the external
+predecessor task does not represent an entire project!
 
 ## Resource Pools
+The final way an external project can be use from a Microsoft Project schedule
+is as a resource pool. A resource pool schedule allows you to capture details
+of all of your organisation's resources in one place, then refer to them from
+multiple schedules. Setting up a resource pool like this should ensure that
+your resource utilisation across different projects is accurately captured as
+the utilisation detail in the resource pool is updated by the projects using
+those resources.
 
 ## MSPDI Files
 
