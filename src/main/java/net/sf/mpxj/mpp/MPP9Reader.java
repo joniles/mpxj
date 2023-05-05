@@ -1202,6 +1202,11 @@ final class MPP9Reader implements MPPVariantReader
             //noinspection deprecation
             task.setSubProject(sp);
             task.setSubprojectFile(sp.getFullPath());
+            Integer subprojectTaskUniqueID = task.getSubprojectTaskUniqueID();
+            if (subprojectTaskUniqueID != null)
+            {
+               task.setSubprojectTaskUniqueID(Integer.valueOf(subprojectTaskUniqueID.intValue() & 0xFFFF));
+            }
          }
 
          if (m_externalTasks.contains(task.getUniqueID()) && NumberHelper.getInt(task.getSubprojectTaskUniqueID()) != 0)
