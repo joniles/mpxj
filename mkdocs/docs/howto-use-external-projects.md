@@ -10,6 +10,7 @@ summary task in the location you've selected within the parent file. When this
 summary task is expanded the tasks from the child MPP file will appear
 seamlessly as tasks in the parent file.
 
+### Identifying Subproject Tasks
 If you use MPXJ to read an MPP file that contains a Subproject, initially you
 won't see anything different to a file which just contains ordinary tasks: the
 Subproject will just appear as a normal summary task whose attributes will roll
@@ -41,24 +42,106 @@ for (Task task : file.getTasks())
 
 ```
 
-The example above illustrates how we can identity a Subproject using a task's
+The example above illustrates how we can identify a Subproject using a task's
 External Project attribute. Once we have identified that we have a Subproject
 we can determine where the file is located, using the Subproject File 
 attribute, and the GUID of this project, using the Subproject GUID attribute.
 
-The last attribute we're looking at in this example is the Subprojec Tasks
+The last attribute we're looking at in this example is the Subproject Tasks
 Unique ID Offset. When Microsoft Project provides a combined view of two or
 more MPP files using Subprojects, one issue is that the Unique ID values from
-one project may no lnger be unique. To get around this problem Microsoft
+one project may no longer be unique. To get around this problem Microsoft
 Project adds an offset to the Unique ID values of the tasks it displays from
 each Subproject to ensure that each one has a distinct value. This is the value
 we're retrieving using the `getSubprojectTasksUniqueIDOffset` method.
 
-TODO
-opening Subprojects
+### Reading Subproject Data
+If you wish, you can use `UniversalProjectReader` directly to load the
+external project, as the example below illustrates:
+
+```java
+ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
+String filePath = externalProjectTask.getSubprojectFile();
+ProjectFile externalProjectFile = new UniversalProjectReader().read(filePath);
+```
+
+The code above assumes that the file is located on a readable filesystem at
+the exact path specified by the Subproject File attribute.
+
+> Note that these examples assume that the file is on a filesystem
+> which is directly readable. For MPP files exported from Project Server,
+> it is likely that the path to an external project will be in the form
+> `<>\FileName` which represents a project hosted by Project Server.
+> MPXJ cannot open this type of external project.
+
+
+An alternative to writing your own code to do this would be to use the method
+provided by MPXJ, as illustrated below:
+
+```java
+ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
+ProjectFile externalProjectFile = externalProjectTask.getSubprojectObject();
+```
+
+The advantage of this approach, apart from using less code, is that MPXJ will
+attempt to locate the file in locations other than the full path provided
+in Subproject File. By default the other place MPXJ will look is in the
+working directory of the current process, however this behaviour can be
+configured as the example below illustrates:
+
+
+```java
+ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+file.setSubprojectWorkingDirectory(new File("/path/to/directory"));
+Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
+ProjectFile externalProjectFile = externalProjectTask.getSubprojectObject();
+```
+
+In the code above we're calling the `setSubprojectWorkingDirectory` method
+to give MPXJ details of a directory to look in when attempting to read
+an external project.
+
+Note that if MPXJ can't load the external project for any reason, the
+`getSubprojectObject` method will return `null`.
+
+### Expanding Subproject Data
+In Microsoft Project, when a Subproject task is expanded it behaves just
+like any other summary task by revealing the child tasks it contains. We
+can reproduce this behavior using this method shown in the sample below:
+
+```java
+ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
+System.out.println("Task has child tasks: " + externalProjectTask.hasChildTasks());
+externalProjectTask.expandSubproject();
+System.out.println("Task has child tasks: " + externalProjectTask.hasChildTasks());
+```
+
+The `expandSubproject` method attempts to open the external project, and if
+successful attaches the tasks from the external project as children of the
+external project task. You are then able to access the tasks from the parent
+project along with the tasks from the external project as part of the same MPXJ
+ProjectFile instance.
+
+> Note that when using the `expandSubproject` method, the
+> `setSubprojectWorkingDirectory` method on `ProjectFile` can be 
+> used to tell MPXJ where to find the external projects in the same way
+> we did when using the `getSubprojectObject` method.
+
+You can also do this globally and expand all Subproject tasks in a project
+by using the `expandSubprojects` method on the project itself:
+
+```java
+ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+file.expandSubprojects();
+```
 
 ## External Predecessors
 
 ## Resource Pools
+
+## MSPDI Files
 
 
