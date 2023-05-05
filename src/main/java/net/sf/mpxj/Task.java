@@ -1405,8 +1405,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * The Subproject File field contains the name of a project inserted into
-    * the active project file. The Subproject File field contains the inserted
+    * The Subproject File field contains the external
     * project's path and file name.
     *
     * @param val - String
@@ -1418,8 +1417,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * The Subproject File field contains the name of a project inserted into
-    * the active project file. The Subproject File field contains the inserted
+    * The Subproject File field contains the external
     * project's path and file name.
     *
     * @param val - String
@@ -2586,8 +2584,8 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Contains the file name and path of the subproject represented by
-    * the current task.
+    * Contains the file name and path of the extrenal project linked
+    * to this task.
     *
     * @return subproject file path
     */
@@ -3041,7 +3039,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    /**
     * Retrieves the external project flag.
     *
-    * @return true if this task represent an external project
+    * @return true if this task represents an external project
     */
    public boolean getExternalProject()
    {
