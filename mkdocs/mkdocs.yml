@@ -69,6 +69,7 @@ nav:
   - 'How to Use...':
       - 'Calendars': 'howto-use-calendars.md'
       - 'Fields': 'howto-use-fields.md'
+      - 'External Projects': 'howto-use-external-projects.md'
   - 'Field Guides...':
     - 'Field Guide': 'field-guide.md'
     - 'MPP Field Guide': 'mpp-field-guide.md'
