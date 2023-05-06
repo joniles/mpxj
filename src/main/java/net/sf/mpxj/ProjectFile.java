@@ -715,6 +715,11 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       }
    }
 
+   ProjectFile readExternalProject(String fileName)
+   {
+      return m_externalProjects.read(fileName);
+   }
+
    private final ProjectConfig m_config = new ProjectConfig(this);
    private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);
@@ -738,5 +743,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final WorkContourContainer m_workContours = new WorkContourContainer(this);
    private final NotesTopicContainer m_notesTopics = new NotesTopicContainer(this);
    private final LocationContainer m_locations = new LocationContainer(this);
+   private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
 }

@@ -24,7 +24,6 @@
 
 package net.sf.mpxj;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -42,7 +41,6 @@ import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.TaskFieldLists;
-import net.sf.mpxj.reader.UniversalProjectReader;
 
 /**
  * This class represents a task record from a project file.
@@ -3762,7 +3760,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return a ProjectFile instance for the subproject, or null if no project was loaded
     */
-   public ProjectFile expandSubproject() throws MPXJException
+   public ProjectFile expandSubproject()
    {
       // Do nothing if this is not an external project task, or we can't load the subproject
       if (!getExternalProject() || getSubprojectObject() == null)
@@ -3772,17 +3770,18 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
       // If the subproject contains a summary task we can ignore it
       // the current task is in effect the summary task.
-      Task summaryTask = m_subproject.getTaskByID(Integer.valueOf(0));
+      ProjectFile subproject = getSubprojectObject();
+      Task summaryTask = subproject.getTaskByID(Integer.valueOf(0));
       if (summaryTask == null)
       {
-         m_children.addAll(m_subproject.getChildTasks());
+         m_children.addAll(subproject.getChildTasks());
       }
       else
       {
          m_children.addAll(summaryTask.getChildTasks());
       }
 
-      return m_subproject;
+      return subproject;
    }
 
    /**
@@ -3796,23 +3795,15 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return ProjectFile instance or null if the project could not be located or read
     */
-   public ProjectFile getSubprojectObject() throws MPXJException
+   public ProjectFile getSubprojectObject()
    {
-      // file is already loaded
-      if (m_subproject != null)
-      {
-         return m_subproject;
-      }
-
       // we don't have a subproject or an external predecessor task
       if (!getExternalTask() && !getExternalProject())
       {
          return null;
       }
 
-      m_subproject = getParentFile().getProjectConfig().readSubprojectFile(getSubprojectFile());
-
-      return m_subproject;
+      return getParentFile().readExternalProject(getSubprojectFile());
    }
 
    /**
@@ -5963,8 +5954,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Recurring task details associated with this task.
     */
    private RecurringTask m_recurringTask;
-
-   private ProjectFile m_subproject;
 
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Collections.singletonList(TaskField.PARENT_TASK_UNIQUE_ID));
 
