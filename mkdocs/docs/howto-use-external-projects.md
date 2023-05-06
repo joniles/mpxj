@@ -31,11 +31,11 @@ for (Task task : file.getTasks())
     if (task.getExternalProject())
     {
         System.out.println(task.getName() + " is a subproject");
-        System.out.println("The path to the file is: " +
+        System.out.println("Path to the file is: " +
             task.getSubprojectFile());
-        System.out.println("The GUID of this project is: " +
+        System.out.println("GUID of this project is: " +
             task.getSubprojectGUID());
-        System.out.println("The offset used when displaying Unique ID values is: " +
+        System.out.println("Offset used when displaying Unique ID values is: " +
             task.getSubprojectTasksUniqueIDOffset());
     }
 }
@@ -94,7 +94,7 @@ configured as the example below illustrates:
 
 ```java
 ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-file.getProjectConfig().setSubprojectWorkingDirectory(new File("/path/to/directory"));
+file.getProjectConfig().setSubprojectWorkingDirectory(new File("/path/to/dir"));
 Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
 ProjectFile externalProjectFile = externalProjectTask.getSubprojectObject();
 ```
@@ -114,9 +114,9 @@ can reproduce this behavior using this method shown in the sample below:
 ```java
 ProjectFile file = new UniversalProjectReader().read("sample.mpp");
 Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
-System.out.println("Task has child tasks: " + externalProjectTask.hasChildTasks());
+System.out.println("Has child tasks? " + externalProjectTask.hasChildTasks());
 externalProjectTask.expandSubproject();
-System.out.println("Task has child tasks: " + externalProjectTask.hasChildTasks());
+System.out.println("Has child tasks? " + externalProjectTask.hasChildTasks());
 ```
 
 The `expandSubproject` method attempts to open the external project, and if
