@@ -94,7 +94,7 @@ configured as the example below illustrates:
 
 ```java
 ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-file.setSubprojectWorkingDirectory(new File("/path/to/directory"));
+file.getProjectConfig().setSubprojectWorkingDirectory(new File("/path/to/directory"));
 Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
 ProjectFile externalProjectFile = externalProjectTask.getSubprojectObject();
 ```
@@ -126,7 +126,7 @@ project along with the tasks from the external project as part of the same MPXJ
 ProjectFile instance.
 
 > Note that when using the `expandSubproject` method, the
-> `setSubprojectWorkingDirectory` method on `ProjectFile` can be 
+> `setSubprojectWorkingDirectory` method on `ProjectConfig` can be 
 > used to tell MPXJ where to find the external projects in the same way
 > we did when using the `getSubprojectObject` method.
 

@@ -696,30 +696,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
-    * Specify a directory to use when searching for subproject files to expand.
-    * MPXJ will attempt to use the full path of a subproject when attempting
-    * to expand it, or the process working directory. If a value
-    * is supplied here, this directory will be used instead of the process
-    * working directory.
-    *
-    * @param workingDirectory directory to search for subproject files
-    */
-   public void setSubprojectWorkingDirectory(File workingDirectory)
-   {
-      m_subprojectWorkingDirectory = workingDirectory;
-   }
-
-   /**
-    * Retrieve the directory to search for subproject files.
-    *
-    * @return directory to search for subproject files
-    */
-   public File getSubprojectWorkingDirectory()
-   {
-      return m_subprojectWorkingDirectory;
-   }
-
-   /**
     * Calling this method will recursively expand any subprojects
     * in the current file and in turn any subprojects those files contain.
     * The tasks from the subprojects will be attached
@@ -739,7 +715,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       }
    }
 
-   private File m_subprojectWorkingDirectory;
    private final ProjectConfig m_config = new ProjectConfig(this);
    private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);

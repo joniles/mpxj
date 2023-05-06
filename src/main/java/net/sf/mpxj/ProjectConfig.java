@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.io.File;
+
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -437,6 +439,30 @@ public class ProjectConfig
       m_baselineStrategy = strategy;
    }
 
+   /**
+    * Specify a directory to use when searching for subproject files to expand.
+    * MPXJ will attempt to use the full path of a subproject when attempting
+    * to expand it, or the process working directory. If a value
+    * is supplied here, this directory will be used instead of the process
+    * working directory.
+    *
+    * @param workingDirectory directory to search for subproject files
+    */
+   public void setSubprojectWorkingDirectory(File workingDirectory)
+   {
+      m_subprojectWorkingDirectory = workingDirectory;
+   }
+
+   /**
+    * Retrieve the directory to search for subproject files.
+    *
+    * @return directory to search for subproject files
+    */
+   public File getSubprojectWorkingDirectory()
+   {
+      return m_subprojectWorkingDirectory;
+   }
+
    private final ProjectFile m_parent;
 
    /**
@@ -540,4 +566,6 @@ public class ProjectConfig
    private boolean m_completeThroughIsNextWorkStart;
 
    private BaselineStrategy m_baselineStrategy = new DefaultBaselineStrategy();
+
+   private File m_subprojectWorkingDirectory;
 }

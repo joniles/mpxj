@@ -3826,7 +3826,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
          // try the process working directory, or a caller supplied search directory
          String name = fileName.substring(index+1);
-         workingDirectory = getParentFile().getSubprojectWorkingDirectory();
+         workingDirectory = getParentFile().getProjectConfig().getSubprojectWorkingDirectory();
          file = workingDirectory == null ? new File(name) : new File(workingDirectory, name);
          if (!file.exists())
          {
@@ -3838,7 +3838,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       if (m_subproject != null)
       {
          // subproject inherits the searhc directory
-         m_subproject.setSubprojectWorkingDirectory(workingDirectory);
+         m_subproject.getProjectConfig().setSubprojectWorkingDirectory(workingDirectory);
       }
 
       return m_subproject;

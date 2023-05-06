@@ -2861,6 +2861,11 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       set(ProjectField.RESOURCE_POOL_FILE, file);
    }
 
+//   public ProjectFile getResourcePoolObject()
+//   {
+//
+//   }
+
    /**
     * Maps a field index to a TaskField instance.
     *
