@@ -179,8 +179,8 @@ public class ProjectExplorer
             }
 
             // If we want to automatically expand subprojects...
-            projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
-            projectFile.expandSubprojects();
+            //projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
+            //projectFile.expandSubprojects();
 
             tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile));
             mntmSave.setEnabled(true);
