@@ -184,13 +184,29 @@ however that the `expandSubproject` method will have no effect as the external
 predecessor task does not represent an entire project!
 
 ## Resource Pools
-The final way an external project can be use from a Microsoft Project schedule
+The final way an external project can be used from a Microsoft Project schedule
 is as a resource pool. A resource pool schedule allows you to capture details
 of all of your organisation's resources in one place, then refer to them from
 multiple schedules. Setting up a resource pool like this should ensure that
 your resource utilisation across different projects is accurately captured as
 the utilisation detail in the resource pool is updated by the projects using
 those resources.
+
+The full path for a project's resource pool can be retrieved using the
+`getResourcePoolFile` method as illustrated below:
+
+```java
+ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+String path = file.getProjectProperties().getResourcePoolFile();
+```
+
+In a similar manner to the other external project examples given in previous
+sections, MPXJ can also open and read the resource pool file for you:
+
+```java
+ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+ProjectFile resourcePool = file.getProjectProperties().getResourcePoolObject();
+```
 
 ## MSPDI Files
 
