@@ -3810,36 +3810,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return null;
       }
 
-      File workingDirectory = null;
-      String fileName = getSubprojectFile();
-
-      // Try to find the file using the full path
-      File file = new File(fileName);
-      if (!file.exists())
-      {
-         // No luck, so we split the path - we'll always have a path with Windows separators
-         int index = fileName.lastIndexOf("\\");
-         if (index == -1)
-         {
-            return null;
-         }
-
-         // try the process working directory, or a caller supplied search directory
-         String name = fileName.substring(index+1);
-         workingDirectory = getParentFile().getProjectConfig().getSubprojectWorkingDirectory();
-         file = workingDirectory == null ? new File(name) : new File(workingDirectory, name);
-         if (!file.exists())
-         {
-            return null;
-         }
-      }
-
-      m_subproject = new UniversalProjectReader().read(file);
-      if (m_subproject != null)
-      {
-         // subproject inherits the searhc directory
-         m_subproject.getProjectConfig().setSubprojectWorkingDirectory(workingDirectory);
-      }
+      m_subproject = getParentFile().getProjectConfig().readSubprojectFile(getSubprojectFile());
 
       return m_subproject;
    }

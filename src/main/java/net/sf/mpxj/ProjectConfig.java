@@ -26,6 +26,7 @@ package net.sf.mpxj;
 import java.io.File;
 
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.reader.UniversalProjectReader;
 
 /**
  * Container for configuration details used to control the behaviour of the ProjectFile class.
@@ -437,6 +438,47 @@ public class ProjectConfig
    public void setBaselineStrategy(BaselineStrategy strategy)
    {
       m_baselineStrategy = strategy;
+   }
+
+   /**
+    * Package private method providing common functionality to find and open
+    * subprojects and resource pools.
+    *
+    * @param fileName original full path to file
+    * @return ProjectFile instance or null
+    */
+   ProjectFile readSubprojectFile(String fileName) throws MPXJException
+   {
+      File workingDirectory = null;
+
+      // Try to find the file using the full path
+      File file = new File(fileName);
+      if (!file.exists())
+      {
+         // No luck, so we split the path - we'll always have a path with Windows separators
+         int index = fileName.lastIndexOf("\\");
+         if (index == -1)
+         {
+            return null;
+         }
+
+         // try the process working directory, or a caller supplied search directory
+         String name = fileName.substring(index+1);
+         file = m_subprojectWorkingDirectory == null ? new File(name) : new File(m_subprojectWorkingDirectory, name);
+         if (!file.exists())
+         {
+            return null;
+         }
+      }
+
+      ProjectFile project = new UniversalProjectReader().read(file);
+      if (project != null)
+      {
+         // subproject inherits the search directory
+         project.getProjectConfig().setSubprojectWorkingDirectory(workingDirectory);
+      }
+
+      return project;
    }
 
    /**

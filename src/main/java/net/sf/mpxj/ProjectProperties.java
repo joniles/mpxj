@@ -2861,10 +2861,29 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       set(ProjectField.RESOURCE_POOL_FILE, file);
    }
 
-//   public ProjectFile getResourcePoolObject()
-//   {
-//
-//   }
+   /**
+    * Retrieve a ProjectFile instance representing the resource pool for this project
+    * Returns null if this project does not have a resource pool or the file cannot be read.
+    *
+    * @return ProjectFile instance for the resource pool
+    */
+   public ProjectFile getResourcePoolObject() throws MPXJException
+   {
+      if (m_resourcePool != null)
+      {
+         return m_resourcePool;
+      }
+
+      String name = getResourcePoolFile();
+      if (name == null || name.isEmpty())
+      {
+         return null;
+      }
+
+      m_resourcePool = getParentFile().getProjectConfig().readSubprojectFile(name);
+
+      return m_resourcePool;
+   }
 
    /**
     * Maps a field index to a TaskField instance.
@@ -2977,6 +2996,8 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    {
       return Character.valueOf(DEFAULT_MPX_DELIMITER);
    }
+
+   private ProjectFile m_resourcePool;
 
    /**
     * Default time separator character.
