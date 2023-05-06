@@ -209,5 +209,14 @@ ProjectFile resourcePool = file.getProjectProperties().getResourcePoolObject();
 ```
 
 ## MSPDI Files
+Much of the detail noted above is also applicable to MSPDI files, but with the
+following exceptions:
 
-
+* Where the MSPDI file contains a Subproject, only the Subproject File attribute
+  will be populated, the Subproject GUID add Subproject Tasks Unique ID Offset
+  will not be available.
+* Where the original MPP file contained an external task predecessor, the
+  equivalent MSPDI file will not contain a placeholder task for the predecessor.
+  MPXJ will generate one for you, but this will contain none of the attributes
+  you would find if you read the MPP file using MPXJ.
+* MSPDI files do not contain any references to resource pools.
