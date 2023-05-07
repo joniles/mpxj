@@ -39,7 +39,6 @@ for (Task task : file.getTasks())
             task.getSubprojectTasksUniqueIDOffset());
     }
 }
-
 ```
 
 The example above illustrates how we can identify a Subproject using a task's
@@ -49,11 +48,12 @@ attribute, and the GUID of this project, using the Subproject GUID attribute.
 
 The last attribute we're looking at in this example is the Subproject Tasks
 Unique ID Offset. When Microsoft Project provides a combined view of two or
-more MPP files using Subprojects, one issue is that the Unique ID values from
-one project may no longer be unique. To get around this problem Microsoft
+more MPP files using Subprojects, one issue is that the Unique ID values in
+each project will no longer be unique. To get around this problem Microsoft
 Project adds an offset to the Unique ID values of the tasks it displays from
-each Subproject to ensure that each one has a distinct value. This is the value
-we're retrieving using the `getSubprojectTasksUniqueIDOffset` method.
+each Subproject to ensure that each one has a distinct value. This offset is
+the value we're retrieving using the `getSubprojectTasksUniqueIDOffset`
+method.
 
 ### Reading Subproject Data
 If you wish, you can use `UniversalProjectReader` directly to load the
@@ -75,7 +75,6 @@ the exact path specified by the Subproject File attribute.
 > `<>\FileName` which represents a project hosted by Project Server.
 > MPXJ cannot open this type of external project.
 
-
 An alternative to writing your own code to do this would be to use the method
 provided by MPXJ, as illustrated below:
 
@@ -86,11 +85,10 @@ ProjectFile externalProjectFile = externalProjectTask.getSubprojectObject();
 ```
 
 The advantage of this approach, apart from using less code, is that MPXJ will
-attempt to locate the file in locations other than the full path provided
+attempt to find the file in locations other than the full path provided
 in Subproject File. By default the other place MPXJ will look is in the
 working directory of the current process, however this behaviour can be
 configured as the example below illustrates:
-
 
 ```java
 ProjectFile file = new UniversalProjectReader().read("sample.mpp");
@@ -109,7 +107,7 @@ Note that if MPXJ can't load the external project for any reason, the
 ### Expanding Subproject Data
 In Microsoft Project, when a Subproject task is expanded it behaves just
 like any other summary task by revealing the child tasks it contains. We
-can reproduce this behavior using this method shown in the sample below:
+can reproduce this behavior using the code shown in the sample below:
 
 ```java
 ProjectFile file = new UniversalProjectReader().read("sample.mpp");
@@ -131,7 +129,7 @@ ProjectFile instance.
 > we did when using the `getSubprojectObject` method.
 
 You can also do this globally and expand all Subproject tasks in a project
-by using the `expandSubprojects` method on the project itself:
+by using the `expandSubprojects` method on the project file itself:
 
 ```java
 ProjectFile file = new UniversalProjectReader().read("sample.mpp");
@@ -142,14 +140,14 @@ file.expandSubprojects();
 The second way an external project can be referenced in a Microsoft Project
 schedule is through the use of an external predecessor task. Project allows you
 to enter the task ID for a predecessor in the form `myproject.mpp\123` which
-translates selects the task with ID `123` in `myproject.mpp` as the predecessor
+selects the task with ID `123` in `myproject.mpp` as the predecessor
 of the task in the schedule you are working on.
 
 When you use an external predecessor task like this, Project includes
 a "placeholder" task in your current schedule which represents the task in the
 external project and has a copy of all of the relevant attributes of the task
 from the external project. In many cases this placeholder task is all you need
-to work with  the schedule.
+to work with the schedule.
 
 When you are working with MPXJ, how can you identify that you are looking
 at a placeholder task representing an external predecessor? The sample
@@ -220,3 +218,7 @@ following exceptions:
   MPXJ will generate one for you, but this will contain none of the attributes
   you would find if you read the MPP file using MPXJ.
 * MSPDI files do not contain any references to resource pools.
+
+> Note that although Microsoft Project will write external predecessor
+> information to an MSPDI file, it will fail to load these correctly when
+> the MSPDI file is reopened.
