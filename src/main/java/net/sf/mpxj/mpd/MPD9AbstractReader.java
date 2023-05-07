@@ -352,7 +352,7 @@ abstract class MPD9AbstractReader
       int subprojectIndex = 1;
       for (Task task : m_project.getTasks())
       {
-         String subProjectFileName = task.getSubprojectName();
+         String subProjectFileName = task.getSubprojectFile();
          if (subProjectFileName != null)
          {
             String fileName = subProjectFileName;
@@ -368,7 +368,9 @@ abstract class MPD9AbstractReader
             sp.setFullPath(subProjectFileName);
             sp.setUniqueIDOffset(Integer.valueOf(offset));
             sp.setTaskUniqueID(task.getUniqueID());
+            //noinspection deprecation
             task.setSubProject(sp);
+            task.setSubprojectFile(subProjectFileName);
 
             ++subprojectIndex;
          }

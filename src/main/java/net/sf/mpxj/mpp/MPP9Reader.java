@@ -28,13 +28,16 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.NumberHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -179,6 +182,7 @@ final class MPP9Reader implements MPPVariantReader
 
       m_fontBases = new HashMap<>();
       m_taskSubProjects = new HashMap<>();
+      m_externalTasks = new HashSet<>();
       m_taskOrder = new TreeMap<>();
       m_nullTaskOrder = new TreeMap<>();
 
@@ -203,6 +207,7 @@ final class MPP9Reader implements MPPVariantReader
       m_taskOrder = null;
       m_nullTaskOrder = null;
       m_taskSubProjects = null;
+      m_externalTasks = null;
    }
 
    /**
@@ -234,273 +239,278 @@ final class MPP9Reader implements MPPVariantReader
    private void processSubProjectData()
    {
       byte[] subProjData = m_projectProps.getByteArray(Props.SUBPROJECT_DATA);
+      if (subProjData == null)
+      {
+         return;
+      }
 
       //System.out.println (ByteArrayHelper.hexdump(subProjData, true, 16, ""));
       //MPPUtility.fileHexDump("c:\\temp\\dump.txt", subProjData);
 
-      if (subProjData != null)
+      int index = 0;
+      int offset = 0;
+      int itemHeaderOffset;
+      int uniqueIDOffset;
+      int filePathOffset;
+      int fileNameOffset;
+
+      /*int blockSize = MPPUtility.getInt(subProjData, offset);*/
+      offset += 4;
+
+      /*int unknown = MPPUtility.getInt(subProjData, offset);*/
+      offset += 4;
+
+      int itemCountOffset = MPPUtility.getInt(subProjData, offset);
+      offset += 4;
+
+      while (offset < itemCountOffset)
       {
-         int index = 0;
-         int offset = 0;
-         int itemHeaderOffset;
-         int uniqueIDOffset;
-         int filePathOffset;
-         int fileNameOffset;
-
-         /*int blockSize = MPPUtility.getInt(subProjData, offset);*/
+         index++;
+         itemHeaderOffset = MPPUtility.getShort(subProjData, offset);
          offset += 4;
 
-         /*int unknown = MPPUtility.getInt(subProjData, offset);*/
-         offset += 4;
+         // 20 byte header: 16 bytes GUID, 4 bytes flags
+         //System.out.println(ByteArrayHelper.hexdump(subProjData, itemHeaderOffset+16, 4, false));
+         byte subProjectType = subProjData[itemHeaderOffset + 16];
 
-         int itemCountOffset = MPPUtility.getInt(subProjData, offset);
-         offset += 4;
-
-         while (offset < itemCountOffset)
+         switch (subProjectType)
          {
-            index++;
-            itemHeaderOffset = MPPUtility.getShort(subProjData, offset);
-            offset += 4;
-
-            // 20 byte header: 16 bytes GUID, 4 bytes flags
-            //System.out.println(ByteArrayHelper.hexdump(subProjData, itemHeaderOffset+16, 4, false));
-            byte subProjectType = subProjData[itemHeaderOffset + 16];
-
-            switch (subProjectType)
+            //
+            // Subproject that is no longer inserted. This is a placeholder in order to be
+            // able to always guarantee unique unique ids.
+            //
+            case 0x00:
             {
-               //
-               // Subproject that is no longer inserted. This is a placeholder in order to be
-               // able to always guarantee unique unique ids.
-               //
-               case 0x00:
+               offset += 8;
+               break;
+            }
+
+            //
+            // task unique ID, 8 bytes, path, file name
+            //
+            case (byte) 0x99:
+            case 0x09:
+            case 0x0D:
+            {
+               uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               // sometimes offset of a task ID?
+               offset += 4;
+
+               filePathOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               fileNameOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+               break;
+            }
+
+            //
+            // task unique ID, 8 bytes, path, file name
+            //
+            case (byte) 0x91:
+            {
+               uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               filePathOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               fileNameOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               // Unknown offset
+               offset += 4;
+
+               readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+               break;
+            }
+
+            //
+            // task unique ID, path, file name
+            //
+            case 0x01:
+            case 0x03:
+            case 0x08:
+            case 0x0A:
+            case 0x11:
+            {
+               uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               filePathOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               fileNameOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+               break;
+            }
+
+            //
+            // task unique ID, path, unknown, file name
+            //
+            case (byte) 0x81:
+            case 0x41:
+            {
+               uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               filePathOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               // unknown offset to 2 bytes of data?
+               offset += 4;
+
+               fileNameOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+               break;
+            }
+
+            //
+            // task unique ID, path, file name
+            //
+            case (byte) 0xC0:
+            {
+               uniqueIDOffset = itemHeaderOffset;
+
+               filePathOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               fileNameOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               // unknown offset
+               offset += 4;
+
+               readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+               break;
+            }
+
+            //
+            // resource, task unique ID, path, file name
+            //
+            case 0x05:
+            {
+               uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               filePathOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               fileNameOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               SubProject sp = readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+               //noinspection deprecation
+               m_file.getSubProjects().setResourceSubProject(sp);
+               break;
+            }
+
+            case 0x45:
+            {
+               uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               offset += 4;
+
+               filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               offset += 4;
+
+               fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
+               offset += 4;
+
+               offset += 4;
+               SubProject sp = readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+               //noinspection deprecation
+               m_file.getSubProjects().setResourceSubProject(sp);
+               break;
+            }
+
+            //
+            // path, file name
+            //
+            case 0x02:
+            case 0x04:
+            {
+               filePathOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               fileNameOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
+
+               SubProject sp = readSubProject(subProjData, itemHeaderOffset, -1, filePathOffset, fileNameOffset, index);
+               // 0x02 looks to be the link FROM the resource pool to a project that uses it
+               if (subProjectType == 0x04)
                {
-                  offset += 8;
-                  break;
-               }
-
-               //
-               // task unique ID, 8 bytes, path, file name
-               //
-               case (byte) 0x99:
-               case 0x09:
-               case 0x0D:
-               {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  // sometimes offset of a task ID?
-                  offset += 4;
-
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
-                  break;
-               }
-
-               //
-               // task unique ID, 8 bytes, path, file name
-               //
-               case (byte) 0x91:
-               {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  // Unknown offset
-                  offset += 4;
-
-                  readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
-                  break;
-               }
-
-               //
-               // task unique ID, path, file name
-               //
-               case 0x01:
-               case 0x03:
-               case 0x08:
-               case 0x0A:
-               case 0x11:
-               {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
-                  break;
-               }
-
-               //
-               // task unique ID, path, unknown, file name
-               //
-               case (byte) 0x81:
-               case 0x41:
-               {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  // unknown offset to 2 bytes of data?
-                  offset += 4;
-
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
-                  break;
-               }
-
-               //
-               // task unique ID, path, file name
-               //
-               case (byte) 0xC0:
-               {
-                  uniqueIDOffset = itemHeaderOffset;
-
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  // unknown offset
-                  offset += 4;
-
-                  readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
-                  break;
-               }
-
-               //
-               // resource, task unique ID, path, file name
-               //
-               case 0x05:
-               {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  SubProject sp = readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+                  //noinspection deprecation
                   m_file.getSubProjects().setResourceSubProject(sp);
-                  break;
                }
+               break;
+            }
 
-               case 0x45:
-               {
-                  uniqueIDOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
-                  offset += 4;
+            //
+            // task unique ID, 4 bytes, path, 4 bytes, file name
+            //
+            case (byte) 0x8D:
+            {
+               uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 8;
 
-                  filePathOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
-                  offset += 4;
+               filePathOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 8;
 
-                  fileNameOffset = MPPUtility.getInt(subProjData, offset) & 0x1FFFF;
-                  offset += 4;
+               fileNameOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
 
-                  offset += 4;
-                  SubProject sp = readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
-                  m_file.getSubProjects().setResourceSubProject(sp);
-                  break;
-               }
+               readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
+               break;
+            }
 
-               //
-               // path, file name
-               //
-               case 0x02:
-               case 0x04:
-               {
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
+            //
+            // Appears when a subproject is collapsed
+            //
+            case (byte) 0x80:
+            {
+               offset += 12;
+               break;
+            }
 
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
+            // deleted entry?
+            case 0x10:
+            {
+               offset += 8;
+               break;
+            }
 
-                  SubProject sp = readSubProject(subProjData, itemHeaderOffset, -1, filePathOffset, fileNameOffset, index);
-                  // 0x02 looks to be the link FROM the resource pool to a project that uses it
-                  if (subProjectType == 0x04)
-                  {
-                     m_file.getSubProjects().setResourceSubProject(sp);
-                  }
-                  break;
-               }
+            // new resource pool entry
+            case (byte) 0x44:
+            {
+               filePathOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
 
-               //
-               // task unique ID, 4 bytes, path, 4 bytes, file name
-               //
-               case (byte) 0x8D:
-               {
-                  uniqueIDOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 8;
+               offset += 4;
 
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 8;
+               fileNameOffset = MPPUtility.getShort(subProjData, offset);
+               offset += 4;
 
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
+               SubProject sp = readSubProject(subProjData, itemHeaderOffset, -1, filePathOffset, fileNameOffset, index);
+               //noinspection deprecation
+               m_file.getSubProjects().setResourceSubProject(sp);
+               break;
+            }
 
-                  readSubProject(subProjData, itemHeaderOffset, uniqueIDOffset, filePathOffset, fileNameOffset, index);
-                  break;
-               }
-
-               //
-               // Appears when a subproject is collapsed
-               //
-               case (byte) 0x80:
-               {
-                  offset += 12;
-                  break;
-               }
-
-               // deleted entry?
-               case 0x10:
-               {
-                  offset += 8;
-                  break;
-               }
-
-               // new resource pool entry
-               case (byte) 0x44:
-               {
-                  filePathOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  offset += 4;
-
-                  fileNameOffset = MPPUtility.getShort(subProjData, offset);
-                  offset += 4;
-
-                  SubProject sp = readSubProject(subProjData, itemHeaderOffset, -1, filePathOffset, fileNameOffset, index);
-                  m_file.getSubProjects().setResourceSubProject(sp);
-                  break;
-               }
-
-               //
-               // Any other value, assume 12 bytes to handle old/deleted data?
-               //
-               default:
-               {
-                  offset += 12;
-                  break;
-               }
+            //
+            // Any other value, assume 12 bytes to handle old/deleted data?
+            //
+            default:
+            {
+               offset += 12;
+               break;
             }
          }
       }
@@ -524,8 +534,12 @@ final class MPP9Reader implements MPPVariantReader
          SubProject sp = new SubProject();
 
          // We have a 20 byte header.
-         // First 16 bytes are the GUID of the target project
+         // First 16 bytes are (most of the time) the GUID of the target project
          // Remaining 4 bytes are believed to be flags
+         // NOTE: actually for MPP9 files this is not the project GUID.
+         // MPP9 files don't appear to store the GUID of the subproject.
+         // This code will be marked as deprecated soon, but the existing
+         // functionality will be let as-is until this code is removed.
          sp.setProjectGUID(MPPUtility.getGUID(data, headerOffset));
 
          // Generate the unique id offset for this subproject
@@ -638,6 +652,7 @@ final class MPP9Reader implements MPPVariantReader
          //System.out.println(sp.toString());
 
          // Add to the list of subprojects
+         //noinspection deprecation
          m_file.getSubProjects().add(sp);
 
          return (sp);
@@ -663,7 +678,7 @@ final class MPP9Reader implements MPPVariantReader
          return;
       }
 
-      int prev = 0;
+      Integer prev = 0;
       int value = MPPUtility.getInt(data, uniqueIDOffset);
       while (value != SUBPROJECT_LISTEND)
       {
@@ -675,31 +690,38 @@ final class MPP9Reader implements MPPVariantReader
             case SUBPROJECT_TASKUNIQUEID3:
             case SUBPROJECT_TASKUNIQUEID4:
             case SUBPROJECT_TASKUNIQUEID5:
-               // The previous value was for the subproject unique task id
-               sp.setTaskUniqueID(Integer.valueOf(prev));
-               m_taskSubProjects.put(sp.getTaskUniqueID(), sp);
-               prev = 0;
+            {
+               sp.setTaskUniqueID(prev);
+               m_taskSubProjects.put(prev, sp);
+               prev = Integer.valueOf(0);
                break;
+            }
 
             default:
+            {
                if (prev != 0)
                {
                   // The previous value was for an external task unique task id
-                  sp.addExternalTaskUniqueID(Integer.valueOf(prev));
-                  m_taskSubProjects.put(Integer.valueOf(prev), sp);
+                  sp.addExternalTaskUniqueID(prev);
+                  m_externalTasks.add(prev);
+                  m_taskSubProjects.put(prev, sp);
                }
-               prev = value;
+               prev = Integer.valueOf(value);
                break;
+            }
          }
+
          // Read the next value
          uniqueIDOffset += 4;
          value = MPPUtility.getInt(data, uniqueIDOffset);
       }
-      if (prev != 0)
+
+      if (prev.intValue() != 0)
       {
          // The previous value was for an external task unique task id
-         sp.addExternalTaskUniqueID(Integer.valueOf(prev));
-         m_taskSubProjects.put(Integer.valueOf(prev), sp);
+         sp.addExternalTaskUniqueID(prev);
+         m_externalTasks.add(prev);
+         m_taskSubProjects.put(prev, sp);
       }
    }
 
@@ -1052,10 +1074,9 @@ final class MPP9Reader implements MPPVariantReader
          task.setEstimated(getDurationEstimated(MPPUtility.getShort(data, fieldMap.getFixedDataOffset(TaskField.ACTUAL_DURATION_UNITS))));
 
          task.setExpanded(((metaData[12] & 0x02) == 0));
-         Integer externalTaskID = task.getSubprojectTaskID();
-         if (externalTaskID != null && externalTaskID.intValue() != 0)
+
+         if (NumberHelper.getInt(task.getSubprojectTaskID()) != 0)
          {
-            task.setSubprojectTaskID(externalTaskID);
             task.setExternalTask(true);
             externalTasks.add(task);
          }
@@ -1173,21 +1194,25 @@ final class MPP9Reader implements MPPVariantReader
          }
 
          //
-         // Set the sub project flag
+         // Set the subproject and external task flag
          //
          SubProject sp = m_taskSubProjects.get(task.getUniqueID());
-         task.setSubProject(sp);
-
-         //
-         // Set the external flag
-         //
          if (sp != null)
          {
-            task.setExternalTask(sp.isExternalTask(task.getUniqueID()));
-            if (task.getExternalTask())
+            //noinspection deprecation
+            task.setSubProject(sp);
+            task.setSubprojectFile(sp.getFullPath());
+            Integer subprojectTaskUniqueID = task.getSubprojectTaskUniqueID();
+            if (subprojectTaskUniqueID != null)
             {
-               task.setExternalTaskProject(sp.getFullPath());
+               task.setSubprojectTaskUniqueID(Integer.valueOf(subprojectTaskUniqueID.intValue() & 0xFFFF));
             }
+         }
+
+         if (m_externalTasks.contains(task.getUniqueID()) && NumberHelper.getInt(task.getSubprojectTaskUniqueID()) != 0)
+         {
+            // The condition preserves external tasks which no longer have an associated subproject filename
+            task.setExternalTask(m_externalTasks.contains(task.getUniqueID()));
          }
 
          //
@@ -1527,18 +1552,16 @@ final class MPP9Reader implements MPPVariantReader
 
       for (Task currentTask : externalTasks)
       {
+         //noinspection deprecation
          SubProject sp = currentTask.getSubProject();
          if (sp == null)
          {
-            currentTask.setSubProject(currentSubProject);
-
-            //we need to set the external task project path now that we have
-            //the subproject for this task (was skipped while processing the task earlier)
             if (currentSubProject != null)
             {
-               currentTask.setExternalTaskProject(currentSubProject.getFullPath());
+               //noinspection deprecation
+               currentTask.setSubProject(currentSubProject);
+               currentTask.setSubprojectFile(currentSubProject.getFullPath());
             }
-
          }
          else
          {
@@ -2021,6 +2044,7 @@ final class MPP9Reader implements MPPVariantReader
    private Props9 m_projectProps;
    private Map<Integer, FontBase> m_fontBases;
    private Map<Integer, SubProject> m_taskSubProjects;
+   private Set<Integer> m_externalTasks;
    private DirectoryEntry m_projectDir;
    private DirectoryEntry m_viewDir;
    private Map<Integer, Integer> m_taskOrder;

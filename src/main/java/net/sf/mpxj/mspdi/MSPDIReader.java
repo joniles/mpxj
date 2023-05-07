@@ -43,6 +43,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.CalendarType;
+import net.sf.mpxj.ChildTaskContainer;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -1247,6 +1248,16 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //
          TimeUnit durationFormat = DatatypeConverter.parseDurationTimeUnits(xml.getDurationFormat());
 
+         if (BooleanHelper.getBoolean(xml.isIsSubproject()))
+         {
+            SubProject subProject = new SubProject();
+            subProject.setFullPath(xml.getSubprojectName());
+            //noinspection deprecation
+            mpx.setSubProject(subProject);
+            mpx.setSubprojectFile(xml.getSubprojectName());
+            mpx.setSubprojectReadOnly(BooleanHelper.getBoolean(xml.isIsSubprojectReadOnly()));
+         }
+
          mpx.setActive(xml.isActive() == null || BooleanHelper.getBoolean(xml.isActive()));
          mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
          mpx.setActualDuration(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getActualDuration()));
@@ -1384,9 +1395,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //mpx.setStart5();
          mpx.setStartVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getStartVariance()));
          mpx.setStop(xml.getStop());
-         mpx.setSubProject(BooleanHelper.getBoolean(xml.isIsSubproject()) ? new SubProject() : null);
-         mpx.setSubprojectName(xml.getSubprojectName());
-         mpx.setSubprojectReadOnly(BooleanHelper.getBoolean(xml.isIsSubprojectReadOnly()));
          //mpx.setSuccessors();
          // Rely on the presence of child tasks to determine if this is a summary task rather than using this attribute
          //mpx.setSummary(BooleanHelper.getBoolean(xml.isSummary()));
@@ -1680,45 +1688,95 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private void readPredecessor(Task currTask, Project.Tasks.Task.PredecessorLink link)
    {
       BigInteger uid = link.getPredecessorUID();
-      if (uid != null)
+      if (uid == null)
       {
-         Task prevTask = m_projectFile.getTaskByUniqueID(Integer.valueOf(uid.intValue()));
-         if (prevTask != null)
+         return;
+      }
+
+      Task prevTask;
+      if (BooleanHelper.getBoolean(link.isCrossProject()))
+      {
+         prevTask = createExternalTaskPlaceholder(currTask, link);
+      }
+      else
+      {
+         prevTask = m_projectFile.getTaskByUniqueID(Integer.valueOf(uid.intValue()));
+      }
+
+      if (prevTask == null)
+      {
+         return;
+      }
+
+      RelationType type;
+      if (link.getType() != null)
+      {
+         type = RelationType.getInstance(link.getType().intValue());
+      }
+      else
+      {
+         type = RelationType.FINISH_START;
+      }
+
+      TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
+
+      Duration lagDuration;
+      int lag = NumberHelper.getInt(link.getLinkLag());
+      if (lag == 0)
+      {
+         lagDuration = Duration.getInstance(0, lagUnits);
+      }
+      else
+      {
+         if (lagUnits == TimeUnit.PERCENT || lagUnits == TimeUnit.ELAPSED_PERCENT)
          {
-            RelationType type;
-            if (link.getType() != null)
-            {
-               type = RelationType.getInstance(link.getType().intValue());
-            }
-            else
-            {
-               type = RelationType.FINISH_START;
-            }
-
-            TimeUnit lagUnits = DatatypeConverter.parseDurationTimeUnits(link.getLagFormat());
-
-            Duration lagDuration;
-            int lag = NumberHelper.getInt(link.getLinkLag());
-            if (lag == 0)
-            {
-               lagDuration = Duration.getInstance(0, lagUnits);
-            }
-            else
-            {
-               if (lagUnits == TimeUnit.PERCENT || lagUnits == TimeUnit.ELAPSED_PERCENT)
-               {
-                  lagDuration = Duration.getInstance(lag, lagUnits);
-               }
-               else
-               {
-                  lagDuration = Duration.convertUnits(lag / 10.0, TimeUnit.MINUTES, lagUnits, m_projectFile.getProjectProperties());
-               }
-            }
-
-            Relation relation = currTask.addPredecessor(prevTask, type, lagDuration);
-            m_eventManager.fireRelationReadEvent(relation);
+            lagDuration = Duration.getInstance(lag, lagUnits);
+         }
+         else
+         {
+            lagDuration = Duration.convertUnits(lag / 10.0, TimeUnit.MINUTES, lagUnits, m_projectFile.getProjectProperties());
          }
       }
+
+      Relation relation = currTask.addPredecessor(prevTask, type, lagDuration);
+      m_eventManager.fireRelationReadEvent(relation);
+   }
+
+   /**
+    * We try to use the minimal data present in an MSPDI file to recreate the structure
+    * we'd see if we read the equivalent MPP file containing external tasks.
+    *
+    * @param currTask current task
+    * @param link link data
+    * @return excternal task placeholder for predecessor task
+    */
+   private Task createExternalTaskPlaceholder(Task currTask, Project.Tasks.Task.PredecessorLink link)
+   {
+      String crossProjectName = link.getCrossProjectName();
+      if (crossProjectName == null || crossProjectName.isEmpty())
+      {
+         return null;
+      }
+
+      int splitIndex = crossProjectName.lastIndexOf('\\');
+      String subprojectFile = splitIndex == -1 ? crossProjectName : crossProjectName.substring(0, splitIndex);
+      Integer subprojectTaskID = splitIndex + 1 >= crossProjectName.length() ? null : NumberHelper.getInt(crossProjectName.substring(splitIndex + 1));
+
+      Task task = m_projectFile.addTask();
+      task.setName("External Task");
+      task.setExternalTask(true);
+      task.setSubprojectFile(subprojectFile);
+      task.setSubprojectTaskID(subprojectTaskID);
+      task.setOutlineLevel(currTask.getOutlineLevel());
+      task.setUniqueID(NumberHelper.getInteger(link.getPredecessorUID()));
+      task.setID(currTask.getID());
+      currTask.setID(Integer.valueOf(currTask.getID().intValue()+1));
+
+      ChildTaskContainer container = currTask.getParentTask() == null ? m_projectFile : currTask.getParentTask();
+      int insertionIndex = container.getChildTasks().indexOf(currTask);
+      container.getChildTasks().add(insertionIndex, task);
+
+      return task;
    }
 
    /**

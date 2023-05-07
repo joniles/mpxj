@@ -23,6 +23,7 @@
 
 package net.sf.mpxj;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -465,8 +466,9 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * Retrieves all the subprojects for this project.
     *
     * @return all subproject details
+    * @deprecated use the attributes on individual tasks to retrieve subproject details
     */
-   public SubProjectContainer getSubProjects()
+   @Deprecated public SubProjectContainer getSubProjects()
    {
       return m_subProjects;
    }
@@ -693,6 +695,31 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return Stream.of(m_tasks.getPopulatedFields(), m_resources.getPopulatedFields(), m_assignments.getPopulatedFields(), m_properties.getPopulatedFields()).flatMap(Collection::stream).collect(Collectors.toSet());
    }
 
+   /**
+    * Calling this method will recursively expand any subprojects
+    * in the current file and in turn any subprojects those files contain.
+    * The tasks from the subprojects will be attached
+    * to the parent task in. Assuming all subproject
+    * files can be located and loaded correctly, this will present
+    * a complete view of the project.
+    */
+   public void expandSubprojects() throws MPXJException
+   {
+      for (Task task : getTasks())
+      {
+         ProjectFile file = task.expandSubproject();
+         if (file != null)
+         {
+            file.expandSubprojects();
+         }
+      }
+   }
+
+   ProjectFile readExternalProject(String fileName)
+   {
+      return m_externalProjects.read(fileName);
+   }
+
    private final ProjectConfig m_config = new ProjectConfig(this);
    private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);
@@ -716,5 +743,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final WorkContourContainer m_workContours = new WorkContourContainer(this);
    private final NotesTopicContainer m_notesTopics = new NotesTopicContainer(this);
    private final LocationContainer m_locations = new LocationContainer(this);
+   private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
 }

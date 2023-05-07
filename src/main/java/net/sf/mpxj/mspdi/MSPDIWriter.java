@@ -1348,9 +1348,17 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setTasks(tasks);
       List<Project.Tasks.Task> list = tasks.getTask();
 
-      for (Task task : m_projectFile.getTasks())
+      int taskIdOffset = 0;
+      for(Task task : m_projectFile.getTasks().stream().sorted(Comparator.comparing(Task::getID)).collect(Collectors.toList()))
       {
-         list.add(writeTask(task));
+         if (task.getExternalTask())
+         {
+            taskIdOffset++;
+         }
+         else
+         {
+            list.add(writeTask(taskIdOffset, task));
+         }
       }
    }
 
@@ -1360,9 +1368,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param mpx Task data
     * @return new task instance
     */
-   private Project.Tasks.Task writeTask(Task mpx)
+   private Project.Tasks.Task writeTask(int taskIdOffset, Task mpx)
    {
       Project.Tasks.Task xml = m_factory.createProjectTasksTask();
+      int taskID = mpx.getID().intValue() - taskIdOffset;
 
       xml.setActive(Boolean.valueOf(mpx.getActive()));
       xml.setActualCost(DatatypeConverter.printCurrency(mpx.getActualCost()));
@@ -1412,12 +1421,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setGUID(mpx.getGUID());
       xml.setHideBar(Boolean.valueOf(mpx.getHideBar()));
       xml.setIsNull(Boolean.valueOf(mpx.getNull()));
-      xml.setIsSubproject(Boolean.valueOf(mpx.getSubProject() != null));
+      xml.setIsSubproject(Boolean.valueOf(mpx.getExternalProject()));
       xml.setIsSubprojectReadOnly(Boolean.valueOf(mpx.getSubprojectReadOnly()));
       xml.setHyperlink(mpx.getHyperlink());
       xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
-      xml.setID(NumberHelper.getBigInteger(mpx.getID()));
+      xml.setID(NumberHelper.getBigInteger(taskID));
       xml.setIgnoreResourceCalendar(Boolean.valueOf(mpx.getIgnoreResourceCalendar()));
       xml.setLateFinish(mpx.getLateFinish());
       xml.setLateStart(mpx.getLateStart());
@@ -1499,7 +1508,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setStartText(mpx.getStartText());
       xml.setStartVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getStartVariance()));
       xml.setStop(mpx.getStop());
-      xml.setSubprojectName(mpx.getSubprojectName());
+      xml.setSubprojectName(mpx.getSubprojectFile());
       xml.setSummary(Boolean.valueOf(mpx.hasChildTasks()));
       xml.setTotalSlack(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getTotalSlack()));
       xml.setType(mpx.getType());
@@ -1809,8 +1818,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<Relation> predecessors = mpx.getPredecessors();
       for (Relation rel : predecessors)
       {
-         Integer taskUniqueID = rel.getTargetTask().getUniqueID();
-         list.add(writePredecessor(taskUniqueID, rel.getType(), rel.getLag()));
+         list.add(writePredecessor(rel.getTargetTask(), rel.getType(), rel.getLag()));
          m_eventManager.fireRelationWrittenEvent(rel);
       }
    }
@@ -1818,19 +1826,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * This method writes a single predecessor link to the MSPDI file.
     *
-    * @param taskID The task UID
+    * @param predecessor predecessor task
     * @param type The predecessor type
     * @param lag The lag duration
     * @return A new link to be added to the MSPDI file
     */
-   private Project.Tasks.Task.PredecessorLink writePredecessor(Integer taskID, RelationType type, Duration lag)
+   private Project.Tasks.Task.PredecessorLink writePredecessor(Task predecessor, RelationType type, Duration lag)
    {
       Project.Tasks.Task.PredecessorLink link = m_factory.createProjectTasksTaskPredecessorLink();
 
-      link.setPredecessorUID(NumberHelper.getBigInteger(taskID));
+      link.setPredecessorUID(NumberHelper.getBigInteger(predecessor.getUniqueID()));
+      link.setCrossProject(Boolean.valueOf(predecessor.getExternalTask()));
       link.setType(BigInteger.valueOf(type.getValue()));
-      link.setCrossProject(Boolean.FALSE); // SF-300: required to keep P6 happy when importing MSPDI files
-
       if (lag != null && lag.getDuration() != 0)
       {
          double linkLag = lag.getDuration();
@@ -1848,7 +1855,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
          link.setLagFormat(DatatypeConverter.printDurationTimeUnits(m_projectFile.getProjectProperties().getDefaultDurationUnits(), false));
       }
 
-      return (link);
+      if (predecessor.getExternalTask())
+      {
+         // Note that MS Project doesn't actually read external task data correctly,
+         // even if it wrote the file itself. We'll just replicate what MS Project writes.
+         link.setCrossProjectName(predecessor.getSubprojectFile() + "\\" + predecessor.getSubprojectTaskID());
+      }
+
+      return link;
    }
 
    /**

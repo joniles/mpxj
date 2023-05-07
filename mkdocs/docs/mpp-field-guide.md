@@ -89,6 +89,7 @@ PM Text|✓|✓|✓|✓
 Presentation Format| |✓|✓|✓
 Project File Path| |✓|✓|✓
 Project Title|✓|✓|✓|✓
+Resource Pool File| |✓|✓|✓
 Revision|✓|✓|✓|✓
 Schedule From|✓|✓|✓|✓
 Short Application Name|✓|✓|✓|✓
@@ -157,7 +158,9 @@ Early Start|✓|✓|✓|✓
 Earned Value Method| | |✓|✓
 Effort Driven|✓|✓|✓|✓
 Estimated| |✓|✓|✓
+Expanded|✓|✓|✓|✓
 Expense Items|✓|✓|✓|✓
+External Project| |✓|✓|✓
 External Task| |✓|✓|✓
 Finish|✓|✓|✓|✓
 Finish Slack|✓|✓|✓|✓
@@ -185,6 +188,7 @@ Manual Duration Units| | | |✓
 Marked| |✓|✓|✓
 Milestone|✓|✓|✓|✓
 Notes|✓|✓|✓|✓
+Null| |✓|✓|✓
 Outline Level|✓|✓|✓|✓
 Outline Number|✓|✓|✓|✓
 Overtime Cost|✓|✓|✓|✓
@@ -217,10 +221,11 @@ Start Variance|✓|✓|✓|✓
 Steps|✓|✓|✓|✓
 Stop|✓|✓|✓|✓
 Subproject| |✓|✓|✓
-Subproject File| |✓| | 
+Subproject File| |✓|✓|✓
+Subproject GUID| | |✓|✓
 Subproject Task ID| |✓|✓|✓
+Subproject Task Unique ID| |✓|✓|✓
 Subproject Tasks Unique ID Offset| |✓|✓|✓
-Subproject Unique Task ID| |✓|✓|✓
 Successors|✓|✓|✓|✓
 Summary|✓|✓|✓|✓
 Summary Progress| |✓|✓|✓

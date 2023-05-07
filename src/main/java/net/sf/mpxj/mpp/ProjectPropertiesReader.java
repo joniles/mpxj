@@ -61,7 +61,7 @@ public final class ProjectPropertiesReader
    {
       try
       {
-         // MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
+         //MPPUtility.fileDump("props.txt", props.toString().getBytes());
          ProjectProperties ph = file.getProjectProperties();
          ph.setGUID(props.getUUID(Props.GUID));
          ph.setStartDate(props.getTimestamp(Props.PROJECT_START_DATE));
@@ -164,11 +164,44 @@ public final class ProjectPropertiesReader
          ph.setBaselineDate(10, props.getTimestamp(Props.BASELINE10_DATE));
 
          ph.setNewTasksAreManual(props.getBoolean(Props.NEW_TASKS_ARE_MANUAL));
+
+         ph.setResourcePoolFile(getResourcePool(props.getByteArray(Props.RESOURCE_POOL)));
       }
 
       catch (Exception ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
+   }
+
+   private String getResourcePool(byte[] data)
+   {
+      if (data == null)
+      {
+         return null;
+      }
+
+      // 18 byte header
+      int offset = 18;
+      if (offset+4 >= data.length)
+      {
+         return null;
+      }
+
+      // Length of the 8.3 filename
+      int length = MPPUtility.getInt(data, offset);
+      offset += 4;
+
+      // 8.3 filename
+      offset += length;
+
+      // 34 byte header
+      offset += 34;
+      if (offset >= data.length)
+      {
+         return null;
+      }
+
+      return MPPUtility.getUnicodeString(data, offset);
    }
 }

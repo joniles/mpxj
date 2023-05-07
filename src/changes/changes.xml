@@ -5,7 +5,22 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="11.3.3">
+		<release date="unreleased" version="11.4.0">
+			<action dev="joniles" type="update">Added the "Resource Pool File" attribute to ProjectProperties, which represents the full path of the resource pool used by an MPP file. This attribute is accessible via the `getResourcePoolFile` and `setResourcePoolFile` methods.</action>
+			<action dev="joniles" type="update">Added the `getResourcePoolObject` method to allow the resource pool file to be located and read</action>
+			<action dev="joniles" type="update">Added support for reading the task attribute Subproject GUID from MPP files. This attribute can be accessed via the `getSubprojectGUID` and `setSubprojectGUID` methods.</action>
+			<action dev="joniles" type="update">Added support for the task attribute "External Project". When this attribute is true it indicates that the task represents a subproject. The attribute is accessed via the `getExternalProject` and `setExternalProject` methods.</action>
+			<action dev="joniles" type="update">When reading an MSPDI file with external task predecessors, MPXJ now attempts to recreate the placeholder external tasks which would be present if the equivalent MPP file was read.</action>
+			<action dev="joniles" type="update">External task predecessors are now represented when writing an MSPDI file.</action>
+			<action dev="joniles" type="update">Added the Task method `getSubprojectObject` which allows the caller to retrieve a ProjectFile instance representing the external project linked to a task.</action>
+			<action dev="joniles" type="update">Added the Task method `expandSubproject`. For task which represent an external project, this method automatically loads the external project and attaches the tasks it contains as children of the current task. This is analogous to the behavior in Microsoft Project where a subproject is expanded to reveal the tasks it contains.</action>
+			<action dev="joniles" type="update">Added the ProjectFile method `expandSubprojects` which identifies any tasks in the project which represent an external project and expands them, linking the tasks from the external project as children of the task in the parent project. Note that the method works recursively so multiple levels of external tasks will be expanded.</action>
+			<action dev="joniles" type="update">Marked the Task method `setSubprojectName` as deprecated. Use the `setSubProjectFile` method instead.</action>
+			<action dev="joniles" type="update">Marked the Task method `getSubprojectName` as deprecated. Use `getSubprojectFile` instead.</action>
+			<action dev="joniles" type="update">Marked the Task method `setExternalTaskProject` as deprecated. Use the `setSubprojectFile` method instead.</action>
+			<action dev="joniles" type="update">Marked the Task method `getExternalTaskProject` as deprecated. Use the `getSubprojectFile` method instead.</action>
+			<action dev="joniles" type="update">Marked the ProjectFile method `getSubProjects` as deprecated. Use the subproject attributes on individual tasks instead.</action>
+			<action dev="joniles" type="update">Marked the Task methods `getSubProject` and `setSubProject` as deprecated. Use the subproject attributes instead.</action>
 		</release>
 		<release date="2023-04-29" version="11.3.2">
 			<action dev="joniles" type="update">Improve default values provided for P6 calendars with missing data.</action>
@@ -32,7 +47,7 @@
 			<action dev="joniles" type="update">Add method to allow a cost account's parent unique ID to be retrieved.</action>
 			<action dev="joniles" type="update">Add method to allow an expense item's cost account unique ID to be retrieved.</action>
 			<action dev="joniles" type="update">Add method to allow an expense item's category unique ID to be retrieved.</action>
-			<action dev="joniles" type="update">Added `WorkContour.isDefault()` method to allow "built in" resouce curves/work contours to be distinguished from user defined curves.</action>
+			<action dev="joniles" type="update">Added `WorkContour.isDefault()` method to allow "built in" resource curves/work contours to be distinguished from user defined curves.</action>
 			<action dev="joniles" type="update">Updated to retrieve the project's start date from Phoenix PPX files (Contributed by Rohit Sinha).</action>
 			<action dev="joniles" type="update">Provide access to notebook topics from P6 schedules via the `ProjectFile.getNotesTopics()` method.</action>
 			<action dev="joniles" type="update">Capture unique ID of Activity and WBS notes from P6 schedules.</action>
@@ -49,9 +64,9 @@
 			<action dev="joniles" type="update">When reading the task type from P6 schedule the mapping to the MPXJ `TaskType` enum has been updated to more closely match P6. The main changes are that the P6 type "Fixed Units" now maps to `TaskType.FIXED_WORK` and the "Fixed Duration &amp; Units" type now maps to a new enumeration value `TaskType.FIXED_DURATION_AND_UNITS`.</action>
 			<action dev="joniles" type="update">Added support for reading project calendar exceptions from Phoenix schedules (based on a contribution by Rohit Sinha).</action>
 			<action dev="joniles" type="update">The Resource attribute Active now defaults to true if the schedule being read doesn't support or contain a value for this attribute.</action>
-			<action dev="joniles" type="update">Add suport for reading and writing the Resource's Active flag for P6 schedules.</action>
-			<action dev="joniles" type="update">Add suport for reading and writing the Resource's Default Units/Time value for P6 schedules.</action>
-			<action dev="joniles" type="update">Add suport for reading and writing the Project's Critical Slack Limit value for P6 schedules.</action>
+			<action dev="joniles" type="update">Add support for reading and writing the Resource's Active flag for P6 schedules.</action>
+			<action dev="joniles" type="update">Add support for reading and writing the Resource's Default Units/Time value for P6 schedules.</action>
+			<action dev="joniles" type="update">Add support for reading and writing the Project's Critical Slack Limit value for P6 schedules.</action>
 			<action dev="joniles" type="update">Fixed an issue reading certain types of Enterprise Custom Fields containing date values.</action>
 			<action dev="joniles" type="update">Ensure activity code value parent can be set to null.</action>
 			<action dev="joniles" type="update">Improved existing .Net extension methods and added support for more types.</action>

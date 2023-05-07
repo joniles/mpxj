@@ -118,6 +118,7 @@ public class MppSubprojectTest
       assertEquals("SubprojectB-9", taskSubprojectB.getName());
 
       // Subproject A
+      //noinspection deprecation
       SubProject subprojectA = taskSubprojectA.getSubProject();
       assertNotNull(subprojectA);
       final String expectedFilenameA = "\\SubprojectA-9.mpp";
@@ -125,14 +126,12 @@ public class MppSubprojectTest
       assertTrue(expectedFilenameA.contains(subprojectA.getFileName()));
       //subprojectA.getDosFullPath(); don't need to test
       assertTrue(subprojectA.getFullPath().contains(expectedFilenameA));
-      assertEquals(Integer.valueOf(2), subprojectA.getTaskUniqueID());
 
       //assertEquals(null, taskSubprojectA.getSubprojectName());  // TODO: why is this null?
       assertFalse(taskSubprojectA.getSubprojectReadOnly());
 
       if (isMPP)
       {
-         assertEquals(Integer.valueOf(8388608), subprojectA.getUniqueIDOffset()); // MPD needs to be fixed
          assertEquals(Integer.valueOf(8388608), taskSubprojectA.getSubprojectTasksUniqueIDOffset());
          assertEquals(Integer.valueOf(0), taskSubprojectA.getSubprojectTaskUniqueID());
       }

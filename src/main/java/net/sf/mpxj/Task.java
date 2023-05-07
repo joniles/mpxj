@@ -1403,15 +1403,46 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * The Subproject File field contains the name of a project inserted into
-    * the active project file. The Subproject File field contains the inserted
+    * The Subproject File field contains the external
+    * project's path and file name.
+    *
+    * @param val - String
+    * @deprecated use setSubprojectFile
+    */
+   @Deprecated public void setSubprojectName(String val)
+   {
+      setSubprojectFile(val);
+   }
+
+   /**
+    * The Subproject File field contains the external
     * project's path and file name.
     *
     * @param val - String
     */
-   public void setSubprojectName(String val)
+   public void setSubprojectFile(String val)
    {
       set(TaskField.SUBPROJECT_FILE, val);
+   }
+
+   /**
+    * Set the GUID of the linked subproject file.
+    *
+    * @param guid subproject GUID
+    */
+   public void setSubprojectGUID(UUID guid)
+   {
+      set(TaskField.SUBPROJECT_GUID, guid);
+   }
+
+   /**
+    * Retrieve the GUID of the linked subproject file.
+    *
+    * @return subproject GUID
+    */
+   public UUID getSubprojectGUID()
+   {
+      return (UUID)get(TaskField.SUBPROJECT_GUID);
    }
 
    /**
@@ -2543,8 +2574,20 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * the current task.
     *
     * @return sub project file path
+    * @deprecated use getSubprojectFile
     */
-   public String getSubprojectName()
+   @Deprecated  public String getSubprojectName()
+   {
+      return getSubprojectFile();
+   }
+
+   /**
+    * Contains the file name and path of the extrenal project linked
+    * to this task.
+    *
+    * @return subproject file path
+    */
+   public String getSubprojectFile()
    {
       return (String) get(TaskField.SUBPROJECT_FILE);
    }
@@ -2809,7 +2852,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public boolean getNull()
    {
-      return (m_null);
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.NULL)));
    }
 
    /**
@@ -2819,7 +2862,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void setNull(boolean isNull)
    {
-      m_null = isNull;
+      set(TaskField.NULL, isNull);
    }
 
    /**
@@ -2829,7 +2872,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public boolean getResumeValid()
    {
-      return (m_resumeValid);
+      return BooleanHelper.getBoolean((Boolean) get(TaskField.RESUME_VALID));
    }
 
    /**
@@ -2839,7 +2882,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void setResumeValid(boolean resumeValid)
    {
-      m_resumeValid = resumeValid;
+      set(TaskField.RESUME_VALID, resumeValid);
    }
 
    /**
@@ -2849,7 +2892,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public boolean getRecurring()
    {
-      return (BooleanHelper.getBoolean((Boolean) get(TaskField.RECURRING)));
+      return BooleanHelper.getBoolean((Boolean) get(TaskField.RECURRING));
    }
 
    /**
@@ -2894,7 +2937,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Integer getSubprojectTaskUniqueID()
    {
-      return (Integer) get(TaskField.SUBPROJECT_UNIQUE_TASK_ID);
+      return (Integer) get(TaskField.SUBPROJECT_TASK_UNIQUE_ID);
    }
 
    /**
@@ -2904,7 +2947,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void setSubprojectTaskUniqueID(Integer subprojectUniqueTaskID)
    {
-      set(TaskField.SUBPROJECT_UNIQUE_TASK_ID, subprojectUniqueTaskID);
+      set(TaskField.SUBPROJECT_TASK_UNIQUE_ID, subprojectUniqueTaskID);
    }
 
    /**
@@ -2992,23 +3035,35 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Retrieves the external project flag.
+    *
+    * @return true if this task represents an external project
+    */
+   public boolean getExternalProject()
+   {
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.EXTERNAL_PROJECT)));
+   }
+
+   /**
     * Retrieves the external task project file name.
     *
     * @return external task project file name
+    * @deprecated use getSubprojectFile
     */
-   public String getExternalTaskProject()
+   @Deprecated public String getExternalTaskProject()
    {
-      return (m_externalTaskProject);
+      return getSubprojectFile();
    }
 
    /**
     * Sets the external task project file name.
     *
     * @param externalTaskProject external task project file name
+    * @deprecated use setSubprojectFile
     */
-   public void setExternalTaskProject(String externalTaskProject)
+   @Deprecated public void setExternalTaskProject(String externalTaskProject)
    {
-      m_externalTaskProject = externalTaskProject;
+      setSubprojectFile(externalTaskProject);
    }
 
    /**
@@ -3563,7 +3618,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public boolean getExpanded()
    {
-      return (m_expanded);
+      return BooleanHelper.getBoolean((Boolean) get(TaskField.EXPANDED));
    }
 
    /**
@@ -3576,7 +3631,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public void setExpanded(boolean expanded)
    {
-      m_expanded = expanded;
+      set(TaskField.EXPANDED, expanded);
    }
 
    /**
@@ -3674,23 +3729,81 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Retrieve the sub project represented by this task.
+    * Retrieve the subproject represented by this task.
     *
     * @return sub project
+    * @deprecated use the task's subproject attributes
     */
-   public SubProject getSubProject()
+   @Deprecated public SubProject getSubProject()
    {
       return (SubProject) get(TaskField.SUBPROJECT);
    }
 
    /**
-    * Set the sub project represented by this task.
+    * Set the subproject represented by this task.
     *
     * @param subProject sub project
+    * @deprecated use the task's subproject attributes
     */
-   public void setSubProject(SubProject subProject)
+   @Deprecated public void setSubProject(SubProject subProject)
    {
       set(TaskField.SUBPROJECT, subProject);
+   }
+
+   /**
+    * If this task represents an external project (subproject), calling this method
+    * will attempt to read the subproject file, the link the tasks from
+    * the subproject file as children of this current task.
+    * <p/>
+    * Calling this method on a task which does not represent an external project
+    * will have no effect.
+    *
+    * @return a ProjectFile instance for the subproject, or null if no project was loaded
+    */
+   public ProjectFile expandSubproject()
+   {
+      // Do nothing if this is not an external project task, or we can't load the subproject
+      if (!getExternalProject() || getSubprojectObject() == null)
+      {
+         return null;
+      }
+
+      // If the subproject contains a summary task we can ignore it
+      // the current task is in effect the summary task.
+      ProjectFile subproject = getSubprojectObject();
+      Task summaryTask = subproject.getTaskByID(Integer.valueOf(0));
+      if (summaryTask == null)
+      {
+         m_children.addAll(subproject.getChildTasks());
+      }
+      else
+      {
+         m_children.addAll(summaryTask.getChildTasks());
+      }
+
+      return subproject;
+   }
+
+   /**
+    * If this task is an external project task or an external predecessor task,
+    * attempt to load the project to which it refers. We will try the full path for the project
+    * and either the process working directory, or the directory the caller supplied to
+    * ProjectFile.setSubprojectWorkingDirectory.
+    * <p/>
+    * Note that the ProjectFile instance is cached once it has been read, so multiple calls
+    * to this method don't incur the cost of finding and re-reading the project.
+    *
+    * @return ProjectFile instance or null if the project could not be located or read
+    */
+   public ProjectFile getSubprojectObject()
+   {
+      // we don't have a subproject or an external predecessor task
+      if (!getExternalTask() && !getExternalProject())
+      {
+         return null;
+      }
+
+      return getParentFile().readExternalProject(getSubprojectFile());
    }
 
    /**
@@ -5745,6 +5858,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return value;
    }
 
+   private Boolean calculateExternalProject()
+   {
+      return Boolean.valueOf(getSubprojectFile() != null && !getExternalTask());
+   }
+
    /**
     * Supply a default value for constraint type.
     *
@@ -5810,6 +5928,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return new ArrayList<>();
    }
 
+   private Boolean defaultExpanded()
+   {
+      return Boolean.TRUE;
+   }
+
    /**
     * This is a reference to the parent task, as specified by the
     * outline level.
@@ -5832,11 +5955,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    private RecurringTask m_recurringTask;
 
-   private boolean m_null;
-   private boolean m_resumeValid;
-   private String m_externalTaskProject;
-   private boolean m_expanded = true;
-
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Collections.singletonList(TaskField.PARENT_TASK_UNIQUE_ID));
 
    private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
@@ -5855,6 +5973,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.TOTAL_SLACK, Task::calculateTotalSlack);
       CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
       CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
+      CALCULATED_FIELD_MAP.put(TaskField.EXTERNAL_PROJECT, Task::calculateExternalProject);
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
@@ -5864,6 +5983,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODES, Task::defaultActivityCodesList);
       CALCULATED_FIELD_MAP.put(TaskField.EXPENSE_ITEMS, Task::defaultExpenseItems);
       CALCULATED_FIELD_MAP.put(TaskField.STEPS, Task::defaultSteps);
+      CALCULATED_FIELD_MAP.put(TaskField.EXPANDED, Task::defaultExpanded);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
@@ -5883,5 +6003,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       dependencies.calculatedField(TaskField.TOTAL_SLACK).dependsOn(TaskField.START_SLACK, TaskField.FINISH_SLACK);
       dependencies.calculatedField(TaskField.CRITICAL).dependsOn(TaskField.TOTAL_SLACK);
       dependencies.calculatedField(TaskField.COMPLETE_THROUGH).dependsOn(TaskField.DURATION, TaskField.ACTUAL_START, TaskField.PERCENT_COMPLETE);
+      dependencies.calculatedField(TaskField.EXTERNAL_PROJECT).dependsOn(TaskField.SUBPROJECT_FILE, TaskField.EXTERNAL_TASK);
    }
 }
