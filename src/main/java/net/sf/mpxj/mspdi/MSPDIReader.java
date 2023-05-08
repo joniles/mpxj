@@ -1760,7 +1760,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
       int splitIndex = crossProjectName.lastIndexOf('\\');
       String subprojectFile = splitIndex == -1 ? crossProjectName : crossProjectName.substring(0, splitIndex);
-      Integer subprojectTaskID = splitIndex + 1 >= crossProjectName.length() ? null : NumberHelper.getInt(crossProjectName.substring(splitIndex + 1));
+      Integer subprojectTaskID = splitIndex + 1 >= crossProjectName.length() ? null : Integer.valueOf(crossProjectName.substring(splitIndex + 1));
 
       Task task = m_projectFile.addTask();
       task.setName("External Task");

@@ -94,9 +94,7 @@ class ExternalProjectContainer
     * @return File instance or null
     */
    private File findFile(String fileName)
-   {
-      File workingDirectory = null;
-
+   {      
       // Try to find the file using the full path
       File file = new File(fileName);
       if (!file.exists())

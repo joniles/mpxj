@@ -1366,6 +1366,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * This method writes data for a single task to an MSPDI file.
     *
     * @param mpx Task data
+    * @param taskIdOffset offset applied to the task ID 
     * @return new task instance
     */
    private Project.Tasks.Task writeTask(int taskIdOffset, Task mpx)
@@ -1426,7 +1427,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setHyperlink(mpx.getHyperlink());
       xml.setHyperlinkAddress(mpx.getHyperlinkAddress());
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
-      xml.setID(NumberHelper.getBigInteger(taskID));
+      xml.setID(BigInteger.valueOf(taskID));
       xml.setIgnoreResourceCalendar(Boolean.valueOf(mpx.getIgnoreResourceCalendar()));
       xml.setLateFinish(mpx.getLateFinish());
       xml.setLateStart(mpx.getLateStart());

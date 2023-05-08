@@ -26,7 +26,6 @@ package net.sf.mpxj;
 import java.io.File;
 
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.reader.UniversalProjectReader;
 
 /**
  * Container for configuration details used to control the behaviour of the ProjectFile class.
