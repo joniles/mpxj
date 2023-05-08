@@ -15,7 +15,7 @@
 			<action dev="joniles" type="update">Added the Task method `getSubprojectObject` which allows the caller to retrieve a ProjectFile instance representing the external project linked to a task.</action>
 			<action dev="joniles" type="update">Added the Task method `expandSubproject`. For task which represent an external project, this method automatically loads the external project and attaches the tasks it contains as children of the current task. This is analogous to the behavior in Microsoft Project where a subproject is expanded to reveal the tasks it contains.</action>
 			<action dev="joniles" type="update">Added the ProjectFile method `expandSubprojects` which identifies any tasks in the project which represent an external project and expands them, linking the tasks from the external project as children of the task in the parent project. Note that the method works recursively so multiple levels of external tasks will be expanded.</action>
-			<action dev="joniles" type="update">Updated to ensure that `internal_name` attribute of a `UserdefinedField` is generated if not present.</action>
+			<action dev="joniles" type="update">Updated to ensure that the `internal_name` attribute of a `UserdefinedField` is generated if not present.</action>
 			<action dev="joniles" type="update">Marked the Task method `setSubprojectName` as deprecated. Use the `setSubProjectFile` method instead.</action>
 			<action dev="joniles" type="update">Marked the Task method `getSubprojectName` as deprecated. Use `getSubprojectFile` instead.</action>
 			<action dev="joniles" type="update">Marked the Task method `setExternalTaskProject` as deprecated. Use the `setSubprojectFile` method instead.</action>
