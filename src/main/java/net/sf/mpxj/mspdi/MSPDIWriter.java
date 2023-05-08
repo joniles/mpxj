@@ -1349,7 +1349,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<Project.Tasks.Task> list = tasks.getTask();
 
       int taskIdOffset = 0;
-      for(Task task : m_projectFile.getTasks().stream().sorted(Comparator.comparing(Task::getID)).collect(Collectors.toList()))
+      for (Task task : m_projectFile.getTasks().stream().sorted(Comparator.comparing(Task::getID)).collect(Collectors.toList()))
       {
          if (task.getExternalTask())
          {
@@ -1366,7 +1366,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * This method writes data for a single task to an MSPDI file.
     *
     * @param mpx Task data
-    * @param taskIdOffset offset applied to the task ID 
+    * @param taskIdOffset offset applied to the task ID
     * @return new task instance
     */
    private Project.Tasks.Task writeTask(int taskIdOffset, Task mpx)

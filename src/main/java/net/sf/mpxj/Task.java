@@ -1442,7 +1442,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public UUID getSubprojectGUID()
    {
-      return (UUID)get(TaskField.SUBPROJECT_GUID);
+      return (UUID) get(TaskField.SUBPROJECT_GUID);
    }
 
    /**
@@ -2576,7 +2576,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @return sub project file path
     * @deprecated use getSubprojectFile
     */
-   @Deprecated  public String getSubprojectName()
+   @Deprecated public String getSubprojectName()
    {
       return getSubprojectFile();
    }

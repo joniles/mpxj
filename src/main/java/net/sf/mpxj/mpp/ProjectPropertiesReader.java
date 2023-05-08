@@ -183,7 +183,7 @@ public final class ProjectPropertiesReader
 
       // 18 byte header
       int offset = 18;
-      if (offset+4 >= data.length)
+      if (offset + 4 >= data.length)
       {
          return null;
       }

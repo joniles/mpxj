@@ -2848,7 +2848,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public String getResourcePoolFile()
    {
-      return (String)get(ProjectField.RESOURCE_POOL_FILE);
+      return (String) get(ProjectField.RESOURCE_POOL_FILE);
    }
 
    /**

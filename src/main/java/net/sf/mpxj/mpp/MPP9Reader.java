@@ -699,7 +699,7 @@ final class MPP9Reader implements MPPVariantReader
 
             default:
             {
-               if (prev.intValue()!= 0)
+               if (prev.intValue() != 0)
                {
                   // The previous value was for an external task unique task id
                   sp.addExternalTaskUniqueID(prev);

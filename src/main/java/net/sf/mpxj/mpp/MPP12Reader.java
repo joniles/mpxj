@@ -1101,7 +1101,8 @@ final class MPP12Reader implements MPPVariantReader
 
          task.disableEvents();
 
-         fieldMap.populateContainer(FieldTypeClass.TASK, task, uniqueID, new byte[][]{
+         fieldMap.populateContainer(FieldTypeClass.TASK, task, uniqueID, new byte[][]
+         {
             data,
             data2
          }, taskVarData);

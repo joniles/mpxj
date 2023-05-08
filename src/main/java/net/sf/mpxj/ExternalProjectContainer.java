@@ -94,7 +94,7 @@ class ExternalProjectContainer
     * @return File instance or null
     */
    private File findFile(String fileName)
-   {      
+   {
       // Try to find the file using the full path
       File file = new File(fileName);
       if (!file.exists())
@@ -107,7 +107,7 @@ class ExternalProjectContainer
          }
 
          // try the process working directory, or a caller supplied search directory
-         String name = fileName.substring(index+1);
+         String name = fileName.substring(index + 1);
          File subprojectWorkingDirectory = m_file.getProjectConfig().getSubprojectWorkingDirectory();
          file = subprojectWorkingDirectory == null ? new File(name) : new File(subprojectWorkingDirectory, name);
          if (!file.exists())

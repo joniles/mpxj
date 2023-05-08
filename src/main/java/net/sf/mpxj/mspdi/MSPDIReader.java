@@ -1770,7 +1770,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       task.setOutlineLevel(currTask.getOutlineLevel());
       task.setUniqueID(NumberHelper.getInteger(link.getPredecessorUID()));
       task.setID(currTask.getID());
-      currTask.setID(Integer.valueOf(currTask.getID().intValue()+1));
+      currTask.setID(Integer.valueOf(currTask.getID().intValue() + 1));
 
       ChildTaskContainer container = currTask.getParentTask() == null ? m_projectFile : currTask.getParentTask();
       int insertionIndex = container.getChildTasks().indexOf(currTask);
