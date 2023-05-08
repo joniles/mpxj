@@ -39,6 +39,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -176,7 +177,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
          DatatypeConverter.setParentFile(m_projectFile);
 
-         Project project = (Project) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput);
+         Project project = ((JAXBElement<Project>) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput)).getValue();
 
          HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<>();
 
