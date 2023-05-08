@@ -2008,10 +2008,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       Integer uniqueID = xml.getObjectId();
       Integer sequenceNumber = xml.getSequenceNumber();
-      boolean epsFlag = xml.isAvailableForEPS().booleanValue();
-      boolean projectFlag = xml.isAvailableForProject().booleanValue();
-      boolean wbsFlag = xml.isAvailableForWBS().booleanValue();
-      boolean activityFlag = xml.isAvailableForActivity().booleanValue();
+      boolean epsFlag = BooleanHelper.getBoolean(xml.isAvailableForEPS());
+      boolean projectFlag = BooleanHelper.getBoolean(xml.isAvailableForProject());
+      boolean wbsFlag = BooleanHelper.getBoolean(xml.isAvailableForWBS());
+      boolean activityFlag = BooleanHelper.getBoolean(xml.isAvailableForActivity());
       String name = xml.getName();
 
       m_projectFile.getNotesTopics().add(new NotesTopic(uniqueID, sequenceNumber, name, epsFlag, projectFlag, wbsFlag, activityFlag));
