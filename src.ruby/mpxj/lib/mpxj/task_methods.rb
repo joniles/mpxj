@@ -4603,6 +4603,13 @@ module MPXJ
       get_boolean_value(attribute_values['estimated'])
     end
 
+    # Retrieve the Expanded value
+    #
+    # @return Expanded value
+    def expanded
+      get_boolean_value(attribute_values['expanded'])
+    end
+
     # Retrieve the Expense Items value
     #
     # @return Expense Items value
@@ -4622,6 +4629,13 @@ module MPXJ
     # @return External Late Finish value
     def external_late_finish
       get_date_value(attribute_values['external_late_finish'])
+    end
+
+    # Retrieve the External Project value
+    #
+    # @return External Project value
+    def external_project
+      get_boolean_value(attribute_values['external_project'])
     end
 
     # Retrieve the External Task value
@@ -5154,6 +5168,13 @@ module MPXJ
     # @return Notes value
     def notes
       attribute_values['notes']
+    end
+
+    # Retrieve the Null value
+    #
+    # @return Null value
+    def null
+      get_boolean_value(attribute_values['null'])
     end
 
     # Retrieve the Number1 value
@@ -6094,6 +6115,13 @@ module MPXJ
       get_date_value(attribute_values['resume_no_earlier_than'])
     end
 
+    # Retrieve the Resume Valid value
+    #
+    # @return Resume Valid value
+    def resume_valid
+      get_boolean_value(attribute_values['resume_valid'])
+    end
+
     # Retrieve the Rollup value
     #
     # @return Rollup value
@@ -6353,6 +6381,13 @@ module MPXJ
       attribute_values['subproject_file']
     end
 
+    # Retrieve the Subproject GUID value
+    #
+    # @return Subproject GUID value
+    def subproject_guid
+      attribute_values['subproject_guid']
+    end
+
     # Retrieve the Subproject Read Only value
     #
     # @return Subproject Read Only value
@@ -6374,11 +6409,11 @@ module MPXJ
       get_integer_value(attribute_values['subproject_task_id'])
     end
 
-    # Retrieve the Subproject Unique Task ID value
+    # Retrieve the Subproject Task Unique ID value
     #
-    # @return Subproject Unique Task ID value
-    def subproject_unique_task_id
-      get_integer_value(attribute_values['subproject_unique_task_id'])
+    # @return Subproject Task Unique ID value
+    def subproject_task_unique_id
+      get_integer_value(attribute_values['subproject_task_unique_id'])
     end
 
     # Retrieve the Successors value
@@ -7452,9 +7487,11 @@ module MPXJ
       'enterprise_text9' => :string,
       'error_message' => :string,
       'estimated' => :boolean,
+      'expanded' => :boolean,
       'expense_items' => :expense_item_list,
       'external_early_start' => :date,
       'external_late_finish' => :date,
+      'external_project' => :boolean,
       'external_task' => :boolean,
       'feature_of_work' => :string,
       'finish' => :date,
@@ -7531,6 +7568,7 @@ module MPXJ
       'mod_or_claim_number' => :string,
       'name' => :string,
       'notes' => :notes,
+      'null' => :boolean,
       'number1' => :numeric,
       'number10' => :numeric,
       'number11' => :numeric,
@@ -7665,6 +7703,7 @@ module MPXJ
       'responsibility_code' => :string,
       'resume' => :date,
       'resume_no_earlier_than' => :date,
+      'resume_valid' => :boolean,
       'rollup' => :boolean,
       'scheduled_duration' => :duration,
       'scheduled_finish' => :date,
@@ -7702,10 +7741,11 @@ module MPXJ
       'stored_material' => :currency,
       'subproject' => :subproject,
       'subproject_file' => :string,
+      'subproject_guid' => :guid,
       'subproject_read_only' => :boolean,
       'subproject_tasks_uniqueid_offset' => :integer,
       'subproject_task_id' => :integer,
-      'subproject_unique_task_id' => :integer,
+      'subproject_task_unique_id' => :integer,
       'successors' => :relation_list,
       'summary' => :boolean,
       'summary_progress' => :date,

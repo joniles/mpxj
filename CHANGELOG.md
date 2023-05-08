@@ -1,6 +1,25 @@
 # Changelog
 
-## 11.3.3 (unreleased)
+## 11.4.1 (unreleased)
+
+## 11.4.0 (2023-05-08)
+* Added the "Resource Pool File" attribute to ProjectProperties, which represents the full path of the resource pool used by an MPP file. This attribute is accessible via the `getResourcePoolFile` and `setResourcePoolFile` methods.
+* Added the `getResourcePoolObject` method to allow the resource pool file to be located and read
+* Added support for reading the task attribute Subproject GUID from MPP files. This attribute can be accessed via the `getSubprojectGUID` and `setSubprojectGUID` methods.
+* Added support for the task attribute "External Project". When this attribute is true it indicates that the task represents a subproject. The attribute is accessed via the `getExternalProject` and `setExternalProject` methods.
+* When reading an MSPDI file with external task predecessors, MPXJ now attempts to recreate the placeholder external tasks which would be present if the equivalent MPP file was read.
+* External task predecessors are now represented when writing an MSPDI file.
+* Added the Task method `getSubprojectObject` which allows the caller to retrieve a ProjectFile instance representing the external project linked to a task.
+* Added the Task method `expandSubproject`. For task which represent an external project, this method automatically loads the external project and attaches the tasks it contains as children of the current task. This is analogous to the behavior in Microsoft Project where a subproject is expanded to reveal the tasks it contains.
+* Added the ProjectFile method `expandSubprojects` which identifies any tasks in the project which represent an external project and expands them, linking the tasks from the external project as children of the task in the parent project. Note that the method works recursively so multiple levels of external tasks will be expanded.
+* Updated to ensure that the `internal_name` attribute of a `UserdefinedField` is generated if not present.
+* Updated to avoid an exception when reading notebook topics from PMXML files.
+* Marked the Task method `setSubprojectName` as deprecated. Use the `setSubProjectFile` method instead.
+* Marked the Task method `getSubprojectName` as deprecated. Use `getSubprojectFile` instead.
+* Marked the Task method `setExternalTaskProject` as deprecated. Use the `setSubprojectFile` method instead.
+* Marked the Task method `getExternalTaskProject` as deprecated. Use the `getSubprojectFile` method instead.
+* Marked the ProjectFile method `getSubProjects` as deprecated. Use the subproject attributes on individual tasks instead.
+* Marked the Task methods `getSubProject` and `setSubProject` as deprecated. Use the subproject attributes instead.
 
 ## 11.3.2 (2023-04-29)
 * Improve default values provided for P6 calendars with missing data.
@@ -27,7 +46,7 @@
 * Add method to allow a cost account's parent unique ID to be retrieved.
 * Add method to allow an expense item's cost account unique ID to be retrieved.
 * Add method to allow an expense item's category unique ID to be retrieved.
-* Added `WorkContour.isDefault()` method to allow "built in" resouce curves/work contours to be distinguished from user defined curves.
+* Added `WorkContour.isDefault()` method to allow "built in" resource curves/work contours to be distinguished from user defined curves.
 * Updated to retrieve the project's start date from Phoenix PPX files (Contributed by Rohit Sinha).
 * Provide access to notebook topics from P6 schedules via the `ProjectFile.getNotesTopics()` method.
 * Capture unique ID of Activity and WBS notes from P6 schedules.
@@ -44,9 +63,9 @@
 * When reading the task type from P6 schedule the mapping to the MPXJ `TaskType` enum has been updated to more closely match P6. The main changes are that the P6 type "Fixed Units" now maps to `TaskType.FIXED_WORK` and the "Fixed Duration & Units" type now maps to a new enumeration value `TaskType.FIXED_DURATION_AND_UNITS`.
 * Added support for reading project calendar exceptions from Phoenix schedules (based on a contribution by Rohit Sinha).
 * The Resource attribute Active now defaults to true if the schedule being read doesn't support or contain a value for this attribute.
-* Add suport for reading and writing the Resource's Active flag for P6 schedules.
-* Add suport for reading and writing the Resource's Default Units/Time value for P6 schedules.
-* Add suport for reading and writing the Project's Critical Slack Limit value for P6 schedules.
+* Add support for reading and writing the Resource's Active flag for P6 schedules.
+* Add support for reading and writing the Resource's Default Units/Time value for P6 schedules.
+* Add support for reading and writing the Project's Critical Slack Limit value for P6 schedules.
 * Fixed an issue reading certain types of Enterprise Custom Fields containing date values.
 * Ensure activity code value parent can be set to null.
 * Improved existing .Net extension methods and added support for more types.

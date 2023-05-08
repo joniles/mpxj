@@ -830,6 +830,13 @@ module MPXJ
       get_boolean_value(attribute_values['remove_file_properties'])
     end
 
+    # Retrieve the Resource Pool File value
+    #
+    # @return Resource Pool File value
+    def resource_pool_file
+      attribute_values['resource_pool_file']
+    end
+
     # Retrieve the Revision value
     #
     # @return Revision value
@@ -1096,6 +1103,7 @@ module MPXJ
       'project_id' => :string,
       'project_title' => :string,
       'remove_file_properties' => :boolean,
+      'resource_pool_file' => :string,
       'revision' => :integer,
       'scheduled_finish' => :date,
       'schedule_from' => :schedule_from,
