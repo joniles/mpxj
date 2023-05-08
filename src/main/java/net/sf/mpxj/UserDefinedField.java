@@ -42,6 +42,11 @@ public class UserDefinedField implements FieldType
     */
    public UserDefinedField(Integer id, String internalName, String externalName, FieldTypeClass fieldTypeClass, boolean summaryTaskOnly, DataType dataType)
    {
+      if (internalName == null || internalName.isEmpty())
+      {
+         internalName = "user_field_" + id;
+      }
+
       m_id = id;
       m_internalName = internalName;
       m_externalName = externalName;
