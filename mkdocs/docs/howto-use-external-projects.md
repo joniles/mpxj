@@ -213,6 +213,14 @@ following exceptions:
 * Where the MSPDI file contains a Subproject, only the Subproject File attribute
   will be populated, the Subproject GUID add Subproject Tasks Unique ID Offset
   will not be available.
+* If an MSPDI file has been saved in Microsoft Project from an MPP file which
+  contains Subprojects, and those Subprojects were expanded at the point the
+  file was exported, the MSPDI file will actually contain the data for the
+  Subproject as well as the main project. MPXJ will automatically read this
+  data, which you can access using the `getSubprojectObject`
+  method on the task, or you can call the `expandSubproject` or
+  `expandSubprojects` methods documented in the previous sections to show the
+  tasks contained in the Subproject as part of the main project.
 * Where the original MPP file contained an external task predecessor, the
   equivalent MSPDI file will not contain a placeholder task for the predecessor.
   MPXJ will generate one for you, but this will contain none of the attributes
