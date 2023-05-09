@@ -237,7 +237,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          writeAssignments(project);
          writeOutlineCodes(project);
 
-         marshaller.marshal(project, stream);
+         marshaller.marshal(m_factory.createProject(project), stream);
       }
 
       catch (JAXBException ex)

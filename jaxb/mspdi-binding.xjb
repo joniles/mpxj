@@ -35,7 +35,7 @@
    </jxb:globalBindings>
 
    <!-- Project.CurrencySymbolPosition -->
-   <jxb:bindings node="//xsd:element[@name='Project']//xsd:element[@name='CurrencySymbolPosition']">
+   <jxb:bindings node="//xsd:complexType[@name='Project']//xsd:element[@name='CurrencySymbolPosition']">
       <jxb:bindings node="./xsd:simpleType">
          <jxb:javaType name="net.sf.mpxj.CurrencySymbolPosition"
                        parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseCurrencySymbolPosition"
@@ -44,7 +44,7 @@
    </jxb:bindings>
 
    <!-- Project.DefaultFixedCostAccrual -->
-   <jxb:bindings node="//xsd:element[@name='Project']//xsd:element[@name='DefaultFixedCostAccrual']">
+   <jxb:bindings node="//xsd:complexType[@name='Project']//xsd:element[@name='DefaultFixedCostAccrual']">
       <jxb:bindings node="./xsd:simpleType">
          <jxb:javaType name="net.sf.mpxj.AccrueType"
                        parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseAccrueType"
@@ -53,7 +53,7 @@
    </jxb:bindings>
 
    <!-- Project.DefaultTaskType -->
-   <jxb:bindings node="//xsd:element[@name='Project']//xsd:element[@name='DefaultTaskType']">
+   <jxb:bindings node="//xsd:complexType[@name='Project']//xsd:element[@name='DefaultTaskType']">
       <jxb:bindings node="./xsd:simpleType">
          <jxb:javaType name="net.sf.mpxj.TaskType"
                        parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseTaskType"
@@ -190,7 +190,7 @@
    </jxb:bindings>
 
    <!-- Project.GUID -->
-   <jxb:bindings node="//xsd:element[@name='Project']/xsd:complexType/xsd:sequence/xsd:element[@name='GUID']">
+   <jxb:bindings node="//xsd:complexType[@name='Project']/xsd:sequence/xsd:element[@name='GUID']">
       <jxb:bindings node=".">
          <jxb:property>
             <jxb:baseType>

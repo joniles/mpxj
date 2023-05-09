@@ -39,6 +39,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -156,10 +157,30 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             throw CONTEXT_EXCEPTION;
          }
 
-         m_projectFile = new ProjectFile();
+         ProjectFile projectFile = new ProjectFile();
+         DatatypeConverter.setParentFile(projectFile);
+         @SuppressWarnings("unchecked") Project project = ((JAXBElement<Project>) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput)).getValue();
+
+         read(projectFile, project);
+
+         return projectFile;
+      }
+
+      catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
+      {
+         throw new MPXJException("Failed to parse file", ex);
+      }
+   }
+
+   void read(ProjectFile projectFile, Project project)
+   {
+      try
+      {
+         m_projectFile = projectFile;
          m_eventManager = m_projectFile.getEventManager();
          m_lookupTableMap = new HashMap<>();
          m_customFieldValueItems = new HashMap<>();
+         m_externalProjects = new HashMap<>();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoTaskID(false);
@@ -173,10 +194,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          config.setAutoAssignmentUniqueID(false);
 
          addListenersToProject(m_projectFile);
-
-         DatatypeConverter.setParentFile(m_projectFile);
-
-         Project project = (Project) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput);
 
          HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<>();
 
@@ -224,14 +241,18 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                   calendar.setName(name);
                }
             }
+
+            //
+            // Process any embedded external projects
+            //
+            for(Map.Entry<Task, Project> entry : m_externalProjects.entrySet())
+            {
+               MSPDIReader reader = new MSPDIReader();
+               ProjectFile file = new ProjectFile();
+               reader.read(file, entry.getValue());
+               entry.getKey().setSubprojectObject(file);
+            }
          }
-
-         return m_projectFile;
-      }
-
-      catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
       }
 
       finally
@@ -239,6 +260,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          m_projectFile = null;
          m_lookupTableMap = null;
          m_customFieldValueItems = null;
+         m_externalProjects = null;
       }
    }
 
@@ -1451,6 +1473,16 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             mpx.setSummary(true);
             updateProjectProperties(mpx);
          }
+
+         //
+         // If we have an embedded external project, add it to the map
+         // for processing once we have read the main project.
+         // This avoids issues with DatatypeConverter.
+         //
+         if (xml.getProject() != null)
+         {
+            m_externalProjects.put(mpx, xml.getProject());
+         }
       }
 
       m_eventManager.fireTaskReadEvent(mpx);
@@ -1748,7 +1780,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @param currTask current task
     * @param link link data
-    * @return excternal task placeholder for predecessor task
+    * @return external task placeholder for predecessor task
     */
    private Task createExternalTaskPlaceholder(Task currTask, Project.Tasks.Task.PredecessorLink link)
    {
@@ -2227,6 +2259,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private EventManager m_eventManager;
    private Map<UUID, FieldType> m_lookupTableMap;
    private Map<FieldType, Map<BigInteger, CustomFieldValueItem>> m_customFieldValueItems;
+   private Map<Task, Project> m_externalProjects;
 
    private static final RecurrenceType[] RECURRENCE_TYPES =
    {

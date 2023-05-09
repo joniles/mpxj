@@ -714,6 +714,11 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       }
    }
 
+   void addExternalProject(String fileName, ProjectFile projectFile)
+   {
+      m_externalProjects.add(fileName, projectFile);
+   }
+
    ProjectFile readExternalProject(String fileName)
    {
       return m_externalProjects.read(fileName);
