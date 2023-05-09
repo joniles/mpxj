@@ -3806,6 +3806,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return getParentFile().readExternalProject(getSubprojectFile());
    }
 
+   /**
+    * Where we have already read a project, this method is used to
+    * attach it to the task.
+    *
+    * @param projectFile ProjectFile instance
+    */
    public void setSubprojectObject(ProjectFile projectFile)
    {
       getParentFile().addExternalProject(getSubprojectFile(), projectFile);
