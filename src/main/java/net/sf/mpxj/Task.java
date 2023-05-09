@@ -5434,6 +5434,26 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Retrieve the name of the Asta Powerproject bar to which this task belongs.
+    *
+    * @return bar name
+    */
+   public String getBarName()
+   {
+      return (String) get(TaskField.BAR_NAME);
+   }
+
+   /**
+    * Set the name of the Asta Powerproject bar to which this task belongs.
+    *
+    * @param value bar name
+    */
+   public void setBarName(String value)
+   {
+      set(TaskField.BAR_NAME, value);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.
