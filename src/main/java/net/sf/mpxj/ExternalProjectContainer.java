@@ -47,6 +47,19 @@ class ExternalProjectContainer
    }
 
    /**
+    * Add an existing ProjectFile instance.
+    *
+    * @param fileName original path to the project
+    * @param projectFile ProjectFile instance
+    */
+   public void add(String fileName, ProjectFile projectFile)
+   {
+      File file = new File(fileName);
+      m_fileMap.put(fileName, file);
+      m_projectMap.put(file, projectFile);
+   }
+
+   /**
     * Read the file.
     *
     * @param fileName path to the file

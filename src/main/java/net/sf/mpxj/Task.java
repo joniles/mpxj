@@ -3806,6 +3806,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return getParentFile().readExternalProject(getSubprojectFile());
    }
 
+   public void setSubprojectObject(ProjectFile projectFile)
+   {
+      getParentFile().addExternalProject(getSubprojectFile(), projectFile);
+   }
+
    /**
     * Retrieve an enterprise field value.
     *

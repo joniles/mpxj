@@ -161,7 +161,9 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          DatatypeConverter.setParentFile(projectFile);
          @SuppressWarnings("unchecked") Project project = ((JAXBElement<Project>) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput)).getValue();
 
-         return read(projectFile, project);
+         read(projectFile, project);
+
+         return projectFile;
       }
 
       catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
@@ -170,7 +172,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
    }
 
-   ProjectFile read(ProjectFile projectFile, Project project)
+   void read(ProjectFile projectFile, Project project)
    {
       try
       {
@@ -178,6 +180,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          m_eventManager = m_projectFile.getEventManager();
          m_lookupTableMap = new HashMap<>();
          m_customFieldValueItems = new HashMap<>();
+         m_externalProjects = new HashMap<>();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoTaskID(false);
@@ -191,8 +194,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          config.setAutoAssignmentUniqueID(false);
 
          addListenersToProject(m_projectFile);
-
-
 
          HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<>();
 
@@ -240,9 +241,18 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                   calendar.setName(name);
                }
             }
-         }
 
-         return m_projectFile;
+            //
+            // Process any embedded external projects
+            //
+            for(Map.Entry<Task, Project> entry : m_externalProjects.entrySet())
+            {
+               MSPDIReader reader = new MSPDIReader();
+               ProjectFile file = new ProjectFile();
+               reader.read(file, entry.getValue());
+               entry.getKey().setSubprojectObject(file);
+            }
+         }
       }
 
       finally
@@ -250,6 +260,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          m_projectFile = null;
          m_lookupTableMap = null;
          m_customFieldValueItems = null;
+         m_externalProjects = null;
       }
    }
 
@@ -1462,6 +1473,16 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             mpx.setSummary(true);
             updateProjectProperties(mpx);
          }
+
+         //
+         // If we have an embedded external project, add it to the map
+         // for processing once we have read the main project.
+         // This avoids issues with DatatypeConverter.
+         //
+         if (xml.getProject() != null)
+         {
+            m_externalProjects.put(mpx, xml.getProject());
+         }
       }
 
       m_eventManager.fireTaskReadEvent(mpx);
@@ -2238,6 +2259,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private EventManager m_eventManager;
    private Map<UUID, FieldType> m_lookupTableMap;
    private Map<FieldType, Map<BigInteger, CustomFieldValueItem>> m_customFieldValueItems;
+   private Map<Task, Project> m_externalProjects;
 
    private static final RecurrenceType[] RECURRENCE_TYPES =
    {
