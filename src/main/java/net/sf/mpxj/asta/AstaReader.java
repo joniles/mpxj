@@ -447,6 +447,7 @@ final class AstaReader
       {
          task.setName(parentName);
       }
+      task.setBarName(parentName);
    }
 
    /**
