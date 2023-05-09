@@ -157,7 +157,24 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             throw CONTEXT_EXCEPTION;
          }
 
-         m_projectFile = new ProjectFile();
+         ProjectFile projectFile = new ProjectFile();
+         DatatypeConverter.setParentFile(projectFile);
+         @SuppressWarnings("unchecked") Project project = ((JAXBElement<Project>) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput)).getValue();
+
+         return read(projectFile, project);
+      }
+
+      catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
+      {
+         throw new MPXJException("Failed to parse file", ex);
+      }
+   }
+
+   ProjectFile read(ProjectFile projectFile, Project project)
+   {
+      try
+      {
+         m_projectFile = projectFile;
          m_eventManager = m_projectFile.getEventManager();
          m_lookupTableMap = new HashMap<>();
          m_customFieldValueItems = new HashMap<>();
@@ -175,9 +192,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
          addListenersToProject(m_projectFile);
 
-         DatatypeConverter.setParentFile(m_projectFile);
 
-         Project project = ((JAXBElement<Project>) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput)).getValue();
 
          HashMap<BigInteger, ProjectCalendar> calendarMap = new HashMap<>();
 
@@ -228,11 +243,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          }
 
          return m_projectFile;
-      }
-
-      catch (ParserConfigurationException | IOException | SAXException | JAXBException ex)
-      {
-         throw new MPXJException("Failed to parse file", ex);
       }
 
       finally
@@ -1749,7 +1759,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @param currTask current task
     * @param link link data
-    * @return excternal task placeholder for predecessor task
+    * @return external task placeholder for predecessor task
     */
    private Task createExternalTaskPlaceholder(Task currTask, Project.Tasks.Task.PredecessorLink link)
    {
