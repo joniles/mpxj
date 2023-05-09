@@ -963,7 +963,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
             }
             else
             {
-               //for prorated, we have to deal with it differently depending on whether or not
+               //for prorated, we have to deal with it differently depending on whether
                //any actual has been entered, since we want to mimic the other timephased data
                //where planned and actual values do not overlap
                double numWorkingDays = cal.getWork(getStart(), getFinish(), TimeUnit.DAYS).getDuration();
