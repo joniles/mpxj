@@ -1592,6 +1592,8 @@ final class AstaReader
       rows = exceptionAssignmentMap.get(calendar.getUniqueID());
       if (rows != null)
       {
+         List<DateRange> ranges = new ArrayList<>();
+
          for (Row row : rows)
          {
             Date startDate = row.getDate("STARU_DATE");
@@ -1603,8 +1605,10 @@ final class AstaReader
                endDate = DateHelper.addDays(endDate, -1);
             }
 
-            calendar.addCalendarException(startDate, endDate);
+            ranges.add(new DateRange(DateHelper.getDayStartDate(startDate), DateHelper.getDayEndDate(endDate)));
          }
+
+         ranges.stream().distinct().forEach(r -> calendar.addCalendarException(r.getStart(), r.getEnd()));
       }
 
       //
