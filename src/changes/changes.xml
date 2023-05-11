@@ -11,7 +11,6 @@
 			<action dev="joniles" type="update">Avoid creating duplicate calendar exceptions when reading Asta PP files.</action>
 			<action dev="joniles" type="update">Added the Bar Name attribute to Task, which is accessed using the `getBarName` and `setBarName` methods. This is populated with the name of the bar to which a task belongs when reading an Asta Powerproject schedule.</action>
 		</release>
-		
 		<release date="2023-05-08" version="11.4.0">
 			<action dev="joniles" type="update">Added the "Resource Pool File" attribute to ProjectProperties, which represents the full path of the resource pool used by an MPP file. This attribute is accessible via the `getResourcePoolFile` and `setResourcePoolFile` methods.</action>
 			<action dev="joniles" type="update">Added the `getResourcePoolObject` method to allow the resource pool file to be located and read</action>
