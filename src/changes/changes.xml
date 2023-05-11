@@ -8,6 +8,7 @@
 		<release date="unreleased" version="11.4.1">
 			<action dev="joniles" type="update">Added the ability to read Subproject data embedded in MSPDI files.</action>
 			<action dev="joniles" type="update">Added the Bar Name attribute to Task, which is accessed using the `getBarName` and `setBarName` methods. This is populated with the name of the bar to which a task belongs when reading an Asta Powerproject schedule.</action>
+			<action dev="joniles" type="update">Avoid creating duplicate calendar exceptions when reading Asta PP files.</action>
 		</release>
 		<release date="2023-05-08" version="11.4.0">
 			<action dev="joniles" type="update">Added the "Resource Pool File" attribute to ProjectProperties, which represents the full path of the resource pool used by an MPP file. This attribute is accessible via the `getResourcePoolFile` and `setResourcePoolFile` methods.</action>
