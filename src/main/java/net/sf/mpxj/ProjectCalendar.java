@@ -1171,7 +1171,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    public ProjectCalendarHours getHours(Day day)
    {
       ProjectCalendarHours result = getCalendarHours(day);
-      if (result == null)
+      if (result == null && m_parent != null)
       {
          result = m_parent.getHours(day);
       }
