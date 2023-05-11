@@ -40,25 +40,25 @@ public class CalendarExceptionPrecedenceTest
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence.mpp"));
-      ProjectCalendar myCal = project.getCalendarByName("TEST");
+      ProjectCalendar calendar = project.getCalendarByName("TEST");
 
       // Fridays in July
-      Assert.assertFalse(myCal.isWorkingDate(df.parse("08/07/2022")));
-      Assert.assertTrue(myCal.isWorkingDate(df.parse("15/07/2022")));
-      Assert.assertTrue(myCal.isWorkingDate(df.parse("22/07/2022")));
-      Assert.assertTrue(myCal.isWorkingDate(df.parse("29/07/2022")));
+      Assert.assertFalse(calendar.isWorkingDate(df.parse("08/07/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(df.parse("15/07/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(df.parse("22/07/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(df.parse("29/07/2022")));
 
       // Fridays in August
-      Assert.assertTrue(myCal.isWorkingDate(df.parse("05/08/2022")));
-      Assert.assertTrue(myCal.isWorkingDate(df.parse("05/12/2022")));
-      Assert.assertTrue(myCal.isWorkingDate(df.parse("05/19/2022")));
-      Assert.assertTrue(myCal.isWorkingDate(df.parse("05/16/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(df.parse("05/08/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(df.parse("05/12/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(df.parse("05/19/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(df.parse("05/16/2022")));
 
       // Fridays in September
-      Assert.assertTrue(myCal.isWorkingDate(df.parse("02/09/2022")));
-      Assert.assertTrue(myCal.isWorkingDate(df.parse("09/09/2022")));
-      Assert.assertFalse(myCal.isWorkingDate(df.parse("16/09/2022")));
-      Assert.assertTrue(myCal.isWorkingDate(df.parse("23/09/2022")));
-      Assert.assertTrue(myCal.isWorkingDate(df.parse("30/09/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(df.parse("02/09/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(df.parse("09/09/2022")));
+      Assert.assertFalse(calendar.isWorkingDate(df.parse("16/09/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(df.parse("23/09/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(df.parse("30/09/2022")));
    }
 }
