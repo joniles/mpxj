@@ -908,7 +908,7 @@ public class RecurringData
          pw.print(" To " + m_finishDate);
       }
 
-      pw.println("]");
+      pw.print("]");
       pw.flush();
       return os.toString();
    }

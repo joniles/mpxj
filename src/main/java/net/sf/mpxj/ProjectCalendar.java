@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
@@ -1938,14 +1939,41 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    private void populateExpandedExceptions()
    {
-      if (!m_exceptions.isEmpty() && m_expandedExceptions.isEmpty())
+      if (m_exceptions.isEmpty() || !m_expandedExceptions.isEmpty())
       {
-         for (ProjectCalendarException exception : m_exceptions)
-         {
-            m_expandedExceptions.addAll(exception.getExpandedExceptions());
-         }
-         Collections.sort(m_expandedExceptions);
+         return;
       }
+
+      // First pass, expand recurring exceptions and populate the map
+      Map<Date, ProjectCalendarException> map = new TreeMap<>();
+      List<ProjectCalendarException> nonRecurring = new ArrayList<>();
+
+      for (ProjectCalendarException exception : m_exceptions)
+      {
+         List<ProjectCalendarException> expanded = exception.getExpandedExceptions();
+         if (expanded.size() == 1)
+         {
+            nonRecurring.add(expanded.get(0));
+         }
+         else
+         {
+            for (ProjectCalendarException expandedException : expanded)
+            {
+               map.put(expandedException.getFromDate(), expandedException);
+            }
+         }
+      }
+
+      // Second pass: overlay the map with non-recurring exceptions
+      // This has the effect that non-recurring exceptions override
+      // expanded exceptions from recurring exceptions.
+      for (ProjectCalendarException exception : nonRecurring)
+      {
+         map.put(exception.getFromDate(), exception);
+      }
+
+      // Note the use of TreeMap ensures our expanded exceptions are sorted
+      m_expandedExceptions.addAll(map.values());
    }
 
    /**
