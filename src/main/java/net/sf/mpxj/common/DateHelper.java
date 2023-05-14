@@ -195,17 +195,11 @@ public final class DateHelper
     */
    public static int compare(Date d1, Date d2)
    {
-      int result;
       if (d1 == null || d2 == null)
       {
-         result = (d1 == d2 ? 0 : (d1 == null ? 1 : -1));
+         return d1 == d2 ? 0 : (d1 == null ? 1 : -1);
       }
-      else
-      {
-         long diff = d1.getTime() - d2.getTime();
-         result = ((diff == 0) ? 0 : ((diff > 0) ? 1 : -1));
-      }
-      return (result);
+      return d1.compareTo(d2);
    }
 
    /**
@@ -224,6 +218,7 @@ public final class DateHelper
          result = d2;
       }
       else
+      {
          if (d2 == null)
          {
             result = d1;
@@ -232,6 +227,7 @@ public final class DateHelper
          {
             result = (d1.compareTo(d2) < 0) ? d1 : d2;
          }
+      }
       return result;
    }
 
