@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -454,7 +455,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    /**
     * Retrieve the parent calendar unique ID.
     *
-    * @return parent calendar uniqu eID, or null if there is no parent calendar
+    * @return parent calendar unique ID, or null if there is no parent calendar
     */
    public Integer getParentUniqueID()
    {
@@ -551,7 +552,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
    /**
     * Given a start date and a duration, this method calculates the
-    * end date. It takes account of working hours in each day, non working
+    * end date. It takes account of working hours in each day, non-working
     * days and calendar exceptions. If the returnNextWorkStart parameter is
     * set to true, the method will return the start date and time of the next
     * working period if the end date is at the end of a working period.
@@ -566,7 +567,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       ProjectProperties properties = getParentFile().getProjectProperties();
       // Note: Using a double allows us to handle date values that are accurate up to seconds.
       //       However, it also means we need to truncate the value to 2 decimals to make the
-      //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
+      //       comparisons work as sometimes the double ends up with some extra, for example: .0000000000003
       //       that wreak havoc on the comparisons.
       double remainingMinutes = NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
 
@@ -641,7 +642,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          else
          {
             //
-            // We have less hours to allocate than there are working hours
+            // We have fewer hours to allocate than there are working hours
             // in this day. We need to calculate the time of day at which
             // our work ends.
             //
@@ -732,7 +733,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
    /**
     * Given a finish date and a duration, this method calculates backwards to the
-    * start date. It takes account of working hours in each day, non working
+    * start date. It takes account of working hours in each day, non-working
     * days and calendar exceptions.
     *
     * @param finishDate finish date
@@ -745,7 +746,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
       //
       // We want to avoid the case where a calendar doesn't
-      // have enough working days defined to calculate]a start date. We will stop
+      // have enough working days defined to calculate a start date. We will stop
       // searching if we reach the project start date. If we don't have
       // a project start date defined, we'll allow the search to go back one year.
       //
@@ -761,7 +762,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
       // Note: Using a double allows us to handle date values that are accurate up to seconds.
       //       However, it also means we need to truncate the value to 2 decimals to make the
-      //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
+      //       comparisons work as sometimes the double ends up with some extra, for example: .0000000000003
       //       that wreak havoc on the comparisons.
       double remainingMinutes = NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
       Calendar cal = Calendar.getInstance();
@@ -816,7 +817,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          else
          {
             //
-            // We have less hours to allocate than there are working hours
+            // We have fewer hours to allocate than there are working hours
             // in this day. We need to calculate the time of day at which
             // our work starts.
             //
@@ -1944,10 +1945,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          return;
       }
 
-      // First pass, expand recurring exceptions and populate the map
-      Map<Date, ProjectCalendarException> map = new TreeMap<>();
+      // Separate exceptions into recurring and non-recurring.
+      // Non-recurring exceptions are grouped by their recurrence type.
       List<ProjectCalendarException> nonRecurring = new ArrayList<>();
-
+      Map<RecurrenceType, List<ProjectCalendarException>> recurring = new HashMap<>();
       for (ProjectCalendarException exception : m_exceptions)
       {
          List<ProjectCalendarException> expanded = exception.getExpandedExceptions();
@@ -1957,15 +1958,21 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
          else
          {
-            for (ProjectCalendarException expandedException : expanded)
-            {
-               map.put(expandedException.getFromDate(), expandedException);
-            }
+            recurring.computeIfAbsent(exception.getRecurring().getRecurrenceType(), k -> new ArrayList<>()).add(exception);
          }
       }
 
-      // Second pass: overlay the map with non-recurring exceptions
-      // This has the effect that non-recurring exceptions override
+      // Process the recurring exceptions in reverse priority order
+      // to ensure that the final contents of the map reflect the effective
+      // exception on each date.
+      Map<Date, ProjectCalendarException> map = new TreeMap<>();
+      for (RecurrenceType type : ORDERED_RECURRENCE_TYPES)
+      {
+         recurring.computeIfAbsent(type, k -> Collections.emptyList()).forEach(e -> e.getExpandedExceptions().forEach(x -> map.put(x.getFromDate(), x)));
+      }
+
+      // Overlay the map with non-recurring exceptions
+      // Non-recurring exceptions have the highest priority and override
       // expanded exceptions from recurring exceptions.
       for (ProjectCalendarException exception : nonRecurring)
       {
@@ -2122,6 +2129,14 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * and take an alternative approach.
     */
    private static final int MAX_NONWORKING_DAYS = 1000;
+
+   private static final RecurrenceType[] ORDERED_RECURRENCE_TYPES =
+   {
+      RecurrenceType.WEEKLY,
+      RecurrenceType.MONTHLY,
+      RecurrenceType.YEARLY,
+      RecurrenceType.DAILY
+   };
 
    private static final ProjectCalendarHours EMPTY_DATE_RANGES = new ProjectCalendarHours()
    {
