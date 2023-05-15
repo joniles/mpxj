@@ -2152,49 +2152,51 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAssignmentTimephasedData(ResourceAssignment mpx, Project.Assignments.Assignment xml)
    {
-      if (m_writeTimephasedData && mpx.getHasTimephasedData())
+      if (!m_writeTimephasedData || !mpx.getHasTimephasedData())
       {
-         List<TimephasedDataType> list = xml.getTimephasedData();
-         ProjectCalendar calendar = getCalendar(mpx);
-         BigInteger assignmentID = xml.getUID();
+         return;
+      }
 
-         List<TimephasedWork> complete = mpx.getTimephasedActualWork();
-         List<TimephasedWork> planned = mpx.getTimephasedWork();
+      List<TimephasedDataType> list = xml.getTimephasedData();
+      ProjectCalendar calendar = getCalendar(mpx);
+      BigInteger assignmentID = xml.getUID();
 
-         if (m_splitTimephasedAsDays)
+      List<TimephasedWork> complete = mpx.getTimephasedActualWork();
+      List<TimephasedWork> planned = mpx.getTimephasedWork();
+
+      if (m_splitTimephasedAsDays)
+      {
+         TimephasedWork lastComplete = null;
+         if (complete != null && !complete.isEmpty())
          {
-            TimephasedWork lastComplete = null;
-            if (complete != null && !complete.isEmpty())
-            {
-               lastComplete = complete.get(complete.size() - 1);
-            }
-
-            TimephasedWork firstPlanned = null;
-            if (planned != null && !planned.isEmpty())
-            {
-               firstPlanned = planned.get(0);
-            }
-
-            if (planned != null)
-            {
-               planned = splitDays(calendar, mpx.getTimephasedWork(), null, lastComplete);
-            }
-
-            if (complete != null)
-            {
-               complete = splitDays(calendar, complete, firstPlanned, null);
-            }
+            lastComplete = complete.get(complete.size() - 1);
          }
 
-         if (complete != null)
+         TimephasedWork firstPlanned = null;
+         if (planned != null && !planned.isEmpty())
          {
-            writeAssignmentTimephasedData(assignmentID, list, complete, 2);
+            firstPlanned = planned.get(0);
          }
 
          if (planned != null)
          {
-            writeAssignmentTimephasedData(assignmentID, list, planned, 1);
+            planned = splitDays(calendar, planned, null, lastComplete);
          }
+
+         if (complete != null)
+         {
+            complete = splitDays(calendar, complete, firstPlanned, null);
+         }
+      }
+
+      if (complete != null)
+      {
+         writeAssignmentTimephasedData(assignmentID, list, complete, 2);
+      }
+
+      if (planned != null)
+      {
+         writeAssignmentTimephasedData(assignmentID, list, planned, 1);
       }
    }
 
