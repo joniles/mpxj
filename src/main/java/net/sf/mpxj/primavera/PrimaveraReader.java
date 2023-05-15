@@ -2028,7 +2028,7 @@ final class PrimaveraReader
             if ("TK_Complete".equals(row.getString("status_code")))
             {
                result = 100;
-            }-
+            }
          }
       }
       else
