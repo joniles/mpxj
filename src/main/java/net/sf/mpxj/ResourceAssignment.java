@@ -1200,7 +1200,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       // table, this is an open-ended rate which covers any work, it won't
       // have specific dates attached to it.
       //
-      if (table.size() > 1)
+      if (table != null && table.size() > 1)
       {
          //
          // If we have multiple rates in the table, see if the same rate
@@ -1223,7 +1223,17 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    private CostRateTableEntry getCostRateTableEntry(Date date)
    {
       CostRateTable table = getCostRateTable();
-      return table.size() == 1 ? table.get(0) : table.getEntryByDate(date);
+      if (table == null)
+      {
+         return CostRateTableEntry.DEFAULT_ENTRY;
+      }
+
+      CostRateTableEntry entry = table.size() == 1 ? table.get(0) : table.getEntryByDate(date);
+      if (entry == null)
+      {
+         entry = CostRateTableEntry.DEFAULT_ENTRY;
+      }
+      return entry;
    }
 
    /**
