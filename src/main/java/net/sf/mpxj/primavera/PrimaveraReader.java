@@ -2018,8 +2018,8 @@ final class PrimaveraReader
    private Number calculateDurationPercentComplete(Row row)
    {
       double result = 0;
-      double targetDuration = row.getDuration("target_drtn_hr_cnt").getDuration();
-      double remainingDuration = row.getDuration("remain_drtn_hr_cnt").getDuration();
+      double targetDuration = NumberHelper.getDouble(row.getDouble("target_drtn_hr_cnt"));
+      double remainingDuration = NumberHelper.getDouble(row.getDouble("remain_drtn_hr_cnt"));
 
       if (targetDuration == 0)
       {
@@ -2028,7 +2028,7 @@ final class PrimaveraReader
             if ("TK_Complete".equals(row.getString("status_code")))
             {
                result = 100;
-            }
+            }-
          }
       }
       else
