@@ -136,7 +136,12 @@ class MapRow implements Row
 
    @Override public final Duration getDuration(String name)
    {
-      return (Duration.getInstance(NumberHelper.getDouble(getDouble(name)), TimeUnit.HOURS));
+      Double value = getDouble(name);
+      if (value == null)
+      {
+         return null;
+      }
+      return Duration.getInstance(value.doubleValue(), TimeUnit.HOURS);
    }
 
    @Override public final UUID getUUID(String name)
