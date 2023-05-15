@@ -36,6 +36,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
@@ -57,6 +58,8 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.json.JsonWriter;
@@ -608,6 +611,10 @@ public class ProjectTreeController
             }
          };
          parentNode.add(childNode);
+
+         addTimephasedWorkData(childNode, assignment, AssignmentField.TIMEPHASED_ACTUAL_WORK);
+         addTimephasedWorkData(childNode, assignment, AssignmentField.TIMEPHASED_WORK);
+         addTimephasedWorkData(childNode, assignment, AssignmentField.TIMEPHASED_BASELINE_WORK);
       }
    }
 
@@ -688,6 +695,30 @@ public class ProjectTreeController
          {
             nodes.get(value.getParent()).add(node);
          }
+      }
+   }
+
+   private void addTimephasedWorkData(MpxjTreeNode parentNode, ResourceAssignment assignment, AssignmentField field)
+   {
+      TimephasedWorkContainer container = (TimephasedWorkContainer) assignment.get(field);
+      if (container == null || !container.hasData())
+      {
+         return;
+      }
+
+      MpxjTreeNode data = new MpxjTreeNode()
+      {
+         @Override public String toString()
+         {
+            return field.toString();
+         }
+      };
+
+      parentNode.add(data);
+
+      for(TimephasedWork work : container.getData())
+      {
+         parentNode.add(new MpxjTreeNode(work));
       }
    }
 
