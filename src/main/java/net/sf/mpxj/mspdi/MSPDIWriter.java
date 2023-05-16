@@ -2161,18 +2161,19 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<TimephasedWork> complete = mpx.getTimephasedActualWork();
       List<TimephasedWork> planned = mpx.getTimephasedWork();
       List<TimephasedWork> completeOvertime = mpx.getTimephasedActualOvertimeWork();
-
+      List<TimephasedWork> baselineWork = mpx.getTimephasedBaselineWork(0);
 
       complete = splitCompleteWork(calendar, planned, complete);
       planned = splitPlannedWork(calendar, planned, complete);
       completeOvertime = splitDays(calendar, completeOvertime, null, null);
-
+      baselineWork = splitDays(calendar, baselineWork, null, null);
 
       BigInteger assignmentID = xml.getUID();
       List<TimephasedDataType> list = xml.getTimephasedData();
       writeAssignmentTimephasedData(assignmentID, list, complete, 2);
       writeAssignmentTimephasedData(assignmentID, list, planned, 1);
       writeAssignmentTimephasedData(assignmentID, list, completeOvertime, 3);
+      //writeAssignmentTimephasedData(assignmentID, list, baselineWork, 4);
    }
 
    private List<TimephasedWork> splitCompleteWork(ProjectCalendar calendar, List<TimephasedWork> planned, List<TimephasedWork> complete)
