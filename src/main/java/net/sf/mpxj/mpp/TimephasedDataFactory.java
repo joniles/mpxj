@@ -329,7 +329,6 @@ final class TimephasedDataFactory
          }
          else
          {
-            //blockStartDate = blockEndDate;
             blockStartDate = calendar.getNextWorkStart(blockEndDate);
             long currentTotalWorkInMinutes = (long)(MPPUtility.getDouble(data, offset) / 1000.0);
             int expectedWorkThisPeriodInMinutes = MPPUtility.getInt(data, offset + 8) / 10;
@@ -341,10 +340,6 @@ final class TimephasedDataFactory
 
             double workingDays = calendar.getWork(blockStartDate, blockEndDate, TimeUnit.DAYS).getDuration();
             double amountPerDay = workingDays == 0.0 ? 0.0 : workThisPeriodInMinutes / workingDays;
-
-            //System.out.println(blockStartDate + "\t" + blockEndDate + "\t" + currentTotalWorkInMinutes + "\t" + workThisPeriodInMinutes + "\t" + expectedWorkThisPeriodInMinutes + "\t" + value3 + "\t" + workingDays + "\t" + amountPerDay);
-
-
 
             TimephasedWork work = new TimephasedWork();
             work.setStart(blockStartDate);
