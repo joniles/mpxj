@@ -30,11 +30,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
+import net.sf.mpxj.TimeRange;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.EventManager;
@@ -227,7 +227,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       Date start;
       long duration;
       Day day;
-      List<DateRange> dateRanges = new ArrayList<>(5);
+      List<TimeRange> dateRanges = new ArrayList<>(5);
 
       for (index = 0; index < 7; index++)
       {
@@ -277,7 +277,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                int durationOffset = offset + 20 + (periodIndex * 4);
                duration = MPPUtility.getDuration(data, durationOffset);
                Date end = new Date(start.getTime() + duration);
-               dateRanges.add(new DateRange(start, end));
+               dateRanges.add(new TimeRange(start, end));
                ++periodIndex;
             }
 
