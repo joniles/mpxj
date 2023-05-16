@@ -2173,7 +2173,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       writeAssignmentTimephasedData(assignmentID, list, complete, 2);
       writeAssignmentTimephasedData(assignmentID, list, planned, 1);
       writeAssignmentTimephasedData(assignmentID, list, completeOvertime, 3);
-      //writeAssignmentTimephasedData(assignmentID, list, baselineWork, 4);
+      writeAssignmentTimephasedData(assignmentID, list, baselineWork, 4);
    }
 
    private List<TimephasedWork> splitCompleteWork(ProjectCalendar calendar, List<TimephasedWork> planned, List<TimephasedWork> complete)

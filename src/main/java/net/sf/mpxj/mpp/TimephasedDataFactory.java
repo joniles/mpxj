@@ -314,6 +314,7 @@ final class TimephasedDataFactory
       Date blockEndDate = null;
       long previousTotalWorkInMinutes = 0;
       List<TimephasedWork> list = new ArrayList<>();
+      long totalWork = 0;
 
       for (int blockIndex=0; blockIndex < blockCount-1; blockIndex++)
       {
@@ -336,6 +337,7 @@ final class TimephasedDataFactory
             blockEndDate = MPPUtility.getTimestampFromTenths(data, offset + 16);
 
             long workThisPeriodInMinutes = currentTotalWorkInMinutes - previousTotalWorkInMinutes;
+            totalWork += workThisPeriodInMinutes;
 
             double workingDays = calendar.getWork(blockStartDate, blockEndDate, TimeUnit.DAYS).getDuration();
             double amountPerDay = workingDays == 0.0 ? 0.0 : workThisPeriodInMinutes / workingDays;
@@ -357,6 +359,11 @@ final class TimephasedDataFactory
          }
 
          offset += 20;
+      }
+
+      if (totalWork == 0)
+      {
+         return null;
       }
 
       return new DefaultTimephasedWorkContainer(assignment, normaliser, list, true);
