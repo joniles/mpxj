@@ -32,21 +32,21 @@ import java.util.List;
  * This class is used to represent the records in an MPX file that define
  * working hours in a calendar.
  */
-public class ProjectCalendarHours extends AbstractList<DateRange>
+public class ProjectCalendarHours extends AbstractList<TimeRange>
 {
-   @Override public boolean add(DateRange range)
+   @Override public boolean add(TimeRange range)
    {
       return m_ranges.add(range);
    }
 
-   @Override public DateRange set(int index, DateRange value)
+   @Override public TimeRange set(int index, TimeRange value)
    {
       return m_ranges.set(index, value);
    }
 
-   @Override public DateRange get(int index)
+   @Override public TimeRange get(int index)
    {
-      DateRange result;
+      TimeRange result;
 
       if (index >= 0 && index < m_ranges.size())
       {
@@ -54,7 +54,7 @@ public class ProjectCalendarHours extends AbstractList<DateRange>
       }
       else
       {
-         result = DateRange.EMPTY_RANGE;
+         result = TimeRange.EMPTY_RANGE;
       }
 
       return result;
@@ -65,7 +65,7 @@ public class ProjectCalendarHours extends AbstractList<DateRange>
     *
     * @return iterator.
     */
-   @Override public Iterator<DateRange> iterator()
+   @Override public Iterator<TimeRange> iterator()
    {
       return m_ranges.iterator();
    }
@@ -84,7 +84,7 @@ public class ProjectCalendarHours extends AbstractList<DateRange>
    {
       StringBuilder sb = new StringBuilder();
       sb.append("[ProjectCalendarHours ");
-      for (DateRange range : this)
+      for (TimeRange range : this)
       {
          sb.append(range.toString());
       }
@@ -92,5 +92,5 @@ public class ProjectCalendarHours extends AbstractList<DateRange>
       return (sb.toString());
    }
 
-   private final List<DateRange> m_ranges = new ArrayList<>();
+   private final List<TimeRange> m_ranges = new ArrayList<>();
 }

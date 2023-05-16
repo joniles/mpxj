@@ -30,6 +30,7 @@ import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.TimeRange;
 
 /**
  * A calendar which represents the intersection of working time between
@@ -56,10 +57,10 @@ public class CombinedCalendar extends ProjectCalendar
       ProjectCalendarHours hours1 = date == null ? m_calendar1.getHours(day) : m_calendar1.getHours(date);
       ProjectCalendarHours hours2 = date == null ? m_calendar2.getHours(day) : m_calendar2.getHours(date);
 
-      for (DateRange range1 : hours1)
+      for (TimeRange range1 : hours1)
       {
-         Date range1Start = DateHelper.getCanonicalTime(range1.getStart());
-         Date range1End = DateHelper.getCanonicalEndTime(range1.getStart(), range1.getEnd());
+         Date range1Start = range1.getStartAsDate();
+         Date range1End = range1.getEndAsDate();
 
          for (DateRange range2 : hours2)
          {

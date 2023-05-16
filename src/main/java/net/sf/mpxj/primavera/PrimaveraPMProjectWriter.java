@@ -74,6 +74,7 @@ import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.WorkContour;
@@ -643,7 +644,7 @@ final class PrimaveraPMProjectWriter
          xmlHours.setDayOfWeek(getDayName(day));
 
          // Working days/hours are not inherited between calendars, just exceptions.
-         for (DateRange range : mpxj.getHours(day))
+         for (TimeRange range : mpxj.getHours(day))
          {
             WorkTimeType xmlWorkTime = m_factory.createWorkTimeType();
             xmlHours.getWorkTime().add(xmlWorkTime);
