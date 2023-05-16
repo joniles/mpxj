@@ -514,7 +514,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
          else
          {
-            result = ranges.get(0).getStart();
+            result = ranges.get(0).getStartAsDate();
          }
          result = DateHelper.getCanonicalTime(result);
          m_startTimeCache.put(new Date(date.getTime()), result);

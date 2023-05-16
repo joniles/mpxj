@@ -649,8 +649,8 @@ final class PrimaveraPMProjectWriter
             WorkTimeType xmlWorkTime = m_factory.createWorkTimeType();
             xmlHours.getWorkTime().add(xmlWorkTime);
 
-            xmlWorkTime.setStart(range.getStart());
-            xmlWorkTime.setFinish(getEndTime(range.getEnd()));
+            xmlWorkTime.setStart(range.getStartAsDate());
+            xmlWorkTime.setFinish(getEndTime(range.getEndAsDate()));
          }
       }
 
@@ -679,16 +679,16 @@ final class PrimaveraPMProjectWriter
 
                   xmlException.setDate(exceptionDate);
 
-                  for (DateRange range : mpxjException)
+                  for (TimeRange range : mpxjException)
                   {
                      WorkTimeType xmlHours = m_factory.createWorkTimeType();
                      xmlException.getWorkTime().add(xmlHours);
 
-                     xmlHours.setStart(range.getStart());
+                     xmlHours.setStart(range.getStartAsDate());
 
                      if (range.getEnd() != null)
                      {
-                        xmlHours.setFinish(getEndTime(range.getEnd()));
+                        xmlHours.setFinish(getEndTime(range.getEndAsDate()));
                      }
                   }
                }

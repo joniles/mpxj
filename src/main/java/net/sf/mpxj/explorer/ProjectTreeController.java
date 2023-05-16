@@ -25,6 +25,7 @@ package net.sf.mpxj.explorer;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -57,6 +58,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.json.JsonWriter;
@@ -86,7 +88,7 @@ public class ProjectTreeController
       WRITER_MAP.put("XER", PrimaveraXERFileWriter.class);
    }
 
-   final SimpleDateFormat m_timeFormat = new SimpleDateFormat("HH:mm");
+   final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HH:mm");
    final SimpleDateFormat m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
    private static final Set<String> FILE_EXCLUDED_METHODS = excludedMethods("getAllResourceAssignments", "getAllResources", "getAllTasks", "getChildTasks", "getCalendars", "getCustomFields", "getEventManager", "getFilters", "getGroups", "getProjectProperties", "getProjectConfig", "getViews", "getTables");
@@ -383,9 +385,9 @@ public class ProjectTreeController
          return;
       }
 
-      for (DateRange range : hours)
+      for (TimeRange range : hours)
       {
-         final DateRange r = range;
+         final TimeRange r = range;
          MpxjTreeNode rangeNode = new MpxjTreeNode(range)
          {
             @Override public String toString()

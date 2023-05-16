@@ -25,6 +25,7 @@ package net.sf.mpxj.primavera;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -36,6 +37,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
 
 /**
@@ -145,7 +147,7 @@ class ProjectCalendarStructuredTextWriter
    private void writeHours(StructuredTextRecord parentRecord, ProjectCalendarHours hours)
    {
       int hoursIndex = 0;
-      for (DateRange range : hours)
+      for (TimeRange range : hours)
       {
          StructuredTextRecord hoursRecord = new StructuredTextRecord();
          parentRecord.addChild(hoursRecord);
@@ -156,5 +158,5 @@ class ProjectCalendarStructuredTextWriter
       }
    }
 
-   private final DateFormat m_timeFormat = new SimpleDateFormat("HH:mm");
+   private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HH:mm");
 }

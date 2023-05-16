@@ -38,6 +38,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import org.xml.sax.SAXException;
@@ -218,7 +219,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       {
          for (Document.Calendars.Calendar.WeekDays.WeekDay.TimePeriods.TimePeriod period : day.getTimePeriods().getTimePeriod())
          {
-            hours.add(new DateRange(period.getFrom(), period.getTo()));
+            hours.add(new TimeRange(period.getFrom(), period.getTo()));
          }
       }
    }
@@ -236,7 +237,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       {
          for (Document.Calendars.Calendar.ExceptedDays.ExceptedDay.TimePeriods.TimePeriod period : day.getTimePeriods().getTimePeriod())
          {
-            mpxjException.add(new DateRange(period.getFrom(), period.getTo()));
+            mpxjException.add(new TimeRange(period.getFrom(), period.getTo()));
          }
       }
    }

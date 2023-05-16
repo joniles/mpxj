@@ -45,6 +45,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.TimeRange;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -528,7 +529,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
-               hours.add(new DateRange(startTime, endTime));
+               hours.add(new TimeRange(startTime, endTime));
             }
          }
       }
@@ -563,7 +564,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
-               exception.add(new DateRange(startTime, endTime));
+               exception.add(new TimeRange(startTime, endTime));
             }
          }
       }
@@ -640,7 +641,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
-               bce.add(new DateRange(startTime, endTime));
+               bce.add(new TimeRange(startTime, endTime));
             }
          }
       }
@@ -850,7 +851,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
-               hours.add(new DateRange(startTime, endTime));
+               hours.add(new TimeRange(startTime, endTime));
             }
          }
       }

@@ -26,6 +26,7 @@ package net.sf.mpxj.primavera;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -50,6 +51,7 @@ import net.sf.mpxj.Location;
 import net.sf.mpxj.LocationContainer;
 import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.Step;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.InputStreamHelper;
@@ -135,6 +137,8 @@ import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
+
+import static java.time.temporal.ChronoUnit.MINUTES;
 
 /**
  * This class creates a new ProjectFile instance by reading a Primavera PM file.
@@ -874,7 +878,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             {
                if (work != null)
                {
-                  calendarHours.add(new DateRange(work.getStart(), getEndTime(work.getFinish())));
+                  calendarHours.add(new TimeRange(work.getStart(), getEndTime(work.getFinish())));
                }
             }
          }
@@ -894,7 +898,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             {
                if (work != null && work.getStart() != null && work.getFinish() != null)
                {
-                  pce.add(new DateRange(work.getStart(), getEndTime(work.getFinish())));
+                  pce.add(new TimeRange(work.getStart(), getEndTime(work.getFinish())));
                }
             }
          }
@@ -937,10 +941,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             if (hours.size() > 0)
             {
                ++workingDays;
-               for (DateRange range : hours)
+               for (TimeRange range : hours)
                {
-                  long milliseconds = range.getEnd().getTime() - range.getStart().getTime();
-                  minutesPerWeek += (milliseconds / (1000 * 60));
+                  if (range.getStart().equals(LocalTime.MIDNIGHT) && range.getEnd().equals(LocalTime.MIDNIGHT))
+                  {
+                     minutesPerWeek += 24 * 60;
+                  }
+                  else
+                  {
+                     minutesPerWeek += range.getStart().until(range.getEnd(), MINUTES);
+                  }
                }
             }
          }

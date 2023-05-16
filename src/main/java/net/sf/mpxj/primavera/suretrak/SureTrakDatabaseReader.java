@@ -55,6 +55,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.DateHelper;
@@ -376,7 +377,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          Date endDate = cal.getTime();
 
          calendar.setWorkingDay(day, true);
-         calendarHours.add(new DateRange(startDate, endDate));
+         calendarHours.add(new TimeRange(startDate, endDate));
          startHour = endHour;
       }
 

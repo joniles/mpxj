@@ -47,6 +47,14 @@ public final class TimeRange implements Comparable<TimeRange>
       m_endDate = LocalTimeHelper.getDate(end);
    }
 
+   public TimeRange(Date start, Date end)
+   {
+      m_start = LocalTimeHelper.getLocalTime(start);
+      m_end = LocalTimeHelper.getLocalTime(end);
+      m_startDate = start;
+      m_endDate = end;
+   }
+
    /**
     * Retrieve the date at the start of the range.
     *
@@ -124,7 +132,7 @@ public final class TimeRange implements Comparable<TimeRange>
       return ("[DateRange start=" + m_start + " end=" + m_end + "]");
    }
 
-   public static final TimeRange EMPTY_RANGE = new TimeRange(null, null);
+   public static final TimeRange EMPTY_RANGE = new TimeRange(null, (LocalTime)null);
 
    private final LocalTime m_start;
    private final LocalTime m_end;

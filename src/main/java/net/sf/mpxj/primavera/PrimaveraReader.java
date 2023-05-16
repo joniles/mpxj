@@ -23,9 +23,8 @@
 
 package net.sf.mpxj.primavera;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -50,7 +49,6 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -85,6 +83,7 @@ import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
@@ -93,6 +92,8 @@ import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.SlackHelper;
+
+import static java.time.temporal.ChronoUnit.MINUTES;
 
 /**
  * This class provides a generic front end to read project data from
@@ -470,10 +471,16 @@ final class PrimaveraReader
             if (hours.size() > 0)
             {
                ++workingDays;
-               for (DateRange range : hours)
+               for (TimeRange range : hours)
                {
-                  long milliseconds = range.getEnd().getTime() - range.getStart().getTime();
-                  minutesPerWeek += (milliseconds / (1000 * 60));
+                  if (range.getStart().equals(LocalTime.MIDNIGHT) && range.getEnd().equals(LocalTime.MIDNIGHT))
+                  {
+                     minutesPerWeek += 24 * 60;
+                  }
+                  else
+                  {
+                     minutesPerWeek += range.getStart().until(range.getEnd(), MINUTES);
+                  }
                }
             }
          }
@@ -594,12 +601,12 @@ final class PrimaveraReader
 
       try
       {
-         Date start = m_calendarTimeFormat.parse(startText);
-         Date end = m_calendarTimeFormat.parse(endText);
-         ranges.add(new DateRange(start, end));
+         LocalTime start = LocalTime.parse(startText, m_calendarTimeFormat);
+         LocalTime end = LocalTime.parse(endText, m_calendarTimeFormat);
+         ranges.add(new TimeRange(start, end));
       }
 
-      catch (ParseException e)
+      catch (Exception e)
       {
          // silently ignore date parse exceptions
       }
@@ -2192,7 +2199,7 @@ final class PrimaveraReader
    private final EventManager m_eventManager;
    private final ClashMap m_activityClashMap = new ClashMap();
    private final ClashMap m_roleClashMap = new ClashMap();
-   private final DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
+   private final DateTimeFormatter m_calendarTimeFormat = DateTimeFormatter.ofPattern("HH:mm");
    private Integer m_defaultCalendarID;
    private final Map<FieldType, String> m_resourceFields;
    private final Map<FieldType, String> m_roleFields;
