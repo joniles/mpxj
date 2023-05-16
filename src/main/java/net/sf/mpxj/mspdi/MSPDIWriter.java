@@ -2157,18 +2157,22 @@ public final class MSPDIWriter extends AbstractProjectWriter
          return;
       }
 
-      List<TimephasedDataType> list = xml.getTimephasedData();
       ProjectCalendar calendar = getCalendar(mpx);
-      BigInteger assignmentID = xml.getUID();
-
       List<TimephasedWork> complete = mpx.getTimephasedActualWork();
       List<TimephasedWork> planned = mpx.getTimephasedWork();
+      List<TimephasedWork> completeOvertime = mpx.getTimephasedActualOvertimeWork();
+
 
       complete = splitCompleteWork(calendar, planned, complete);
       planned = splitPlannedWork(calendar, planned, complete);
+      completeOvertime = splitDays(calendar, completeOvertime, null, null);
 
+
+      BigInteger assignmentID = xml.getUID();
+      List<TimephasedDataType> list = xml.getTimephasedData();
       writeAssignmentTimephasedData(assignmentID, list, complete, 2);
       writeAssignmentTimephasedData(assignmentID, list, planned, 1);
+      writeAssignmentTimephasedData(assignmentID, list, completeOvertime, 3);
    }
 
    private List<TimephasedWork> splitCompleteWork(ProjectCalendar calendar, List<TimephasedWork> planned, List<TimephasedWork> complete)
@@ -2236,8 +2240,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private List<TimephasedWork> splitDays(ProjectCalendar calendar, List<TimephasedWork> list, TimephasedWork first, TimephasedWork last)
    {
-      List<TimephasedWork> result = new ArrayList<>();
+      if (!m_splitTimephasedAsDays || list == null || list.isEmpty())
+      {
+         return list;
+      }
 
+      List<TimephasedWork> result = new ArrayList<>();
       for (TimephasedWork assignment : list)
       {
          Date startDate = assignment.getStart();
