@@ -62,16 +62,16 @@ public class CombinedCalendar extends ProjectCalendar
          Date range1Start = range1.getStartAsDate();
          Date range1End = range1.getEndAsDate();
 
-         for (DateRange range2 : hours2)
+         for (TimeRange range2 : hours2)
          {
-            Date range2Start = DateHelper.getCanonicalTime(range2.getStart());
+            Date range2Start = DateHelper.getCanonicalTime(range2.getStartAsDate());
             if (DateHelper.compare(range1End, range2Start) <= 0)
             {
                // range1 finishes before range2 starts so there is no overlap, get the next range1
                break;
             }
 
-            Date range2End = DateHelper.getCanonicalEndTime(range2.getStart(), range2.getEnd());
+            Date range2End = DateHelper.getCanonicalEndTime(range2.getStartAsDate(), range2.getEndAsDate());
             if (DateHelper.compare(range1Start, range2End) >= 0)
             {
                // range1 starts after range2 so there is no overlap, get the next range2
@@ -80,7 +80,7 @@ public class CombinedCalendar extends ProjectCalendar
 
             Date start = DateHelper.max(range1Start, range2Start);
             Date end = DateHelper.min(range1End, range2End);
-            result.add(new DateRange(start, end));
+            result.add(new TimeRange(start, end));
          }
       }
 

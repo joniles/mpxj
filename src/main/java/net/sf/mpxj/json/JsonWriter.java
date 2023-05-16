@@ -63,6 +63,7 @@ import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.TaskMode;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnitDefaultsContainer;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectField;
@@ -492,7 +493,7 @@ public final class JsonWriter extends AbstractProjectWriter
       if (hours != null && hours.size() != 0)
       {
          m_writer.writeStartList("hours");
-         for (DateRange range : hours)
+         for (TimeRange range : hours)
          {
             m_writer.writeStartObject(null);
             writeTimeField("from", range.getStart());

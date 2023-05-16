@@ -25,6 +25,7 @@ package net.sf.mpxj.projectcommander;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -37,7 +38,6 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -51,6 +51,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -185,7 +186,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          calendar.setWorkingDay(Day.FRIDAY, (workingDays & 0x01) != 0);
          offset += 28;
 
-         Map<Day, List<DateRange>> ranges = new HashMap<>();
+         Map<Day, List<TimeRange>> ranges = new HashMap<>();
          ranges.put(Day.SATURDAY, readCalendarHours(data, offset));
          ranges.put(Day.SUNDAY, readCalendarHours(data, offset + 16));
          ranges.put(Day.MONDAY, readCalendarHours(data, offset + 32));
@@ -218,9 +219,9 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     * @param offset offset into calendar data
     * @return list of DateRange instances representing working hours
     */
-   private List<DateRange> readCalendarHours(byte[] data, int offset)
+   private List<TimeRange> readCalendarHours(byte[] data, int offset)
    {
-      List<DateRange> ranges = new ArrayList<>();
+      List<TimeRange> ranges = new ArrayList<>();
       addRange(ranges, DatatypeConverter.getInt(data, offset), DatatypeConverter.getInt(data, offset + 4));
       addRange(ranges, DatatypeConverter.getInt(data, offset + 8), DatatypeConverter.getInt(data, offset + 12));
       return ranges;
@@ -233,13 +234,13 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     * @param startMinutes start time in minutes
     * @param endMinutes end time in minutes
     */
-   private void addRange(List<DateRange> ranges, int startMinutes, int endMinutes)
+   private void addRange(List<TimeRange> ranges, int startMinutes, int endMinutes)
    {
       if (startMinutes != endMinutes)
       {
-         Date start = DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(startMinutes));
-         Date end = DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(endMinutes));
-         ranges.add(new DateRange(start, end));
+         LocalTime start = LocalTime.ofSecondOfDay(startMinutes * 60L);
+         LocalTime end = LocalTime.ofSecondOfDay(endMinutes * 60L);
+         ranges.add(new TimeRange(start, end));
       }
    }
 
@@ -250,7 +251,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     * @param ranges default day of week working times
     * @param data byte array
     */
-   private void readCalendarException(ProjectCalendar calendar, Map<Day, List<DateRange>> ranges, byte[] data)
+   private void readCalendarException(ProjectCalendar calendar, Map<Day, List<TimeRange>> ranges, byte[] data)
    {
       long timestampInDays = DatatypeConverter.getShort(data, 2, 0);
 

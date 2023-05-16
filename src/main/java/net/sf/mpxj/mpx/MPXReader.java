@@ -65,6 +65,7 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamTokenizer;
@@ -653,7 +654,7 @@ public final class MPXReader extends AbstractProjectStreamReader
          end = cal.getTime();
          DateHelper.pushCalendar(cal);
 
-         hours.add(new DateRange(start, end));
+         hours.add(new TimeRange(start, end));
       }
    }
 
@@ -696,7 +697,7 @@ public final class MPXReader extends AbstractProjectStreamReader
    {
       if (start != null && finish != null)
       {
-         exception.add(new DateRange(start, finish));
+         exception.add(new TimeRange(start, finish));
       }
    }
 
