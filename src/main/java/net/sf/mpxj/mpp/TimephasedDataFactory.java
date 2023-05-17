@@ -36,7 +36,6 @@ import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.TimephasedWorkContainer;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.NumberHelper;
@@ -310,7 +309,6 @@ final class TimephasedDataFactory
       // Each block contains the block end date, which is also then the start of the next block
       // First block only used to give us the start of the first timephased data
       // Last block is ignored
-      Date blockStartDate = null;
       Date blockEndDate = null;
       long previousTotalWorkInMinutes = 0;
       List<TimephasedWork> list = new ArrayList<>();
@@ -329,10 +327,10 @@ final class TimephasedDataFactory
          }
          else
          {
-            blockStartDate = calendar.getNextWorkStart(blockEndDate);
+            Date blockStartDate = calendar.getNextWorkStart(blockEndDate);
             long currentTotalWorkInMinutes = (long)(MPPUtility.getDouble(data, offset) / 1000.0);
             int expectedWorkThisPeriodInMinutes = MPPUtility.getInt(data, offset + 8) / 10;
-            int value3 = MPPUtility.getInt(data, offset + 12);
+            //int unknown = MPPUtility.getInt(data, offset + 12);
             blockEndDate = MPPUtility.getTimestampFromTenths(data, offset + 16);
 
             long workThisPeriodInMinutes = currentTotalWorkInMinutes - previousTotalWorkInMinutes;
@@ -349,7 +347,6 @@ final class TimephasedDataFactory
             work.setAmountPerDay(Duration.getInstance(amountPerDay, TimeUnit.MINUTES));
             list.add(work);
 
-            //System.out.println(work);
             previousTotalWorkInMinutes = currentTotalWorkInMinutes;
          }
 
