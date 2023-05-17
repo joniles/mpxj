@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +41,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
@@ -199,7 +201,7 @@ public class ResourceAssignmentFactory
 
             for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
             {
-               assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(assignment, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
+               assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(calendar, assignment, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
                assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(assignment, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
             }
 
