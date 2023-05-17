@@ -461,6 +461,4 @@ final class TimephasedDataFactory
          work.setAmountPerDay(amountPerDay);
       }
    }
-
-   private static final Duration BASELINE_AMOUNT_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
 }
