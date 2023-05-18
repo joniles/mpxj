@@ -2152,50 +2152,63 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAssignmentTimephasedData(ResourceAssignment mpx, Project.Assignments.Assignment xml)
    {
-      if (m_writeTimephasedData && mpx.getHasTimephasedData())
+      if (!m_writeTimephasedData || !mpx.getHasTimephasedData())
       {
-         List<TimephasedDataType> list = xml.getTimephasedData();
-         ProjectCalendar calendar = getCalendar(mpx);
-         BigInteger assignmentID = xml.getUID();
-
-         List<TimephasedWork> complete = mpx.getTimephasedActualWork();
-         List<TimephasedWork> planned = mpx.getTimephasedWork();
-
-         if (m_splitTimephasedAsDays)
-         {
-            TimephasedWork lastComplete = null;
-            if (complete != null && !complete.isEmpty())
-            {
-               lastComplete = complete.get(complete.size() - 1);
-            }
-
-            TimephasedWork firstPlanned = null;
-            if (planned != null && !planned.isEmpty())
-            {
-               firstPlanned = planned.get(0);
-            }
-
-            if (planned != null)
-            {
-               planned = splitDays(calendar, mpx.getTimephasedWork(), null, lastComplete);
-            }
-
-            if (complete != null)
-            {
-               complete = splitDays(calendar, complete, firstPlanned, null);
-            }
-         }
-
-         if (complete != null)
-         {
-            writeAssignmentTimephasedData(assignmentID, list, complete, 2);
-         }
-
-         if (planned != null)
-         {
-            writeAssignmentTimephasedData(assignmentID, list, planned, 1);
-         }
+         return;
       }
+
+      ProjectCalendar calendar = getCalendar(mpx);
+      List<TimephasedWork> complete = mpx.getTimephasedActualWork();
+      List<TimephasedWork> planned = mpx.getTimephasedWork();
+      List<TimephasedWork> completeOvertime = mpx.getTimephasedActualOvertimeWork();
+
+      complete = splitCompleteWork(calendar, planned, complete);
+      planned = splitPlannedWork(calendar, planned, complete);
+      completeOvertime = splitDays(calendar, completeOvertime, null, null);
+
+      BigInteger assignmentID = xml.getUID();
+      List<TimephasedDataType> list = xml.getTimephasedData();
+      writeAssignmentTimephasedData(assignmentID, list, complete, 2);
+      writeAssignmentTimephasedData(assignmentID, list, planned, 1);
+      writeAssignmentTimephasedData(assignmentID, list, completeOvertime, 3);
+
+      // Write the baselines
+      for (int index = 0; index < TIMEPHASED_BASELINE_WORK_TYPES.length; index++)
+      {
+         writeAssignmentTimephasedData(assignmentID, list, splitDays(calendar, mpx.getTimephasedBaselineWork(index), null, null), TIMEPHASED_BASELINE_WORK_TYPES[index]);
+      }
+   }
+
+   private List<TimephasedWork> splitCompleteWork(ProjectCalendar calendar, List<TimephasedWork> planned, List<TimephasedWork> complete)
+   {
+      if (!m_splitTimephasedAsDays || complete == null)
+      {
+         return complete;
+      }
+
+      TimephasedWork firstPlanned = null;
+      if (planned != null && !planned.isEmpty())
+      {
+         firstPlanned = planned.get(0);
+      }
+
+      return splitDays(calendar, complete, firstPlanned, null);
+   }
+
+   private List<TimephasedWork> splitPlannedWork(ProjectCalendar calendar, List<TimephasedWork> planned, List<TimephasedWork> complete)
+   {
+      if (!m_splitTimephasedAsDays || planned == null)
+      {
+         return planned;
+      }
+
+      TimephasedWork lastComplete = null;
+      if (complete != null && !complete.isEmpty())
+      {
+         lastComplete = complete.get(complete.size() - 1);
+      }
+
+      return splitDays(calendar, planned, null, lastComplete);
    }
 
    /**
@@ -2231,8 +2244,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private List<TimephasedWork> splitDays(ProjectCalendar calendar, List<TimephasedWork> list, TimephasedWork first, TimephasedWork last)
    {
-      List<TimephasedWork> result = new ArrayList<>();
+      if (!m_splitTimephasedAsDays || list == null || list.isEmpty())
+      {
+         return list;
+      }
 
+      List<TimephasedWork> result = new ArrayList<>();
       for (TimephasedWork assignment : list)
       {
          Date startDate = assignment.getStart();
@@ -2364,6 +2381,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAssignmentTimephasedData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedWork> data, int type)
    {
+      if (data == null)
+      {
+         return;
+      }
+
       for (TimephasedWork mpx : data)
       {
          TimephasedDataType xml = m_factory.createTimephasedDataType();
@@ -2508,4 +2530,19 @@ public final class MSPDIWriter extends AbstractProjectWriter
       MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_NUMBER));
       MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
    }
+
+   private static final int[] TIMEPHASED_BASELINE_WORK_TYPES =
+   {
+      4,
+      16,
+      22,
+      28,
+      34,
+      40,
+      46,
+      52,
+      58,
+      64,
+      70
+   };
 }

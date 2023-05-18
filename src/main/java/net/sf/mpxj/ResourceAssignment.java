@@ -40,6 +40,7 @@ import java.util.function.Function;
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -751,7 +752,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
          }
 
       }
-      return m_timephasedCost;
+      return m_timephasedCost == null ? null : m_timephasedCost.getData();
    }
 
    /**
@@ -788,7 +789,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
       }
 
-      return m_timephasedActualCost;
+      return m_timephasedActualCost == null ? null : m_timephasedActualCost.getData();
    }
 
    /**
@@ -799,15 +800,15 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param overtimeWorkList timephased work
     * @return timephased cost
     */
-   private List<TimephasedCost> getTimephasedCostSingleRate(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
+   private TimephasedCostContainer getTimephasedCostSingleRate(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
-      List<TimephasedCost> result = new ArrayList<>();
-
       //just return an empty list if there is no timephased work passed in
       if (standardWorkList == null)
       {
-         return result;
+         return new DefaultTimephasedCostContainer(this, null, Collections.emptyList(), false);
       }
+
+      List<TimephasedCost> result = new ArrayList<>();
 
       //takes care of the situation where there is no timephased overtime work
       Iterator<TimephasedWork> overtimeIterator = overtimeWorkList == null ? Collections.emptyIterator() : overtimeWorkList.iterator();
@@ -888,7 +889,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
       }
 
-      return result;
+      return new DefaultTimephasedCostContainer(this, null, result, false);
    }
 
    /**
@@ -899,7 +900,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param overtimeWorkList timephased work
     * @return timephased cost
     */
-   private List<TimephasedCost> getTimephasedCostMultipleRates(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
+   private TimephasedCostContainer getTimephasedCostMultipleRates(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
       List<TimephasedWork> standardWorkResult = new ArrayList<>();
       List<TimephasedWork> overtimeWorkResult = new ArrayList<>();
@@ -940,7 +941,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return timephased cost
     */
-   private List<TimephasedCost> getTimephasedCostFixedAmount()
+   private TimephasedCostContainer getTimephasedCostFixedAmount()
    {
       List<TimephasedCost> result = new ArrayList<>();
 
@@ -1006,7 +1007,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
             }
       }
 
-      return result;
+      return new DefaultTimephasedCostContainer(this, null, result, false);
    }
 
    /**
@@ -1014,7 +1015,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return timephased cost
     */
-   private List<TimephasedCost> getTimephasedActualCostFixedAmount()
+   private TimephasedCostContainer getTimephasedActualCostFixedAmount()
    {
       List<TimephasedCost> result = new ArrayList<>();
 
@@ -1044,7 +1045,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
             }
       }
 
-      return result;
+      return new DefaultTimephasedCostContainer(this, null, result, false);
    }
 
    /**
@@ -3072,10 +3073,10 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    private TimephasedWorkContainer m_timephasedWork;
-   private List<TimephasedCost> m_timephasedCost;
+   private TimephasedCostContainer  m_timephasedCost;
 
    private TimephasedWorkContainer m_timephasedActualWork;
-   private List<TimephasedCost> m_timephasedActualCost;
+   private TimephasedCostContainer m_timephasedActualCost;
 
    private TimephasedWorkContainer m_timephasedOvertimeWork;
    private TimephasedWorkContainer m_timephasedActualOvertimeWork;
