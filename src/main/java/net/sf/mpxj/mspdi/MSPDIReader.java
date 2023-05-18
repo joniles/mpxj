@@ -45,6 +45,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.TimephasedWorkContainer;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -2060,6 +2061,16 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             mpx.setStartVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getStartVariance(), TimeUnit.DAYS));
             mpx.setFinishVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getFinishVariance(), TimeUnit.DAYS));
 
+            // Process baseline timephased work
+            for (Map.Entry<Integer, TimephasedWorkAssignmentFunction> entry : TIMEPHASED_BASELINE_WORK_MAP.entrySet())
+            {
+               List<TimephasedWork> timephasedData = readTimephasedAssignment(calendar, assignment, entry.getKey().intValue());
+               if (!timephasedData.isEmpty())
+               {
+                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(mpx, normaliser, timephasedData, true));
+               }
+            }
+
             m_eventManager.fireAssignmentReadEvent(mpx);
          }
       }
@@ -2294,4 +2305,25 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       0x20, // Friday
       0x40, // Saturday
    };
+
+   interface TimephasedWorkAssignmentFunction
+   {
+      void apply(ResourceAssignment assignment, TimephasedWorkContainer container);
+   }
+
+   private static final Map<Integer, TimephasedWorkAssignmentFunction> TIMEPHASED_BASELINE_WORK_MAP = new HashMap<>();
+   static
+   {
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(4), (a,c) ->  a.setTimephasedBaselineWork(0, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(16), (a,c) -> a.setTimephasedBaselineWork(1, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(22), (a,c) -> a.setTimephasedBaselineWork(2, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(28), (a,c) -> a.setTimephasedBaselineWork(3, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(34), (a,c) -> a.setTimephasedBaselineWork(4, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(40), (a,c) -> a.setTimephasedBaselineWork(5, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(46), (a,c) -> a.setTimephasedBaselineWork(6, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(52), (a,c) -> a.setTimephasedBaselineWork(7, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(58), (a,c) -> a.setTimephasedBaselineWork(8, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(64), (a,c) -> a.setTimephasedBaselineWork(9, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(70), (a,c) -> a.setTimephasedBaselineWork(10, c));
+   }
 }
