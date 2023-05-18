@@ -83,6 +83,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.AssignmentFieldLists;
@@ -2168,14 +2169,19 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       BigInteger assignmentID = xml.getUID();
       List<TimephasedDataType> list = xml.getTimephasedData();
-      writeAssignmentTimephasedData(assignmentID, list, complete, 2);
-      writeAssignmentTimephasedData(assignmentID, list, planned, 1);
-      writeAssignmentTimephasedData(assignmentID, list, completeOvertime, 3);
+      writeAssignmentTimephasedWorkData(assignmentID, list, complete, 2);
+      writeAssignmentTimephasedWorkData(assignmentID, list, planned, 1);
+      writeAssignmentTimephasedWorkData(assignmentID, list, completeOvertime, 3);
 
       // Write the baselines
       for (int index = 0; index < TIMEPHASED_BASELINE_WORK_TYPES.length; index++)
       {
-         writeAssignmentTimephasedData(assignmentID, list, splitDays(calendar, mpx.getTimephasedBaselineWork(index), null, null), TIMEPHASED_BASELINE_WORK_TYPES[index]);
+         writeAssignmentTimephasedWorkData(assignmentID, list, splitDays(calendar, mpx.getTimephasedBaselineWork(index), null, null), TIMEPHASED_BASELINE_WORK_TYPES[index]);
+      }
+
+      for (int index = 0; index < TIMEPHASED_BASELINE_COST_TYPES.length; index++)
+      {
+         writeAssignmentTimephasedCostData(assignmentID, list, splitDays(calendar, mpx.getTimephasedBaselineCost(index)), TIMEPHASED_BASELINE_COST_TYPES[index]);
       }
    }
 
@@ -2371,6 +2377,89 @@ public final class MSPDIWriter extends AbstractProjectWriter
       return result;
    }
 
+   private List<TimephasedCost> splitDays(ProjectCalendar calendar, List<TimephasedCost> list)
+   {
+      if (!m_splitTimephasedAsDays || list == null || list.isEmpty())
+      {
+         return list;
+      }
+
+      List<TimephasedCost> result = new ArrayList<>();
+      for (TimephasedCost assignment : list)
+      {
+         Date startDate = assignment.getStart();
+         Date finishDate = assignment.getFinish();
+         Date startDay = DateHelper.getDayStartDate(startDate);
+         Date finishDay = DateHelper.getDayStartDate(finishDate);
+         if (startDay.getTime() == finishDay.getTime())
+         {
+            Date startTime = calendar.getStartTime(startDay);
+            Date currentStart = DateHelper.setTime(startDay, startTime);
+            if (startDate.getTime() > currentStart.getTime())
+            {
+               TimephasedCost padding = new TimephasedCost();
+               padding.setStart(currentStart);
+               padding.setFinish(startDate);
+               padding.setTotalAmount(0);
+               padding.setAmountPerDay(0);
+               result.add(padding);
+            }
+
+            result.add(assignment);
+
+            Date endTime = calendar.getFinishTime(startDay);
+            Date currentFinish = DateHelper.setTime(startDay, endTime);
+            if (finishDate.getTime() < currentFinish.getTime())
+            {
+               TimephasedCost padding = new TimephasedCost();
+               padding.setStart(finishDate);
+               padding.setFinish(currentFinish);
+               padding.setTotalAmount(0);
+               padding.setAmountPerDay(0);
+               result.add(padding);
+            }
+         }
+         else
+         {
+            Date currentStart = startDate;
+            boolean isWorking = calendar.isWorkingDate(currentStart);
+            while (currentStart.getTime() < finishDate.getTime())
+            {
+               if (isWorking)
+               {
+                  Date endTime = calendar.getFinishTime(currentStart);
+                  Date currentFinish = DateHelper.setTime(currentStart, endTime);
+                  if (currentFinish.getTime() > finishDate.getTime())
+                  {
+                     currentFinish = finishDate;
+                  }
+
+                  TimephasedCost split = new TimephasedCost();
+                  split.setStart(currentStart);
+                  split.setFinish(currentFinish);
+                  split.setTotalAmount(assignment.getAmountPerDay());
+                  split.setAmountPerDay(assignment.getAmountPerDay());
+                  result.add(split);
+               }
+
+               Calendar cal = DateHelper.popCalendar(currentStart);
+               cal.add(Calendar.DAY_OF_YEAR, 1);
+               currentStart = cal.getTime();
+               isWorking = calendar.isWorkingDate(currentStart);
+               if (isWorking)
+               {
+                  Date startTime = calendar.getStartTime(currentStart);
+                  DateHelper.setTime(cal, startTime);
+                  currentStart = cal.getTime();
+               }
+               DateHelper.pushCalendar(cal);
+            }
+         }
+      }
+
+      return result;
+   }
+
    /**
     * Writes a list of timephased data to the MSPDI file.
     *
@@ -2379,7 +2468,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param data input list of timephased data
     * @param type list type (planned or completed)
     */
-   private void writeAssignmentTimephasedData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedWork> data, int type)
+   private void writeAssignmentTimephasedWorkData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedWork> data, int type)
    {
       if (data == null)
       {
@@ -2397,6 +2486,27 @@ public final class MSPDIWriter extends AbstractProjectWriter
          xml.setUID(assignmentID);
          xml.setUnit(DatatypeConverter.printDurationTimeUnits(mpx.getTotalAmount(), false));
          xml.setValue(DatatypeConverter.printDuration(this, mpx.getTotalAmount()));
+      }
+   }
+
+   private void writeAssignmentTimephasedCostData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedCost> data, int type)
+   {
+      if (data == null)
+      {
+         return;
+      }
+
+      for (TimephasedCost mpx : data)
+      {
+         TimephasedDataType xml = m_factory.createTimephasedDataType();
+         list.add(xml);
+
+         xml.setStart(mpx.getStart());
+         xml.setFinish(mpx.getFinish());
+         xml.setType(BigInteger.valueOf(type));
+         xml.setUID(assignmentID);
+         xml.setUnit(DatatypeConverter.printDurationTimeUnits(TimeUnit.DAYS, false));
+         xml.setValue(DatatypeConverter.printCurrency(mpx.getTotalAmount()).toString());
       }
    }
 
@@ -2544,5 +2654,20 @@ public final class MSPDIWriter extends AbstractProjectWriter
       58,
       64,
       70
+   };
+
+   private static final int[] TIMEPHASED_BASELINE_COST_TYPES =
+   {
+      5,
+      17,
+      23,
+      29,
+      35,
+      41,
+      47,
+      53,
+      59,
+      65,
+      71,
    };
 }
