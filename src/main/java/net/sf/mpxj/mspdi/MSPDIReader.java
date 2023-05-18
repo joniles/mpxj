@@ -46,7 +46,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.TimephasedCost;
+import net.sf.mpxj.TimephasedCostContainer;
 import net.sf.mpxj.TimephasedWorkContainer;
+import net.sf.mpxj.common.DefaultTimephasedCostContainer;
+import net.sf.mpxj.mpp.MPPTimephasedBaselineCostNormaliser;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -1824,10 +1827,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       if (assignments != null)
       {
          SplitTaskFactory splitFactory = new SplitTaskFactory();
-         TimephasedNormaliser<TimephasedWork> normaliser = new MSPDITimephasedWorkNormaliser();
+         TimephasedNormaliser<TimephasedWork> workNormaliser = new MSPDITimephasedWorkNormaliser();
+         TimephasedNormaliser<TimephasedCost> costNormaliser = new MPPTimephasedBaselineCostNormaliser();
          for (Project.Assignments.Assignment assignment : assignments.getAssignment())
          {
-            readAssignment(assignment, splitFactory, normaliser);
+            readAssignment(assignment, splitFactory, workNormaliser, costNormaliser);
          }
       }
    }
@@ -1963,7 +1967,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * @param splitFactory split task handling
     * @param normaliser timephased resource assignment normaliser
     */
-   private void readAssignment(Project.Assignments.Assignment assignment, SplitTaskFactory splitFactory, TimephasedNormaliser<TimephasedWork> normaliser)
+   private void readAssignment(Project.Assignments.Assignment assignment, SplitTaskFactory splitFactory, TimephasedNormaliser<TimephasedWork> normaliser, TimephasedNormaliser<TimephasedCost> costNormaliser)
    {
       BigInteger taskUID = assignment.getTaskUID();
       BigInteger resourceUID = assignment.getResourceUID();
@@ -2062,10 +2066,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             mpx.setStartVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getStartVariance(), TimeUnit.DAYS));
             mpx.setFinishVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getFinishVariance(), TimeUnit.DAYS));
 
-            if (mpx.getUniqueID() == 6601)
-            {
-               System.out.println("here");
-            }
             // Process baseline timephased work
             for (Map.Entry<Integer, TimephasedWorkAssignmentFunction> entry : TIMEPHASED_BASELINE_WORK_MAP.entrySet())
             {
@@ -2073,6 +2073,16 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                if (!timephasedData.isEmpty())
                {
                   entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(mpx, normaliser, timephasedData, true));
+               }
+            }
+
+            // Process baseline timephased cost
+            for (Map.Entry<Integer, TimephasedCostAssignmentFunction> entry : TIMEPHASED_BASELINE_COST_MAP.entrySet())
+            {
+               List<TimephasedCost> timephasedData = readTimephasedCost(calendar, assignment, entry.getKey().intValue());
+               if (!timephasedData.isEmpty())
+               {
+                  entry.getValue().apply(mpx, new DefaultTimephasedCostContainer(mpx, costNormaliser, timephasedData, true));
                }
             }
 
@@ -2324,6 +2334,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       void apply(ResourceAssignment assignment, TimephasedWorkContainer container);
    }
 
+   interface TimephasedCostAssignmentFunction
+   {
+      void apply(ResourceAssignment assignment, TimephasedCostContainer container);
+   }
+
    private static final Map<Integer, TimephasedWorkAssignmentFunction> TIMEPHASED_BASELINE_WORK_MAP = new HashMap<>();
    static
    {
@@ -2338,5 +2353,21 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(58), (a,c) -> a.setTimephasedBaselineWork(8, c));
       TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(64), (a,c) -> a.setTimephasedBaselineWork(9, c));
       TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(70), (a,c) -> a.setTimephasedBaselineWork(10, c));
+   }
+
+   private static final Map<Integer, TimephasedCostAssignmentFunction> TIMEPHASED_BASELINE_COST_MAP = new HashMap<>();
+   static
+   {
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(5), (a,c) ->  a.setTimephasedBaselineCost(0, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(17), (a,c) -> a.setTimephasedBaselineCost(1, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(23), (a,c) -> a.setTimephasedBaselineCost(2, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(29), (a,c) -> a.setTimephasedBaselineCost(3, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(35), (a,c) -> a.setTimephasedBaselineCost(4, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(41), (a,c) -> a.setTimephasedBaselineCost(5, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(47), (a,c) -> a.setTimephasedBaselineCost(6, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(53), (a,c) -> a.setTimephasedBaselineCost(7, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(59), (a,c) -> a.setTimephasedBaselineCost(8, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(65), (a,c) -> a.setTimephasedBaselineCost(9, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(71), (a,c) -> a.setTimephasedBaselineCost(10, c));
    }
 }
