@@ -2062,14 +2062,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             mpx.setFinishVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(m_projectFile.getProjectProperties(), assignment.getFinishVariance(), TimeUnit.DAYS));
 
             // Process baseline timephased work
-//            for (Map.Entry<Integer, TimephasedWorkAssignmentFunction> entry : TIMEPHASED_BASELINE_WORK_MAP.entrySet())
-//            {
-//               List<TimephasedWork> timephasedData = readTimephasedAssignment(calendar, assignment, entry.getKey().intValue());
-//               if (!timephasedData.isEmpty())
-//               {
-//                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(mpx, normaliser, timephasedData, true));
-//               }
-//            }
+            for (Map.Entry<Integer, TimephasedWorkAssignmentFunction> entry : TIMEPHASED_BASELINE_WORK_MAP.entrySet())
+            {
+               List<TimephasedWork> timephasedData = readTimephasedAssignment(calendar, assignment, entry.getKey().intValue());
+               if (!timephasedData.isEmpty())
+               {
+                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(mpx, normaliser, timephasedData, true));
+               }
+            }
 
             m_eventManager.fireAssignmentReadEvent(mpx);
          }
