@@ -25,6 +25,7 @@ package net.sf.mpxj.mspdi;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2501,12 +2502,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
          TimephasedDataType xml = m_factory.createTimephasedDataType();
          list.add(xml);
 
+         BigDecimal value = DatatypeConverter.printCurrency(mpx.getTotalAmount());
+
          xml.setStart(mpx.getStart());
          xml.setFinish(mpx.getFinish());
          xml.setType(BigInteger.valueOf(type));
          xml.setUID(assignmentID);
-         xml.setUnit(DatatypeConverter.printDurationTimeUnits(TimeUnit.DAYS, false));
-         xml.setValue(DatatypeConverter.printCurrency(mpx.getTotalAmount()).toString());
+         xml.setUnit(BigInteger.valueOf(2));
+         xml.setValue(value == null ? null : value.toString());
       }
    }
 
