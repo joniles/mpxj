@@ -2221,10 +2221,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
    private TimephasedCost readTimephasedCost(TimephasedDataType item)
    {
+      String value = item.getValue();
+      Double currency = value == null || value.isEmpty() ? NumberHelper.DOUBLE_ZERO : Double.parseDouble(item.getValue());
       TimephasedCost timephasedCost = new TimephasedCost();
       timephasedCost.setStart(item.getStart());
       timephasedCost.setFinish(item.getFinish());
-      timephasedCost.setTotalAmount(DatatypeConverter.parseCurrency(Long.parseLong(item.getValue())));
+      timephasedCost.setTotalAmount(DatatypeConverter.parseCurrency(currency));
       return timephasedCost;
    }
 
