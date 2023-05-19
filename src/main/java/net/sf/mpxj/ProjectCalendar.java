@@ -543,8 +543,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
          else
          {
-            DateRange range = ranges.get(ranges.size() - 1);
-            result = DateHelper.getCanonicalEndTime(range.getStart(), range.getEnd());
+            TimeRange range = ranges.get(ranges.size() - 1);
+            result = DateHelper.getCanonicalEndTime(range.getStartAsDate(), range.getEndAsDate());
          }
       }
       return result;
@@ -655,13 +655,13 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             Date endTime = null;
             Date currentDateStartTime = DateHelper.getCanonicalTime(currentDate);
             boolean firstRange = true;
-            for (DateRange range : ranges)
+            for (TimeRange range : ranges)
             {
                //
                // Skip this range if its end is before our start time
                //
-               Date rangeStart = range.getStart();
-               Date rangeEnd = range.getEnd();
+               Date rangeStart = range.getStartAsDate();
+               Date rangeEnd = range.getEndAsDate();
 
                if (rangeStart == null || rangeEnd == null)
                {
@@ -833,12 +833,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             // Traverse from end to start
             for (int i = ranges.size() - 1; i >= 0; i--)
             {
-               DateRange range = ranges.get(i);
+               TimeRange range = ranges.get(i);
                //
                // Skip this range if its start is after our end time
                //
-               Date rangeStart = range.getStart();
-               Date rangeEnd = range.getEnd();
+               Date rangeStart = range.getStartAsDate();
+               Date rangeEnd = range.getEndAsDate();
 
                if (rangeStart == null || rangeEnd == null)
                {
@@ -915,10 +915,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          Date calTime = DateHelper.getCanonicalTime(cal.getTime());
          Date startTime = null;
-         for (DateRange range : ranges)
+         for (TimeRange range : ranges)
          {
-            Date rangeStart = DateHelper.getCanonicalTime(range.getStart());
-            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStart(), range.getEnd());
+            Date rangeStart = DateHelper.getCanonicalTime(range.getStartAsDate());
+            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStartAsDate(), range.getEndAsDate());
 
             if (calTime.getTime() < rangeEnd.getTime())
             {
@@ -982,9 +982,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          Date calTime = DateHelper.getCanonicalTime(cal.getTime());
          Date finishTime = null;
-         for (DateRange range : ranges)
+         for (TimeRange range : ranges)
          {
-            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStart(), range.getEnd());
+            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStartAsDate(), range.getEndAsDate());
             if (calTime.getTime() >= rangeEnd.getTime())
             {
                finishTime = rangeEnd;
@@ -1639,9 +1639,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    {
       long currentTime = DateHelper.getCanonicalTime(date).getTime();
       long total = 0;
-      for (DateRange range : exception)
+      for (TimeRange range : exception)
       {
-         total += getTime(range.getStart(), range.getEnd(), currentTime, after);
+         total += getTime(range.getStartAsDate(), range.getEndAsDate(), currentTime, after);
       }
       return (total);
    }
@@ -1656,9 +1656,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private long getTotalTime(ProjectCalendarHours exception)
    {
       long total = 0;
-      for (DateRange range : exception)
+      for (TimeRange range : exception)
       {
-         total += getTime(range.getStart(), range.getEnd());
+         total += getTime(range.getStartAsDate(), range.getEndAsDate());
       }
       return (total);
    }
@@ -1680,10 +1680,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          Date start = DateHelper.getCanonicalTime(startDate);
          Date end = DateHelper.getCanonicalTime(endDate);
 
-         for (DateRange range : hours)
+         for (TimeRange range : hours)
          {
-            Date rangeStart = range.getStart();
-            Date rangeEnd = range.getEnd();
+            Date rangeStart = range.getStartAsDate();
+            Date rangeEnd = range.getEndAsDate();
             if (rangeStart != null && rangeEnd != null)
             {
                Date canoncialRangeStart = DateHelper.getCanonicalTime(rangeStart);

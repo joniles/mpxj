@@ -27,6 +27,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -41,7 +42,6 @@ import java.util.Set;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
@@ -63,6 +63,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceAssignmentWorkgroupFields;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.DateHelper;
@@ -421,22 +422,22 @@ public final class MPXWriter extends AbstractProjectWriter
          recordNumber = MPXConstants.RESOURCE_CALENDAR_HOURS_RECORD_NUMBER;
       }
 
-      DateRange range1 = record.get(0);
+      TimeRange range1 = record.get(0);
       if (range1 == null)
       {
-         range1 = DateRange.EMPTY_RANGE;
+         range1 = TimeRange.EMPTY_RANGE;
       }
 
-      DateRange range2 = record.get(1);
+      TimeRange range2 = record.get(1);
       if (range2 == null)
       {
-         range2 = DateRange.EMPTY_RANGE;
+         range2 = TimeRange.EMPTY_RANGE;
       }
 
-      DateRange range3 = record.get(2);
+      TimeRange range3 = record.get(2);
       if (range3 == null)
       {
-         range3 = DateRange.EMPTY_RANGE;
+         range3 = TimeRange.EMPTY_RANGE;
       }
 
       m_buffer.append(recordNumber);
@@ -1132,7 +1133,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value time value
     * @return formatted time value
     */
-   private String formatTime(Date value)
+   private String formatTime(LocalTime value)
    {
       return (value == null ? null : m_formats.getTimeFormat().format(value));
    }

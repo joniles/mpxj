@@ -25,8 +25,8 @@ package net.sf.mpxj.mpp;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,6 +34,7 @@ import java.util.List;
 
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -174,7 +175,7 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts and collates calendar data.
     */
-   private void processCalendarData() throws MPXJException, IOException
+   private void processCalendarData() throws IOException
    {
       DirectoryEntry calDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCal");
       FixFix calendarFixedData = new FixFix(36, new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixFix   0"))));
@@ -199,23 +200,10 @@ final class MPP8Reader implements MPPVariantReader
       // Configure default time ranges
       //
       SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-      Date defaultStart1;
-      Date defaultEnd1;
-      Date defaultStart2;
-      Date defaultEnd2;
-
-      try
-      {
-         defaultStart1 = df.parse("08:00");
-         defaultEnd1 = df.parse("12:00");
-         defaultStart2 = df.parse("13:00");
-         defaultEnd2 = df.parse("17:00");
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException(MPXJException.INVALID_FORMAT, ex);
-      }
+      LocalTime defaultStart1 = LocalTime.of(8, 0);
+      LocalTime defaultEnd1 = LocalTime.of(12, 0);
+      LocalTime defaultStart2 = LocalTime.of(13, 0);
+      LocalTime defaultEnd2 = LocalTime.of(17, 0);
 
       int calendars = calendarFixedData.getItemCount();
       int calendarID;
@@ -296,8 +284,8 @@ final class MPP8Reader implements MPPVariantReader
                   if (cal.isWorkingDay(day))
                   {
                      hours = cal.addCalendarHours(Day.getInstance(index + 1));
-                     hours.add(new DateRange(defaultStart1, defaultEnd1));
-                     hours.add(new DateRange(defaultStart2, defaultEnd2));
+                     hours.add(new TimeRange(defaultStart1, defaultEnd1));
+                     hours.add(new TimeRange(defaultStart2, defaultEnd2));
                   }
                   else
                   {
@@ -323,7 +311,7 @@ final class MPP8Reader implements MPPVariantReader
                      {
                         start = MPPUtility.getTime(extData, offset + 8 + (periodIndex * 2));
                         duration = MPPUtility.getDuration(extData, offset + 16 + (periodIndex * 4));
-                        hours.add(new DateRange(start, new Date(start.getTime() + duration)));
+                        hours.add(new TimeRange(start, new Date(start.getTime() + duration)));
                      }
                   }
                }
@@ -350,7 +338,7 @@ final class MPP8Reader implements MPPVariantReader
                      {
                         start = MPPUtility.getTime(extData, offset + 12 + (exceptionPeriodIndex * 2));
                         duration = MPPUtility.getDuration(extData, offset + 20 + (exceptionPeriodIndex * 4));
-                        exception.add(new DateRange(start, new Date(start.getTime() + duration)));
+                        exception.add(new TimeRange(start, new Date(start.getTime() + duration)));
                      }
                   }
                }

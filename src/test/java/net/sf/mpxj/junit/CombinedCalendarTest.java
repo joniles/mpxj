@@ -25,18 +25,18 @@ package net.sf.mpxj.junit;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CombinedCalendar;
-import net.sf.mpxj.common.DateHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -69,7 +69,7 @@ public class CombinedCalendarTest
       // Modify calendar1 so Tuesdays are working from 09:00 to 13:00
       ProjectCalendarHours hours = calendar1.getCalendarHours(Day.TUESDAY);
       hours.clear();
-      hours.add(new DateRange(DateHelper.getTime(9, 0), DateHelper.getTime(13, 0)));
+      hours.add(new TimeRange(LocalTime.of(9, 0), LocalTime.of(13, 0)));
 
       // Ensure that Tuesday only has 3 working hours
       work = combined.getWork(Day.TUESDAY, TimeUnit.HOURS);
@@ -80,7 +80,7 @@ public class CombinedCalendarTest
       // Modify calendar1 so Wednesdays are working from 00:00 to 08:00
       hours = calendar1.getCalendarHours(Day.WEDNESDAY);
       hours.clear();
-      hours.add(new DateRange(DateHelper.getTime(0, 0), DateHelper.getTime(8, 0)));
+      hours.add(new TimeRange(LocalTime.of(0, 0), LocalTime.of(8, 0)));
 
       // Ensure Wednesday shows no working hours as there is no overlap
       work = combined.getWork(Day.WEDNESDAY, TimeUnit.HOURS);
@@ -91,7 +91,7 @@ public class CombinedCalendarTest
       // Add an exception for a specific Thursday
       Date exceptionDate = df.parse("03/11/2022");
       ProjectCalendarException exception = calendar1.addCalendarException(exceptionDate);
-      exception.add(new DateRange(DateHelper.getTime(9, 0), DateHelper.getTime(13, 0)));
+      exception.add(new TimeRange(LocalTime.of(9, 0), LocalTime.of(13, 0)));
 
       work = combined.getWork(exceptionDate, TimeUnit.HOURS);
       assertEquals(3.0, work.getDuration(), 0.0);
