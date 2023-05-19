@@ -315,7 +315,7 @@ final class TimephasedDataFactory
       List<TimephasedWork> list = new ArrayList<>();
       long totalWork = 0;
 
-      for (int blockIndex=0; blockIndex < blockCount-1; blockIndex++)
+      for (int blockIndex = 0; blockIndex < blockCount - 1; blockIndex++)
       {
          if (offset + 20 > data.length)
          {
@@ -329,7 +329,7 @@ final class TimephasedDataFactory
          else
          {
             Date blockStartDate = calendar.getNextWorkStart(blockEndDate);
-            long currentTotalWorkInMinutes = (long)(MPPUtility.getDouble(data, offset) / 1000.0);
+            long currentTotalWorkInMinutes = (long) (MPPUtility.getDouble(data, offset) / 1000.0);
             int expectedWorkThisPeriodInMinutes = MPPUtility.getInt(data, offset + 8) / 10;
             //int unknown = MPPUtility.getInt(data, offset + 12);
             blockEndDate = MPPUtility.getTimestampFromTenths(data, offset + 16);

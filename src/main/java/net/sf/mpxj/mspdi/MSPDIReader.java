@@ -164,7 +164,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
          ProjectFile projectFile = new ProjectFile();
          DatatypeConverter.setParentFile(projectFile);
-         @SuppressWarnings("unchecked") Project project = ((JAXBElement<Project>) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput)).getValue();
+         @SuppressWarnings("unchecked")
+         Project project = ((JAXBElement<Project>) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput)).getValue();
 
          read(projectFile, project);
 
@@ -250,7 +251,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             //
             // Process any embedded external projects
             //
-            for(Map.Entry<Task, Project> entry : m_externalProjects.entrySet())
+            for (Map.Entry<Task, Project> entry : m_externalProjects.entrySet())
             {
                MSPDIReader reader = new MSPDIReader();
                ProjectFile file = new ProjectFile();
@@ -2345,32 +2346,32 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private static final Map<Integer, TimephasedWorkAssignmentFunction> TIMEPHASED_BASELINE_WORK_MAP = new HashMap<>();
    static
    {
-      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(4), (a,c) ->  a.setTimephasedBaselineWork(0, c));
-      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(16), (a,c) -> a.setTimephasedBaselineWork(1, c));
-      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(22), (a,c) -> a.setTimephasedBaselineWork(2, c));
-      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(28), (a,c) -> a.setTimephasedBaselineWork(3, c));
-      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(34), (a,c) -> a.setTimephasedBaselineWork(4, c));
-      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(40), (a,c) -> a.setTimephasedBaselineWork(5, c));
-      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(46), (a,c) -> a.setTimephasedBaselineWork(6, c));
-      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(52), (a,c) -> a.setTimephasedBaselineWork(7, c));
-      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(58), (a,c) -> a.setTimephasedBaselineWork(8, c));
-      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(64), (a,c) -> a.setTimephasedBaselineWork(9, c));
-      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(70), (a,c) -> a.setTimephasedBaselineWork(10, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(4), (a, c) -> a.setTimephasedBaselineWork(0, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(16), (a, c) -> a.setTimephasedBaselineWork(1, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(22), (a, c) -> a.setTimephasedBaselineWork(2, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(28), (a, c) -> a.setTimephasedBaselineWork(3, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(34), (a, c) -> a.setTimephasedBaselineWork(4, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(40), (a, c) -> a.setTimephasedBaselineWork(5, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(46), (a, c) -> a.setTimephasedBaselineWork(6, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(52), (a, c) -> a.setTimephasedBaselineWork(7, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(58), (a, c) -> a.setTimephasedBaselineWork(8, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(64), (a, c) -> a.setTimephasedBaselineWork(9, c));
+      TIMEPHASED_BASELINE_WORK_MAP.put(Integer.valueOf(70), (a, c) -> a.setTimephasedBaselineWork(10, c));
    }
 
    private static final Map<Integer, TimephasedCostAssignmentFunction> TIMEPHASED_BASELINE_COST_MAP = new HashMap<>();
    static
    {
-      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(5), (a,c) ->  a.setTimephasedBaselineCost(0, c));
-      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(17), (a,c) -> a.setTimephasedBaselineCost(1, c));
-      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(23), (a,c) -> a.setTimephasedBaselineCost(2, c));
-      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(29), (a,c) -> a.setTimephasedBaselineCost(3, c));
-      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(35), (a,c) -> a.setTimephasedBaselineCost(4, c));
-      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(41), (a,c) -> a.setTimephasedBaselineCost(5, c));
-      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(47), (a,c) -> a.setTimephasedBaselineCost(6, c));
-      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(53), (a,c) -> a.setTimephasedBaselineCost(7, c));
-      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(59), (a,c) -> a.setTimephasedBaselineCost(8, c));
-      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(65), (a,c) -> a.setTimephasedBaselineCost(9, c));
-      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(71), (a,c) -> a.setTimephasedBaselineCost(10, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(5), (a, c) -> a.setTimephasedBaselineCost(0, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(17), (a, c) -> a.setTimephasedBaselineCost(1, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(23), (a, c) -> a.setTimephasedBaselineCost(2, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(29), (a, c) -> a.setTimephasedBaselineCost(3, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(35), (a, c) -> a.setTimephasedBaselineCost(4, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(41), (a, c) -> a.setTimephasedBaselineCost(5, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(47), (a, c) -> a.setTimephasedBaselineCost(6, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(53), (a, c) -> a.setTimephasedBaselineCost(7, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(59), (a, c) -> a.setTimephasedBaselineCost(8, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(65), (a, c) -> a.setTimephasedBaselineCost(9, c));
+      TIMEPHASED_BASELINE_COST_MAP.put(Integer.valueOf(71), (a, c) -> a.setTimephasedBaselineCost(10, c));
    }
 }
