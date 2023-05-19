@@ -144,6 +144,13 @@ module MPXJ
       attribute_values['assignment_units']
     end
 
+    # Retrieve the Bar Name value
+    #
+    # @return Bar Name value
+    def bar_name
+      attribute_values['bar_name']
+    end
+
     # Retrieve the Baseline10 Budget Cost value
     #
     # @return Baseline10 Budget Cost value
@@ -6850,6 +6857,7 @@ module MPXJ
       'assignment_delay' => :string,
       'assignment_owner' => :string,
       'assignment_units' => :string,
+      'bar_name' => :string,
       'baseline10_budget_cost' => :currency,
       'baseline10_budget_work' => :work,
       'baseline10_cost' => :currency,
