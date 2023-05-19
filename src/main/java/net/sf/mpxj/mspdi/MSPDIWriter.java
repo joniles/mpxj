@@ -2401,8 +2401,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                TimephasedCost padding = new TimephasedCost();
                padding.setStart(currentStart);
                padding.setFinish(startDate);
-               padding.setTotalAmount(0);
-               padding.setAmountPerDay(0);
+               padding.setTotalAmount(Integer.valueOf(0));
+               padding.setAmountPerDay(Integer.valueOf(0));
                result.add(padding);
             }
 
@@ -2415,8 +2415,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                TimephasedCost padding = new TimephasedCost();
                padding.setStart(finishDate);
                padding.setFinish(currentFinish);
-               padding.setTotalAmount(0);
-               padding.setAmountPerDay(0);
+               padding.setTotalAmount(Integer.valueOf(0));
+               padding.setAmountPerDay(Integer.valueOf(0));
                result.add(padding);
             }
          }

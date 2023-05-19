@@ -280,6 +280,7 @@ final class TimephasedDataFactory
     * Returns null if no baseline work is present, otherwise returns
     * a list of timephased work items.
     *
+    * @param calendar effective calendar for the resource assignment
     * @param assignment parent assignment
     * @param normaliser normaliser associated with this data
     * @param data timephased baseline work data block
@@ -295,7 +296,7 @@ final class TimephasedDataFactory
 
       // 8 byte header
       int blockCount = MPPUtility.getShort(data, 0);
-      int timephasedDataType = MPPUtility.getShort(data, 2);
+      //int timephasedDataType = MPPUtility.getShort(data, 2);
       int offset = MPPUtility.getShort(data, 4);
       //int unknown = MPPUtility.getShort(data, 6);
 
