@@ -1,6 +1,16 @@
 # Changelog
 
-## 11.4.1 (unreleased)
+## 11.5.1 (unreleased)
+
+## 11.5.0 (2023-05-19)
+* Added the ability to read Subproject data embedded in MSPDI files.
+* Added the ability to read timephased baseline work and cost from MSPDI files.
+* Added the ability to write timephased baseline work and cost to MSPDI files.
+* Improve accuracy of timephased baseline work read from MPP files.
+* Ensure that non-recurring calendar exceptions take precedence over recurring calendar exceptions.
+* Avoid creating duplicate calendar exceptions when reading Asta PP files.
+* Added the Bar Name attribute to Task, which is accessed using the `getBarName` and `setBarName` methods. This is populated with the name of the bar to which a task belongs when reading an Asta Powerproject schedule.
+* When reading schedules from XER files and P6 databases, ensure durations without a value are returned as `null` rather than as a zero duration.
 
 ## 11.4.0 (2023-05-08)
 * Added the "Resource Pool File" attribute to ProjectProperties, which represents the full path of the resource pool used by an MPP file. This attribute is accessible via the `getResourcePoolFile` and `setResourcePoolFile` methods.

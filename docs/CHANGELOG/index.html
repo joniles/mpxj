@@ -271,8 +271,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1141-unreleased" class="md-nav__link">
-    11.4.1 (unreleased)
+  <a href="#1151-unreleased" class="md-nav__link">
+    11.5.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1150-2023-05-19" class="md-nav__link">
+    11.5.0 (2023-05-19)
   </a>
   
 </li>
@@ -2664,8 +2671,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1141-unreleased" class="md-nav__link">
-    11.4.1 (unreleased)
+  <a href="#1151-unreleased" class="md-nav__link">
+    11.5.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1150-2023-05-19" class="md-nav__link">
+    11.5.0 (2023-05-19)
   </a>
   
 </li>
@@ -4192,7 +4206,18 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1141-unreleased">11.4.1 (unreleased)</h2>
+<h2 id="1151-unreleased">11.5.1 (unreleased)</h2>
+<h2 id="1150-2023-05-19">11.5.0 (2023-05-19)</h2>
+<ul>
+<li>Added the ability to read Subproject data embedded in MSPDI files.</li>
+<li>Added the ability to read timephased baseline work and cost from MSPDI files.</li>
+<li>Added the ability to write timephased baseline work and cost to MSPDI files.</li>
+<li>Improve accuracy of timephased baseline work read from MPP files.</li>
+<li>Ensure that non-recurring calendar exceptions take precedence over recurring calendar exceptions.</li>
+<li>Avoid creating duplicate calendar exceptions when reading Asta PP files.</li>
+<li>Added the Bar Name attribute to Task, which is accessed using the <code>getBarName</code> and <code>setBarName</code> methods. This is populated with the name of the bar to which a task belongs when reading an Asta Powerproject schedule.</li>
+<li>When reading schedules from XER files and P6 databases, ensure durations without a value are returned as <code>null</code> rather than as a zero duration.</li>
+</ul>
 <h2 id="1140-2023-05-08">11.4.0 (2023-05-08)</h2>
 <ul>
 <li>Added the "Resource Pool File" attribute to ProjectProperties, which represents the full path of the resource pool used by an MPP file. This attribute is accessible via the <code>getResourcePoolFile</code> and <code>setResourcePoolFile</code> methods.</li>

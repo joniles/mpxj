@@ -20,6 +20,7 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 package net.sf.mpxj.junit;
 
 import java.text.DateFormat;
@@ -61,6 +62,9 @@ public class CalendarExceptionPrecedenceTest
       Assert.assertTrue(calendar.isWorkingDate(m_df.parse("30/09/2022")));
    }
 
+   /**
+    * Test daily recurring exceptions.
+    */
    @Test public void testDailyCalendarExceptionPredecedence() throws Exception
    {
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence-daily.mpp"));
@@ -68,6 +72,9 @@ public class CalendarExceptionPrecedenceTest
       Assert.assertFalse(calendar.isWorkingDate(m_df.parse("12/05/2023")));
    }
 
+   /**
+    * Test weekly recurring exceptions.
+    */
    @Test public void testWeeklyCalendarExceptionPredecedence() throws Exception
    {
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence-weekly.mpp"));
@@ -75,6 +82,9 @@ public class CalendarExceptionPrecedenceTest
       Assert.assertFalse(calendar.isWorkingDate(m_df.parse("12/05/2023")));
    }
 
+   /**
+    * Test monthly recurring exceptions.
+    */
    @Test public void testMonthlyCalendarExceptionPredecedence() throws Exception
    {
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence-monthly.mpp"));
@@ -82,6 +92,9 @@ public class CalendarExceptionPrecedenceTest
       Assert.assertFalse(calendar.isWorkingDate(m_df.parse("12/05/2023")));
    }
 
+   /**
+    * Test yearly recurring exceptions.
+    */
    @Test public void testYearlyCalendarExceptionPredecedence() throws Exception
    {
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence-yearly.mpp"));

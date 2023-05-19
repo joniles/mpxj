@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2023-05-08</li>
+        <li id="publishDate">Last Published: 2023-05-19</li>
           </ul>
         </div>
       </header>
@@ -68,8 +68,46 @@
 <h2><a name="MPXJ_Changes"></a>MPXJ Changes</h2><section>
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
-<h3 id="a11.4.1">Release 11.4.1 &#x2013; unreleased</h3>
+<h3 id="a11.5.1">Release 11.5.1 &#x2013; unreleased</h3>
 <p>No changes in this release.</p></section><section>
+<h3 id="a11.5.0">Release 11.5.0 &#x2013; 2023-05-19</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the ability to read Subproject data embedded in MSPDI files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the ability to read timephased baseline work and cost from MSPDI files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the ability to write timephased baseline work and cost to MSPDI files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve accuracy of timephased baseline work read from MPP files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that non-recurring calendar exceptions take precedence over recurring calendar exceptions.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Avoid creating duplicate calendar exceptions when reading Asta PP files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the Bar Name attribute to Task, which is accessed using the `getBarName` and `setBarName` methods. This is populated with the name of the bar to which a task belongs when reading an Asta Powerproject schedule.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>When reading schedules from XER files and P6 databases, ensure durations without a value are returned as `null` rather than as a zero duration.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a11.4.0">Release 11.4.0 &#x2013; 2023-05-08</h3>
 <table border="0" class="table table-striped">
 <tr class="b">
