@@ -27,9 +27,9 @@ import static org.junit.Assert.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendar;
@@ -209,7 +209,7 @@ public class MppCalendarTest
    private void testExceptions(ProjectFile mpp)
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-      DateFormat tf = new SimpleDateFormat("HH:mm");
+      DateTimeFormatter tf = DateTimeFormatter.ofPattern("HH:mm");
 
       ProjectCalendar cal = mpp.getCalendarByUniqueID(Integer.valueOf(1));
       assertNotNull(cal);

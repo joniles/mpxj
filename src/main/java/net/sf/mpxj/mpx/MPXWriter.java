@@ -27,7 +27,6 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -444,17 +443,17 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(day));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(range1.getStart())));
+      m_buffer.append(format(formatTime(range1.getStartAsDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(range1.getEnd())));
+      m_buffer.append(format(formatTime(range1.getEndAsDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(range2.getStart())));
+      m_buffer.append(format(formatTime(range2.getStartAsDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(range2.getEnd())));
+      m_buffer.append(format(formatTime(range2.getEndAsDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(range3.getStart())));
+      m_buffer.append(format(formatTime(range3.getStartAsDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(range3.getEnd())));
+      m_buffer.append(format(formatTime(range3.getEndAsDate())));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append(MPXConstants.EOL);
 
@@ -486,17 +485,17 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getWorking() ? "1" : "0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.get(0).getStart())));
+      m_buffer.append(format(formatTime(record.get(0).getStartAsDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.get(0).getEnd())));
+      m_buffer.append(format(formatTime(record.get(0).getEndAsDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.get(1).getStart())));
+      m_buffer.append(format(formatTime(record.get(1).getStartAsDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.get(1).getEnd())));
+      m_buffer.append(format(formatTime(record.get(1).getEndAsDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.get(2).getStart())));
+      m_buffer.append(format(formatTime(record.get(2).getStartAsDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.get(2).getEnd())));
+      m_buffer.append(format(formatTime(record.get(2).getEndAsDate())));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append(MPXConstants.EOL);
 
@@ -1133,7 +1132,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value time value
     * @return formatted time value
     */
-   private String formatTime(LocalTime value)
+   private String formatTime(Date value)
    {
       return (value == null ? null : m_formats.getTimeFormat().format(value));
    }
