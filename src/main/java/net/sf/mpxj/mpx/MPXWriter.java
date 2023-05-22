@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
@@ -95,6 +97,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_calendarNameMap = new HashMap<>();
       m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile, MAPPING_TARGET_CUSTOM_FIELDS);
       projectFile.getUserDefinedFields().stream().sorted(Comparator.comparing(UserDefinedField::getUniqueID)).forEach(m_userDefinedFieldMap::generateMapping);
+      m_resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
 
       try
       {
@@ -112,6 +115,8 @@ public final class MPXWriter extends AbstractProjectWriter
          m_formats = null;
          m_calendarNameSet = null;
          m_calendarNameMap = null;
+         m_userDefinedFieldMap = null;
+         m_resourceCalendarMap = null;
       }
    }
 
@@ -568,7 +573,7 @@ public final class MPXWriter extends AbstractProjectWriter
       // 1. It is a derived calendar
       // 2. It's not the base calendar for any other derived calendars
       // 3. It is associated with exactly one resource
-      return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && calendar.getResourceCount() == 1;
+      return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && m_resourceCalendarMap.computeIfAbsent(calendar.getUniqueID(), k -> Collections.emptyList()).size() == 1;
    }
 
    /**
@@ -1592,6 +1597,7 @@ public final class MPXWriter extends AbstractProjectWriter
    private Set<String> m_calendarNameSet;
    private Map<Integer, String> m_calendarNameMap;
    private UserDefinedFieldMap m_userDefinedFieldMap;
+   private Map<Integer, List<Resource>> m_resourceCalendarMap;
 
    private static final List<FieldType> MAPPING_TARGET_CUSTOM_FIELDS = new ArrayList<>();
    static
