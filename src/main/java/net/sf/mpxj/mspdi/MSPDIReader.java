@@ -219,7 +219,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //
          // Prune unused resource calendars
          //
-         m_projectFile.getCalendars().removeIf(c -> c.isDerived() && c.getResourceCount() == 0);
+         Map<Integer, List<Resource>> resourceCalendarMap = projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
+         m_projectFile.getCalendars().removeIf(c -> c.isDerived() && !resourceCalendarMap.containsKey(c.getUniqueID()));
 
          //
          // Resource calendar post processing
@@ -233,7 +234,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                if (calendar.isDerived())
                {
                   calendar.setType(CalendarType.RESOURCE);
-                  calendar.setPersonal(calendar.getResourceCount() == 1);
+                  calendar.setPersonal(resourceCalendarMap.computeIfAbsent(calendar.getUniqueID(), k -> Collections.emptyList()).size() == 1);
                }
 
                // Resource calendars without names inherit the resource name

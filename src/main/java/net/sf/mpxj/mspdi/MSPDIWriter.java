@@ -532,7 +532,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       // Identify valid derived calendars, in theory all other calendars should be base calendars
       //
-      Set<ProjectCalendar> derivedCalendarSet = m_projectFile.getResources().stream().map(Resource::getCalendar).filter(this::isValidDerivedCalendar).collect(Collectors.toSet());
+      Map<Integer, List<Resource>> resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
+      Set<ProjectCalendar> derivedCalendarSet = m_projectFile.getResources().stream().map(Resource::getCalendar).filter(c -> isValidDerivedCalendar(resourceCalendarMap, c)).collect(Collectors.toSet());
       List<ProjectCalendar> baseCalendars = m_projectFile.getCalendars().stream().filter(c -> !derivedCalendarSet.contains(c)).collect(Collectors.toList());
 
       //
@@ -573,13 +574,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param calendar calendar to test
     * @return true if this is a valid resource calendar
     */
-   private boolean isValidDerivedCalendar(ProjectCalendar calendar)
+   private boolean isValidDerivedCalendar(Map<Integer, List<Resource>> resourceCalendarMap, ProjectCalendar calendar)
    {
       // We treat this as a valid derived (resource) calendar if:
       // 1. It is a derived calendar
       // 2. It's not the base calendar for any other derived calendars
       // 3. It is associated with exactly one resource
-      return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && calendar.getResourceCount() == 1;
+      return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && resourceCalendarMap.computeIfAbsent(calendar.getUniqueID(), k -> Collections.emptyList()).size() == 1;
    }
 
    /**
