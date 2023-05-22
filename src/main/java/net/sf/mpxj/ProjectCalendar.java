@@ -1213,6 +1213,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    @Override public void setUniqueID(Integer uniqueID)
    {
+      // If we have a temporary calendar, we don't want to modify the unique ID map for calendars
       if (!m_temporaryCalendar)
       {
          getParentFile().getCalendars().updateUniqueID(this, m_uniqueID, uniqueID);
