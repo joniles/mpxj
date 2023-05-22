@@ -1805,7 +1805,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public List<ProjectCalendar> getDerivedCalendars()
    {
-      return Collections.unmodifiableList(m_projectFile.getCalendars().stream().filter(c -> c.m_parent != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
+      return Collections.unmodifiableList(m_projectFile.getCalendars().stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
    }
 
    @Override public String toString()
@@ -2073,7 +2073,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    /**
     * Unique identifier of this calendar.
     */
-   private Integer m_uniqueID = Integer.valueOf(0);
+   private Integer m_uniqueID;
 
    /**
     * List of exceptions to the base calendar.
