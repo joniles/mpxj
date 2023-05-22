@@ -2589,7 +2589,13 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
+      List<FieldType> dependencies = DEPENDENCY_MAP.get(field);
+      if (dependencies == null)
+      {
+         return;
+      }
+
+      dependencies.forEach(f -> set(f, null));
    }
 
    @Override protected boolean getAlwaysCalculatedField(FieldType field)

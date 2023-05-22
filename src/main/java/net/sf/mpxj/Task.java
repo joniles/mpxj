@@ -5583,7 +5583,13 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
+      List<FieldType> dependencies = DEPENDENCY_MAP.get(field);
+      if (dependencies == null)
+      {
+         return;
+      }
+
+      dependencies.forEach(f -> set(f, null));
    }
 
    @Override boolean getAlwaysCalculatedField(FieldType field)
