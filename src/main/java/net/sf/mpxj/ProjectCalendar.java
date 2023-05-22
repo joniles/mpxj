@@ -58,6 +58,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       this(file, false);
    }
 
+   /**
+    * Internal constructor to allow the temporary calendar flag to be set.
+    *
+    * @param file the parent file to which this record belongs.
+    * @param temporaryCalendar true if this is a temporary calendar
+    */
    protected ProjectCalendar(ProjectFile file, boolean temporaryCalendar)
    {
       m_projectFile = file;
