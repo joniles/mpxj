@@ -5575,7 +5575,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param field modified field
     */
-   @Override void invalidateCache(FieldType field, Object newValue)
+   @Override void invalidateCache(FieldType field, Object oldValue, Object newValue)
    {
       if (field == TaskField.UNIQUE_ID)
       {

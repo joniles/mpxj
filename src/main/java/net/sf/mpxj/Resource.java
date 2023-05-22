@@ -2572,7 +2572,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * @param field modified field
     * @param newValue new value
     */
-   @Override protected void invalidateCache(FieldType field, Object newValue)
+   @Override protected void invalidateCache(FieldType field, Object oldValue, Object newValue)
    {
       if (field == ResourceField.UNIQUE_ID)
       {

@@ -2888,7 +2888,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return (fields[index - 1]);
    }
 
-   @Override void invalidateCache(FieldType field, Object newValue)
+   @Override void invalidateCache(FieldType field, Object oldValue, Object newValue)
    {
       // No action required
    }

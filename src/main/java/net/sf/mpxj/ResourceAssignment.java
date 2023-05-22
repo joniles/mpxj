@@ -2923,7 +2923,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param field modified field
     */
-   @Override protected void invalidateCache(FieldType field, Object newValue)
+   @Override protected void invalidateCache(FieldType field, Object oldValue, Object newValue)
    {
       if (field == AssignmentField.UNIQUE_ID)
       {
