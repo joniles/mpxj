@@ -37,14 +37,4 @@ public class CostAccountContainer extends ProjectEntityContainer<CostAccount>
    {
       super(projectFile);
    }
-
-   @Override public void added(CostAccount account)
-   {
-      clearUniqueIDMap();
-   }
-
-   @Override public void removed(CostAccount account)
-   {
-      clearUniqueIDMap();
-   }
 }

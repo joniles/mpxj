@@ -37,14 +37,4 @@ public class ExpenseCategoryContainer extends ProjectEntityContainer<ExpenseCate
    {
       super(projectFile);
    }
-
-   @Override public void added(ExpenseCategory category)
-   {
-      clearUniqueIDMap();
-   }
-
-   @Override public void removed(ExpenseCategory category)
-   {
-      clearUniqueIDMap();
-   }
 }

@@ -2576,7 +2576,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    {
       if (field == ResourceField.UNIQUE_ID)
       {
-         getParentFile().getResources().clearUniqueIDMap();
+         getParentFile().getResources().updateUniqueID(this, (Integer)oldValue, (Integer)newValue);
 
          if (!m_assignments.isEmpty())
          {

@@ -2927,7 +2927,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    {
       if (field == AssignmentField.UNIQUE_ID)
       {
-         getParentFile().getResourceAssignments().clearUniqueIDMap();
+         getParentFile().getResourceAssignments().updateUniqueID(this, (Integer)oldValue, (Integer)newValue);
          return;
       }
 
