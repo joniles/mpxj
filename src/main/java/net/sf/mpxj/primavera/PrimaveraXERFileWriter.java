@@ -116,6 +116,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_writer = new XerWriter(projectFile, new OutputStreamWriter(outputStream, getCharset()));
       m_rateObjectID = new ObjectSequence(1);
       m_noteObjectID = new ObjectSequence(1);
+      m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(projectFile);
 
       // We need to do this first to ensure the default topic is created if required
       populateWbsNotes();
@@ -433,7 +434,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeUdfDefinitions()
    {
       m_writer.writeTable("UDFTYPE", UDF_TYPE_COLUMNS);
-      UdfHelper.getUserDefinedFieldsSet(m_file).stream().map(f -> new Pair<>(f, m_file.getCustomFields().get(f))).sorted(Comparator.comparing(p -> p.getSecond() == null ? Integer.valueOf(FieldTypeHelper.getFieldID(p.getFirst())) : p.getSecond().getUniqueID())).forEach(p -> m_writer.writeRecord(UDF_TYPE_COLUMNS, p));
+      m_userDefinedFields.stream().map(f -> new Pair<>(f, m_file.getCustomFields().get(f))).sorted(Comparator.comparing(p -> p.getSecond() == null ? Integer.valueOf(FieldTypeHelper.getFieldID(p.getFirst())) : p.getSecond().getUniqueID())).forEach(p -> m_writer.writeRecord(UDF_TYPE_COLUMNS, p));
    }
 
    /**
@@ -441,14 +442,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeUdfValues()
    {
-      Set<FieldType> fields = UdfHelper.getUserDefinedFieldsSet(m_file);
-
       List<Map<String, Object>> records = new ArrayList<>();
-      records.addAll(writeActivityUdfValues(fields));
-      records.addAll(writeWbsUdfValues(fields));
-      records.addAll(writeResourceUdfValues(fields));
-      records.addAll(writeResourceAssignmentUdfValues(fields));
-      records.addAll(writeProjectUdfValues(fields));
+      records.addAll(writeActivityUdfValues());
+      records.addAll(writeWbsUdfValues());
+      records.addAll(writeResourceUdfValues());
+      records.addAll(writeResourceAssignmentUdfValues());
+      records.addAll(writeProjectUdfValues());
       records.removeIf(Objects::isNull);
 
       records.sort((r1, r2) -> {
@@ -471,60 +470,55 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    /**
     * Write activity UDF values.
     *
-    * @param allFields UDF fields
     * @return list of UDF records
     */
-   private List<Map<String, Object>> writeActivityUdfValues(Set<FieldType> allFields)
+   private List<Map<String, Object>> writeActivityUdfValues()
    {
-      Set<FieldType> fields = allFields.stream().filter(f -> "TASK".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
+      Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "TASK".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
       return m_file.getTasks().stream().filter(t -> !t.getSummary()).map(t -> writeUdfAssignments(fields, TaskField.UNIQUE_ID, t)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
     * Write WBS UDF values.
     *
-    * @param allFields UDF fields
     * @return list of UDF records
     */
-   private List<Map<String, Object>> writeWbsUdfValues(Set<FieldType> allFields)
+   private List<Map<String, Object>> writeWbsUdfValues()
    {
-      Set<FieldType> fields = allFields.stream().filter(f -> "PROJWBS".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
+      Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "PROJWBS".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
       return m_file.getTasks().stream().filter(Task::getSummary).map(t -> writeUdfAssignments(fields, TaskField.UNIQUE_ID, t)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
     * Write resource UDF values.
     *
-    * @param allFields UDF fields
     * @return list of UDF records
     */
-   private List<Map<String, Object>> writeResourceUdfValues(Set<FieldType> allFields)
+   private List<Map<String, Object>> writeResourceUdfValues()
    {
-      Set<FieldType> fields = allFields.stream().filter(f -> "RSRC".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
+      Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "RSRC".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
       return m_file.getResources().stream().map(r -> writeUdfAssignments(fields, ResourceField.UNIQUE_ID, r)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
     * Write resource assignment UDF values.
     *
-    * @param allFields UDF fields
     * @return list of UDF records
     */
-   private List<Map<String, Object>> writeResourceAssignmentUdfValues(Set<FieldType> allFields)
+   private List<Map<String, Object>> writeResourceAssignmentUdfValues()
    {
-      Set<FieldType> fields = allFields.stream().filter(f -> "TASKRSRC".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
+      Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "TASKRSRC".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
       return m_file.getResourceAssignments().stream().map(a -> writeUdfAssignments(fields, AssignmentField.UNIQUE_ID, a)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
     * Write project UDF values.
     *
-    * @param allFields UDF fields
     * @return list of UDF records
     */
-   private List<Map<String, Object>> writeProjectUdfValues(Set<FieldType> allFields)
+   private List<Map<String, Object>> writeProjectUdfValues()
    {
-      Set<FieldType> fields = allFields.stream().filter(f -> "PROJECT".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
+      Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "PROJECT".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
       return writeUdfAssignments(fields, ProjectField.UNIQUE_ID, m_file.getProjectProperties());
    }
 
@@ -823,6 +817,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private ObjectSequence m_noteObjectID;
    private List<Map<String, Object>> m_wbsNotes;
    private List<Map<String, Object>> m_activityNotes;
+   private Set<FieldType> m_userDefinedFields;
 
    interface ExportFunction<T>
    {
