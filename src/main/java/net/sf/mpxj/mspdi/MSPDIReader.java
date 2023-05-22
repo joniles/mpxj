@@ -1648,32 +1648,24 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     */
    private CustomFieldValueItem getValueItem(FieldType fieldType, BigInteger valueID)
    {
-      CustomFieldValueItem result = null;
-
-      CustomField field = m_projectFile.getCustomFields().get(fieldType);
-      if (field != null)
-      {
-         List<CustomFieldValueItem> items = field.getLookupTable();
-         if (!items.isEmpty())
-         {
-            result = m_customFieldValueItems.getOrDefault(fieldType, getCustomFieldValueItemMap(items)).get(valueID);
-         }
-      }
-
-      return result;
+      return m_customFieldValueItems.computeIfAbsent(fieldType, k -> getCustomFieldValueItemMap(fieldType)).get(valueID);
    }
 
    /**
     * Populate a cache of lookup table entries.
     *
-    * @param items list of lookup table entries
+    * @param fieldType field type
     * @return cache of lookup table entries
     */
-   private HashMap<BigInteger, CustomFieldValueItem> getCustomFieldValueItemMap(List<CustomFieldValueItem> items)
+   private Map<BigInteger, CustomFieldValueItem> getCustomFieldValueItemMap(FieldType fieldType)
    {
-      HashMap<BigInteger, CustomFieldValueItem> result = new HashMap<>();
-      items.forEach(item -> result.put(BigInteger.valueOf(item.getUniqueID().intValue()), item));
-      return result;
+      CustomField field = m_projectFile.getCustomFields().get(fieldType);
+      if (field == null)
+      {
+         return Collections.emptyMap();
+      }
+
+      return field.getLookupTable().stream().collect(Collectors.toMap(i -> BigInteger.valueOf(i.getUniqueID().intValue()), i ->i));
    }
 
    /**
