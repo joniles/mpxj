@@ -1,8 +1,8 @@
 /*
- * file:       ExpenseCategoryContainer.java
+ * file:       TemporaryCalendar.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2020
- * date:       12/10/2020
+ * copyright:  (c) Packwood Software 2002-2003
+ * date:       28/11/2003
  */
 
 /*
@@ -20,21 +20,21 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-
 package net.sf.mpxj;
 
 /**
- * Container for expense categories.
+ * Represents a temporary calendar which is not intended to form part of the
+ * schedule.
  */
-public class ExpenseCategoryContainer extends ProjectEntityContainer<ExpenseCategory>
+public class TemporaryCalendar extends ProjectCalendar
 {
    /**
     * Constructor.
     *
-    * @param projectFile parent project
+    * @param file the parent file to which this record belongs.
     */
-   public ExpenseCategoryContainer(ProjectFile projectFile)
+   public TemporaryCalendar(ProjectFile file)
    {
-      super(projectFile);
+      super(file, true);
    }
 }

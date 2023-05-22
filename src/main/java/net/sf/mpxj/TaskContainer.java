@@ -64,7 +64,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
       //
       // Remove the task from the file and its parent task
       //
-      m_uniqueIDMap.remove(task.getUniqueID());
+      super.removed(task);
       m_idMap.remove(task.getID());
 
       Task parentTask = task.getParentTask();

@@ -42,6 +42,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
 
    @Override public void removed(ProjectCalendar calendar)
    {
+      super.removed(calendar);
       calendar.getDerivedCalendars().forEach(c -> c.setParent(null));
       calendar.getResources().forEach(r -> r.setCalendar(null));
       calendar.getTasks().forEach(t -> t.setCalendar(null));

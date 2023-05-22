@@ -2927,11 +2927,17 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    {
       if (field == AssignmentField.UNIQUE_ID)
       {
-         getParentFile().getResourceAssignments().clearUniqueIDMap();
+         getParentFile().getResourceAssignments().updateUniqueID(this, (Integer)oldValue, (Integer)newValue);
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
+      List<FieldType> dependencies = DEPENDENCY_MAP.get(field);
+      if (dependencies == null)
+      {
+         return;
+      }
+
+      dependencies.forEach(f -> set(f, null));
    }
 
    @Override boolean getAlwaysCalculatedField(FieldType field)

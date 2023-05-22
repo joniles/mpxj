@@ -47,7 +47,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
 
    @Override public void removed(Resource resource)
    {
-      m_uniqueIDMap.remove(resource.getUniqueID());
+      super.removed(resource);
       m_idMap.remove(resource.getID());
 
       Iterator<ResourceAssignment> iter = m_projectFile.getResourceAssignments().iterator();
