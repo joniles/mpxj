@@ -50,17 +50,23 @@ public class LocalTimeHelper
       return result;
    }
 
-   public static int compare(LocalTime startDate, LocalTime endDate, LocalTime targetDate)
+   public static int compare(LocalTime start, LocalTime end, LocalTime target)
    {
-      if (targetDate.isBefore(startDate))
+      if (target.isBefore(start))
       {
          return -1;
       }
 
-      if (targetDate.isAfter(endDate))
+      if (end.equals(LocalTime.MIDNIGHT))
+      {
+         return end.equals(target) ? 1 : 0;
+      }
+
+      if (target.isAfter(end))
       {
          return 1;
       }
+
       return 0;
    }
 }

@@ -25,6 +25,8 @@ package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -1653,12 +1655,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    private long getTotalTime(ProjectCalendarHours hours, Date date)
    {
-      long currentTime = DateHelper.getCanonicalTime(date).getTime();
       long total = 0;
-
       for (TimeRange range : hours)
       {
-         total += getTime(range.getStartAsDate(), range.getEndAsDate(), currentTime);
+         total += getTime(range.getStart(), range.getEnd(), LocalTimeHelper.getLocalTime(date));
       }
       return total;
    }
@@ -1730,24 +1730,44 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param target target intersection point
     * @return length of time in milliseconds
     */
-   private long getTime(Date start, Date end, long target)
+   private long getTime(LocalTime start, LocalTime end, LocalTime target)
    {
-      long total = 0;
-      if (start != null && end != null)
+      if (start == null || end == null)
       {
-         Date startTime = DateHelper.getCanonicalTime(start);
-         Date endTime = DateHelper.getCanonicalEndTime(start, end);
+         return 0;
+      }
 
-         int diff = DateHelper.compare(startTime, endTime, target);
-         if (diff == 0)
+      long total = 0;
+      int diff = LocalTimeHelper.compare(start, end, target);
+      if (diff == 0)
+      {
+         if (end.equals(LocalTime.MIDNIGHT))
          {
-            total = (endTime.getTime() - target);
+            total = DateHelper.MS_PER_DAY - ChronoUnit.MILLIS.between(LocalTime.MIDNIGHT, target);
          }
          else
          {
-            if (diff < 0)
+            total = ChronoUnit.MILLIS.between(target, end);
+         }
+      }
+      else
+      {
+         if (diff < 0)
+         {
+            if (end.equals(LocalTime.MIDNIGHT))
             {
-               total = (endTime.getTime() - startTime.getTime());
+               if (start.equals(LocalTime.MIDNIGHT))
+               {
+                  total = DateHelper.MS_PER_DAY;
+               }
+               else
+               {
+                  total = DateHelper.MS_PER_DAY - ChronoUnit.MILLIS.between(LocalTime.MIDNIGHT, start);
+               }
+            }
+            else
+            {
+               total = ChronoUnit.MILLIS.between(start, end);
             }
          }
       }
