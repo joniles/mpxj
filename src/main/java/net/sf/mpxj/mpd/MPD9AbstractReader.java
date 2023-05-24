@@ -66,6 +66,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.RateHelper;
@@ -507,7 +508,7 @@ abstract class MPD9AbstractReader
       properties.setSplitInProgressTasks(row.getBoolean("PROJ_OPT_SPLIT_IN_PROGRESS"));
       //properties.setDateOrder();
       //properties.setTimeFormat();
-      properties.setDefaultStartTime(row.getDate("PROJ_OPT_DEF_START_TIME"));
+      properties.setDefaultStartTime(LocalTimeHelper.getLocalTime(row.getDate("PROJ_OPT_DEF_START_TIME")));
       //properties.setDateSeparator();
       //properties.setTimeSeparator();
       //properties.setAmText();
@@ -542,7 +543,7 @@ abstract class MPD9AbstractReader
       properties.setSubject(row.getString("PROJ_PROP_SUBJECT"));
       properties.setAuthor(row.getString("PROJ_PROP_AUTHOR"));
       properties.setKeywords(row.getString("PROJ_PROP_KEYWORDS"));
-      properties.setDefaultEndTime(row.getDate("PROJ_OPT_DEF_FINISH_TIME"));
+      properties.setDefaultEndTime(LocalTimeHelper.getLocalTime(row.getDate("PROJ_OPT_DEF_FINISH_TIME")));
       properties.setProjectExternallyEdited(row.getBoolean("PROJ_EXT_EDITED_FLAG"));
       properties.setCategory(row.getString("PROJ_PROP_CATEGORY"));
       properties.setDaysPerMonth(row.getInteger("PROJ_OPT_DAYS_PER_MONTH"));

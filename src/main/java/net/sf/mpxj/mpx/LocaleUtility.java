@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.mpx;
 
+import java.time.LocalTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import net.sf.mpxj.CodePage;
@@ -32,6 +35,7 @@ import net.sf.mpxj.ProjectDateFormat;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.ProjectTimeFormat;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 
 /**
  * This class contains methods used to configure the locale of an MPX file,
@@ -76,7 +80,25 @@ final class LocaleUtility
       properties.setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
       properties.setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
       properties.setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
-      properties.setDefaultStartTime(DateHelper.getTimeFromMinutesPastMidnight(LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME)));
+      properties.setDefaultStartTime(getTimeFromMinutesPastMidnight(LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME)));
+   }
+
+   /**
+    * This internal method is used to convert from an integer representing
+    * minutes past midnight into a Date instance whose time component
+    * represents the start time.
+    *
+    * @param time integer representing the start time in minutes past midnight
+    * @return Date instance
+    */
+   public static LocalTime getTimeFromMinutesPastMidnight(Integer time)
+   {
+      if (time == null)
+      {
+         return null;
+      }
+
+      return LocalTime.ofSecondOfDay(time.intValue() * 60);
    }
 
    /**

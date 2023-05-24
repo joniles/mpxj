@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -80,9 +82,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          else
          {
             ProjectCalendarException exception;
-            long duration;
             int periodCount;
-            Date start;
 
             //
             // Move to the start of the first exception
@@ -118,9 +118,9 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                {
                   for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
                   {
-                     start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));
-                     duration = MPPUtility.getDuration(data, offset + 32 + (exceptionPeriodIndex * 4));
-                     exception.add(new TimeRange(start, new Date(start.getTime() + duration)));
+                     LocalTime start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));
+                     long duration = MPPUtility.getDuration(data, offset + 32 + (exceptionPeriodIndex * 4));
+                     exception.add(new TimeRange(start, start.plus(duration, ChronoUnit.MILLIS)));
                   }
                }
 
@@ -314,12 +314,9 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
             Calendar cal = DateHelper.popCalendar();
             for (int index = 0; index < rangeCount; index++)
             {
-               Date startTime = DateHelper.getCanonicalTime(MPPUtility.getTime(data, offset + 8 + (index * 2)));
+               LocalTime startTime = MPPUtility.getTime(data, offset + 8 + (index * 2));
                int durationInSeconds = MPPUtility.getInt(data, offset + 20 + (index * 4)) * 6;
-               cal.setTime(startTime);
-               cal.add(Calendar.SECOND, durationInSeconds);
-               Date finishTime = DateHelper.getCanonicalTime(cal.getTime());
-               hours.add(new TimeRange(startTime, finishTime));
+               hours.add(new TimeRange(startTime, startTime.plus(durationInSeconds, ChronoUnit.SECONDS)));
             }
             DateHelper.pushCalendar(cal);
          }

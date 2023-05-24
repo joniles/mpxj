@@ -27,8 +27,8 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,7 +65,6 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.mpp.UserDefinedFieldMap;
@@ -955,18 +954,13 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param date date instance
     * @return minutes past midnight as an integer
     */
-   private Integer getIntegerTimeInMinutes(Date date)
+   private Integer getIntegerTimeInMinutes(LocalTime date)
    {
-      Integer result = null;
-      if (date != null)
+      if (date == null)
       {
-         Calendar cal = DateHelper.popCalendar(date);
-         int time = cal.get(Calendar.HOUR_OF_DAY) * 60;
-         time += cal.get(Calendar.MINUTE);
-         DateHelper.pushCalendar(cal);
-         result = Integer.valueOf(time);
+         return null;
       }
-      return (result);
+      return Integer.valueOf(date.toSecondOfDay() / 60);
    }
 
    /**

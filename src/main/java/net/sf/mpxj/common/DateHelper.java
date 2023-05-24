@@ -468,38 +468,6 @@ public final class DateHelper
    }
 
    /**
-    * This internal method is used to convert from an integer representing
-    * minutes past midnight into a Date instance whose time component
-    * represents the start time.
-    *
-    * @param time integer representing the start time in minutes past midnight
-    * @return Date instance
-    */
-   public static Date getTimeFromMinutesPastMidnight(Integer time)
-   {
-      Date result = null;
-
-      if (time != null)
-      {
-         int minutes = time.intValue();
-         int hours = minutes / 60;
-         minutes -= (hours * 60);
-
-         Calendar cal = popCalendar();
-         cal.set(Calendar.DAY_OF_YEAR, 1);
-         cal.set(Calendar.YEAR, 1);
-         cal.set(Calendar.MILLISECOND, 0);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MINUTE, minutes);
-         cal.set(Calendar.HOUR_OF_DAY, hours);
-         result = cal.getTime();
-         pushCalendar(cal);
-      }
-
-      return result;
-   }
-
-   /**
     * Add a number of days to the supplied date.
     *
     * @param date start date

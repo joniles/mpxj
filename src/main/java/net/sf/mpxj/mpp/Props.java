@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -135,17 +136,15 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return timestamp
     */
-   public Date getTime(Integer type)
+   public LocalTime getTime(Integer type)
    {
-      Date result = null;
-
       byte[] item = m_map.get(type);
-      if (item != null)
+      if (item == null)
       {
-         result = MPPUtility.getTime(item, 0);
+         return null;
       }
 
-      return (result);
+      return MPPUtility.getTime(item, 0);
    }
 
    /**
@@ -225,7 +224,7 @@ class Props extends MPPComponent
    }
 
    /**
-    * Retrieves a UUID value from the propetyy data.
+    * Retrieves a UUID value from the property data.
     *
     * @param type Type identifier
     * @return UUID value

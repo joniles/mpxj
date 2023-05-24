@@ -38,6 +38,7 @@ import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -510,7 +511,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          ProjectCalendarHours ranges = getRanges(date, null, null);
          if (ranges == null)
          {
-            result = getParentFile().getProjectProperties().getDefaultStartTime();
+            result = LocalTimeHelper.getDate(getParentFile().getProjectProperties().getDefaultStartTime());
          }
          else
          {
@@ -538,7 +539,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          ProjectCalendarHours ranges = getRanges(date, null, null);
          if (ranges == null)
          {
-            result = getParentFile().getProjectProperties().getDefaultEndTime();
+            result = LocalTimeHelper.getDate(getParentFile().getProjectProperties().getDefaultEndTime());
             result = DateHelper.getCanonicalTime(result);
          }
          else

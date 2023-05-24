@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -1118,7 +1119,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value != null)
       {
-         m_writer.writeNameValuePairAsTime(fieldName, (Date) value);
+         m_writer.writeNameValuePairAsTime(fieldName, (LocalTime) value);
       }
    }
 

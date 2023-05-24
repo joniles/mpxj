@@ -27,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -38,7 +39,6 @@ import java.util.stream.Stream;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
@@ -526,7 +526,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       properties.setDateOrder(record.getDateOrder(0));
       properties.setTimeFormat(record.getTimeFormat(1));
 
-      Date time = getTimeFromInteger(record.getInteger(2));
+      LocalTime time = getTimeFromInteger(record.getInteger(2));
       if (time != null)
       {
          properties.setDefaultStartTime(time);
@@ -556,26 +556,14 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param time integer time
     * @return Date instance
     */
-   private Date getTimeFromInteger(Integer time)
+   private LocalTime getTimeFromInteger(Integer time)
    {
-      Date result = null;
-
-      if (time != null)
+      if (time == null)
       {
-         int minutes = time.intValue();
-         int hours = minutes / 60;
-         minutes -= (hours * 60);
-
-         Calendar cal = DateHelper.popCalendar();
-         cal.set(Calendar.MILLISECOND, 0);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MINUTE, minutes);
-         cal.set(Calendar.HOUR_OF_DAY, hours);
-         result = cal.getTime();
-         DateHelper.pushCalendar(cal);
+         return null;
       }
 
-      return (result);
+      return LocalTime.ofSecondOfDay(time.intValue() * 60L);
    }
 
    /**

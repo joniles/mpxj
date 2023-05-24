@@ -26,6 +26,7 @@ package net.sf.mpxj.synchro;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -34,6 +35,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 
 /**
  * Common data extraction/conversion conversion methods.
@@ -287,8 +289,7 @@ final class DatatypeConverter
    {
       int timeValue = getInt(is);
       timeValue -= 86400;
-      timeValue /= 60;
-      return DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(timeValue));
+      return LocalTimeHelper.getDate(LocalTime.ofSecondOfDay(timeValue));
    }
 
    /**
