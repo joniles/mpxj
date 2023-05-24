@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.common;
 
+import java.time.LocalTime;
 import java.util.ArrayDeque;
 import java.util.Calendar;
 import java.util.Date;
@@ -409,6 +410,16 @@ public final class DateHelper
          cal.set(Calendar.MINUTE, startCalendar.get(Calendar.MINUTE));
          cal.set(Calendar.SECOND, startCalendar.get(Calendar.SECOND));
          pushCalendar(startCalendar);
+      }
+   }
+
+   public static void setTime(Calendar cal, LocalTime time)
+   {
+      if (time != null)
+      {
+         cal.set(Calendar.HOUR_OF_DAY, time.getHour());
+         cal.set(Calendar.MINUTE, time.getMinute());
+         cal.set(Calendar.SECOND, time.getSecond());
       }
    }
 
