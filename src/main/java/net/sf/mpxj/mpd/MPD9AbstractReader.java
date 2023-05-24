@@ -63,6 +63,7 @@ import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -770,6 +771,8 @@ abstract class MPD9AbstractReader
    private void processResource(Row row)
    {
       Integer uniqueID = row.getInteger("RES_UID");
+      UnitOfMeasureContainer uom = m_project.getUnitsOfMeasure();
+
       if (uniqueID != null && uniqueID.intValue() >= 0)
       {
          Resource resource = m_project.addResource();
@@ -868,7 +871,7 @@ abstract class MPD9AbstractReader
          //resource.setIsInactive();
          //resource.setIsNull();
          //resource.setLinkedFields();RES_HAS_LINKED_FIELDS = false ( java.lang.Boolean)
-         resource.setMaterialLabel(row.getString("RES_MATERIAL_LABEL"));
+         resource.setUnitOfMeasure(uom.getOrCreateByAbbreviation(row.getString("RES_MATERIAL_LABEL")));
          resource.setMaxUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("RES_MAX_UNITS")) * 100));
          resource.setName(row.getString("RES_NAME"));
          //resource.setNtAccount();

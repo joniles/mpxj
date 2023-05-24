@@ -1603,6 +1603,7 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.CALCULATE_COSTS_FROM_UNITS.getValue()] = "Calculate Costs From Units";
       RESOURCE_COLUMNS_ARRAY[ResourceField.SEQUENCE_NUMBER.getValue()] = "Sequence Number";
       RESOURCE_COLUMNS_ARRAY[ResourceField.LOCATION_UNIQUE_ID.getValue()] = "Location Unique ID";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.UNIT_OF_MEASURE_UNIQUE_ID.getValue()] = "Unit of Measure Unique ID";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.START.getValue()] = "Start";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_UNITS.getValue()] = "Assignment Units";

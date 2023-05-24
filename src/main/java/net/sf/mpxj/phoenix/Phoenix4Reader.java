@@ -438,7 +438,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       // phoenixResource.getMaximum()
       mpxjResource.setName(phoenixResource.getName());
       mpxjResource.setType(phoenixResource.getType());
-      mpxjResource.setMaterialLabel(phoenixResource.getUnitslabel());
+      mpxjResource.setUnitOfMeasure(m_projectFile.getUnitsOfMeasure().getOrCreateByAbbreviation(phoenixResource.getUnitslabel()));
       //phoenixResource.getUnitsperbase()
       mpxjResource.setGUID(phoenixResource.getUuid());
 

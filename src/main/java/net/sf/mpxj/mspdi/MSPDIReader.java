@@ -48,6 +48,7 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;
 import net.sf.mpxj.TimephasedWorkContainer;
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.mpp.MPPTimephasedBaselineCostNormaliser;
 import org.xml.sax.InputSource;
@@ -961,7 +962,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setActive(!BooleanHelper.getBoolean(xml.isIsInactive()));
       mpx.setIsNull(BooleanHelper.getBoolean(xml.isIsNull()));
       //mpx.setLinkedFields();
-      mpx.setMaterialLabel(xml.getMaterialLabel());
+      mpx.setUnitOfMeasure(m_projectFile.getUnitsOfMeasure().getOrCreateByAbbreviation(xml.getMaterialLabel()));
       mpx.setMaxUnits(DatatypeConverter.parseUnits(xml.getMaxUnits()));
       mpx.setName(xml.getName());
       if (xml.getNotes() != null && xml.getNotes().length() != 0)

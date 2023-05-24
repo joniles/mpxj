@@ -226,10 +226,11 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * Set the units label for a material resource.
     *
     * @param materialLabel material resource units label
+    * @deprecated use setUnitOfMeasure
     */
-   public void setMaterialLabel(String materialLabel)
+   @Deprecated public void setMaterialLabel(String materialLabel)
    {
-      set(ResourceField.MATERIAL_LABEL, materialLabel);
+
    }
 
    /**
@@ -2540,14 +2541,24 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return getParentFile().getLocations().getByUniqueID(getLocationUniqueID());
    }
 
-   /**
-    * Sets the location.
-    *
-    * @param location location
-    */
-   public void setLocation(Location location)
+   public Integer getUnitOfMeasureUniqueID()
    {
-      setLocationUniqueID(location == null ? null : location.getUniqueID());
+      return (Integer) get(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID);
+   }
+
+   public void setUnitOfMeasureUniqueID(Integer uniqueID)
+   {
+      set(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID, uniqueID);
+   }
+
+   public UnitOfMeasure getUnitOfMeasure()
+   {
+      return getParentFile().getUnitsOfMeasure().getByUniqueID(getUnitOfMeasureUniqueID());
+   }
+
+   public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure)
+   {
+      setUnitOfMeasureUniqueID(unitOfMeasure == null ? null : unitOfMeasure.getUniqueID());
    }
 
    /**
@@ -2737,6 +2748,12 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return entry.getCostPerUse();
    }
 
+   private String calculateMaterialLabel()
+   {
+      UnitOfMeasure uom = getUnitOfMeasure();
+      return uom == null ? null : uom.getAbbreviation();
+   }
+
    /**
     * This method implements the only method in the Comparable interface. This
     * allows Resources to be compared and sorted based on their ID value. Note
@@ -2805,6 +2822,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.STANDARD_RATE, Resource::calculateStandardRate);
       CALCULATED_FIELD_MAP.put(ResourceField.OVERTIME_RATE, Resource::calculateOvertimeRate);
       CALCULATED_FIELD_MAP.put(ResourceField.COST_PER_USE, Resource::calculateCostPerUse);
+      CALCULATED_FIELD_MAP.put(ResourceField.MATERIAL_LABEL, Resource::calculateMaterialLabel);
       CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
       CALCULATED_FIELD_MAP.put(ResourceField.ROLE, Resource::defaultRoleFlag);
       CALCULATED_FIELD_MAP.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, Resource::defaultCalculateCostsFromUnits);
@@ -2819,5 +2837,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       dependencies.calculatedField(ResourceField.CV).dependsOn(ResourceField.BCWP, ResourceField.ACWP);
       dependencies.calculatedField(ResourceField.SV).dependsOn(ResourceField.BCWP, ResourceField.BCWS);
       dependencies.calculatedField(ResourceField.OVERALLOCATED).dependsOn(ResourceField.PEAK, ResourceField.MAX_UNITS);
+      dependencies.calculatedField(ResourceField.MATERIAL_LABEL).dependsOn(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID);
    }
 }

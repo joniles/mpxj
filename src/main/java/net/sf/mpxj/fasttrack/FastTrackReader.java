@@ -48,6 +48,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
@@ -142,6 +143,8 @@ public final class FastTrackReader extends AbstractProjectFileReader
    private void processResources()
    {
       FastTrackTable table = m_data.getTable(FastTrackTableType.RESOURCES);
+      UnitOfMeasureContainer uom = m_project.getUnitsOfMeasure();
+
       for (MapRow row : table)
       {
          int uniqueID = row.getInt(ResourceField.RESOURCE_ID);
@@ -176,7 +179,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
          resource.setGroup(row.getString(ResourceField.GROUP));
          resource.setGUID(row.getUUID(ResourceField._RESOURCE_GUID));
          resource.setInitials(row.getString(ResourceField.INITIALS));
-         resource.setMaterialLabel(row.getString(ResourceField.MATERIAL_LABEL));
+         resource.setUnitOfMeasure(uom.getOrCreateByAbbreviation(row.getString(ResourceField.MATERIAL_LABEL)));
          resource.setName(row.getString(ResourceField.RESOURCE_NAME));
          resource.setNotes(row.getString(ResourceField.RESOURCE_NOTES));
          resource.setNumber(1, row.getDouble(ResourceField.NUMBER_1));
