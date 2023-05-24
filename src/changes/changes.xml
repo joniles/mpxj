@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="11.5.1">
+		<release date="unreleased" version="11.5.2">
+		</release>
+		<release date="2023-05-24" version="11.5.1">
 			<action dev="joniles" type="update">Improve read performance when working with large schedules.</action>
 			<action dev="joniles" type="update">Improve read and write performance of code handling resource calendars.</action>
 			<action dev="joniles" type="update">Updated to use sqlite-jdbc 3.42.0.0</action>

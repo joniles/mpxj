@@ -1,6 +1,11 @@
 # Changelog
 
-## 11.5.1 (unreleased)
+## 11.5.2 (unreleased)
+
+## 11.5.1 (2023-05-24)
+* Improve read performance when working with large schedules.
+* Improve read and write performance of code handling resource calendars.
+* Updated to use sqlite-jdbc 3.42.0.0
 
 ## 11.5.0 (2023-05-19)
 * Added the ability to read Subproject data embedded in MSPDI files.
