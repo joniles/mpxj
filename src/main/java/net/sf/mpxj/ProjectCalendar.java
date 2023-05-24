@@ -1713,21 +1713,31 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             continue;
          }
 
-         if (rangeStart.equals(LocalTime.MIDNIGHT) && rangeEnd.equals(LocalTime.MIDNIGHT))
+         // Our range is before the calendar range
+         if (!end.equals(LocalTime.MIDNIGHT) && end.compareTo(rangeStart) <= 0)
          {
-            total += (24 * 60 * 60 * 1000);
+            continue;
          }
-         else
+
+         // Our range is after the calendar range
+         if (!rangeEnd.equals(LocalTime.MIDNIGHT) && start.compareTo(rangeEnd) >= 0)
          {
-            if (end.equals(LocalTime.MIDNIGHT))
-            {
-               total += DateHelper.MS_PER_DAY - ChronoUnit.MILLIS.between(LocalTime.MIDNIGHT, start);
-            }
-            else
-            {
-               total += ChronoUnit.MILLIS.between(start, end);
-            }
+            continue;
          }
+
+         // Our start is after the range start
+         if (rangeStart.isBefore(start))
+         {
+            rangeStart = start;
+         }
+
+         // Our end is before the range end
+         if (rangeEnd.equals(LocalTime.MIDNIGHT) || end.isBefore(rangeEnd))
+         {
+            rangeEnd = end;
+         }
+
+         total += ChronoUnit.MILLIS.between(rangeStart, rangeEnd);
       }
 
       return total;
@@ -1820,26 +1830,22 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param end2 end of second range
     * @return overlapping time in milliseconds
     */
-   private long getTime(Date start1, Date end1, Date start2, Date end2)
+   private long getTime(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2)
    {
-      long total = 0;
-
-      if (start1 != null && end1 != null && start2 != null && end2 != null)
+      if (start1 == null || end1 == null || start2 == null || end2 == null)
       {
-         long start;
-         long end;
-
-         start = Math.max(start1.getTime(), start2.getTime());
-
-         end = Math.min(end1.getTime(), end2.getTime());
-
-         if (start < end)
-         {
-            total = end - start;
-         }
+         return 0;
       }
 
-      return (total);
+      LocalTime start = start1.isAfter(start2) ? start1 : start2;
+      LocalTime end = end1.isBefore(end2) ? end1 : end2;
+
+      if (start.isBefore(end))
+      {
+         return ChronoUnit.MILLIS.between(start, end);
+      }
+
+      return 0;
    }
 
    /**

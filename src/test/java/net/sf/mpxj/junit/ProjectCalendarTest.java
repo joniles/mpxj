@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import net.sf.mpxj.DateRange;
@@ -690,16 +691,17 @@ public class ProjectCalendarTest
    {
       ProjectFile file = new ProjectFile();
       ProjectCalendar cal = file.addDefaultBaseCalendar();
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+      SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+      DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
 
       //
       // Working day
       //
-      assertEquals("01/01/0001 08:00", df.format(cal.getStartTime(df.parse("09/10/2003 00:00"))));
+      assertEquals("08:00", timeFormat.format(cal.getStartTime(dateFormat.parse("09/10/2003 00:00"))));
 
       //
       // Non-working day
       //
-      assertNull(cal.getStartTime(df.parse("11/10/2003 00:00")));
+      assertNull(cal.getStartTime(dateFormat.parse("11/10/2003 00:00")));
    }
 }
