@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ProjectCalendar;
@@ -195,7 +196,8 @@ public final class MPPReader extends AbstractProjectStreamReader
          //
          // Prune unused resource calendars
          //
-         projectFile.getCalendars().removeIf(c -> c.isDerived() && c.getResourceCount() == 0);
+         Map<Integer, List<Resource>> resourceCalendarMap = projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
+         projectFile.getCalendars().removeIf(c -> c.isDerived() && !resourceCalendarMap.containsKey(c.getUniqueID()));
 
          //
          // Resource calendar post processing
@@ -209,7 +211,7 @@ public final class MPPReader extends AbstractProjectStreamReader
                if (calendar.isDerived())
                {
                   calendar.setType(CalendarType.RESOURCE);
-                  calendar.setPersonal(calendar.getResourceCount() == 1);
+                  calendar.setPersonal(resourceCalendarMap.computeIfAbsent(calendar.getUniqueID(), k -> Collections.emptyList()).size() == 1);
                }
 
                // Resource calendars without names inherit the resource name

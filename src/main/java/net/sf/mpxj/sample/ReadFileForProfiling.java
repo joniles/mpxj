@@ -1,8 +1,8 @@
 /*
- * file:       ExpenseCategoryContainer.java
+ * file:       ReadFileForProfiling.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2020
- * date:       12/10/2020
+ * copyright:  (c) Packwood Software 2002-2003
+ * date:       22/05/2023
  */
 
 /*
@@ -21,20 +21,34 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj;
+package net.sf.mpxj.sample;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.reader.UniversalProjectReader;
 
 /**
- * Container for expense categories.
+ * Simple test harness for profiling execution when reading a file.
  */
-public class ExpenseCategoryContainer extends ProjectEntityContainer<ExpenseCategory>
+public class ReadFileForProfiling
 {
    /**
-    * Constructor.
+    * Main entry point.
     *
-    * @param projectFile parent project
+    * @param argv arguments
     */
-   public ExpenseCategoryContainer(ProjectFile projectFile)
+   public static void main(String[] argv) throws Exception
    {
-      super(projectFile);
+      long start = System.currentTimeMillis();
+      ProjectFile file = new UniversalProjectReader().read(argv[0]);
+      long duration = System.currentTimeMillis() - start;
+
+      if (file == null)
+      {
+         System.out.println("Failed to read file");
+      }
+      else
+      {
+         System.out.println("File read in " + duration + "ms");
+      }
    }
 }

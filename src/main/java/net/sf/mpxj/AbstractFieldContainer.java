@@ -52,9 +52,10 @@ public abstract class AbstractFieldContainer<T> extends ProjectEntity implements
     * Invalidate the cache as a result of a field being updated.
     *
     * @param field updated field
-    * @param newValue update field new value
+    * @param oldValue old value of the updated field
+    * @param newValue new value of the updated field
     */
-   abstract void invalidateCache(FieldType field, Object newValue);
+   abstract void invalidateCache(FieldType field, Object oldValue, Object newValue);
 
    /**
     * Determine if the supplied field is always calculated.
@@ -95,7 +96,7 @@ public abstract class AbstractFieldContainer<T> extends ProjectEntity implements
          Object oldValue = value == null ? m_fields.remove(field) : m_fields.put(field, value);
          if (m_eventsEnabled)
          {
-            invalidateCache(field, oldValue);
+            invalidateCache(field, oldValue, value);
             fireFieldChangeEvent(field, oldValue, value);
          }
       }

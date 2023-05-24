@@ -34,6 +34,7 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.TemporaryCalendar;
 
 /**
  * Helper methods for working with {@code ProjectCalendar} instances.
@@ -55,7 +56,7 @@ public final class ProjectCalendarHelper
          return calendar;
       }
 
-      ProjectCalendar newCalendar = new ProjectCalendar(calendar.getParentFile());
+      ProjectCalendar newCalendar = new TemporaryCalendar(calendar.getParentFile());
       newCalendar.setName(calendar.getName());
       newCalendar.setUniqueID(calendar.getUniqueID());
       newCalendar.setType(calendar.getType());
@@ -83,7 +84,7 @@ public final class ProjectCalendarHelper
    public static ProjectCalendar createTemporaryDerivedCalendar(ProjectCalendar baseCalendar, Resource resource)
    {
       ProjectFile file = baseCalendar.getParentFile();
-      ProjectCalendar derivedCalendar = new ProjectCalendar(file);
+      ProjectCalendar derivedCalendar = new TemporaryCalendar(file);
       derivedCalendar.setParent(baseCalendar);
       derivedCalendar.setName(resource.getName());
       derivedCalendar.setCalendarDayType(Day.SUNDAY, DayType.DEFAULT);
@@ -121,7 +122,7 @@ public final class ProjectCalendarHelper
       }
       else
       {
-         ProjectCalendar temporaryCalendar = new ProjectCalendar(calendar.getParentFile());
+         ProjectCalendar temporaryCalendar = new TemporaryCalendar(calendar.getParentFile());
          ProjectCalendarHelper.mergeExceptions(temporaryCalendar, calendar.getCalendarExceptions());
          for (ProjectCalendarWeek week : calendar.getWorkWeeks())
          {

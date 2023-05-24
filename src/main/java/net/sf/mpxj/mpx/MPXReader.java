@@ -34,6 +34,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.CalendarType;
@@ -1511,6 +1513,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       //
       // Resource calendar post processing
       //
+      Map<Integer, List<Resource>> resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
       for (Resource resource : m_projectFile.getResources())
       {
          ProjectCalendar calendar = resource.getCalendar();
@@ -1520,7 +1523,7 @@ public final class MPXReader extends AbstractProjectStreamReader
             if (calendar.isDerived())
             {
                calendar.setType(CalendarType.RESOURCE);
-               calendar.setPersonal(calendar.getResourceCount() == 1);
+               calendar.setPersonal(resourceCalendarMap.computeIfAbsent(calendar.getUniqueID(), k -> Collections.emptyList()).size() == 1);
             }
          }
       }

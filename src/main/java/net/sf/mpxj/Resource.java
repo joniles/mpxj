@@ -26,7 +26,6 @@ package net.sf.mpxj;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -2572,11 +2571,11 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * @param field modified field
     * @param newValue new value
     */
-   @Override protected void invalidateCache(FieldType field, Object newValue)
+   @Override protected void invalidateCache(FieldType field, Object oldValue, Object newValue)
    {
       if (field == ResourceField.UNIQUE_ID)
       {
-         getParentFile().getResources().clearUniqueIDMap();
+         getParentFile().getResources().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
 
          if (!m_assignments.isEmpty())
          {
@@ -2589,7 +2588,13 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
+      List<FieldType> dependencies = DEPENDENCY_MAP.get(field);
+      if (dependencies == null)
+      {
+         return;
+      }
+
+      dependencies.forEach(f -> set(f, null));
    }
 
    @Override protected boolean getAlwaysCalculatedField(FieldType field)

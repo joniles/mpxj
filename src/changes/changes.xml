@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="11.5.1">
+			<action dev="joniles" type="update">Improve read performance when working with large schedules.</action>
+			<action dev="joniles" type="update">Improve read and write performance of code handling resource calendars.</action>
+			<action dev="joniles" type="update">Updated to use sqlite-jdbc 3.42.0.0</action>
 		</release>
 		<release date="2023-05-19" version="11.5.0">
 			<action dev="joniles" type="update">Added the ability to read Subproject data embedded in MSPDI files.</action>

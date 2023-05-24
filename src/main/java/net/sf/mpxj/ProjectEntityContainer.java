@@ -94,29 +94,43 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
     */
    public T getByUniqueID(Integer id)
    {
-      if (m_uniqueIDMap.size() != size())
-      {
-         clearUniqueIDMap();
-         for (T item : this)
-         {
-            m_uniqueIDMap.put(item.getUniqueID(), item);
-         }
-      }
       return m_uniqueIDMap.get(id);
    }
 
-   /**
-    * Clear the unique ID map. This will force the map to be
-    * re-created next time we try to look something up by
-    * unique ID.
-    */
-   public void clearUniqueIDMap()
+   @Override protected void added(T element)
    {
-      m_uniqueIDMap.clear();
+      if (element.getUniqueID() == null)
+      {
+         return;
+      }
+      m_uniqueIDMap.put(element.getUniqueID(), element);
+   }
+
+   /**
+    * Called to notify subclasses of item removal.
+    *
+    * @param element removed item
+    */
+   @Override protected void removed(T element)
+   {
+      m_uniqueIDMap.remove(element.getUniqueID());
+   }
+
+   /**
+    * Updates an entry in the unique ID map when a unique ID is changed.
+    *
+    * @param element entity whose unique ID is changing
+    * @param oldUniqueID old unique ID value
+    * @param newUniqueID new unique ID value
+    */
+   public void updateUniqueID(T element, Integer oldUniqueID, Integer newUniqueID)
+   {
+      m_uniqueIDMap.remove(oldUniqueID);
+      m_uniqueIDMap.put(newUniqueID, element);
    }
 
    protected final ProjectFile m_projectFile;
-   protected final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
+   private final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
 
    /**
     * Maximum unique ID value MS Project will accept.

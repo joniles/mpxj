@@ -5575,15 +5575,21 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param field modified field
     */
-   @Override void invalidateCache(FieldType field, Object newValue)
+   @Override void invalidateCache(FieldType field, Object oldValue, Object newValue)
    {
       if (field == TaskField.UNIQUE_ID)
       {
-         getParentFile().getTasks().clearUniqueIDMap();
+         getParentFile().getTasks().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
+      List<FieldType> dependencies = DEPENDENCY_MAP.get(field);
+      if (dependencies == null)
+      {
+         return;
+      }
+
+      dependencies.forEach(f -> set(f, null));
    }
 
    @Override boolean getAlwaysCalculatedField(FieldType field)

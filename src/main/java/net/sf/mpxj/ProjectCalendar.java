@@ -56,7 +56,19 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public ProjectCalendar(ProjectFile file)
    {
+      this(file, false);
+   }
+
+   /**
+    * Internal constructor to allow the temporary calendar flag to be set.
+    *
+    * @param file the parent file to which this record belongs.
+    * @param temporaryCalendar true if this is a temporary calendar
+    */
+   protected ProjectCalendar(ProjectFile file, boolean temporaryCalendar)
+   {
       m_projectFile = file;
+      m_temporaryCalendar = temporaryCalendar;
 
       if (file.getProjectConfig().getAutoCalendarUniqueID())
       {
@@ -1202,7 +1214,11 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    @Override public void setUniqueID(Integer uniqueID)
    {
-      getParentFile().getCalendars().clearUniqueIDMap();
+      // If we have a temporary calendar, we don't want to modify the unique ID map for calendars
+      if (!m_temporaryCalendar)
+      {
+         getParentFile().getCalendars().updateUniqueID(this, m_uniqueID, uniqueID);
+      }
       m_uniqueID = uniqueID;
    }
 
@@ -1806,7 +1822,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public List<ProjectCalendar> getDerivedCalendars()
    {
-      return Collections.unmodifiableList(m_projectFile.getCalendars().stream().filter(c -> c.m_parent != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
+      return Collections.unmodifiableList(m_projectFile.getCalendars().stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
    }
 
    @Override public String toString()
@@ -2074,7 +2090,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    /**
     * Unique identifier of this calendar.
     */
-   private Integer m_uniqueID = Integer.valueOf(0);
+   private Integer m_uniqueID;
 
    /**
     * List of exceptions to the base calendar.
@@ -2116,6 +2132,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private Integer m_calendarMinutesPerYear;
    private CalendarType m_type = CalendarType.GLOBAL;
    private boolean m_personal;
+   private final boolean m_temporaryCalendar;
 
    /**
     * Default base calendar name to use when none is supplied.
