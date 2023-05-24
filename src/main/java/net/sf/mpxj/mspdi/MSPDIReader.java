@@ -1665,7 +1665,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          return Collections.emptyMap();
       }
 
-      return field.getLookupTable().stream().collect(Collectors.toMap(i -> BigInteger.valueOf(i.getUniqueID().intValue()), i ->i));
+      return field.getLookupTable().stream().collect(Collectors.toMap(i -> BigInteger.valueOf(i.getUniqueID().intValue()), i -> i));
    }
 
    /**

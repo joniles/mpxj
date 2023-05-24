@@ -571,6 +571,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * Determine if this is a valid derived calendar.
     *
+    * @param resourceCalendarMap map of resources using each calendar
     * @param calendar calendar to test
     * @return true if this is a valid resource calendar
     */

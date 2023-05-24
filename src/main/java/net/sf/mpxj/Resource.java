@@ -26,7 +26,6 @@ package net.sf.mpxj;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -2576,7 +2575,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    {
       if (field == ResourceField.UNIQUE_ID)
       {
-         getParentFile().getResources().updateUniqueID(this, (Integer)oldValue, (Integer)newValue);
+         getParentFile().getResources().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
 
          if (!m_assignments.isEmpty())
          {

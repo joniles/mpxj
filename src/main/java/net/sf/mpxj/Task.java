@@ -5579,7 +5579,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    {
       if (field == TaskField.UNIQUE_ID)
       {
-         getParentFile().getTasks().updateUniqueID(this, (Integer)oldValue, (Integer)newValue);
+         getParentFile().getTasks().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
          return;
       }
 
