@@ -1484,7 +1484,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                //
                // Calculate the amount of working time for this day
                //
-               totalTime += getTotalTime(getRanges(currentDate, null, day), currentDate, true);
+               totalTime += getTotalTime(getRanges(currentDate, null, day), currentDate);
 
                //
                // Process each working day until we reach the last day
@@ -1643,23 +1643,22 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    }
 
    /**
-    * Retrieves the amount of time represented by a calendar exception
+    * Retrieves the amount of time represented by a set of calendar hours
     * before or after an intersection point.
     *
-    * @param exception calendar exception
+    * @param hours calendar hours
     * @param date intersection time
-    * @param after true to report time after intersection, false to report time before
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarHours exception, Date date, boolean after)
+   private long getTotalTime(ProjectCalendarHours hours, Date date)
    {
       long currentTime = DateHelper.getCanonicalTime(date).getTime();
       long total = 0;
-      for (DateRange range : exception)
+      for (DateRange range : hours)
       {
-         total += getTime(range.getStart(), range.getEnd(), currentTime, after);
+         total += getTime(range.getStart(), range.getEnd(), currentTime);
       }
-      return (total);
+      return total;
    }
 
    /**
@@ -1727,10 +1726,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param start time range start
     * @param end time range end
     * @param target target intersection point
-    * @param after true if time after target required, false for time before
     * @return length of time in milliseconds
     */
-   private long getTime(Date start, Date end, long target, boolean after)
+   private long getTime(Date start, Date end, long target)
    {
       long total = 0;
       if (start != null && end != null)
@@ -1741,24 +1739,17 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          int diff = DateHelper.compare(startTime, endTime, target);
          if (diff == 0)
          {
-            if (after)
-            {
-               total = (endTime.getTime() - target);
-            }
-            else
-            {
-               total = (target - startTime.getTime());
-            }
+            total = (endTime.getTime() - target);
          }
          else
          {
-            if ((after && diff < 0) || (!after && diff > 0))
+            if (diff < 0)
             {
                total = (endTime.getTime() - startTime.getTime());
             }
          }
       }
-      return (total);
+      return total;
    }
 
    /**
