@@ -1714,13 +1714,13 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
 
          // Our range is before the calendar range
-         if (!end.equals(LocalTime.MIDNIGHT) && end.compareTo(rangeStart) <= 0)
+         if (!end.equals(LocalTime.MIDNIGHT) && !end.isAfter(rangeStart))
          {
             continue;
          }
 
          // Our range is after the calendar range
-         if (!rangeEnd.equals(LocalTime.MIDNIGHT) && start.compareTo(rangeEnd) >= 0)
+         if (!rangeEnd.equals(LocalTime.MIDNIGHT) && !start.isBefore(rangeEnd))
          {
             continue;
          }
