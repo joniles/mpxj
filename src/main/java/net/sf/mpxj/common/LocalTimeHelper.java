@@ -59,6 +59,11 @@ public class LocalTimeHelper
 
       if (end.equals(LocalTime.MIDNIGHT))
       {
+         if (start.equals(LocalTime.MIDNIGHT))
+         {
+            return 0;
+         }
+
          return end.equals(target) ? 1 : 0;
       }
 

@@ -1531,10 +1531,15 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             //
             // We are now at the last day
             //
-            ProjectCalendarHours ranges = getRanges(endDate, null, day);
-            if (ranges.size() != 0)
+            LocalTime endDateLocalTime = LocalTimeHelper.getLocalTime(endDate);
+            // If our end date is midnight we haven't started the next day so there are no ranges
+            if (!endDateLocalTime.equals(LocalTime.MIDNIGHT))
             {
-               totalTime += getTotalTime(ranges, LocalTime.MIDNIGHT, LocalTimeHelper.getLocalTime(endDate));
+               ProjectCalendarHours ranges = getRanges(endDate, null, day);
+               if (ranges.size() != 0)
+               {
+                  totalTime += getTotalTime(ranges, LocalTime.MIDNIGHT, endDateLocalTime);
+               }
             }
          }
 
