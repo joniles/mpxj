@@ -517,23 +517,26 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date Date instance
     * @return start time, or null for non-working day
     */
-   public Date getStartTime(Date date)
+   public LocalTime getStartTime(Date date)
    {
-      Date result = m_startTimeCache.get(date);
-      if (result == null)
+      LocalTime result = m_startTimeCache.get(date);
+      if (result != null)
       {
-         ProjectCalendarHours ranges = getRanges(date, null, null);
-         if (ranges == null)
-         {
-            result = LocalTimeHelper.getDate(getParentFile().getProjectProperties().getDefaultStartTime());
-         }
-         else
-         {
-            result = ranges.get(0).getStartAsDate();
-         }
-         result = DateHelper.getCanonicalTime(result);
-         m_startTimeCache.put(new Date(date.getTime()), result);
+         return result;
       }
+
+      ProjectCalendarHours ranges = getRanges(date, null, null);
+      if (ranges == null)
+      {
+         result = getParentFile().getProjectProperties().getDefaultStartTime();
+      }
+      else
+      {
+         result = ranges.get(0).getStart();
+      }
+
+      m_startTimeCache.put(new Date(date.getTime()), result);
+
       return result;
    }
 
@@ -651,7 +654,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             //
             // Retrieve the start time for this day
             //
-            Date startTime = getStartTime(cal.getTime());
+            LocalTime startTime = getStartTime(cal.getTime());
             DateHelper.setTime(cal, startTime);
          }
          else
@@ -931,16 +934,16 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          // Do we have a start time today?
          //
-         Date calTime = DateHelper.getCanonicalTime(cal.getTime());
-         Date startTime = null;
+         LocalTime calTime = LocalTimeHelper.getLocalTime(cal.getTime());
+         LocalTime startTime = null;
          for (TimeRange range : ranges)
          {
-            Date rangeStart = DateHelper.getCanonicalTime(range.getStartAsDate());
-            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStartAsDate(), range.getEndAsDate());
+            LocalTime rangeStart = range.getStart();
+            LocalTime rangeEnd = range.getEnd();
 
-            if (calTime.getTime() < rangeEnd.getTime())
+            if (rangeEnd.equals(LocalTime.MIDNIGHT) || calTime.isBefore(rangeEnd))
             {
-               if (calTime.getTime() > rangeStart.getTime())
+               if (calTime.isAfter(rangeStart))
                {
                   startTime = calTime;
                }
@@ -1457,7 +1460,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             ProjectCalendarHours ranges = getRanges(startDate, null, null);
             if (ranges.size() != 0)
             {
-               totalTime = getTotalTime(ranges, startDate, endDate);
+               totalTime = getTotalTime(ranges, LocalTimeHelper.getLocalTime(startDate), LocalTimeHelper.getLocalTime(endDate));
             }
          }
          else
@@ -1531,7 +1534,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             ProjectCalendarHours ranges = getRanges(endDate, null, day);
             if (ranges.size() != 0)
             {
-               totalTime += getTotalTime(ranges, DateHelper.getDayStartDate(endDate), endDate);
+               totalTime += getTotalTime(ranges, LocalTime.MIDNIGHT, LocalTimeHelper.getLocalTime(endDate));
             }
          }
 
@@ -1670,17 +1673,17 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * Retrieves the amount of working time represented by
     * a calendar exception.
     *
-    * @param exception calendar exception
+    * @param hours calendar working hours
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarHours exception)
+   private long getTotalTime(ProjectCalendarHours hours)
    {
       long total = 0;
-      for (TimeRange range : exception)
+      for (TimeRange range : hours)
       {
-         total += getTime(range.getStartAsDate(), range.getEndAsDate());
+         total += getTime(range.getStart(), range.getEnd());
       }
-      return (total);
+      return total;
    }
 
    /**
@@ -1688,40 +1691,41 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * day, which intersects with the supplied time range.
     *
     * @param hours collection of working hours in a day
-    * @param startDate time range start
-    * @param endDate time range end
+    * @param start time range start
+    * @param end time range end
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarHours hours, Date startDate, Date endDate)
+   private long getTotalTime(ProjectCalendarHours hours, LocalTime start, LocalTime end)
    {
       long total = 0;
-      if (startDate.getTime() != endDate.getTime())
+      for (TimeRange range : hours)
       {
-         Date start = DateHelper.getCanonicalTime(startDate);
-         Date end = DateHelper.getCanonicalTime(endDate);
+         LocalTime rangeStart = range.getStart();
+         LocalTime rangeEnd = range.getEnd();
 
-         for (TimeRange range : hours)
+         if (rangeStart == null || rangeEnd == null)
          {
-            Date rangeStart = range.getStartAsDate();
-            Date rangeEnd = range.getEndAsDate();
-            if (rangeStart != null && rangeEnd != null)
-            {
-               Date canoncialRangeStart = DateHelper.getCanonicalTime(rangeStart);
-               Date canonicalRangeEnd = DateHelper.getCanonicalEndTime(rangeStart, rangeEnd);
+            continue;
+         }
 
-               if (canoncialRangeStart.getTime() == canonicalRangeEnd.getTime() && rangeEnd.getTime() > rangeStart.getTime())
-               {
-                  total += (24 * 60 * 60 * 1000);
-               }
-               else
-               {
-                  total += getTime(start, end, canoncialRangeStart, canonicalRangeEnd);
-               }
+         if (rangeStart.equals(LocalTime.MIDNIGHT) && rangeEnd.equals(LocalTime.MIDNIGHT))
+         {
+            total += (24 * 60 * 60 * 1000);
+         }
+         else
+         {
+            if (end.equals(LocalTime.MIDNIGHT))
+            {
+               total += DateHelper.MS_PER_DAY - ChronoUnit.MILLIS.between(LocalTime.MIDNIGHT, start);
+            }
+            else
+            {
+               total += ChronoUnit.MILLIS.between(start, end);
             }
          }
       }
 
-      return (total);
+      return total;
    }
 
    /**
@@ -1786,16 +1790,19 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param end end time
     * @return length of time
     */
-   private long getTime(Date start, Date end)
+   private long getTime(LocalTime start, LocalTime end)
    {
-      long total = 0;
-      if (start != null && end != null)
+      if (start == null || end == null)
       {
-         Date startTime = DateHelper.getCanonicalTime(start);
-         Date endTime = DateHelper.getCanonicalEndTime(start, end);
-         total = (endTime.getTime() - startTime.getTime());
+         return 0;
       }
-      return (total);
+
+      if (end.equals(LocalTime.MIDNIGHT))
+      {
+         return DateHelper.MS_PER_DAY - ChronoUnit.MILLIS.between(LocalTime.MIDNIGHT, start);
+      }
+
+      return ChronoUnit.MILLIS.between(start, end);
    }
 
    /**
@@ -2131,7 +2138,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * Caches used to speed up date calculations.
     */
    private final Map<DateRange, Long> m_workingDateCache = new WeakHashMap<>();
-   private final Map<Date, Date> m_startTimeCache = new WeakHashMap<>();
+   private final Map<Date, LocalTime> m_startTimeCache = new WeakHashMap<>();
    private Date m_getDateLastStartDate;
    private double m_getDateLastRemainingMinutes;
    private Date m_getDateLastResult;

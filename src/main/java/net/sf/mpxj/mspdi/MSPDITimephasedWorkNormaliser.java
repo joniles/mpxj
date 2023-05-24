@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mspdi;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,7 @@ import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
 import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -301,8 +303,8 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
       for (TimephasedWork assignment : list)
       {
          Date assignmentStart = assignment.getStart();
-         Date calendarStartTime = calendar.getStartTime(assignmentStart);
-         Date assignmentStartTime = DateHelper.getCanonicalTime(assignmentStart);
+         LocalTime calendarStartTime = calendar.getStartTime(assignmentStart);
+         LocalTime assignmentStartTime = LocalTimeHelper.getLocalTime(assignmentStart);
          Date assignmentFinish = assignment.getFinish();
          Date calendarFinishTime = calendar.getFinishTime(assignmentFinish);
          Date assignmentFinishTime = DateHelper.getCanonicalTime(assignmentFinish);
@@ -310,7 +312,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
 
          if (assignmentStartTime != null && calendarStartTime != null)
          {
-            if ((totalWork == 0 && assignmentStartTime.getTime() != calendarStartTime.getTime()) || (assignmentStartTime.getTime() < calendarStartTime.getTime()))
+            if ((totalWork == 0 && !assignmentStartTime.equals(calendarStartTime)) || (assignmentStartTime.isBefore(calendarStartTime)))
             {
                assignmentStart = DateHelper.setTime(assignmentStart, calendarStartTime);
                assignment.setStart(assignmentStart);

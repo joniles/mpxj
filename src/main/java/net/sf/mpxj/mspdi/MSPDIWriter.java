@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -2269,7 +2270,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Date finishDay = DateHelper.getDayStartDate(finishDate);
          if (startDay.getTime() == finishDay.getTime())
          {
-            Date startTime = calendar.getStartTime(startDay);
+            LocalTime startTime = calendar.getStartTime(startDay);
             Date currentStart = DateHelper.setTime(startDay, startTime);
             if (startDate.getTime() > currentStart.getTime())
             {
@@ -2370,7 +2371,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                isWorking = calendar.isWorkingDate(currentStart);
                if (isWorking)
                {
-                  Date startTime = calendar.getStartTime(currentStart);
+                  LocalTime startTime = calendar.getStartTime(currentStart);
                   DateHelper.setTime(cal, startTime);
                   currentStart = cal.getTime();
                }
@@ -2398,7 +2399,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Date finishDay = DateHelper.getDayStartDate(finishDate);
          if (startDay.getTime() == finishDay.getTime())
          {
-            Date startTime = calendar.getStartTime(startDay);
+            LocalTime startTime = calendar.getStartTime(startDay);
             Date currentStart = DateHelper.setTime(startDay, startTime);
             if (startDate.getTime() > currentStart.getTime())
             {
@@ -2453,7 +2454,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                isWorking = calendar.isWorkingDate(currentStart);
                if (isWorking)
                {
-                  Date startTime = calendar.getStartTime(currentStart);
+                  LocalTime startTime = calendar.getStartTime(currentStart);
                   DateHelper.setTime(cal, startTime);
                   currentStart = cal.getTime();
                }

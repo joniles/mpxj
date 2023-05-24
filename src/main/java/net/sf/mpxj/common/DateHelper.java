@@ -478,6 +478,19 @@ public final class DateHelper
       return result;
    }
 
+   public static Date setTime(Date date, LocalTime time)
+   {
+      if (time == null)
+      {
+         return date;
+      }
+
+      Calendar cal = popCalendar(date);
+      setTime(cal, time);
+      Date result = cal.getTime();
+      pushCalendar(cal);
+      return result;
+   }
    /**
     * Add a number of days to the supplied date.
     *
