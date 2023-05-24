@@ -97,7 +97,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       return m_uniqueIDMap.get(id);
    }
 
-   protected void added(T element)
+   @Override protected void added(T element)
    {
       if (element.getUniqueID() == null)
       {
@@ -111,11 +111,18 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
     *
     * @param element removed item
     */
-   protected void removed(T element)
+   @Override protected void removed(T element)
    {
       m_uniqueIDMap.remove(element.getUniqueID());
    }
 
+   /**
+    * Updates an entry in the unique ID map when a unique ID is changed.
+    *
+    * @param element entity whose unique ID is changing
+    * @param oldUniqueID old unique ID value
+    * @param newUniqueID new unique ID value
+    */
    public void updateUniqueID(T element, Integer oldUniqueID, Integer newUniqueID)
    {
       m_uniqueIDMap.remove(oldUniqueID);
