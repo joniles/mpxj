@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="http://www.mpxj.org/howto-write-sdef/">
+        <link rel="canonical" href="http://www.mpxj.org/store/">
       
       
-        <link rel="prev" href="../howto-write-planner/">
+        <link rel="prev" href="../supported-formats/">
       
       
-        <link rel="next" href="../howto-write-pmxml/">
+        <link rel="next" href="../howto-start-java/">
       
       <link rel="icon" href="../images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
     
     
       
-        <title>SDEF files - MPXJ</title>
+        <title>Store - MPXJ</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-write-sdef-files" class="md-skip">
+        <a href="#store" class="md-skip">
           Skip to content
         </a>
       
@@ -113,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              SDEF files
+              Store
             
           </span>
         </div>
@@ -280,11 +280,21 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../store/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Store
       </a>
+      
     </li>
   
 
@@ -811,14 +821,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
       
       
       
@@ -881,65 +889,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          SDEF files
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../howto-write-sdef/" class="md-nav__link">
         SDEF files
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#using-sdefwriter" class="md-nav__link">
-    Using SDEFWriter
-  </a>
-  
-    <nav class="md-nav" aria-label="Using SDEFWriter">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#charset" class="md-nav__link">
-    Charset
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1182,34 +1136,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#using-sdefwriter" class="md-nav__link">
-    Using SDEFWriter
-  </a>
-  
-    <nav class="md-nav" aria-label="Using SDEFWriter">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#charset" class="md-nav__link">
-    Charset
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1224,37 +1150,11 @@
 
 
 
-<h1 id="how-to-write-sdef-files">How To: Write SDEF files</h1>
-<p>SDEF is the Standard Data Exchange Format, as defined by the USACE
-(United States Army Corps of Engineers). SDEF is a fixed column format text
-file, used to import a project schedule up into the QCS (Quality Control
-System) software from USACE. The
-specification for the file format can be found
-<a href="https://www.publications.usace.army.mil/Portals/76/Publications/EngineerRegulations/ER_1-1-11.pdf">here</a>.</p>
-<p>The sample code below illustrates how to write data to an SDEF file.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.sdef.SDEFWriter</span><span class="p">;</span>
-
-<span class="c1">// ...</span>
-
-<span class="n">SDEFWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SDEFWriter</span><span class="p">();</span>
-<span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFileName</span><span class="p">);</span>
-</code></pre></div>
-<h2 id="using-sdefwriter">Using SDEFWriter</h2>
-<h3 id="charset">Charset</h3>
-<p>By default SDEF files are written using the <code>US_ASCII</code> charset. The <code>setCharset</code>
-method on the <code>SDEFWriter</code> class can be used to change this if required:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.nio.charset.StandardCharsets</span><span class="p">;</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.sdef.SDEFWriter</span><span class="p">;</span>
-
-<span class="c1">// ...</span>
-
-<span class="n">SDEFWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SDEFWriter</span><span class="p">();</span>
-<span class="n">writer</span><span class="p">.</span><span class="na">setCharset</span><span class="p">(</span><span class="n">StandardCharsets</span><span class="p">.</span><span class="na">UTF_8</span><span class="p">);</span>
-<span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFileName</span><span class="p">);</span>
-</code></pre></div>
+<h1 id="store">Store</h1>
+<p>Yes, MPXJ has merchandise! For a small range of MPXJ branded clothing, please
+visit <a href="https://mpxj.teemill.com/collection/all-products/">the MPXJ store</a>.
+All purchases made from the store help to suport the development of MPXJ.</p>
+<p>Thank you!</p>
 
 
   
