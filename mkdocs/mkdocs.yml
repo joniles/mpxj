@@ -25,6 +25,7 @@ nav:
   - 'Changes': 'CHANGELOG.md'
   - 'Support': 'support.md'
   - 'File Formats': 'supported-formats.md'
+  - 'Store': 'store.md'
   - 'Getting Started':
     - 'Getting Started with Java': 'howto-start-java.md'
     - 'Getting Started with .Net': 'howto-dotnet.md'
