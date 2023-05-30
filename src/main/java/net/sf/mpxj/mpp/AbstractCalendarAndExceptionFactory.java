@@ -36,6 +36,7 @@ import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -119,7 +120,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                   {
                      start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));
                      duration = MPPUtility.getDuration(data, offset + 32 + (exceptionPeriodIndex * 4));
-                     exception.add(new DateRange(start, new Date(start.getTime() + duration)));
+                     exception.add(new TimeRange(start, new Date(start.getTime() + duration)));
                   }
                }
 
@@ -318,7 +319,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                cal.setTime(startTime);
                cal.add(Calendar.SECOND, durationInSeconds);
                Date finishTime = DateHelper.getCanonicalTime(cal.getTime());
-               hours.add(new DateRange(startTime, finishTime));
+               hours.add(new TimeRange(startTime, finishTime));
             }
             DateHelper.pushCalendar(cal);
          }

@@ -36,6 +36,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
 
 /**
@@ -145,7 +146,7 @@ class ProjectCalendarStructuredTextWriter
    private void writeHours(StructuredTextRecord parentRecord, ProjectCalendarHours hours)
    {
       int hoursIndex = 0;
-      for (DateRange range : hours)
+      for (TimeRange range : hours)
       {
          StructuredTextRecord hoursRecord = new StructuredTextRecord();
          parentRecord.addChild(hoursRecord);

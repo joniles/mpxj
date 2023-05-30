@@ -57,6 +57,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.json.JsonWriter;
@@ -383,9 +384,9 @@ public class ProjectTreeController
          return;
       }
 
-      for (DateRange range : hours)
+      for (TimeRange range : hours)
       {
-         final DateRange r = range;
+         final TimeRange r = range;
          MpxjTreeNode rangeNode = new MpxjTreeNode(range)
          {
             @Override public String toString()

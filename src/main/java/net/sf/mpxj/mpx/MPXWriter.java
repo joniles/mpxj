@@ -65,6 +65,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceAssignmentWorkgroupFields;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.DateHelper;
@@ -426,19 +427,19 @@ public final class MPXWriter extends AbstractProjectWriter
          recordNumber = MPXConstants.RESOURCE_CALENDAR_HOURS_RECORD_NUMBER;
       }
 
-      DateRange range1 = record.get(0);
+      TimeRange range1 = record.get(0);
       if (range1 == null)
       {
          range1 = DateRange.EMPTY_RANGE;
       }
 
-      DateRange range2 = record.get(1);
+      TimeRange range2 = record.get(1);
       if (range2 == null)
       {
          range2 = DateRange.EMPTY_RANGE;
       }
 
-      DateRange range3 = record.get(2);
+      TimeRange range3 = record.get(2);
       if (range3 == null)
       {
          range3 = DateRange.EMPTY_RANGE;

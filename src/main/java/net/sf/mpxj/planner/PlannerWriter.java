@@ -57,6 +57,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.MarshallerHelper;
@@ -308,7 +309,7 @@ public final class PlannerWriter extends AbstractProjectWriter
             typeList.add(odt);
             odt.setId(getIntegerString(uniqueID.next()));
             List<Interval> intervalList = odt.getInterval();
-            for (DateRange mpxjRange : mpxjHours)
+            for (TimeRange mpxjRange : mpxjHours)
             {
                Date rangeStart = mpxjRange.getStart();
                Date rangeEnd = mpxjRange.getEnd();

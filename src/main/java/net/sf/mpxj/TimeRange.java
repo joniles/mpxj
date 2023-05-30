@@ -1,5 +1,5 @@
 /*
- * file:       DateRange.java
+ * file:       TimeRange.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2005
  * date:       25/03/2005
@@ -30,7 +30,7 @@ import net.sf.mpxj.common.DateHelper;
 /**
  * This class represents a period of time.
  */
-public final class DateRange implements Comparable<DateRange>
+public final class TimeRange implements Comparable<TimeRange>
 {
    /**
     * Constructor.
@@ -38,7 +38,7 @@ public final class DateRange implements Comparable<DateRange>
     * @param startDate start date
     * @param endDate end date
     */
-   public DateRange(Date startDate, Date endDate)
+   public TimeRange(Date startDate, Date endDate)
    {
       m_start = startDate;
       m_end = endDate;
@@ -78,12 +78,12 @@ public final class DateRange implements Comparable<DateRange>
       return DateHelper.compare(m_start, m_end, date);
    }
 
-   @Override public int compareTo(DateRange o)
+   @Override public int compareTo(TimeRange o)
    {
-      int result = net.sf.mpxj.common.DateHelper.compare(m_start, o.m_start);
+      int result = DateHelper.compare(m_start, o.m_start);
       if (result == 0)
       {
-         result = net.sf.mpxj.common.DateHelper.compare(m_end, o.m_end);
+         result = DateHelper.compare(m_end, o.m_end);
       }
       return result;
    }
@@ -91,9 +91,9 @@ public final class DateRange implements Comparable<DateRange>
    @Override public boolean equals(Object o)
    {
       boolean result = false;
-      if (o instanceof DateRange)
+      if (o instanceof TimeRange)
       {
-         DateRange rhs = (DateRange) o;
+         TimeRange rhs = (TimeRange) o;
          result = (compareTo(rhs) == 0);
       }
       return result;

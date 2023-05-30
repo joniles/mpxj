@@ -83,6 +83,7 @@ import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedWork;
@@ -663,7 +664,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             ProjectCalendarHours bch = mpxjCalendar.getCalendarHours(mpxjDay);
             if (bch != null)
             {
-               for (DateRange range : bch)
+               for (TimeRange range : bch)
                {
                   if (range != null)
                   {
@@ -732,7 +733,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             day.setWorkingTimes(times);
             List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
 
-            for (DateRange range : exception)
+            for (TimeRange range : exception)
             {
                Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
                timesList.add(time);
@@ -796,7 +797,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             ex.setWorkingTimes(times);
             List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
 
-            for (DateRange range : exception)
+            for (TimeRange range : exception)
             {
                Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarExceptionsExceptionWorkingTimesWorkingTime();
                timesList.add(time);
@@ -942,7 +943,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                      ProjectCalendarHours bch = week.getCalendarHours(Day.getInstance(loop));
                      if (bch != null)
                      {
-                        for (DateRange range : bch)
+                        for (TimeRange range : bch)
                         {
                            if (range != null)
                            {

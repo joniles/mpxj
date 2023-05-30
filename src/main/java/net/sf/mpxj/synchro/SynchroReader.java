@@ -47,6 +47,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
@@ -146,7 +147,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
    {
       ProjectCalendar calendar = m_project.addCalendar();
 
-      Map<UUID, List<DateRange>> dayTypeMap = processDayTypes(row.getRows("DAY_TYPES"));
+      Map<UUID, List<TimeRange>> dayTypeMap = processDayTypes(row.getRows("DAY_TYPES"));
 
       calendar.setName(row.getString("NAME"));
 
@@ -179,7 +180,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
     * @param ranges time ranges from a Synchro table
     * @param container time range container
     */
-   private void processRanges(List<DateRange> ranges, ProjectCalendarHours container)
+   private void processRanges(List<TimeRange> ranges, ProjectCalendarHours container)
    {
       if (ranges != null)
       {
@@ -193,15 +194,15 @@ public final class SynchroReader extends AbstractProjectStreamReader
     * @param types Synchro day type rows
     * @return Map of day types by UUID
     */
-   private Map<UUID, List<DateRange>> processDayTypes(List<MapRow> types)
+   private Map<UUID, List<TimeRange>> processDayTypes(List<MapRow> types)
    {
-      Map<UUID, List<DateRange>> map = new HashMap<>();
+      Map<UUID, List<TimeRange>> map = new HashMap<>();
       for (MapRow row : types)
       {
-         List<DateRange> ranges = new ArrayList<>();
+         List<TimeRange> ranges = new ArrayList<>();
          for (MapRow range : row.getRows("TIME_RANGES"))
          {
-            ranges.add(new DateRange(range.getDate("START"), range.getDate("END")));
+            ranges.add(new TimeRange(range.getDate("START"), range.getDate("END")));
          }
          map.put(row.getUUID("UUID"), ranges);
       }

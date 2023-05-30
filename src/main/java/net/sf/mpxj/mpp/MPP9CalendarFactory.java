@@ -26,6 +26,7 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.util.Date;
 
+import net.sf.mpxj.TimeRange;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -122,7 +123,7 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
                {
                   start = MPPUtility.getTime(data, offset + 12 + (exceptionPeriodIndex * 2));
                   duration = MPPUtility.getDuration(data, offset + 24 + (exceptionPeriodIndex * 4));
-                  exception.add(new DateRange(start, new Date(start.getTime() + duration)));
+                  exception.add(new TimeRange(start, new Date(start.getTime() + duration)));
                }
             }
          }

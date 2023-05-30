@@ -62,6 +62,7 @@ import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
@@ -679,11 +680,11 @@ abstract class MPD9AbstractReader
       ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
       if (working)
       {
-         exception.add(new DateRange(row.getDate("CD_FROM_TIME1"), row.getDate("CD_TO_TIME1")));
-         exception.add(new DateRange(row.getDate("CD_FROM_TIME2"), row.getDate("CD_TO_TIME2")));
-         exception.add(new DateRange(row.getDate("CD_FROM_TIME3"), row.getDate("CD_TO_TIME3")));
-         exception.add(new DateRange(row.getDate("CD_FROM_TIME4"), row.getDate("CD_TO_TIME4")));
-         exception.add(new DateRange(row.getDate("CD_FROM_TIME5"), row.getDate("CD_TO_TIME5")));
+         exception.add(new TimeRange(row.getDate("CD_FROM_TIME1"), row.getDate("CD_TO_TIME1")));
+         exception.add(new TimeRange(row.getDate("CD_FROM_TIME2"), row.getDate("CD_TO_TIME2")));
+         exception.add(new TimeRange(row.getDate("CD_FROM_TIME3"), row.getDate("CD_TO_TIME3")));
+         exception.add(new TimeRange(row.getDate("CD_FROM_TIME4"), row.getDate("CD_TO_TIME4")));
+         exception.add(new TimeRange(row.getDate("CD_FROM_TIME5"), row.getDate("CD_TO_TIME5")));
       }
    }
 
@@ -707,35 +708,35 @@ abstract class MPD9AbstractReader
          Date end = row.getDate("CD_TO_TIME1");
          if (start != null && end != null)
          {
-            hours.add(new DateRange(start, end));
+            hours.add(new TimeRange(start, end));
          }
 
          start = row.getDate("CD_FROM_TIME2");
          end = row.getDate("CD_TO_TIME2");
          if (start != null && end != null)
          {
-            hours.add(new DateRange(start, end));
+            hours.add(new TimeRange(start, end));
          }
 
          start = row.getDate("CD_FROM_TIME3");
          end = row.getDate("CD_TO_TIME3");
          if (start != null && end != null)
          {
-            hours.add(new DateRange(start, end));
+            hours.add(new TimeRange(start, end));
          }
 
          start = row.getDate("CD_FROM_TIME4");
          end = row.getDate("CD_TO_TIME4");
          if (start != null && end != null)
          {
-            hours.add(new DateRange(start, end));
+            hours.add(new TimeRange(start, end));
          }
 
          start = row.getDate("CD_FROM_TIME5");
          end = row.getDate("CD_TO_TIME5");
          if (start != null && end != null)
          {
-            hours.add(new DateRange(start, end));
+            hours.add(new TimeRange(start, end));
          }
       }
    }

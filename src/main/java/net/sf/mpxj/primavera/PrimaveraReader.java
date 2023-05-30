@@ -85,6 +85,7 @@ import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
@@ -470,7 +471,7 @@ final class PrimaveraReader
             if (hours.size() > 0)
             {
                ++workingDays;
-               for (DateRange range : hours)
+               for (TimeRange range : hours)
                {
                   long milliseconds = range.getEnd().getTime() - range.getStart().getTime();
                   minutesPerWeek += (milliseconds / (1000 * 60));
@@ -596,7 +597,7 @@ final class PrimaveraReader
       {
          Date start = m_calendarTimeFormat.parse(startText);
          Date end = m_calendarTimeFormat.parse(endText);
-         ranges.add(new DateRange(start, end));
+         ranges.add(new TimeRange(start, end));
       }
 
       catch (ParseException e)

@@ -36,6 +36,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 
@@ -192,7 +193,7 @@ public class MppCalendarTest
       ProjectCalendarHours hours = cal.getCalendarHours(Day.MONDAY);
       assertEquals(2, hours.size());
 
-      DateRange range = hours.get(0);
+      TimeRange range = hours.get(0);
       assertEquals("08:00", tf.format(range.getStart()));
       assertEquals("12:00", tf.format(range.getEnd()));
       range = cal.getCalendarHours(Day.MONDAY).get(1);

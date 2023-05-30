@@ -35,6 +35,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpp.MPPReader;
 
@@ -216,7 +217,7 @@ public class ProjectCalendarTest
       assertEquals(8.88, variance.getDuration(), 0.01);
 
       ProjectCalendarException exception = projectCalendar.addCalendarException(df.parse("18/03/2006 00:00"), df.parse("18/03/2006 23:59"));
-      exception.add(new DateRange(df.parse("18/03/2006 08:00"), df.parse("18/03/2006 12:00")));
+      exception.add(new TimeRange(df.parse("18/03/2006 08:00"), df.parse("18/03/2006 12:00")));
 
       startDate = df.parse("18/03/2006 08:00");
       endDate = df.parse("18/03/2006 16:00");
@@ -658,7 +659,7 @@ public class ProjectCalendarTest
       // Make Saturday 11th a working day
       //
       ProjectCalendarException ex = cal.addCalendarException(df.parse("11/10/2003 00:00"), df.parse("11/10/2003 23:59"));
-      ex.add(new DateRange(df.parse("11/10/2003 09:00"), df.parse("11/10/2003 13:00")));
+      ex.add(new TimeRange(df.parse("11/10/2003 09:00"), df.parse("11/10/2003 13:00")));
 
       //
       // Cross weekend with a non-working day exception and a working day exception

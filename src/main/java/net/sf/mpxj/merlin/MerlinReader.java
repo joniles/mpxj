@@ -45,6 +45,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.ResultSetHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -273,7 +274,7 @@ public final class MerlinReader extends AbstractProjectFileReader
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
-               hours.add(new DateRange(startTime, endTime));
+               hours.add(new TimeRange(startTime, endTime));
             }
          }
       }
@@ -308,7 +309,7 @@ public final class MerlinReader extends AbstractProjectFileReader
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
-               exception.add(new DateRange(startTime, endTime));
+               exception.add(new TimeRange(startTime, endTime));
             }
          }
       }
