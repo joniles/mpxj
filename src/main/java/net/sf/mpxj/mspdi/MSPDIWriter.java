@@ -671,8 +671,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                      Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
                      timesList.add(time);
 
-                     time.setFromTime(range.getStart());
-                     time.setToTime(range.getEnd());
+                     time.setFromTime(range.getStartAsDate());
+                     time.setToTime(range.getEndAsDate());
                   }
                }
             }
@@ -738,8 +738,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
                timesList.add(time);
 
-               time.setFromTime(range.getStart());
-               time.setToTime(range.getEnd());
+               time.setFromTime(range.getStartAsDate());
+               time.setToTime(range.getEndAsDate());
             }
          }
       }
@@ -802,8 +802,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarExceptionsExceptionWorkingTimesWorkingTime();
                timesList.add(time);
 
-               time.setFromTime(range.getStart());
-               time.setToTime(range.getEnd());
+               time.setFromTime(range.getStartAsDate());
+               time.setToTime(range.getEndAsDate());
             }
          }
       }
@@ -950,8 +950,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                               Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDaysWeekDayWorkingTimesWorkingTime();
                               timesList.add(time);
 
-                              time.setFromTime(range.getStart());
-                              time.setToTime(range.getEnd());
+                              time.setFromTime(range.getStartAsDate());
+                              time.setToTime(range.getEndAsDate());
                            }
                         }
                      }

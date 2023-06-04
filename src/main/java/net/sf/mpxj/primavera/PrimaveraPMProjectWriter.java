@@ -47,7 +47,6 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
@@ -649,8 +648,8 @@ final class PrimaveraPMProjectWriter
             WorkTimeType xmlWorkTime = m_factory.createWorkTimeType();
             xmlHours.getWorkTime().add(xmlWorkTime);
 
-            xmlWorkTime.setStart(range.getStart());
-            xmlWorkTime.setFinish(getEndTime(range.getEnd()));
+            xmlWorkTime.setStart(range.getStartAsDate());
+            xmlWorkTime.setFinish(getEndTime(range.getEndAsDate()));
          }
       }
 
@@ -684,11 +683,11 @@ final class PrimaveraPMProjectWriter
                      WorkTimeType xmlHours = m_factory.createWorkTimeType();
                      xmlException.getWorkTime().add(xmlHours);
 
-                     xmlHours.setStart(range.getStart());
+                     xmlHours.setStart(range.getStartAsDate());
 
-                     if (range.getEnd() != null)
+                     if (range.getEndAsDate() != null)
                      {
-                        xmlHours.setFinish(getEndTime(range.getEnd()));
+                        xmlHours.setFinish(getEndTime(range.getEndAsDate()));
                      }
                   }
                }

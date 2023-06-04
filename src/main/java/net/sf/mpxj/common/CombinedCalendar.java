@@ -26,7 +26,6 @@ package net.sf.mpxj.common;
 import java.util.Calendar;
 import java.util.Date;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -59,19 +58,19 @@ public class CombinedCalendar extends ProjectCalendar
 
       for (TimeRange range1 : hours1)
       {
-         Date range1Start = DateHelper.getCanonicalTime(range1.getStart());
-         Date range1End = DateHelper.getCanonicalEndTime(range1.getStart(), range1.getEnd());
+         Date range1Start = DateHelper.getCanonicalTime(range1.getStartAsDate());
+         Date range1End = DateHelper.getCanonicalEndTime(range1.getStartAsDate(), range1.getEndAsDate());
 
          for (TimeRange range2 : hours2)
          {
-            Date range2Start = DateHelper.getCanonicalTime(range2.getStart());
+            Date range2Start = DateHelper.getCanonicalTime(range2.getStartAsDate());
             if (DateHelper.compare(range1End, range2Start) <= 0)
             {
                // range1 finishes before range2 starts so there is no overlap, get the next range1
                break;
             }
 
-            Date range2End = DateHelper.getCanonicalEndTime(range2.getStart(), range2.getEnd());
+            Date range2End = DateHelper.getCanonicalEndTime(range2.getStartAsDate(), range2.getEndAsDate());
             if (DateHelper.compare(range1Start, range2End) >= 0)
             {
                // range1 starts after range2 so there is no overlap, get the next range2

@@ -496,8 +496,8 @@ public final class JsonWriter extends AbstractProjectWriter
          for (TimeRange range : hours)
          {
             m_writer.writeStartObject(null);
-            writeTimeField("from", range.getStart());
-            writeTimeField("to", range.getEnd());
+            writeTimeField("from", range.getStartAsDate());
+            writeTimeField("to", range.getEndAsDate());
             m_writer.writeEndObject();
          }
          m_writer.writeEndList();

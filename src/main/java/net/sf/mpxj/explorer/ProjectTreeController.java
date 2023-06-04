@@ -43,7 +43,6 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataLink;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
@@ -391,7 +390,7 @@ public class ProjectTreeController
          {
             @Override public String toString()
             {
-               return m_timeFormat.format(r.getStart()) + " - " + m_timeFormat.format(r.getEnd());
+               return m_timeFormat.format(r.getStartAsDate()) + " - " + m_timeFormat.format(r.getEndAsDate());
             }
          };
          parentNode.add(rangeNode);

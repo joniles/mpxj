@@ -69,7 +69,6 @@ import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -940,7 +939,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                ++workingDays;
                for (TimeRange range : hours)
                {
-                  long milliseconds = range.getEnd().getTime() - range.getStart().getTime();
+                  long milliseconds = range.getEndAsDate().getTime() - range.getStartAsDate().getTime();
                   minutesPerWeek += (milliseconds / (1000 * 60));
                }
             }

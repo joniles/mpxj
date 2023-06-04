@@ -41,7 +41,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -311,8 +310,8 @@ public final class PlannerWriter extends AbstractProjectWriter
             List<Interval> intervalList = odt.getInterval();
             for (TimeRange mpxjRange : mpxjHours)
             {
-               Date rangeStart = mpxjRange.getStart();
-               Date rangeEnd = mpxjRange.getEnd();
+               Date rangeStart = mpxjRange.getStartAsDate();
+               Date rangeEnd = mpxjRange.getEndAsDate();
 
                if (rangeStart != null && rangeEnd != null)
                {

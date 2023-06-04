@@ -526,7 +526,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
          else
          {
-            result = ranges.get(0).getStart();
+            result = ranges.get(0).getStartAsDate();
          }
          result = DateHelper.getCanonicalTime(result);
          m_startTimeCache.put(new Date(date.getTime()), result);
@@ -556,7 +556,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          else
          {
             TimeRange range = ranges.get(ranges.size() - 1);
-            result = DateHelper.getCanonicalEndTime(range.getStart(), range.getEnd());
+            result = DateHelper.getCanonicalEndTime(range.getStartAsDate(), range.getEndAsDate());
          }
       }
       return result;
@@ -672,8 +672,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                //
                // Skip this range if its end is before our start time
                //
-               Date rangeStart = range.getStart();
-               Date rangeEnd = range.getEnd();
+               Date rangeStart = range.getStartAsDate();
+               Date rangeEnd = range.getEndAsDate();
 
                if (rangeStart == null || rangeEnd == null)
                {
@@ -849,8 +849,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                //
                // Skip this range if its start is after our end time
                //
-               Date rangeStart = range.getStart();
-               Date rangeEnd = range.getEnd();
+               Date rangeStart = range.getStartAsDate();
+               Date rangeEnd = range.getEndAsDate();
 
                if (rangeStart == null || rangeEnd == null)
                {
@@ -929,8 +929,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          Date startTime = null;
          for (TimeRange range : ranges)
          {
-            Date rangeStart = DateHelper.getCanonicalTime(range.getStart());
-            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStart(), range.getEnd());
+            Date rangeStart = DateHelper.getCanonicalTime(range.getStartAsDate());
+            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStartAsDate(), range.getEndAsDate());
 
             if (calTime.getTime() < rangeEnd.getTime())
             {
@@ -996,7 +996,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          Date finishTime = null;
          for (TimeRange range : ranges)
          {
-            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStart(), range.getEnd());
+            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStartAsDate(), range.getEndAsDate());
             if (calTime.getTime() >= rangeEnd.getTime())
             {
                finishTime = rangeEnd;
@@ -1656,7 +1656,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       long total = 0;
       for (TimeRange range : hours)
       {
-         total += getTime(range.getStart(), range.getEnd(), currentTime);
+         total += getTime(range.getStartAsDate(), range.getEndAsDate(), currentTime);
       }
       return total;
    }
@@ -1673,7 +1673,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       long total = 0;
       for (TimeRange range : exception)
       {
-         total += getTime(range.getStart(), range.getEnd());
+         total += getTime(range.getStartAsDate(), range.getEndAsDate());
       }
       return (total);
    }
@@ -1697,8 +1697,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
          for (TimeRange range : hours)
          {
-            Date rangeStart = range.getStart();
-            Date rangeEnd = range.getEnd();
+            Date rangeStart = range.getStartAsDate();
+            Date rangeEnd = range.getEndAsDate();
             if (rangeStart != null && rangeEnd != null)
             {
                Date canoncialRangeStart = DateHelper.getCanonicalTime(rangeStart);

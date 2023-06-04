@@ -31,7 +31,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -152,8 +151,8 @@ class ProjectCalendarStructuredTextWriter
          parentRecord.addChild(hoursRecord);
          hoursRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
          hoursRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, Integer.toString(hoursIndex++));
-         hoursRecord.addAttribute("f", m_timeFormat.format(range.getEnd()));
-         hoursRecord.addAttribute("s", m_timeFormat.format(range.getStart()));
+         hoursRecord.addAttribute("f", m_timeFormat.format(range.getEndAsDate()));
+         hoursRecord.addAttribute("s", m_timeFormat.format(range.getStartAsDate()));
       }
    }
 

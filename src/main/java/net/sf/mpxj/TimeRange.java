@@ -40,8 +40,8 @@ public final class TimeRange implements Comparable<TimeRange>
     */
    public TimeRange(Date startDate, Date endDate)
    {
-      m_start = startDate;
-      m_end = endDate;
+      m_startAsDate = DateHelper.getCanonicalTime(startDate);
+      m_endAsDate = DateHelper.getCanonicalEndTime(startDate, endDate);
    }
 
    /**
@@ -49,9 +49,9 @@ public final class TimeRange implements Comparable<TimeRange>
     *
     * @return start date
     */
-   public Date getStart()
+   public Date getStartAsDate()
    {
-      return m_start;
+      return m_startAsDate;
    }
 
    /**
@@ -59,9 +59,9 @@ public final class TimeRange implements Comparable<TimeRange>
     *
     * @return end date
     */
-   public Date getEnd()
+   public Date getEndAsDate()
    {
-      return m_end;
+      return m_endAsDate;
    }
 
    /**
@@ -75,15 +75,15 @@ public final class TimeRange implements Comparable<TimeRange>
     */
    public int compareTo(Date date)
    {
-      return DateHelper.compare(m_start, m_end, date);
+      return DateHelper.compare(m_startAsDate, m_endAsDate, date);
    }
 
    @Override public int compareTo(TimeRange o)
    {
-      int result = DateHelper.compare(m_start, o.m_start);
+      int result = DateHelper.compare(m_startAsDate, o.m_startAsDate);
       if (result == 0)
       {
-         result = DateHelper.compare(m_end, o.m_end);
+         result = DateHelper.compare(m_endAsDate, o.m_endAsDate);
       }
       return result;
    }
@@ -101,18 +101,18 @@ public final class TimeRange implements Comparable<TimeRange>
 
    @Override public int hashCode()
    {
-      long start = m_start == null ? 0 : m_start.getTime();
-      long end = m_end == null ? 0 : m_end.getTime();
+      long start = m_startAsDate == null ? 0 : m_startAsDate.getTime();
+      long end = m_endAsDate == null ? 0 : m_endAsDate.getTime();
       return ((int) start ^ (int) (start >> 32)) ^ ((int) end ^ (int) (end >> 32));
    }
 
    @Override public String toString()
    {
-      return ("[DateRange start=" + m_start + " end=" + m_end + "]");
+      return ("[DateRange start=" + m_startAsDate + " end=" + m_endAsDate + "]");
    }
 
    public static final TimeRange EMPTY_RANGE = new TimeRange(null, null);
 
-   private final Date m_start;
-   private final Date m_end;
+   private final Date m_startAsDate;
+   private final Date m_endAsDate;
 }
