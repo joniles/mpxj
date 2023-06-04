@@ -44,16 +44,18 @@ public final class TimeRange implements Comparable<TimeRange>
    {
       m_startAsDate = DateHelper.getCanonicalTime(startDate);
       m_endAsDate = DateHelper.getCanonicalEndTime(startDate, endDate);
-      m_start = m_startAsDate == null ? 0 : m_startAsDate.getTime();
-      m_duration = m_endAsDate == null ? 0 : m_endAsDate.getTime() - m_start;
+      m_start = m_startAsDate == null ? 0 : m_startAsDate.getTime() - LocalTimeHelper.RANGE_START_MIDNIGHT.getTime();
+      m_end = m_endAsDate == null ? 0 : m_endAsDate.getTime() - LocalTimeHelper.RANGE_START_MIDNIGHT.getTime();
+      m_duration = m_end - m_start;
    }
 
    public TimeRange(LocalTime start, LocalTime end)
    {
       m_startAsDate = LocalTimeHelper.getDate(start);
       m_endAsDate = end == LocalTime.MIDNIGHT ? LocalTimeHelper.RANGE_END_MIDNIGHT : LocalTimeHelper.getDate(end);
-      m_start = start.toSecondOfDay() * 1000;
-      m_duration = m_endAsDate == null ? 0 : m_endAsDate.getTime() - m_startAsDate.getTime();
+      m_start = start.toSecondOfDay() * 1000L;
+      m_end = end == LocalTime.MIDNIGHT ? LocalTimeHelper.RANGE_END_MIDNIGHT.getTime() - LocalTimeHelper.RANGE_START_MIDNIGHT.getTime() : end.toSecondOfDay() * 1000L;
+      m_duration = m_end - m_start;
    }
 
    /**
@@ -133,5 +135,6 @@ public final class TimeRange implements Comparable<TimeRange>
    private final Date m_startAsDate;
    private final Date m_endAsDate;
    private final long m_start;
+   private final long m_end;
    private final long m_duration;
 }

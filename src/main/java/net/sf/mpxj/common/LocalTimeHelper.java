@@ -75,6 +75,20 @@ public class LocalTimeHelper
       return 0;
    }
 
+   public static final Date RANGE_START_MIDNIGHT;
+   static
+   {
+      Calendar cal = DateHelper.popCalendar();
+      cal.set(Calendar.DAY_OF_YEAR, 1);
+      cal.set(Calendar.YEAR, 1);
+      cal.set(Calendar.HOUR_OF_DAY, 0);
+      cal.set(Calendar.MINUTE, 0);
+      cal.set(Calendar.SECOND, 0);
+      cal.set(Calendar.MILLISECOND, 0);
+      RANGE_START_MIDNIGHT = cal.getTime();
+      DateHelper.pushCalendar(cal);
+   }
+
    public static final Date RANGE_END_MIDNIGHT;
    static
    {
