@@ -42,6 +42,8 @@ public final class TimeRange implements Comparable<TimeRange>
    {
       m_startAsDate = DateHelper.getCanonicalTime(startDate);
       m_endAsDate = DateHelper.getCanonicalEndTime(startDate, endDate);
+      m_start = m_startAsDate == null ? 0 : m_startAsDate.getTime();
+      m_duration = m_endAsDate == null ? 0 : m_endAsDate.getTime() - m_start;
    }
 
    /**
@@ -62,6 +64,11 @@ public final class TimeRange implements Comparable<TimeRange>
    public Date getEndAsDate()
    {
       return m_endAsDate;
+   }
+
+   public long getDurationInMilliseconds()
+   {
+      return m_duration;
    }
 
    /**
@@ -115,4 +122,6 @@ public final class TimeRange implements Comparable<TimeRange>
 
    private final Date m_startAsDate;
    private final Date m_endAsDate;
+   private final long m_start;
+   private final long m_duration;
 }

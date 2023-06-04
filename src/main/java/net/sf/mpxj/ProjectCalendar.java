@@ -1665,17 +1665,20 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * Retrieves the amount of working time represented by
     * a calendar exception.
     *
-    * @param exception calendar exception
+    * @param hours calendar exception
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarHours exception)
+   private long getTotalTime(ProjectCalendarHours hours)
    {
+      return hours.stream().mapToLong(r -> r.getDurationInMilliseconds()).sum();
+/*
       long total = 0;
       for (TimeRange range : exception)
       {
          total += getTime(range.getStartAsDate(), range.getEndAsDate());
       }
       return (total);
+ */
    }
 
    /**
