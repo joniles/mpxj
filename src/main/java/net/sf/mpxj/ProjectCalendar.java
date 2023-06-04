@@ -1671,14 +1671,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private long getTotalTime(ProjectCalendarHours hours)
    {
       return hours.stream().mapToLong(r -> r.getDurationInMilliseconds()).sum();
-/*
-      long total = 0;
-      for (TimeRange range : exception)
-      {
-         total += getTime(range.getStartAsDate(), range.getEndAsDate());
-      }
-      return (total);
- */
    }
 
    /**
