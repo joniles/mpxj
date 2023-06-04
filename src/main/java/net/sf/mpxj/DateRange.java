@@ -111,8 +111,6 @@ public final class DateRange implements Comparable<DateRange>
       return ("[DateRange start=" + m_start + " end=" + m_end + "]");
    }
 
-   public static final TimeRange EMPTY_RANGE = new TimeRange(null, null);
-
    private final Date m_start;
    private final Date m_end;
 }

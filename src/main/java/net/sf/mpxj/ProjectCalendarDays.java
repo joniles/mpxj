@@ -23,6 +23,7 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import net.sf.mpxj.common.DateHelper;
@@ -233,6 +234,6 @@ public abstract class ProjectCalendarDays
    /**
     * Constants representing the default working morning and afternoon hours.
     */
-   public static final TimeRange DEFAULT_WORKING_MORNING = new TimeRange(DateHelper.getTime(8, 0), DateHelper.getTime(12, 0));
-   public static final TimeRange DEFAULT_WORKING_AFTERNOON = new TimeRange(DateHelper.getTime(13, 0), DateHelper.getTime(17, 0));
+   public static final TimeRange DEFAULT_WORKING_MORNING = new TimeRange(LocalTime.of(8, 0), LocalTime.of(12, 0));
+   public static final TimeRange DEFAULT_WORKING_AFTERNOON = new TimeRange(LocalTime.of(13, 0), LocalTime.of(17, 0));
 }

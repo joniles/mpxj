@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.primavera;
 
+import java.time.LocalTime;
+
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
@@ -102,6 +104,6 @@ final class ProjectCalendarHelper
     */
    public static TimeRange getDefaultCalendarHours()
    {
-      return new TimeRange(DateHelper.getTime(8, 0), DateHelper.getTime(16, 0));
+      return new TimeRange(LocalTime.of(8, 0), LocalTime.of(16, 0));
    }
 }

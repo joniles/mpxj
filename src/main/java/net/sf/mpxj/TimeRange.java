@@ -23,9 +23,11 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 
 /**
  * This class represents a period of time.
@@ -44,6 +46,14 @@ public final class TimeRange implements Comparable<TimeRange>
       m_endAsDate = DateHelper.getCanonicalEndTime(startDate, endDate);
       m_start = m_startAsDate == null ? 0 : m_startAsDate.getTime();
       m_duration = m_endAsDate == null ? 0 : m_endAsDate.getTime() - m_start;
+   }
+
+   public TimeRange(LocalTime start, LocalTime end)
+   {
+      m_startAsDate = LocalTimeHelper.getDate(start);
+      m_endAsDate = end == LocalTime.MIDNIGHT ? LocalTimeHelper.RANGE_END_MIDNIGHT : LocalTimeHelper.getDate(end);
+      m_start = start.toSecondOfDay() * 1000;
+      m_duration = m_endAsDate == null ? 0 : m_endAsDate.getTime() - m_startAsDate.getTime();
    }
 
    /**
@@ -118,7 +128,7 @@ public final class TimeRange implements Comparable<TimeRange>
       return ("[DateRange start=" + m_startAsDate + " end=" + m_endAsDate + "]");
    }
 
-   public static final TimeRange EMPTY_RANGE = new TimeRange(null, null);
+   public static final TimeRange EMPTY_RANGE = new TimeRange((Date)null, (Date)null);
 
    private final Date m_startAsDate;
    private final Date m_endAsDate;

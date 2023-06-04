@@ -27,6 +27,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -199,25 +200,6 @@ final class MPP8Reader implements MPPVariantReader
       //
       // Configure default time ranges
       //
-      SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-      Date defaultStart1;
-      Date defaultEnd1;
-      Date defaultStart2;
-      Date defaultEnd2;
-
-      try
-      {
-         defaultStart1 = df.parse("08:00");
-         defaultEnd1 = df.parse("12:00");
-         defaultStart2 = df.parse("13:00");
-         defaultEnd2 = df.parse("17:00");
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException(MPXJException.INVALID_FORMAT, ex);
-      }
-
       int calendars = calendarFixedData.getItemCount();
       int calendarID;
       int baseCalendarID;
@@ -297,8 +279,8 @@ final class MPP8Reader implements MPPVariantReader
                   if (cal.isWorkingDay(day))
                   {
                      hours = cal.addCalendarHours(Day.getInstance(index + 1));
-                     hours.add(new TimeRange(defaultStart1, defaultEnd1));
-                     hours.add(new TimeRange(defaultStart2, defaultEnd2));
+                     hours.add(new TimeRange(LocalTime.of(8,0 ), LocalTime.of(12, 0)));
+                     hours.add(new TimeRange(LocalTime.of(13, 0), LocalTime.of(17,0)));
                   }
                   else
                   {

@@ -430,19 +430,19 @@ public final class MPXWriter extends AbstractProjectWriter
       TimeRange range1 = record.get(0);
       if (range1 == null)
       {
-         range1 = DateRange.EMPTY_RANGE;
+         range1 = TimeRange.EMPTY_RANGE;
       }
 
       TimeRange range2 = record.get(1);
       if (range2 == null)
       {
-         range2 = DateRange.EMPTY_RANGE;
+         range2 = TimeRange.EMPTY_RANGE;
       }
 
       TimeRange range3 = record.get(2);
       if (range3 == null)
       {
-         range3 = DateRange.EMPTY_RANGE;
+         range3 = TimeRange.EMPTY_RANGE;
       }
 
       m_buffer.append(recordNumber);
