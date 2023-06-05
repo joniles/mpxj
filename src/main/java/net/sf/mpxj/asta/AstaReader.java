@@ -1656,8 +1656,6 @@ final class AstaReader
          List<Row> timeEntryRows = timeEntryMap.get(workPatternID);
          if (timeEntryRows != null)
          {
-            // TODO: it looks like at least one PP file we've come across doesn't start from Sunday,
-            // Haven't worked out how the start day is determined.
             Day currentDay = Day.SATURDAY;
             Arrays.stream(Day.values()).forEach(d -> week.setCalendarDayType(d, DayType.NON_WORKING));
             ProjectCalendarHours hours = null;
@@ -1666,7 +1664,6 @@ final class AstaReader
             {
                LocalTime startTime = LocalTimeHelper.getLocalTime(row.getDate("START_TIME"));
                LocalTime endTime = LocalTimeHelper.getLocalTime(row.getDate("END_TIME"));
-               System.out.println(startTime + "\t" + endTime);
 
                if (startTime == null)
                {
@@ -1691,8 +1688,6 @@ final class AstaReader
                   week.setCalendarDayType(currentDay, DayType.WORKING);
                }
             }
-
-            System.out.println();
          }
       }
    }
