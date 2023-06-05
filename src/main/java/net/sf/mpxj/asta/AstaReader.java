@@ -1666,17 +1666,12 @@ final class AstaReader
                Date endTime = row.getDate("END_TIME");
                if (startTime == null)
                {
-                  startTime = DateHelper.getDayStartDate(new Date(0));
+                  startTime = RANGE_START_MIDNIGHT;
                }
 
                if (endTime == null)
                {
-                  endTime = DateHelper.getDayEndDate(new Date(0));
-               }
-
-               if (startTime.getTime() > endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
+                  endTime = RANGE_END_MIDNIGHT;
                }
 
                if (isMidnight(startTime))
@@ -2171,5 +2166,15 @@ final class AstaReader
       DATA_TYPE_MAP.put(Integer.valueOf(13), DataType.DATE); // Date
       DATA_TYPE_MAP.put(Integer.valueOf(15), DataType.DURATION); // Duration
       DATA_TYPE_MAP.put(Integer.valueOf(24), DataType.STRING); // URL
+   }
+
+   private static final Date RANGE_START_MIDNIGHT = DateHelper.getDayStartDate(new Date(0));
+   private static final Date RANGE_END_MIDNIGHT;
+   static
+   {
+      Calendar cal = DateHelper.popCalendar(RANGE_START_MIDNIGHT);
+      cal.add(Calendar.DAY_OF_YEAR, 1);
+      RANGE_END_MIDNIGHT = cal.getTime();
+      DateHelper.pushCalendar(cal);
    }
 }
