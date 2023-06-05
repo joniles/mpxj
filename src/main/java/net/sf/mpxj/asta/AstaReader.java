@@ -25,6 +25,7 @@ package net.sf.mpxj.asta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -1653,12 +1654,10 @@ final class AstaReader
          List<Row> timeEntryRows = timeEntryMap.get(workPatternID);
          if (timeEntryRows != null)
          {
-            long lastEndTime = Long.MIN_VALUE;
-
             // TODO: it looks like at least one PP file we've come across doesn't start from Sunday,
             // Haven't worked out how the start day is determined.
-            Day currentDay = Day.SUNDAY;
-            ProjectCalendarHours hours = week.addCalendarHours(currentDay);
+            Day currentDay = Day.SATURDAY;
+            ProjectCalendarHours hours = null;
             Arrays.stream(Day.values()).forEach(d -> week.setCalendarDayType(d, DayType.NON_WORKING));
 
             for (Row row : timeEntryRows)
@@ -1680,7 +1679,7 @@ final class AstaReader
                   endTime = DateHelper.addDays(endTime, 1);
                }
 
-               if (startTime.getTime() < lastEndTime)
+               if (isMidnight(startTime))
                {
                   currentDay = currentDay.getNextDay();
                   hours = week.addCalendarHours(currentDay);
@@ -1692,11 +1691,17 @@ final class AstaReader
                   hours.add(new DateRange(startTime, endTime));
                   week.setCalendarDayType(currentDay, DayType.WORKING);
                }
-
-               lastEndTime = endTime.getTime();
             }
          }
       }
+   }
+
+   private boolean isMidnight(Date date)
+   {
+      Calendar cal = DateHelper.popCalendar(date);
+      boolean result = cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) == 0;
+      DateHelper.pushCalendar(cal);
+      return result;
    }
 
    /**
