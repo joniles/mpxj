@@ -31,6 +31,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -266,14 +268,8 @@ public final class MerlinReader extends AbstractProjectFileReader
             for (int loop = 0; loop < nodes.getLength(); loop++)
             {
                NamedNodeMap attributes = nodes.item(loop).getAttributes();
-               Date startTime = m_calendarTimeFormat.parse(attributes.getNamedItem("startTime").getTextContent());
-               Date endTime = m_calendarTimeFormat.parse(attributes.getNamedItem("endTime").getTextContent());
-
-               if (startTime.getTime() >= endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
+               LocalTime startTime = LocalTime.parse(attributes.getNamedItem("startTime").getTextContent(), m_calendarTimeFormat);
+               LocalTime endTime = LocalTime.parse(attributes.getNamedItem("endTime").getTextContent(), m_calendarTimeFormat);
                hours.add(new TimeRange(startTime, endTime));
             }
          }
@@ -301,14 +297,8 @@ public final class MerlinReader extends AbstractProjectFileReader
             for (int loop = 0; loop < nodes.getLength(); loop++)
             {
                NamedNodeMap attributes = nodes.item(loop).getAttributes();
-               Date startTime = m_calendarTimeFormat.parse(attributes.getNamedItem("startTime").getTextContent());
-               Date endTime = m_calendarTimeFormat.parse(attributes.getNamedItem("endTime").getTextContent());
-
-               if (startTime.getTime() >= endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
+               LocalTime startTime = LocalTime.parse(attributes.getNamedItem("startTime").getTextContent(), m_calendarTimeFormat);
+               LocalTime endTime = LocalTime.parse(attributes.getNamedItem("endTime").getTextContent(), m_calendarTimeFormat);
                exception.add(new TimeRange(startTime, endTime));
             }
          }
@@ -620,7 +610,7 @@ public final class MerlinReader extends AbstractProjectFileReader
    private final Integer m_projectID = Integer.valueOf(1);
    private Connection m_connection;
    private DocumentBuilder m_documentBuilder;
-   private final DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm:ss");
+   private final DateTimeFormatter m_calendarTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
    private XPathExpression m_dayTimeIntervals;
    private Map<String, Integer> m_entityMap;
 }
