@@ -25,6 +25,7 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -219,7 +220,7 @@ class StreamReader
     *
     * @return Date instance
     */
-   public Date readTime() throws IOException
+   public LocalTime readTime() throws IOException
    {
       return DatatypeConverter.getTime(m_stream);
    }

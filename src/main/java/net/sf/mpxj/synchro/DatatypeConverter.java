@@ -26,6 +26,7 @@ package net.sf.mpxj.synchro;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -283,12 +284,11 @@ final class DatatypeConverter
     * @param is input stream
     * @return Date instance
     */
-   public static final Date getTime(InputStream is) throws IOException
+   public static final LocalTime getTime(InputStream is) throws IOException
    {
       int timeValue = getInt(is);
       timeValue -= 86400;
-      timeValue /= 60;
-      return DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(timeValue));
+      return LocalTime.ofSecondOfDay(timeValue);
    }
 
    /**

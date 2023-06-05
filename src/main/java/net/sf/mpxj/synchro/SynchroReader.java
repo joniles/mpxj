@@ -202,7 +202,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
          List<TimeRange> ranges = new ArrayList<>();
          for (MapRow range : row.getRows("TIME_RANGES"))
          {
-            ranges.add(new TimeRange(range.getDate("START"), range.getDate("END")));
+            ranges.add(new TimeRange(range.getTime("START"), range.getTime("END")));
          }
          map.put(row.getUUID("UUID"), ranges);
       }

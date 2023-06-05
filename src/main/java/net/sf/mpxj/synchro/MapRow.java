@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.synchro;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -131,6 +132,17 @@ class MapRow
    public final Date getDate(String name)
    {
       return (Date) getObject(name);
+   }
+
+   /**
+    * Retrieve a time value.
+    *
+    * @param name column name
+    * @return date value
+    */
+   public final LocalTime getTime(String name)
+   {
+      return (LocalTime) getObject(name);
    }
 
    /**
