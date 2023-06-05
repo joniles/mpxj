@@ -26,6 +26,10 @@ package net.sf.mpxj.primavera;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -585,21 +589,15 @@ final class PrimaveraReader
       {
          return;
       }
-
-      // for end time treat midnight as midnight next day
-      if (endText.equals("00:00"))
-      {
-         endText = "24:00";
-      }
-
+      
       try
       {
-         Date start = m_calendarTimeFormat.parse(startText);
-         Date end = m_calendarTimeFormat.parse(endText);
+         LocalTime start = LocalTime.parse(startText, m_calendarTimeFormat);
+         LocalTime end = LocalTime.parse(endText, m_calendarTimeFormat);
          ranges.add(new TimeRange(start, end));
       }
 
-      catch (ParseException e)
+      catch (DateTimeParseException e)
       {
          // silently ignore date parse exceptions
       }
@@ -2192,7 +2190,7 @@ final class PrimaveraReader
    private final EventManager m_eventManager;
    private final ClashMap m_activityClashMap = new ClashMap();
    private final ClashMap m_roleClashMap = new ClashMap();
-   private final DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
+   private final DateTimeFormatter m_calendarTimeFormat = new DateTimeFormatterBuilder().parseLenient().appendPattern("HH:mm").toFormatter();
    private Integer m_defaultCalendarID;
    private final Map<FieldType, String> m_resourceFields;
    private final Map<FieldType, String> m_roleFields;
