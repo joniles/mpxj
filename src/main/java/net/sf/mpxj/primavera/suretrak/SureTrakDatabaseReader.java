@@ -25,6 +25,7 @@ package net.sf.mpxj.primavera.suretrak;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -339,13 +340,6 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
       int value = hours.intValue();
       int startHour = 0;
       ProjectCalendarHours calendarHours = calendar.addCalendarHours(day);
-
-      Calendar cal = DateHelper.popCalendar();
-      cal.set(Calendar.HOUR_OF_DAY, 0);
-      cal.set(Calendar.MINUTE, 0);
-      cal.set(Calendar.SECOND, 0);
-      cal.set(Calendar.MILLISECOND, 0);
-
       calendar.setWorkingDay(day, false);
 
       while (value != 0)
@@ -371,17 +365,11 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
             ++endHour;
          }
 
-         cal.set(Calendar.HOUR_OF_DAY, startHour);
-         Date startDate = cal.getTime();
-         cal.set(Calendar.HOUR_OF_DAY, endHour);
-         Date endDate = cal.getTime();
 
          calendar.setWorkingDay(day, true);
-         calendarHours.add(new TimeRange(startDate, endDate));
+         calendarHours.add(new TimeRange(LocalTime.of(startHour, 0), LocalTime.of(endHour == 24 ? 0 : endHour, 0)));
          startHour = endHour;
       }
-
-      DateHelper.pushCalendar(cal);
    }
 
    /**
