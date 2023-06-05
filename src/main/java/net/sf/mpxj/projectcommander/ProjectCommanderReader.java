@@ -25,6 +25,7 @@ package net.sf.mpxj.projectcommander;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -238,8 +239,8 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
    {
       if (startMinutes != endMinutes)
       {
-         Date start = DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(startMinutes));
-         Date end = DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(endMinutes));
+         LocalTime start = LocalTime.ofSecondOfDay(startMinutes * 60L);
+         LocalTime end = LocalTime.ofSecondOfDay(endMinutes * 60L);
          ranges.add(new TimeRange(start, end));
       }
    }
