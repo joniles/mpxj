@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.asta;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -1655,34 +1656,29 @@ final class AstaReader
          List<Row> timeEntryRows = timeEntryMap.get(workPatternID);
          if (timeEntryRows != null)
          {
-            long lastEndTime = Long.MIN_VALUE;
-
             // TODO: it looks like at least one PP file we've come across doesn't start from Sunday,
             // Haven't worked out how the start day is determined.
-            Day currentDay = Day.SUNDAY;
-            ProjectCalendarHours hours = week.addCalendarHours(currentDay);
+            Day currentDay = Day.SATURDAY;
             Arrays.stream(Day.values()).forEach(d -> week.setCalendarDayType(d, DayType.NON_WORKING));
+            ProjectCalendarHours hours = null;
 
             for (Row row : timeEntryRows)
             {
-               Date startTime = row.getDate("START_TIME");
-               Date endTime = row.getDate("END_TIME");
+               LocalTime startTime = LocalTimeHelper.getLocalTime(row.getDate("START_TIME"));
+               LocalTime endTime = LocalTimeHelper.getLocalTime(row.getDate("END_TIME"));
+               System.out.println(startTime + "\t" + endTime);
+
                if (startTime == null)
                {
-                  startTime = DateHelper.getDayStartDate(new Date(0));
+                  startTime = LocalTime.MIDNIGHT;
                }
 
                if (endTime == null)
                {
-                  endTime = DateHelper.getDayEndDate(new Date(0));
+                  endTime = LocalTime.MIDNIGHT;
                }
 
-               if (startTime.getTime() > endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
-               if (startTime.getTime() < lastEndTime)
+               if (startTime == LocalTime.MIDNIGHT)
                {
                   currentDay = currentDay.getNextDay();
                   hours = week.addCalendarHours(currentDay);
@@ -1691,12 +1687,12 @@ final class AstaReader
                DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
                if (type == DayType.WORKING)
                {
-                  hours.add(new TimeRange(LocalTimeHelper.getLocalTime(startTime), LocalTimeHelper.getLocalTime(endTime)));
+                  hours.add(new TimeRange(startTime, endTime));
                   week.setCalendarDayType(currentDay, DayType.WORKING);
                }
-
-               lastEndTime = endTime.getTime();
             }
+
+            System.out.println();
          }
       }
    }
