@@ -592,10 +592,11 @@ final class PrimaveraReader
          endText = "24:00";
       }
 
+      DateFormat formatter = startText.indexOf(' ') == -1 ? m_twentyFourHourTimeFormat : m_twelveHourTimeFormat;
       try
       {
-         Date start = m_calendarTimeFormat.parse(startText);
-         Date end = m_calendarTimeFormat.parse(endText);
+         Date start = formatter.parse(startText);
+         Date end = formatter.parse(endText);
          ranges.add(new DateRange(start, end));
       }
 
@@ -2192,7 +2193,8 @@ final class PrimaveraReader
    private final EventManager m_eventManager;
    private final ClashMap m_activityClashMap = new ClashMap();
    private final ClashMap m_roleClashMap = new ClashMap();
-   private final DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
+   private final DateFormat m_twentyFourHourTimeFormat = new SimpleDateFormat("HH:mm");
+   private final DateFormat m_twelveHourTimeFormat = new SimpleDateFormat("h:mm a");
    private Integer m_defaultCalendarID;
    private final Map<FieldType, String> m_resourceFields;
    private final Map<FieldType, String> m_roleFields;

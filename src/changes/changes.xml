@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="11.5.2">
 			<action dev="joniles" type="update">Improve accuracy of calendar data read from certain Powerproject schedules.</action>
+			<action dev="joniles" type="update">Improve handling of unusual XER files with calendar time ranges expressed in 12-hour format.</action>
 		</release>
 		<release date="2023-05-24" version="11.5.1">
 			<action dev="joniles" type="update">Improve read performance when working with large schedules.</action>
