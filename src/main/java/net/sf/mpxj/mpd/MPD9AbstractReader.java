@@ -67,6 +67,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.RateHelper;
@@ -717,7 +718,7 @@ abstract class MPD9AbstractReader
       Date end = row.getDate(endField);
       if (start != null && end != null)
       {
-         hours.add(new TimeRange(start, end));
+         hours.add(new TimeRange(LocalTimeHelper.getLocalTime(start), LocalTimeHelper.getLocalTime(end)));
       }
    }
 
