@@ -680,11 +680,11 @@ abstract class MPD9AbstractReader
       ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
       if (working)
       {
-         exception.add(new TimeRange(row.getDate("CD_FROM_TIME1"), row.getDate("CD_TO_TIME1")));
-         exception.add(new TimeRange(row.getDate("CD_FROM_TIME2"), row.getDate("CD_TO_TIME2")));
-         exception.add(new TimeRange(row.getDate("CD_FROM_TIME3"), row.getDate("CD_TO_TIME3")));
-         exception.add(new TimeRange(row.getDate("CD_FROM_TIME4"), row.getDate("CD_TO_TIME4")));
-         exception.add(new TimeRange(row.getDate("CD_FROM_TIME5"), row.getDate("CD_TO_TIME5")));
+         processHours(exception, row, "CD_FROM_TIME1", "CD_TO_TIME1");
+         processHours(exception, row, "CD_FROM_TIME2", "CD_TO_TIME2");
+         processHours(exception, row, "CD_FROM_TIME3", "CD_TO_TIME3");
+         processHours(exception, row, "CD_FROM_TIME4", "CD_TO_TIME4");
+         processHours(exception, row, "CD_FROM_TIME5", "CD_TO_TIME5");
       }
    }
 
@@ -703,41 +703,21 @@ abstract class MPD9AbstractReader
       if (working)
       {
          ProjectCalendarHours hours = calendar.addCalendarHours(day);
+         processHours(hours, row, "CD_FROM_TIME1", "CD_TO_TIME1");
+         processHours(hours, row, "CD_FROM_TIME2", "CD_TO_TIME2");
+         processHours(hours, row, "CD_FROM_TIME3", "CD_TO_TIME3");
+         processHours(hours, row, "CD_FROM_TIME4", "CD_TO_TIME4");
+         processHours(hours, row, "CD_FROM_TIME5", "CD_TO_TIME5");
+      }
+   }
 
-         Date start = row.getDate("CD_FROM_TIME1");
-         Date end = row.getDate("CD_TO_TIME1");
-         if (start != null && end != null)
-         {
-            hours.add(new TimeRange(start, end));
-         }
-
-         start = row.getDate("CD_FROM_TIME2");
-         end = row.getDate("CD_TO_TIME2");
-         if (start != null && end != null)
-         {
-            hours.add(new TimeRange(start, end));
-         }
-
-         start = row.getDate("CD_FROM_TIME3");
-         end = row.getDate("CD_TO_TIME3");
-         if (start != null && end != null)
-         {
-            hours.add(new TimeRange(start, end));
-         }
-
-         start = row.getDate("CD_FROM_TIME4");
-         end = row.getDate("CD_TO_TIME4");
-         if (start != null && end != null)
-         {
-            hours.add(new TimeRange(start, end));
-         }
-
-         start = row.getDate("CD_FROM_TIME5");
-         end = row.getDate("CD_TO_TIME5");
-         if (start != null && end != null)
-         {
-            hours.add(new TimeRange(start, end));
-         }
+   private void processHours(ProjectCalendarHours hours, Row row, String startField, String endField)
+   {
+      Date start = row.getDate(startField);
+      Date end = row.getDate(endField);
+      if (start != null && end != null)
+      {
+         hours.add(new TimeRange(start, end));
       }
    }
 
