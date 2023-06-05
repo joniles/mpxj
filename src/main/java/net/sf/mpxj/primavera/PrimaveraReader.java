@@ -23,9 +23,6 @@
 
 package net.sf.mpxj.primavera;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -589,11 +586,12 @@ final class PrimaveraReader
       {
          return;
       }
-      
+
+      DateTimeFormatter formatter = startText.indexOf(' ') == -1 ? m_twentyFourHourTimeFormat : m_twelveHourTimeFormat;
       try
       {
-         LocalTime start = LocalTime.parse(startText, m_calendarTimeFormat);
-         LocalTime end = LocalTime.parse(endText, m_calendarTimeFormat);
+         LocalTime start = LocalTime.parse(startText, formatter);
+         LocalTime end = LocalTime.parse(endText, formatter);
          ranges.add(new TimeRange(start, end));
       }
 
@@ -2190,7 +2188,8 @@ final class PrimaveraReader
    private final EventManager m_eventManager;
    private final ClashMap m_activityClashMap = new ClashMap();
    private final ClashMap m_roleClashMap = new ClashMap();
-   private final DateTimeFormatter m_calendarTimeFormat = new DateTimeFormatterBuilder().parseLenient().appendPattern("HH:mm").toFormatter();
+   private final DateTimeFormatter m_twentyFourHourTimeFormat = DateTimeFormatter.ofPattern("H:mm");
+   private final DateTimeFormatter m_twelveHourTimeFormat = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("h:mm a").toFormatter();
    private Integer m_defaultCalendarID;
    private final Map<FieldType, String> m_resourceFields;
    private final Map<FieldType, String> m_roleFields;
