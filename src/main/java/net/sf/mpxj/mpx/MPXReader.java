@@ -27,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -40,7 +41,6 @@ import java.util.stream.Stream;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
@@ -643,19 +643,10 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param start start date
     * @param end end date
     */
-   private void addDateRange(ProjectCalendarHours hours, Date start, Date end)
+   private void addDateRange(ProjectCalendarHours hours, LocalTime start, LocalTime end)
    {
       if (start != null && end != null)
       {
-         Calendar cal = DateHelper.popCalendar(end);
-         // If the time ends on midnight, the date should be the next day. Otherwise problems occur.
-         if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) == 0 && cal.get(Calendar.MILLISECOND) == 0)
-         {
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-         }
-         end = cal.getTime();
-         DateHelper.pushCalendar(cal);
-
          hours.add(new TimeRange(start, end));
       }
    }
@@ -695,7 +686,7 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param start exception start
     * @param finish exception finish
     */
-   private void addExceptionRange(ProjectCalendarException exception, Date start, Date finish)
+   private void addExceptionRange(ProjectCalendarException exception, LocalTime start, LocalTime finish)
    {
       if (start != null && finish != null)
       {

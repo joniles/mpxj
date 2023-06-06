@@ -25,6 +25,7 @@ package net.sf.mpxj.mpx;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -43,6 +44,7 @@ import net.sf.mpxj.ProjectTimeFormat;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.Tokenizer;
 
 /**
@@ -321,15 +323,15 @@ final class Record
     * @return the value of the required field
     * @throws MPXJException normally thrown when parsing fails
     */
-   public Date getTime(int field) throws MPXJException
+   public LocalTime getTime(int field) throws MPXJException
    {
       try
       {
-         Date result;
+         LocalTime result;
 
          if ((field < m_fields.length) && (m_fields[field].length() != 0))
          {
-            result = m_formats.getTimeFormat().parse(m_fields[field]);
+            result = LocalTimeHelper.getLocalTime(m_formats.getTimeFormat().parse(m_fields[field]));
          }
          else
          {
