@@ -27,6 +27,8 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -734,28 +736,9 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param value Planner time
     * @return Java Date instance
     */
-   private Date getTime(String value) throws MPXJException
+   private LocalTime getTime(String value)
    {
-      try
-      {
-         Number hours = m_twoDigitFormat.parse(value.substring(0, 2));
-         Number minutes = m_twoDigitFormat.parse(value.substring(2, 4));
-
-         Calendar cal = DateHelper.popCalendar();
-         cal.set(Calendar.HOUR_OF_DAY, hours.intValue());
-         cal.set(Calendar.MINUTE, minutes.intValue());
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-         Date result = cal.getTime();
-         DateHelper.pushCalendar(cal);
-
-         return result;
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse time " + value, ex);
-      }
+      return LocalTime.parse(value, m_timeFormat);
    }
 
    /**
@@ -913,6 +896,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
    private ProjectCalendar m_defaultCalendar;
    private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
+   private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HHmm");
 
    private static final Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<>();
    static
