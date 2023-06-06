@@ -24,6 +24,8 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import net.sf.mpxj.TimeRange;
@@ -106,7 +108,6 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
          ProjectCalendarException exception;
          long duration;
          int periodCount;
-         Date start;
 
          for (index = 0; index < exceptionCount; index++)
          {
@@ -121,9 +122,10 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
             {
                for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
                {
-                  start = MPPUtility.getTime(data, offset + 12 + (exceptionPeriodIndex * 2));
+                  LocalTime start = MPPUtility.getTime(data, offset + 12 + (exceptionPeriodIndex * 2));
                   duration = MPPUtility.getDuration(data, offset + 24 + (exceptionPeriodIndex * 4));
-                  exception.add(new TimeRange(start, new Date(start.getTime() + duration)));
+                  LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
+                  exception.add(new TimeRange(start, end));
                }
             }
          }

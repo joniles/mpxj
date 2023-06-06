@@ -27,7 +27,7 @@ import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Calendar;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -341,16 +341,15 @@ public final class MPPUtility
     * @param offset location of data as offset into the array
     * @return time value
     */
-   public static final Date getTime(byte[] data, int offset)
+   public static final LocalTime getTime(byte[] data, int offset)
    {
-      int time = getShort(data, offset) / 10;
-      Calendar cal = DateHelper.popCalendar(EPOCH_DATE);
-      cal.set(Calendar.HOUR_OF_DAY, (time / 60));
-      cal.set(Calendar.MINUTE, (time % 60));
-      cal.set(Calendar.SECOND, 0);
-      cal.set(Calendar.MILLISECOND, 0);
-      DateHelper.pushCalendar(cal);
-      return (cal.getTime());
+      // TODO: do we want to improve the accuracy here by using seconds?
+      long seconds = (getShort(data, offset) / 10L) * 60L;
+      if (seconds > 86399)
+      {
+         seconds = seconds % 86400;
+      }
+      return LocalTime.ofSecondOfDay(seconds);
    }
 
    /**
@@ -1160,7 +1159,7 @@ public final class MPPUtility
             {
                try
                {
-                  Date d = MPPUtility.getTime(data, i);
+                  LocalTime d = MPPUtility.getTime(data, i);
                   System.out.println(i + ":" + d);
                }
                catch (Exception ex)

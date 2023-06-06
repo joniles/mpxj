@@ -13,7 +13,12 @@ public class LocalTimeHelper
          return null;
       }
 
-      return date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+      //return date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+
+      Calendar cal = DateHelper.popCalendar(date);
+      LocalTime result = LocalTime.of(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
+      DateHelper.pushCalendar(cal);
+      return result;
    }
 
    public static Date getDate(LocalTime date)

@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpx;
 
+import java.time.LocalTime;
 import java.util.Locale;
 
 import net.sf.mpxj.CodePage;
@@ -76,7 +77,7 @@ final class LocaleUtility
       properties.setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
       properties.setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
       properties.setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
-      properties.setDefaultStartTime(DateHelper.getTimeFromMinutesPastMidnight(LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME)));
+      properties.setDefaultStartTime(LocalTime.ofSecondOfDay(LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME) * 60));
    }
 
    /**

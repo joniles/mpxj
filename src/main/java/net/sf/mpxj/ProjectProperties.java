@@ -24,6 +24,7 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,7 +72,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
       setDateOrder(DateOrder.DMY);
       setTimeFormat(ProjectTimeFormat.TWELVE_HOUR);
-      setDefaultStartTime(DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(480)));
+      setDefaultStartTime(LocalTime.of(8,0));
       setDateSeparator(DEFAULT_DATE_SEPARATOR);
       setTimeSeparator(DEFAULT_TIME_SEPARATOR);
       setAMText("am");
@@ -344,9 +345,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return default start time
     */
-   public Date getDefaultStartTime()
+   public LocalTime getDefaultStartTime()
    {
-      return (Date) get(ProjectField.DEFAULT_START_TIME);
+      return (LocalTime) get(ProjectField.DEFAULT_START_TIME);
    }
 
    /**
@@ -357,7 +358,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param defaultStartTime default time
     */
-   public void setDefaultStartTime(Date defaultStartTime)
+   public void setDefaultStartTime(LocalTime defaultStartTime)
    {
       set(ProjectField.DEFAULT_START_TIME, defaultStartTime);
    }
@@ -487,9 +488,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return End time
     */
-   public Date getDefaultEndTime()
+   public LocalTime getDefaultEndTime()
    {
-      return (Date) get(ProjectField.DEFAULT_END_TIME);
+      return (LocalTime) get(ProjectField.DEFAULT_END_TIME);
    }
 
    /**
@@ -497,7 +498,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param date End time
     */
-   public void setDefaultEndTime(Date date)
+   public void setDefaultEndTime(LocalTime date)
    {
       set(ProjectField.DEFAULT_END_TIME, date);
    }

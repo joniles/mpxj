@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -39,6 +38,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.time.LocalTime;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
@@ -958,21 +958,17 @@ public final class MPXWriter extends AbstractProjectWriter
     * This internal method is used to convert from a Date instance to an
     * integer representing the number of minutes past midnight.
     *
-    * @param date date instance
+    * @param time date instance
     * @return minutes past midnight as an integer
     */
-   private Integer getIntegerTimeInMinutes(Date date)
+   private Integer getIntegerTimeInMinutes(LocalTime time)
    {
       Integer result = null;
-      if (date != null)
+      if (time != null)
       {
-         Calendar cal = DateHelper.popCalendar(date);
-         int time = cal.get(Calendar.HOUR_OF_DAY) * 60;
-         time += cal.get(Calendar.MINUTE);
-         DateHelper.pushCalendar(cal);
-         result = Integer.valueOf(time);
+         result = Integer.valueOf(time.toSecondOfDay() / 60);
       }
-      return (result);
+      return result;
    }
 
    /**

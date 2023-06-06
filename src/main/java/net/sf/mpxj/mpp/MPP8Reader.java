@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -193,7 +194,6 @@ final class MPP8Reader implements MPPVariantReader
       int index;
       int offset;
       int defaultFlag;
-      Date start;
       long duration;
       int exceptionCount;
 
@@ -304,9 +304,10 @@ final class MPP8Reader implements MPPVariantReader
 
                      for (periodIndex = 0; periodIndex < periodCount; periodIndex++)
                      {
-                        start = MPPUtility.getTime(extData, offset + 8 + (periodIndex * 2));
+                        LocalTime start = MPPUtility.getTime(extData, offset + 8 + (periodIndex * 2));
                         duration = MPPUtility.getDuration(extData, offset + 16 + (periodIndex * 4));
-                        hours.add(new TimeRange(start, new Date(start.getTime() + duration)));
+                        LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
+                        hours.add(new TimeRange(start, end));
                      }
                   }
                }
@@ -331,9 +332,10 @@ final class MPP8Reader implements MPPVariantReader
                   {
                      for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
                      {
-                        start = MPPUtility.getTime(extData, offset + 12 + (exceptionPeriodIndex * 2));
+                        LocalTime start = MPPUtility.getTime(extData, offset + 12 + (exceptionPeriodIndex * 2));
                         duration = MPPUtility.getDuration(extData, offset + 20 + (exceptionPeriodIndex * 4));
-                        exception.add(new TimeRange(start, new Date(start.getTime() + duration)));
+                        LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
+                        exception.add(new TimeRange(start, end));
                      }
                   }
                }

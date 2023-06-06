@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -80,9 +82,6 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          else
          {
             ProjectCalendarException exception;
-            long duration;
-            int periodCount;
-            Date start;
 
             //
             // Move to the start of the first exception
@@ -113,14 +112,15 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                   exception = cal.addCalendarException(rd);
                }
 
-               periodCount = MPPUtility.getShort(data, offset + 14);
+               int periodCount = MPPUtility.getShort(data, offset + 14);
                if (periodCount != 0)
                {
                   for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
                   {
-                     start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));
-                     duration = MPPUtility.getDuration(data, offset + 32 + (exceptionPeriodIndex * 4));
-                     exception.add(new TimeRange(start, new Date(start.getTime() + duration)));
+                     LocalTime start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));
+                     long duration = MPPUtility.getDuration(data, offset + 32 + (exceptionPeriodIndex * 4));
+                     LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
+                     exception.add(new TimeRange(start, end));
                   }
                }
 
@@ -311,17 +311,13 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          else
          {
             week.setCalendarDayType(day, DayType.WORKING);
-            Calendar cal = DateHelper.popCalendar();
             for (int index = 0; index < rangeCount; index++)
             {
-               Date startTime = DateHelper.getCanonicalTime(MPPUtility.getTime(data, offset + 8 + (index * 2)));
+               LocalTime startTime = MPPUtility.getTime(data, offset + 8 + (index * 2));
                int durationInSeconds = MPPUtility.getInt(data, offset + 20 + (index * 4)) * 6;
-               cal.setTime(startTime);
-               cal.add(Calendar.SECOND, durationInSeconds);
-               Date finishTime = DateHelper.getCanonicalTime(cal.getTime());
+               LocalTime finishTime = startTime.plus(durationInSeconds, ChronoUnit.SECONDS);
                hours.add(new TimeRange(startTime, finishTime));
             }
-            DateHelper.pushCalendar(cal);
          }
       }
    }

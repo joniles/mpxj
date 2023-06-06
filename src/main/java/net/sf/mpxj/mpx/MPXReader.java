@@ -528,7 +528,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       properties.setDateOrder(record.getDateOrder(0));
       properties.setTimeFormat(record.getTimeFormat(1));
 
-      Date time = getTimeFromInteger(record.getInteger(2));
+      LocalTime time = getTimeFromInteger(record.getInteger(2));
       if (time != null)
       {
          properties.setDefaultStartTime(time);
@@ -558,26 +558,16 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param time integer time
     * @return Date instance
     */
-   private Date getTimeFromInteger(Integer time)
+   private LocalTime getTimeFromInteger(Integer time)
    {
-      Date result = null;
+      LocalTime result = null;
 
       if (time != null)
       {
-         int minutes = time.intValue();
-         int hours = minutes / 60;
-         minutes -= (hours * 60);
-
-         Calendar cal = DateHelper.popCalendar();
-         cal.set(Calendar.MILLISECOND, 0);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MINUTE, minutes);
-         cal.set(Calendar.HOUR_OF_DAY, hours);
-         result = cal.getTime();
-         DateHelper.pushCalendar(cal);
+         result = LocalTime.ofSecondOfDay(time.intValue() * 60L);
       }
 
-      return (result);
+      return result;
    }
 
    /**

@@ -24,6 +24,8 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -225,7 +227,6 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       int index;
       int defaultFlag;
       int periodCount;
-      Date start;
       long duration;
       Day day;
       List<TimeRange> dateRanges = new ArrayList<>(5);
@@ -274,10 +275,10 @@ abstract class AbstractCalendarFactory implements CalendarFactory
             while (periodIndex < periodCount)
             {
                int startOffset = offset + 8 + (periodIndex * 2);
-               start = MPPUtility.getTime(data, startOffset);
+               LocalTime start = MPPUtility.getTime(data, startOffset);
                int durationOffset = offset + 20 + (periodIndex * 4);
                duration = MPPUtility.getDuration(data, durationOffset);
-               Date end = new Date(start.getTime() + duration);
+               LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
                dateRanges.add(new TimeRange(start, end));
                ++periodIndex;
             }
