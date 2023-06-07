@@ -65,7 +65,7 @@ public class CombinedCalendar extends ProjectCalendar
          for (TimeRange range2 : hours2)
          {
             LocalTime range2Start = range2.getStartAsLocalTime();
-            
+
             if (range1End != LocalTime.MIDNIGHT && !range1End.isAfter(range2Start))
             {
                // range1 finishes before range2 starts so there is no overlap, get the next range1
