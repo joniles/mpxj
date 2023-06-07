@@ -37,28 +37,17 @@ public final class TimeRange implements Comparable<TimeRange>
    /**
     * Constructor.
     *
-    * @param startDate start date
-    * @param endDate end date
+    * @param start start time
+    * @param end end time
     */
-   public TimeRange(Date startDate, Date endDate)
-   {
-      m_startAsDate = DateHelper.getCanonicalTime(startDate);
-      m_endAsDate = DateHelper.getCanonicalEndTime(startDate, endDate);
-      m_startAsLocalTime = LocalTimeHelper.getLocalTime(m_startAsDate);
-      m_endAsLocalTime = LocalTimeHelper.getLocalTime(m_endAsDate);
-      m_startAsMilliseconds = m_startAsDate == null ? 0 : m_startAsDate.getTime() - LocalTimeHelper.RANGE_START_MIDNIGHT.getTime();
-      m_endAsMilliseconds = m_endAsDate == null ? 0 : m_endAsDate.getTime() - LocalTimeHelper.RANGE_START_MIDNIGHT.getTime();
-      m_durationAsMilliseconds = m_endAsMilliseconds - m_startAsMilliseconds;
-   }
-
    public TimeRange(LocalTime start, LocalTime end)
    {
       m_startAsLocalTime = start;
       m_endAsLocalTime = end;
       m_startAsDate = LocalTimeHelper.getDate(start);
       m_endAsDate = end == LocalTime.MIDNIGHT ? LocalTimeHelper.RANGE_END_MIDNIGHT : LocalTimeHelper.getDate(end);
-      m_startAsMilliseconds = start.toSecondOfDay() * 1000L;
-      m_endAsMilliseconds = end == LocalTime.MIDNIGHT ? LocalTimeHelper.RANGE_END_MIDNIGHT.getTime() - LocalTimeHelper.RANGE_START_MIDNIGHT.getTime() : end.toSecondOfDay() * 1000L;
+      m_startAsMilliseconds = start == null ? 0 : start.toSecondOfDay() * 1000L;
+      m_endAsMilliseconds = end == null ? 0 : (end == LocalTime.MIDNIGHT ? LocalTimeHelper.RANGE_END_MIDNIGHT.getTime() - LocalTimeHelper.RANGE_START_MIDNIGHT.getTime() : end.toSecondOfDay() * 1000L);
       m_durationAsMilliseconds = m_endAsMilliseconds - m_startAsMilliseconds;
    }
 
@@ -144,7 +133,7 @@ public final class TimeRange implements Comparable<TimeRange>
       return ("[DateRange start=" + m_startAsDate + " end=" + m_endAsDate + "]");
    }
 
-   public static final TimeRange EMPTY_RANGE = new TimeRange((Date)null, (Date)null);
+   public static final TimeRange EMPTY_RANGE = new TimeRange(null, null);
 
    private final Date m_startAsDate;
    private final Date m_endAsDate;
