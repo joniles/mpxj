@@ -28,7 +28,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Date;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -38,7 +37,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CombinedCalendar;
-import net.sf.mpxj.common.DateHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

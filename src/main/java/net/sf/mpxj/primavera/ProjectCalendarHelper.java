@@ -26,12 +26,10 @@ package net.sf.mpxj.primavera;
 import java.time.LocalTime;
 
 import net.sf.mpxj.CalendarType;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.TimeRange;
-import net.sf.mpxj.common.DateHelper;
 
 /**
  * Common methods to support working with P6 calendars.

@@ -1,6 +1,5 @@
 package net.sf.mpxj.common;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 

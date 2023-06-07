@@ -25,7 +25,6 @@ package net.sf.mpxj.mpp;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
 import java.util.Date;
 
 import net.sf.mpxj.DateRange;

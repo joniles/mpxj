@@ -1749,27 +1749,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    }
 
    /**
-    * Retrieves the amount of time between two date time values. Note that
-    * these values are converted into canonical values to remove the
-    * date component.
-    *
-    * @param start start time
-    * @param end end time
-    * @return length of time
-    */
-   private long getTime(Date start, Date end)
-   {
-      long total = 0;
-      if (start != null && end != null)
-      {
-         Date startTime = DateHelper.getCanonicalTime(start);
-         Date endTime = DateHelper.getCanonicalEndTime(start, end);
-         total = (endTime.getTime() - startTime.getTime());
-      }
-      return (total);
-   }
-
-   /**
     * This method returns the length of overlapping time between two time
     * ranges.
     *

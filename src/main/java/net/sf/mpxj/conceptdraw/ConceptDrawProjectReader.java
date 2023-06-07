@@ -43,7 +43,6 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import org.xml.sax.SAXException;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;

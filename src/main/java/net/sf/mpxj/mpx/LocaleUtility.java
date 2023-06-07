@@ -32,7 +32,6 @@ import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectDateFormat;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.ProjectTimeFormat;
-import net.sf.mpxj.common.DateHelper;
 
 /**
  * This class contains methods used to configure the locale of an MPX file,
@@ -77,7 +76,7 @@ final class LocaleUtility
       properties.setCurrencyDigits(LocaleData.getInteger(locale, LocaleData.CURRENCY_DIGITS));
       properties.setThousandsSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_THOUSANDS_SEPARATOR));
       properties.setDecimalSeparator(LocaleData.getChar(locale, LocaleData.CURRENCY_DECIMAL_SEPARATOR));
-      properties.setDefaultStartTime(LocalTime.ofSecondOfDay(LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME) * 60));
+      properties.setDefaultStartTime(LocalTime.ofSecondOfDay(LocaleData.getInteger(locale, LocaleData.DEFAULT_START_TIME).intValue() * 60L));
    }
 
    /**

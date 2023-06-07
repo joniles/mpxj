@@ -36,7 +36,6 @@ import java.util.UUID;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;

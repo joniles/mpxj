@@ -26,7 +26,6 @@ package net.sf.mpxj;
 import java.time.LocalTime;
 import java.util.List;
 
-import net.sf.mpxj.common.DateHelper;
 
 /**
  * This class represents a basic working week, with no exceptions.

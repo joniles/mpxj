@@ -34,7 +34,6 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.PopulatedFields;
 import net.sf.mpxj.common.ProjectFieldLists;

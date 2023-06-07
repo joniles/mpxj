@@ -48,7 +48,6 @@ import net.sf.mpxj.TimeRange;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
@@ -250,7 +249,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param plannerCalendar Planner calendar
     * @return day type map
     */
-   private Map<String, List<TimeRange>> getHoursMap(net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws MPXJException
+   private Map<String, List<TimeRange>> getHoursMap(net.sf.mpxj.planner.schema.Calendar plannerCalendar)
    {
       Map<String, List<TimeRange>> result = new HashMap<>();
       for (OverriddenDayType type : plannerCalendar.getOverriddenDayTypes().getOverriddenDayType())

@@ -1682,7 +1682,7 @@ final class AstaReader
                }
 
                DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
-               if (type == DayType.WORKING)
+               if (type == DayType.WORKING && hours != null)
                {
                   hours.add(new TimeRange(startTime, endTime));
                   week.setCalendarDayType(currentDay, DayType.WORKING);

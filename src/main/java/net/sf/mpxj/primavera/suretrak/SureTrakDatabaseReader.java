@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,7 +35,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;

@@ -25,8 +25,6 @@ package net.sf.mpxj.mpp;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -46,7 +44,6 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -177,7 +174,7 @@ final class MPP8Reader implements MPPVariantReader
    /**
     * This method extracts and collates calendar data.
     */
-   private void processCalendarData() throws MPXJException, IOException
+   private void processCalendarData() throws IOException
    {
       DirectoryEntry calDir = (DirectoryEntry) m_projectDir.getEntry("TBkndCal");
       FixFix calendarFixedData = new FixFix(36, new DocumentInputStream(((DocumentEntry) calDir.getEntry("FixFix   0"))));
