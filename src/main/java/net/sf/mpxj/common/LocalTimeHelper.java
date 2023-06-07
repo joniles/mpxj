@@ -15,9 +15,14 @@ public class LocalTimeHelper
       //return date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
 
       Calendar cal = DateHelper.popCalendar(date);
-      LocalTime result = LocalTime.of(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
+      LocalTime result = getLocalTime(cal);
       DateHelper.pushCalendar(cal);
       return result;
+   }
+
+   public static LocalTime getLocalTime(Calendar cal)
+   {
+      return LocalTime.of(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
    }
 
    public static Date getDate(LocalTime date)
@@ -77,6 +82,16 @@ public class LocalTimeHelper
       }
 
       return 0;
+   }
+
+   public static void setTime(Calendar cal, LocalTime time)
+   {
+      if (time != null)
+      {
+         cal.set(Calendar.HOUR_OF_DAY, time.getHour());
+         cal.set(Calendar.MINUTE, time.getMinute());
+         cal.set(Calendar.SECOND, time.getSecond());
+      }
    }
 
    public static final Date RANGE_START_MIDNIGHT;

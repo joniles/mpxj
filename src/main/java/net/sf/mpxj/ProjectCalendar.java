@@ -25,6 +25,7 @@ package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -926,16 +927,16 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          // Do we have a start time today?
          //
-         Date calTime = DateHelper.getCanonicalTime(cal.getTime());
-         Date startTime = null;
+         LocalTime calTime = LocalTimeHelper.getLocalTime(cal);
+         LocalTime startTime = null;
          for (TimeRange range : ranges)
          {
-            Date rangeStart = DateHelper.getCanonicalTime(range.getStartAsDate());
-            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStartAsDate(), range.getEndAsDate());
+            LocalTime rangeStart = range.getStartAsLocalTime();
+            LocalTime rangeEnd = range.getEndAsLocalTime();
 
-            if (calTime.getTime() < rangeEnd.getTime())
+            if (rangeEnd == LocalTime.MIDNIGHT || calTime.isBefore(rangeEnd))
             {
-               if (calTime.getTime() > rangeStart.getTime())
+               if (calTime.isAfter(rangeStart))
                {
                   startTime = calTime;
                }
@@ -968,10 +969,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             }
             while (!isWorkingDate(cal.getTime(), day));
 
-            startTime = getStartTime(cal.getTime());
+            startTime = LocalTimeHelper.getLocalTime(getStartTime(cal.getTime()));
          }
 
-         DateHelper.setTime(cal, startTime);
+         LocalTimeHelper.setTime(cal, startTime);
       }
    }
 
