@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -310,15 +312,15 @@ public final class PlannerWriter extends AbstractProjectWriter
             List<Interval> intervalList = odt.getInterval();
             for (TimeRange mpxjRange : mpxjHours)
             {
-               Date rangeStart = mpxjRange.getStartAsDate();
-               Date rangeEnd = mpxjRange.getEndAsDate();
+               LocalTime rangeStart = mpxjRange.getStartAsLocalTime();
+               LocalTime rangeEnd = mpxjRange.getEndAsLocalTime();
 
                if (rangeStart != null && rangeEnd != null)
                {
                   Interval interval = m_factory.createInterval();
                   intervalList.add(interval);
-                  interval.setStart(getTimeString(rangeStart));
-                  interval.setEnd(getTimeString(rangeEnd));
+                  interval.setStart(m_timeFormat.format(rangeStart));
+                  interval.setEnd(m_timeFormat.format(rangeEnd));
                }
             }
          }
@@ -812,23 +814,6 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * Convert a Java date into a Planner time.
-    *
-    * 0800
-    *
-    * @param value Java Date instance
-    * @return Planner time value
-    */
-   private String getTimeString(Date value)
-   {
-      Calendar cal = DateHelper.popCalendar(value);
-      int hours = cal.get(Calendar.HOUR_OF_DAY);
-      int minutes = cal.get(Calendar.MINUTE);
-      DateHelper.pushCalendar(cal);
-      return m_twoDigitFormat.format(hours) + m_twoDigitFormat.format(minutes);
-   }
-
-   /**
     * Convert a Java date into a Planner date.
     *
     * 20070222
@@ -1024,6 +1009,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
    private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
+   private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HHmm");
 
    private static final Map<RelationType, String> RELATIONSHIP_TYPES = new HashMap<>();
    static
