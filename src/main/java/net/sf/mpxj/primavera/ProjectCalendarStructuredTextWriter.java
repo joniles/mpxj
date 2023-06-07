@@ -25,6 +25,7 @@ package net.sf.mpxj.primavera;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -151,10 +152,10 @@ class ProjectCalendarStructuredTextWriter
          parentRecord.addChild(hoursRecord);
          hoursRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
          hoursRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, Integer.toString(hoursIndex++));
-         hoursRecord.addAttribute("f", m_timeFormat.format(range.getEndAsDate()));
-         hoursRecord.addAttribute("s", m_timeFormat.format(range.getStartAsDate()));
+         hoursRecord.addAttribute("f", m_timeFormat.format(range.getEndAsLocalTime()));
+         hoursRecord.addAttribute("s", m_timeFormat.format(range.getStartAsLocalTime()));
       }
    }
 
-   private final DateFormat m_timeFormat = new SimpleDateFormat("HH:mm");
+   private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HH:mm");
 }

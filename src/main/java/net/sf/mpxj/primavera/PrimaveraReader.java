@@ -473,8 +473,7 @@ final class PrimaveraReader
                ++workingDays;
                for (TimeRange range : hours)
                {
-                  long milliseconds = range.getEndAsDate().getTime() - range.getStartAsDate().getTime();
-                  minutesPerWeek += (milliseconds / (1000 * 60));
+                  minutesPerWeek += (range.getDurationAsMilliseconds() / (1000 * 60));
                }
             }
          }
