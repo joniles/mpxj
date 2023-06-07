@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.common;
 
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -58,27 +59,43 @@ public class CombinedCalendar extends ProjectCalendar
 
       for (TimeRange range1 : hours1)
       {
-         Date range1Start = DateHelper.getCanonicalTime(range1.getStartAsDate());
-         Date range1End = DateHelper.getCanonicalEndTime(range1.getStartAsDate(), range1.getEndAsDate());
+         LocalTime range1Start = range1.getStartAsLocalTime();
+         LocalTime range1End = range1.getEndAsLocalTime();
 
          for (TimeRange range2 : hours2)
          {
-            Date range2Start = DateHelper.getCanonicalTime(range2.getStartAsDate());
-            if (DateHelper.compare(range1End, range2Start) <= 0)
+            LocalTime range2Start = range2.getStartAsLocalTime();
+            
+            if (range1End != LocalTime.MIDNIGHT && !range1End.isAfter(range2Start))
             {
                // range1 finishes before range2 starts so there is no overlap, get the next range1
                break;
             }
 
-            Date range2End = DateHelper.getCanonicalEndTime(range2.getStartAsDate(), range2.getEndAsDate());
-            if (DateHelper.compare(range1Start, range2End) >= 0)
+            LocalTime range2End = range2.getEndAsLocalTime();
+            if (range2End != LocalTime.MIDNIGHT && !range1Start.isBefore(range2End))
             {
                // range1 starts after range2 so there is no overlap, get the next range2
                continue;
             }
 
-            Date start = DateHelper.max(range1Start, range2Start);
-            Date end = DateHelper.min(range1End, range2End);
+            LocalTime start = range1Start.isAfter(range2Start) ? range1Start : range2Start;
+            LocalTime end;
+            if (range1End == LocalTime.MIDNIGHT)
+            {
+               end = range2End;
+            }
+            else
+            {
+               if (range2End == LocalTime.MIDNIGHT)
+               {
+                  end = range1End;
+               }
+               else
+               {
+                  end = range1End.isBefore(range2End) ? range1End : range2End;
+               }
+            }
             result.add(new TimeRange(start, end));
          }
       }
