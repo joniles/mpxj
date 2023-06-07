@@ -26,6 +26,8 @@ package net.sf.mpxj.primavera;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -2105,9 +2107,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * @param date Primavera end time
     * @return date MPXJ end time
     */
-   private Date getEndTime(Date date)
+   private LocalTime getEndTime(LocalTime date)
    {
-      return new Date(date.getTime() + 60000);
+      return date.plus(1, ChronoUnit.MINUTES);
    }
 
    /**

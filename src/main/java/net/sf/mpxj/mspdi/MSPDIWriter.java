@@ -284,11 +284,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setCurrencySymbolPosition(properties.getSymbolPosition());
       project.setCurrentDate(properties.getCurrentDate());
       project.setDaysPerMonth(NumberHelper.getBigInteger(properties.getDaysPerMonth()));
-      project.setDefaultFinishTime(LocalTimeHelper.getDate(properties.getDefaultEndTime()));
+      project.setDefaultFinishTime(properties.getDefaultEndTime());
       project.setDefaultFixedCostAccrual(properties.getDefaultFixedCostAccrual());
       project.setDefaultOvertimeRate(DatatypeConverter.printRate(properties.getDefaultOvertimeRate()));
       project.setDefaultStandardRate(DatatypeConverter.printRate(properties.getDefaultStandardRate()));
-      project.setDefaultStartTime(LocalTimeHelper.getDate(properties.getDefaultStartTime()));
+      project.setDefaultStartTime(properties.getDefaultStartTime());
       project.setDefaultTaskEVMethod(DatatypeConverter.printEarnedValueMethod(properties.getDefaultTaskEarnedValueMethod()));
       project.setDefaultTaskType(properties.getDefaultTaskType());
       project.setDurationFormat(DatatypeConverter.printDurationTimeUnits(properties.getDefaultDurationUnits(), false));
@@ -672,8 +672,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                      Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
                      timesList.add(time);
 
-                     time.setFromTime(range.getStartAsDate());
-                     time.setToTime(range.getEndAsDate());
+                     time.setFromTime(range.getStartAsLocalTime());
+                     time.setToTime(range.getEndAsLocalTime());
                   }
                }
             }
@@ -739,8 +739,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
                timesList.add(time);
 
-               time.setFromTime(range.getStartAsDate());
-               time.setToTime(range.getEndAsDate());
+               time.setFromTime(range.getStartAsLocalTime());
+               time.setToTime(range.getEndAsLocalTime());
             }
          }
       }
@@ -803,8 +803,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarExceptionsExceptionWorkingTimesWorkingTime();
                timesList.add(time);
 
-               time.setFromTime(range.getStartAsDate());
-               time.setToTime(range.getEndAsDate());
+               time.setFromTime(range.getStartAsLocalTime());
+               time.setToTime(range.getEndAsLocalTime());
             }
          }
       }
@@ -951,8 +951,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                               Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDaysWeekDayWorkingTimesWorkingTime();
                               timesList.add(time);
 
-                              time.setFromTime(range.getStartAsDate());
-                              time.setToTime(range.getEndAsDate());
+                              time.setFromTime(range.getStartAsLocalTime());
+                              time.setToTime(range.getEndAsLocalTime());
                            }
                         }
                      }

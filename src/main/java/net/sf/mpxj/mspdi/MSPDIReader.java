@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -304,11 +305,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       properties.setCurrentDate(project.getCurrentDate());
       properties.setDaysPerMonth(NumberHelper.getInteger(project.getDaysPerMonth()));
       properties.setDefaultDurationUnits(DatatypeConverter.parseDurationTimeUnits(project.getDurationFormat()));
-      properties.setDefaultEndTime(LocalTimeHelper.getLocalTime(project.getDefaultFinishTime()));
+      properties.setDefaultEndTime(project.getDefaultFinishTime());
       properties.setDefaultFixedCostAccrual(project.getDefaultFixedCostAccrual());
       properties.setDefaultOvertimeRate(DatatypeConverter.parseRate(project.getDefaultOvertimeRate(), TimeUnit.HOURS));
       properties.setDefaultStandardRate(DatatypeConverter.parseRate(project.getDefaultStandardRate(), TimeUnit.HOURS));
-      properties.setDefaultStartTime(LocalTimeHelper.getLocalTime(project.getDefaultStartTime()));
+      properties.setDefaultStartTime(project.getDefaultStartTime());
       properties.setDefaultTaskEarnedValueMethod(DatatypeConverter.parseEarnedValueMethod(project.getDefaultTaskEVMethod()));
       properties.setDefaultTaskType(project.getDefaultTaskType());
       properties.setDefaultWorkUnits(DatatypeConverter.parseWorkUnits(project.getWorkFormat()));
@@ -527,16 +528,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       {
          for (Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime period : times.getWorkingTime())
          {
-            Date startTime = period.getFromTime();
-            Date endTime = period.getToTime();
+            LocalTime startTime = period.getFromTime();
+            LocalTime endTime = period.getToTime();
 
             if (startTime != null && endTime != null)
             {
-               if (startTime.getTime() >= endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
                hours.add(new TimeRange(startTime, endTime));
             }
          }
@@ -562,16 +558,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> time = times.getWorkingTime();
          for (Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime period : time)
          {
-            Date startTime = period.getFromTime();
-            Date endTime = period.getToTime();
+            LocalTime startTime = period.getFromTime();
+            LocalTime endTime = period.getToTime();
 
             if (startTime != null && endTime != null)
             {
-               if (startTime.getTime() >= endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
                exception.add(new TimeRange(startTime, endTime));
             }
          }
@@ -639,16 +630,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
          for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
          {
-            Date startTime = period.getFromTime();
-            Date endTime = period.getToTime();
+            LocalTime startTime = period.getFromTime();
+            LocalTime endTime = period.getToTime();
 
             if (startTime != null && endTime != null)
             {
-               if (startTime.getTime() >= endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
                bce.add(new TimeRange(startTime, endTime));
             }
          }
@@ -849,16 +835,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       {
          for (Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime period : times.getWorkingTime())
          {
-            Date startTime = period.getFromTime();
-            Date endTime = period.getToTime();
+            LocalTime startTime = period.getFromTime();
+            LocalTime endTime = period.getToTime();
 
             if (startTime != null && endTime != null)
             {
-               if (startTime.getTime() >= endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
                hours.add(new TimeRange(startTime, endTime));
             }
          }

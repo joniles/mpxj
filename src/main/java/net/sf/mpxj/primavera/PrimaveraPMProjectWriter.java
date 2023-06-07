@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.primavera;
 
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
@@ -648,8 +650,8 @@ final class PrimaveraPMProjectWriter
             WorkTimeType xmlWorkTime = m_factory.createWorkTimeType();
             xmlHours.getWorkTime().add(xmlWorkTime);
 
-            xmlWorkTime.setStart(range.getStartAsDate());
-            xmlWorkTime.setFinish(getEndTime(range.getEndAsDate()));
+            xmlWorkTime.setStart(range.getStartAsLocalTime());
+            xmlWorkTime.setFinish(getEndTime(range.getEndAsLocalTime()));
          }
       }
 
@@ -683,11 +685,11 @@ final class PrimaveraPMProjectWriter
                      WorkTimeType xmlHours = m_factory.createWorkTimeType();
                      xmlException.getWorkTime().add(xmlHours);
 
-                     xmlHours.setStart(range.getStartAsDate());
+                     xmlHours.setStart(range.getStartAsLocalTime());
 
                      if (range.getEndAsDate() != null)
                      {
-                        xmlHours.setFinish(getEndTime(range.getEndAsDate()));
+                        xmlHours.setFinish(getEndTime(range.getEndAsLocalTime()));
                      }
                   }
                }
@@ -1827,9 +1829,9 @@ final class PrimaveraPMProjectWriter
     * @param date MPXJ end time
     * @return Primavera end time
     */
-   private Date getEndTime(Date date)
+   private LocalTime getEndTime(LocalTime date)
    {
-      return new Date(date.getTime() - 60000);
+      return date.minus(1, ChronoUnit.MINUTES);
    }
 
    /**

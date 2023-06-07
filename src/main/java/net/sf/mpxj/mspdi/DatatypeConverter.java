@@ -31,6 +31,9 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
@@ -774,7 +777,7 @@ public final class DatatypeConverter
     * @param value time value
     * @return calendar value
     */
-   public static final String printTime(Date value)
+   public static final String printTime(LocalTime value)
    {
       String result = null;
 
@@ -1878,17 +1881,17 @@ public final class DatatypeConverter
     * @param value time value
     * @return time value
     */
-   public static final Date parseTime(String value)
+   public static final LocalTime parseTime(String value)
    {
-      Date result = null;
+      LocalTime result = null;
       if (value != null && value.length() != 0)
       {
          try
          {
-            result = TIME_FORMAT.get().parse(value);
+            result = LocalTime.parse(value, TIME_FORMAT.get());
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
             // Ignore parse errors
          }
@@ -2036,10 +2039,8 @@ public final class DatatypeConverter
       return df;
    });
 
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("HH:mm:ss");
-      df.setLenient(false);
-      return df;
+   private static final ThreadLocal<DateTimeFormatter> TIME_FORMAT = ThreadLocal.withInitial(() -> {
+      return DateTimeFormatter.ofPattern("HH:mm:ss");
    });
 
    private static final ThreadLocal<NumberFormat> NUMBER_FORMAT = ThreadLocal.withInitial(() -> {
