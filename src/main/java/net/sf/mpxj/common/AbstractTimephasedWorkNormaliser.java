@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.common;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -139,16 +140,16 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
    {
       ProjectCalendarHours hours = calendar.getHours(timephasedWork.getStart());
 
-      Date calendarStart = DateHelper.getCanonicalTime(hours.get(0).getStartAsDate());
-      Date timephasedStart = DateHelper.getCanonicalTime(timephasedWork.getStart());
-      if (DateHelper.compare(assignment.getStart(), timephasedWork.getStart()) != 0 && DateHelper.compare(calendarStart, timephasedStart) != 0)
+      LocalTime calendarStart = hours.get(0).getStartAsLocalTime();
+      LocalTime timephasedStart = LocalTimeHelper.getLocalTime(timephasedWork.getStart());
+      if (DateHelper.compare(assignment.getStart(), timephasedWork.getStart()) != 0 && LocalTimeHelper.compare(calendarStart, timephasedStart) != 0)
       {
          return false;
       }
 
-      Date calendarEnd = DateHelper.getCanonicalTime(hours.get(hours.size() - 1).getEndAsDate());
-      Date timephasedEnd = DateHelper.getCanonicalTime(timephasedWork.getFinish());
-      return DateHelper.compare(assignment.getFinish(), timephasedWork.getFinish()) == 0 || DateHelper.compare(calendarEnd, timephasedEnd) == 0;
+      LocalTime calendarEnd = hours.get(hours.size() - 1).getEndAsLocalTime();
+      LocalTime timephasedEnd = LocalTimeHelper.getLocalTime(timephasedWork.getFinish());
+      return DateHelper.compare(assignment.getFinish(), timephasedWork.getFinish()) == 0 || LocalTimeHelper.compare(calendarEnd, timephasedEnd) == 0;
    }
 
    /**
