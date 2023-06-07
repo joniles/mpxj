@@ -25,6 +25,7 @@ package net.sf.mpxj.explorer;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -86,7 +87,7 @@ public class ProjectTreeController
       WRITER_MAP.put("XER", PrimaveraXERFileWriter.class);
    }
 
-   final SimpleDateFormat m_timeFormat = new SimpleDateFormat("HH:mm");
+   final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HH:mm");
    final SimpleDateFormat m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
    private static final Set<String> FILE_EXCLUDED_METHODS = excludedMethods("getAllResourceAssignments", "getAllResources", "getAllTasks", "getChildTasks", "getCalendars", "getCustomFields", "getEventManager", "getFilters", "getGroups", "getProjectProperties", "getProjectConfig", "getViews", "getTables");
@@ -390,7 +391,7 @@ public class ProjectTreeController
          {
             @Override public String toString()
             {
-               return m_timeFormat.format(r.getStartAsDate()) + " - " + m_timeFormat.format(r.getEndAsDate());
+               return m_timeFormat.format(r.getStartAsLocalTime()) + " - " + m_timeFormat.format(r.getEndAsLocalTime());
             }
          };
          parentNode.add(rangeNode);
