@@ -1,6 +1,12 @@
 # Changelog
 
-## 11.5.2 (unreleased)
+## 11.5.3 (unreleased)
+
+## 11.5.2 (2023-06-08)
+* Improve accuracy of calendar data read from certain Powerproject schedules.
+* Improve handling of unusual XER files with calendar time ranges expressed in 12-hour format.
+* Correctly parse midnight represented as 24:00:00 from MSPDI files written by certain non-Microsoft Project applications.
+* For MSPDI files produced by applications other than Microsoft Project which have an incorrectly nested calendar hierarchy, avoid pruning derived calendars which are referenced elsewhere in the hierarchy.
 
 ## 11.5.1 (2023-05-24)
 * Improve read performance when working with large schedules.
