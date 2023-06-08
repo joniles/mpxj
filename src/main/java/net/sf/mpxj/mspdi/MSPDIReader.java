@@ -227,7 +227,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          // but are not referenced anywhere.
          //
          Map<Integer, List<Resource>> resourceCalendarMap = projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
-         Set<Integer> calendarReferences = new HashSet<Integer>();
+         Set<Integer> calendarReferences = new HashSet<>();
          calendarReferences.add(projectFile.getProjectProperties().getDefaultCalendarUniqueID());
          projectFile.getCalendars().stream().map(c -> c.getParentUniqueID()).filter(id -> id != null).forEach(id -> calendarReferences.add(id));
          projectFile.getTasks().stream().map(t -> t.getCalendarUniqueID()).filter(id -> id != null).forEach(id -> calendarReferences.add(id));
@@ -260,17 +260,17 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                   calendar.setName(name);
                }
             }
+         }
 
-            //
-            // Process any embedded external projects
-            //
-            for (Map.Entry<Task, Project> entry : m_externalProjects.entrySet())
-            {
-               MSPDIReader reader = new MSPDIReader();
-               ProjectFile file = new ProjectFile();
-               reader.read(file, entry.getValue());
-               entry.getKey().setSubprojectObject(file);
-            }
+         //
+         // Process any embedded external projects
+         //
+         for (Map.Entry<Task, Project> entry : m_externalProjects.entrySet())
+         {
+            MSPDIReader reader = new MSPDIReader();
+            ProjectFile file = new ProjectFile();
+            reader.read(file, entry.getValue());
+            entry.getKey().setSubprojectObject(file);
          }
       }
 
