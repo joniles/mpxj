@@ -33,8 +33,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -217,10 +219,20 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          config.updateUniqueCounters();
 
          //
-         // Prune unused resource calendars
+         // Prune unused derived calendars.
+         // Normally we'd just be getting rid of any odd resource calendars which might have
+         // slipped in which aren't actually associated with a resource. When applications
+         // other than Microsoft Project generate MSPDI files they can (incorrectly) produce more deeply
+         // nested hierarchies, so we need to be careful here to only remove calendars which are derived
+         // but are not referenced anywhere.
          //
          Map<Integer, List<Resource>> resourceCalendarMap = projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
-         m_projectFile.getCalendars().removeIf(c -> c.isDerived() && !resourceCalendarMap.containsKey(c.getUniqueID()));
+         Set<Integer> calendarReferences = new HashSet<Integer>();
+         calendarReferences.add(projectFile.getProjectProperties().getDefaultCalendarUniqueID());
+         projectFile.getCalendars().stream().map(c -> c.getParentUniqueID()).filter(id -> id != null).forEach(id -> calendarReferences.add(id));
+         projectFile.getTasks().stream().map(t -> t.getCalendarUniqueID()).filter(id -> id != null).forEach(id -> calendarReferences.add(id));
+         calendarReferences.addAll(resourceCalendarMap.keySet());
+         m_projectFile.getCalendars().removeIf(c -> c.isDerived() && !calendarReferences.contains(c.getUniqueID()));
 
          //
          // Resource calendar post processing
