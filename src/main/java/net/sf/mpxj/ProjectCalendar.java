@@ -695,7 +695,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   canonicalRangeStart = currentDateStartTime;
                }
                firstRange = false;
-               
+
                long rangeMilliseconds = canonicalRangeEnd.getTime() - canonicalRangeStart.getTime();
                if (remainingMilliseconds > rangeMilliseconds)
                {
