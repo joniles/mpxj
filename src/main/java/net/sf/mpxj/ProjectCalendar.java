@@ -577,33 +577,29 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    public Date getDate(Date startDate, Duration duration, boolean returnNextWorkStart)
    {
       ProjectProperties properties = getParentFile().getProjectProperties();
-      // Note: Using a double allows us to handle date values that are accurate up to seconds.
-      //       However, it also means we need to truncate the value to 2 decimals to make the
-      //       comparisons work as sometimes the double ends up with some extra, for example: .0000000000003
-      //       that wreak havoc on the comparisons.
-      double remainingMinutes = NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
+      long remainingMilliseconds = Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
 
       //
       // Can we skip come computation by working forward from the
       // last call to this method?
       //
       Date getDateLastStartDate = m_getDateLastStartDate;
-      double getDateLastRemainingMinutes = m_getDateLastRemainingMinutes;
+      long getDateLastRemainingMilliseconds = m_getDateLastRemainingMilliseconds;
 
       m_getDateLastStartDate = startDate;
-      m_getDateLastRemainingMinutes = remainingMinutes;
+      m_getDateLastRemainingMilliseconds = remainingMilliseconds;
 
-      if (m_getDateLastResult != null && DateHelper.compare(startDate, getDateLastStartDate) == 0 && remainingMinutes >= getDateLastRemainingMinutes)
+      if (m_getDateLastResult != null && DateHelper.compare(startDate, getDateLastStartDate) == 0 && remainingMilliseconds >= getDateLastRemainingMilliseconds)
       {
          startDate = m_getDateLastResult;
-         remainingMinutes = remainingMinutes - getDateLastRemainingMinutes;
+         remainingMilliseconds = remainingMilliseconds - getDateLastRemainingMilliseconds;
       }
 
       Calendar cal = Calendar.getInstance();
       cal.setTime(startDate);
       Calendar endCal = Calendar.getInstance();
 
-      while (remainingMinutes > 0)
+      while (remainingMilliseconds > 0)
       {
          //
          // Get the current date and time and determine how many
@@ -613,17 +609,17 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          endCal.setTime(currentDate);
          endCal.add(Calendar.DAY_OF_YEAR, 1);
          Date currentDateEnd = DateHelper.getDayStartDate(endCal.getTime());
-         double currentDateWorkingMinutes = getWork(currentDate, currentDateEnd, TimeUnit.MINUTES).getDuration();
+         long currentDateWorkingMilliseconds = Math.round(getWork(currentDate, currentDateEnd, TimeUnit.MINUTES).getDuration() * 60000.0);
 
          //
          // We have more than enough hours left
          //
-         if (remainingMinutes > currentDateWorkingMinutes)
+         if (remainingMilliseconds > currentDateWorkingMilliseconds)
          {
             //
             // Deduct this day's hours from our total
             //
-            remainingMinutes = NumberHelper.round(remainingMinutes - currentDateWorkingMinutes, 2);
+            remainingMilliseconds -= currentDateWorkingMilliseconds;
 
             //
             // Move the calendar forward to the next working day
@@ -639,7 +635,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                {
                   cal.setTime(startDate);
                   cal.add(Calendar.DAY_OF_YEAR, 1);
-                  remainingMinutes = 0;
+                  remainingMilliseconds = 0;
                   break;
                }
             }
@@ -699,19 +695,15 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   canonicalRangeStart = currentDateStartTime;
                }
                firstRange = false;
-
-               double rangeMinutes;
-
-               rangeMinutes = canonicalRangeEnd.getTime() - canonicalRangeStart.getTime();
-               rangeMinutes /= (1000 * 60);
-
-               if (remainingMinutes > rangeMinutes)
+               
+               long rangeMilliseconds = canonicalRangeEnd.getTime() - canonicalRangeStart.getTime();
+               if (remainingMilliseconds > rangeMilliseconds)
                {
-                  remainingMinutes = NumberHelper.round(remainingMinutes - rangeMinutes, 2);
+                  remainingMilliseconds -= rangeMilliseconds;
                }
                else
                {
-                  if (Duration.durationValueEquals(remainingMinutes, rangeMinutes))
+                  if (remainingMilliseconds == rangeMilliseconds)
                   {
                      endTime = canonicalRangeEnd;
                      if (rangeStartDay.getTime() != rangeEndDay.getTime())
@@ -722,10 +714,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   }
                   else
                   {
-                     endTime = new Date((long) (canonicalRangeStart.getTime() + (remainingMinutes * (60 * 1000))));
+                     endTime = new Date(canonicalRangeStart.getTime() + remainingMilliseconds);
                      returnNextWorkStart = false;
                   }
-                  remainingMinutes = 0;
+                  remainingMilliseconds = 0;
                   break;
                }
             }
@@ -2108,7 +2100,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private final Map<DateRange, Long> m_workingDateCache = new WeakHashMap<>();
    private final Map<Date, Date> m_startTimeCache = new WeakHashMap<>();
    private Date m_getDateLastStartDate;
-   private double m_getDateLastRemainingMinutes;
+   private long m_getDateLastRemainingMilliseconds;
    private Date m_getDateLastResult;
 
    /**
