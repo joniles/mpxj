@@ -219,7 +219,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          config.updateUniqueCounters();
 
          //
-         // Prune unused derived calendars
+         // Prune unused derived calendars.
+         // Normally we'd just be getting rid of any odd resource calendars which might have
+         // slipped in which aren't actually associated with a resource. When applications
+         // other than Microsoft Project generate MSPDI files they can (incorrectly) produce more deeply
+         // nested hierarchies, so we need to be careful here to only remove calendars which are derived
+         // but are not referenced anywhere.
          //
          Map<Integer, List<Resource>> resourceCalendarMap = projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
          Set<Integer> calendarReferences = new HashSet<Integer>();
