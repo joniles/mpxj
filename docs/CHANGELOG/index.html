@@ -271,8 +271,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1152-unreleased" class="md-nav__link">
-    11.5.2 (unreleased)
+  <a href="#1153-unreleased" class="md-nav__link">
+    11.5.3 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1152-2023-06-08" class="md-nav__link">
+    11.5.2 (2023-06-08)
   </a>
   
 </li>
@@ -2693,8 +2700,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1152-unreleased" class="md-nav__link">
-    11.5.2 (unreleased)
+  <a href="#1153-unreleased" class="md-nav__link">
+    11.5.3 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1152-2023-06-08" class="md-nav__link">
+    11.5.2 (2023-06-08)
   </a>
   
 </li>
@@ -4235,7 +4249,14 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1152-unreleased">11.5.2 (unreleased)</h2>
+<h2 id="1153-unreleased">11.5.3 (unreleased)</h2>
+<h2 id="1152-2023-06-08">11.5.2 (2023-06-08)</h2>
+<ul>
+<li>Improve accuracy of calendar data read from certain Powerproject schedules.</li>
+<li>Improve handling of unusual XER files with calendar time ranges expressed in 12-hour format.</li>
+<li>Correctly parse midnight represented as 24:00:00 from MSPDI files written by certain non-Microsoft Project applications.</li>
+<li>For MSPDI files produced by applications other than Microsoft Project which have an incorrectly nested calendar hierarchy, avoid pruning derived calendars which are referenced elsewhere in the hierarchy.</li>
+</ul>
 <h2 id="1151-2023-05-24">11.5.1 (2023-05-24)</h2>
 <ul>
 <li>Improve read performance when working with large schedules.</li>
