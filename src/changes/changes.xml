@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">Improve accuracy of calendar data read from certain Powerproject schedules.</action>
 			<action dev="joniles" type="update">Improve handling of unusual XER files with calendar time ranges expressed in 12-hour format.</action>
 			<action dev="joniles" type="update">Correctly parse midnight represented as 24:00:00 from MSPDI files written by certain non-Microsoft Project applications.</action>
+			<action dev="joniles" type="update">For MSPDI files produced by applications other than Microsoft Project which have an incorrectly nested calendar hierarchy, avoid pruning derived calendars which are referenced elsewhere in the hierarchy.</action>
 		</release>
 		<release date="2023-05-24" version="11.5.1">
 			<action dev="joniles" type="update">Improve read performance when working with large schedules.</action>
