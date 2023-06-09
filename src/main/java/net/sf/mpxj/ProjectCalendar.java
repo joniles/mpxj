@@ -26,6 +26,7 @@ package net.sf.mpxj;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -662,28 +663,23 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             // Now we have the range of working hours for this day,
             // step through it to work out the end point
             //
-            Date endTime = null;
-            Date currentDateStartTime = DateHelper.getCanonicalTime(currentDate);
+            LocalTime endTime = null;
+            LocalTime currentDateStartTime = LocalTimeHelper.getLocalTime(currentDate);
             boolean firstRange = true;
             for (TimeRange range : ranges)
             {
                //
                // Skip this range if its end is before our start time
                //
-               Date rangeStart = range.getStartAsDate();
-               Date rangeEnd = range.getEndAsDate();
+               LocalTime rangeStart = range.getStartAsLocalTime();
+               LocalTime rangeEnd = range.getEndAsLocalTime();
 
                if (rangeStart == null || rangeEnd == null)
                {
                   continue;
                }
 
-               Date rangeStartDay = DateHelper.getDayStartDate(rangeStart);
-               Date rangeEndDay = DateHelper.getDayStartDate(rangeEnd);
-               Date canonicalRangeStart = DateHelper.getCanonicalTime(rangeStart);
-               Date canonicalRangeEnd = DateHelper.getCanonicalEndTime(rangeStart, rangeEnd);
-
-               if (firstRange && canonicalRangeEnd.getTime() < currentDateStartTime.getTime())
+               if (firstRange && rangeEnd != LocalTime.MIDNIGHT && rangeEnd.isBefore(currentDateStartTime))
                {
                   continue;
                }
@@ -692,13 +688,13 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                // Move the start of the range if our current start is
                // past the range start
                //
-               if (firstRange && canonicalRangeStart.getTime() < currentDateStartTime.getTime())
+               if (firstRange && rangeStart.isBefore(currentDateStartTime))
                {
-                  canonicalRangeStart = currentDateStartTime;
+                  rangeStart = currentDateStartTime;
                }
                firstRange = false;
 
-               long rangeMilliseconds = canonicalRangeEnd.getTime() - canonicalRangeStart.getTime();
+               long rangeMilliseconds = rangeEnd == LocalTime.MIDNIGHT ? DateHelper.MS_PER_DAY - (rangeStart.toSecondOfDay() * 1000L) : (rangeEnd.toSecondOfDay() - rangeStart.toSecondOfDay()) * 1000L;
                if (remainingMilliseconds > rangeMilliseconds)
                {
                   remainingMilliseconds -= rangeMilliseconds;
@@ -707,16 +703,15 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                {
                   if (remainingMilliseconds == rangeMilliseconds)
                   {
-                     endTime = canonicalRangeEnd;
-                     if (rangeStartDay.getTime() != rangeEndDay.getTime())
+                     endTime = rangeEnd;
+                     if (endTime == LocalTime.MIDNIGHT)
                      {
-                        // The range ends the next day, so let's adjust our date accordingly.
                         cal.add(Calendar.DAY_OF_YEAR, 1);
                      }
                   }
                   else
                   {
-                     endTime = new Date(canonicalRangeStart.getTime() + remainingMilliseconds);
+                     endTime = rangeStart.plus(remainingMilliseconds, ChronoUnit.MILLIS);
                      returnNextWorkStart = false;
                   }
                   remainingMilliseconds = 0;
@@ -724,7 +719,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                }
             }
 
-            DateHelper.setTime(cal, endTime);
+            LocalTimeHelper.setTime(cal, endTime);
          }
       }
 
