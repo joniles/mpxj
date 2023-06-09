@@ -703,10 +703,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   if (remainingMilliseconds == rangeMilliseconds)
                   {
                      endTime = rangeEnd;
-//                     if (endTime == LocalTime.MIDNIGHT)
-//                     {
-//                        cal.add(Calendar.DAY_OF_YEAR, 1);
-//                     }
                   }
                   else
                   {
