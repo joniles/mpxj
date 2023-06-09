@@ -981,14 +981,13 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          // Do we have a start time today?
          //
-         Date calTime = DateHelper.getCanonicalTime(cal.getTime());
-         Date finishTime = null;
+         LocalTime calTime = LocalTimeHelper.getLocalTime(cal);
+         LocalTime finishTime = null;
          for (TimeRange range : ranges)
          {
-            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStartAsDate(), range.getEndAsDate());
-            if (calTime.getTime() >= rangeEnd.getTime())
+            if ((range.getEndAsLocalTime() == LocalTime.MIDNIGHT && calTime == LocalTime.MIDNIGHT) || !calTime.isBefore(range.getEndAsLocalTime()))
             {
-               finishTime = rangeEnd;
+               finishTime = range.getEndAsLocalTime();
                break;
             }
          }
@@ -1014,10 +1013,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             }
             while (!isWorkingDate(cal.getTime(), day));
 
-            finishTime = getFinishTime(cal.getTime());
+            finishTime = LocalTimeHelper.getLocalTime(getFinishTime(cal.getTime()));
          }
 
-         DateHelper.setTime(cal, finishTime);
+         LocalTimeHelper.setTime(cal, finishTime);
       }
    }
 
