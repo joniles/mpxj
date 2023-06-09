@@ -92,56 +92,6 @@ public final class DateHelper
    }
 
    /**
-    * This method resets the date part of a date time value to
-    * a standard date (1/1/1). This is used to allow times to
-    * be compared and manipulated.
-    *
-    * @param date date time value
-    * @return date time with date set to a standard value
-    */
-   public static Date getCanonicalTime(Date date)
-   {
-      if (date != null)
-      {
-         Calendar cal = popCalendar(date);
-         cal.set(Calendar.DAY_OF_YEAR, 1);
-         cal.set(Calendar.YEAR, 1);
-         cal.set(Calendar.MILLISECOND, 0);
-         date = cal.getTime();
-         pushCalendar(cal);
-      }
-      return (date);
-   }
-
-   /**
-    * Assuming two timestamps representing a time range on a single day,
-    * convert the timestamps to a canonical date, and adjust the end
-    * timestamp to handle the case where the time range ends at midnight.
-    *
-    * @param rangeStart start timestamp
-    * @param rangeFinish finish timestamp
-    * @return canonical end date
-    */
-   public static Date getCanonicalEndTime(Date rangeStart, Date rangeFinish)
-   {
-      Date startDay = DateHelper.getDayStartDate(rangeStart);
-      Date finishDay = DateHelper.getDayStartDate(rangeFinish);
-
-      Date result = DateHelper.getCanonicalTime(rangeFinish);
-
-      //
-      // Handle the case where the end of the range is at midnight -
-      // this will show up as the start and end days not matching
-      //
-      if (startDay != null && finishDay != null && startDay.getTime() != finishDay.getTime())
-      {
-         result = DateHelper.addDays(result, 1);
-      }
-
-      return result;
-   }
-
-   /**
     * This method compares a target date with a date range. The method will
     * return 0 if the date is within the range, less than zero if the date
     * is before the range starts, and greater than zero if the date is after
