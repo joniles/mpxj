@@ -687,7 +687,7 @@ final class PrimaveraPMProjectWriter
 
                      xmlHours.setStart(range.getStartAsLocalTime());
 
-                     if (range.getEndAsDate() != null)
+                     if (range.getEndAsLocalTime() != null)
                      {
                         xmlHours.setFinish(getEndTime(range.getEndAsLocalTime()));
                      }

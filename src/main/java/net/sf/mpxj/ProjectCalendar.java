@@ -1438,7 +1438,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             ProjectCalendarHours ranges = getRanges(startDate, null, null);
             if (ranges.size() != 0)
             {
-               totalTime = getTotalTime(ranges, startDate, endDate);
+               totalTime = getTotalTime(ranges, LocalTimeHelper.getLocalTime(startDate), LocalTimeHelper.getLocalTime(endDate));
             }
          }
          else
@@ -1515,7 +1515,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             ProjectCalendarHours ranges = getRanges(endDate, null, day);
             if (ranges.size() != 0)
             {
-               totalTime += getTotalTime(ranges, DateHelper.getDayStartDate(endDate), endDate);
+               totalTime += getTotalTime(ranges, LocalTime.of(0,0), LocalTimeHelper.getLocalTime(endDate));
             }
          }
 
@@ -1668,26 +1668,24 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * day, which intersects with the supplied time range.
     *
     * @param hours collection of working hours in a day
-    * @param startDate time range start
-    * @param endDate time range end
+    * @param start time range start
+    * @param end time range end
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarHours hours, Date startDate, Date endDate)
+   private long getTotalTime(ProjectCalendarHours hours, LocalTime start, LocalTime end)
    {
-      if (startDate.getTime() == endDate.getTime())
+      if (start.equals(end))
       {
          return 0;
       }
 
       long total = 0;
-      LocalTime start = LocalTimeHelper.getLocalTime(startDate);
-      LocalTime end = LocalTimeHelper.getLocalTime(endDate);
 
       for (TimeRange range : hours)
       {
          total += getTime(start, end, range.getStartAsLocalTime(), range.getEndAsLocalTime());
       }
-      
+
       return total;
    }
 
