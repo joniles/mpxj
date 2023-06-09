@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -67,6 +68,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
+import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
@@ -1135,7 +1137,27 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatTime(LocalTime value)
    {
-      return (value == null ? null : m_formats.getTimeFormat().format(LocalTimeHelper.getDate(value)));
+      return (value == null ? null : m_formats.getTimeFormat().format(getDateFromLocalTime(value)));
+   }
+
+   private Date getDateFromLocalTime(LocalTime date)
+   {
+      if (date == null)
+      {
+         return null;
+      }
+
+      Calendar cal = DateHelper.popCalendar();
+      cal.set(Calendar.DAY_OF_YEAR, 1);
+      cal.set(Calendar.YEAR, 1);
+      cal.set(Calendar.HOUR_OF_DAY, date.getHour());
+      cal.set(Calendar.MINUTE, date.getMinute());
+      cal.set(Calendar.SECOND, date.getSecond());
+      cal.set(Calendar.MILLISECOND, 0);
+      Date result = cal.getTime();
+      DateHelper.pushCalendar(cal);
+
+      return result;
    }
 
    /**

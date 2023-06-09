@@ -25,26 +25,6 @@ public class LocalTimeHelper
       return LocalTime.of(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
    }
 
-   public static Date getDate(LocalTime date)
-   {
-      if (date == null)
-      {
-         return null;
-      }
-
-      Calendar cal = DateHelper.popCalendar();
-      cal.set(Calendar.DAY_OF_YEAR, 1);
-      cal.set(Calendar.YEAR, 1);
-      cal.set(Calendar.HOUR_OF_DAY, date.getHour());
-      cal.set(Calendar.MINUTE, date.getMinute());
-      cal.set(Calendar.SECOND, date.getSecond());
-      cal.set(Calendar.MILLISECOND, 0);
-      Date result = cal.getTime();
-      DateHelper.pushCalendar(cal);
-
-      return result;
-   }
-
    public static int compare(LocalTime d1, LocalTime d2)
    {
       int result;
@@ -142,33 +122,5 @@ public class LocalTimeHelper
       }
 
       return rangeEnd == LocalTime.MIDNIGHT ? DateHelper.MS_PER_DAY - (rangeStart.toSecondOfDay() * 1000L) : (rangeEnd.toSecondOfDay() - rangeStart.toSecondOfDay()) * 1000L;
-   }
-
-   public static final Date RANGE_START_MIDNIGHT;
-   static
-   {
-      Calendar cal = DateHelper.popCalendar();
-      cal.set(Calendar.DAY_OF_YEAR, 1);
-      cal.set(Calendar.YEAR, 1);
-      cal.set(Calendar.HOUR_OF_DAY, 0);
-      cal.set(Calendar.MINUTE, 0);
-      cal.set(Calendar.SECOND, 0);
-      cal.set(Calendar.MILLISECOND, 0);
-      RANGE_START_MIDNIGHT = cal.getTime();
-      DateHelper.pushCalendar(cal);
-   }
-
-   public static final Date RANGE_END_MIDNIGHT;
-   static
-   {
-      Calendar cal = DateHelper.popCalendar();
-      cal.set(Calendar.DAY_OF_YEAR, 2);
-      cal.set(Calendar.YEAR, 1);
-      cal.set(Calendar.HOUR_OF_DAY, 0);
-      cal.set(Calendar.MINUTE, 0);
-      cal.set(Calendar.SECOND, 0);
-      cal.set(Calendar.MILLISECOND, 0);
-      RANGE_END_MIDNIGHT = cal.getTime();
-      DateHelper.pushCalendar(cal);
    }
 }
