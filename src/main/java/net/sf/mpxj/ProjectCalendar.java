@@ -562,8 +562,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          return null;
       }
 
-      TimeRange range = ranges.get(ranges.size() - 1);
-      return DateHelper.getCanonicalEndTime(range.getStartAsDate(), range.getEndAsDate());
+      return ranges.get(ranges.size() - 1).getEndAsDate();
    }
 
    /**
