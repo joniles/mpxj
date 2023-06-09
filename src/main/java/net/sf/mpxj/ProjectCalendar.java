@@ -519,21 +519,26 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public Date getStartTime(Date date)
    {
-      Date result = m_startTimeCache.get(date);
-      if (result == null)
+      if (date == null)
       {
-         ProjectCalendarHours ranges = getRanges(date, null, null);
-         if (ranges == null)
-         {
-            result = LocalTimeHelper.getDate(getParentFile().getProjectProperties().getDefaultStartTime());
-         }
-         else
-         {
-            result = ranges.get(0).getStartAsDate();
-         }
-         result = DateHelper.getCanonicalTime(result);
-         m_startTimeCache.put(new Date(date.getTime()), result);
+         return null;
       }
+
+      Date result = m_startTimeCache.get(date);
+      if (result != null)
+      {
+         return result;
+      }
+
+      ProjectCalendarHours ranges = getRanges(date, null, null);
+      if (ranges == null || ranges.isEmpty())
+      {
+         return null;
+      }
+
+      result = ranges.get(0).getStartAsDate();
+      m_startTimeCache.put(new Date(date.getTime()), result);
+
       return result;
    }
 
@@ -546,23 +551,19 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public Date getFinishTime(Date date)
    {
-      Date result = null;
-
-      if (date != null)
+      if (date == null)
       {
-         ProjectCalendarHours ranges = getRanges(date, null, null);
-         if (ranges == null)
-         {
-            result = LocalTimeHelper.getDate(getParentFile().getProjectProperties().getDefaultEndTime());
-            result = DateHelper.getCanonicalTime(result);
-         }
-         else
-         {
-            TimeRange range = ranges.get(ranges.size() - 1);
-            result = DateHelper.getCanonicalEndTime(range.getStartAsDate(), range.getEndAsDate());
-         }
+         return null;
       }
-      return result;
+
+      ProjectCalendarHours ranges = getRanges(date, null, null);
+      if (ranges == null || ranges.isEmpty())
+      {
+         return null;
+      }
+
+      TimeRange range = ranges.get(ranges.size() - 1);
+      return DateHelper.getCanonicalEndTime(range.getStartAsDate(), range.getEndAsDate());
    }
 
    /**
