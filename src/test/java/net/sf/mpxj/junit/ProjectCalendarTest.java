@@ -694,7 +694,7 @@ public class ProjectCalendarTest
       //
       // Working day
       //
-      assertEquals("01/01/0001 08:00", df.format(cal.getStartTime(df.parse("09/10/2003 00:00"))));
+      assertEquals(LocalTime.of(8,0), cal.getStartTime(df.parse("09/10/2003 00:00")));
 
       //
       // Non-working day

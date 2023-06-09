@@ -36,6 +36,7 @@ import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
 import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -301,7 +302,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
       for (TimephasedWork assignment : list)
       {
          Date assignmentStart = assignment.getStart();
-         Date calendarStartTime = calendar.getStartTime(assignmentStart);
+         Date calendarStartTime = LocalTimeHelper.getDate(calendar.getStartTime(assignmentStart));
          Date assignmentStartTime = DateHelper.getCanonicalTime(assignmentStart);
          Date assignmentFinish = assignment.getFinish();
          Date calendarFinishTime = calendar.getFinishTime(assignmentFinish);

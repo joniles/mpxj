@@ -2269,8 +2269,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Date finishDay = DateHelper.getDayStartDate(finishDate);
          if (startDay.getTime() == finishDay.getTime())
          {
-            Date startTime = calendar.getStartTime(startDay);
-            Date currentStart = DateHelper.setTime(startDay, startTime);
+            Date currentStart = LocalTimeHelper.setTime(startDay, calendar.getStartTime(startDay));
             if (startDate.getTime() > currentStart.getTime())
             {
                boolean paddingRequired = true;
@@ -2370,8 +2369,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                isWorking = calendar.isWorkingDate(currentStart);
                if (isWorking)
                {
-                  Date startTime = calendar.getStartTime(currentStart);
-                  DateHelper.setTime(cal, startTime);
+                  LocalTimeHelper.setTime(cal, calendar.getStartTime(currentStart));
                   currentStart = cal.getTime();
                }
                DateHelper.pushCalendar(cal);
@@ -2398,8 +2396,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Date finishDay = DateHelper.getDayStartDate(finishDate);
          if (startDay.getTime() == finishDay.getTime())
          {
-            Date startTime = calendar.getStartTime(startDay);
-            Date currentStart = DateHelper.setTime(startDay, startTime);
+            Date currentStart = LocalTimeHelper.setTime(startDay, calendar.getStartTime(startDay));
             if (startDate.getTime() > currentStart.getTime())
             {
                TimephasedCost padding = new TimephasedCost();
@@ -2453,8 +2450,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                isWorking = calendar.isWorkingDate(currentStart);
                if (isWorking)
                {
-                  Date startTime = calendar.getStartTime(currentStart);
-                  DateHelper.setTime(cal, startTime);
+                  LocalTimeHelper.setTime(cal, calendar.getStartTime(currentStart));
                   currentStart = cal.getTime();
                }
                DateHelper.pushCalendar(cal);

@@ -517,14 +517,14 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date Date instance
     * @return start time, or null for non-working day
     */
-   public Date getStartTime(Date date)
+   public LocalTime getStartTime(Date date)
    {
       if (date == null)
       {
          return null;
       }
 
-      Date result = m_startTimeCache.get(date);
+      LocalTime result = m_startTimeCache.get(date);
       if (result != null)
       {
          return result;
@@ -536,7 +536,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          return null;
       }
 
-      result = ranges.get(0).getStartAsDate();
+      result = ranges.get(0).getStartAsLocalTime();
       m_startTimeCache.put(new Date(date.getTime()), result);
 
       return result;
@@ -648,8 +648,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             //
             // Retrieve the start time for this day
             //
-            Date startTime = getStartTime(cal.getTime());
-            DateHelper.setTime(cal, startTime);
+            LocalTimeHelper.setTime(cal, getStartTime(cal.getTime()));
          }
          else
          {
@@ -794,7 +793,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             }
             while (!isWorkingDate(cal.getTime(), day));
 
-            startTime = LocalTimeHelper.getLocalTime(getStartTime(cal.getTime()));
+            startTime = getStartTime(cal.getTime());
          }
 
          LocalTimeHelper.setTime(cal, startTime);
@@ -1868,7 +1867,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * Caches used to speed up date calculations.
     */
    private final Map<DateRange, Long> m_workingDateCache = new WeakHashMap<>();
-   private final Map<Date, Date> m_startTimeCache = new WeakHashMap<>();
+   private final Map<Date, LocalTime> m_startTimeCache = new WeakHashMap<>();
    private Date m_getDateLastStartDate;
    private long m_getDateLastRemainingMilliseconds;
    private Date m_getDateLastResult;

@@ -54,6 +54,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
@@ -390,7 +391,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          task.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
          task.setMilestone(true);
          Date startDate = DatatypeConverter.getTimestamp(cBarData, 7);
-         task.setStart(DateHelper.setTime(startDate, calendar.getStartTime(startDate)));
+         task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(startDate)));
          task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
       }
       else
@@ -424,7 +425,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
 
             ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
             Date startDate = DatatypeConverter.getTimestamp(cBarData, 5);
-            task.setStart(DateHelper.setTime(startDate, calendar.getStartTime(startDate)));
+            task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(startDate)));
             task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
 
             if (resource != null)
