@@ -46,9 +46,9 @@ public final class TimeRange implements Comparable<TimeRange>
       m_endAsLocalTime = end;
       m_startAsDate = LocalTimeHelper.getDate(start);
       m_endAsDate = end == LocalTime.MIDNIGHT ? LocalTimeHelper.RANGE_END_MIDNIGHT : LocalTimeHelper.getDate(end);
-      long startAsMilliseconds = start == null ? 0 : start.toSecondOfDay() * 1000L;
-      long endAsMilliseconds = end == null ? 0 : (end == LocalTime.MIDNIGHT ? LocalTimeHelper.RANGE_END_MIDNIGHT.getTime() - LocalTimeHelper.RANGE_START_MIDNIGHT.getTime() : end.toSecondOfDay() * 1000L);
-      m_durationAsMilliseconds = endAsMilliseconds - startAsMilliseconds;
+      long startSeconds = start == null ? 0 : start.toSecondOfDay();
+      long endSeconds = end == null ? 0 : (end == LocalTime.MIDNIGHT ? 24 * 60 * 60 : end.toSecondOfDay());
+      m_durationAsMilliseconds = (endSeconds - startSeconds) * 1000L;
    }
 
    public LocalTime getStartAsLocalTime()
