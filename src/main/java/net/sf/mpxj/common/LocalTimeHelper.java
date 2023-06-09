@@ -98,6 +98,20 @@ public class LocalTimeHelper
       return result;
    }
 
+   public static Date setEndTime(Date date, LocalTime time)
+   {
+      if (time == null)
+      {
+         return date;
+      }
+
+      Calendar cal = DateHelper.popCalendar(date);
+      setEndTime(cal, time);
+      Date result = cal.getTime();
+      DateHelper.pushCalendar(cal);
+      return result;
+   }
+
    public static void setTime(Calendar cal, LocalTime time)
    {
       if (time != null)
@@ -105,6 +119,18 @@ public class LocalTimeHelper
          cal.set(Calendar.HOUR_OF_DAY, time.getHour());
          cal.set(Calendar.MINUTE, time.getMinute());
          cal.set(Calendar.SECOND, time.getSecond());
+      }
+   }
+
+   public static void setEndTime(Calendar cal, LocalTime time)
+   {
+      if (time != null)
+      {
+         setTime(cal, time);
+         if (time == LocalTime.MIDNIGHT)
+         {
+            cal.add(Calendar.DAY_OF_YEAR, 1);
+         }
       }
    }
 

@@ -703,10 +703,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   if (remainingMilliseconds == rangeMilliseconds)
                   {
                      endTime = rangeEnd;
-                     if (endTime == LocalTime.MIDNIGHT)
-                     {
-                        cal.add(Calendar.DAY_OF_YEAR, 1);
-                     }
+//                     if (endTime == LocalTime.MIDNIGHT)
+//                     {
+//                        cal.add(Calendar.DAY_OF_YEAR, 1);
+//                     }
                   }
                   else
                   {
@@ -718,7 +718,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                }
             }
 
-            LocalTimeHelper.setTime(cal, endTime);
+            LocalTimeHelper.setEndTime(cal, endTime);
          }
       }
 
@@ -852,7 +852,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             finishTime = LocalTimeHelper.getLocalTime(getFinishTime(cal.getTime()));
          }
 
-         LocalTimeHelper.setTime(cal, finishTime);
+         LocalTimeHelper.setEndTime(cal, finishTime);
       }
    }
 
