@@ -46,29 +46,9 @@ public final class TimeRange implements Comparable<TimeRange>
       m_endAsLocalTime = end;
       m_startAsDate = LocalTimeHelper.getDate(start);
       m_endAsDate = end == LocalTime.MIDNIGHT ? LocalTimeHelper.RANGE_END_MIDNIGHT : LocalTimeHelper.getDate(end);
-      m_startAsMilliseconds = start == null ? 0 : start.toSecondOfDay() * 1000L;
-      m_endAsMilliseconds = end == null ? 0 : (end == LocalTime.MIDNIGHT ? LocalTimeHelper.RANGE_END_MIDNIGHT.getTime() - LocalTimeHelper.RANGE_START_MIDNIGHT.getTime() : end.toSecondOfDay() * 1000L);
-      m_durationAsMilliseconds = m_endAsMilliseconds - m_startAsMilliseconds;
-   }
-
-   /**
-    * Retrieve the date at the start of the range.
-    *
-    * @return start date
-    */
-   public Date getStartAsDate()
-   {
-      return m_startAsDate;
-   }
-
-   /**
-    * Retrieve the date at the end of the range.
-    *
-    * @return end date
-    */
-   public Date getEndAsDate()
-   {
-      return m_endAsDate;
+      long startAsMilliseconds = start == null ? 0 : start.toSecondOfDay() * 1000L;
+      long endAsMilliseconds = end == null ? 0 : (end == LocalTime.MIDNIGHT ? LocalTimeHelper.RANGE_END_MIDNIGHT.getTime() - LocalTimeHelper.RANGE_START_MIDNIGHT.getTime() : end.toSecondOfDay() * 1000L);
+      m_durationAsMilliseconds = endAsMilliseconds - startAsMilliseconds;
    }
 
    public LocalTime getStartAsLocalTime()
@@ -139,7 +119,5 @@ public final class TimeRange implements Comparable<TimeRange>
    private final Date m_endAsDate;
    private final LocalTime m_startAsLocalTime;
    private final LocalTime m_endAsLocalTime;
-   private final long m_startAsMilliseconds;
-   private final long m_endAsMilliseconds;
    private final long m_durationAsMilliseconds;
 }
