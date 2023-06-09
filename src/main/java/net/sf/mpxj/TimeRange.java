@@ -24,9 +24,7 @@
 package net.sf.mpxj;
 
 import java.time.LocalTime;
-import java.util.Date;
 
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 
 /**
@@ -44,8 +42,6 @@ public final class TimeRange implements Comparable<TimeRange>
    {
       m_startAsLocalTime = start;
       m_endAsLocalTime = end;
-      m_startAsDate = LocalTimeHelper.getDate(start);
-      m_endAsDate = end == LocalTime.MIDNIGHT ? LocalTimeHelper.RANGE_END_MIDNIGHT : LocalTimeHelper.getDate(end);
       long startSeconds = start == null ? 0 : start.toSecondOfDay();
       long endSeconds = end == null ? 0 : (end == LocalTime.MIDNIGHT ? 24 * 60 * 60 : end.toSecondOfDay());
       m_durationAsMilliseconds = (endSeconds - startSeconds) * 1000L;
@@ -89,20 +85,18 @@ public final class TimeRange implements Comparable<TimeRange>
 
    @Override public int hashCode()
    {
-      long start = m_startAsDate == null ? 0 : m_startAsDate.getTime();
-      long end = m_endAsDate == null ? 0 : m_endAsDate.getTime();
+      long start = m_startAsLocalTime == null ? 0 : m_startAsLocalTime.toNanoOfDay();
+      long end = m_endAsLocalTime == null ? 0 : m_endAsLocalTime.toNanoOfDay();
       return ((int) start ^ (int) (start >> 32)) ^ ((int) end ^ (int) (end >> 32));
    }
 
    @Override public String toString()
    {
-      return ("[DateRange start=" + m_startAsDate + " end=" + m_endAsDate + "]");
+      return ("[DateRange start=" + m_startAsLocalTime + " end=" + m_endAsLocalTime + "]");
    }
 
    public static final TimeRange EMPTY_RANGE = new TimeRange(null, null);
 
-   private final Date m_startAsDate;
-   private final Date m_endAsDate;
    private final LocalTime m_startAsLocalTime;
    private final LocalTime m_endAsLocalTime;
    private final long m_durationAsMilliseconds;
