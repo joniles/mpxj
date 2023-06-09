@@ -66,26 +66,12 @@ public final class TimeRange implements Comparable<TimeRange>
       return m_durationAsMilliseconds;
    }
 
-   /**
-    * This method compares a target date with a date range. The method will
-    * return 0 if the date is within the range, less than zero if the date
-    * is before the range starts, and greater than zero if the date is after
-    * the range ends.
-    *
-    * @param date target date
-    * @return comparison result
-    */
-   public int compareTo(Date date)
-   {
-      return DateHelper.compare(m_startAsDate, m_endAsDate, date);
-   }
-
    @Override public int compareTo(TimeRange o)
    {
-      int result = DateHelper.compare(m_startAsDate, o.m_startAsDate);
+      int result = LocalTimeHelper.compare(m_startAsLocalTime, o.m_startAsLocalTime);
       if (result == 0)
       {
-         result = DateHelper.compare(m_endAsDate, o.m_endAsDate);
+         result = Long.compare(m_durationAsMilliseconds, o.m_durationAsMilliseconds);
       }
       return result;
    }
