@@ -1674,34 +1674,21 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    private long getTotalTime(ProjectCalendarHours hours, Date startDate, Date endDate)
    {
-      long total = 0;
-      if (startDate.getTime() != endDate.getTime())
+      if (startDate.getTime() == endDate.getTime())
       {
-         Date start = DateHelper.getCanonicalTime(startDate);
-         Date end = DateHelper.getCanonicalTime(endDate);
-
-         for (TimeRange range : hours)
-         {
-            Date rangeStart = range.getStartAsDate();
-            Date rangeEnd = range.getEndAsDate();
-            if (rangeStart != null && rangeEnd != null)
-            {
-               Date canoncialRangeStart = DateHelper.getCanonicalTime(rangeStart);
-               Date canonicalRangeEnd = DateHelper.getCanonicalEndTime(rangeStart, rangeEnd);
-
-               if (canoncialRangeStart.getTime() == canonicalRangeEnd.getTime() && rangeEnd.getTime() > rangeStart.getTime())
-               {
-                  total += (24 * 60 * 60 * 1000);
-               }
-               else
-               {
-                  total += getTime(start, end, canoncialRangeStart, canonicalRangeEnd);
-               }
-            }
-         }
+         return 0;
       }
 
-      return (total);
+      long total = 0;
+      LocalTime start = LocalTimeHelper.getLocalTime(startDate);
+      LocalTime end = LocalTimeHelper.getLocalTime(endDate);
+
+      for (TimeRange range : hours)
+      {
+         total += getTime(start, end, range.getStartAsLocalTime(), range.getEndAsLocalTime());
+      }
+      
+      return total;
    }
 
    /**
@@ -1747,26 +1734,38 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param end2 end of second range
     * @return overlapping time in milliseconds
     */
-   private long getTime(Date start1, Date end1, Date start2, Date end2)
+   private long getTime(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2)
    {
-      long total = 0;
-
-      if (start1 != null && end1 != null && start2 != null && end2 != null)
+      if (start1 == null || end1 == null || start2 == null || end2 == null)
       {
-         long start;
-         long end;
+         return 0;
+      }
 
-         start = Math.max(start1.getTime(), start2.getTime());
+      LocalTime maxStart = start1.isAfter(start2) ? start1 : start2;
 
-         end = Math.min(end1.getTime(), end2.getTime());
-
-         if (start < end)
+      LocalTime minEnd;
+      if (end1 == LocalTime.MIDNIGHT && end2 != LocalTime.MIDNIGHT)
+      {
+         minEnd = end2;
+      }
+      else
+      {
+         if (end1 != LocalTime.MIDNIGHT && end2 == LocalTime.MIDNIGHT)
          {
-            total = end - start;
+            minEnd = end1;
+         }
+         else
+         {
+            minEnd = end1.isBefore(end2) ? end1 : end2;
          }
       }
 
-      return (total);
+      if (minEnd == LocalTime.MIDNIGHT || maxStart.isBefore(minEnd))
+      {
+         return  LocalTimeHelper.getMillisecondsInRange(maxStart, minEnd);
+      }
+
+      return 0;
    }
 
    /**
