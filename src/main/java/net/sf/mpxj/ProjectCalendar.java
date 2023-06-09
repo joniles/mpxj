@@ -1642,11 +1642,17 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    private long getTotalTime(ProjectCalendarHours hours, Date date)
    {
-      long currentTime = DateHelper.getCanonicalTime(date).getTime();
+      //long currentTime = DateHelper.getCanonicalTime(date).getTime();
+      LocalTime currentTimeAsLocalTime = LocalTimeHelper.getLocalTime(date);
+
       long total = 0;
       for (TimeRange range : hours)
       {
-         total += getTime(range.getStartAsDate(), range.getEndAsDate(), currentTime);
+         //total += getTime(range.getStartAsDate(), range.getEndAsDate(), currentTime);
+         if (range.getEndAsLocalTime() == LocalTime.MIDNIGHT || !currentTimeAsLocalTime.isAfter(range.getEndAsLocalTime()))
+         {
+            total += getTime(range.getStartAsLocalTime(), range.getEndAsLocalTime(), currentTimeAsLocalTime, range.getEndAsLocalTime());
+         }
       }
       return total;
    }
