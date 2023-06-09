@@ -1432,7 +1432,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             endDate = temp;
          }
 
-
          if (DateHelper.isSameDay(startDate, endDate))
          {
             ProjectCalendarHours ranges = getRanges(startDate, null, null);
@@ -1443,7 +1442,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
          else
          {
-            //Date canonicalStartDate = DateHelper.getDayStartDate(startDate);
             Date canonicalEndDate = DateHelper.getDayStartDate(endDate);
 
             //
@@ -1466,15 +1464,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                // the date alone to preserve the start time. If we have moved past
                // the start date to find the first working day, reset the time
                // of day to ensure that we use all working hours on this day.
-               if (currentDate.getTime() != startDate.getTime())
-               {
-                  currentDate = DateHelper.getDayStartDate(currentDate);
-               }
+               LocalTime targetTime = currentDate.getTime() == startDate.getTime() ? LocalTimeHelper.getLocalTime(currentDate) : LocalTime.of(0,0);
 
                //
                // Calculate the amount of working time for this day
                //
-               totalTime += getTotalTime(getRanges(currentDate, null, day), currentDate);
+               totalTime += getTotalTime(getRanges(currentDate, null, day), targetTime);
 
                //
                // Process each working day until we reach the last day
@@ -1637,21 +1632,17 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * before or after an intersection point.
     *
     * @param hours calendar hours
-    * @param date intersection time
+    * @param targetTime intersection time
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarHours hours, Date date)
+   private long getTotalTime(ProjectCalendarHours hours, LocalTime targetTime)
    {
-      //long currentTime = DateHelper.getCanonicalTime(date).getTime();
-      LocalTime currentTimeAsLocalTime = LocalTimeHelper.getLocalTime(date);
-
       long total = 0;
       for (TimeRange range : hours)
       {
-         //total += getTime(range.getStartAsDate(), range.getEndAsDate(), currentTime);
-         if (range.getEndAsLocalTime() == LocalTime.MIDNIGHT || !currentTimeAsLocalTime.isAfter(range.getEndAsLocalTime()))
+         if (range.getEndAsLocalTime() == LocalTime.MIDNIGHT || !targetTime.isAfter(range.getEndAsLocalTime()))
          {
-            total += getTime(range.getStartAsLocalTime(), range.getEndAsLocalTime(), currentTimeAsLocalTime, range.getEndAsLocalTime());
+            total += getTime(range.getStartAsLocalTime(), range.getEndAsLocalTime(), targetTime, range.getEndAsLocalTime());
          }
       }
       return total;
@@ -1692,39 +1683,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          total += getTime(start, end, range.getStartAsLocalTime(), range.getEndAsLocalTime());
       }
 
-      return total;
-   }
-
-   /**
-    * Calculates how much of a time range is before or after a
-    * target intersection point.
-    *
-    * @param start time range start
-    * @param end time range end
-    * @param target target intersection point
-    * @return length of time in milliseconds
-    */
-   private long getTime(Date start, Date end, long target)
-   {
-      long total = 0;
-      if (start != null && end != null)
-      {
-         Date startTime = DateHelper.getCanonicalTime(start);
-         Date endTime = DateHelper.getCanonicalEndTime(start, end);
-
-         int diff = DateHelper.compare(startTime, endTime, target);
-         if (diff == 0)
-         {
-            total = (endTime.getTime() - target);
-         }
-         else
-         {
-            if (diff < 0)
-            {
-               total = (endTime.getTime() - startTime.getTime());
-            }
-         }
-      }
       return total;
    }
 
