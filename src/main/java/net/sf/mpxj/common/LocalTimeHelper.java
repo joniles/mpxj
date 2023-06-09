@@ -84,6 +84,20 @@ public class LocalTimeHelper
       return 0;
    }
 
+   public static Date setTime(Date date, LocalTime time)
+   {
+      if (time == null)
+      {
+         return date;
+      }
+
+      Calendar cal = DateHelper.popCalendar(date);
+      setTime(cal, time);
+      Date result = cal.getTime();
+      DateHelper.pushCalendar(cal);
+      return result;
+   }
+
    public static void setTime(Calendar cal, LocalTime time)
    {
       if (time != null)

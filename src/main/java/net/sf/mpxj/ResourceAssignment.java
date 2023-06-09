@@ -41,6 +41,7 @@ import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -1085,7 +1086,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    {
       TimephasedCost cost = new TimephasedCost();
       ProjectCalendarHours hours = calendar.getHours(finish);
-      cost.setStart(hours.get(0).getStartAsDate());
+      cost.setStart(LocalTimeHelper.setTime(finish, hours.get(0).getStartAsLocalTime()));
       cost.setFinish(finish);
       cost.setAmountPerDay(Double.valueOf(totalAmount));
       cost.setTotalAmount(Double.valueOf(totalAmount));
