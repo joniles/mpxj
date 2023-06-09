@@ -94,6 +94,16 @@ public class LocalTimeHelper
       }
    }
 
+   public static long getMillisecondsInRange(LocalTime rangeStart, LocalTime rangeEnd)
+   {
+      if (rangeStart == null || rangeEnd == null)
+      {
+         return 0;
+      }
+
+      return rangeEnd == LocalTime.MIDNIGHT ? DateHelper.MS_PER_DAY - (rangeStart.toSecondOfDay() * 1000L) : (rangeEnd.toSecondOfDay() - rangeStart.toSecondOfDay()) * 1000L;
+   }
+
    public static final Date RANGE_START_MIDNIGHT;
    static
    {

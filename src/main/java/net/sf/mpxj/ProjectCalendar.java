@@ -694,7 +694,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                }
                firstRange = false;
 
-               long rangeMilliseconds = rangeEnd == LocalTime.MIDNIGHT ? DateHelper.MS_PER_DAY - (rangeStart.toSecondOfDay() * 1000L) : (rangeEnd.toSecondOfDay() - rangeStart.toSecondOfDay()) * 1000L;
+               long rangeMilliseconds = LocalTimeHelper.getMillisecondsInRange(rangeStart, rangeEnd);
                if (remainingMilliseconds > rangeMilliseconds)
                {
                   remainingMilliseconds -= rangeMilliseconds;
