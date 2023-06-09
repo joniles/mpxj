@@ -34,6 +34,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 
 /**
  * Normalise timephased resource assignment data from an MPP file.
@@ -186,8 +187,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          double splitMinutes;
          if (calendar.isWorkingDate(assignmentStart))
          {
-            Date splitFinishTime = calendar.getFinishTime(assignmentStart);
-            splitFinish = DateHelper.setTime(assignmentStart, splitFinishTime);
+            splitFinish = LocalTimeHelper.setEndTime(assignmentStart, calendar.getFinishTime(assignmentStart));
 
             Duration calendarSplitWork = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES);
             Duration assignmentWorkPerDay = assignment.getAmountPerDay();
@@ -255,9 +255,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     */
    private Duration getAssignmentWork(ProjectCalendar calendar, TimephasedWork assignment)
    {
-
-      Date splitFinishTime = calendar.getFinishTime(assignment.getStart());
-      Date splitFinish = DateHelper.setTime(assignment.getStart(), splitFinishTime);
+      Date splitFinish = LocalTimeHelper.setEndTime(assignment.getStart(), calendar.getFinishTime(assignment.getStart()));
 
       Duration calendarSplitWork = calendar.getWork(assignment.getStart(), splitFinish, TimeUnit.MINUTES);
       Duration assignmentWorkPerDay = assignment.getAmountPerDay();

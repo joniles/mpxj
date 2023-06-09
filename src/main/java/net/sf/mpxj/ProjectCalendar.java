@@ -549,7 +549,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date Date instance
     * @return finish time, or null for non-working day
     */
-   public Date getFinishTime(Date date)
+   public LocalTime getFinishTime(Date date)
    {
       if (date == null)
       {
@@ -562,7 +562,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          return null;
       }
 
-      return ranges.get(ranges.size() - 1).getEndAsDate();
+      return ranges.get(ranges.size() - 1).getEndAsLocalTime();
    }
 
    /**
@@ -849,7 +849,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             }
             while (!isWorkingDate(cal.getTime(), day));
 
-            finishTime = LocalTimeHelper.getLocalTime(getFinishTime(cal.getTime()));
+            finishTime = getFinishTime(cal.getTime());
          }
 
          LocalTimeHelper.setEndTime(cal, finishTime);

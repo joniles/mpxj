@@ -2305,8 +2305,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
             result.add(assignment);
 
-            Date endTime = calendar.getFinishTime(startDay);
-            Date currentFinish = DateHelper.setTime(startDay, endTime);
+            Date currentFinish = LocalTimeHelper.setEndTime(startDay, calendar.getFinishTime(startDay));
             if (finishDate.getTime() < currentFinish.getTime())
             {
                boolean paddingRequired = true;
@@ -2348,8 +2347,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             {
                if (isWorking)
                {
-                  Date endTime = calendar.getFinishTime(currentStart);
-                  Date currentFinish = DateHelper.setTime(currentStart, endTime);
+                  Date currentFinish = LocalTimeHelper.setEndTime(currentStart, calendar.getFinishTime(currentStart));
                   if (currentFinish.getTime() > finishDate.getTime())
                   {
                      currentFinish = finishDate;
@@ -2409,8 +2407,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
             result.add(assignment);
 
-            Date endTime = calendar.getFinishTime(startDay);
-            Date currentFinish = DateHelper.setTime(startDay, endTime);
+            Date currentFinish = LocalTimeHelper.setEndTime(startDay, calendar.getFinishTime(startDay));
             if (finishDate.getTime() < currentFinish.getTime())
             {
                TimephasedCost padding = new TimephasedCost();
@@ -2429,8 +2426,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             {
                if (isWorking)
                {
-                  Date endTime = calendar.getFinishTime(currentStart);
-                  Date currentFinish = DateHelper.setTime(currentStart, endTime);
+                  Date currentFinish = LocalTimeHelper.setEndTime(currentStart, calendar.getFinishTime(currentStart));
                   if (currentFinish.getTime() > finishDate.getTime())
                   {
                      currentFinish = finishDate;

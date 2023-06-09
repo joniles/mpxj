@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mspdi;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -168,8 +169,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          double splitMinutes;
          if (calendar.isWorkingDate(assignmentStart))
          {
-            Date splitFinishTime = calendar.getFinishTime(assignmentStart);
-            splitFinish = DateHelper.setTime(assignmentStart, splitFinishTime);
+            splitFinish = LocalTimeHelper.setEndTime(assignmentStart, calendar.getFinishTime(assignmentStart));
             splitMinutes = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES).getDuration();
 
             splitMinutes *= assignmentWork.getDuration();
@@ -301,28 +301,28 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
    {
       for (TimephasedWork assignment : list)
       {
-         Date assignmentStart = assignment.getStart();
-         Date calendarStartTime = LocalTimeHelper.getDate(calendar.getStartTime(assignmentStart));
-         Date assignmentStartTime = DateHelper.getCanonicalTime(assignmentStart);
-         Date assignmentFinish = assignment.getFinish();
-         Date calendarFinishTime = calendar.getFinishTime(assignmentFinish);
-         Date assignmentFinishTime = DateHelper.getCanonicalTime(assignmentFinish);
          double totalWork = assignment.getTotalAmount().getDuration();
 
+         Date assignmentStart = assignment.getStart();
+         LocalTime calendarStartTime = calendar.getStartTime(assignmentStart);
+         LocalTime assignmentStartTime = LocalTimeHelper.getLocalTime(assignmentStart);
          if (assignmentStartTime != null && calendarStartTime != null)
          {
-            if ((totalWork == 0 && assignmentStartTime.getTime() != calendarStartTime.getTime()) || (assignmentStartTime.getTime() < calendarStartTime.getTime()))
+            if ((totalWork == 0 && !assignmentStartTime.equals(calendarStartTime)) || (assignmentStartTime.isBefore(calendarStartTime)))
             {
-               assignmentStart = DateHelper.setTime(assignmentStart, calendarStartTime);
+               assignmentStart = LocalTimeHelper.setTime(assignmentStart, calendarStartTime);
                assignment.setStart(assignmentStart);
             }
          }
 
+         Date assignmentFinish = assignment.getFinish();
+         LocalTime calendarFinishTime = calendar.getFinishTime(assignmentFinish);
+         LocalTime assignmentFinishTime = LocalTimeHelper.getLocalTime(assignmentFinish);
          if (assignmentFinishTime != null && calendarFinishTime != null)
          {
-            if ((totalWork == 0 && assignmentFinishTime.getTime() != calendarFinishTime.getTime()) || (assignmentFinishTime.getTime() > calendarFinishTime.getTime()))
+            if ((totalWork == 0 && !assignmentFinishTime.equals(calendarFinishTime)) || (calendarFinishTime != LocalTime.MIDNIGHT && assignmentFinishTime.isAfter(calendarFinishTime)))
             {
-               assignmentFinish = DateHelper.setTime(assignmentFinish, calendarFinishTime);
+               assignmentFinish = LocalTimeHelper.setEndTime(assignmentFinish, calendarFinishTime);
                assignment.setFinish(assignmentFinish);
             }
          }

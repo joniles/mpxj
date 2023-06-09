@@ -33,6 +33,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.TimephasedNormaliser;
 
@@ -150,8 +151,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
          double splitCost;
          if (calendar.isWorkingDate(assignmentStart))
          {
-            Date splitFinishTime = calendar.getFinishTime(assignmentStart);
-            splitFinish = DateHelper.setTime(assignmentStart, splitFinishTime);
+            splitFinish = LocalTimeHelper.setEndTime(assignmentStart, calendar.getFinishTime(assignmentStart));
             Duration calendarSplitWork = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES);
             splitCost = (assignment.getTotalAmount().doubleValue() * calendarSplitWork.getDuration()) / calendarWork.getDuration();
 
