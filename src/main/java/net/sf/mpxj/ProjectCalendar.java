@@ -1432,10 +1432,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             endDate = temp;
          }
 
-         Date canonicalStartDate = DateHelper.getDayStartDate(startDate);
-         Date canonicalEndDate = DateHelper.getDayStartDate(endDate);
 
-         if (canonicalStartDate.getTime() == canonicalEndDate.getTime())
+         if (DateHelper.isSameDay(startDate, endDate))
          {
             ProjectCalendarHours ranges = getRanges(startDate, null, null);
             if (ranges.size() != 0)
@@ -1445,6 +1443,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
          else
          {
+            //Date canonicalStartDate = DateHelper.getDayStartDate(startDate);
+            Date canonicalEndDate = DateHelper.getDayStartDate(endDate);
+
             //
             // Find the first working day in the range
             //
