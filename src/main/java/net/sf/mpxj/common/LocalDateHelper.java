@@ -26,7 +26,14 @@ public final class LocalDateHelper
       }
 
       Calendar cal = DateHelper.popCalendar();
-      cal.set(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), 0, 0, 0);
+      cal.set(Calendar.YEAR, date.getYear());
+      cal.set(Calendar.MONTH, date.getMonthValue()-1);
+      cal.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
+      cal.set(Calendar.HOUR_OF_DAY, 0);
+      cal.set(Calendar.MINUTE, 0);
+      cal.set(Calendar.SECOND, 0);
+      cal.set(Calendar.MILLISECOND, 0);
+      //cal.set(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), 0, 0, 0);
       Date result = cal.getTime();
       DateHelper.pushCalendar(cal);
       return result;
