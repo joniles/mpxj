@@ -23,11 +23,13 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -87,7 +89,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     */
    public Date getFromDate()
    {
-      return m_recurring == null ? m_fromDate : m_recurring.getCalculatedFirstDate();
+      return m_recurring == null ? m_fromDate : LocalDateHelper.getDate(m_recurring.getCalculatedFirstDate());
    }
 
    /**
@@ -97,7 +99,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     */
    public Date getToDate()
    {
-      return m_recurring == null ? m_toDate : DateHelper.getDayEndDate(m_recurring.getCalculatedLastDate());
+      return m_recurring == null ? m_toDate : DateHelper.getDayEndDate(LocalDateHelper.getDate(m_recurring.getCalculatedLastDate()));
    }
 
    /**
@@ -142,10 +144,11 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
       }
       else
       {
-         for (Date date : m_recurring.getDates())
+         for (LocalDate date : m_recurring.getDates())
          {
-            Date startDate = DateHelper.getDayStartDate(date);
-            Date endDate = DateHelper.getDayEndDate(date);
+            Date exceptionDate = LocalDateHelper.getDate(date);
+            Date startDate = DateHelper.getDayStartDate(exceptionDate);
+            Date endDate = DateHelper.getDayEndDate(exceptionDate);
             ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
             int rangeCount = size();
             for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)

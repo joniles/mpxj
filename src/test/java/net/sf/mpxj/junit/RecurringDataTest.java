@@ -28,8 +28,11 @@ import static org.junit.Assert.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import net.sf.mpxj.common.LocalDateHelper;
 import org.junit.Test;
 
 import net.sf.mpxj.Day;
@@ -209,7 +212,7 @@ public class RecurringDataTest
       //
       // First validate that the date sequence bounded by occurrences matches the expected data
       //
-      Date[] dates = data.getDates();
+      LocalDate[] dates = data.getDates();
 
       assertEquals(expectedDates.length, dates.length);
       for (int index = 0; index < expectedDates.length; index++)
@@ -222,7 +225,7 @@ public class RecurringDataTest
       //
       Integer occurrences = data.getOccurrences();
       data.setOccurrences(null);
-      data.setFinishDate(m_df.parse(expectedDates[expectedDates.length - 1]));
+      data.setFinishDate(LocalDateHelper.getDate(LocalDate.parse(expectedDates[expectedDates.length - 1], m_df)));
 
       dates = data.getDates();
 
@@ -235,5 +238,5 @@ public class RecurringDataTest
       data.setFinishDate(null);
    }
 
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 }

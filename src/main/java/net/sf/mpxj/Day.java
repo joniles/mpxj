@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.time.DayOfWeek;
+
 import net.sf.mpxj.common.EnumHelper;
 
 /**
@@ -94,6 +96,11 @@ public enum Day implements MpxjEnum
          result = TYPE_VALUES[type];
       }
       return result;
+   }
+
+   public static Day getInstance(DayOfWeek day)
+   {
+      return getInstance(day.getValue() == 7 ? 1 : day.getValue() + 1);
    }
 
    /**
