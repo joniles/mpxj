@@ -120,7 +120,7 @@ class ProjectCalendarStructuredTextWriter
                continue;
             }
 
-            long dateValue = (long) Math.ceil((double) (DateHelper.getLongFromDate(exception.getFromDate()) - PrimaveraReader.EXCEPTION_EPOCH) / DateHelper.MS_PER_DAY);
+            long dateValue = (long) Math.ceil((double) (DateHelper.getLongFromDate(exceptionDate) - PrimaveraReader.EXCEPTION_EPOCH) / DateHelper.MS_PER_DAY);
 
             StructuredTextRecord exceptionRecord = new StructuredTextRecord();
             exceptionsRecord.addChild(exceptionRecord);
