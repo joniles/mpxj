@@ -20,6 +20,11 @@ public final class LocalDateHelper
 
    public static Date getDate(LocalDate date)
    {
+      if (date == null)
+      {
+         return null;
+      }
+
       Calendar cal = DateHelper.popCalendar();
       cal.set(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), 0, 0, 0);
       Date result = cal.getTime();

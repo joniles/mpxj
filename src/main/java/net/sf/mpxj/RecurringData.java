@@ -642,7 +642,7 @@ public class RecurringData
     */
    private void getYearlyRelativeDates(List<LocalDate> dates)
    {
-      LocalDate date = LocalDate.of(m_startDate.getYear(), NumberHelper.getInt(m_monthNumber) - 1, 1);
+      LocalDate date = LocalDate.of(m_startDate.getYear(), NumberHelper.getInt(m_monthNumber), 1);
 
       int dayNumber = NumberHelper.getInt(m_dayNumber);
       while (moreDates(date, dates))
@@ -676,7 +676,7 @@ public class RecurringData
     */
    private void getYearlyAbsoluteDates(List<LocalDate> dates)
    {
-      LocalDate date = LocalDate.of(m_startDate.getYear(), NumberHelper.getInt(m_monthNumber) - 1, 1);
+      LocalDate date = LocalDate.of(m_startDate.getYear(), NumberHelper.getInt(m_monthNumber), 1);
       int requiredDayNumber = NumberHelper.getInt(m_dayNumber);
 
       while (moreDates(date, dates))
