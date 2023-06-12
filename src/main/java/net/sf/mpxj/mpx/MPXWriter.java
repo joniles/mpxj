@@ -69,6 +69,7 @@ import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
@@ -486,9 +487,9 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(MPXConstants.RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER);
       }
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDate(record.getFromDate())));
+      m_buffer.append(format(formatDate(LocalDateHelper.getDate(record.getFromDate()))));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDate(record.getToDate())));
+      m_buffer.append(format(formatDate(LocalDateHelper.getDate(record.getToDate()))));
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getWorking() ? "1" : "0");
       m_buffer.append(m_delimiter);

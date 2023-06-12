@@ -45,7 +45,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     * @param fromDate exception start date
     * @param toDate exception end date
     */
-   ProjectCalendarException(Date fromDate, Date toDate)
+   ProjectCalendarException(LocalDate fromDate, LocalDate toDate)
    {
       this(fromDate, toDate, null);
    }
@@ -55,10 +55,10 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
       this(null, null, recurringData);
    }
 
-   ProjectCalendarException(Date fromDate, Date toDate, RecurringData recurringData)
+   ProjectCalendarException(LocalDate fromDate, LocalDate toDate, RecurringData recurringData)
    {
-      m_fromDate = DateHelper.getDayStartDate(fromDate);
-      m_toDate = DateHelper.getDayEndDate(toDate);
+      m_fromDate = fromDate;
+      m_toDate = toDate;
       m_recurring = recurringData;
    }
 
@@ -87,9 +87,9 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     *
     * @return Date
     */
-   public Date getFromDate()
+   public LocalDate getFromDate()
    {
-      return m_recurring == null ? m_fromDate : LocalDateHelper.getDate(m_recurring.getCalculatedFirstDate());
+      return m_recurring == null ? m_fromDate : m_recurring.getCalculatedFirstDate();
    }
 
    /**
@@ -97,9 +97,9 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     *
     * @return Date
     */
-   public Date getToDate()
+   public LocalDate getToDate()
    {
-      return m_recurring == null ? m_toDate : DateHelper.getDayEndDate(LocalDateHelper.getDate(m_recurring.getCalculatedLastDate()));
+      return m_recurring == null ? m_toDate : m_recurring.getCalculatedLastDate();
    }
 
    /**
@@ -146,10 +146,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
       {
          for (LocalDate date : m_recurring.getDates())
          {
-            Date exceptionDate = LocalDateHelper.getDate(date);
-            Date startDate = DateHelper.getDayStartDate(exceptionDate);
-            Date endDate = DateHelper.getDayEndDate(exceptionDate);
-            ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
+            ProjectCalendarException newException = new ProjectCalendarException(date, date);
             int rangeCount = size();
             for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
             {
@@ -176,7 +173,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
 
       if (date != null)
       {
-         result = (DateHelper.compare(getFromDate(), getToDate(), date) == 0);
+         result = (LocalDateHelper.compare(getFromDate(), getToDate(), LocalDateHelper.getLocalDate(date)) == 0);
       }
 
       return result;
@@ -190,7 +187,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     */
    public boolean contains(ProjectCalendarException exception)
    {
-      return !(DateHelper.compare(getToDate(), exception.getFromDate()) < 0 || DateHelper.compare(exception.getToDate(), getFromDate()) < 0);
+      return !(LocalDateHelper.compare(getToDate(), exception.getFromDate()) < 0 || LocalDateHelper.compare(exception.getToDate(), getFromDate()) < 0);
    }
 
    /**
@@ -206,9 +203,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
 
    @Override public int compareTo(ProjectCalendarException o)
    {
-      long fromTime1 = getFromDate().getTime();
-      long fromTime2 = o.getFromDate().getTime();
-      return (Long.compare(fromTime1, fromTime2));
+      return getFromDate().compareTo(o.getFromDate());
    }
 
    @Override public String toString()
@@ -240,8 +235,8 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
       return (sb.toString());
    }
 
-   private final Date m_fromDate;
-   private final Date m_toDate;
+   private final LocalDate m_fromDate;
+   private final LocalDate m_toDate;
    private final RecurringData m_recurring;
    private String m_name;
 }

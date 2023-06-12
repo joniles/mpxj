@@ -25,6 +25,7 @@ package net.sf.mpxj.turboproject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -54,6 +55,7 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -239,7 +241,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
             break;
          }
 
-         Date date = row.getDate("DATE");
+         LocalDate date = LocalDateHelper.getLocalDate(row.getDate("DATE"));
          ProjectCalendarException exception = calendar.addCalendarException(date);
          if (row.getBoolean("WORKING"))
          {

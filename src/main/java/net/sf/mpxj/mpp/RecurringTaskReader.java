@@ -28,6 +28,7 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.common.LocalDateHelper;
 
 /**
  * This class allows recurring task definitions to be read from an MPP file.
@@ -53,8 +54,8 @@ final class RecurringTaskReader
    public void processRecurringTask(Task task, byte[] data)
    {
       RecurringTask rt = task.addRecurringTask();
-      rt.setStartDate(MPPUtility.getDate(data, 6));
-      rt.setFinishDate(MPPUtility.getDate(data, 10));
+      rt.setStartDate(LocalDateHelper.getLocalDate(MPPUtility.getDate(data, 6)));
+      rt.setFinishDate(LocalDateHelper.getLocalDate(MPPUtility.getDate(data, 10)));
       rt.setDuration(MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(data, 12), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 16))));
       rt.setOccurrences(Integer.valueOf(MPPUtility.getShort(data, 18)));
       rt.setRecurrenceType(RecurrenceType.getInstance(MPPUtility.getShort(data, 20)));
@@ -145,7 +146,7 @@ final class RecurringTaskReader
 
       if (dateOffset != 0)
       {
-         rt.setYearlyAbsoluteFromDate(MPPUtility.getDate(data, dateOffset));
+         rt.setYearlyAbsoluteFromDate(LocalDateHelper.getLocalDate(MPPUtility.getDate(data, dateOffset)));
       }
    }
 

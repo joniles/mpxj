@@ -93,6 +93,7 @@ import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldLists;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
@@ -725,8 +726,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod period = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayTimePeriod();
          day.setTimePeriod(period);
-         period.setFromDate(exception.getFromDate());
-         period.setToDate(exception.getToDate());
+         period.setFromDate(LocalDateHelper.getDate(exception.getFromDate()));
+         period.setToDate(LocalDateHelper.getDate(exception.getToDate()));
 
          if (working)
          {
@@ -789,8 +790,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          Project.Calendars.Calendar.Exceptions.Exception.TimePeriod period = m_factory.createProjectCalendarsCalendarExceptionsExceptionTimePeriod();
          ex.setTimePeriod(period);
-         period.setFromDate(exception.getFromDate());
-         period.setToDate(exception.getToDate());
+         period.setFromDate(LocalDateHelper.getDate(exception.getFromDate()));
+         period.setToDate(LocalDateHelper.getDate(exception.getToDate()));
 
          if (working)
          {
@@ -916,8 +917,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
             xmlWeek.setName(week.getName());
             TimePeriod xmlTimePeriod = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekTimePeriod();
             xmlWeek.setTimePeriod(xmlTimePeriod);
-            xmlTimePeriod.setFromDate(week.getDateRange().getStart());
-            xmlTimePeriod.setToDate(week.getDateRange().getEnd());
+            xmlTimePeriod.setFromDate(LocalDateHelper.getDate(week.getDateRange().getStart()));
+            xmlTimePeriod.setToDate(LocalDateHelper.getDate(week.getDateRange().getEnd()));
 
             WeekDays xmlWeekDays = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDays();
             xmlWeek.setWeekDays(xmlWeekDays);
@@ -2269,7 +2270,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Date finishDay = DateHelper.getDayStartDate(finishDate);
          if (startDay.getTime() == finishDay.getTime())
          {
-            Date currentStart = LocalTimeHelper.setTime(startDay, calendar.getStartTime(startDay));
+            Date currentStart = LocalTimeHelper.setTime(startDay, calendar.getStartTime(LocalDateHelper.getLocalDate(startDay)));
             if (startDate.getTime() > currentStart.getTime())
             {
                boolean paddingRequired = true;
@@ -2305,7 +2306,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
             result.add(assignment);
 
-            Date currentFinish = LocalTimeHelper.setEndTime(startDay, calendar.getFinishTime(startDay));
+            Date currentFinish = LocalTimeHelper.setEndTime(startDay, calendar.getFinishTime(LocalDateHelper.getLocalDate(startDay)));
             if (finishDate.getTime() < currentFinish.getTime())
             {
                boolean paddingRequired = true;
@@ -2342,12 +2343,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
          else
          {
             Date currentStart = startDate;
-            boolean isWorking = calendar.isWorkingDate(currentStart);
+            boolean isWorking = calendar.isWorkingDate(LocalDateHelper.getLocalDate(currentStart));
             while (currentStart.getTime() < finishDate.getTime())
             {
                if (isWorking)
                {
-                  Date currentFinish = LocalTimeHelper.setEndTime(currentStart, calendar.getFinishTime(currentStart));
+                  Date currentFinish = LocalTimeHelper.setEndTime(currentStart, calendar.getFinishTime(LocalDateHelper.getLocalDate(currentStart)));
                   if (currentFinish.getTime() > finishDate.getTime())
                   {
                      currentFinish = finishDate;
@@ -2364,10 +2365,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
                Calendar cal = DateHelper.popCalendar(currentStart);
                cal.add(Calendar.DAY_OF_YEAR, 1);
                currentStart = cal.getTime();
-               isWorking = calendar.isWorkingDate(currentStart);
+               isWorking = calendar.isWorkingDate(LocalDateHelper.getLocalDate(currentStart));
                if (isWorking)
                {
-                  LocalTimeHelper.setTime(cal, calendar.getStartTime(currentStart));
+                  LocalTimeHelper.setTime(cal, calendar.getStartTime(LocalDateHelper.getLocalDate(currentStart)));
                   currentStart = cal.getTime();
                }
                DateHelper.pushCalendar(cal);
@@ -2394,7 +2395,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Date finishDay = DateHelper.getDayStartDate(finishDate);
          if (startDay.getTime() == finishDay.getTime())
          {
-            Date currentStart = LocalTimeHelper.setTime(startDay, calendar.getStartTime(startDay));
+            Date currentStart = LocalTimeHelper.setTime(startDay, calendar.getStartTime(LocalDateHelper.getLocalDate(startDay)));
             if (startDate.getTime() > currentStart.getTime())
             {
                TimephasedCost padding = new TimephasedCost();
@@ -2407,7 +2408,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
             result.add(assignment);
 
-            Date currentFinish = LocalTimeHelper.setEndTime(startDay, calendar.getFinishTime(startDay));
+            Date currentFinish = LocalTimeHelper.setEndTime(startDay, calendar.getFinishTime(LocalDateHelper.getLocalDate(startDay)));
             if (finishDate.getTime() < currentFinish.getTime())
             {
                TimephasedCost padding = new TimephasedCost();
@@ -2421,12 +2422,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
          else
          {
             Date currentStart = startDate;
-            boolean isWorking = calendar.isWorkingDate(currentStart);
+            boolean isWorking = calendar.isWorkingDate(LocalDateHelper.getLocalDate(currentStart));
             while (currentStart.getTime() < finishDate.getTime())
             {
                if (isWorking)
                {
-                  Date currentFinish = LocalTimeHelper.setEndTime(currentStart, calendar.getFinishTime(currentStart));
+                  Date currentFinish = LocalTimeHelper.setEndTime(currentStart, calendar.getFinishTime(LocalDateHelper.getLocalDate(currentStart)));
                   if (currentFinish.getTime() > finishDate.getTime())
                   {
                      currentFinish = finishDate;
@@ -2443,10 +2444,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
                Calendar cal = DateHelper.popCalendar(currentStart);
                cal.add(Calendar.DAY_OF_YEAR, 1);
                currentStart = cal.getTime();
-               isWorking = calendar.isWorkingDate(currentStart);
+               isWorking = calendar.isWorkingDate(LocalDateHelper.getLocalDate(currentStart));
                if (isWorking)
                {
-                  LocalTimeHelper.setTime(cal, calendar.getStartTime(currentStart));
+                  LocalTimeHelper.setTime(cal, calendar.getStartTime(LocalDateHelper.getLocalDate(currentStart)));
                   currentStart = cal.getTime();
                }
                DateHelper.pushCalendar(cal);

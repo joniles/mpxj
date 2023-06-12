@@ -60,9 +60,9 @@ public class RecurringData
     *
     * @param val recurrence start date
     */
-   public void setStartDate(Date val)
+   public void setStartDate(LocalDate val)
    {
-      m_startDate = LocalDateHelper.getLocalDate(val);
+      m_startDate = val;
       clearDatesCache();
    }
 
@@ -81,9 +81,9 @@ public class RecurringData
     *
     * @param val recurrence finish date
     */
-   public void setFinishDate(Date val)
+   public void setFinishDate(LocalDate val)
    {
-      m_finishDate = LocalDateHelper.getLocalDate(val);
+      m_finishDate = val;
       clearDatesCache();
    }
 
@@ -549,7 +549,6 @@ public class RecurringData
    /**
     * Calculate start dates for a monthly relative recurrence.
     *
-    * @param calendar current date
     * @param frequency frequency
     * @param dates array of start dates
     */
@@ -776,14 +775,12 @@ public class RecurringData
     *
     * @param date yearly absolute date
     */
-   public void setYearlyAbsoluteFromDate(Date date)
+   public void setYearlyAbsoluteFromDate(LocalDate date)
    {
       if (date != null)
       {
-         Calendar cal = DateHelper.popCalendar(date);
-         m_dayNumber = Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH));
-         m_monthNumber = Integer.valueOf(cal.get(Calendar.MONTH) + 1);
-         DateHelper.pushCalendar(cal);
+         m_dayNumber = date.getDayOfMonth();
+         m_monthNumber = date.getMonthValue();
          clearDatesCache();
       }
    }

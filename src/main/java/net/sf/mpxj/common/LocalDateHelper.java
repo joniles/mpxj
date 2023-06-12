@@ -38,4 +38,30 @@ public final class LocalDateHelper
       DateHelper.pushCalendar(cal);
       return result;
    }
+
+   public static int compare(LocalDate d1, LocalDate d2)
+   {
+      if (d1 == null || d2 == null)
+      {
+         return d1 == d2 ? 0 : (d1 == null ? 1 : -1);
+      }
+      return d1.compareTo(d2);
+   }
+
+   public static int compare(LocalDate startDate, LocalDate endDate, LocalDate targetDate)
+   {
+      int result = 0;
+      if (targetDate.isBefore(startDate))
+      {
+         result = -1;
+      }
+      else
+      {
+         if (targetDate.isAfter(endDate))
+         {
+            result = 1;
+         }
+      }
+      return (result);
+   }
 }

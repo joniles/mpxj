@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -338,9 +339,9 @@ public final class PlannerWriter extends AbstractProjectWriter
       List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxjCalendar);
       for (ProjectCalendarException mpxjCalendarException : expandedExceptions)
       {
-         Date rangeStartDay = mpxjCalendarException.getFromDate();
-         Date rangeEndDay = mpxjCalendarException.getToDate();
-         if (DateHelper.getDayStartDate(rangeStartDay).getTime() == DateHelper.getDayEndDate(rangeEndDay).getTime())
+         LocalDate rangeStartDay = mpxjCalendarException.getFromDate();
+         LocalDate rangeEndDay = mpxjCalendarException.getToDate();
+         if (rangeStartDay.equals(rangeEndDay))
          {
             //
             // Exception covers a single day
@@ -356,19 +357,15 @@ public final class PlannerWriter extends AbstractProjectWriter
             //
             // Exception covers a range of days
             //
-            Calendar cal = DateHelper.popCalendar(rangeStartDay);
-
-            while (cal.getTime().getTime() < rangeEndDay.getTime())
+            while (rangeStartDay.isBefore(rangeEndDay))
             {
                net.sf.mpxj.planner.schema.Day day = m_factory.createDay();
                dayList.add(day);
                day.setType("day-type");
-               day.setDate(getDateString(cal.getTime()));
+               day.setDate(getDateString(rangeStartDay));
                day.setId(mpxjCalendarException.getWorking() ? "0" : "1");
-               cal.add(Calendar.DAY_OF_YEAR, 1);
+               rangeStartDay = rangeStartDay.plusDays(1);
             }
-
-            DateHelper.pushCalendar(cal);
          }
 
          /*
@@ -821,14 +818,9 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param value Java Date instance
     * @return Planner date
     */
-   private String getDateString(Date value)
+   private String getDateString(LocalDate value)
    {
-      Calendar cal = DateHelper.popCalendar(value);
-      int year = cal.get(Calendar.YEAR);
-      int month = cal.get(Calendar.MONTH) + 1;
-      int day = cal.get(Calendar.DAY_OF_MONTH);
-      DateHelper.pushCalendar(cal);
-      return m_fourDigitFormat.format(year) + m_twoDigitFormat.format(month) + m_twoDigitFormat.format(day);
+      return m_localDateFormat.format(value);
    }
 
    /**
@@ -1010,6 +1002,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
    private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HHmm");
+   private final DateTimeFormatter m_localDateFormat = DateTimeFormatter.ofPattern("yyMMdd");
 
    private static final Map<RelationType, String> RELATIONSHIP_TYPES = new HashMap<>();
    static

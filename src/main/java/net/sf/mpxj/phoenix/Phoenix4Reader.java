@@ -47,6 +47,7 @@ import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.SlackHelper;
 import org.xml.sax.SAXException;
 
@@ -302,11 +303,11 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       RecurringData data = new RecurringData();
       data.setRecurrenceType(type);
       data.setFrequency(nonWork.getInterval());
-      data.setStartDate(nonWork.getStart());
+      data.setStartDate(LocalDateHelper.getLocalDate(nonWork.getStart()));
       data.setUseEndDate(NumberHelper.getInt(nonWork.getCount()) == 0);
       if (data.getUseEndDate())
       {
-         data.setFinishDate(nonWork.getUntil());
+         data.setFinishDate(LocalDateHelper.getLocalDate(nonWork.getUntil()));
       }
       else
       {
@@ -325,7 +326,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
    {
       if (NumberHelper.getInt(nonWork.getCount()) == 1)
       {
-         mpxjCalendar.addCalendarException(nonWork.getStart());
+         mpxjCalendar.addCalendarException(LocalDateHelper.getLocalDate(nonWork.getStart()));
       }
       else
       {

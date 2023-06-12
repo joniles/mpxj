@@ -25,6 +25,7 @@ package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -321,7 +323,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date exception date
     * @return ProjectCalendarException instance
     */
-   public ProjectCalendarException addCalendarException(Date date)
+   public ProjectCalendarException addCalendarException(LocalDate date)
    {
       return addCalendarException(date, date, null);
    }
@@ -333,7 +335,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param toDate exception end date
     * @return ProjectCalendarException instance
     */
-   public ProjectCalendarException addCalendarException(Date fromDate, Date toDate)
+   public ProjectCalendarException addCalendarException(LocalDate fromDate, LocalDate toDate)
    {
       return addCalendarException(fromDate, toDate, null);
    }
@@ -357,7 +359,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param recurringData RecurringData instance used to define the exception occurrences
     * @return ProjectCalendarException instance
     */
-   private ProjectCalendarException addCalendarException(Date fromDate, Date toDate, RecurringData recurringData)
+   private ProjectCalendarException addCalendarException(LocalDate fromDate, LocalDate toDate, RecurringData recurringData)
    {
       ProjectCalendarException bce = new ProjectCalendarException(fromDate, toDate, recurringData);
       m_exceptions.add(bce);
@@ -496,7 +498,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
       while (days > 0)
       {
-         if (isWorkingDate(cal.getTime(), day))
+         if (isWorkingDate(LocalDateHelper.getLocalDate(cal.getTime()), day))
          {
             ++duration;
          }
@@ -517,7 +519,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date Date instance
     * @return start time, or null for non-working day
     */
-   public LocalTime getStartTime(Date date)
+   public LocalTime getStartTime(LocalDate date)
    {
       if (date == null)
       {
@@ -537,7 +539,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       }
 
       result = ranges.get(0).getStartAsLocalTime();
-      m_startTimeCache.put(new Date(date.getTime()), result);
+      m_startTimeCache.put(date, result);
 
       return result;
    }
@@ -549,7 +551,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date Date instance
     * @return finish time, or null for non-working day
     */
-   public LocalTime getFinishTime(Date date)
+   public LocalTime getFinishTime(LocalDate date)
    {
       if (date == null)
       {
@@ -642,12 +644,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   break;
                }
             }
-            while (!isWorkingDate(cal.getTime(), day));
+            while (!isWorkingDate(LocalDateHelper.getLocalDate(cal.getTime()), day));
 
             //
             // Retrieve the start time for this day
             //
-            LocalTimeHelper.setTime(cal, getStartTime(cal.getTime()));
+            LocalTimeHelper.setTime(cal, getStartTime(LocalDateHelper.getLocalDate(cal.getTime())));
          }
          else
          {
@@ -656,7 +658,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             // in this day. We need to calculate the time of day at which
             // our work ends.
             //
-            ProjectCalendarHours ranges = getRanges(cal.getTime(), cal, null);
+            ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(cal.getTime()), cal, null);
 
             //
             // Now we have the range of working hours for this day,
@@ -739,7 +741,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       //
       // Find the date ranges for the current day
       //
-      ProjectCalendarHours ranges = getRanges(originalDate, cal, null);
+      ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(originalDate), cal, null);
 
       if (ranges != null)
       {
@@ -786,9 +788,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   break;
                }
             }
-            while (!isWorkingDate(cal.getTime(), day));
+            while (!isWorkingDate(LocalDateHelper.getLocalDate(cal.getTime()), day));
 
-            startTime = getStartTime(cal.getTime());
+            startTime = getStartTime(LocalDateHelper.getLocalDate(cal.getTime()));
          }
 
          LocalTimeHelper.setTime(cal, startTime);
@@ -807,7 +809,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       //
       // Find the date ranges for the current day
       //
-      ProjectCalendarHours ranges = getRanges(originalDate, cal, null);
+      ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(originalDate), cal, null);
       if (ranges != null)
       {
          //
@@ -843,9 +845,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   break;
                }
             }
-            while (!isWorkingDate(cal.getTime(), day));
+            while (!isWorkingDate(LocalDateHelper.getLocalDate(cal.getTime()), day));
 
-            finishTime = getFinishTime(cal.getTime());
+            finishTime = getFinishTime(LocalDateHelper.getLocalDate(cal.getTime()));
          }
 
          LocalTimeHelper.setEndTime(cal, finishTime);
@@ -928,11 +930,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date Date to be tested
     * @return boolean value
     */
-   public boolean isWorkingDate(Date date)
+   public boolean isWorkingDate(LocalDate date)
    {
-      Calendar cal = DateHelper.popCalendar(date);
-      Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-      DateHelper.pushCalendar(cal);
+      Day day = Day.getInstance(date.getDayOfWeek());
       return isWorkingDate(date, day);
    }
 
@@ -946,7 +946,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param day Day of the week for the date under test
     * @return boolean flag
     */
-   private boolean isWorkingDate(Date date, Day day)
+   private boolean isWorkingDate(LocalDate date, Day day)
    {
       ProjectCalendarHours ranges = getRanges(date, null, day);
       return ranges.size() != 0;
@@ -1021,7 +1021,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date target date
     * @return working hours on the given date
     */
-   public ProjectCalendarHours getHours(Date date)
+   public ProjectCalendarHours getHours(LocalDate date)
    {
       return getRanges(date, null, null);
    }
@@ -1095,7 +1095,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date target date
     * @return calendar exception, or null if none match this date
     */
-   public ProjectCalendarException getException(Date date)
+   public ProjectCalendarException getException(LocalDate date)
    {
       if (date == null)
       {
@@ -1111,13 +1111,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       {
          int low = 0;
          int high = m_expandedExceptions.size() - 1;
-         long targetDate = date.getTime();
 
          while (low <= high)
          {
             int mid = (low + high) >>> 1;
             ProjectCalendarException midVal = m_expandedExceptions.get(mid);
-            int cmp = DateHelper.compare(midVal.getFromDate(), midVal.getToDate(), targetDate);
+            int cmp = LocalDateHelper.compare(midVal.getFromDate(), midVal.getToDate(), date);
 
             if (cmp > 0)
             {
@@ -1152,7 +1151,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date target date
     * @return work week, or null if none match this date
     */
-   public ProjectCalendarWeek getWorkWeek(Date date)
+   public ProjectCalendarWeek getWorkWeek(LocalDate date)
    {
       if (date == null)
       {
@@ -1166,13 +1165,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
          int low = 0;
          int high = m_workWeeks.size() - 1;
-         long targetDate = date.getTime();
 
          while (low <= high)
          {
             int mid = (low + high) >>> 1;
             ProjectCalendarWeek midVal = m_workWeeks.get(mid);
-            int cmp = DateHelper.compare(midVal.getDateRange().getStart(), midVal.getDateRange().getEnd(), targetDate);
+            int cmp = LocalDateHelper.compare(midVal.getDateRange().getStart(), midVal.getDateRange().getEnd(), date);
 
             if (cmp > 0)
             {
@@ -1226,7 +1224,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param format required format
     * @return work duration
     */
-   public Duration getWork(Date date, TimeUnit format)
+   public Duration getWork(LocalDate date, TimeUnit format)
    {
       ProjectCalendarHours ranges = getRanges(date, null, null);
       return convertFormat(getTotalTime(ranges), format);
@@ -1265,7 +1263,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
          if (DateHelper.isSameDay(startDate, endDate))
          {
-            ProjectCalendarHours ranges = getRanges(startDate, null, null);
+            ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(startDate), null, null);
             if (ranges.size() != 0)
             {
                totalTime = getTotalTime(ranges, LocalTimeHelper.getLocalTime(startDate), LocalTimeHelper.getLocalTime(endDate));
@@ -1282,7 +1280,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             Calendar cal = Calendar.getInstance();
             cal.setTime(startDate);
             Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-            while (!isWorkingDate(currentDate, day) && currentDate.getTime() < canonicalEndDate.getTime())
+            while (!isWorkingDate(LocalDateHelper.getLocalDate(currentDate), day) && currentDate.getTime() < canonicalEndDate.getTime())
             {
                cal.add(Calendar.DAY_OF_YEAR, 1);
                currentDate = cal.getTime();
@@ -1300,7 +1298,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                //
                // Calculate the amount of working time for this day
                //
-               totalTime += getTotalTime(getRanges(currentDate, null, day), targetTime);
+               totalTime += getTotalTime(getRanges(LocalDateHelper.getLocalDate(currentDate), null, day), targetTime);
 
                //
                // Process each working day until we reach the last day
@@ -1322,7 +1320,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   //
                   // Skip this day if it has no working time
                   //
-                  ProjectCalendarHours ranges = getRanges(currentDate, null, day);
+                  ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(currentDate), null, day);
                   if (ranges.size() == 0)
                   {
                      continue;
@@ -1338,7 +1336,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             //
             // We are now at the last day
             //
-            ProjectCalendarHours ranges = getRanges(endDate, null, day);
+            ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(endDate), null, day);
             if (ranges.size() != 0)
             {
                totalTime += getTotalTime(ranges, LocalTime.of(0,0), LocalTimeHelper.getLocalTime(endDate));
@@ -1632,7 +1630,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param day optional day instance
     * @return working hours
     */
-   protected ProjectCalendarHours getRanges(Date date, Calendar cal, Day day)
+   protected ProjectCalendarHours getRanges(LocalDate date, Calendar cal, Day day)
    {
       // Check for exceptions for this date in this calendar and any base calendars
       ProjectCalendarHours ranges = getException(date);
@@ -1651,12 +1649,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       // Determine the day of the week of if we don't have it
       if (day == null)
       {
-         if (cal == null)
-         {
-            cal = Calendar.getInstance();
-            cal.setTime(date);
-         }
-         day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+         day = Day.getInstance(date.getDayOfWeek());
       }
 
       // Use the day type to retrieve the ranges
@@ -1728,7 +1721,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       // Process the recurring exceptions in reverse priority order
       // to ensure that the final contents of the map reflect the effective
       // exception on each date.
-      Map<Date, ProjectCalendarException> map = new TreeMap<>();
+      Map<LocalDate, ProjectCalendarException> map = new TreeMap<>();
       for (RecurrenceType type : ORDERED_RECURRENCE_TYPES)
       {
          recurring.computeIfAbsent(type, k -> Collections.emptyList()).forEach(e -> e.getExpandedExceptions().forEach(x -> map.put(x.getFromDate(), x)));
@@ -1862,7 +1855,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * Caches used to speed up date calculations.
     */
    private final Map<DateRange, Long> m_workingDateCache = new WeakHashMap<>();
-   private final Map<Date, LocalTime> m_startTimeCache = new WeakHashMap<>();
+   private final Map<LocalDate, LocalTime> m_startTimeCache = new WeakHashMap<>();
    private Date m_getDateLastStartDate;
    private long m_getDateLastRemainingMilliseconds;
    private Date m_getDateLastResult;

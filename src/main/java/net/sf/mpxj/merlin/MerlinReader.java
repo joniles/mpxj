@@ -29,6 +29,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
 import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.ResultSetHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -282,8 +284,8 @@ public final class MerlinReader extends AbstractProjectFileReader
       List<Row> rows = getRows("select * from zcalendarrule where zcalendar=? and z_ent=?", calendar.getUniqueID(), m_entityMap.get("CalendarExceptionRule"));
       for (Row row : rows)
       {
-         Date startDay = row.getDate("ZSTARTDAY");
-         Date endDay = row.getDate("ZENDDAY");
+         LocalDate startDay = LocalDateHelper.getLocalDate(row.getDate("ZSTARTDAY"));
+         LocalDate endDay = LocalDateHelper.getLocalDate(row.getDate("ZENDDAY"));
          ProjectCalendarException exception = calendar.addCalendarException(startDay, endDay);
 
          String timeIntervals = row.getString("ZTIMEINTERVALS");

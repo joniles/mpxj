@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.primavera;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -92,6 +93,7 @@ import net.sf.mpxj.UserDefinedFieldContainer;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.SlackHelper;
 
@@ -611,7 +613,7 @@ final class PrimaveraReader
       for (StructuredTextRecord exception : exceptions.getChildren())
       {
          long daysFromEpoch = Integer.parseInt(exception.getAttribute("d"));
-         Date startEx = DateHelper.getDateFromLong(EXCEPTION_EPOCH + (daysFromEpoch * DateHelper.MS_PER_DAY));
+         LocalDate startEx = LocalDateHelper.getLocalDate(DateHelper.getDateFromLong(EXCEPTION_EPOCH + (daysFromEpoch * DateHelper.MS_PER_DAY)));
 
          ProjectCalendarException pce = calendar.addCalendarException(startEx, startEx);
          for (StructuredTextRecord exceptionHours : exception.getChildren())

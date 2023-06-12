@@ -40,6 +40,7 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import org.xml.sax.SAXException;
 
@@ -231,7 +232,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
     */
    private void readExceptionDay(ProjectCalendar mpxjCalendar, ExceptedDay day)
    {
-      ProjectCalendarException mpxjException = mpxjCalendar.addCalendarException(day.getDate());
+      ProjectCalendarException mpxjException = mpxjCalendar.addCalendarException(LocalDateHelper.getLocalDate(day.getDate()));
       if (day.isIsDayWorking())
       {
          for (Document.Calendars.Calendar.ExceptedDays.ExceptedDay.TimePeriods.TimePeriod period : day.getTimePeriods().getTimePeriod())

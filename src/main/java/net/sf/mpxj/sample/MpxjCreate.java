@@ -24,6 +24,7 @@
 package net.sf.mpxj.sample;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
@@ -113,7 +114,7 @@ public class MpxjCreate
       //
       // Add a holiday to the calendar to demonstrate calendar exceptions
       //
-      calendar.addCalendarException(df.parse("13/03/2006"));
+      calendar.addCalendarException(LocalDate.of(2006, 3, 13));
 
       //
       // Retrieve the project properties and set the start date. Note Microsoft

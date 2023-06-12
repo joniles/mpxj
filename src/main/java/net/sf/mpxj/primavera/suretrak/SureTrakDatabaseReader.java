@@ -25,6 +25,7 @@ package net.sf.mpxj.primavera.suretrak;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,6 +59,7 @@ import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.primavera.common.MapRow;
 import net.sf.mpxj.primavera.common.Table;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
@@ -407,7 +409,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          ProjectCalendar calendar = m_calendarMap.get(row.getInteger("CALENDAR_ID"));
          if (calendar != null)
          {
-            Date date = row.getDate("DATE");
+            LocalDate date = LocalDateHelper.getLocalDate(row.getDate("DATE"));
 
             if (row.getBoolean("ANNUAL"))
             {

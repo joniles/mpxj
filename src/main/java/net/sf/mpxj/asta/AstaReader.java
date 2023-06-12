@@ -54,6 +54,7 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.LocalDateRange;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -73,6 +74,7 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -1573,7 +1575,7 @@ final class AstaReader
                if (defaultWeekSet)
                {
                   ProjectCalendarWeek newWeek = calendar.addWorkWeek();
-                  newWeek.setDateRange(new DateRange(row.getDate("START_DATE"), row.getDate("END_DATE")));
+                  newWeek.setDateRange(new LocalDateRange(LocalDateHelper.getLocalDate(row.getDate("START_DATE")), LocalDateHelper.getLocalDate(row.getDate("END_DATE"))));
                   week = newWeek;
                }
                else
@@ -1595,7 +1597,7 @@ final class AstaReader
       rows = exceptionAssignmentMap.get(calendar.getUniqueID());
       if (rows != null)
       {
-         List<DateRange> ranges = new ArrayList<>();
+         List<LocalDateRange> ranges = new ArrayList<>();
 
          for (Row row : rows)
          {
@@ -1608,7 +1610,7 @@ final class AstaReader
                endDate = DateHelper.addDays(endDate, -1);
             }
 
-            ranges.add(new DateRange(DateHelper.getDayStartDate(startDate), DateHelper.getDayEndDate(endDate)));
+            ranges.add(new LocalDateRange(LocalDateHelper.getLocalDate(startDate), LocalDateHelper.getLocalDate(endDate)));
          }
 
          ranges.stream().distinct().forEach(r -> calendar.addCalendarException(r.getStart(), r.getEnd()));

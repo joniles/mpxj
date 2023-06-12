@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -30,6 +31,7 @@ import java.util.Date;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.DayType;
+import net.sf.mpxj.LocalDateRange;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -39,6 +41,7 @@ import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -99,8 +102,8 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                   break;
                }
 
-               Date fromDate = MPPUtility.getDate(data, offset);
-               Date toDate = MPPUtility.getDate(data, offset + 2);
+               LocalDate fromDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset));
+               LocalDate toDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset + 2));
                RecurringData rd = readRecurringData(data, offset, fromDate, toDate);
                if (rd == null)
                {
@@ -145,7 +148,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       }
    }
 
-   private RecurringData readRecurringData(byte[] data, int offset, Date fromDate, Date toDate)
+   private RecurringData readRecurringData(byte[] data, int offset, LocalDate fromDate, LocalDate toDate)
    {
       RecurringData rd = new RecurringData();
       int recurrenceTypeValue = MPPUtility.getShort(data, offset + 72);
@@ -250,10 +253,10 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
             offset += 60;
          }
 
-         Date startDate = DateHelper.getDayStartDate(MPPUtility.getDate(data, offset));
+         LocalDate startDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset));
          offset += 2;
 
-         Date finishDate = DateHelper.getDayEndDate(MPPUtility.getDate(data, offset));
+         LocalDate finishDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset));
          offset += 2;
 
          // skip unknown 8 bytes
@@ -277,7 +280,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
             week.setName(name);
          }
 
-         week.setDateRange(new DateRange(startDate, finishDate));
+         week.setDateRange(new LocalDateRange(startDate, finishDate));
          // System.out.println(week);
       }
    }

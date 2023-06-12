@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,11 +49,13 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.LocalDateRange;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;
 import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.mpp.MPPTimephasedBaselineCostNormaliser;
 import org.xml.sax.InputSource;
@@ -560,8 +563,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private void readExceptionDay(ProjectCalendar calendar, Project.Calendars.Calendar.WeekDays.WeekDay day)
    {
       Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod timePeriod = day.getTimePeriod();
-      Date fromDate = timePeriod.getFromDate();
-      Date toDate = timePeriod.getToDate();
+      LocalDate fromDate = LocalDateHelper.getLocalDate(timePeriod.getFromDate());
+      LocalDate toDate = LocalDateHelper.getLocalDate(timePeriod.getToDate());
       Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = day.getWorkingTimes();
       ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
 
@@ -608,8 +611,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     */
    private void readException(ProjectCalendar bc, Project.Calendars.Calendar.Exceptions.Exception exception)
    {
-      Date fromDate = exception.getTimePeriod().getFromDate();
-      Date toDate = exception.getTimePeriod().getToDate();
+      LocalDate fromDate = LocalDateHelper.getLocalDate(exception.getTimePeriod().getFromDate());
+      LocalDate toDate = LocalDateHelper.getLocalDate(exception.getTimePeriod().getToDate());
 
       // Vico Schedule Planner seems to write start and end dates to FromTime and ToTime
       // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project,
@@ -653,7 +656,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
    }
 
-   private RecurringData readRecurringData(Project.Calendars.Calendar.Exceptions.Exception exception, Date fromDate, Date toDate)
+   private RecurringData readRecurringData(Project.Calendars.Calendar.Exceptions.Exception exception, LocalDate fromDate, LocalDate toDate)
    {
       RecurringData rd = null;
       RecurrenceType rt = getRecurrenceType(NumberHelper.getInt(exception.getType()));
@@ -809,7 +812,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       ProjectCalendarWeek week = mpxjCalendar.addWorkWeek();
       week.setName(xmlWeek.getName());
-      week.setDateRange(new DateRange(xmlWeek.getTimePeriod().getFromDate(), xmlWeek.getTimePeriod().getToDate()));
+      week.setDateRange(new LocalDateRange(LocalDateHelper.getLocalDate(xmlWeek.getTimePeriod().getFromDate()), LocalDateHelper.getLocalDate(xmlWeek.getTimePeriod().getToDate())));
 
       WeekDays xmlWeekDays = xmlWeek.getWeekDays();
       if (xmlWeekDays != null)

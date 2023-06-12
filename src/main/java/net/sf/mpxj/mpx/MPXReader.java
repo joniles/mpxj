@@ -70,6 +70,7 @@ import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamTokenizer;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.SlackHelper;
@@ -659,7 +660,7 @@ public final class MPXReader extends AbstractProjectStreamReader
          toDate = fromDate;
       }
 
-      ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
+      ProjectCalendarException exception = calendar.addCalendarException(LocalDateHelper.getLocalDate(fromDate), LocalDateHelper.getLocalDate(toDate));
       if (working)
       {
          addExceptionRange(exception, record.getTime(3), record.getTime(4));
@@ -1351,8 +1352,8 @@ public final class MPXReader extends AbstractProjectStreamReader
    private void populateRecurringTask(Record record, RecurringTask task) throws MPXJException
    {
       //System.out.println(record);
-      task.setStartDate(record.getDateTime(1));
-      task.setFinishDate(record.getDateTime(2));
+      task.setStartDate(LocalDateHelper.getLocalDate(record.getDateTime(1)));
+      task.setFinishDate(LocalDateHelper.getLocalDate(record.getDateTime(2)));
       task.setDuration(RecurrenceUtility.getDuration(m_projectFile.getProjectProperties(), record.getInteger(3), record.getInteger(4)));
       task.setOccurrences(record.getInteger(5));
       task.setRecurrenceType(RecurrenceUtility.getRecurrenceType(record.getInteger(6)));
@@ -1405,7 +1406,7 @@ public final class MPXReader extends AbstractProjectStreamReader
                }
                else
                {
-                  task.setYearlyAbsoluteFromDate(record.getDateTime(23));
+                  task.setYearlyAbsoluteFromDate(LocalDateHelper.getLocalDate(record.getDateTime(23)));
                }
                break;
             }
