@@ -724,7 +724,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod period = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayTimePeriod();
          day.setTimePeriod(period);
          period.setFromDate(exception.getFromDate());
-         period.setToDate(exception.getToDate());
+         period.setToDate(DateHelper.getDayEndDate(exception.getToDate()));
 
          if (working)
          {
@@ -788,7 +788,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Project.Calendars.Calendar.Exceptions.Exception.TimePeriod period = m_factory.createProjectCalendarsCalendarExceptionsExceptionTimePeriod();
          ex.setTimePeriod(period);
          period.setFromDate(exception.getFromDate());
-         period.setToDate(exception.getToDate());
+         period.setToDate(DateHelper.getDayEndDate(exception.getToDate()));
 
          if (working)
          {
@@ -915,7 +915,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             TimePeriod xmlTimePeriod = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekTimePeriod();
             xmlWeek.setTimePeriod(xmlTimePeriod);
             xmlTimePeriod.setFromDate(week.getDateRange().getStart());
-            xmlTimePeriod.setToDate(week.getDateRange().getEnd());
+            xmlTimePeriod.setToDate(DateHelper.getDayEndDate(week.getDateRange().getEnd()));
 
             WeekDays xmlWeekDays = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDays();
             xmlWeek.setWeekDays(xmlWeekDays);
