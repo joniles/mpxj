@@ -293,7 +293,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       {
          Calendar calendar = DateHelper.popCalendar();
          calendar.set(Calendar.YEAR, Integer.parseInt(year));
-         calendar.set(Calendar.MONTH, NumberHelper.getInt(date.getMonth()));
+         calendar.set(Calendar.MONTH, NumberHelper.getInt(date.getMonth()) - 1);
          calendar.set(Calendar.DAY_OF_MONTH, NumberHelper.getInt(date.getDate()));
          Date exceptionDate = calendar.getTime();
          DateHelper.pushCalendar(calendar);
