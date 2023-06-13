@@ -223,7 +223,7 @@
 		<copy todir="${basedir}">
 			<fileset dir="${basedir}/jaxb" includes="*.xjb" />
 		</copy>
-<!--
+
 		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema mspdi_pj15-correct.xsd" />
 		</exec>
@@ -242,7 +242,6 @@
 		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/ganttproject-binding.xjb -p net.sf.mpxj.ganttproject.schema ${basedir}/jaxb/ganttproject-2.8.xsd" />
 		</exec>
--->		
 		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/conceptdraw-binding.xjb -p net.sf.mpxj.conceptdraw.schema document.xsd" />
 		</exec>
