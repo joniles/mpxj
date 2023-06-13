@@ -23,7 +23,9 @@
 
 package net.sf.mpxj.sdef;
 
-import java.util.Date;
+
+
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
@@ -91,9 +93,9 @@ abstract class AbstractSDEFRecord implements SDEFRecord
     * @param index field index
     * @return field value
     */
-   protected Date getDate(int index)
+   protected LocalDateTime getDate(int index)
    {
-      return (Date) m_fields[index];
+      return (LocalDateTime) m_fields[index];
    }
 
    /**

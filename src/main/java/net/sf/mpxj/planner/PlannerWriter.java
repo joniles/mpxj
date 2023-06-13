@@ -28,11 +28,12 @@ import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -600,8 +601,8 @@ public final class PlannerWriter extends AbstractProjectWriter
       }
 
       // Convert the lag to an elapsed duration.
-      Date predecessorDate;
-      Date successorDate;
+      LocalDateTime predecessorDate;
+      LocalDateTime successorDate;
 
       switch (relation.getType())
       {
@@ -686,7 +687,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param value Planner date-time
     * @return Java Date instance
     */
-   private String getDateTime(Date value)
+   private String getDateTime(LocalDateTime value)
    {
       StringBuilder result = new StringBuilder(16);
 
@@ -832,7 +833,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param value Java date
     * @return Planner date-time string
     */
-   private String getDateTimeString(Date value)
+   private String getDateTimeString(LocalDateTime value)
    {
       String result = null;
       if (value != null)

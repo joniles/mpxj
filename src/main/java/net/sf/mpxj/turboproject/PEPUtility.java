@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.turboproject;
 
-import java.util.Date;
+
 
 import net.sf.mpxj.common.DateHelper;
 

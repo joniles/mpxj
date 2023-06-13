@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.Date;
+
 
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.Duration;

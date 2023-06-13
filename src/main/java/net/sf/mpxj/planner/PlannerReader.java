@@ -28,12 +28,13 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -653,7 +654,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param value Planner date-time
     * @return Java Date instance
     */
-   private Date getDateTime(String value) throws MPXJException
+   private LocalDateTime getDateTime(String value) throws MPXJException
    {
       if (value == null)
       {
@@ -679,7 +680,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
 
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MILLISECOND, 0);
-         Date result = cal.getTime();
+         LocalDateTime result = cal.getTime();
          DateHelper.pushCalendar(cal);
 
          return result;

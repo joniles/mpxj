@@ -24,7 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 import net.sf.mpxj.Duration;

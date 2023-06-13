@@ -23,8 +23,9 @@
 
 package net.sf.mpxj.primavera.p3;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
+
 
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.primavera.common.AbstractColumn;
@@ -45,9 +46,9 @@ class DateColumn extends AbstractColumn
       super(name, offset);
    }
 
-   @Override public Date read(int offset, byte[] data)
+   @Override public LocalDateTime read(int offset, byte[] data)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       int intValue = 0;
       int i = offset + m_offset;

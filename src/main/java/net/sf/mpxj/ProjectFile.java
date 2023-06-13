@@ -23,10 +23,11 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -316,9 +317,9 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     *
     * @return start date
     */
-   public Date getEarliestStartDate()
+   public LocalDateTime getEarliestStartDate()
    {
-      Date startDate = null;
+      LocalDateTime startDate = null;
 
       for (Task task : m_tasks)
       {
@@ -336,7 +337,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
          // is always correct, the milestone start date may be different
          // to reflect a missed deadline.
          //
-         Date taskStartDate;
+         LocalDateTime taskStartDate;
          if (task.getMilestone())
          {
             taskStartDate = task.getActualFinish();
@@ -378,9 +379,9 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     *
     * @return finish date
     */
-   public Date getLatestFinishDate()
+   public LocalDateTime getLatestFinishDate()
    {
-      Date finishDate = null;
+      LocalDateTime finishDate = null;
 
       for (Task task : m_tasks)
       {
@@ -395,7 +396,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
          //
          // Select the actual or forecast start date
          //
-         Date taskFinishDate;
+         LocalDateTime taskFinishDate;
          taskFinishDate = task.getActualFinish();
          if (taskFinishDate == null)
          {

@@ -25,10 +25,11 @@ package net.sf.mpxj.mpx;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -245,9 +246,9 @@ final class Record
     * @return the value of the required field
     * @throws MPXJException normally thrown when parsing fails
     */
-   public Date getDateTime(int field) throws MPXJException
+   public LocalDateTime getDateTime(int field) throws MPXJException
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
@@ -290,11 +291,11 @@ final class Record
     * @return the value of the required field
     * @throws MPXJException normally thrown when parsing fails
     */
-   public Date getDate(int field) throws MPXJException
+   public LocalDateTime getDate(int field) throws MPXJException
    {
       try
       {
-         Date result;
+         LocalDateTime result;
 
          if ((field < m_fields.length) && (m_fields[field].length() != 0))
          {

@@ -27,13 +27,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -490,7 +491,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param endDate end of the period
     * @return new Duration object
     */
-   public Duration getDuration(Date startDate, Date endDate)
+   public Duration getDuration(LocalDateTime startDate, LocalDateTime endDate)
    {
       Calendar cal = DateHelper.popCalendar(startDate);
       int days = getDaysInRange(startDate, endDate);
@@ -580,7 +581,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param returnNextWorkStart if set to true will return start of next working period
     * @return end date
     */
-   public Date getDate(Date startDate, Duration duration, boolean returnNextWorkStart)
+   public LocalDateTime getDate(LocalDateTime startDate, Duration duration, boolean returnNextWorkStart)
    {
       ProjectProperties properties = getParentFile().getProjectProperties();
       long remainingMilliseconds = Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
@@ -589,7 +590,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       // Can we skip come computation by working forward from the
       // last call to this method?
       //
-      Date getDateLastStartDate = m_getDateLastStartDate;
+      LocalDateTime getDateLastStartDate = m_getDateLastStartDate;
       long getDateLastRemainingMilliseconds = m_getDateLastRemainingMilliseconds;
 
       m_getDateLastStartDate = startDate;
@@ -611,10 +612,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          // Get the current date and time and determine how many
          // working hours remain
          //
-         Date currentDate = cal.getTime();
+         LocalDateTime currentDate = cal.getTime();
          endCal.setTime(currentDate);
          endCal.add(Calendar.DAY_OF_YEAR, 1);
-         Date currentDateEnd = DateHelper.getDayStartDate(endCal.getTime());
+         LocalDateTime currentDateEnd = DateHelper.getDayStartDate(endCal.getTime());
          long currentDateWorkingMilliseconds = Math.round(getWork(currentDate, currentDateEnd, TimeUnit.MINUTES).getDuration() * 60000.0);
 
          //
@@ -737,7 +738,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    private void updateToNextWorkStart(Calendar cal)
    {
-      Date originalDate = cal.getTime();
+      LocalDateTime originalDate = cal.getTime();
 
       //
       // Find the date ranges for the current day
@@ -805,7 +806,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    private void updateToPreviousWorkFinish(Calendar cal)
    {
-      Date originalDate = cal.getTime();
+      LocalDateTime originalDate = cal.getTime();
 
       //
       // Find the date ranges for the current day
@@ -862,7 +863,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date date and time start point
     * @return date and time of next work start
     */
-   public Date getNextWorkStart(Date date)
+   public LocalDateTime getNextWorkStart(LocalDateTime date)
    {
       Calendar cal = Calendar.getInstance();
       cal.setTime(date);
@@ -877,7 +878,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date date and time start point
     * @return date and time of previous work finish
     */
-   public Date getPreviousWorkFinish(Date date)
+   public LocalDateTime getPreviousWorkFinish(LocalDateTime date)
    {
       Calendar cal = Calendar.getInstance();
       cal.setTime(date);
@@ -963,7 +964,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param endDate End date
     * @return number of days in the date range
     */
-   private int getDaysInRange(Date startDate, Date endDate)
+   private int getDaysInRange(LocalDateTime startDate, LocalDateTime endDate)
    {
       int result;
       Calendar cal = DateHelper.popCalendar(endDate);
@@ -1239,7 +1240,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param format required duration format
     * @return amount of work
     */
-   public Duration getWork(Date startDate, Date endDate, TimeUnit format)
+   public Duration getWork(LocalDateTime startDate, LocalDateTime endDate, TimeUnit format)
    {
       DateRange range = new DateRange(startDate, endDate);
       Long cachedResult = m_workingDateCache.get(range);
@@ -1256,7 +1257,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          if (startDate.getTime() > endDate.getTime())
          {
             invert = true;
-            Date temp = startDate;
+            LocalDateTime temp = startDate;
             startDate = endDate;
             endDate = temp;
          }
@@ -1856,9 +1857,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    private final Map<DateRange, Long> m_workingDateCache = new WeakHashMap<>();
    private final Map<LocalDate, LocalTime> m_startTimeCache = new WeakHashMap<>();
-   private Date m_getDateLastStartDate;
+   private LocalDateTime m_getDateLastStartDate;
    private long m_getDateLastRemainingMilliseconds;
-   private Date m_getDateLastResult;
+   private LocalDateTime m_getDateLastResult;
 
    /**
     * Work week definitions.

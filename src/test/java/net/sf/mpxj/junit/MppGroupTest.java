@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
 
 import net.sf.mpxj.Group;

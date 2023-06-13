@@ -23,7 +23,9 @@
 
 package net.sf.mpxj.projectcommander;
 
-import java.util.Date;
+
+
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
@@ -202,7 +204,7 @@ class DatatypeConverter
     * @param offset offset into byte array
     * @return timestamp value
     */
-   public static final Date getTimestamp(byte[] data, int offset)
+   public static final LocalDateTime getTimestamp(byte[] data, int offset)
    {
       long timestampInSeconds = DatatypeConverter.getInt(data, offset, 0);
       long timestampInMilliseconds = timestampInSeconds * 1000;

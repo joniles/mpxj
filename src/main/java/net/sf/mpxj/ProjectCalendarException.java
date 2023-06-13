@@ -24,8 +24,9 @@
 package net.sf.mpxj;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 import net.sf.mpxj.common.LocalDateHelper;
@@ -166,7 +167,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     * @param date Date to be tested
     * @return Boolean value
     */
-   public boolean contains(Date date)
+   public boolean contains(LocalDateTime date)
    {
       boolean result = false;
 

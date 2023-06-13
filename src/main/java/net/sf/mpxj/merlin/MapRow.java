@@ -23,8 +23,9 @@
 
 package net.sf.mpxj.merlin;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
+
 import java.util.Map;
 import java.util.UUID;
 
@@ -134,14 +135,14 @@ class MapRow implements Row
       return (NumberHelper.getInt((Number) getObject(name)));
    }
 
-   @Override public Date getTimestamp(String name)
+   @Override public LocalDateTime getTimestamp(String name)
    {
-      return (Date) getObject(name);
+      return (LocalDateTime) getObject(name);
    }
 
-   @Override public Date getDate(String name)
+   @Override public LocalDateTime getDate(String name)
    {
-      Date result;
+      LocalDateTime result;
       // They are stored as days since Jan 7th, 2001 00:00
       Integer value = getInteger(name);
       if (value == null)

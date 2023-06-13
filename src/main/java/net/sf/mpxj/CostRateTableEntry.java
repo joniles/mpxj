@@ -23,8 +23,9 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -55,7 +56,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     * @param costPerUse   cost per use
     * @param rates Rate instances
     */
-   public CostRateTableEntry(Date startDate, Date endDate, Number costPerUse, Rate... rates)
+   public CostRateTableEntry(LocalDateTime startDate, LocalDateTime endDate, Number costPerUse, Rate... rates)
    {
       m_startDate = startDate;
       m_endDate = endDate;
@@ -69,7 +70,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     *
     * @return start date
     */
-   public Date getStartDate()
+   public LocalDateTime getStartDate()
    {
       return m_startDate;
    }
@@ -79,7 +80,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     *
     * @return end date
     */
-   public Date getEndDate()
+   public LocalDateTime getEndDate()
    {
       return m_endDate;
    }
@@ -136,8 +137,8 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
       return "[CostRateTableEntry startDate=" + m_startDate + " endDate=" + m_endDate + " costPerUse=" + m_costPerUse + " rates=" + rates + "]";
    }
 
-   private final Date m_startDate;
-   private final Date m_endDate;
+   private final LocalDateTime m_startDate;
+   private final LocalDateTime m_endDate;
    private final Number m_costPerUse;
    private final Rate[] m_rates = new Rate[MAX_RATES];
    public static final CostRateTableEntry DEFAULT_ENTRY = new CostRateTableEntry();

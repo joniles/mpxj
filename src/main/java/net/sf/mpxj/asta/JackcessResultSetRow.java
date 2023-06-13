@@ -25,7 +25,7 @@ package net.sf.mpxj.asta;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import com.healthmarketscience.jackcess.Column;
@@ -72,11 +72,7 @@ final class JackcessResultSetRow extends MapRow
             case EXT_DATE_TIME:
             case SHORT_DATE_TIME:
             {
-               LocalDateTime l = row.getLocalDateTime(name);
-               if (l != null)
-               {
-                  value = Date.from(l.atZone(ZoneId.systemDefault()).toInstant());
-               }
+               value =  row.getLocalDateTime(name);
                break;
             }
 

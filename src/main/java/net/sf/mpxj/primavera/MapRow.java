@@ -23,7 +23,8 @@
 
 package net.sf.mpxj.primavera;
 
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -129,9 +130,9 @@ class MapRow implements Row
       return (NumberHelper.getInt((Number) getObject(name)));
    }
 
-   @Override public final Date getDate(String name)
+   @Override public final LocalDateTime getDate(String name)
    {
-      return ((Date) getObject(name));
+      return ((LocalDateTime) getObject(name));
    }
 
    @Override public final Duration getDuration(String name)

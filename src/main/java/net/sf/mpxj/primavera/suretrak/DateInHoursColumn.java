@@ -23,7 +23,9 @@
 
 package net.sf.mpxj.primavera.suretrak;
 
-import java.util.Date;
+
+
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.primavera.common.AbstractIntColumn;
@@ -44,7 +46,7 @@ class DateInHoursColumn extends AbstractIntColumn
       super(name, offset);
    }
 
-   @Override public Date read(int offset, byte[] data)
+   @Override public LocalDateTime read(int offset, byte[] data)
    {
       int hours = readInt(offset, data);
       return hours == 0 ? null : DateHelper.getDateFromLong(EPOCH + (hours * DateHelper.MS_PER_HOUR));

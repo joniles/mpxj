@@ -25,8 +25,9 @@ package net.sf.mpxj.mpp;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -155,9 +156,9 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return timestamp
     */
-   public Date getTimestamp(Integer type)
+   public LocalDateTime getTimestamp(Integer type)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       byte[] item = m_map.get(type);
       if (item != null)
@@ -212,9 +213,9 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return string value
     */
-   public Date getDate(Integer type)
+   public LocalDateTime getDate(Integer type)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       byte[] item = m_map.get(type);
       if (item != null)

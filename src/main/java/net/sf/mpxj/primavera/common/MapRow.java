@@ -23,7 +23,8 @@
 
 package net.sf.mpxj.primavera.common;
 
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import net.sf.mpxj.Duration;
@@ -115,9 +116,9 @@ public class MapRow
     * @param name column name
     * @return date value
     */
-   public final Date getDate(String name)
+   public final LocalDateTime getDate(String name)
    {
-      return (Date) getObject(name);
+      return (LocalDateTime) getObject(name);
    }
 
    /**

@@ -42,9 +42,10 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -148,9 +149,9 @@ public final class SDEFWriter extends AbstractProjectWriter
     */
    private void writeProjectProperties(ProjectProperties record) throws IOException
    {
-      Date dataDate = record.getStatusDate() == null ? m_projectFile.getProjectProperties().getCurrentDate() : record.getStatusDate();
-      Date startDate = record.getStartDate();
-      Date finishDate = record.getFinishDate();
+      LocalDateTime dataDate = record.getStatusDate() == null ? m_projectFile.getProjectProperties().getCurrentDate() : record.getStatusDate();
+      LocalDateTime startDate = record.getStartDate();
+      LocalDateTime finishDate = record.getFinishDate();
 
       // reset buffer to be empty, then concatenate data as required by USACE
       m_buffer.setLength(0);
@@ -279,7 +280,7 @@ public final class SDEFWriter extends AbstractProjectWriter
 
          String conType;
          String formattedConstraintDate;
-         Date conDate = record.getConstraintDate();
+         LocalDateTime conDate = record.getConstraintDate();
          if (conDate == null)
          {
             conType = "   ";
@@ -425,7 +426,7 @@ public final class SDEFWriter extends AbstractProjectWriter
       { // I don't use summary tasks for SDEF
          m_buffer.append("PROG ");
          m_buffer.append(getActivityID(record)).append(" ");
-         Date temp = record.getActualStart();
+         LocalDateTime temp = record.getActualStart();
          if (temp == null)
          {
             m_buffer.append("        "); // SDEF is column sensitive, so the number of blanks here is crucial
@@ -517,7 +518,7 @@ public final class SDEFWriter extends AbstractProjectWriter
       }
    }
 
-   private String formatDate(Date date)
+   private String formatDate(LocalDateTime date)
    {
       String result;
       if (date == null)

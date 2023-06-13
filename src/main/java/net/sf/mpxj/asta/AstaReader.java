@@ -23,11 +23,12 @@
 
 package net.sf.mpxj.asta;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -911,12 +912,12 @@ final class AstaReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
 
          for (Task task : parentTask.getChildTasks())
          {
@@ -1345,7 +1346,7 @@ final class AstaReader
    private void processConstraints(Row row, Task task)
    {
       ConstraintType constraintType = ConstraintType.AS_SOON_AS_POSSIBLE;
-      Date constraintDate = null;
+      LocalDateTime constraintDate = null;
 
       switch (row.getInt("CONSTRAINU"))
       {
@@ -1600,8 +1601,8 @@ final class AstaReader
 
          for (Row row : rows)
          {
-            Date startDate = row.getDate("STARU_DATE");
-            Date endDate = row.getDate("ENE_DATE");
+            LocalDateTime startDate = row.getDate("STARU_DATE");
+            LocalDateTime endDate = row.getDate("ENE_DATE");
 
             // special case - when the exception end time is midnight, it really finishes at the end of the previous day
             if (endDate.getTime() == DateHelper.getDayStartDate(endDate).getTime())
@@ -2027,14 +2028,14 @@ final class AstaReader
     * @param row result set row
     * @return value
     */
-   private Date getUserDefinedFieldDate(Row row)
+   private LocalDateTime getUserDefinedFieldDate(Row row)
    {
       Object value = row.getObject("DATA_AS_DATE");
-      if (!(value instanceof Date))
+      if (!(value instanceof LocalDateTime))
       {
          value = null;
       }
-      return (Date) value;
+      return (LocalDateTime) value;
    }
 
    /**

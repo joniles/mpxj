@@ -25,7 +25,8 @@ package net.sf.mpxj.mpp;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -190,9 +191,9 @@ final class ExtendedData
     * @param type Type identifier
     * @return timestamp
     */
-   public Date getTimestamp(Integer type)
+   public LocalDateTime getTimestamp(Integer type)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       byte[] item = m_map.get(type);
       if (item != null)

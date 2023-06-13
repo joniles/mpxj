@@ -26,7 +26,7 @@ package net.sf.mpxj.mpx;
 import java.text.DateFormatSymbols;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.common.MultiDateFormat;
 
@@ -81,9 +81,9 @@ abstract class MPXJBaseFormat extends MultiDateFormat
       }
    }
 
-   @Override protected Date parseNonNullDate(String str, ParsePosition pos)
+   @Override protected LocalDateTime parseNonNullDate(String str, ParsePosition pos)
    {
-      Date result;
+      LocalDateTime result;
       if (str.equals(m_null))
       {
          result = null;

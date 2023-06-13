@@ -27,8 +27,9 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
+
 
 import net.sf.mpxj.common.DateHelper;
 
@@ -170,9 +171,9 @@ final class DatatypeConverter
     * @param value string representation
     * @return Java representation
     */
-   public static Date parseEpochTimestamp(String value)
+   public static LocalDateTime parseEpochTimestamp(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       if (value.length() > 0)
       {
@@ -223,9 +224,9 @@ final class DatatypeConverter
     * @param value timestamp as String
     * @return timestamp as Date
     */
-   public static Date parseBasicTimestamp(String value) throws ParseException
+   public static LocalDateTime parseBasicTimestamp(String value) throws ParseException
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       if (value.length() > 0)
       {
@@ -268,9 +269,9 @@ final class DatatypeConverter
     * @param value time as String
     * @return time as Date
     */
-   public static Date parseBasicTime(String value) throws ParseException
+   public static LocalDateTime parseBasicTime(String value) throws ParseException
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       if (value.length() > 0)
       {

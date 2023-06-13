@@ -30,10 +30,11 @@ import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
-import java.util.Date;
+
 import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -218,7 +219,7 @@ public class JsonStreamWriter
     * @param name attribute name
     * @param value attribute value
     */
-   public void writeNameValuePair(String name, Date value) throws IOException
+   public void writeNameValuePair(String name, LocalDateTime value) throws IOException
    {
       internalWriteNameValuePair(name, m_timestampFormat.format(value));
    }

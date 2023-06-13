@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.sdef;
 
-import java.util.Date;
+
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.Task;

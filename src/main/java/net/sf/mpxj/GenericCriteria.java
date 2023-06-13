@@ -25,8 +25,9 @@ package net.sf.mpxj;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Map;
 
@@ -155,7 +156,7 @@ public class GenericCriteria
             {
                if (lhs != null)
                {
-                  lhs = DateHelper.getDayStartDate((Date) lhs);
+                  lhs = DateHelper.getDayStartDate((LocalDateTime) lhs);
                }
                break;
             }
@@ -286,7 +287,7 @@ public class GenericCriteria
                {
                   if (value != null)
                   {
-                     value = DateHelper.getDayStartDate((Date) value);
+                     value = DateHelper.getDayStartDate((LocalDateTime) value);
                   }
                   break;
                }
@@ -381,11 +382,11 @@ public class GenericCriteria
             sb.append(" ");
             sb.append(m_operator);
             sb.append(" ");
-            sb.append(m_definedRightValues[0] instanceof Date ? df.format(m_definedRightValues[0]) : m_definedRightValues[0]);
+            sb.append(m_definedRightValues[0] instanceof LocalDateTime ? df.format(m_definedRightValues[0]) : m_definedRightValues[0]);
             if (m_definedRightValues[1] != null)
             {
                sb.append(",");
-               sb.append(m_definedRightValues[1] instanceof Date ? df.format(m_definedRightValues[1]) : m_definedRightValues[1]);
+               sb.append(m_definedRightValues[1] instanceof LocalDateTime ? df.format(m_definedRightValues[1]) : m_definedRightValues[1]);
             }
          }
       }

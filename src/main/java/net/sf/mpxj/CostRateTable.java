@@ -23,8 +23,9 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 import net.sf.mpxj.common.DateHelper;
 
@@ -39,7 +40,7 @@ public class CostRateTable extends ArrayList<CostRateTableEntry>
     * @param date required date
     * @return cost rate table entry
     */
-   public CostRateTableEntry getEntryByDate(Date date)
+   public CostRateTableEntry getEntryByDate(LocalDateTime date)
    {
       CostRateTableEntry result = null;
 
@@ -61,7 +62,7 @@ public class CostRateTable extends ArrayList<CostRateTableEntry>
     * @param date required date
     * @return cost rate table entry index
     */
-   public int getIndexByDate(Date date)
+   public int getIndexByDate(LocalDateTime date)
    {
       int result = -1;
       int index = 0;

@@ -23,7 +23,9 @@
 
 package net.sf.mpxj;
 
-import java.util.Date;
+
+
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.common.DateHelper;
 
@@ -38,7 +40,7 @@ public final class DateRange implements Comparable<DateRange>
     * @param startDate start date
     * @param endDate end date
     */
-   public DateRange(Date startDate, Date endDate)
+   public DateRange(LocalDateTime startDate, LocalDateTime endDate)
    {
       m_start = startDate;
       m_end = endDate;
@@ -49,7 +51,7 @@ public final class DateRange implements Comparable<DateRange>
     *
     * @return start date
     */
-   public Date getStart()
+   public LocalDateTime getStart()
    {
       return m_start;
    }
@@ -59,7 +61,7 @@ public final class DateRange implements Comparable<DateRange>
     *
     * @return end date
     */
-   public Date getEnd()
+   public LocalDateTime getEnd()
    {
       return m_end;
    }
@@ -73,7 +75,7 @@ public final class DateRange implements Comparable<DateRange>
     * @param date target date
     * @return comparison result
     */
-   public int compareTo(Date date)
+   public int compareTo(LocalDateTime date)
    {
       return DateHelper.compare(m_start, m_end, date);
    }
@@ -111,6 +113,6 @@ public final class DateRange implements Comparable<DateRange>
       return ("[DateRange start=" + m_start + " end=" + m_end + "]");
    }
 
-   private final Date m_start;
-   private final Date m_end;
+   private final LocalDateTime m_start;
+   private final LocalDateTime m_end;
 }

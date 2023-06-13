@@ -24,8 +24,9 @@
 package net.sf.mpxj.primavera;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -101,7 +102,7 @@ class ProjectCalendarStructuredTextWriter
       exceptionsRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, "Exceptions");
 
       int exceptionIndex = 0;
-      Set<Date> exceptionDates = new HashSet<>();
+      Set<LocalDateTime> exceptionDates = new HashSet<>();
 
       List<ProjectCalendarException> exceptions = net.sf.mpxj.common.ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(calendar);
       for (ProjectCalendarException exception : exceptions)
@@ -109,7 +110,7 @@ class ProjectCalendarStructuredTextWriter
          LocalDate currentDate = exception.getFromDate();
          while (!currentDate.isAfter(exception.getToDate()))
          {
-            Date exceptionDate = LocalDateHelper.getDate(currentDate);
+            LocalDateTime exceptionDate = LocalDateHelper.getDate(currentDate);
             currentDate = currentDate.plusDays(1);
 
             // Prevent duplicate exception dates being written.

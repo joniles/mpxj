@@ -25,7 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
+
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;

@@ -27,8 +27,9 @@ import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
+
 import java.util.UUID;
 
 import net.sf.mpxj.CurrencySymbolPosition;
@@ -316,9 +317,9 @@ public final class MPPUtility
     * @param offset location of data as offset into the array
     * @return date value
     */
-   public static final Date getDate(byte[] data, int offset)
+   public static final LocalDateTime getDate(byte[] data, int offset)
    {
-      Date result;
+      LocalDateTime result;
       long days = getShort(data, offset);
 
       if (days == 65535)
@@ -372,9 +373,9 @@ public final class MPPUtility
     * @param offset location of data as offset into the array
     * @return time value
     */
-   public static final Date getTimestamp(byte[] data, int offset)
+   public static final LocalDateTime getTimestamp(byte[] data, int offset)
    {
-      Date result;
+      LocalDateTime result;
 
       long days = getShort(data, offset + 2);
       if (days < 100)
@@ -409,7 +410,7 @@ public final class MPPUtility
     * @param offset location of data as offset into the array
     * @return time value
     */
-   public static final Date getTimestampFromTenths(byte[] data, int offset)
+   public static final LocalDateTime getTimestampFromTenths(byte[] data, int offset)
    {
       long ms = ((long) getInt(data, offset)) * 6000;
       return (DateHelper.getTimestampFromLong(EPOCH + ms));
@@ -1117,7 +1118,7 @@ public final class MPPUtility
             {
                try
                {
-                  Date d = MPPUtility.getTimestamp(data, i);
+                  LocalDateTime d = MPPUtility.getTimestamp(data, i);
                   if (d != null)
                   {
                      System.out.println(i + ":" + d);
@@ -1144,7 +1145,7 @@ public final class MPPUtility
             {
                try
                {
-                  Date d = MPPUtility.getDate(data, i);
+                  LocalDateTime d = MPPUtility.getDate(data, i);
                   if (d != null)
                   {
                      System.out.println(i + ":" + d);
@@ -1241,7 +1242,7 @@ public final class MPPUtility
          {
             try
             {
-               Date d = data.getTimestamp(id, Integer.valueOf(i));
+               LocalDateTime d = data.getTimestamp(id, Integer.valueOf(i));
                if (d != null)
                {
                   System.out.println(i + ":" + d);
@@ -1312,7 +1313,7 @@ public final class MPPUtility
     *
     * @return epoch date.
     */
-   public static Date getEpochDate()
+   public static LocalDateTime getEpochDate()
    {
       return EPOCH_DATE;
    }
@@ -1326,7 +1327,7 @@ public final class MPPUtility
    /**
     * Epoch Date as a Date instance.
     */
-   private static final Date EPOCH_DATE = DateHelper.getTimestampFromLong(EPOCH);
+   private static final LocalDateTime EPOCH_DATE = DateHelper.getTimestampFromLong(EPOCH);
 
    /**
     * Mask used to remove flags from the duration units field.

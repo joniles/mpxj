@@ -4,7 +4,7 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 import net.sf.mpxj.common.DateHelper;
 

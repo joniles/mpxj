@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.turboproject;
 
-import java.util.Date;
+
 import java.util.Map;
 
 import net.sf.mpxj.Duration;

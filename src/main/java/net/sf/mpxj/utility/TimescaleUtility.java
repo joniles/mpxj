@@ -23,9 +23,10 @@
 
 package net.sf.mpxj.utility;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+
 
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.common.DateHelper;
@@ -51,7 +52,7 @@ public final class TimescaleUtility
     * @param segmentCount number of segments (columns) required
     * @return list of date ranges
     */
-   public final ArrayList<DateRange> createTimescale(Date startDate, TimescaleUnits segmentUnit, int segmentCount)
+   public final ArrayList<DateRange> createTimescale(LocalDateTime startDate, TimescaleUnits segmentUnit, int segmentCount)
    {
       ArrayList<DateRange> result = new ArrayList<>(segmentCount);
 
@@ -148,7 +149,7 @@ public final class TimescaleUtility
 
       for (int loop = 0; loop < segmentCount; loop++)
       {
-         Date rangeStart = cal.getTime();
+         LocalDateTime rangeStart = cal.getTime();
 
          if (segmentUnit == TimescaleUnits.THIRDS_OF_MONTHS && (loop + 1) % 3 == 0)
          {

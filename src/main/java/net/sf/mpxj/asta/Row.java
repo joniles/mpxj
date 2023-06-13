@@ -23,7 +23,8 @@
 
 package net.sf.mpxj.asta;
 
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -108,7 +109,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Date getDate(String name);
+   public LocalDateTime getDate(String name);
 
    /**
     * Retrieve a duration attribute.

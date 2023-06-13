@@ -26,8 +26,9 @@ package net.sf.mpxj.synchro;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
+
 import java.util.UUID;
 
 import net.sf.mpxj.Duration;
@@ -266,7 +267,7 @@ final class DatatypeConverter
     * @param is input stream
     * @return Date instance
     */
-   public static final Date getDate(InputStream is) throws IOException
+   public static final LocalDateTime getDate(InputStream is) throws IOException
    {
       long timeInSeconds = getInt(is);
       if (timeInSeconds == NULL_SECONDS)

@@ -30,9 +30,10 @@ import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -287,9 +288,9 @@ public final class SageReader extends AbstractProjectStreamReader
     * @param index field index
     * @return date value
     */
-   private Date parseDate(String[] columns, int index)
+   private LocalDateTime parseDate(String[] columns, int index)
    {
-      Date result;
+      LocalDateTime result;
 
       String date = getText(columns, index);
       if (date == null || date.isEmpty())

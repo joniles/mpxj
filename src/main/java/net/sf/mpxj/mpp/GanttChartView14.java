@@ -25,7 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.util.Date;
+
 import java.util.Map;
 
 import java.time.DayOfWeek;

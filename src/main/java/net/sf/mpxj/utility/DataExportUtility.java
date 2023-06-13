@@ -35,7 +35,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.Locale;
 
 import net.sf.mpxj.common.AutoCloseableHelper;
