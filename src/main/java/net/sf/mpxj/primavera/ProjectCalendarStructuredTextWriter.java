@@ -109,7 +109,7 @@ class ProjectCalendarStructuredTextWriter
       for (ProjectCalendarException exception : exceptions)
       {
          LocalDate currentDate = exception.getFromDate();
-         while (currentDate.isBefore(exception.getToDate()))
+         while (!currentDate.isAfter(exception.getToDate()))
          {
             Date exceptionDate = LocalDateHelper.getDate(currentDate);
             currentDate = currentDate.plusDays(1);

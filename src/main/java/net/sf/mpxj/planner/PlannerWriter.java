@@ -1002,7 +1002,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
    private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HHmm");
-   private final DateTimeFormatter m_localDateFormat = DateTimeFormatter.ofPattern("yyMMdd");
+   private final DateTimeFormatter m_localDateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
 
    private static final Map<RelationType, String> RELATIONSHIP_TYPES = new HashMap<>();
    static

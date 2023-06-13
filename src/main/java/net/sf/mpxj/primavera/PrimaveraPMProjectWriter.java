@@ -668,7 +668,7 @@ final class PrimaveraPMProjectWriter
          for (ProjectCalendarException mpxjException : expandedExceptions)
          {
             LocalDate date = mpxjException.getFromDate();
-            while (date.isBefore(mpxjException.getToDate()))
+            while (!date.isAfter(mpxjException.getToDate()))
             {
                // Prevent duplicate exception dates being written.
                // P6 will fail to import files with duplicate exceptions.
