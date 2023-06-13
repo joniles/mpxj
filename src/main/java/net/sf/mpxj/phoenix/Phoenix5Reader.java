@@ -25,6 +25,7 @@ package net.sf.mpxj.phoenix;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -50,6 +51,7 @@ import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
 import org.xml.sax.SAXException;
 
@@ -181,8 +183,8 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       ProjectProperties mpxjProperties = m_projectFile.getProjectProperties();
       mpxjProperties.setName(phoenixSettings.getTitle());
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
-      mpxjProperties.setStatusDate(storepoint.getDataDate());
-      mpxjProperties.setStartDate(storepoint.getStart());
+      mpxjProperties.setStatusDate(LocalDateTimeHelper.getLocalDateTime(storepoint.getDataDate()));
+      mpxjProperties.setStartDate(LocalDateTimeHelper.getLocalDateTime(storepoint.getStart()));
    }
 
    /**
@@ -615,22 +617,22 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       task.setActivityType(ACTIVITY_TYPE_MAP.get(activity.getType()));
 
       task.setActualDuration(activity.getActualDuration());
-      task.setActualFinish(activity.getActualFinish());
-      task.setActualStart(activity.getActualStart());
+      task.setActualFinish(LocalDateTimeHelper.getLocalDateTime(activity.getActualFinish()));
+      task.setActualStart(LocalDateTimeHelper.getLocalDateTime(activity.getActualStart()));
       //activity.getBaseunit()
       //activity.getBilled()
       task.setCalendar(m_projectFile.getCalendarByName(activity.getCalendar()));
       //activity.getCostAccount()
-      task.setCreateDate(activity.getCreationTime());
-      task.setFinish(activity.getCurrentFinish());
-      task.setStart(activity.getCurrentStart());
+      task.setCreateDate(LocalDateTimeHelper.getLocalDateTime(activity.getCreationTime()));
+      task.setFinish(LocalDateTimeHelper.getLocalDateTime(activity.getCurrentFinish()));
+      task.setStart(LocalDateTimeHelper.getLocalDateTime(activity.getCurrentStart()));
       task.setName(activity.getDescription());
       task.setDuration(activity.getDurationAtCompletion());
-      task.setEarlyFinish(activity.getEarlyFinish());
-      task.setEarlyStart(activity.getEarlyStart());
+      task.setEarlyFinish(LocalDateTimeHelper.getLocalDateTime(activity.getEarlyFinish()));
+      task.setEarlyStart(LocalDateTimeHelper.getLocalDateTime(activity.getEarlyStart()));
       task.setFreeSlack(activity.getFreeFloat());
-      task.setLateFinish(activity.getLateFinish());
-      task.setLateStart(activity.getLateStart());
+      task.setLateFinish(LocalDateTimeHelper.getLocalDateTime(activity.getLateFinish()));
+      task.setLateStart(LocalDateTimeHelper.getLocalDateTime(activity.getLateStart()));
       task.setNotes(activity.getNotes());
       task.setBaselineDuration(activity.getOriginalDuration());
       //activity.getPathFloat()
@@ -646,7 +648,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       {
          Project.Storepoints.Storepoint.Activities.Activity.Constraint constraint = activity.getConstraint();
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(constraint.getType()));
-         task.setConstraintDate(constraint.getDatetime());
+         task.setConstraintDate(LocalDateTimeHelper.getLocalDateTime(constraint.getDatetime()));
       }
 
       if (task.getMilestone())
@@ -909,7 +911,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    private Storepoint getCurrentStorepoint(Project phoenixProject)
    {
       List<Storepoint> storepoints = phoenixProject.getStorepoints() == null ? Collections.emptyList() : phoenixProject.getStorepoints().getStorepoint();
-      storepoints.sort((o1, o2) -> DateHelper.compare(o2.getCreationTime(), o1.getCreationTime()));
+      storepoints.sort((o1, o2) -> DateHelper.compare(LocalDateTimeHelper.getLocalDateTime(o2.getCreationTime()), LocalDateTimeHelper.getLocalDateTime(o1.getCreationTime())));
       return storepoints.get(0);
    }
 
@@ -972,14 +974,14 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date plannedStartDate = parentTask.getStart();
-         Date plannedFinishDate = parentTask.getFinish();
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime plannedStartDate = parentTask.getStart();
+         LocalDateTime plannedFinishDate = parentTask.getFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
          boolean critical = false;
 
          for (Task task : parentTask.getChildTasks())

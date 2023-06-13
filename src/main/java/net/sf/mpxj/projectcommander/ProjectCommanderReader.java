@@ -26,6 +26,7 @@ package net.sf.mpxj.projectcommander;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -388,7 +389,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
          task.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
          task.setMilestone(true);
-         Date startDate = DatatypeConverter.getTimestamp(cBarData, 7);
+         LocalDateTime startDate = DatatypeConverter.getTimestamp(cBarData, 7);
          task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(LocalDateHelper.getLocalDate(startDate))));
          task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
       }
@@ -422,7 +423,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
             task.setWork(durationInHours);
 
             ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
-            Date startDate = DatatypeConverter.getTimestamp(cBarData, 5);
+            LocalDateTime startDate = DatatypeConverter.getTimestamp(cBarData, 5);
             task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(LocalDateHelper.getLocalDate(startDate))));
             task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
 
@@ -608,8 +609,8 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
    {
       if (parentTask.hasChildTasks())
       {
-         Date plannedStartDate = parentTask.getStart();
-         Date plannedFinishDate = parentTask.getFinish();
+         LocalDateTime plannedStartDate = parentTask.getStart();
+         LocalDateTime plannedFinishDate = parentTask.getFinish();
 
          for (Task task : parentTask.getChildTasks())
          {

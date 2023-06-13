@@ -72,6 +72,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.mpp.UserDefinedFieldMap;
@@ -931,9 +932,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getResponsePending() ? "1" : "0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTimeNull(record.getUpdateStart())));
+      m_buffer.append(format(formatDateTimeNull(LocalDateTimeHelper.getDate(record.getUpdateStart()))));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTimeNull(record.getUpdateFinish())));
+      m_buffer.append(format(formatDateTimeNull(LocalDateTimeHelper.getDate(record.getUpdateFinish()))));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getScheduleID()));
 

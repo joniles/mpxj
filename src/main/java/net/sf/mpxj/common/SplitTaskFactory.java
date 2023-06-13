@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.common;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public final class SplitTaskFactory
     */
    public void processSplitData(Task task, List<TimephasedWork> timephasedComplete, List<TimephasedWork> timephasedPlanned)
    {
-      Date splitsComplete = null;
+      LocalDateTime splitsComplete = null;
       TimephasedWork lastComplete = null;
       TimephasedWork firstPlanned = null;
       if (!timephasedComplete.isEmpty())
@@ -83,7 +84,7 @@ public final class SplitTaskFactory
       // We may not have a split, we may just have a partially
       // complete split.
       //
-      Date splitStart = null;
+      LocalDateTime splitStart = null;
       if (lastComplete != null && firstPlanned != null && lastComplete.getTotalAmount().getDuration() != 0 && firstPlanned.getTotalAmount().getDuration() != 0)
       {
          lastRange = splits.remove(splits.size() - 1);

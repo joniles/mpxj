@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDateTime;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -218,7 +218,7 @@ public class HexDumpController
             percentageValueLabel = value.toString();
          }
 
-         Date date = MPPUtility.getDate(data, selectionIndex + offset);
+         LocalDateTime date = MPPUtility.getDate(data, selectionIndex + offset);
          if (date != null)
          {
             dateValueLabel = dateFormat.format(date);
@@ -237,7 +237,7 @@ public class HexDumpController
       //
       if (selectionIndex + offset + 4 <= data.length)
       {
-         Date timestamp = MPPUtility.getTimestamp(data, selectionIndex + offset);
+         LocalDateTime timestamp = MPPUtility.getTimestamp(data, selectionIndex + offset);
          if (timestamp != null)
          {
             timestampValueLabel = timestampFormat.format(timestamp);

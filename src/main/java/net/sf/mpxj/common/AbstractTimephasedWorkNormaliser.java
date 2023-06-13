@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.common;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -66,8 +67,8 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
             {
                Duration assignmentWork = currentTimephasedWork.getTotalAmount();
 
-               Date assignmentStart = previousTimephasedWork.getStart();
-               Date assignmentFinish = currentTimephasedWork.getFinish();
+               LocalDateTime assignmentStart = previousTimephasedWork.getStart();
+               LocalDateTime assignmentFinish = currentTimephasedWork.getFinish();
                double total = previousTimephasedWork.getTotalAmount().getDuration();
                total += assignmentWork.getDuration();
                Duration totalWork = Duration.getInstance(total, TimeUnit.MINUTES);

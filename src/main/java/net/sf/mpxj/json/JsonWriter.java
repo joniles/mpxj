@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -692,13 +693,13 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeStartList(Integer.toString(index));
          for (CostRateTableEntry entry : table)
          {
-            Date startDate = entry.getStartDate();
+            LocalDateTime startDate = entry.getStartDate();
             if (startDate != null && DateHelper.compare(startDate, DateHelper.START_DATE_NA) <= 0)
             {
                startDate = null;
             }
 
-            Date endDate = entry.getEndDate();
+            LocalDateTime endDate = entry.getEndDate();
             if (endDate != null && DateHelper.compare(DateHelper.END_DATE_NA, endDate) <= 0)
             {
                endDate = null;
@@ -1091,7 +1092,7 @@ public final class JsonWriter extends AbstractProjectWriter
          }
          else
          {
-            Date val = (Date) value;
+            LocalDateTime val = (LocalDateTime) value;
             m_writer.writeNameValuePair(fieldName, val);
          }
       }
@@ -1684,7 +1685,7 @@ public final class JsonWriter extends AbstractProjectWriter
    static
    {
       TYPE_MAP.put(Boolean.class.getName(), DataType.BOOLEAN);
-      TYPE_MAP.put(Date.class.getName(), DataType.DATE);
+      TYPE_MAP.put(LocalDateTime.class.getName(), DataType.DATE);
       TYPE_MAP.put(Double.class.getName(), DataType.NUMERIC);
       TYPE_MAP.put(Duration.class.getName(), DataType.DURATION);
       TYPE_MAP.put(Integer.class.getName(), DataType.INTEGER);

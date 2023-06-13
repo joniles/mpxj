@@ -26,6 +26,7 @@ package net.sf.mpxj.explorer;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -223,7 +224,7 @@ public class ObjectPropertiesController
    private String formatValue(Object value)
    {
       String result;
-      if (value instanceof Date)
+      if (value instanceof LocalDateTime)
       {
          result = m_dateFormat.format(value);
       }

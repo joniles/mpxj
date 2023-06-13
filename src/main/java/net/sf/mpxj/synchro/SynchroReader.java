@@ -26,6 +26,7 @@ package net.sf.mpxj.synchro;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -462,9 +463,9 @@ public final class SynchroReader extends AbstractProjectStreamReader
    private void setConstraints(Task task, MapRow row)
    {
       ConstraintType constraintType = null;
-      Date constraintDate = null;
-      Date lateDate = row.getDate("CONSTRAINT_LATE_DATE");
-      Date earlyDate = row.getDate("CONSTRAINT_EARLY_DATE");
+      LocalDateTime constraintDate = null;
+      LocalDateTime lateDate = row.getDate("CONSTRAINT_LATE_DATE");
+      LocalDateTime earlyDate = row.getDate("CONSTRAINT_EARLY_DATE");
 
       switch (row.getInteger("CONSTRAINT_TYPE").intValue())
       {
@@ -610,8 +611,8 @@ public final class SynchroReader extends AbstractProjectStreamReader
    {
       if (parentTask.hasChildTasks())
       {
-         Date plannedStartDate = null;
-         Date plannedFinishDate = null;
+         LocalDateTime plannedStartDate = null;
+         LocalDateTime plannedFinishDate = null;
 
          for (Task task : parentTask.getChildTasks())
          {

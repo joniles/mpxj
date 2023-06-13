@@ -27,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -650,8 +651,8 @@ public final class MPXReader extends AbstractProjectStreamReader
     */
    private void populateCalendarException(Record record, ProjectCalendar calendar) throws MPXJException
    {
-      Date fromDate = record.getDate(0);
-      Date toDate = record.getDate(1);
+      LocalDateTime fromDate = record.getDate(0);
+      LocalDateTime toDate = record.getDate(1);
       boolean working = record.getNumericBoolean(2);
 
       // I have found an example MPX file where a single day exception is expressed with just the start date set.

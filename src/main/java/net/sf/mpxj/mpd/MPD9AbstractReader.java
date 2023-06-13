@@ -24,6 +24,7 @@
 package net.sf.mpxj.mpd;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -716,8 +717,8 @@ abstract class MPD9AbstractReader
 
    private void processHours(ProjectCalendarHours hours, Row row, String startField, String endField)
    {
-      Date start = row.getDate(startField);
-      Date end = row.getDate(endField);
+      LocalDateTime start = row.getDate(startField);
+      LocalDateTime end = row.getDate(endField);
       if (start != null && end != null)
       {
          hours.add(new TimeRange(LocalTimeHelper.getLocalTime(start), LocalTimeHelper.getLocalTime(end)));
