@@ -232,7 +232,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
     */
    private void readExceptionDay(ProjectCalendar mpxjCalendar, ExceptedDay day)
    {
-      ProjectCalendarException mpxjException = mpxjCalendar.addCalendarException(LocalDateHelper.getLocalDate(day.getDate()));
+      ProjectCalendarException mpxjException = mpxjCalendar.addCalendarException(day.getDate());
       if (day.isIsDayWorking())
       {
          for (Document.Calendars.Calendar.ExceptedDays.ExceptedDay.TimePeriods.TimePeriod period : day.getTimePeriods().getTimePeriod())

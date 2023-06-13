@@ -158,7 +158,7 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
 
       for (Gantt.Holidays.Holiday holiday : gantt.getHolidays().getHoliday())
       {
-         ProjectCalendarException exception = calendar.addCalendarException(LocalDateHelper.getLocalDate(holiday.getDate()));
+         ProjectCalendarException exception = calendar.addCalendarException(holiday.getDate());
          exception.setName(holiday.getContent());
       }
 
@@ -197,12 +197,12 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          task.setCost(ganttTask.getC());
          task.setName(ganttTask.getContent());
          task.setDuration(ganttTask.getD());
-         task.setDeadline(ganttTask.getDL());
+         task.setDeadline(LocalDateHelper.getDate(ganttTask.getDL()));
          //ganttTask.getH() // height
          //ganttTask.getIn(); // indent
          task.setWBS(wbs);
          task.setPercentageComplete(ganttTask.getPC());
-         task.setStart(ganttTask.getS());
+         task.setStart(LocalDateHelper.getDate(ganttTask.getS()));
          //ganttTask.getU(); // Unknown
          //ganttTask.getVA(); // Valign
 

@@ -26,6 +26,9 @@ package net.sf.mpxj.ganttdesigner;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 import net.sf.mpxj.Day;
@@ -102,24 +105,24 @@ public final class DatatypeConverter
     * @param value string representation of a date
     * @return Date instance
     */
-   public static final Date parseDate(String value)
+   public static final LocalDate parseDate(String value)
    {
-      Date result = null;
+      LocalDate result = null;
 
       if (value != null && value.length() != 0)
       {
          try
          {
-            result = DATE_FORMAT.get().parse(value);
+            result = LocalDate.parse(value, DATE_FORMAT.get());
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
             // Ignore parse exception
          }
       }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -128,7 +131,7 @@ public final class DatatypeConverter
     * @param value Date instance
     * @return string representation of a date
     */
-   public static final String printDate(Date value)
+   public static final String printDate(LocalDate value)
    {
       return (value == null ? null : DATE_FORMAT.get().format(value));
    }
@@ -183,10 +186,8 @@ public final class DatatypeConverter
       return df;
    });
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-      df.setLenient(false);
-      return df;
+   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> {
+      return DateTimeFormatter.ofPattern("yyyy-MM-dd");
    });
 
 }
