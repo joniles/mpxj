@@ -171,7 +171,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          double splitMinutes;
          if (calendar.isWorkingDate(LocalDateHelper.getLocalDate(assignmentStart)))
          {
-            splitFinish = LocalDateTime.of(assignmentStart.toLocalDate(), calendar.getFinishTime(LocalDateHelper.getLocalDate(assignmentStart)));
+            splitFinish = LocalTimeHelper.setEndTime(assignmentStart, calendar.getFinishTime(LocalDateHelper.getLocalDate(assignmentStart)));
             splitMinutes = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES).getDuration();
 
             splitMinutes *= assignmentWork.getDuration();
@@ -312,7 +312,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          {
             if ((totalWork == 0 && !assignmentStartTime.equals(calendarStartTime)) || (assignmentStartTime.isBefore(calendarStartTime)))
             {
-               assignmentStart = LocalDateTime.of(assignmentStart.toLocalDate(), calendarStartTime);
+               assignmentStart = LocalTimeHelper.setTime(assignmentStart, calendarStartTime);
                assignment.setStart(assignmentStart);
             }
          }

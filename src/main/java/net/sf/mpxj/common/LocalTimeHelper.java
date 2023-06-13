@@ -89,6 +89,16 @@ public class LocalTimeHelper
       return result;
    }
 
+   public static LocalDateTime setTime(LocalDateTime date, LocalTime time)
+   {
+      if (time == null)
+      {
+         return date;
+      }
+
+      return LocalDateTime.of(date.toLocalDate(), time);
+   }
+
    public static Date setEndTime(Date date, LocalTime time)
    {
       if (time == null)
