@@ -40,7 +40,7 @@ import java.util.stream.Stream;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
@@ -703,13 +703,13 @@ public final class MPXReader extends AbstractProjectStreamReader
          calendar.setParent(m_projectFile.getCalendarByName(record.getString(0)));
       }
 
-      calendar.setCalendarDayType(Day.SUNDAY, record.getDayType(1));
-      calendar.setCalendarDayType(Day.MONDAY, record.getDayType(2));
-      calendar.setCalendarDayType(Day.TUESDAY, record.getDayType(3));
-      calendar.setCalendarDayType(Day.WEDNESDAY, record.getDayType(4));
-      calendar.setCalendarDayType(Day.THURSDAY, record.getDayType(5));
-      calendar.setCalendarDayType(Day.FRIDAY, record.getDayType(6));
-      calendar.setCalendarDayType(Day.SATURDAY, record.getDayType(7));
+      calendar.setCalendarDayType(DayOfWeek.SUNDAY, record.getDayType(1));
+      calendar.setCalendarDayType(DayOfWeek.MONDAY, record.getDayType(2));
+      calendar.setCalendarDayType(DayOfWeek.TUESDAY, record.getDayType(3));
+      calendar.setCalendarDayType(DayOfWeek.WEDNESDAY, record.getDayType(4));
+      calendar.setCalendarDayType(DayOfWeek.THURSDAY, record.getDayType(5));
+      calendar.setCalendarDayType(DayOfWeek.FRIDAY, record.getDayType(6));
+      calendar.setCalendarDayType(DayOfWeek.SATURDAY, record.getDayType(7));
 
       m_eventManager.fireCalendarReadEvent(calendar);
    }
@@ -1535,7 +1535,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       // then we assume it was intended to have a parent calendar, so we set the
       // parent to be the default calendar for this project.
       //
-      if (calendar.getParent() == null && Stream.of(Day.values()).anyMatch(d -> calendar.getCalendarDayType(d) == DayType.DEFAULT))
+      if (calendar.getParent() == null && Stream.of(DayOfWeek.values()).anyMatch(d -> calendar.getCalendarDayType(d) == DayType.DEFAULT))
       {
          calendar.setParent(m_projectFile.getDefaultCalendar());
       }
@@ -1543,7 +1543,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       //
       // Populate WORKING or NON_WORKING days with calendar hours if they are missing.
       //
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          if (calendar.getCalendarHours(day) == null)
          {

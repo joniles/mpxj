@@ -27,7 +27,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumSet;
@@ -50,7 +49,7 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
@@ -641,7 +640,7 @@ final class PrimaveraPMProjectWriter
       StandardWorkWeek xmlStandardWorkWeek = m_factory.createCalendarTypeStandardWorkWeek();
       xml.setStandardWorkWeek(xmlStandardWorkWeek);
 
-      for (Day day : EnumSet.allOf(Day.class))
+      for (DayOfWeek day : EnumSet.allOf(DayOfWeek.class))
       {
          StandardWorkHours xmlHours = m_factory.createCalendarTypeStandardWorkWeekStandardWorkHours();
          xmlStandardWorkWeek.getStandardWorkHours().add(xmlHours);
@@ -1737,7 +1736,7 @@ final class PrimaveraPMProjectWriter
     * @param day MPXJ Day instance
     * @return Primavera day instance
     */
-   private String getDayName(Day day)
+   private String getDayName(DayOfWeek day)
    {
       return DAY_NAMES[DayOfWeekHelper.getValue(day) - 1];
    }

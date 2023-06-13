@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
@@ -280,16 +280,16 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          };
 
          calendar.setName(row.getString("NAME"));
-         readHours(calendar, Day.SUNDAY, days[0]);
-         readHours(calendar, Day.MONDAY, days[1]);
-         readHours(calendar, Day.TUESDAY, days[2]);
-         readHours(calendar, Day.WEDNESDAY, days[3]);
-         readHours(calendar, Day.THURSDAY, days[4]);
-         readHours(calendar, Day.FRIDAY, days[5]);
-         readHours(calendar, Day.SATURDAY, days[6]);
+         readHours(calendar, DayOfWeek.SUNDAY, days[0]);
+         readHours(calendar, DayOfWeek.MONDAY, days[1]);
+         readHours(calendar, DayOfWeek.TUESDAY, days[2]);
+         readHours(calendar, DayOfWeek.WEDNESDAY, days[3]);
+         readHours(calendar, DayOfWeek.THURSDAY, days[4]);
+         readHours(calendar, DayOfWeek.FRIDAY, days[5]);
+         readHours(calendar, DayOfWeek.SATURDAY, days[6]);
 
          int workingDaysPerWeek = 0;
-         for (Day day : Day.values())
+         for (DayOfWeek day : DayOfWeek.values())
          {
             if (calendar.isWorkingDay(day))
             {
@@ -335,7 +335,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
     * @param day target day
     * @param hours working hours
     */
-   private void readHours(ProjectCalendar calendar, Day day, Integer hours)
+   private void readHours(ProjectCalendar calendar, DayOfWeek day, Integer hours)
    {
       int value = hours.intValue();
       int startHour = 0;

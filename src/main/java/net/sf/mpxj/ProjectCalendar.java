@@ -424,7 +424,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param day day number
     * @return new ProjectCalendarHours instance
     */
-   @Override public ProjectCalendarHours addCalendarHours(Day day)
+   @Override public ProjectCalendarHours addCalendarHours(DayOfWeek day)
    {
       clearWorkingDateCache();
       return super.addCalendarHours(day);
@@ -435,7 +435,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     *
     * @param day target day
     */
-   @Override public void removeCalendarHours(Day day)
+   @Override public void removeCalendarHours(DayOfWeek day)
    {
       clearWorkingDateCache();
       super.removeCalendarHours(day);
@@ -453,7 +453,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       if (calendar != this)
       {
          m_parent = calendar;
-         Arrays.stream(Day.values()).filter(d -> getCalendarDayType(d) == null).forEach(d -> setCalendarDayType(d, DayType.DEFAULT));
+         Arrays.stream(DayOfWeek.values()).filter(d -> getCalendarDayType(d) == null).forEach(d -> setCalendarDayType(d, DayType.DEFAULT));
          clearWorkingDateCache();
       }
    }
@@ -494,7 +494,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       Calendar cal = DateHelper.popCalendar(startDate);
       int days = getDaysInRange(startDate, endDate);
       int duration = 0;
-      Day day = DayOfWeekHelper.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+      DayOfWeek day = DayOfWeekHelper.getInstance(cal.get(Calendar.DAY_OF_WEEK));
 
       while (days > 0)
       {
@@ -629,7 +629,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             //
             // Move the calendar forward to the next working day
             //
-            Day day;
+            DayOfWeek day;
             int nonWorkingDayCount = 0;
             do
             {
@@ -775,7 +775,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          if (startTime == null)
          {
-            Day day;
+            DayOfWeek day;
             int nonWorkingDayCount = 0;
             do
             {
@@ -832,7 +832,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          if (finishTime == null)
          {
-            Day day;
+            DayOfWeek day;
             int nonWorkingDayCount = 0;
             do
             {
@@ -895,14 +895,14 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param day required day
     * @return day type
     */
-   public DayType getDayType(Day day)
+   public DayType getDayType(DayOfWeek day)
    {
       DayType result = getCalendarDayType(day);
       if (result == DayType.DEFAULT)
       {
          if (m_parent == null)
          {
-            result = (day == Day.SATURDAY || day == Day.SUNDAY) ? DayType.NON_WORKING : DayType.WORKING;
+            result = (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) ? DayType.NON_WORKING : DayType.WORKING;
          }
          else
          {
@@ -918,7 +918,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param day required day
     * @return true if this is a working day
     */
-   public boolean isWorkingDay(Day day)
+   public boolean isWorkingDay(DayOfWeek day)
    {
       return getDayType(day) == DayType.WORKING;
    }
@@ -932,7 +932,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public boolean isWorkingDate(LocalDate date)
    {
-      Day day = DayOfWeekHelper.getInstance(date.getDayOfWeek());
+      DayOfWeek day = DayOfWeekHelper.getInstance(date.getDayOfWeek());
       return isWorkingDate(date, day);
    }
 
@@ -946,7 +946,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param day Day of the week for the date under test
     * @return boolean flag
     */
-   private boolean isWorkingDate(LocalDate date, Day day)
+   private boolean isWorkingDate(LocalDate date, DayOfWeek day)
    {
       ProjectCalendarHours ranges = getRanges(date, null, day);
       return ranges.size() != 0;
@@ -1002,7 +1002,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param day Day instance
     * @return calendar hours
     */
-   public ProjectCalendarHours getHours(Day day)
+   public ProjectCalendarHours getHours(DayOfWeek day)
    {
       ProjectCalendarHours result = getCalendarHours(day);
       if (result == null && m_parent != null)
@@ -1210,7 +1210,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param format required format
     * @return work duration
     */
-   public Duration getWork(Day day, TimeUnit format)
+   public Duration getWork(DayOfWeek day, TimeUnit format)
    {
       ProjectCalendarHours ranges = getRanges(null, null, day);
       return convertFormat(getTotalTime(ranges), format);
@@ -1279,7 +1279,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             Date currentDate = startDate;
             Calendar cal = Calendar.getInstance();
             cal.setTime(startDate);
-            Day day = DayOfWeekHelper.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+            DayOfWeek day = DayOfWeekHelper.getInstance(cal.get(Calendar.DAY_OF_WEEK));
             while (!isWorkingDate(LocalDateHelper.getLocalDate(currentDate), day) && currentDate.getTime() < canonicalEndDate.getTime())
             {
                cal.add(Calendar.DAY_OF_YEAR, 1);
@@ -1578,7 +1578,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       pw.println("   name=" + getName());
       pw.println("   baseCalendarName=" + (m_parent == null ? "" : m_parent.getName()));
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          pw.println("   [Day " + day);
          pw.println("      type=" + getCalendarDayType(day));
@@ -1630,7 +1630,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param day optional day instance
     * @return working hours
     */
-   protected ProjectCalendarHours getRanges(LocalDate date, Calendar cal, Day day)
+   protected ProjectCalendarHours getRanges(LocalDate date, Calendar cal, DayOfWeek day)
    {
       // Check for exceptions for this date in this calendar and any base calendars
       ProjectCalendarHours ranges = getException(date);

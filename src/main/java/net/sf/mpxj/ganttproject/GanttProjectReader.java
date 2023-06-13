@@ -28,9 +28,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -50,7 +48,7 @@ import org.xml.sax.SAXException;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
@@ -218,26 +216,26 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       DefaultWeek defaultWeek = dayTypes.getDefaultWeek();
       if (defaultWeek == null)
       {
-         mpxjCalendar.setWorkingDay(Day.SUNDAY, false);
-         mpxjCalendar.setWorkingDay(Day.MONDAY, true);
-         mpxjCalendar.setWorkingDay(Day.TUESDAY, true);
-         mpxjCalendar.setWorkingDay(Day.WEDNESDAY, true);
-         mpxjCalendar.setWorkingDay(Day.THURSDAY, true);
-         mpxjCalendar.setWorkingDay(Day.FRIDAY, true);
-         mpxjCalendar.setWorkingDay(Day.SATURDAY, false);
+         mpxjCalendar.setWorkingDay(DayOfWeek.SUNDAY, false);
+         mpxjCalendar.setWorkingDay(DayOfWeek.MONDAY, true);
+         mpxjCalendar.setWorkingDay(DayOfWeek.TUESDAY, true);
+         mpxjCalendar.setWorkingDay(DayOfWeek.WEDNESDAY, true);
+         mpxjCalendar.setWorkingDay(DayOfWeek.THURSDAY, true);
+         mpxjCalendar.setWorkingDay(DayOfWeek.FRIDAY, true);
+         mpxjCalendar.setWorkingDay(DayOfWeek.SATURDAY, false);
       }
       else
       {
-         mpxjCalendar.setWorkingDay(Day.MONDAY, isWorkingDay(defaultWeek.getMon()));
-         mpxjCalendar.setWorkingDay(Day.TUESDAY, isWorkingDay(defaultWeek.getTue()));
-         mpxjCalendar.setWorkingDay(Day.WEDNESDAY, isWorkingDay(defaultWeek.getWed()));
-         mpxjCalendar.setWorkingDay(Day.THURSDAY, isWorkingDay(defaultWeek.getThu()));
-         mpxjCalendar.setWorkingDay(Day.FRIDAY, isWorkingDay(defaultWeek.getFri()));
-         mpxjCalendar.setWorkingDay(Day.SATURDAY, isWorkingDay(defaultWeek.getSat()));
-         mpxjCalendar.setWorkingDay(Day.SUNDAY, isWorkingDay(defaultWeek.getSun()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.MONDAY, isWorkingDay(defaultWeek.getMon()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.TUESDAY, isWorkingDay(defaultWeek.getTue()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.WEDNESDAY, isWorkingDay(defaultWeek.getWed()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.THURSDAY, isWorkingDay(defaultWeek.getThu()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.FRIDAY, isWorkingDay(defaultWeek.getFri()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.SATURDAY, isWorkingDay(defaultWeek.getSat()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.SUNDAY, isWorkingDay(defaultWeek.getSun()));
       }
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
          if (mpxjCalendar.isWorkingDay(day))

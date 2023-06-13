@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
@@ -203,7 +203,7 @@ final class RecurrenceUtility
    public static String getDays(RecurringTask task)
    {
       StringBuilder sb = new StringBuilder();
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          sb.append(task.getWeeklyDay(day) ? "1" : "0");
       }
@@ -216,9 +216,9 @@ final class RecurrenceUtility
     * @param day day index
     * @return Day instance
     */
-   public static Day getDay(Integer day)
+   public static DayOfWeek getDay(Integer day)
    {
-      Day result = null;
+      DayOfWeek result = null;
       if (day != null)
       {
          result = DAY_ARRAY[day.intValue()];
@@ -232,7 +232,7 @@ final class RecurrenceUtility
     * @param day Day instance
     * @return day index
     */
-   public static Integer getDay(Day day)
+   public static Integer getDay(DayOfWeek day)
    {
       Integer result = null;
       if (day != null)
@@ -322,31 +322,31 @@ final class RecurrenceUtility
    /**
     * Array mapping from MPX day index to Day instances.
     */
-   private static final Day[] DAY_ARRAY =
+   private static final DayOfWeek[] DAY_ARRAY =
    {
       null,
-      Day.MONDAY,
-      Day.TUESDAY,
-      Day.WEDNESDAY,
-      Day.THURSDAY,
-      Day.FRIDAY,
-      Day.SATURDAY,
-      Day.SUNDAY
+      DayOfWeek.MONDAY,
+      DayOfWeek.TUESDAY,
+      DayOfWeek.WEDNESDAY,
+      DayOfWeek.THURSDAY,
+      DayOfWeek.FRIDAY,
+      DayOfWeek.SATURDAY,
+      DayOfWeek.SUNDAY
    };
 
    /**
     * Map from Day instance to MPX day index.
     */
-   private static final Map<Day, Integer> DAY_MAP = new HashMap<>();
+   private static final Map<DayOfWeek, Integer> DAY_MAP = new HashMap<>();
    static
    {
-      DAY_MAP.put(Day.MONDAY, Integer.valueOf(1));
-      DAY_MAP.put(Day.TUESDAY, Integer.valueOf(2));
-      DAY_MAP.put(Day.WEDNESDAY, Integer.valueOf(3));
-      DAY_MAP.put(Day.THURSDAY, Integer.valueOf(4));
-      DAY_MAP.put(Day.FRIDAY, Integer.valueOf(5));
-      DAY_MAP.put(Day.SATURDAY, Integer.valueOf(6));
-      DAY_MAP.put(Day.SUNDAY, Integer.valueOf(7));
+      DAY_MAP.put(DayOfWeek.MONDAY, Integer.valueOf(1));
+      DAY_MAP.put(DayOfWeek.TUESDAY, Integer.valueOf(2));
+      DAY_MAP.put(DayOfWeek.WEDNESDAY, Integer.valueOf(3));
+      DAY_MAP.put(DayOfWeek.THURSDAY, Integer.valueOf(4));
+      DAY_MAP.put(DayOfWeek.FRIDAY, Integer.valueOf(5));
+      DAY_MAP.put(DayOfWeek.SATURDAY, Integer.valueOf(6));
+      DAY_MAP.put(DayOfWeek.SUNDAY, Integer.valueOf(7));
    }
 
    public static final int[] RECURRING_TASK_DAY_MASKS =

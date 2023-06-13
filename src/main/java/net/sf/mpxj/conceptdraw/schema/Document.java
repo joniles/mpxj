@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import net.sf.mpxj.CurrencySymbolPosition;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.TaskType;
@@ -1870,7 +1870,7 @@ public class Document {
 
                     @XmlElement(name = "Day", required = true, type = String.class)
                     @XmlJavaTypeAdapter(Adapter14 .class)
-                    protected Day day;
+                    protected DayOfWeek day;
                     @XmlElement(name = "IsDayWorking")
                     protected boolean isDayWorking;
                     @XmlElement(name = "TimePeriods", required = true)
@@ -1884,7 +1884,7 @@ public class Document {
                      *     {@link String }
                      *     
                      */
-                    public Day getDay() {
+                    public DayOfWeek getDay() {
                         return day;
                     }
 
@@ -1896,7 +1896,7 @@ public class Document {
                      *     {@link String }
                      *     
                      */
-                    public void setDay(Day value) {
+                    public void setDay(DayOfWeek value) {
                         this.day = value;
                     }
 

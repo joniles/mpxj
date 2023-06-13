@@ -44,7 +44,7 @@ import java.time.LocalTime;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
@@ -71,7 +71,6 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateHelper;
-import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.mpp.UserDefinedFieldMap;
@@ -369,7 +368,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(name));
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          DayType type = record.getCalendarDayType(day);
          if (type == null)
@@ -383,7 +382,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          ProjectCalendarHours hours = record.getCalendarHours(day);
          if (hours != null)
@@ -415,7 +414,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param day day to which these hours are attached
     * @param record calendar hours instance
     */
-   private void writeCalendarHours(ProjectCalendar parentCalendar, Day day, ProjectCalendarHours record) throws IOException
+   private void writeCalendarHours(ProjectCalendar parentCalendar, DayOfWeek day, ProjectCalendarHours record) throws IOException
    {
       m_buffer.setLength(0);
 
@@ -841,7 +840,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(monthlyRelative ? record.getDayNumber() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(RecurrenceUtility.getDay(monthlyRelative ? record.getDayOfWeek() : Day.MONDAY)));
+         m_buffer.append(format(RecurrenceUtility.getDay(monthlyRelative ? record.getDayOfWeek() : DayOfWeek.MONDAY)));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(monthlyRelative ? record.getFrequency() : "1"));
          m_buffer.append(m_delimiter);
@@ -851,7 +850,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(yearlyRelative ? record.getDayNumber() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(RecurrenceUtility.getDay(yearlyRelative ? record.getDayOfWeek() : Day.MONDAY)));
+         m_buffer.append(format(RecurrenceUtility.getDay(yearlyRelative ? record.getDayOfWeek() : DayOfWeek.MONDAY)));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(record.getMonthNumber()));
          m_buffer.append(m_delimiter);
@@ -1076,9 +1075,9 @@ public final class MPXWriter extends AbstractProjectWriter
             }
             else
             {
-               if (o instanceof Day)
+               if (o instanceof DayOfWeek)
                {
-                  result = Integer.toString(DayOfWeekHelper.getValue((Day)o));
+                  result = Integer.toString(DayOfWeekHelper.getValue((DayOfWeek)o));
                }
                else
                {

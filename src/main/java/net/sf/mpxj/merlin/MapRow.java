@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
@@ -382,9 +382,9 @@ class MapRow implements Row
       return Duration.getInstance(durationValue, durationUnits);
    }
 
-   @Override public Day getDay(String name)
+   @Override public DayOfWeek getDay(String name)
    {
-      Day result = null;
+      DayOfWeek result = null;
       Integer value = getInteger(name);
       if (value != null)
       {

@@ -37,7 +37,6 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import net.sf.mpxj.Day;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;

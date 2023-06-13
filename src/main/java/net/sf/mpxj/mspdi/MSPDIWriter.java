@@ -58,7 +58,7 @@ import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
@@ -614,7 +614,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       Project.Calendars.Calendar.WeekDays days = m_factory.createProjectCalendarsCalendarWeekDays();
       List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList = days.getWeekDay();
-      for (Day mpxjDay : Day.values())
+      for (DayOfWeek mpxjDay : DayOfWeek.values())
       {
          writeDay(mpxjCalendar, mpxjDay, dayList);
       }
@@ -647,7 +647,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param mpxjDay day to write
     * @param dayList MSPDI day list
     */
-   private void writeDay(ProjectCalendar mpxjCalendar, Day mpxjDay, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList)
+   private void writeDay(ProjectCalendar mpxjCalendar, DayOfWeek mpxjDay, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList)
    {
       DayType workingFlag = mpxjCalendar.getCalendarDayType(mpxjDay);
 
@@ -885,7 +885,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private BigInteger getDaysOfTheWeek(RecurringData data)
    {
       int value = 0;
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          if (data.getWeeklyDay(day))
          {

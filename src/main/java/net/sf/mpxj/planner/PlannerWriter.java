@@ -44,7 +44,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -233,13 +233,13 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       DefaultWeek dw = m_factory.createDefaultWeek();
       plannerCalendar.setDefaultWeek(dw);
-      dw.setMon(getWorkingDayString(mpxjCalendar, Day.MONDAY));
-      dw.setTue(getWorkingDayString(mpxjCalendar, Day.TUESDAY));
-      dw.setWed(getWorkingDayString(mpxjCalendar, Day.WEDNESDAY));
-      dw.setThu(getWorkingDayString(mpxjCalendar, Day.THURSDAY));
-      dw.setFri(getWorkingDayString(mpxjCalendar, Day.FRIDAY));
-      dw.setSat(getWorkingDayString(mpxjCalendar, Day.SATURDAY));
-      dw.setSun(getWorkingDayString(mpxjCalendar, Day.SUNDAY));
+      dw.setMon(getWorkingDayString(mpxjCalendar, DayOfWeek.MONDAY));
+      dw.setTue(getWorkingDayString(mpxjCalendar, DayOfWeek.TUESDAY));
+      dw.setWed(getWorkingDayString(mpxjCalendar, DayOfWeek.WEDNESDAY));
+      dw.setThu(getWorkingDayString(mpxjCalendar, DayOfWeek.THURSDAY));
+      dw.setFri(getWorkingDayString(mpxjCalendar, DayOfWeek.FRIDAY));
+      dw.setSat(getWorkingDayString(mpxjCalendar, DayOfWeek.SATURDAY));
+      dw.setSun(getWorkingDayString(mpxjCalendar, DayOfWeek.SUNDAY));
 
       //
       // Set working hours
@@ -260,7 +260,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       for (int dayLoop = 1; dayLoop < 8; dayLoop++)
       {
-         Day day = DayOfWeekHelper.getInstance(dayLoop);
+         DayOfWeek day = DayOfWeekHelper.getInstance(dayLoop);
          if (mpxjCalendar.isWorkingDay(day))
          {
             processWorkingHours(mpxjCalendar, uniqueID, day, typeList);
@@ -301,7 +301,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param day Day instance
     * @param typeList Planner list of days
     */
-   private void processWorkingHours(ProjectCalendar mpxjCalendar, Sequence uniqueID, Day day, List<OverriddenDayType> typeList)
+   private void processWorkingHours(ProjectCalendar mpxjCalendar, Sequence uniqueID, DayOfWeek day, List<OverriddenDayType> typeList)
    {
       if (isWorkingDay(mpxjCalendar, day))
       {
@@ -737,7 +737,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param day Day instance
     * @return boolean flag
     */
-   private boolean isWorkingDay(ProjectCalendar mpxjCalendar, Day day)
+   private boolean isWorkingDay(ProjectCalendar mpxjCalendar, DayOfWeek day)
    {
       boolean result = false;
       net.sf.mpxj.DayType type = mpxjCalendar.getCalendarDayType(day);
@@ -778,7 +778,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param day Day instance
     * @return boolean flag as a string
     */
-   private String getWorkingDayString(ProjectCalendar mpxjCalendar, Day day)
+   private String getWorkingDayString(ProjectCalendar mpxjCalendar, DayOfWeek day)
    {
       String result = null;
       net.sf.mpxj.DayType type = mpxjCalendar.getCalendarDayType(day);

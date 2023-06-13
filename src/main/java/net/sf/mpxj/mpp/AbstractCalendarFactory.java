@@ -37,7 +37,7 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectCalendar;
@@ -174,7 +174,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                   {
                      if (baseCalendarID <= 0)
                      {
-                        Stream.of(Day.values()).forEach(cal::addCalendarHours);
+                        Stream.of(DayOfWeek.values()).forEach(cal::addCalendarHours);
                      }
                   }
                   else
@@ -227,7 +227,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       int defaultFlag;
       int periodCount;
       long duration;
-      Day day;
+      DayOfWeek day;
       List<TimeRange> dateRanges = new ArrayList<>(5);
 
       for (index = 0; index < 7; index++)

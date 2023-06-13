@@ -28,10 +28,8 @@ import java.io.PrintWriter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 
 /**
@@ -95,7 +93,7 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
       //
       // Generate a recurring exception for each day
       //
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          if (getCalendarDayType(day) == DayType.DEFAULT)
          {
@@ -136,7 +134,7 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
       pw.println("   name=" + getName());
       pw.println("   date_range=" + getDateRange());
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          pw.println("   [Day " + day);
          pw.println("      type=" + getCalendarDayType(day));

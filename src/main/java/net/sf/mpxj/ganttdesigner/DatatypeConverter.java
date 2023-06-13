@@ -31,7 +31,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
@@ -165,7 +165,7 @@ public final class DatatypeConverter
     * @param value string representation of a day
     * @return Day instance
     */
-   public static final Day parseDay(String value)
+   public static final DayOfWeek parseDay(String value)
    {
       return DayOfWeekHelper.getInstance(Integer.parseInt(value) + 1);
    }
@@ -176,7 +176,7 @@ public final class DatatypeConverter
     * @param value Day instance
     * @return string representation of a day
     */
-   public static final String printDay(Day value)
+   public static final String printDay(DayOfWeek value)
    {
       return Integer.toString(DayOfWeekHelper.getValue(value) - 1);
    }

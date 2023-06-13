@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
@@ -245,7 +245,7 @@ public final class DatatypeConverter
     * @param value Phoenix day
     * @return Day instance
     */
-   public static final Day parseDay(String value)
+   public static final DayOfWeek parseDay(String value)
    {
       return NAME_TO_DAY.get(value);
    }
@@ -287,7 +287,7 @@ public final class DatatypeConverter
     * @param value Day instance
     * @return formatted day
     */
-   public static final String printDay(Day value)
+   public static final String printDay(DayOfWeek value)
    {
       return DAY_TO_NAME.get(value);
    }
@@ -339,28 +339,28 @@ public final class DatatypeConverter
       RELATION_TYPE_TO_NAME.put(RelationType.START_START, "StartToStart");
    }
 
-   private static final Map<String, Day> NAME_TO_DAY = new HashMap<>();
+   private static final Map<String, DayOfWeek> NAME_TO_DAY = new HashMap<>();
    static
    {
-      NAME_TO_DAY.put("Mon", Day.MONDAY);
-      NAME_TO_DAY.put("Tue", Day.TUESDAY);
-      NAME_TO_DAY.put("Wed", Day.WEDNESDAY);
-      NAME_TO_DAY.put("Thu", Day.THURSDAY);
-      NAME_TO_DAY.put("Fri", Day.FRIDAY);
-      NAME_TO_DAY.put("Sat", Day.SATURDAY);
-      NAME_TO_DAY.put("Sun", Day.SUNDAY);
+      NAME_TO_DAY.put("Mon", DayOfWeek.MONDAY);
+      NAME_TO_DAY.put("Tue", DayOfWeek.TUESDAY);
+      NAME_TO_DAY.put("Wed", DayOfWeek.WEDNESDAY);
+      NAME_TO_DAY.put("Thu", DayOfWeek.THURSDAY);
+      NAME_TO_DAY.put("Fri", DayOfWeek.FRIDAY);
+      NAME_TO_DAY.put("Sat", DayOfWeek.SATURDAY);
+      NAME_TO_DAY.put("Sun", DayOfWeek.SUNDAY);
    }
 
-   private static final Map<Day, String> DAY_TO_NAME = new HashMap<>();
+   private static final Map<DayOfWeek, String> DAY_TO_NAME = new HashMap<>();
    static
    {
-      DAY_TO_NAME.put(Day.MONDAY, "Mon");
-      DAY_TO_NAME.put(Day.TUESDAY, "Tue");
-      DAY_TO_NAME.put(Day.WEDNESDAY, "Wed");
-      DAY_TO_NAME.put(Day.THURSDAY, "Thu");
-      DAY_TO_NAME.put(Day.FRIDAY, "Fri");
-      DAY_TO_NAME.put(Day.SATURDAY, "Sat");
-      DAY_TO_NAME.put(Day.SUNDAY, "Sun");
+      DAY_TO_NAME.put(DayOfWeek.MONDAY, "Mon");
+      DAY_TO_NAME.put(DayOfWeek.TUESDAY, "Tue");
+      DAY_TO_NAME.put(DayOfWeek.WEDNESDAY, "Wed");
+      DAY_TO_NAME.put(DayOfWeek.THURSDAY, "Thu");
+      DAY_TO_NAME.put(DayOfWeek.FRIDAY, "Fri");
+      DAY_TO_NAME.put(DayOfWeek.SATURDAY, "Sat");
+      DAY_TO_NAME.put(DayOfWeek.SUNDAY, "Sun");
    }
 
    private static final String NOT_A_DATE_TIME = "not-a-date-time";

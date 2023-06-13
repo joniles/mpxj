@@ -27,9 +27,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -56,35 +55,35 @@ public class CombinedCalendarTest
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
       // Ensure that for an unmodified working day the calendars have an 8-hour overlap
-      Duration work = combined.getWork(Day.MONDAY, TimeUnit.HOURS);
+      Duration work = combined.getWork(DayOfWeek.MONDAY, TimeUnit.HOURS);
       assertEquals(8.0, work.getDuration(), 0.0);
       work = combined.getWork(LocalDate.of(2022, 10, 31), TimeUnit.HOURS);
       assertEquals(8.0, work.getDuration(), 0.0);
 
       // Ensure that for an unmodified non-working day the calendars have no overlap
-      work = combined.getWork(Day.SATURDAY, TimeUnit.HOURS);
+      work = combined.getWork(DayOfWeek.SATURDAY, TimeUnit.HOURS);
       assertEquals(0.0, work.getDuration(), 0.0);
       work = combined.getWork(LocalDate.of(2022, 10, 29), TimeUnit.HOURS);
       assertEquals(0.0, work.getDuration(), 0.0);
 
       // Modify calendar1 so Tuesdays are working from 09:00 to 13:00
-      ProjectCalendarHours hours = calendar1.getCalendarHours(Day.TUESDAY);
+      ProjectCalendarHours hours = calendar1.getCalendarHours(DayOfWeek.TUESDAY);
       hours.clear();
       hours.add(new TimeRange(LocalTime.of(9, 0), LocalTime.of(13, 0)));
 
       // Ensure that Tuesday only has 3 working hours
-      work = combined.getWork(Day.TUESDAY, TimeUnit.HOURS);
+      work = combined.getWork(DayOfWeek.TUESDAY, TimeUnit.HOURS);
       assertEquals(3.0, work.getDuration(), 0.0);
       work = combined.getWork(LocalDate.of(2022, 11, 1), TimeUnit.HOURS);
       assertEquals(3.0, work.getDuration(), 0.0);
 
       // Modify calendar1 so Wednesdays are working from 00:00 to 08:00
-      hours = calendar1.getCalendarHours(Day.WEDNESDAY);
+      hours = calendar1.getCalendarHours(DayOfWeek.WEDNESDAY);
       hours.clear();
       hours.add(new TimeRange(LocalTime.of(0, 0), LocalTime.of(8, 0)));
 
       // Ensure Wednesday shows no working hours as there is no overlap
-      work = combined.getWork(Day.WEDNESDAY, TimeUnit.HOURS);
+      work = combined.getWork(DayOfWeek.WEDNESDAY, TimeUnit.HOURS);
       assertEquals(0.0, work.getDuration(), 0.0);
       work = combined.getWork(LocalDate.of(2022, 11, 02), TimeUnit.HOURS);
       assertEquals(0.0, work.getDuration(), 0.0);

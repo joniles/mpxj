@@ -37,7 +37,7 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -700,7 +700,7 @@ abstract class MPD9AbstractReader
     */
    private void processCalendarHours(ProjectCalendar calendar, Row row, int dayIndex)
    {
-      Day day = DayOfWeekHelper.getInstance(dayIndex);
+      DayOfWeek day = DayOfWeekHelper.getInstance(dayIndex);
       boolean working = row.getInt("CD_WORKING") != 0;
       calendar.setWorkingDay(day, working);
       if (working)

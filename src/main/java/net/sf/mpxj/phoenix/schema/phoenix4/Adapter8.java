@@ -8,17 +8,17 @@
 package net.sf.mpxj.phoenix.schema.phoenix4;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 
-public class Adapter8 extends XmlAdapter<String, Day>
+public class Adapter8 extends XmlAdapter<String, DayOfWeek>
 {
 
-   @Override public Day unmarshal(String value)
+   @Override public DayOfWeek unmarshal(String value)
    {
       return (net.sf.mpxj.phoenix.DatatypeConverter.parseDay(value));
    }
 
-   @Override public String marshal(Day value)
+   @Override public String marshal(DayOfWeek value)
    {
       return (net.sf.mpxj.phoenix.DatatypeConverter.printDay(value));
    }

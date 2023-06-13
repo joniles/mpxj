@@ -23,14 +23,10 @@
 
 package net.sf.mpxj;
 
-import java.time.DayOfWeek;
-
-import net.sf.mpxj.common.EnumHelper;
-
 /**
  * Instances of this class represent enumerated day values.
  */
-public enum Day
+public enum DayOfWeek
 {
    SUNDAY,
    MONDAY,
@@ -48,7 +44,7 @@ public enum Day
     * @return Day instance
     */
 
-   public Day plus(int i)
+   public DayOfWeek plus(int i)
    {
       int value = DayOfWeekHelper.getValue(this) + i;
       if (value > 7)

@@ -57,7 +57,6 @@ import net.sf.mpxj.TimephasedCostContainer;
 import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.LocalDateHelper;
-import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.mpp.MPPTimephasedBaselineCostNormaliser;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -70,8 +69,7 @@ import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.CustomFieldValueMask;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -484,13 +482,13 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
       else
       {
-         bc.setCalendarDayType(Day.SUNDAY, DayType.DEFAULT);
-         bc.setCalendarDayType(Day.MONDAY, DayType.DEFAULT);
-         bc.setCalendarDayType(Day.TUESDAY, DayType.DEFAULT);
-         bc.setCalendarDayType(Day.WEDNESDAY, DayType.DEFAULT);
-         bc.setCalendarDayType(Day.THURSDAY, DayType.DEFAULT);
-         bc.setCalendarDayType(Day.FRIDAY, DayType.DEFAULT);
-         bc.setCalendarDayType(Day.SATURDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.SUNDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.MONDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.TUESDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.WEDNESDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.THURSDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.FRIDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.SATURDAY, DayType.DEFAULT);
       }
 
       readWorkWeeks(calendar, bc);
@@ -535,7 +533,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private void readNormalDay(ProjectCalendar calendar, Project.Calendars.Calendar.WeekDays.WeekDay weekDay)
    {
       int dayNumber = weekDay.getDayType().intValue();
-      Day day = DayOfWeekHelper.getInstance(dayNumber);
+      DayOfWeek day = DayOfWeekHelper.getInstance(dayNumber);
       calendar.setWorkingDay(day, BooleanHelper.getBoolean(weekDay.isDayWorking()));
       ProjectCalendarHours hours = calendar.addCalendarHours(day);
 
@@ -818,8 +816,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       WeekDays xmlWeekDays = xmlWeek.getWeekDays();
       if (xmlWeekDays != null)
       {
-         Map<Day, WeekDay> map = xmlWeekDays.getWeekDay().stream().collect(Collectors.toMap(d -> DayOfWeekHelper.getInstance(d.getDayType().intValue()), d -> d));
-         for (Day day : Day.values())
+         Map<DayOfWeek, WeekDay> map = xmlWeekDays.getWeekDay().stream().collect(Collectors.toMap(d -> DayOfWeekHelper.getInstance(d.getDayType().intValue()), d -> d));
+         for (DayOfWeek day : DayOfWeek.values())
          {
             WeekDay xmlWeekDay = map.get(day);
             if (xmlWeekDay == null)
@@ -841,7 +839,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * @param day day to read
     * @param xmlWeekDay day data
     */
-   private void readWorkWeekDay(ProjectCalendarWeek week, Day day, WeekDay xmlWeekDay)
+   private void readWorkWeekDay(ProjectCalendarWeek week, DayOfWeek day, WeekDay xmlWeekDay)
    {
       week.setWorkingDay(day, BooleanHelper.getBoolean(xmlWeekDay.isDayWorking()));
       ProjectCalendarHours hours = week.addCalendarHours(day);

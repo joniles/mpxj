@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
@@ -11857,7 +11857,7 @@ import net.sf.mpxj.TimeUnit;
                {
 
                   @XmlAttribute(name = "type") protected String type;
-                  @XmlAttribute(name = "weekday") @XmlJavaTypeAdapter(Adapter8.class) protected Day weekday;
+                  @XmlAttribute(name = "weekday") @XmlJavaTypeAdapter(Adapter8.class) protected DayOfWeek weekday;
                   @XmlAttribute(name = "count") @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "int") protected Integer count;
                   @XmlAttribute(name = "interval") @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "int") protected Integer interval;
                   @XmlAttribute(name = "start") @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "dateTime") protected Date start;
@@ -11899,7 +11899,7 @@ import net.sf.mpxj.TimeUnit;
                    *     {@link String }
                    *
                    */
-                  public Day getWeekday()
+                  public DayOfWeek getWeekday()
                   {
                      return weekday;
                   }
@@ -11912,7 +11912,7 @@ import net.sf.mpxj.TimeUnit;
                    *     {@link String }
                    *
                    */
-                  public void setWeekday(Day value)
+                  public void setWeekday(DayOfWeek value)
                   {
                      this.weekday = value;
                   }

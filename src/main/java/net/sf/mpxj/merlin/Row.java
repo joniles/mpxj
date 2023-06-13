@@ -26,7 +26,7 @@ package net.sf.mpxj.merlin;
 import java.util.Date;
 import java.util.UUID;
 
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
@@ -135,7 +135,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Day getDay(String name);
+   public DayOfWeek getDay(String name);
 
    /**
     * Retrieve a date attribute.

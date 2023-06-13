@@ -31,7 +31,7 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
@@ -172,13 +172,13 @@ public class MppRecurringTest
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.WEEKLY, rt.getRecurrenceType());
       assertEquals(1, rt.getFrequency().intValue());
-      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(Day.SUNDAY)));
-      assertEquals(Boolean.TRUE, Boolean.valueOf(rt.getWeeklyDay(Day.MONDAY)));
-      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(Day.TUESDAY)));
-      assertEquals(Boolean.TRUE, Boolean.valueOf(rt.getWeeklyDay(Day.WEDNESDAY)));
-      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(Day.THURSDAY)));
-      assertEquals(Boolean.TRUE, Boolean.valueOf(rt.getWeeklyDay(Day.FRIDAY)));
-      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(Day.SATURDAY)));
+      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.SUNDAY)));
+      assertEquals(Boolean.TRUE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.MONDAY)));
+      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.TUESDAY)));
+      assertEquals(Boolean.TRUE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.WEDNESDAY)));
+      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.THURSDAY)));
+      assertEquals(Boolean.TRUE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.FRIDAY)));
+      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.SATURDAY)));
       assertEquals(LocalDate.of(2008, 6, 15), rt.getStartDate());
       assertEquals(LocalDate.of(2008, 6, 20), rt.getFinishDate());
       assertEquals(3, rt.getOccurrences().intValue());
@@ -214,7 +214,7 @@ public class MppRecurringTest
       assertEquals(RecurrenceType.MONTHLY, rt.getRecurrenceType());
       assertTrue(rt.getRelative());
       assertEquals(3, rt.getDayNumber().intValue());
-      assertEquals(Day.MONDAY, rt.getDayOfWeek());
+      assertEquals(DayOfWeek.MONDAY, rt.getDayOfWeek());
       assertEquals(1, rt.getFrequency().intValue());
       assertEquals(LocalDate.of(2008, 6, 15), rt.getStartDate());
       assertEquals(LocalDate.of(2008, 8, 18), rt.getFinishDate());
@@ -251,7 +251,7 @@ public class MppRecurringTest
       assertEquals(RecurrenceType.YEARLY, rt.getRecurrenceType());
       assertTrue(rt.getRelative());
       assertEquals(3, rt.getDayNumber().intValue());
-      assertEquals(Day.MONDAY, rt.getDayOfWeek());
+      assertEquals(DayOfWeek.MONDAY, rt.getDayOfWeek());
       assertEquals(6, rt.getMonthNumber().intValue());
       assertEquals(LocalDate.of(2008, 6, 15), rt.getStartDate());
       assertEquals(LocalDate.of(2010, 6, 21), rt.getFinishDate());

@@ -74,7 +74,7 @@ import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ExpenseCategory;
@@ -842,7 +842,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_defaultCalendarObjectID = id;
       }
 
-      Map<Day, StandardWorkHours> hoursMap = new HashMap<>();
+      Map<DayOfWeek, StandardWorkHours> hoursMap = new HashMap<>();
       StandardWorkWeek stdWorkWeek = row.getStandardWorkWeek();
       if (stdWorkWeek != null)
       {
@@ -852,13 +852,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
       }
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          // If we don't have an entry for a day, use default values
          StandardWorkHours hours = hoursMap.get(day);
          if (hours == null)
          {
-            calendar.setWorkingDay(day, day != Day.SATURDAY && day != Day.SUNDAY);
+            calendar.setWorkingDay(day, day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY);
             if (calendar.isWorkingDay(day))
             {
                calendar.addCalendarHours(day).add(ProjectCalendarHelper.getDefaultCalendarHours());
@@ -931,7 +931,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          int minutesPerWeek = 0;
          int workingDays = 0;
 
-         for (Day day : Day.values())
+         for (DayOfWeek day : DayOfWeek.values())
          {
             ProjectCalendarHours hours = calendar.getCalendarHours(day);
             if (hours == null)
@@ -2391,26 +2391,26 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private Integer m_defaultCalendarObjectID;
    private PrimaveraBaselineStrategy m_baselineStrategy = PrimaveraBaselineStrategy.PLANNED_DATES;
 
-   private static final Map<String, Day> DAY_MAP = new HashMap<>();
+   private static final Map<String, DayOfWeek> DAY_MAP = new HashMap<>();
    static
    {
       // Current PMXML schema
-      DAY_MAP.put("Monday", Day.MONDAY);
-      DAY_MAP.put("Tuesday", Day.TUESDAY);
-      DAY_MAP.put("Wednesday", Day.WEDNESDAY);
-      DAY_MAP.put("Thursday", Day.THURSDAY);
-      DAY_MAP.put("Friday", Day.FRIDAY);
-      DAY_MAP.put("Saturday", Day.SATURDAY);
-      DAY_MAP.put("Sunday", Day.SUNDAY);
+      DAY_MAP.put("Monday", DayOfWeek.MONDAY);
+      DAY_MAP.put("Tuesday", DayOfWeek.TUESDAY);
+      DAY_MAP.put("Wednesday", DayOfWeek.WEDNESDAY);
+      DAY_MAP.put("Thursday", DayOfWeek.THURSDAY);
+      DAY_MAP.put("Friday", DayOfWeek.FRIDAY);
+      DAY_MAP.put("Saturday", DayOfWeek.SATURDAY);
+      DAY_MAP.put("Sunday", DayOfWeek.SUNDAY);
 
       // Older (6.2?) schema
-      DAY_MAP.put("1", Day.SUNDAY);
-      DAY_MAP.put("2", Day.MONDAY);
-      DAY_MAP.put("3", Day.TUESDAY);
-      DAY_MAP.put("4", Day.WEDNESDAY);
-      DAY_MAP.put("5", Day.THURSDAY);
-      DAY_MAP.put("6", Day.FRIDAY);
-      DAY_MAP.put("7", Day.SATURDAY);
+      DAY_MAP.put("1", DayOfWeek.SUNDAY);
+      DAY_MAP.put("2", DayOfWeek.MONDAY);
+      DAY_MAP.put("3", DayOfWeek.TUESDAY);
+      DAY_MAP.put("4", DayOfWeek.WEDNESDAY);
+      DAY_MAP.put("5", DayOfWeek.THURSDAY);
+      DAY_MAP.put("6", DayOfWeek.FRIDAY);
+      DAY_MAP.put("7", DayOfWeek.SATURDAY);
    }
 
    private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();

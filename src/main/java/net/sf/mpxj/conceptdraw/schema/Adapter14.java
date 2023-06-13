@@ -9,18 +9,18 @@
 package net.sf.mpxj.conceptdraw.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 
 public class Adapter14
-    extends XmlAdapter<String, Day>
+    extends XmlAdapter<String, DayOfWeek>
 {
 
 
-    public Day unmarshal(String value) {
+    public DayOfWeek unmarshal(String value) {
         return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDay(value));
     }
 
-    public String marshal(Day value) {
+    public String marshal(DayOfWeek value) {
         return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDay(value));
     }
 

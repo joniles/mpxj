@@ -46,8 +46,7 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -1619,7 +1618,7 @@ final class AstaReader
       //
       // Populate WORKING or NON_WORKING days with calendar hours if they are missing.
       //
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          if (calendar.getCalendarHours(day) == null)
          {
@@ -1658,8 +1657,8 @@ final class AstaReader
          List<Row> timeEntryRows = timeEntryMap.get(workPatternID);
          if (timeEntryRows != null)
          {
-            Day currentDay = Day.SATURDAY;
-            Arrays.stream(Day.values()).forEach(d -> week.setCalendarDayType(d, DayType.NON_WORKING));
+            DayOfWeek currentDay = DayOfWeek.SATURDAY;
+            Arrays.stream(DayOfWeek.values()).forEach(d -> week.setCalendarDayType(d, DayType.NON_WORKING));
             ProjectCalendarHours hours = null;
 
             for (Row row : timeEntryRows)

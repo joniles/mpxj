@@ -26,7 +26,7 @@ package net.sf.mpxj.primavera;
 import java.time.LocalTime;
 
 import net.sf.mpxj.CalendarType;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.TimeRange;
@@ -65,7 +65,7 @@ final class ProjectCalendarHelper
    {
       // Check for working time
       boolean hasWorkingTime = false;
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          ProjectCalendarHours hours = calendar.getCalendarHours(day);
          hasWorkingTime = hours != null && !hours.isEmpty();
@@ -79,10 +79,10 @@ final class ProjectCalendarHelper
       {
          // if there is not DaysOfWeek data, Primavera seems to default to Mon-Fri, 8:00-16:00
          TimeRange defaultHourRange = getDefaultCalendarHours();
-         for (Day day : Day.values())
+         for (DayOfWeek day : DayOfWeek.values())
          {
             ProjectCalendarHours hours = calendar.addCalendarHours(day);
-            if (day != Day.SATURDAY && day != Day.SUNDAY)
+            if (day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY)
             {
                calendar.setWorkingDay(day, true);
                hours.add(defaultHourRange);

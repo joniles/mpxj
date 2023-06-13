@@ -29,7 +29,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,7 +46,7 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
@@ -204,7 +203,7 @@ final class MPP8Reader implements MPPVariantReader
       int calendarID;
       int baseCalendarID;
       int periodIndex;
-      Day day;
+      DayOfWeek day;
       List<Pair<ProjectCalendar, Integer>> baseCalendars = new ArrayList<>();
 
       for (int loop = 0; loop < calendars; loop++)

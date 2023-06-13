@@ -17,7 +17,7 @@
       <jxb:javaType name="net.sf.mpxj.CurrencySymbolPosition" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseCurrencySymbolPosition" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printCurrencySymbolPosition"/>
     </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='Day']">
-      <jxb:javaType name="net.sf.mpxj.Day" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseDay" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printDay"/>
+      <jxb:javaType name="java.time.DayOfWeek" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseDay" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printDay"/>
     </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='Resource']//xsd:element[@name='Type']">
       <jxb:javaType name="net.sf.mpxj.ResourceType" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseResourceType" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printResourceType"/>

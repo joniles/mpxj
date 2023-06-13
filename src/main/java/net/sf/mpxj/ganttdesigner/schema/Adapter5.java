@@ -9,18 +9,18 @@
 package net.sf.mpxj.ganttdesigner.schema;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 
 public class Adapter5
-    extends XmlAdapter<String, Day>
+    extends XmlAdapter<String, DayOfWeek>
 {
 
 
-    public Day unmarshal(String value) {
+    public DayOfWeek unmarshal(String value) {
         return (net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDay(value));
     }
 
-    public String marshal(Day value) {
+    public String marshal(DayOfWeek value) {
         return (net.sf.mpxj.ganttdesigner.DatatypeConverter.printDay(value));
     }
 

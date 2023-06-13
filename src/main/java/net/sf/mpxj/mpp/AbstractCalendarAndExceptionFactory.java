@@ -26,10 +26,8 @@ package net.sf.mpxj.mpp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.LocalDateRange;
@@ -41,7 +39,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.TimeRange;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -247,7 +244,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       {
          //System.out.println("Week start offset=" + offset);
          ProjectCalendarWeek week = cal.addWorkWeek();
-         for (Day day : Day.values())
+         for (DayOfWeek day : DayOfWeek.values())
          {
             // 60 byte block per day
             processWorkWeekDay(data, offset, week, day);
@@ -294,7 +291,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
     * @param week parent week
     * @param day current day
     */
-   private void processWorkWeekDay(byte[] data, int offset, ProjectCalendarWeek week, Day day)
+   private void processWorkWeekDay(byte[] data, int offset, ProjectCalendarWeek week, DayOfWeek day)
    {
       //System.out.println(ByteArrayHelper.hexdump(data, offset, 60, false));
 

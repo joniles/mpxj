@@ -56,7 +56,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
@@ -242,7 +242,7 @@ public final class MerlinReader extends AbstractProjectFileReader
    private void processDays(ProjectCalendar calendar) throws Exception
    {
       // Default all days to non-working
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          calendar.setWorkingDay(day, false);
          calendar.addCalendarHours(day);
@@ -251,7 +251,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       List<Row> rows = getRows("select * from zcalendarrule where zcalendar1=? and z_ent=?", calendar.getUniqueID(), m_entityMap.get("CalendarWeekDayRule"));
       for (Row row : rows)
       {
-         Day day = row.getDay("ZWEEKDAY");
+         DayOfWeek day = row.getDay("ZWEEKDAY");
          String timeIntervals = row.getString("ZTIMEINTERVALS");
          ProjectCalendarHours hours = calendar.getCalendarHours(day);
 

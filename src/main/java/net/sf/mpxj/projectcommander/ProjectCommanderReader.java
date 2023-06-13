@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,7 +38,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -181,25 +180,25 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
 
          // This is guesswork - need some samples with more variation
          int workingDays = DatatypeConverter.getByte(data, offset);
-         calendar.setWorkingDay(Day.SATURDAY, (workingDays & 0x40) != 0);
-         calendar.setWorkingDay(Day.SUNDAY, (workingDays & 0x20) != 0);
-         calendar.setWorkingDay(Day.MONDAY, (workingDays & 0x10) != 0);
-         calendar.setWorkingDay(Day.TUESDAY, (workingDays & 0x08) != 0);
-         calendar.setWorkingDay(Day.WEDNESDAY, (workingDays & 0x04) != 0);
-         calendar.setWorkingDay(Day.THURSDAY, (workingDays & 0x02) != 0);
-         calendar.setWorkingDay(Day.FRIDAY, (workingDays & 0x01) != 0);
+         calendar.setWorkingDay(DayOfWeek.SATURDAY, (workingDays & 0x40) != 0);
+         calendar.setWorkingDay(DayOfWeek.SUNDAY, (workingDays & 0x20) != 0);
+         calendar.setWorkingDay(DayOfWeek.MONDAY, (workingDays & 0x10) != 0);
+         calendar.setWorkingDay(DayOfWeek.TUESDAY, (workingDays & 0x08) != 0);
+         calendar.setWorkingDay(DayOfWeek.WEDNESDAY, (workingDays & 0x04) != 0);
+         calendar.setWorkingDay(DayOfWeek.THURSDAY, (workingDays & 0x02) != 0);
+         calendar.setWorkingDay(DayOfWeek.FRIDAY, (workingDays & 0x01) != 0);
          offset += 28;
 
-         Map<Day, List<TimeRange>> ranges = new HashMap<>();
-         ranges.put(Day.SATURDAY, readCalendarHours(data, offset));
-         ranges.put(Day.SUNDAY, readCalendarHours(data, offset + 16));
-         ranges.put(Day.MONDAY, readCalendarHours(data, offset + 32));
-         ranges.put(Day.TUESDAY, readCalendarHours(data, offset + 48));
-         ranges.put(Day.WEDNESDAY, readCalendarHours(data, offset + 64));
-         ranges.put(Day.THURSDAY, readCalendarHours(data, offset + 80));
-         ranges.put(Day.FRIDAY, readCalendarHours(data, offset + 96));
+         Map<DayOfWeek, List<TimeRange>> ranges = new HashMap<>();
+         ranges.put(DayOfWeek.SATURDAY, readCalendarHours(data, offset));
+         ranges.put(DayOfWeek.SUNDAY, readCalendarHours(data, offset + 16));
+         ranges.put(DayOfWeek.MONDAY, readCalendarHours(data, offset + 32));
+         ranges.put(DayOfWeek.TUESDAY, readCalendarHours(data, offset + 48));
+         ranges.put(DayOfWeek.WEDNESDAY, readCalendarHours(data, offset + 64));
+         ranges.put(DayOfWeek.THURSDAY, readCalendarHours(data, offset + 80));
+         ranges.put(DayOfWeek.FRIDAY, readCalendarHours(data, offset + 96));
 
-         for (Day day : DAYS)
+         for (DayOfWeek day : DAYS)
          {
             ProjectCalendarHours hours = calendar.addCalendarHours(day);
             if (calendar.isWorkingDay(day))
@@ -255,7 +254,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     * @param ranges default day of week working times
     * @param data byte array
     */
-   private void readCalendarException(ProjectCalendar calendar, Map<Day, List<TimeRange>> ranges, byte[] data)
+   private void readCalendarException(ProjectCalendar calendar, Map<DayOfWeek, List<TimeRange>> ranges, byte[] data)
    {
       long timestampInDays = DatatypeConverter.getShort(data, 2, 0);
 
@@ -266,7 +265,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          LocalDate exceptionDate = LocalDateHelper.getLocalDate(DateHelper.getTimestampFromLong(timestampInMilliseconds));
 
          ProjectCalendarException ex = calendar.addCalendarException(exceptionDate);
-         Day day = DayOfWeekHelper.getInstance(exceptionDate.getDayOfWeek());
+         DayOfWeek day = DayOfWeekHelper.getInstance(exceptionDate.getDayOfWeek());
          if (!calendar.isWorkingDay(day))
          {
             ex.addAll(ranges.get(day));
@@ -650,14 +649,14 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
 
    private static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
 
-   private static final Day[] DAYS =
+   private static final DayOfWeek[] DAYS =
    {
-      Day.SATURDAY,
-      Day.SUNDAY,
-      Day.MONDAY,
-      Day.TUESDAY,
-      Day.WEDNESDAY,
-      Day.THURSDAY,
-      Day.FRIDAY
+      DayOfWeek.SATURDAY,
+      DayOfWeek.SUNDAY,
+      DayOfWeek.MONDAY,
+      DayOfWeek.TUESDAY,
+      DayOfWeek.WEDNESDAY,
+      DayOfWeek.THURSDAY,
+      DayOfWeek.FRIDAY
    };
 }

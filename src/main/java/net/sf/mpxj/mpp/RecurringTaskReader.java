@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
@@ -62,13 +62,13 @@ final class RecurringTaskReader
       rt.setRecurrenceType(RecurrenceType.getInstance(MPPUtility.getShort(data, 20)));
       rt.setUseEndDate(MPPUtility.getShort(data, 24) == 1);
       rt.setWorkingDaysOnly(MPPUtility.getShort(data, 26) == 1);
-      rt.setWeeklyDay(Day.SUNDAY, MPPUtility.getShort(data, 28) == 1);
-      rt.setWeeklyDay(Day.MONDAY, MPPUtility.getShort(data, 30) == 1);
-      rt.setWeeklyDay(Day.TUESDAY, MPPUtility.getShort(data, 32) == 1);
-      rt.setWeeklyDay(Day.WEDNESDAY, MPPUtility.getShort(data, 34) == 1);
-      rt.setWeeklyDay(Day.THURSDAY, MPPUtility.getShort(data, 36) == 1);
-      rt.setWeeklyDay(Day.FRIDAY, MPPUtility.getShort(data, 38) == 1);
-      rt.setWeeklyDay(Day.SATURDAY, MPPUtility.getShort(data, 40) == 1);
+      rt.setWeeklyDay(DayOfWeek.SUNDAY, MPPUtility.getShort(data, 28) == 1);
+      rt.setWeeklyDay(DayOfWeek.MONDAY, MPPUtility.getShort(data, 30) == 1);
+      rt.setWeeklyDay(DayOfWeek.TUESDAY, MPPUtility.getShort(data, 32) == 1);
+      rt.setWeeklyDay(DayOfWeek.WEDNESDAY, MPPUtility.getShort(data, 34) == 1);
+      rt.setWeeklyDay(DayOfWeek.THURSDAY, MPPUtility.getShort(data, 36) == 1);
+      rt.setWeeklyDay(DayOfWeek.FRIDAY, MPPUtility.getShort(data, 38) == 1);
+      rt.setWeeklyDay(DayOfWeek.SATURDAY, MPPUtility.getShort(data, 40) == 1);
 
       int frequencyOffset = 0;
       int dayOfWeekOffset = 0;

@@ -26,18 +26,13 @@ package net.sf.mpxj;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.text.DateFormatSymbols;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
 
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -177,7 +172,7 @@ public class RecurringData
     * @param day Day instance
     * @return true if this day is included
     */
-   public boolean getWeeklyDay(Day day)
+   public boolean getWeeklyDay(DayOfWeek day)
    {
       return m_days.contains(day);
    }
@@ -188,7 +183,7 @@ public class RecurringData
     * @param day Day instance
     * @param value true if this day is included in the recurrence
     */
-   public void setWeeklyDay(Day day, boolean value)
+   public void setWeeklyDay(DayOfWeek day, boolean value)
    {
       if (value)
       {
@@ -213,7 +208,7 @@ public class RecurringData
       if (days != null)
       {
          int value = days.intValue();
-         for (Day day : Day.values())
+         for (DayOfWeek day : DayOfWeek.values())
          {
             setWeeklyDay(day, ((value & masks[DayOfWeekHelper.getValue(day)]) != 0));
          }
@@ -268,9 +263,9 @@ public class RecurringData
     *
     * @return day of the week
     */
-   public Day getDayOfWeek()
+   public DayOfWeek getDayOfWeek()
    {
-      Day result = null;
+      DayOfWeek result = null;
       if (!m_days.isEmpty())
       {
          result = m_days.iterator().next();
@@ -283,7 +278,7 @@ public class RecurringData
     *
     * @param day day of the week
     */
-   public void setDayOfWeek(Day day)
+   public void setDayOfWeek(DayOfWeek day)
    {
       m_days.clear();
       m_days.add(day);
@@ -485,11 +480,11 @@ public class RecurringData
       // We need to work from the start of the week that contains the start date
       // and ignore any matches we get that are before the start date.
       //
-      DayOfWeek currentDay = date.getDayOfWeek();
-      if (currentDay != DayOfWeek.SUNDAY)
+      java.time.DayOfWeek currentDay = date.getDayOfWeek();
+      if (currentDay != java.time.DayOfWeek.SUNDAY)
       {
          date = date.minusDays(currentDay.getValue());
-         currentDay = DayOfWeek.SUNDAY;
+         currentDay = java.time.DayOfWeek.SUNDAY;
       }
 
       while (moreDates(date, dates))
@@ -834,7 +829,7 @@ public class RecurringData
             pw.print(" week on ");
 
             StringBuilder sb = new StringBuilder();
-            for (Day day : Day.values())
+            for (DayOfWeek day : DayOfWeek.values())
             {
                if (getWeeklyDay(day))
                {
@@ -948,5 +943,5 @@ public class RecurringData
    private Integer m_dayNumber;
    private Integer m_monthNumber;
    private LocalDate[] m_dates;
-   private final EnumSet<Day> m_days = EnumSet.noneOf(Day.class);
+   private final EnumSet<DayOfWeek> m_days = EnumSet.noneOf(DayOfWeek.class);
 }

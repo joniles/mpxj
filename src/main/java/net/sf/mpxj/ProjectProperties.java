@@ -2098,9 +2098,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return week start day
     */
-   public Day getWeekStartDay()
+   public DayOfWeek getWeekStartDay()
    {
-      return (Day) get(ProjectField.WEEK_START_DAY);
+      return (DayOfWeek) get(ProjectField.WEEK_START_DAY);
    }
 
    /**
@@ -2108,7 +2108,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param weekStartDay week start day
     */
-   public void setWeekStartDay(Day weekStartDay)
+   public void setWeekStartDay(DayOfWeek weekStartDay)
    {
       set(ProjectField.WEEK_START_DAY, weekStartDay);
    }
@@ -3047,7 +3047,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    /**
     * Default week start day.
     */
-   private static final Day DEFAULT_WEEK_START_DAY = Day.MONDAY;
+   private static final DayOfWeek DEFAULT_WEEK_START_DAY = DayOfWeek.MONDAY;
 
    /**
     * Default work value.

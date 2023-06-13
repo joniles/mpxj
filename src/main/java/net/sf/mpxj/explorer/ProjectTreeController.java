@@ -44,7 +44,7 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataLink;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.Group;
@@ -289,7 +289,7 @@ public class ProjectTreeController
       MpxjTreeNode daysFolder = new MpxjTreeNode("Days");
       calendarNode.add(daysFolder);
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          addCalendarDay(daysFolder, calendar, day);
       }
@@ -344,7 +344,7 @@ public class ProjectTreeController
       MpxjTreeNode daysFolder = new MpxjTreeNode("Days");
       weekNode.add(daysFolder);
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          addCalendarDay(daysFolder, week, day);
       }
@@ -358,7 +358,7 @@ public class ProjectTreeController
     * @param calendar ProjectCalendar instance
     * @param day calendar day
     */
-   private void addCalendarDay(MpxjTreeNode parentNode, ProjectCalendarDays calendar, final Day day)
+   private void addCalendarDay(MpxjTreeNode parentNode, ProjectCalendarDays calendar, final DayOfWeek day)
    {
       MpxjTreeNode dayNode = new MpxjTreeNode(day)
       {

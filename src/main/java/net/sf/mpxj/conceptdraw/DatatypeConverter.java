@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.CurrencySymbolPosition;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.RelationType;
@@ -169,7 +169,7 @@ public final class DatatypeConverter
     * @param value String representation
     * @return Day instance
     */
-   public static final Day parseDay(String value)
+   public static final DayOfWeek parseDay(String value)
    {
       return DayOfWeekHelper.getInstance(Integer.parseInt(value) + 1);
    }
@@ -180,7 +180,7 @@ public final class DatatypeConverter
     * @param value Day instance
     * @return String representation
     */
-   public static final String printDay(Day value)
+   public static final String printDay(DayOfWeek value)
    {
       throw new UnsupportedOperationException();
    }

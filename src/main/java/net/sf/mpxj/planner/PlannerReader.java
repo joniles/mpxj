@@ -49,7 +49,7 @@ import net.sf.mpxj.TimeRange;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -219,13 +219,13 @@ public final class PlannerReader extends AbstractProjectStreamReader
       // Set the hours for each day based on the day type
       //
       DefaultWeek dw = plannerCalendar.getDefaultWeek();
-      setHours(map, mpxjCalendar, Day.MONDAY, dw.getMon());
-      setHours(map, mpxjCalendar, Day.TUESDAY, dw.getTue());
-      setHours(map, mpxjCalendar, Day.WEDNESDAY, dw.getWed());
-      setHours(map, mpxjCalendar, Day.THURSDAY, dw.getThu());
-      setHours(map, mpxjCalendar, Day.FRIDAY, dw.getFri());
-      setHours(map, mpxjCalendar, Day.SATURDAY, dw.getSat());
-      setHours(map, mpxjCalendar, Day.SUNDAY, dw.getSun());
+      setHours(map, mpxjCalendar, DayOfWeek.MONDAY, dw.getMon());
+      setHours(map, mpxjCalendar, DayOfWeek.TUESDAY, dw.getTue());
+      setHours(map, mpxjCalendar, DayOfWeek.WEDNESDAY, dw.getWed());
+      setHours(map, mpxjCalendar, DayOfWeek.THURSDAY, dw.getThu());
+      setHours(map, mpxjCalendar, DayOfWeek.FRIDAY, dw.getFri());
+      setHours(map, mpxjCalendar, DayOfWeek.SATURDAY, dw.getSat());
+      setHours(map, mpxjCalendar, DayOfWeek.SUNDAY, dw.getSun());
 
       //
       // Process any exception days
@@ -273,7 +273,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param mpxjDay MPXJ calendar
     * @param plannerDay Planner day type
     */
-   private void setHours(Map<String, List<TimeRange>> map, ProjectCalendar mpxjCalendar, Day mpxjDay, String plannerDay)
+   private void setHours(Map<String, List<TimeRange>> map, ProjectCalendar mpxjCalendar, DayOfWeek mpxjDay, String plannerDay)
    {
       List<TimeRange> dateRanges = map.get(plannerDay);
       if (dateRanges == null)

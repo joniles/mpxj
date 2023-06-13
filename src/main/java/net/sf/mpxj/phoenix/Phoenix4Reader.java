@@ -53,7 +53,7 @@ import net.sf.mpxj.common.SlackHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
@@ -261,7 +261,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       mpxjCalendar.setName(calendar.getName());
 
       // Default all days to working
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          mpxjCalendar.setWorkingDay(day, true);
       }
@@ -270,7 +270,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       calendar.getNonWork().stream().filter(n -> NON_WORKING_DAY_MAP.containsKey(n.getType())).forEach(n -> NON_WORKING_DAY_MAP.get(n.getType()).apply(this, mpxjCalendar, n));
 
       // Add default working hours for working days
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
          if (mpxjCalendar.isWorkingDay(day))

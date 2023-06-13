@@ -51,7 +51,7 @@ import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
@@ -476,7 +476,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendarDays(ProjectCalendarDays week) throws IOException
    {
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          m_writer.writeStartObject(day.name().toLowerCase());
          writeStringField("type", week.getCalendarDayType(day).toString().toLowerCase());
@@ -570,7 +570,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeIntegerField("month_number", data.getMonthNumber());
          writeBooleanField("use_end_date", Boolean.valueOf(data.getUseEndDate()));
 
-         List<Object> weeklyDays = Arrays.stream(Day.values()).filter(data::getWeeklyDay).map(d -> "\"" + d.toString().toLowerCase() + "\"").collect(Collectors.toList());
+         List<Object> weeklyDays = Arrays.stream(DayOfWeek.values()).filter(data::getWeeklyDay).map(d -> "\"" + d.toString().toLowerCase() + "\"").collect(Collectors.toList());
          if (!weeklyDays.isEmpty())
          {
             m_writer.writeList("weekly_days", weeklyDays);

@@ -24,7 +24,7 @@
 	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parsePercent" 
 	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printPercent"/>      
 
-	  <jxb:javaType name="net.sf.mpxj.Day"
+	  <jxb:javaType name="java.time.DayOfWeek"
 	     xmlType="ganttDesignerDay"     
 	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDay" 
 	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printDay"/>      

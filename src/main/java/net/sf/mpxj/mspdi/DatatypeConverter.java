@@ -43,7 +43,7 @@ import net.sf.mpxj.BookingType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
@@ -1737,7 +1737,7 @@ public final class DatatypeConverter
     * @param day Day instance
     * @return day value
     */
-   public static final BigInteger printDay(Day day)
+   public static final BigInteger printDay(DayOfWeek day)
    {
       return (day == null ? null : BigInteger.valueOf(DayOfWeekHelper.getValue(day) - 1));
    }
@@ -1748,7 +1748,7 @@ public final class DatatypeConverter
     * @param value day value
     * @return Day instance
     */
-   public static final Day parseDay(Number value)
+   public static final DayOfWeek parseDay(Number value)
    {
       return (DayOfWeekHelper.getInstance(NumberHelper.getInt(value) + 1));
    }

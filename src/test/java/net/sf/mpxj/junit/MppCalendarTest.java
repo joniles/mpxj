@@ -31,7 +31,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -180,24 +180,24 @@ public class MppCalendarTest
       assertEquals("Standard", cal.getName());
       assertNull(cal.getParent());
       assertFalse(cal.isDerived());
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.MONDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.TUESDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.WEDNESDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.THURSDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.FRIDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.MONDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.TUESDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.WEDNESDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.THURSDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.FRIDAY));
 
-      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(Day.SATURDAY));
-      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(Day.SUNDAY));
+      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(DayOfWeek.SATURDAY));
+      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(DayOfWeek.SUNDAY));
 
       assertEquals(0, cal.getCalendarExceptions().size());
 
-      ProjectCalendarHours hours = cal.getCalendarHours(Day.MONDAY);
+      ProjectCalendarHours hours = cal.getCalendarHours(DayOfWeek.MONDAY);
       assertEquals(2, hours.size());
 
       TimeRange range = hours.get(0);
       assertEquals(LocalTime.of(8,0), range.getStartAsLocalTime());
       assertEquals(LocalTime.of(12,0), range.getEndAsLocalTime());
-      range = cal.getCalendarHours(Day.MONDAY).get(1);
+      range = cal.getCalendarHours(DayOfWeek.MONDAY).get(1);
       assertEquals(LocalTime.of(13,0), range.getStartAsLocalTime());
       assertEquals(LocalTime.of(17,0), range.getEndAsLocalTime());
    }
@@ -217,13 +217,13 @@ public class MppCalendarTest
       assertEquals("Standard", cal.getName());
       assertNull(cal.getParent());
       assertFalse(cal.isDerived());
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.MONDAY));
-      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(Day.TUESDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.WEDNESDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.THURSDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.FRIDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.SATURDAY));
-      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(Day.SUNDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.MONDAY));
+      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(DayOfWeek.TUESDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.WEDNESDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.THURSDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.FRIDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.SATURDAY));
+      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(DayOfWeek.SUNDAY));
 
       List<net.sf.mpxj.ProjectCalendarException> exceptions = cal.getCalendarExceptions();
       assertEquals(3, exceptions.size());

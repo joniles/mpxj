@@ -1,7 +1,4 @@
 package net.sf.mpxj;
-import java.time.DayOfWeek;
-
-import net.sf.mpxj.common.EnumHelper;
 
 public final class DayOfWeekHelper
 {
@@ -11,9 +8,9 @@ public final class DayOfWeekHelper
     * @param type type value
     * @return Day instance
     */
-   public static Day getInstance(int type)
+   public static DayOfWeek getInstance(int type)
    {
-      Day result;
+      DayOfWeek result;
 
       if (type < 0 || type >= TYPE_VALUES.length)
       {
@@ -26,12 +23,12 @@ public final class DayOfWeekHelper
       return result;
    }
 
-   public static Day getInstance(DayOfWeek day)
+   public static DayOfWeek getInstance(java.time.DayOfWeek day)
    {
       return getInstance(day.getValue() == 7 ? 1 : day.getValue() + 1);
    }
 
-   public static int getValue(Day day)
+   public static int getValue(DayOfWeek day)
    {
       switch(day)
       {
@@ -57,15 +54,15 @@ public final class DayOfWeekHelper
    /**
     * Array mapping int types to enums.
     */
-   private static final Day[] TYPE_VALUES =
+   private static final DayOfWeek[] TYPE_VALUES =
       {
          null,
-         Day.SUNDAY,
-         Day.MONDAY,
-         Day.TUESDAY,
-         Day.WEDNESDAY,
-         Day.THURSDAY,
-         Day.FRIDAY,
-         Day.SATURDAY
+         DayOfWeek.SUNDAY,
+         DayOfWeek.MONDAY,
+         DayOfWeek.TUESDAY,
+         DayOfWeek.WEDNESDAY,
+         DayOfWeek.THURSDAY,
+         DayOfWeek.FRIDAY,
+         DayOfWeek.SATURDAY
       };
 }

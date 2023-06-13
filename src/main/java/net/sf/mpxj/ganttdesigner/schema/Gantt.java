@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeek;
 import net.sf.mpxj.Duration;
 
 
@@ -1350,7 +1350,7 @@ public class Gantt {
         protected String workDays;
         @XmlAttribute(name = "WeekStart")
         @XmlJavaTypeAdapter(Adapter5 .class)
-        protected Day weekStart;
+        protected DayOfWeek weekStart;
 
         /**
          * Gets the value of the workDays property.
@@ -1384,7 +1384,7 @@ public class Gantt {
          *     {@link String }
          *     
          */
-        public Day getWeekStart() {
+        public DayOfWeek getWeekStart() {
             return weekStart;
         }
 
@@ -1396,7 +1396,7 @@ public class Gantt {
          *     {@link String }
          *     
          */
-        public void setWeekStart(Day value) {
+        public void setWeekStart(DayOfWeek value) {
             this.weekStart = value;
         }
 
