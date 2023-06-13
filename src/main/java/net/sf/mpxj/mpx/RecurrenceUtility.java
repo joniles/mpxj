@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpx;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 
@@ -251,12 +252,12 @@ final class RecurrenceUtility
     * @param data recurrence data
     * @return yearly absolute date
     */
-   public static LocalDateTime getYearlyAbsoluteAsDate(RecurringData data)
+   public static LocalDate getYearlyAbsoluteAsDate(RecurringData data)
    {
-      LocalDateTime result;
+      LocalDate result;
       Integer yearlyAbsoluteDay = data.getDayNumber();
       Integer yearlyAbsoluteMonth = data.getMonthNumber();
-      LocalDateTime startDate = LocalDateHelper.getDate(data.getStartDate());
+      LocalDate startDate = data.getStartDate();
 
       if (yearlyAbsoluteDay == null || yearlyAbsoluteMonth == null || startDate == null)
       {
@@ -264,11 +265,7 @@ final class RecurrenceUtility
       }
       else
       {
-         Calendar cal = DateHelper.popCalendar(startDate);
-         cal.set(Calendar.MONTH, yearlyAbsoluteMonth.intValue() - 1);
-         cal.set(Calendar.DAY_OF_MONTH, yearlyAbsoluteDay.intValue());
-         result = cal.getTime();
-         DateHelper.pushCalendar(cal);
+         result = LocalDate.of(startDate.getYear(), yearlyAbsoluteMonth, yearlyAbsoluteDay);
       }
       return result;
    }

@@ -44,6 +44,7 @@ import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RateHelper;
 
@@ -328,7 +329,7 @@ public final class MPPUtility
       }
       else
       {
-         result = DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY));
+         result = LocalDateTimeHelper.getLocalDateTime(DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY)));
       }
 
       return (result);
@@ -397,7 +398,7 @@ public final class MPPUtility
          {
             time = 0;
          }
-         result = DateHelper.getTimestampFromLong((EPOCH + (days * DateHelper.MS_PER_DAY) + ((time * DateHelper.MS_PER_MINUTE) / 10)));
+         result = LocalDateTimeHelper.getLocalDateTime(DateHelper.getTimestampFromLong((EPOCH + (days * DateHelper.MS_PER_DAY) + ((time * DateHelper.MS_PER_MINUTE) / 10))));
       }
 
       return (result);
@@ -413,7 +414,7 @@ public final class MPPUtility
    public static final LocalDateTime getTimestampFromTenths(byte[] data, int offset)
    {
       long ms = ((long) getInt(data, offset)) * 6000;
-      return (DateHelper.getTimestampFromLong(EPOCH + ms));
+      return LocalDateTimeHelper.getLocalDateTime(DateHelper.getTimestampFromLong(EPOCH + ms));
    }
 
    /**
@@ -1327,7 +1328,7 @@ public final class MPPUtility
    /**
     * Epoch Date as a Date instance.
     */
-   private static final LocalDateTime EPOCH_DATE = DateHelper.getTimestampFromLong(EPOCH);
+   private static final LocalDateTime EPOCH_DATE = LocalDateTimeHelper.getLocalDateTime(DateHelper.getTimestampFromLong(EPOCH));
 
    /**
     * Mask used to remove flags from the duration units field.

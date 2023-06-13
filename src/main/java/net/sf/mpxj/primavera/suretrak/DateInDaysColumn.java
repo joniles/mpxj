@@ -28,6 +28,7 @@ package net.sf.mpxj.primavera.suretrak;
 import java.time.LocalDateTime;
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.common.AbstractShortColumn;
 
 /**
@@ -54,7 +55,7 @@ class DateInDaysColumn extends AbstractShortColumn
          days -= RECURRING_OFFSET;
       }
 
-      return DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY));
+      return LocalDateTimeHelper.getLocalDateTime(DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY)));
    }
 
    static final int RECURRING_OFFSET = 25463;

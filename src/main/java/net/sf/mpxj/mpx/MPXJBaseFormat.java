@@ -81,9 +81,9 @@ abstract class MPXJBaseFormat extends MultiDateFormat
       }
    }
 
-   @Override protected LocalDateTime parseNonNullDate(String str, ParsePosition pos)
+   @Override protected java.util.Date parseNonNullDate(String str, ParsePosition pos)
    {
-      LocalDateTime result;
+      java.util.Date result;
       if (str.equals(m_null))
       {
          result = null;

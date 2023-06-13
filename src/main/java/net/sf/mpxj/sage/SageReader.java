@@ -47,6 +47,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
@@ -301,7 +302,7 @@ public final class SageReader extends AbstractProjectStreamReader
       {
          try
          {
-            result = DATE_FORMAT.get().parse(date);
+            result = LocalDateTimeHelper.getLocalDateTime(DATE_FORMAT.get().parse(date));
          }
          catch (ParseException e)
          {
@@ -362,7 +363,7 @@ public final class SageReader extends AbstractProjectStreamReader
     */
    private void setConstraint(Task task, ConstraintType type, String[] columns, int index)
    {
-      Date date = parseDate(columns, index);
+      LocalDateTime date = parseDate(columns, index);
       if (date != null)
       {
          task.setConstraintType(type);

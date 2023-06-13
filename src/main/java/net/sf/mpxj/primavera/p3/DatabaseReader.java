@@ -26,9 +26,12 @@ package net.sf.mpxj.primavera.p3;
 import java.io.File;
 import java.io.IOException;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.common.ByteColumn;
 import net.sf.mpxj.primavera.common.ColumnDefinition;
 import net.sf.mpxj.primavera.common.IntColumn;
@@ -517,15 +520,15 @@ class DatabaseReader
    {
       @Override public boolean validRow(Map<String, Object> row)
       {
-         Date date = (Date) row.get("PROJECT_START_DATE");
-         return date != null && date.getTime() > EPOCH;
+         LocalDateTime date = (LocalDateTime) row.get("PROJECT_START_DATE");
+         return date != null && date.isAfter(EPOCH);
       }
    };
 
    /**
     * Epoch for date calculations. Represents 31/12/1983.
     */
-   static final long EPOCH = 441676800000L;
+   static final LocalDateTime EPOCH = LocalDateTimeHelper.getLocalDateTime(DateHelper.getDateFromLong(441676800000L));
 
    private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<>();
    static

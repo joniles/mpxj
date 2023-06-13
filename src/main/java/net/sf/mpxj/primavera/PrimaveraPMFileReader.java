@@ -27,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
@@ -549,8 +551,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          GlobalPreferencesType prefs = list.get(0);
          ProjectProperties properties = m_projectFile.getProjectProperties();
 
-         properties.setCreationDate(prefs.getCreateDate());
-         properties.setLastSaved(prefs.getLastUpdateDate());
+         properties.setCreationDate(LocalDateTimeHelper.getLocalDateTime(prefs.getCreateDate()));
+         properties.setLastSaved(LocalDateTimeHelper.getLocalDateTime(prefs.getLastUpdateDate()));
          properties.setMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerDay()) * 60)));
          properties.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerWeek()) * 60)));
          properties.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerMonth()) * 60)));
@@ -579,19 +581,19 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ProjectProperties properties = m_projectFile.getProjectProperties();
 
       properties.setBaselineProjectUniqueID(project.getCurrentBaselineProjectObjectId());
-      properties.setCreationDate(project.getCreateDate());
+      properties.setCreationDate(LocalDateTimeHelper.getLocalDateTime(project.getCreateDate()));
       properties.setCriticalActivityType(CriticalActivityTypeHelper.getInstanceFromXml(project.getCriticalActivityPathType()));
-      properties.setFinishDate(project.getFinishDate());
+      properties.setFinishDate(LocalDateTimeHelper.getLocalDateTime(project.getFinishDate()));
       properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
       properties.setName(project.getName());
-      properties.setStartDate(project.getStartDate());
-      properties.setStatusDate(project.getDataDate());
+      properties.setStartDate(LocalDateTimeHelper.getLocalDateTime(project.getStartDate()));
+      properties.setStatusDate(LocalDateTimeHelper.getLocalDateTime(project.getDataDate()));
       properties.setProjectID(project.getId());
       properties.setUniqueID(project.getObjectId());
       properties.setExportFlag(!BooleanHelper.getBoolean(project.isExternal()));
-      properties.setPlannedStart(project.getPlannedStartDate());
-      properties.setScheduledFinish(project.getScheduledFinishDate());
-      properties.setMustFinishBy(project.getMustFinishByDate());
+      properties.setPlannedStart(LocalDateTimeHelper.getLocalDateTime(project.getPlannedStartDate()));
+      properties.setScheduledFinish(LocalDateTimeHelper.getLocalDateTime(project.getScheduledFinishDate()));
+      properties.setMustFinishBy(LocalDateTimeHelper.getLocalDateTime(project.getMustFinishByDate()));
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
       properties.setLocationUniqueID(project.getLocationObjectId());
 
@@ -605,16 +607,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
 
-      properties.setCreationDate(project.getCreateDate());
-      properties.setFinishDate(project.getFinishDate());
+      properties.setCreationDate(LocalDateTimeHelper.getLocalDateTime(project.getCreateDate()));
+      properties.setFinishDate(LocalDateTimeHelper.getLocalDateTime(project.getFinishDate()));
       properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
       properties.setName(project.getName());
-      properties.setStartDate(project.getPlannedStartDate());
-      properties.setStatusDate(project.getDataDate());
+      properties.setStartDate(LocalDateTimeHelper.getLocalDateTime(project.getPlannedStartDate()));
+      properties.setStatusDate(LocalDateTimeHelper.getLocalDateTime(project.getDataDate()));
       properties.setProjectID(project.getId());
       properties.setUniqueID(project.getObjectId());
       properties.setExportFlag(false);
-      properties.setMustFinishBy(project.getMustFinishByDate());
+      properties.setMustFinishBy(LocalDateTimeHelper.getLocalDateTime(project.getMustFinishByDate()));
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
@@ -1004,7 +1006,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setEmailAddress(xml.getEmailAddress());
          resource.setGUID(DatatypeConverter.parseUUID(xml.getGUID()));
          resource.setNotesObject(getNotes(xml.getResourceNotes()));
-         resource.setCreationDate(xml.getCreateDate());
+         resource.setCreationDate(LocalDateTimeHelper.getLocalDateTime(xml.getCreateDate()));
          resource.setType(ResourceTypeHelper.getInstanceFromXml(xml.getResourceType()));
          // Note: a default units per time value of zero represents an empty field in P6
          resource.setMaxUnits(defaultUnitsPerTime == null || defaultUnitsPerTime.doubleValue() == 0.0 ? null : NumberHelper.getDouble(defaultUnitsPerTime.doubleValue() * 100));
@@ -1082,8 +1084,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
          task.setName(row.getName());
          task.setSummary(true);
-         task.setStart(row.getAnticipatedStartDate());
-         task.setFinish(row.getAnticipatedFinishDate());
+         task.setStart(LocalDateTimeHelper.getLocalDateTime(row.getAnticipatedStartDate()));
+         task.setFinish(LocalDateTimeHelper.getLocalDateTime(row.getAnticipatedFinishDate()));
          task.setWBS(row.getCode());
          task.setNotesObject(wbsNotes.get(uniqueID));
          task.setSequenceNumber(row.getSequenceNumber());
@@ -1180,30 +1182,30 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          // task.setRemainingCost(NumberHelper.sumAsDouble(row.getRemainingLaborCost(), row.getRemainingNonLaborCost(), row.getRemainingMaterialCost(), row.getRemainingExpenseCost()));
          // task.setCost(NumberHelper.sumAsDouble(row.getAtCompletionLaborCost(), row.getAtCompletionNonLaborCost(), row.getAtCompletionMaterialCost(), row.getAtCompletionExpenseCost()));
 
-         task.setConstraintDate(row.getPrimaryConstraintDate());
+         task.setConstraintDate(LocalDateTimeHelper.getLocalDateTime(row.getPrimaryConstraintDate()));
          task.setConstraintType(ConstraintTypeHelper.getInstanceFromXml(row.getPrimaryConstraintType()));
-         task.setSecondaryConstraintDate(row.getSecondaryConstraintDate());
+         task.setSecondaryConstraintDate(LocalDateTimeHelper.getLocalDateTime(row.getSecondaryConstraintDate()));
          task.setSecondaryConstraintType(ConstraintTypeHelper.getInstanceFromXml(row.getSecondaryConstraintType()));
-         task.setActualStart(row.getActualStartDate());
-         task.setActualFinish(row.getActualFinishDate());
-         task.setPlannedStart(row.getPlannedStartDate());
-         task.setPlannedFinish(row.getPlannedFinishDate());
-         task.setRemainingEarlyStart(row.getRemainingEarlyStartDate());
-         task.setRemainingEarlyFinish(row.getRemainingEarlyFinishDate());
-         task.setRemainingLateStart(row.getRemainingLateStartDate());
-         task.setRemainingLateFinish(row.getRemainingLateFinishDate());
+         task.setActualStart(LocalDateTimeHelper.getLocalDateTime(row.getActualStartDate()));
+         task.setActualFinish(LocalDateTimeHelper.getLocalDateTime(row.getActualFinishDate()));
+         task.setPlannedStart(LocalDateTimeHelper.getLocalDateTime(row.getPlannedStartDate()));
+         task.setPlannedFinish(LocalDateTimeHelper.getLocalDateTime(row.getPlannedFinishDate()));
+         task.setRemainingEarlyStart(LocalDateTimeHelper.getLocalDateTime(row.getRemainingEarlyStartDate()));
+         task.setRemainingEarlyFinish(LocalDateTimeHelper.getLocalDateTime(row.getRemainingEarlyFinishDate()));
+         task.setRemainingLateStart(LocalDateTimeHelper.getLocalDateTime(row.getRemainingLateStartDate()));
+         task.setRemainingLateFinish(LocalDateTimeHelper.getLocalDateTime(row.getRemainingLateFinishDate()));
          task.setPriority(PriorityHelper.getInstanceFromXml(row.getLevelingPriority()));
-         task.setCreateDate(row.getCreateDate());
+         task.setCreateDate(LocalDateTimeHelper.getLocalDateTime(row.getCreateDate()));
          task.setActivityID(row.getId());
          task.setActivityType(ActivityTypeHelper.getInstanceFromXml(row.getType()));
          task.setActivityStatus(ActivityStatusHelper.getInstanceFromXml(row.getStatus()));
          task.setPrimaryResourceID(row.getPrimaryResourceObjectId());
-         task.setSuspendDate(row.getSuspendDate());
-         task.setResume(row.getResumeDate());
+         task.setSuspendDate(LocalDateTimeHelper.getLocalDateTime(row.getSuspendDate()));
+         task.setResume(LocalDateTimeHelper.getLocalDateTime(row.getResumeDate()));
          task.setType(TaskTypeHelper.getInstanceFromXml(row.getDurationType()));
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getType())));
-         task.setExternalEarlyStart(row.getExternalEarlyStartDate());
-         task.setExternalLateFinish(row.getExternalLateFinishDate());
+         task.setExternalEarlyStart(LocalDateTimeHelper.getLocalDateTime(row.getExternalEarlyStartDate()));
+         task.setExternalLateFinish(LocalDateTimeHelper.getLocalDateTime(row.getExternalLateFinishDate()));
          task.setLongestPath(row.isIsLongestPath());
          task.setLocationUniqueID(row.getLocationObjectId());
 
@@ -1216,8 +1218,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ProjectCalendar cal = m_projectFile.getCalendarByUniqueID(calId);
          task.setCalendar(cal);
 
-         task.setStart(row.getStartDate());
-         task.setFinish(row.getFinishDate());
+         task.setStart(LocalDateTimeHelper.getLocalDateTime(row.getStartDate()));
+         task.setFinish(LocalDateTimeHelper.getLocalDateTime(row.getFinishDate()));
 
          // Note that planned finish is handled in the code below
          populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START);
@@ -1252,14 +1254,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                // The task has started, let's calculate the finish date using the planned start and duration
                //
                ProjectCalendar calendar = task.getEffectiveCalendar();
-               Date finish = calendar.getDate(task.getPlannedStart(), duration, false);
+               LocalDateTime finish = calendar.getDate(task.getPlannedStart(), duration, false);
 
                //
                // Deal with an oddity where the finish date shows up as the
                // start of work date for the next working day. If we can identify this,
                // wind the date back to the end of the previous working day.
                //
-               Date nextWorkStart = calendar.getNextWorkStart(finish);
+               LocalDateTime nextWorkStart = calendar.getNextWorkStart(finish);
                if (DateHelper.compare(finish, nextWorkStart) == 0)
                {
                   finish = calendar.getPreviousWorkFinish(finish);
@@ -1383,22 +1385,22 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date startDate = parentTask.getStart();
-         Date finishDate = parentTask.getFinish();
-         Date plannedStartDate = parentTask.getPlannedStart();
-         Date plannedFinishDate = parentTask.getPlannedFinish();
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
-         Date baselineStartDate = parentTask.getBaselineStart();
-         Date baselineFinishDate = parentTask.getBaselineFinish();
-         Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
-         Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
-         Date remainingLateStartDate = parentTask.getRemainingLateStart();
-         Date remainingLateFinishDate = parentTask.getRemainingLateFinish();
+         LocalDateTime startDate = parentTask.getStart();
+         LocalDateTime finishDate = parentTask.getFinish();
+         LocalDateTime plannedStartDate = parentTask.getPlannedStart();
+         LocalDateTime plannedFinishDate = parentTask.getPlannedFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime baselineStartDate = parentTask.getBaselineStart();
+         LocalDateTime baselineFinishDate = parentTask.getBaselineFinish();
+         LocalDateTime remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
+         LocalDateTime remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
+         LocalDateTime remainingLateStartDate = parentTask.getRemainingLateStart();
+         LocalDateTime remainingLateFinishDate = parentTask.getRemainingLateFinish();
 
          boolean critical = false;
 
@@ -1475,7 +1477,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
             if (parentTask.getActualFinish() == null)
             {
-               Date taskStartDate = parentTask.getRemainingEarlyStart();
+               LocalDateTime taskStartDate = parentTask.getRemainingEarlyStart();
                if (taskStartDate == null)
                {
                   taskStartDate = parentTask.getEarlyStart();
@@ -1485,7 +1487,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                   }
                }
 
-               Date taskFinishDate = parentTask.getRemainingEarlyFinish();
+               LocalDateTime taskFinishDate = parentTask.getRemainingEarlyFinish();
                if (taskFinishDate == null)
                {
                   taskFinishDate = parentTask.getEarlyFinish();
@@ -1732,10 +1734,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setRemainingCost(row.getRemainingCost());
             assignment.setPlannedCost(row.getPlannedCost());
             assignment.setActualCost(row.getActualCost());
-            assignment.setActualStart(row.getActualStartDate());
-            assignment.setActualFinish(row.getActualFinishDate());
-            assignment.setPlannedStart(row.getPlannedStartDate());
-            assignment.setPlannedFinish(row.getPlannedFinishDate());
+            assignment.setActualStart(LocalDateTimeHelper.getLocalDateTime(row.getActualStartDate()));
+            assignment.setActualFinish(LocalDateTimeHelper.getLocalDateTime(row.getActualFinishDate()));
+            assignment.setPlannedStart(LocalDateTimeHelper.getLocalDateTime(row.getPlannedStartDate()));
+            assignment.setPlannedFinish(LocalDateTimeHelper.getLocalDateTime(row.getPlannedFinishDate()));
             assignment.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
             assignment.setActualOvertimeCost(row.getActualOvertimeCost());
             assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));
@@ -1804,8 +1806,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             return cmp;
          }
-         Date d1 = r1.getEffectiveDate();
-         Date d2 = r2.getEffectiveDate();
+         LocalDateTime d1 = LocalDateTimeHelper.getLocalDateTime(r1.getEffectiveDate());
+         LocalDateTime d2 = LocalDateTimeHelper.getLocalDateTime(r2.getEffectiveDate());
          return DateHelper.compare(d1, d2);
       });
 
@@ -1837,18 +1839,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
-         Date startDate = row.getEffectiveDate();
-         Date endDate = DateHelper.END_DATE_NA;
+         LocalDateTime startDate = LocalDateTimeHelper.getLocalDateTime(row.getEffectiveDate());
+         LocalDateTime endDate = DateHelper.END_DATE_NA;
 
          if (i + 1 < rates.size())
          {
             ResourceRateType nextRow = rates.get(i + 1);
             if (NumberHelper.equals(resourceID, nextRow.getResourceObjectId()))
             {
-               Calendar cal = DateHelper.popCalendar(nextRow.getEffectiveDate());
-               cal.add(Calendar.MINUTE, -1);
-               endDate = cal.getTime();
-               DateHelper.pushCalendar(cal);
+               endDate = LocalDateTimeHelper.getLocalDateTime(nextRow.getEffectiveDate()).minusMinutes(1);
             }
          }
 

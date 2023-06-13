@@ -37,6 +37,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -153,7 +154,7 @@ class MapRow implements Row
       {
          Calendar cal = DateHelper.popCalendar(DATE_EPOCH);
          cal.add(Calendar.DAY_OF_YEAR, value.intValue());
-         result = cal.getTime();
+         result = LocalDateTimeHelper.getLocalDateTime(cal.getTime());
          DateHelper.pushCalendar(cal);
       }
       return result;

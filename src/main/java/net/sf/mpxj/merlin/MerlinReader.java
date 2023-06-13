@@ -30,6 +30,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -431,13 +432,13 @@ public final class MerlinReader extends AbstractProjectFileReader
     */
    private void populateConstraints(Row row, Task task)
    {
-      Date endDateMax = row.getTimestamp("ZGIVENENDDATEMAX_");
-      Date endDateMin = row.getTimestamp("ZGIVENENDDATEMIN_");
-      Date startDateMax = row.getTimestamp("ZGIVENSTARTDATEMAX_");
-      Date startDateMin = row.getTimestamp("ZGIVENSTARTDATEMIN_");
+      LocalDateTime endDateMax = row.getTimestamp("ZGIVENENDDATEMAX_");
+      LocalDateTime endDateMin = row.getTimestamp("ZGIVENENDDATEMIN_");
+      LocalDateTime startDateMax = row.getTimestamp("ZGIVENSTARTDATEMAX_");
+      LocalDateTime startDateMin = row.getTimestamp("ZGIVENSTARTDATEMIN_");
 
       ConstraintType constraintType = null;
-      Date constraintDate = null;
+      LocalDateTime constraintDate = null;
 
       if (endDateMax != null)
       {

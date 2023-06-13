@@ -40,7 +40,7 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import org.xml.sax.SAXException;
 
@@ -305,11 +305,11 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       Task mpxjTask = m_projectFile.addTask();
       //project.getAuthor()
       mpxjTask.setBaselineCost(project.getBaselineCost());
-      mpxjTask.setBaselineFinish(project.getBaselineFinishDate());
-      mpxjTask.setBaselineStart(project.getBaselineStartDate());
+      mpxjTask.setBaselineFinish(LocalDateTimeHelper.getLocalDateTime(project.getBaselineFinishDate()));
+      mpxjTask.setBaselineStart(LocalDateTimeHelper.getLocalDateTime(project.getBaselineStartDate()));
       //project.getBudget();
       //project.getCompany()
-      mpxjTask.setFinish(project.getFinishDate());
+      mpxjTask.setFinish(LocalDateTimeHelper.getLocalDateTime(project.getFinishDate()));
       //project.getGoal()
       //project.getHyperlinks()
       //project.getMarkerID()
@@ -317,7 +317,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       mpxjTask.setNotes(project.getNote());
       mpxjTask.setPriority(project.getPriority());
       //      project.getSite()
-      mpxjTask.setStart(project.getStartDate());
+      mpxjTask.setStart(LocalDateTimeHelper.getLocalDateTime(project.getStartDate()));
       //      project.getStyleProject()
       //      project.getTask()
       //      project.getTimeScale()
@@ -359,19 +359,19 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
 
       mpxjTask.setCost(task.getActualCost());
       mpxjTask.setDuration(getDuration(units, task.getActualDuration()));
-      mpxjTask.setFinish(task.getActualFinishDate());
-      mpxjTask.setStart(task.getActualStartDate());
+      mpxjTask.setFinish(LocalDateTimeHelper.getLocalDateTime(task.getActualFinishDate()));
+      mpxjTask.setStart(LocalDateTimeHelper.getLocalDateTime(task.getActualStartDate()));
       mpxjTask.setBaselineDuration(getDuration(units, task.getBaseDuration()));
-      mpxjTask.setBaselineFinish(task.getBaseFinishDate());
+      mpxjTask.setBaselineFinish(LocalDateTimeHelper.getLocalDateTime(task.getBaseFinishDate()));
       mpxjTask.setBaselineCost(task.getBaselineCost());
       //      task.getBaselineFinishDate()
       //      task.getBaselineFinishTemplateOffset()
       //      task.getBaselineStartDate()
       //      task.getBaselineStartTemplateOffset()
-      mpxjTask.setBaselineStart(task.getBaseStartDate());
+      mpxjTask.setBaselineStart(LocalDateTimeHelper.getLocalDateTime(task.getBaseStartDate()));
       //      task.getCallouts()
       mpxjTask.setPercentageComplete(task.getComplete());
-      mpxjTask.setDeadline(task.getDeadlineDate());
+      mpxjTask.setDeadline(LocalDateTimeHelper.getLocalDateTime(task.getDeadlineDate()));
       //      task.getDeadlineTemplateOffset()
       //      task.getHyperlinks()
       //      task.getMarkerID()

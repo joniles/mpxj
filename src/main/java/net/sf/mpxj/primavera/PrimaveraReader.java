@@ -24,6 +24,7 @@
 package net.sf.mpxj.primavera;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -688,8 +689,8 @@ final class PrimaveraReader
          {
             return cmp;
          }
-         Date d1 = r1.getDate("start_date");
-         Date d2 = r2.getDate("start_date");
+         LocalDateTime d1 = r1.getDate("start_date");
+         LocalDateTime d2 = r2.getDate("start_date");
          return DateHelper.compare(d1, d2);
       });
 
@@ -721,8 +722,8 @@ final class PrimaveraReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
-         Date startDate = row.getDate("start_date");
-         Date endDate = DateHelper.END_DATE_NA;
+         LocalDateTime startDate = row.getDate("start_date");
+         LocalDateTime endDate = DateHelper.END_DATE_NA;
 
          if (i + 1 < rows.size())
          {
@@ -730,19 +731,16 @@ final class PrimaveraReader
             int nextResourceID = nextRow.getInt("rsrc_id");
             if (resourceID.intValue() == nextResourceID)
             {
-               Calendar cal = DateHelper.popCalendar(nextRow.getDate("start_date"));
-               cal.add(Calendar.MINUTE, -1);
-               endDate = cal.getTime();
-               DateHelper.pushCalendar(cal);
+               endDate = nextRow.getDate("start_date").minusMinutes(1);
             }
          }
 
-         if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+         if (startDate == null || startDate.isBefore(DateHelper.START_DATE_NA))
          {
             startDate = DateHelper.START_DATE_NA;
          }
 
-         if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+         if (endDate == null || endDate.isAfter(DateHelper.END_DATE_NA))
          {
             endDate = DateHelper.END_DATE_NA;
          }
@@ -784,8 +782,8 @@ final class PrimaveraReader
          {
             return cmp;
          }
-         Date d1 = r1.getDate("start_date");
-         Date d2 = r2.getDate("start_date");
+         LocalDateTime d1 = r1.getDate("start_date");
+         LocalDateTime d2 = r2.getDate("start_date");
          return DateHelper.compare(d1, d2);
       });
 
@@ -817,27 +815,24 @@ final class PrimaveraReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
-         Date startDate = row.getDate("start_date");
-         Date endDate = DateHelper.END_DATE_NA;
+         LocalDateTime startDate = row.getDate("start_date");
+         LocalDateTime endDate = DateHelper.END_DATE_NA;
 
          if (i + 1 < rows.size())
          {
             Row nextRow = rows.get(i + 1);
             if (NumberHelper.equals(row.getInteger("role_id"), nextRow.getInteger("role_id")))
             {
-               Calendar cal = DateHelper.popCalendar(nextRow.getDate("start_date"));
-               cal.add(Calendar.MINUTE, -1);
-               endDate = cal.getTime();
-               DateHelper.pushCalendar(cal);
+               endDate = nextRow.getDate("start_date").minusMinutes(1);
             }
          }
 
-         if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+         if (startDate == null || startDate.isBefore(DateHelper.START_DATE_NA))
          {
             startDate = DateHelper.START_DATE_NA;
          }
 
-         if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+         if (endDate == null || endDate.isAfter(DateHelper.END_DATE_NA))
          {
             endDate = DateHelper.END_DATE_NA;
          }
@@ -980,16 +975,16 @@ final class PrimaveraReader
          task.setWork(work);
 
          // Calculate actual duration
-         Date actualStart = task.getActualStart();
+         LocalDateTime actualStart = task.getActualStart();
          if (actualStart != null)
          {
-            Date finish = task.getActualFinish();
+            LocalDateTime finish = task.getActualFinish();
             if (finish == null)
             {
                finish = m_project.getProjectProperties().getStatusDate();
 
                // Handle the case where the actual start is after the status date
-               if (finish != null && finish.getTime() < actualStart.getTime())
+               if (finish != null && finish.isBefore(actualStart))
                {
                   finish = actualStart;
                }
@@ -1351,22 +1346,22 @@ final class PrimaveraReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date startDate = parentTask.getStart();
-         Date finishDate = parentTask.getFinish();
-         Date plannedStartDate = parentTask.getPlannedStart();
-         Date plannedFinishDate = parentTask.getPlannedFinish();
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
-         Date baselineStartDate = parentTask.getBaselineStart();
-         Date baselineFinishDate = parentTask.getBaselineFinish();
-         Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
-         Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
-         Date remainingLateStartDate = parentTask.getRemainingLateStart();
-         Date remainingLateFinishDate = parentTask.getRemainingLateFinish();
+         LocalDateTime startDate = parentTask.getStart();
+         LocalDateTime finishDate = parentTask.getFinish();
+         LocalDateTime plannedStartDate = parentTask.getPlannedStart();
+         LocalDateTime plannedFinishDate = parentTask.getPlannedFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime baselineStartDate = parentTask.getBaselineStart();
+         LocalDateTime baselineFinishDate = parentTask.getBaselineFinish();
+         LocalDateTime remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
+         LocalDateTime remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
+         LocalDateTime remainingLateStartDate = parentTask.getRemainingLateStart();
+         LocalDateTime remainingLateFinishDate = parentTask.getRemainingLateFinish();
          boolean critical = false;
 
          for (Task task : parentTask.getChildTasks())
@@ -1437,7 +1432,7 @@ final class PrimaveraReader
          Duration remainingDuration = null;
          if (parentTask.getActualFinish() == null)
          {
-            Date taskStartDate = parentTask.getRemainingEarlyStart();
+            LocalDateTime taskStartDate = parentTask.getRemainingEarlyStart();
             if (taskStartDate == null)
             {
                taskStartDate = parentTask.getEarlyStart();
@@ -1447,7 +1442,7 @@ final class PrimaveraReader
                }
             }
 
-            Date taskFinishDate = parentTask.getRemainingEarlyFinish();
+            LocalDateTime taskFinishDate = parentTask.getRemainingEarlyFinish();
             if (taskFinishDate == null)
             {
                taskFinishDate = parentTask.getEarlyFinish();

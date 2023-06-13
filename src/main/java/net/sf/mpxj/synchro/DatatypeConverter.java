@@ -36,6 +36,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * Common data extraction/conversion conversion methods.
@@ -276,7 +277,7 @@ final class DatatypeConverter
       }
       timeInSeconds -= 3600;
       timeInSeconds *= 1000;
-      return DateHelper.getDateFromLong(timeInSeconds);
+      return LocalDateTimeHelper.getLocalDateTime(DateHelper.getDateFromLong(timeInSeconds));
    }
 
    /**

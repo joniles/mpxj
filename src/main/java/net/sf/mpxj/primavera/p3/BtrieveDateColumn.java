@@ -28,6 +28,7 @@ import java.util.Calendar;
 
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.common.AbstractColumn;
 
 /**
@@ -65,7 +66,7 @@ class BtrieveDateColumn extends AbstractColumn
          cal.set(Calendar.MINUTE, 0);
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MILLISECOND, 0);
-         result = cal.getTime();
+         result = LocalDateTimeHelper.getLocalDateTime(cal.getTime());
          DateHelper.pushCalendar(cal);
       }
 

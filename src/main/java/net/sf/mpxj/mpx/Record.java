@@ -45,6 +45,7 @@ import net.sf.mpxj.ProjectTimeFormat;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.Tokenizer;
 
@@ -254,7 +255,7 @@ final class Record
       {
          try
          {
-            result = m_formats.getDateTimeFormat().parse(m_fields[field]);
+            result = LocalDateTimeHelper.getLocalDateTime(m_formats.getDateTimeFormat().parse(m_fields[field]));
          }
 
          catch (ParseException ex)
@@ -269,7 +270,7 @@ final class Record
          {
             try
             {
-               result = m_formats.getDateFormat().parse(m_fields[field]);
+               result = LocalDateTimeHelper.getLocalDateTime(m_formats.getDateFormat().parse(m_fields[field]));
             }
 
             catch (ParseException ex)
@@ -299,7 +300,7 @@ final class Record
 
          if ((field < m_fields.length) && (m_fields[field].length() != 0))
          {
-            result = m_formats.getDateFormat().parse(m_fields[field]);
+            result = LocalDateTimeHelper.getLocalDateTime(m_formats.getDateFormat().parse(m_fields[field]));
          }
          else
          {

@@ -32,6 +32,7 @@ import java.util.Calendar;
 
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /*
  * Duration Types
@@ -210,7 +211,7 @@ final class DatatypeConverter
                cal.add(Calendar.SECOND, astaSeconds);
             }
 
-            result = cal.getTime();
+            result = LocalDateTimeHelper.getLocalDateTime(cal.getTime());
             DateHelper.pushCalendar(cal);
          }
       }
@@ -255,7 +256,7 @@ final class DatatypeConverter
                }
             }
 
-            result = df.parse(value);
+            result = LocalDateTimeHelper.getLocalDateTime(df.parse(value));
          }
       }
 
@@ -279,7 +280,7 @@ final class DatatypeConverter
          {
             value = "000000" + value;
             value = value.substring(value.length() - 6);
-            result = TIME_FORMAT.get().parse(value);
+            result = LocalDateTimeHelper.getLocalDateTime(TIME_FORMAT.get().parse(value));
          }
       }
 

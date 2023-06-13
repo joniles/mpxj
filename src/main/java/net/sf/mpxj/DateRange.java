@@ -26,6 +26,7 @@ package net.sf.mpxj;
 
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 import net.sf.mpxj.common.DateHelper;
 
@@ -103,8 +104,8 @@ public final class DateRange implements Comparable<DateRange>
 
    @Override public int hashCode()
    {
-      long start = m_start == null ? 0 : m_start.getTime();
-      long end = m_end == null ? 0 : m_end.getTime();
+      long start = m_start == null ? 0 : m_start.toEpochSecond(ZoneOffset.UTC);
+      long end = m_end == null ? 0 : m_end.toEpochSecond(ZoneOffset.UTC);
       return ((int) start ^ (int) (start >> 32)) ^ ((int) end ^ (int) (end >> 32));
    }
 

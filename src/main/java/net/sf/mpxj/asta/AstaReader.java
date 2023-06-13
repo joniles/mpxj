@@ -1605,9 +1605,9 @@ final class AstaReader
             LocalDateTime endDate = row.getDate("ENE_DATE");
 
             // special case - when the exception end time is midnight, it really finishes at the end of the previous day
-            if (endDate.getTime() == DateHelper.getDayStartDate(endDate).getTime())
+            if (endDate.equals(DateHelper.getDayStartDate(endDate)))
             {
-               endDate = DateHelper.addDays(endDate, -1);
+               endDate = endDate.plusDays(-1);
             }
 
             ranges.add(new LocalDateRange(LocalDateHelper.getLocalDate(startDate), LocalDateHelper.getLocalDate(endDate)));

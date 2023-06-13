@@ -31,6 +31,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -640,8 +641,8 @@ public final class PlannerWriter extends AbstractProjectWriter
       {
          return lag;
       }
-
-      double minutes = (successorDate.getTime() - predecessorDate.getTime()) / (1000.0 * 60.0);
+      long milliseconds = predecessorDate.until(successorDate, ChronoUnit.MILLIS);
+      double minutes = milliseconds / (1000.0 * 60.0);
       return Duration.getInstance(minutes, TimeUnit.ELAPSED_MINUTES);
    }
 
@@ -693,19 +694,17 @@ public final class PlannerWriter extends AbstractProjectWriter
 
       if (value != null)
       {
-         Calendar cal = DateHelper.popCalendar(value);
-         result.append(m_fourDigitFormat.format(cal.get(Calendar.YEAR)));
-         result.append(m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1));
-         result.append(m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)));
+         result.append(m_fourDigitFormat.format(value.getYear()));
+         result.append(m_twoDigitFormat.format(value.getMonthValue()));
+         result.append(m_twoDigitFormat.format(value.getDayOfMonth()));
          result.append("T");
-         result.append(m_twoDigitFormat.format(cal.get(Calendar.HOUR_OF_DAY)));
-         result.append(m_twoDigitFormat.format(cal.get(Calendar.MINUTE)));
-         result.append(m_twoDigitFormat.format(cal.get(Calendar.SECOND)));
+         result.append(m_twoDigitFormat.format(value.getHour()));
+         result.append(m_twoDigitFormat.format(value.getMinute()));
+         result.append(m_twoDigitFormat.format(value.getSecond()));
          result.append("Z");
-         DateHelper.pushCalendar(cal);
       }
 
-      return (result.toString());
+      return result.toString();
    }
 
    /**
@@ -838,9 +837,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       String result = null;
       if (value != null)
       {
-         Calendar cal = DateHelper.popCalendar(value);
-         result = m_fourDigitFormat.format(cal.get(Calendar.YEAR)) + m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1) + m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)) + 'T' + m_twoDigitFormat.format(cal.get(Calendar.HOUR_OF_DAY)) + m_twoDigitFormat.format(cal.get(Calendar.MINUTE)) + m_twoDigitFormat.format(cal.get(Calendar.SECOND)) + 'Z';
-         DateHelper.pushCalendar(cal);
+         result = m_fourDigitFormat.format(value.getYear()) + m_twoDigitFormat.format(value.getMonthValue() + 1) + m_twoDigitFormat.format(value.getDayOfMonth()) + 'T' + m_twoDigitFormat.format(value.getHour()) + m_twoDigitFormat.format(value.getMinute()) + m_twoDigitFormat.format(value.getSecond()) + 'Z';
       }
       return result;
    }

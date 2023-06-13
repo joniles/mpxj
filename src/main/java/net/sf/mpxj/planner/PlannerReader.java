@@ -47,6 +47,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ConstraintType;
@@ -680,7 +681,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
 
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MILLISECOND, 0);
-         LocalDateTime result = cal.getTime();
+         LocalDateTime result = LocalDateTimeHelper.getLocalDateTime(cal.getTime());
          DateHelper.pushCalendar(cal);
 
          return result;

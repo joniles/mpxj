@@ -30,6 +30,7 @@ import java.util.Calendar;
 
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.mpp.TimescaleUnits;
 
 /**
@@ -56,7 +57,7 @@ public final class TimescaleUtility
    {
       ArrayList<DateRange> result = new ArrayList<>(segmentCount);
 
-      Calendar cal = DateHelper.popCalendar(startDate);
+      Calendar cal = DateHelper.popCalendar(LocalDateTimeHelper.getDate(startDate));
       cal.set(Calendar.HOUR_OF_DAY, 0);
       cal.set(Calendar.MINUTE, 0);
       cal.set(Calendar.SECOND, 0);
@@ -149,7 +150,7 @@ public final class TimescaleUtility
 
       for (int loop = 0; loop < segmentCount; loop++)
       {
-         LocalDateTime rangeStart = cal.getTime();
+         LocalDateTime rangeStart = LocalDateTimeHelper.getLocalDateTime(cal.getTime());
 
          if (segmentUnit == TimescaleUnits.THIRDS_OF_MONTHS && (loop + 1) % 3 == 0)
          {
@@ -166,7 +167,7 @@ public final class TimescaleUtility
          }
 
          cal.add(Calendar.MILLISECOND, -1);
-         result.add(new DateRange(rangeStart, cal.getTime()));
+         result.add(new DateRange(rangeStart, LocalDateTimeHelper.getLocalDateTime(cal.getTime())));
          cal.add(Calendar.MILLISECOND, 1);
       }
 

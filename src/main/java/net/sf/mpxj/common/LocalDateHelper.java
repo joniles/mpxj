@@ -1,10 +1,21 @@
 package net.sf.mpxj.common;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
 public final class LocalDateHelper
 {
+   public static LocalDate getLocalDate(LocalDateTime date)
+   {
+      if (date == null)
+      {
+         return null;
+      }
+
+      return date.toLocalDate();
+   }
+
    public static LocalDate getLocalDate(Date date)
    {
       if (date == null)

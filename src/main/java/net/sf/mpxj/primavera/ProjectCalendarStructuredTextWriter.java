@@ -102,7 +102,7 @@ class ProjectCalendarStructuredTextWriter
       exceptionsRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, "Exceptions");
 
       int exceptionIndex = 0;
-      Set<LocalDateTime> exceptionDates = new HashSet<>();
+      Set<LocalDate> exceptionDates = new HashSet<>();
 
       List<ProjectCalendarException> exceptions = net.sf.mpxj.common.ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(calendar);
       for (ProjectCalendarException exception : exceptions)
@@ -110,7 +110,7 @@ class ProjectCalendarStructuredTextWriter
          LocalDate currentDate = exception.getFromDate();
          while (!currentDate.isAfter(exception.getToDate()))
          {
-            LocalDateTime exceptionDate = LocalDateHelper.getDate(currentDate);
+            LocalDate exceptionDate = currentDate;
             currentDate = currentDate.plusDays(1);
 
             // Prevent duplicate exception dates being written.
@@ -120,7 +120,7 @@ class ProjectCalendarStructuredTextWriter
                continue;
             }
 
-            long dateValue = (long) Math.ceil((double) (DateHelper.getLongFromDate(exceptionDate) - PrimaveraReader.EXCEPTION_EPOCH) / DateHelper.MS_PER_DAY);
+            long dateValue = (long) Math.ceil((double) (DateHelper.getLongFromDate(LocalDateHelper.getDate(exceptionDate)) - PrimaveraReader.EXCEPTION_EPOCH) / DateHelper.MS_PER_DAY);
 
             StructuredTextRecord exceptionRecord = new StructuredTextRecord();
             exceptionsRecord.addChild(exceptionRecord);

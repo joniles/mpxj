@@ -46,7 +46,7 @@ public class CostRateTable extends ArrayList<CostRateTableEntry>
 
       for (CostRateTableEntry entry : this)
       {
-         if (DateHelper.compare(date, entry.getEndDate()) < 0)
+         if (date.isBefore(entry.getEndDate()))
          {
             result = entry;
             break;
@@ -69,7 +69,7 @@ public class CostRateTable extends ArrayList<CostRateTableEntry>
 
       for (CostRateTableEntry entry : this)
       {
-         if (DateHelper.compare(date, entry.getEndDate()) < 0)
+         if (date.isBefore(entry.getEndDate()))
          {
             result = index;
             break;

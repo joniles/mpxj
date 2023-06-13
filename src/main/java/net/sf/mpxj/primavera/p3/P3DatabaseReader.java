@@ -25,6 +25,7 @@ package net.sf.mpxj.primavera.p3;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -388,7 +389,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          int flag = row.getInteger("ACTUAL_START_OR_CONSTRAINT_FLAG").intValue();
          if (flag != 0)
          {
-            Date date = row.getDate("AS_OR_ED_CONSTRAINT");
+            LocalDateTime date = row.getDate("AS_OR_ED_CONSTRAINT");
             switch (flag)
             {
                case 1:
@@ -416,7 +417,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          flag = row.getInteger("ACTUAL_FINISH_OR_CONSTRAINT_FLAG").intValue();
          if (flag != 0)
          {
-            Date date = row.getDate("AF_OR_LD_CONSTRAINT");
+            LocalDateTime date = row.getDate("AF_OR_LD_CONSTRAINT");
             switch (flag)
             {
                case 2:
@@ -509,14 +510,14 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date startDate = parentTask.getStart();
-         Date finishDate = parentTask.getFinish();
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime startDate = parentTask.getStart();
+         LocalDateTime finishDate = parentTask.getFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
 
          for (Task task : parentTask.getChildTasks())
          {

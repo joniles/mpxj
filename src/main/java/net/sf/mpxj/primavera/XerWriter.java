@@ -29,6 +29,7 @@ import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import java.util.HashMap;
@@ -290,7 +291,7 @@ final class XerWriter
    static
    {
       FORMAT_MAP.put(DateOnly.class, (w, o) -> w.m_dateFormat.format(((DateOnly) o).toDate()));
-      FORMAT_MAP.put(Date.class, (w, o) -> w.m_timestampFormat.format(o));
+      FORMAT_MAP.put(LocalDateTime.class, (w, o) -> w.m_timestampFormat.format(o));
       FORMAT_MAP.put(Double.class, (w, o) -> w.m_doubleFormat.format(o));
       FORMAT_MAP.put(Boolean.class, (w, o) -> ((Boolean) o).booleanValue() ? "Y" : "N");
       FORMAT_MAP.put(Rate.class, (w, o) -> w.m_currencyFormat.format(((Rate) o).getAmount()));

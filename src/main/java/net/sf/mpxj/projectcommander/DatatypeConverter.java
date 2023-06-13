@@ -31,6 +31,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * Contains methods to extract different data types from a byte array.
@@ -208,7 +209,7 @@ class DatatypeConverter
    {
       long timestampInSeconds = DatatypeConverter.getInt(data, offset, 0);
       long timestampInMilliseconds = timestampInSeconds * 1000;
-      return DateHelper.getTimestampFromLong(timestampInMilliseconds);
+      return LocalDateTimeHelper.getLocalDateTime(DateHelper.getTimestampFromLong(timestampInMilliseconds));
    }
 
    /**

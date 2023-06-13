@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.common;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayDeque;
 import java.util.Calendar;
 import java.util.Date;
@@ -69,6 +71,16 @@ public final class DateHelper
       return (date);
    }
 
+   public static LocalDateTime getDayStartDate(LocalDateTime date)
+   {
+      if (date == null)
+      {
+         return null;
+      }
+
+      return LocalDateTime.of(date.toLocalDate(), LocalTime.of(0,0));
+   }
+
    /**
     * Returns a new Date instance whose value
     * represents the end of the day (i.e. the time of days is 11:59:59.999)
@@ -102,7 +114,7 @@ public final class DateHelper
     * @param targetDate target date
     * @return comparison result
     */
-   public static int compare(Date startDate, Date endDate, Date targetDate)
+   public static int compare(LocalDateTime startDate, LocalDateTime endDate, LocalDateTime targetDate)
    {
       return (compare(startDate, endDate, targetDate.getTime()));
    }
@@ -143,7 +155,7 @@ public final class DateHelper
     * @param d2 Date instance
     * @return int comparison result
     */
-   public static int compare(Date d1, Date d2)
+   public static int compare(LocalDateTime d1, LocalDateTime d2)
    {
       if (d1 == null || d2 == null)
       {
@@ -160,9 +172,9 @@ public final class DateHelper
     * @param d2 Date instance
     * @return Date earliest date
     */
-   public static Date min(Date d1, Date d2)
+   public static LocalDateTime min(LocalDateTime d1, LocalDateTime d2)
    {
-      Date result;
+      LocalDateTime result;
       if (d1 == null)
       {
          result = d2;
@@ -189,9 +201,9 @@ public final class DateHelper
     * @param d2 Date instance
     * @return Date latest date
     */
-   public static Date max(Date d1, Date d2)
+   public static LocalDateTime max(LocalDateTime d1, LocalDateTime d2)
    {
-      Date result;
+      LocalDateTime result;
       if (d1 == null)
       {
          result = d2;
@@ -218,7 +230,7 @@ public final class DateHelper
     * @param format required format for the resulting duration
     * @return difference in working time between the two dates
     */
-   public static Duration getVariance(Task task, Date date1, Date date2, TimeUnit format)
+   public static Duration getVariance(Task task, LocalDateTime date1, LocalDateTime date2, TimeUnit format)
    {
       Duration variance = null;
 
@@ -465,7 +477,7 @@ public final class DateHelper
    /**
     * Date representing NA at the start of a date range: January 01 00:00:00 1984.
     */
-   public static final Date START_DATE_NA = DateHelper.getTimestampFromLong(441763200000L);
+   public static final LocalDateTime START_DATE_NA = LocalDateTimeHelper.getLocalDateTime(DateHelper.getTimestampFromLong(441763200000L));
 
    /**
     * Date representing NA at the end of a date range: Friday December 31 23:59:00 2049.
@@ -478,7 +490,7 @@ public final class DateHelper
     * the end date as 2049, rather than NA, but this should still be interpreted correctly.
     * TODO: consider making this behaviour configurable.
     */
-   public static final Date END_DATE_NA = DateHelper.getTimestampFromLong(2524607940000L);
+   public static final LocalDateTime END_DATE_NA = LocalDateTimeHelper.getLocalDateTime(DateHelper.getTimestampFromLong(2524607940000L));
 
    /**
     * Number of milliseconds per minute.
