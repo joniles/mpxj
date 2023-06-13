@@ -51,17 +51,17 @@ public class CalendarExceptionPrecedenceTest
       Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 7, 29)));
 
       // Fridays in August
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("05/08/2022")));
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("12/08/2022")));
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("19/08/2022")));
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("26/08/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 8, 5)));
+      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 8, 12)));
+      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 8, 19)));
+      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 8, 26)));
 
       // Fridays in September
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("02/09/2022")));
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("09/09/2022")));
-      Assert.assertFalse(calendar.isWorkingDate(m_df.parse("16/09/2022")));
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("23/09/2022")));
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("30/09/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 9, 2)));
+      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 9, 9)));
+      Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2022, 9, 16)));
+      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 9, 23)));
+      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 9, 30)));
    }
 
    /**
@@ -71,7 +71,7 @@ public class CalendarExceptionPrecedenceTest
    {
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence-daily.mpp"));
       ProjectCalendar calendar = project.getCalendarByName("TEST");
-      Assert.assertFalse(calendar.isWorkingDate(m_df.parse("12/05/2023")));
+      Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
    }
 
    /**
@@ -81,7 +81,7 @@ public class CalendarExceptionPrecedenceTest
    {
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence-weekly.mpp"));
       ProjectCalendar calendar = project.getCalendarByName("TEST");
-      Assert.assertFalse(calendar.isWorkingDate(m_df.parse("12/05/2023")));
+      Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
    }
 
    /**
@@ -91,7 +91,7 @@ public class CalendarExceptionPrecedenceTest
    {
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence-monthly.mpp"));
       ProjectCalendar calendar = project.getCalendarByName("TEST");
-      Assert.assertFalse(calendar.isWorkingDate(m_df.parse("12/05/2023")));
+      Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
    }
 
    /**
@@ -101,7 +101,7 @@ public class CalendarExceptionPrecedenceTest
    {
       ProjectFile project = new MPPReader().read(MpxjTestData.filePath("calendar-exception-precedence-yearly.mpp"));
       ProjectCalendar calendar = project.getCalendarByName("TEST");
-      Assert.assertFalse(calendar.isWorkingDate(m_df.parse("12/05/2023")));
+      Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
    }
 
    private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy");
