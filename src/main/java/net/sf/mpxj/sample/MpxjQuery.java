@@ -24,6 +24,8 @@
 package net.sf.mpxj.sample;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -138,8 +140,8 @@ public class MpxjQuery
    {
       SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm z");
       ProjectProperties properties = file.getProjectProperties();
-      Date startDate = properties.getStartDate();
-      Date finishDate = properties.getFinishDate();
+      LocalDateTime startDate = properties.getStartDate();
+      LocalDateTime finishDate = properties.getFinishDate();
       String formattedStartDate = startDate == null ? "(none)" : df.format(startDate);
       String formattedFinishDate = finishDate == null ? "(none)" : df.format(finishDate);
 
@@ -173,7 +175,7 @@ public class MpxjQuery
 
       for (Task task : file.getTasks())
       {
-         Date date = task.getStart();
+         LocalDateTime date = task.getStart();
          String text = task.getStartText();
          String startDate = text != null ? text : (date != null ? df.format(date) : "(no start date supplied)");
 
@@ -317,7 +319,8 @@ public class MpxjQuery
    private static void listTimephasedWork(ResourceAssignment assignment)
    {
       Task task = assignment.getTask();
-      int days = (int) ((task.getFinish().getTime() - task.getStart().getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+      int days = (int) ((task.getStart().until(task.getFinish(), ChronoUnit.MILLIS)) / (1000 * 60 * 60 * 24)) + 1;
       if (days > 1)
       {
          SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");

@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -1181,12 +1182,12 @@ final class MPP14Reader implements MPPVariantReader
 
          if (task.getStart() == null || (task.getCachedValue(TaskField.SCHEDULED_START) != null && task.getTaskMode() == TaskMode.AUTO_SCHEDULED))
          {
-            task.setStart((Date) task.getCachedValue(TaskField.SCHEDULED_START));
+            task.setStart((LocalDateTime) task.getCachedValue(TaskField.SCHEDULED_START));
          }
 
          if (task.getFinish() == null || (task.getCachedValue(TaskField.SCHEDULED_FINISH) != null && task.getTaskMode() == TaskMode.AUTO_SCHEDULED))
          {
-            task.setFinish((Date) task.getCachedValue(TaskField.SCHEDULED_FINISH));
+            task.setFinish((LocalDateTime) task.getCachedValue(TaskField.SCHEDULED_FINISH));
          }
 
          if (task.getDuration() == null || (task.getCachedValue(TaskField.SCHEDULED_DURATION) != null && task.getTaskMode() == TaskMode.AUTO_SCHEDULED))
@@ -1314,7 +1315,7 @@ final class MPP14Reader implements MPPVariantReader
 
          // Unfortunately it looks like 'null' tasks sometimes make it through. So let's check for to see if we
          // need to mark this task as a null task after all.
-         if (task.getName() == null && ((task.getStart() == null || task.getStart().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getFinish() == null || task.getFinish().getTime() == MPPUtility.getEpochDate().getTime()) || (task.getCreateDate() == null || task.getCreateDate().getTime() == MPPUtility.getEpochDate().getTime())))
+         if (task.getName() == null && ((task.getStart() == null || task.getStart().equals(MPPUtility.getEpochDate())) || (task.getFinish() == null || task.getFinish().equals(MPPUtility.getEpochDate())) || (task.getCreateDate() == null || task.getCreateDate().equals(MPPUtility.getEpochDate()))))
          {
             m_file.removeTask(task);
             Integer nullTaskID = Integer.valueOf(MPPUtility.getInt(data, TASK_ID_FIXED_OFFSET));

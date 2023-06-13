@@ -25,6 +25,8 @@ package net.sf.mpxj.mpp;
 
 
 
+import java.time.LocalDateTime;
+
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
@@ -247,7 +249,7 @@ public final class GraphicalIndicatorReader
 
             case DATE: // 0x13
             {
-               Date value = MPPUtility.getTimestamp(m_data, m_dataOffset);
+               LocalDateTime value = MPPUtility.getTimestamp(m_data, m_dataOffset);
                m_dataOffset += 4;
                criteria.setRightValue(index, value);
                break;

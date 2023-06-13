@@ -28,6 +28,7 @@ import java.util.TreeMap;
 
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
@@ -107,11 +108,11 @@ public final class ProjectPropertiesReader
          ph.setTemplate(summaryInformation.getTemplate());
          ph.setLastAuthor(summaryInformation.getLastAuthor());
          ph.setRevision(NumberHelper.parseInteger(summaryInformation.getRevNumber()));
-         ph.setCreationDate(summaryInformation.getCreateDateTime());
-         ph.setLastSaved(summaryInformation.getLastSaveDateTime());
+         ph.setCreationDate(LocalDateTimeHelper.getLocalDateTime(summaryInformation.getCreateDateTime()));
+         ph.setLastSaved(LocalDateTimeHelper.getLocalDateTime(summaryInformation.getLastSaveDateTime()));
          ph.setShortApplicationName(summaryInformation.getApplicationName());
          ph.setEditingTime(Integer.valueOf((int) summaryInformation.getEditTime()));
-         ph.setLastPrinted(summaryInformation.getLastPrinted());
+         ph.setLastPrinted(LocalDateTimeHelper.getLocalDateTime(summaryInformation.getLastPrinted()));
 
          try
          {

@@ -24,6 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -102,8 +103,8 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
 
          while (assignment != null)
          {
-            Date startDay = DateHelper.getDayStartDate(assignment.getStart());
-            Date finishDay = DateHelper.getDayStartDate(assignment.getFinish());
+            LocalDateTime startDay = DateHelper.getDayStartDate(assignment.getStart());
+            LocalDateTime finishDay = DateHelper.getDayStartDate(assignment.getFinish());
 
             // special case - when the finishday time is midnight, it's really the previous day...
             if (assignment.getFinish().getTime() == finishDay.getTime())
@@ -121,8 +122,8 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
                   result.add(assignment);
                   Duration remainingWork = Duration.getInstance(totalWork.getDuration() - assignmentWork.getDuration(), TimeUnit.MINUTES);
 
-                  Date remainderStart = DateHelper.addDays(finishDay, 1);
-                  Date remainderFinish = DateHelper.addDays(remainderStart, 1);
+                  LocalDateTime remainderStart = DateHelper.addDays(finishDay, 1);
+                  LocalDateTime remainderFinish = DateHelper.addDays(remainderStart, 1);
 
                   TimephasedWork remainder = new TimephasedWork();
                   remainder.setStart(remainderStart);
@@ -176,8 +177,8 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
       //
       // Retrieve data used to calculate the pro-rata work split
       //
-      Date assignmentStart = assignment.getStart();
-      Date assignmentFinish = assignment.getFinish();
+      LocalDateTime assignmentStart = assignment.getStart();
+      LocalDateTime assignmentFinish = assignment.getFinish();
       Duration assignmentWork = assignment.getTotalAmount();
 
       if (calendarWork.getDuration() != 0)
@@ -185,7 +186,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          //
          // Split the first day
          //
-         Date splitFinish;
+         LocalDateTime splitFinish;
          double splitMinutes;
          LocalDate assignmentStartAsLocalDate = LocalDateHelper.getLocalDate(assignmentStart);
          if (calendar.isWorkingDate(assignmentStartAsLocalDate))
@@ -217,7 +218,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          //
          // Split the remainder
          //
-         Date splitStart = calendar.getNextWorkStart(splitFinish);
+         LocalDateTime splitStart = calendar.getNextWorkStart(splitFinish);
          splitFinish = assignmentFinish;
          TimephasedWork split;
          if (splitStart.getTime() > splitFinish.getTime())
@@ -258,7 +259,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     */
    private Duration getAssignmentWork(ProjectCalendar calendar, TimephasedWork assignment)
    {
-      Date splitFinish = LocalTimeHelper.setEndTime(assignment.getStart(), calendar.getFinishTime(LocalDateHelper.getLocalDate(assignment.getStart())));
+      LocalDateTime splitFinish = LocalTimeHelper.setEndTime(assignment.getStart(), calendar.getFinishTime(LocalDateHelper.getLocalDate(assignment.getStart())));
 
       Duration calendarSplitWork = calendar.getWork(assignment.getStart(), splitFinish, TimeUnit.MINUTES);
       Duration assignmentWorkPerDay = assignment.getAmountPerDay();

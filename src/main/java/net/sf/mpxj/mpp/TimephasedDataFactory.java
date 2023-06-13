@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -65,7 +66,7 @@ final class TimephasedDataFactory
          return list;
       }
 
-      Date startDate = resourceAssignment.getStart();
+      LocalDateTime startDate = resourceAssignment.getStart();
       double finishTime = MPPUtility.getInt(data, 24);
 
       int blockCount = MPPUtility.getShort(data, 0);
@@ -103,7 +104,7 @@ final class TimephasedDataFactory
          // in negative durations.
          // MPPUtility.getDouble(data, index + 12);
 
-         Date start;
+         LocalDateTime start;
          if (startWork.getDuration() == 0)
          {
             start = startDate;
@@ -119,9 +120,9 @@ final class TimephasedDataFactory
 
          if (previousAssignment != null)
          {
-            Date finish = calendar.getDate(startDate, startWork, false);
+            LocalDateTime finish = calendar.getDate(startDate, startWork, false);
             previousAssignment.setFinish(finish);
-            if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
+            if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
             {
                list.remove(list.size() - 1);
             }
@@ -137,9 +138,9 @@ final class TimephasedDataFactory
       if (previousAssignment != null)
       {
          Duration finishWork = Duration.getInstance(finishTime / 80, TimeUnit.MINUTES);
-         Date finish = calendar.getDate(startDate, finishWork, false);
+         LocalDateTime finish = calendar.getDate(startDate, finishWork, false);
          previousAssignment.setFinish(finish);
-         if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
+         if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
          {
             list.remove(list.size() - 1);
          }
@@ -197,7 +198,7 @@ final class TimephasedDataFactory
       }
       else
       {
-         Date offset = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
+         LocalDateTime offset = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
          int index = 40;
          double previousCumulativeWork = 0;
          TimephasedWork previousAssignment = null;
@@ -209,7 +210,7 @@ final class TimephasedDataFactory
             double time = MPPUtility.getInt(data, index);
             time /= 80;
             Duration blockDuration = Duration.getInstance(time, TimeUnit.MINUTES);
-            Date start;
+            LocalDateTime start;
             if (blockDuration.getDuration() == 0)
             {
                start = offset;
@@ -241,9 +242,9 @@ final class TimephasedDataFactory
 
             if (previousAssignment != null)
             {
-               Date finish = calendar.getDate(offset, blockDuration, false);
+               LocalDateTime finish = calendar.getDate(offset, blockDuration, false);
                previousAssignment.setFinish(finish);
-               if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
+               if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
                {
                   list.remove(list.size() - 1);
                }
@@ -261,9 +262,9 @@ final class TimephasedDataFactory
             double time = MPPUtility.getInt(data, 24);
             time /= 80;
             Duration blockDuration = Duration.getInstance(time, TimeUnit.MINUTES);
-            Date finish = calendar.getDate(offset, blockDuration, false);
+            LocalDateTime finish = calendar.getDate(offset, blockDuration, false);
             previousAssignment.setFinish(finish);
-            if (previousAssignment.getStart().getTime() == previousAssignment.getFinish().getTime())
+            if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
             {
                list.remove(list.size() - 1);
             }
@@ -310,7 +311,7 @@ final class TimephasedDataFactory
       // Each block contains the block end date, which is also then the start of the next block
       // First block only used to give us the start of the first timephased data
       // Last block is ignored
-      Date blockEndDate = null;
+      LocalDateTime blockEndDate = null;
       long previousTotalWorkInMinutes = 0;
       List<TimephasedWork> list = new ArrayList<>();
       long totalWork = 0;
@@ -328,7 +329,7 @@ final class TimephasedDataFactory
          }
          else
          {
-            Date blockStartDate = calendar.getNextWorkStart(blockEndDate);
+            LocalDateTime blockStartDate = calendar.getNextWorkStart(blockEndDate);
             long currentTotalWorkInMinutes = (long) (MPPUtility.getDouble(data, offset) / 1000.0);
             int expectedWorkThisPeriodInMinutes = MPPUtility.getInt(data, offset + 8) / 10;
             //int unknown = MPPUtility.getInt(data, offset + 12);
@@ -388,12 +389,12 @@ final class TimephasedDataFactory
       int blockSize = 20;
       double previousTotalCost = 0;
 
-      Date blockStartDate = MPPUtility.getTimestampFromTenths(data, index + 16);
+      LocalDateTime blockStartDate = MPPUtility.getTimestampFromTenths(data, index + 16);
       index += blockSize;
 
       while (index + blockSize <= data.length)
       {
-         Date blockEndDate = MPPUtility.getTimestampFromTenths(data, index + 16);
+         LocalDateTime blockEndDate = MPPUtility.getTimestampFromTenths(data, index + 16);
          double currentTotalCost = (double) ((long) MPPUtility.getDouble(data, index + 8)) / 100;
          if (!costEquals(previousTotalCost, currentTotalCost))
          {

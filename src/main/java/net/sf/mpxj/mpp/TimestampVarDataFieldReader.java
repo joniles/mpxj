@@ -25,6 +25,8 @@ package net.sf.mpxj.mpp;
 
 
 
+import java.time.LocalDateTime;
+
 import net.sf.mpxj.CustomFieldContainer;
 
 /**
@@ -49,7 +51,7 @@ class TimestampVarDataFieldReader extends VarDataFieldReader
 
    @Override protected Object coerceValue(Object value)
    {
-      if (value instanceof Date)
+      if (value instanceof LocalDateTime)
       {
          return value;
       }

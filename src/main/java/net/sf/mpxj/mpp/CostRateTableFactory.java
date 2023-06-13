@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -77,7 +78,7 @@ final class CostRateTableFactory
             Rate overtimeRate = resource.getOvertimeRate() == null ? Rate.ZERO : (Rate) resource.getCachedValue(ResourceField.OVERTIME_RATE);
 
             Number costPerUse = resource.getCostPerUse() == null ? NumberHelper.DOUBLE_ZERO : (Number) resource.getCachedValue(ResourceField.COST_PER_USE);
-            Date endDate = CostRateTableEntry.DEFAULT_ENTRY.getEndDate();
+            LocalDateTime endDate = CostRateTableEntry.DEFAULT_ENTRY.getEndDate();
 
             entries.add(new CostRateTableEntry(null, endDate, costPerUse, standardRate, overtimeRate));
          }
@@ -97,9 +98,9 @@ final class CostRateTableFactory
             Rate overtimeRate = RateHelper.convertFromHours(m_file, MPPUtility.getDouble(data, i + 16), overtimeRateFormat);
 
             Double costPerUse = NumberHelper.getDouble(MPPUtility.getDouble(data, i + 32) / 100.0);
-            Date endDate = MPPUtility.getTimestampFromTenths(data, i + 40);
+            LocalDateTime endDate = MPPUtility.getTimestampFromTenths(data, i + 40);
 
-            if (endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+            if (endDate.isAfter(DateHelper.END_DATE_NA))
             {
                endDate = DateHelper.END_DATE_NA;
             }
@@ -113,13 +114,10 @@ final class CostRateTableFactory
                // like a start time (minutes divisible by 10) and subtracts one minute so that
                // the next range starts at the correct time.
                //
-               cal.setTime(endDate);
-               int minutes = cal.get(Calendar.MINUTE);
-
+               int minutes = endDate.getMinute();
                if ((minutes % 5) == 0)
                {
-                  cal.add(Calendar.MINUTE, -1);
-                  endDate = cal.getTime();
+                  endDate = endDate.minusMinutes(1);
                }
             }
             entries.add(new CostRateTableEntry(null, endDate, costPerUse, standardRate, overtimeRate));
@@ -134,16 +132,14 @@ final class CostRateTableFactory
 
       for (int i = 0; i < entries.size(); i++)
       {
-         Date startDate;
+         LocalDateTime startDate;
          if (i == 0)
          {
             startDate = DateHelper.START_DATE_NA;
          }
          else
          {
-            cal.setTime(entries.get(i - 1).getEndDate());
-            cal.add(Calendar.MINUTE, 1);
-            startDate = cal.getTime();
+            startDate = entries.get(i - 1).getEndDate().plusMinutes(1);
          }
 
          CostRateTableEntry entry = entries.get(i);
