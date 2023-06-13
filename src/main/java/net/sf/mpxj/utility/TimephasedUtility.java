@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.utility;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -191,8 +192,8 @@ public final class TimephasedUtility
       int result = -1;
       if (assignments != null)
       {
-         long rangeStart = range.getStart().getTime();
-         long rangeEnd = range.getEnd().getTime();
+         LocalDateTime rangeStart = range.getStart();
+         LocalDateTime rangeEnd = range.getEnd();
 
          for (int loop = startIndex; loop < assignments.size(); loop++)
          {
@@ -332,34 +333,29 @@ public final class TimephasedUtility
          //
          // Select the correct start date
          //
-         long startDate = range.getStart().getTime();
-         long assignmentStart = assignment.getStart().getTime();
-         if (startDate < assignmentStart)
+         LocalDateTime startDate = range.getStart();
+         LocalDateTime assignmentStart = assignment.getStart();
+         if (startDate.isBefore(assignmentStart))
          {
             startDate = assignmentStart;
          }
 
-         long rangeEndDate = range.getEnd().getTime();
-         long traEndDate = assignment.getFinish().getTime();
-
-         Calendar cal = DateHelper.popCalendar(startDate);
-         Date calendarDate = cal.getTime();
+         LocalDateTime rangeEndDate = range.getEnd();
+         LocalDateTime traEndDate = assignment.getFinish();
+         LocalDateTime calendarDate = startDate;
 
          //
          // Start counting forwards
          //
-         while (startDate < rangeEndDate && startDate < traEndDate)
+         while (startDate.isBefore(rangeEndDate) && startDate.isBefore(traEndDate))
          {
             if (projectCalendar == null || projectCalendar.isWorkingDate(LocalDateHelper.getLocalDate(calendarDate)))
             {
                ++totalDays;
             }
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            startDate = cal.getTimeInMillis();
-            calendarDate = cal.getTime();
+            startDate = startDate.plusDays(1);
+            calendarDate = startDate;
          }
-
-         DateHelper.pushCalendar(cal);
 
          //
          // If we still haven't reached the end of our range
@@ -367,7 +363,7 @@ public final class TimephasedUtility
          //
          done = true;
          totalWork += (assignment.getAmountPerDay().getDuration() * totalDays);
-         if (startDate < rangeEndDate)
+         if (startDate.isBefore(rangeEndDate))
          {
             ++startIndex;
             if (startIndex < assignments.size())
@@ -453,7 +449,7 @@ public final class TimephasedUtility
          long traEndDate = assignment.getFinish().getTime();
 
          Calendar cal = DateHelper.popCalendar(startDate);
-         Date calendarDate = cal.getTime();
+         LocalDateTime calendarDate = cal.getTime();
 
          //
          // Start counting forwards

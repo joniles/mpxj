@@ -95,7 +95,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
       {
          if (remainderInserted)
          {
-            assignment.setStart(DateHelper.addDays(assignment.getStart(), 1));
+            assignment.setStart(assignment.getStart().plusDays(1));
             remainderInserted = false;
          }
 

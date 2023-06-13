@@ -35,6 +35,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
@@ -118,8 +119,8 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
    {
       Gantt.File file = gantt.getFile();
       ProjectProperties props = m_projectFile.getProjectProperties();
-      props.setLastSaved(file.getSaved());
-      props.setCreationDate(file.getCreated());
+      props.setLastSaved(LocalDateTimeHelper.getLocalDateTime(file.getSaved()));
+      props.setCreationDate(LocalDateTimeHelper.getLocalDateTime(file.getCreated()));
       props.setName(file.getName());
    }
 
@@ -198,12 +199,12 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          task.setCost(ganttTask.getC());
          task.setName(ganttTask.getContent());
          task.setDuration(ganttTask.getD());
-         task.setDeadline(LocalDateHelper.getDate(ganttTask.getDL()));
+         task.setDeadline(LocalDateTimeHelper.getLocalDateTime(LocalDateHelper.getDate(ganttTask.getDL())));
          //ganttTask.getH() // height
          //ganttTask.getIn(); // indent
          task.setWBS(wbs);
          task.setPercentageComplete(ganttTask.getPC());
-         task.setStart(LocalDateHelper.getDate(ganttTask.getS()));
+         task.setStart(LocalDateTimeHelper.getLocalDateTime(LocalDateHelper.getDate(ganttTask.getS())));
          //ganttTask.getU(); // Unknown
          //ganttTask.getVA(); // Valign
 

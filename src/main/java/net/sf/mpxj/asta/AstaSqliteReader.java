@@ -29,6 +29,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -297,8 +298,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       while (index < patterns.length)
       {
          Integer workPattern = Integer.valueOf(patterns[index + 1]);
-         Date startDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 3]);
-         Date endDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 4]);
+         LocalDateTime startDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 3]);
+         LocalDateTime endDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 4]);
 
          Map<String, Object> map = new HashMap<>();
          map.put("WORK_PATTERN", workPattern);
@@ -344,8 +345,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       int index = 1;
       while (index < exceptions.length)
       {
-         Date startDate = DatatypeConverter.parseEpochTimestamp(exceptions[index]);
-         Date endDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 1]);
+         LocalDateTime startDate = DatatypeConverter.parseEpochTimestamp(exceptions[index]);
+         LocalDateTime endDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 1]);
          //Integer exceptionTypeID = Integer.valueOf(exceptions[index + 2]);
 
          Map<String, Object> map = new HashMap<>();
@@ -398,8 +399,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
          for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
          {
             Integer exceptionTypeID = Integer.valueOf(shifts[index]);
-            Date startTime = DatatypeConverter.parseBasicTime(shifts[index + 1]);
-            Date endTime = DatatypeConverter.parseBasicTime(shifts[index + 2]);
+            LocalDateTime startTime = DatatypeConverter.parseBasicTime(shifts[index + 1]);
+            LocalDateTime endTime = DatatypeConverter.parseBasicTime(shifts[index + 2]);
 
             Map<String, Object> map = new HashMap<>();
             map.put("START_TIME", startTime);

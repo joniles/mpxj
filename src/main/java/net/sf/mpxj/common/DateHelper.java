@@ -111,40 +111,24 @@ public final class DateHelper
     *
     * @param startDate range start date
     * @param endDate range end date
-    * @param targetDate target date
+    * @param targetDate target date in milliseconds
     * @return comparison result
     */
    public static int compare(LocalDateTime startDate, LocalDateTime endDate, LocalDateTime targetDate)
    {
-      return (compare(startDate, endDate, targetDate.getTime()));
-   }
-
-   /**
-    * This method compares a target date with a date range. The method will
-    * return 0 if the date is within the range, less than zero if the date
-    * is before the range starts, and greater than zero if the date is after
-    * the range ends.
-    *
-    * @param startDate range start date
-    * @param endDate range end date
-    * @param targetDate target date in milliseconds
-    * @return comparison result
-    */
-   public static int compare(Date startDate, Date endDate, long targetDate)
-   {
       int result = 0;
-      if (targetDate < startDate.getTime())
+      if (targetDate.isBefore(startDate))
       {
          result = -1;
       }
       else
       {
-         if (targetDate > endDate.getTime())
+         if (targetDate.isAfter(endDate))
          {
             result = 1;
          }
       }
-      return (result);
+      return result;
    }
 
    /**
