@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
@@ -44,7 +45,7 @@ public class AvailabilityTableTest
    @Test public void testGetEntryByDate() throws Exception
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-      Availability availability1 = new Availability(df.parse("01/02/2015 08:00"), df.parse("03/02/2015 17:00"), null);
+      Availability availability1 = new Availability(LocalDateTime.of(2015, 2, 1, 8, 0, 0), df.parse("03/02/2015 17:00"), null);
       Availability availability2 = new Availability(df.parse("01/03/2015 08:00"), df.parse("03/03/2015 17:00"), null);
       AvailabilityTable table = new AvailabilityTable();
       table.add(availability1);
