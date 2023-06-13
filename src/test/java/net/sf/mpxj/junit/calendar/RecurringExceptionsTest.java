@@ -28,6 +28,8 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,7 +80,7 @@ public class RecurringExceptionsTest
       assertFalse(exception.getWorking());
       assertNull(exception.getRecurring());
       assertEquals(1, exception.getExpandedExceptions().size());
-      assertEquals("01/01/2000", m_df.format(exception.getFromDate()));
+      assertEquals(LocalDate.of(2000, 1, 1), exception.getFromDate());
 
       exception = exceptions.get(1);
       assertEquals("Daily 2", exception.getName());
@@ -460,8 +462,9 @@ public class RecurringExceptionsTest
 
    private List<String> getExpandedDates(ProjectCalendarException exception)
    {
-      return exception.getExpandedExceptions().stream().map(e -> m_df.format(e.getFromDate())).collect(Collectors.toList());
+      return exception.getExpandedExceptions().stream().map(e -> m_localDateFormat.format(e.getFromDate())).collect(Collectors.toList());
    }
 
    private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy");
+   private final DateTimeFormatter m_localDateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 }

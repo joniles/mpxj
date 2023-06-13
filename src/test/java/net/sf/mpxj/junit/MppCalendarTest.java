@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -229,8 +230,8 @@ public class MppCalendarTest
 
       ProjectCalendarException exception = exceptions.get(0);
       assertFalse(exception.getWorking());
-      assertEquals("05/03/2008 00:00", df.format(exception.getFromDate()));
-      assertEquals("05/03/2008 23:59", df.format(exception.getToDate()));
+      assertEquals(LocalDate.of(2008, 3, 5), exception.getFromDate());
+      assertEquals(LocalDate.of(2008, 3, 5), exception.getToDate());
       assertNull(exception.get(0).getStartAsLocalTime());
       assertNull(exception.get(0).getEndAsLocalTime());
       assertNull(exception.get(1).getStartAsLocalTime());
@@ -244,8 +245,8 @@ public class MppCalendarTest
 
       exception = exceptions.get(1);
       assertTrue(exception.getWorking());
-      assertEquals("09/03/2008 00:00", df.format(exception.getFromDate()));
-      assertEquals("09/03/2008 23:59", df.format(exception.getToDate()));
+      assertEquals(LocalDate.of(2008, 3, 9), exception.getFromDate());
+      assertEquals(LocalDate.of(2008, 3, 9), exception.getToDate());
       assertEquals(LocalTime.of(8,0), exception.get(0).getStartAsLocalTime());
       assertEquals(LocalTime.of(12,0), exception.get(0).getEndAsLocalTime());
       assertEquals(LocalTime.of(13,0), exception.get(1).getStartAsLocalTime());
@@ -259,8 +260,8 @@ public class MppCalendarTest
 
       exception = exceptions.get(2);
       assertTrue(exception.getWorking());
-      assertEquals("16/03/2008 00:00", df.format(exception.getFromDate()));
-      assertEquals("16/03/2008 23:59", df.format(exception.getToDate()));
+      assertEquals(LocalDate.of(2008, 3, 16), exception.getFromDate());
+      assertEquals(LocalDate.of(2008, 3, 16), exception.getToDate());
       assertEquals(LocalTime.of(8, 0), exception.get(0).getStartAsLocalTime());
       assertEquals(LocalTime.of(9,0), exception.get(0).getEndAsLocalTime());
       assertEquals(LocalTime.of(11,0), exception.get(1).getStartAsLocalTime());

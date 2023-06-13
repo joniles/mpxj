@@ -29,6 +29,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayDeque;
@@ -228,7 +229,7 @@ public class JsonStreamWriter
     * @param name attribute name
     * @param value attribute value
     */
-   public void writeNameValuePairAsDate(String name, Date value) throws IOException
+   public void writeNameValuePairAsDate(String name, LocalDate value) throws IOException
    {
       internalWriteNameValuePair(name, m_dateFormat.format(value));
    }
@@ -410,7 +411,7 @@ public class JsonStreamWriter
    private boolean m_pretty;
    private String m_indent = "";
    private final DateFormat m_timestampFormat = new SimpleDateFormat("\"yyyy-MM-dd'T'HH:mm:ss.S\"");
-   private final DateFormat m_dateFormat = new SimpleDateFormat("\"yyyy-MM-dd\"");
+   private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("\"yyyy-MM-dd\"");
    private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("\"HH:mm\"");
 
    private static final String INDENT = "  ";
