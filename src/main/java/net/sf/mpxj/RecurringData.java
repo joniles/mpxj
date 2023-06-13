@@ -50,9 +50,9 @@ public class RecurringData
     *
     * @return recurrence start date
     */
-   public Date getStartDate()
+   public LocalDate getStartDate()
    {
-      return LocalDateHelper.getDate(m_startDate);
+      return m_startDate;
    }
 
    /**
@@ -71,9 +71,9 @@ public class RecurringData
     *
     * @return recurrence finish date
     */
-   public Date getFinishDate()
+   public LocalDate getFinishDate()
    {
-      return LocalDateHelper.getDate(m_finishDate);
+      return m_finishDate;
    }
 
    /**

@@ -810,9 +810,9 @@ public final class MPXWriter extends AbstractProjectWriter
          boolean yearlyAbsolute = record.getRecurrenceType() == RecurrenceType.YEARLY && !record.getRelative();
 
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(formatDateTime(record.getStartDate())));
+         m_buffer.append(format(formatDateTime(LocalDateHelper.getDate(record.getStartDate()))));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(formatDateTime(record.getFinishDate())));
+         m_buffer.append(format(formatDateTime(LocalDateHelper.getDate(record.getFinishDate()))));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(RecurrenceUtility.getDurationValue(m_projectFile.getProjectProperties(), record.getDuration())));
          m_buffer.append(m_delimiter);

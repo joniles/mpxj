@@ -357,7 +357,7 @@ public final class PlannerWriter extends AbstractProjectWriter
             //
             // Exception covers a range of days
             //
-            while (rangeStartDay.isBefore(rangeEndDay))
+            while (!rangeStartDay.isAfter(rangeEndDay))
             {
                net.sf.mpxj.planner.schema.Day day = m_factory.createDay();
                dayList.add(day);

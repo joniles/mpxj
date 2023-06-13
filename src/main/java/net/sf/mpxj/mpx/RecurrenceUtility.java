@@ -36,6 +36,7 @@ import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 
 /**
  * This class contains method relating to managing Recurrence instances for MPX
@@ -252,7 +253,7 @@ final class RecurrenceUtility
       Date result;
       Integer yearlyAbsoluteDay = data.getDayNumber();
       Integer yearlyAbsoluteMonth = data.getMonthNumber();
-      Date startDate = data.getStartDate();
+      Date startDate = LocalDateHelper.getDate(data.getStartDate());
 
       if (yearlyAbsoluteDay == null || yearlyAbsoluteMonth == null || startDate == null)
       {
