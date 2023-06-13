@@ -25,6 +25,8 @@ package net.sf.mpxj.junit;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
@@ -43,10 +45,10 @@ public class CalendarExceptionPrecedenceTest
       ProjectCalendar calendar = project.getCalendarByName("TEST");
 
       // Fridays in July
-      Assert.assertFalse(calendar.isWorkingDate(m_df.parse("08/07/2022")));
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("15/07/2022")));
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("22/07/2022")));
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("29/07/2022")));
+      Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2022, 7, 8)));
+      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 7, 15)));
+      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 7, 22)));
+      Assert.assertTrue(calendar.isWorkingDate(LocalDate.of(2022, 7, 29)));
 
       // Fridays in August
       Assert.assertTrue(calendar.isWorkingDate(m_df.parse("05/08/2022")));

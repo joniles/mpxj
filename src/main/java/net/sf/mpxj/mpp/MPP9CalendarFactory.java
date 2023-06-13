@@ -24,11 +24,13 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.common.LocalDateHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -112,8 +114,8 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
          {
             offset = 4 + (60 * 7) + (index * 64);
 
-            Date fromDate = MPPUtility.getDate(data, offset);
-            Date toDate = MPPUtility.getDate(data, offset + 2);
+            LocalDate fromDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset));
+            LocalDate toDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset + 2));
             exception = cal.addCalendarException(fromDate, toDate);
 
             periodCount = MPPUtility.getShort(data, offset + 6);

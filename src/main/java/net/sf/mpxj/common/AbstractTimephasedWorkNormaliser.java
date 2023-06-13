@@ -138,7 +138,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
     */
    private boolean timephasedWorkHasStandardHours(ProjectCalendar calendar, ResourceAssignment assignment, TimephasedWork timephasedWork)
    {
-      ProjectCalendarHours hours = calendar.getHours(timephasedWork.getStart());
+      ProjectCalendarHours hours = calendar.getHours(LocalDateHelper.getLocalDate(timephasedWork.getStart()));
 
       LocalTime calendarStart = hours.get(0).getStartAsLocalTime();
       LocalTime timephasedStart = LocalTimeHelper.getLocalTime(timephasedWork.getStart());

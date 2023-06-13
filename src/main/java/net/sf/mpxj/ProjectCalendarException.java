@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -174,6 +173,18 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
       if (date != null)
       {
          result = (LocalDateHelper.compare(getFromDate(), getToDate(), LocalDateHelper.getLocalDate(date)) == 0);
+      }
+
+      return result;
+   }
+
+   public boolean contains(LocalDate date)
+   {
+      boolean result = false;
+
+      if (date != null)
+      {
+         result = (LocalDateHelper.compare(getFromDate(), getToDate(), date) == 0);
       }
 
       return result;

@@ -25,6 +25,7 @@ package net.sf.mpxj.projectcommander;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,6 +55,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
@@ -260,14 +262,10 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       if (timestampInDays > 0xFF)
       {
          long timestampInMilliseconds = timestampInDays * 24 * 60 * 60 * 1000;
-         Date exceptionDate = DateHelper.getTimestampFromLong(timestampInMilliseconds);
-
-         Calendar cal = DateHelper.popCalendar();
-         cal.setTime(exceptionDate);
-         Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-         DateHelper.pushCalendar(cal);
+         LocalDate exceptionDate = LocalDateHelper.getLocalDate(DateHelper.getTimestampFromLong(timestampInMilliseconds));
 
          ProjectCalendarException ex = calendar.addCalendarException(exceptionDate);
+         Day day = Day.getInstance(exceptionDate.getDayOfWeek());
          if (!calendar.isWorkingDay(day))
          {
             ex.addAll(ranges.get(day));
@@ -391,7 +389,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          task.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
          task.setMilestone(true);
          Date startDate = DatatypeConverter.getTimestamp(cBarData, 7);
-         task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(startDate)));
+         task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(LocalDateHelper.getLocalDate(startDate))));
          task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
       }
       else
@@ -425,7 +423,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
 
             ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
             Date startDate = DatatypeConverter.getTimestamp(cBarData, 5);
-            task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(startDate)));
+            task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(LocalDateHelper.getLocalDate(startDate))));
             task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
 
             if (resource != null)

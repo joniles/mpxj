@@ -33,6 +33,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.common.LocalDateHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
@@ -157,7 +158,7 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
 
       for (Gantt.Holidays.Holiday holiday : gantt.getHolidays().getHoliday())
       {
-         ProjectCalendarException exception = calendar.addCalendarException(holiday.getDate());
+         ProjectCalendarException exception = calendar.addCalendarException(LocalDateHelper.getLocalDate(holiday.getDate()));
          exception.setName(holiday.getContent());
       }
 

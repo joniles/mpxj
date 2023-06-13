@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -209,14 +210,14 @@ public class ProjectCalendarTest
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(9.88, variance.getDuration(), 0.01);
 
-      projectCalendar.addCalendarException(df.parse("14/03/2006 00:00"), df.parse("14/03/2006 23:59"));
+      projectCalendar.addCalendarException(LocalDate.of(2006,3, 14), LocalDate.of(2006, 3, 14));
 
       startDate = df.parse("13/03/2006 08:00");
       endDate = df.parse("24/03/2006 16:00");
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(8.88, variance.getDuration(), 0.01);
 
-      ProjectCalendarException exception = projectCalendar.addCalendarException(df.parse("18/03/2006 00:00"), df.parse("18/03/2006 23:59"));
+      ProjectCalendarException exception = projectCalendar.addCalendarException(LocalDate.of(206, 3, 18), LocalDate.of(2006, 3, 18));
       exception.add(new TimeRange(LocalTime.of(8,0), LocalTime.of(12,0)));
 
       startDate = df.parse("18/03/2006 08:00");
@@ -643,7 +644,7 @@ public class ProjectCalendarTest
       //
       // Make Friday 10th a non-working day
       //
-      cal.addCalendarException(df.parse("10/10/2003 00:00"), df.parse("10/10/2003 23:59"));
+      cal.addCalendarException(LocalDate.of(2003, 10, 10), LocalDate.of(2003, 10, 10));
 
       //
       // Cross weekend with a non-working day exception
@@ -658,7 +659,7 @@ public class ProjectCalendarTest
       //
       // Make Saturday 11th a working day
       //
-      ProjectCalendarException ex = cal.addCalendarException(df.parse("11/10/2003 00:00"), df.parse("11/10/2003 23:59"));
+      ProjectCalendarException ex = cal.addCalendarException(LocalDate.of(2003, 10, 11), LocalDate.of(2003, 10, 11));
       ex.add(new TimeRange(LocalTime.of(9, 0), LocalTime.of(13, 0)));
 
       //
@@ -694,11 +695,11 @@ public class ProjectCalendarTest
       //
       // Working day
       //
-      assertEquals(LocalTime.of(8,0), cal.getStartTime(df.parse("09/10/2003 00:00")));
+      assertEquals(LocalTime.of(8,0), cal.getStartTime(LocalDate.of(2003, 10, 9)));
 
       //
       // Non-working day
       //
-      assertNull(cal.getStartTime(df.parse("11/10/2003 00:00")));
+      assertNull(cal.getStartTime(LocalDate.of(2003,10, 11)));
    }
 }

@@ -37,6 +37,7 @@ import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedItem;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mpp.TimescaleUnits;
 
@@ -349,7 +350,7 @@ public final class TimephasedUtility
          //
          while (startDate < rangeEndDate && startDate < traEndDate)
          {
-            if (projectCalendar == null || projectCalendar.isWorkingDate(calendarDate))
+            if (projectCalendar == null || projectCalendar.isWorkingDate(LocalDateHelper.getLocalDate(calendarDate)))
             {
                ++totalDays;
             }
@@ -459,7 +460,7 @@ public final class TimephasedUtility
          //
          while (startDate < rangeEndDate && startDate < traEndDate)
          {
-            if (projectCalendar == null || projectCalendar.isWorkingDate(calendarDate))
+            if (projectCalendar == null || projectCalendar.isWorkingDate(LocalDateHelper.getLocalDate(calendarDate)))
             {
                ++totalDays;
             }

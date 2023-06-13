@@ -25,6 +25,7 @@ package net.sf.mpxj.primavera;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,6 +39,7 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 
 /**
  * Encapsulates the functionality required to write a ProjectCalendar
@@ -101,17 +103,16 @@ class ProjectCalendarStructuredTextWriter
       exceptionsRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, "Exceptions");
 
       int exceptionIndex = 0;
-      Calendar javaCalendar = DateHelper.popCalendar();
       Set<Date> exceptionDates = new HashSet<>();
 
       List<ProjectCalendarException> exceptions = net.sf.mpxj.common.ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(calendar);
       for (ProjectCalendarException exception : exceptions)
       {
-         javaCalendar.setTime(exception.getFromDate());
-         while (javaCalendar.getTimeInMillis() < exception.getToDate().getTime())
+         LocalDate currentDate = exception.getFromDate();
+         while (currentDate.isBefore(exception.getToDate()))
          {
-            Date exceptionDate = javaCalendar.getTime();
-            javaCalendar.add(Calendar.DAY_OF_YEAR, 1);
+            Date exceptionDate = LocalDateHelper.getDate(currentDate);
+            currentDate = currentDate.plusDays(1);
 
             // Prevent duplicate exception dates being written.
             // P6 will fail to import files with duplicate exceptions.
@@ -131,8 +132,6 @@ class ProjectCalendarStructuredTextWriter
             writeHours(exceptionRecord, exception);
          }
       }
-
-      DateHelper.pushCalendar(javaCalendar);
 
       return exceptionsRecord;
    }

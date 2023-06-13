@@ -26,6 +26,7 @@ package net.sf.mpxj.primavera;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
@@ -887,8 +889,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       {
          for (HolidayOrException ex : hoe.getHolidayOrException())
          {
-            Date startDate = DateHelper.getDayStartDate(ex.getDate());
-            Date endDate = DateHelper.getDayEndDate(ex.getDate());
+            LocalDate startDate = LocalDateHelper.getLocalDate(ex.getDate());
+            LocalDate endDate = LocalDateHelper.getLocalDate(ex.getDate());
             ProjectCalendarException pce = calendar.addCalendarException(startDate, endDate);
 
             List<WorkTimeType> workTime = ex.getWorkTime();

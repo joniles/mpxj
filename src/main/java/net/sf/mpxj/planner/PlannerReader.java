@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -313,7 +314,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
          {
             if (day.getType().equals("day-type"))
             {
-               Date exceptionDate = getDate(day.getDate());
+               LocalDate exceptionDate = LocalDate.parse(day.getDate(), m_dateFormat);
                ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate);
                List<TimeRange> dateRanges = map.get(day.getId());
                if (dateRanges != null)
@@ -691,43 +692,6 @@ public final class PlannerReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Convert a Planner date into a Java date.
-    *
-    * 20070222
-    *
-    * @param value Planner date
-    * @return Java Date instance
-    */
-   private Date getDate(String value) throws MPXJException
-   {
-      try
-      {
-         Number year = m_fourDigitFormat.parse(value.substring(0, 4));
-         Number month = m_twoDigitFormat.parse(value.substring(4, 6));
-         Number day = m_twoDigitFormat.parse(value.substring(6, 8));
-
-         Calendar cal = DateHelper.popCalendar();
-         cal.set(Calendar.YEAR, year.intValue());
-         cal.set(Calendar.MONTH, month.intValue() - 1);
-         cal.set(Calendar.DAY_OF_MONTH, day.intValue());
-
-         cal.set(Calendar.HOUR_OF_DAY, 0);
-         cal.set(Calendar.MINUTE, 0);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-         Date result = cal.getTime();
-         DateHelper.pushCalendar(cal);
-
-         return result;
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse date " + value, ex);
-      }
-   }
-
-   /**
     * Convert a Planner time into a Java date.
     *
     * 0800
@@ -896,6 +860,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
    private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
    private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
    private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HHmm");
+   private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
 
    private static final Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<>();
    static

@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.primavera;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -84,6 +85,7 @@ import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.HtmlHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
@@ -661,24 +663,21 @@ final class PrimaveraPMProjectWriter
       List<ProjectCalendarException> expandedExceptions = net.sf.mpxj.common.ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxj);
       if (!expandedExceptions.isEmpty())
       {
-         Calendar calendar = DateHelper.popCalendar();
-         Set<Date> exceptionDates = new HashSet<>();
+         Set<LocalDate> exceptionDates = new HashSet<>();
 
          for (ProjectCalendarException mpxjException : expandedExceptions)
          {
-            calendar.setTime(mpxjException.getFromDate());
-            while (calendar.getTimeInMillis() < mpxjException.getToDate().getTime())
+            LocalDate date = mpxjException.getFromDate();
+            while (date.isBefore(mpxjException.getToDate()))
             {
-               Date exceptionDate = calendar.getTime();
-
                // Prevent duplicate exception dates being written.
                // P6 will fail to import files with duplicate exceptions.
-               if (exceptionDates.add(exceptionDate))
+               if (exceptionDates.add(date))
                {
                   HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
                   xmlExceptions.getHolidayOrException().add(xmlException);
 
-                  xmlException.setDate(exceptionDate);
+                  xmlException.setDate(LocalDateHelper.getDate(date));
 
                   for (TimeRange range : mpxjException)
                   {
@@ -693,10 +692,9 @@ final class PrimaveraPMProjectWriter
                      }
                   }
                }
-               calendar.add(Calendar.DAY_OF_YEAR, 1);
+               date = date.plusDays(1);
             }
          }
-         DateHelper.pushCalendar(calendar);
       }
    }
 

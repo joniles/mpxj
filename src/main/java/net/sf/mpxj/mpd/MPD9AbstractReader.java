@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpd;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -66,6 +67,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
@@ -674,8 +676,8 @@ abstract class MPD9AbstractReader
     */
    private void processCalendarException(ProjectCalendar calendar, Row row)
    {
-      Date fromDate = row.getDate("CD_FROM_DATE");
-      Date toDate = row.getDate("CD_TO_DATE");
+      LocalDate fromDate = LocalDateHelper.getLocalDate(row.getDate("CD_FROM_DATE"));
+      LocalDate toDate = LocalDateHelper.getLocalDate(row.getDate("CD_TO_DATE"));
       boolean working = row.getInt("CD_WORKING") != 0;
       ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
       if (working)

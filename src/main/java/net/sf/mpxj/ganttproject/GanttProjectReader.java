@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -291,12 +292,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       }
       else
       {
-         Calendar calendar = DateHelper.popCalendar();
-         calendar.set(Calendar.YEAR, Integer.parseInt(year));
-         calendar.set(Calendar.MONTH, NumberHelper.getInt(date.getMonth()));
-         calendar.set(Calendar.DAY_OF_MONTH, NumberHelper.getInt(date.getDate()));
-         Date exceptionDate = calendar.getTime();
-         DateHelper.pushCalendar(calendar);
+         LocalDate exceptionDate = LocalDate.of(Integer.parseInt(year), date.getMonth(), date.getDate());
          ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate);
 
          // TODO: not sure how NEUTRAL should be handled

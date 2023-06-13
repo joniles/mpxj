@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +35,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 
 /**
@@ -185,9 +187,10 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          //
          Date splitFinish;
          double splitMinutes;
-         if (calendar.isWorkingDate(assignmentStart))
+         LocalDate assignmentStartAsLocalDate = LocalDateHelper.getLocalDate(assignmentStart);
+         if (calendar.isWorkingDate(assignmentStartAsLocalDate))
          {
-            splitFinish = LocalTimeHelper.setEndTime(assignmentStart, calendar.getFinishTime(assignmentStart));
+            splitFinish = LocalTimeHelper.setEndTime(assignmentStart, calendar.getFinishTime(assignmentStartAsLocalDate));
 
             Duration calendarSplitWork = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES);
             Duration assignmentWorkPerDay = assignment.getAmountPerDay();
@@ -255,7 +258,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     */
    private Duration getAssignmentWork(ProjectCalendar calendar, TimephasedWork assignment)
    {
-      Date splitFinish = LocalTimeHelper.setEndTime(assignment.getStart(), calendar.getFinishTime(assignment.getStart()));
+      Date splitFinish = LocalTimeHelper.setEndTime(assignment.getStart(), calendar.getFinishTime(LocalDateHelper.getLocalDate(assignment.getStart())));
 
       Duration calendarSplitWork = calendar.getWork(assignment.getStart(), splitFinish, TimeUnit.MINUTES);
       Duration assignmentWorkPerDay = assignment.getAmountPerDay();

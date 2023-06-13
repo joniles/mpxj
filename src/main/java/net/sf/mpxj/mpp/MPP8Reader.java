@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -320,8 +322,8 @@ final class MPP8Reader implements MPPVariantReader
                {
                   offset = 4 + (40 * 7) + (index * 44);
 
-                  Date fromDate = MPPUtility.getDate(extData, offset);
-                  Date toDate = MPPUtility.getDate(extData, offset + 2);
+                  LocalDate fromDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(extData, offset));
+                  LocalDate toDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(extData, offset + 2));
                   exception = cal.addCalendarException(fromDate, toDate);
 
                   periodCount = MPPUtility.getShort(extData, offset + 6);

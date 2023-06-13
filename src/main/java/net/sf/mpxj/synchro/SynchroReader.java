@@ -25,6 +25,7 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -48,6 +49,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -165,7 +167,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
 
       for (MapRow assignment : row.getRows("DAY_TYPE_ASSIGNMENTS"))
       {
-         Date date = assignment.getDate("DATE");
+         LocalDate date = LocalDateHelper.getLocalDate(assignment.getDate("DATE"));
          processRanges(dayTypeMap.get(assignment.getUUID("DAY_TYPE_UUID")), calendar.addCalendarException(date));
       }
 

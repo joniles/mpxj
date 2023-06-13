@@ -37,6 +37,7 @@ import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
 import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -167,9 +168,9 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          //
          Date splitFinish;
          double splitMinutes;
-         if (calendar.isWorkingDate(assignmentStart))
+         if (calendar.isWorkingDate(LocalDateHelper.getLocalDate(assignmentStart)))
          {
-            splitFinish = LocalTimeHelper.setEndTime(assignmentStart, calendar.getFinishTime(assignmentStart));
+            splitFinish = LocalTimeHelper.setEndTime(assignmentStart, calendar.getFinishTime(LocalDateHelper.getLocalDate(assignmentStart)));
             splitMinutes = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES).getDuration();
 
             splitMinutes *= assignmentWork.getDuration();
@@ -304,7 +305,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          double totalWork = assignment.getTotalAmount().getDuration();
 
          Date assignmentStart = assignment.getStart();
-         LocalTime calendarStartTime = calendar.getStartTime(assignmentStart);
+         LocalTime calendarStartTime = calendar.getStartTime(LocalDateHelper.getLocalDate(assignmentStart));
          LocalTime assignmentStartTime = LocalTimeHelper.getLocalTime(assignmentStart);
          if (assignmentStartTime != null && calendarStartTime != null)
          {
@@ -316,7 +317,7 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          }
 
          Date assignmentFinish = assignment.getFinish();
-         LocalTime calendarFinishTime = calendar.getFinishTime(assignmentFinish);
+         LocalTime calendarFinishTime = calendar.getFinishTime(LocalDateHelper.getLocalDate(assignmentFinish));
          LocalTime assignmentFinishTime = LocalTimeHelper.getLocalTime(assignmentFinish);
          if (assignmentFinishTime != null && calendarFinishTime != null)
          {
