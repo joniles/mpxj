@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 
@@ -53,8 +54,8 @@ public class ProjectCalendarTest
    @Test public void testGetWork() throws Exception
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-      Date startDate;
-      Date endDate;
+      LocalDateTime startDate;
+      LocalDateTime endDate;
       Duration variance;
 
       ProjectFile project = new ProjectFile();

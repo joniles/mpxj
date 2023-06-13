@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import net.sf.mpxj.Group;
@@ -226,7 +227,7 @@ public class MppGroupTest
       assertEquals(ColorType.BLACK.getColor(), font.getColor());
       assertEquals(ColorType.SILVER.getColor(), clause.getCellBackgroundColor());
       assertEquals(1, clause.getGroupOn());
-      assertEquals("07/02/2006 00:00", df.format((Date) clause.getStartAt()));
+      assertEquals("07/02/2006 00:00", df.format(clause.getStartAt()));
       assertEquals(10, ((Integer) clause.getGroupInterval()).intValue());
       assertEquals(BackgroundPattern.CHECKERED, clause.getPattern());
    }

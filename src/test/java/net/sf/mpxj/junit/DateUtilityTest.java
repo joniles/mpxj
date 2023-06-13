@@ -4,7 +4,7 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.common.DateHelper;
 
@@ -23,8 +23,8 @@ public class DateUtilityTest
    @Test public void testCompare() throws Exception
    {
       SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-      Date date1 = df.parse("15/01/2014");
-      Date date2 = df.parse("20/01/2014");
+      LocalDateTime date1 = df.parse("15/01/2014");
+      LocalDateTime date2 = df.parse("20/01/2014");
 
       assertEquals(-1, DateHelper.compare(date1, date2));
       assertEquals(1, DateHelper.compare(date2, date1));
@@ -38,8 +38,8 @@ public class DateUtilityTest
    @Test public void testMinMax() throws Exception
    {
       SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-      Date date1 = df.parse("15/01/2014");
-      Date date2 = df.parse("20/01/2014");
+      LocalDateTime date1 = df.parse("15/01/2014");
+      LocalDateTime date2 = df.parse("20/01/2014");
 
       assertNull(DateHelper.min(null, null));
       assertEquals(date1, DateHelper.min(null, date1));

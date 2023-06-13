@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
@@ -221,7 +221,7 @@ public class TaskBaselinesTest
       {
          Task task = project.getTaskByID(Integer.valueOf(taskID));
          taskID++;
-         Date value;
+         LocalDateTime value;
 
          if (index == 0)
          {
@@ -254,7 +254,7 @@ public class TaskBaselinesTest
       {
          Task task = project.getTaskByID(Integer.valueOf(taskID));
          taskID++;
-         Date value;
+         LocalDateTime value;
 
          if (index == 0)
          {
@@ -287,7 +287,7 @@ public class TaskBaselinesTest
       {
          Task task = project.getTaskByID(Integer.valueOf(taskID));
          taskID++;
-         Date value;
+         LocalDateTime value;
 
          if (index == 0)
          {
@@ -386,7 +386,7 @@ public class TaskBaselinesTest
       {
          Task task = project.getTaskByID(Integer.valueOf(taskID));
          taskID++;
-         Date value;
+         LocalDateTime value;
 
          if (index == 0)
          {

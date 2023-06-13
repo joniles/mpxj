@@ -29,7 +29,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.junit.ProjectUtility;
 import net.sf.mpxj.reader.UniversalProjectReader;
@@ -88,8 +88,8 @@ public class TaskFinishesTest
       DateFormat format = useDateFormat ? m_dateFormat : m_dateTimeFormat;
       for (int index = 1; index <= maxIndex; index++)
       {
-         Date expectedValue = testIndex == index ? format.parse(DATES[index - 1]) : null;
-         Date actualValue = task.getFinish(index);
+         LocalDateTime expectedValue = testIndex == index ? format.parse(DATES[index - 1]) : null;
+         LocalDateTime actualValue = task.getFinish(index);
 
          assertEquals(file.getName() + " Finish" + index, expectedValue, actualValue);
       }
