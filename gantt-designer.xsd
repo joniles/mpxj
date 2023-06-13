@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:simpleType name="ganttDesignerDuration">
+      <xs:restriction base="xs:string"/>
+   </xs:simpleType>
+   <xs:simpleType name="ganttDesignerPercent">
+      <xs:restriction base="xs:double"/>
+   </xs:simpleType>
+   <xs:simpleType name="ganttDesignerDay">
+      <xs:restriction base="xs:int"/>
+   </xs:simpleType>
+   <xs:complexType name="ganttDesignerRemark">
+    <xs:sequence>
+       <xs:element maxOccurs="unbounded" name="Task">
+          <xs:complexType mixed="true">
+             <xs:attribute name="Row" type="xs:int"/>
+          </xs:complexType>
+       </xs:element>
+    </xs:sequence>
+   </xs:complexType>
+   <!-- XML Schema Generated from XML Document on Tue Feb 05 2019 18:00:49 GMT+0000 (Greenwich Mean Time) -->
+   <!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
+   <xs:element name="Gantt">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="Display">
+               <xs:complexType>
+                  <xs:attribute name="Width" type="xs:int"/>
+                  <xs:attribute name="Height" type="xs:int"/>
+                  <xs:attribute name="Split" type="xs:int"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="File">
+               <xs:complexType>
+                  <xs:attribute name="Saved" type="xs:dateTime"/>
+                  <xs:attribute name="Created" type="xs:dateTime"/>
+                  <xs:attribute name="Name" type="xs:string"/>
+                  <xs:attribute name="Physical" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="Globalization">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="Culture">
+                        <xs:complexType>
+                           <xs:attribute name="LCID" type="xs:int"/>
+                           <xs:attribute name="ISO" type="xs:string"/>
+                           <xs:attribute name="DN" type="xs:string"/>
+                           <xs:attribute name="Cal" type="xs:string"/>
+                           <xs:attribute name="Parent" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="UICulture">
+                        <xs:complexType>
+                           <xs:attribute name="LCID" type="xs:int"/>
+                           <xs:attribute name="ISO" type="xs:string"/>
+                           <xs:attribute name="DN" type="xs:string"/>
+                           <xs:attribute name="Cal" type="xs:string"/>
+                           <xs:attribute name="Parent" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="Currency">
+                        <xs:complexType>
+                           <xs:attribute name="LCID" type="xs:int"/>
+                           <xs:attribute name="ISO" type="xs:string"/>
+                           <xs:attribute name="DN" type="xs:string"/>
+                           <xs:attribute name="Currency" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="RegionInfo" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="FirstDay">
+               <xs:complexType>
+                  <xs:attribute name="Date" type="xs:date"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="LastDay">
+               <xs:complexType>
+                  <xs:attribute name="Date" type="xs:date"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="Padding">
+               <xs:complexType>
+                  <xs:attribute name="Left" type="xs:int"/>
+                  <xs:attribute name="Top" type="xs:int"/>
+                  <xs:attribute name="Right" type="xs:int"/>
+                  <xs:attribute name="Bottom" type="xs:int"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="Tasks">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="Task">
+                        <xs:complexType mixed="true">
+                           <xs:attribute name="ID" type="xs:string"/>
+                           <xs:attribute name="S" type="xs:date"/>
+                           <xs:attribute name="B" type="xs:int"/>
+                           <xs:attribute name="BC" type="xs:int"/>
+                           <xs:attribute name="D" type="ganttDesignerDuration"/>
+                           <xs:attribute name="H" type="xs:int"/>
+                           <xs:attribute name="U" type="xs:int"/>
+                           <xs:attribute name="VA" type="xs:int"/>
+                           <xs:attribute name="In" type="xs:int"/>
+                           <xs:attribute name="C" type="xs:double"/>
+                           <xs:attribute name="PC" type="ganttDesignerPercent"/>
+                           <xs:attribute name="DL" type="xs:date"/>
+                           <xs:attribute name="P" type="xs:string"/>
+                           <xs:attribute name="L" type="ganttDesignerDuration"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="Remarks" type="ganttDesignerRemark"/>
+            <xs:element name="Remarks1" type="ganttDesignerRemark"/>
+            <xs:element name="Remarks2" type="ganttDesignerRemark"/>
+            <xs:element name="Remarks3" type="ganttDesignerRemark"/>
+            <xs:element name="Remarks4" type="ganttDesignerRemark"/>
+            <xs:element name="TextStyles">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="Font">
+                        <xs:complexType>
+                           <xs:attribute name="Style" type="xs:int"/>
+                           <xs:attribute name="Size" type="xs:int"/>
+                           <xs:attribute name="Color" type="xs:int"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="Flag" type="xs:string"/>
+                  <xs:attribute name="Deadline" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="BarStyles">
+               <xs:complexType>
+                  <xs:attribute name="Type" type="xs:int"/>
+                  <xs:attribute name="Color" type="xs:int"/>
+                  <xs:attribute name="Color2" type="xs:int"/>
+                  <xs:attribute name="Color3" type="xs:int"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="Columns">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="Header">
+                        <xs:complexType>
+                           <xs:attribute name="Type" type="xs:int"/>
+                           <xs:attribute name="W" type="xs:int"/>
+                           <xs:attribute name="A" type="xs:int"/>
+                           <xs:attribute name="D" type="xs:int"/>
+                           <xs:attribute name="DA" type="xs:int"/>
+                           <xs:attribute name="DNW" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="Calendar">
+               <xs:complexType>
+                  <xs:attribute name="WorkDays" type="xs:string"/>
+                  <xs:attribute name="WeekStart" type="ganttDesignerDay"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="DateHeader">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="Tier">
+                        <xs:complexType>
+                           <xs:attribute name="Type" type="xs:int"/>
+                           <xs:attribute name="Align" type="xs:int"/>
+                           <xs:attribute name="Tick" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element name="Reference">
+                        <xs:complexType>
+                           <xs:attribute name="value" type="xs:date"/>
+                           <xs:attribute name="Day0" type="xs:string"/>
+                           <xs:attribute name="Week0" type="xs:string"/>
+                           <xs:attribute name="Month0" type="xs:string"/>
+                           <xs:attribute name="Year0" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="Tiers" type="xs:int"/>
+                  <xs:attribute name="TierHeight" type="xs:int"/>
+                  <xs:attribute name="DayWidth" type="xs:int"/>
+                  <xs:attribute name="DarkGrid" type="xs:int"/>
+                  <xs:attribute name="LightGrid" type="xs:int"/>
+                  <xs:attribute name="ColorBackground" type="xs:int"/>
+                  <xs:attribute name="ColorGridlines" type="xs:int"/>
+                  <xs:attribute name="AltLight" type="xs:int"/>
+                  <xs:attribute name="Lightness" type="xs:double"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="Holidays">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="Holiday">
+                        <xs:complexType mixed="true">
+                           <xs:attribute name="Date" type="xs:date"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="Headers">
+               <xs:complexType>
+                  <xs:attribute name="HeaderLeft" type="xs:string"/>
+                  <xs:attribute name="HeaderCenter" type="xs:string"/>
+                  <xs:attribute name="HeaderRight" type="xs:string"/>
+                  <xs:attribute name="HeaderLineSpace" type="xs:int"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="HeadersFonts">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="Font">
+                        <xs:complexType>
+                           <xs:attribute name="Style" type="xs:int"/>
+                           <xs:attribute name="Size" type="xs:int"/>
+                           <xs:attribute name="StrikeOut" type="xs:int"/>
+                           <xs:attribute name="Underline" type="xs:int"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="Footers">
+               <xs:complexType>
+                  <xs:attribute name="FooterLeft" type="xs:string"/>
+                  <xs:attribute name="FooterCenter" type="xs:string"/>
+                  <xs:attribute name="FooterRight" type="xs:string"/>
+                  <xs:attribute name="FooterLineSpace" type="xs:int"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="FootersFonts">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="Font">
+                        <xs:complexType>
+                           <xs:attribute name="Style" type="xs:int"/>
+                           <xs:attribute name="Size" type="xs:int"/>
+                           <xs:attribute name="StrikeOut" type="xs:int"/>
+                           <xs:attribute name="Underline" type="xs:int"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="Print">
+               <xs:complexType>
+                  <xs:attribute name="allRows" type="xs:int"/>
+                  <xs:attribute name="fromTask" type="xs:int"/>
+                  <xs:attribute name="toTask" type="xs:int"/>
+                  <xs:attribute name="numberOfLeftColumnsCompDisp" type="xs:int"/>
+                  <xs:attribute name="numberOfLeftColumns" type="xs:int"/>
+                  <xs:attribute name="showTaskNumbers" type="xs:int"/>
+                  <xs:attribute name="leftColumnsOnPage1Only" type="xs:int"/>
+                  <xs:attribute name="dateOnRightCompDisp" type="xs:int"/>
+                  <xs:attribute name="fromDate" type="xs:date"/>
+                  <xs:attribute name="toDate" type="xs:date"/>
+                  <xs:attribute name="fitToPage" type="xs:int"/>
+                  <xs:attribute name="numberOfPages" type="xs:int"/>
+                  <xs:attribute name="fitHorizontal" type="xs:int"/>
+                  <xs:attribute name="NumberSequence" type="xs:int"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="PrintToImageFile">
+               <xs:complexType>
+                  <xs:attribute name="allRows" type="xs:int"/>
+                  <xs:attribute name="fromTask" type="xs:int"/>
+                  <xs:attribute name="toTask" type="xs:int"/>
+                  <xs:attribute name="numberOfLeftColumnsCompDisp" type="xs:int"/>
+                  <xs:attribute name="numberOfLeftColumns" type="xs:int"/>
+                  <xs:attribute name="showTaskNumbers" type="xs:int"/>
+                  <xs:attribute name="dateOnRightCompDisp" type="xs:int"/>
+                  <xs:attribute name="fromDate" type="xs:date"/>
+                  <xs:attribute name="toDate" type="xs:date"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="Copy">
+               <xs:complexType>
+                  <xs:attribute name="allRows" type="xs:int"/>
+                  <xs:attribute name="fromTask" type="xs:int"/>
+                  <xs:attribute name="toTask" type="xs:int"/>
+                  <xs:attribute name="numberOfLeftColumnsCompDisp" type="xs:int"/>
+                  <xs:attribute name="numberOfLeftColumns" type="xs:int"/>
+                  <xs:attribute name="showTaskNumbers" type="xs:int"/>
+                  <xs:attribute name="dateOnRightCompDisp" type="xs:int"/>
+                  <xs:attribute name="fromDate" type="xs:date"/>
+                  <xs:attribute name="toDate" type="xs:date"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="ChartColor">
+               <xs:complexType>
+                  <xs:attribute name="ChartBack" type="xs:int"/>
+                  <xs:attribute name="BorderBack" type="xs:int"/>
+                  <xs:attribute name="LeftPanelBack" type="xs:int"/>
+                  <xs:attribute name="LeftPanelGrid" type="xs:int"/>
+                  <xs:attribute name="RightPanelHGrid" type="xs:int"/>
+                  <xs:attribute name="RightPanelVGridDark" type="xs:int"/>
+                  <xs:attribute name="RightPanelVGridLight" type="xs:int"/>
+                  <xs:attribute name="HolidayShade" type="xs:int"/>
+                  <xs:attribute name="SelectedRowBack" type="xs:int"/>
+                  <xs:attribute name="SelectedRowFore" type="xs:int"/>
+               </xs:complexType>
+            </xs:element>
+         </xs:sequence>
+         <xs:attribute name="Version" type="xs:string"/>
+      </xs:complexType>
+   </xs:element>
+</xs:schema>

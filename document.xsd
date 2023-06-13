@@ -1,0 +1,1086 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="1.0"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink"
+  targetNamespace="http://www.schemas.conceptdraw.com/cdprj/document.xsd"
+  xmlns:cdprj="http://www.schemas.conceptdraw.com/cdprj/document.xsd">
+  <xsd:element name="Document">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="WorkspaceProperties">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="CurrencySymbol" type="xsd:string"/>
+              <xsd:element name="CurrencyPosition" type="xsd:int"/>
+              <xsd:element name="CurrencyDigits" type="xsd:int"/>
+              <xsd:element name="HoursPerDay" type="xsd:int"/>
+              <xsd:element name="HoursPerWeek" type="xsd:int"/>
+              <xsd:element name="DaysPerMonth" type="xsd:int"/>
+              <xsd:element name="CalcCPForSubprojects" type="xsd:boolean">
+                <xsd:annotation>
+                  <xsd:documentation>Whether to calculate critical path for each project.</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+              <xsd:element name="MaximumSlack" type="xsd:double"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="PrintingProperties">
+          <xsd:complexType>
+            <xsd:all>
+              <xsd:element name="PrintOrientation" type="xsd:int"/>
+              <xsd:element name="MarginLeft" type="xsd:decimal"/>
+              <xsd:element name="MarginRight" type="xsd:decimal"/>
+              <xsd:element name="MarginTop" type="xsd:decimal"/>
+              <xsd:element name="MarginBottom" type="xsd:decimal"/>
+              <xsd:element name="MarginHeader" type="xsd:decimal"/>
+              <xsd:element name="MarginFooter" type="xsd:decimal"/>
+              <xsd:element name="FitTo" type="xsd:int"/>
+              <xsd:element name="PagesH" type="xsd:int"/>
+              <xsd:element name="PagesV" type="xsd:int"/>
+              <xsd:element name="TimescaleMode" type="xsd:int"/>
+              <xsd:element name="DoPrintGrid" type="xsd:boolean"/>
+              <xsd:element name="StartDate" type="xsd:date"/>
+              <xsd:element name="FinishDate" type="xsd:date"/>
+              <xsd:element name="HeaderLeft" type="xsd:string"/>
+              <xsd:element name="HeaderCenter" type="xsd:string"/>
+              <xsd:element name="HeaderRight" type="xsd:string"/>
+              <xsd:element name="FooterLeft" type="xsd:string"/>
+              <xsd:element name="FooterCenter" type="xsd:string"/>
+              <xsd:element name="FooterRight" type="xsd:string"/>
+              <xsd:element name="LegendMode" type="xsd:int"/>
+              <xsd:element name="FirstPageNumber" type="xsd:int"/>
+              <xsd:element name="PrintView" type="xsd:string"/>
+              <xsd:element name="HeaderFooterFontName" type="xsd:string"/>
+              <xsd:element name="HeaderFooterFontSize" type="xsd:int"/>
+            </xsd:all>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="ThemeID" type="xsd:string"/>
+        <xsd:element name="ShowAssignedResources" type="xsd:boolean"/>
+        <xsd:element name="Markers">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element maxOccurs="unbounded" name="Marker">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="ID" type="xsd:int"/>
+                    <xsd:element name="Name" type="xsd:string"/>
+                    <xsd:element name="DisplayStyle" type="xsd:string"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="ResourceUsageDiagram">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element ref="cdprj:TimeScale"/>
+              <xsd:element ref="cdprj:ViewProperties">
+                <xsd:annotation>
+                  <xsd:documentation>Settings for resource usage grid view.</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+              <xsd:element minOccurs="0" ref="cdprj:ActiveFilter"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="Calendars">
+          <xsd:annotation>
+            <xsd:documentation>The collection of calendars that are associated with projects.</xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="1" maxOccurs="unbounded" name="Calendar">
+                <xsd:annotation>
+                  <xsd:documentation>Calendars are used to define standard working and non-working times. Resources may have their own non-base calendars which are associated with a base calendar.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="ID" type="xsd:int">
+                      <xsd:annotation>
+                        <xsd:documentation>The position identifier of the calendar within the list
+                          of calendars. </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="BaseCalendarID" type="xsd:int">
+                      <xsd:annotation>
+                        <xsd:documentation>The identifier of the base calendar on which this
+                          calendar depends. Only applicable if the calendar is not a base
+                          calendar.</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Name" type="xsd:string">
+                      <xsd:annotation>
+                        <xsd:documentation>The name of the calendar.</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="WeekDays">
+                      <xsd:annotation>
+                        <xsd:documentation>The collection of Weekdays that define this calendar.</xsd:documentation>
+                      </xsd:annotation>
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element minOccurs="0" maxOccurs="unbounded" name="WeekDay">
+                            <xsd:annotation>
+                              <xsd:documentation>A weekday either defines regular days of the week
+                                or exception days in the calendar.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element name="Day">
+                                  <xsd:annotation>
+                                    <xsd:documentation>The type of day. Values are: 0=Sunday,
+                                      1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday,
+                                      6=Saturday.</xsd:documentation>
+                                  </xsd:annotation>
+                                  <xsd:simpleType>
+                                    <xsd:restriction base="xsd:integer">
+                                      <xsd:enumeration value="0"/>
+                                      <xsd:enumeration value="1"/>
+                                      <xsd:enumeration value="2"/>
+                                      <xsd:enumeration value="3"/>
+                                      <xsd:enumeration value="4"/>
+                                      <xsd:enumeration value="5"/>
+                                      <xsd:enumeration value="6"/>
+                                    </xsd:restriction>
+                                  </xsd:simpleType>
+                                </xsd:element>
+                                <xsd:element name="IsDayWorking" type="xsd:boolean">
+                                  <xsd:annotation>
+                                    <xsd:documentation>Whether the specified date or weekday is working.</xsd:documentation>
+                                  </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="TimePeriods">
+                                  <xsd:annotation>
+                                    <xsd:documentation>The collection of working hours that define the amount of time worked on a weekday.</xsd:documentation>
+                                  </xsd:annotation>
+                                  <xsd:complexType>
+                                    <xsd:sequence>
+                                      <xsd:element minOccurs="0" maxOccurs="unbounded"
+                                        name="TimePeriod">
+                                        <xsd:annotation>
+                                          <xsd:documentation>Defines the working hours during the weekday.</xsd:documentation>
+                                        </xsd:annotation>
+                                        <xsd:complexType>
+                                          <xsd:sequence>
+                                            <xsd:element name="From" type="xsd:time">
+                                              <xsd:annotation>
+                                                <xsd:documentation>The time at which work begins.</xsd:documentation>
+                                              </xsd:annotation>
+                                            </xsd:element>
+                                            <xsd:element name="To" type="xsd:time">
+                                              <xsd:annotation>
+                                                <xsd:documentation>The time at which work ends.</xsd:documentation>
+                                              </xsd:annotation>
+                                            </xsd:element>
+                                          </xsd:sequence>
+                                        </xsd:complexType>
+                                      </xsd:element>
+                                    </xsd:sequence>
+                                  </xsd:complexType>
+                                </xsd:element>
+                              </xsd:sequence>
+                            </xsd:complexType>
+                          </xsd:element>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="ExceptedDays">
+                      <xsd:annotation>
+                        <xsd:documentation>Defines a contiguous set of exception days.
+                        </xsd:documentation>
+                      </xsd:annotation>
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element minOccurs="0" maxOccurs="unbounded" name="ExceptedDay">
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element name="Date" type="xsd:date">
+                                  <xsd:annotation>
+                                    <xsd:documentation>Date of the excepted day.
+                                    </xsd:documentation>
+                                  </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="IsDayWorking" type="xsd:boolean">
+                                  <xsd:annotation>
+                                    <xsd:documentation>Whether the specified date or day type is
+                                      working.</xsd:documentation>
+                                  </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="TimePeriods">
+                                  <xsd:annotation>
+                                    <xsd:documentation>The collection of working times that define
+                                      the time worked on the weekday. </xsd:documentation>
+                                  </xsd:annotation>
+                                  <xsd:complexType>
+                                    <xsd:sequence>
+                                      <xsd:element minOccurs="0" maxOccurs="unbounded"
+                                        name="TimePeriod">
+                                        <xsd:annotation>
+                                          <xsd:documentation>Defines the working time during the
+                                            weekday. </xsd:documentation>
+                                        </xsd:annotation>
+                                        <xsd:complexType>
+                                          <xsd:sequence>
+                                            <xsd:element name="From" type="xsd:time">
+                                              <xsd:annotation>
+                                                <xsd:documentation>The beginning of the working
+                                                  time. </xsd:documentation>
+                                              </xsd:annotation>
+                                            </xsd:element>
+                                            <xsd:element name="To" type="xsd:time">
+                                              <xsd:annotation>
+                                                <xsd:documentation>The end of the working time.
+                                                </xsd:documentation>
+                                              </xsd:annotation>
+                                            </xsd:element>
+                                          </xsd:sequence>
+                                        </xsd:complexType>
+                                      </xsd:element>
+                                    </xsd:sequence>
+                                  </xsd:complexType>
+                                </xsd:element>
+                              </xsd:sequence>
+                            </xsd:complexType>
+                          </xsd:element>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="Resources">
+          <xsd:annotation>
+            <xsd:documentation>The collection of resources that make up projects.
+            </xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element ref="cdprj:ViewProperties">
+                <xsd:annotation>
+                  <xsd:documentation>Settings for resources grid view.</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="Resource">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="ID" type="xsd:int">
+                      <xsd:annotation>
+                        <xsd:documentation>The position identifier of the resource within the list
+                          of resources. </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element ref="cdprj:OutlineNumber">
+                      <xsd:annotation>
+                        <xsd:documentation>The outline number of the resource.</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="CalendarID" type="xsd:int">
+                      <xsd:annotation>
+                        <xsd:documentation>The resource calendar. Refers to a valid ID in the
+                          Calendars element of the ConceptDraw Project XML Schema.
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Name" type="xsd:string">
+                      <xsd:annotation>
+                        <xsd:documentation>The name of the resource. </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Type">
+                      <xsd:annotation>
+                        <xsd:documentation>The general type of resource. Values are: 0=Material,
+                          1=Work </xsd:documentation>
+                      </xsd:annotation>
+                      <xsd:simpleType>
+                        <xsd:restriction base="xsd:integer">
+                          <xsd:enumeration value="0"/>
+                          <xsd:enumeration value="1"/>
+                        </xsd:restriction>
+                      </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="SubType">
+                      <xsd:annotation>
+                        <xsd:documentation>The concrete type of resource. </xsd:documentation>
+                      </xsd:annotation>
+                      <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                          <xsd:enumeration value="work"/>
+                          <xsd:enumeration value="material"/>
+                          <xsd:enumeration value="cost"/>
+                          <xsd:enumeration value="equipment"/>
+                          <xsd:enumeration value="company"/>
+                        </xsd:restriction>
+                      </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="EMail" type="xsd:string">
+                      <xsd:annotation>
+                        <xsd:documentation>The email address of the resource. </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Note" type="xsd:string">
+                      <xsd:annotation>
+                        <xsd:documentation>Text notes associated with the resource.
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Cost" type="xsd:double">
+                      <xsd:annotation>
+                        <xsd:documentation>The total project cost for the resource across all
+                          assigned tasks. </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="CostTimeUnit" type="cdprj:ShortTimeUnitType">
+                      <xsd:annotation>
+                        <xsd:documentation>The units used by ConceptDraw Project to display the
+                          resource cost. </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Group" type="xsd:string">
+                      <xsd:annotation>
+                        <xsd:documentation>The group to which the resource belongs.
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="ShowAssignedTasks" type="xsd:boolean"/>
+                    <xsd:element ref="cdprj:StyleProject"/>
+                    <xsd:element minOccurs="0" name="MarkerID" type="xsd:int">
+                      <xsd:annotation>
+                        <xsd:documentation>ID of the marker in Markers
+                          collection.</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element ref="cdprj:Hyperlinks">
+                      <xsd:annotation>
+                        <xsd:documentation>Hyperlinks associated with the resource.
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="Projects">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element ref="cdprj:ViewProperties">
+                <xsd:annotation>
+                  <xsd:documentation>Settings for multiproject grid view.</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+              <xsd:element maxOccurs="unbounded" name="Project">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="ID" type="xsd:int">
+                      <xsd:annotation>
+                        <xsd:documentation>The position identifier of the project within the list of
+                          projects. </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element ref="cdprj:OutlineNumber">
+                      <xsd:annotation>
+                        <xsd:documentation>The outline number of the project. Indicates the exact
+                          position of a project in the outline. For example, "7.2" indicates that a
+                          project is the second subproject under the seventh top-level project
+                          group. </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:group ref="cdprj:ProjectProps"/>
+                    <xsd:element ref="cdprj:ViewProperties">
+                      <xsd:annotation>
+                        <xsd:documentation>Settings for project grid view.</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element ref="cdprj:TimeScale">
+                      <xsd:annotation>
+                        <xsd:documentation>Settings for project view timescale.</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" name="Task">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="ID" type="xsd:int">
+                            <xsd:annotation>
+                              <xsd:documentation>The position identifier of the task within the list
+                                of tasks. </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element ref="cdprj:OutlineNumber">
+                            <xsd:annotation>
+                              <xsd:documentation>The outline number of the task. Indicates the exact
+                                position of a task in the outline. For example, "7.2" indicates that
+                                a task is the second subtask under the seventh top-level summary
+                                task. </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="Name" type="xsd:string">
+                            <xsd:annotation>
+                              <xsd:documentation>The name of the task. </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="Note" type="xsd:string">
+                            <xsd:annotation>
+                              <xsd:documentation>Text notes associated with the task.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="BaseStartDate" type="xsd:dateTime">
+                            <xsd:annotation>
+                              <xsd:documentation>The start date of the task specified by
+                                user.</xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="BaseFinishDate" type="xsd:dateTime">
+                            <xsd:annotation>
+                              <xsd:documentation>The finish date of the task specified by
+                                user.</xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="BaseDuration" type="cdprj:DurationType">
+                            <xsd:annotation>
+                              <xsd:documentation>The duration of the task specified by user.</xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="BaseDurationTimeUnit" type="cdprj:ShortTimeUnitType">
+                            <xsd:annotation>
+                              <xsd:documentation>The format for expressing the duration of the task
+                                specified by user. </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="ActualStartDate" type="xsd:dateTime">
+                            <xsd:annotation>
+                              <xsd:documentation>The actual start date of the
+                                task.</xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="ActualFinishDate" type="xsd:dateTime">
+                            <xsd:annotation>
+                              <xsd:documentation>The actual finish date of the task.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="ActualDuration" type="cdprj:DurationType">
+                            <xsd:annotation>
+                              <xsd:documentation>The actual duration of the task.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                           <xsd:element minOccurs="0" maxOccurs="unbounded" name="TemplateOffset" type="xsd:string">
+                            <xsd:annotation>
+                              <xsd:documentation>Time delta in boost::posix_time::time_duration units,
+                                which represents time difference between current date and task/project start.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element minOccurs="0" maxOccurs="unbounded" name="DeadlineTemplateOffset" type="xsd:string">
+                              <xsd:annotation>
+                                <xsd:documentation>Time delta in boost::posix_time::time_duration units,
+                                 which represents time difference between current date and task deadline.
+                                </xsd:documentation>
+                              </xsd:annotation>
+                            </xsd:element>
+                          <xsd:element minOccurs="0" maxOccurs="unbounded" name="BaselineStartTemplateOffset" type="xsd:string">
+                            <xsd:annotation>
+                              <xsd:documentation>Time delta in boost::posix_time::time_duration units,
+                                which represents time difference between current date and task/project baseline
+                                start.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                           <xsd:element minOccurs="0" maxOccurs="unbounded" name="BaselineFinishTemplateOffset" type="xsd:string">
+                            <xsd:annotation>
+                              <xsd:documentation>Time delta in boost::posix_time::time_duration units,
+                                which represents time difference between current date and task/project baseline
+                                finish.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="ActualCost" type="xsd:double">
+                            <xsd:annotation>
+                              <xsd:documentation>The actual cost of the task. </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="Cost1" type="xsd:double">
+                            <xsd:annotation>
+                              <xsd:documentation>The cost of the task specified by user.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="ValidatedByProject" type="xsd:string"/>
+                          <xsd:element name="RecalcBase1">
+                            <xsd:annotation>
+                              <xsd:documentation>The most recently changed value of the task: start, finish
+                                or duration. For example, if user changes Start, then changes
+                                Duration and then changes Finish, values will be RecalcBase1 =
+                                Finish and RecalcBase2 = Duration. Values are: 0 - No recalculation
+                                base, 1 - Recalculation base is task start date, 2 - Recalculation
+                                base is task finish date, 3 - Recalculation base is task duration.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:simpleType>
+                              <xsd:restriction base="xsd:integer">
+                                <xsd:enumeration value="0"/>
+                                <xsd:enumeration value="1"/>
+                                <xsd:enumeration value="2"/>
+                                <xsd:enumeration value="3"/>
+                              </xsd:restriction>
+                            </xsd:simpleType>
+                          </xsd:element>
+                          <xsd:element name="RecalcBase2">
+                            <xsd:annotation>
+                              <xsd:documentation>The previously changed value of the task: start,
+                                finish or duration. For example, if user changes Start, then changes
+                                Duration and then changes Finish, values will be RecalcBase1 =
+                                Finish and RecalcBase2 = Duration. Values are: 0 - No recalculation
+                                base, 1 - Recalculation base is task start date, 2 - Recalculation
+                                base is task finish date, 3 - Recalculation base is task duration.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:simpleType>
+                              <xsd:restriction base="xsd:integer">
+                                <xsd:enumeration value="0"/>
+                                <xsd:enumeration value="1"/>
+                                <xsd:enumeration value="2"/>
+                                <xsd:enumeration value="3"/>
+                              </xsd:restriction>
+                            </xsd:simpleType>
+                          </xsd:element>
+                          <xsd:element name="IsMilestone" type="xsd:boolean">
+                            <xsd:annotation>
+                              <xsd:documentation>Whether the task is a milestone.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:group minOccurs="0" maxOccurs="1" ref="cdprj:BaselineGroup"/>
+                          <xsd:element name="Complete" type="xsd:decimal">
+                            <xsd:annotation>
+                              <xsd:documentation>The percentage of the task duration completed.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="IsHaveDeadline" type="xsd:boolean">
+                            <xsd:annotation>
+                              <xsd:documentation>Whether the deadline for the task is specified by
+                                user. </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="SchedulingType">
+                            <xsd:annotation>
+                              <xsd:documentation>The type of task. </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="fixedDuration"/>
+                                <xsd:enumeration value="fixedUnits"/>
+                                <xsd:enumeration value="fixedWork"/>
+                              </xsd:restriction>
+                            </xsd:simpleType>
+                          </xsd:element>
+                          <xsd:element name="IsEffortDriven" type="xsd:boolean">
+                            <xsd:annotation>
+                              <xsd:documentation>Whether the task is effort-driven.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element ref="cdprj:Priority">
+                            <xsd:annotation>
+                              <xsd:documentation>The priority of the task. </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="MarkedByUser" type="xsd:boolean">
+                            <xsd:annotation>
+                              <xsd:documentation>Whether the task is marked by user.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element minOccurs="0" name="ShowSubtasks" type="xsd:boolean">
+                            <xsd:annotation>
+                              <xsd:documentation>Whether subtasks of the task are visible.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element ref="cdprj:StyleProject"/>
+                          <xsd:element minOccurs="0" name="MarkerID" type="xsd:int">
+                            <xsd:annotation>
+                              <xsd:documentation>ID of the marker in Markers
+                                collection.</xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element ref="cdprj:Hyperlinks">
+                            <xsd:annotation>
+                              <xsd:documentation>Hyperlinks associated with the task.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element name="ResourceAssignments">
+                            <xsd:annotation>
+                              <xsd:documentation>The collection of assignments that make up the
+                                task. </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element minOccurs="0" maxOccurs="unbounded"
+                                  name="ResourceAssignment">
+                                  <xsd:complexType>
+                                    <xsd:sequence>
+                                      <xsd:element name="ID" type="xsd:int">
+                                        <xsd:annotation>
+                                          <xsd:documentation>The position identifier of the
+                                            assignment within the list of assignments.
+                                          </xsd:documentation>
+                                        </xsd:annotation>
+                                      </xsd:element>
+                                      <xsd:element name="ResourceID" type="xsd:int">
+                                        <xsd:annotation>
+                                          <xsd:documentation>The unique identifier of the resource.
+                                          </xsd:documentation>
+                                        </xsd:annotation>
+                                      </xsd:element>
+                                      <xsd:element name="Use" type="xsd:double">
+                                        <xsd:annotation>
+                                          <xsd:documentation>The amount of work completed on the
+                                            assignment. </xsd:documentation>
+                                        </xsd:annotation>
+                                      </xsd:element>
+                                      <xsd:element name="ManHour" type="xsd:double">
+                                        <xsd:annotation>
+                                          <xsd:documentation>The amount of scheduled work for the
+                                            assignment. </xsd:documentation>
+                                        </xsd:annotation>
+                                      </xsd:element>
+                                    </xsd:sequence>
+                                  </xsd:complexType>
+                                </xsd:element>
+                              </xsd:sequence>
+                            </xsd:complexType>
+                          </xsd:element>
+                          <xsd:element ref="cdprj:Callouts"/>
+                          <xsd:element minOccurs="0" name="DeadlineDate" type="xsd:dateTime">
+                            <xsd:annotation>
+                              <xsd:documentation>The deadline for the task to be completed.
+                              </xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="ProjectPortfolioView">
+          <xsd:annotation>
+            <xsd:documentation>Settings for multiproject view.</xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="CompleteJournalTrackingPeriod" type="cdprj:LongTimeUnitType">
+                <xsd:annotation>
+                  <xsd:documentation>Tracking period used in complete journal.</xsd:documentation>
+                </xsd:annotation>
+              </xsd:element>
+              <xsd:element name="PPVItems" type="cdprj:PPVItemsType">
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="Links">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" maxOccurs="unbounded" name="Link">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="ID" type="xsd:int">
+                      <xsd:annotation>
+                        <xsd:documentation>The position identifier of the link within the list of
+                          links. </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:choice>
+                      <xsd:sequence>
+                        <xsd:element name="SourceTaskID" type="xsd:int">
+                          <xsd:annotation>
+                            <xsd:documentation>The unique identifier of the predecessor task.
+                            </xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="DestinationTaskID" type="xsd:int">
+                          <xsd:annotation>
+                            <xsd:documentation>The unique identifier of the successor task.
+                            </xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:element>
+                      </xsd:sequence>
+                      <xsd:sequence>
+                        <xsd:element name="SourceProjectID" type="xsd:int">
+                          <xsd:annotation>
+                            <xsd:documentation>The unique identifier of the predecessor project.
+                            </xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="DestinationProjectID" type="xsd:int">
+                          <xsd:annotation>
+                            <xsd:documentation>The unique identifier of the successor project.
+                            </xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:element>
+                      </xsd:sequence>
+                    </xsd:choice>
+                    <xsd:element name="Type">
+                      <xsd:annotation>
+                        <xsd:documentation>The link type. Values are 0=SS, 1=SF, 2=FS and 3=FF
+                        </xsd:documentation>
+                      </xsd:annotation>
+                      <xsd:simpleType>
+                        <xsd:restriction base="xsd:integer">
+                          <xsd:enumeration value="0"/>
+                          <xsd:enumeration value="1"/>
+                          <xsd:enumeration value="2"/>
+                          <xsd:enumeration value="3"/>
+                        </xsd:restriction>
+                      </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="Lag" type="xsd:double">
+                      <xsd:annotation>
+                        <xsd:documentation>The amount of lag in specified units (see LagUnit tag).
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="LagUnit" type="cdprj:ShortTimeUnitType">
+                      <xsd:annotation>
+                        <xsd:documentation>The format for expressing the lag format.
+                        </xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="Dashboards">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="Dashboard">
+                <xsd:complexType>
+                  <xsd:attribute name="ID" type="xsd:string"/>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="Application" type="xsd:string"/>
+      <xsd:attribute name="Version" type="xsd:int"/>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="ViewProperties">
+    <xsd:complexType>
+      <xsd:all>
+        <xsd:element name="GridColumns">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element maxOccurs="unbounded" name="Column">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="ID" type="xsd:int"/>
+                    <xsd:element name="Index" type="xsd:int"/>
+                    <xsd:element name="Width" type="xsd:int"/>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element minOccurs="0" name="TextBoxVisible" type="xsd:boolean"/>
+        <xsd:element minOccurs="0" name="ShowCriticalPath" type="xsd:boolean"/>
+        <xsd:element minOccurs="0" name="ShowPlannedComplete" type="xsd:boolean"/>
+        <xsd:element minOccurs="0" name="ShowCompleteChangeValue" type="xsd:boolean"/>
+        <xsd:element minOccurs="0" name="ShowCompleteChangeRate" type="xsd:boolean"/>
+        <xsd:element minOccurs="0" name="GridTextWrap" type="xsd:boolean"/>
+        <xsd:element minOccurs="0" ref="cdprj:ActiveFilter"/>
+      </xsd:all>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="ActiveFilter">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="ID" type="xsd:string"/>
+        <xsd:element name="IsFilterInverted" type="xsd:boolean"/>
+        <xsd:element name="ShowHighlightFilteredTasks">
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:enumeration value="RowVisible"/>
+              <xsd:enumeration value="RowHighlight"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+        <xsd:element name="ShowPhasesOfFilteredTasks" type="xsd:boolean"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Hyperlinks">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" maxOccurs="unbounded" name="Hyperlink" xlink:type="simple"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="StyleProject">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="RowHeight" type="xsd:int"/>
+        <xsd:element name="GridRowStyle">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="FontName" type="xsd:string"/>
+              <xsd:element name="FontSize" type="xsd:int"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="TimeScale">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="PrimaryUnits" type="xsd:int"/>
+        <xsd:element name="PrimaryAlign" type="xsd:int"/>
+        <xsd:element name="SecondaryUnits" type="xsd:int"/>
+        <xsd:element name="SecondaryAlign" type="xsd:int"/>
+        <xsd:element name="SecondaryCount" type="xsd:int"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:group name="BaselineGroup">
+    <xsd:annotation>
+      <xsd:documentation>The collection of baseline values of the task or project.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="BaselineCost" type="xsd:double">
+        <xsd:annotation>
+          <xsd:documentation>The projected cost of the task or project when the baseline was saved.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="BaselineStartDate" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation>The scheduled start date of the task or project when the baseline was
+            saved. </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="BaselineFinishDate" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation>The scheduled finish date of the task or project when the baseline was
+            saved. </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:element name="OutlineNumber">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:pattern value="[0-9]+(\.[0-9]+)*"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="Callouts">
+    <xsd:annotation>
+      <xsd:documentation>Collection of text boxes for task or project.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" maxOccurs="unbounded" name="Callout">
+          <xsd:complexType>
+            <xsd:all>
+              <xsd:element name="Name" type="xsd:string"/>
+              <xsd:element name="OffsetX" type="xsd:int"/>
+              <xsd:element name="OffsetY" type="xsd:int"/>
+              <xsd:element name="SizeDX" type="xsd:int"/>
+              <xsd:element name="SizeDY" type="xsd:int"/>
+            </xsd:all>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Priority">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:enumeration value="veryLow"/>
+        <xsd:enumeration value="low"/>
+        <xsd:enumeration value="normal"/>
+        <xsd:enumeration value="high"/>
+        <xsd:enumeration value="veryHigh"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:simpleType name="LongTimeUnitType">
+    <xsd:annotation>
+      <xsd:documentation>Values are: 0=m, 1=half year, 2=quarter, 3=month, 4=thirds of month,
+        5=week, 6=day, 7=hour, 8=minute. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:int">
+      <xsd:enumeration value="0"/>
+      <xsd:enumeration value="1"/>
+      <xsd:enumeration value="2"/>
+      <xsd:enumeration value="3"/>
+      <xsd:enumeration value="4"/>
+      <xsd:enumeration value="5"/>
+      <xsd:enumeration value="6"/>
+      <xsd:enumeration value="7"/>
+      <xsd:enumeration value="8"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ShortTimeUnitType">
+    <xsd:annotation>
+      <xsd:documentation>Values are: 0=year, 1=h, 2=d, 3=w, 4=mo. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:int">
+      <xsd:enumeration value="0"/>
+      <xsd:enumeration value="1"/>
+      <xsd:enumeration value="2"/>
+      <xsd:enumeration value="3"/>
+      <xsd:enumeration value="4"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="DurationType">
+    <xsd:annotation>
+      <xsd:documentation>Time duration in days. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:double">
+      <xsd:minInclusive value="0"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:group name="ProjectProps">
+    <xsd:sequence>
+      <xsd:element name="Name" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The name of the project.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Author" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The author of the project.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Company" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The company that owns the project.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="StartDate" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation>The start date of the project. </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="FinishDate" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:documentation>The finish date of the project. </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Budget" type="xsd:double">
+        <xsd:annotation>
+          <xsd:documentation>The budget of the project.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Goal" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The goal of the project.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Site" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The project's website.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Note" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Text notes associated with the project. </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:group minOccurs="0" maxOccurs="1" ref="cdprj:BaselineGroup"/>
+      <xsd:element minOccurs="0" name="ShowSubtasks" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Whether subprojects of the project group are visible.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element ref="cdprj:Priority">
+        <xsd:annotation>
+          <xsd:documentation>The priority of the project. </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="IsVisibleSubitems" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Whether subprojects of the project group are visible.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element ref="cdprj:StyleProject"/>
+      <xsd:element minOccurs="0" name="MarkerID" type="xsd:int">
+        <xsd:annotation>
+          <xsd:documentation>ID of the marker in Markers collection.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element ref="cdprj:Hyperlinks">
+        <xsd:annotation>
+          <xsd:documentation>Hyperlinks associated with the project. </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:group>
+  <xsd:complexType name="PPVItemsType">
+      <xsd:sequence>
+        <xsd:element maxOccurs="unbounded" name="PPVItem">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="CompleteJournal">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded"
+                      name="CompleteJournalEntry">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="Date" type="xsd:date"/>
+                          <xsd:element name="Complete" type="xsd:decimal"/>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:choice>
+                <xsd:element minOccurs="0" name="ProjectID" type="xsd:int"/>
+                <xsd:sequence>
+                  <xsd:element name="ID" type="xsd:int">
+                    <xsd:annotation>
+                      <xsd:documentation>The position identifier of the item within the
+                        list of items. </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:group ref="cdprj:ProjectProps"/>
+                  <xsd:element name="CompleteJournalTrackingPeriod" type="cdprj:LongTimeUnitType">
+                    <xsd:annotation>
+                      <xsd:documentation>Tracking period used in complete journal.</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:element>
+                  <xsd:element minOccurs="0" ref="cdprj:Callouts"/>
+                  <xsd:element name="PPVItems" type="cdprj:PPVItemsType"/>
+                </xsd:sequence>
+              </xsd:choice>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>
