@@ -32,6 +32,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
 
@@ -166,7 +167,7 @@ public final class DatatypeConverter
     */
    public static final Day parseDay(String value)
    {
-      return Day.getInstance(Integer.parseInt(value) + 1);
+      return DayOfWeekHelper.getInstance(Integer.parseInt(value) + 1);
    }
 
    /**
@@ -177,7 +178,7 @@ public final class DatatypeConverter
     */
    public static final String printDay(Day value)
    {
-      return Integer.toString(value.getValue() - 1);
+      return Integer.toString(DayOfWeekHelper.getValue(value) - 1);
    }
 
    private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = ThreadLocal.withInitial(() -> {

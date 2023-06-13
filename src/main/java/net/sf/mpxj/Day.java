@@ -30,35 +30,15 @@ import net.sf.mpxj.common.EnumHelper;
 /**
  * Instances of this class represent enumerated day values.
  */
-public enum Day implements MpxjEnum
+public enum Day
 {
-   SUNDAY(1),
-   MONDAY(2),
-   TUESDAY(3),
-   WEDNESDAY(4),
-   THURSDAY(5),
-   FRIDAY(6),
-   SATURDAY(7);
-
-   /**
-    * Protected constructor.
-    *
-    * @param value day value
-    */
-   Day(int value)
-   {
-      m_value = value;
-   }
-
-   /**
-    * Retrieves the int representation of the day.
-    *
-    * @return task type value
-    */
-   @Override public int getValue()
-   {
-      return (m_value);
-   }
+   SUNDAY,
+   MONDAY,
+   TUESDAY,
+   WEDNESDAY,
+   THURSDAY,
+   FRIDAY,
+   SATURDAY;
 
    /**
     * This method provides a simple mechanism to retrieve
@@ -67,46 +47,14 @@ public enum Day implements MpxjEnum
     *
     * @return Day instance
     */
-   public Day getNextDay()
+
+   public Day plus(int i)
    {
-      int value = m_value + 1;
+      int value = DayOfWeekHelper.getValue(this) + i;
       if (value > 7)
       {
          value = 1;
       }
-      return (getInstance(value));
+      return (DayOfWeekHelper.getInstance(value));
    }
-
-   /**
-    * Retrieve a Day instance representing the supplied value.
-    *
-    * @param type type value
-    * @return Day instance
-    */
-   public static Day getInstance(int type)
-   {
-      Day result;
-
-      if (type < 0 || type >= TYPE_VALUES.length)
-      {
-         result = null;
-      }
-      else
-      {
-         result = TYPE_VALUES[type];
-      }
-      return result;
-   }
-
-   public static Day getInstance(DayOfWeek day)
-   {
-      return getInstance(day.getValue() == 7 ? 1 : day.getValue() + 1);
-   }
-
-   /**
-    * Array mapping int types to enums.
-    */
-   private static final Day[] TYPE_VALUES = EnumHelper.createTypeArray(Day.class, 1);
-
-   private final int m_value;
 }

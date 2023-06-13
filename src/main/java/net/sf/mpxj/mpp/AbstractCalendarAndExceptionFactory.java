@@ -30,6 +30,7 @@ import java.util.Date;
 
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.LocalDateRange;
 import net.sf.mpxj.ProjectCalendar;
@@ -186,7 +187,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          {
             if (rd.getRelative())
             {
-               rd.setDayOfWeek(Day.getInstance(MPPUtility.getByte(data, offset + 77) - 2));
+               rd.setDayOfWeek(DayOfWeekHelper.getInstance(MPPUtility.getByte(data, offset + 77) - 2));
                rd.setDayNumber(Integer.valueOf(MPPUtility.getByte(data, offset + 76) + 1));
                rd.setFrequency(Integer.valueOf(MPPUtility.getShort(data, offset + 78)));
             }
@@ -202,7 +203,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
          {
             if (rd.getRelative())
             {
-               rd.setDayOfWeek(Day.getInstance(MPPUtility.getByte(data, offset + 78) - 2));
+               rd.setDayOfWeek(DayOfWeekHelper.getInstance(MPPUtility.getByte(data, offset + 78) - 2));
                rd.setDayNumber(Integer.valueOf(MPPUtility.getByte(data, offset + 77) + 1));
             }
             else

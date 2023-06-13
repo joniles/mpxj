@@ -33,6 +33,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import org.xml.sax.SAXException;
 
@@ -147,7 +148,7 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
 
       for (int i = 1; i <= 7; i++)
       {
-         Day day = Day.getInstance(i);
+         Day day = DayOfWeekHelper.getInstance(i);
          ProjectCalendarHours hours = calendar.addCalendarHours(day);
          if (calendar.isWorkingDay(day))
          {

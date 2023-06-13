@@ -26,6 +26,7 @@ package net.sf.mpxj.mpp;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;
@@ -90,7 +91,7 @@ public final class ProjectPropertiesReader
          ph.setDefaultTaskType(TaskTypeHelper.getInstance(props.getShort(Props.DEFAULT_TASK_TYPE)));
          ph.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
          //ph.setThousandsSeparator();
-         ph.setWeekStartDay(Day.getInstance(props.getShort(Props.WEEK_START_DAY) + 1));
+         ph.setWeekStartDay(DayOfWeekHelper.getInstance(props.getShort(Props.WEEK_START_DAY) + 1));
          ph.setFiscalYearStartMonth(Integer.valueOf(props.getShort(Props.FISCAL_YEAR_START_MONTH)));
          ph.setFiscalYearStart(props.getShort(Props.FISCAL_YEAR_START) == 1);
          ph.setDaysPerMonth(Integer.valueOf(props.getShort(Props.DAYS_PER_MONTH)));

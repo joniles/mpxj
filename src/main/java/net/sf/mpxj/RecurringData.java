@@ -215,7 +215,7 @@ public class RecurringData
          int value = days.intValue();
          for (Day day : Day.values())
          {
-            setWeeklyDay(day, ((value & masks[day.getValue()]) != 0));
+            setWeeklyDay(day, ((value & masks[DayOfWeekHelper.getValue(day)]) != 0));
          }
          clearDatesCache();
       }
@@ -498,7 +498,7 @@ public class RecurringData
 
          for (int dayIndex = 0; dayIndex < 7; dayIndex++)
          {
-            if (getWeeklyDay(Day.getInstance(currentDay)))
+            if (getWeeklyDay(DayOfWeekHelper.getInstance(currentDay)))
             {
                if (offset != 0)
                {
@@ -708,8 +708,8 @@ public class RecurringData
     */
    private LocalDate getOrdinalRelativeDay(LocalDate date, int dayNumber)
    {
-      int currentDayOfWeek = Day.getInstance(date.getDayOfWeek()).getValue();
-      int requiredDayOfWeek = getDayOfWeek().getValue();
+      int currentDayOfWeek = DayOfWeekHelper.getValue(DayOfWeekHelper.getInstance(date.getDayOfWeek()));
+      int requiredDayOfWeek = DayOfWeekHelper.getValue(getDayOfWeek());
       int dayOfWeekOffset = 0;
       if (requiredDayOfWeek > currentDayOfWeek)
       {
@@ -746,8 +746,8 @@ public class RecurringData
       YearMonth month = YearMonth.of(date.getYear(), date.getMonth());
       date = LocalDate.of(date.getYear(), date.getMonth(), month.lengthOfMonth());
 
-      int currentDayOfWeek = Day.getInstance(date.getDayOfWeek()).getValue();
-      int requiredDayOfWeek = getDayOfWeek().getValue();
+      int currentDayOfWeek = DayOfWeekHelper.getValue(DayOfWeekHelper.getInstance(date.getDayOfWeek()));
+      int requiredDayOfWeek = DayOfWeekHelper.getValue(getDayOfWeek());
       int dayOfWeekOffset = 0;
 
       if (currentDayOfWeek > requiredDayOfWeek)
@@ -842,7 +842,7 @@ public class RecurringData
                   {
                      sb.append(", ");
                   }
-                  sb.append(dfs.getWeekdays()[day.getValue()]);
+                  sb.append(dfs.getWeekdays()[DayOfWeekHelper.getValue(day)]);
                }
             }
             pw.print(sb);
@@ -856,7 +856,7 @@ public class RecurringData
                pw.print(" on The ");
                pw.print(DAY_ORDINAL[m_dayNumber.intValue()]);
                pw.print(" ");
-               pw.print(dfs.getWeekdays()[getDayOfWeek().getValue()]);
+               pw.print(dfs.getWeekdays()[DayOfWeekHelper.getValue(getDayOfWeek())]);
                pw.print(" of ");
                pw.print(getOrdinal(m_frequency));
             }
@@ -878,7 +878,7 @@ public class RecurringData
             {
                pw.print(DAY_ORDINAL[m_dayNumber.intValue()]);
                pw.print(" ");
-               pw.print(dfs.getWeekdays()[getDayOfWeek().getValue()]);
+               pw.print(dfs.getWeekdays()[DayOfWeekHelper.getValue(getDayOfWeek())]);
                pw.print(" of ");
                pw.print(dfs.getMonths()[m_monthNumber.intValue() - 1]);
             }

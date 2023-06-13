@@ -41,6 +41,7 @@ import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -618,7 +619,7 @@ public final class MPXReader extends AbstractProjectStreamReader
     */
    private void populateCalendarHours(Record record, ProjectCalendar calendar) throws MPXJException
    {
-      ProjectCalendarHours hours = calendar.addCalendarHours(Day.getInstance(NumberHelper.getInt(record.getInteger(0))));
+      ProjectCalendarHours hours = calendar.addCalendarHours(DayOfWeekHelper.getInstance(NumberHelper.getInt(record.getInteger(0))));
       addDateRange(hours, record.getTime(1), record.getTime(2));
       addDateRange(hours, record.getTime(3), record.getTime(4));
       addDateRange(hours, record.getTime(5), record.getTime(6));

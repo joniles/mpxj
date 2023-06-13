@@ -59,6 +59,7 @@ import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -654,7 +655,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          Project.Calendars.Calendar.WeekDays.WeekDay day = m_factory.createProjectCalendarsCalendarWeekDaysWeekDay();
          dayList.add(day);
-         day.setDayType(BigInteger.valueOf(mpxjDay.getValue()));
+         day.setDayType(BigInteger.valueOf(DayOfWeekHelper.getValue(mpxjDay)));
          day.setDayWorking(Boolean.valueOf(workingFlag == DayType.WORKING));
 
          if (workingFlag == DayType.WORKING)
@@ -846,7 +847,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             if (data.getRelative())
             {
                xmlException.setType(BigInteger.valueOf(5));
-               xmlException.setMonthItem(BigInteger.valueOf(data.getDayOfWeek().getValue() + 2));
+               xmlException.setMonthItem(BigInteger.valueOf(DayOfWeekHelper.getValue(data.getDayOfWeek()) + 2));
                xmlException.setMonthPosition(BigInteger.valueOf(NumberHelper.getInt(data.getDayNumber()) - 1));
             }
             else
@@ -863,7 +864,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             if (data.getRelative())
             {
                xmlException.setType(BigInteger.valueOf(3));
-               xmlException.setMonthItem(BigInteger.valueOf(data.getDayOfWeek().getValue() + 2));
+               xmlException.setMonthItem(BigInteger.valueOf(DayOfWeekHelper.getValue(data.getDayOfWeek()) + 2));
                xmlException.setMonthPosition(BigInteger.valueOf(NumberHelper.getInt(data.getDayNumber()) - 1));
             }
             else
@@ -888,7 +889,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          if (data.getWeeklyDay(day))
          {
-            value = value | DAY_MASKS[day.getValue()];
+            value = value | DAY_MASKS[DayOfWeekHelper.getValue(day)];
          }
       }
       return BigInteger.valueOf(value);
@@ -927,7 +928,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
             for (int loop = 1; loop < 8; loop++)
             {
-               DayType workingFlag = week.getCalendarDayType(Day.getInstance(loop));
+               DayType workingFlag = week.getCalendarDayType(DayOfWeekHelper.getInstance(loop));
 
                if (workingFlag != DayType.DEFAULT)
                {
@@ -942,7 +943,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                      day.setWorkingTimes(times);
                      List<Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
 
-                     ProjectCalendarHours bch = week.getCalendarHours(Day.getInstance(loop));
+                     ProjectCalendarHours bch = week.getCalendarHours(DayOfWeekHelper.getInstance(loop));
                      if (bch != null)
                      {
                         for (TimeRange range : bch)

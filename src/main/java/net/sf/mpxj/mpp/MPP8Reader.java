@@ -35,6 +35,7 @@ import java.util.List;
 
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -270,14 +271,14 @@ final class MPP8Reader implements MPPVariantReader
                offset = 4 + (40 * index);
 
                defaultFlag = MPPUtility.getShort(extData, offset);
-               day = Day.getInstance(index + 1);
+               day = DayOfWeekHelper.getInstance(index + 1);
 
                if (defaultFlag == 1)
                {
                   cal.setWorkingDay(day, DEFAULT_WORKING_WEEK[index]);
                   if (cal.isWorkingDay(day))
                   {
-                     hours = cal.addCalendarHours(Day.getInstance(index + 1));
+                     hours = cal.addCalendarHours(DayOfWeekHelper.getInstance(index + 1));
                      hours.add(new TimeRange(LocalTime.of(8,0 ), LocalTime.of(12, 0)));
                      hours.add(new TimeRange(LocalTime.of(13, 0), LocalTime.of(17,0)));
                   }
@@ -285,14 +286,14 @@ final class MPP8Reader implements MPPVariantReader
                   {
                      if (baseCalendarID <= 0)
                      {
-                        cal.addCalendarHours(Day.getInstance(index + 1));
+                        cal.addCalendarHours(DayOfWeekHelper.getInstance(index + 1));
                      }
                   }
                }
                else
                {
                   periodCount = MPPUtility.getShort(extData, offset + 2);
-                  hours = cal.addCalendarHours(Day.getInstance(index + 1));
+                  hours = cal.addCalendarHours(DayOfWeekHelper.getInstance(index + 1));
                   if (periodCount == 0)
                   {
                      cal.setWorkingDay(day, false);

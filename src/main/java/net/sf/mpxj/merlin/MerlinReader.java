@@ -46,6 +46,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.ResultSetHelper;
@@ -192,7 +193,7 @@ public final class MerlinReader extends AbstractProjectFileReader
    {
       ProjectProperties props = m_project.getProjectProperties();
       Row row = getRows("select * from zproject where z_pk=?", m_projectID).get(0);
-      props.setWeekStartDay(Day.getInstance(row.getInt("ZFIRSTDAYOFWEEK") + 1));
+      props.setWeekStartDay(DayOfWeekHelper.getInstance(row.getInt("ZFIRSTDAYOFWEEK") + 1));
       props.setScheduleFrom(row.getInt("ZSCHEDULINGDIRECTION") == 1 ? ScheduleFrom.START : ScheduleFrom.FINISH);
       props.setMinutesPerDay(Integer.valueOf(row.getInt("ZHOURSPERDAY") * 60));
       props.setDaysPerMonth(row.getInteger("ZDAYSPERMONTH"));

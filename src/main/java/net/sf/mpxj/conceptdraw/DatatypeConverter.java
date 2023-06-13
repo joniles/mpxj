@@ -36,6 +36,7 @@ import java.util.Map;
 
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
@@ -170,7 +171,7 @@ public final class DatatypeConverter
     */
    public static final Day parseDay(String value)
    {
-      return Day.getInstance(Integer.parseInt(value) + 1);
+      return DayOfWeekHelper.getInstance(Integer.parseInt(value) + 1);
    }
 
    /**

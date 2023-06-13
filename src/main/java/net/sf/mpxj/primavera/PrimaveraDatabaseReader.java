@@ -38,6 +38,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Notes;
@@ -206,7 +207,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          ph.setMinutesPerWeek(Integer.valueOf((int) (row.getDouble("week_hr_cnt").doubleValue() * 60)));
          ph.setMinutesPerMonth(Integer.valueOf((int) (row.getDouble("month_hr_cnt").doubleValue() * 60)));
          ph.setMinutesPerYear(Integer.valueOf((int) (row.getDouble("year_hr_cnt").doubleValue() * 60)));
-         ph.setWeekStartDay(Day.getInstance(row.getInt("week_start_day_num")));
+         ph.setWeekStartDay(DayOfWeekHelper.getInstance(row.getInt("week_start_day_num")));
 
          processDefaultCurrency(row.getInteger("curr_id"));
       }

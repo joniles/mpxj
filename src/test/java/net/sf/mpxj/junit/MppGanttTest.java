@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.View;
 import net.sf.mpxj.mpp.ChartPattern;
@@ -317,13 +318,13 @@ public class MppGanttTest
       assertEquals(1, view.getProgressLinesIntervalDailyDayNumber());
       assertTrue(view.isProgressLinesIntervalDailyWorkday());
       boolean[] weeklyDay = view.getProgressLinesIntervalWeeklyDay();
-      assertFalse(weeklyDay[Day.SUNDAY.getValue()]);
-      assertTrue(weeklyDay[Day.MONDAY.getValue()]);
-      assertFalse(weeklyDay[Day.TUESDAY.getValue()]);
-      assertFalse(weeklyDay[Day.WEDNESDAY.getValue()]);
-      assertFalse(weeklyDay[Day.THURSDAY.getValue()]);
-      assertFalse(weeklyDay[Day.FRIDAY.getValue()]);
-      assertFalse(weeklyDay[Day.SATURDAY.getValue()]);
+      assertFalse(weeklyDay[DayOfWeekHelper.getValue(Day.SUNDAY)]);
+      assertTrue(weeklyDay[DayOfWeekHelper.getValue(Day.MONDAY)]);
+      assertFalse(weeklyDay[DayOfWeekHelper.getValue(Day.TUESDAY)]);
+      assertFalse(weeklyDay[DayOfWeekHelper.getValue(Day.WEDNESDAY)]);
+      assertFalse(weeklyDay[DayOfWeekHelper.getValue(Day.THURSDAY)]);
+      assertFalse(weeklyDay[DayOfWeekHelper.getValue(Day.FRIDAY)]);
+      assertFalse(weeklyDay[DayOfWeekHelper.getValue(Day.SATURDAY)]);
       assertEquals(1, view.getProgressLinesIntervalWeekleyWeekNumber());
       assertFalse(view.getProgressLinesIntervalMonthlyDay());
       assertEquals(1, view.getProgressLinesIntervalMonthlyDayMonthNumber());

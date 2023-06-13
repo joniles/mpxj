@@ -45,6 +45,7 @@ import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectCalendar;
@@ -259,7 +260,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       for (int dayLoop = 1; dayLoop < 8; dayLoop++)
       {
-         Day day = Day.getInstance(dayLoop);
+         Day day = DayOfWeekHelper.getInstance(dayLoop);
          if (mpxjCalendar.isWorkingDay(day))
          {
             processWorkingHours(mpxjCalendar, uniqueID, day, typeList);

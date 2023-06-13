@@ -63,7 +63,7 @@ public abstract class ProjectCalendarDays
     */
    public ProjectCalendarHours getCalendarHours(Day day)
    {
-      return m_hours[day.getValue() - 1];
+      return m_hours[DayOfWeekHelper.getValue(day) - 1];
    }
 
    /**
@@ -118,7 +118,7 @@ public abstract class ProjectCalendarDays
    public ProjectCalendarHours addCalendarHours(Day day)
    {
       ProjectCalendarHours bch = new ProjectCalendarHours();
-      m_hours[day.getValue() - 1] = bch;
+      m_hours[DayOfWeekHelper.getValue(day) - 1] = bch;
       return bch;
    }
 
@@ -129,7 +129,7 @@ public abstract class ProjectCalendarDays
     */
    public void removeCalendarHours(Day day)
    {
-      m_hours[day.getValue() - 1] = null;
+      m_hours[DayOfWeekHelper.getValue(day) - 1] = null;
    }
 
    /**
@@ -147,7 +147,7 @@ public abstract class ProjectCalendarDays
     */
    public DayType getCalendarDayType(Day day)
    {
-      return m_days[day.getValue() - 1];
+      return m_days[DayOfWeekHelper.getValue(day) - 1];
    }
 
    /**
@@ -170,7 +170,7 @@ public abstract class ProjectCalendarDays
     */
    public void setCalendarDayType(Day day, DayType type)
    {
-      m_days[day.getValue() - 1] = type;
+      m_days[DayOfWeekHelper.getValue(day) - 1] = type;
 
       switch (type)
       {

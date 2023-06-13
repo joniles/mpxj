@@ -24,6 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
@@ -131,7 +132,7 @@ final class RecurringTaskReader
 
       if (dayOfWeekOffset != 0)
       {
-         rt.setDayOfWeek(Day.getInstance(MPPUtility.getShort(data, dayOfWeekOffset) + 1));
+         rt.setDayOfWeek(DayOfWeekHelper.getInstance(MPPUtility.getShort(data, dayOfWeekOffset) + 1));
       }
 
       if (dayNumberOffset != 0)

@@ -53,6 +53,7 @@ import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ExpenseCategory;
@@ -534,7 +535,7 @@ final class PrimaveraReader
     */
    private void processCalendarDays(ProjectCalendar calendar, StructuredTextRecord daysOfWeek)
    {
-      Map<Day, StructuredTextRecord> days = daysOfWeek.getChildren().stream().filter(d -> Day.getInstance(Integer.parseInt(d.getRecordName())) != null).collect(Collectors.toMap(d -> Day.getInstance(Integer.parseInt(d.getRecordName())), d -> d));
+      Map<Day, StructuredTextRecord> days = daysOfWeek.getChildren().stream().filter(d -> DayOfWeekHelper.getInstance(Integer.parseInt(d.getRecordName())) != null).collect(Collectors.toMap(d -> DayOfWeekHelper.getInstance(Integer.parseInt(d.getRecordName())), d -> d));
 
       for (Day day : Day.values())
       {

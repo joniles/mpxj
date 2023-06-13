@@ -49,6 +49,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Location;
 import net.sf.mpxj.LocationContainer;
 import net.sf.mpxj.NotesTopic;
@@ -554,7 +555,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          properties.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerWeek()) * 60)));
          properties.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerMonth()) * 60)));
          properties.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerYear()) * 60)));
-         properties.setWeekStartDay(Day.getInstance(NumberHelper.getInt(prefs.getStartDayOfWeek())));
+         properties.setWeekStartDay(DayOfWeekHelper.getInstance(NumberHelper.getInt(prefs.getStartDayOfWeek())));
 
          List<CurrencyType> currencyList = apibo.getCurrency();
          for (CurrencyType currency : currencyList)

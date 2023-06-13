@@ -45,6 +45,7 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.common.LocalDateHelper;
@@ -345,7 +346,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
    {
       RecurringData data = recurringData(RecurrenceType.WEEKLY, nonWork);
       java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
-      data.setWeeklyDay(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)), true);
+      data.setWeeklyDay(DayOfWeekHelper.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)), true);
       DateHelper.pushCalendar(calendar);
       mpxjCalendar.addCalendarException(data);
    }
@@ -366,7 +367,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       if (data.getRelative())
       {
          data.setDayNumber(nonWork.getNthDow());
-         data.setDayOfWeek(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)));
+         data.setDayOfWeek(DayOfWeekHelper.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)));
       }
       else
       {
@@ -392,7 +393,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       if (data.getRelative())
       {
          data.setDayNumber(nonWork.getNthDow());
-         data.setDayOfWeek(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)));
+         data.setDayOfWeek(DayOfWeekHelper.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)));
       }
       else
       {

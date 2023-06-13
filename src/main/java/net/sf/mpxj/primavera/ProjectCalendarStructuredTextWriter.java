@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -81,7 +82,7 @@ class ProjectCalendarStructuredTextWriter
          daysOfWeekRecord.addChild(dayRecord);
 
          dayRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
-         dayRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, Integer.toString(day.getValue()));
+         dayRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, Integer.toString(DayOfWeekHelper.getValue(day)));
 
          // Working days/hours are not inherited between calendars, just exceptions.
          writeHours(dayRecord, calendar.getHours(day));

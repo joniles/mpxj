@@ -494,7 +494,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       Calendar cal = DateHelper.popCalendar(startDate);
       int days = getDaysInRange(startDate, endDate);
       int duration = 0;
-      Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+      Day day = DayOfWeekHelper.getInstance(cal.get(Calendar.DAY_OF_WEEK));
 
       while (days > 0)
       {
@@ -504,7 +504,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
 
          --days;
-         day = day.getNextDay();
+         day = day.plus(1);
          cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
       }
       DateHelper.pushCalendar(cal);
@@ -634,7 +634,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             do
             {
                cal.add(Calendar.DAY_OF_YEAR, 1);
-               day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+               day = DayOfWeekHelper.getInstance(cal.get(Calendar.DAY_OF_WEEK));
                ++nonWorkingDayCount;
                if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
                {
@@ -780,7 +780,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             do
             {
                cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
-               day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+               day = DayOfWeekHelper.getInstance(cal.get(Calendar.DAY_OF_WEEK));
                ++nonWorkingDayCount;
                if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
                {
@@ -837,7 +837,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             do
             {
                cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) - 1);
-               day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+               day = DayOfWeekHelper.getInstance(cal.get(Calendar.DAY_OF_WEEK));
                ++nonWorkingDayCount;
                if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
                {
@@ -932,7 +932,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public boolean isWorkingDate(LocalDate date)
    {
-      Day day = Day.getInstance(date.getDayOfWeek());
+      Day day = DayOfWeekHelper.getInstance(date.getDayOfWeek());
       return isWorkingDate(date, day);
    }
 
@@ -1279,12 +1279,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             Date currentDate = startDate;
             Calendar cal = Calendar.getInstance();
             cal.setTime(startDate);
-            Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+            Day day = DayOfWeekHelper.getInstance(cal.get(Calendar.DAY_OF_WEEK));
             while (!isWorkingDate(LocalDateHelper.getLocalDate(currentDate), day) && currentDate.getTime() < canonicalEndDate.getTime())
             {
                cal.add(Calendar.DAY_OF_YEAR, 1);
                currentDate = cal.getTime();
-               day = day.getNextDay();
+               day = day.plus(1);
             }
 
             if (currentDate.getTime() < canonicalEndDate.getTime())
@@ -1307,7 +1307,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                {
                   cal.add(Calendar.DAY_OF_YEAR, 1);
                   currentDate = cal.getTime();
-                  day = day.getNextDay();
+                  day = day.plus(1);
 
                   //
                   // We have reached the last day
@@ -1649,7 +1649,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       // Determine the day of the week of if we don't have it
       if (day == null)
       {
-         day = Day.getInstance(date.getDayOfWeek());
+         day = DayOfWeekHelper.getInstance(date.getDayOfWeek());
       }
 
       // Use the day type to retrieve the ranges

@@ -51,6 +51,7 @@ import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseItem;
@@ -1738,7 +1739,7 @@ final class PrimaveraPMProjectWriter
     */
    private String getDayName(Day day)
    {
-      return DAY_NAMES[day.getValue() - 1];
+      return DAY_NAMES[DayOfWeekHelper.getValue(day) - 1];
    }
 
    /**

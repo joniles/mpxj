@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.TimeRange;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -233,7 +234,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       {
          offset = getCalendarHoursOffset() + (60 * index);
          defaultFlag = data == null ? 1 : MPPUtility.getShort(data, offset);
-         day = Day.getInstance(index + 1);
+         day = DayOfWeekHelper.getInstance(index + 1);
 
          if (defaultFlag == 1)
          {
@@ -285,14 +286,14 @@ abstract class AbstractCalendarFactory implements CalendarFactory
             {
                if (isBaseCalendar)
                {
-                  cal.addCalendarHours(Day.getInstance(index + 1));
+                  cal.addCalendarHours(DayOfWeekHelper.getInstance(index + 1));
                }
                cal.setWorkingDay(day, false);
             }
             else
             {
                cal.setWorkingDay(day, true);
-               hours = cal.addCalendarHours(Day.getInstance(index + 1));
+               hours = cal.addCalendarHours(DayOfWeekHelper.getInstance(index + 1));
                hours.addAll(dateRanges);
             }
          }

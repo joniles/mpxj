@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.GenericCriteria;
@@ -244,13 +245,13 @@ public final class GanttChartView9 extends GanttChartView
       m_progressLinesInterval = Interval.getInstance(progressLineData[6]);
       m_progressLinesIntervalDailyDayNumber = progressLineData[8];
       m_progressLinesIntervalDailyWorkday = (progressLineData[10] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.SUNDAY.getValue()] = (progressLineData[14] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.MONDAY.getValue()] = (progressLineData[16] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.TUESDAY.getValue()] = (progressLineData[18] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.WEDNESDAY.getValue()] = (progressLineData[20] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.THURSDAY.getValue()] = (progressLineData[22] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.FRIDAY.getValue()] = (progressLineData[24] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.SATURDAY.getValue()] = (progressLineData[26] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(Day.SUNDAY)] = (progressLineData[14] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(Day.MONDAY)] = (progressLineData[16] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(Day.TUESDAY)] = (progressLineData[18] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(Day.WEDNESDAY)] = (progressLineData[20] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(Day.THURSDAY)] = (progressLineData[22] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(Day.FRIDAY)] = (progressLineData[24] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(Day.SATURDAY)] = (progressLineData[26] != 0);
       m_progressLinesIntervalWeekleyWeekNumber = progressLineData[30];
       m_progressLinesIntervalMonthlyDay = (progressLineData[32] != 0);
       m_progressLinesIntervalMonthlyDayDayNumber = progressLineData[34];

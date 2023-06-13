@@ -1679,7 +1679,7 @@ final class AstaReader
 
                if (startTime == LocalTime.MIDNIGHT)
                {
-                  currentDay = currentDay.getNextDay();
+                  currentDay = currentDay.plus(1);
                   hours = week.addCalendarHours(currentDay);
                }
 

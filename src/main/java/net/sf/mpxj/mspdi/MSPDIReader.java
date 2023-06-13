@@ -49,6 +49,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.LocalDateRange;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimephasedCost;
@@ -534,7 +535,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private void readNormalDay(ProjectCalendar calendar, Project.Calendars.Calendar.WeekDays.WeekDay weekDay)
    {
       int dayNumber = weekDay.getDayType().intValue();
-      Day day = Day.getInstance(dayNumber);
+      Day day = DayOfWeekHelper.getInstance(dayNumber);
       calendar.setWorkingDay(day, BooleanHelper.getBoolean(weekDay.isDayWorking()));
       ProjectCalendarHours hours = calendar.addCalendarHours(day);
 
@@ -688,7 +689,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             {
                if (rd.getRelative())
                {
-                  rd.setDayOfWeek(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
+                  rd.setDayOfWeek(DayOfWeekHelper.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
                   rd.setDayNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
                }
                else
@@ -703,7 +704,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             {
                if (rd.getRelative())
                {
-                  rd.setDayOfWeek(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
+                  rd.setDayOfWeek(DayOfWeekHelper.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
                   rd.setDayNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
                }
                else
@@ -817,7 +818,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       WeekDays xmlWeekDays = xmlWeek.getWeekDays();
       if (xmlWeekDays != null)
       {
-         Map<Day, WeekDay> map = xmlWeekDays.getWeekDay().stream().collect(Collectors.toMap(d -> Day.getInstance(d.getDayType().intValue()), d -> d));
+         Map<Day, WeekDay> map = xmlWeekDays.getWeekDay().stream().collect(Collectors.toMap(d -> DayOfWeekHelper.getInstance(d.getDayType().intValue()), d -> d));
          for (Day day : Day.values())
          {
             WeekDay xmlWeekDay = map.get(day);

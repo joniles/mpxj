@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
@@ -387,7 +388,7 @@ class MapRow implements Row
       Integer value = getInteger(name);
       if (value != null)
       {
-         result = Day.getInstance(value.intValue() + 1);
+         result = DayOfWeekHelper.getInstance(value.intValue() + 1);
       }
       return result;
    }

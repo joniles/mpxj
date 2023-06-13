@@ -45,6 +45,7 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -1077,7 +1078,7 @@ public final class MPXWriter extends AbstractProjectWriter
             {
                if (o instanceof Day)
                {
-                  result = Integer.toString(((Day) o).getValue());
+                  result = Integer.toString(DayOfWeekHelper.getValue((Day)o));
                }
                else
                {

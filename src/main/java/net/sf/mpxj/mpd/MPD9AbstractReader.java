@@ -38,6 +38,7 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
@@ -583,7 +584,7 @@ abstract class MPD9AbstractReader
       //properties.setBaselineForEarnedValue;
       properties.setFiscalYearStartMonth(row.getInteger("PROJ_OPT_FY_START_MONTH"));
       //properties.setNewTaskStartIsProjectStart();
-      properties.setWeekStartDay(Day.getInstance(row.getInt("PROJ_OPT_WEEK_START_DAY") + 1));
+      properties.setWeekStartDay(DayOfWeekHelper.getInstance(row.getInt("PROJ_OPT_WEEK_START_DAY") + 1));
       //properties.setCalculateMultipleCriticalPaths();
 
       //
@@ -699,7 +700,7 @@ abstract class MPD9AbstractReader
     */
    private void processCalendarHours(ProjectCalendar calendar, Row row, int dayIndex)
    {
-      Day day = Day.getInstance(dayIndex);
+      Day day = DayOfWeekHelper.getInstance(dayIndex);
       boolean working = row.getInt("CD_WORKING") != 0;
       calendar.setWorkingDay(day, working);
       if (working)

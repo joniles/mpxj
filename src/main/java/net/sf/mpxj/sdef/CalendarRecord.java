@@ -24,6 +24,7 @@
 package net.sf.mpxj.sdef;
 
 import net.sf.mpxj.Day;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -46,7 +47,7 @@ class CalendarRecord extends AbstractSDEFRecord
       String flags = getString(1);
       for (Day day : Day.values())
       {
-         boolean workingDay = flags.charAt(day.getValue() - 1) == 'Y';
+         boolean workingDay = flags.charAt(DayOfWeekHelper.getValue(day) - 1) == 'Y';
          calendar.setWorkingDay(day, workingDay);
          ProjectCalendarHours hours = calendar.addCalendarHours(day);
          if (workingDay)
