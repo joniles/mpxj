@@ -27,7 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.TimeRange;

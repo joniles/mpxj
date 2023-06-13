@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;

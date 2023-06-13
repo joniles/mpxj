@@ -69,7 +69,7 @@ import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.CustomFieldValueMask;
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;

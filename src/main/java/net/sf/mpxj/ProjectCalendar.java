@@ -25,6 +25,7 @@ package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -932,8 +933,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public boolean isWorkingDate(LocalDate date)
    {
-      DayOfWeek day = DayOfWeekHelper.getInstance(date.getDayOfWeek());
-      return isWorkingDate(date, day);
+      return isWorkingDate(date, date.getDayOfWeek());
    }
 
    /**
@@ -1649,7 +1649,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       // Determine the day of the week of if we don't have it
       if (day == null)
       {
-         day = DayOfWeekHelper.getInstance(date.getDayOfWeek());
+         day = date.getDayOfWeek();
       }
 
       // Use the day type to retrieve the ranges

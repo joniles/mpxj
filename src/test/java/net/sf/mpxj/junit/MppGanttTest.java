@@ -31,7 +31,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.View;

@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.MpxjEnum;
 import net.sf.mpxj.common.EnumHelper;
 

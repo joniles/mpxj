@@ -26,6 +26,7 @@ package net.sf.mpxj;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

@@ -26,6 +26,7 @@ package net.sf.mpxj;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.text.DateFormatSymbols;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
@@ -480,11 +481,11 @@ public class RecurringData
       // We need to work from the start of the week that contains the start date
       // and ignore any matches we get that are before the start date.
       //
-      java.time.DayOfWeek currentDay = date.getDayOfWeek();
-      if (currentDay != java.time.DayOfWeek.SUNDAY)
+      DayOfWeek currentDay = date.getDayOfWeek();
+      if (currentDay != DayOfWeek.SUNDAY)
       {
          date = date.minusDays(currentDay.getValue());
-         currentDay = java.time.DayOfWeek.SUNDAY;
+         currentDay = DayOfWeek.SUNDAY;
       }
 
       while (moreDates(date, dates))
@@ -493,7 +494,7 @@ public class RecurringData
 
          for (int dayIndex = 0; dayIndex < 7; dayIndex++)
          {
-            if (getWeeklyDay(DayOfWeekHelper.getInstance(currentDay)))
+            if (getWeeklyDay(currentDay))
             {
                if (offset != 0)
                {
@@ -703,7 +704,7 @@ public class RecurringData
     */
    private LocalDate getOrdinalRelativeDay(LocalDate date, int dayNumber)
    {
-      int currentDayOfWeek = DayOfWeekHelper.getValue(DayOfWeekHelper.getInstance(date.getDayOfWeek()));
+      int currentDayOfWeek = DayOfWeekHelper.getValue(date.getDayOfWeek());
       int requiredDayOfWeek = DayOfWeekHelper.getValue(getDayOfWeek());
       int dayOfWeekOffset = 0;
       if (requiredDayOfWeek > currentDayOfWeek)
@@ -741,7 +742,7 @@ public class RecurringData
       YearMonth month = YearMonth.of(date.getYear(), date.getMonth());
       date = LocalDate.of(date.getYear(), date.getMonth(), month.lengthOfMonth());
 
-      int currentDayOfWeek = DayOfWeekHelper.getValue(DayOfWeekHelper.getInstance(date.getDayOfWeek()));
+      int currentDayOfWeek = DayOfWeekHelper.getValue(date.getDayOfWeek());
       int requiredDayOfWeek = DayOfWeekHelper.getValue(getDayOfWeek());
       int dayOfWeekOffset = 0;
 

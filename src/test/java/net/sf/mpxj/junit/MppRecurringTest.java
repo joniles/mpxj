@@ -31,7 +31,7 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;

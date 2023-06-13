@@ -49,7 +49,7 @@ import net.sf.mpxj.TimeRange;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;

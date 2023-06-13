@@ -44,7 +44,7 @@ import java.time.LocalTime;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
@@ -368,7 +368,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(name));
 
-      for (DayOfWeek day : DayOfWeek.values())
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          DayType type = record.getCalendarDayType(day);
          if (type == null)
@@ -382,7 +382,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
 
-      for (DayOfWeek day : DayOfWeek.values())
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          ProjectCalendarHours hours = record.getCalendarHours(day);
          if (hours != null)

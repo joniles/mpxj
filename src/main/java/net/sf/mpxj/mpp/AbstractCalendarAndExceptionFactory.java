@@ -27,7 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.LocalDateRange;
@@ -244,7 +244,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
       {
          //System.out.println("Week start offset=" + offset);
          ProjectCalendarWeek week = cal.addWorkWeek();
-         for (DayOfWeek day : DayOfWeek.values())
+         for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
          {
             // 60 byte block per day
             processWorkWeekDay(data, offset, week, day);

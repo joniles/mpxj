@@ -58,7 +58,7 @@ import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
@@ -614,7 +614,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       Project.Calendars.Calendar.WeekDays days = m_factory.createProjectCalendarsCalendarWeekDays();
       List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList = days.getWeekDay();
-      for (DayOfWeek mpxjDay : DayOfWeek.values())
+      for (DayOfWeek mpxjDay : DayOfWeekHelper.ORDERED_DAYS)
       {
          writeDay(mpxjCalendar, mpxjDay, dayList);
       }

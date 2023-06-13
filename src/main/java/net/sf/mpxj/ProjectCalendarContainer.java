@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.time.DayOfWeek;
+
 import net.sf.mpxj.common.NumberHelper;
 
 /**

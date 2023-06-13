@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
@@ -51,7 +52,7 @@ import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.DateRange;
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
@@ -476,7 +477,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendarDays(ProjectCalendarDays week) throws IOException
    {
-      for (DayOfWeek day : DayOfWeek.values())
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          m_writer.writeStartObject(day.name().toLowerCase());
          writeStringField("type", week.getCalendarDayType(day).toString().toLowerCase());
@@ -570,7 +571,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeIntegerField("month_number", data.getMonthNumber());
          writeBooleanField("use_end_date", Boolean.valueOf(data.getUseEndDate()));
 
-         List<Object> weeklyDays = Arrays.stream(DayOfWeek.values()).filter(data::getWeeklyDay).map(d -> "\"" + d.toString().toLowerCase() + "\"").collect(Collectors.toList());
+         List<Object> weeklyDays = Arrays.stream(DayOfWeekHelper.ORDERED_DAYS).filter(data::getWeeklyDay).map(d -> "\"" + d.toString().toLowerCase() + "\"").collect(Collectors.toList());
          if (!weeklyDays.isEmpty())
          {
             m_writer.writeList("weekly_days", weeklyDays);

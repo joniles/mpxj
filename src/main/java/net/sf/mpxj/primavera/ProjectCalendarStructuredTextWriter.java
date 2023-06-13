@@ -30,7 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -73,7 +73,7 @@ class ProjectCalendarStructuredTextWriter
       daysOfWeekRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
       daysOfWeekRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, "DaysOfWeek");
 
-      for (DayOfWeek day : DayOfWeek.values())
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          StructuredTextRecord dayRecord = new StructuredTextRecord();
          daysOfWeekRecord.addChild(dayRecord);

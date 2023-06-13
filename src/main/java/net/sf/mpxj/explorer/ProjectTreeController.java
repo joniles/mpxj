@@ -44,7 +44,7 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataLink;
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.Group;

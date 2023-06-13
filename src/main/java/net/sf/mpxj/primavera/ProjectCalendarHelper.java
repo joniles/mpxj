@@ -26,7 +26,7 @@ package net.sf.mpxj.primavera;
 import java.time.LocalTime;
 
 import net.sf.mpxj.CalendarType;
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.TimeRange;

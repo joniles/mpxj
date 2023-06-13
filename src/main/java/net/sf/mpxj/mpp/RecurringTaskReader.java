@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;

@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;

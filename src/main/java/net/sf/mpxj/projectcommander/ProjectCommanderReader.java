@@ -38,7 +38,7 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -265,7 +265,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          LocalDate exceptionDate = LocalDateHelper.getLocalDate(DateHelper.getTimestampFromLong(timestampInMilliseconds));
 
          ProjectCalendarException ex = calendar.addCalendarException(exceptionDate);
-         DayOfWeek day = DayOfWeekHelper.getInstance(exceptionDate.getDayOfWeek());
+         DayOfWeek day = exceptionDate.getDayOfWeek();
          if (!calendar.isWorkingDay(day))
          {
             ex.addAll(ranges.get(day));

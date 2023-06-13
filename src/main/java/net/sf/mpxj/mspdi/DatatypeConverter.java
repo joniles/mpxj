@@ -43,7 +43,7 @@ import net.sf.mpxj.BookingType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;

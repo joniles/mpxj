@@ -23,7 +23,9 @@
 
 package net.sf.mpxj.sdef;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
+
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.ProjectCalendar;
 
 /**
@@ -123,7 +125,7 @@ class SDEFmethods
    public static String workDays(ProjectCalendar input)
    {
       StringBuilder result = new StringBuilder();
-      for (DayOfWeek day : DayOfWeek.values())
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          result.append(input.isWorkingDay(day) ? 'Y' : 'N');
       }

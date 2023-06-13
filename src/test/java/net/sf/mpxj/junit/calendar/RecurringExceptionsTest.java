@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;

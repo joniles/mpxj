@@ -26,7 +26,7 @@ package net.sf.mpxj.common;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;

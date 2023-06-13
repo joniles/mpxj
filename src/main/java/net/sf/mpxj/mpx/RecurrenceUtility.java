@@ -28,7 +28,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
+
+import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
@@ -203,7 +205,7 @@ final class RecurrenceUtility
    public static String getDays(RecurringTask task)
    {
       StringBuilder sb = new StringBuilder();
-      for (DayOfWeek day : DayOfWeek.values())
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          sb.append(task.getWeeklyDay(day) ? "1" : "0");
       }

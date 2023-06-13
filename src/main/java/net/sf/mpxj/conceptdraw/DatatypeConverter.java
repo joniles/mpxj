@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.CurrencySymbolPosition;
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.RelationType;

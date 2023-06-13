@@ -49,7 +49,7 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
@@ -640,7 +640,7 @@ final class PrimaveraPMProjectWriter
       StandardWorkWeek xmlStandardWorkWeek = m_factory.createCalendarTypeStandardWorkWeek();
       xml.setStandardWorkWeek(xmlStandardWorkWeek);
 
-      for (DayOfWeek day : EnumSet.allOf(DayOfWeek.class))
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          StandardWorkHours xmlHours = m_factory.createCalendarTypeStandardWorkWeekStandardWorkHours();
          xmlStandardWorkWeek.getStandardWorkHours().add(xmlHours);

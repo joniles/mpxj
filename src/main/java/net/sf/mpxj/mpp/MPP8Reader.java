@@ -46,7 +46,7 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;

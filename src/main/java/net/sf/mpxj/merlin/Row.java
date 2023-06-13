@@ -26,7 +26,7 @@ package net.sf.mpxj.merlin;
 import java.util.Date;
 import java.util.UUID;
 
-import net.sf.mpxj.DayOfWeek;
+import java.time.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
