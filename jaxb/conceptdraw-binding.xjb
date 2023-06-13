@@ -6,7 +6,7 @@
       <jxb:javaType name="java.lang.Double" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseDouble" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printDouble" xmlType="xsd:double"/>
       <jxb:javaType name="java.lang.Integer" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseInteger" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printInteger" xmlType="xsd:int"/>
       <jxb:javaType name="java.time.LocalTime" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseTime" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printTime" xmlType="xsd:time"/>
-      <jxb:javaType name="java.util.Date" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseDate" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printDate" xmlType="xsd:date"/>
+      <jxb:javaType name="java.time.LocalDate" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseDate" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printDate" xmlType="xsd:date"/>
       <jxb:javaType name="java.util.Date" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseDateTime" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printDateTime" xmlType="xsd:dateTime"/>
       <jxb:javaType name="net.sf.mpxj.TimeUnit" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseTimeUnit" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printTimeUnit" xmlType="cdprj:ShortTimeUnitType"/>
     </jxb:globalBindings>
