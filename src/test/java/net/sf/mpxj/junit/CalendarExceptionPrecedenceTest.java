@@ -52,9 +52,9 @@ public class CalendarExceptionPrecedenceTest
 
       // Fridays in August
       Assert.assertTrue(calendar.isWorkingDate(m_df.parse("05/08/2022")));
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("05/12/2022")));
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("05/19/2022")));
-      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("05/16/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("12/08/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("19/08/2022")));
+      Assert.assertTrue(calendar.isWorkingDate(m_df.parse("26/08/2022")));
 
       // Fridays in September
       Assert.assertTrue(calendar.isWorkingDate(m_df.parse("02/09/2022")));
