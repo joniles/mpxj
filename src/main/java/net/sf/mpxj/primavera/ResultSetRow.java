@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -90,7 +91,7 @@ final class ResultSetRow extends MapRow
                Timestamp ts = rs.getTimestamp(name);
                if (ts != null)
                {
-                  value = new Date(ts.getTime());
+                  value = LocalDateTimeHelper.getLocalDateTime(new java.util.Date(ts.getTime()));
                }
                else
                {

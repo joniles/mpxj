@@ -363,7 +363,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
             }
             else
             {
-               if (taskStartDate.getTime() < startDate.getTime())
+               if (taskStartDate.isBefore(startDate))
                {
                   startDate = taskStartDate;
                }
@@ -411,7 +411,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
             }
             else
             {
-               if (taskFinishDate.getTime() > finishDate.getTime())
+               if (taskFinishDate.isAfter(finishDate))
                {
                   finishDate = taskFinishDate;
                }

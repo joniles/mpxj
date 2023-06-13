@@ -24,6 +24,7 @@
 package net.sf.mpxj.fasttrack;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 import java.util.HashMap;
@@ -654,16 +655,16 @@ public final class FastTrackReader extends AbstractProjectFileReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date startDate = parentTask.getStart();
-         Date finishDate = parentTask.getFinish();
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
-         Date baselineStartDate = parentTask.getBaselineStart();
-         Date baselineFinishDate = parentTask.getBaselineFinish();
+         LocalDateTime startDate = parentTask.getStart();
+         LocalDateTime finishDate = parentTask.getFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime baselineStartDate = parentTask.getBaselineStart();
+         LocalDateTime baselineFinishDate = parentTask.getBaselineFinish();
 
          boolean critical = false;
 

@@ -1851,12 +1851,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
          }
 
-         if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+         if (startDate == null || startDate.isBefore(DateHelper.START_DATE_NA))
          {
             startDate = DateHelper.START_DATE_NA;
          }
 
-         if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+         if (endDate == null || endDate.isAfter(DateHelper.END_DATE_NA))
          {
             endDate = DateHelper.END_DATE_NA;
          }
@@ -1900,8 +1900,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             return cmp;
          }
-         Date d1 = r1.getEffectiveDate();
-         Date d2 = r2.getEffectiveDate();
+         LocalDateTime d1 = LocalDateTimeHelper.getLocalDateTime(r1.getEffectiveDate());
+         LocalDateTime d2 = LocalDateTimeHelper.getLocalDateTime(r2.getEffectiveDate());
          return DateHelper.compare(d1, d2);
       });
 
@@ -1933,27 +1933,24 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
-         Date startDate = row.getEffectiveDate();
-         Date endDate = DateHelper.END_DATE_NA;
+         LocalDateTime startDate = LocalDateTimeHelper.getLocalDateTime(row.getEffectiveDate());
+         LocalDateTime endDate = DateHelper.END_DATE_NA;
 
          if (i + 1 < rates.size())
          {
             RoleRateType nextRow = rates.get(i + 1);
             if (NumberHelper.equals(row.getRoleObjectId(), nextRow.getRoleObjectId()))
             {
-               Calendar cal = DateHelper.popCalendar(nextRow.getEffectiveDate());
-               cal.add(Calendar.MINUTE, -1);
-               endDate = cal.getTime();
-               DateHelper.pushCalendar(cal);
+               endDate = LocalDateTimeHelper.getLocalDateTime(nextRow.getEffectiveDate()).minusMinutes(1);
             }
          }
 
-         if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+         if (startDate == null || startDate.isBefore(DateHelper.START_DATE_NA))
          {
             startDate = DateHelper.START_DATE_NA;
          }
 
-         if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+         if (endDate == null || endDate.isAfter(DateHelper.END_DATE_NA))
          {
             endDate = DateHelper.END_DATE_NA;
          }

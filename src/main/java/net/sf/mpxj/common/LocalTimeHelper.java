@@ -103,6 +103,22 @@ public class LocalTimeHelper
       return result;
    }
 
+   public static LocalDateTime setEndTime(LocalDateTime date, LocalTime time)
+   {
+      if (time == null)
+      {
+         return date;
+      }
+
+      date = LocalDateTime.of(date.toLocalDate(), time);
+      if (time == LocalTime.MIDNIGHT)
+      {
+         date = date.plusDays(1);
+      }
+
+      return date;
+   }
+
    public static void setTime(Calendar cal, LocalTime time)
    {
       if (time != null)

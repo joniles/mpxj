@@ -43,6 +43,7 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
@@ -638,16 +639,16 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       if (duration.getDuration() == 0)
       {
          mpxjTask.setMilestone(true);
-         mpxjTask.setStart(gpTask.getStart());
-         mpxjTask.setFinish(gpTask.getStart());
+         mpxjTask.setStart(LocalDateTimeHelper.getLocalDateTime(gpTask.getStart()));
+         mpxjTask.setFinish(LocalDateTimeHelper.getLocalDateTime(gpTask.getStart()));
       }
       else
       {
-         mpxjTask.setStart(gpTask.getStart());
-         mpxjTask.setFinish(m_mpxjCalendar.getDate(gpTask.getStart(), mpxjTask.getDuration(), false));
+         mpxjTask.setStart(LocalDateTimeHelper.getLocalDateTime(gpTask.getStart()));
+         mpxjTask.setFinish(m_mpxjCalendar.getDate(LocalDateTimeHelper.getLocalDateTime(gpTask.getStart()), mpxjTask.getDuration(), false));
       }
 
-      mpxjTask.setConstraintDate(gpTask.getThirdDate());
+      mpxjTask.setConstraintDate(LocalDateTimeHelper.getLocalDateTime(gpTask.getThirdDate()));
       if (mpxjTask.getConstraintDate() != null)
       {
          // TODO: you don't appear to be able to change this setting in GanttProject

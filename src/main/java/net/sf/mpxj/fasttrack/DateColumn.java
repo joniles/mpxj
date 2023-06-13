@@ -26,10 +26,12 @@ package net.sf.mpxj.fasttrack;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * Column containing dates.
@@ -62,7 +64,7 @@ class DateColumn extends AbstractColumn
 
       Calendar cal = DateHelper.popCalendar();
       byte[][] rawData = data.getData();
-      m_data = new Date[rawData.length];
+      m_data = new LocalDateTime[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
          byte[] rawValue = rawData[index];
@@ -77,7 +79,7 @@ class DateColumn extends AbstractColumn
                // Sanity test: ignore dates with obviously incorrect years
                if (year > 1980 && year < 2100)
                {
-                  m_data[index] = cal.getTime();
+                  m_data[index] = LocalDateTimeHelper.getLocalDateTime(cal.getTime());
                }
             }
          }
@@ -93,7 +95,7 @@ class DateColumn extends AbstractColumn
       pw.println("  [Data");
       for (Object item : m_data)
       {
-         Object value = item == null ? "" : df.format((Date) item);
+         Object value = item == null ? "" : df.format(item);
          pw.println("    " + value);
       }
       pw.println("  ]");

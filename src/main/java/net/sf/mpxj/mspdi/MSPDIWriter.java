@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -95,6 +96,7 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldLists;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
@@ -278,13 +280,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setCalendarUID(m_projectFile.getDefaultCalendar() == null ? BigInteger.ONE : NumberHelper.getBigInteger(m_projectFile.getDefaultCalendar().getUniqueID()));
       project.setCategory(properties.getCategory());
       project.setCompany(properties.getCompany());
-      project.setCreationDate(properties.getCreationDate());
+      project.setCreationDate(LocalDateTimeHelper.getDate(properties.getCreationDate()));
       project.setCriticalSlackLimit(NumberHelper.getBigInteger(Double.valueOf(properties.getCriticalSlackLimit().convertUnits(TimeUnit.DAYS, properties).getDuration())));
       project.setCurrencyCode(properties.getCurrencyCode());
       project.setCurrencyDigits(BigInteger.valueOf(properties.getCurrencyDigits().intValue()));
       project.setCurrencySymbol(properties.getCurrencySymbol());
       project.setCurrencySymbolPosition(properties.getSymbolPosition());
-      project.setCurrentDate(properties.getCurrentDate());
+      project.setCurrentDate(LocalDateTimeHelper.getDate(properties.getCurrentDate()));
       project.setDaysPerMonth(NumberHelper.getBigInteger(properties.getDaysPerMonth()));
       project.setDefaultFinishTime(properties.getDefaultEndTime());
       project.setDefaultFixedCostAccrual(properties.getDefaultFixedCostAccrual());
@@ -296,14 +298,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setDurationFormat(DatatypeConverter.printDurationTimeUnits(properties.getDefaultDurationUnits(), false));
       project.setEarnedValueMethod(DatatypeConverter.printEarnedValueMethod(properties.getEarnedValueMethod()));
       project.setEditableActualCosts(Boolean.valueOf(properties.getEditableActualCosts()));
-      project.setExtendedCreationDate(properties.getExtendedCreationDate());
-      project.setFinishDate(properties.getFinishDate());
+      project.setExtendedCreationDate(LocalDateTimeHelper.getDate(properties.getExtendedCreationDate()));
+      project.setFinishDate(LocalDateTimeHelper.getDate(properties.getFinishDate()));
       project.setFiscalYearStart(Boolean.valueOf(properties.getFiscalYearStart()));
       project.setFYStartDate(NumberHelper.getBigInteger(properties.getFiscalYearStartMonth()));
       project.setGUID(properties.getGUID());
       project.setHonorConstraints(Boolean.valueOf(properties.getHonorConstraints()));
       project.setInsertedProjectsLikeSummary(Boolean.valueOf(properties.getInsertedProjectsLikeSummary()));
-      project.setLastSaved(properties.getLastSaved());
+      project.setLastSaved(LocalDateTimeHelper.getDate(properties.getLastSaved()));
       project.setManager(properties.getManager());
       project.setMicrosoftProjectServerURL(Boolean.valueOf(properties.getMicrosoftProjectServerURL()));
       project.setMinutesPerDay(NumberHelper.getBigInteger(properties.getMinutesPerDay()));
@@ -326,8 +328,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setSplitsInProgressTasks(Boolean.valueOf(properties.getSplitInProgressTasks()));
       project.setSpreadActualCost(Boolean.valueOf(properties.getSpreadActualCost()));
       project.setSpreadPercentComplete(Boolean.valueOf(properties.getSpreadPercentComplete()));
-      project.setStartDate(properties.getStartDate());
-      project.setStatusDate(properties.getStatusDate());
+      project.setStartDate(LocalDateTimeHelper.getDate(properties.getStartDate()));
+      project.setStatusDate(LocalDateTimeHelper.getDate(properties.getStatusDate()));
       project.setSubject(properties.getSubject());
       project.setTaskUpdatesResource(Boolean.valueOf(properties.getUpdatingTaskStatusUpdatesResourceStatus()));
       project.setTitle(properties.getProjectTitle());
@@ -1009,8 +1011,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setActualWork(DatatypeConverter.printDuration(this, mpx.getActualWork()));
       xml.setActualWorkProtected(DatatypeConverter.printDuration(this, mpx.getActualWorkProtected()));
       xml.setACWP(DatatypeConverter.printCurrency(mpx.getACWP()));
-      xml.setAvailableFrom(mpx.getAvailableFrom());
-      xml.setAvailableTo(mpx.getAvailableTo());
+      xml.setAvailableFrom(LocalDateTimeHelper.getDate(mpx.getAvailableFrom()));
+      xml.setAvailableTo(LocalDateTimeHelper.getDate(mpx.getAvailableTo()));
       xml.setBCWS(DatatypeConverter.printCurrency(mpx.getBCWS()));
       xml.setBCWP(DatatypeConverter.printCurrency(mpx.getBCWP()));
       xml.setBookingType(mpx.getBookingType());
@@ -1021,10 +1023,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setCostCenter(mpx.getCostCenter());
       xml.setCostPerUse(DatatypeConverter.printCurrency(mpx.getCostPerUse()));
       xml.setCostVariance(DatatypeConverter.printCurrency(mpx.getCostVariance()));
-      xml.setCreationDate(mpx.getCreationDate());
+      xml.setCreationDate(LocalDateTimeHelper.getDate(mpx.getCreationDate()));
       xml.setCV(DatatypeConverter.printCurrency(mpx.getCV()));
       xml.setEmailAddress(mpx.getEmailAddress());
-      xml.setFinish(mpx.getFinish());
+      xml.setFinish(LocalDateTimeHelper.getDate(mpx.getFinish()));
       xml.setGroup(mpx.getGroup());
       xml.setGUID(mpx.getGUID());
       xml.setHyperlink(mpx.getHyperlink());
@@ -1061,7 +1063,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
       xml.setStandardRate(DatatypeConverter.printRate(mpx.getStandardRate()));
       xml.setStandardRateFormat(DatatypeConverter.printStandardRateFormat(mpx, mpx.getStandardRate()));
-      xml.setStart(mpx.getStart());
+      xml.setStart(LocalDateTimeHelper.getDate(mpx.getStart()));
       xml.setSV(DatatypeConverter.printCurrency(mpx.getSV()));
       xml.setUID(mpx.getUniqueID());
       xml.setWork(DatatypeConverter.printDuration(this, mpx.getWork()));
@@ -1267,8 +1269,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   rate.setCostPerUse(DatatypeConverter.printCurrencyMandatory(entry.getCostPerUse()));
                   rate.setOvertimeRate(DatatypeConverter.printRateMandatory(entry.getOvertimeRate()));
                   rate.setOvertimeRateFormat(DatatypeConverter.printTimeUnit(entry.getOvertimeRate()));
-                  rate.setRatesFrom(entry.getStartDate());
-                  rate.setRatesTo(entry.getEndDate());
+                  rate.setRatesFrom(LocalDateTimeHelper.getDate(entry.getStartDate()));
+                  rate.setRatesTo(LocalDateTimeHelper.getDate(entry.getEndDate()));
                   rate.setRateTable(BigInteger.valueOf(tableIndex));
                   rate.setStandardRate(DatatypeConverter.printRateMandatory(entry.getStandardRate()));
                   rate.setStandardRateFormat(DatatypeConverter.printTimeUnit(entry.getStandardRate()));
@@ -1339,8 +1341,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          list.add(period);
          DateRange range = availability.getRange();
 
-         period.setAvailableFrom(range.getStart());
-         period.setAvailableTo(range.getEnd());
+         period.setAvailableFrom(LocalDateTimeHelper.getDate(range.getStart()));
+         period.setAvailableTo(LocalDateTimeHelper.getDate(range.getEnd()));
          period.setAvailableUnits(DatatypeConverter.printUnits(availability.getUnits()));
       }
    }
@@ -1385,36 +1387,36 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setActive(Boolean.valueOf(mpx.getActive()));
       xml.setActualCost(DatatypeConverter.printCurrency(mpx.getActualCost()));
       xml.setActualDuration(DatatypeConverter.printDuration(this, mpx.getActualDuration()));
-      xml.setActualFinish(mpx.getActualFinish());
+      xml.setActualFinish(LocalDateTimeHelper.getDate(mpx.getActualFinish()));
       xml.setActualOvertimeCost(DatatypeConverter.printCurrency(mpx.getActualOvertimeCost()));
       xml.setActualOvertimeWork(DatatypeConverter.printDuration(this, mpx.getActualOvertimeWork()));
       xml.setActualOvertimeWorkProtected(DatatypeConverter.printDuration(this, mpx.getActualOvertimeWorkProtected()));
-      xml.setActualStart(mpx.getActualStart());
+      xml.setActualStart(LocalDateTimeHelper.getDate(mpx.getActualStart()));
       xml.setActualWork(DatatypeConverter.printDuration(this, mpx.getActualWork()));
       xml.setActualWorkProtected(DatatypeConverter.printDuration(this, mpx.getActualWorkProtected()));
       xml.setACWP(DatatypeConverter.printCurrency(mpx.getACWP()));
       xml.setBCWP(DatatypeConverter.printCurrency(mpx.getBCWP()));
       xml.setBCWS(DatatypeConverter.printCurrency(mpx.getBCWS()));
       xml.setCalendarUID(getTaskCalendarID(mpx));
-      xml.setConstraintDate(mpx.getConstraintDate());
+      xml.setConstraintDate(LocalDateTimeHelper.getDate(mpx.getConstraintDate()));
       xml.setConstraintType(DatatypeConverter.printConstraintType(mpx.getConstraintType()));
       xml.setContact(mpx.getContact());
       xml.setCost(DatatypeConverter.printCurrency(mpx.getCost()));
-      xml.setCreateDate(mpx.getCreateDate());
+      xml.setCreateDate(LocalDateTimeHelper.getDate(mpx.getCreateDate()));
       xml.setCritical(Boolean.valueOf(mpx.getCritical()));
       xml.setCV(DatatypeConverter.printCurrency(mpx.getCV()));
-      xml.setDeadline(mpx.getDeadline());
+      xml.setDeadline(LocalDateTimeHelper.getDate(mpx.getDeadline()));
       xml.setDuration(DatatypeConverter.printDurationMandatory(this, mpx.getDuration()));
       xml.setDurationText(mpx.getDurationText());
       xml.setDurationFormat(DatatypeConverter.printDurationTimeUnits(mpx.getDuration(), mpx.getEstimated()));
-      xml.setEarlyFinish(mpx.getEarlyFinish());
-      xml.setEarlyStart(mpx.getEarlyStart());
+      xml.setEarlyFinish(LocalDateTimeHelper.getDate(mpx.getEarlyFinish()));
+      xml.setEarlyStart(LocalDateTimeHelper.getDate(mpx.getEarlyStart()));
       xml.setEarnedValueMethod(DatatypeConverter.printEarnedValueMethod(mpx.getEarnedValueMethod()));
       xml.setEffortDriven(Boolean.valueOf(mpx.getEffortDriven()));
       xml.setEstimated(Boolean.valueOf(mpx.getEstimated()));
       xml.setExternalTask(Boolean.valueOf(mpx.getExternalTask()));
       xml.setExternalTaskProject(mpx.getProject());
-      xml.setFinish(mpx.getFinish());
+      xml.setFinish(LocalDateTimeHelper.getDate(mpx.getFinish()));
       xml.setFinishSlack(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getFinishSlack()));
       xml.setFinishText(mpx.getFinishText());
       xml.setFinishVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getFinishVariance()));
@@ -1437,8 +1439,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
       xml.setID(BigInteger.valueOf(taskID));
       xml.setIgnoreResourceCalendar(Boolean.valueOf(mpx.getIgnoreResourceCalendar()));
-      xml.setLateFinish(mpx.getLateFinish());
-      xml.setLateStart(mpx.getLateStart());
+      xml.setLateFinish(LocalDateTimeHelper.getDate(mpx.getLateFinish()));
+      xml.setLateStart(LocalDateTimeHelper.getDate(mpx.getLateStart()));
       xml.setLevelAssignments(Boolean.valueOf(mpx.getLevelAssignments()));
       xml.setLevelingCanSplit(Boolean.valueOf(mpx.getLevelingCanSplit()));
 
@@ -1465,8 +1467,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (mpx.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
       {
          xml.setManualDuration(DatatypeConverter.printDuration(this, mpx.getDuration()));
-         xml.setManualFinish(mpx.getFinish());
-         xml.setManualStart(mpx.getStart());
+         xml.setManualFinish(LocalDateTimeHelper.getDate(mpx.getFinish()));
+         xml.setManualStart(LocalDateTimeHelper.getDate(mpx.getStart()));
       }
 
       xml.setMilestone(Boolean.valueOf(mpx.getMilestone()));
@@ -1509,14 +1511,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingOvertimeCost(DatatypeConverter.printCurrency(mpx.getRemainingOvertimeCost()));
       xml.setRemainingOvertimeWork(DatatypeConverter.printDuration(this, mpx.getRemainingOvertimeWork()));
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
-      xml.setResume(mpx.getResume());
+      xml.setResume(LocalDateTimeHelper.getDate(mpx.getResume()));
       xml.setResumeValid(Boolean.valueOf(mpx.getResumeValid()));
       xml.setRollup(Boolean.valueOf(mpx.getRollup()));
-      xml.setStart(mpx.getStart());
+      xml.setStart(LocalDateTimeHelper.getDate(mpx.getStart()));
       xml.setStartSlack(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getStartSlack()));
       xml.setStartText(mpx.getStartText());
       xml.setStartVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getStartVariance()));
-      xml.setStop(mpx.getStop());
+      xml.setStop(LocalDateTimeHelper.getDate(mpx.getStop()));
       xml.setSubprojectName(mpx.getSubprojectFile());
       xml.setSummary(Boolean.valueOf(mpx.hasChildTasks()));
       xml.setTotalSlack(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getTotalSlack()));
@@ -1567,18 +1569,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
          baseline.setDurationFormat(DatatypeConverter.printDurationTimeUnits(duration, false));
       }
 
-      Date date = mpxjTask.getBaselineFinish();
+      LocalDateTime date = mpxjTask.getBaselineFinish();
       if (date != null)
       {
          populated = true;
-         baseline.setFinish(date);
+         baseline.setFinish(LocalDateTimeHelper.getDate(date));
       }
 
       date = mpxjTask.getBaselineStart();
       if (date != null)
       {
          populated = true;
-         baseline.setStart(date);
+         baseline.setStart(LocalDateTimeHelper.getDate(date));
       }
 
       duration = mpxjTask.getBaselineWork();
@@ -1618,14 +1620,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
          if (date != null)
          {
             populated = true;
-            baseline.setFinish(date);
+            baseline.setFinish(LocalDateTimeHelper.getDate(date));
          }
 
          date = mpxjTask.getBaselineStart(loop);
          if (date != null)
          {
             populated = true;
-            baseline.setStart(date);
+            baseline.setStart(LocalDateTimeHelper.getDate(date));
          }
 
          duration = mpxjTask.getBaselineWork(loop);
@@ -1952,10 +1954,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
       Project.Assignments.Assignment xml = m_factory.createProjectAssignmentsAssignment();
 
       xml.setActualCost(DatatypeConverter.printCurrency(mpx.getActualCost()));
-      xml.setActualFinish(mpx.getActualFinish());
+      xml.setActualFinish(LocalDateTimeHelper.getDate(mpx.getActualFinish()));
       xml.setActualOvertimeCost(DatatypeConverter.printCurrency(mpx.getActualOvertimeCost()));
       xml.setActualOvertimeWork(DatatypeConverter.printDuration(this, mpx.getActualOvertimeWork()));
-      xml.setActualStart(mpx.getActualStart());
+      xml.setActualStart(LocalDateTimeHelper.getDate(mpx.getActualStart()));
       xml.setActualWork(DatatypeConverter.printDuration(this, mpx.getActualWork()));
       xml.setACWP(DatatypeConverter.printCurrency(mpx.getACWP()));
       xml.setBCWP(DatatypeConverter.printCurrency(mpx.getBCWP()));
@@ -1969,10 +1971,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
          xml.setCostRateTable(BigInteger.valueOf(mpx.getCostRateTableIndex()));
       }
 
-      xml.setCreationDate(mpx.getCreateDate());
+      xml.setCreationDate(LocalDateTimeHelper.getDate(mpx.getCreateDate()));
       xml.setCV(DatatypeConverter.printCurrency(mpx.getCV()));
       xml.setDelay(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getDelay()));
-      xml.setFinish(mpx.getFinish());
+      xml.setFinish(LocalDateTimeHelper.getDate(mpx.getFinish()));
       xml.setGUID(mpx.getGUID());
       xml.setHasFixedRateUnits(Boolean.valueOf(mpx.getVariableRateUnits() == null));
       xml.setFixedMaterial(Boolean.valueOf(mpx.getResource() != null && mpx.getResource().getType() == ResourceType.MATERIAL));
@@ -1997,9 +1999,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingOvertimeWork(DatatypeConverter.printDuration(this, mpx.getRemainingOvertimeWork()));
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
       xml.setResourceUID(mpx.getResource() == null ? BigInteger.valueOf(MicrosoftProjectConstants.ASSIGNMENT_NULL_RESOURCE_ID.intValue()) : BigInteger.valueOf(NumberHelper.getInt(mpx.getResourceUniqueID())));
-      xml.setResume(mpx.getResume());
-      xml.setStart(mpx.getStart());
-      xml.setStop(mpx.getStop());
+      xml.setResume(LocalDateTimeHelper.getDate(mpx.getResume()));
+      xml.setStart(LocalDateTimeHelper.getDate(mpx.getStart()));
+      xml.setStop(LocalDateTimeHelper.getDate(mpx.getStop()));
       xml.setSV(DatatypeConverter.printCurrency(mpx.getSV()));
       xml.setTaskUID(NumberHelper.getBigInteger(mpx.getTask().getUniqueID()));
       xml.setUID(NumberHelper.getBigInteger(mpx.getUniqueID()));
@@ -2022,7 +2024,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       double percentComplete = NumberHelper.getDouble(mpx.getTask().getPercentageComplete());
       if (percentComplete == 100 && xml.getActualFinish() == null)
       {
-         xml.setActualFinish(mpx.getTask().getActualFinish());
+         xml.setActualFinish(LocalDateTimeHelper.getDate(mpx.getTask().getActualFinish()));
       }
 
       writeAssignmentBaselines(xml, mpx);
@@ -2054,18 +2056,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
          baseline.setCost(DatatypeConverter.printCustomFieldCurrency(cost));
       }
 
-      Date date = mpxj.getBaselineFinish();
+      LocalDateTime date = mpxj.getBaselineFinish();
       if (date != null)
       {
          populated = true;
-         baseline.setFinish(DatatypeConverter.printCustomFieldDate(date));
+         baseline.setFinish(DatatypeConverter.printCustomFieldDate(LocalDateTimeHelper.getDate(date)));
       }
 
       date = mpxj.getBaselineStart();
       if (date != null)
       {
          populated = true;
-         baseline.setStart(DatatypeConverter.printCustomFieldDate(date));
+         baseline.setStart(DatatypeConverter.printCustomFieldDate(LocalDateTimeHelper.getDate(date)));
       }
 
       Duration duration = mpxj.getBaselineWork();
@@ -2097,14 +2099,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
          if (date != null)
          {
             populated = true;
-            baseline.setFinish(DatatypeConverter.printCustomFieldDate(date));
+            baseline.setFinish(DatatypeConverter.printCustomFieldDate(LocalDateTimeHelper.getDate(date)));
          }
 
          date = mpxj.getBaselineStart(loop);
          if (date != null)
          {
             populated = true;
-            baseline.setStart(DatatypeConverter.printCustomFieldDate(date));
+            baseline.setStart(DatatypeConverter.printCustomFieldDate(LocalDateTimeHelper.getDate(date)));
          }
 
          duration = mpxj.getBaselineWork(loop);
@@ -2265,28 +2267,28 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<TimephasedWork> result = new ArrayList<>();
       for (TimephasedWork assignment : list)
       {
-         Date startDate = assignment.getStart();
-         Date finishDate = assignment.getFinish();
-         Date startDay = DateHelper.getDayStartDate(startDate);
-         Date finishDay = DateHelper.getDayStartDate(finishDate);
-         if (startDay.getTime() == finishDay.getTime())
+         LocalDateTime startDate = assignment.getStart();
+         LocalDateTime finishDate = assignment.getFinish();
+         LocalDateTime startDay = DateHelper.getDayStartDate(startDate);
+         LocalDateTime finishDay = DateHelper.getDayStartDate(finishDate);
+         if (startDay.equals(finishDay))
          {
-            Date currentStart = LocalTimeHelper.setTime(startDay, calendar.getStartTime(LocalDateHelper.getLocalDate(startDay)));
-            if (startDate.getTime() > currentStart.getTime())
+            LocalDateTime currentStart = LocalDateTime.of(startDay.toLocalDate(), calendar.getStartTime(LocalDateHelper.getLocalDate(startDay)));
+            if (startDate.isAfter(currentStart))
             {
                boolean paddingRequired = true;
 
                if (last != null)
                {
-                  Date lastFinish = last.getFinish();
-                  if (lastFinish.getTime() == startDate.getTime())
+                  LocalDateTime lastFinish = last.getFinish();
+                  if (lastFinish.equals(startDate))
                   {
                      paddingRequired = false;
                   }
                   else
                   {
-                     Date lastFinishDay = DateHelper.getDayStartDate(lastFinish);
-                     if (startDay.getTime() == lastFinishDay.getTime())
+                     LocalDateTime lastFinishDay = DateHelper.getDayStartDate(lastFinish);
+                     if (startDay.equals(lastFinishDay))
                      {
                         currentStart = lastFinish;
                      }
@@ -2307,22 +2309,22 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
             result.add(assignment);
 
-            Date currentFinish = LocalTimeHelper.setEndTime(startDay, calendar.getFinishTime(LocalDateHelper.getLocalDate(startDay)));
-            if (finishDate.getTime() < currentFinish.getTime())
+            LocalDateTime currentFinish = LocalDateTime.of(startDay.toLocalDate(), calendar.getFinishTime(LocalDateHelper.getLocalDate(startDay)));
+            if (finishDate.isBefore(currentFinish))
             {
                boolean paddingRequired = true;
 
                if (first != null)
                {
-                  Date firstStart = first.getStart();
-                  if (firstStart.getTime() == finishDate.getTime())
+                  LocalDateTime firstStart = first.getStart();
+                  if (firstStart.equals(finishDate))
                   {
                      paddingRequired = false;
                   }
                   else
                   {
-                     Date firstStartDay = DateHelper.getDayStartDate(firstStart);
-                     if (finishDay.getTime() == firstStartDay.getTime())
+                     LocalDateTime firstStartDay = DateHelper.getDayStartDate(firstStart);
+                     if (finishDay.equals(firstStartDay))
                      {
                         currentFinish = firstStart;
                      }
@@ -2343,14 +2345,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
          }
          else
          {
-            Date currentStart = startDate;
+            LocalDateTime currentStart = startDate;
             boolean isWorking = calendar.isWorkingDate(LocalDateHelper.getLocalDate(currentStart));
-            while (currentStart.getTime() < finishDate.getTime())
+            while (currentStart.isBefore(finishDate))
             {
                if (isWorking)
                {
-                  Date currentFinish = LocalTimeHelper.setEndTime(currentStart, calendar.getFinishTime(LocalDateHelper.getLocalDate(currentStart)));
-                  if (currentFinish.getTime() > finishDate.getTime())
+                  LocalDateTime currentFinish = LocalDateTime.of(currentStart.toLocalDate(), calendar.getFinishTime(LocalDateHelper.getLocalDate(currentStart)));
+                  if (currentFinish.isAfter(finishDate))
                   {
                      currentFinish = finishDate;
                   }
@@ -2363,16 +2365,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   result.add(split);
                }
 
-               Calendar cal = DateHelper.popCalendar(currentStart);
-               cal.add(Calendar.DAY_OF_YEAR, 1);
-               currentStart = cal.getTime();
+               currentStart = currentStart.plusDays(1);
                isWorking = calendar.isWorkingDate(LocalDateHelper.getLocalDate(currentStart));
                if (isWorking)
                {
-                  LocalTimeHelper.setTime(cal, calendar.getStartTime(LocalDateHelper.getLocalDate(currentStart)));
-                  currentStart = cal.getTime();
+                  currentStart = LocalDateTime.of(currentStart.toLocalDate(), calendar.getStartTime(LocalDateHelper.getLocalDate(currentStart)));
                }
-               DateHelper.pushCalendar(cal);
             }
          }
       }
@@ -2390,14 +2388,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<TimephasedCost> result = new ArrayList<>();
       for (TimephasedCost assignment : list)
       {
-         Date startDate = assignment.getStart();
-         Date finishDate = assignment.getFinish();
-         Date startDay = DateHelper.getDayStartDate(startDate);
-         Date finishDay = DateHelper.getDayStartDate(finishDate);
-         if (startDay.getTime() == finishDay.getTime())
+         LocalDateTime startDate = assignment.getStart();
+         LocalDateTime finishDate = assignment.getFinish();
+         LocalDateTime startDay = DateHelper.getDayStartDate(startDate);
+         LocalDateTime finishDay = DateHelper.getDayStartDate(finishDate);
+         if (startDay.equals(finishDay))
          {
-            Date currentStart = LocalTimeHelper.setTime(startDay, calendar.getStartTime(LocalDateHelper.getLocalDate(startDay)));
-            if (startDate.getTime() > currentStart.getTime())
+            LocalDateTime currentStart = LocalDateTime.of(startDay.toLocalDate(), calendar.getStartTime(LocalDateHelper.getLocalDate(startDay)));
+            if (startDate.isAfter(currentStart))
             {
                TimephasedCost padding = new TimephasedCost();
                padding.setStart(currentStart);
@@ -2409,8 +2407,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
             result.add(assignment);
 
-            Date currentFinish = LocalTimeHelper.setEndTime(startDay, calendar.getFinishTime(LocalDateHelper.getLocalDate(startDay)));
-            if (finishDate.getTime() < currentFinish.getTime())
+            LocalDateTime currentFinish = LocalDateTime.of(startDay.toLocalDate(), calendar.getFinishTime(LocalDateHelper.getLocalDate(startDay)));
+            if (finishDate.isBefore(currentFinish))
             {
                TimephasedCost padding = new TimephasedCost();
                padding.setStart(finishDate);
@@ -2422,14 +2420,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
          }
          else
          {
-            Date currentStart = startDate;
+            LocalDateTime currentStart = startDate;
             boolean isWorking = calendar.isWorkingDate(LocalDateHelper.getLocalDate(currentStart));
-            while (currentStart.getTime() < finishDate.getTime())
+            while (currentStart.isBefore(finishDate))
             {
                if (isWorking)
                {
-                  Date currentFinish = LocalTimeHelper.setEndTime(currentStart, calendar.getFinishTime(LocalDateHelper.getLocalDate(currentStart)));
-                  if (currentFinish.getTime() > finishDate.getTime())
+                  LocalDateTime currentFinish = LocalDateTime.of(currentStart.toLocalDate(), calendar.getFinishTime(LocalDateHelper.getLocalDate(currentStart)));
+                  if (currentFinish.isAfter(finishDate))
                   {
                      currentFinish = finishDate;
                   }
@@ -2442,16 +2440,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   result.add(split);
                }
 
-               Calendar cal = DateHelper.popCalendar(currentStart);
-               cal.add(Calendar.DAY_OF_YEAR, 1);
-               currentStart = cal.getTime();
+               currentStart = currentStart.plusDays(1);
                isWorking = calendar.isWorkingDate(LocalDateHelper.getLocalDate(currentStart));
                if (isWorking)
                {
-                  LocalTimeHelper.setTime(cal, calendar.getStartTime(LocalDateHelper.getLocalDate(currentStart)));
-                  currentStart = cal.getTime();
+                  currentStart = LocalDateTime.of(currentStart.toLocalDate(), calendar.getStartTime(LocalDateHelper.getLocalDate(currentStart)));
                }
-               DateHelper.pushCalendar(cal);
             }
          }
       }
@@ -2479,8 +2473,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
          TimephasedDataType xml = m_factory.createTimephasedDataType();
          list.add(xml);
 
-         xml.setStart(mpx.getStart());
-         xml.setFinish(mpx.getFinish());
+         xml.setStart(LocalDateTimeHelper.getDate(mpx.getStart()));
+         xml.setFinish(LocalDateTimeHelper.getDate(mpx.getFinish()));
          xml.setType(BigInteger.valueOf(type));
          xml.setUID(assignmentID);
          xml.setUnit(DatatypeConverter.printDurationTimeUnits(mpx.getTotalAmount(), false));
@@ -2502,8 +2496,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
          BigDecimal value = DatatypeConverter.printCurrency(mpx.getTotalAmount());
 
-         xml.setStart(mpx.getStart());
-         xml.setFinish(mpx.getFinish());
+         xml.setStart(LocalDateTimeHelper.getDate(mpx.getStart()));
+         xml.setFinish(LocalDateTimeHelper.getDate(mpx.getFinish()));
          xml.setType(BigInteger.valueOf(type));
          xml.setUID(assignmentID);
          xml.setUnit(BigInteger.valueOf(2));

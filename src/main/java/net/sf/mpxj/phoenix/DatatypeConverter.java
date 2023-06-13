@@ -38,6 +38,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * This class contains methods used to perform the datatype conversions
@@ -181,7 +182,7 @@ public final class DatatypeConverter
 
       if (value.equals(PLUS_INFINITY))
       {
-         return DateHelper.END_DATE_NA;
+         return LocalDateTimeHelper.getDate(DateHelper.END_DATE_NA);
       }
 
       Date result = null;

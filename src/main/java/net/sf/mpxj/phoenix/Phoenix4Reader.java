@@ -49,6 +49,7 @@ import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
 import org.xml.sax.SAXException;
 
@@ -182,8 +183,8 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       ProjectProperties mpxjProperties = m_projectFile.getProjectProperties();
       mpxjProperties.setName(phoenixSettings.getTitle());
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
-      mpxjProperties.setStatusDate(storepoint.getDataDate());
-      mpxjProperties.setStartDate(storepoint.getStart());
+      mpxjProperties.setStatusDate(LocalDateTimeHelper.getLocalDateTime(storepoint.getDataDate()));
+      mpxjProperties.setStartDate(LocalDateTimeHelper.getLocalDateTime(storepoint.getStart()));
    }
 
    /**

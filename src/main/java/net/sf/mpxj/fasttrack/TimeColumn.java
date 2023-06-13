@@ -26,10 +26,12 @@ package net.sf.mpxj.fasttrack;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * Column containing time values.
@@ -48,7 +50,7 @@ class TimeColumn extends AbstractColumn
 
       Calendar cal = DateHelper.popCalendar();
       byte[][] rawData = data.getData();
-      m_data = new Date[rawData.length];
+      m_data = new LocalDateTime[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
          if (rawData[index].length > 1)
@@ -58,7 +60,7 @@ class TimeColumn extends AbstractColumn
             cal.set(Calendar.MINUTE, (value % 60));
             cal.set(Calendar.SECOND, 0);
             cal.set(Calendar.MILLISECOND, 0);
-            m_data[index] = cal.getTime();
+            m_data[index] = LocalDateTimeHelper.getLocalDateTime(cal.getTime());
          }
       }
       DateHelper.pushCalendar(cal);
@@ -72,7 +74,7 @@ class TimeColumn extends AbstractColumn
       pw.println("  [Data");
       for (Object item : m_data)
       {
-         pw.println("    " + df.format((Date) item));
+         pw.println("    " + df.format(item));
       }
       pw.println("  ]");
    }

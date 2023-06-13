@@ -24,6 +24,7 @@
 package net.sf.mpxj.fasttrack;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Calendar;
 
 import java.util.Map;
@@ -136,21 +137,17 @@ class MapRow
       LocalDateTime date = getDate(dateName);
       if (date != null)
       {
-         Calendar dateCal = DateHelper.popCalendar(date);
          Object timeObject = getObject(timeName);
          // TODO: we should probably associated a type with each column and validate as we read
          if (timeObject instanceof LocalDateTime)
          {
-            Calendar timeCal = DateHelper.popCalendar((LocalDateTime) timeObject);
-            dateCal.set(Calendar.HOUR_OF_DAY, timeCal.get(Calendar.HOUR_OF_DAY));
-            dateCal.set(Calendar.MINUTE, timeCal.get(Calendar.MINUTE));
-            dateCal.set(Calendar.SECOND, timeCal.get(Calendar.SECOND));
-            dateCal.set(Calendar.MILLISECOND, timeCal.get(Calendar.MILLISECOND));
-            DateHelper.pushCalendar(timeCal);
+            LocalDateTime time = (LocalDateTime)timeObject;
+            result = LocalDateTime.of(date.toLocalDate(), time.toLocalTime());
          }
-
-         result = dateCal.getTime();
-         DateHelper.pushCalendar(dateCal);
+         else
+         {
+            result = LocalDateTime.of(date.toLocalDate(), LocalTime.of(0,0));
+         }
       }
 
       return result;
