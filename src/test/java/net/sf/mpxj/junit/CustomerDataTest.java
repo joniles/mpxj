@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -38,6 +39,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -722,5 +724,5 @@ public class CustomerDataTest
    private static int TEST_COUNT;
    private static final boolean OS_IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
    private static final FieldReporter FIELD_REPORTER = new FieldReporter();
-   private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
+   private static final LocalDateTime BASELINE_CURRENT_DATE = LocalDateTimeHelper.getLocalDateTime(new java.util.Date(1544100702438L));
 }

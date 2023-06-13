@@ -78,7 +78,7 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
             LocalDateTime assignmentStart = assignment.getStart();
             LocalDateTime assignmentStartDay = DateHelper.getDayStartDate(assignmentStart);
 
-            if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
+            if (previousAssignmentStartDay.equals(assignmentStartDay))
             {
                Duration previousAssignmentWork = previousAssignment.getTotalAmount();
                Duration assignmentWork = assignment.getTotalAmount();
@@ -90,7 +90,7 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
 
                LocalDateTime previousAssignmentFinish = previousAssignment.getFinish();
 
-               if (previousAssignmentFinish.getTime() == assignmentStart.getTime() || calendar.getNextWorkStart(previousAssignmentFinish).getTime() == assignmentStart.getTime())
+               if (previousAssignmentFinish.equals(assignmentStart) || calendar.getNextWorkStart(previousAssignmentFinish).equals(assignmentStart))
                {
                   result.remove(result.size() - 1);
 

@@ -386,18 +386,14 @@ public final class DateHelper
       return result;
    }
 
-   public static boolean isSameDay(Date d1, Date d2)
+   public static boolean isSameDay(LocalDateTime d1, LocalDateTime d2)
    {
       if (d1 == null || d2 == null)
       {
          return false;
       }
 
-      Calendar cal1 = popCalendar(d1);
-      Calendar cal2 = popCalendar(d2);
-      boolean result = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
-      pushCalendar(cal1);
-      pushCalendar(cal2);
+      boolean result = d1.getYear() == d2.getYear() && d1.getDayOfYear() == d2.getDayOfYear();
 
       return result;
    }

@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -59,12 +60,12 @@ public class MPPTimephasedBaselineWorkNormaliser extends MPPAbstractTimephasedWo
       {
          if (previousAssignment != null)
          {
-            Date previousAssignmentStart = previousAssignment.getStart();
-            Date previousAssignmentStartDay = DateHelper.getDayStartDate(previousAssignmentStart);
-            Date assignmentStart = assignment.getStart();
-            Date assignmentStartDay = DateHelper.getDayStartDate(assignmentStart);
+            LocalDateTime previousAssignmentStart = previousAssignment.getStart();
+            LocalDateTime previousAssignmentStartDay = DateHelper.getDayStartDate(previousAssignmentStart);
+            LocalDateTime assignmentStart = assignment.getStart();
+            LocalDateTime assignmentStartDay = DateHelper.getDayStartDate(assignmentStart);
 
-            if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
+            if (previousAssignmentStartDay.equals(assignmentStartDay))
             {
                result.remove(result.size() - 1);
 

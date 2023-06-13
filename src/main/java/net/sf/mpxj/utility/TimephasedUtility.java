@@ -438,33 +438,29 @@ public final class TimephasedUtility
          //
          // Select the correct start date
          //
-         long startDate = range.getStart().getTime();
-         long assignmentStart = assignment.getStart().getTime();
-         if (startDate < assignmentStart)
+         LocalDateTime startDate = range.getStart();
+         LocalDateTime assignmentStart = assignment.getStart();
+         if (startDate.isBefore(assignmentStart))
          {
             startDate = assignmentStart;
          }
 
-         long rangeEndDate = range.getEnd().getTime();
-         long traEndDate = assignment.getFinish().getTime();
-
-         Calendar cal = DateHelper.popCalendar(startDate);
-         LocalDateTime calendarDate = cal.getTime();
+         LocalDateTime rangeEndDate = range.getEnd();
+         LocalDateTime traEndDate = assignment.getFinish();
+         LocalDateTime calendarDate = startDate;
 
          //
          // Start counting forwards
          //
-         while (startDate < rangeEndDate && startDate < traEndDate)
+         while (startDate.isBefore(rangeEndDate) && startDate.isBefore(traEndDate))
          {
             if (projectCalendar == null || projectCalendar.isWorkingDate(LocalDateHelper.getLocalDate(calendarDate)))
             {
                ++totalDays;
             }
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            startDate = cal.getTimeInMillis();
-            calendarDate = cal.getTime();
+            startDate = startDate.plusDays(1);
+            calendarDate = startDate;
          }
-         DateHelper.pushCalendar(cal);
 
          //
          // If we still haven't reached the end of our range
@@ -472,7 +468,7 @@ public final class TimephasedUtility
          //
          done = true;
          totalCost += (assignment.getAmountPerDay().doubleValue() * totalDays);
-         if (startDate < rangeEndDate)
+         if (startDate.isBefore(rangeEndDate))
          {
             ++startIndex;
             if (startIndex < assignments.size())

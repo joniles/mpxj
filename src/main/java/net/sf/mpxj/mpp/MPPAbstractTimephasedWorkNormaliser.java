@@ -107,12 +107,12 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
             LocalDateTime finishDay = DateHelper.getDayStartDate(assignment.getFinish());
 
             // special case - when the finishday time is midnight, it's really the previous day...
-            if (assignment.getFinish().getTime() == finishDay.getTime())
+            if (assignment.getFinish().equals(finishDay))
             {
-               finishDay = DateHelper.addDays(finishDay, -1);
+               finishDay = finishDay.minusDays(1);
             }
 
-            if (startDay.getTime() == finishDay.getTime())
+            if (startDay.equals(finishDay))
             {
                Duration totalWork = assignment.getTotalAmount();
                Duration assignmentWork = getAssignmentWork(calendar, assignment);
@@ -122,8 +122,8 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
                   result.add(assignment);
                   Duration remainingWork = Duration.getInstance(totalWork.getDuration() - assignmentWork.getDuration(), TimeUnit.MINUTES);
 
-                  LocalDateTime remainderStart = DateHelper.addDays(finishDay, 1);
-                  LocalDateTime remainderFinish = DateHelper.addDays(remainderStart, 1);
+                  LocalDateTime remainderStart = finishDay.plusDays(1);
+                  LocalDateTime remainderFinish = remainderStart.plusDays(1);
 
                   TimephasedWork remainder = new TimephasedWork();
                   remainder.setStart(remainderStart);
@@ -221,7 +221,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          LocalDateTime splitStart = calendar.getNextWorkStart(splitFinish);
          splitFinish = assignmentFinish;
          TimephasedWork split;
-         if (splitStart.getTime() > splitFinish.getTime())
+         if (splitStart.isAfter(splitFinish))
          {
             split = null;
          }
