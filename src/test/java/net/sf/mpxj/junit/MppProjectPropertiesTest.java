@@ -119,7 +119,7 @@ public class MppProjectPropertiesTest
       // Create time and date formatters
       //
       DateTimeFormatter tf = DateTimeFormatter.ofPattern("HH:mm");
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
       //
       // Check the values of project properties.

@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import net.sf.mpxj.AccrueType;
@@ -401,8 +402,7 @@ public class MppTaskTest
     */
    private void testBasicTask(ProjectFile mpp)
    {
-
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
       ProjectProperties properties = mpp.getProjectProperties();
       assertNotNull(properties);
@@ -746,7 +746,7 @@ public class MppTaskTest
        * WBS
        */
 
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
       List<Task> listAllTasks = mpp.getTasks();
       List<Resource> listAllResources = mpp.getResources();
@@ -965,5 +965,5 @@ public class MppTaskTest
       assertEquals(RelationType.START_FINISH, relation.getType());
    }
 
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 }
