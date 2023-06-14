@@ -648,7 +648,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             //
             // Retrieve the start time for this day
             //
-            LocalTimeHelper.setTime(cal, getStartTime(LocalDateHelper.getLocalDate(cal)));
+            cal = LocalTimeHelper.setTime(cal, getStartTime(LocalDateHelper.getLocalDate(cal)));
          }
          else
          {
@@ -715,7 +715,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                }
             }
 
-            LocalTimeHelper.setEndTime(cal, endTime);
+            cal = LocalTimeHelper.setEndTime(cal, endTime);
          }
       }
 
@@ -792,7 +792,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             startTime = getStartTime(LocalDateHelper.getLocalDate(cal));
          }
 
-         LocalTimeHelper.setTime(cal, startTime);
+         cal = LocalTimeHelper.setTime(cal, startTime);
       }
 
       return cal;
@@ -851,7 +851,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             finishTime = getFinishTime(LocalDateHelper.getLocalDate(cal));
          }
 
-         LocalTimeHelper.setEndTime(cal, finishTime);
+         cal = LocalTimeHelper.setEndTime(cal, finishTime);
       }
 
       return cal;
