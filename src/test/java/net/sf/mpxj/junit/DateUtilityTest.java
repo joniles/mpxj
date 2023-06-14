@@ -24,9 +24,9 @@ public class DateUtilityTest
       LocalDateTime date1 = LocalDateTime.of(2014,1,15, 0, 0, 0);
       LocalDateTime date2 = LocalDateTime.of(2014,1,20, 0, 0, 0);
 
-      assertEquals(-1, DateHelper.compare(date1, date2));
-      assertEquals(1, DateHelper.compare(date2, date1));
-      assertEquals(0, DateHelper.compare(date1, date1));
+      assertTrue(DateHelper.compare(date1, date2) < 0);
+      assertTrue(DateHelper.compare(date2, date1) > 0);
+      assertTrue(DateHelper.compare(date1, date1) == 0);
    }
 
    /**
