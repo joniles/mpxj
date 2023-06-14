@@ -580,62 +580,62 @@ public class ProjectCalendarTest
       //
       // Add 1 hour offset by 1 hour from the start of the second range
       //
-      startDate = df.parse("09/10/2003 14:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 14, 0);
       duration = Duration.getInstance(1, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 15:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 9, 15, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals("09/10/2003 15:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 9, 15, 0), endDate);
 
       //
       // Full first range
       //
-      startDate = df.parse("09/10/2003 08:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(4, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 12:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 9, 12, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals("09/10/2003 13:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 9, 13, 0),  endDate);
 
       //
       // Full second range
       //
-      startDate = df.parse("09/10/2003 13:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 13, 0);
       duration = Duration.getInstance(4, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 17:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 9, 17, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals("10/10/2003 08:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 10, 8, 0), endDate);
 
       //
       // Offset full first range
       //
-      startDate = df.parse("09/10/2003 09:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(3, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 12:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 9, 12, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals("09/10/2003 13:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 9, 13, 0), endDate);
 
       //
       // Offset full second range
       //
-      startDate = df.parse("09/10/2003 14:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 14, 0);
       duration = Duration.getInstance(3, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 17:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 9, 17, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals("10/10/2003 08:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 10, 8, 0), endDate);
 
       //
       // Cross weekend
       //
-      startDate = df.parse("09/10/2003 8:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(24, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
-      assertEquals("13/10/2003 17:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 13, 17, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals("14/10/2003 08:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 14, 8, 0), endDate);
 
       //
       // Make Friday 10th a non-working day
@@ -645,12 +645,12 @@ public class ProjectCalendarTest
       //
       // Cross weekend with a non-working day exception
       //
-      startDate = df.parse("09/10/2003 8:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(24, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
-      assertEquals("14/10/2003 17:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 14, 17, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals("15/10/2003 08:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 15, 8, 0), endDate);
 
       //
       // Make Saturday 11th a working day
@@ -661,22 +661,22 @@ public class ProjectCalendarTest
       //
       // Cross weekend with a non-working day exception and a working day exception
       //
-      startDate = df.parse("09/10/2003 8:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(24, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
-      assertEquals("14/10/2003 12:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 14, 12, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals("14/10/2003 13:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 14, 13, 0), endDate);
 
       //
       // Make the start date a non-working day
       //
-      startDate = df.parse("12/10/2003 8:00");
+      startDate = LocalDateTime.of(2003, 10, 12, 8, 0);
       duration = Duration.getInstance(8, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
-      assertEquals("13/10/2003 17:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 13, 17, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals("14/10/2003 08:00", df.format(endDate));
+      assertEquals(LocalDateTime.of(2003, 10, 14, 8, 0), endDate);
    }
 
    /**
