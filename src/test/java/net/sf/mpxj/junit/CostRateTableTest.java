@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -277,5 +278,5 @@ public class CostRateTableTest
       assertEquals(overtimeRateFormat, entry.getOvertimeRate().getUnits());
    }
 
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 }

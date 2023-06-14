@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
@@ -175,5 +176,5 @@ public class AvailabilityTest
       assertEquals(units, entry.getUnits().doubleValue(), 0);
    }
 
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 }

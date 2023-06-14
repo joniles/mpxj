@@ -48,6 +48,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkContourContainer;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.MultiDateFormat;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
@@ -764,7 +765,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
                {
                   try
                   {
-                     objectValue = m_df.parseObject(fieldValue);
+                     objectValue = LocalDateTimeHelper.getLocalDateTime((java.util.Date)m_df.parseObject(fieldValue));
                   }
 
                   catch (ParseException ex)

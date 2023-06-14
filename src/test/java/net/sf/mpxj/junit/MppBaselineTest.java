@@ -26,6 +26,7 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
@@ -113,7 +114,7 @@ public class MppBaselineTest
     */
    private void testBaselineFields(ProjectFile mpp)
    {
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
       Task task = mpp.getTaskByID(Integer.valueOf(1));
 
       assertEquals(1, task.getBaselineCost(1).intValue());

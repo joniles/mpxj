@@ -26,6 +26,7 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -301,7 +302,7 @@ public class MppGanttTest
     */
    private void testProgressLines(ProjectFile file)
    {
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
       List<View> views = file.getViews();
 

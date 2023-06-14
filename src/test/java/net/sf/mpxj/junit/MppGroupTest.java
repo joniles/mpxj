@@ -29,6 +29,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import net.sf.mpxj.Group;
@@ -109,7 +110,7 @@ public class MppGroupTest
     */
    private void testGroups(ProjectFile mpp)
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
       Group group = mpp.getGroups().getByName("Group 1");
       assertNotNull(group);
@@ -227,7 +228,7 @@ public class MppGroupTest
       assertEquals(ColorType.BLACK.getColor(), font.getColor());
       assertEquals(ColorType.SILVER.getColor(), clause.getCellBackgroundColor());
       assertEquals(1, clause.getGroupOn());
-      assertEquals("07/02/2006 00:00", df.format(clause.getStartAt()));
+      assertEquals("07/02/2006 00:00", df.format((LocalDateTime)clause.getStartAt()));
       assertEquals(10, ((Integer) clause.getGroupInterval()).intValue());
       assertEquals(BackgroundPattern.CHECKERED, clause.getPattern());
    }

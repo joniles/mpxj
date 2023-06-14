@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import net.sf.mpxj.ProjectFile;
@@ -1276,5 +1277,5 @@ public class TimephasedTest
                   }
    */
 
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 }
