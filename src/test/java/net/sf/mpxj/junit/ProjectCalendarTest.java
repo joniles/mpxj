@@ -610,7 +610,7 @@ public class ProjectCalendarTest
       //
       // Offset full first range
       //
-      startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
+      startDate = LocalDateTime.of(2003, 10, 9, 9, 0);
       duration = Duration.getInstance(3, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
       assertEquals(LocalDateTime.of(2003, 10, 9, 12, 0), endDate);
