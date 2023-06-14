@@ -30,6 +30,7 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import java.util.HashMap;
@@ -281,7 +282,7 @@ final class XerWriter
 
    private final ProjectFile m_file;
    private final OutputStreamWriter m_writer;
-   private final Format m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+   private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
    private final Format m_timestampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
    private final DecimalFormat m_doubleFormat = new DecimalFormat("0.######");
    private final DecimalFormat m_currencyFormat = new DecimalFormat("0.0000");

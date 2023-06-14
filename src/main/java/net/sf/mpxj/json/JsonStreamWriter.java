@@ -411,7 +411,7 @@ public class JsonStreamWriter
    private final Deque<Boolean> m_firstNameValuePair = new ArrayDeque<>();
    private boolean m_pretty;
    private String m_indent = "";
-   private final DateFormat m_timestampFormat = new SimpleDateFormat("\"yyyy-MM-dd'T'HH:mm:ss.S\"");
+   private final DateTimeFormatter m_timestampFormat = DateTimeFormatter.ofPattern("\"yyyy-MM-dd'T'HH:mm:ss.S\"");
    private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("\"yyyy-MM-dd\"");
    private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("\"HH:mm\"");
 

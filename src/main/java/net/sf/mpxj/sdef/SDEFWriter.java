@@ -584,7 +584,7 @@ public final class SDEFWriter extends AbstractProjectWriter
    private OutputStreamWriter m_writer;
    private StringBuilder m_buffer;
    private Charset m_charset = StandardCharsets.US_ASCII;
-   private final Format m_formatter = new SimpleDateFormat("ddMMMyy");
+   private final DateTimeFormatter m_formatter = DateTimeFormatter.ofPattern("ddMMMyy");
    private final DateTimeFormatter m_localDateFormatter = DateTimeFormatter.ofPattern("ddMMMyy");
    private static final int MAX_EXCEPTIONS_PER_RECORD = 15;
 }
