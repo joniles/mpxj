@@ -1361,10 +1361,10 @@ public class BasicTest
 
       Task task = tasks.get(1);
       assertEquals("Task Text One", task.getText(1));
-      assertEquals(LocalDateTime.of(2004, 1, 1, 0, 0), task.getStart(1));
-      assertEquals("31/12/2004", df.format(task.getFinish(1)));
+      assertEquals(LocalDateTime.of(2004, 1, 1, 8, 0), task.getStart(1));
+      assertEquals(LocalDateTime.of(2004, 12, 31, 17, 0), task.getFinish(1));
       assertEquals(99.95, task.getCost(1).doubleValue(), 0.0);
-      assertEquals("18/07/2004", df.format(task.getDate(1)));
+      assertEquals(LocalDateTime.of(2004, 7, 18, 8, 0), task.getDate(1));
       assertTrue(task.getFlag(1));
       assertEquals(55.56, task.getNumber(1).doubleValue(), 0.0);
       assertEquals(13.0, task.getDuration(1).getDuration(), 0.0);
@@ -1375,10 +1375,10 @@ public class BasicTest
 
       Resource resource = resources.get(1);
       assertEquals("Resource Text One", resource.getText(1));
-      assertEquals("01/01/2003", df.format(resource.getStart(1)));
-      assertEquals("31/12/2003", df.format(resource.getFinish(1)));
+      assertEquals(LocalDateTime.of(2003, 1, 1, 8, 0), resource.getStart(1));
+      assertEquals(LocalDateTime.of(2003, 12, 31, 17, 0), resource.getFinish(1));
       assertEquals(29.99, resource.getCost(1).doubleValue(), 0.0);
-      assertEquals("18/07/2003", df.format(resource.getDate(1)));
+      assertEquals(LocalDateTime.of(2003, 7, 18, 8, 0), resource.getDate(1));
       assertTrue(resource.getFlag(1));
       assertEquals(5.99, resource.getNumber(1).doubleValue(), 0.0);
       assertEquals(22.0, resource.getDuration(1).getDuration(), 0.0);

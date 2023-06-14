@@ -2094,9 +2094,9 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //baseline.getBCWP()
          //baseline.getBCWS()
          Number cost = DatatypeConverter.parseCustomFieldCurrency(baseline.getCost());
-         LocalDateTime finish = LocalDateTimeHelper.getLocalDateTime(DatatypeConverter.parseCustomFieldDate(baseline.getFinish()));
+         LocalDateTime finish = DatatypeConverter.parseCustomFieldDate(baseline.getFinish());
          //baseline.getNumber()
-         LocalDateTime start = LocalDateTimeHelper.getLocalDateTime(DatatypeConverter.parseCustomFieldDate(baseline.getStart()));
+         LocalDateTime start = DatatypeConverter.parseCustomFieldDate(baseline.getStart());
          Duration work = DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, baseline.getWork());
 
          if (number == 0)

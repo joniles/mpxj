@@ -31,6 +31,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -155,9 +156,9 @@ public final class DatatypeConverter
     * @param value date value
     * @return string representation
     */
-   public static final String printCustomFieldDate(Date value)
+   public static final String printCustomFieldDate(LocalDateTime value)
    {
-      return (value == null ? null : DATE_FORMAT.get().format(value));
+      return (value == null ? null : LOCAL_DATE_TIME_FORMAT.get().format(value));
    }
 
    /**
@@ -211,18 +212,18 @@ public final class DatatypeConverter
     * @param value string representation
     * @return date value
     */
-   public static final Date parseCustomFieldDate(String value)
+   public static final LocalDateTime parseCustomFieldDate(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       if (value != null)
       {
          try
          {
-            result = DATE_FORMAT.get().parse(value);
+            result = LocalDateTime.parse(value, LOCAL_DATE_TIME_FORMAT.get());
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
             // ignore exceptions
          }
@@ -245,7 +246,7 @@ public final class DatatypeConverter
 
       if (type == DataType.DATE)
       {
-         result = printCustomFieldDate((Date) value);
+         result = printCustomFieldDate((LocalDateTime) value);
       }
       else
       {
@@ -2043,6 +2044,10 @@ public final class DatatypeConverter
       DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
       df.setLenient(false);
       return df;
+   });
+
+   private static final ThreadLocal<DateTimeFormatter> LOCAL_DATE_TIME_FORMAT = ThreadLocal.withInitial(() -> {
+      return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
    });
 
    private static final ThreadLocal<DateTimeFormatter> TIME_FORMAT = ThreadLocal.withInitial(() -> {

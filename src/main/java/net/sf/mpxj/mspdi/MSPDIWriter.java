@@ -2060,14 +2060,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
       if (date != null)
       {
          populated = true;
-         baseline.setFinish(DatatypeConverter.printCustomFieldDate(LocalDateTimeHelper.getDate(date)));
+         baseline.setFinish(DatatypeConverter.printCustomFieldDate(date));
       }
 
       date = mpxj.getBaselineStart();
       if (date != null)
       {
          populated = true;
-         baseline.setStart(DatatypeConverter.printCustomFieldDate(LocalDateTimeHelper.getDate(date)));
+         baseline.setStart(DatatypeConverter.printCustomFieldDate(date));
       }
 
       Duration duration = mpxj.getBaselineWork();
@@ -2099,14 +2099,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
          if (date != null)
          {
             populated = true;
-            baseline.setFinish(DatatypeConverter.printCustomFieldDate(LocalDateTimeHelper.getDate(date)));
+            baseline.setFinish(DatatypeConverter.printCustomFieldDate(date));
          }
 
          date = mpxj.getBaselineStart(loop);
          if (date != null)
          {
             populated = true;
-            baseline.setStart(DatatypeConverter.printCustomFieldDate(LocalDateTimeHelper.getDate(date)));
+            baseline.setStart(DatatypeConverter.printCustomFieldDate(date));
          }
 
          duration = mpxj.getBaselineWork(loop);
