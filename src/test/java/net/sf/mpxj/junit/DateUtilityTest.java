@@ -3,7 +3,6 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 import net.sf.mpxj.common.DateHelper;
@@ -20,11 +19,10 @@ public class DateUtilityTest
     * Validate that the DateUtility.compare method matches the semantics
     * of the Date.compareTo method when used with non-null values.
     */
-   @Test public void testCompare() throws Exception
+   @Test public void testCompare()
    {
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-      LocalDateTime date1 = df.parse("15/01/2014");
-      LocalDateTime date2 = df.parse("20/01/2014");
+      LocalDateTime date1 = LocalDateTime.of(2014,1,15, 0, 0, 0);
+      LocalDateTime date2 = LocalDateTime.of(2014,1,20, 0, 0, 0);
 
       assertEquals(-1, DateHelper.compare(date1, date2));
       assertEquals(1, DateHelper.compare(date2, date1));
@@ -35,11 +33,10 @@ public class DateUtilityTest
     * Validate that the DateUtility.min/max methods properly
     * handle null values.
     */
-   @Test public void testMinMax() throws Exception
+   @Test public void testMinMax()
    {
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-      LocalDateTime date1 = df.parse("15/01/2014");
-      LocalDateTime date2 = df.parse("20/01/2014");
+      LocalDateTime date1 = LocalDateTime.of(2014,1,15, 0, 0, 0);
+      LocalDateTime date2 = LocalDateTime.of(2014,1,20, 0, 0, 0);
 
       assertNull(DateHelper.min(null, null));
       assertEquals(date1, DateHelper.min(null, date1));

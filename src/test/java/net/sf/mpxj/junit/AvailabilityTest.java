@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
@@ -111,7 +112,7 @@ public class AvailabilityTest
     *
     * @param file project file
     */
-   private void testAvailability(ProjectFile file) throws Exception
+   private void testAvailability(ProjectFile file)
    {
       //
       // Resource with empty availability table
@@ -136,11 +137,11 @@ public class AvailabilityTest
       //
       // Validate date-based row selection
       //
-      assertNull(table.getEntryByDate(m_df.parse("01/05/2009 12:00")));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2009,5,1,12,0,0)));
       assertAvailabilityEquals("02/07/2009 00:00", "01/08/2009 23:59", 60.0, table, 1);
-      assertNull(table.getEntryByDate(m_df.parse("02/08/2009 12:00")));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2009,8,2,12,0,0)));
       assertAvailabilityEquals("20/08/2009 00:00", "30/08/2009 23:59", 75.0, table, 2);
-      assertNull(table.getEntryByDate(m_df.parse("01/09/2009 12:00")));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2009, 9, 1, 12, 0, 0)));
    }
 
    /**

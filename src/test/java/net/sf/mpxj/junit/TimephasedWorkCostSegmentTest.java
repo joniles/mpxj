@@ -25,7 +25,6 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -110,13 +109,12 @@ public class TimephasedWorkCostSegmentTest
     *
     * @param file ProjectFile instance
     */
-   private void testSegments(ProjectFile file) throws Exception
+   private void testSegments(ProjectFile file)
    {
       //
       // Set the start date
       //
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-      LocalDateTime startDate = df.parse("07/12/2011");
+      LocalDateTime startDate = LocalDateTime.of(2011, 12, 7, 0, 0, 0);
 
       //
       // Test each task

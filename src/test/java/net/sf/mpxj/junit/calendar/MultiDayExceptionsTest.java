@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
@@ -37,7 +37,6 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.junit.MpxjTestData;
 
 /**
@@ -68,8 +67,8 @@ public class MultiDayExceptionsTest
       ProjectFile project = new UniversalProjectReader().read(file);
       ProjectCalendar calendar = project.getCalendarByName("Standard");
 
-      Date startDate = DateHelper.getDayStartDate(df.parse("23/12/2019"));
-      Date endDate = DateHelper.getDayEndDate(df.parse("08/01/2020"));
+      LocalDateTime startDate = LocalDateTime.of(2019,12,23, 0, 0, 0);
+      LocalDateTime endDate = LocalDateTime.of(2020,1,8, 23, 59, 59);
 
       Duration duration = calendar.getWork(startDate, endDate, TimeUnit.DAYS);
 
