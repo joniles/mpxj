@@ -1361,7 +1361,7 @@ public class BasicTest
 
       Task task = tasks.get(1);
       assertEquals("Task Text One", task.getText(1));
-      assertEquals("01/01/2004", df.format(task.getStart(1)));
+      assertEquals(LocalDateTime.of(2004, 1, 1, 0, 0), task.getStart(1));
       assertEquals("31/12/2004", df.format(task.getFinish(1)));
       assertEquals(99.95, task.getCost(1).doubleValue(), 0.0);
       assertEquals("18/07/2004", df.format(task.getDate(1)));

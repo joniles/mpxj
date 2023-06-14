@@ -73,6 +73,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamTokenizer;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.SlackHelper;
@@ -1184,7 +1185,7 @@ public final class MPXReader extends AbstractProjectStreamReader
             {
                try
                {
-                  task.set(taskField, m_formats.getDateTimeFormat().parse(field));
+                  task.set(taskField, LocalDateTimeHelper.getLocalDateTime(m_formats.getDateTimeFormat().parse(field)));
                }
 
                catch (ParseException ex)
