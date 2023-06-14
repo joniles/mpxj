@@ -457,7 +457,7 @@ public final class DateHelper
    /**
     * Date representing NA at the start of a date range: January 01 00:00:00 1984.
     */
-   public static final LocalDateTime START_DATE_NA = LocalDateTimeHelper.getLocalDateTime(DateHelper.getTimestampFromLong(441763200000L));
+   public static final LocalDateTime START_DATE_NA = LocalDateTime.of(1984, 1, 1, 0, 0);
 
    /**
     * Date representing NA at the end of a date range: Friday December 31 23:59:00 2049.
@@ -470,7 +470,7 @@ public final class DateHelper
     * the end date as 2049, rather than NA, but this should still be interpreted correctly.
     * TODO: consider making this behaviour configurable.
     */
-   public static final LocalDateTime END_DATE_NA = LocalDateTimeHelper.getLocalDateTime(DateHelper.getTimestampFromLong(2524607940000L));
+   public static final LocalDateTime END_DATE_NA = LocalDateTime.of(2049, 12, 31, 23, 59);
 
    /**
     * Number of milliseconds per minute.
