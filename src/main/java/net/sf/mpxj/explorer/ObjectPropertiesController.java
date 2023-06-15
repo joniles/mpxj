@@ -27,6 +27,7 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -45,7 +46,7 @@ import net.sf.mpxj.Duration;
  */
 public class ObjectPropertiesController
 {
-   private final DateFormat m_dateFormat;
+   private final DateTimeFormatter m_dateFormat;
    private final ObjectPropertiesModel m_model;
 
    /**
@@ -56,7 +57,7 @@ public class ObjectPropertiesController
    public ObjectPropertiesController(ObjectPropertiesModel model)
    {
       m_model = model;
-      m_dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+      m_dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
    }
 
    /**
@@ -226,7 +227,7 @@ public class ObjectPropertiesController
       String result;
       if (value instanceof LocalDateTime)
       {
-         result = m_dateFormat.format(value);
+         result = m_dateFormat.format((LocalDateTime)value);
       }
       else
       {

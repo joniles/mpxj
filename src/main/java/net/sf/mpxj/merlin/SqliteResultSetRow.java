@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -82,7 +83,7 @@ final class SqliteResultSetRow extends MapRow
                }
                else
                {
-                  value = rs.getDate(name);
+                  value = LocalDateTimeHelper.getLocalDateTime(rs.getDate(name));
                }
                break;
             }
@@ -96,7 +97,7 @@ final class SqliteResultSetRow extends MapRow
                }
                else
                {
-                  value = DateHelper.getTimestampFromLong(TIMESTAMP_EPOCH + (ts * 1000));
+                  value = LocalDateTimeHelper.getLocalDateTime(DateHelper.getTimestampFromLong(TIMESTAMP_EPOCH + (ts * 1000)));
                }
                break;
             }

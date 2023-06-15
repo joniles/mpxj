@@ -155,7 +155,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       m_plannerProject.setCompany(properties.getCompany());
       m_plannerProject.setManager(properties.getManager());
       m_plannerProject.setName(getString(properties.getName()));
-      m_plannerProject.setProjectStart(getDateTime(properties.getStartDate()));
+      m_plannerProject.setProjectStart(getDateTimeString(properties.getStartDate()));
       m_plannerProject.setCalendar(getIntegerString(m_projectFile.getDefaultCalendar().getUniqueID()));
       m_plannerProject.setMrprojectVersion("2");
    }
@@ -681,33 +681,6 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * Convert a Planner date-time value into a Java date.
-    *
-    * 20070222T080000Z
-    *
-    * @param value Planner date-time
-    * @return Java Date instance
-    */
-   private String getDateTime(LocalDateTime value)
-   {
-      StringBuilder result = new StringBuilder(16);
-
-      if (value != null)
-      {
-         result.append(m_fourDigitFormat.format(value.getYear()));
-         result.append(m_twoDigitFormat.format(value.getMonthValue()));
-         result.append(m_twoDigitFormat.format(value.getDayOfMonth()));
-         result.append("T");
-         result.append(m_twoDigitFormat.format(value.getHour()));
-         result.append(m_twoDigitFormat.format(value.getMinute()));
-         result.append(m_twoDigitFormat.format(value.getSecond()));
-         result.append("Z");
-      }
-
-      return result.toString();
-   }
-
-   /**
     * Convert an Integer value into a String.
     *
     * @param value Integer value
@@ -837,7 +810,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       String result = null;
       if (value != null)
       {
-         result = m_fourDigitFormat.format(value.getYear()) + m_twoDigitFormat.format(value.getMonthValue() + 1) + m_twoDigitFormat.format(value.getDayOfMonth()) + 'T' + m_twoDigitFormat.format(value.getHour()) + m_twoDigitFormat.format(value.getMinute()) + m_twoDigitFormat.format(value.getSecond()) + 'Z';
+         result = m_fourDigitFormat.format(value.getYear()) + m_twoDigitFormat.format(value.getMonthValue()) + m_twoDigitFormat.format(value.getDayOfMonth()) + 'T' + m_twoDigitFormat.format(value.getHour()) + m_twoDigitFormat.format(value.getMinute()) + m_twoDigitFormat.format(value.getSecond()) + 'Z';
       }
       return result;
    }
