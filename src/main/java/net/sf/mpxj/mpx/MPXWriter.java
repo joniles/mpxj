@@ -27,6 +27,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -813,9 +814,9 @@ public final class MPXWriter extends AbstractProjectWriter
          boolean yearlyAbsolute = record.getRecurrenceType() == RecurrenceType.YEARLY && !record.getRelative();
 
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(formatDateTime(LocalDateHelper.getDate(record.getStartDate()))));
+         m_buffer.append(format(formatDateTime(record.getStartDate())));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(formatDateTime(LocalDateHelper.getDate(record.getFinishDate()))));
+         m_buffer.append(format(formatDateTime(record.getFinishDate())));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(RecurrenceUtility.getDurationValue(m_projectFile.getProjectProperties(), record.getDuration())));
          m_buffer.append(m_delimiter);
@@ -1192,12 +1193,22 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value date value
     * @return formatted date value
     */
-   private String formatDateTime(Object value)
+   private String formatDateTime(LocalDateTime value)
    {
       String result = null;
-      if (value instanceof LocalDateTime)
+      if (value != null)
       {
-         result = m_formats.getDateTimeFormat().format(LocalDateTimeHelper.getDate((LocalDateTime)value));
+         result = m_formats.getDateTimeFormat().format(LocalDateTimeHelper.getDate(value));
+      }
+      return result;
+   }
+
+   private String formatDateTime(LocalDate value)
+   {
+      String result = null;
+      if (value != null)
+      {
+         result = m_formats.getDateTimeFormat().format(LocalDateHelper.getDate(value));
       }
       return result;
    }
@@ -1479,7 +1490,7 @@ public final class MPXWriter extends AbstractProjectWriter
       {
          case DATE:
          {
-            value = formatDateTime(value);
+            value = formatDateTime((LocalDateTime)value);
             break;
          }
 

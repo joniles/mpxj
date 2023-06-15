@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.junit.ProjectUtility;
@@ -83,10 +84,13 @@ public class TaskStartsTest
     */
    private void testTaskStartDates(File file, Task task, int testIndex, int maxIndex, boolean useDateFormat)
    {
-      DateTimeFormatter format = useDateFormat ? m_dateFormat : m_dateTimeFormat;
       for (int index = 1; index <= maxIndex; index++)
       {
-         LocalDateTime expectedValue = testIndex == index ? LocalDateTime.parse(DATES[index - 1], format) : null;
+         LocalDateTime expectedValue = testIndex == index ? LocalDateTime.parse(DATES[index - 1], m_dateTimeFormat) : null;
+         if (useDateFormat && expectedValue != null)
+         {
+            expectedValue = LocalDateTime.of(expectedValue.toLocalDate(), LocalTime.MIDNIGHT);
+         }
          LocalDateTime actualValue = task.getStart(index);
 
          assertEquals(file.getName() + " Start" + index, expectedValue, actualValue);
@@ -94,7 +98,6 @@ public class TaskStartsTest
    }
 
    private final DateTimeFormatter m_dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-   private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
    private static final String[] DATES = new String[]
    {

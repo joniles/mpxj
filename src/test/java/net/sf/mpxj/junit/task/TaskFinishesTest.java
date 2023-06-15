@@ -30,6 +30,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.junit.ProjectUtility;
@@ -86,10 +87,13 @@ public class TaskFinishesTest
     */
    private void testTaskFinishDates(File file, Task task, int testIndex, int maxIndex, boolean useDateFormat) throws ParseException
    {
-      DateTimeFormatter format = useDateFormat ? m_dateFormat : m_dateTimeFormat;
       for (int index = 1; index <= maxIndex; index++)
       {
-         LocalDateTime expectedValue = testIndex == index ? LocalDateTime.parse(DATES[index - 1], format)  : null;
+         LocalDateTime expectedValue = testIndex == index ? LocalDateTime.parse(DATES[index - 1], m_dateTimeFormat)  : null;
+         if (useDateFormat && expectedValue != null)
+         {
+            expectedValue = LocalDateTime.of(expectedValue.toLocalDate(), LocalTime.MIDNIGHT);
+         }
          LocalDateTime actualValue = task.getFinish(index);
 
          assertEquals(file.getName() + " Finish" + index, expectedValue, actualValue);
@@ -97,7 +101,6 @@ public class TaskFinishesTest
    }
 
    private final DateTimeFormatter m_dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-   private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
    private static final String[] DATES = new String[]
    {
