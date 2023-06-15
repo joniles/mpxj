@@ -722,5 +722,5 @@ public class CustomerDataTest
    private static int TEST_COUNT;
    private static final boolean OS_IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
    private static final FieldReporter FIELD_REPORTER = new FieldReporter();
-   private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
+   private static final Date BASELINE_CURRENT_DATE = new Date(1544100702000L);
 }
