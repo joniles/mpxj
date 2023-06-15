@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -640,8 +642,22 @@ public final class PlannerWriter extends AbstractProjectWriter
          return lag;
       }
 
-      double minutes = (successorDate.getTime() - predecessorDate.getTime()) / (1000.0 * 60.0);
+      // When Planner calculates the lag, it doesn't account for DST changes.
+      // We mimic this by converting to LocalDateTime before calculating
+      // the difference between our dates.
+      //double minutes = (successorDate.getTime() - predecessorDate.getTime()) / (1000.0 * 60.0);
+      long milliseconds = getLocalDateTime(predecessorDate).until(getLocalDateTime(successorDate), ChronoUnit.MILLIS);
+      double minutes = milliseconds / (1000.0 * 60.0);
+
       return Duration.getInstance(minutes, TimeUnit.ELAPSED_MINUTES);
+   }
+
+   private LocalDateTime getLocalDateTime(Date date)
+   {
+      Calendar cal = DateHelper.popCalendar(date);
+      LocalDateTime result = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
+      DateHelper.pushCalendar(cal);
+      return result;
    }
 
    /**

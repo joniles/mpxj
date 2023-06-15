@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">When writing an XER file, provide the necessary default values to allow non-P6 schedules to be successfully imported into P6.</action>
 			<action dev="joniles" type="update">Ensure multi-day exceptions are written to XER files correctly.</action>
 			<action dev="joniles" type="update">Ensure GanttProject exception dates are read correctly.</action>
+			<action dev="joniles" type="update">More closely match the Planner predecessor lag calculation.</action>
 		</release>
 		<release date="2023-06-08" version="11.5.2">
 			<action dev="joniles" type="update">Improve accuracy of calendar data read from certain Powerproject schedules.</action>
