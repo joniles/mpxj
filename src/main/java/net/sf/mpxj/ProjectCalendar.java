@@ -584,7 +584,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    {
       ProjectProperties properties = getParentFile().getProjectProperties();
       long remainingMilliseconds = Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
-      //remainingMilliseconds = (remainingMilliseconds / 1000) * 1000;
 
       //
       // Can we skip come computation by working forward from the
@@ -720,6 +719,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
       }
 
+      // Truncate to remove milliseconds
       if (cal.getNano() != 0)
       {
          cal = LocalDateTime.of(cal.toLocalDate(), LocalTime.of(cal.getHour(), cal.getMinute(), cal.getSecond()));
