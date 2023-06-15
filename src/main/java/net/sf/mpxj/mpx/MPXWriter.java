@@ -27,6 +27,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -1194,9 +1195,9 @@ public final class MPXWriter extends AbstractProjectWriter
    private String formatDateTime(Object value)
    {
       String result = null;
-      if (value instanceof Date)
+      if (value instanceof LocalDateTime)
       {
-         result = m_formats.getDateTimeFormat().format(value);
+         result = m_formats.getDateTimeFormat().format(LocalDateTimeHelper.getDate((LocalDateTime)value));
       }
       return result;
    }

@@ -283,7 +283,7 @@ final class XerWriter
    private final ProjectFile m_file;
    private final OutputStreamWriter m_writer;
    private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-   private final Format m_timestampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+   private final DateTimeFormatter m_timestampFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
    private final DecimalFormat m_doubleFormat = new DecimalFormat("0.######");
    private final DecimalFormat m_currencyFormat = new DecimalFormat("0.0000");
    private final DecimalFormat m_maxUnitsFormat = new DecimalFormat("0.####");
@@ -292,7 +292,7 @@ final class XerWriter
    static
    {
       FORMAT_MAP.put(DateOnly.class, (w, o) -> w.m_dateFormat.format(((DateOnly) o).toDate()));
-      FORMAT_MAP.put(LocalDateTime.class, (w, o) -> w.m_timestampFormat.format(o));
+      FORMAT_MAP.put(LocalDateTime.class, (w, o) -> w.m_timestampFormat.format((LocalDateTime)o));
       FORMAT_MAP.put(Double.class, (w, o) -> w.m_doubleFormat.format(o));
       FORMAT_MAP.put(Boolean.class, (w, o) -> ((Boolean) o).booleanValue() ? "Y" : "N");
       FORMAT_MAP.put(Rate.class, (w, o) -> w.m_currencyFormat.format(((Rate) o).getAmount()));

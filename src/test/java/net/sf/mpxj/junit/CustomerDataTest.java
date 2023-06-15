@@ -724,5 +724,5 @@ public class CustomerDataTest
    private static int TEST_COUNT;
    private static final boolean OS_IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
    private static final FieldReporter FIELD_REPORTER = new FieldReporter();
-   private static final LocalDateTime BASELINE_CURRENT_DATE = LocalDateTimeHelper.getLocalDateTime(new java.util.Date(1544100702438L));
+   private static final LocalDateTime BASELINE_CURRENT_DATE = LocalDateTime.of(2018, 12, 6, 12, 51, 42);
 }
