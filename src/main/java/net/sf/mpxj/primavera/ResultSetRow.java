@@ -81,7 +81,7 @@ final class ResultSetRow extends MapRow
 
             case Types.DATE:
             {
-               value = rs.getDate(name);
+               value = LocalDateTimeHelper.getLocalDateTime(rs.getDate(name));
                break;
             }
 
