@@ -291,6 +291,7 @@ final class XerWriter
    {
       FORMAT_MAP.put(DateOnly.class, (w, o) -> w.m_dateFormat.format(((DateOnly) o).toDate()));
       FORMAT_MAP.put(Date.class, (w, o) -> w.m_timestampFormat.format(o));
+      FORMAT_MAP.put(java.sql.Date.class, (w, o) -> w.m_timestampFormat.format(o));
       FORMAT_MAP.put(Double.class, (w, o) -> w.m_doubleFormat.format(o));
       FORMAT_MAP.put(Boolean.class, (w, o) -> ((Boolean) o).booleanValue() ? "Y" : "N");
       FORMAT_MAP.put(Rate.class, (w, o) -> w.m_currencyFormat.format(((Rate) o).getAmount()));
