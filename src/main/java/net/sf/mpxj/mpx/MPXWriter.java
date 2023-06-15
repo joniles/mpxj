@@ -1187,6 +1187,21 @@ public final class MPXWriter extends AbstractProjectWriter
       return (value == null ? null : m_formats.getUnitsDecimalFormat().format(value.doubleValue() / 100));
    }
 
+   private String formatDateTime(Object value)
+   {
+      if (value instanceof LocalDateTime)
+      {
+         return formatDateTime((LocalDateTime)value);
+      }
+
+      if (value instanceof LocalDate)
+      {
+         return formatDateTime((LocalDate)value);
+      }
+
+      return null;
+   }
+
    /**
     * This method is called to format a date.
     *
@@ -1490,7 +1505,7 @@ public final class MPXWriter extends AbstractProjectWriter
       {
          case DATE:
          {
-            value = formatDateTime((LocalDateTime)value);
+            value = formatDateTime(value);
             break;
          }
 

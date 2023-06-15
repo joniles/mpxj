@@ -35,6 +35,7 @@ import java.util.Map.Entry;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -87,7 +88,7 @@ final class SqliteResultSetRow extends MapRow
                }
                else
                {
-                  value = rs.getDate(name);
+                  value = LocalDateTimeHelper.getLocalDateTime(rs.getDate(name));
                }
                break;
             }

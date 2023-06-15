@@ -2159,7 +2159,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       if (udf.getFinishDateValue() != null)
       {
-         return udf.getFinishDateValue();
+         return LocalDateTimeHelper.getLocalDateTime(udf.getFinishDateValue());
       }
 
       if (udf.getIndicatorValue() != null)
@@ -2174,7 +2174,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       if (udf.getStartDateValue() != null)
       {
-         return udf.getStartDateValue();
+         return LocalDateTimeHelper.getLocalDateTime(udf.getStartDateValue());
       }
 
       if (udf.getTextValue() != null)

@@ -27,6 +27,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import net.sf.mpxj.common.LocalDateTimeHelper;
+
 /**
  * SDEF Date Field.
  */
@@ -54,7 +56,7 @@ class DateField extends StringField
       {
          try
          {
-            result = DATE_FORMAT.get().parse(value);
+            result = LocalDateTimeHelper.getLocalDateTime(DATE_FORMAT.get().parse(value));
          }
 
          catch (ParseException e)
