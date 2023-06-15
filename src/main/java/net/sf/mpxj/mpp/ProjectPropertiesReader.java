@@ -145,7 +145,12 @@ public final class ProjectPropertiesReader
          {
             for (CustomProperty property : customProperties.properties())
             {
-               customPropertiesMap.put(property.getName(), property.getValue());
+               Object value = property.getValue();
+               if (value instanceof java.util.Date)
+               {
+                  value = LocalDateTimeHelper.getLocalDateTime((java.util.Date)value);
+               }
+               customPropertiesMap.put(property.getName(), value);
             }
          }
          ph.setCustomProperties(customPropertiesMap);

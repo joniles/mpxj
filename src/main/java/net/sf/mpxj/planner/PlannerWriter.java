@@ -151,11 +151,11 @@ public final class PlannerWriter extends AbstractProjectWriter
    private void writeProjectProperties()
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
-
+      String projectStart = properties.getStartDate() == null ? "" : getDateTimeString(properties.getStartDate());
       m_plannerProject.setCompany(properties.getCompany());
       m_plannerProject.setManager(properties.getManager());
       m_plannerProject.setName(getString(properties.getName()));
-      m_plannerProject.setProjectStart(getDateTimeString(properties.getStartDate()));
+      m_plannerProject.setProjectStart(projectStart);
       m_plannerProject.setCalendar(getIntegerString(m_projectFile.getDefaultCalendar().getUniqueID()));
       m_plannerProject.setMrprojectVersion("2");
    }
