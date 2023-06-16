@@ -222,6 +222,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processLocations() throws SQLException
    {
+      // Locations are a relative new feature - check for the presence of the table
       if (m_tableNames.contains("LOCATION"))
       {
          m_reader.processLocations(getRows("select * from " + m_schema + "location"));
