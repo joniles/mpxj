@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.ganttproject;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -48,7 +49,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = LocalDateTime.parse(value, DATE_FORMAT.get());
+            result = LocalDate.parse(value, DATE_FORMAT.get()).atStartOfDay();
          }
 
          catch (DateTimeParseException ex)

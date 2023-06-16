@@ -28,9 +28,11 @@ import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Locale;
@@ -1928,7 +1930,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = LocalDateTime.parse(value, DATE_FORMAT.get());
+            result = LocalDateTime.from(DATE_FORMAT.get().parse(value, new ParsePosition(0)));
          }
 
          catch (DateTimeParseException ex)
@@ -2037,7 +2039,7 @@ public final class DatatypeConverter
       return result;
    }
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> new DateTimeFormatterBuilder().parseLenient().appendPattern("yyyy-MM-dd'T'HH:mm:ss").toFormatter());
 
    private static final ThreadLocal<DateTimeFormatter> LOCAL_DATE_TIME_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
 

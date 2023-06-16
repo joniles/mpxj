@@ -730,7 +730,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod period = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayTimePeriod();
          day.setTimePeriod(period);
          period.setFromDate(exception.getFromDate().atStartOfDay());
-         period.setToDate(exception.getToDate().atStartOfDay());
+         period.setToDate(DateHelper.getDayEndDate(exception.getToDate()));
 
          if (working)
          {
