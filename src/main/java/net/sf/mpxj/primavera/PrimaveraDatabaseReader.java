@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -46,6 +47,7 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkContourContainer;
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.ConnectionHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResultSetHelper;
 import net.sf.mpxj.reader.AbstractProjectReader;
@@ -98,6 +100,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          ProjectFile project = m_reader.getProject();
          addListenersToProject(project);
 
+         processTableNames();
          processAnalytics();
          processUserDefinedFields();
          processLocations();
@@ -219,7 +222,10 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processLocations() throws SQLException
    {
-      m_reader.processLocations(getRows("select * from " + m_schema + "location"));
+      if (m_tableNames.contains("LOCATION"))
+      {
+         m_reader.processLocations(getRows("select * from " + m_schema + "location"));
+      }
    }
 
    /**
@@ -480,6 +486,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       throw new UnsupportedOperationException();
    }
 
+   private void processTableNames()  throws SQLException
+   {
+      allocateConnection();
+      m_tableNames = ConnectionHelper.getTableNames(m_connection);
+   }
+
    /**
     * Retrieve a number of rows matching the supplied query.
     *
@@ -681,6 +693,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private boolean m_allocatedConnection;
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
+   private Set<String> m_tableNames;
 
    private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
