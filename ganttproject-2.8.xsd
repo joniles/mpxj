@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+
+  <xs:complexType name="field">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="id" use="optional"/>
+        <xs:attribute type="xs:string" name="name" use="optional"/>
+        <xs:attribute type="xs:int" name="width" use="optional"/>
+        <xs:attribute type="xs:int" name="order" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="view">
+    <xs:sequence>
+      <xs:element type="field" name="field" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="zooming-state" use="optional"/>
+    <xs:attribute type="xs:string" name="id" use="optional"/>
+  </xs:complexType>
+  
+  <xs:complexType name="day-type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:int" name="id" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="default-week">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:int" name="id"/>
+        <xs:attribute type="xs:string" name="name"/>
+        <xs:attribute type="xs:int" name="sun"/>
+        <xs:attribute type="xs:int" name="mon"/>
+        <xs:attribute type="xs:int" name="tue"/>
+        <xs:attribute type="xs:int" name="wed"/>
+        <xs:attribute type="xs:int" name="thu"/>
+        <xs:attribute type="xs:int" name="fri"/>
+        <xs:attribute type="xs:int" name="sat"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="only-show-weekends">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="value"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="day-types">
+    <xs:sequence>
+      <xs:element type="day-type" name="day-type" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="default-week" name="default-week"/>
+      <xs:element type="only-show-weekends" name="only-show-weekends"/>
+      <xs:element type="xs:string" name="overriden-day-types"/>
+      <xs:element type="xs:string" name="days"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="date">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="year" use="optional"/>
+        <xs:attribute type="xs:int" name="month" use="optional"/>
+        <xs:attribute type="xs:int" name="date" use="optional"/>
+        <xs:attribute type="xs:string" name="type" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="calendars">
+    <xs:sequence>
+      <xs:element type="day-types" name="day-types"/>
+      <xs:element type="date" name="date" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="base-id"/>
+  </xs:complexType>
+  
+  <xs:complexType name="taskproperty">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="id" use="optional"/>
+        <xs:attribute type="xs:string" name="name" use="optional"/>
+        <xs:attribute type="xs:string" name="type" use="optional"/>
+        <xs:attribute type="xs:string" name="valuetype" use="optional"/>
+        <xs:attribute type="xs:string" name="defaultvalue" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="taskproperties">
+    <xs:sequence>
+      <xs:element type="taskproperty" name="taskproperty" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="depend">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:int" name="id" use="optional"/>
+        <xs:attribute type="xs:int" name="type" use="optional"/>
+        <xs:attribute type="xs:int" name="difference" use="optional"/>
+        <xs:attribute type="xs:string" name="hardness" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+    
+  <xs:complexType name="custom-task-property">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="taskproperty-id" use="optional"/>
+        <xs:attribute type="xs:string" name="value" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="task">
+    <xs:sequence>
+      <xs:sequence>
+        <xs:element type="depend" name="depend" maxOccurs="unbounded" minOccurs="0"/>
+      </xs:sequence>
+      <xs:element type="custom-task-property" name="customproperty" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="task" name="task" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:int" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="name" use="optional"/>
+    <xs:attribute type="xs:string" name="color" use="optional"/>
+    <xs:attribute type="xs:string" name="meeting" use="optional"/>
+    <xs:attribute type="xs:date" name="start" use="optional"/>
+    <xs:attribute type="xs:int" name="duration" use="optional"/>
+    <xs:attribute type="xs:int" name="complete" use="optional"/>
+    <xs:attribute type="xs:string" name="expand" use="optional"/>
+    <xs:attribute type="xs:date" name="thirdDate" use="optional"/>
+    <xs:attribute type="xs:int" name="thirdDate-constraint" use="optional"/>
+    <xs:attribute type="xs:int" name="priority" use="optional"/>
+    <xs:attribute type="xs:string" name="webLink" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="tasks">
+    <xs:sequence>
+      <xs:element type="taskproperties" name="taskproperties"/>
+      <xs:element type="task" name="task" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="empty-milestones"/>
+  </xs:complexType>
+  
+  <xs:complexType name="rate">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="name"/>
+        <xs:attribute type="xs:float" name="value"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="custom-resource-property">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="definition-id"/>
+        <xs:attribute type="xs:string" name="value"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="resource">
+    <xs:sequence>
+      <xs:element type="rate" name="rate" maxOccurs="1" minOccurs="0"/>
+      <xs:element type="custom-resource-property" name="custom-property" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:int" name="id" use="optional"/>
+    <xs:attribute type="xs:string" name="name" use="optional"/>
+    <xs:attribute type="xs:string" name="function" use="optional"/>
+    <xs:attribute type="xs:string" name="contacts" use="optional"/>
+    <xs:attribute type="xs:string" name="phone" use="optional"/>
+  </xs:complexType>
+    
+  <xs:complexType name="resources">
+    <xs:sequence>
+      <xs:element type="custom-property-definition" name="custom-property-definition"  maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="resource" name="resource" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="allocation">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:int" name="task-id" use="optional"/>
+        <xs:attribute type="xs:int" name="resource-id" use="optional"/>
+        <xs:attribute type="xs:string" name="function" use="optional"/>
+        <xs:attribute type="xs:string" name="responsible" use="optional"/>
+        <xs:attribute type="xs:float" name="load" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="allocations">
+    <xs:sequence>
+      <xs:element type="allocation" name="allocation" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="vacation">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:date" name="start"/>
+        <xs:attribute type="xs:date" name="end"/>
+        <xs:attribute type="xs:int" name="resourceid"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="vacations">
+    <xs:sequence>
+      <xs:element type="vacation" name="vacation"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="roles">
+    <xs:sequence>
+      <xs:element type="role" name="role" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="roleset-name" use="optional"/>
+  </xs:complexType>
+  
+  <xs:complexType name="role">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="id"/>
+        <xs:attribute type="xs:string" name="name"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="custom-property-definition">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="id"/>
+        <xs:attribute type="xs:string" name="name"/>
+        <xs:attribute type="xs:string" name="type"/>
+        <xs:attribute type="xs:string" name="default-value" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:element name="project">
+    <xs:complexType>
+	    <xs:sequence>
+	      <xs:element type="xs:string" name="description"/>
+	      <xs:element type="view" name="view" maxOccurs="unbounded" minOccurs="0"/>
+	      <xs:element type="calendars" name="calendars">
+	        <xs:annotation>
+	          <xs:documentation> </xs:documentation>
+	        </xs:annotation>
+	      </xs:element>
+	      <xs:element type="tasks" name="tasks"/>
+	      <xs:element type="resources" name="resources"/>
+	      <xs:element type="allocations" name="allocations"/>
+	      <xs:element type="vacations" name="vacations"/>
+	      <xs:element type="xs:string" name="previous"/>
+	      <xs:element type="roles" name="roles" maxOccurs="unbounded" minOccurs="0"/>
+	    </xs:sequence>
+	    <xs:attribute type="xs:string" name="name"/>
+	    <xs:attribute type="xs:string" name="company"/>
+	    <xs:attribute type="xs:anyURI" name="webLink"/>
+	    <xs:attribute type="xs:date" name="view-date"/>
+	    <xs:attribute type="xs:int" name="view-index"/>
+	    <xs:attribute type="xs:int" name="gantt-divider-location"/>
+	    <xs:attribute type="xs:int" name="resource-divider-location"/>
+	    <xs:attribute type="xs:string" name="version"/>
+	    <xs:attribute type="xs:string" name="locale"/>
+	  </xs:complexType>
+  </xs:element>
+</xs:schema>

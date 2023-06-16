@@ -1,0 +1,999 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:simpleType name="phoenixDuration">
+      <xs:restriction base="xs:string"/>
+   </xs:simpleType>
+   <xs:simpleType name="phoenixUuid">
+      <xs:restriction base="xs:string"/>
+   </xs:simpleType>
+   <xs:simpleType name="phoenixRelationType">
+      <xs:restriction base="xs:string"/>
+   </xs:simpleType>
+   <xs:simpleType name="phoenixTimeUnits">
+      <xs:restriction base="xs:string"/>
+   </xs:simpleType>
+   <xs:simpleType name="phoenixResourceType">
+      <xs:restriction base="xs:string"/>
+   </xs:simpleType>
+   <xs:simpleType name="phoenixDay">
+      <xs:restriction base="xs:string"/>
+   </xs:simpleType>
+   <xs:simpleType name="phoenixFinish">
+      <xs:restriction base="xs:string"/>
+   </xs:simpleType>
+   <!-- XML Schema Generated from XML Document on Tue Nov 24 2015 23:58:28
+      GMT+0000 (GMT) -->
+   <!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
+   <xs:element name="project">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="settings">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="export">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element name="sdef">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="code_mapping"/>
+                                    </xs:sequence>
+                                    <xs:attribute name="project_name" type="xs:string"/>
+                                    <xs:attribute name="project_identifier" type="xs:string"/>
+                                    <xs:attribute name="contract_number" type="xs:string"/>
+                                    <xs:attribute name="contractor_name" type="xs:string"/>
+                                    <xs:attribute name="yearless_holidays" type="xs:string"/>
+                                    <xs:attribute name="alphanumeric_calendar_codes" type="xs:string"/>
+                                    <xs:attribute name="alphanumeric_activity_ids" type="xs:string"/>
+                                    <xs:attribute name="negative_lag" type="xs:string"/>
+                                    <xs:attribute name="extended_constraint_types" type="xs:string"/>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="title" type="xs:string"/>
+                  <xs:attribute name="description" type="xs:string"/>
+                  <xs:attribute name="baseunit" type="phoenixTimeUnits"/>
+                  <xs:attribute name="cost_to_date_calculation" type="xs:string"/>
+                  <xs:attribute name="remaining_duration_link" type="xs:string"/>
+                  <xs:attribute name="resource_statusing" type="xs:string"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="storepoints">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="storepoint">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element name="calendars">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="calendar">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element maxOccurs="unbounded" name="non_work">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="type" type="xs:string"></xs:attribute>
+                                                      <xs:attribute name="weekday" type="phoenixDay"></xs:attribute>
+                                                      <xs:attribute name="count" type="xs:int"></xs:attribute>
+                                                      <xs:attribute name="interval" type="xs:int"></xs:attribute>
+                                                      <xs:attribute name="start" type="xs:dateTime"></xs:attribute>
+                                                      <xs:attribute name="until" type="xs:dateTime"></xs:attribute>
+                                                      <xs:attribute name="nth_dow" type="xs:int"></xs:attribute>
+                                                      <xs:attribute name="snaps_to_eom" type="xs:boolean"></xs:attribute>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="name" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="activity_codes">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="code">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element maxOccurs="unbounded" name="value">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="name" type="xs:string"/>
+                                                      <xs:attribute name="uuid" type="phoenixUuid"/>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="name" type="xs:string"/>
+                                             <xs:attribute name="uuid" type="phoenixUuid"/>
+                                             <xs:attribute name="none_uuid" type="phoenixUuid"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+
+                              <xs:element name="activities">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="activity">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="constraint">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="type" type="xs:string"></xs:attribute>
+                                                      <xs:attribute name="datetime" type="xs:dateTime"></xs:attribute>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                                <xs:element maxOccurs="unbounded" name="code_assignment">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="code_uuid" type="phoenixUuid"/>
+                                                      <xs:attribute name="value_uuid" type="phoenixUuid"/>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="id" type="xs:string"/>
+                                             <xs:attribute name="type" type="xs:string"/>
+                                             <xs:attribute name="description" type="xs:string"/>
+                                             <xs:attribute name="uuid" type="phoenixUuid"/>
+                                             <xs:attribute name="creation_time" type="xs:dateTime"/>
+                                             <xs:attribute name="total_cost" type="xs:int"/>
+                                             <xs:attribute name="billed" type="xs:int"/>
+                                             <xs:attribute name="explicit" type="xs:boolean"/>
+                                             <xs:attribute name="current_start" type="xs:dateTime"/>
+                                             <xs:attribute name="current_finish" type="phoenixFinish"/>
+                                             <xs:attribute name="actual_start" type="xs:dateTime"/>
+                                             <xs:attribute name="actual_finish" type="phoenixFinish"/>
+                                             <xs:attribute name="early_start" type="xs:dateTime"/>
+                                             <xs:attribute name="early_finish" type="phoenixFinish"/>
+                                             <xs:attribute name="late_start" type="xs:dateTime"/>
+                                             <xs:attribute name="late_finish" type="phoenixFinish"/>
+                                             <xs:attribute name="original_duration" type="phoenixDuration"/>
+                                             <xs:attribute name="actual_duration" type="phoenixDuration"/>
+                                             <xs:attribute name="duration_at_completion" type="phoenixDuration"/>
+                                             <xs:attribute name="remaining_duration" type="phoenixDuration"/>
+                                             <xs:attribute name="physical_percent_complete" type="xs:int"/>
+                                             <xs:attribute name="calendar" type="xs:string"/>
+                                             <xs:attribute name="cost_account" type="phoenixUuid"/>
+                                             <xs:attribute name="notes" type="xs:string"/>
+                                             <xs:attribute name="free_float" type="phoenixDuration"/>
+                                             <xs:attribute name="total_float" type="phoenixDuration"/>
+                                             <xs:attribute name="path_float" type="phoenixDuration"/>
+                                             <xs:attribute name="baseunit" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="resources">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="resource">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element maxOccurs="unbounded" name="assignment">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="activity" type="xs:string"/>
+                                                      <xs:attribute name="fixedfield" type="xs:string"/>
+                                                      <xs:attribute name="allocation" type="xs:int"/>
+                                                      <xs:attribute name="accrueat" type="xs:string"/>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="name" type="xs:string"/>
+                                             <xs:attribute name="uuid" type="phoenixUuid"/>
+                                             <xs:attribute name="type" type="phoenixResourceType"/>
+                                             <xs:attribute name="unitslabel" type="xs:string"/>
+                                             <xs:attribute name="maximum" type="xs:int"/>
+                                             <xs:attribute name="monetarybase" type="phoenixTimeUnits"/>
+                                             <xs:attribute name="unitsperbase" type="xs:int"/>
+                                             <xs:attribute name="monetaryrate" type="xs:int"/>
+                                             <xs:attribute name="monetarycostperuse" type="xs:int"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="relationships">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="relationship">
+                                          <xs:complexType>
+                                             <xs:attribute name="predecessor" type="xs:string"/>
+                                             <xs:attribute name="successor" type="xs:string"/>
+                                             <xs:attribute name="lag" type="phoenixDuration"/>
+                                             <xs:attribute name="type" type="phoenixRelationType"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                              <!-- <xs:element name="cost_accounts"><xs:complexType><xs:sequence><xs:element name="cost_account"><xs:complexType><xs:sequence><xs:element
+                                 name="cost_account" maxOccurs="unbounded"><xs:complexType><xs:sequence><xs:element name="cost_account" maxOccurs="unbounded"><xs:complexType><xs:attribute
+                                 name="uuid" type="xs:string"></xs:attribute><xs:attribute name="description"
+                                 type="xs:string"></xs:attribute></xs:complexType></xs:element></xs:sequence><xs:attribute name="uuid" type="xs:string"></xs:attribute><xs:attribute
+                                 name="description" type="xs:string"></xs:attribute></xs:complexType></xs:element></xs:sequence><xs:attribute name="uuid" type="xs:string"></xs:attribute><xs:attribute name="description" type="xs:string"></xs:attribute></xs:complexType></xs:element></xs:sequence></xs:complexType></xs:element><xs:element
+                                 name="cpm_checker_explanations"></xs:element>-->
+                           </xs:sequence>
+                           <xs:attribute name="name" type="xs:string"/>
+                           <xs:attribute name="uuid" type="phoenixUuid"/>
+                           <xs:attribute name="parent_uuid" type="phoenixUuid"/>
+                           <xs:attribute name="creation_time" type="xs:dateTime"/>
+                           <xs:attribute name="start" type="xs:dateTime"/>
+                           <xs:attribute name="data_date" type="xs:dateTime"/>
+                           <xs:attribute name="proposed_data_date" type="xs:dateTime"/>
+                           <xs:attribute name="default_calendar" type="xs:string"/>
+                           <xs:attribute name="id_increment" type="xs:int"/>
+                           <xs:attribute name="contiguous" type="xs:string"/>
+                           <xs:attribute name="ignore_actuals" type="xs:string"/>
+                           <xs:attribute name="ignore_data_date" type="xs:string"/>
+                           <xs:attribute name="interruptible" type="xs:string"/>
+                           <xs:attribute name="lag_calendar" type="xs:string"/>
+                           <xs:attribute name="progress_override" type="xs:string"/>
+                           <xs:attribute name="retained_logic" type="xs:string"/>
+                           <xs:attribute name="status_on_current" type="xs:string"/>
+                           <xs:attribute name="status_on_master" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="layouts">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="gantt_layout">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element name="date_format">
+                                 <xs:complexType>
+                                    <xs:attribute name="date_separator" type="xs:string"/>
+                                    <xs:attribute name="full_year" type="xs:string"/>
+                                    <xs:attribute name="military" type="xs:string"/>
+                                    <xs:attribute name="month_format" type="xs:string"/>
+                                    <xs:attribute name="order" type="xs:string"/>
+                                    <xs:attribute name="time_separator" type="xs:string"/>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="page_layout">
+                                 <xs:complexType>
+                                    <xs:attribute name="buffer" type="xs:int"/>
+                                    <xs:attribute name="custom_finish_date" type="xs:string"/>
+                                    <xs:attribute name="custom_start_date" type="xs:string"/>
+                                    <xs:attribute name="description" type="xs:string"/>
+                                    <xs:attribute name="description_font" type="xs:string"/>
+                                    <xs:attribute name="description_foreground" type="xs:string"/>
+                                    <xs:attribute name="description_horizontal_align" type="xs:string"/>
+                                    <xs:attribute name="description_vertical_align" type="xs:string"/>
+                                    <xs:attribute name="fit_pages" type="xs:int"/>
+                                    <xs:attribute name="footer_location" type="xs:string"/>
+                                    <xs:attribute name="footer_pages" type="xs:string"/>
+                                    <xs:attribute name="range_finish" type="xs:string"/>
+                                    <xs:attribute name="range_start" type="xs:string"/>
+                                    <xs:attribute name="show_data_date" type="xs:string"/>
+                                    <xs:attribute name="show_filename" type="xs:string"/>
+                                    <xs:attribute name="show_finish_date" type="xs:string"/>
+                                    <xs:attribute name="show_run_date" type="xs:string"/>
+                                    <xs:attribute name="show_start_date" type="xs:string"/>
+                                    <xs:attribute name="user_scale" type="xs:int"/>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="currency">
+                                 <xs:complexType>
+                                    <xs:attribute name="decimal" type="xs:string"/>
+                                    <xs:attribute name="digits" type="xs:int"/>
+                                    <xs:attribute name="position" type="xs:int"/>
+                                    <xs:attribute name="symbol" type="xs:string"/>
+                                    <xs:attribute name="thousands" type="xs:string"/>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="timescale">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="tier">
+                                          <xs:complexType>
+                                             <xs:attribute name="background_color" type="xs:string"/>
+                                             <xs:attribute name="font" type="xs:string"/>
+                                             <xs:attribute name="font_color" type="xs:string"/>
+                                             <xs:attribute name="level" type="xs:int"/>
+                                             <xs:attribute name="show" type="xs:string"/>
+                                             <xs:attribute name="unit" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="bars">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="bar">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element maxOccurs="unbounded" name="bar_point">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="brush_color" type="xs:string"/>
+                                                      <xs:attribute name="brush_style" type="xs:string"/>
+                                                      <xs:attribute name="color_overrides" type="xs:string"/>
+                                                      <xs:attribute name="endpoint_style" type="xs:string"/>
+                                                      <xs:attribute name="expression" type="xs:string"/>
+                                                      <xs:attribute name="relatable" type="xs:string"/>
+                                                      <xs:attribute name="type" type="xs:string"/>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="brush_background_color" type="xs:string"/>
+                                             <xs:attribute name="brush_foreground_color" type="xs:string"/>
+                                             <xs:attribute name="brush_hatch" type="xs:string"/>
+                                             <xs:attribute name="brush_style" type="xs:string"/>
+                                             <xs:attribute name="color_overrides" type="xs:string"/>
+                                             <xs:attribute name="comparison_template" type="xs:string"/>
+                                             <xs:attribute name="filter_uuid" type="phoenixUuid"/>
+                                             <xs:attribute name="height" type="xs:int"/>
+                                             <xs:attribute name="name" type="xs:string"/>
+                                             <xs:attribute name="row" type="xs:int"/>
+                                             <xs:attribute name="storepoint_filter" type="xs:string"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+<!--
+                              <xs:element name="sightlines">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="interval_sightline">
+                                          <xs:complexType>
+                                             <xs:attribute name="base_unit" type="xs:string"/>
+                                             <xs:attribute name="color" type="xs:string"/>
+                                             <xs:attribute name="interval" type="xs:int"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                             <xs:attribute name="width" type="xs:int"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element maxOccurs="unbounded" name="expression_sightline">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="tag">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="side" type="xs:string"/>
+                                                      <xs:attribute name="static_label" type="xs:string"/>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="color" type="xs:string"/>
+                                             <xs:attribute name="expression" type="xs:string"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                             <xs:attribute name="width" type="xs:int"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="net">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="start">
+                                                   <xs:complexType>
+                                                      <xs:sequence>
+                                                         <xs:element name="expression_sightline">
+                                                            <xs:complexType>
+                                                               <xs:sequence>
+                                                                  <xs:element name="tag">
+                                                                     <xs:complexType>
+                                                                        <xs:attribute name="side" type="xs:string"/>
+                                                                        <xs:attribute name="static_label" type="xs:string"/>
+                                                                     </xs:complexType>
+                                                                  </xs:element>
+                                                               </xs:sequence>
+                                                               <xs:attribute name="color" type="xs:string"/>
+                                                               <xs:attribute name="expression" type="xs:string"/>
+                                                               <xs:attribute name="style" type="xs:string"/>
+                                                               <xs:attribute name="width" type="xs:int"/>
+                                                            </xs:complexType>
+                                                         </xs:element>
+                                                      </xs:sequence>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                                <xs:element name="finish">
+                                                   <xs:complexType>
+                                                      <xs:sequence>
+                                                         <xs:element name="expression_sightline">
+                                                            <xs:complexType>
+                                                               <xs:sequence>
+                                                                  <xs:element name="tag">
+                                                                     <xs:complexType>
+                                                                        <xs:attribute name="side" type="xs:string"/>
+                                                                        <xs:attribute name="static_label" type="xs:string"/>
+                                                                     </xs:complexType>
+                                                                  </xs:element>
+                                                               </xs:sequence>
+                                                               <xs:attribute name="color" type="xs:string"/>
+                                                               <xs:attribute name="expression" type="xs:string"/>
+                                                               <xs:attribute name="style" type="xs:string"/>
+                                                               <xs:attribute name="width" type="xs:int"/>
+                                                            </xs:complexType>
+                                                         </xs:element>
+                                                      </xs:sequence>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="background_color" type="xs:string"/>
+                                             <xs:attribute name="foreground_color" type="xs:string"/>
+                                             <xs:attribute name="hatch" type="xs:string"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="expression_sightline">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="tag">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="side" type="xs:string"/>
+                                                      <xs:attribute name="static_label" type="xs:string"/>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="color" type="xs:string"/>
+                                             <xs:attribute name="expression" type="xs:string"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                             <xs:attribute name="width" type="xs:int"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="net">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="start">
+                                                   <xs:complexType>
+                                                      <xs:sequence>
+                                                         <xs:element name="expression_sightline">
+                                                            <xs:complexType>
+                                                               <xs:attribute name="color" type="xs:string"/>
+                                                               <xs:attribute name="expression" type="xs:string"/>
+                                                               <xs:attribute name="style" type="xs:string"/>
+                                                               <xs:attribute name="width" type="xs:int"/>
+                                                            </xs:complexType>
+                                                         </xs:element>
+                                                      </xs:sequence>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                                <xs:element name="finish">
+                                                   <xs:complexType>
+                                                      <xs:sequence>
+                                                         <xs:element name="expression_sightline">
+                                                            <xs:complexType>
+                                                               <xs:sequence>
+                                                                  <xs:element name="tag">
+                                                                     <xs:complexType>
+                                                                        <xs:attribute name="side" type="xs:string"/>
+                                                                        <xs:attribute name="static_label" type="xs:string"/>
+                                                                     </xs:complexType>
+                                                                  </xs:element>
+                                                               </xs:sequence>
+                                                               <xs:attribute name="color" type="xs:string"/>
+                                                               <xs:attribute name="expression" type="xs:string"/>
+                                                               <xs:attribute name="style" type="xs:string"/>
+                                                               <xs:attribute name="width" type="xs:int"/>
+                                                            </xs:complexType>
+                                                         </xs:element>
+                                                      </xs:sequence>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="background_color" type="xs:string"/>
+                                             <xs:attribute name="foreground_color" type="xs:string"/>
+                                             <xs:attribute name="hatch" type="xs:string"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="expression_sightline">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="tag">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="side" type="xs:string"/>
+                                                      <xs:attribute name="static_label" type="xs:string"/>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="color" type="xs:string"/>
+                                             <xs:attribute name="expression" type="xs:string"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                             <xs:attribute name="width" type="xs:int"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+-->
+                              <xs:element name="code_options">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="code_option">
+                                          <xs:complexType>
+                                             <xs:attribute name="code_uuid" type="phoenixUuid"/>
+                                             <xs:attribute name="color" type="xs:string"/>
+                                             <xs:attribute name="font" type="xs:string"/>
+                                             <xs:attribute name="font_color" type="xs:string"/>
+                                             <xs:attribute name="shown" type="xs:boolean"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="sort">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="sort_column">
+                                          <xs:complexType>
+                                             <xs:attribute name="ascending" type="xs:string"/>
+                                             <xs:attribute name="data" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="columns">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="column">
+                                          <xs:complexType>
+                                             <xs:attribute name="label" type="xs:string"/>
+                                             <xs:attribute name="width" type="xs:int"/>
+                                             <xs:attribute name="data" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="background_color" type="xs:string"/>
+                                    <xs:attribute name="font_color" type="xs:string"/>
+                                    <xs:attribute name="font" type="xs:string"/>
+                                    <xs:attribute name="vertical_align" type="xs:string"/>
+                                    <xs:attribute name="horizontal_align" type="xs:string"/>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="comparisons">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="comparison">
+                                          <xs:complexType>
+                                             <xs:attribute name="color" type="xs:string"/>
+                                             <xs:attribute name="list_name" type="xs:string"/>
+                                             <xs:attribute name="uuid" type="phoenixUuid"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="match_by" type="xs:string"/>
+                                    <xs:attribute name="row_formatting" type="xs:string"/>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                           <xs:attribute name="active_storepoint" type="xs:string"/>
+                           <xs:attribute name="auto_row_sizing" type="xs:string"/>
+                           <xs:attribute name="baseline" type="xs:string"/>
+                           <xs:attribute name="critical_bar_outlines" type="xs:string"/>
+                           <xs:attribute name="critical_bars" type="xs:string"/>
+                           <xs:attribute name="critical_color" type="xs:string"/>
+                           <xs:attribute name="critical_milestones" type="xs:string"/>
+                           <xs:attribute name="critical_relationships" type="xs:string"/>
+                           <xs:attribute name="critical_tasks" type="xs:string"/>
+                           <xs:attribute name="critical_threshold" type="xs:int"/>
+                           <xs:attribute name="criticality_method" type="xs:string"/>
+                           <xs:attribute name="custom_row_size" type="xs:int"/>
+                           <xs:attribute name="group_headings" type="xs:string"/>
+                           <xs:attribute name="group_summary_cells" type="xs:string"/>
+                           <xs:attribute name="name" type="xs:string"/>
+                           <xs:attribute name="row_background" type="xs:string"/>
+                           <xs:attribute name="row_font" type="xs:string"/>
+                           <xs:attribute name="row_foreground" type="xs:string"/>
+                           <xs:attribute name="row_grid_lines_color" type="xs:string"/>
+                           <xs:attribute name="show_nondriving_relationships" type="xs:string"/>
+                           <xs:attribute name="show_only_critical" type="xs:string"/>
+                           <xs:attribute name="show_relationships" type="xs:string"/>
+                           <xs:attribute name="show_retained_logic_relationships" type="xs:string"/>
+                           <xs:attribute name="track_newest" type="xs:string"/>
+                           <xs:attribute name="uuid" type="phoenixUuid"/>
+                           <xs:attribute name="work_remaining" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                     <xs:element maxOccurs="unbounded" name="network_layout">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element name="date_format">
+                                 <xs:complexType>
+                                    <xs:attribute name="order" type="xs:string"/>
+                                    <xs:attribute name="military" type="xs:string"/>
+                                    <xs:attribute name="date_separator" type="xs:string"/>
+                                    <xs:attribute name="time_separator" type="xs:string"/>
+                                    <xs:attribute name="full_year" type="xs:string"/>
+                                    <xs:attribute name="month_format" type="xs:string"/>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="page_layout">
+                                 <xs:complexType>
+                                    <xs:attribute name="range_start" type="xs:string"/>
+                                    <xs:attribute name="range_finish" type="xs:string"/>
+                                    <xs:attribute name="custom_finish_date" type="xs:string"/>
+                                    <xs:attribute name="fit_pages" type="xs:int"/>
+                                    <xs:attribute name="user_scale" type="xs:int"/>
+                                    <xs:attribute name="buffer" type="xs:int"/>
+
+                                    <xs:attribute name="footer_location" type="xs:string"/>
+                                    <xs:attribute name="footer_pages" type="xs:string"/>
+                                    <xs:attribute name="description" type="xs:string"/>
+                                    <xs:attribute name="custom_start_date" type="xs:string"/>
+                                    <xs:attribute name="description_font" type="xs:string"/>
+                                    <xs:attribute name="description_foreground" type="xs:string"/>
+                                    <xs:attribute name="description_horizontal_align" type="xs:string"/>
+                                    <xs:attribute name="description_vertical_align" type="xs:string"/>
+                                    <xs:attribute name="show_data_date" type="xs:string"/>
+                                    <xs:attribute name="show_filename" type="xs:string"/>
+                                    <xs:attribute name="show_finish_date" type="xs:string"/>
+                                    <xs:attribute name="show_run_date" type="xs:string"/>
+                                    <xs:attribute name="show_start_date" type="xs:string"/>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="currency">
+                                 <xs:complexType>
+                                    <xs:attribute name="decimal" type="xs:string"/>
+                                    <xs:attribute name="digits" type="xs:int"/>
+                                    <xs:attribute name="position" type="xs:int"/>
+                                    <xs:attribute name="symbol" type="xs:string"/>
+                                    <xs:attribute name="thousands" type="xs:string"/>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="timescale">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="tier">
+                                          <xs:complexType>
+                                             <xs:attribute name="background_color" type="xs:string"/>
+                                             <xs:attribute name="font" type="xs:string"/>
+                                             <xs:attribute name="font_color" type="xs:string"/>
+                                             <xs:attribute name="level" type="xs:int"/>
+                                             <xs:attribute name="show" type="xs:string"/>
+                                             <xs:attribute name="unit" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="bars">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="bar">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element maxOccurs="unbounded" name="bar_point">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="brush_color" type="xs:string"/>
+                                                      <xs:attribute name="brush_style" type="xs:string"/>
+                                                      <xs:attribute name="color_overrides" type="xs:string"/>
+                                                      <xs:attribute name="endpoint_style" type="xs:string"/>
+                                                      <xs:attribute name="expression" type="xs:string"/>
+                                                      <xs:attribute name="relatable" type="xs:string"/>
+                                                      <xs:attribute name="type" type="xs:string"/>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="brush_background_color" type="xs:string"/>
+                                             <xs:attribute name="brush_foreground_color" type="xs:string"/>
+                                             <xs:attribute name="brush_hatch" type="xs:string"/>
+                                             <xs:attribute name="brush_style" type="xs:string"/>
+                                             <xs:attribute name="color_overrides" type="xs:string"/>
+                                             <xs:attribute name="comparison_template" type="xs:string"/>
+                                             <xs:attribute name="filter_uuid" type="xs:string"/>
+                                             <xs:attribute name="height" type="xs:int"/>
+                                             <xs:attribute name="name" type="xs:string"/>
+                                             <xs:attribute name="row" type="xs:int"/>
+                                             <xs:attribute name="storepoint_filter" type="xs:string"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+<!--
+                              <xs:element name="sightlines">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="interval_sightline">
+                                          <xs:complexType>
+                                             <xs:attribute name="base_unit" type="xs:string"/>
+                                             <xs:attribute name="color" type="xs:string"/>
+                                             <xs:attribute name="interval" type="xs:int"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                             <xs:attribute name="width" type="xs:int"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element maxOccurs="unbounded" name="expression_sightline">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="tag">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="side" type="xs:string"/>
+                                                      <xs:attribute name="static_label" type="xs:string"/>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="color" type="xs:string"/>
+                                             <xs:attribute name="expression" type="xs:string"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                             <xs:attribute name="width" type="xs:int"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="net">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="start">
+                                                   <xs:complexType>
+                                                      <xs:sequence>
+                                                         <xs:element name="expression_sightline">
+                                                            <xs:complexType>
+                                                               <xs:sequence>
+                                                                  <xs:element name="tag">
+                                                                     <xs:complexType>
+                                                                        <xs:attribute name="side" type="xs:string"/>
+                                                                        <xs:attribute name="static_label" type="xs:string"/>
+                                                                     </xs:complexType>
+                                                                  </xs:element>
+                                                               </xs:sequence>
+                                                               <xs:attribute name="color" type="xs:string"/>
+                                                               <xs:attribute name="expression" type="xs:string"/>
+                                                               <xs:attribute name="style" type="xs:string"/>
+                                                               <xs:attribute name="width" type="xs:int"/>
+                                                            </xs:complexType>
+                                                         </xs:element>
+                                                      </xs:sequence>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                                <xs:element name="finish">
+                                                   <xs:complexType>
+                                                      <xs:sequence>
+                                                         <xs:element name="expression_sightline">
+                                                            <xs:complexType>
+                                                               <xs:sequence>
+                                                                  <xs:element name="tag">
+                                                                     <xs:complexType>
+                                                                        <xs:attribute name="side" type="xs:string"/>
+                                                                        <xs:attribute name="static_label" type="xs:string"/>
+                                                                     </xs:complexType>
+                                                                  </xs:element>
+                                                               </xs:sequence>
+                                                               <xs:attribute name="color" type="xs:string"/>
+                                                               <xs:attribute name="expression" type="xs:string"/>
+                                                               <xs:attribute name="style" type="xs:string"/>
+                                                               <xs:attribute name="width" type="xs:int"/>
+                                                            </xs:complexType>
+                                                         </xs:element>
+                                                      </xs:sequence>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="background_color" type="xs:string"/>
+                                             <xs:attribute name="foreground_color" type="xs:string"/>
+                                             <xs:attribute name="hatch" type="xs:string"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="expression_sightline">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="tag">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="side" type="xs:string"/>
+                                                      <xs:attribute name="static_label" type="xs:string"/>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="color" type="xs:string"/>
+                                             <xs:attribute name="expression" type="xs:string"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                             <xs:attribute name="width" type="xs:int"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="net">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="start">
+                                                   <xs:complexType>
+                                                      <xs:sequence>
+                                                         <xs:element name="expression_sightline">
+                                                            <xs:complexType>
+                                                               <xs:attribute name="color" type="xs:string"/>
+                                                               <xs:attribute name="expression" type="xs:string"/>
+                                                               <xs:attribute name="style" type="xs:string"/>
+                                                               <xs:attribute name="width" type="xs:int"/>
+                                                            </xs:complexType>
+                                                         </xs:element>
+                                                      </xs:sequence>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                                <xs:element name="finish">
+                                                   <xs:complexType>
+                                                      <xs:sequence>
+                                                         <xs:element name="expression_sightline">
+                                                            <xs:complexType>
+                                                               <xs:sequence>
+                                                                  <xs:element name="tag">
+                                                                     <xs:complexType>
+                                                                        <xs:attribute name="side" type="xs:string"/>
+                                                                        <xs:attribute name="static_label" type="xs:string"/>
+                                                                     </xs:complexType>
+                                                                  </xs:element>
+                                                               </xs:sequence>
+                                                               <xs:attribute name="color" type="xs:string"/>
+                                                               <xs:attribute name="expression" type="xs:string"/>
+                                                               <xs:attribute name="style" type="xs:string"/>
+                                                               <xs:attribute name="width" type="xs:int"/>
+                                                            </xs:complexType>
+                                                         </xs:element>
+                                                      </xs:sequence>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="background_color" type="xs:string"/>
+                                             <xs:attribute name="foreground_color" type="xs:string"/>
+                                             <xs:attribute name="hatch" type="xs:string"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="expression_sightline">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element name="tag">
+                                                   <xs:complexType>
+                                                      <xs:attribute name="side" type="xs:string"/>
+                                                      <xs:attribute name="static_label" type="xs:string"/>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                             <xs:attribute name="color" type="xs:string"/>
+                                             <xs:attribute name="expression" type="xs:string"/>
+                                             <xs:attribute name="style" type="xs:string"/>
+                                             <xs:attribute name="visible" type="xs:string"/>
+                                             <xs:attribute name="width" type="xs:int"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+-->
+                              <xs:element name="code_options">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="code_option">
+                                          <xs:complexType>
+                                             <xs:attribute name="shown" type="xs:boolean"/>
+                                             <xs:attribute name="color" type="xs:string"/>
+
+                                             <xs:attribute name="code_uuid" type="phoenixUuid"/>
+                                             <xs:attribute name="font_color" type="xs:string"/>
+                                             <xs:attribute name="font" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="network_labels_visible" type="xs:string"/>
+                                    <xs:attribute name="network_outlines_visible" type="xs:string"/>
+                                    <xs:attribute name="network_backgrounds_visible" type="xs:string"/>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="network_lines">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="network_activity">
+                                          <xs:complexType>
+                                             <xs:attribute name="line" type="xs:int"/>
+                                             <xs:attribute name="uuid" type="phoenixUuid"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="network_start_node_dates">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="node_date">
+                                          <xs:complexType>
+                                             <xs:attribute name="alignment" type="xs:string"/>
+                                             <xs:attribute name="fontface" type="xs:string"/>
+                                             <xs:attribute name="fontfamily" type="xs:string"/>
+                                             <xs:attribute name="fontpoint" type="xs:int"/>
+                                             <xs:attribute name="fontstyle" type="xs:string"/>
+                                             <xs:attribute name="fontunderline" type="xs:string"/>
+                                             <xs:attribute name="fontweight" type="xs:string"/>
+                                             <xs:attribute name="foreground_color" type="xs:string"/>
+                                             <xs:attribute name="id" type="xs:int"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="network_finish_node_dates">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element maxOccurs="unbounded" name="node_date">
+                                          <xs:complexType>
+                                             <xs:attribute name="alignment" type="xs:string"/>
+                                             <xs:attribute name="fontface" type="xs:string"/>
+                                             <xs:attribute name="fontfamily" type="xs:string"/>
+                                             <xs:attribute name="fontpoint" type="xs:int"/>
+                                             <xs:attribute name="fontstyle" type="xs:string"/>
+                                             <xs:attribute name="fontunderline" type="xs:string"/>
+                                             <xs:attribute name="fontweight" type="xs:string"/>
+                                             <xs:attribute name="foreground_color" type="xs:string"/>
+                                             <xs:attribute name="id" type="xs:int"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                           <xs:attribute name="name" type="xs:string"/>
+                           <xs:attribute name="active_storepoint" type="xs:string"/>
+                           <xs:attribute name="baseline" type="xs:string"/>
+                           <xs:attribute name="critical_bar_outlines" type="xs:string"/>
+                           <xs:attribute name="critical_bars" type="xs:string"/>
+                           <xs:attribute name="critical_color" type="xs:string"/>
+                           <xs:attribute name="critical_milestones" type="xs:string"/>
+                           <xs:attribute name="critical_relationships" type="xs:string"/>
+                           <xs:attribute name="critical_tasks" type="xs:string"/>
+                           <xs:attribute name="critical_threshold" type="xs:int"/>
+                           <xs:attribute name="criticality_method" type="xs:string"/>
+                           <xs:attribute name="show_nondriving_relationships" type="xs:string"/>
+                           <xs:attribute name="show_only_critical" type="xs:string"/>
+                           <xs:attribute name="show_relationships" type="xs:string"/>
+                           <xs:attribute name="show_retained_logic_relationships" type="xs:string"/>
+                           <xs:attribute name="track_newest" type="xs:string"/>
+                           <xs:attribute name="uuid" type="phoenixUuid"/>
+                           <xs:attribute name="work_remaining" type="xs:string"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="network_line_height" type="xs:int"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="filters">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element maxOccurs="unbounded" name="filter">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element name="container_criteria">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="binary_criteria">
+                                          <xs:complexType>
+                                             <xs:attribute name="left_data_tag" type="xs:string"/>
+                                             <xs:attribute name="operator" type="xs:string"/>
+                                             <xs:attribute name="right_data_tag" type="xs:string"/>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="reduce_operator" type="xs:string"/>
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                           <xs:attribute name="name" type="xs:string"/>
+                           <xs:attribute name="uuid" type="phoenixUuid"/>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+         </xs:sequence>
+         <xs:attribute name="application" type="xs:string"/>
+         <xs:attribute name="application_version" type="xs:string"/>
+         <xs:attribute name="version" type="xs:double"/>
+      </xs:complexType>
+   </xs:element>
+</xs:schema>

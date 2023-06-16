@@ -227,9 +227,11 @@
 		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema mspdi_pj15-correct.xsd" />
 		</exec>
+<!--		
 		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/mrproject.xjb -p net.sf.mpxj.planner.schema ${basedir}/jaxb/mrproject-0.6.xsd" />
 		</exec>
+-->		
 		<exec executable="${xjc.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b ${basedir}/pm-binding.xjb -p net.sf.mpxj.primavera.schema p6apibo.xsd" />
 		</exec>
