@@ -9,7 +9,7 @@
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseInteger"
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printInteger"/>
 
-		<jxb:javaType name="java.util.Date"
+		<jxb:javaType name="java.time.LocalDateTime"
                     xmlType="xs:dateTime"
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDateTime"
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printDateTime"/>
@@ -44,7 +44,7 @@
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDay"
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printDay"/>
 
-		<jxb:javaType name="java.util.Date"
+		<jxb:javaType name="java.time.LocalDateTime"
                     xmlType="phoenixFinish"
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseFinishDateTime"
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printFinishDateTime"/>
