@@ -23,13 +23,10 @@
 
 package net.sf.mpxj.ganttdesigner;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 
 import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
@@ -47,18 +44,18 @@ public final class DatatypeConverter
     * @param value string representation
     * @return date value
     */
-   public static final Date parseTimestamp(String value)
+   public static final LocalDateTime parseTimestamp(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       if (value != null && value.length() != 0)
       {
          try
          {
-            result = TIMESTAMP_FORMAT.get().parse(value);
+            result = LocalDateTime.parse(value, TIMESTAMP_FORMAT.get());
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
             // Ignore parse exception
          }
@@ -73,9 +70,9 @@ public final class DatatypeConverter
     * @param value time value
     * @return time value
     */
-   public static final String printTimestamp(Date value)
+   public static final String printTimestamp(LocalDateTime value)
    {
-      return (value == null ? null : TIMESTAMP_FORMAT.get().format(value));
+      return value == null ? null : TIMESTAMP_FORMAT.get().format(value);
    }
 
    /**
@@ -181,14 +178,7 @@ public final class DatatypeConverter
       return Integer.toString(DayOfWeekHelper.getValue(value) - 1);
    }
 
-   private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      df.setLenient(false);
-      return df;
-   });
+   private static final ThreadLocal<DateTimeFormatter> TIMESTAMP_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> {
-      return DateTimeFormatter.ofPattern("yyyy-MM-dd");
-   });
-
+   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 }

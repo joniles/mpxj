@@ -640,16 +640,16 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       if (duration.getDuration() == 0)
       {
          mpxjTask.setMilestone(true);
-         mpxjTask.setStart(LocalDateTimeHelper.getLocalDateTime(gpTask.getStart()));
-         mpxjTask.setFinish(LocalDateTimeHelper.getLocalDateTime(gpTask.getStart()));
+         mpxjTask.setStart(gpTask.getStart());
+         mpxjTask.setFinish(gpTask.getStart());
       }
       else
       {
-         mpxjTask.setStart(LocalDateTimeHelper.getLocalDateTime(gpTask.getStart()));
-         mpxjTask.setFinish(m_mpxjCalendar.getDate(LocalDateTimeHelper.getLocalDateTime(gpTask.getStart()), mpxjTask.getDuration(), false));
+         mpxjTask.setStart(gpTask.getStart());
+         mpxjTask.setFinish(m_mpxjCalendar.getDate(gpTask.getStart(), mpxjTask.getDuration(), false));
       }
 
-      mpxjTask.setConstraintDate(LocalDateTimeHelper.getLocalDateTime(gpTask.getThirdDate()));
+      mpxjTask.setConstraintDate(gpTask.getThirdDate());
       if (mpxjTask.getConstraintDate() != null)
       {
          // TODO: you don't appear to be able to change this setting in GanttProject

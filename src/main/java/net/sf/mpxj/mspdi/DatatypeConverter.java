@@ -25,12 +25,9 @@ package net.sf.mpxj.mspdi;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -1912,9 +1909,9 @@ public final class DatatypeConverter
     * @param value date time value
     * @return string representation
     */
-   public static final String printDateTime(Date value)
+   public static final String printDateTime(LocalDateTime value)
    {
-      return (value == null ? null : DATE_FORMAT.get().format(value));
+      return value == null ? null : DATE_FORMAT.get().format(value);
    }
 
    /**
@@ -1923,18 +1920,18 @@ public final class DatatypeConverter
     * @param value string representation
     * @return date time value
     */
-   public static final Date parseDateTime(String value)
+   public static final LocalDateTime parseDateTime(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       if (value != null && value.length() != 0)
       {
          try
          {
-            result = DATE_FORMAT.get().parse(value);
+            result = LocalDateTime.parse(value, DATE_FORMAT.get());
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
             // Ignore parse errors
          }
@@ -2040,19 +2037,11 @@ public final class DatatypeConverter
       return result;
    }
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-      df.setLenient(false);
-      return df;
-   });
+   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
 
-   private static final ThreadLocal<DateTimeFormatter> LOCAL_DATE_TIME_FORMAT = ThreadLocal.withInitial(() -> {
-      return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-   });
+   private static final ThreadLocal<DateTimeFormatter> LOCAL_DATE_TIME_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
 
-   private static final ThreadLocal<DateTimeFormatter> TIME_FORMAT = ThreadLocal.withInitial(() -> {
-      return DateTimeFormatter.ofPattern("HH:mm:ss");
-   });
+   private static final ThreadLocal<DateTimeFormatter> TIME_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("HH:mm:ss"));
 
    private static final ThreadLocal<NumberFormat> NUMBER_FORMAT = ThreadLocal.withInitial(() -> {
       // XML numbers should use . as decimal separator and no grouping.

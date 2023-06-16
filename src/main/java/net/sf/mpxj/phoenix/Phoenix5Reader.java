@@ -183,8 +183,8 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       ProjectProperties mpxjProperties = m_projectFile.getProjectProperties();
       mpxjProperties.setName(phoenixSettings.getTitle());
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
-      mpxjProperties.setStatusDate(LocalDateTimeHelper.getLocalDateTime(storepoint.getDataDate()));
-      mpxjProperties.setStartDate(LocalDateTimeHelper.getLocalDateTime(storepoint.getStart()));
+      mpxjProperties.setStatusDate(storepoint.getDataDate());
+      mpxjProperties.setStartDate(storepoint.getStart());
    }
 
    /**
@@ -351,9 +351,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    private void addWeeklyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
       RecurringData data = recurringData(RecurrenceType.WEEKLY, nonWork);
-      java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
-      data.setWeeklyDay(DayOfWeekHelper.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)), true);
-      DateHelper.pushCalendar(calendar);
+      data.setWeeklyDay(nonWork.getStart().getDayOfWeek(), true);
       mpxjCalendar.addCalendarException(data);
    }
 
@@ -369,17 +367,15 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       RecurringData data = recurringData(RecurrenceType.MONTHLY, nonWork);
 
       data.setRelative(NumberHelper.getInt(nonWork.getNthDow()) != 0);
-      java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
       if (data.getRelative())
       {
          data.setDayNumber(nonWork.getNthDow());
-         data.setDayOfWeek(DayOfWeekHelper.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)));
+         data.setDayOfWeek(nonWork.getStart().getDayOfWeek());
       }
       else
       {
-         data.setDayNumber(Integer.valueOf(calendar.get(java.util.Calendar.DAY_OF_MONTH)));
+         data.setDayNumber(Integer.valueOf(nonWork.getStart().getDayOfMonth()));
       }
-      DateHelper.pushCalendar(calendar);
       mpxjCalendar.addCalendarException(data);
    }
 
@@ -394,18 +390,17 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       // TODO: support snap to end of month
       RecurringData data = recurringData(RecurrenceType.YEARLY, nonWork);
       data.setRelative(NumberHelper.getInt(nonWork.getNthDow()) != 0);
-      java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
-      data.setMonthNumber(Integer.valueOf(calendar.get(java.util.Calendar.MONTH) + 1));
+
+      data.setMonthNumber(Integer.valueOf(nonWork.getStart().getMonthValue()));
       if (data.getRelative())
       {
          data.setDayNumber(nonWork.getNthDow());
-         data.setDayOfWeek(DayOfWeekHelper.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)));
+         data.setDayOfWeek(nonWork.getStart().getDayOfWeek());
       }
       else
       {
-         data.setDayNumber(Integer.valueOf(calendar.get(java.util.Calendar.DAY_OF_MONTH)));
+         data.setDayNumber(Integer.valueOf(nonWork.getStart().getDayOfMonth()));
       }
-      DateHelper.pushCalendar(calendar);
       mpxjCalendar.addCalendarException(data);
    }
 
@@ -617,22 +612,22 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       task.setActivityType(ACTIVITY_TYPE_MAP.get(activity.getType()));
 
       task.setActualDuration(activity.getActualDuration());
-      task.setActualFinish(LocalDateTimeHelper.getLocalDateTime(activity.getActualFinish()));
-      task.setActualStart(LocalDateTimeHelper.getLocalDateTime(activity.getActualStart()));
+      task.setActualFinish(activity.getActualFinish());
+      task.setActualStart(activity.getActualStart());
       //activity.getBaseunit()
       //activity.getBilled()
       task.setCalendar(m_projectFile.getCalendarByName(activity.getCalendar()));
       //activity.getCostAccount()
-      task.setCreateDate(LocalDateTimeHelper.getLocalDateTime(activity.getCreationTime()));
-      task.setFinish(LocalDateTimeHelper.getLocalDateTime(activity.getCurrentFinish()));
-      task.setStart(LocalDateTimeHelper.getLocalDateTime(activity.getCurrentStart()));
+      task.setCreateDate(activity.getCreationTime());
+      task.setFinish(activity.getCurrentFinish());
+      task.setStart(activity.getCurrentStart());
       task.setName(activity.getDescription());
       task.setDuration(activity.getDurationAtCompletion());
-      task.setEarlyFinish(LocalDateTimeHelper.getLocalDateTime(activity.getEarlyFinish()));
-      task.setEarlyStart(LocalDateTimeHelper.getLocalDateTime(activity.getEarlyStart()));
+      task.setEarlyFinish(activity.getEarlyFinish());
+      task.setEarlyStart(activity.getEarlyStart());
       task.setFreeSlack(activity.getFreeFloat());
-      task.setLateFinish(LocalDateTimeHelper.getLocalDateTime(activity.getLateFinish()));
-      task.setLateStart(LocalDateTimeHelper.getLocalDateTime(activity.getLateStart()));
+      task.setLateFinish(activity.getLateFinish());
+      task.setLateStart(activity.getLateStart());
       task.setNotes(activity.getNotes());
       task.setBaselineDuration(activity.getOriginalDuration());
       //activity.getPathFloat()
@@ -648,7 +643,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       {
          Project.Storepoints.Storepoint.Activities.Activity.Constraint constraint = activity.getConstraint();
          task.setConstraintType(CONSTRAINT_TYPE_MAP.get(constraint.getType()));
-         task.setConstraintDate(LocalDateTimeHelper.getLocalDateTime(constraint.getDatetime()));
+         task.setConstraintDate(constraint.getDatetime());
       }
 
       if (task.getMilestone())
@@ -911,7 +906,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    private Storepoint getCurrentStorepoint(Project phoenixProject)
    {
       List<Storepoint> storepoints = phoenixProject.getStorepoints() == null ? Collections.emptyList() : phoenixProject.getStorepoints().getStorepoint();
-      storepoints.sort((o1, o2) -> DateHelper.compare(LocalDateTimeHelper.getLocalDateTime(o2.getCreationTime()), LocalDateTimeHelper.getLocalDateTime(o1.getCreationTime())));
+      storepoints.sort((o1, o2) -> DateHelper.compare(o2.getCreationTime(), o1.getCreationTime()));
       return storepoints.get(0);
    }
 

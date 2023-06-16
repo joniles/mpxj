@@ -119,8 +119,8 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
    {
       Gantt.File file = gantt.getFile();
       ProjectProperties props = m_projectFile.getProjectProperties();
-      props.setLastSaved(LocalDateTimeHelper.getLocalDateTime(file.getSaved()));
-      props.setCreationDate(LocalDateTimeHelper.getLocalDateTime(file.getCreated()));
+      props.setLastSaved(file.getSaved());
+      props.setCreationDate(file.getCreated());
       props.setName(file.getName());
    }
 

@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.common;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayDeque;
@@ -88,19 +89,22 @@ public final class DateHelper
     * @param date date to convert
     * @return day start date
     */
-   public static Date getDayEndDate(Date date)
+   public static LocalDateTime getDayEndDate(LocalDateTime date)
    {
-      if (date != null)
+      if (date == null)
       {
-         Calendar cal = popCalendar(date);
-         cal.set(Calendar.MILLISECOND, 999);
-         cal.set(Calendar.SECOND, 59);
-         cal.set(Calendar.MINUTE, 59);
-         cal.set(Calendar.HOUR_OF_DAY, 23);
-         date = cal.getTime();
-         pushCalendar(cal);
+         return null;
       }
-      return (date);
+      return getDayEndDate(date.toLocalDate());
+   }
+
+   public static LocalDateTime getDayEndDate(LocalDate date)
+   {
+      if (date == null)
+      {
+         return null;
+      }
+      return LocalDateTime.of(date, LocalTime.of(23, 59, 59));
    }
 
    /**

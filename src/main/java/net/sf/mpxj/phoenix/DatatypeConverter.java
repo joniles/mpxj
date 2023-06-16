@@ -26,6 +26,9 @@ package net.sf.mpxj.phoenix;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -162,7 +165,7 @@ public final class DatatypeConverter
     * @param value Date instance
     * @return formatted date time
     */
-   public static final String printDateTime(Date value)
+   public static final String printDateTime(LocalDateTime value)
    {
       return (value == null ? null : DATE_FORMAT.get().format(value));
    }
@@ -173,7 +176,7 @@ public final class DatatypeConverter
     * @param value Phoenix date time
     * @return Date instance
     */
-   public static final Date parseDateTime(String value)
+   public static final LocalDateTime parseDateTime(String value)
    {
       if (value == null || value.isEmpty() || value.equals(NOT_A_DATE_TIME))
       {
@@ -182,17 +185,17 @@ public final class DatatypeConverter
 
       if (value.equals(PLUS_INFINITY))
       {
-         return LocalDateTimeHelper.getDate(DateHelper.END_DATE_NA);
+         return DateHelper.END_DATE_NA;
       }
 
-      Date result = null;
+      LocalDateTime result = null;
 
       try
       {
-         result = DATE_FORMAT.get().parse(value);
+         result = LocalDateTime.parse(value, DATE_FORMAT.get());
       }
 
-      catch (ParseException ex)
+      catch (DateTimeParseException ex)
       {
          // Ignored
       }
@@ -257,11 +260,11 @@ public final class DatatypeConverter
     * @param value Date instance
     * @return formatted date time
     */
-   public static final String printFinishDateTime(Date value)
+   public static final String printFinishDateTime(LocalDateTime value)
    {
       if (value != null)
       {
-         value = DateHelper.addDays(value, 1);
+         value = value.plusDays(1);
       }
       return (value == null ? null : DATE_FORMAT.get().format(value));
    }
@@ -272,12 +275,12 @@ public final class DatatypeConverter
     * @param value Phoenix date time
     * @return Date instance
     */
-   public static final Date parseFinishDateTime(String value)
+   public static final LocalDateTime parseFinishDateTime(String value)
    {
-      Date result = parseDateTime(value);
+      LocalDateTime result = parseDateTime(value);
       if (result != null)
       {
-         result = DateHelper.addDays(result, -1);
+         result = result.minusDays(1);
       }
       return result;
    }
@@ -367,9 +370,5 @@ public final class DatatypeConverter
    private static final String NOT_A_DATE_TIME = "not-a-date-time";
    private static final String PLUS_INFINITY = "+infinity";
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
-      df.setLenient(false);
-      return df;
-   });
+   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss"));
 }

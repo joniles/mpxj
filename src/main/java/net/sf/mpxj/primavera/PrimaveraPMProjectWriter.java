@@ -480,11 +480,11 @@ final class PrimaveraPMProjectWriter
       project.setAssignmentDefaultRateType(RateTypeHelper.getXmlFromInstance(Integer.valueOf(0)));
       project.setCheckOutStatus(Boolean.FALSE);
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
-      project.setCreateDate(LocalDateTimeHelper.getDate(mpxj.getCreationDate()));
+      project.setCreateDate(mpxj.getCreationDate());
       project.setCriticalActivityFloatLimit(Double.valueOf(mpxj.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, mpxj).getDuration()));
       project.setCriticalActivityPathType(CriticalActivityTypeHelper.getXmlFromInstance(mpxj.getCriticalActivityType()));
       project.setCurrentBaselineProjectObjectId(mpxj.getBaselineProjectUniqueID());
-      project.setDataDate(LocalDateTimeHelper.getDate(m_projectFile.getProjectProperties().getStatusDate()));
+      project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
       project.setDefaultPriceTimeUnits("Hour");
       project.setDiscountApplicationPeriod("Month");
       project.setEarnedValueComputeType("Activity Percent Complete");
@@ -493,18 +493,18 @@ final class PrimaveraPMProjectWriter
       project.setEarnedValueUserPercent(Double.valueOf(0.06));
       project.setEnableSummarization(Boolean.TRUE);
       project.setFiscalYearStartMonth(Integer.valueOf(1));
-      project.setFinishDate(LocalDateTimeHelper.getDate(mpxj.getFinishDate()));
+      project.setFinishDate(mpxj.getFinishDate());
       project.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       project.setId(projectID);
-      project.setLastUpdateDate(LocalDateTimeHelper.getDate(mpxj.getLastSaved()));
+      project.setLastUpdateDate(mpxj.getLastSaved());
       project.setLevelingPriority(Integer.valueOf(10));
       project.setLinkActualToActualThisPeriod(Boolean.TRUE);
       project.setLinkPercentCompleteWithActual(Boolean.TRUE);
       project.setLinkPlannedAndAtCompletionFlag(Boolean.TRUE);
-      project.setMustFinishByDate(LocalDateTimeHelper.getDate(mpxj.getMustFinishBy()));
+      project.setMustFinishByDate(mpxj.getMustFinishBy());
       project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
       project.setObjectId(m_projectObjectID);
-      project.setPlannedStartDate(LocalDateTimeHelper.getDate(plannedStart));
+      project.setPlannedStartDate(plannedStart);
       project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
       project.setResetPlannedToRemainingFlag(Boolean.FALSE);
       project.setResourceCanBeAssignedToSameActivityMoreThanOnce(Boolean.TRUE);
@@ -513,8 +513,8 @@ final class PrimaveraPMProjectWriter
       project.setResourcesCanMarkAssignmentAsCompleted(Boolean.FALSE);
       project.setResourcesCanViewInactiveActivities(Boolean.FALSE);
       project.setRiskLevel("Medium");
-      project.setScheduledFinishDate(LocalDateTimeHelper.getDate(mpxj.getScheduledFinish()));
-      project.setStartDate(LocalDateTimeHelper.getDate(mpxj.getStartDate()));
+      project.setScheduledFinishDate(mpxj.getScheduledFinish());
+      project.setStartDate(mpxj.getStartDate());
       project.setStatus("Active");
       project.setStrategicPriority(Integer.valueOf(500));
       project.setSummarizeToWBSLevel(Integer.valueOf(2));
@@ -549,33 +549,33 @@ final class PrimaveraPMProjectWriter
       project.setAssignmentDefaultRateType(RateTypeHelper.getXmlFromInstance(Integer.valueOf(0)));
       project.setCheckOutStatus(Boolean.FALSE);
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
-      project.setCreateDate(LocalDateTimeHelper.getDate(mpxj.getCreationDate()));
+      project.setCreateDate(mpxj.getCreationDate());
       project.setCriticalActivityFloatLimit(Double.valueOf(mpxj.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, mpxj).getDuration()));
       project.setCriticalActivityPathType(CriticalActivityTypeHelper.getXmlFromInstance(mpxj.getCriticalActivityType()));
-      project.setDataDate(LocalDateTimeHelper.getDate(m_projectFile.getProjectProperties().getStatusDate()));
+      project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
       project.setDefaultPriceTimeUnits("Hour");
       project.setDiscountApplicationPeriod("Month");
       project.setEnableSummarization(Boolean.TRUE);
       project.setFiscalYearStartMonth(Integer.valueOf(1));
-      project.setFinishDate(LocalDateTimeHelper.getDate(mpxj.getFinishDate()));
+      project.setFinishDate(mpxj.getFinishDate());
       project.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       project.setId(projectID);
-      project.setLastUpdateDate(LocalDateTimeHelper.getDate(mpxj.getLastSaved()));
+      project.setLastUpdateDate(mpxj.getLastSaved());
       project.setLevelingPriority(Integer.valueOf(10));
       project.setLinkActualToActualThisPeriod(Boolean.TRUE);
       project.setLinkPercentCompleteWithActual(Boolean.TRUE);
       project.setLinkPlannedAndAtCompletionFlag(Boolean.TRUE);
-      project.setMustFinishByDate(LocalDateTimeHelper.getDate(mpxj.getMustFinishBy()));
+      project.setMustFinishByDate(mpxj.getMustFinishBy());
       project.setName(mpxj.getName() == null ? projectID : mpxj.getName());
       project.setObjectId(m_projectObjectID);
-      project.setPlannedStartDate(LocalDateTimeHelper.getDate(plannedStart));
+      project.setPlannedStartDate(plannedStart);
       project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
       project.setResetPlannedToRemainingFlag(Boolean.FALSE);
       project.setResourceCanBeAssignedToSameActivityMoreThanOnce(Boolean.TRUE);
       project.setResourcesCanAssignThemselvesToActivities(Boolean.TRUE);
       project.setResourcesCanEditAssignmentPercentComplete(Boolean.FALSE);
       project.setRiskLevel("Medium");
-      project.setStartDate(LocalDateTimeHelper.getDate(mpxj.getStartDate()));
+      project.setStartDate(mpxj.getStartDate());
       project.setStatus("Active");
       project.setStrategicPriority(Integer.valueOf(500));
       project.setSummarizeToWBSLevel(Integer.valueOf(2));
@@ -679,7 +679,7 @@ final class PrimaveraPMProjectWriter
                   HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
                   xmlExceptions.getHolidayOrException().add(xmlException);
 
-                  xmlException.setDate(LocalDateHelper.getDate(date));
+                  xmlException.setDate(date.atStartOfDay());
 
                   for (TimeRange range : mpxjException)
                   {
@@ -911,16 +911,16 @@ final class PrimaveraPMProjectWriter
       LocalDateTime plannedFinish = mpxj.getPlannedFinish() == null ? mpxj.getFinish() : mpxj.getPlannedFinish();
       ProjectCalendar effectiveCalendar = mpxj.getEffectiveCalendar();
 
-      xml.setActualStartDate(LocalDateTimeHelper.getDate(mpxj.getActualStart()));
+      xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualDuration(getDuration(mpxj.getActualDuration()));
-      xml.setActualFinishDate(LocalDateTimeHelper.getDate(mpxj.getActualFinish()));
+      xml.setActualFinishDate(mpxj.getActualFinish());
       xml.setAtCompletionDuration(getDuration(mpxj.getDuration()));
       xml.setCalendarObjectId(effectiveCalendar == null ? null : effectiveCalendar.getUniqueID());
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setDurationType(TaskTypeHelper.getXmlFromInstance(mpxj.getType()));
-      xml.setExternalEarlyStartDate(LocalDateTimeHelper.getDate(mpxj.getExternalEarlyStart()));
-      xml.setExternalLateFinishDate(LocalDateTimeHelper.getDate(mpxj.getExternalLateFinish()));
-      xml.setFinishDate(LocalDateTimeHelper.getDate(mpxj.getFinish()));
+      xml.setExternalEarlyStartDate(mpxj.getExternalEarlyStart());
+      xml.setExternalLateFinishDate(mpxj.getExternalLateFinish());
+      xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setId(mpxj.getActivityID() == null ? mpxj.getWBS() : mpxj.getActivityID());
       // Note that P6 doesn't write this attribute to PMXML, but appears to read it
@@ -933,17 +933,17 @@ final class PrimaveraPMProjectWriter
       xml.setPercentComplete(getPercentComplete(mpxj));
       xml.setPhysicalPercentComplete(getPercentage(mpxj.getPhysicalPercentComplete()));
       xml.setPrimaryConstraintType(ConstraintTypeHelper.getXmlFromInstance(mpxj.getConstraintType()));
-      xml.setPrimaryConstraintDate(LocalDateTimeHelper.getDate(mpxj.getConstraintDate()));
+      xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
       xml.setPrimaryResourceObjectId(mpxj.getPrimaryResourceID());
       xml.setPlannedDuration(getDuration(mpxj.getPlannedDuration() == null ? mpxj.getDuration() : mpxj.getPlannedDuration()));
-      xml.setPlannedFinishDate(LocalDateTimeHelper.getDate(plannedFinish));
-      xml.setPlannedStartDate(LocalDateTimeHelper.getDate(plannedStart));
+      xml.setPlannedFinishDate(plannedFinish);
+      xml.setPlannedStartDate(plannedStart);
       xml.setProjectObjectId(m_projectObjectID);
       xml.setRemainingDuration(getDuration(mpxj.getRemainingDuration()));
-      xml.setRemainingEarlyFinishDate(LocalDateTimeHelper.getDate(mpxj.getRemainingEarlyFinish()));
-      xml.setRemainingEarlyStartDate(LocalDateTimeHelper.getDate(mpxj.getRemainingEarlyStart()));
-      xml.setRemainingLateFinishDate(LocalDateTimeHelper.getDate(mpxj.getRemainingLateFinish()));
-      xml.setRemainingLateStartDate(LocalDateTimeHelper.getDate(mpxj.getRemainingLateStart()));
+      xml.setRemainingEarlyFinishDate(mpxj.getRemainingEarlyFinish());
+      xml.setRemainingEarlyStartDate(mpxj.getRemainingEarlyStart());
+      xml.setRemainingLateFinishDate(mpxj.getRemainingLateFinish());
+      xml.setRemainingLateStartDate(mpxj.getRemainingLateStart());
       xml.setRemainingLaborCost(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborCost(NumberHelper.DOUBLE_ZERO);
@@ -954,14 +954,14 @@ final class PrimaveraPMProjectWriter
       // i.e. the activity has been suspended.
       if (mpxj.getSuspendDate() != null)
       {
-         xml.setResumeDate(LocalDateTimeHelper.getDate(mpxj.getResume()));
+         xml.setResumeDate(mpxj.getResume());
       }
 
-      xml.setSecondaryConstraintDate(LocalDateTimeHelper.getDate(mpxj.getSecondaryConstraintDate()));
+      xml.setSecondaryConstraintDate(mpxj.getSecondaryConstraintDate());
       xml.setSecondaryConstraintType(ConstraintTypeHelper.getXmlFromInstance(mpxj.getSecondaryConstraintType()));
-      xml.setStartDate(LocalDateTimeHelper.getDate(mpxj.getStart()));
+      xml.setStartDate(mpxj.getStart());
       xml.setStatus(ActivityStatusHelper.getXmlFromInstance(ActivityStatusHelper.getActivityStatus(mpxj)));
-      xml.setSuspendDate(LocalDateTimeHelper.getDate(mpxj.getSuspendDate()));
+      xml.setSuspendDate(mpxj.getSuspendDate());
       xml.setType(ActivityTypeHelper.getXmlFromInstance(mpxj.getActivityType()));
       xml.setUnitsPercentComplete(getPercentage(mpxj.getPercentageWorkComplete()));
       xml.setWBSObjectId(parentObjectID);
@@ -1029,22 +1029,22 @@ final class PrimaveraPMProjectWriter
 
       xml.setActivityObjectId(mpxj.getTaskUniqueID());
       xml.setActualCost(getDouble(mpxj.getActualCost()));
-      xml.setActualFinishDate(LocalDateTimeHelper.getDate(mpxj.getActualFinish()));
+      xml.setActualFinishDate(mpxj.getActualFinish());
       xml.setActualOvertimeCost(getDouble(mpxj.getActualOvertimeCost()));
       xml.setActualOvertimeUnits(actualOvertimeUnits);
       xml.setActualRegularUnits(getDuration(mpxj.getActualWork()));
-      xml.setActualStartDate(LocalDateTimeHelper.getDate(mpxj.getActualStart()));
+      xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualUnits(getDuration(mpxj.getActualWork()));
       xml.setAtCompletionCost(NumberHelper.sumAsDouble(mpxj.getActualCost(), mpxj.getRemainingCost()));
       xml.setAtCompletionUnits(getDuration(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), task.getEffectiveCalendar())));
       xml.setResourceCurveObjectId(CurveHelper.getCurveID(mpxj.getWorkContour()));
-      xml.setFinishDate(LocalDateTimeHelper.getDate(mpxj.getFinish()));
+      xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setIsCostUnitsLinked(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setObjectId(mpxj.getUniqueID());
       xml.setPlannedCost(getDouble(mpxj.getPlannedCost()));
-      xml.setPlannedFinishDate(LocalDateTimeHelper.getDate(plannedFinish));
-      xml.setPlannedStartDate(LocalDateTimeHelper.getDate((plannedStart)));
+      xml.setPlannedFinishDate(plannedFinish);
+      xml.setPlannedStartDate(plannedStart);
       xml.setPlannedUnits(getDuration(mpxj.getPlannedWork()));
       xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setProjectObjectId(m_projectObjectID);
@@ -1052,7 +1052,7 @@ final class PrimaveraPMProjectWriter
       xml.setRemainingDuration(getDuration(mpxj.getRemainingWork()));
       xml.setRemainingUnits(getDuration(mpxj.getRemainingWork()));
       xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
-      xml.setStartDate(LocalDateTimeHelper.getDate(mpxj.getStart()));
+      xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(task.getParentTaskUniqueID());
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, false, mpxj));
       xml.setRateType(RateTypeHelper.getXmlFromInstance(mpxj.getRateIndex()));
@@ -1231,7 +1231,7 @@ final class PrimaveraPMProjectWriter
 
             //rate.setCreateDate(value);
             //rate.setCreateUser(value);
-            rate.setEffectiveDate(LocalDateTimeHelper.getDate(entry.getStartDate()));
+            rate.setEffectiveDate(entry.getStartDate());
             //rate.setLastUpdateDate(value);
             //rate.setLastUpdateUser(value);
             rate.setMaxUnitsPerTime(maxUnits);
@@ -1295,7 +1295,7 @@ final class PrimaveraPMProjectWriter
 
             //rate.setCreateDate(value);
             //rate.setCreateUser(value);
-            rate.setEffectiveDate(LocalDateTimeHelper.getDate(entry.getStartDate()));
+            rate.setEffectiveDate(entry.getStartDate());
             //rate.setLastUpdateDate(value);
             //rate.setLastUpdateUser(value);
             rate.setMaxUnitsPerTime(maxUnits);
@@ -1673,7 +1673,7 @@ final class PrimaveraPMProjectWriter
 
          case DATE:
          {
-            udf.setStartDateValue(LocalDateTimeHelper.getDate((LocalDateTime)value));
+            udf.setStartDateValue((LocalDateTime)value);
             break;
          }
 

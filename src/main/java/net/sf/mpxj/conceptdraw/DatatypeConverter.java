@@ -27,6 +27,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -263,18 +264,18 @@ public final class DatatypeConverter
     * @param value String representation
     * @return Date instance
     */
-   public static final Date parseDateTime(String value)
+   public static final LocalDateTime parseDateTime(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       try
       {
          if (value != null && !value.isEmpty())
          {
-            result = DATE_TIME_FORMAT.get().parse(value);
+            result = LocalDateTime.parse(value, DATE_TIME_FORMAT.get());
          }
       }
-      catch (ParseException ex)
+      catch (DateTimeParseException ex)
       {
          // Ignore
       }
@@ -288,7 +289,7 @@ public final class DatatypeConverter
     * @param value Date instance
     * @return String representation
     */
-   public static final String printDateTime(Date value)
+   public static final String printDateTime(LocalDateTime value)
    {
       throw new UnsupportedOperationException();
    }
@@ -468,9 +469,7 @@ public final class DatatypeConverter
       return DateTimeFormatter.ofPattern("yyyy-MM-dd");
    });
 
-   private static final ThreadLocal<DateFormat> DATE_TIME_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-      df.setLenient(false);
-      return df;
+   private static final ThreadLocal<DateTimeFormatter> DATE_TIME_FORMAT = ThreadLocal.withInitial(() -> {
+      return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
    });
 }
