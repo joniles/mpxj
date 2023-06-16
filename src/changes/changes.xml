@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Ensure GanttProject exception dates are read correctly.</action>
 			<action dev="joniles" type="update">More closely match the Planner predecessor lag calculation.</action>
 			<action dev="joniles" type="update">Ensure that `java.sql.Date` values are correctly formatted when writing XER files.</action>
+			<action dev="joniles" type="update">When reading from a P6 database, check to ensure the location table is present before attemting to read locations.</action>
 		</release>
 		<release date="2023-06-08" version="11.5.2">
 			<action dev="joniles" type="update">Improve accuracy of calendar data read from certain Powerproject schedules.</action>
