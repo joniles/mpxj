@@ -38,6 +38,7 @@ import java.util.stream.Collectors;
 import javax.sql.DataSource;
 
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.ConnectionHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResultSetHelper;
 
@@ -141,15 +142,7 @@ final class MPD9DatabaseReader extends MPD9AbstractReader
    {
       try
       {
-         Set<String> tables = new HashSet<>();
-         DatabaseMetaData dmd = m_connection.getMetaData();
-         try (ResultSet rs = dmd.getTables(null, null, null, null))
-         {
-            while (rs.next())
-            {
-               tables.add(rs.getString("TABLE_NAME"));
-            }
-         }
+         Set<String> tables = ConnectionHelper.getTableNames(m_connection);
          m_hasResourceBaselines = tables.contains("MSP_RESOURCE_BASELINES");
          m_hasTaskBaselines = tables.contains("MSP_TASK_BASELINES");
          m_hasAssignmentBaselines = tables.contains("MSP_ASSIGNMENT_BASELINES");

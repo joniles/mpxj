@@ -42,6 +42,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import net.sf.mpxj.common.ConnectionHelper;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 import com.healthmarketscience.jackcess.Database;
@@ -837,30 +838,6 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
-   private Set<String> populateTableNames(Connection connection) throws SQLException
-   {
-      Set<String> tableNames = new HashSet<>();
-      ResultSet rs = null;
-
-      try
-      {
-         DatabaseMetaData dmd = connection.getMetaData();
-         rs = dmd.getTables(null, null, null, null);
-         while (rs.next())
-         {
-            tableNames.add(rs.getString("TABLE_NAME").toUpperCase());
-         }
-      }
-
-      finally
-      {
-         AutoCloseableHelper.closeQuietly(rs);
-         AutoCloseableHelper.closeQuietly(connection);
-      }
-
-      return tableNames;
-   }
-
    private Set<String> populateMdbTableNames(File file) throws Exception
    {
       try (Database database = DatabaseBuilder.open(file))
@@ -871,7 +848,10 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    private Set<String> populateSqliteTableNames(File file) throws Exception
    {
-      return populateTableNames(SQLite.createConnection(file));
+      try (Connection connection = SQLite.createConnection(file))
+      {
+         return ConnectionHelper.getTableNames(connection);
+      }
    }
 
    private Properties m_properties;
