@@ -79,25 +79,12 @@ final class SqliteResultSetRow extends MapRow
             }
 
             case Types.DATE:
-            {
-               String stringValue = rs.getString(name);
-               if (stringValue == null || stringValue.isEmpty())
-               {
-                  value = null;
-               }
-               else
-               {
-                  value = LocalDateTimeHelper.getLocalDateTime(rs.getDate(name));
-               }
-               break;
-            }
-
             case Types.TIMESTAMP:
             {
                Timestamp ts = rs.getTimestamp(name);
                if (ts != null)
                {
-                  value = LocalDateTimeHelper.getLocalDateTime(new java.util.Date(ts.getTime()));
+                  value = ts.toLocalDateTime();
                }
                else
                {
