@@ -24,11 +24,7 @@
 package net.sf.mpxj.primavera.p3;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
-
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.common.AbstractColumn;
 
 /**
@@ -68,22 +64,14 @@ class DateColumn extends AbstractColumn
             int month = Integer.parseInt(stringValue.substring(4, 6));
             int day = Integer.parseInt(stringValue.substring(6, 8));
 
-            Calendar cal = DateHelper.popCalendar();
-            cal.set(Calendar.YEAR, year);
-            cal.set(Calendar.MONTH, month - 1);
-            cal.set(Calendar.DAY_OF_MONTH, day);
-            cal.set(Calendar.HOUR_OF_DAY, 0);
-            cal.set(Calendar.MINUTE, 0);
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);
-
-            result = LocalDateTimeHelper.getLocalDateTime(cal.getTime());
-            if (result.isBefore(DatabaseReader.EPOCH))
+            if (year > 0 && month > 0 && month <= 12 && day > 0 && day <=31)
             {
-               result = null;
+               result = LocalDateTime.of(year, month, day, 0, 0);
+               if (result.isBefore(DatabaseReader.EPOCH))
+               {
+                  result = null;
+               }
             }
-
-            DateHelper.pushCalendar(cal);
          }
       }
 
