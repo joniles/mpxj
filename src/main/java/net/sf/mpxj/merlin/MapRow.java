@@ -152,10 +152,7 @@ class MapRow implements Row
       }
       else
       {
-         Calendar cal = DateHelper.popCalendar(DATE_EPOCH);
-         cal.add(Calendar.DAY_OF_YEAR, value.intValue());
-         result = LocalDateTimeHelper.getLocalDateTime(cal.getTime());
-         DateHelper.pushCalendar(cal);
+         result = DATE_EPOCH.plusDays(value.intValue());
       }
       return result;
    }
@@ -400,5 +397,5 @@ class MapRow implements Row
    /**
     * 07/01/2001 00:00.
     */
-   private static final long DATE_EPOCH = 978825600000L;
+   private static final LocalDateTime DATE_EPOCH = LocalDateTime.of(2001, 1, 7, 0, 0);
 }
