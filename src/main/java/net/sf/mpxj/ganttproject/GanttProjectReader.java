@@ -577,6 +577,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
             {
                try
                {
+                  // NOTE: left as java.util.Date to accommodate use of unusual locale-based date formats for resource custom fields
                   result = LocalDateTimeHelper.getLocalDateTime(dateFormat.parse(value));
                }
                catch (ParseException ex)

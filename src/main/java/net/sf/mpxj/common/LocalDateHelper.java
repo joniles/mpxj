@@ -6,6 +6,16 @@ import java.util.Date;
 
 public final class LocalDateHelper
 {
+   public static LocalDateTime getLocalDateTime(LocalDate date)
+   {
+      if (date == null)
+      {
+         return null;
+      }
+
+      return date.atStartOfDay();
+   }
+
    public static LocalDate getLocalDate(LocalDateTime date)
    {
       if (date == null)

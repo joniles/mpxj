@@ -199,12 +199,12 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          task.setCost(ganttTask.getC());
          task.setName(ganttTask.getContent());
          task.setDuration(ganttTask.getD());
-         task.setDeadline(LocalDateTimeHelper.getLocalDateTime(LocalDateHelper.getDate(ganttTask.getDL())));
+         task.setDeadline(LocalDateHelper.getLocalDateTime(ganttTask.getDL()));
          //ganttTask.getH() // height
          //ganttTask.getIn(); // indent
          task.setWBS(wbs);
          task.setPercentageComplete(ganttTask.getPC());
-         task.setStart(LocalDateTimeHelper.getLocalDateTime(LocalDateHelper.getDate(ganttTask.getS())));
+         task.setStart(LocalDateHelper.getLocalDateTime(ganttTask.getS()));
          //ganttTask.getU(); // Unknown
          //ganttTask.getVA(); // Valign
 
