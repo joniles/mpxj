@@ -26,13 +26,11 @@ package net.sf.mpxj.planner;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 
 import java.util.HashMap;
@@ -47,7 +45,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.TimeRange;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ConstraintType;
@@ -71,7 +68,6 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.planner.schema.Allocation;
@@ -156,7 +152,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     *
     * @param project Root node of the Planner file
     */
-   private void readProjectProperties(Project project) throws MPXJException
+   private void readProjectProperties(Project project)
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
 
@@ -171,7 +167,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     *
     * @param project Root node of the Planner file
     */
-   private void readCalendars(Project project) throws MPXJException
+   private void readCalendars(Project project)
    {
       Calendars calendars = project.getCalendars();
       if (calendars != null)
@@ -400,7 +396,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param parentTask parent task
     * @param plannerTask Task data
     */
-   private void readTask(Task parentTask, net.sf.mpxj.planner.schema.Task plannerTask) throws MPXJException
+   private void readTask(Task parentTask, net.sf.mpxj.planner.schema.Task plannerTask)
    {
       Task mpxjTask;
 
@@ -655,42 +651,14 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param value Planner date-time
     * @return Java Date instance
     */
-   private LocalDateTime getDateTime(String value) throws MPXJException
+   private LocalDateTime getDateTime(String value)
    {
       if (value == null)
       {
          return null;
       }
 
-      try
-      {
-         Number year = m_fourDigitFormat.parse(value.substring(0, 4));
-         Number month = m_twoDigitFormat.parse(value.substring(4, 6));
-         Number day = m_twoDigitFormat.parse(value.substring(6, 8));
-
-         Number hours = m_twoDigitFormat.parse(value.substring(9, 11));
-         Number minutes = m_twoDigitFormat.parse(value.substring(11, 13));
-
-         Calendar cal = DateHelper.popCalendar();
-         cal.set(Calendar.YEAR, year.intValue());
-         cal.set(Calendar.MONTH, month.intValue() - 1);
-         cal.set(Calendar.DAY_OF_MONTH, day.intValue());
-
-         cal.set(Calendar.HOUR_OF_DAY, hours.intValue());
-         cal.set(Calendar.MINUTE, minutes.intValue());
-
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-         LocalDateTime result = LocalDateTimeHelper.getLocalDateTime(cal.getTime());
-         DateHelper.pushCalendar(cal);
-
-         return result;
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse date-time " + value, ex);
-      }
+      return LocalDateTime.parse(value, m_dateTimeFormat);
    }
 
    /**
@@ -863,7 +831,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
    private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
    private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HHmm");
    private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
-
+   private final DateTimeFormatter m_dateTimeFormat = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
    private static final Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<>();
    static
    {

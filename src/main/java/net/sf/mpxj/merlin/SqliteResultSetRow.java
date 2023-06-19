@@ -84,7 +84,7 @@ final class SqliteResultSetRow extends MapRow
                }
                else
                {
-                  value = LocalDateTimeHelper.getLocalDateTime(rs.getDate(name));
+                  value = rs.getDate(name).toLocalDate().atStartOfDay();
                }
                break;
             }

@@ -88,7 +88,7 @@ final class MpdResultSetRow extends MapRow
                Timestamp ts = rs.getTimestamp(name);
                if (ts != null)
                {
-                  value = LocalDateTimeHelper.getLocalDateTime(new java.util.Date(ts.getTime()));
+                  value = ts.toLocalDateTime();
                }
                else
                {
