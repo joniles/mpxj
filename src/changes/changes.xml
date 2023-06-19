@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="11.5.3">
+		<release date="unreleased" version="11.5.4">
+		</release>
+		<release date="2023-06-19" version="11.5.3">
 			<action dev="joniles" type="update">When writing an XER file, provide the necessary default values to allow non-P6 schedules to be successfully imported into P6.</action>
 			<action dev="joniles" type="update">Ensure multi-day exceptions are written to XER files correctly.</action>
 			<action dev="joniles" type="update">Ensure GanttProject exception dates are read correctly.</action>
