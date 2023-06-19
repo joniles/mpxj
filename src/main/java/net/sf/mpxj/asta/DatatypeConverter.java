@@ -29,11 +29,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-
-
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /*
  * Duration Types
@@ -181,8 +176,6 @@ final class DatatypeConverter
       {
          if (!value.equals("-1 -1"))
          {
-            Calendar cal = DateHelper.popCalendar(JAVA_EPOCH);
-
             int index = value.indexOf(' ');
             if (index == -1)
             {
@@ -196,24 +189,14 @@ final class DatatypeConverter
                int minutes = Integer.parseInt(value.substring(2, 4));
                int seconds = Integer.parseInt(value.substring(4));
 
-               cal.set(Calendar.HOUR, hours);
-               cal.set(Calendar.MINUTE, minutes);
-               cal.set(Calendar.SECOND, seconds);
+               result = JAVA_EPOCH.plusHours(hours).plusMinutes(minutes).plusSeconds(seconds);
             }
             else
             {
                long astaDays = Long.parseLong(value.substring(0, index));
                int astaSeconds = Integer.parseInt(value.substring(index + 1));
-
-               cal.add(Calendar.DAY_OF_YEAR, (int) (astaDays - ASTA_EPOCH));
-               cal.set(Calendar.MILLISECOND, 0);
-               cal.set(Calendar.SECOND, 0);
-               cal.set(Calendar.HOUR, 0);
-               cal.add(Calendar.SECOND, astaSeconds);
+               result = JAVA_EPOCH.plusDays(astaDays - ASTA_EPOCH).plusSeconds(astaSeconds);
             }
-
-            result = LocalDateTimeHelper.getLocalDateTime(cal.getTime());
-            DateHelper.pushCalendar(cal);
          }
       }
 
@@ -296,6 +279,6 @@ final class DatatypeConverter
 
    private static final ThreadLocal<DecimalFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> new DecimalFormat("#.#E0"));
 
-   private static final long JAVA_EPOCH = -2208988800000L;
+   private static final LocalDateTime JAVA_EPOCH = LocalDateTime.of(1900, 1, 1, 0, 0);
    private static final long ASTA_EPOCH = 2415021L;
 }
