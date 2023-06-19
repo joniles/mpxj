@@ -26,7 +26,6 @@ package net.sf.mpxj.mpx;
 import java.text.DateFormatSymbols;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 
 import net.sf.mpxj.common.MultiDateFormat;
 

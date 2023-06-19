@@ -33,7 +33,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import java.util.HashMap;
 import java.util.List;
@@ -735,7 +734,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
          case DEFAULT:
          {
-            result = mpxjCalendar.getParent() == null ? false : isWorkingDay(mpxjCalendar.getParent(), day);
+            result = mpxjCalendar.getParent() != null && isWorkingDay(mpxjCalendar.getParent(), day);
             break;
          }
       }

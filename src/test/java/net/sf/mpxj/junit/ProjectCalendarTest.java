@@ -51,7 +51,7 @@ public class ProjectCalendarTest
    /**
     * Test get getWork method.
     */
-   @Test public void testGetWork() throws Exception
+   @Test public void testGetWork()
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
@@ -496,7 +496,7 @@ public class ProjectCalendarTest
    /**
     * Simple tests to exercise the ProjectCalendar.getDate method.
     */
-   @Test public void testGetDate() throws Exception
+   @Test public void testGetDate()
    {
       ProjectFile file = new ProjectFile();
       ProjectCalendar cal = file.addDefaultBaseCalendar();

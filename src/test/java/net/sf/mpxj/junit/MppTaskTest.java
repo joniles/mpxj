@@ -26,8 +26,6 @@ package net.sf.mpxj.junit;
 import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 

@@ -26,8 +26,6 @@ package net.sf.mpxj.junit.assignment;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.reader.UniversalProjectReader;

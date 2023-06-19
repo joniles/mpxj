@@ -703,7 +703,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * files can be located and loaded correctly, this will present
     * a complete view of the project.
     */
-   public void expandSubprojects() throws MPXJException
+   public void expandSubprojects()
    {
       for (Task task : getTasks())
       {

@@ -26,9 +26,6 @@ package net.sf.mpxj;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-
-import net.sf.mpxj.common.DateHelper;
-
 /**
  * This class represents a resource's cost rate table.
  */

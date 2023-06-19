@@ -25,14 +25,12 @@ package net.sf.mpxj.fasttrack;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Calendar;
 
 import java.util.Map;
 import java.util.UUID;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**

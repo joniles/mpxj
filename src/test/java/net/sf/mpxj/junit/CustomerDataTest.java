@@ -39,7 +39,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

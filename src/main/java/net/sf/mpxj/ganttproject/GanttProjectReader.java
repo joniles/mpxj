@@ -43,7 +43,6 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
-import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.xml.sax.SAXException;
 

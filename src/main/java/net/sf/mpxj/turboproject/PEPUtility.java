@@ -28,7 +28,6 @@ package net.sf.mpxj.turboproject;
 import java.time.LocalDateTime;
 
 import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**

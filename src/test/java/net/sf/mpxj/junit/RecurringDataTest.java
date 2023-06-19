@@ -26,7 +26,6 @@ package net.sf.mpxj.junit;
 import static org.junit.Assert.*;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -45,7 +44,7 @@ public class RecurringDataTest
    /**
     * Test the getEntryByDate method.
     */
-   @Test public void testGetDates() throws Exception
+   @Test public void testGetDates()
    {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       RecurringData data = new RecurringData();
@@ -205,7 +204,7 @@ public class RecurringDataTest
     *
     * @param data recurrence data
     * @param expectedDates expected dates    */
-   private void testDates(RecurringData data, String... expectedDates) throws ParseException
+   private void testDates(RecurringData data, String... expectedDates)
    {
       //
       // First validate that the date sequence bounded by occurrences matches the expected data

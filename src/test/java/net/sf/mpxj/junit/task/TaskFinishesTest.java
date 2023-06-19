@@ -26,9 +26,6 @@ package net.sf.mpxj.junit.task;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -85,7 +82,7 @@ public class TaskFinishesTest
     * @param maxIndex highest index to test
     * @param useDateFormat true=use date-only format false=use date time format
     */
-   private void testTaskFinishDates(File file, Task task, int testIndex, int maxIndex, boolean useDateFormat) throws ParseException
+   private void testTaskFinishDates(File file, Task task, int testIndex, int maxIndex, boolean useDateFormat)
    {
       for (int index = 1; index <= maxIndex; index++)
       {

@@ -198,7 +198,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param plannerCalendar Calendar data
     * @param parentMpxjCalendar parent of derived calendar
     */
-   private void readCalendar(net.sf.mpxj.planner.schema.Calendar plannerCalendar, ProjectCalendar parentMpxjCalendar) throws MPXJException
+   private void readCalendar(net.sf.mpxj.planner.schema.Calendar plannerCalendar, ProjectCalendar parentMpxjCalendar)
    {
       //
       // Create a calendar instance
@@ -306,7 +306,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param mpxjCalendar MPXJ calendar
     * @param plannerCalendar Planner calendar
     */
-   private void processExceptionDays(Map<String, List<TimeRange>> map, ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws MPXJException
+   private void processExceptionDays(Map<String, List<TimeRange>> map, ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar)
    {
       Days days = plannerCalendar.getDays();
       if (days != null)

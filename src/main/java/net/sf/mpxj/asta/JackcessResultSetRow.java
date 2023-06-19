@@ -23,9 +23,6 @@
 
 package net.sf.mpxj.asta;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-
 import java.util.HashMap;
 import java.util.List;
 import com.healthmarketscience.jackcess.Column;

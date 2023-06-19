@@ -24,8 +24,6 @@
 package net.sf.mpxj.mpx;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Calendar;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,8 +37,6 @@ import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateHelper;
 
 /**
  * This class contains method relating to managing Recurrence instances for MPX

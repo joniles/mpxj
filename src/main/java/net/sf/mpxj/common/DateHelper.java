@@ -397,9 +397,7 @@ public final class DateHelper
          return false;
       }
 
-      boolean result = d1.getYear() == d2.getYear() && d1.getDayOfYear() == d2.getDayOfYear();
-
-      return result;
+      return d1.getYear() == d2.getYear() && d1.getDayOfYear() == d2.getDayOfYear();
    }
 
    /**

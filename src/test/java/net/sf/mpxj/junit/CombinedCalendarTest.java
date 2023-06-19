@@ -46,7 +46,7 @@ public class CombinedCalendarTest
    /**
     * Test the CombinedCalendar class.
     */
-   @Test public void testCombinedCalendar() throws Exception
+   @Test public void testCombinedCalendar()
    {
       ProjectFile file = new ProjectFile();
       ProjectCalendar calendar1 = file.addDefaultBaseCalendar();

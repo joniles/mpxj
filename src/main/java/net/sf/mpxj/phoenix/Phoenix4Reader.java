@@ -46,11 +46,9 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
-import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.common.LocalDateHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
 import org.xml.sax.SAXException;
 
