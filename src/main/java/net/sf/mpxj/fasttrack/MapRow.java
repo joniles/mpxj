@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.fasttrack;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -132,22 +133,33 @@ class MapRow
    public LocalDateTime getTimestamp(FastTrackField dateName, FastTrackField timeName)
    {
       LocalDateTime result = null;
-      LocalDateTime date = getDate(dateName);
+      LocalDate date = getDate(dateName);
       if (date != null)
       {
          Object timeObject = getObject(timeName);
          // TODO: we should probably associated a type with each column and validate as we read
-         if (timeObject instanceof LocalDateTime)
+         if (timeObject instanceof LocalTime)
          {
-            LocalDateTime time = (LocalDateTime)timeObject;
-            result = LocalDateTime.of(date.toLocalDate(), time.toLocalTime());
+            LocalTime time = (LocalTime)timeObject;
+            result = LocalDateTime.of(date, time);
          }
          else
          {
-            result = LocalDateTime.of(date.toLocalDate(), LocalTime.of(0,0));
+            result = date.atStartOfDay();
          }
       }
 
+      return result;
+   }
+
+   public LocalDateTime getTimestamp(FastTrackField dateName)
+   {
+      LocalDateTime result = null;
+      LocalDate date = getDate(dateName);
+      if (date != null)
+      {
+         result = date.atStartOfDay();
+      }
       return result;
    }
 
@@ -157,9 +169,9 @@ class MapRow
     * @param type field type
     * @return Date instance
     */
-   public LocalDateTime getDate(FastTrackField type)
+   public LocalDate getDate(FastTrackField type)
    {
-      return (LocalDateTime) getObject(type);
+      return (LocalDate) getObject(type);
    }
 
    /**

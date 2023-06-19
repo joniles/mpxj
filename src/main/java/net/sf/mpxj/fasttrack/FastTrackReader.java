@@ -408,16 +408,16 @@ public final class FastTrackReader extends AbstractProjectFileReader
          task.setCost(9, row.getCurrency(ActBarField.COST_9));
          task.setCost(10, row.getCurrency(ActBarField.COST_10));
          // Created
-         task.setDate(1, row.getDate(ActBarField.DATE_1));
-         task.setDate(2, row.getDate(ActBarField.DATE_2));
-         task.setDate(3, row.getDate(ActBarField.DATE_3));
-         task.setDate(4, row.getDate(ActBarField.DATE_4));
-         task.setDate(5, row.getDate(ActBarField.DATE_5));
-         task.setDate(6, row.getDate(ActBarField.DATE_6));
-         task.setDate(7, row.getDate(ActBarField.DATE_7));
-         task.setDate(8, row.getDate(ActBarField.DATE_8));
-         task.setDate(9, row.getDate(ActBarField.DATE_9));
-         task.setDate(10, row.getDate(ActBarField.DATE_10));
+         task.setDate(1, row.getTimestamp(ActBarField.DATE_1));
+         task.setDate(2, row.getTimestamp(ActBarField.DATE_2));
+         task.setDate(3, row.getTimestamp(ActBarField.DATE_3));
+         task.setDate(4, row.getTimestamp(ActBarField.DATE_4));
+         task.setDate(5, row.getTimestamp(ActBarField.DATE_5));
+         task.setDate(6, row.getTimestamp(ActBarField.DATE_6));
+         task.setDate(7, row.getTimestamp(ActBarField.DATE_7));
+         task.setDate(8, row.getTimestamp(ActBarField.DATE_8));
+         task.setDate(9, row.getTimestamp(ActBarField.DATE_9));
+         task.setDate(10, row.getTimestamp(ActBarField.DATE_10));
          task.setBaselineDuration(row.getDuration(ActBarField.DURATION));
          task.setDuration(1, row.getDuration(ActBarField.DURATION_1));
          task.setDuration(2, row.getDuration(ActBarField.DURATION_2));
