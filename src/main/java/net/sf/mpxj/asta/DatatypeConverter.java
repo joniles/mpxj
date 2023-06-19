@@ -23,11 +23,12 @@
 
 package net.sf.mpxj.asta;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 
@@ -225,7 +226,7 @@ final class DatatypeConverter
     * @param value timestamp as String
     * @return timestamp as Date
     */
-   public static LocalDateTime parseBasicTimestamp(String value) throws ParseException
+   public static LocalDateTime parseBasicTimestamp(String value)
    {
       LocalDateTime result = null;
 
@@ -233,30 +234,28 @@ final class DatatypeConverter
       {
          if (!value.equals("-1 -1") && !value.equals("0"))
          {
-            DateFormat df;
             if (value.endsWith(" 0"))
             {
-               df = DATE_FORMAT1.get();
+               result = LocalDate.parse(value, DATE_FORMAT1.get()).atStartOfDay();
             }
             else
             {
                if (value.indexOf(' ') == -1)
                {
-                  df = DATE_FORMAT2.get();
+                  result = LocalDate.parse(value, DATE_FORMAT2.get()).atStartOfDay();
                }
                else
                {
-                  df = TIMESTAMP_FORMAT.get();
                   int timeIndex = value.indexOf(' ') + 1;
                   if (timeIndex + 6 > value.length())
                   {
                      String time = value.substring(timeIndex);
                      value = value.substring(0, timeIndex) + "0" + time;
                   }
+
+                  result = LocalDateTime.parse(value, TIMESTAMP_FORMAT.get());
                }
             }
-
-            result = LocalDateTimeHelper.getLocalDateTime(df.parse(value));
          }
       }
 
@@ -270,7 +269,7 @@ final class DatatypeConverter
     * @param value time as String
     * @return time as Date
     */
-   public static LocalDateTime parseBasicTime(String value) throws ParseException
+   public static LocalDateTime parseBasicTime(String value)
    {
       LocalDateTime result = null;
 
@@ -280,20 +279,20 @@ final class DatatypeConverter
          {
             value = "000000" + value;
             value = value.substring(value.length() - 6);
-            result = LocalDateTimeHelper.getLocalDateTime(TIME_FORMAT.get().parse(value));
+            result = LocalDateTime.of(LocalDate.MIN, LocalTime.parse(value, TIME_FORMAT.get()));
          }
       }
 
       return result;
    }
 
-   private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HHmmss"));
+   private static final ThreadLocal<DateTimeFormatter> TIMESTAMP_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyyMMdd HHmmss"));
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT1 = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd 0"));
+   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT1 = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyyMMdd 0"));
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT2 = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd"));
+   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT2 = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("HHmmss"));
+   private static final ThreadLocal<DateTimeFormatter> TIME_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("HHmmss"));
 
    private static final ThreadLocal<DecimalFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> new DecimalFormat("#.#E0"));
 
