@@ -23,8 +23,6 @@
 
 package net.sf.mpxj.junit;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -52,7 +50,6 @@ public class CombinedCalendarTest
       ProjectCalendar calendar1 = file.addDefaultBaseCalendar();
       ProjectCalendar calendar2 = file.addDefaultBaseCalendar();
       CombinedCalendar combined = new CombinedCalendar(calendar1, calendar2);
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
       // Ensure that for an unmodified working day the calendars have an 8-hour overlap
       Duration work = combined.getWork(DayOfWeek.MONDAY, TimeUnit.HOURS);
@@ -85,7 +82,7 @@ public class CombinedCalendarTest
       // Ensure Wednesday shows no working hours as there is no overlap
       work = combined.getWork(DayOfWeek.WEDNESDAY, TimeUnit.HOURS);
       assertEquals(0.0, work.getDuration(), 0.0);
-      work = combined.getWork(LocalDate.of(2022, 11, 02), TimeUnit.HOURS);
+      work = combined.getWork(LocalDate.of(2022, 11, 2), TimeUnit.HOURS);
       assertEquals(0.0, work.getDuration(), 0.0);
 
       // Add an exception for a specific Thursday

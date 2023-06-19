@@ -26,8 +26,6 @@ package net.sf.mpxj.junit.calendar;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 import net.sf.mpxj.reader.UniversalProjectReader;
@@ -63,7 +61,6 @@ public class MultiDayExceptionsTest
     */
    private void testMultiDayExceptions(File file) throws Exception
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       ProjectFile project = new UniversalProjectReader().read(file);
       ProjectCalendar calendar = project.getCalendarByName("Standard");
 

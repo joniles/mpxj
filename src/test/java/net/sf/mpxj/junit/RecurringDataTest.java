@@ -25,8 +25,6 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -46,7 +44,6 @@ public class RecurringDataTest
     */
    @Test public void testGetDates()
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       RecurringData data = new RecurringData();
 
       //

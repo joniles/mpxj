@@ -27,7 +27,6 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
 
 import java.time.LocalDateTime;
 import java.util.Iterator;
@@ -1357,7 +1356,6 @@ public class BasicTest
    {
       List<Task> tasks = xml.getTasks();
       assertEquals(2, tasks.size());
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
       Task task = tasks.get(1);
       assertEquals("Task Text One", task.getText(1));

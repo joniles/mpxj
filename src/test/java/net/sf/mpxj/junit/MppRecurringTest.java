@@ -25,8 +25,6 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 import org.junit.Test;
@@ -125,8 +123,6 @@ public class MppRecurringTest
     */
    private void testRecurringTasks(ProjectFile mpp)
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
       //
       // Task 1
       //

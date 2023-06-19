@@ -25,12 +25,9 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -53,8 +50,6 @@ public class ProjectCalendarTest
     */
    @Test public void testGetWork()
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
       ProjectFile project = new ProjectFile();
       ProjectCalendar projectCalendar = project.addDefaultBaseCalendar();
 
@@ -686,7 +681,6 @@ public class ProjectCalendarTest
    {
       ProjectFile file = new ProjectFile();
       ProjectCalendar cal = file.addDefaultBaseCalendar();
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
       //
       // Working day

@@ -26,8 +26,6 @@ package net.sf.mpxj.junit.calendar;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -465,6 +463,5 @@ public class RecurringExceptionsTest
       return exception.getExpandedExceptions().stream().map(e -> m_localDateFormat.format(e.getFromDate())).collect(Collectors.toList());
    }
 
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy");
    private final DateTimeFormatter m_localDateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 }

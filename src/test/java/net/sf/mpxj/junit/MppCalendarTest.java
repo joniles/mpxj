@@ -25,8 +25,6 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -173,8 +171,6 @@ public class MppCalendarTest
     */
    private void testCalendars(ProjectFile mpp)
    {
-      DateFormat tf = new SimpleDateFormat("HH:mm");
-
       ProjectCalendar cal = mpp.getCalendarByUniqueID(Integer.valueOf(1));
       assertNotNull(cal);
       assertEquals("Standard", cal.getName());
@@ -209,9 +205,6 @@ public class MppCalendarTest
     */
    private void testExceptions(ProjectFile mpp)
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-      DateFormat tf = new SimpleDateFormat("HH:mm");
-
       ProjectCalendar cal = mpp.getCalendarByUniqueID(Integer.valueOf(1));
       assertNotNull(cal);
       assertEquals("Standard", cal.getName());

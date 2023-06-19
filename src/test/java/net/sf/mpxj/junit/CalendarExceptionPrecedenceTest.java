@@ -23,8 +23,6 @@
 
 package net.sf.mpxj.junit;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 import net.sf.mpxj.ProjectCalendar;
@@ -103,6 +101,4 @@ public class CalendarExceptionPrecedenceTest
       ProjectCalendar calendar = project.getCalendarByName("TEST");
       Assert.assertFalse(calendar.isWorkingDate(LocalDate.of(2023, 5, 12)));
    }
-
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy");
 }

@@ -24,7 +24,6 @@
 package net.sf.mpxj.explorer;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,7 +87,7 @@ public class ProjectTreeController
    }
 
    final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HH:mm");
-   final SimpleDateFormat m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+   final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
    private static final Set<String> FILE_EXCLUDED_METHODS = excludedMethods("getAllResourceAssignments", "getAllResources", "getAllTasks", "getChildTasks", "getCalendars", "getCustomFields", "getEventManager", "getFilters", "getGroups", "getProjectProperties", "getProjectConfig", "getViews", "getTables");
    private static final Set<String> CALENDAR_EXCLUDED_METHODS = excludedMethods("getCalendarExceptions", "getExpandedCalendarExceptions", "getDerivedCalendars", "getHours", "getDays", "getParent", "getCalendar", "getWorkWeeks");
