@@ -491,9 +491,9 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(MPXConstants.RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER);
       }
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDate(LocalDateHelper.getDate(record.getFromDate()))));
+      m_buffer.append(format(formatDate(getDate(record.getFromDate()))));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDate(LocalDateHelper.getDate(record.getToDate()))));
+      m_buffer.append(format(formatDate(getDate(record.getToDate()))));
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getWorking() ? "1" : "0");
       m_buffer.append(m_delimiter);
@@ -1223,7 +1223,7 @@ public final class MPXWriter extends AbstractProjectWriter
       String result = null;
       if (value != null)
       {
-         result = m_formats.getDateTimeFormat().format(LocalDateHelper.getDate(value));
+         result = m_formats.getDateTimeFormat().format(getDate(value));
       }
       return result;
    }
@@ -1629,6 +1629,27 @@ public final class MPXWriter extends AbstractProjectWriter
    public Locale[] getSupportedLocales()
    {
       return (LocaleUtility.getSupportedLocales());
+   }
+
+   private Date getDate(LocalDate date)
+   {
+      if (date == null)
+      {
+         return null;
+      }
+
+      Calendar cal = DateHelper.popCalendar();
+      cal.set(Calendar.YEAR, date.getYear());
+      cal.set(Calendar.MONTH, date.getMonthValue()-1);
+      cal.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
+      cal.set(Calendar.HOUR_OF_DAY, 0);
+      cal.set(Calendar.MINUTE, 0);
+      cal.set(Calendar.SECOND, 0);
+      cal.set(Calendar.MILLISECOND, 0);
+      //cal.set(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), 0, 0, 0);
+      Date result = cal.getTime();
+      DateHelper.pushCalendar(cal);
+      return result;
    }
 
    private ProjectFile m_projectFile;
