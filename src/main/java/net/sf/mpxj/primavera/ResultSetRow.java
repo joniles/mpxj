@@ -80,18 +80,13 @@ final class ResultSetRow extends MapRow
             }
 
             case Types.DATE:
-            {
-               value = LocalDateTimeHelper.getLocalDateTime(rs.getDate(name));
-               break;
-            }
-
             case Types.TIMESTAMP:
             case SQL_SERVER_TIMESTAMP:
             {
                Timestamp ts = rs.getTimestamp(name);
                if (ts != null)
                {
-                  value = LocalDateTimeHelper.getLocalDateTime(new java.util.Date(ts.getTime()));
+                  value = ts.toLocalDateTime();
                }
                else
                {
