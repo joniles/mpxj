@@ -528,7 +528,7 @@ class DatabaseReader
    /**
     * Epoch for date calculations. Represents 31/12/1983.
     */
-   static final LocalDateTime EPOCH = LocalDateTimeHelper.getLocalDateTime(DateHelper.getDateFromLong(441676800000L));
+   static final LocalDateTime EPOCH = LocalDateTime.of(1983, 12, 31, 0, 0);
 
    private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<>();
    static

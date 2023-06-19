@@ -262,9 +262,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       // Heuristic to filter out odd exception dates
       if (timestampInDays > 0xFF)
       {
-         long timestampInMilliseconds = timestampInDays * 24 * 60 * 60 * 1000;
-         LocalDate exceptionDate = LocalDateHelper.getLocalDate(DateHelper.getTimestampFromLong(timestampInMilliseconds));
-
+         LocalDate exceptionDate = EPOCH_DATE.plusDays(timestampInDays);
          ProjectCalendarException ex = calendar.addCalendarException(exceptionDate);
          DayOfWeek day = exceptionDate.getDayOfWeek();
          if (!calendar.isWorkingDay(day))
@@ -660,4 +658,6 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       DayOfWeek.THURSDAY,
       DayOfWeek.FRIDAY
    };
+
+   private static final LocalDate EPOCH_DATE = LocalDate.of(1970, 1, 1);
 }
