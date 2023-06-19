@@ -27,10 +27,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -47,7 +47,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
@@ -302,9 +301,9 @@ public final class SageReader extends AbstractProjectStreamReader
       {
          try
          {
-            result = LocalDateTimeHelper.getLocalDateTime(DATE_FORMAT.get().parse(date));
+            result = LocalDate.parse(date, DATE_FORMAT.get()).atStartOfDay();
          }
-         catch (ParseException e)
+         catch (DateTimeParseException e)
          {
             result = null;
          }
@@ -375,7 +374,7 @@ public final class SageReader extends AbstractProjectStreamReader
    private EventManager m_eventManager;
    private Map<String, Task> m_taskMap;
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("MM/dd/yyyy"));
+   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static

@@ -23,8 +23,8 @@
 
 package net.sf.mpxj.sample;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -138,7 +138,7 @@ public class MpxjQuery
     */
    private static void listProjectProperties(ProjectFile file)
    {
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm z");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
       ProjectProperties properties = file.getProjectProperties();
       LocalDateTime startDate = properties.getStartDate();
       LocalDateTime finishDate = properties.getFinishDate();
@@ -171,7 +171,7 @@ public class MpxjQuery
     */
    private static void listTasks(ProjectFile file)
    {
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm z");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
       for (Task task : file.getTasks())
       {
@@ -323,7 +323,7 @@ public class MpxjQuery
       int days = (int) ((task.getStart().until(task.getFinish(), ChronoUnit.MILLIS)) / (1000 * 60 * 60 * 24)) + 1;
       if (days > 1)
       {
-         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
+         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy");
 
          TimescaleUtility timescale = new TimescaleUtility();
          ArrayList<DateRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
