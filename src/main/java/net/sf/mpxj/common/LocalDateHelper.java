@@ -26,19 +26,6 @@ public final class LocalDateHelper
       return date.toLocalDate();
    }
 
-   public static LocalDate getLocalDate(Date date)
-   {
-      if (date == null)
-      {
-         return null;
-      }
-
-      Calendar cal = DateHelper.popCalendar(date);
-      LocalDate result = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH));
-      DateHelper.pushCalendar(cal);
-      return result;
-   }
-
    public static Date getDate(LocalDate date)
    {
       if (date == null)

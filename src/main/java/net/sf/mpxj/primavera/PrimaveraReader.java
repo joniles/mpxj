@@ -614,7 +614,7 @@ final class PrimaveraReader
       for (StructuredTextRecord exception : exceptions.getChildren())
       {
          long daysFromEpoch = Integer.parseInt(exception.getAttribute("d"));
-         LocalDate startEx = LocalDateHelper.getLocalDate(DateHelper.getDateFromLong(EXCEPTION_EPOCH + (daysFromEpoch * DateHelper.MS_PER_DAY)));
+         LocalDate startEx = EXCEPTION_EPOCH.plusDays(daysFromEpoch);
 
          ProjectCalendarException pce = calendar.addCalendarException(startEx, startEx);
          for (StructuredTextRecord exceptionHours : exception.getChildren())
@@ -2237,7 +2237,7 @@ final class PrimaveraReader
       CURRENCY_SYMBOL_POSITION_MAP.put("1.1 #", CurrencySymbolPosition.AFTER_WITH_SPACE);
    }
 
-   static final long EXCEPTION_EPOCH = -2209161599935L;
+   static final LocalDate EXCEPTION_EPOCH = LocalDate.of(1899, 12, 30);
 
    static final String DEFAULT_WBS_SEPARATOR = ".";
 }

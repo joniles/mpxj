@@ -26,6 +26,7 @@ package net.sf.mpxj.primavera;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -119,7 +120,7 @@ class ProjectCalendarStructuredTextWriter
                continue;
             }
 
-            long dateValue = (long) Math.ceil((double) (DateHelper.getLongFromDate(LocalDateHelper.getDate(exceptionDate)) - PrimaveraReader.EXCEPTION_EPOCH) / DateHelper.MS_PER_DAY);
+            long dateValue = PrimaveraReader.EXCEPTION_EPOCH.until(exceptionDate, ChronoUnit.DAYS);
 
             StructuredTextRecord exceptionRecord = new StructuredTextRecord();
             exceptionsRecord.addChild(exceptionRecord);
