@@ -7,7 +7,7 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="11.5.2" />
+		<property name="current.version" value="11.5.3" />
 
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="c:/java/apache-maven-3.8.5/bin/mvn.cmd"/>
@@ -24,8 +24,9 @@
 		<property name="xjc.cmd" value="${basedir}/../jaxb-ri-2.3.3/bin/xjc.bat" />
 
 		<!-- Common properties -->
+		<property name="dist.dir" value="${basedir}/dist" />
 		<property name="lib.dir" value="${basedir}/lib" />
-		<property name="distribution" value="${basedir}/../mpxj-${current.version}.zip" />
+		<property name="distribution" value="${dist.dir}/mpxj-${current.version}.zip" />
 
 		<!-- Runtime Dependencies -->
 		<property name="poi.jar" value="poi-5.2.2" />
@@ -133,10 +134,10 @@
 	</target>
 
 	<target name="releasenotes" depends="init" description="Create release notes">
-		<xslt in="${basedir}/src/changes/changes.xml" out="${basedir}/../github-release.md" style="${basedir}/doc/github-releasenote.xsl">
+		<xslt in="${basedir}/src/changes/changes.xml" out="${dist.dir}/github-release.md" style="${basedir}/doc/github-releasenote.xsl">
 			<param name="version" expression="${current.version}"/>
 		</xslt>
-		<xslt in="${basedir}/src/changes/changes.xml" out="${basedir}/../readme.md" style="${basedir}/doc/sourceforge-releasenote.xsl">
+		<xslt in="${basedir}/src/changes/changes.xml" out="${dist.dir}/readme.md" style="${basedir}/doc/sourceforge-releasenote.xsl">
 			<param name="version" expression="${current.version}"/>
 		</xslt>
 	</target>
@@ -783,7 +784,7 @@
 
 	<target name="distribute" depends="archive,clean-dot-net,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
-			<zipfileset dir="${basedir}" prefix="mpxj" excludes="target/**" />
+			<zipfileset dir="${basedir}" prefix="mpxj" excludes="target/**, dist/**" />
 		</zip>
 	</target>
 
@@ -926,7 +927,7 @@
 
 		<echo message="Releasing"/>
 		<exec executable="hub" failonerror="true">
-			<arg line='release create v${current.version} -a ${distribution} -f ${basedir}/../github-release.md'/>
+			<arg line='release create v${current.version} -a ${distribution} -f ${dist.dir}/github-release.md'/>
 		</exec>
 	</target>
 
@@ -968,7 +969,7 @@
 			<arg value="pack"/>
 			<arg value="${nuspec.dir}/${nuget.spec}.nuspec"/>
 			<arg value="-outputdirectory"/>
-			<arg value="${basedir}/.."/>
+			<arg value="${dist.dir}"/>
 			<arg value="-version"/>
 			<arg value="${current.version}"/>
 			<arg value="-verbosity"/>
@@ -988,7 +989,7 @@
 			<arg value="Detailed"/>
 			<arg value="-ApiKey"/>
 			<arg value="${env.NUGET_API_KEY}"/>
-			<arg value="${basedir}/../net.sf.${nuget.package}.${current.version}.nupkg"/>
+			<arg value="${dist.dir}/net.sf.${nuget.package}.${current.version}.nupkg"/>
 		</exec>
 	</target>
 

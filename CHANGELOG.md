@@ -1,6 +1,14 @@
 # Changelog
 
-## 11.5.3 (unreleased)
+## 11.5.4 (unreleased)
+
+## 11.5.3 (2023-06-19)
+* When writing an XER file, provide the necessary default values to allow non-P6 schedules to be successfully imported into P6.
+* Ensure multi-day exceptions are written to XER files correctly.
+* Ensure GanttProject exception dates are read correctly.
+* More closely match the Planner predecessor lag calculation.
+* Ensure that `java.sql.Date` values are correctly formatted when writing XER files.
+* When reading from a P6 database, check to ensure the location table is present before attemting to read locations.
 
 ## 11.5.2 (2023-06-08)
 * Improve accuracy of calendar data read from certain Powerproject schedules.
