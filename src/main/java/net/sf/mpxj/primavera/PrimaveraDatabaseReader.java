@@ -487,7 +487,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       throw new UnsupportedOperationException();
    }
 
-   private void processTableNames()  throws SQLException
+   private void processTableNames() throws SQLException
    {
       allocateConnection();
       m_tableNames = ConnectionHelper.getTableNames(m_connection);

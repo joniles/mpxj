@@ -26,7 +26,6 @@ package net.sf.mpxj.utility;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
