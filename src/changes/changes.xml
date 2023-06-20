@@ -6,7 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="11.5.4">
-			<action dev="joniles" type="update">Improve accuracy of dates read from Turboproject files.</action>
+			<action dev="joniles" type="update">Improve accuracy of dates read from Suretrak and Turboproject files.</action>
 		</release>
 		<release date="2023-06-19" version="11.5.3">
 			<action dev="joniles" type="update">When writing an XER file, provide the necessary default values to allow non-P6 schedules to be successfully imported into P6.</action>
