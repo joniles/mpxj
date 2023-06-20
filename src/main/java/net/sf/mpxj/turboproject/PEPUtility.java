@@ -23,12 +23,7 @@
 
 package net.sf.mpxj.turboproject;
 
-
-
 import java.time.LocalDateTime;
-
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * Common utility methods for extracting data from a byte array.
@@ -131,7 +126,7 @@ final class PEPUtility
       }
       else
       {
-         result = LocalDateTimeHelper.getLocalDateTime(DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY)));
+         result = EPOCH.plusDays(days);
       }
 
       return (result);
@@ -155,11 +150,11 @@ final class PEPUtility
       }
       else
       {
-         result = LocalDateTimeHelper.getLocalDateTime(DateHelper.getDateFromLong(EPOCH + ((days - 1) * DateHelper.MS_PER_DAY)));
+         result = EPOCH.plusDays(days - 1);
       }
 
       return (result);
    }
 
-   private static final long EPOCH = 946598400000L;
+   private static final LocalDateTime EPOCH = LocalDateTime.of(1999, 12, 31, 0, 0);
 }
