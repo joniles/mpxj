@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.turboproject;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import net.sf.mpxj.common.DateHelper;
@@ -120,7 +121,7 @@ final class PEPUtility
    public static final Date getStartDate(byte[] data, int offset)
    {
       Date result;
-      long days = getShort(data, offset);
+      int days = getShort(data, offset);
 
       if (days == 0x8000)
       {
@@ -128,7 +129,10 @@ final class PEPUtility
       }
       else
       {
-         result = DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY));
+         Calendar cal = DateHelper.popCalendar(new Date(EPOCH));
+         cal.add(Calendar.DAY_OF_YEAR, days);
+         result = cal.getTime();
+         DateHelper.pushCalendar(cal);
       }
 
       return (result);
@@ -144,7 +148,7 @@ final class PEPUtility
    public static final Date getFinishDate(byte[] data, int offset)
    {
       Date result;
-      long days = getShort(data, offset);
+      int days = getShort(data, offset);
 
       if (days == 0x8000)
       {
@@ -152,7 +156,10 @@ final class PEPUtility
       }
       else
       {
-         result = DateHelper.getDateFromLong(EPOCH + ((days - 1) * DateHelper.MS_PER_DAY));
+         Calendar cal = DateHelper.popCalendar(new Date(EPOCH));
+         cal.add(Calendar.DAY_OF_YEAR, days - 1);
+         result = cal.getTime();
+         DateHelper.pushCalendar(cal);
       }
 
       return (result);
