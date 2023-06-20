@@ -46,8 +46,8 @@ class DateInHoursColumn extends AbstractIntColumn
 
    @Override public Date read(int offset, byte[] data)
    {
-      int hours = readInt(offset, data);
-      return hours == 0 ? null : DateHelper.getDateFromLong(EPOCH + (hours * DateHelper.MS_PER_HOUR));
+      long hours = readInt(offset, data);
+      return hours == 0 ? null : DateHelper.getTimestampFromLong(EPOCH + (hours * DateHelper.MS_PER_HOUR));
    }
 
    // 31/12/1979

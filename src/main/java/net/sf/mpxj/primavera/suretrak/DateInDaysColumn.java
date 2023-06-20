@@ -46,13 +46,13 @@ class DateInDaysColumn extends AbstractShortColumn
 
    @Override public Date read(int offset, byte[] data)
    {
-      int days = readShort(offset, data);
+      long days = readShort(offset, data);
       if (days > RECURRING_OFFSET)
       {
          days -= RECURRING_OFFSET;
       }
 
-      return DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY));
+      return DateHelper.getTimestampFromLong(EPOCH + (days * DateHelper.MS_PER_DAY));
    }
 
    static final int RECURRING_OFFSET = 25463;
