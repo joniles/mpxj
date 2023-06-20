@@ -50,9 +50,9 @@ class DateInHoursColumn extends AbstractIntColumn
    @Override public LocalDateTime read(int offset, byte[] data)
    {
       int hours = readInt(offset, data);
-      return hours == 0 ? null : LocalDateTimeHelper.getLocalDateTime(DateHelper.getDateFromLong(EPOCH + (hours * DateHelper.MS_PER_HOUR)));
+      return hours == 0 ? null : EPOCH.plusHours(hours );
    }
 
    // 31/12/1979
-   private static final long EPOCH = 315446400000L;
+   private static final LocalDateTime EPOCH = LocalDateTime.of(1979, 12, 31, 0, 0);
 }

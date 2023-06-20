@@ -55,11 +55,11 @@ class DateInDaysColumn extends AbstractShortColumn
          days -= RECURRING_OFFSET;
       }
 
-      return LocalDateTimeHelper.getLocalDateTime(DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY)));
+      return EPOCH.plusDays(days);
    }
 
    static final int RECURRING_OFFSET = 25463;
 
    // 31/12/1979
-   private static final long EPOCH = 315446400000L;
+   private static final LocalDateTime EPOCH = LocalDateTime.of(1979, 12, 31, 0, 0);
 }
