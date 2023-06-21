@@ -272,9 +272,8 @@ final class DatatypeConverter
       {
          return null;
       }
-      timeInSeconds -= 3600;
       timeInSeconds *= 1000;
-      return DateHelper.getDateFromLong(timeInSeconds);
+      return DateHelper.getTimestampFromLong(timeInSeconds);
    }
 
    /**
