@@ -34,12 +34,10 @@ import java.util.UUID;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
- * Common data extraction/conversion conversion methods.
+ * Common data extraction/conversion methods.
  */
 final class DatatypeConverter
 {
@@ -275,9 +273,7 @@ final class DatatypeConverter
       {
          return null;
       }
-      timeInSeconds -= 3600;
-      timeInSeconds *= 1000;
-      return LocalDateTimeHelper.getLocalDateTime(DateHelper.getDateFromLong(timeInSeconds));
+      return EPOCH.plusSeconds(timeInSeconds);
    }
 
    /**
@@ -349,4 +345,5 @@ final class DatatypeConverter
    }
 
    private static final int NULL_SECONDS = 0x93406FFF;
+   private static final LocalDateTime EPOCH = LocalDateTime.of(1970, 1, 1, 0, 0);
 }
