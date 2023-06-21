@@ -23,14 +23,15 @@
 
 package net.sf.mpxj.utility;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 
 import net.sf.mpxj.DateRange;
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.mpp.TimescaleUnits;
 
 /**
@@ -57,84 +58,77 @@ public final class TimescaleUtility
    {
       ArrayList<DateRange> result = new ArrayList<>(segmentCount);
 
-      Calendar cal = DateHelper.popCalendar(LocalDateTimeHelper.getDate(startDate));
-      cal.set(Calendar.HOUR_OF_DAY, 0);
-      cal.set(Calendar.MINUTE, 0);
-      cal.set(Calendar.SECOND, 0);
-      cal.set(Calendar.MILLISECOND, 0);
+      LocalDateTime cal = LocalDateTime.of(startDate.toLocalDate(), LocalTime.MIDNIGHT);
 
-      int calendarIncrementUnit;
+      TemporalUnit calendarIncrementUnit;
       int calendarIncrementAmount;
 
       switch (segmentUnit)
       {
          case MINUTES:
          {
-            calendarIncrementUnit = Calendar.MINUTE;
+            calendarIncrementUnit = ChronoUnit.MINUTES;
             calendarIncrementAmount = 1;
             break;
          }
 
          case HOURS:
          {
-            calendarIncrementUnit = Calendar.HOUR_OF_DAY;
+            calendarIncrementUnit = ChronoUnit.HOURS;
             calendarIncrementAmount = 1;
             break;
          }
 
          case WEEKS:
          {
-            cal.set(Calendar.DAY_OF_WEEK, m_weekStartDay);
-            calendarIncrementUnit = Calendar.DAY_OF_YEAR;
+            cal = cal.plusDays(m_weekStartDay.getValue() - cal.getDayOfWeek().getValue());
+            calendarIncrementUnit = ChronoUnit.DAYS;
             calendarIncrementAmount = 7;
             break;
          }
 
          case THIRDS_OF_MONTHS:
          {
-            cal.set(Calendar.DAY_OF_MONTH, 1);
-            calendarIncrementUnit = Calendar.DAY_OF_YEAR;
+            cal = LocalDateTime.of(cal.getYear(), cal.getMonth(), 1, 0, 0, 0);
+            calendarIncrementUnit = ChronoUnit.DAYS;
             calendarIncrementAmount = 10;
             break;
          }
 
          case MONTHS:
          {
-            cal.set(Calendar.DAY_OF_MONTH, 1);
-            calendarIncrementUnit = Calendar.MONTH;
+            cal = LocalDateTime.of(cal.getYear(), cal.getMonth(), 1, 0, 0, 0);
+            calendarIncrementUnit = ChronoUnit.MONTHS;
             calendarIncrementAmount = 1;
             break;
          }
 
          case QUARTERS:
          {
-            int currentMonth = cal.get(Calendar.MONTH);
+            int currentMonth = cal.getMonthValue();
             int currentQuarter = currentMonth / 3;
             int startMonth = currentQuarter * 3;
-            cal.set(Calendar.DAY_OF_MONTH, 1);
-            cal.set(Calendar.MONTH, startMonth);
-            calendarIncrementUnit = Calendar.MONTH;
+            cal = LocalDateTime.of(cal.getYear(), startMonth, 1, 0, 0, 0);
+            calendarIncrementUnit = ChronoUnit.MONTHS;
             calendarIncrementAmount = 3;
             break;
          }
 
          case HALF_YEARS: // align to jan, jun
          {
-            int currentMonth = cal.get(Calendar.MONTH);
+            int currentMonth = cal.getMonthValue();
             int currentHalf = currentMonth / 6;
             int startMonth = currentHalf * 6;
-            cal.set(Calendar.DAY_OF_MONTH, 1);
-            cal.set(Calendar.MONTH, startMonth);
-            calendarIncrementUnit = Calendar.MONTH;
+            cal = LocalDateTime.of(cal.getYear(), startMonth, 1, 0, 0, 0);
+            calendarIncrementUnit = ChronoUnit.MONTHS;
             calendarIncrementAmount = 6;
             break;
          }
 
          case YEARS: // align to 1 jan
          {
-            cal.set(Calendar.DAY_OF_MONTH, 1);
-            cal.set(Calendar.MONTH, Calendar.JANUARY);
-            calendarIncrementUnit = Calendar.YEAR;
+            cal = LocalDateTime.of(cal.getYear(), 1, 1, 0, 0, 0);
+            calendarIncrementUnit = ChronoUnit.YEARS;
             calendarIncrementAmount = 1;
             break;
          }
@@ -142,7 +136,7 @@ public final class TimescaleUtility
          default:
          case DAYS:
          {
-            calendarIncrementUnit = Calendar.DAY_OF_YEAR;
+            calendarIncrementUnit = ChronoUnit.DAYS;
             calendarIncrementAmount = 1;
             break;
          }
@@ -150,28 +144,20 @@ public final class TimescaleUtility
 
       for (int loop = 0; loop < segmentCount; loop++)
       {
-         LocalDateTime rangeStart = LocalDateTimeHelper.getLocalDateTime(cal.getTime());
+         LocalDateTime rangeStart = cal;
 
          if (segmentUnit == TimescaleUnits.THIRDS_OF_MONTHS && (loop + 1) % 3 == 0)
          {
-            cal.set(Calendar.HOUR_OF_DAY, 0);
-            cal.set(Calendar.MINUTE, 0);
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);
-            cal.set(Calendar.DAY_OF_MONTH, 1);
-            cal.add(Calendar.MONTH, 1);
+            cal = LocalDateTime.of(cal.getYear(), 1, 1, 0, 0, 0);
          }
          else
          {
-            cal.add(calendarIncrementUnit, calendarIncrementAmount);
+            cal = cal.plus(calendarIncrementAmount, calendarIncrementUnit);
          }
 
-         cal.add(Calendar.MILLISECOND, -1);
-         result.add(new DateRange(rangeStart, LocalDateTimeHelper.getLocalDateTime(cal.getTime())));
-         cal.add(Calendar.MILLISECOND, 1);
+         LocalDateTime rangeEnd = cal.minus(1, ChronoUnit.MILLIS);
+         result.add(new DateRange(rangeStart, rangeEnd));
       }
-
-      DateHelper.pushCalendar(cal);
 
       return result;
    }
@@ -181,7 +167,7 @@ public final class TimescaleUtility
     *
     * @param weekStartDay week start day
     */
-   public void setWeekStartDay(int weekStartDay)
+   public void setWeekStartDay(DayOfWeek weekStartDay)
    {
       m_weekStartDay = weekStartDay;
    }
@@ -191,10 +177,10 @@ public final class TimescaleUtility
     *
     * @return week start day
     */
-   public int getWeekStartDay()
+   public DayOfWeek getWeekStartDay()
    {
       return m_weekStartDay;
    }
 
-   private int m_weekStartDay = Calendar.MONDAY;
+   private DayOfWeek m_weekStartDay = DayOfWeek.MONDAY;
 }
