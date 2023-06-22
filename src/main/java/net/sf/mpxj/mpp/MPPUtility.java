@@ -329,7 +329,7 @@ public final class MPPUtility
       }
       else
       {
-         result = LocalDateTimeHelper.getLocalDateTime(DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY)));
+         result = NEW_EPOCH.plusDays(days);
       }
 
       return (result);
@@ -1324,6 +1324,7 @@ public final class MPPUtility
     * is that date expressed in milliseconds using the Java date epoch.
     */
    public static final long EPOCH = 441676800000L;
+   public static final LocalDateTime NEW_EPOCH = LocalDateTime.of(1983, 12, 31, 0, 0);
 
    /**
     * Epoch Date as a Date instance.
