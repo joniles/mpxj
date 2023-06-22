@@ -398,7 +398,8 @@ public final class MPPUtility
          {
             time = 0;
          }
-         result = LocalDateTimeHelper.getLocalDateTime(DateHelper.getTimestampFromLong((EPOCH + (days * DateHelper.MS_PER_DAY) + ((time * DateHelper.MS_PER_MINUTE) / 10))));
+
+         result = NEW_EPOCH.plusDays(days).plusSeconds(time * 6);
       }
 
       return (result);
