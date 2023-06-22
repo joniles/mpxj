@@ -105,9 +105,9 @@ public final class TimescaleUtility
 
          case QUARTERS:
          {
-            int currentMonth = cal.getMonthValue();
+            int currentMonth = cal.getMonthValue() - 1;
             int currentQuarter = currentMonth / 3;
-            int startMonth = currentQuarter * 3;
+            int startMonth = (currentQuarter * 3) + 1;
             cal = LocalDateTime.of(cal.getYear(), startMonth, 1, 0, 0, 0);
             calendarIncrementUnit = ChronoUnit.MONTHS;
             calendarIncrementAmount = 3;
@@ -116,9 +116,9 @@ public final class TimescaleUtility
 
          case HALF_YEARS: // align to jan, jun
          {
-            int currentMonth = cal.getMonthValue();
+            int currentMonth = cal.getMonthValue() - 1;
             int currentHalf = currentMonth / 6;
-            int startMonth = currentHalf * 6;
+            int startMonth = (currentHalf * 6) + 1;
             cal = LocalDateTime.of(cal.getYear(), startMonth, 1, 0, 0, 0);
             calendarIncrementUnit = ChronoUnit.MONTHS;
             calendarIncrementAmount = 6;
@@ -148,7 +148,7 @@ public final class TimescaleUtility
 
          if (segmentUnit == TimescaleUnits.THIRDS_OF_MONTHS && (loop + 1) % 3 == 0)
          {
-            cal = LocalDateTime.of(cal.getYear(), 1, 1, 0, 0, 0);
+            cal = LocalDateTime.of(cal.getYear(), cal.getMonth(), 1, 0, 0, 0).plusMonths(1);
          }
          else
          {
