@@ -329,7 +329,7 @@ public final class MPPUtility
       }
       else
       {
-         result = NEW_EPOCH.plusDays(days);
+         result = EPOCH_DATE.plusDays(days);
       }
 
       return (result);
@@ -399,7 +399,7 @@ public final class MPPUtility
             time = 0;
          }
 
-         result = NEW_EPOCH.plusDays(days).plusSeconds(time * 6);
+         result = EPOCH_DATE.plusDays(days).plusSeconds(time * 6);
       }
 
       return (result);
@@ -414,8 +414,8 @@ public final class MPPUtility
     */
    public static final LocalDateTime getTimestampFromTenths(byte[] data, int offset)
    {
-      long ms = ((long) getInt(data, offset)) * 6000;
-      return LocalDateTimeHelper.getLocalDateTime(DateHelper.getTimestampFromLong(EPOCH + ms));
+      long seconds = ((long) getInt(data, offset)) * 6;
+      return EPOCH_DATE.plusSeconds(seconds);
    }
 
    /**
@@ -1325,12 +1325,7 @@ public final class MPPUtility
     * is that date expressed in milliseconds using the Java date epoch.
     */
    public static final long EPOCH = 441676800000L;
-   public static final LocalDateTime NEW_EPOCH = LocalDateTime.of(1983, 12, 31, 0, 0);
-
-   /**
-    * Epoch Date as a Date instance.
-    */
-   private static final LocalDateTime EPOCH_DATE = LocalDateTimeHelper.getLocalDateTime(DateHelper.getTimestampFromLong(EPOCH));
+   public static final LocalDateTime EPOCH_DATE = LocalDateTime.of(1983, 12, 31, 0, 0);
 
    /**
     * Mask used to remove flags from the duration units field.
