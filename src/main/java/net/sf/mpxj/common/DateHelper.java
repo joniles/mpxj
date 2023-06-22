@@ -57,21 +57,6 @@ public final class DateHelper
     * @param date date to convert
     * @return day start date
     */
-   public static Date getDayStartDate(Date date)
-   {
-      if (date != null)
-      {
-         Calendar cal = popCalendar(date);
-         cal.set(Calendar.HOUR_OF_DAY, 0);
-         cal.set(Calendar.MINUTE, 0);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-         date = cal.getTime();
-         pushCalendar(cal);
-      }
-      return (date);
-   }
-
    public static LocalDateTime getDayStartDate(LocalDateTime date)
    {
       if (date == null)
@@ -89,15 +74,6 @@ public final class DateHelper
     * @param date date to convert
     * @return day start date
     */
-   public static LocalDateTime getDayEndDate(LocalDateTime date)
-   {
-      if (date == null)
-      {
-         return null;
-      }
-      return getDayEndDate(date.toLocalDate());
-   }
-
    public static LocalDateTime getDayEndDate(LocalDate date)
    {
       if (date == null)
@@ -240,32 +216,6 @@ public final class DateHelper
    }
 
    /**
-    * Creates a date from the equivalent long value. This conversion
-    * takes account of the time zone.
-    *
-    * @param date date expressed as a long integer
-    * @return new Date instance
-    */
-   public static Date getDateFromLong(long date)
-   {
-      TimeZone tz = TimeZone.getDefault();
-      return (new Date(date - tz.getRawOffset()));
-   }
-
-   /**
-    * Generates a long from a Date instance.
-    * This conversion takes account of the time zone.
-    *
-    * @param date Date instance
-    * @return date expressed as a long integer
-    */
-   public static long getLongFromDate(Date date)
-   {
-      TimeZone tz = TimeZone.getDefault();
-      return date.getTime() + tz.getRawOffset();
-   }
-
-   /**
     * Creates a timestamp from the equivalent long value. This conversion
     * takes account of the time zone and any daylight savings time.
     *
@@ -323,57 +273,7 @@ public final class DateHelper
       }
       return result;
    }
-
-   /**
-    * Create a Date instance representing a specific time.
-    *
-    * @param hour hour 0-23
-    * @param minutes minutes 0-59
-    * @return new Date instance
-    */
-   public static Date getTime(int hour, int minutes)
-   {
-      Calendar cal = popCalendar();
-      cal.set(Calendar.HOUR_OF_DAY, hour);
-      cal.set(Calendar.MINUTE, minutes);
-      cal.set(Calendar.SECOND, 0);
-      Date result = cal.getTime();
-      pushCalendar(cal);
-      return result;
-   }
-
-   /**
-    * This internal method is used to convert from an integer representing
-    * minutes past midnight into a Date instance whose time component
-    * represents the start time.
-    *
-    * @param time integer representing the start time in minutes past midnight
-    * @return Date instance
-    */
-   public static Date getTimeFromMinutesPastMidnight(Integer time)
-   {
-      Date result = null;
-
-      if (time != null)
-      {
-         int minutes = time.intValue();
-         int hours = minutes / 60;
-         minutes -= (hours * 60);
-
-         Calendar cal = popCalendar();
-         cal.set(Calendar.DAY_OF_YEAR, 1);
-         cal.set(Calendar.YEAR, 1);
-         cal.set(Calendar.MILLISECOND, 0);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MINUTE, minutes);
-         cal.set(Calendar.HOUR_OF_DAY, hours);
-         result = cal.getTime();
-         pushCalendar(cal);
-      }
-
-      return result;
-   }
-
+   
    /**
     * Add a number of days to the supplied date.
     *
