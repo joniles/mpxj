@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -128,7 +129,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
 
    @Override public int compareTo(CostRateTableEntry o)
    {
-      return DateHelper.compare(m_endDate, o.m_endDate);
+      return LocalDateTimeHelper.compare(m_endDate, o.m_endDate);
    }
 
    @Override public String toString()

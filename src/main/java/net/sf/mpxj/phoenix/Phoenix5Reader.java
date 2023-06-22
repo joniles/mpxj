@@ -50,6 +50,7 @@ import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
 import org.xml.sax.SAXException;
 
@@ -667,12 +668,12 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
          // will be the same as the start date, so applying our "subtract 1" fix
          // gives us a finish date before the start date. The code below
          // deals with this situation.
-         if (DateHelper.compare(task.getStart(), task.getFinish()) > 0)
+         if (LocalDateTimeHelper.compare(task.getStart(), task.getFinish()) > 0)
          {
             task.setFinish(task.getStart());
          }
 
-         if (task.getActualStart() != null && task.getActualFinish() != null && DateHelper.compare(task.getActualStart(), task.getActualFinish()) > 0)
+         if (task.getActualStart() != null && task.getActualFinish() != null && LocalDateTimeHelper.compare(task.getActualStart(), task.getActualFinish()) > 0)
          {
             task.setActualFinish(task.getActualStart());
          }
@@ -904,7 +905,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    private Storepoint getCurrentStorepoint(Project phoenixProject)
    {
       List<Storepoint> storepoints = phoenixProject.getStorepoints() == null ? Collections.emptyList() : phoenixProject.getStorepoints().getStorepoint();
-      storepoints.sort((o1, o2) -> DateHelper.compare(o2.getCreationTime(), o1.getCreationTime()));
+      storepoints.sort((o1, o2) -> LocalDateTimeHelper.compare(o2.getCreationTime(), o1.getCreationTime()));
       return storepoints.get(0);
    }
 
@@ -981,14 +982,14 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
          {
             updateDates(task);
 
-            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart());
-            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish());
-            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
-            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
-            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
-            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
-            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
-            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+            plannedStartDate = LocalDateTimeHelper.min(plannedStartDate, task.getStart());
+            plannedFinishDate = LocalDateTimeHelper.max(plannedFinishDate, task.getFinish());
+            actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
 
             if (task.getActualFinish() != null)
             {

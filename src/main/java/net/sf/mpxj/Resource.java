@@ -37,7 +37,7 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResourceFieldLists;
 
@@ -512,7 +512,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       LocalDateTime result = null;
       for (ResourceAssignment assignment : m_assignments)
       {
-         if (result == null || DateHelper.compare(result, assignment.getStart()) > 0)
+         if (result == null || LocalDateTimeHelper.compare(result, assignment.getStart()) > 0)
          {
             result = assignment.getStart();
          }
@@ -530,7 +530,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       LocalDateTime result = null;
       for (ResourceAssignment assignment : m_assignments)
       {
-         if (result == null || DateHelper.compare(result, assignment.getFinish()) < 0)
+         if (result == null || LocalDateTimeHelper.compare(result, assignment.getFinish()) < 0)
          {
             result = assignment.getFinish();
          }

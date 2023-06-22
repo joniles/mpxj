@@ -48,7 +48,6 @@ final class AvailabilityFactory
    {
       if (data != null)
       {
-         Calendar cal = DateHelper.popCalendar();
          int items = MPPUtility.getShort(data, 0);
          int offset = 12;
 
@@ -77,7 +76,6 @@ final class AvailabilityFactory
             }
             offset += 20;
          }
-         DateHelper.pushCalendar(cal);
          Collections.sort(table);
       }
    }

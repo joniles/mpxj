@@ -91,6 +91,7 @@ import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.mpp.GanttBarStyle;
 import net.sf.mpxj.mpp.GanttBarStyleException;
 import net.sf.mpxj.mpp.GanttChartView;
@@ -694,13 +695,13 @@ public final class JsonWriter extends AbstractProjectWriter
          for (CostRateTableEntry entry : table)
          {
             LocalDateTime startDate = entry.getStartDate();
-            if (startDate != null && DateHelper.compare(startDate, DateHelper.START_DATE_NA) <= 0)
+            if (startDate != null && LocalDateTimeHelper.compare(startDate, DateHelper.START_DATE_NA) <= 0)
             {
                startDate = null;
             }
 
             LocalDateTime endDate = entry.getEndDate();
-            if (endDate != null && DateHelper.compare(DateHelper.END_DATE_NA, endDate) <= 0)
+            if (endDate != null && LocalDateTimeHelper.compare(DateHelper.END_DATE_NA, endDate) <= 0)
             {
                endDate = null;
             }

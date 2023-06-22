@@ -37,8 +37,8 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
 import net.sf.mpxj.common.CombinedCalendar;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -112,8 +112,8 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          Duration calendarWork = calendar.getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.MINUTES);
          while (assignment != null)
          {
-            LocalDateTime startDay = DateHelper.getDayStartDate(assignment.getStart());
-            LocalDateTime finishDay = DateHelper.getDayStartDate(assignment.getFinish());
+            LocalDateTime startDay = LocalDateTimeHelper.getDayStartDate(assignment.getStart());
+            LocalDateTime finishDay = LocalDateTimeHelper.getDayStartDate(assignment.getFinish());
 
             // special case - when the finishday time is midnight, it's really the previous day...
             if (assignment.getFinish().equals(finishDay))
@@ -235,9 +235,9 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          if (previousAssignment != null)
          {
             LocalDateTime previousAssignmentStart = previousAssignment.getStart();
-            LocalDateTime previousAssignmentStartDay = DateHelper.getDayStartDate(previousAssignmentStart);
+            LocalDateTime previousAssignmentStartDay = LocalDateTimeHelper.getDayStartDate(previousAssignmentStart);
             LocalDateTime assignmentStart = assignment.getStart();
-            LocalDateTime assignmentStartDay = DateHelper.getDayStartDate(assignmentStart);
+            LocalDateTime assignmentStartDay = LocalDateTimeHelper.getDayStartDate(assignmentStart);
 
             if (previousAssignmentStartDay.equals(assignmentStartDay))
             {

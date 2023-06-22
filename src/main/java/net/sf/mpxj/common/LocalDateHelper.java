@@ -1,6 +1,7 @@
 package net.sf.mpxj.common;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -50,5 +51,21 @@ public final class LocalDateHelper
          }
       }
       return (result);
+   }
+
+   /**
+    * Returns a new Date instance whose value
+    * represents the end of the day (i.e. the time of days is 11:59:59.999)
+    *
+    * @param date date to convert
+    * @return day start date
+    */
+   public static LocalDateTime getDayEndDate(LocalDate date)
+   {
+      if (date == null)
+      {
+         return null;
+      }
+      return LocalDateTime.of(date, LocalTime.of(23, 59, 59));
    }
 }

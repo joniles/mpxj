@@ -40,6 +40,7 @@ import java.util.TreeMap;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -62,7 +63,6 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.View;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -1203,11 +1203,11 @@ final class MPP14Reader implements MPPVariantReader
             //
             case AS_LATE_AS_POSSIBLE:
             {
-               if (DateHelper.compare(task.getStart(), task.getLateStart()) < 0)
+               if (LocalDateTimeHelper.compare(task.getStart(), task.getLateStart()) < 0)
                {
                   task.setStart(task.getLateStart());
                }
-               if (DateHelper.compare(task.getFinish(), task.getLateFinish()) < 0)
+               if (LocalDateTimeHelper.compare(task.getFinish(), task.getLateFinish()) < 0)
                {
                   task.setFinish(task.getLateFinish());
                }
@@ -1217,7 +1217,7 @@ final class MPP14Reader implements MPPVariantReader
             case START_NO_LATER_THAN:
             case FINISH_NO_LATER_THAN:
             {
-               if (DateHelper.compare(task.getFinish(), task.getStart()) < 0)
+               if (LocalDateTimeHelper.compare(task.getFinish(), task.getStart()) < 0)
                {
                   task.setFinish(task.getLateFinish());
                }

@@ -28,7 +28,7 @@ package net.sf.mpxj;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * This class represents a period of time.
@@ -78,15 +78,15 @@ public final class DateRange implements Comparable<DateRange>
     */
    public int compareTo(LocalDateTime date)
    {
-      return DateHelper.compare(m_start, m_end, date);
+      return LocalDateTimeHelper.compare(m_start, m_end, date);
    }
 
    @Override public int compareTo(DateRange o)
    {
-      int result = net.sf.mpxj.common.DateHelper.compare(m_start, o.m_start);
+      int result = LocalDateTimeHelper.compare(m_start, o.m_start);
       if (result == 0)
       {
-         result = net.sf.mpxj.common.DateHelper.compare(m_end, o.m_end);
+         result = LocalDateTimeHelper.compare(m_end, o.m_end);
       }
       return result;
    }

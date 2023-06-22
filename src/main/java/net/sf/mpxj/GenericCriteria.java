@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * This class represents the criteria used as part of an evaluation.
@@ -155,7 +155,7 @@ public class GenericCriteria
             {
                if (lhs != null)
                {
-                  lhs = DateHelper.getDayStartDate((LocalDateTime) lhs);
+                  lhs = LocalDateTimeHelper.getDayStartDate((LocalDateTime) lhs);
                }
                break;
             }
@@ -286,7 +286,7 @@ public class GenericCriteria
                {
                   if (value != null)
                   {
-                     value = DateHelper.getDayStartDate((LocalDateTime) value);
+                     value = LocalDateTimeHelper.getDayStartDate((LocalDateTime) value);
                   }
                   break;
                }

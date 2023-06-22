@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
 
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -595,7 +596,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       m_getDateLastStartDate = startDate;
       m_getDateLastRemainingMilliseconds = remainingMilliseconds;
 
-      if (m_getDateLastResult != null && DateHelper.compare(startDate, getDateLastStartDate) == 0 && remainingMilliseconds >= getDateLastRemainingMilliseconds)
+      if (m_getDateLastResult != null && LocalDateTimeHelper.compare(startDate, getDateLastStartDate) == 0 && remainingMilliseconds >= getDateLastRemainingMilliseconds)
       {
          startDate = m_getDateLastResult;
          remainingMilliseconds = remainingMilliseconds - getDateLastRemainingMilliseconds;
@@ -612,7 +613,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          LocalDateTime currentDate = cal;
          LocalDateTime endCal = currentDate;
          endCal = endCal.plusDays(1);
-         LocalDateTime currentDateEnd = DateHelper.getDayStartDate(endCal);
+         LocalDateTime currentDateEnd = LocalDateTimeHelper.getDayStartDate(endCal);
          long currentDateWorkingMilliseconds = Math.round(getWork(currentDate, currentDateEnd, TimeUnit.MINUTES).getDuration() * 60000.0);
 
          //
@@ -1260,7 +1261,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             endDate = temp;
          }
 
-         if (DateHelper.isSameDay(startDate, endDate))
+         if (isSameDay(startDate, endDate))
          {
             ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(startDate), null, null);
             if (ranges.size() != 0)
@@ -1270,7 +1271,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
          else
          {
-            LocalDateTime canonicalEndDate = DateHelper.getDayStartDate(endDate);
+            LocalDateTime canonicalEndDate = LocalDateTimeHelper.getDayStartDate(endDate);
 
             //
             // Find the first working day in the range
@@ -1354,6 +1355,16 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       }
 
       return convertFormat(totalTime, format);
+   }
+
+   private boolean isSameDay(LocalDateTime d1, LocalDateTime d2)
+   {
+      if (d1 == null || d2 == null)
+      {
+         return false;
+      }
+
+      return d1.getYear() == d2.getYear() && d1.getDayOfYear() == d2.getDayOfYear();
    }
 
    /**

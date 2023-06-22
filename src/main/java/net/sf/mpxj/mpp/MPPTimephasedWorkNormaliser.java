@@ -35,7 +35,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.CombinedCalendar;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * Normalise timephased resource assignment data from an MPP file.
@@ -74,9 +74,9 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
          if (previousAssignment != null)
          {
             LocalDateTime previousAssignmentStart = previousAssignment.getStart();
-            LocalDateTime previousAssignmentStartDay = DateHelper.getDayStartDate(previousAssignmentStart);
+            LocalDateTime previousAssignmentStartDay = LocalDateTimeHelper.getDayStartDate(previousAssignmentStart);
             LocalDateTime assignmentStart = assignment.getStart();
-            LocalDateTime assignmentStartDay = DateHelper.getDayStartDate(assignmentStart);
+            LocalDateTime assignmentStartDay = LocalDateTimeHelper.getDayStartDate(assignmentStart);
 
             if (previousAssignmentStartDay.equals(assignmentStartDay))
             {

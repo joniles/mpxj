@@ -95,6 +95,7 @@ import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldLists;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
@@ -727,7 +728,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod period = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayTimePeriod();
          day.setTimePeriod(period);
          period.setFromDate(exception.getFromDate().atStartOfDay());
-         period.setToDate(DateHelper.getDayEndDate(exception.getToDate()));
+         period.setToDate(LocalDateHelper.getDayEndDate(exception.getToDate()));
 
          if (working)
          {
@@ -791,7 +792,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Project.Calendars.Calendar.Exceptions.Exception.TimePeriod period = m_factory.createProjectCalendarsCalendarExceptionsExceptionTimePeriod();
          ex.setTimePeriod(period);
          period.setFromDate(exception.getFromDate().atStartOfDay());
-         period.setToDate(DateHelper.getDayEndDate(exception.getToDate()));
+         period.setToDate(LocalDateHelper.getDayEndDate(exception.getToDate()));
 
          if (working)
          {
@@ -918,7 +919,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             TimePeriod xmlTimePeriod = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekTimePeriod();
             xmlWeek.setTimePeriod(xmlTimePeriod);
             xmlTimePeriod.setFromDate(week.getDateRange().getStart().atStartOfDay());
-            xmlTimePeriod.setToDate(DateHelper.getDayEndDate(week.getDateRange().getEnd()));
+            xmlTimePeriod.setToDate(LocalDateHelper.getDayEndDate(week.getDateRange().getEnd()));
 
             WeekDays xmlWeekDays = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDays();
             xmlWeek.setWeekDays(xmlWeekDays);
@@ -1286,8 +1287,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private boolean costRateTableEntryWriteRequired(CostRateTableEntry entry)
    {
-      boolean fromDate = (DateHelper.compare(entry.getStartDate(), DateHelper.START_DATE_NA) > 0);
-      boolean toDate = (DateHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
+      boolean fromDate = (LocalDateTimeHelper.compare(entry.getStartDate(), DateHelper.START_DATE_NA) > 0);
+      boolean toDate = (LocalDateTimeHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
       boolean costPerUse = (NumberHelper.getDouble(entry.getCostPerUse()) != 0);
       boolean overtimeRate = (entry.getOvertimeRate() != null && entry.getOvertimeRate().getAmount() != 0);
       boolean standardRate = (entry.getStandardRate() != null && entry.getStandardRate().getAmount() != 0);
@@ -2266,8 +2267,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          LocalDateTime startDate = assignment.getStart();
          LocalDateTime finishDate = assignment.getFinish();
-         LocalDateTime startDay = DateHelper.getDayStartDate(startDate);
-         LocalDateTime finishDay = DateHelper.getDayStartDate(finishDate);
+         LocalDateTime startDay = LocalDateTimeHelper.getDayStartDate(startDate);
+         LocalDateTime finishDay = LocalDateTimeHelper.getDayStartDate(finishDate);
          if (startDay.equals(finishDay))
          {
             LocalDateTime currentStart = LocalDateTime.of(startDay.toLocalDate(), calendar.getStartTime(LocalDateHelper.getLocalDate(startDay)));
@@ -2284,7 +2285,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   }
                   else
                   {
-                     LocalDateTime lastFinishDay = DateHelper.getDayStartDate(lastFinish);
+                     LocalDateTime lastFinishDay = LocalDateTimeHelper.getDayStartDate(lastFinish);
                      if (startDay.equals(lastFinishDay))
                      {
                         currentStart = lastFinish;
@@ -2320,7 +2321,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
                   }
                   else
                   {
-                     LocalDateTime firstStartDay = DateHelper.getDayStartDate(firstStart);
+                     LocalDateTime firstStartDay = LocalDateTimeHelper.getDayStartDate(firstStart);
                      if (finishDay.equals(firstStartDay))
                      {
                         currentFinish = firstStart;
@@ -2387,8 +2388,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          LocalDateTime startDate = assignment.getStart();
          LocalDateTime finishDate = assignment.getFinish();
-         LocalDateTime startDay = DateHelper.getDayStartDate(startDate);
-         LocalDateTime finishDay = DateHelper.getDayStartDate(finishDate);
+         LocalDateTime startDay = LocalDateTimeHelper.getDayStartDate(startDate);
+         LocalDateTime finishDay = LocalDateTimeHelper.getDayStartDate(finishDate);
          if (startDay.equals(finishDay))
          {
             LocalDateTime currentStart = LocalDateTime.of(startDay.toLocalDate(), calendar.getStartTime(LocalDateHelper.getLocalDate(startDay)));

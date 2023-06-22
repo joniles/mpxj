@@ -25,7 +25,6 @@ package net.sf.mpxj.mpp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 
 import java.util.List;
@@ -61,7 +60,6 @@ final class CostRateTableFactory
    public void process(Resource resource, int index, byte[] data)
    {
       List<CostRateTableEntry> entries = new ArrayList<>();
-      Calendar cal = DateHelper.popCalendar();
 
       //
       // Extract core data

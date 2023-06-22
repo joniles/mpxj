@@ -72,9 +72,6 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.mpp.UserDefinedFieldMap;
@@ -934,9 +931,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getResponsePending() ? "1" : "0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTimeNull(LocalDateTimeHelper.getDate(record.getUpdateStart()))));
+      m_buffer.append(format(formatDateTimeNull(getDate(record.getUpdateStart()))));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTimeNull(LocalDateTimeHelper.getDate(record.getUpdateFinish()))));
+      m_buffer.append(format(formatDateTimeNull(getDate(record.getUpdateFinish()))));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getScheduleID()));
 
@@ -1152,17 +1149,14 @@ public final class MPXWriter extends AbstractProjectWriter
          return null;
       }
 
-      Calendar cal = DateHelper.popCalendar();
-      cal.set(Calendar.DAY_OF_YEAR, 1);
-      cal.set(Calendar.YEAR, 1);
-      cal.set(Calendar.HOUR_OF_DAY, date.getHour());
-      cal.set(Calendar.MINUTE, date.getMinute());
-      cal.set(Calendar.SECOND, date.getSecond());
-      cal.set(Calendar.MILLISECOND, 0);
-      Date result = cal.getTime();
-      DateHelper.pushCalendar(cal);
+      m_calendar.set(Calendar.DAY_OF_YEAR, 1);
+      m_calendar.set(Calendar.YEAR, 1);
+      m_calendar.set(Calendar.HOUR_OF_DAY, date.getHour());
+      m_calendar.set(Calendar.MINUTE, date.getMinute());
+      m_calendar.set(Calendar.SECOND, date.getSecond());
+      m_calendar.set(Calendar.MILLISECOND, 0);
 
-      return result;
+      return m_calendar.getTime();
    }
 
    /**
@@ -1213,7 +1207,7 @@ public final class MPXWriter extends AbstractProjectWriter
       String result = null;
       if (value != null)
       {
-         result = m_formats.getDateTimeFormat().format(LocalDateTimeHelper.getDate(value));
+         result = m_formats.getDateTimeFormat().format(getDate(value));
       }
       return result;
    }
@@ -1638,18 +1632,33 @@ public final class MPXWriter extends AbstractProjectWriter
          return null;
       }
 
-      Calendar cal = DateHelper.popCalendar();
-      cal.set(Calendar.YEAR, date.getYear());
-      cal.set(Calendar.MONTH, date.getMonthValue()-1);
-      cal.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
-      cal.set(Calendar.HOUR_OF_DAY, 0);
-      cal.set(Calendar.MINUTE, 0);
-      cal.set(Calendar.SECOND, 0);
-      cal.set(Calendar.MILLISECOND, 0);
-      //cal.set(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), 0, 0, 0);
-      Date result = cal.getTime();
-      DateHelper.pushCalendar(cal);
-      return result;
+      m_calendar.set(Calendar.YEAR, date.getYear());
+      m_calendar.set(Calendar.MONTH, date.getMonthValue()-1);
+      m_calendar.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
+      m_calendar.set(Calendar.HOUR_OF_DAY, 0);
+      m_calendar.set(Calendar.MINUTE, 0);
+      m_calendar.set(Calendar.SECOND, 0);
+      m_calendar.set(Calendar.MILLISECOND, 0);
+
+      return m_calendar.getTime();
+   }
+
+   private Date getDate(LocalDateTime date)
+   {
+      if (date == null)
+      {
+         return null;
+      }
+
+      m_calendar.set(Calendar.YEAR, date.getYear());
+      m_calendar.set(Calendar.MONTH, date.getMonthValue()-1);
+      m_calendar.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
+      m_calendar.set(Calendar.HOUR_OF_DAY, date.getHour());
+      m_calendar.set(Calendar.MINUTE, date.getMinute());
+      m_calendar.set(Calendar.SECOND, date.getSecond());
+      m_calendar.set(Calendar.MILLISECOND, 0);
+
+      return m_calendar.getTime();
    }
 
    private ProjectFile m_projectFile;
@@ -1667,6 +1676,7 @@ public final class MPXWriter extends AbstractProjectWriter
    private Map<Integer, String> m_calendarNameMap;
    private UserDefinedFieldMap m_userDefinedFieldMap;
    private Map<Integer, List<Resource>> m_resourceCalendarMap;
+   private final Calendar m_calendar = Calendar.getInstance();
 
    private static final List<FieldType> MAPPING_TARGET_CUSTOM_FIELDS = new ArrayList<>();
    static

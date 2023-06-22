@@ -63,7 +63,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
@@ -456,7 +456,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       plannerTask.setPercentComplete(getIntegerString(mpxjTask.getPercentageWorkComplete()));
       plannerTask.setPriority(mpxjTask.getPriority() == null ? null : getIntegerString(mpxjTask.getPriority().getValue() * 10));
       plannerTask.setScheduling(getScheduling(mpxjTask.getType()));
-      plannerTask.setStart(getDateTimeString(DateHelper.getDayStartDate(mpxjTask.getStart())));
+      plannerTask.setStart(getDateTimeString(LocalDateTimeHelper.getDayStartDate(mpxjTask.getStart())));
       plannerTask.setType(mpxjTask.getMilestone() ? "milestone" : "normal");
       plannerTask.setWork(getDurationString(getWork(mpxjTask)));
       plannerTask.setWorkStart(getDateTimeString(mpxjTask.getStart()));

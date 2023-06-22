@@ -35,8 +35,8 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 
 /**
@@ -103,8 +103,8 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
 
          while (assignment != null)
          {
-            LocalDateTime startDay = DateHelper.getDayStartDate(assignment.getStart());
-            LocalDateTime finishDay = DateHelper.getDayStartDate(assignment.getFinish());
+            LocalDateTime startDay = LocalDateTimeHelper.getDayStartDate(assignment.getStart());
+            LocalDateTime finishDay = LocalDateTimeHelper.getDayStartDate(assignment.getFinish());
 
             // special case - when the finishday time is midnight, it's really the previous day...
             if (assignment.getFinish().equals(finishDay))

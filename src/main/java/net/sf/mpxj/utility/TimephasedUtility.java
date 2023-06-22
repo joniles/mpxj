@@ -36,8 +36,8 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedItem;
 import net.sf.mpxj.TimephasedWork;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mpp.TimescaleUnits;
 
@@ -197,7 +197,7 @@ public final class TimephasedUtility
          for (int loop = startIndex; loop < assignments.size(); loop++)
          {
             T assignment = assignments.get(loop);
-            int compareResult = DateHelper.compare(assignment.getStart(), assignment.getFinish(), rangeStart);
+            int compareResult = LocalDateTimeHelper.compare(assignment.getStart(), assignment.getFinish(), rangeStart);
 
             //
             // The start of the target range falls after the assignment end -
@@ -223,7 +223,7 @@ public final class TimephasedUtility
             // the assignment start. We need to determine if the end of the
             // target range overlaps the assignment.
             //
-            compareResult = DateHelper.compare(assignment.getStart(), assignment.getFinish(), rangeEnd);
+            compareResult = LocalDateTimeHelper.compare(assignment.getStart(), assignment.getFinish(), rangeEnd);
             if (compareResult >= 0)
             {
                result = loop;

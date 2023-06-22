@@ -55,8 +55,8 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
@@ -614,8 +614,8 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          {
             updateDates(task);
 
-            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart());
-            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish());
+            plannedStartDate = LocalDateTimeHelper.min(plannedStartDate, task.getStart());
+            plannedFinishDate = LocalDateTimeHelper.max(plannedFinishDate, task.getFinish());
          }
 
          parentTask.setStart(plannedStartDate);

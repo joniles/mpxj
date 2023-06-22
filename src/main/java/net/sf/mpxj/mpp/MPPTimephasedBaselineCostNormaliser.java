@@ -34,8 +34,8 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.TimephasedNormaliser;
@@ -93,8 +93,8 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
 
          while (assignment != null)
          {
-            LocalDateTime startDay = DateHelper.getDayStartDate(assignment.getStart());
-            LocalDateTime finishDay = DateHelper.getDayStartDate(assignment.getFinish());
+            LocalDateTime startDay = LocalDateTimeHelper.getDayStartDate(assignment.getStart());
+            LocalDateTime finishDay = LocalDateTimeHelper.getDayStartDate(assignment.getFinish());
 
             // special case - when the finishday time is midnight, it's really the previous day...
             if (assignment.getFinish().equals(finishDay))
@@ -213,9 +213,9 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
          if (previousAssignment != null)
          {
             LocalDateTime previousAssignmentStart = previousAssignment.getStart();
-            LocalDateTime previousAssignmentStartDay = DateHelper.getDayStartDate(previousAssignmentStart);
+            LocalDateTime previousAssignmentStartDay = LocalDateTimeHelper.getDayStartDate(previousAssignmentStart);
             LocalDateTime assignmentStart = assignment.getStart();
-            LocalDateTime assignmentStartDay = DateHelper.getDayStartDate(assignmentStart);
+            LocalDateTime assignmentStartDay = LocalDateTimeHelper.getDayStartDate(assignmentStart);
 
             if (previousAssignmentStartDay.equals(assignmentStartDay))
             {
