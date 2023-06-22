@@ -23,8 +23,6 @@ public class LocalTimeHelper
          return null;
       }
 
-      //return date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
-
       Calendar cal = DateHelper.popCalendar(date);
       LocalTime result = getLocalTime(cal);
       DateHelper.pushCalendar(cal);
@@ -75,20 +73,6 @@ public class LocalTimeHelper
       return 0;
    }
 
-   public static Date setTime(Date date, LocalTime time)
-   {
-      if (time == null)
-      {
-         return date;
-      }
-
-      Calendar cal = DateHelper.popCalendar(date);
-      setTime(cal, time);
-      Date result = cal.getTime();
-      DateHelper.pushCalendar(cal);
-      return result;
-   }
-
    public static LocalDateTime setTime(LocalDateTime date, LocalTime time)
    {
       if (time == null)
@@ -97,20 +81,6 @@ public class LocalTimeHelper
       }
 
       return LocalDateTime.of(date.toLocalDate(), time);
-   }
-
-   public static Date setEndTime(Date date, LocalTime time)
-   {
-      if (time == null)
-      {
-         return date;
-      }
-
-      Calendar cal = DateHelper.popCalendar(date);
-      setEndTime(cal, time);
-      Date result = cal.getTime();
-      DateHelper.pushCalendar(cal);
-      return result;
    }
 
    public static LocalDateTime setEndTime(LocalDateTime date, LocalTime time)

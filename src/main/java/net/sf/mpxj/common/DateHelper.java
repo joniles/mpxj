@@ -139,26 +139,6 @@ public final class DateHelper
    }
 
    /**
-    * Acquire a calendar instance.
-    *
-    * @return Calendar instance
-    */
-   public static Calendar popCalendar()
-   {
-      Calendar result;
-      Deque<Calendar> calendars = CALENDARS.get();
-      if (calendars.isEmpty())
-      {
-         result = Calendar.getInstance();
-      }
-      else
-      {
-         result = calendars.pop();
-      }
-      return result;
-   }
-
-   /**
     * Acquire a Calendar instance and set the initial date.
     *
     * @param date initial date
@@ -166,21 +146,18 @@ public final class DateHelper
     */
    public static Calendar popCalendar(Date date)
    {
-      Calendar calendar = popCalendar();
-      calendar.setTime(date);
-      return calendar;
-   }
+      Calendar calendar;
+      Deque<Calendar> calendars = CALENDARS.get();
+      if (calendars.isEmpty())
+      {
+         calendar = Calendar.getInstance();
+      }
+      else
+      {
+         calendar = calendars.pop();
+      }
 
-   /**
-    * Acquire a Calendar instance and set the initial date.
-    *
-    * @param timeInMillis initial date
-    * @return Calendar instance
-    */
-   public static Calendar popCalendar(long timeInMillis)
-   {
-      Calendar calendar = popCalendar();
-      calendar.setTimeInMillis(timeInMillis);
+      calendar.setTime(date);
       return calendar;
    }
 
