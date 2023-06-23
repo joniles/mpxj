@@ -29,6 +29,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -931,9 +932,9 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getResponsePending() ? "1" : "0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTimeNull(getDate(record.getUpdateStart()))));
+      m_buffer.append(format(formatDateTimeNull(record.getUpdateStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDateTimeNull(getDate(record.getUpdateFinish()))));
+      m_buffer.append(format(formatDateTimeNull(record.getUpdateFinish())));
       m_buffer.append(m_delimiter);
       m_buffer.append(format(record.getScheduleID()));
 
@@ -1139,7 +1140,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatTime(LocalTime value)
    {
-      return (value == null ? null : m_formats.getPrintTimeFormat().format(value));
+      return m_formats.printTime(value);
    }
 
    private Date getDateFromLocalTime(LocalTime date)
@@ -1202,24 +1203,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value date value
     * @return formatted date value
     */
-   private String formatDateTime(LocalDateTime value)
+   private String formatDateTime(TemporalAccessor value)
    {
-      String result = null;
-      if (value != null)
-      {
-         result = m_formats.getDateTimeFormat().format(getDate(value));
-      }
-      return result;
-   }
-
-   private String formatDateTime(LocalDate value)
-   {
-      String result = null;
-      if (value != null)
-      {
-         result = m_formats.getDateTimeFormat().format(getDate(value));
-      }
-      return result;
+      return m_formats.printDateTime(value);
    }
 
    /**
@@ -1229,9 +1215,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value date value
     * @return formatted date value
     */
-   private String formatDateTimeNull(Date value)
+   private String formatDateTimeNull(LocalDateTime value)
    {
-      return (value == null ? m_formats.getNullText() : m_formats.getDateTimeFormat().format(value));
+      return value == null ? m_formats.getNullText() : m_formats.printDateTime(value);
    }
 
    /**

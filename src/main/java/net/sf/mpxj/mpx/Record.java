@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -251,23 +252,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         try
-         {
-            result = LocalDateTimeHelper.getLocalDateTime(m_formats.getDateTimeFormat().parse(m_fields[field]));
-         }
-
-         catch (ParseException ex)
-         {
-            // Failed to parse a full date time.
-         }
-
-         //
-         // Fall back to trying just parsing the date component
-         //
-         if (result == null)
-         {
-            result = m_formats.parseDate(m_fields[field]);
-         }
+         result = m_formats.parseDateTime(m_fields[field]);
       }
 
       return result;
@@ -311,7 +296,7 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = LocalTime.parse(m_fields[field], m_formats.getParseTimeFormat());
+         result = m_formats.parseTime(m_fields[field]);
       }
       else
       {

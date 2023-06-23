@@ -73,7 +73,6 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamTokenizer;
 import net.sf.mpxj.common.LocalDateHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.SlackHelper;
@@ -650,7 +649,7 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param record MPX record
     * @param calendar calendar to which the exception will be added
     */
-   private void populateCalendarException(Record record, ProjectCalendar calendar) throws MPXJException
+   private void populateCalendarException(Record record, ProjectCalendar calendar)
    {
       LocalDateTime fromDate = record.getDate(0);
       LocalDateTime toDate = record.getDate(1);
@@ -1183,15 +1182,7 @@ public final class MPXReader extends AbstractProjectStreamReader
             case START5:
             case STOP:
             {
-               try
-               {
-                  task.set(taskField, LocalDateTimeHelper.getLocalDateTime(m_formats.getDateTimeFormat().parse(field)));
-               }
-
-               catch (ParseException ex)
-               {
-                  throw new MPXJException("Failed to parse date time", ex);
-               }
+               task.set(taskField, m_formats.parseDateTime(field));
                break;
             }
 
@@ -1352,7 +1343,7 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param record MPX record
     * @param task recurring task
     */
-   private void populateRecurringTask(Record record, RecurringTask task) throws MPXJException
+   private void populateRecurringTask(Record record, RecurringTask task)
    {
       //System.out.println(record);
       task.setStartDate(LocalDateHelper.getLocalDate(record.getDateTime(1)));
@@ -1479,7 +1470,7 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param record MPX record
     * @param workgroup workgroup instance
     */
-   private void populateResourceAssignmentWorkgroupFields(Record record, ResourceAssignmentWorkgroupFields workgroup) throws MPXJException
+   private void populateResourceAssignmentWorkgroupFields(Record record, ResourceAssignmentWorkgroupFields workgroup)
    {
       workgroup.setMessageUniqueID(record.getString(0));
       workgroup.setConfirmed(NumberHelper.getInt(record.getInteger(1)) == 1);
