@@ -1139,7 +1139,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private String formatTime(LocalTime value)
    {
-      return (value == null ? null : m_formats.getTimeFormat().format(getDateFromLocalTime(value)));
+      return (value == null ? null : m_formats.getPrintTimeFormat().format(value));
    }
 
    private Date getDateFromLocalTime(LocalTime date)

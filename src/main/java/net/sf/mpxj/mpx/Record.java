@@ -46,7 +46,6 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalDateTimeHelper;
-import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.Tokenizer;
 
 /**
@@ -323,30 +322,21 @@ final class Record
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
-    * @throws MPXJException normally thrown when parsing fails
     */
-   public LocalTime getTime(int field) throws MPXJException
+   public LocalTime getTime(int field)
    {
-      try
+      LocalTime result;
+
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         LocalTime result;
-
-         if ((field < m_fields.length) && (m_fields[field].length() != 0))
-         {
-            result = LocalTimeHelper.getLocalTime(m_formats.getTimeFormat().parse(m_fields[field]));
-         }
-         else
-         {
-            result = null;
-         }
-
-         return (result);
+         result = LocalTime.parse(m_fields[field], m_formats.getParseTimeFormat());
+      }
+      else
+      {
+         result = null;
       }
 
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse time", ex);
-      }
+      return (result);
    }
 
    /**

@@ -25,10 +25,15 @@ package net.sf.mpxj.mpx;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectFile;
@@ -222,23 +227,20 @@ public final class MPXJFormats
     */
    private void updateDateTimeFormats(ProjectProperties properties)
    {
-      String[] timePatterns = getTimePatterns(properties);
+      populateTimePatterns(properties);
       String[] datePatterns = getDatePatterns(properties);
-      String[] dateTimePatterns = getDateTimePatterns(properties, timePatterns);
+      String[] dateTimePatterns = getDateTimePatterns(properties);
 
       m_dateTimeFormat.applyPatterns(dateTimePatterns);
       m_dateFormat.applyPatterns(datePatterns);
-      m_timeFormat.applyPatterns(timePatterns);
 
       m_dateTimeFormat.setLocale(m_locale);
       m_dateFormat.setLocale(m_locale);
 
       m_dateTimeFormat.setNullText(m_nullText);
       m_dateFormat.setNullText(m_nullText);
-      m_timeFormat.setNullText(m_nullText);
 
       m_dateTimeFormat.setAmPmText(properties.getAMText(), properties.getPMText());
-      m_timeFormat.setAmPmText(properties.getAMText(), properties.getPMText());
    }
 
    /**
@@ -285,11 +287,32 @@ public final class MPXJFormats
     * Generate datetime patterns based on the project configuration.
     *
     * @param properties project configuration
-    * @param timePatterns time patterns
     * @return datetime patterns
     */
-   private String[] getDateTimePatterns(ProjectProperties properties, String[] timePatterns)
+   private String[] getDateTimePatterns(ProjectProperties properties)
    {
+      String[] timePatterns;
+      char timesep = properties.getTimeSeparator();
+      ProjectTimeFormat format = properties.getTimeFormat();
+
+      if (format == null || format == ProjectTimeFormat.TWELVE_HOUR)
+      {
+         timePatterns = new String[]
+            {
+               "hh" + timesep + "mm a",
+               "hh" + timesep + "mma"
+            };
+      }
+      else
+      {
+         timePatterns = new String[]
+            {
+               "HH" + timesep + "mm",
+               "HH",
+            };
+      }
+
+
       List<String> patterns = new ArrayList<>();
       char datesep = properties.getDateSeparator();
       DateOrder dateOrder = properties.getDateOrder();
@@ -709,30 +732,38 @@ public final class MPXJFormats
     * @param properties project properties
     * @return time formatting String
     */
-   private String[] getTimePatterns(ProjectProperties properties)
+   private void populateTimePatterns(ProjectProperties properties)
    {
-      String[] result;
+      DateTimeFormatterBuilder parseBuilder = new DateTimeFormatterBuilder();
+      parseBuilder.parseCaseInsensitive();
+      DateTimeFormatterBuilder printBuilder = new DateTimeFormatterBuilder();
+
       char timesep = properties.getTimeSeparator();
       ProjectTimeFormat format = properties.getTimeFormat();
 
       if (format == null || format == ProjectTimeFormat.TWELVE_HOUR)
       {
-         result = new String[]
-         {
-            "hh" + timesep + "mm a",
-            "hh" + timesep + "mma"
-         };
+         Map<Long, String> ampmMap = new HashMap<>();
+         ampmMap.put(Long.valueOf(0), properties.getAMText());
+         ampmMap.put(Long.valueOf(1), properties.getPMText());
+
+         parseBuilder.optionalStart();
+         parseBuilder.appendPattern("[hh][h]" + timesep + "mm[ ]");
+         parseBuilder.appendText(ChronoField.AMPM_OF_DAY, ampmMap);
+         parseBuilder.optionalEnd();
+         parseBuilder.appendPattern("[[HH][H]" + timesep + "mm]");
+
+         printBuilder.appendPattern("hh" + timesep + "mm ");
+         printBuilder.appendText(ChronoField.AMPM_OF_DAY, ampmMap);
       }
       else
       {
-         result = new String[]
-         {
-            "HH" + timesep + "mm",
-            "HH",
-         };
+         parseBuilder.appendPattern("[HH][H][" + timesep + "mm]");
+         printBuilder.appendPattern("HH" + timesep + "mm");
       }
 
-      return result;
+      m_parseTimeFormat = parseBuilder.toFormatter();
+      m_printTimeFormat = printBuilder.toFormatter();
    }
 
    /**
@@ -810,9 +841,14 @@ public final class MPXJFormats
     *
     * @return time format
     */
-   public DateFormat getTimeFormat()
+   public DateTimeFormatter getParseTimeFormat()
    {
-      return (m_timeFormat);
+      return m_parseTimeFormat;
+   }
+
+   public DateTimeFormatter getPrintTimeFormat()
+   {
+      return m_printTimeFormat;
    }
 
    /**
@@ -835,5 +871,6 @@ public final class MPXJFormats
    private final MPXJNumberFormat m_percentageDecimalFormat = new MPXJNumberFormat();
    private final MPXJDateFormat m_dateTimeFormat = new MPXJDateFormat();
    private final MPXJDateFormat m_dateFormat = new MPXJDateFormat();
-   private final MPXJTimeFormat m_timeFormat = new MPXJTimeFormat();
+   private DateTimeFormatter m_parseTimeFormat;
+   private DateTimeFormatter m_printTimeFormat;
 }
