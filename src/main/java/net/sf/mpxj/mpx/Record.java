@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -46,7 +45,6 @@ import net.sf.mpxj.ProjectTimeFormat;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.Tokenizer;
 
 /**

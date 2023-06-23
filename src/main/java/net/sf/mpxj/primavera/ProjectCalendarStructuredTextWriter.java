@@ -37,8 +37,6 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.TimeRange;
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateHelper;
 
 /**
  * Encapsulates the functionality required to write a ProjectCalendar

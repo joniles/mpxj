@@ -371,7 +371,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     *
     * @param plannerProject Root node of the Planner file
     */
-   private void readTasks(Project plannerProject) throws MPXJException
+   private void readTasks(Project plannerProject)
    {
       Tasks tasks = plannerProject.getTasks();
       if (tasks != null)

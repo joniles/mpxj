@@ -24,11 +24,7 @@
 package net.sf.mpxj.primavera.p3;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
-
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.common.AbstractColumn;
 
 /**

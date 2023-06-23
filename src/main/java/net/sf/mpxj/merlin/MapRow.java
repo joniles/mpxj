@@ -24,7 +24,6 @@
 package net.sf.mpxj.merlin;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
 import java.util.Map;
 import java.util.UUID;
@@ -36,8 +35,6 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**

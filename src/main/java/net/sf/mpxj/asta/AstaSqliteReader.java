@@ -290,7 +290,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     * @param workPatterns string representation of work pattern assignments
     * @return list of work pattern assignment rows
     */
-   private List<Row> createWorkPatternAssignmentRowList(String workPatterns) throws ParseException
+   private List<Row> createWorkPatternAssignmentRowList(String workPatterns)
    {
       List<Row> list = new ArrayList<>();
       String[] patterns = workPatterns.split("[,:]");
@@ -385,7 +385,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     * @param shiftData string representation of time entries
     * @return list of time entry rows
     */
-   private List<Row> createTimeEntryRowList(String shiftData) throws ParseException
+   private List<Row> createTimeEntryRowList(String shiftData)
    {
       List<Row> list = new ArrayList<>();
       String[] shifts = shiftData.split("[,:]");

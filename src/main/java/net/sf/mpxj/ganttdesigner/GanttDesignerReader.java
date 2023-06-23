@@ -35,7 +35,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.common.LocalDateHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;

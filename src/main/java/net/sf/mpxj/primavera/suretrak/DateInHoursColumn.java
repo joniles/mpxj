@@ -27,8 +27,6 @@ package net.sf.mpxj.primavera.suretrak;
 
 import java.time.LocalDateTime;
 
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.common.AbstractIntColumn;
 
 /**

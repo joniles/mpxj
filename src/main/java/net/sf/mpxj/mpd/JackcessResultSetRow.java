@@ -49,7 +49,7 @@ final class JackcessResultSetRow extends MapRow
       {
          String name = column.getName().toUpperCase();
          DataType type = column.getType();
-         Object value = null;
+         Object value;
 
          switch (type)
          {

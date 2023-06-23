@@ -30,8 +30,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.common.ByteColumn;
 import net.sf.mpxj.primavera.common.ColumnDefinition;
 import net.sf.mpxj.primavera.common.IntColumn;

@@ -1,8 +1,6 @@
 package net.sf.mpxj.common;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Calendar;
-import java.util.Date;
 
 public class LocalTimeHelper
 {
