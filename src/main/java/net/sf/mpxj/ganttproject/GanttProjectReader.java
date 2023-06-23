@@ -24,10 +24,14 @@
 package net.sf.mpxj.ganttproject;
 
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.chrono.IsoChronology;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.format.FormatStyle;
+import java.time.temporal.TemporalAccessor;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +47,6 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
@@ -109,7 +112,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          m_resourcePropertyDefinitions = new HashMap<>();
          m_taskPropertyDefinitions = new HashMap<>();
          m_roleDefinitions = new HashMap<>();
-         m_dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
+         m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
          m_userDefinedFieldID = 0;
 
          ProjectConfig config = m_projectFile.getProjectConfig();
@@ -185,7 +188,17 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          locale = locale.replace('_', '-');
       }
 
-      m_localeDateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.forLanguageTag(locale));
+      // Handle the variability we see in date value formats
+      String shortPattern = DateTimeFormatterBuilder.getLocalizedDateTimePattern(FormatStyle.SHORT, null, IsoChronology.INSTANCE, Locale.forLanguageTag(locale));
+      if (shortPattern.contains("yyyy"))
+      {
+         shortPattern = shortPattern.replace("yyyy", "[yyyy][yy]");
+      }
+      else
+      {
+         shortPattern = shortPattern.replace("yy", "[yyyy][yy]");
+      }
+      m_localeDateFormat = DateTimeFormatter.ofPattern(shortPattern);
    }
 
    /**
@@ -552,7 +565,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       }
    }
 
-   private Object parseValue(DataType type, DateFormat dateFormat, String value)
+   private Object parseValue(DataType type, DateTimeFormatter dateFormat, String value)
    {
       Object result = null;
 
@@ -577,10 +590,17 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
             {
                try
                {
-                  // NOTE: left as java.util.Date to accommodate use of unusual locale-based date formats for resource custom fields
-                  result = LocalDateTimeHelper.getLocalDateTime(dateFormat.parse(value));
+                  TemporalAccessor parsedValue = dateFormat.parseBest(value, LocalDateTime::from, LocalDate::from);
+                  if (parsedValue instanceof LocalDate)
+                  {
+                     result = ((LocalDate) parsedValue).atStartOfDay();
+                  }
+                  else
+                  {
+                     result = parsedValue;
+                  }
                }
-               catch (ParseException ex)
+               catch (DateTimeParseException ex)
                {
                   // Ignore the error and return null
                }
@@ -798,8 +818,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
    private ProjectFile m_projectFile;
    private ProjectCalendar m_mpxjCalendar;
    private EventManager m_eventManager;
-   private DateFormat m_localeDateFormat;
-   private DateFormat m_dateFormat;
+   private DateTimeFormatter m_localeDateFormat;
+   private DateTimeFormatter m_dateFormat;
    private Map<String, Pair<FieldType, Object>> m_resourcePropertyDefinitions;
    private Map<String, Pair<FieldType, Object>> m_taskPropertyDefinitions;
    private Map<String, String> m_roleDefinitions;
