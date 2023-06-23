@@ -809,8 +809,16 @@ public final class MPXJFormats
    {
       DateTimeFormatterBuilder parseBuilder = new DateTimeFormatterBuilder();
       parseBuilder.parseCaseInsensitive();
-      DateTimeFormatterBuilder printBuilder = new DateTimeFormatterBuilder();
+      applyTimeParsePattern(properties, parseBuilder);
+      m_parseTimeFormat = parseBuilder.toFormatter();
 
+      DateTimeFormatterBuilder printBuilder = new DateTimeFormatterBuilder();
+      applyTimePrintPattern(properties, printBuilder);
+      m_printTimeFormat = printBuilder.toFormatter();
+   }
+
+   private void applyTimeParsePattern(ProjectProperties properties, DateTimeFormatterBuilder builder)
+   {
       char timesep = properties.getTimeSeparator();
       ProjectTimeFormat format = properties.getTimeFormat();
 
@@ -820,23 +828,36 @@ public final class MPXJFormats
          ampmMap.put(Long.valueOf(0), properties.getAMText());
          ampmMap.put(Long.valueOf(1), properties.getPMText());
 
-         parseBuilder.optionalStart();
-         parseBuilder.appendPattern("[hh][h]" + timesep + "mm[ ]");
-         parseBuilder.appendText(ChronoField.AMPM_OF_DAY, ampmMap);
-         parseBuilder.optionalEnd();
-         parseBuilder.appendPattern("[[HH][H]" + timesep + "mm]");
+         builder.optionalStart();
+         builder.appendPattern("[hh][h]" + timesep + "mm[ ]");
+         builder.appendText(ChronoField.AMPM_OF_DAY, ampmMap);
+         builder.optionalEnd();
+         builder.appendPattern("[[HH][H]" + timesep + "mm]");
+      }
+      else
+      {
+         builder.appendPattern("[HH][H][" + timesep + "mm]");
+      }
+   }
+
+   private void applyTimePrintPattern(ProjectProperties properties, DateTimeFormatterBuilder printBuilder)
+   {
+      char timesep = properties.getTimeSeparator();
+      ProjectTimeFormat format = properties.getTimeFormat();
+
+      if (format == null || format == ProjectTimeFormat.TWELVE_HOUR)
+      {
+         Map<Long, String> ampmMap = new HashMap<>();
+         ampmMap.put(Long.valueOf(0), properties.getAMText());
+         ampmMap.put(Long.valueOf(1), properties.getPMText());
 
          printBuilder.appendPattern("hh" + timesep + "mm ");
          printBuilder.appendText(ChronoField.AMPM_OF_DAY, ampmMap);
       }
       else
       {
-         parseBuilder.appendPattern("[HH][H][" + timesep + "mm]");
          printBuilder.appendPattern("HH" + timesep + "mm");
       }
-
-      m_parseTimeFormat = parseBuilder.toFormatter();
-      m_printTimeFormat = printBuilder.toFormatter();
    }
 
    private void populateDatePatterns(ProjectProperties properties)
