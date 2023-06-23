@@ -25,6 +25,8 @@ package net.sf.mpxj.mpx;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
@@ -39,6 +41,7 @@ import net.sf.mpxj.DateOrder;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.ProjectTimeFormat;
+import net.sf.mpxj.common.LocalDateHelper;
 
 /**
  * This class manages the various objects required to parse and format
@@ -228,17 +231,13 @@ public final class MPXJFormats
    private void updateDateTimeFormats(ProjectProperties properties)
    {
       populateTimePatterns(properties);
+      populateDatePatterns(properties);
       String[] datePatterns = getDatePatterns(properties);
       String[] dateTimePatterns = getDateTimePatterns(properties);
 
       m_dateTimeFormat.applyPatterns(dateTimePatterns);
-      m_dateFormat.applyPatterns(datePatterns);
-
       m_dateTimeFormat.setLocale(m_locale);
-      m_dateFormat.setLocale(m_locale);
-
       m_dateTimeFormat.setNullText(m_nullText);
-      m_dateFormat.setNullText(m_nullText);
 
       m_dateTimeFormat.setAmPmText(properties.getAMText(), properties.getPMText());
    }
@@ -281,6 +280,81 @@ public final class MPXJFormats
       {
          pattern
       };
+   }
+
+   private DateTimeFormatterBuilder getPrintDateBuilder(ProjectProperties properties)
+   {
+      DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
+      builder.parseCaseInsensitive();
+
+      char datesep = properties.getDateSeparator();
+      DateOrder dateOrder = properties.getDateOrder();
+
+      switch (dateOrder)
+      {
+         case DMY:
+         {
+            builder.appendPattern("dd" + datesep + "MM" + datesep + "yy");
+            break;
+         }
+
+         case MDY:
+         {
+            builder.appendPattern("MM" + datesep + "dd" + datesep + "yy");
+            break;
+         }
+
+         case YMD:
+         {
+            builder.appendPattern("yy" + datesep + "MM" + datesep + "dd");
+            break;
+         }
+      }
+
+      return builder;
+   }
+
+   private DateTimeFormatterBuilder getParseDateBuilder(ProjectProperties properties)
+   {
+      DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
+      builder.parseCaseInsensitive();
+
+      char datesep = properties.getDateSeparator();
+      DateOrder dateOrder = properties.getDateOrder();
+
+      switch (dateOrder)
+      {
+         case DMY:
+         {
+            builder.appendPattern("[dd][d]" + datesep + "[MM][M]" + datesep + "[yyyy]");
+            builder.optionalStart();
+            builder.appendValueReduced(ChronoField.YEAR, 2, 2, LocalDateHelper.TWO_DIGIT_YEAR_BASE_DATE);
+            builder.optionalEnd();
+            break;
+         }
+
+         case MDY:
+         {
+            builder.appendPattern("[MM][M]" + datesep + "[dd][d]" + datesep + "[yyyy]");
+            builder.optionalStart();
+            builder.appendValueReduced(ChronoField.YEAR, 2, 2, LocalDateHelper.TWO_DIGIT_YEAR_BASE_DATE);
+            builder.optionalEnd();
+            break;
+         }
+
+         case YMD:
+         {
+            builder.appendPattern("[yyyy]");
+            builder.optionalStart();
+            builder.appendValueReduced(ChronoField.YEAR, 2, 2, LocalDateHelper.TWO_DIGIT_YEAR_BASE_DATE);
+            builder.optionalEnd();
+            builder.appendPattern(datesep + "[MM][M]" + datesep + "[dd][d]");
+            break;
+         }
+      }
+
+
+      return builder;
    }
 
    /**
@@ -730,7 +804,6 @@ public final class MPXJFormats
     * Returns time elements considering 12/24 hour formatting.
     *
     * @param properties project properties
-    * @return time formatting String
     */
    private void populateTimePatterns(ProjectProperties properties)
    {
@@ -764,6 +837,12 @@ public final class MPXJFormats
 
       m_parseTimeFormat = parseBuilder.toFormatter();
       m_printTimeFormat = printBuilder.toFormatter();
+   }
+
+   private void populateDatePatterns(ProjectProperties properties)
+   {
+      m_parseDateFormat = getParseDateBuilder(properties).toFormatter();
+      m_printDateFormat = getPrintDateBuilder(properties).toFormatter();
    }
 
    /**
@@ -827,16 +906,6 @@ public final class MPXJFormats
    }
 
    /**
-    * Retrieve the date format.
-    *
-    * @return date format
-    */
-   public DateFormat getDateFormat()
-   {
-      return (m_dateFormat);
-   }
-
-   /**
     * Retrieve the time format.
     *
     * @return time format
@@ -849,6 +918,21 @@ public final class MPXJFormats
    public DateTimeFormatter getPrintTimeFormat()
    {
       return m_printTimeFormat;
+   }
+
+   public LocalDateTime parseDate(String value)
+   {
+      if (m_nullText.equals(value))
+      {
+         return null;
+      }
+
+      return LocalDate.parse(value, m_parseDateFormat).atStartOfDay();
+   }
+
+   public String printDate(LocalDate value)
+   {
+      return value == null ? null : m_printDateFormat.format(value);
    }
 
    /**
@@ -870,7 +954,8 @@ public final class MPXJFormats
    private final MPXJNumberFormat m_durationDecimalFormat = new MPXJNumberFormat();
    private final MPXJNumberFormat m_percentageDecimalFormat = new MPXJNumberFormat();
    private final MPXJDateFormat m_dateTimeFormat = new MPXJDateFormat();
-   private final MPXJDateFormat m_dateFormat = new MPXJDateFormat();
+   private DateTimeFormatter m_parseDateFormat;
+   private DateTimeFormatter m_printDateFormat;
    private DateTimeFormatter m_parseTimeFormat;
    private DateTimeFormatter m_printTimeFormat;
 }

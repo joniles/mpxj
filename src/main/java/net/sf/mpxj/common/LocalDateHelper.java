@@ -66,4 +66,6 @@ public final class LocalDateHelper
       }
       return LocalDateTime.of(date, LocalTime.of(23, 59, 59));
    }
+
+   public static final LocalDate TWO_DIGIT_YEAR_BASE_DATE = LocalDate.now().minusYears(80);
 }

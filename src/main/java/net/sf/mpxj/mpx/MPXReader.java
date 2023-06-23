@@ -619,7 +619,7 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param record MPX record
     * @param calendar parent calendar
     */
-   private void populateCalendarHours(Record record, ProjectCalendar calendar) throws MPXJException
+   private void populateCalendarHours(Record record, ProjectCalendar calendar)
    {
       ProjectCalendarHours hours = calendar.addCalendarHours(DayOfWeekHelper.getInstance(NumberHelper.getInt(record.getInteger(0))));
       addDateRange(hours, record.getTime(1), record.getTime(2));

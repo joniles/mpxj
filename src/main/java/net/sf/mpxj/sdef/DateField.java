@@ -23,15 +23,13 @@
 
 package net.sf.mpxj.sdef;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 
-import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 
 /**
  * SDEF Date Field.
@@ -71,5 +69,5 @@ class DateField extends StringField
       return result;
    }
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("ddMMM").appendValueReduced(ChronoField.YEAR, 2, 2, LocalDate.now().minusYears(80)).toFormatter());
+   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("ddMMM").appendValueReduced(ChronoField.YEAR, 2, 2, LocalDateHelper.TWO_DIGIT_YEAR_BASE_DATE).toFormatter());
 }

@@ -488,9 +488,9 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(MPXConstants.RESOURCE_CALENDAR_EXCEPTION_RECORD_NUMBER);
       }
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDate(getDate(record.getFromDate()))));
+      m_buffer.append(format(formatDate(record.getFromDate())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatDate(getDate(record.getToDate()))));
+      m_buffer.append(format(formatDate(record.getToDate())));
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getWorking() ? "1" : "0");
       m_buffer.append(m_delimiter);
@@ -1240,9 +1240,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value date value
     * @return formatted date value
     */
-   private String formatDate(Date value)
+   private String formatDate(LocalDate value)
    {
-      return (value == null ? null : m_formats.getDateFormat().format(value));
+      return m_formats.printDate(value);
    }
 
    /**

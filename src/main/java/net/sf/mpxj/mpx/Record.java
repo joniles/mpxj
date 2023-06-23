@@ -238,15 +238,14 @@ final class Record
    }
 
    /**
-    * Accessor method used to retrieve an Date instance representing the
+    * Accessor method used to retrieve a LocalDateTime instance representing the
     * contents of an individual field. If the field does not exist in the
     * record, null is returned.
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
-    * @throws MPXJException normally thrown when parsing fails
     */
-   public LocalDateTime getDateTime(int field) throws MPXJException
+   public LocalDateTime getDateTime(int field)
    {
       LocalDateTime result = null;
 
@@ -267,15 +266,7 @@ final class Record
          //
          if (result == null)
          {
-            try
-            {
-               result = LocalDateTimeHelper.getLocalDateTime(m_formats.getDateFormat().parse(m_fields[field]));
-            }
-
-            catch (ParseException ex)
-            {
-               throw new MPXJException("Failed to parse date time", ex);
-            }
+            result = m_formats.parseDate(m_fields[field]);
          }
       }
 
@@ -283,36 +274,27 @@ final class Record
    }
 
    /**
-    * Accessor method used to retrieve an Date instance representing the
+    * Accessor method used to retrieve a LocalDateTime instance representing the
     * contents of an individual field. If the field does not exist in the
     * record, null is returned.
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
-    * @throws MPXJException normally thrown when parsing fails
     */
-   public LocalDateTime getDate(int field) throws MPXJException
+   public LocalDateTime getDate(int field)
    {
-      try
+      LocalDateTime result;
+
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         LocalDateTime result;
-
-         if ((field < m_fields.length) && (m_fields[field].length() != 0))
-         {
-            result = LocalDateTimeHelper.getLocalDateTime(m_formats.getDateFormat().parse(m_fields[field]));
-         }
-         else
-         {
-            result = null;
-         }
-
-         return (result);
+         result = m_formats.parseDate(m_fields[field]);
+      }
+      else
+      {
+         result = null;
       }
 
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse date", ex);
-      }
+      return (result);
    }
 
    /**
