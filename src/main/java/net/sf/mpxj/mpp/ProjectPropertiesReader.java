@@ -148,9 +148,9 @@ public final class ProjectPropertiesReader
             for (CustomProperty property : customProperties.properties())
             {
                Object value = property.getValue();
-               if (value instanceof java.util.Date)
+               if (value instanceof Date)
                {
-                  value = getLocalDateTime((java.util.Date) value);
+                  value = getLocalDateTime((Date)value);
                }
                customPropertiesMap.put(property.getName(), value);
             }

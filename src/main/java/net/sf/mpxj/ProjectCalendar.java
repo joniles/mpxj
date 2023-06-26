@@ -1028,6 +1028,20 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    }
 
    /**
+    * This method retrieves the calendar hours for the specified date.
+    * Note that if this is a derived calendar, then this method
+    * will refer to the base calendar where no hours are specified
+    * in the derived calendar.
+    *
+    * @param date target date
+    * @return working hours on the given date
+    */
+   public ProjectCalendarHours getHours(LocalDateTime date)
+   {
+      return getHours(LocalDateHelper.getLocalDate(date));
+   }
+
+   /**
     * Modifier method to set the unique ID of this calendar.
     *
     * @param uniqueID unique identifier

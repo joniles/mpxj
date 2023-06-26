@@ -1087,7 +1087,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    private TimephasedCost splitCostEnd(ProjectCalendar calendar, double totalAmount, LocalDateTime finish)
    {
       TimephasedCost cost = new TimephasedCost();
-      ProjectCalendarHours hours = calendar.getHours(LocalDateHelper.getLocalDate(finish));
+      ProjectCalendarHours hours = calendar.getHours(finish);
       cost.setStart(LocalTimeHelper.setTime(finish, hours.get(0).getStart()));
       cost.setFinish(finish);
       cost.setAmountPerDay(Double.valueOf(totalAmount));
