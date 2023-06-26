@@ -157,7 +157,7 @@ public final class DatatypeConverter
     */
    public static final String printCustomFieldDate(LocalDateTime value)
    {
-      return (value == null ? null : LOCAL_DATE_TIME_FORMAT.format(value));
+      return (value == null ? null : DATE_FORMAT.format(value));
    }
 
    /**
@@ -219,7 +219,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = LocalDateTime.parse(value, LOCAL_DATE_TIME_FORMAT);
+            result = LocalDateTime.parse(value, DATE_FORMAT);
          }
 
          catch (DateTimeParseException ex)
@@ -2040,8 +2040,6 @@ public final class DatatypeConverter
    }
 
    private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("yyyy-MM-dd'T'HH:mm:ss").toFormatter();
-
-   private static final DateTimeFormatter LOCAL_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
