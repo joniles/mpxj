@@ -47,6 +47,7 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
@@ -590,15 +591,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
             {
                try
                {
-                  TemporalAccessor parsedValue = dateFormat.parseBest(value, LocalDateTime::from, LocalDate::from);
-                  if (parsedValue instanceof LocalDate)
-                  {
-                     result = ((LocalDate) parsedValue).atStartOfDay();
-                  }
-                  else
-                  {
-                     result = parsedValue;
-                  }
+                  result = LocalDateTimeHelper.parseBest(dateFormat, value);
                }
                catch (DateTimeParseException ex)
                {

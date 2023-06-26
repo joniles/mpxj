@@ -40,6 +40,7 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.ProjectTimeFormat;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * This class manages the various objects required to parse and format
@@ -954,12 +955,7 @@ public final class MPXJFormats
          value = value.substring(value.indexOf(' ')+1);
       }
 
-      TemporalAccessor parsed = m_parseDateTimeFormat.parseBest(value, LocalDateTime::from, LocalDate::from);
-      if (parsed instanceof LocalDate)
-      {
-         return ((LocalDate) parsed).atStartOfDay();
-      }
-      return (LocalDateTime) parsed;
+      return LocalDateTimeHelper.parseBest(m_parseDateTimeFormat, value);
    }
 
    public String printDateTime(TemporalAccessor value)

@@ -1,6 +1,9 @@
 package net.sf.mpxj.common;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -136,5 +139,15 @@ public final class LocalDateTimeHelper
             result = (d1.compareTo(d2) > 0) ? d1 : d2;
          }
       return result;
+   }
+
+   public static LocalDateTime parseBest(DateTimeFormatter format, String value)
+   {
+      TemporalAccessor parsed = format.parseBest(value, LocalDateTime::from, LocalDate::from);
+      if (parsed instanceof LocalDate)
+      {
+         return ((LocalDate) parsed).atStartOfDay();
+      }
+      return (LocalDateTime) parsed;
    }
 }

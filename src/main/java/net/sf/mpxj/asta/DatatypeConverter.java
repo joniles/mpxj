@@ -31,6 +31,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 
+import net.sf.mpxj.common.LocalDateTimeHelper;
+
 /*
  * Duration Types
  *
@@ -217,13 +219,7 @@ final class DatatypeConverter
          return null;
       }
 
-      TemporalAccessor parsed = TIMESTAMP_FORMAT.parseBest(value, LocalDateTime::from, LocalDate::from);
-      if (parsed instanceof LocalDate)
-      {
-         return ((LocalDate) parsed).atStartOfDay();
-      }
-
-      return (LocalDateTime) parsed;
+      return LocalDateTimeHelper.parseBest(TIMESTAMP_FORMAT, value);
    }
 
    /**
