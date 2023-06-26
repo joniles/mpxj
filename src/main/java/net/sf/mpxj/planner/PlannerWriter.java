@@ -25,8 +25,6 @@ package net.sf.mpxj.planner;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -793,7 +791,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private String getDateString(LocalDate value)
    {
-      return m_localDateFormat.format(value);
+      return m_DateFormat.format(value);
    }
 
    /**
@@ -806,12 +804,12 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private String getDateTimeString(LocalDateTime value)
    {
-      String result = null;
-      if (value != null)
+      if (value == null)
       {
-         result = m_fourDigitFormat.format(value.getYear()) + m_twoDigitFormat.format(value.getMonthValue()) + m_twoDigitFormat.format(value.getDayOfMonth()) + 'T' + m_twoDigitFormat.format(value.getHour()) + m_twoDigitFormat.format(value.getMinute()) + m_twoDigitFormat.format(value.getSecond()) + 'Z';
+         return null;
       }
-      return result;
+
+      return m_dateTimeFormat.format(value);
    }
 
    /**
@@ -944,7 +942,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * Set the encoding used to write the file. By default UTF-8 is used.
+    * Set the encoding used to write the file. By default, UTF-8 is used.
     *
     * @param encoding encoding name
     */
@@ -970,10 +968,9 @@ public final class PlannerWriter extends AbstractProjectWriter
    private ObjectFactory m_factory;
    private Project m_plannerProject;
 
-   private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
-   private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
    private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HHmm");
-   private final DateTimeFormatter m_localDateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
+   private final DateTimeFormatter m_DateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
+   private final DateTimeFormatter m_dateTimeFormat = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
 
    private static final Map<RelationType, String> RELATIONSHIP_TYPES = new HashMap<>();
    static
