@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;

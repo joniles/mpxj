@@ -34,7 +34,7 @@ import java.util.List;
 
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.LocalDateHelper;

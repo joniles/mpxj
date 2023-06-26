@@ -46,7 +46,7 @@ import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.ConstraintType;
 import java.time.DayOfWeek;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectCalendar;

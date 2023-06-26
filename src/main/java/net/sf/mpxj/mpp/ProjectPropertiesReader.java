@@ -29,7 +29,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;

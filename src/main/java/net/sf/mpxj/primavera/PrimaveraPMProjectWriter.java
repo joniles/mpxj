@@ -50,7 +50,7 @@ import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseItem;

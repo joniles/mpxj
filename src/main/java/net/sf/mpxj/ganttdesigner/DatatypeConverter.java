@@ -29,7 +29,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import java.time.DayOfWeek;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
 

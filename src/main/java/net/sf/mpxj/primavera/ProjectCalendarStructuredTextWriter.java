@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 import java.time.DayOfWeek;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;

@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**

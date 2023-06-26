@@ -47,7 +47,7 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;

@@ -28,7 +28,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 import java.time.DayOfWeek;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.LocalDateRange;
 import net.sf.mpxj.ProjectCalendar;

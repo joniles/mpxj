@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import java.time.DayOfWeek;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.GenericCriteria;

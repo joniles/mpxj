@@ -49,7 +49,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Location;
 import net.sf.mpxj.LocationContainer;
 import net.sf.mpxj.NotesTopic;

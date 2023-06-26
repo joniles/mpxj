@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.LocalTimeRange;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;

@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import java.time.DayOfWeek;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;

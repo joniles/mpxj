@@ -44,7 +44,7 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;

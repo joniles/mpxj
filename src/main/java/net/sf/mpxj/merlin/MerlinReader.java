@@ -47,7 +47,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.ResultSetHelper;

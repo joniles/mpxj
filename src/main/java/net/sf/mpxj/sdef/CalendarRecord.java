@@ -24,7 +24,7 @@
 package net.sf.mpxj.sdef;
 
 import java.time.DayOfWeek;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarHours;

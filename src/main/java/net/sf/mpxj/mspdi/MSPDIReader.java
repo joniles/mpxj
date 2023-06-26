@@ -49,7 +49,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.LocalDateRange;
 import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimephasedCost;

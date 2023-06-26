@@ -38,7 +38,7 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Notes;

@@ -27,6 +27,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 
+import net.sf.mpxj.common.DayOfWeekHelper;
 
 /**
  * This class represents a basic working week, with no exceptions.

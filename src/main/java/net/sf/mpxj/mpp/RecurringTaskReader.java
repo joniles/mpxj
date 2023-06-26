@@ -24,7 +24,7 @@
 package net.sf.mpxj.mpp;
 
 import java.time.DayOfWeek;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;

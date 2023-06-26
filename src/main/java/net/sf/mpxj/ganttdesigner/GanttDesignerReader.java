@@ -33,7 +33,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import org.xml.sax.SAXException;
 

@@ -39,7 +39,7 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
-import net.sf.mpxj.DayOfWeekHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
