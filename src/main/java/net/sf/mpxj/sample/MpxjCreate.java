@@ -105,7 +105,7 @@ public class MpxjCreate
       //
       ProjectCalendar calendar = file.addDefaultBaseCalendar();
       file.setDefaultCalendar(calendar);
-      
+
       //
       // Add a holiday to the calendar to demonstrate calendar exceptions
       //
