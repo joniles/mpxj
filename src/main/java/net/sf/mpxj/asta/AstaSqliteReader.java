@@ -272,7 +272,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     * @param rows calendar rows
     * @return work pattern assignment map
     */
-   private Map<Integer, List<Row>> createWorkPatternAssignmentMap(List<Row> rows) throws ParseException
+   private Map<Integer, List<Row>> createWorkPatternAssignmentMap(List<Row> rows)
    {
       Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
@@ -367,7 +367,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     * @param rows work pattern rows
     * @return time entry map
     */
-   private Map<Integer, List<Row>> createTimeEntryMap(List<Row> rows) throws ParseException
+   private Map<Integer, List<Row>> createTimeEntryMap(List<Row> rows)
    {
       Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)

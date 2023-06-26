@@ -82,7 +82,6 @@ import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.ColorHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.HtmlHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
@@ -1320,8 +1319,8 @@ final class PrimaveraPMProjectWriter
     */
    private boolean costRateTableWriteRequired(CostRateTableEntry entry)
    {
-      boolean fromDate = (LocalDateTimeHelper.compare(entry.getStartDate(), DateHelper.START_DATE_NA) > 0);
-      boolean toDate = (LocalDateTimeHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
+      boolean fromDate = (LocalDateTimeHelper.compare(entry.getStartDate(), LocalDateTimeHelper.START_DATE_NA) > 0);
+      boolean toDate = (LocalDateTimeHelper.compare(entry.getEndDate(), LocalDateTimeHelper.END_DATE_NA) > 0);
       boolean nonZeroRates = false;
       for (int rateIndex = 0; rateIndex < CostRateTableEntry.MAX_RATES; rateIndex++)
       {

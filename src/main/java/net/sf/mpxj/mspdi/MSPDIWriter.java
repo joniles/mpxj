@@ -91,7 +91,6 @@ import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.CombinedCalendar;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldLists;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.LocalDateHelper;
@@ -1287,8 +1286,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private boolean costRateTableEntryWriteRequired(CostRateTableEntry entry)
    {
-      boolean fromDate = (LocalDateTimeHelper.compare(entry.getStartDate(), DateHelper.START_DATE_NA) > 0);
-      boolean toDate = (LocalDateTimeHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
+      boolean fromDate = (LocalDateTimeHelper.compare(entry.getStartDate(), LocalDateTimeHelper.START_DATE_NA) > 0);
+      boolean toDate = (LocalDateTimeHelper.compare(entry.getEndDate(), LocalDateTimeHelper.END_DATE_NA) > 0);
       boolean costPerUse = (NumberHelper.getDouble(entry.getCostPerUse()) != 0);
       boolean overtimeRate = (entry.getOvertimeRate() != null && entry.getOvertimeRate().getAmount() != 0);
       boolean standardRate = (entry.getStandardRate() != null && entry.getStandardRate().getAmount() != 0);

@@ -25,13 +25,11 @@ package net.sf.mpxj.ganttproject;
 
 import java.io.InputStream;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
-import java.time.temporal.TemporalAccessor;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +71,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.UnmarshalHelper;
@@ -451,7 +448,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       if (gpRate != null)
       {
          CostRateTable table = new CostRateTable();
-         table.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, NumberHelper.DOUBLE_ZERO, new Rate(gpRate.getValueAttribute(), TimeUnit.DAYS)));
+         table.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, NumberHelper.DOUBLE_ZERO, new Rate(gpRate.getValueAttribute(), TimeUnit.DAYS)));
          mpxjResource.setCostRateTable(0, table);
       }
 

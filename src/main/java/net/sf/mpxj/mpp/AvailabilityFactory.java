@@ -29,7 +29,7 @@ import java.util.Collections;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -60,14 +60,14 @@ final class AvailabilityFactory
                endDate = endDate.minusMinutes(1);
                Double units = NumberHelper.getDouble(unitsValue / 100);
 
-               if (startDate.isBefore(DateHelper.START_DATE_NA))
+               if (startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
                {
-                  startDate = DateHelper.START_DATE_NA;
+                  startDate = LocalDateTimeHelper.START_DATE_NA;
                }
 
-               if (endDate.isAfter(DateHelper.END_DATE_NA))
+               if (endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
                {
-                  endDate = DateHelper.END_DATE_NA;
+                  endDate = LocalDateTimeHelper.END_DATE_NA;
                }
 
                Availability item = new Availability(startDate, endDate, units);

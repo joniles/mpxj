@@ -36,9 +36,9 @@ import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.TimeRange;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -1031,7 +1031,7 @@ final class MPP8Reader implements MPPVariantReader
          Rate overtimeRate = new Rate(MPPUtility.getDouble(data, 44), TimeUnit.HOURS);
 
          CostRateTable costRateTable = new CostRateTable();
-         costRateTable.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
+         costRateTable.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
          resource.setCostRateTable(0, costRateTable);
 
          m_eventManager.fireResourceReadEvent(resource);

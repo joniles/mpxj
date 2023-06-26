@@ -36,7 +36,7 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RateHelper;
 
@@ -98,9 +98,9 @@ final class CostRateTableFactory
             Double costPerUse = NumberHelper.getDouble(MPPUtility.getDouble(data, i + 32) / 100.0);
             LocalDateTime endDate = MPPUtility.getTimestampFromTenths(data, i + 40);
 
-            if (endDate.isAfter(DateHelper.END_DATE_NA))
+            if (endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
             {
-               endDate = DateHelper.END_DATE_NA;
+               endDate = LocalDateTimeHelper.END_DATE_NA;
             }
             else
             {
@@ -133,7 +133,7 @@ final class CostRateTableFactory
          LocalDateTime startDate;
          if (i == 0)
          {
-            startDate = DateHelper.START_DATE_NA;
+            startDate = LocalDateTimeHelper.START_DATE_NA;
          }
          else
          {

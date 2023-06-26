@@ -61,6 +61,11 @@ public class LocalTimeHelper
          return 0;
       }
 
-      return rangeEnd == LocalTime.MIDNIGHT ? DateHelper.MS_PER_DAY - (rangeStart.toSecondOfDay() * 1000L) : (rangeEnd.toSecondOfDay() - rangeStart.toSecondOfDay()) * 1000L;
+      return rangeEnd == LocalTime.MIDNIGHT ? MS_PER_DAY - (rangeStart.toSecondOfDay() * 1000L) : (rangeEnd.toSecondOfDay() - rangeStart.toSecondOfDay()) * 1000L;
    }
+
+   /**
+    * Number of milliseconds per day.
+    */
+   private static final long MS_PER_DAY = 24 * 60 * 60 * 1000;
 }

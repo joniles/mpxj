@@ -23,12 +23,14 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
@@ -108,11 +110,11 @@ public final class ProjectPropertiesReader
          ph.setTemplate(summaryInformation.getTemplate());
          ph.setLastAuthor(summaryInformation.getLastAuthor());
          ph.setRevision(NumberHelper.parseInteger(summaryInformation.getRevNumber()));
-         ph.setCreationDate(LocalDateTimeHelper.getLocalDateTime(summaryInformation.getCreateDateTime()));
-         ph.setLastSaved(LocalDateTimeHelper.getLocalDateTime(summaryInformation.getLastSaveDateTime()));
+         ph.setCreationDate(getLocalDateTime(summaryInformation.getCreateDateTime()));
+         ph.setLastSaved(getLocalDateTime(summaryInformation.getLastSaveDateTime()));
          ph.setShortApplicationName(summaryInformation.getApplicationName());
          ph.setEditingTime(Integer.valueOf((int) summaryInformation.getEditTime()));
-         ph.setLastPrinted(LocalDateTimeHelper.getLocalDateTime(summaryInformation.getLastPrinted()));
+         ph.setLastPrinted(getLocalDateTime(summaryInformation.getLastPrinted()));
 
          try
          {
@@ -148,7 +150,7 @@ public final class ProjectPropertiesReader
                Object value = property.getValue();
                if (value instanceof java.util.Date)
                {
-                  value = LocalDateTimeHelper.getLocalDateTime((java.util.Date)value);
+                  value = getLocalDateTime((java.util.Date)value);
                }
                customPropertiesMap.put(property.getName(), value);
             }
@@ -210,4 +212,17 @@ public final class ProjectPropertiesReader
 
       return MPPUtility.getUnicodeString(data, offset);
    }
+
+   private LocalDateTime getLocalDateTime(Date date)
+   {
+      if (date == null)
+      {
+         return null;
+      }
+
+      m_calendar.setTime(date);
+      return LocalDateTime.of(m_calendar.get(Calendar.YEAR), m_calendar.get(Calendar.MONTH)+1, m_calendar.get(Calendar.DAY_OF_MONTH), m_calendar.get(Calendar.HOUR_OF_DAY), m_calendar.get(Calendar.MINUTE), m_calendar.get(Calendar.SECOND));
+   }
+
+   private final Calendar m_calendar = Calendar.getInstance();
 }

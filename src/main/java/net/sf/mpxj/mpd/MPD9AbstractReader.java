@@ -67,9 +67,9 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
@@ -990,7 +990,7 @@ abstract class MPD9AbstractReader
          Rate overtimeRate = RateHelper.convertFromHours(m_project, NumberHelper.getDouble(row.getDouble("RES_OVT_RATE")), TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1));
 
          CostRateTable costRateTable = new CostRateTable();
-         costRateTable.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
+         costRateTable.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
          resource.setCostRateTable(0, costRateTable);
 
          m_eventManager.fireResourceReadEvent(resource);

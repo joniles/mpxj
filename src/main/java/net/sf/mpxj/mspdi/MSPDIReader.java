@@ -57,6 +57,7 @@ import net.sf.mpxj.TimephasedCostContainer;
 import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.mpp.MPPTimephasedBaselineCostNormaliser;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -99,7 +100,6 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.CharsetHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -1132,14 +1132,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             LocalDateTime startDate = rate.getRatesFrom();
             LocalDateTime endDate = rate.getRatesTo();
 
-            if (startDate.isBefore(DateHelper.START_DATE_NA))
+            if (startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
             {
-               startDate = DateHelper.START_DATE_NA;
+               startDate = LocalDateTimeHelper.START_DATE_NA;
             }
 
-            if (endDate.isAfter(DateHelper.END_DATE_NA))
+            if (endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
             {
-               endDate = DateHelper.END_DATE_NA;
+               endDate = LocalDateTimeHelper.END_DATE_NA;
             }
 
             //
@@ -1191,14 +1191,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             LocalDateTime end = period.getAvailableTo();
             Number units = DatatypeConverter.parseUnits(period.getAvailableUnits());
 
-            if (start == null || start.isBefore(DateHelper.START_DATE_NA))
+            if (start == null || start.isBefore(LocalDateTimeHelper.START_DATE_NA))
             {
-               start = DateHelper.START_DATE_NA;
+               start = LocalDateTimeHelper.START_DATE_NA;
             }
 
-            if (end == null || end.isAfter(DateHelper.END_DATE_NA))
+            if (end == null || end.isAfter(LocalDateTimeHelper.END_DATE_NA))
             {
-               end = DateHelper.END_DATE_NA;
+               end = LocalDateTimeHelper.END_DATE_NA;
             }
 
             Availability availability = new Availability(start, end, units);

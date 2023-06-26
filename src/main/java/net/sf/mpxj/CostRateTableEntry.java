@@ -29,7 +29,6 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -46,7 +45,7 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    private CostRateTableEntry()
    {
-      this(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, NumberHelper.DOUBLE_ZERO);
+      this(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, NumberHelper.DOUBLE_ZERO);
    }
 
    /**

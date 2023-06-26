@@ -42,7 +42,6 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.CharsetHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RateHelper;
@@ -363,7 +362,7 @@ public final class MPPUtility
     */
    public static final long getDuration(byte[] data, int offset)
    {
-      return ((getShort(data, offset) * DateHelper.MS_PER_MINUTE) / 10);
+      return ((getShort(data, offset) * MS_PER_MINUTE) / 10);
    }
 
    /**
@@ -1328,4 +1327,5 @@ public final class MPPUtility
     * Mask used to remove flags from the duration units field.
     */
    private static final int DURATION_UNITS_MASK = 0x1F;
+   private static final long MS_PER_MINUTE = 60 * 1000;
 }

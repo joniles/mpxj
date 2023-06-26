@@ -70,7 +70,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DebugLogPrintWriter;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
@@ -440,7 +439,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       mpxjResource.setGUID(phoenixResource.getUuid());
 
       CostRateTable costRateTable = new CostRateTable();
-      costRateTable.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, phoenixResource.getMonetarycostperuse(), new Rate(phoenixResource.getMonetaryrate(), rateUnits)));
+      costRateTable.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, phoenixResource.getMonetarycostperuse(), new Rate(phoenixResource.getMonetaryrate(), rateUnits)));
       mpxjResource.setCostRateTable(0, costRateTable);
 
       m_eventManager.fireResourceReadEvent(mpxjResource);
@@ -540,7 +539,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
          m_log.println("\"codeSequence\": [" + codeJoiner + "],");
 
          StringJoiner sequenceJoiner = new StringJoiner(",");
-         m_activityCodeValues.forEach((key, value) -> sequenceJoiner.add("\"" + key + "\": " + value.getSequenceNumber() + ""));
+         m_activityCodeValues.forEach((key, value) -> sequenceJoiner.add("\"" + key + "\": " + value.getSequenceNumber()));
          m_log.println("\"activityCodeSequence\": {" + sequenceJoiner + "},");
 
          StringJoiner activityJoiner = new StringJoiner(",");

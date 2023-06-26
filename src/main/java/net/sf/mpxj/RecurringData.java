@@ -726,7 +726,7 @@ public class RecurringData
 
       if (dayNumber > 1)
       {
-         date = date.plusDays((7 * (dayNumber - 1)));
+         date = date.plusDays((7 * ((long)dayNumber - 1)));
       }
 
       return date;

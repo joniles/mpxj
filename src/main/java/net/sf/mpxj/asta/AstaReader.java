@@ -73,7 +73,6 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
@@ -226,7 +225,7 @@ final class AstaReader
          resource.setInitials(getInitials(resource.getName()));
 
          CostRateTable table = new CostRateTable();
-         table.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, row.getDouble("COST_PER_USEDEFAULTSAMOUNT")));
+         table.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, row.getDouble("COST_PER_USEDEFAULTSAMOUNT")));
          resource.setCostRateTable(0, table);
       }
    }

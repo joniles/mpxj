@@ -49,7 +49,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
@@ -234,7 +233,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
          resource.setUniqueID(Integer.valueOf(uniqueID));
 
          CostRateTable costRateTable = new CostRateTable();
-         costRateTable.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, row.getCurrency(ResourceField.PER_USE_COST)));
+         costRateTable.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, row.getCurrency(ResourceField.PER_USE_COST)));
          resource.setCostRateTable(0, costRateTable);
 
          m_eventManager.fireResourceReadEvent(resource);

@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
-import java.util.Calendar;
-import java.util.Date;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -13,20 +11,6 @@ import net.sf.mpxj.TimeUnit;
 
 public final class LocalDateTimeHelper
 {
-
-   public static LocalDateTime getLocalDateTime(Date date)
-   {
-      if (date == null)
-      {
-         return null;
-      }
-
-      Calendar cal = DateHelper.popCalendar(date);
-      LocalDateTime result = LocalDateTime.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), cal.get(Calendar.SECOND));
-      DateHelper.pushCalendar(cal);
-      return result;
-   }
-
    /**
     * Returns a new Date instance whose value
     * represents the start of the day (i.e. the time of day is 00:00:00.000)
@@ -173,4 +157,22 @@ public final class LocalDateTimeHelper
       }
       return Duration.getInstance(0, format);
    }
+
+   /**
+    * Date representing NA at the start of a date range: January 01 00:00:00 1984.
+    */
+   public static final LocalDateTime START_DATE_NA = LocalDateTime.of(1984, 1, 1, 0, 0);
+
+   /**
+    * Date representing NA at the end of a date range: Friday December 31 23:59:00 2049.
+    * That's actually the value used by older versions of MS Project. The most recent version
+    * of MS Project uses Friday December 31 23:59:06 2049 (note the six extra seconds).
+    * The problem with using this value to represent NA at the end of a date range is it
+    * isn't interpreted correctly by older versions of MS Project. The compromise here is that
+    * we'll use the value recognised by older versions of MS Project, which will work as expected
+    * and display NA as the end date. For the current version of MS Project this will display a
+    * the end date as 2049, rather than NA, but this should still be interpreted correctly.
+    * TODO: consider making this behaviour configurable.
+    */
+   public static final LocalDateTime END_DATE_NA = LocalDateTime.of(2049, 12, 31, 23, 59);
 }

@@ -106,7 +106,6 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
@@ -1839,7 +1838,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
          LocalDateTime startDate = row.getEffectiveDate();
-         LocalDateTime endDate = DateHelper.END_DATE_NA;
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
 
          if (i + 1 < rates.size())
          {
@@ -1850,14 +1849,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
          }
 
-         if (startDate == null || startDate.isBefore(DateHelper.START_DATE_NA))
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
          {
-            startDate = DateHelper.START_DATE_NA;
+            startDate = LocalDateTimeHelper.START_DATE_NA;
          }
 
-         if (endDate == null || endDate.isAfter(DateHelper.END_DATE_NA))
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
          {
-            endDate = DateHelper.END_DATE_NA;
+            endDate = LocalDateTimeHelper.END_DATE_NA;
          }
 
          resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
@@ -1933,7 +1932,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
          LocalDateTime startDate = row.getEffectiveDate();
-         LocalDateTime endDate = DateHelper.END_DATE_NA;
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
 
          if (i + 1 < rates.size())
          {
@@ -1944,14 +1943,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
          }
 
-         if (startDate == null || startDate.isBefore(DateHelper.START_DATE_NA))
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
          {
-            startDate = DateHelper.START_DATE_NA;
+            startDate = LocalDateTimeHelper.START_DATE_NA;
          }
 
-         if (endDate == null || endDate.isAfter(DateHelper.END_DATE_NA))
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
          {
-            endDate = DateHelper.END_DATE_NA;
+            endDate = LocalDateTimeHelper.END_DATE_NA;
          }
 
          resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
