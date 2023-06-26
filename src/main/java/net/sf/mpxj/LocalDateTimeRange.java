@@ -109,7 +109,7 @@ public final class LocalDateTimeRange implements Comparable<LocalDateTimeRange>
 
    @Override public String toString()
    {
-      return ("[DateRange start=" + m_start + " end=" + m_end + "]");
+      return ("[LocalDateTimeRange start=" + m_start + " end=" + m_end + "]");
    }
 
    private final LocalDateTime m_start;

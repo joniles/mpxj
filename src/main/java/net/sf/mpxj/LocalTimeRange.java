@@ -105,7 +105,7 @@ public final class LocalTimeRange implements Comparable<LocalTimeRange>
 
    @Override public String toString()
    {
-      return ("[DateRange start=" + m_start + " end=" + m_end + "]");
+      return ("[LocalTimeRange start=" + m_start + " end=" + m_end + "]");
    }
 
    public static final LocalTimeRange EMPTY_RANGE = new LocalTimeRange(null, null);

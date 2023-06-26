@@ -23,12 +23,11 @@ As you can see from the code above, the calendar also has a name which we can
 set to distinguish between different calendars.
 
 ## Working Days
-Let's see what the calendar can tell us. First we'll use the `Day` enumeration
-to retrieve the working/non-working state for each day.
+Let's see what the calendar can tell us. First we'll use the `DayOfWeek`
+enumeration to retrieve the working/non-working state for each day.
 
 ```java
-for (Day day : Day.values())
-{
+for (DayOfWeek day : DayOfWeek.values()) {
    String dayType = calendar.getCalendarDayType(day).toString();
    System.out.println(day + " is a " + dayType + " day");
 }
@@ -37,13 +36,13 @@ for (Day day : Day.values())
 Running the code shown above will produce output like this:
 
 ```
-SUNDAY is a NON_WORKING day
 MONDAY is a WORKING day
 TUESDAY is a WORKING day
 WEDNESDAY is a WORKING day
 THURSDAY is a WORKING day
 FRIDAY is a WORKING day
 SATURDAY is a NON_WORKING day
+SUNDAY is a NON_WORKING day
 ```
 
 We can use the `setWorkingDay` method to change our pattern of working day.
@@ -51,21 +50,21 @@ Let's make Saturday a working day for our team, and make Monday a non-working
 day to compensate.
 
 ```java
-calendar.setWorkingDay(Day.SATURDAY, true);
-calendar.setWorkingDay(Day.MONDAY, false);
+calendar.setWorkingDay(DayOfWeek.SATURDAY, true);
+calendar.setWorkingDay(DayOfWeek.MONDAY, false);
 ```
 
 Now if we use the loop we saw previously to inspect the week days, we'll see
 this output:
 
 ```
-SUNDAY is a NON_WORKING day
 MONDAY is a NON_WORKING day
 TUESDAY is a WORKING day
 WEDNESDAY is a WORKING day
 THURSDAY is a WORKING day
 FRIDAY is a WORKING day
 SATURDAY is a WORKING day
+SUNDAY is a NON_WORKING day
 ```
 
 ## Working Hours
@@ -74,10 +73,10 @@ or non-working. How do we know the working times on those days? We can use the
 `getCalendarHours` method to find that information.
 
 
-The `getCalendarHours` method returns a `List` of `DateRange` instances.
-`DateRange` is a simple immutable class which represents a span of time between
-a start date and an end date as an inclusive range. Let's try printing these
-`DateRange` instances to our output to see what we get:
+The `getCalendarHours` method returns a `List` of `LocalTimeRange` instances.
+`LocalTimeRange` is a simple immutable class which represents a span of time
+between a start time and an end time as an inclusive range. Let's try printing
+these `DateRange` instances to our output to see what we get:
 
 ```java
 List<DateRange> hours = calendar.getCalendarHours(Day.TUESDAY);
@@ -87,8 +86,8 @@ hours.forEach(System.out::println);
 Here's the output:
 
 ```
-[DateRange start=Sat Jan 01 08:00:00 GMT 1 end=Sat Jan 01 12:00:00 GMT 1]
-[DateRange start=Sat Jan 01 13:00:00 GMT 1 end=Sat Jan 01 17:00:00 GMT 1]
+[DateRange start=08:00 end=12:00]
+[DateRange start=13:00 end=17:00]
 ```
 
 This isn't quite what we were expecting! What's happening here is that
