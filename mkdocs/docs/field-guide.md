@@ -22,6 +22,7 @@ The tables are not hand-crafted: they have been generated from test data and are
 Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)
 ---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---
 AM Text|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Actual Cost| | | | | | | | |✓| | | | | | | | | | | | | | 
 Actual Duration| | | | | | | | |✓| | | | | | | | | | | | | | 
 Actual Start| | | | | | | | |✓| | | | | | | | | | | | | | 
 Actual Work| | | | | | | | |✓| | | | | | | | | | | | | | 
@@ -116,6 +117,7 @@ Short Application Name| | | | | | | |✓| | | | | | | | | | | 
 Show Project Summary Task| | | | | | | |✓| | | | | | | | | | | | | | | 
 Split In Progress Tasks| | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
 Start Date|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Start Variance| | | | | | | | |✓| | | | | | | | | | | | | | 
 Status Date|✓| | | | | |✓|✓| |✓|✓|✓| |✓|✓|✓| | |✓| | | | 
 Subject| | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
 Template| | | | | | | |✓| | | | | | | | | | | | | | | 
@@ -223,7 +225,7 @@ Late Finish|✓| |✓| | | |✓|✓|✓|✓|✓|✓| | |✓|✓| | |✓|
 Late Start|✓| |✓| | | |✓|✓|✓|✓|✓|✓| | |✓|✓| | |✓|✓|✓| |✓
 Level Assignments| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Leveling Can Split| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
-Leveling Delay| | | | | | | |✓| |✓| | | | | | | | | | | | | 
+Leveling Delay| | | | | | | |✓|✓|✓| | | | | | | | | | | | | 
 Leveling Delay Units| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Longest Path| | | | | | | | | | | | | | |✓|✓| | | | | | | 
 Mail| | | | | | | | | | | | | | | | | | | | |✓| | 
@@ -644,7 +646,7 @@ Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|Ga
 ACWP| | | | | | |✓| | |✓| | | | | | | | | | | | | 
 Accrue At| | | | | | |✓|✓|✓|✓| | | | | | | |✓| | | | | 
 Active|✓|✓|✓| |✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| | |✓|✓|✓
-Actual Cost| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
+Actual Cost| | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
 Actual Overtime Cost| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Actual Overtime Work| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Actual Work| | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 

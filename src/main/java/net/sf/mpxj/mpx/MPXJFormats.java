@@ -326,21 +326,21 @@ public final class MPXJFormats
             {
                case DMY:
                {
-                  createParseFormatterWithTime(properties, "dd" + datesep + "MM" + datesep + "yy");
+                  createParseFormatterWithTime(properties, "dd" + datesep + "MM" + datesep, "yy");
                   m_printDateTimeFormat = createPrintFormatterWithTime(properties, "dd" + datesep + "MM" + datesep + "yy");
                   break;
                }
 
                case MDY:
                {
-                  createParseFormatterWithTime(properties, "MM" + datesep + "dd" + datesep + "yy");
+                  createParseFormatterWithTime(properties, "MM" + datesep + "dd" + datesep, "yy");
                   m_printDateTimeFormat = createPrintFormatterWithTime(properties, "MM" + datesep + "dd" + datesep + "yy");
                   break;
                }
 
                case YMD:
                {
-                  createParseFormatterWithTime(properties, "yy" + datesep + "MM" + datesep + "dd");
+                  createParseFormatterWithTime(properties, "yy", datesep + "MM" + datesep + "dd");
                   m_printDateTimeFormat = createPrintFormatterWithTime(properties, "yy" + datesep + "MM" + datesep + "dd");
                   break;
                }
@@ -354,21 +354,21 @@ public final class MPXJFormats
             {
                case DMY:
                {
-                  createParseFormatterWithTime(properties, "dd" + datesep + "MM" + datesep + "yy");
+                  createParseFormatterWithTime(properties, "dd" + datesep + "MM" + datesep, "yy");
                   createPrintFormatter("dd" + datesep + "MM" + datesep + "yy");
                   break;
                }
 
                case MDY:
                {
-                  createParseFormatterWithTime(properties, "MM" + datesep + "dd" + datesep + "yy");
+                  createParseFormatterWithTime(properties, "MM" + datesep + "dd" + datesep, "yy");
                   createPrintFormatter("MM" + datesep + "dd" + datesep + "yy");
                   break;
                }
 
                case YMD:
                {
-                  createParseFormatterWithTime(properties, "yy" + datesep + "MM" + datesep + "dd");
+                  createParseFormatterWithTime(properties, "yy", datesep + "MM" + datesep + "dd");
                   createPrintFormatter("yy" + datesep + "MM" + datesep + "dd");
                   break;
                }
@@ -460,21 +460,21 @@ public final class MPXJFormats
             {
                case DMY:
                {
-                  createParseFormatterWithTime(properties, "dd MMM ''yy");
+                  createParseFormatterWithTime(properties, "dd MMM ''", "yy");
                   createPrintFormatter("dd MMM ''yy");
                   break;
                }
 
                case MDY:
                {
-                  createParseFormatterWithTime(properties, "MMM dd ''yy");
+                  createParseFormatterWithTime(properties, "MMM dd ''", "yy");
                   createPrintFormatter("MMM dd ''yy");
                   break;
                }
 
                case YMD:
                {
-                  createParseFormatterWithTime(properties, "''yy MMM dd");
+                  createParseFormatterWithTime(properties, "''", "yy", " MMM dd");
                   createPrintFormatter("''yy MMM dd");
                   break;
                }
@@ -532,21 +532,21 @@ public final class MPXJFormats
             {
                case DMY:
                {
-                  createParseFormatterWithTime(properties, "[EEE ]dd" + datesep + "MM" + datesep + "yy");
+                  createParseFormatterWithTime(properties, "[EEE ]dd" + datesep + "MM" + datesep, "yy");
                   createPrintFormatterWithTime(properties, "EEE dd" + datesep + "MM" + datesep + "yy");
                   break;
                }
 
                case MDY:
                {
-                  createParseFormatterWithTime(properties, "[EEE ]MM" + datesep + "dd" + datesep + "yy");
+                  createParseFormatterWithTime(properties, "[EEE ]MM" + datesep + "dd" + datesep, "yy");
                   createPrintFormatterWithTime(properties, "EEE MM" + datesep + "dd" + datesep + "yy");
                   break;
                }
 
                case YMD:
                {
-                  createParseFormatterWithTime(properties, "[EEE ]yy" + datesep + "MM" + datesep + "dd");
+                  createParseFormatterWithTime(properties, "[EEE ]", "yy", datesep + "MM" + datesep + "dd");
                   createPrintFormatterWithTime(properties, "EEE yy" + datesep + "MM" + datesep + "dd");
                   break;
                }
@@ -560,21 +560,21 @@ public final class MPXJFormats
             {
                case DMY:
                {
-                  createParseFormatterWithTime(properties, "[EEE ]dd" + datesep + "MM" + datesep + "yy");
+                  createParseFormatterWithTime(properties, "[EEE ]dd" + datesep + "MM" + datesep, "yy");
                   createPrintFormatter("EEE dd" + datesep + "MM" + datesep + "yy");
                   break;
                }
 
                case MDY:
                {
-                  createParseFormatterWithTime(properties, "[EEE ]MM" + datesep + "dd" + datesep + "yy");
+                  createParseFormatterWithTime(properties, "[EEE ]MM" + datesep + "dd" + datesep, "yy");
                   createPrintFormatter("EEE MM" + datesep + "dd" + datesep + "yy");
                   break;
                }
 
                case YMD:
                {
-                  createParseFormatterWithTime(properties, "[EEE ]yy" + datesep + "MM" + datesep + "dd");
+                  createParseFormatterWithTime(properties, "[EEE ]", "yy", datesep + "MM" + datesep + "dd");
                   createPrintFormatter("EEE yy" + datesep + "MM" + datesep + "dd");
                   break;
                }
@@ -588,21 +588,21 @@ public final class MPXJFormats
             {
                case DMY:
                {
-                  createParseFormatterWithTime(properties, "[EEE ]dd MMM ''yy");
+                  createParseFormatterWithTime(properties, "[EEE ]dd MMM ''", "yy");
                   createPrintFormatter("EEE dd MMM ''yy");
                   break;
                }
 
                case MDY:
                {
-                  createParseFormatterWithTime(properties, "[EEE ]MMM dd ''yy");
+                  createParseFormatterWithTime(properties, "[EEE ]MMM dd ''", "yy");
                   createPrintFormatter("EEE MMM dd ''yy");
                   break;
                }
 
                case YMD:
                {
-                  createParseFormatterWithTime(properties, "[EEE ]''yy MMM dd");
+                  createParseFormatterWithTime(properties, "[EEE ]''", "yy", " MMM dd");
                   createPrintFormatter("EEE ''yy MMM dd");
                   break;
                }
@@ -720,7 +720,7 @@ public final class MPXJFormats
 
          case DD_WWW_YY_HH_MM:
          {
-            createParseFormatterWithTime(properties, "F" + datesep + "'W'ww" + datesep + "yy");
+            createParseFormatterWithTime(properties, "F" + datesep + "'W'ww" + datesep, "yy");
             m_printDateTimeFormat = createPrintFormatterWithTime(properties, "F" + datesep + "'W'ww" + datesep + "yy");
             break;
          }
@@ -755,19 +755,31 @@ public final class MPXJFormats
       }
    }
 
-   private void createParseFormatterWithTime(ProjectProperties properties, String pattern)
+   private void createParseFormatterWithTime(ProjectProperties properties, String... patterns)
    {
       DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
       builder.parseCaseInsensitive();
       builder.parseLenient();
-      builder.appendPattern(pattern);
+
+      for (String pattern : patterns)
+      {
+         if (pattern.equals("yy"))
+         {
+            builder.appendValueReduced(ChronoField.YEAR, 2, 2, LocalDateHelper.TWO_DIGIT_YEAR_BASE_DATE);
+         }
+         else
+         {
+            builder.appendPattern(pattern);
+         }
+      }
+
       builder.optionalStart();
       builder.appendPattern(" ");
       applyTimeParsePattern(properties, builder);
       builder.optionalEnd();
       m_parseDateTimeFormat = builder.toFormatter().withLocale(m_locale);
 
-      if (pattern.startsWith("[EEE ]"))
+      if (patterns[0].startsWith("[EEE ]"))
       {
          m_parseDateTimeSkipDayName = true;
       }
