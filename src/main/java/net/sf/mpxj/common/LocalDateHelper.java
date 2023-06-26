@@ -48,6 +48,12 @@ public final class LocalDateHelper
       return date.atStartOfDay();
    }
 
+   /**
+    * Convert a LocaldateTime instance to a Localdate instance, handling null values.
+    * 
+    * @param date LocalDateTimeInstance
+    * @return LocalDate instance or null
+    */
    public static LocalDate getLocalDate(LocalDateTime date)
    {
       if (date == null)
@@ -58,6 +64,13 @@ public final class LocalDateHelper
       return date.toLocalDate();
    }
 
+   /**
+    * Compare two LocalDate instances, handling null values.
+    * 
+    * @param d1 LocalDate instance
+    * @param d2 LocalDate instance
+    * @return negative if less, positive if greater
+    */
    public static int compare(LocalDate d1, LocalDate d2)
    {
       if (d1 == null || d2 == null)
@@ -67,6 +80,14 @@ public final class LocalDateHelper
       return d1.compareTo(d2);
    }
 
+   /**
+    * Determine if the target date is within the range specified by the start and end date.
+    * 
+    * @param startDate range start date
+    * @param endDate range end date
+    * @param targetDate target date
+    * @return negative if the target date is before the range, positive if the target date is after the range
+    */
    public static int compare(LocalDate startDate, LocalDate endDate, LocalDate targetDate)
    {
       int result = 0;
