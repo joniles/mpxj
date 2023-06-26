@@ -122,7 +122,7 @@ public final class LocalDateTimeHelper
          }
          else
          {
-            result = (d1.compareTo(d2) < 0) ? d1 : d2;
+            result = (d1.isBefore(d2)) ? d1 : d2;
          }
       }
       return result;
@@ -150,7 +150,7 @@ public final class LocalDateTimeHelper
          }
          else
          {
-            result = (d1.compareTo(d2) > 0) ? d1 : d2;
+            result = (d1.isAfter(d2)) ? d1 : d2;
          }
       return result;
    }
