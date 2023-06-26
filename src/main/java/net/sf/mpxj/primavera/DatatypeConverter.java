@@ -110,7 +110,7 @@ public final class DatatypeConverter
     */
    public static final String printDateTime(LocalDateTime value)
    {
-      return value == null ? null : DATE_FORMAT.get().format(value);
+      return value == null ? null : DATE_FORMAT.format(value);
    }
 
    /**
@@ -127,7 +127,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = LocalDateTime.parse(value, DATE_FORMAT.get());
+            result = LocalDateTime.parse(value, DATE_FORMAT);
          }
 
          catch (DateTimeParseException ex)
@@ -147,7 +147,7 @@ public final class DatatypeConverter
     */
    public static final String printTime(LocalTime value)
    {
-      return (value == null ? null : TIME_FORMAT.get().format(value));
+      return (value == null ? null : TIME_FORMAT.format(value));
    }
 
    /**
@@ -163,7 +163,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = LocalTime.parse(value, TIME_FORMAT.get());
+            result = LocalTime.parse(value, TIME_FORMAT);
          }
 
          catch (DateTimeParseException ex)
@@ -288,9 +288,9 @@ public final class DatatypeConverter
       return value;
    }
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-   private static final ThreadLocal<DateTimeFormatter> TIME_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("HH:mm:ss"));
+   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
    private static final ThreadLocal<NumberFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> {
       DecimalFormat format = new DecimalFormat("#.##");

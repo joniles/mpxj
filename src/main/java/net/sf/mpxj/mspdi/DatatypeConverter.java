@@ -157,7 +157,7 @@ public final class DatatypeConverter
     */
    public static final String printCustomFieldDate(LocalDateTime value)
    {
-      return (value == null ? null : LOCAL_DATE_TIME_FORMAT.get().format(value));
+      return (value == null ? null : LOCAL_DATE_TIME_FORMAT.format(value));
    }
 
    /**
@@ -219,7 +219,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = LocalDateTime.parse(value, LOCAL_DATE_TIME_FORMAT.get());
+            result = LocalDateTime.parse(value, LOCAL_DATE_TIME_FORMAT);
          }
 
          catch (DateTimeParseException ex)
@@ -784,7 +784,7 @@ public final class DatatypeConverter
 
       if (value != null)
       {
-         result = TIME_FORMAT.get().format(value);
+         result = TIME_FORMAT.format(value);
       }
 
       return result;
@@ -1894,7 +1894,7 @@ public final class DatatypeConverter
             {
                value = "00:00:00";
             }
-            result = LocalTime.parse(value, TIME_FORMAT.get());
+            result = LocalTime.parse(value, TIME_FORMAT);
          }
 
          catch (DateTimeParseException ex)
@@ -1913,7 +1913,7 @@ public final class DatatypeConverter
     */
    public static final String printDateTime(LocalDateTime value)
    {
-      return value == null ? null : DATE_FORMAT.get().format(value);
+      return value == null ? null : DATE_FORMAT.format(value);
    }
 
    /**
@@ -1930,7 +1930,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = LocalDateTime.from(DATE_FORMAT.get().parse(value, new ParsePosition(0)));
+            result = LocalDateTime.from(DATE_FORMAT.parse(value, new ParsePosition(0)));
          }
 
          catch (DateTimeParseException ex)
@@ -2039,11 +2039,11 @@ public final class DatatypeConverter
       return result;
    }
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> new DateTimeFormatterBuilder().parseLenient().appendPattern("yyyy-MM-dd'T'HH:mm:ss").toFormatter());
+   private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("yyyy-MM-dd'T'HH:mm:ss").toFormatter();
 
-   private static final ThreadLocal<DateTimeFormatter> LOCAL_DATE_TIME_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+   private static final DateTimeFormatter LOCAL_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-   private static final ThreadLocal<DateTimeFormatter> TIME_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("HH:mm:ss"));
+   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
    private static final ThreadLocal<NumberFormat> NUMBER_FORMAT = ThreadLocal.withInitial(() -> {
       // XML numbers should use . as decimal separator and no grouping.

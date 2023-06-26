@@ -162,7 +162,7 @@ public final class DatatypeConverter
     */
    public static final String printDateTime(LocalDateTime value)
    {
-      return (value == null ? null : DATE_FORMAT.get().format(value));
+      return (value == null ? null : DATE_FORMAT.format(value));
    }
 
    /**
@@ -187,7 +187,7 @@ public final class DatatypeConverter
 
       try
       {
-         result = LocalDateTime.parse(value, DATE_FORMAT.get());
+         result = LocalDateTime.parse(value, DATE_FORMAT);
       }
 
       catch (DateTimeParseException ex)
@@ -261,7 +261,7 @@ public final class DatatypeConverter
       {
          value = value.plusDays(1);
       }
-      return (value == null ? null : DATE_FORMAT.get().format(value));
+      return (value == null ? null : DATE_FORMAT.format(value));
    }
 
    /**
@@ -365,5 +365,5 @@ public final class DatatypeConverter
    private static final String NOT_A_DATE_TIME = "not-a-date-time";
    private static final String PLUS_INFINITY = "+infinity";
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss"));
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss");
 }

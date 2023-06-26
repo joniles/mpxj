@@ -58,7 +58,7 @@ class DateField extends StringField
       {
          try
          {
-            result = LocalDate.parse(value, DATE_FORMAT.get()).atStartOfDay();
+            result = LocalDate.parse(value, DATE_FORMAT).atStartOfDay();
          }
 
          catch (DateTimeParseException e)
@@ -69,5 +69,5 @@ class DateField extends StringField
       return result;
    }
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("ddMMM").appendValueReduced(ChronoField.YEAR, 2, 2, LocalDateHelper.TWO_DIGIT_YEAR_BASE_DATE).toFormatter());
+   private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("ddMMM").appendValueReduced(ChronoField.YEAR, 2, 2, LocalDateHelper.TWO_DIGIT_YEAR_BASE_DATE).toFormatter();
 }

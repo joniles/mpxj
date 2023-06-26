@@ -196,7 +196,7 @@ public final class DatatypeConverter
       {
          if (value != null && !value.isEmpty())
          {
-            result = LocalTime.parse(value, TIME_FORMAT.get());
+            result = LocalTime.parse(value, TIME_FORMAT);
          }
       }
       catch (DateTimeParseException ex)
@@ -232,7 +232,7 @@ public final class DatatypeConverter
       {
          if (value != null && !value.isEmpty())
          {
-            result = LocalDate.parse(value, DATE_FORMAT.get());
+            result = LocalDate.parse(value, DATE_FORMAT);
          }
       }
       catch (DateTimeParseException ex)
@@ -268,7 +268,7 @@ public final class DatatypeConverter
       {
          if (value != null && !value.isEmpty())
          {
-            result = LocalDateTime.parse(value, DATE_TIME_FORMAT.get());
+            result = LocalDateTime.parse(value, DATE_TIME_FORMAT);
          }
       }
       catch (DateTimeParseException ex)
@@ -457,15 +457,9 @@ public final class DatatypeConverter
 
    }
 
-   private static final ThreadLocal<DateTimeFormatter> TIME_FORMAT = ThreadLocal.withInitial(() -> {
-      return DateTimeFormatter.ofPattern("HH:mm:ss");
-   });
+   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> {
-      return DateTimeFormatter.ofPattern("yyyy-MM-dd");
-   });
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_TIME_FORMAT = ThreadLocal.withInitial(() -> {
-      return DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-   });
+   private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 }

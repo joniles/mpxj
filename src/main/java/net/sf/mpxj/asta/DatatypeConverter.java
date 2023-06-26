@@ -219,13 +219,13 @@ final class DatatypeConverter
          {
             if (value.endsWith(" 0"))
             {
-               result = LocalDate.parse(value, DATE_FORMAT1.get()).atStartOfDay();
+               result = LocalDate.parse(value, DATE_FORMAT1).atStartOfDay();
             }
             else
             {
                if (value.indexOf(' ') == -1)
                {
-                  result = LocalDate.parse(value, DATE_FORMAT2.get()).atStartOfDay();
+                  result = LocalDate.parse(value, DATE_FORMAT2).atStartOfDay();
                }
                else
                {
@@ -236,7 +236,7 @@ final class DatatypeConverter
                      value = value.substring(0, timeIndex) + "0" + time;
                   }
 
-                  result = LocalDateTime.parse(value, TIMESTAMP_FORMAT.get());
+                  result = LocalDateTime.parse(value, TIMESTAMP_FORMAT);
                }
             }
          }
@@ -262,20 +262,20 @@ final class DatatypeConverter
          {
             value = "000000" + value;
             value = value.substring(value.length() - 6);
-            result = LocalDateTime.of(LocalDate.MIN, LocalTime.parse(value, TIME_FORMAT.get()));
+            result = LocalDateTime.of(LocalDate.MIN, LocalTime.parse(value, TIME_FORMAT));
          }
       }
 
       return result;
    }
 
-   private static final ThreadLocal<DateTimeFormatter> TIMESTAMP_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyyMMdd HHmmss"));
+   private static final DateTimeFormatter TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd HHmmss");
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT1 = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyyMMdd 0"));
+   private static final DateTimeFormatter DATE_FORMAT1 = DateTimeFormatter.ofPattern("yyyyMMdd 0");
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT2 = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyyMMdd"));
+   private static final DateTimeFormatter DATE_FORMAT2 = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-   private static final ThreadLocal<DateTimeFormatter> TIME_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("HHmmss"));
+   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HHmmss");
 
    private static final ThreadLocal<DecimalFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> new DecimalFormat("#.#E0"));
 

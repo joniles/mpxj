@@ -52,7 +52,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = LocalDateTime.parse(value, TIMESTAMP_FORMAT.get());
+            result = LocalDateTime.parse(value, TIMESTAMP_FORMAT);
          }
 
          catch (DateTimeParseException ex)
@@ -72,7 +72,7 @@ public final class DatatypeConverter
     */
    public static final String printTimestamp(LocalDateTime value)
    {
-      return value == null ? null : TIMESTAMP_FORMAT.get().format(value);
+      return value == null ? null : TIMESTAMP_FORMAT.format(value);
    }
 
    /**
@@ -111,7 +111,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = LocalDate.parse(value, DATE_FORMAT.get());
+            result = LocalDate.parse(value, DATE_FORMAT);
          }
 
          catch (DateTimeParseException ex)
@@ -131,7 +131,7 @@ public final class DatatypeConverter
     */
    public static final String printDate(LocalDate value)
    {
-      return (value == null ? null : DATE_FORMAT.get().format(value));
+      return (value == null ? null : DATE_FORMAT.format(value));
    }
 
    /**
@@ -178,7 +178,7 @@ public final class DatatypeConverter
       return Integer.toString(DayOfWeekHelper.getValue(value) - 1);
    }
 
-   private static final ThreadLocal<DateTimeFormatter> TIMESTAMP_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+   private static final DateTimeFormatter TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 }

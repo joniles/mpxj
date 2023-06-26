@@ -301,7 +301,7 @@ public final class SageReader extends AbstractProjectStreamReader
       {
          try
          {
-            result = LocalDate.parse(date, DATE_FORMAT.get()).atStartOfDay();
+            result = LocalDate.parse(date, DATE_FORMAT).atStartOfDay();
          }
          catch (DateTimeParseException e)
          {
@@ -374,7 +374,7 @@ public final class SageReader extends AbstractProjectStreamReader
    private EventManager m_eventManager;
    private Map<String, Task> m_taskMap;
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static

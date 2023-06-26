@@ -49,7 +49,7 @@ public final class DatatypeConverter
       {
          try
          {
-            result = LocalDate.parse(value, DATE_FORMAT.get()).atStartOfDay();
+            result = LocalDate.parse(value, DATE_FORMAT).atStartOfDay();
          }
 
          catch (DateTimeParseException ex)
@@ -69,8 +69,8 @@ public final class DatatypeConverter
     */
    public static final String printDate(LocalDateTime value)
    {
-      return value == null ? null : DATE_FORMAT.get().format(value);
+      return value == null ? null : DATE_FORMAT.format(value);
    }
 
-   private static final ThreadLocal<DateTimeFormatter> DATE_FORMAT = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 }
