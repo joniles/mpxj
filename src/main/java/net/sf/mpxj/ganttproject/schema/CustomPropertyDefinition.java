@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlValue;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "custom-property-definition", propOrder =
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "custom-property-definition", propOrder =
 {
    "value"
 }) public class CustomPropertyDefinition

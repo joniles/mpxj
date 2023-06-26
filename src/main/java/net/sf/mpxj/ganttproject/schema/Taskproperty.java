@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlValue;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "taskproperty", propOrder =
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "taskproperty", propOrder =
 {
    "value"
 }) public class Taskproperty

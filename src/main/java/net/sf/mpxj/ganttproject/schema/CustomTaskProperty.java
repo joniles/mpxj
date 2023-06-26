@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlValue;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "custom-task-property", propOrder =
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "custom-task-property", propOrder =
 {
    "value"
 }) public class CustomTaskProperty

@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlValue;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "default-week", propOrder =
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "default-week", propOrder =
 {
    "value"
 }) public class DefaultWeek

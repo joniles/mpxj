@@ -130,7 +130,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "TimephasedDataType", propOrder =
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "TimephasedDataType", propOrder =
 {
    "type",
    "uid",

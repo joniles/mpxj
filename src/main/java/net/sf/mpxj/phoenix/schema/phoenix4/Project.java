@@ -806,7 +806,7 @@ import net.sf.mpxj.TimeUnit;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
 {
    "settings",
    "storepoints",

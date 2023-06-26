@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "vacation", propOrder =
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "vacation", propOrder =
 {
    "value"
 }) public class Vacation

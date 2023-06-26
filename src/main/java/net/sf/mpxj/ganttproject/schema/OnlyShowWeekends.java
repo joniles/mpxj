@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlValue;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "only-show-weekends", propOrder =
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "only-show-weekends", propOrder =
 {
    "value"
 }) public class OnlyShowWeekends

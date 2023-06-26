@@ -454,7 +454,7 @@ import net.sf.mpxj.Duration;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
 {
    "display",
    "file",
