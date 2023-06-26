@@ -150,7 +150,7 @@ public final class ProjectPropertiesReader
                Object value = property.getValue();
                if (value instanceof java.util.Date)
                {
-                  value = getLocalDateTime((java.util.Date)value);
+                  value = getLocalDateTime((java.util.Date) value);
                }
                customPropertiesMap.put(property.getName(), value);
             }
@@ -221,7 +221,7 @@ public final class ProjectPropertiesReader
       }
 
       m_calendar.setTime(date);
-      return LocalDateTime.of(m_calendar.get(Calendar.YEAR), m_calendar.get(Calendar.MONTH)+1, m_calendar.get(Calendar.DAY_OF_MONTH), m_calendar.get(Calendar.HOUR_OF_DAY), m_calendar.get(Calendar.MINUTE), m_calendar.get(Calendar.SECOND));
+      return LocalDateTime.of(m_calendar.get(Calendar.YEAR), m_calendar.get(Calendar.MONTH) + 1, m_calendar.get(Calendar.DAY_OF_MONTH), m_calendar.get(Calendar.HOUR_OF_DAY), m_calendar.get(Calendar.MINUTE), m_calendar.get(Calendar.SECOND));
    }
 
    private final Calendar m_calendar = Calendar.getInstance();

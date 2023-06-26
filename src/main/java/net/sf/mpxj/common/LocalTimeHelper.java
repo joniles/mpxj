@@ -21,6 +21,7 @@
  */
 
 package net.sf.mpxj.common;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -31,7 +32,7 @@ public final class LocalTimeHelper
 {
    /**
     * Convert a LocalDateTime instance to a LOcalTime instance, handling null values.
-    * 
+    *
     * @param date LocalDateTime instance
     * @return LocalTime instance or null
     */
@@ -47,7 +48,7 @@ public final class LocalTimeHelper
 
    /**
     * Compare two LocalTime instances, handling null values.
-    * 
+    *
     * @param d1 LocalTime instance
     * @param d2 LocalTime instance
     * @return comparison result
@@ -70,8 +71,8 @@ public final class LocalTimeHelper
     * Return a LocalDateTime instance which composed of the LocalDate
     * instance from the date argument and the LocalTime instance of
     * the time argument, handling null values.
-    * 
-    * @param date LocalDateTime instance 
+    *
+    * @param date LocalDateTime instance
     * @param time LocalTime instance
     * @return LocalDateTime instance
     */
@@ -90,8 +91,8 @@ public final class LocalTimeHelper
     * instance from the date argument and the LocalTime instance of
     * the time argument, handling null values. This method deals with midnight
     * representing the end of the day (i.e the start of the following day).
-    * 
-    * @param date LocalDateTime instance 
+    *
+    * @param date LocalDateTime instance
     * @param time LocalTime instance
     * @return LocalDateTime instance
     */
@@ -114,7 +115,7 @@ public final class LocalTimeHelper
    /**
     * Calculate the number of milliseconds between two LocalTime instances,
     * handling null values.
-    * 
+    *
     * @param rangeStart LocalTime instance
     * @param rangeEnd LocalTime instance
     * @return number of milliseconds

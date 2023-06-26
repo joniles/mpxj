@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.asta;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 

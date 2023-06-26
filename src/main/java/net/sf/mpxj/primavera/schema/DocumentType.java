@@ -251,11 +251,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getActivityObjectId()
    {
@@ -264,11 +264,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setActivityObjectId(Integer value)
    {
@@ -277,11 +277,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the author property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getAuthor()
    {
@@ -290,11 +290,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the author property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setAuthor(String value)
    {
@@ -303,11 +303,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the contentRepositoryDocumentInternalId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getContentRepositoryDocumentInternalId()
    {
@@ -316,11 +316,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the contentRepositoryDocumentInternalId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setContentRepositoryDocumentInternalId(String value)
    {
@@ -329,11 +329,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the createDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getCreateDate()
    {
@@ -342,11 +342,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the createDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCreateDate(LocalDateTime value)
    {
@@ -355,11 +355,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the createUser property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCreateUser()
    {
@@ -368,11 +368,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the createUser property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCreateUser(String value)
    {
@@ -381,11 +381,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the deliverable property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isDeliverable()
    {
@@ -394,11 +394,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the deliverable property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDeliverable(Boolean value)
    {
@@ -407,11 +407,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the description property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getDescription()
    {
@@ -420,11 +420,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the description property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDescription(String value)
    {
@@ -433,11 +433,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the documentCategoryName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getDocumentCategoryName()
    {
@@ -446,11 +446,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the documentCategoryName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDocumentCategoryName(String value)
    {
@@ -459,11 +459,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the documentCategoryObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getDocumentCategoryObjectId()
    {
@@ -472,11 +472,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the documentCategoryObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setDocumentCategoryObjectId(Integer value)
    {
@@ -485,11 +485,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the documentStatusCodeName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getDocumentStatusCodeName()
    {
@@ -498,11 +498,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the documentStatusCodeName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDocumentStatusCodeName(String value)
    {
@@ -511,11 +511,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the documentStatusCodeObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getDocumentStatusCodeObjectId()
    {
@@ -524,11 +524,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the documentStatusCodeObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setDocumentStatusCodeObjectId(Integer value)
    {
@@ -537,11 +537,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the documentStatusName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getDocumentStatusName()
    {
@@ -550,11 +550,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the documentStatusName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDocumentStatusName(String value)
    {
@@ -563,11 +563,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the documentType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getDocumentType()
    {
@@ -576,11 +576,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the documentType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDocumentType(String value)
    {
@@ -589,11 +589,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the guid property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getGUID()
    {
@@ -602,11 +602,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the guid property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setGUID(String value)
    {
@@ -615,11 +615,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the isBaseline property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isIsBaseline()
    {
@@ -628,11 +628,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the isBaseline property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setIsBaseline(Boolean value)
    {
@@ -641,11 +641,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the isTemplate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isIsTemplate()
    {
@@ -654,11 +654,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the isTemplate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setIsTemplate(Boolean value)
    {
@@ -667,11 +667,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastUpdateDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getLastUpdateDate()
    {
@@ -680,11 +680,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastUpdateDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastUpdateDate(LocalDateTime value)
    {
@@ -693,11 +693,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastUpdateUser property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getLastUpdateUser()
    {
@@ -706,11 +706,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastUpdateUser property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastUpdateUser(String value)
    {
@@ -719,11 +719,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the objectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getObjectId()
    {
@@ -732,11 +732,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the objectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setObjectId(Integer value)
    {
@@ -745,11 +745,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the parentObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getParentObjectId()
    {
@@ -758,11 +758,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the parentObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setParentObjectId(Integer value)
    {
@@ -771,11 +771,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the privateLocation property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getPrivateLocation()
    {
@@ -784,11 +784,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the privateLocation property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPrivateLocation(String value)
    {
@@ -797,11 +797,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getProjectId()
    {
@@ -810,11 +810,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProjectId(String value)
    {
@@ -823,11 +823,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getProjectObjectId()
    {
@@ -836,11 +836,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setProjectObjectId(Integer value)
    {
@@ -849,11 +849,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the publicLocation property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getPublicLocation()
    {
@@ -862,11 +862,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the publicLocation property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPublicLocation(String value)
    {
@@ -875,11 +875,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the referenceNumber property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getReferenceNumber()
    {
@@ -888,11 +888,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the referenceNumber property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setReferenceNumber(String value)
    {
@@ -901,11 +901,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resourceId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getResourceId()
    {
@@ -914,11 +914,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the resourceId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setResourceId(String value)
    {
@@ -927,11 +927,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resourceName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getResourceName()
    {
@@ -940,11 +940,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the resourceName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setResourceName(String value)
    {
@@ -953,11 +953,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resourceObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getResourceObjectId()
    {
@@ -966,11 +966,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the resourceObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setResourceObjectId(Integer value)
    {
@@ -979,11 +979,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the revisionDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getRevisionDate()
    {
@@ -992,11 +992,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the revisionDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setRevisionDate(LocalDateTime value)
    {
@@ -1005,11 +1005,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the sequenceNumber property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getSequenceNumber()
    {
@@ -1018,11 +1018,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the sequenceNumber property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setSequenceNumber(Integer value)
    {
@@ -1031,11 +1031,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the title property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getTitle()
    {
@@ -1044,11 +1044,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the title property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setTitle(String value)
    {
@@ -1057,11 +1057,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the version property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getVersion()
    {
@@ -1070,11 +1070,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the version property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setVersion(String value)
    {
@@ -1083,25 +1083,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the udf property.
-    * 
+    *
     * &lt;p&gt;
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the udf property.
-    * 
+    *
     * &lt;p&gt;
     * For example, to add a new item, do as follows:
     * &lt;pre&gt;
     *    getUDF().add(newItem);
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     * &lt;p&gt;
     * Objects of the following type(s) are allowed in the list
     * {@link UDFAssignmentType }
-    * 
-    * 
+    *
+    *
     */
    public List<UDFAssignmentType> getUDF()
    {

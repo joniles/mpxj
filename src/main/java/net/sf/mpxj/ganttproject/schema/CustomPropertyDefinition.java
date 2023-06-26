@@ -47,11 +47,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the value property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getValue()
    {
@@ -60,11 +60,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the value property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setValue(String value)
    {
@@ -73,11 +73,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the id property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getId()
    {
@@ -86,11 +86,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the id property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setId(String value)
    {
@@ -99,11 +99,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the name property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getName()
    {
@@ -112,11 +112,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the name property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setName(String value)
    {
@@ -125,11 +125,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the type property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getType()
    {
@@ -138,11 +138,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the type property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setType(String value)
    {
@@ -151,11 +151,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the defaultValue property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getDefaultValue()
    {
@@ -164,11 +164,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the defaultValue property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDefaultValue(String value)
    {

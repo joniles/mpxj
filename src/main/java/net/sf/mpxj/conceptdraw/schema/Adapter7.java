@@ -13,14 +13,12 @@ import net.sf.mpxj.Priority;
 public class Adapter7 extends XmlAdapter<String, Priority>
 {
 
-   @Override
-   public Priority unmarshal(String value)
+   @Override public Priority unmarshal(String value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.parsePriority(value));
    }
 
-   @Override
-   public String marshal(Priority value)
+   @Override public String marshal(Priority value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.printPriority(value));
    }

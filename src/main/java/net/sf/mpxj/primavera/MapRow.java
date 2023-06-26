@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.primavera;
 
-
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;

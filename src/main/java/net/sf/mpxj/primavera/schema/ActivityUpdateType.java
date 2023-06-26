@@ -323,11 +323,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getActivityObjectId()
    {
@@ -336,11 +336,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setActivityObjectId(Integer value)
    {
@@ -349,11 +349,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityOwnerUserId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getActivityOwnerUserId()
    {
@@ -362,11 +362,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityOwnerUserId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setActivityOwnerUserId(Integer value)
    {
@@ -375,11 +375,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the activityType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getActivityType()
    {
@@ -388,11 +388,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the activityType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setActivityType(String value)
    {
@@ -401,11 +401,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the allData property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getAllData()
    {
@@ -414,11 +414,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the allData property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setAllData(String value)
    {
@@ -427,11 +427,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the approvalDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getApprovalDate()
    {
@@ -440,11 +440,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the approvalDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setApprovalDate(LocalDateTime value)
    {
@@ -453,11 +453,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the approvalUserName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getApprovalUserName()
    {
@@ -466,11 +466,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the approvalUserName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setApprovalUserName(String value)
    {
@@ -479,11 +479,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the approvalUserObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getApprovalUserObjectId()
    {
@@ -492,11 +492,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the approvalUserObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setApprovalUserObjectId(Integer value)
    {
@@ -505,11 +505,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the calendarId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getCalendarId()
    {
@@ -518,11 +518,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the calendarId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setCalendarId(Integer value)
    {
@@ -531,11 +531,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the changeSetObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getChangeSetObjectId()
    {
@@ -544,11 +544,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the changeSetObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setChangeSetObjectId(Integer value)
    {
@@ -557,11 +557,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the createUser property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCreateUser()
    {
@@ -570,11 +570,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the createUser property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCreateUser(String value)
    {
@@ -583,11 +583,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the date property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getDate()
    {
@@ -596,11 +596,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the date property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDate(LocalDateTime value)
    {
@@ -609,11 +609,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the heldDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getHeldDate()
    {
@@ -622,11 +622,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the heldDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setHeldDate(LocalDateTime value)
    {
@@ -635,11 +635,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the offsetValue property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getOffsetValue()
    {
@@ -648,11 +648,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the offsetValue property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOffsetValue(String value)
    {
@@ -661,11 +661,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overrideActualFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getOverrideActualFinishDate()
    {
@@ -674,11 +674,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overrideActualFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverrideActualFinishDate(LocalDateTime value)
    {
@@ -687,11 +687,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overrideActualLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getOverrideActualLaborUnits()
    {
@@ -700,11 +700,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overrideActualLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverrideActualLaborUnits(Double value)
    {
@@ -713,11 +713,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overrideActualNonLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getOverrideActualNonLaborUnits()
    {
@@ -726,11 +726,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overrideActualNonLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverrideActualNonLaborUnits(Double value)
    {
@@ -739,11 +739,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overrideActualStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getOverrideActualStartDate()
    {
@@ -752,11 +752,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overrideActualStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverrideActualStartDate(LocalDateTime value)
    {
@@ -765,11 +765,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overrideConstraintDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getOverrideConstraintDate()
    {
@@ -778,11 +778,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overrideConstraintDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverrideConstraintDate(LocalDateTime value)
    {
@@ -791,11 +791,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overrideConstraintType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getOverrideConstraintType()
    {
@@ -804,11 +804,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overrideConstraintType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverrideConstraintType(String value)
    {
@@ -817,11 +817,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overrideExpectedFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getOverrideExpectedFinishDate()
    {
@@ -830,11 +830,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overrideExpectedFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverrideExpectedFinishDate(LocalDateTime value)
    {
@@ -843,11 +843,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overridePercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getOverridePercentComplete()
    {
@@ -856,11 +856,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overridePercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverridePercentComplete(Double value)
    {
@@ -869,11 +869,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overrideRemainingDuration property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getOverrideRemainingDuration()
    {
@@ -882,11 +882,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overrideRemainingDuration property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverrideRemainingDuration(Double value)
    {
@@ -895,11 +895,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overrideRemainingLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getOverrideRemainingLaborUnits()
    {
@@ -908,11 +908,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overrideRemainingLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverrideRemainingLaborUnits(Double value)
    {
@@ -921,11 +921,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overrideRemainingNonLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getOverrideRemainingNonLaborUnits()
    {
@@ -934,11 +934,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overrideRemainingNonLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverrideRemainingNonLaborUnits(Double value)
    {
@@ -947,11 +947,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overrideResumeDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getOverrideResumeDate()
    {
@@ -960,11 +960,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overrideResumeDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverrideResumeDate(LocalDateTime value)
    {
@@ -973,11 +973,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the overrideSuspendDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getOverrideSuspendDate()
    {
@@ -986,11 +986,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the overrideSuspendDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverrideSuspendDate(LocalDateTime value)
    {
@@ -999,11 +999,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingActualFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getPendingActualFinishDate()
    {
@@ -1012,11 +1012,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingActualFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingActualFinishDate(LocalDateTime value)
    {
@@ -1025,11 +1025,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingActualLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getPendingActualLaborUnits()
    {
@@ -1038,11 +1038,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingActualLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingActualLaborUnits(Double value)
    {
@@ -1051,11 +1051,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingActualNonLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getPendingActualNonLaborUnits()
    {
@@ -1064,11 +1064,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingActualNonLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingActualNonLaborUnits(Double value)
    {
@@ -1077,11 +1077,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingActualStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getPendingActualStartDate()
    {
@@ -1090,11 +1090,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingActualStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingActualStartDate(LocalDateTime value)
    {
@@ -1103,11 +1103,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingConstraintDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getPendingConstraintDate()
    {
@@ -1116,11 +1116,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingConstraintDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingConstraintDate(LocalDateTime value)
    {
@@ -1129,11 +1129,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingConstraintType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getPendingConstraintType()
    {
@@ -1142,11 +1142,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingConstraintType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingConstraintType(String value)
    {
@@ -1155,11 +1155,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingExpectedFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getPendingExpectedFinishDate()
    {
@@ -1168,11 +1168,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingExpectedFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingExpectedFinishDate(LocalDateTime value)
    {
@@ -1181,11 +1181,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getPendingPercentComplete()
    {
@@ -1194,11 +1194,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingPercentComplete(Double value)
    {
@@ -1207,11 +1207,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingRemainingDuration property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getPendingRemainingDuration()
    {
@@ -1220,11 +1220,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingRemainingDuration property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingRemainingDuration(Double value)
    {
@@ -1233,11 +1233,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingRemainingLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getPendingRemainingLaborUnits()
    {
@@ -1246,11 +1246,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingRemainingLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingRemainingLaborUnits(Double value)
    {
@@ -1259,11 +1259,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingRemainingNonLaborUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getPendingRemainingNonLaborUnits()
    {
@@ -1272,11 +1272,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingRemainingNonLaborUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingRemainingNonLaborUnits(Double value)
    {
@@ -1285,11 +1285,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingResumeDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getPendingResumeDate()
    {
@@ -1298,11 +1298,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingResumeDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingResumeDate(LocalDateTime value)
    {
@@ -1311,11 +1311,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the pendingSuspendDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getPendingSuspendDate()
    {
@@ -1324,11 +1324,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the pendingSuspendDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPendingSuspendDate(LocalDateTime value)
    {
@@ -1337,11 +1337,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getProjectObjectId()
    {
@@ -1350,11 +1350,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setProjectObjectId(Integer value)
    {
@@ -1363,11 +1363,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the rejectedBy property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getRejectedBy()
    {
@@ -1376,11 +1376,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the rejectedBy property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setRejectedBy(String value)
    {
@@ -1389,11 +1389,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the rejectedDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getRejectedDate()
    {
@@ -1402,11 +1402,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the rejectedDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setRejectedDate(LocalDateTime value)
    {
@@ -1415,11 +1415,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the requestUserObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getRequestUserObjectId()
    {
@@ -1428,11 +1428,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the requestUserObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setRequestUserObjectId(Integer value)
    {
@@ -1441,11 +1441,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resubmittedBy property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getResubmittedBy()
    {
@@ -1454,11 +1454,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the resubmittedBy property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setResubmittedBy(String value)
    {
@@ -1467,11 +1467,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resubmittedDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getResubmittedDate()
    {
@@ -1480,11 +1480,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the resubmittedDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setResubmittedDate(LocalDateTime value)
    {
@@ -1493,11 +1493,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the status property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getStatus()
    {
@@ -1506,11 +1506,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the status property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setStatus(String value)
    {

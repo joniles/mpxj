@@ -98,11 +98,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the cbsObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getCBSObjectId()
    {
@@ -111,11 +111,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the cbsObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setCBSObjectId(Integer value)
    {
@@ -124,11 +124,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the originalProjectObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getOriginalProjectObjectId()
    {
@@ -137,11 +137,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the originalProjectObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setOriginalProjectObjectId(Integer value)
    {
@@ -150,11 +150,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getProjectId()
    {
@@ -163,11 +163,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProjectId(String value)
    {
@@ -176,11 +176,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getProjectName()
    {
@@ -189,11 +189,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProjectName(String value)
    {
@@ -202,11 +202,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getProjectObjectId()
    {
@@ -215,11 +215,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setProjectObjectId(Integer value)
    {
@@ -228,11 +228,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualDuration property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getSummaryActualDuration()
    {
@@ -241,11 +241,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualDuration property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryActualDuration(Double value)
    {
@@ -254,11 +254,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getSummaryActualFinishDate()
    {
@@ -267,11 +267,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryActualFinishDate(LocalDateTime value)
    {
@@ -280,11 +280,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryActualStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getSummaryActualStartDate()
    {
@@ -293,11 +293,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryActualStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryActualStartDate(LocalDateTime value)
    {
@@ -306,11 +306,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPercentComplete property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getSummaryPercentComplete()
    {
@@ -319,11 +319,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPercentComplete property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryPercentComplete(Double value)
    {
@@ -332,11 +332,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedDuration property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getSummaryPlannedDuration()
    {
@@ -345,11 +345,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedDuration property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryPlannedDuration(Double value)
    {
@@ -358,11 +358,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getSummaryPlannedFinishDate()
    {
@@ -371,11 +371,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryPlannedFinishDate(LocalDateTime value)
    {
@@ -384,11 +384,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryPlannedStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getSummaryPlannedStartDate()
    {
@@ -397,11 +397,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryPlannedStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryPlannedStartDate(LocalDateTime value)
    {
@@ -410,11 +410,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingDuration property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getSummaryRemainingDuration()
    {
@@ -423,11 +423,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingDuration property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryRemainingDuration(Double value)
    {
@@ -436,11 +436,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingFinishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getSummaryRemainingFinishDate()
    {
@@ -449,11 +449,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingFinishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryRemainingFinishDate(LocalDateTime value)
    {
@@ -462,11 +462,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the summaryRemainingStartDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getSummaryRemainingStartDate()
    {
@@ -475,11 +475,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the summaryRemainingStartDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSummaryRemainingStartDate(LocalDateTime value)
    {

@@ -173,11 +173,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the addProjectInfo property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getAddProjectInfo()
    {
@@ -186,11 +186,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the addProjectInfo property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setAddProjectInfo(String value)
    {
@@ -199,11 +199,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the copyOptions property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCopyOptions()
    {
@@ -212,11 +212,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the copyOptions property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCopyOptions(String value)
    {
@@ -225,11 +225,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the exportFilePath property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getExportFilePath()
    {
@@ -238,11 +238,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the exportFilePath property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setExportFilePath(String value)
    {
@@ -251,11 +251,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the exportPlfFileNames property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getExportPlfFileNames()
    {
@@ -264,11 +264,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the exportPlfFileNames property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setExportPlfFileNames(String value)
    {
@@ -277,11 +277,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the exportXMLByte property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getExportXMLByte()
    {
@@ -290,11 +290,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the exportXMLByte property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setExportXMLByte(String value)
    {
@@ -303,11 +303,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the fileName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getFileName()
    {
@@ -316,11 +316,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the fileName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setFileName(String value)
    {
@@ -329,11 +329,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the importXMLByte property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getImportXMLByte()
    {
@@ -342,11 +342,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the importXMLByte property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setImportXMLByte(String value)
    {
@@ -355,11 +355,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the jobData property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getJobData()
    {
@@ -368,11 +368,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the jobData property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setJobData(String value)
    {
@@ -381,11 +381,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the jobDataX property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getJobDataX()
    {
@@ -394,11 +394,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the jobDataX property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setJobDataX(String value)
    {
@@ -407,11 +407,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the jobRecurringType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getJobRecurringType()
    {
@@ -420,11 +420,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the jobRecurringType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setJobRecurringType(String value)
    {
@@ -433,11 +433,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the jobStatus property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getJobStatus()
    {
@@ -446,11 +446,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the jobStatus property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setJobStatus(String value)
    {
@@ -459,11 +459,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the jobType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getJobType()
    {
@@ -472,11 +472,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the jobType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setJobType(String value)
    {
@@ -485,11 +485,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the jobTypeKey property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getJobTypeKey()
    {
@@ -498,11 +498,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the jobTypeKey property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setJobTypeKey(String value)
    {
@@ -511,11 +511,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastRunDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getLastRunDate()
    {
@@ -524,11 +524,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastRunDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastRunDate(LocalDateTime value)
    {
@@ -537,11 +537,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the name property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getName()
    {
@@ -550,11 +550,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the name property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setName(String value)
    {
@@ -563,11 +563,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the objectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getObjectId()
    {
@@ -576,11 +576,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the objectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setObjectId(Integer value)
    {
@@ -589,11 +589,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the plfDirName property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getPlfDirName()
    {
@@ -602,11 +602,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the plfDirName property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPlfDirName(String value)
    {
@@ -615,11 +615,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectInfo property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getProjectInfo()
    {
@@ -628,11 +628,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectInfo property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProjectInfo(String value)
    {
@@ -641,11 +641,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the targetWbsId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getTargetWbsId()
    {
@@ -654,11 +654,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the targetWbsId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setTargetWbsId(Integer value)
    {
@@ -667,11 +667,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the userId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getUserId()
    {
@@ -680,11 +680,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the userId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setUserId(Integer value)
    {

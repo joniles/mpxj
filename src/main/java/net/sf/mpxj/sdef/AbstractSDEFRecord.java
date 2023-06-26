@@ -23,8 +23,6 @@
 
 package net.sf.mpxj.sdef;
 
-
-
 import java.time.LocalDateTime;
 
 import net.sf.mpxj.ConstraintType;

@@ -222,11 +222,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the startDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getStartDate()
    {
@@ -235,11 +235,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the startDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setStartDate(LocalDateTime value)
    {
@@ -248,11 +248,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the endDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getEndDate()
    {
@@ -261,11 +261,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the endDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setEndDate(LocalDateTime value)
    {
@@ -274,11 +274,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the periodType property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getPeriodType()
    {
@@ -287,11 +287,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the periodType property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPeriodType(String value)
    {
@@ -300,25 +300,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the period property.
-    * 
+    *
     * &lt;p&gt;
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the period property.
-    * 
+    *
     * &lt;p&gt;
     * For example, to add a new item, do as follows:
     * &lt;pre&gt;
     *    getPeriod().add(newItem);
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     * &lt;p&gt;
     * Objects of the following type(s) are allowed in the list
     * {@link ActivitySpreadType.Period }
-    * 
-    * 
+    *
+    *
     */
    public List<ActivitySpreadType.Period> getPeriod()
    {
@@ -331,9 +331,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * &lt;p&gt;Java class for anonymous complex type.
-    * 
+    *
     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * &lt;pre&gt;
     * &amp;lt;complexType&amp;gt;
     *   &amp;lt;complexContent&amp;gt;
@@ -490,8 +490,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *   &amp;lt;/complexContent&amp;gt;
     * &amp;lt;/complexType&amp;gt;
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -793,11 +793,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the startDate property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public LocalDateTime getStartDate()
       {
@@ -806,11 +806,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the startDate property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setStartDate(LocalDateTime value)
       {
@@ -819,11 +819,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the endDate property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public LocalDateTime getEndDate()
       {
@@ -832,11 +832,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the endDate property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setEndDate(LocalDateTime value)
       {
@@ -845,11 +845,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the actualLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getActualLaborUnits()
       {
@@ -858,11 +858,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the actualLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setActualLaborUnits(Double value)
       {
@@ -871,11 +871,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeActualLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeActualLaborUnits()
       {
@@ -884,11 +884,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeActualLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeActualLaborUnits(Double value)
       {
@@ -897,11 +897,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the actualNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getActualNonLaborUnits()
       {
@@ -910,11 +910,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the actualNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setActualNonLaborUnits(Double value)
       {
@@ -923,11 +923,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeActualNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeActualNonLaborUnits()
       {
@@ -936,11 +936,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeActualNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeActualNonLaborUnits(Double value)
       {
@@ -949,11 +949,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the atCompletionLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getAtCompletionLaborUnits()
       {
@@ -962,11 +962,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the atCompletionLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setAtCompletionLaborUnits(Double value)
       {
@@ -975,11 +975,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeAtCompletionLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeAtCompletionLaborUnits()
       {
@@ -988,11 +988,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeAtCompletionLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeAtCompletionLaborUnits(Double value)
       {
@@ -1001,11 +1001,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the atCompletionNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getAtCompletionNonLaborUnits()
       {
@@ -1014,11 +1014,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the atCompletionNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setAtCompletionNonLaborUnits(Double value)
       {
@@ -1027,11 +1027,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeAtCompletionNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeAtCompletionNonLaborUnits()
       {
@@ -1040,11 +1040,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeAtCompletionNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeAtCompletionNonLaborUnits(Double value)
       {
@@ -1053,11 +1053,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1ActualLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1ActualLaborUnits()
       {
@@ -1066,11 +1066,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1ActualLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1ActualLaborUnits(Double value)
       {
@@ -1079,11 +1079,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1ActualLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1ActualLaborUnits()
       {
@@ -1092,11 +1092,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1ActualLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1ActualLaborUnits(Double value)
       {
@@ -1105,11 +1105,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1ActualNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1ActualNonLaborUnits()
       {
@@ -1118,11 +1118,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1ActualNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1ActualNonLaborUnits(Double value)
       {
@@ -1131,11 +1131,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1ActualNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1ActualNonLaborUnits()
       {
@@ -1144,11 +1144,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1ActualNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1ActualNonLaborUnits(Double value)
       {
@@ -1157,11 +1157,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1PlannedLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1PlannedLaborUnits()
       {
@@ -1170,11 +1170,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1PlannedLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1PlannedLaborUnits(Double value)
       {
@@ -1183,11 +1183,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1PlannedLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1PlannedLaborUnits()
       {
@@ -1196,11 +1196,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1PlannedLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1PlannedLaborUnits(Double value)
       {
@@ -1209,11 +1209,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1PlannedNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1PlannedNonLaborUnits()
       {
@@ -1222,11 +1222,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1PlannedNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1PlannedNonLaborUnits(Double value)
       {
@@ -1235,11 +1235,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1PlannedNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1PlannedNonLaborUnits()
       {
@@ -1248,11 +1248,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1PlannedNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1PlannedNonLaborUnits(Double value)
       {
@@ -1261,11 +1261,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselineActualLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselineActualLaborUnits()
       {
@@ -1274,11 +1274,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselineActualLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselineActualLaborUnits(Double value)
       {
@@ -1287,11 +1287,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselineActualLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselineActualLaborUnits()
       {
@@ -1300,11 +1300,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselineActualLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselineActualLaborUnits(Double value)
       {
@@ -1313,11 +1313,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselineActualNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselineActualNonLaborUnits()
       {
@@ -1326,11 +1326,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselineActualNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselineActualNonLaborUnits(Double value)
       {
@@ -1339,11 +1339,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselineActualNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselineActualNonLaborUnits()
       {
@@ -1352,11 +1352,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselineActualNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselineActualNonLaborUnits(Double value)
       {
@@ -1365,11 +1365,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselinePlannedLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselinePlannedLaborUnits()
       {
@@ -1378,11 +1378,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselinePlannedLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselinePlannedLaborUnits(Double value)
       {
@@ -1391,11 +1391,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselinePlannedLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselinePlannedLaborUnits()
       {
@@ -1404,11 +1404,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselinePlannedLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselinePlannedLaborUnits(Double value)
       {
@@ -1417,11 +1417,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselinePlannedNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselinePlannedNonLaborUnits()
       {
@@ -1430,11 +1430,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselinePlannedNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselinePlannedNonLaborUnits(Double value)
       {
@@ -1443,11 +1443,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselinePlannedNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselinePlannedNonLaborUnits()
       {
@@ -1456,11 +1456,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselinePlannedNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselinePlannedNonLaborUnits(Double value)
       {
@@ -1469,11 +1469,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the earnedValueLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getEarnedValueLaborUnits()
       {
@@ -1482,11 +1482,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the earnedValueLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setEarnedValueLaborUnits(Double value)
       {
@@ -1495,11 +1495,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeEarnedValueLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeEarnedValueLaborUnits()
       {
@@ -1508,11 +1508,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeEarnedValueLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeEarnedValueLaborUnits(Double value)
       {
@@ -1521,11 +1521,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the estimateAtCompletionLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getEstimateAtCompletionLaborUnits()
       {
@@ -1534,11 +1534,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the estimateAtCompletionLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setEstimateAtCompletionLaborUnits(Double value)
       {
@@ -1547,11 +1547,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeEstimateAtCompletionLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeEstimateAtCompletionLaborUnits()
       {
@@ -1560,11 +1560,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeEstimateAtCompletionLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeEstimateAtCompletionLaborUnits(Double value)
       {
@@ -1573,11 +1573,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the estimateToCompleteLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getEstimateToCompleteLaborUnits()
       {
@@ -1586,11 +1586,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the estimateToCompleteLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setEstimateToCompleteLaborUnits(Double value)
       {
@@ -1599,11 +1599,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeEstimateToCompleteLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeEstimateToCompleteLaborUnits()
       {
@@ -1612,11 +1612,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeEstimateToCompleteLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeEstimateToCompleteLaborUnits(Double value)
       {
@@ -1625,11 +1625,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the plannedLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getPlannedLaborUnits()
       {
@@ -1638,11 +1638,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the plannedLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setPlannedLaborUnits(Double value)
       {
@@ -1651,11 +1651,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativePlannedLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativePlannedLaborUnits()
       {
@@ -1664,11 +1664,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativePlannedLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativePlannedLaborUnits(Double value)
       {
@@ -1677,11 +1677,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the plannedNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getPlannedNonLaborUnits()
       {
@@ -1690,11 +1690,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the plannedNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setPlannedNonLaborUnits(Double value)
       {
@@ -1703,11 +1703,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativePlannedNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativePlannedNonLaborUnits()
       {
@@ -1716,11 +1716,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativePlannedNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativePlannedNonLaborUnits(Double value)
       {
@@ -1729,11 +1729,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the plannedValueLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getPlannedValueLaborUnits()
       {
@@ -1742,11 +1742,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the plannedValueLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setPlannedValueLaborUnits(Double value)
       {
@@ -1755,11 +1755,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativePlannedValueLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativePlannedValueLaborUnits()
       {
@@ -1768,11 +1768,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativePlannedValueLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativePlannedValueLaborUnits(Double value)
       {
@@ -1781,11 +1781,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingLaborUnits()
       {
@@ -1794,11 +1794,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingLaborUnits(Double value)
       {
@@ -1807,11 +1807,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingLaborUnits()
       {
@@ -1820,11 +1820,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingLaborUnits(Double value)
       {
@@ -1833,11 +1833,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingLateLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingLateLaborUnits()
       {
@@ -1846,11 +1846,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingLateLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingLateLaborUnits(Double value)
       {
@@ -1859,11 +1859,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingLateLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingLateLaborUnits()
       {
@@ -1872,11 +1872,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingLateLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingLateLaborUnits(Double value)
       {
@@ -1885,11 +1885,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingLateNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingLateNonLaborUnits()
       {
@@ -1898,11 +1898,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingLateNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingLateNonLaborUnits(Double value)
       {
@@ -1911,11 +1911,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingLateNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingLateNonLaborUnits()
       {
@@ -1924,11 +1924,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingLateNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingLateNonLaborUnits(Double value)
       {
@@ -1937,11 +1937,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingNonLaborUnits()
       {
@@ -1950,11 +1950,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingNonLaborUnits(Double value)
       {
@@ -1963,11 +1963,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingNonLaborUnits property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingNonLaborUnits()
       {
@@ -1976,11 +1976,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingNonLaborUnits property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingNonLaborUnits(Double value)
       {
@@ -1989,11 +1989,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the actualCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getActualCost()
       {
@@ -2002,11 +2002,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the actualCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setActualCost(Double value)
       {
@@ -2015,11 +2015,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeActualCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeActualCost()
       {
@@ -2028,11 +2028,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeActualCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeActualCost(Double value)
       {
@@ -2041,11 +2041,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the actualExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getActualExpenseCost()
       {
@@ -2054,11 +2054,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the actualExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setActualExpenseCost(Double value)
       {
@@ -2067,11 +2067,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeActualExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeActualExpenseCost()
       {
@@ -2080,11 +2080,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeActualExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeActualExpenseCost(Double value)
       {
@@ -2093,11 +2093,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the actualLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getActualLaborCost()
       {
@@ -2106,11 +2106,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the actualLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setActualLaborCost(Double value)
       {
@@ -2119,11 +2119,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeActualLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeActualLaborCost()
       {
@@ -2132,11 +2132,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeActualLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeActualLaborCost(Double value)
       {
@@ -2145,11 +2145,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the actualMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getActualMaterialCost()
       {
@@ -2158,11 +2158,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the actualMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setActualMaterialCost(Double value)
       {
@@ -2171,11 +2171,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeActualMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeActualMaterialCost()
       {
@@ -2184,11 +2184,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeActualMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeActualMaterialCost(Double value)
       {
@@ -2197,11 +2197,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the actualNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getActualNonLaborCost()
       {
@@ -2210,11 +2210,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the actualNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setActualNonLaborCost(Double value)
       {
@@ -2223,11 +2223,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeActualNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeActualNonLaborCost()
       {
@@ -2236,11 +2236,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeActualNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeActualNonLaborCost(Double value)
       {
@@ -2249,11 +2249,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the actualTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getActualTotalCost()
       {
@@ -2262,11 +2262,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the actualTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setActualTotalCost(Double value)
       {
@@ -2275,11 +2275,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeActualTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeActualTotalCost()
       {
@@ -2288,11 +2288,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeActualTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeActualTotalCost(Double value)
       {
@@ -2301,11 +2301,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the atCompletionExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getAtCompletionExpenseCost()
       {
@@ -2314,11 +2314,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the atCompletionExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setAtCompletionExpenseCost(Double value)
       {
@@ -2327,11 +2327,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeAtCompletionExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeAtCompletionExpenseCost()
       {
@@ -2340,11 +2340,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeAtCompletionExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeAtCompletionExpenseCost(Double value)
       {
@@ -2353,11 +2353,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the atCompletionLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getAtCompletionLaborCost()
       {
@@ -2366,11 +2366,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the atCompletionLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setAtCompletionLaborCost(Double value)
       {
@@ -2379,11 +2379,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeAtCompletionLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeAtCompletionLaborCost()
       {
@@ -2392,11 +2392,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeAtCompletionLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeAtCompletionLaborCost(Double value)
       {
@@ -2405,11 +2405,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the atCompletionMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getAtCompletionMaterialCost()
       {
@@ -2418,11 +2418,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the atCompletionMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setAtCompletionMaterialCost(Double value)
       {
@@ -2431,11 +2431,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeAtCompletionMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeAtCompletionMaterialCost()
       {
@@ -2444,11 +2444,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeAtCompletionMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeAtCompletionMaterialCost(Double value)
       {
@@ -2457,11 +2457,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the atCompletionNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getAtCompletionNonLaborCost()
       {
@@ -2470,11 +2470,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the atCompletionNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setAtCompletionNonLaborCost(Double value)
       {
@@ -2483,11 +2483,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeAtCompletionNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeAtCompletionNonLaborCost()
       {
@@ -2496,11 +2496,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeAtCompletionNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeAtCompletionNonLaborCost(Double value)
       {
@@ -2509,11 +2509,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the atCompletionTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getAtCompletionTotalCost()
       {
@@ -2522,11 +2522,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the atCompletionTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setAtCompletionTotalCost(Double value)
       {
@@ -2535,11 +2535,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeAtCompletionTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeAtCompletionTotalCost()
       {
@@ -2548,11 +2548,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeAtCompletionTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeAtCompletionTotalCost(Double value)
       {
@@ -2561,11 +2561,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1ActualExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1ActualExpenseCost()
       {
@@ -2574,11 +2574,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1ActualExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1ActualExpenseCost(Double value)
       {
@@ -2587,11 +2587,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1ActualExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1ActualExpenseCost()
       {
@@ -2600,11 +2600,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1ActualExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1ActualExpenseCost(Double value)
       {
@@ -2613,11 +2613,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1ActualLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1ActualLaborCost()
       {
@@ -2626,11 +2626,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1ActualLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1ActualLaborCost(Double value)
       {
@@ -2639,11 +2639,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1ActualLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1ActualLaborCost()
       {
@@ -2652,11 +2652,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1ActualLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1ActualLaborCost(Double value)
       {
@@ -2665,11 +2665,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1ActualMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1ActualMaterialCost()
       {
@@ -2678,11 +2678,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1ActualMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1ActualMaterialCost(Double value)
       {
@@ -2691,11 +2691,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1ActualMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1ActualMaterialCost()
       {
@@ -2704,11 +2704,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1ActualMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1ActualMaterialCost(Double value)
       {
@@ -2717,11 +2717,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1ActualNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1ActualNonLaborCost()
       {
@@ -2730,11 +2730,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1ActualNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1ActualNonLaborCost(Double value)
       {
@@ -2743,11 +2743,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1ActualNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1ActualNonLaborCost()
       {
@@ -2756,11 +2756,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1ActualNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1ActualNonLaborCost(Double value)
       {
@@ -2769,11 +2769,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1ActualTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1ActualTotalCost()
       {
@@ -2782,11 +2782,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1ActualTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1ActualTotalCost(Double value)
       {
@@ -2795,11 +2795,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1ActualTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1ActualTotalCost()
       {
@@ -2808,11 +2808,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1ActualTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1ActualTotalCost(Double value)
       {
@@ -2821,11 +2821,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1PlannedExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1PlannedExpenseCost()
       {
@@ -2834,11 +2834,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1PlannedExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1PlannedExpenseCost(Double value)
       {
@@ -2847,11 +2847,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1PlannedExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1PlannedExpenseCost()
       {
@@ -2860,11 +2860,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1PlannedExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1PlannedExpenseCost(Double value)
       {
@@ -2873,11 +2873,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1PlannedLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1PlannedLaborCost()
       {
@@ -2886,11 +2886,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1PlannedLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1PlannedLaborCost(Double value)
       {
@@ -2899,11 +2899,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1PlannedLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1PlannedLaborCost()
       {
@@ -2912,11 +2912,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1PlannedLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1PlannedLaborCost(Double value)
       {
@@ -2925,11 +2925,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1PlannedMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1PlannedMaterialCost()
       {
@@ -2938,11 +2938,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1PlannedMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1PlannedMaterialCost(Double value)
       {
@@ -2951,11 +2951,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1PlannedMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1PlannedMaterialCost()
       {
@@ -2964,11 +2964,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1PlannedMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1PlannedMaterialCost(Double value)
       {
@@ -2977,11 +2977,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1PlannedNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1PlannedNonLaborCost()
       {
@@ -2990,11 +2990,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1PlannedNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1PlannedNonLaborCost(Double value)
       {
@@ -3003,11 +3003,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1PlannedNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1PlannedNonLaborCost()
       {
@@ -3016,11 +3016,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1PlannedNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1PlannedNonLaborCost(Double value)
       {
@@ -3029,11 +3029,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baseline1PlannedTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaseline1PlannedTotalCost()
       {
@@ -3042,11 +3042,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baseline1PlannedTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaseline1PlannedTotalCost(Double value)
       {
@@ -3055,11 +3055,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaseline1PlannedTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaseline1PlannedTotalCost()
       {
@@ -3068,11 +3068,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaseline1PlannedTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaseline1PlannedTotalCost(Double value)
       {
@@ -3081,11 +3081,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselineActualExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselineActualExpenseCost()
       {
@@ -3094,11 +3094,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselineActualExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselineActualExpenseCost(Double value)
       {
@@ -3107,11 +3107,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselineActualExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselineActualExpenseCost()
       {
@@ -3120,11 +3120,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselineActualExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselineActualExpenseCost(Double value)
       {
@@ -3133,11 +3133,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselineActualLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselineActualLaborCost()
       {
@@ -3146,11 +3146,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselineActualLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselineActualLaborCost(Double value)
       {
@@ -3159,11 +3159,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselineActualLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselineActualLaborCost()
       {
@@ -3172,11 +3172,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselineActualLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselineActualLaborCost(Double value)
       {
@@ -3185,11 +3185,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselineActualMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselineActualMaterialCost()
       {
@@ -3198,11 +3198,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselineActualMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselineActualMaterialCost(Double value)
       {
@@ -3211,11 +3211,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselineActualMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselineActualMaterialCost()
       {
@@ -3224,11 +3224,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselineActualMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselineActualMaterialCost(Double value)
       {
@@ -3237,11 +3237,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselineActualNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselineActualNonLaborCost()
       {
@@ -3250,11 +3250,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselineActualNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselineActualNonLaborCost(Double value)
       {
@@ -3263,11 +3263,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselineActualNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselineActualNonLaborCost()
       {
@@ -3276,11 +3276,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselineActualNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselineActualNonLaborCost(Double value)
       {
@@ -3289,11 +3289,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselineActualTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselineActualTotalCost()
       {
@@ -3302,11 +3302,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselineActualTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselineActualTotalCost(Double value)
       {
@@ -3315,11 +3315,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselineActualTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselineActualTotalCost()
       {
@@ -3328,11 +3328,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselineActualTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselineActualTotalCost(Double value)
       {
@@ -3341,11 +3341,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselinePlannedExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselinePlannedExpenseCost()
       {
@@ -3354,11 +3354,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselinePlannedExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselinePlannedExpenseCost(Double value)
       {
@@ -3367,11 +3367,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselinePlannedExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselinePlannedExpenseCost()
       {
@@ -3380,11 +3380,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselinePlannedExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselinePlannedExpenseCost(Double value)
       {
@@ -3393,11 +3393,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselinePlannedLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselinePlannedLaborCost()
       {
@@ -3406,11 +3406,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselinePlannedLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselinePlannedLaborCost(Double value)
       {
@@ -3419,11 +3419,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselinePlannedLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselinePlannedLaborCost()
       {
@@ -3432,11 +3432,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselinePlannedLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselinePlannedLaborCost(Double value)
       {
@@ -3445,11 +3445,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselinePlannedMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselinePlannedMaterialCost()
       {
@@ -3458,11 +3458,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselinePlannedMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselinePlannedMaterialCost(Double value)
       {
@@ -3471,11 +3471,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselinePlannedMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselinePlannedMaterialCost()
       {
@@ -3484,11 +3484,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselinePlannedMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselinePlannedMaterialCost(Double value)
       {
@@ -3497,11 +3497,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselinePlannedNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselinePlannedNonLaborCost()
       {
@@ -3510,11 +3510,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselinePlannedNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselinePlannedNonLaborCost(Double value)
       {
@@ -3523,11 +3523,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselinePlannedNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselinePlannedNonLaborCost()
       {
@@ -3536,11 +3536,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselinePlannedNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselinePlannedNonLaborCost(Double value)
       {
@@ -3549,11 +3549,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the baselinePlannedTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getBaselinePlannedTotalCost()
       {
@@ -3562,11 +3562,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the baselinePlannedTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setBaselinePlannedTotalCost(Double value)
       {
@@ -3575,11 +3575,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeBaselinePlannedTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeBaselinePlannedTotalCost()
       {
@@ -3588,11 +3588,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeBaselinePlannedTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeBaselinePlannedTotalCost(Double value)
       {
@@ -3601,11 +3601,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the earnedValueCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getEarnedValueCost()
       {
@@ -3614,11 +3614,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the earnedValueCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setEarnedValueCost(Double value)
       {
@@ -3627,11 +3627,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeEarnedValueCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeEarnedValueCost()
       {
@@ -3640,11 +3640,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeEarnedValueCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeEarnedValueCost(Double value)
       {
@@ -3653,11 +3653,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the estimateAtCompletionCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getEstimateAtCompletionCost()
       {
@@ -3666,11 +3666,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the estimateAtCompletionCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setEstimateAtCompletionCost(Double value)
       {
@@ -3679,11 +3679,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeEstimateAtCompletionCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeEstimateAtCompletionCost()
       {
@@ -3692,11 +3692,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeEstimateAtCompletionCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeEstimateAtCompletionCost(Double value)
       {
@@ -3705,11 +3705,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the estimateToCompleteCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getEstimateToCompleteCost()
       {
@@ -3718,11 +3718,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the estimateToCompleteCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setEstimateToCompleteCost(Double value)
       {
@@ -3731,11 +3731,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeEstimateToCompleteCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeEstimateToCompleteCost()
       {
@@ -3744,11 +3744,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeEstimateToCompleteCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeEstimateToCompleteCost(Double value)
       {
@@ -3757,11 +3757,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the plannedExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getPlannedExpenseCost()
       {
@@ -3770,11 +3770,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the plannedExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setPlannedExpenseCost(Double value)
       {
@@ -3783,11 +3783,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativePlannedExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativePlannedExpenseCost()
       {
@@ -3796,11 +3796,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativePlannedExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativePlannedExpenseCost(Double value)
       {
@@ -3809,11 +3809,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the plannedLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getPlannedLaborCost()
       {
@@ -3822,11 +3822,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the plannedLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setPlannedLaborCost(Double value)
       {
@@ -3835,11 +3835,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativePlannedLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativePlannedLaborCost()
       {
@@ -3848,11 +3848,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativePlannedLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativePlannedLaborCost(Double value)
       {
@@ -3861,11 +3861,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the plannedMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getPlannedMaterialCost()
       {
@@ -3874,11 +3874,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the plannedMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setPlannedMaterialCost(Double value)
       {
@@ -3887,11 +3887,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativePlannedMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativePlannedMaterialCost()
       {
@@ -3900,11 +3900,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativePlannedMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativePlannedMaterialCost(Double value)
       {
@@ -3913,11 +3913,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the plannedNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getPlannedNonLaborCost()
       {
@@ -3926,11 +3926,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the plannedNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setPlannedNonLaborCost(Double value)
       {
@@ -3939,11 +3939,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativePlannedNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativePlannedNonLaborCost()
       {
@@ -3952,11 +3952,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativePlannedNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativePlannedNonLaborCost(Double value)
       {
@@ -3965,11 +3965,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the plannedTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getPlannedTotalCost()
       {
@@ -3978,11 +3978,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the plannedTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setPlannedTotalCost(Double value)
       {
@@ -3991,11 +3991,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativePlannedTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativePlannedTotalCost()
       {
@@ -4004,11 +4004,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativePlannedTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativePlannedTotalCost(Double value)
       {
@@ -4017,11 +4017,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the plannedValueCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getPlannedValueCost()
       {
@@ -4030,11 +4030,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the plannedValueCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setPlannedValueCost(Double value)
       {
@@ -4043,11 +4043,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativePlannedValueCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativePlannedValueCost()
       {
@@ -4056,11 +4056,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativePlannedValueCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativePlannedValueCost(Double value)
       {
@@ -4069,11 +4069,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingExpenseCost()
       {
@@ -4082,11 +4082,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingExpenseCost(Double value)
       {
@@ -4095,11 +4095,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingExpenseCost()
       {
@@ -4108,11 +4108,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingExpenseCost(Double value)
       {
@@ -4121,11 +4121,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingLaborCost()
       {
@@ -4134,11 +4134,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingLaborCost(Double value)
       {
@@ -4147,11 +4147,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingLaborCost()
       {
@@ -4160,11 +4160,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingLaborCost(Double value)
       {
@@ -4173,11 +4173,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingLateExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingLateExpenseCost()
       {
@@ -4186,11 +4186,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingLateExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingLateExpenseCost(Double value)
       {
@@ -4199,11 +4199,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingLateExpenseCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingLateExpenseCost()
       {
@@ -4212,11 +4212,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingLateExpenseCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingLateExpenseCost(Double value)
       {
@@ -4225,11 +4225,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingLateLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingLateLaborCost()
       {
@@ -4238,11 +4238,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingLateLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingLateLaborCost(Double value)
       {
@@ -4251,11 +4251,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingLateLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingLateLaborCost()
       {
@@ -4264,11 +4264,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingLateLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingLateLaborCost(Double value)
       {
@@ -4277,11 +4277,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingLateMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingLateMaterialCost()
       {
@@ -4290,11 +4290,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingLateMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingLateMaterialCost(Double value)
       {
@@ -4303,11 +4303,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingLateMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingLateMaterialCost()
       {
@@ -4316,11 +4316,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingLateMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingLateMaterialCost(Double value)
       {
@@ -4329,11 +4329,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingLateNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingLateNonLaborCost()
       {
@@ -4342,11 +4342,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingLateNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingLateNonLaborCost(Double value)
       {
@@ -4355,11 +4355,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingLateNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingLateNonLaborCost()
       {
@@ -4368,11 +4368,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingLateNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingLateNonLaborCost(Double value)
       {
@@ -4381,11 +4381,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingLateTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingLateTotalCost()
       {
@@ -4394,11 +4394,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingLateTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingLateTotalCost(Double value)
       {
@@ -4407,11 +4407,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingLateTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingLateTotalCost()
       {
@@ -4420,11 +4420,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingLateTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingLateTotalCost(Double value)
       {
@@ -4433,11 +4433,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingMaterialCost()
       {
@@ -4446,11 +4446,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingMaterialCost(Double value)
       {
@@ -4459,11 +4459,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingMaterialCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingMaterialCost()
       {
@@ -4472,11 +4472,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingMaterialCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingMaterialCost(Double value)
       {
@@ -4485,11 +4485,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingNonLaborCost()
       {
@@ -4498,11 +4498,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingNonLaborCost(Double value)
       {
@@ -4511,11 +4511,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingNonLaborCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingNonLaborCost()
       {
@@ -4524,11 +4524,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingNonLaborCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingNonLaborCost(Double value)
       {
@@ -4537,11 +4537,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the remainingTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getRemainingTotalCost()
       {
@@ -4550,11 +4550,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the remainingTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setRemainingTotalCost(Double value)
       {
@@ -4563,11 +4563,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the cumulativeRemainingTotalCost property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public Double getCumulativeRemainingTotalCost()
       {
@@ -4576,11 +4576,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the cumulativeRemainingTotalCost property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCumulativeRemainingTotalCost(Double value)
       {

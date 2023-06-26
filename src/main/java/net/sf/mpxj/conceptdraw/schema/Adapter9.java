@@ -13,14 +13,12 @@ import net.sf.mpxj.RelationType;
 public class Adapter9 extends XmlAdapter<String, RelationType>
 {
 
-   @Override
-   public RelationType unmarshal(String value)
+   @Override public RelationType unmarshal(String value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseRelationType(value));
    }
 
-   @Override
-   public String marshal(RelationType value)
+   @Override public String marshal(RelationType value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.printRelationType(value));
    }

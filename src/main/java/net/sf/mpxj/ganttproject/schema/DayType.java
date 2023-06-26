@@ -41,11 +41,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the value property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getValue()
    {
@@ -54,11 +54,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the value property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setValue(String value)
    {
@@ -67,11 +67,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the id property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getId()
    {
@@ -80,11 +80,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the id property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setId(Integer value)
    {

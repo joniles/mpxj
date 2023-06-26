@@ -381,11 +381,11 @@ public class GenericCriteria
             sb.append(" ");
             sb.append(m_operator);
             sb.append(" ");
-            sb.append(m_definedRightValues[0] instanceof LocalDateTime ? df.format((LocalDateTime)m_definedRightValues[0]) : m_definedRightValues[0]);
+            sb.append(m_definedRightValues[0] instanceof LocalDateTime ? df.format((LocalDateTime) m_definedRightValues[0]) : m_definedRightValues[0]);
             if (m_definedRightValues[1] != null)
             {
                sb.append(",");
-               sb.append(m_definedRightValues[1] instanceof LocalDateTime ? df.format((LocalDateTime)m_definedRightValues[1]) : m_definedRightValues[1]);
+               sb.append(m_definedRightValues[1] instanceof LocalDateTime ? df.format((LocalDateTime) m_definedRightValues[1]) : m_definedRightValues[1]);
             }
          }
       }

@@ -47,11 +47,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the objectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getObjectId()
    {
@@ -60,11 +60,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the objectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setObjectId(Integer value)
    {
@@ -73,11 +73,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the statusReviewerId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getStatusReviewerId()
    {
@@ -86,11 +86,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the statusReviewerId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setStatusReviewerId(Integer value)
    {
@@ -99,11 +99,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the wbsId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getWbsId()
    {
@@ -112,11 +112,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the wbsId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setWbsId(Integer value)
    {

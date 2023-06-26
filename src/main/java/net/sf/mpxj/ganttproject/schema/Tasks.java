@@ -49,11 +49,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the taskproperties property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Taskproperties }
-    *     
+    *
     */
    public Taskproperties getTaskproperties()
    {
@@ -62,11 +62,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the taskproperties property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Taskproperties }
-    *     
+    *
     */
    public void setTaskproperties(Taskproperties value)
    {
@@ -75,25 +75,25 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the task property.
-    * 
+    *
     * &lt;p&gt;
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the task property.
-    * 
+    *
     * &lt;p&gt;
     * For example, to add a new item, do as follows:
     * &lt;pre&gt;
     *    getTask().add(newItem);
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     * &lt;p&gt;
     * Objects of the following type(s) are allowed in the list
     * {@link Task }
-    * 
-    * 
+    *
+    *
     */
    public List<Task> getTask()
    {
@@ -106,11 +106,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the emptyMilestones property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getEmptyMilestones()
    {
@@ -119,11 +119,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the emptyMilestones property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setEmptyMilestones(String value)
    {

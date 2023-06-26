@@ -62,7 +62,7 @@ class TimeColumn extends AbstractColumn
       pw.println("  [Data");
       for (Object item : m_data)
       {
-         pw.println("    " + df.format((LocalTime)item));
+         pw.println("    " + df.format((LocalTime) item));
       }
       pw.println("  ]");
    }

@@ -25,7 +25,6 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-
 import java.time.LocalDateTime;
 
 import net.sf.mpxj.Availability;
@@ -59,7 +58,7 @@ public class AvailabilityTableTest
 
       assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015, 3, 1, 8, 0, 0)));
       assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015, 3, 2, 8, 0, 0)));
-      assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015,3, 3, 8, 0, 0)));
+      assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015, 3, 3, 8, 0, 0)));
       assertNull(table.getEntryByDate(LocalDateTime.of(2015, 3, 3, 18, 0, 0)));
    }
 }

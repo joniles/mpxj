@@ -43,11 +43,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the value property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getValue()
    {
@@ -56,11 +56,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the value property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setValue(String value)
    {
@@ -69,11 +69,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the definitionId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getDefinitionId()
    {
@@ -82,11 +82,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the definitionId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDefinitionId(String value)
    {
@@ -95,11 +95,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the valueAttribute property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getValueAttribute()
    {
@@ -108,11 +108,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the valueAttribute property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setValueAttribute(String value)
    {

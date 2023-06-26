@@ -25,7 +25,6 @@ package net.sf.mpxj.junit;
 
 import java.time.LocalDate;
 
-
 import static org.junit.Assert.*;
 
 import net.sf.mpxj.ProjectCalendar;
@@ -44,23 +43,23 @@ public class ProjectCalendarExceptionTest
    @Test public void testContains()
    {
       ProjectCalendar calendar = new ProjectCalendar(new ProjectFile());
-      ProjectCalendarException exception = calendar.addCalendarException(LocalDate.of(2020,1,10), LocalDate.of(2020,1,12));
+      ProjectCalendarException exception = calendar.addCalendarException(LocalDate.of(2020, 1, 10), LocalDate.of(2020, 1, 12));
 
       //
       // Test single date
       //
-      assertFalse(exception.contains(LocalDate.of(2020,1,9)));
-      assertTrue(exception.contains(LocalDate.of(2020,1,10)));
-      assertTrue(exception.contains(LocalDate.of(2020,1,11)));
-      assertTrue(exception.contains(LocalDate.of(2020,1,12)));
-      assertFalse(exception.contains(LocalDate.of(2020,1,13)));
+      assertFalse(exception.contains(LocalDate.of(2020, 1, 9)));
+      assertTrue(exception.contains(LocalDate.of(2020, 1, 10)));
+      assertTrue(exception.contains(LocalDate.of(2020, 1, 11)));
+      assertTrue(exception.contains(LocalDate.of(2020, 1, 12)));
+      assertFalse(exception.contains(LocalDate.of(2020, 1, 13)));
 
       //
       // Test calendar exception
       //
 
       // Range is entirely before
-      assertFalse(exception.contains(calendar.addCalendarException(LocalDate.of(2020,1,8), LocalDate.of(2020,1,9))));
+      assertFalse(exception.contains(calendar.addCalendarException(LocalDate.of(2020, 1, 8), LocalDate.of(2020, 1, 9))));
 
       // Range is entirely after
       assertFalse(exception.contains(calendar.addCalendarException(LocalDate.of(2020, 1, 13), LocalDate.of(2020, 1, 14))));

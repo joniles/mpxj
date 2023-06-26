@@ -73,7 +73,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
       setDateOrder(DateOrder.DMY);
       setTimeFormat(ProjectTimeFormat.TWELVE_HOUR);
-      setDefaultStartTime(LocalTime.of(8,0));
+      setDefaultStartTime(LocalTime.of(8, 0));
       setDateSeparator(DEFAULT_DATE_SEPARATOR);
       setTimeSeparator(DEFAULT_TIME_SEPARATOR);
       setAMText("am");

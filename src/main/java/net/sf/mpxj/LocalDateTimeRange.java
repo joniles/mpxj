@@ -23,8 +23,6 @@
 
 package net.sf.mpxj;
 
-
-
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 

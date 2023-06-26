@@ -150,11 +150,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the type property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getType()
    {
@@ -163,11 +163,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the type property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setType(BigInteger value)
    {
@@ -176,11 +176,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the uid property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getUID()
    {
@@ -189,11 +189,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the uid property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setUID(BigInteger value)
    {
@@ -202,11 +202,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the start property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getStart()
    {
@@ -215,11 +215,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the start property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setStart(LocalDateTime value)
    {
@@ -228,11 +228,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the finish property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getFinish()
    {
@@ -241,11 +241,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the finish property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setFinish(LocalDateTime value)
    {
@@ -254,11 +254,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the unit property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public BigInteger getUnit()
    {
@@ -267,11 +267,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the unit property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link BigInteger }
-    *     
+    *
     */
    public void setUnit(BigInteger value)
    {
@@ -280,11 +280,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the value property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getValue()
    {
@@ -293,11 +293,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the value property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setValue(String value)
    {

@@ -47,11 +47,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the value property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getValue()
    {
@@ -60,11 +60,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the value property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setValue(String value)
    {
@@ -73,11 +73,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the id property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getId()
    {
@@ -86,11 +86,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the id property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setId(String value)
    {
@@ -99,11 +99,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the name property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getName()
    {
@@ -112,11 +112,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the name property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setName(String value)
    {
@@ -125,11 +125,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the width property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getWidth()
    {
@@ -138,11 +138,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the width property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setWidth(Integer value)
    {
@@ -151,11 +151,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the order property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getOrder()
    {
@@ -164,11 +164,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the order property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setOrder(Integer value)
    {

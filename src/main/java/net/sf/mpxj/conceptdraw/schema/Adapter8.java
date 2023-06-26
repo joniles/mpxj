@@ -13,14 +13,12 @@ import net.sf.mpxj.TimeUnit;
 public class Adapter8 extends XmlAdapter<String, TimeUnit>
 {
 
-   @Override
-   public TimeUnit unmarshal(String value)
+   @Override public TimeUnit unmarshal(String value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseTimeUnit(value));
    }
 
-   @Override
-   public String marshal(TimeUnit value)
+   @Override public String marshal(TimeUnit value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.printTimeUnit(value));
    }

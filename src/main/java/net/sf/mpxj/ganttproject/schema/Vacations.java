@@ -41,11 +41,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the vacation property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Vacation }
-    *     
+    *
     */
    public Vacation getVacation()
    {
@@ -54,11 +54,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the vacation property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Vacation }
-    *     
+    *
     */
    public void setVacation(Vacation value)
    {

@@ -191,11 +191,11 @@ public class MppCalendarTest
       assertEquals(2, hours.size());
 
       LocalTimeRange range = hours.get(0);
-      assertEquals(LocalTime.of(8,0), range.getStart());
-      assertEquals(LocalTime.of(12,0), range.getEnd());
+      assertEquals(LocalTime.of(8, 0), range.getStart());
+      assertEquals(LocalTime.of(12, 0), range.getEnd());
       range = cal.getCalendarHours(DayOfWeek.MONDAY).get(1);
-      assertEquals(LocalTime.of(13,0), range.getStart());
-      assertEquals(LocalTime.of(17,0), range.getEnd());
+      assertEquals(LocalTime.of(13, 0), range.getStart());
+      assertEquals(LocalTime.of(17, 0), range.getEnd());
    }
 
    /**
@@ -240,9 +240,9 @@ public class MppCalendarTest
       assertTrue(exception.getWorking());
       assertEquals(LocalDate.of(2008, 3, 9), exception.getFromDate());
       assertEquals(LocalDate.of(2008, 3, 9), exception.getToDate());
-      assertEquals(LocalTime.of(8,0), exception.get(0).getStart());
-      assertEquals(LocalTime.of(12,0), exception.get(0).getEnd());
-      assertEquals(LocalTime.of(13,0), exception.get(1).getStart());
+      assertEquals(LocalTime.of(8, 0), exception.get(0).getStart());
+      assertEquals(LocalTime.of(12, 0), exception.get(0).getEnd());
+      assertEquals(LocalTime.of(13, 0), exception.get(1).getStart());
       assertEquals(LocalTime.of(17, 0), exception.get(1).getEnd());
       assertNull(exception.get(2).getStart());
       assertNull(exception.get(2).getEnd());
@@ -256,10 +256,10 @@ public class MppCalendarTest
       assertEquals(LocalDate.of(2008, 3, 16), exception.getFromDate());
       assertEquals(LocalDate.of(2008, 3, 16), exception.getToDate());
       assertEquals(LocalTime.of(8, 0), exception.get(0).getStart());
-      assertEquals(LocalTime.of(9,0), exception.get(0).getEnd());
-      assertEquals(LocalTime.of(11,0), exception.get(1).getStart());
+      assertEquals(LocalTime.of(9, 0), exception.get(0).getEnd());
+      assertEquals(LocalTime.of(11, 0), exception.get(1).getStart());
       assertEquals(LocalTime.of(12, 0), exception.get(1).getEnd());
-      assertEquals(LocalTime.of(14,0), exception.get(2).getStart());
+      assertEquals(LocalTime.of(14, 0), exception.get(2).getStart());
       assertEquals(LocalTime.of(15, 0), exception.get(2).getEnd());
       assertEquals(LocalTime.of(16, 0), exception.get(3).getStart());
       assertEquals(LocalTime.of(17, 0), exception.get(3).getEnd());

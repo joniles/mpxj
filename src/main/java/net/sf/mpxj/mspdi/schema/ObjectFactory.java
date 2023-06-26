@@ -33,7 +33,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: net.sf.mpxj.mspdi.schema
-    * 
+    *
     */
    public ObjectFactory()
    {
@@ -41,7 +41,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project }
-    * 
+    *
     */
    public Project createProject()
    {
@@ -50,7 +50,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Assignments }
-    * 
+    *
     */
    public Project.Assignments createProjectAssignments()
    {
@@ -59,7 +59,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Assignments.Assignment }
-    * 
+    *
     */
    public Project.Assignments.Assignment createProjectAssignmentsAssignment()
    {
@@ -68,7 +68,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Resources }
-    * 
+    *
     */
    public Project.Resources createProjectResources()
    {
@@ -77,7 +77,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Resources.Resource }
-    * 
+    *
     */
    public Project.Resources.Resource createProjectResourcesResource()
    {
@@ -86,7 +86,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Resources.Resource.Rates }
-    * 
+    *
     */
    public Project.Resources.Resource.Rates createProjectResourcesResourceRates()
    {
@@ -95,7 +95,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Resources.Resource.AvailabilityPeriods }
-    * 
+    *
     */
    public Project.Resources.Resource.AvailabilityPeriods createProjectResourcesResourceAvailabilityPeriods()
    {
@@ -104,7 +104,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Tasks }
-    * 
+    *
     */
    public Project.Tasks createProjectTasks()
    {
@@ -113,7 +113,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Tasks.Task }
-    * 
+    *
     */
    public Project.Tasks.Task createProjectTasksTask()
    {
@@ -122,7 +122,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars }
-    * 
+    *
     */
    public Project.Calendars createProjectCalendars()
    {
@@ -131,7 +131,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar }
-    * 
+    *
     */
    public Project.Calendars.Calendar createProjectCalendarsCalendar()
    {
@@ -140,7 +140,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.WorkWeeks }
-    * 
+    *
     */
    public Project.Calendars.Calendar.WorkWeeks createProjectCalendarsCalendarWorkWeeks()
    {
@@ -149,7 +149,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek }
-    * 
+    *
     */
    public Project.Calendars.Calendar.WorkWeeks.WorkWeek createProjectCalendarsCalendarWorkWeeksWorkWeek()
    {
@@ -158,7 +158,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays }
-    * 
+    *
     */
    public Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDays()
    {
@@ -167,7 +167,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay }
-    * 
+    *
     */
    public Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDaysWeekDay()
    {
@@ -176,7 +176,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes }
-    * 
+    *
     */
    public Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDaysWeekDayWorkingTimes()
    {
@@ -185,7 +185,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.Exceptions }
-    * 
+    *
     */
    public Project.Calendars.Calendar.Exceptions createProjectCalendarsCalendarExceptions()
    {
@@ -194,7 +194,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.Exceptions.Exception }
-    * 
+    *
     */
    public Project.Calendars.Calendar.Exceptions.Exception createProjectCalendarsCalendarExceptionsException()
    {
@@ -203,7 +203,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes }
-    * 
+    *
     */
    public Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes createProjectCalendarsCalendarExceptionsExceptionWorkingTimes()
    {
@@ -212,7 +212,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.WeekDays }
-    * 
+    *
     */
    public Project.Calendars.Calendar.WeekDays createProjectCalendarsCalendarWeekDays()
    {
@@ -221,7 +221,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.WeekDays.WeekDay }
-    * 
+    *
     */
    public Project.Calendars.Calendar.WeekDays.WeekDay createProjectCalendarsCalendarWeekDaysWeekDay()
    {
@@ -230,7 +230,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes }
-    * 
+    *
     */
    public Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimes()
    {
@@ -239,7 +239,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.ExtendedAttributes }
-    * 
+    *
     */
    public Project.ExtendedAttributes createProjectExtendedAttributes()
    {
@@ -248,7 +248,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.ExtendedAttributes.ExtendedAttribute }
-    * 
+    *
     */
    public Project.ExtendedAttributes.ExtendedAttribute createProjectExtendedAttributesExtendedAttribute()
    {
@@ -257,7 +257,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.ExtendedAttributes.ExtendedAttribute.ValueList }
-    * 
+    *
     */
    public Project.ExtendedAttributes.ExtendedAttribute.ValueList createProjectExtendedAttributesExtendedAttributeValueList()
    {
@@ -266,7 +266,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.WBSMasks }
-    * 
+    *
     */
    public Project.WBSMasks createProjectWBSMasks()
    {
@@ -275,7 +275,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.OutlineCodes }
-    * 
+    *
     */
    public Project.OutlineCodes createProjectOutlineCodes()
    {
@@ -284,7 +284,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.OutlineCodes.OutlineCode }
-    * 
+    *
     */
    public Project.OutlineCodes.OutlineCode createProjectOutlineCodesOutlineCode()
    {
@@ -293,7 +293,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.OutlineCodes.OutlineCode.Masks }
-    * 
+    *
     */
    public Project.OutlineCodes.OutlineCode.Masks createProjectOutlineCodesOutlineCodeMasks()
    {
@@ -302,7 +302,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.OutlineCodes.OutlineCode.Values }
-    * 
+    *
     */
    public Project.OutlineCodes.OutlineCode.Values createProjectOutlineCodesOutlineCodeValues()
    {
@@ -311,7 +311,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link TimephasedDataType }
-    * 
+    *
     */
    public TimephasedDataType createTimephasedDataType()
    {
@@ -320,7 +320,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Assignments.Assignment.ExtendedAttribute }
-    * 
+    *
     */
    public Project.Assignments.Assignment.ExtendedAttribute createProjectAssignmentsAssignmentExtendedAttribute()
    {
@@ -329,7 +329,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Assignments.Assignment.Baseline }
-    * 
+    *
     */
    public Project.Assignments.Assignment.Baseline createProjectAssignmentsAssignmentBaseline()
    {
@@ -338,7 +338,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Resources.Resource.ExtendedAttribute }
-    * 
+    *
     */
    public Project.Resources.Resource.ExtendedAttribute createProjectResourcesResourceExtendedAttribute()
    {
@@ -347,7 +347,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Resources.Resource.Baseline }
-    * 
+    *
     */
    public Project.Resources.Resource.Baseline createProjectResourcesResourceBaseline()
    {
@@ -356,7 +356,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Resources.Resource.OutlineCode }
-    * 
+    *
     */
    public Project.Resources.Resource.OutlineCode createProjectResourcesResourceOutlineCode()
    {
@@ -365,7 +365,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Resources.Resource.Rates.Rate }
-    * 
+    *
     */
    public Project.Resources.Resource.Rates.Rate createProjectResourcesResourceRatesRate()
    {
@@ -374,7 +374,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod }
-    * 
+    *
     */
    public Project.Resources.Resource.AvailabilityPeriods.AvailabilityPeriod createProjectResourcesResourceAvailabilityPeriodsAvailabilityPeriod()
    {
@@ -383,7 +383,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Tasks.Task.PredecessorLink }
-    * 
+    *
     */
    public Project.Tasks.Task.PredecessorLink createProjectTasksTaskPredecessorLink()
    {
@@ -392,7 +392,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Tasks.Task.ExtendedAttribute }
-    * 
+    *
     */
    public Project.Tasks.Task.ExtendedAttribute createProjectTasksTaskExtendedAttribute()
    {
@@ -401,7 +401,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Tasks.Task.Baseline }
-    * 
+    *
     */
    public Project.Tasks.Task.Baseline createProjectTasksTaskBaseline()
    {
@@ -410,7 +410,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Tasks.Task.OutlineCode }
-    * 
+    *
     */
    public Project.Tasks.Task.OutlineCode createProjectTasksTaskOutlineCode()
    {
@@ -419,7 +419,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.TimePeriod }
-    * 
+    *
     */
    public Project.Calendars.Calendar.WorkWeeks.WorkWeek.TimePeriod createProjectCalendarsCalendarWorkWeeksWorkWeekTimePeriod()
    {
@@ -428,7 +428,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime }
-    * 
+    *
     */
    public Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDaysWeekDayWorkingTimesWorkingTime()
    {
@@ -437,7 +437,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.Exceptions.Exception.TimePeriod }
-    * 
+    *
     */
    public Project.Calendars.Calendar.Exceptions.Exception.TimePeriod createProjectCalendarsCalendarExceptionsExceptionTimePeriod()
    {
@@ -446,7 +446,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime }
-    * 
+    *
     */
    public Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime createProjectCalendarsCalendarExceptionsExceptionWorkingTimesWorkingTime()
    {
@@ -455,7 +455,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod }
-    * 
+    *
     */
    public Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod createProjectCalendarsCalendarWeekDaysWeekDayTimePeriod()
    {
@@ -464,7 +464,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime }
-    * 
+    *
     */
    public Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime()
    {
@@ -473,7 +473,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.ExtendedAttributes.ExtendedAttribute.ValueList.Value }
-    * 
+    *
     */
    public Project.ExtendedAttributes.ExtendedAttribute.ValueList.Value createProjectExtendedAttributesExtendedAttributeValueListValue()
    {
@@ -482,7 +482,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.WBSMasks.WBSMask }
-    * 
+    *
     */
    public Project.WBSMasks.WBSMask createProjectWBSMasksWBSMask()
    {
@@ -491,7 +491,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.OutlineCodes.OutlineCode.Masks.Mask }
-    * 
+    *
     */
    public Project.OutlineCodes.OutlineCode.Masks.Mask createProjectOutlineCodesOutlineCodeMasksMask()
    {
@@ -500,7 +500,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link Project.OutlineCodes.OutlineCode.Values.Value }
-    * 
+    *
     */
    public Project.OutlineCodes.OutlineCode.Values.Value createProjectOutlineCodesOutlineCodeValuesValue()
    {
@@ -509,7 +509,7 @@ import javax.xml.namespace.QName;
 
    /**
     * Create an instance of {@link JAXBElement }{@code <}{@link Project }{@code >}
-    * 
+    *
     * @param value
     *     Java instance representing xml element's value.
     * @return

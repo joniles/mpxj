@@ -225,7 +225,7 @@ public class ObjectPropertiesController
       String result;
       if (value instanceof LocalDateTime)
       {
-         result = m_dateFormat.format((LocalDateTime)value);
+         result = m_dateFormat.format((LocalDateTime) value);
       }
       else
       {

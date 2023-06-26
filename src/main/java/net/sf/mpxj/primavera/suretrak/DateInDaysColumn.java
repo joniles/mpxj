@@ -23,8 +23,6 @@
 
 package net.sf.mpxj.primavera.suretrak;
 
-
-
 import java.time.LocalDateTime;
 
 import net.sf.mpxj.primavera.common.AbstractShortColumn;

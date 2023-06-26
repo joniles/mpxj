@@ -47,11 +47,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the value property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getValue()
    {
@@ -60,11 +60,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the value property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setValue(String value)
    {
@@ -73,11 +73,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the year property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getYear()
    {
@@ -86,11 +86,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the year property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setYear(String value)
    {
@@ -99,11 +99,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the month property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getMonth()
    {
@@ -112,11 +112,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the month property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setMonth(Integer value)
    {
@@ -125,11 +125,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the date property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getDate()
    {
@@ -138,11 +138,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the date property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setDate(Integer value)
    {
@@ -151,11 +151,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the type property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getType()
    {
@@ -164,11 +164,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the type property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setType(String value)
    {

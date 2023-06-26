@@ -661,7 +661,7 @@ public class RecurringData
             }
          }
 
-         date = LocalDate.of(date.getYear()+1, date.getMonth(), 1);
+         date = LocalDate.of(date.getYear() + 1, date.getMonth(), 1);
       }
    }
 
@@ -728,7 +728,7 @@ public class RecurringData
 
       if (dayNumber > 1)
       {
-         date = date.plusDays((7 * ((long)dayNumber - 1)));
+         date = date.plusDays((7 * ((long) dayNumber - 1)));
       }
 
       return date;

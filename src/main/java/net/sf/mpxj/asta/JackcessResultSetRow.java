@@ -69,7 +69,7 @@ final class JackcessResultSetRow extends MapRow
             case EXT_DATE_TIME:
             case SHORT_DATE_TIME:
             {
-               value =  row.getLocalDateTime(name);
+               value = row.getLocalDateTime(name);
                break;
             }
 

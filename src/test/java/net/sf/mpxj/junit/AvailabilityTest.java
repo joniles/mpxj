@@ -136,9 +136,9 @@ public class AvailabilityTest
       //
       // Validate date-based row selection
       //
-      assertNull(table.getEntryByDate(LocalDateTime.of(2009,5,1,12,0,0)));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2009, 5, 1, 12, 0, 0)));
       assertAvailabilityEquals("02/07/2009 00:00", "01/08/2009 23:59", 60.0, table, 1);
-      assertNull(table.getEntryByDate(LocalDateTime.of(2009,8,2,12,0,0)));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2009, 8, 2, 12, 0, 0)));
       assertAvailabilityEquals("20/08/2009 00:00", "30/08/2009 23:59", 75.0, table, 2);
       assertNull(table.getEntryByDate(LocalDateTime.of(2009, 9, 1, 12, 0, 0)));
    }

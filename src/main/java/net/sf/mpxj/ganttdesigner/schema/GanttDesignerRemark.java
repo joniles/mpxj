@@ -53,25 +53,25 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the task property.
-    * 
+    *
     * &lt;p&gt;
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the task property.
-    * 
+    *
     * &lt;p&gt;
     * For example, to add a new item, do as follows:
     * &lt;pre&gt;
     *    getTask().add(newItem);
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     * &lt;p&gt;
     * Objects of the following type(s) are allowed in the list
     * {@link GanttDesignerRemark.Task }
-    * 
-    * 
+    *
+    *
     */
    public List<GanttDesignerRemark.Task> getTask()
    {
@@ -84,9 +84,9 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * &lt;p&gt;Java class for anonymous complex type.
-    * 
+    *
     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * &lt;pre&gt;
     * &amp;lt;complexType&amp;gt;
     *   &amp;lt;complexContent&amp;gt;
@@ -96,8 +96,8 @@ import javax.xml.bind.annotation.XmlValue;
     *   &amp;lt;/complexContent&amp;gt;
     * &amp;lt;/complexType&amp;gt;
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -110,11 +110,11 @@ import javax.xml.bind.annotation.XmlValue;
 
       /**
        * Gets the value of the content property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public String getContent()
       {
@@ -123,11 +123,11 @@ import javax.xml.bind.annotation.XmlValue;
 
       /**
        * Sets the value of the content property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setContent(String value)
       {
@@ -136,11 +136,11 @@ import javax.xml.bind.annotation.XmlValue;
 
       /**
        * Gets the value of the row property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link Integer }
-       *     
+       *
        */
       public Integer getRow()
       {
@@ -149,11 +149,11 @@ import javax.xml.bind.annotation.XmlValue;
 
       /**
        * Sets the value of the row property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link Integer }
-       *     
+       *
        */
       public void setRow(Integer value)
       {

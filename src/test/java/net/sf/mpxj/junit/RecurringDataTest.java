@@ -96,7 +96,7 @@ public class RecurringDataTest
       data.setStartDate(LocalDate.of(2017, 12, 4));
       testDates(data, "04/12/2017", "01/01/2018", "05/02/2018");
 
-      data.setStartDate(LocalDate.of(2017,11,7));
+      data.setStartDate(LocalDate.of(2017, 11, 7));
       testDates(data, "04/12/2017", "01/01/2018", "05/02/2018");
 
       data.setDayNumber(Integer.valueOf(3));
@@ -158,7 +158,7 @@ public class RecurringDataTest
 
       data.setRecurrenceType(RecurrenceType.YEARLY);
       data.setRelative(true);
-      data.setStartDate(LocalDate.of(2017, 11 ,1));
+      data.setStartDate(LocalDate.of(2017, 11, 1));
       data.setDayNumber(Integer.valueOf(3));
       data.setDayOfWeek(DayOfWeek.WEDNESDAY);
       data.setMonthNumber(Integer.valueOf(9));

@@ -52,7 +52,7 @@ class BtrieveDateColumn extends AbstractColumn
       int day = data[i];
       int month = data[i + 1];
       int year = (data[i + 2] & 0xff) | ((data[i + 3] & 0xff) << 8);
-      if (year > 0 && month > 0 && month <=12 && day> 0 && day <= 31)
+      if (year > 0 && month > 0 && month <= 12 && day > 0 && day <= 31)
       {
          result = LocalDateTime.of(year, month, day, 0, 0);
       }

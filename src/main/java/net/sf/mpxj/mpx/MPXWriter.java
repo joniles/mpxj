@@ -1077,7 +1077,7 @@ public final class MPXWriter extends AbstractProjectWriter
             {
                if (o instanceof DayOfWeek)
                {
-                  result = Integer.toString(DayOfWeekHelper.getValue((DayOfWeek)o));
+                  result = Integer.toString(DayOfWeekHelper.getValue((DayOfWeek) o));
                }
                else
                {
@@ -1167,12 +1167,12 @@ public final class MPXWriter extends AbstractProjectWriter
    {
       if (value instanceof LocalDateTime)
       {
-         return formatDateTime((LocalDateTime)value);
+         return formatDateTime((LocalDateTime) value);
       }
 
       if (value instanceof LocalDate)
       {
-         return formatDateTime((LocalDate)value);
+         return formatDateTime((LocalDate) value);
       }
 
       return null;

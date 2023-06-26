@@ -46,25 +46,25 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the customPropertyDefinition property.
-    * 
+    *
     * &lt;p&gt;
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the customPropertyDefinition property.
-    * 
+    *
     * &lt;p&gt;
     * For example, to add a new item, do as follows:
     * &lt;pre&gt;
     *    getCustomPropertyDefinition().add(newItem);
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     * &lt;p&gt;
     * Objects of the following type(s) are allowed in the list
     * {@link CustomPropertyDefinition }
-    * 
-    * 
+    *
+    *
     */
    public List<CustomPropertyDefinition> getCustomPropertyDefinition()
    {
@@ -77,25 +77,25 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the resource property.
-    * 
+    *
     * &lt;p&gt;
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the resource property.
-    * 
+    *
     * &lt;p&gt;
     * For example, to add a new item, do as follows:
     * &lt;pre&gt;
     *    getResource().add(newItem);
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     * &lt;p&gt;
     * Objects of the following type(s) are allowed in the list
     * {@link Resource }
-    * 
-    * 
+    *
+    *
     */
    public List<Resource> getResource()
    {

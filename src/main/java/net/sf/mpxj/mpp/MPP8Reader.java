@@ -278,8 +278,8 @@ final class MPP8Reader implements MPPVariantReader
                   if (cal.isWorkingDay(day))
                   {
                      hours = cal.addCalendarHours(DayOfWeekHelper.getInstance(index + 1));
-                     hours.add(new LocalTimeRange(LocalTime.of(8,0 ), LocalTime.of(12, 0)));
-                     hours.add(new LocalTimeRange(LocalTime.of(13, 0), LocalTime.of(17,0)));
+                     hours.add(new LocalTimeRange(LocalTime.of(8, 0), LocalTime.of(12, 0)));
+                     hours.add(new LocalTimeRange(LocalTime.of(13, 0), LocalTime.of(17, 0)));
                   }
                   else
                   {

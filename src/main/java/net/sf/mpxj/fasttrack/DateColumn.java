@@ -86,7 +86,7 @@ class DateColumn extends AbstractColumn
       pw.println("  [Data");
       for (Object item : m_data)
       {
-         Object value = item == null ? "" : df.format((LocalDate)item);
+         Object value = item == null ? "" : df.format((LocalDate) item);
          pw.println("    " + value);
       }
       pw.println("  ]");

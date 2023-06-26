@@ -86,7 +86,7 @@ public class TaskFinishesTest
    {
       for (int index = 1; index <= maxIndex; index++)
       {
-         LocalDateTime expectedValue = testIndex == index ? LocalDateTime.parse(DATES[index - 1], m_dateTimeFormat)  : null;
+         LocalDateTime expectedValue = testIndex == index ? LocalDateTime.parse(DATES[index - 1], m_dateTimeFormat) : null;
          if (useDateFormat && expectedValue != null)
          {
             expectedValue = LocalDateTime.of(expectedValue.toLocalDate(), LocalTime.MIDNIGHT);

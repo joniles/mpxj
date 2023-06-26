@@ -49,11 +49,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the value property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getValue()
    {
@@ -62,11 +62,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the value property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setValue(String value)
    {
@@ -75,11 +75,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the taskId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getTaskId()
    {
@@ -88,11 +88,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the taskId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setTaskId(Integer value)
    {
@@ -101,11 +101,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the resourceId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getResourceId()
    {
@@ -114,11 +114,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the resourceId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setResourceId(Integer value)
    {
@@ -127,11 +127,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the function property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getFunction()
    {
@@ -140,11 +140,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the function property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setFunction(String value)
    {
@@ -153,11 +153,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the responsible property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getResponsible()
    {
@@ -166,11 +166,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the responsible property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setResponsible(String value)
    {
@@ -179,11 +179,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the load property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Float }
-    *     
+    *
     */
    public Float getLoad()
    {
@@ -192,11 +192,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the load property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Float }
-    *     
+    *
     */
    public void setLoad(Float value)
    {

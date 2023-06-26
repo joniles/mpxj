@@ -110,7 +110,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
          return project;
       }
 
-      catch (SQLException  ex)
+      catch (SQLException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }

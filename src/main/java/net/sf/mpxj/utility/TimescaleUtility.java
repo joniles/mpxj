@@ -30,7 +30,6 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 
-
 import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.mpp.TimescaleUnits;
 

@@ -55,25 +55,25 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the dayType property.
-    * 
+    *
     * &lt;p&gt;
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the dayType property.
-    * 
+    *
     * &lt;p&gt;
     * For example, to add a new item, do as follows:
     * &lt;pre&gt;
     *    getDayType().add(newItem);
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     * &lt;p&gt;
     * Objects of the following type(s) are allowed in the list
     * {@link DayType }
-    * 
-    * 
+    *
+    *
     */
    public List<DayType> getDayType()
    {
@@ -86,11 +86,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the defaultWeek property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link DefaultWeek }
-    *     
+    *
     */
    public DefaultWeek getDefaultWeek()
    {
@@ -99,11 +99,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the defaultWeek property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link DefaultWeek }
-    *     
+    *
     */
    public void setDefaultWeek(DefaultWeek value)
    {
@@ -112,11 +112,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the onlyShowWeekends property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link OnlyShowWeekends }
-    *     
+    *
     */
    public OnlyShowWeekends getOnlyShowWeekends()
    {
@@ -125,11 +125,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the onlyShowWeekends property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link OnlyShowWeekends }
-    *     
+    *
     */
    public void setOnlyShowWeekends(OnlyShowWeekends value)
    {
@@ -138,11 +138,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the overridenDayTypes property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getOverridenDayTypes()
    {
@@ -151,11 +151,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the overridenDayTypes property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setOverridenDayTypes(String value)
    {
@@ -164,11 +164,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the days property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getDays()
    {
@@ -177,11 +177,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the days property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setDays(String value)
    {

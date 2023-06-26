@@ -25,7 +25,6 @@ package net.sf.mpxj.sdef;
 
 import java.time.LocalDate;
 
-
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.common.LocalDateHelper;
 

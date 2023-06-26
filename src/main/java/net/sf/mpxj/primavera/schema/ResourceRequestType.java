@@ -107,11 +107,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the finishDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getFinishDate()
    {
@@ -120,11 +120,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the finishDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setFinishDate(LocalDateTime value)
    {
@@ -133,11 +133,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the matchAllCriteria property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isMatchAllCriteria()
    {
@@ -146,11 +146,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the matchAllCriteria property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setMatchAllCriteria(Boolean value)
    {
@@ -159,11 +159,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the name property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getName()
    {
@@ -172,11 +172,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the name property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setName(String value)
    {
@@ -185,11 +185,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the requestedUnits property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getRequestedUnits()
    {
@@ -198,11 +198,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the requestedUnits property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setRequestedUnits(Double value)
    {
@@ -211,11 +211,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the sequenceNumber property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getSequenceNumber()
    {
@@ -224,11 +224,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the sequenceNumber property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setSequenceNumber(Integer value)
    {
@@ -237,11 +237,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the showOnlyLaborResources property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isShowOnlyLaborResources()
    {
@@ -250,11 +250,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the showOnlyLaborResources property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setShowOnlyLaborResources(Boolean value)
    {
@@ -263,11 +263,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the showOverallocatedResources property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isShowOverallocatedResources()
    {
@@ -276,11 +276,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the showOverallocatedResources property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setShowOverallocatedResources(Boolean value)
    {
@@ -289,11 +289,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the sortResultsByAvailability property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isSortResultsByAvailability()
    {
@@ -302,11 +302,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the sortResultsByAvailability property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setSortResultsByAvailability(Boolean value)
    {
@@ -315,11 +315,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the startDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getStartDate()
    {
@@ -328,11 +328,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the startDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setStartDate(LocalDateTime value)
    {
@@ -341,11 +341,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the useActivityDates property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isUseActivityDates()
    {
@@ -354,11 +354,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the useActivityDates property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setUseActivityDates(Boolean value)
    {
@@ -367,25 +367,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the resourceRequestCriterion property.
-    * 
+    *
     * &lt;p&gt;
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the resourceRequestCriterion property.
-    * 
+    *
     * &lt;p&gt;
     * For example, to add a new item, do as follows:
     * &lt;pre&gt;
     *    getResourceRequestCriterion().add(newItem);
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     * &lt;p&gt;
     * Objects of the following type(s) are allowed in the list
     * {@link ResourceRequestType.ResourceRequestCriterion }
-    * 
-    * 
+    *
+    *
     */
    public List<ResourceRequestType.ResourceRequestCriterion> getResourceRequestCriterion()
    {
@@ -398,9 +398,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * &lt;p&gt;Java class for anonymous complex type.
-    * 
+    *
     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * &lt;pre&gt;
     * &amp;lt;complexType&amp;gt;
     *   &amp;lt;complexContent&amp;gt;
@@ -433,8 +433,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *   &amp;lt;/complexContent&amp;gt;
     * &amp;lt;/complexType&amp;gt;
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -450,11 +450,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the criterionType property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public String getCriterionType()
       {
@@ -463,11 +463,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the criterionType property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setCriterionType(String value)
       {
@@ -476,11 +476,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the proficiency property.
-       * 
+       *
        * @return
        *     possible object is
        *     {@link String }
-       *     
+       *
        */
       public String getProficiency()
       {
@@ -489,11 +489,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the proficiency property.
-       * 
+       *
        * @param value
        *     allowed object is
        *     {@link String }
-       *     
+       *
        */
       public void setProficiency(String value)
       {
@@ -502,7 +502,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the valueObjectId property.
-       * 
+       *
        */
       public int getValueObjectId()
       {
@@ -511,7 +511,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Sets the value of the valueObjectId property.
-       * 
+       *
        */
       public void setValueObjectId(int value)
       {

@@ -13,14 +13,12 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class Adapter4 extends XmlAdapter<String, LocalDate>
 {
 
-   @Override
-   public LocalDate unmarshal(String value)
+   @Override public LocalDate unmarshal(String value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDate(value));
    }
 
-   @Override
-   public String marshal(LocalDate value)
+   @Override public String marshal(LocalDate value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDate(value));
    }

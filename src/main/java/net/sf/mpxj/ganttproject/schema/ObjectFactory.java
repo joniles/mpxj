@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: net.sf.mpxj.ganttproject.schema
-    * 
+    *
     */
    public ObjectFactory()
    {
@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Project }
-    * 
+    *
     */
    public Project createProject()
    {
@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link View }
-    * 
+    *
     */
    public View createView()
    {
@@ -54,7 +54,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Calendars }
-    * 
+    *
     */
    public Calendars createCalendars()
    {
@@ -63,7 +63,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Tasks }
-    * 
+    *
     */
    public Tasks createTasks()
    {
@@ -72,7 +72,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Resources }
-    * 
+    *
     */
    public Resources createResources()
    {
@@ -81,7 +81,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Allocations }
-    * 
+    *
     */
    public Allocations createAllocations()
    {
@@ -90,7 +90,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Vacations }
-    * 
+    *
     */
    public Vacations createVacations()
    {
@@ -99,7 +99,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Roles }
-    * 
+    *
     */
    public Roles createRoles()
    {
@@ -108,7 +108,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Field }
-    * 
+    *
     */
    public Field createField()
    {
@@ -117,7 +117,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link DayType }
-    * 
+    *
     */
    public DayType createDayType()
    {
@@ -126,7 +126,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link DefaultWeek }
-    * 
+    *
     */
    public DefaultWeek createDefaultWeek()
    {
@@ -135,7 +135,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link OnlyShowWeekends }
-    * 
+    *
     */
    public OnlyShowWeekends createOnlyShowWeekends()
    {
@@ -144,7 +144,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link DayTypes }
-    * 
+    *
     */
    public DayTypes createDayTypes()
    {
@@ -153,7 +153,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Date }
-    * 
+    *
     */
    public Date createDate()
    {
@@ -162,7 +162,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Taskproperty }
-    * 
+    *
     */
    public Taskproperty createTaskproperty()
    {
@@ -171,7 +171,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Taskproperties }
-    * 
+    *
     */
    public Taskproperties createTaskproperties()
    {
@@ -180,7 +180,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Depend }
-    * 
+    *
     */
    public Depend createDepend()
    {
@@ -189,7 +189,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CustomTaskProperty }
-    * 
+    *
     */
    public CustomTaskProperty createCustomTaskProperty()
    {
@@ -198,7 +198,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Task }
-    * 
+    *
     */
    public Task createTask()
    {
@@ -207,7 +207,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Rate }
-    * 
+    *
     */
    public Rate createRate()
    {
@@ -216,7 +216,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CustomResourceProperty }
-    * 
+    *
     */
    public CustomResourceProperty createCustomResourceProperty()
    {
@@ -225,7 +225,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Resource }
-    * 
+    *
     */
    public Resource createResource()
    {
@@ -234,7 +234,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Allocation }
-    * 
+    *
     */
    public Allocation createAllocation()
    {
@@ -243,7 +243,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Vacation }
-    * 
+    *
     */
    public Vacation createVacation()
    {
@@ -252,7 +252,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link Role }
-    * 
+    *
     */
    public Role createRole()
    {
@@ -261,7 +261,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 
    /**
     * Create an instance of {@link CustomPropertyDefinition }
-    * 
+    *
     */
    public CustomPropertyDefinition createCustomPropertyDefinition()
    {

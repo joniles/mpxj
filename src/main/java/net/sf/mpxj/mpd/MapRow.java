@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpd;
 
-
 import java.time.LocalDateTime;
 import java.util.Map;
 

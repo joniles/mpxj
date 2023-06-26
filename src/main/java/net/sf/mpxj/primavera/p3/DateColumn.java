@@ -64,7 +64,7 @@ class DateColumn extends AbstractColumn
             int month = Integer.parseInt(stringValue.substring(4, 6));
             int day = Integer.parseInt(stringValue.substring(6, 8));
 
-            if (year > 0 && month > 0 && month <= 12 && day > 0 && day <=31)
+            if (year > 0 && month > 0 && month <= 12 && day > 0 && day <= 31)
             {
                result = LocalDateTime.of(year, month, day, 0, 0);
                if (result.isBefore(DatabaseReader.EPOCH))

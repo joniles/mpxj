@@ -305,7 +305,6 @@ public final class MPXJFormats
          }
       }
 
-
       return builder;
    }
 
@@ -920,7 +919,7 @@ public final class MPXJFormats
 
    /**
     * Use the configured format to parse a time value.
-    * 
+    *
     * @param value time value
     * @return LocalTime instance
     */
@@ -931,7 +930,7 @@ public final class MPXJFormats
 
    /**
     * Use the configured format to print a time value.
-    * 
+    *
     * @param value LocalTime instance
     * @return formatted time value
     */
@@ -942,7 +941,7 @@ public final class MPXJFormats
 
    /**
     * Use the configured format to parse a date value.
-    * 
+    *
     * @param value date value
     * @return LocalDateTime instance
     */
@@ -958,7 +957,7 @@ public final class MPXJFormats
 
    /**
     * Use the configured format to print a date value.
-    * 
+    *
     * @param value LocalDate instance
     * @return formatted time value
     */
@@ -969,7 +968,7 @@ public final class MPXJFormats
 
    /**
     * Use the configured format to parse a timestamp value.
-    * 
+    *
     * @param value timestamp value
     * @return LocalDateTime instance
     */
@@ -982,7 +981,7 @@ public final class MPXJFormats
 
       if (m_parseDateTimeSkipDayName)
       {
-         value = value.substring(value.indexOf(' ')+1);
+         value = value.substring(value.indexOf(' ') + 1);
       }
 
       return LocalDateTimeHelper.parseBest(m_parseDateTimeFormat, value);
@@ -990,7 +989,7 @@ public final class MPXJFormats
 
    /**
     * Use the configured format to print a timestamp value.
-    * 
+    *
     * @param value temporal value
     * @return formatted timestamp value
     */

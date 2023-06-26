@@ -738,7 +738,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * This method finds the start of the next working period.
     *
     * @param cal current Calendar instance
-    * @return next work start 
+    * @return next work start
     */
    private LocalDateTime updateToNextWorkStart(LocalDateTime cal)
    {
@@ -985,7 +985,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          do
          {
             result += (Year.of(cal.getYear()).length() - cal.getDayOfYear()) + 1;
-            cal = LocalDateTime.of(cal.getYear()+1, 1, 1, 0, 0, 0);
+            cal = LocalDateTime.of(cal.getYear() + 1, 1, 1, 0, 0, 0);
          }
          while (cal.getYear() < endDateYear);
          result += endDateDayOfYear;
@@ -1293,7 +1293,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                // the date alone to preserve the start time. If we have moved past
                // the start date to find the first working day, reset the time
                // of day to ensure that we use all working hours on this day.
-               LocalTime targetTime = currentDate.equals(startDate) ? LocalTimeHelper.getLocalTime(currentDate) : LocalTime.of(0,0);
+               LocalTime targetTime = currentDate.equals(startDate) ? LocalTimeHelper.getLocalTime(currentDate) : LocalTime.of(0, 0);
 
                //
                // Calculate the amount of working time for this day
@@ -1339,7 +1339,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(endDate), null, day);
             if (ranges.size() != 0)
             {
-               totalTime += getTotalTime(ranges, LocalTime.of(0,0), LocalTimeHelper.getLocalTime(endDate));
+               totalTime += getTotalTime(ranges, LocalTime.of(0, 0), LocalTimeHelper.getLocalTime(endDate));
             }
          }
 
@@ -1563,7 +1563,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
       if (minEnd == LocalTime.MIDNIGHT || maxStart.isBefore(minEnd))
       {
-         return  LocalTimeHelper.getMillisecondsInRange(maxStart, minEnd);
+         return LocalTimeHelper.getMillisecondsInRange(maxStart, minEnd);
       }
 
       return 0;

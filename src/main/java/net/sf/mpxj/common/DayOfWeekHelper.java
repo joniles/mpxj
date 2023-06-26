@@ -53,13 +53,13 @@ public final class DayOfWeekHelper
 
    /**
     * Retrieve the oridinal value for a DayOfWeek instance.
-    * 
+    *
     * @param day DayOfWeek instance
     * @return ordinal value
     */
    public static int getValue(DayOfWeek day)
    {
-      switch(day)
+      switch (day)
       {
          case SUNDAY:
             return 1;
@@ -84,13 +84,13 @@ public final class DayOfWeekHelper
     * Array mapping int types to enums.
     */
    public static final DayOfWeek[] ORDERED_DAYS =
-      {
-         DayOfWeek.SUNDAY,
-         DayOfWeek.MONDAY,
-         DayOfWeek.TUESDAY,
-         DayOfWeek.WEDNESDAY,
-         DayOfWeek.THURSDAY,
-         DayOfWeek.FRIDAY,
-         DayOfWeek.SATURDAY
-      };
+   {
+      DayOfWeek.SUNDAY,
+      DayOfWeek.MONDAY,
+      DayOfWeek.TUESDAY,
+      DayOfWeek.WEDNESDAY,
+      DayOfWeek.THURSDAY,
+      DayOfWeek.FRIDAY,
+      DayOfWeek.SATURDAY
+   };
 }

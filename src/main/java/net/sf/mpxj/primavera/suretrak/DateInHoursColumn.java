@@ -23,8 +23,6 @@
 
 package net.sf.mpxj.primavera.suretrak;
 
-
-
 import java.time.LocalDateTime;
 
 import net.sf.mpxj.primavera.common.AbstractIntColumn;
@@ -48,7 +46,7 @@ class DateInHoursColumn extends AbstractIntColumn
    @Override public LocalDateTime read(int offset, byte[] data)
    {
       int hours = readInt(offset, data);
-      return hours == 0 ? null : EPOCH.plusHours(hours );
+      return hours == 0 ? null : EPOCH.plusHours(hours);
    }
 
    // 31/12/1979

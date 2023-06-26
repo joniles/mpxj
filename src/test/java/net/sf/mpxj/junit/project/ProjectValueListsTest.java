@@ -80,11 +80,11 @@ public class ProjectValueListsTest
       config = container.get(TaskField.DATE1);
       table = config.getLookupTable();
       assertEquals(3, table.size());
-      assertEquals("01/01/2015", df.format((LocalDateTime)table.get(0).getValue()));
+      assertEquals("01/01/2015", df.format((LocalDateTime) table.get(0).getValue()));
       assertEquals("Description 1", table.get(0).getDescription());
-      assertEquals("02/01/2015", df.format((LocalDateTime)table.get(1).getValue()));
+      assertEquals("02/01/2015", df.format((LocalDateTime) table.get(1).getValue()));
       assertEquals("Description 2", table.get(1).getDescription());
-      assertEquals("03/01/2015", df.format((LocalDateTime)table.get(2).getValue()));
+      assertEquals("03/01/2015", df.format((LocalDateTime) table.get(2).getValue()));
       assertEquals("Description 3", table.get(2).getDescription());
 
       config = container.get(TaskField.DURATION1);

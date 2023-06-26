@@ -26,7 +26,6 @@ package net.sf.mpxj.mpp;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
-
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.common.LocalDateTimeHelper;

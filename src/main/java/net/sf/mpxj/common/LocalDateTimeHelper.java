@@ -51,7 +51,7 @@ public final class LocalDateTimeHelper
          return null;
       }
 
-      return LocalDateTime.of(date.toLocalDate(), LocalTime.of(0,0));
+      return LocalDateTime.of(date.toLocalDate(), LocalTime.of(0, 0));
    }
 
    /**
@@ -158,10 +158,10 @@ public final class LocalDateTimeHelper
    /**
     * Use the parseBest method of the formatter to retrieve a LOcaldateTimeinstance
     * handling the case where the formatter returns a LOcalDate instance.
-    * 
+    *
     * @param format DateTimeFormatter instance
     * @param value value to parse
-    * @return LocalDateTime instance 
+    * @return LocalDateTime instance
     */
    public static LocalDateTime parseBest(DateTimeFormatter format, String value)
    {

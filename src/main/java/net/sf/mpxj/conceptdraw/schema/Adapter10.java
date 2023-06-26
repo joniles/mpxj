@@ -12,14 +12,12 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class Adapter10 extends XmlAdapter<String, Double>
 {
 
-   @Override
-   public Double unmarshal(String value)
+   @Override public Double unmarshal(String value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.parsePercent(value));
    }
 
-   @Override
-   public String marshal(Double value)
+   @Override public String marshal(Double value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.printPercent(value));
    }

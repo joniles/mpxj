@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.merlin;
 
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 

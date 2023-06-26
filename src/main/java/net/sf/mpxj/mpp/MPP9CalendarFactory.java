@@ -28,7 +28,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
-
 import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.common.LocalDateHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;

@@ -13,14 +13,12 @@ import net.sf.mpxj.ResourceType;
 public class Adapter13 extends XmlAdapter<String, ResourceType>
 {
 
-   @Override
-   public ResourceType unmarshal(String value)
+   @Override public ResourceType unmarshal(String value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseResourceType(value));
    }
 
-   @Override
-   public String marshal(ResourceType value)
+   @Override public String marshal(ResourceType value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.printResourceType(value));
    }

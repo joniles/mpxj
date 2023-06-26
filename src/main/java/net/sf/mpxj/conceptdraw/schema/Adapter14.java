@@ -13,14 +13,12 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class Adapter14 extends XmlAdapter<String, DayOfWeek>
 {
 
-   @Override
-   public DayOfWeek unmarshal(String value)
+   @Override public DayOfWeek unmarshal(String value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDay(value));
    }
 
-   @Override
-   public String marshal(DayOfWeek value)
+   @Override public String marshal(DayOfWeek value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDay(value));
    }

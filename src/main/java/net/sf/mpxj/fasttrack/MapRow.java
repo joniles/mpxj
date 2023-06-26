@@ -140,7 +140,7 @@ class MapRow
          // TODO: we should probably associated a type with each column and validate as we read
          if (timeObject instanceof LocalTime)
          {
-            LocalTime time = (LocalTime)timeObject;
+            LocalTime time = (LocalTime) timeObject;
             result = LocalDateTime.of(date, time);
          }
          else

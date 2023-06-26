@@ -64,8 +64,8 @@ public class MultiDayExceptionsTest
       ProjectFile project = new UniversalProjectReader().read(file);
       ProjectCalendar calendar = project.getCalendarByName("Standard");
 
-      LocalDateTime startDate = LocalDateTime.of(2019,12,23, 0, 0, 0);
-      LocalDateTime endDate = LocalDateTime.of(2020,1,8, 23, 59, 59);
+      LocalDateTime startDate = LocalDateTime.of(2019, 12, 23, 0, 0, 0);
+      LocalDateTime endDate = LocalDateTime.of(2020, 1, 8, 23, 59, 59);
 
       Duration duration = calendar.getWork(startDate, endDate, TimeUnit.DAYS);
 

@@ -26,7 +26,6 @@ package net.sf.mpxj;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-
 /**
  * This class represents a resource's availability table.
  */

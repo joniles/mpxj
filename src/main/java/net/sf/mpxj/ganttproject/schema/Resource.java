@@ -57,11 +57,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the rate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Rate }
-    *     
+    *
     */
    public Rate getRate()
    {
@@ -70,11 +70,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the rate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Rate }
-    *     
+    *
     */
    public void setRate(Rate value)
    {
@@ -83,25 +83,25 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the customProperty property.
-    * 
+    *
     * &lt;p&gt;
     * This accessor method returns a reference to the live list,
     * not a snapshot. Therefore any modification you make to the
     * returned list will be present inside the JAXB object.
     * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the customProperty property.
-    * 
+    *
     * &lt;p&gt;
     * For example, to add a new item, do as follows:
     * &lt;pre&gt;
     *    getCustomProperty().add(newItem);
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     * &lt;p&gt;
     * Objects of the following type(s) are allowed in the list
     * {@link CustomResourceProperty }
-    * 
-    * 
+    *
+    *
     */
    public List<CustomResourceProperty> getCustomProperty()
    {
@@ -114,11 +114,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the id property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getId()
    {
@@ -127,11 +127,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the id property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setId(Integer value)
    {
@@ -140,11 +140,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the name property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getName()
    {
@@ -153,11 +153,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the name property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setName(String value)
    {
@@ -166,11 +166,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the function property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getFunction()
    {
@@ -179,11 +179,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the function property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setFunction(String value)
    {
@@ -192,11 +192,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the contacts property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getContacts()
    {
@@ -205,11 +205,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the contacts property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setContacts(String value)
    {
@@ -218,11 +218,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Gets the value of the phone property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getPhone()
    {
@@ -231,11 +231,11 @@ import javax.xml.bind.annotation.XmlType;
 
    /**
     * Sets the value of the phone property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setPhone(String value)
    {

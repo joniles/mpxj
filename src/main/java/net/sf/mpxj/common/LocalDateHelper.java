@@ -34,7 +34,7 @@ public final class LocalDateHelper
    /**
     * Convert a LocalDate instance to a LOcalDateTime instance,
     * handling null values.
-    * 
+    *
     * @param date LocalDate instance
     * @return LocalDateTime instance or null
     */
@@ -50,7 +50,7 @@ public final class LocalDateHelper
 
    /**
     * Convert a LocaldateTime instance to a Localdate instance, handling null values.
-    * 
+    *
     * @param date LocalDateTimeInstance
     * @return LocalDate instance or null
     */
@@ -66,7 +66,7 @@ public final class LocalDateHelper
 
    /**
     * Compare two LocalDate instances, handling null values.
-    * 
+    *
     * @param d1 LocalDate instance
     * @param d2 LocalDate instance
     * @return negative if less, positive if greater
@@ -82,7 +82,7 @@ public final class LocalDateHelper
 
    /**
     * Determine if the target date is within the range specified by the start and end date.
-    * 
+    *
     * @param startDate range start date
     * @param endDate range end date
     * @param targetDate target date

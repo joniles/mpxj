@@ -217,11 +217,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the baseCalendarObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getBaseCalendarObjectId()
    {
@@ -230,11 +230,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the baseCalendarObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setBaseCalendarObjectId(Integer value)
    {
@@ -243,11 +243,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the createDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getCreateDate()
    {
@@ -256,11 +256,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the createDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCreateDate(LocalDateTime value)
    {
@@ -269,11 +269,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the createUser property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getCreateUser()
    {
@@ -282,11 +282,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the createUser property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setCreateUser(String value)
    {
@@ -295,11 +295,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the hoursPerDay property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getHoursPerDay()
    {
@@ -308,11 +308,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the hoursPerDay property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setHoursPerDay(Double value)
    {
@@ -321,11 +321,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the hoursPerMonth property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getHoursPerMonth()
    {
@@ -334,11 +334,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the hoursPerMonth property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setHoursPerMonth(Double value)
    {
@@ -347,11 +347,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the hoursPerWeek property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getHoursPerWeek()
    {
@@ -360,11 +360,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the hoursPerWeek property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setHoursPerWeek(Double value)
    {
@@ -373,11 +373,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the hoursPerYear property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Double getHoursPerYear()
    {
@@ -386,11 +386,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the hoursPerYear property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setHoursPerYear(Double value)
    {
@@ -399,11 +399,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the isBaseline property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isIsBaseline()
    {
@@ -412,11 +412,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the isBaseline property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setIsBaseline(Boolean value)
    {
@@ -425,11 +425,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the isDefault property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isIsDefault()
    {
@@ -438,11 +438,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the isDefault property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setIsDefault(Boolean value)
    {
@@ -451,11 +451,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the isPersonal property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isIsPersonal()
    {
@@ -464,11 +464,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the isPersonal property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setIsPersonal(Boolean value)
    {
@@ -477,11 +477,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the isTemplate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public Boolean isIsTemplate()
    {
@@ -490,11 +490,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the isTemplate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setIsTemplate(Boolean value)
    {
@@ -503,11 +503,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastUpdateDate property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public LocalDateTime getLastUpdateDate()
    {
@@ -516,11 +516,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastUpdateDate property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastUpdateDate(LocalDateTime value)
    {
@@ -529,11 +529,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the lastUpdateUser property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getLastUpdateUser()
    {
@@ -542,11 +542,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the lastUpdateUser property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setLastUpdateUser(String value)
    {
@@ -555,11 +555,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the name property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getName()
    {
@@ -568,11 +568,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the name property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setName(String value)
    {
@@ -581,11 +581,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the objectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getObjectId()
    {
@@ -594,11 +594,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the objectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setObjectId(Integer value)
    {
@@ -607,11 +607,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getProjectId()
    {
@@ -620,11 +620,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setProjectId(String value)
    {
@@ -633,11 +633,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the projectObjectId property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getProjectObjectId()
    {
@@ -646,11 +646,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the projectObjectId property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setProjectObjectId(Integer value)
    {
@@ -659,11 +659,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the type property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getType()
    {
@@ -672,11 +672,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the type property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setType(String value)
    {
@@ -685,11 +685,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the standardWorkWeek property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link CalendarType.StandardWorkWeek }
-    *     
+    *
     */
    public CalendarType.StandardWorkWeek getStandardWorkWeek()
    {
@@ -698,11 +698,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the standardWorkWeek property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link CalendarType.StandardWorkWeek }
-    *     
+    *
     */
    public void setStandardWorkWeek(CalendarType.StandardWorkWeek value)
    {
@@ -711,11 +711,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Gets the value of the holidayOrExceptions property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link CalendarType.HolidayOrExceptions }
-    *     
+    *
     */
    public CalendarType.HolidayOrExceptions getHolidayOrExceptions()
    {
@@ -724,11 +724,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * Sets the value of the holidayOrExceptions property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link CalendarType.HolidayOrExceptions }
-    *     
+    *
     */
    public void setHolidayOrExceptions(CalendarType.HolidayOrExceptions value)
    {
@@ -737,9 +737,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * &lt;p&gt;Java class for anonymous complex type.
-    * 
+    *
     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * &lt;pre&gt;
     * &amp;lt;complexType&amp;gt;
     *   &amp;lt;complexContent&amp;gt;
@@ -762,8 +762,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *   &amp;lt;/complexContent&amp;gt;
     * &amp;lt;/complexType&amp;gt;
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -775,25 +775,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the holidayOrException property.
-       * 
+       *
        * &lt;p&gt;
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the holidayOrException property.
-       * 
+       *
        * &lt;p&gt;
        * For example, to add a new item, do as follows:
        * &lt;pre&gt;
        *    getHolidayOrException().add(newItem);
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        * &lt;p&gt;
        * Objects of the following type(s) are allowed in the list
        * {@link CalendarType.HolidayOrExceptions.HolidayOrException }
-       * 
-       * 
+       *
+       *
        */
       public List<CalendarType.HolidayOrExceptions.HolidayOrException> getHolidayOrException()
       {
@@ -806,9 +806,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * &lt;p&gt;Java class for anonymous complex type.
-       * 
+       *
        * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * &lt;pre&gt;
        * &amp;lt;complexType&amp;gt;
        *   &amp;lt;complexContent&amp;gt;
@@ -821,8 +821,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
        *   &amp;lt;/complexContent&amp;gt;
        * &amp;lt;/complexType&amp;gt;
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -836,11 +836,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
          /**
           * Gets the value of the date property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public LocalDateTime getDate()
          {
@@ -849,11 +849,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
          /**
           * Sets the value of the date property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setDate(LocalDateTime value)
          {
@@ -862,25 +862,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
          /**
           * Gets the value of the workTime property.
-          * 
+          *
           * &lt;p&gt;
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the workTime property.
-          * 
+          *
           * &lt;p&gt;
           * For example, to add a new item, do as follows:
           * &lt;pre&gt;
           *    getWorkTime().add(newItem);
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           * &lt;p&gt;
           * Objects of the following type(s) are allowed in the list
           * {@link WorkTimeType }
-          * 
-          * 
+          *
+          *
           */
          public List<WorkTimeType> getWorkTime()
          {
@@ -897,9 +897,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
    /**
     * &lt;p&gt;Java class for anonymous complex type.
-    * 
+    *
     * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-    * 
+    *
     * &lt;pre&gt;
     * &amp;lt;complexType&amp;gt;
     *   &amp;lt;complexContent&amp;gt;
@@ -934,8 +934,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     *   &amp;lt;/complexContent&amp;gt;
     * &amp;lt;/complexType&amp;gt;
     * &lt;/pre&gt;
-    * 
-    * 
+    *
+    *
     */
    @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
    {
@@ -947,25 +947,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * Gets the value of the standardWorkHours property.
-       * 
+       *
        * &lt;p&gt;
        * This accessor method returns a reference to the live list,
        * not a snapshot. Therefore any modification you make to the
        * returned list will be present inside the JAXB object.
        * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the standardWorkHours property.
-       * 
+       *
        * &lt;p&gt;
        * For example, to add a new item, do as follows:
        * &lt;pre&gt;
        *    getStandardWorkHours().add(newItem);
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        * &lt;p&gt;
        * Objects of the following type(s) are allowed in the list
        * {@link CalendarType.StandardWorkWeek.StandardWorkHours }
-       * 
-       * 
+       *
+       *
        */
       public List<CalendarType.StandardWorkWeek.StandardWorkHours> getStandardWorkHours()
       {
@@ -978,9 +978,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
       /**
        * &lt;p&gt;Java class for anonymous complex type.
-       * 
+       *
        * &lt;p&gt;The following schema fragment specifies the expected content contained within this class.
-       * 
+       *
        * &lt;pre&gt;
        * &amp;lt;complexType&amp;gt;
        *   &amp;lt;complexContent&amp;gt;
@@ -1005,8 +1005,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
        *   &amp;lt;/complexContent&amp;gt;
        * &amp;lt;/complexType&amp;gt;
        * &lt;/pre&gt;
-       * 
-       * 
+       *
+       *
        */
       @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
       {
@@ -1020,11 +1020,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
          /**
           * Gets the value of the dayOfWeek property.
-          * 
+          *
           * @return
           *     possible object is
           *     {@link String }
-          *     
+          *
           */
          public String getDayOfWeek()
          {
@@ -1033,11 +1033,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
          /**
           * Sets the value of the dayOfWeek property.
-          * 
+          *
           * @param value
           *     allowed object is
           *     {@link String }
-          *     
+          *
           */
          public void setDayOfWeek(String value)
          {
@@ -1046,25 +1046,25 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
          /**
           * Gets the value of the workTime property.
-          * 
+          *
           * &lt;p&gt;
           * This accessor method returns a reference to the live list,
           * not a snapshot. Therefore any modification you make to the
           * returned list will be present inside the JAXB object.
           * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the workTime property.
-          * 
+          *
           * &lt;p&gt;
           * For example, to add a new item, do as follows:
           * &lt;pre&gt;
           *    getWorkTime().add(newItem);
           * &lt;/pre&gt;
-          * 
-          * 
+          *
+          *
           * &lt;p&gt;
           * Objects of the following type(s) are allowed in the list
           * {@link WorkTimeType }
-          * 
-          * 
+          *
+          *
           */
          public List<WorkTimeType> getWorkTime()
          {

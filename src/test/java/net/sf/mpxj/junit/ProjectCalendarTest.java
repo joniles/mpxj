@@ -167,7 +167,7 @@ public class ProjectCalendarTest
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(0.38, variance.getDuration(), 0.01);
 
-      endDate = LocalDateTime.of(2006, 3, 14, 12, 0 );
+      endDate = LocalDateTime.of(2006, 3, 14, 12, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(0.5, variance.getDuration(), 0.01);
 
@@ -203,7 +203,7 @@ public class ProjectCalendarTest
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(9.88, variance.getDuration(), 0.01);
 
-      projectCalendar.addCalendarException(LocalDate.of(2006,3, 14), LocalDate.of(2006, 3, 14));
+      projectCalendar.addCalendarException(LocalDate.of(2006, 3, 14), LocalDate.of(2006, 3, 14));
 
       startDate = LocalDateTime.of(2006, 3, 13, 8, 0);
       endDate = LocalDateTime.of(2006, 3, 24, 16, 0);
@@ -211,7 +211,7 @@ public class ProjectCalendarTest
       assertEquals(8.88, variance.getDuration(), 0.01);
 
       ProjectCalendarException exception = projectCalendar.addCalendarException(LocalDate.of(206, 3, 18), LocalDate.of(2006, 3, 18));
-      exception.add(new LocalTimeRange(LocalTime.of(8,0), LocalTime.of(12,0)));
+      exception.add(new LocalTimeRange(LocalTime.of(8, 0), LocalTime.of(12, 0)));
 
       startDate = LocalDateTime.of(2006, 3, 18, 8, 0);
       endDate = LocalDateTime.of(2006, 3, 18, 16, 0);
@@ -590,7 +590,7 @@ public class ProjectCalendarTest
       endDate = cal.getDate(startDate, duration, false);
       assertEquals(LocalDateTime.of(2003, 10, 9, 12, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 13, 0),  endDate);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 13, 0), endDate);
 
       //
       // Full second range
@@ -685,11 +685,11 @@ public class ProjectCalendarTest
       //
       // Working day
       //
-      assertEquals(LocalTime.of(8,0), cal.getStartTime(LocalDate.of(2003, 10, 9)));
+      assertEquals(LocalTime.of(8, 0), cal.getStartTime(LocalDate.of(2003, 10, 9)));
 
       //
       // Non-working day
       //
-      assertNull(cal.getStartTime(LocalDate.of(2003,10, 11)));
+      assertNull(cal.getStartTime(LocalDate.of(2003, 10, 11)));
    }
 }

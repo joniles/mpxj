@@ -47,11 +47,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the value property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getValue()
    {
@@ -60,11 +60,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the value property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setValue(String value)
    {
@@ -73,11 +73,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the id property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getId()
    {
@@ -86,11 +86,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the id property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setId(Integer value)
    {
@@ -99,11 +99,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the type property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getType()
    {
@@ -112,11 +112,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the type property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setType(Integer value)
    {
@@ -125,11 +125,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the difference property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link Integer }
-    *     
+    *
     */
    public Integer getDifference()
    {
@@ -138,11 +138,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the difference property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link Integer }
-    *     
+    *
     */
    public void setDifference(Integer value)
    {
@@ -151,11 +151,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Gets the value of the hardness property.
-    * 
+    *
     * @return
     *     possible object is
     *     {@link String }
-    *     
+    *
     */
    public String getHardness()
    {
@@ -164,11 +164,11 @@ import javax.xml.bind.annotation.XmlValue;
 
    /**
     * Sets the value of the hardness property.
-    * 
+    *
     * @param value
     *     allowed object is
     *     {@link String }
-    *     
+    *
     */
    public void setHardness(String value)
    {

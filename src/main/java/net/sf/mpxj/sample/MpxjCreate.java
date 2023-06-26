@@ -194,7 +194,7 @@ public class MpxjCreate
       //
       Task milestone1 = task1.addTask();
       milestone1.setName("Milestone");
-      milestone1.setStart(LocalDateTime.of(2003, 1, 21, 0, 0,0));
+      milestone1.setStart(LocalDateTime.of(2003, 1, 21, 0, 0, 0));
       milestone1.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
       milestone1.addPredecessor(task3, RelationType.FINISH_START, null);
 
@@ -235,7 +235,7 @@ public class MpxjCreate
       assignment1.setRemainingWork(Duration.getInstance(40, TimeUnit.HOURS));
       assignment2.setRemainingWork(Duration.getInstance(80, TimeUnit.HOURS));
       assignment1.setStart(LocalDateTime.of(2003, 1, 1, 0, 0, 0));
-      assignment2.setStart(LocalDateTime.of(2003, 1, 11, 0,0, 0));
+      assignment2.setStart(LocalDateTime.of(2003, 1, 11, 0, 0, 0));
 
       //
       // Write a 100% complete task

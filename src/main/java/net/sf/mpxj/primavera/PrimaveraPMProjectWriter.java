@@ -1670,7 +1670,7 @@ final class PrimaveraPMProjectWriter
 
          case DATE:
          {
-            udf.setStartDateValue((LocalDateTime)value);
+            udf.setStartDateValue((LocalDateTime) value);
             break;
          }
 

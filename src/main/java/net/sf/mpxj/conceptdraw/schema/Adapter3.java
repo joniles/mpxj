@@ -13,14 +13,12 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class Adapter3 extends XmlAdapter<String, LocalTime>
 {
 
-   @Override
-   public LocalTime unmarshal(String value)
+   @Override public LocalTime unmarshal(String value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseTime(value));
    }
 
-   @Override
-   public String marshal(LocalTime value)
+   @Override public String marshal(LocalTime value)
    {
       return (net.sf.mpxj.conceptdraw.DatatypeConverter.printTime(value));
    }

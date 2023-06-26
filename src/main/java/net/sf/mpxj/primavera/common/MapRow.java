@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.primavera.common;
 
-
 import java.time.LocalDateTime;
 import java.util.Map;
 
