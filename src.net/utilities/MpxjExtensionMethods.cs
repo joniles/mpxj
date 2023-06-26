@@ -12,47 +12,101 @@ namespace net.sf.mpxj.MpxjUtilities
     /// </summary>
     public static class MpxjExtensionMethods
     {
-        private static readonly ThreadLocal<java.util.Calendar> JavaCalendar = new ThreadLocal<java.util.Calendar>(() => java.util.Calendar.getInstance());
-
         //
         // Conversion from Java to .Net
         //
 
         /// <summary>
-        /// Convert a Java Date instance to a .Net DateTime instance.
+        /// Convert a Java LocalDateTime instance to a .Net DateTime instance.
         /// </summary>
-        /// <param name="javaDate">Java Date</param>
+        /// <param name="javaValue">Java LocalDateTime</param>
         /// <returns>DateTime instance</returns>
-        public static DateTime ToDateTime(this java.util.Date javaDate)
+        public static DateTime ToDateTime(this java.time.LocalDateTime javaValue)
         {
-            if (javaDate == null)
+            if (javaValue == null)
             {
                 throw new ArgumentNullException();
             }
 
-            var calendar = JavaCalendar.Value;
-
-            calendar.setTime(javaDate);
-
             return new DateTime(
-                calendar.get(java.util.Calendar.YEAR),
-                calendar.get(java.util.Calendar.MONTH) + 1,
-                calendar.get(java.util.Calendar.DAY_OF_MONTH),
-                calendar.get(java.util.Calendar.HOUR_OF_DAY),
-                calendar.get(java.util.Calendar.MINUTE),
-                calendar.get(java.util.Calendar.SECOND),
-                calendar.get(java.util.Calendar.MILLISECOND)
+                javaValue.getYear(),
+                javaValue.getMonthValue(),
+                javaValue.getDayOfMonth(),
+                javaValue.getHour(),
+                javaValue.getMinute(),
+                javaValue.getSecond()
             );
         }
 
         /// <summary>
-        /// Convert a Java Date instance to a nullable .Net DateTime instance.
+        /// Convert a Java LocalDateTime instance to a nullable .Net DateTime instance.
         /// </summary>
-        /// <param name="javaDate">Java Date</param>
+        /// <param name="javaValue">Java LocalDateTime</param>
         /// <returns>DateTime instance</returns>
-        public static DateTime? ToNullableDateTime(this java.util.Date javaDate)
+        public static DateTime? ToNullableDateTime(this java.time.LocalDateTime javaValue)
         {
-            return javaDate?.ToDateTime();
+            return javaValue?.ToDateTime();
+        }
+
+        /// <summary>
+        /// Convert a Java LocalDate instance to a .Net DateTime instance.
+        /// </summary>
+        /// <param name="javaValue">Java LocalDate</param>
+        /// <returns>DateTime instance</returns>
+        public static DateTime ToDateTime(this java.time.LocalDate javaValue)
+        {
+            if (javaValue == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return new DateTime(
+                javaValue.getYear(),
+                javaValue.getMonthValue(),
+                javaValue.getDayOfMonth()
+            );
+        }
+
+        /// <summary>
+        /// Convert a Java LocalDate instance to a nullable .Net DateTime instance.
+        /// </summary>
+        /// <param name="javaValue">Java LocalDate</param>
+        /// <returns>DateTime instance</returns>
+        public static DateTime? ToNullableDateTime(this java.time.LocalDate javaValue)
+        {
+            return javaValue?.ToDateTime();
+        }
+
+        /// <summary>
+        /// Convert a Java LocalTime instance to a .Net DateTime instance.
+        /// </summary>
+        /// <param name="javaValue">Java LocalTime</param>
+        /// <returns>DateTime instance</returns>
+        public static DateTime ToDateTime(this java.time.LocalTime javaValue)
+        {
+            if (javaValue == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return new DateTime(
+                1,
+                1,
+                1,
+                javaValue.getHour(),
+                javaValue.getMinute(),
+                javaValue.getSecond()
+            );
+        }
+
+        /// <summary>
+        /// Convert a Java LocalTime instance to a nullable .Net DateTime instance.
+        /// </summary>
+        /// <param name="javaValue">Java LocalTime</param>
+        /// <returns>DateTime instance</returns>
+        public static DateTime? ToNullableDateTime(this java.time.LocalTime javaValue)
+        {
+            return javaValue?.ToDateTime();
         }
 
         /// <summary>
@@ -151,31 +205,78 @@ namespace net.sf.mpxj.MpxjUtilities
         //
 
         /// <summary>
-        /// Convert a DateTime instance to a Java Date instance.
+        /// Convert a DateTime instance to a Java LocalDateTime instance.
         /// </summary>
         /// <param name="d">DateTime instance</param>
-        /// <returns>Java Date instance</returns>
-        public static java.util.Date ToJavaDate(this DateTime d)
+        /// <returns>Java LocalDateTime instance</returns>
+        public static java.time.LocalDateTime ToJavaLocalDateTime(this DateTime d)
         {
-            var calendar = JavaCalendar.Value;
-            calendar.set(java.util.Calendar.YEAR, d.Year);
-            calendar.set(java.util.Calendar.MONTH, d.Month - 1);
-            calendar.set(java.util.Calendar.DAY_OF_MONTH, d.Day);
-            calendar.set(java.util.Calendar.HOUR_OF_DAY, d.Hour);
-            calendar.set(java.util.Calendar.MINUTE, d.Minute);
-            calendar.set(java.util.Calendar.SECOND, d.Second);
-            calendar.set(java.util.Calendar.MILLISECOND, d.Millisecond);
-            return calendar.getTime();
+            return java.time.LocalDateTime.of(
+                d.Year,
+                d.Month,
+                d.Day,
+                d.Hour,
+                d.Minute,
+                d.Second
+            );
         }
 
         /// <summary>
-        /// Converts a nullable DateTime instance to a Java Date instance.
+        /// Converts a nullable DateTime instance to a Java LocalDateTime instance.
         /// </summary>
         /// <param name="d">Nullable DateTime instance</param>
-        /// <returns>Java Date instance</returns>
-        public static java.util.Date ToJavaDate(this DateTime? d)
+        /// <returns>Java LocalDateTime instance</returns>
+        public static java.time.LocalDateTime ToJavaLocalDateTime(this DateTime? d)
         {
-            return d == null ? null : ToJavaDate(d.Value);
+            return d == null ? null : ToJavaLocalDateTime(d.Value);
+        }
+
+        /// <summary>
+        /// Convert a DateTime instance to a Java LocalDate instance.
+        /// </summary>
+        /// <param name="d">DateTime instance</param>
+        /// <returns>Java LocalDate instance</returns>
+        public static java.time.LocalDate ToJavaLocalDate(this DateTime d)
+        {
+            return java.time.LocalDate.of(
+                d.Year,
+                d.Month,
+                d.Day
+            );
+        }
+
+        /// <summary>
+        /// Converts a nullable DateTime instance to a Java LocalDate instance.
+        /// </summary>
+        /// <param name="d">Nullable DateTime instance</param>
+        /// <returns>Java LocalDate instance</returns>
+        public static java.time.LocalDate ToJavaLocalDate(this DateTime? d)
+        {
+            return d == null ? null : ToJavaLocalDate(d.Value);
+        }
+
+        /// <summary>
+        /// Convert a DateTime instance to a Java LocalTime instance.
+        /// </summary>
+        /// <param name="d">DateTime instance</param>
+        /// <returns>Java LocalTime instance</returns>
+        public static java.time.LocalTime ToJavaLocalTime(this DateTime d)
+        {
+            return java.time.LocalTime.of(
+                d.Hour,
+                d.Minute,
+                d.Second
+            );
+        }
+
+        /// <summary>
+        /// Converts a nullable DateTime instance to a Java LocalTime instance.
+        /// </summary>
+        /// <param name="d">Nullable DateTime instance</param>
+        /// <returns>Java LocalTime instance</returns>
+        public static java.time.LocalTime ToJavaLocalTime(this DateTime? d)
+        {
+            return d == null ? null : ToJavaLocalTime(d.Value);
         }
 
         /// <summary>
