@@ -179,6 +179,14 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
       return result;
    }
 
+   /**
+    * This method determines whether the given date falls in the range of
+    * dates covered by this exception. Note that this method assumes that both
+    * the start and end date of this exception have been set.
+    *
+    * @param date Date to be tested
+    * @return Boolean value
+    */
    public boolean contains(LocalDate date)
    {
       boolean result = false;

@@ -26,6 +26,12 @@ public final class DayOfWeekHelper
       return result;
    }
 
+   /**
+    * Retrieve the oridinal value for a DayOfWeek instance.
+    * 
+    * @param day DayOfWeek instance
+    * @return ordinal value
+    */
    public static int getValue(DayOfWeek day)
    {
       switch(day)
