@@ -1320,10 +1320,8 @@ public final class MPPUtility
    }
 
    /**
-    * Epoch date for MPP date calculation is 31/12/1983. This constant
-    * is that date expressed in milliseconds using the Java date epoch.
+    * Epoch date for MPP date calculation is 31/12/1983.
     */
-   public static final long EPOCH = 441676800000L;
    public static final LocalDateTime EPOCH_DATE = LocalDateTime.of(1983, 12, 31, 0, 0);
 
    /**

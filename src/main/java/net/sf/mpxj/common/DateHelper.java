@@ -44,65 +44,6 @@ public final class DateHelper
    }
 
    /**
-    * Creates a timestamp from the equivalent long value. This conversion
-    * takes account of the time zone and any daylight savings time.
-    *
-    * @param timestamp timestamp expressed as a long integer
-    * @return new Date instance
-    */
-   public static Date getTimestampFromLong(long timestamp)
-   {
-      TimeZone tz = TimeZone.getDefault();
-      Date result = new Date(timestamp - tz.getRawOffset());
-
-      if (tz.inDaylightTime(result))
-      {
-         int savings;
-
-         if (HAS_DST_SAVINGS)
-         {
-            savings = tz.getDSTSavings();
-         }
-         else
-         {
-            savings = DEFAULT_DST_SAVINGS;
-         }
-
-         result = new Date(result.getTime() - savings);
-      }
-      return result;
-   }
-
-   /**
-    * Creates a long value from a timestamp.  This conversion
-    * takes account of the time zone and any daylight savings time.
-    *
-    * @param date timestamp as a Date instance
-    * @return timestamp expressed as a long integer
-    */
-   public static long getLongFromTimestamp(Date date)
-   {
-      TimeZone tz = TimeZone.getDefault();
-      long result = date.getTime();
-      if (tz.inDaylightTime(date))
-      {
-         int savings;
-
-         if (HAS_DST_SAVINGS)
-         {
-            savings = tz.getDSTSavings();
-         }
-         else
-         {
-            savings = DEFAULT_DST_SAVINGS;
-         }
-
-         result += savings;
-      }
-      return result;
-   }
-
-   /**
     * Acquire a Calendar instance and set the initial date.
     *
     * @param date initial date
@@ -168,33 +109,5 @@ public final class DateHelper
     */
    public static final long MS_PER_DAY = 24 * MS_PER_HOUR;
 
-   /**
-    * Default value to use for DST savings if we are using a version
-    * of Java < 1.4.
-    */
-   private static final int DEFAULT_DST_SAVINGS = 3600000;
-
-   /**
-    * Flag used to indicate the existence of the getDSTSavings
-    * method that was introduced in Java 1.4.
-    */
-   private static boolean HAS_DST_SAVINGS;
-
    private static final ThreadLocal<Deque<Calendar>> CALENDARS = ThreadLocal.withInitial(ArrayDeque::new);
-
-   static
-   {
-      Class<TimeZone> tz = TimeZone.class;
-
-      try
-      {
-         tz.getMethod("getDSTSavings", (Class<?>[]) null);
-         HAS_DST_SAVINGS = true;
-      }
-
-      catch (NoSuchMethodException ex)
-      {
-         HAS_DST_SAVINGS = false;
-      }
-   }
 }

@@ -34,7 +34,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -59,7 +59,6 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkGroup;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.common.XmlHelper;
@@ -166,24 +165,16 @@ public final class DatatypeConverter
     * @param value Date value
     * @return timestamp value
     */
-   public static final String printOutlineCodeValueDate(Date value)
+   public static final String printOutlineCodeValueDate(LocalDateTime value)
    {
-      String result;
       if (value == null)
       {
-         result = null;
+         return null;
       }
-      else
-      {
-         long rawValue = DateHelper.getLongFromTimestamp(value);
 
-         long dateComponent = ((rawValue - MPPUtility.EPOCH) / DateHelper.MS_PER_DAY) * 65536;
-         long dateValue = ((dateComponent / 65536) * DateHelper.MS_PER_DAY) + MPPUtility.EPOCH;
-         long timeComponent = (rawValue - dateValue) / (6 * 1000);
-
-         result = String.valueOf(dateComponent + timeComponent);
-      }
-      return result;
+      long dateComponent = MPPUtility.EPOCH_DATE.until(value, ChronoUnit.DAYS) * 65536;
+      long timeComponent = value.toLocalTime().toSecondOfDay() / 6;
+      return String.valueOf(dateComponent + timeComponent);
    }
 
    /**
@@ -192,17 +183,17 @@ public final class DatatypeConverter
     * @param value timestamp value
     * @return Date instance
     */
-   public static final Date parseOutlineCodeValueDate(String value)
+   public static final LocalDateTime parseOutlineCodeValueDate(String value)
    {
-      Date result = null;
-      if (value != null && !value.isEmpty())
+      if (value == null || value.isEmpty())
       {
-         long rawValue = Long.parseLong(value);
-         long dateMS = ((rawValue / 65536) * DateHelper.MS_PER_DAY) + MPPUtility.EPOCH;
-         long timeMS = (rawValue % 65536) * (6 * 1000);
-         result = DateHelper.getTimestampFromLong(dateMS + timeMS);
+         return null;
       }
-      return result;
+
+      long rawValue = Long.parseLong(value);
+      long days = rawValue / 65536;
+      long seconds = (rawValue % 65536) * 6;
+      return MPPUtility.EPOCH_DATE.plusDays(days).plusSeconds(seconds);
    }
 
    /**
@@ -355,7 +346,7 @@ public final class DatatypeConverter
 
       if (type == DataType.DATE)
       {
-         result = printOutlineCodeValueDate((Date) value);
+         result = printOutlineCodeValueDate((LocalDateTime) value);
       }
       else
       {
