@@ -76,10 +76,10 @@ or non-working. How do we know the working times on those days? We can use the
 The `getCalendarHours` method returns a `List` of `LocalTimeRange` instances.
 `LocalTimeRange` is a simple immutable class which represents a span of time
 between a start time and an end time as an inclusive range. Let's try printing
-these `DateRange` instances to our output to see what we get:
+these `LocalTimeRange` instances to our output to see what we get:
 
 ```java
-List<DateRange> hours = calendar.getCalendarHours(Day.TUESDAY);
+List<LocalTimeRange> hours = calendar.getCalendarHours(Day.TUESDAY);
 hours.forEach(System.out::println);
 ```
 
@@ -251,7 +251,7 @@ System.out.println(exceptionDate + " is a "
    + (workingDate ? "working" : "non-working") + " day");
 ```
 
-In the code above we're creating a `Date` instance to represent the date we want
+In the code above we're creating a `LocalDate` instance to represent the date we want
 to add an exception for. The code uses the `isWorkingDate` method to determine
 whether or not the  given date is a working day. Before we add the exception,
 here's the output we get:
