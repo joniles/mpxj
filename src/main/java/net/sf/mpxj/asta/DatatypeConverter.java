@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 
 /*
  * Duration Types
@@ -211,39 +212,18 @@ final class DatatypeConverter
     */
    public static LocalDateTime parseBasicTimestamp(String value)
    {
-      LocalDateTime result = null;
-
-      if (value.length() > 0)
+      if (value.isEmpty() || value.equals("-1 -1") || value.equals("0"))
       {
-         if (!value.equals("-1 -1") && !value.equals("0"))
-         {
-            if (value.endsWith(" 0"))
-            {
-               result = LocalDate.parse(value, DATE_FORMAT1).atStartOfDay();
-            }
-            else
-            {
-               if (value.indexOf(' ') == -1)
-               {
-                  result = LocalDate.parse(value, DATE_FORMAT2).atStartOfDay();
-               }
-               else
-               {
-                  int timeIndex = value.indexOf(' ') + 1;
-                  if (timeIndex + 6 > value.length())
-                  {
-                     String time = value.substring(timeIndex);
-                     value = value.substring(0, timeIndex) + "0" + time;
-                  }
-
-                  result = LocalDateTime.parse(value, TIMESTAMP_FORMAT);
-               }
-            }
-         }
+         return null;
       }
 
-      //System.out.println(value + "=>" + result);
-      return result;
+      TemporalAccessor parsed = TIMESTAMP_FORMAT.parseBest(value, LocalDateTime::from, LocalDate::from);
+      if (parsed instanceof LocalDate)
+      {
+         return ((LocalDate) parsed).atStartOfDay();
+      }
+
+      return (LocalDateTime) parsed;
    }
 
    /**
@@ -269,11 +249,7 @@ final class DatatypeConverter
       return result;
    }
 
-   private static final DateTimeFormatter TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd HHmmss");
-
-   private static final DateTimeFormatter DATE_FORMAT1 = DateTimeFormatter.ofPattern("yyyyMMdd 0");
-
-   private static final DateTimeFormatter DATE_FORMAT2 = DateTimeFormatter.ofPattern("yyyyMMdd");
+   private static final DateTimeFormatter TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd[ HHmmss][ Hmmss][ 0]");
 
    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HHmmss");
 
