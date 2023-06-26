@@ -125,7 +125,7 @@ public class TimephasedWorkSegmentTest
       //
       // Set the start date
       //
-      LocalDateTime startDate = LocalDateTime.of(2011, 2, 7, 0, 0, 0);
+      LocalDateTime startDate = LocalDateTime.of(2011, 2, 7, 0, 0);
 
       //
       // Task One - 5 day assignment at 100% utilisation

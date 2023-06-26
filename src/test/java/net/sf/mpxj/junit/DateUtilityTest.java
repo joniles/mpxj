@@ -20,8 +20,8 @@ public class DateUtilityTest
     */
    @Test public void testCompare()
    {
-      LocalDateTime date1 = LocalDateTime.of(2014, 1, 15, 0, 0, 0);
-      LocalDateTime date2 = LocalDateTime.of(2014, 1, 20, 0, 0, 0);
+      LocalDateTime date1 = LocalDateTime.of(2014, 1, 15, 0, 0);
+      LocalDateTime date2 = LocalDateTime.of(2014, 1, 20, 0, 0);
 
       assertTrue(LocalDateTimeHelper.compare(date1, date2) < 0);
       assertTrue(LocalDateTimeHelper.compare(date2, date1) > 0);
@@ -34,8 +34,8 @@ public class DateUtilityTest
     */
    @Test public void testMinMax()
    {
-      LocalDateTime date1 = LocalDateTime.of(2014, 1, 15, 0, 0, 0);
-      LocalDateTime date2 = LocalDateTime.of(2014, 1, 20, 0, 0, 0);
+      LocalDateTime date1 = LocalDateTime.of(2014, 1, 15, 0, 0);
+      LocalDateTime date2 = LocalDateTime.of(2014, 1, 20, 0, 0);
 
       assertNull(LocalDateTimeHelper.min(null, null));
       assertEquals(date1, LocalDateTimeHelper.min(null, date1));

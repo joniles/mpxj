@@ -128,7 +128,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/empty.mpp"));
       ProjectFile mpx = new MPPReader().read(in);
-      mpx.getProjectProperties().setCurrentDate(LocalDateTime.of(2006, 3, 1, 0, 0, 0));
+      mpx.getProjectProperties().setCurrentDate(LocalDateTime.of(2006, 3, 1, 0, 0));
       File out = Files.createTempFile("junit", ".mpx").toFile();
       MPXWriter writer = new MPXWriter();
       writer.setUseLocaleDefaults(false);
@@ -1234,7 +1234,7 @@ public class BasicTest
 
       ProjectProperties properties = file.getProjectProperties();
       properties.setComments("Project Header Comments: Some\rExample\nText\r\nWith\n\rBreaks");
-      properties.setStartDate(LocalDateTime.of(2003, 1, 1, 0, 0, 0));
+      properties.setStartDate(LocalDateTime.of(2003, 1, 1, 0, 0));
 
       Resource resource1 = file.addResource();
       resource1.setName("Resource1: Some\rExample\nText\r\nWith\n\rBreaks");

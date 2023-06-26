@@ -59,8 +59,8 @@ public class EffectiveRateTest
 
    private void testRates(ProjectFile file)
    {
-      LocalDateTime date1 = LocalDateTime.of(2022, 2, 1, 0, 0, 0);
-      LocalDateTime date2 = LocalDateTime.of(2023, 2, 1, 0, 0, 0);
+      LocalDateTime date1 = LocalDateTime.of(2022, 2, 1, 0, 0);
+      LocalDateTime date2 = LocalDateTime.of(2023, 2, 1, 0, 0);
 
       ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(Integer.valueOf(6639));
       assertEquals(RateSource.RESOURCE, assignment.getRateSource());

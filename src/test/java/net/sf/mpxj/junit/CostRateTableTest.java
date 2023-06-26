@@ -229,9 +229,9 @@ public class CostRateTableTest
       //
       // Validate date-based row selection
       //
-      CostRateTableEntry entry = table.getEntryByDate(LocalDateTime.of(2009, 6, 18, 7, 0, 0));
+      CostRateTableEntry entry = table.getEntryByDate(LocalDateTime.of(2009, 6, 18, 7, 0));
       assertRateEquals(125, TimeUnit.HOURS, 130, TimeUnit.HOURS, 135, "01/01/1984 00:00", "19/06/2009 07:59", entry);
-      entry = table.getEntryByDate(LocalDateTime.of(2009, 6, 19, 10, 0, 0));
+      entry = table.getEntryByDate(LocalDateTime.of(2009, 6, 19, 10, 0));
       assertRateEquals(140, TimeUnit.HOURS, 145, TimeUnit.HOURS, 150, "19/06/2009 08:00", "31/12/2049 23:59", entry);
    }
 

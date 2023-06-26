@@ -42,23 +42,23 @@ public class AvailabilityTableTest
     */
    @Test public void testGetEntryByDate()
    {
-      Availability availability1 = new Availability(LocalDateTime.of(2015, 2, 1, 8, 0, 0), LocalDateTime.of(2015, 2, 3, 17, 0, 0), null);
-      Availability availability2 = new Availability(LocalDateTime.of(2015, 3, 1, 8, 0, 0), LocalDateTime.of(2015, 3, 3, 17, 0, 0), null);
+      Availability availability1 = new Availability(LocalDateTime.of(2015, 2, 1, 8, 0), LocalDateTime.of(2015, 2, 3, 17, 0), null);
+      Availability availability2 = new Availability(LocalDateTime.of(2015, 3, 1, 8, 0), LocalDateTime.of(2015, 3, 3, 17, 0), null);
       AvailabilityTable table = new AvailabilityTable();
       table.add(availability1);
       table.add(availability2);
 
-      assertNull(table.getEntryByDate(LocalDateTime.of(2015, 1, 1, 9, 0, 0)));
-      assertNull(table.getEntryByDate(LocalDateTime.of(2015, 2, 1, 7, 0, 0)));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2015, 1, 1, 9, 0)));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2015, 2, 1, 7, 0)));
 
-      assertEquals(availability1, table.getEntryByDate(LocalDateTime.of(2015, 2, 1, 8, 0, 0)));
-      assertEquals(availability1, table.getEntryByDate(LocalDateTime.of(2015, 2, 2, 8, 0, 0)));
-      assertEquals(availability1, table.getEntryByDate(LocalDateTime.of(2015, 2, 3, 8, 0, 0)));
-      assertNull(table.getEntryByDate(LocalDateTime.of(2015, 2, 3, 18, 0, 0)));
+      assertEquals(availability1, table.getEntryByDate(LocalDateTime.of(2015, 2, 1, 8, 0)));
+      assertEquals(availability1, table.getEntryByDate(LocalDateTime.of(2015, 2, 2, 8, 0)));
+      assertEquals(availability1, table.getEntryByDate(LocalDateTime.of(2015, 2, 3, 8, 0)));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2015, 2, 3, 18, 0)));
 
-      assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015, 3, 1, 8, 0, 0)));
-      assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015, 3, 2, 8, 0, 0)));
-      assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015, 3, 3, 8, 0, 0)));
-      assertNull(table.getEntryByDate(LocalDateTime.of(2015, 3, 3, 18, 0, 0)));
+      assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015, 3, 1, 8, 0)));
+      assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015, 3, 2, 8, 0)));
+      assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015, 3, 3, 8, 0)));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2015, 3, 3, 18, 0)));
    }
 }

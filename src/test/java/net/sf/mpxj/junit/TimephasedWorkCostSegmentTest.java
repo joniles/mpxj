@@ -114,7 +114,7 @@ public class TimephasedWorkCostSegmentTest
       //
       // Set the start date
       //
-      LocalDateTime startDate = LocalDateTime.of(2011, 12, 7, 0, 0, 0);
+      LocalDateTime startDate = LocalDateTime.of(2011, 12, 7, 0, 0);
 
       //
       // Test each task

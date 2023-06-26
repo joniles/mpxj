@@ -985,7 +985,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          do
          {
             result += (Year.of(cal.getYear()).length() - cal.getDayOfYear()) + 1;
-            cal = LocalDateTime.of(cal.getYear() + 1, 1, 1, 0, 0, 0);
+            cal = LocalDateTime.of(cal.getYear() + 1, 1, 1, 0, 0);
          }
          while (cal.getYear() < endDateYear);
          result += endDateDayOfYear;
