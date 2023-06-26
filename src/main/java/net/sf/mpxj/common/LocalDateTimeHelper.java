@@ -7,6 +7,10 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.Date;
 
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.TimeUnit;
+
 public final class LocalDateTimeHelper
 {
 
@@ -149,5 +153,24 @@ public final class LocalDateTimeHelper
          return ((LocalDate) parsed).atStartOfDay();
       }
       return (LocalDateTime) parsed;
+   }
+
+   /**
+    * This utility method calculates the difference in working
+    * time between two dates, given the context of a calendar.
+    *
+    * @param calendar calendar
+    * @param date1 first date
+    * @param date2 second date
+    * @param format required format for the resulting duration
+    * @return difference in working time between the two dates
+    */
+   public static Duration getVariance(ProjectCalendar calendar, LocalDateTime date1, LocalDateTime date2, TimeUnit format)
+   {
+      if (date1 != null && date2 != null && calendar != null)
+      {
+         return calendar.getWork(date1, date2, format);
+      }
+      return Duration.getInstance(0, format);
    }
 }

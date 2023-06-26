@@ -40,9 +40,9 @@ import java.util.function.Function;
 
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -3023,13 +3023,13 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    private Duration calculateStartVariance()
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-      return DateHelper.getVariance(getTask(), getBaselineStart(), getStart(), format);
+      return LocalDateTimeHelper.getVariance(getTask().getEffectiveCalendar(), getBaselineStart(), getStart(), format);
    }
 
    private Duration calculateFinishVariance()
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-      return DateHelper.getVariance(getTask(), getBaselineFinish(), getFinish(), format);
+      return LocalDateTimeHelper.getVariance(getTask().getEffectiveCalendar(), getBaselineFinish(), getFinish(), format);
    }
 
    private LocalDateTime calculateStart()

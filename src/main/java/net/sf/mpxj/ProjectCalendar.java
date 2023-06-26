@@ -1461,7 +1461,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
       }
 
-      return (Duration.getInstance(duration, format));
+      return Duration.getInstance(duration, format);
    }
 
    /**

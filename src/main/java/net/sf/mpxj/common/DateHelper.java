@@ -30,11 +30,6 @@ import java.util.Date;
 import java.util.Deque;
 import java.util.TimeZone;
 
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeUnit;
-
 /**
  * Utility methods for manipulating dates.
  */
@@ -46,37 +41,6 @@ public final class DateHelper
    private DateHelper()
    {
       // private constructor to prevent instantiation
-   }
-
-   /**
-    * This utility method calculates the difference in working
-    * time between two dates, given the context of a task.
-    *
-    * @param task parent task
-    * @param date1 first date
-    * @param date2 second date
-    * @param format required format for the resulting duration
-    * @return difference in working time between the two dates
-    */
-   public static Duration getVariance(Task task, LocalDateTime date1, LocalDateTime date2, TimeUnit format)
-   {
-      Duration variance = null;
-
-      if (date1 != null && date2 != null)
-      {
-         ProjectCalendar calendar = task.getEffectiveCalendar();
-         if (calendar != null)
-         {
-            variance = calendar.getWork(date1, date2, format);
-         }
-      }
-
-      if (variance == null)
-      {
-         variance = Duration.getInstance(0, format);
-      }
-
-      return (variance);
    }
 
    /**

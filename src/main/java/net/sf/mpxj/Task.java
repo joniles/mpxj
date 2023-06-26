@@ -39,7 +39,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.TaskFieldLists;
 
@@ -5683,13 +5683,13 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private Duration calculateStartVariance()
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-      return DateHelper.getVariance(this, getBaselineStart(), getStart(), format);
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getBaselineStart(), getStart(), format);
    }
 
    private Duration calculateFinishVariance()
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-      return DateHelper.getVariance(this, getBaselineFinish(), getFinish(), format);
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getBaselineFinish(), getFinish(), format);
    }
 
    private Duration calculateStartSlack()
@@ -5703,7 +5703,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return null;
       }
 
-      return DateHelper.getVariance(this, earlyStart, lateStart, duration.getUnits());
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), earlyStart, lateStart, duration.getUnits());
    }
 
    private Duration calculateFinishSlack()
@@ -5717,7 +5717,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return null;
       }
 
-      return DateHelper.getVariance(this, earlyFinish, lateFinish, duration.getUnits());
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), earlyFinish, lateFinish, duration.getUnits());
    }
 
    private Double calculateCostVariance()
