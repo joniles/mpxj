@@ -738,6 +738,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * This method finds the start of the next working period.
     *
     * @param cal current Calendar instance
+    * @return next work start 
     */
    private LocalDateTime updateToNextWorkStart(LocalDateTime cal)
    {
@@ -808,6 +809,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * This method finds the finish of the previous working period.
     *
     * @param cal current Calendar instance
+    * @return previous work finish
     */
    private LocalDateTime updateToPreviousWorkFinish(LocalDateTime cal)
    {

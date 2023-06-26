@@ -701,6 +701,7 @@ public class RecurringData
     *
     * @param date current date
     * @param dayNumber nth day
+    * @return ordinal relative day
     */
    private LocalDate getOrdinalRelativeDay(LocalDate date, int dayNumber)
    {
@@ -736,6 +737,7 @@ public class RecurringData
     * Moves a calendar to the last named day of the month.
     *
     * @param date current date
+    * @return last relative day
     */
    private LocalDate getLastRelativeDay(LocalDate date)
    {
@@ -775,8 +777,8 @@ public class RecurringData
    {
       if (date != null)
       {
-         m_dayNumber = date.getDayOfMonth();
-         m_monthNumber = date.getMonthValue();
+         m_dayNumber = Integer.valueOf(date.getDayOfMonth());
+         m_monthNumber = Integer.valueOf(date.getMonthValue());
          clearDatesCache();
       }
    }

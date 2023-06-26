@@ -28,7 +28,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -111,7 +110,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
          return project;
       }
 
-      catch (SQLException | ParseException ex)
+      catch (SQLException  ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
@@ -134,7 +133,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
    /**
     * Process calendars.
     */
-   private void processCalendars() throws SQLException, ParseException
+   private void processCalendars() throws SQLException
    {
       List<Row> rows = getRows("select id as exceptionnid, * from exceptionn");
       Map<Integer, DayType> exceptionTypeMap = m_reader.createExceptionTypeMap(rows);

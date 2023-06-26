@@ -24,8 +24,6 @@
 package net.sf.mpxj.planner;
 
 import java.io.InputStream;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -827,8 +825,6 @@ public final class PlannerReader extends AbstractProjectStreamReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private ProjectCalendar m_defaultCalendar;
-   private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
-   private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
    private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HHmm");
    private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
    private final DateTimeFormatter m_dateTimeFormat = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");

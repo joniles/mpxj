@@ -31,11 +31,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -1143,23 +1141,6 @@ public final class MPXWriter extends AbstractProjectWriter
       return m_formats.printTime(value);
    }
 
-   private Date getDateFromLocalTime(LocalTime date)
-   {
-      if (date == null)
-      {
-         return null;
-      }
-
-      m_calendar.set(Calendar.DAY_OF_YEAR, 1);
-      m_calendar.set(Calendar.YEAR, 1);
-      m_calendar.set(Calendar.HOUR_OF_DAY, date.getHour());
-      m_calendar.set(Calendar.MINUTE, date.getMinute());
-      m_calendar.set(Calendar.SECOND, date.getSecond());
-      m_calendar.set(Calendar.MILLISECOND, 0);
-
-      return m_calendar.getTime();
-   }
-
    /**
     * This method is called to format a currency value.
     *
@@ -1611,42 +1592,6 @@ public final class MPXWriter extends AbstractProjectWriter
       return (LocaleUtility.getSupportedLocales());
    }
 
-   private Date getDate(LocalDate date)
-   {
-      if (date == null)
-      {
-         return null;
-      }
-
-      m_calendar.set(Calendar.YEAR, date.getYear());
-      m_calendar.set(Calendar.MONTH, date.getMonthValue()-1);
-      m_calendar.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
-      m_calendar.set(Calendar.HOUR_OF_DAY, 0);
-      m_calendar.set(Calendar.MINUTE, 0);
-      m_calendar.set(Calendar.SECOND, 0);
-      m_calendar.set(Calendar.MILLISECOND, 0);
-
-      return m_calendar.getTime();
-   }
-
-   private Date getDate(LocalDateTime date)
-   {
-      if (date == null)
-      {
-         return null;
-      }
-
-      m_calendar.set(Calendar.YEAR, date.getYear());
-      m_calendar.set(Calendar.MONTH, date.getMonthValue()-1);
-      m_calendar.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
-      m_calendar.set(Calendar.HOUR_OF_DAY, date.getHour());
-      m_calendar.set(Calendar.MINUTE, date.getMinute());
-      m_calendar.set(Calendar.SECOND, date.getSecond());
-      m_calendar.set(Calendar.MILLISECOND, 0);
-
-      return m_calendar.getTime();
-   }
-
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private OutputStreamWriter m_writer;
@@ -1662,7 +1607,6 @@ public final class MPXWriter extends AbstractProjectWriter
    private Map<Integer, String> m_calendarNameMap;
    private UserDefinedFieldMap m_userDefinedFieldMap;
    private Map<Integer, List<Resource>> m_resourceCalendarMap;
-   private final Calendar m_calendar = Calendar.getInstance();
 
    private static final List<FieldType> MAPPING_TARGET_CUSTOM_FIELDS = new ArrayList<>();
    static

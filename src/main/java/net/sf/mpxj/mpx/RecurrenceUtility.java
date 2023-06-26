@@ -261,7 +261,7 @@ final class RecurrenceUtility
       }
       else
       {
-         result = LocalDate.of(startDate.getYear(), yearlyAbsoluteMonth, yearlyAbsoluteDay);
+         result = LocalDate.of(startDate.getYear(), yearlyAbsoluteMonth.intValue(), yearlyAbsoluteDay.intValue());
       }
       return result;
    }

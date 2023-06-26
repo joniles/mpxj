@@ -302,7 +302,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       }
       else
       {
-         LocalDate exceptionDate = LocalDate.of(Integer.parseInt(year), date.getMonth(), date.getDate());
+         LocalDate exceptionDate = LocalDate.of(Integer.parseInt(year), date.getMonth().intValue(), date.getDate().intValue());
          ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate);
 
          // TODO: not sure how NEUTRAL should be handled
