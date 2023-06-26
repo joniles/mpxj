@@ -54,7 +54,7 @@ import net.sf.mpxj.Location;
 import net.sf.mpxj.LocationContainer;
 import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.Step;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.InputStreamHelper;
@@ -879,7 +879,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             {
                if (work != null)
                {
-                  calendarHours.add(new TimeRange(work.getStart(), getEndTime(work.getFinish())));
+                  calendarHours.add(new LocalTimeRange(work.getStart(), getEndTime(work.getFinish())));
                }
             }
          }
@@ -899,7 +899,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             {
                if (work != null && work.getStart() != null && work.getFinish() != null)
                {
-                  pce.add(new TimeRange(work.getStart(), getEndTime(work.getFinish())));
+                  pce.add(new LocalTimeRange(work.getStart(), getEndTime(work.getFinish())));
                }
             }
          }
@@ -942,7 +942,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             if (hours.size() > 0)
             {
                ++workingDays;
-               for (TimeRange range : hours)
+               for (LocalTimeRange range : hours)
                {
                   minutesPerWeek += (range.getDurationAsMilliseconds() / (1000 * 60));
                }

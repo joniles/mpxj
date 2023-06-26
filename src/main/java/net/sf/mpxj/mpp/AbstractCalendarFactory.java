@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.DayOfWeekHelper;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -228,7 +228,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       int periodCount;
       long duration;
       DayOfWeek day;
-      List<TimeRange> dateRanges = new ArrayList<>(5);
+      List<LocalTimeRange> dateRanges = new ArrayList<>(5);
 
       for (index = 0; index < 7; index++)
       {
@@ -278,7 +278,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                int durationOffset = offset + 20 + (periodIndex * 4);
                duration = MPPUtility.getDuration(data, durationOffset);
                LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
-               dateRanges.add(new TimeRange(start, end));
+               dateRanges.add(new LocalTimeRange(start, end));
                ++periodIndex;
             }
 

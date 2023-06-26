@@ -51,7 +51,7 @@ import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.LocalDateRange;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;
 import net.sf.mpxj.TimephasedWorkContainer;
@@ -547,7 +547,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
             if (startTime != null && endTime != null)
             {
-               hours.add(new TimeRange(startTime, endTime));
+               hours.add(new LocalTimeRange(startTime, endTime));
             }
          }
       }
@@ -577,7 +577,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
             if (startTime != null && endTime != null)
             {
-               exception.add(new TimeRange(startTime, endTime));
+               exception.add(new LocalTimeRange(startTime, endTime));
             }
          }
       }
@@ -649,7 +649,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
             if (startTime != null && endTime != null)
             {
-               bce.add(new TimeRange(startTime, endTime));
+               bce.add(new LocalTimeRange(startTime, endTime));
             }
          }
       }
@@ -854,7 +854,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
             if (startTime != null && endTime != null)
             {
-               hours.add(new TimeRange(startTime, endTime));
+               hours.add(new LocalTimeRange(startTime, endTime));
             }
          }
       }

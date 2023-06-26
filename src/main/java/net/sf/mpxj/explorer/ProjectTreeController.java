@@ -56,7 +56,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.json.JsonWriter;
@@ -383,14 +383,14 @@ public class ProjectTreeController
          return;
       }
 
-      for (TimeRange range : hours)
+      for (LocalTimeRange range : hours)
       {
-         final TimeRange r = range;
+         final LocalTimeRange r = range;
          MpxjTreeNode rangeNode = new MpxjTreeNode(range)
          {
             @Override public String toString()
             {
-               return m_timeFormat.format(r.getStartAsLocalTime()) + " - " + m_timeFormat.format(r.getEndAsLocalTime());
+               return m_timeFormat.format(r.getStart()) + " - " + m_timeFormat.format(r.getEnd());
             }
          };
          parentNode.add(rangeNode);

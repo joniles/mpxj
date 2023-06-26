@@ -52,7 +52,7 @@ import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import java.time.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
@@ -67,7 +67,7 @@ import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.TaskMode;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnitDefaultsContainer;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectField;
@@ -497,11 +497,11 @@ public final class JsonWriter extends AbstractProjectWriter
       if (hours != null && hours.size() != 0)
       {
          m_writer.writeStartList("hours");
-         for (TimeRange range : hours)
+         for (LocalTimeRange range : hours)
          {
             m_writer.writeStartObject(null);
-            writeTimeField("from", range.getStartAsLocalTime());
-            writeTimeField("to", range.getEndAsLocalTime());
+            writeTimeField("from", range.getStart());
+            writeTimeField("to", range.getEnd());
             m_writer.writeEndObject();
          }
          m_writer.writeEndList();
@@ -1209,9 +1209,9 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeDateRangeList(String fieldName, Object value) throws IOException
    {
       @SuppressWarnings("unchecked")
-      List<DateRange> list = (List<DateRange>) value;
+      List<LocalDateTimeRange> list = (List<LocalDateTimeRange>) value;
       m_writer.writeStartList(fieldName);
-      for (DateRange entry : list)
+      for (LocalDateTimeRange entry : list)
       {
          m_writer.writeStartObject(null);
          writeTimestampField("start", entry.getStart());

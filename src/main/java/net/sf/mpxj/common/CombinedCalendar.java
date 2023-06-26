@@ -30,7 +30,7 @@ import java.util.Calendar;
 import java.time.DayOfWeek;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 
 /**
  * A calendar which represents the intersection of working time between
@@ -57,14 +57,14 @@ public class CombinedCalendar extends ProjectCalendar
       ProjectCalendarHours hours1 = date == null ? m_calendar1.getHours(day) : m_calendar1.getHours(date);
       ProjectCalendarHours hours2 = date == null ? m_calendar2.getHours(day) : m_calendar2.getHours(date);
 
-      for (TimeRange range1 : hours1)
+      for (LocalTimeRange range1 : hours1)
       {
-         LocalTime range1Start = range1.getStartAsLocalTime();
-         LocalTime range1End = range1.getEndAsLocalTime();
+         LocalTime range1Start = range1.getStart();
+         LocalTime range1End = range1.getEnd();
 
-         for (TimeRange range2 : hours2)
+         for (LocalTimeRange range2 : hours2)
          {
-            LocalTime range2Start = range2.getStartAsLocalTime();
+            LocalTime range2Start = range2.getStart();
 
             if (range1End != LocalTime.MIDNIGHT && !range1End.isAfter(range2Start))
             {
@@ -72,7 +72,7 @@ public class CombinedCalendar extends ProjectCalendar
                break;
             }
 
-            LocalTime range2End = range2.getEndAsLocalTime();
+            LocalTime range2End = range2.getEnd();
             if (range2End != LocalTime.MIDNIGHT && !range1Start.isBefore(range2End))
             {
                // range1 starts after range2 so there is no overlap, get the next range2
@@ -96,7 +96,7 @@ public class CombinedCalendar extends ProjectCalendar
                   end = range1End.isBefore(range2End) ? range1End : range2End;
                }
             }
-            result.add(new TimeRange(start, end));
+            result.add(new LocalTimeRange(start, end));
          }
       }
 

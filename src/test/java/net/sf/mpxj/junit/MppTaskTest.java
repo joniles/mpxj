@@ -31,7 +31,7 @@ import java.util.List;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
@@ -861,8 +861,8 @@ public class MppTaskTest
       Task task1 = mpp.getTaskByID(Integer.valueOf(1));
       Task task2 = mpp.getTaskByID(Integer.valueOf(2));
 
-      List<DateRange> listSplits1 = task1.getSplits();
-      List<DateRange> listSplits2 = task2.getSplits();
+      List<LocalDateTimeRange> listSplits1 = task1.getSplits();
+      List<LocalDateTimeRange> listSplits2 = task2.getSplits();
 
       assertEquals(3, listSplits1.size());
       assertEquals(5, listSplits2.size());
@@ -885,7 +885,7 @@ public class MppTaskTest
     * @param start expected start date
     * @param end expected end date
     */
-   private void testSplit(DateRange range, String start, String end)
+   private void testSplit(LocalDateTimeRange range, String start, String end)
    {
       assertEquals(start, m_df.format(range.getStart()));
       assertEquals(end, m_df.format(range.getEnd()));

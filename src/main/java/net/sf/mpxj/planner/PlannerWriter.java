@@ -61,7 +61,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.MarshallerHelper;
@@ -313,10 +313,10 @@ public final class PlannerWriter extends AbstractProjectWriter
             typeList.add(odt);
             odt.setId(getIntegerString(uniqueID.next()));
             List<Interval> intervalList = odt.getInterval();
-            for (TimeRange mpxjRange : mpxjHours)
+            for (LocalTimeRange mpxjRange : mpxjHours)
             {
-               LocalTime rangeStart = mpxjRange.getStartAsLocalTime();
-               LocalTime rangeEnd = mpxjRange.getEndAsLocalTime();
+               LocalTime rangeStart = mpxjRange.getStart();
+               LocalTime rangeEnd = mpxjRange.getEnd();
 
                if (rangeStart != null && rangeEnd != null)
                {

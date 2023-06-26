@@ -68,7 +68,7 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.InputStreamTokenizer;
 import net.sf.mpxj.common.LocalDateHelper;
@@ -639,7 +639,7 @@ public final class MPXReader extends AbstractProjectStreamReader
    {
       if (start != null && end != null)
       {
-         hours.add(new TimeRange(start, end));
+         hours.add(new LocalTimeRange(start, end));
       }
    }
 
@@ -682,7 +682,7 @@ public final class MPXReader extends AbstractProjectStreamReader
    {
       if (start != null && finish != null)
       {
-         exception.add(new TimeRange(start, finish));
+         exception.add(new LocalTimeRange(start, finish));
       }
    }
 

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -1098,7 +1098,7 @@ public class TimephasedWorkSegmentTest
     */
    private void testSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected, boolean complete)
    {
-      ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       ProjectCalendar calendar = assignment.getCalendar();
       List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());

@@ -53,7 +53,7 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
@@ -190,7 +190,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          calendar.setWorkingDay(DayOfWeek.FRIDAY, (workingDays & 0x01) != 0);
          offset += 28;
 
-         Map<DayOfWeek, List<TimeRange>> ranges = new HashMap<>();
+         Map<DayOfWeek, List<LocalTimeRange>> ranges = new HashMap<>();
          ranges.put(DayOfWeek.SATURDAY, readCalendarHours(data, offset));
          ranges.put(DayOfWeek.SUNDAY, readCalendarHours(data, offset + 16));
          ranges.put(DayOfWeek.MONDAY, readCalendarHours(data, offset + 32));
@@ -223,9 +223,9 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     * @param offset offset into calendar data
     * @return list of DateRange instances representing working hours
     */
-   private List<TimeRange> readCalendarHours(byte[] data, int offset)
+   private List<LocalTimeRange> readCalendarHours(byte[] data, int offset)
    {
-      List<TimeRange> ranges = new ArrayList<>();
+      List<LocalTimeRange> ranges = new ArrayList<>();
       addRange(ranges, DatatypeConverter.getInt(data, offset), DatatypeConverter.getInt(data, offset + 4));
       addRange(ranges, DatatypeConverter.getInt(data, offset + 8), DatatypeConverter.getInt(data, offset + 12));
       return ranges;
@@ -238,13 +238,13 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     * @param startMinutes start time in minutes
     * @param endMinutes end time in minutes
     */
-   private void addRange(List<TimeRange> ranges, int startMinutes, int endMinutes)
+   private void addRange(List<LocalTimeRange> ranges, int startMinutes, int endMinutes)
    {
       if (startMinutes != endMinutes)
       {
          LocalTime start = LocalTime.ofSecondOfDay(startMinutes * 60L);
          LocalTime end = LocalTime.ofSecondOfDay(endMinutes * 60L);
-         ranges.add(new TimeRange(start, end));
+         ranges.add(new LocalTimeRange(start, end));
       }
    }
 
@@ -255,7 +255,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     * @param ranges default day of week working times
     * @param data byte array
     */
-   private void readCalendarException(ProjectCalendar calendar, Map<DayOfWeek, List<TimeRange>> ranges, byte[] data)
+   private void readCalendarException(ProjectCalendar calendar, Map<DayOfWeek, List<LocalTimeRange>> ranges, byte[] data)
    {
       long timestampInDays = DatatypeConverter.getShort(data, 2, 0);
 

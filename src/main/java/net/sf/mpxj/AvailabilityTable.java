@@ -44,7 +44,7 @@ public final class AvailabilityTable extends ArrayList<Availability>
 
       for (Availability entry : this)
       {
-         DateRange range = entry.getRange();
+         LocalDateTimeRange range = entry.getRange();
          int comparisonResult = range.compareTo(date);
          if (comparisonResult >= 0)
          {

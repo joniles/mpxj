@@ -30,7 +30,7 @@ import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.mpp.MPPReader;
@@ -168,7 +168,7 @@ public class AvailabilityTest
     */
    private void assertAvailabilityEquals(String startDate, String endDate, double units, Availability entry)
    {
-      DateRange range = entry.getRange();
+      LocalDateTimeRange range = entry.getRange();
       assertEquals(startDate, m_df.format(range.getStart()));
       assertEquals(endDate, m_df.format(range.getEnd()));
       assertEquals(units, entry.getUnits().doubleValue(), 0);

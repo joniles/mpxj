@@ -141,14 +141,14 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
    {
       ProjectCalendarHours hours = calendar.getHours(LocalDateHelper.getLocalDate(timephasedWork.getStart()));
 
-      LocalTime calendarStart = hours.get(0).getStartAsLocalTime();
+      LocalTime calendarStart = hours.get(0).getStart();
       LocalTime timephasedStart = LocalTimeHelper.getLocalTime(timephasedWork.getStart());
       if (LocalDateTimeHelper.compare(assignment.getStart(), timephasedWork.getStart()) != 0 && LocalTimeHelper.compare(calendarStart, timephasedStart) != 0)
       {
          return false;
       }
 
-      LocalTime calendarEnd = hours.get(hours.size() - 1).getEndAsLocalTime();
+      LocalTime calendarEnd = hours.get(hours.size() - 1).getEnd();
       LocalTime timephasedEnd = LocalTimeHelper.getLocalTime(timephasedWork.getFinish());
       return LocalDateTimeHelper.compare(assignment.getFinish(), timephasedWork.getFinish()) == 0 || LocalTimeHelper.compare(calendarEnd, timephasedEnd) == 0;
    }

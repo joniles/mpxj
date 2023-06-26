@@ -68,7 +68,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceAssignmentWorkgroupFields;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.NumberHelper;
@@ -429,39 +429,39 @@ public final class MPXWriter extends AbstractProjectWriter
          recordNumber = MPXConstants.RESOURCE_CALENDAR_HOURS_RECORD_NUMBER;
       }
 
-      TimeRange range1 = record.get(0);
+      LocalTimeRange range1 = record.get(0);
       if (range1 == null)
       {
-         range1 = TimeRange.EMPTY_RANGE;
+         range1 = LocalTimeRange.EMPTY_RANGE;
       }
 
-      TimeRange range2 = record.get(1);
+      LocalTimeRange range2 = record.get(1);
       if (range2 == null)
       {
-         range2 = TimeRange.EMPTY_RANGE;
+         range2 = LocalTimeRange.EMPTY_RANGE;
       }
 
-      TimeRange range3 = record.get(2);
+      LocalTimeRange range3 = record.get(2);
       if (range3 == null)
       {
-         range3 = TimeRange.EMPTY_RANGE;
+         range3 = LocalTimeRange.EMPTY_RANGE;
       }
 
       m_buffer.append(recordNumber);
       m_buffer.append(m_delimiter);
       m_buffer.append(format(day));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(range1.getStartAsLocalTime())));
+      m_buffer.append(format(formatTime(range1.getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(range1.getEndAsLocalTime())));
+      m_buffer.append(format(formatTime(range1.getEnd())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(range2.getStartAsLocalTime())));
+      m_buffer.append(format(formatTime(range2.getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(range2.getEndAsLocalTime())));
+      m_buffer.append(format(formatTime(range2.getEnd())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(range3.getStartAsLocalTime())));
+      m_buffer.append(format(formatTime(range3.getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(range3.getEndAsLocalTime())));
+      m_buffer.append(format(formatTime(range3.getEnd())));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append(MPXConstants.EOL);
 
@@ -493,17 +493,17 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(record.getWorking() ? "1" : "0");
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.get(0).getStartAsLocalTime())));
+      m_buffer.append(format(formatTime(record.get(0).getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.get(0).getEndAsLocalTime())));
+      m_buffer.append(format(formatTime(record.get(0).getEnd())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.get(1).getStartAsLocalTime())));
+      m_buffer.append(format(formatTime(record.get(1).getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.get(1).getEndAsLocalTime())));
+      m_buffer.append(format(formatTime(record.get(1).getEnd())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.get(2).getStartAsLocalTime())));
+      m_buffer.append(format(formatTime(record.get(2).getStart())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(format(formatTime(record.get(2).getEndAsLocalTime())));
+      m_buffer.append(format(formatTime(record.get(2).getEnd())));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append(MPXConstants.EOL);
 

@@ -3706,9 +3706,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return list of split times
     */
-   @SuppressWarnings("unchecked") public List<DateRange> getSplits()
+   @SuppressWarnings("unchecked") public List<LocalDateTimeRange> getSplits()
    {
-      return (List<DateRange>) get(TaskField.SPLITS);
+      return (List<LocalDateTimeRange>) get(TaskField.SPLITS);
    }
 
    /**
@@ -3716,7 +3716,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param splits list of split times
     */
-   public void setSplits(List<DateRange> splits)
+   public void setSplits(List<LocalDateTimeRange> splits)
    {
       set(TaskField.SPLITS, splits);
    }

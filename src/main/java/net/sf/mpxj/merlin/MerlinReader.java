@@ -48,7 +48,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
 import net.sf.mpxj.DayOfWeekHelper;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.ResultSetHelper;
 import org.w3c.dom.Document;
@@ -270,7 +270,7 @@ public final class MerlinReader extends AbstractProjectFileReader
                NamedNodeMap attributes = nodes.item(loop).getAttributes();
                LocalTime startTime = LocalTime.parse(attributes.getNamedItem("startTime").getTextContent(), m_calendarTimeFormat);
                LocalTime endTime = LocalTime.parse(attributes.getNamedItem("endTime").getTextContent(), m_calendarTimeFormat);
-               hours.add(new TimeRange(startTime, endTime));
+               hours.add(new LocalTimeRange(startTime, endTime));
             }
          }
       }
@@ -299,7 +299,7 @@ public final class MerlinReader extends AbstractProjectFileReader
                NamedNodeMap attributes = nodes.item(loop).getAttributes();
                LocalTime startTime = LocalTime.parse(attributes.getNamedItem("startTime").getTextContent(), m_calendarTimeFormat);
                LocalTime endTime = LocalTime.parse(attributes.getNamedItem("endTime").getTextContent(), m_calendarTimeFormat);
-               exception.add(new TimeRange(startTime, endTime));
+               exception.add(new LocalTimeRange(startTime, endTime));
             }
          }
       }

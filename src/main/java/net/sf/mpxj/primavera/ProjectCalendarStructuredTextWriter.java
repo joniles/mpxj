@@ -36,7 +36,7 @@ import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 
 /**
  * Encapsulates the functionality required to write a ProjectCalendar
@@ -142,14 +142,14 @@ class ProjectCalendarStructuredTextWriter
    private void writeHours(StructuredTextRecord parentRecord, ProjectCalendarHours hours)
    {
       int hoursIndex = 0;
-      for (TimeRange range : hours)
+      for (LocalTimeRange range : hours)
       {
          StructuredTextRecord hoursRecord = new StructuredTextRecord();
          parentRecord.addChild(hoursRecord);
          hoursRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
          hoursRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, Integer.toString(hoursIndex++));
-         hoursRecord.addAttribute("f", m_timeFormat.format(range.getEndAsLocalTime()));
-         hoursRecord.addAttribute("s", m_timeFormat.format(range.getStartAsLocalTime()));
+         hoursRecord.addAttribute("f", m_timeFormat.format(range.getEnd()));
+         hoursRecord.addAttribute("s", m_timeFormat.format(range.getStart()));
       }
    }
 

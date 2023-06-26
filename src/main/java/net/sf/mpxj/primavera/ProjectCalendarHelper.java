@@ -29,7 +29,7 @@ import net.sf.mpxj.CalendarType;
 import java.time.DayOfWeek;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 
 /**
  * Common methods to support working with P6 calendars.
@@ -78,7 +78,7 @@ final class ProjectCalendarHelper
       if (!hasWorkingTime)
       {
          // if there is not DaysOfWeek data, Primavera seems to default to Mon-Fri, 8:00-16:00
-         TimeRange defaultHourRange = getDefaultCalendarHours();
+         LocalTimeRange defaultHourRange = getDefaultCalendarHours();
          for (DayOfWeek day : DayOfWeek.values())
          {
             ProjectCalendarHours hours = calendar.addCalendarHours(day);
@@ -100,8 +100,8 @@ final class ProjectCalendarHelper
     *
     * @return default calendar hours
     */
-   public static TimeRange getDefaultCalendarHours()
+   public static LocalTimeRange getDefaultCalendarHours()
    {
-      return new TimeRange(LocalTime.of(8, 0), LocalTime.of(16, 0));
+      return new LocalTimeRange(LocalTime.of(8, 0), LocalTime.of(16, 0));
    }
 }

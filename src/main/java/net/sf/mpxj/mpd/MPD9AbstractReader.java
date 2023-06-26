@@ -64,7 +64,7 @@ import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkGroup;
 import net.sf.mpxj.common.FieldTypeHelper;
@@ -721,7 +721,7 @@ abstract class MPD9AbstractReader
       LocalDateTime end = row.getDate(endField);
       if (start != null && end != null)
       {
-         hours.add(new TimeRange(LocalTimeHelper.getLocalTime(start), LocalTimeHelper.getLocalTime(end)));
+         hours.add(new LocalTimeRange(LocalTimeHelper.getLocalTime(start), LocalTimeHelper.getLocalTime(end)));
       }
    }
 

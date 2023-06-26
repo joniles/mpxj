@@ -56,7 +56,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
 import net.sf.mpxj.common.LocalDateHelper;
@@ -367,7 +367,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          }
 
          calendar.setWorkingDay(day, true);
-         calendarHours.add(new TimeRange(LocalTime.of(startHour, 0), LocalTime.of(endHour == 24 ? 0 : endHour, 0)));
+         calendarHours.add(new LocalTimeRange(LocalTime.of(startHour, 0), LocalTime.of(endHour == 24 ? 0 : endHour, 0)));
          startHour = endHour;
       }
    }

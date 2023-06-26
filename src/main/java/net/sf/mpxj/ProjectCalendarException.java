@@ -246,7 +246,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
          sb.append(" recurring=").append(m_recurring);
       }
 
-      for (TimeRange range : this)
+      for (LocalTimeRange range : this)
       {
          sb.append(range.toString());
       }

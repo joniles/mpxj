@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceAssignment;
@@ -731,7 +731,7 @@ public class TimephasedWorkCostSegmentTest
     */
    private void testBaselineWorkSegments(ProjectFile file, ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected)
    {
-      ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       List<TimephasedWork> assignments = assignment.getTimephasedBaselineWork(0);
       ArrayList<Duration> durationList = m_timephased.segmentBaselineWork(file, assignments, units, dateList);
@@ -754,7 +754,7 @@ public class TimephasedWorkCostSegmentTest
     */
    private void testBaselineCostSegments(ProjectFile file, ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected)
    {
-      ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       List<TimephasedCost> assignments = assignment.getTimephasedBaselineCost(0);
       ArrayList<Double> costList = m_timephased.segmentBaselineCost(file, assignments, units, dateList);
@@ -803,7 +803,7 @@ public class TimephasedWorkCostSegmentTest
     */
    private void testCostSegments(ResourceAssignment assignment, List<TimephasedCost> assignments, LocalDateTime startDate, TimescaleUnits units, double[] expected)
    {
-      ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       ArrayList<Double> costList = m_timephased.segmentCost(assignment.getCalendar(), assignments, units, dateList);
       //dumpExpectedData(assignment, costList);

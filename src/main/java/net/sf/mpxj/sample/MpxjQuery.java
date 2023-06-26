@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ChildResourceContainer;
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectCalendar;
@@ -326,11 +326,11 @@ public class MpxjQuery
          DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy");
 
          TimescaleUtility timescale = new TimescaleUtility();
-         ArrayList<DateRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
+         ArrayList<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
          TimephasedUtility timephased = new TimephasedUtility();
 
          ArrayList<Duration> durations = timephased.segmentWork(assignment.getCalendar(), assignment.getTimephasedWork(), TimescaleUnits.DAYS, dates);
-         for (DateRange range : dates)
+         for (LocalDateTimeRange range : dates)
          {
             System.out.print(df.format(range.getStart()) + "\t");
          }

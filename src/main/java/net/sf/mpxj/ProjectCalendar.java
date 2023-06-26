@@ -539,7 +539,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          return null;
       }
 
-      result = ranges.get(0).getStartAsLocalTime();
+      result = ranges.get(0).getStart();
       m_startTimeCache.put(date, result);
 
       return result;
@@ -565,7 +565,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          return null;
       }
 
-      return ranges.get(ranges.size() - 1).getEndAsLocalTime();
+      return ranges.get(ranges.size() - 1).getEnd();
    }
 
    /**
@@ -666,13 +666,13 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             LocalTime endTime = null;
             LocalTime currentDateStartTime = LocalTimeHelper.getLocalTime(currentDate);
             boolean firstRange = true;
-            for (TimeRange range : ranges)
+            for (LocalTimeRange range : ranges)
             {
                //
                // Skip this range if its end is before our start time
                //
-               LocalTime rangeStart = range.getStartAsLocalTime();
-               LocalTime rangeEnd = range.getEndAsLocalTime();
+               LocalTime rangeStart = range.getStart();
+               LocalTime rangeEnd = range.getEnd();
 
                if (rangeStart == null || rangeEnd == null)
                {
@@ -756,10 +756,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          LocalTime calTime = cal.toLocalTime();
          LocalTime startTime = null;
-         for (TimeRange range : ranges)
+         for (LocalTimeRange range : ranges)
          {
-            LocalTime rangeStart = range.getStartAsLocalTime();
-            LocalTime rangeEnd = range.getEndAsLocalTime();
+            LocalTime rangeStart = range.getStart();
+            LocalTime rangeEnd = range.getEnd();
 
             if (rangeEnd == LocalTime.MIDNIGHT || calTime.isBefore(rangeEnd))
             {
@@ -826,11 +826,11 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          LocalTime calTime = LocalTimeHelper.getLocalTime(cal);
          LocalTime finishTime = null;
-         for (TimeRange range : ranges)
+         for (LocalTimeRange range : ranges)
          {
-            if ((range.getEndAsLocalTime() == LocalTime.MIDNIGHT && calTime == LocalTime.MIDNIGHT) || !calTime.isBefore(range.getEndAsLocalTime()))
+            if ((range.getEnd() == LocalTime.MIDNIGHT && calTime == LocalTime.MIDNIGHT) || !calTime.isBefore(range.getEnd()))
             {
-               finishTime = range.getEndAsLocalTime();
+               finishTime = range.getEnd();
                break;
             }
          }
@@ -1242,7 +1242,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public Duration getWork(LocalDateTime startDate, LocalDateTime endDate, TimeUnit format)
    {
-      DateRange range = new DateRange(startDate, endDate);
+      LocalDateTimeRange range = new LocalDateTimeRange(startDate, endDate);
       Long cachedResult = m_workingDateCache.get(range);
       long totalTime = 0;
 
@@ -1477,11 +1477,11 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private long getTotalTime(ProjectCalendarHours hours, LocalTime targetTime)
    {
       long total = 0;
-      for (TimeRange range : hours)
+      for (LocalTimeRange range : hours)
       {
-         if (range.getEndAsLocalTime() == LocalTime.MIDNIGHT || !targetTime.isAfter(range.getEndAsLocalTime()))
+         if (range.getEnd() == LocalTime.MIDNIGHT || !targetTime.isAfter(range.getEnd()))
          {
-            total += getTime(range.getStartAsLocalTime(), range.getEndAsLocalTime(), targetTime, range.getEndAsLocalTime());
+            total += getTime(range.getStart(), range.getEnd(), targetTime, range.getEnd());
          }
       }
       return total;
@@ -1517,9 +1517,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
       long total = 0;
 
-      for (TimeRange range : hours)
+      for (LocalTimeRange range : hours)
       {
-         total += getTime(start, end, range.getStartAsLocalTime(), range.getEndAsLocalTime());
+         total += getTime(start, end, range.getStart(), range.getEnd());
       }
 
       return total;
@@ -1864,7 +1864,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    /**
     * Caches used to speed up date calculations.
     */
-   private final Map<DateRange, Long> m_workingDateCache = new WeakHashMap<>();
+   private final Map<LocalDateTimeRange, Long> m_workingDateCache = new WeakHashMap<>();
    private final Map<LocalDate, LocalTime> m_startTimeCache = new WeakHashMap<>();
    private LocalDateTime m_getDateLastStartDate;
    private long m_getDateLastRemainingMilliseconds;

@@ -76,7 +76,7 @@ import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.WorkContour;
@@ -646,13 +646,13 @@ final class PrimaveraPMProjectWriter
          xmlHours.setDayOfWeek(getDayName(day));
 
          // Working days/hours are not inherited between calendars, just exceptions.
-         for (TimeRange range : mpxj.getHours(day))
+         for (LocalTimeRange range : mpxj.getHours(day))
          {
             WorkTimeType xmlWorkTime = m_factory.createWorkTimeType();
             xmlHours.getWorkTime().add(xmlWorkTime);
 
-            xmlWorkTime.setStart(range.getStartAsLocalTime());
-            xmlWorkTime.setFinish(getEndTime(range.getEndAsLocalTime()));
+            xmlWorkTime.setStart(range.getStart());
+            xmlWorkTime.setFinish(getEndTime(range.getEnd()));
          }
       }
 
@@ -678,16 +678,16 @@ final class PrimaveraPMProjectWriter
 
                   xmlException.setDate(date.atStartOfDay());
 
-                  for (TimeRange range : mpxjException)
+                  for (LocalTimeRange range : mpxjException)
                   {
                      WorkTimeType xmlHours = m_factory.createWorkTimeType();
                      xmlException.getWorkTime().add(xmlHours);
 
-                     xmlHours.setStart(range.getStartAsLocalTime());
+                     xmlHours.setStart(range.getStart());
 
-                     if (range.getEndAsLocalTime() != null)
+                     if (range.getEnd() != null)
                      {
-                        xmlHours.setFinish(getEndTime(range.getEndAsLocalTime()));
+                        xmlHours.setFinish(getEndTime(range.getEnd()));
                      }
                   }
                }

@@ -29,7 +29,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.common.LocalDateHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -126,7 +126,7 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
                   LocalTime start = MPPUtility.getTime(data, offset + 12 + (exceptionPeriodIndex * 2));
                   duration = MPPUtility.getDuration(data, offset + 24 + (exceptionPeriodIndex * 4));
                   LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
-                  exception.add(new TimeRange(start, end));
+                  exception.add(new LocalTimeRange(start, end));
                }
             }
          }

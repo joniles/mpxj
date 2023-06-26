@@ -1,5 +1,5 @@
 /*
- * file:       TimeRange.java
+ * file:       LocalTimeRange.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2005
  * date:       25/03/2005
@@ -30,7 +30,7 @@ import net.sf.mpxj.common.LocalTimeHelper;
 /**
  * This class represents a period of time.
  */
-public final class TimeRange implements Comparable<TimeRange>
+public final class LocalTimeRange implements Comparable<LocalTimeRange>
 {
    /**
     * Constructor.
@@ -38,31 +38,46 @@ public final class TimeRange implements Comparable<TimeRange>
     * @param start start time
     * @param end end time
     */
-   public TimeRange(LocalTime start, LocalTime end)
+   public LocalTimeRange(LocalTime start, LocalTime end)
    {
-      m_startAsLocalTime = start;
-      m_endAsLocalTime = end;
+      m_start = start;
+      m_end = end;
       m_durationAsMilliseconds = LocalTimeHelper.getMillisecondsInRange(start, end);
    }
 
-   public LocalTime getStartAsLocalTime()
+   /**
+    * Retrieve the range start.
+    *
+    * @return range start
+    */
+   public LocalTime getStart()
    {
-      return m_startAsLocalTime;
+      return m_start;
    }
 
-   public LocalTime getEndAsLocalTime()
+   /**
+    * Retrieve the range end.
+    *
+    * @return range end
+    */
+   public LocalTime getEnd()
    {
-      return m_endAsLocalTime;
+      return m_end;
    }
 
+   /**
+    * Retrieve the duration of the range.
+    *
+    * @return duration as milliseconds
+    */
    public long getDurationAsMilliseconds()
    {
       return m_durationAsMilliseconds;
    }
 
-   @Override public int compareTo(TimeRange o)
+   @Override public int compareTo(LocalTimeRange o)
    {
-      int result = LocalTimeHelper.compare(m_startAsLocalTime, o.m_startAsLocalTime);
+      int result = LocalTimeHelper.compare(m_start, o.m_start);
       if (result == 0)
       {
          result = Long.compare(m_durationAsMilliseconds, o.m_durationAsMilliseconds);
@@ -73,9 +88,9 @@ public final class TimeRange implements Comparable<TimeRange>
    @Override public boolean equals(Object o)
    {
       boolean result = false;
-      if (o instanceof TimeRange)
+      if (o instanceof LocalTimeRange)
       {
-         TimeRange rhs = (TimeRange) o;
+         LocalTimeRange rhs = (LocalTimeRange) o;
          result = (compareTo(rhs) == 0);
       }
       return result;
@@ -83,19 +98,19 @@ public final class TimeRange implements Comparable<TimeRange>
 
    @Override public int hashCode()
    {
-      long start = m_startAsLocalTime == null ? 0 : m_startAsLocalTime.toNanoOfDay();
-      long end = m_endAsLocalTime == null ? 0 : m_endAsLocalTime.toNanoOfDay();
+      long start = m_start == null ? 0 : m_start.toNanoOfDay();
+      long end = m_end == null ? 0 : m_end.toNanoOfDay();
       return ((int) start ^ (int) (start >> 32)) ^ ((int) end ^ (int) (end >> 32));
    }
 
    @Override public String toString()
    {
-      return ("[DateRange start=" + m_startAsLocalTime + " end=" + m_endAsLocalTime + "]");
+      return ("[DateRange start=" + m_start + " end=" + m_end + "]");
    }
 
-   public static final TimeRange EMPTY_RANGE = new TimeRange(null, null);
+   public static final LocalTimeRange EMPTY_RANGE = new LocalTimeRange(null, null);
 
-   private final LocalTime m_startAsLocalTime;
-   private final LocalTime m_endAsLocalTime;
+   private final LocalTime m_start;
+   private final LocalTime m_end;
    private final long m_durationAsMilliseconds;
 }

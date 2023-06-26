@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -57,7 +57,7 @@ public final class TimephasedUtility
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<DateRange> dateList)
+   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<LocalDateTimeRange> dateList)
    {
       ArrayList<Duration> result = new ArrayList<>(dateList.size());
       int lastStartIndex = 0;
@@ -67,7 +67,7 @@ public final class TimephasedUtility
       // Each date range in this list corresponds to a column
       // shown on the "timescale" view by MS Project
       //
-      for (DateRange range : dateList)
+      for (LocalDateTimeRange range : dateList)
       {
          //
          // If the current date range does not intersect with any of the
@@ -106,7 +106,7 @@ public final class TimephasedUtility
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Duration> segmentBaselineWork(ProjectFile file, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<DateRange> dateList)
+   public ArrayList<Duration> segmentBaselineWork(ProjectFile file, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
    {
       return segmentWork(file.getBaselineCalendar(), work, rangeUnits, dateList);
    }
@@ -122,7 +122,7 @@ public final class TimephasedUtility
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Double> segmentCost(ProjectCalendar projectCalendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<DateRange> dateList)
+   public ArrayList<Double> segmentCost(ProjectCalendar projectCalendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
    {
       ArrayList<Double> result = new ArrayList<>(dateList.size());
       int lastStartIndex = 0;
@@ -132,7 +132,7 @@ public final class TimephasedUtility
       // Each date range in this list corresponds to a column
       // shown on the "timescale" view by MS Project
       //
-      for (DateRange range : dateList)
+      for (LocalDateTimeRange range : dateList)
       {
          //
          // If the current date range does not intersect with any of the
@@ -171,7 +171,7 @@ public final class TimephasedUtility
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Double> segmentBaselineCost(ProjectFile file, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<DateRange> dateList)
+   public ArrayList<Double> segmentBaselineCost(ProjectFile file, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
    {
       return segmentCost(file.getBaselineCalendar(), cost, rangeUnits, dateList);
    }
@@ -186,7 +186,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start the search
     * @return index of timephased resource assignment which intersects with the target date range
     */
-   private <T extends TimephasedItem<?>> int getStartIndex(DateRange range, List<T> assignments, int startIndex)
+   private <T extends TimephasedItem<?>> int getStartIndex(LocalDateTimeRange range, List<T> assignments, int startIndex)
    {
       int result = -1;
       if (assignments != null)
@@ -245,7 +245,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Duration getRangeDuration(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedWork> assignments, int startIndex)
+   private Duration getRangeDuration(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex)
    {
       Duration result;
 
@@ -281,7 +281,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Duration getRangeDurationSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedWork> assignments, int startIndex)
+   private Duration getRangeDurationSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex)
    {
       throw new UnsupportedOperationException("Please request this functionality from the MPXJ maintainer");
    }
@@ -299,7 +299,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Duration getRangeDurationWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedWork> assignments, int startIndex)
+   private Duration getRangeDurationWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex)
    {
       // option 1:
       // Our date range starts before the start of the TRA at the start index.
@@ -389,7 +389,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Double getRangeCost(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedCost> assignments, int startIndex)
+   private Double getRangeCost(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedCost> assignments, int startIndex)
    {
       Double result;
 
@@ -425,7 +425,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Double getRangeCostWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedCost> assignments, int startIndex)
+   private Double getRangeCostWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedCost> assignments, int startIndex)
    {
       int totalDays = 0;
       double totalCost = 0;
@@ -496,7 +496,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Double getRangeCostSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedCost> assignments, int startIndex)
+   private Double getRangeCostSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedCost> assignments, int startIndex)
    {
       throw new UnsupportedOperationException("Please request this functionality from the MPXJ maintainer");
    }

@@ -57,7 +57,7 @@ import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import java.time.DayOfWeek;
 import net.sf.mpxj.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
@@ -84,7 +84,7 @@ import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedWork;
@@ -666,15 +666,15 @@ public final class MSPDIWriter extends AbstractProjectWriter
             ProjectCalendarHours bch = mpxjCalendar.getCalendarHours(mpxjDay);
             if (bch != null)
             {
-               for (TimeRange range : bch)
+               for (LocalTimeRange range : bch)
                {
                   if (range != null)
                   {
                      Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
                      timesList.add(time);
 
-                     time.setFromTime(range.getStartAsLocalTime());
-                     time.setToTime(range.getEndAsLocalTime());
+                     time.setFromTime(range.getStart());
+                     time.setToTime(range.getEnd());
                   }
                }
             }
@@ -735,13 +735,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
             day.setWorkingTimes(times);
             List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
 
-            for (TimeRange range : exception)
+            for (LocalTimeRange range : exception)
             {
                Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWeekDaysWeekDayWorkingTimesWorkingTime();
                timesList.add(time);
 
-               time.setFromTime(range.getStartAsLocalTime());
-               time.setToTime(range.getEndAsLocalTime());
+               time.setFromTime(range.getStart());
+               time.setToTime(range.getEnd());
             }
          }
       }
@@ -799,13 +799,13 @@ public final class MSPDIWriter extends AbstractProjectWriter
             ex.setWorkingTimes(times);
             List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> timesList = times.getWorkingTime();
 
-            for (TimeRange range : exception)
+            for (LocalTimeRange range : exception)
             {
                Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarExceptionsExceptionWorkingTimesWorkingTime();
                timesList.add(time);
 
-               time.setFromTime(range.getStartAsLocalTime());
-               time.setToTime(range.getEndAsLocalTime());
+               time.setFromTime(range.getStart());
+               time.setToTime(range.getEnd());
             }
          }
       }
@@ -945,15 +945,15 @@ public final class MSPDIWriter extends AbstractProjectWriter
                      ProjectCalendarHours bch = week.getCalendarHours(DayOfWeekHelper.getInstance(loop));
                      if (bch != null)
                      {
-                        for (TimeRange range : bch)
+                        for (LocalTimeRange range : bch)
                         {
                            if (range != null)
                            {
                               Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime time = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekWeekDaysWeekDayWorkingTimesWorkingTime();
                               timesList.add(time);
 
-                              time.setFromTime(range.getStartAsLocalTime());
-                              time.setToTime(range.getEndAsLocalTime());
+                              time.setFromTime(range.getStart());
+                              time.setToTime(range.getEnd());
                            }
                         }
                      }
@@ -1336,7 +1336,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          AvailabilityPeriod period = m_factory.createProjectResourcesResourceAvailabilityPeriodsAvailabilityPeriod();
          list.add(period);
-         DateRange range = availability.getRange();
+         LocalDateTimeRange range = availability.getRange();
 
          period.setAvailableFrom(range.getStart());
          period.setAvailableTo(range.getEnd());

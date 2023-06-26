@@ -31,7 +31,7 @@ import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.mpp.TimescaleUnits;
 
 /**
@@ -54,9 +54,9 @@ public final class TimescaleUtility
     * @param segmentCount number of segments (columns) required
     * @return list of date ranges
     */
-   public final ArrayList<DateRange> createTimescale(LocalDateTime startDate, TimescaleUnits segmentUnit, int segmentCount)
+   public final ArrayList<LocalDateTimeRange> createTimescale(LocalDateTime startDate, TimescaleUnits segmentUnit, int segmentCount)
    {
-      ArrayList<DateRange> result = new ArrayList<>(segmentCount);
+      ArrayList<LocalDateTimeRange> result = new ArrayList<>(segmentCount);
 
       LocalDateTime cal = LocalDateTime.of(startDate.toLocalDate(), LocalTime.MIDNIGHT);
 
@@ -156,7 +156,7 @@ public final class TimescaleUtility
          }
 
          LocalDateTime rangeEnd = cal.minus(1, ChronoUnit.MILLIS);
-         result.add(new DateRange(rangeStart, rangeEnd));
+         result.add(new LocalDateTimeRange(rangeStart, rangeEnd));
       }
 
       return result;

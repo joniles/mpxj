@@ -32,7 +32,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CombinedCalendar;
 import org.junit.Test;
@@ -66,7 +66,7 @@ public class CombinedCalendarTest
       // Modify calendar1 so Tuesdays are working from 09:00 to 13:00
       ProjectCalendarHours hours = calendar1.getCalendarHours(DayOfWeek.TUESDAY);
       hours.clear();
-      hours.add(new TimeRange(LocalTime.of(9, 0), LocalTime.of(13, 0)));
+      hours.add(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(13, 0)));
 
       // Ensure that Tuesday only has 3 working hours
       work = combined.getWork(DayOfWeek.TUESDAY, TimeUnit.HOURS);
@@ -77,7 +77,7 @@ public class CombinedCalendarTest
       // Modify calendar1 so Wednesdays are working from 00:00 to 08:00
       hours = calendar1.getCalendarHours(DayOfWeek.WEDNESDAY);
       hours.clear();
-      hours.add(new TimeRange(LocalTime.of(0, 0), LocalTime.of(8, 0)));
+      hours.add(new LocalTimeRange(LocalTime.of(0, 0), LocalTime.of(8, 0)));
 
       // Ensure Wednesday shows no working hours as there is no overlap
       work = combined.getWork(DayOfWeek.WEDNESDAY, TimeUnit.HOURS);
@@ -88,7 +88,7 @@ public class CombinedCalendarTest
       // Add an exception for a specific Thursday
       LocalDate exceptionDate = LocalDate.of(2022, 11, 3);
       ProjectCalendarException exception = calendar1.addCalendarException(exceptionDate);
-      exception.add(new TimeRange(LocalTime.of(9, 0), LocalTime.of(13, 0)));
+      exception.add(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(13, 0)));
 
       work = combined.getWork(exceptionDate, TimeUnit.HOURS);
       assertEquals(3.0, work.getDuration(), 0.0);

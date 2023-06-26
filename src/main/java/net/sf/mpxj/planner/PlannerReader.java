@@ -42,7 +42,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ConstraintType;
@@ -209,7 +209,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
       //
       // Read the hours for each day type
       //
-      Map<String, List<TimeRange>> map = getHoursMap(plannerCalendar);
+      Map<String, List<LocalTimeRange>> map = getHoursMap(plannerCalendar);
 
       //
       // Set the hours for each day based on the day type
@@ -246,15 +246,15 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param plannerCalendar Planner calendar
     * @return day type map
     */
-   private Map<String, List<TimeRange>> getHoursMap(net.sf.mpxj.planner.schema.Calendar plannerCalendar)
+   private Map<String, List<LocalTimeRange>> getHoursMap(net.sf.mpxj.planner.schema.Calendar plannerCalendar)
    {
-      Map<String, List<TimeRange>> result = new HashMap<>();
+      Map<String, List<LocalTimeRange>> result = new HashMap<>();
       for (OverriddenDayType type : plannerCalendar.getOverriddenDayTypes().getOverriddenDayType())
       {
-         List<TimeRange> hours = new ArrayList<>();
+         List<LocalTimeRange> hours = new ArrayList<>();
          for (Interval interval : type.getInterval())
          {
-            hours.add(new TimeRange(getTime(interval.getStart()), getTime(interval.getEnd())));
+            hours.add(new LocalTimeRange(getTime(interval.getStart()), getTime(interval.getEnd())));
          }
          result.put(type.getId(), hours);
       }
@@ -269,9 +269,9 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param mpxjDay MPXJ calendar
     * @param plannerDay Planner day type
     */
-   private void setHours(Map<String, List<TimeRange>> map, ProjectCalendar mpxjCalendar, DayOfWeek mpxjDay, String plannerDay)
+   private void setHours(Map<String, List<LocalTimeRange>> map, ProjectCalendar mpxjCalendar, DayOfWeek mpxjDay, String plannerDay)
    {
-      List<TimeRange> dateRanges = map.get(plannerDay);
+      List<LocalTimeRange> dateRanges = map.get(plannerDay);
       if (dateRanges == null)
       {
          // Note that ID==2 is the hard coded "use base" day type
@@ -300,7 +300,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param mpxjCalendar MPXJ calendar
     * @param plannerCalendar Planner calendar
     */
-   private void processExceptionDays(Map<String, List<TimeRange>> map, ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar)
+   private void processExceptionDays(Map<String, List<LocalTimeRange>> map, ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar)
    {
       Days days = plannerCalendar.getDays();
       if (days != null)
@@ -312,7 +312,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
             {
                LocalDate exceptionDate = LocalDate.parse(day.getDate(), m_dateFormat);
                ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate);
-               List<TimeRange> dateRanges = map.get(day.getId());
+               List<LocalTimeRange> dateRanges = map.get(day.getId());
                if (dateRanges != null)
                {
                   exception.addAll(dateRanges);

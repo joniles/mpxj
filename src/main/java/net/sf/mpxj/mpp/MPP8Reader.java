@@ -35,7 +35,7 @@ import java.util.List;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DayOfWeekHelper;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
@@ -278,8 +278,8 @@ final class MPP8Reader implements MPPVariantReader
                   if (cal.isWorkingDay(day))
                   {
                      hours = cal.addCalendarHours(DayOfWeekHelper.getInstance(index + 1));
-                     hours.add(new TimeRange(LocalTime.of(8,0 ), LocalTime.of(12, 0)));
-                     hours.add(new TimeRange(LocalTime.of(13, 0), LocalTime.of(17,0)));
+                     hours.add(new LocalTimeRange(LocalTime.of(8,0 ), LocalTime.of(12, 0)));
+                     hours.add(new LocalTimeRange(LocalTime.of(13, 0), LocalTime.of(17,0)));
                   }
                   else
                   {
@@ -306,7 +306,7 @@ final class MPP8Reader implements MPPVariantReader
                         LocalTime start = MPPUtility.getTime(extData, offset + 8 + (periodIndex * 2));
                         duration = MPPUtility.getDuration(extData, offset + 16 + (periodIndex * 4));
                         LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
-                        hours.add(new TimeRange(start, end));
+                        hours.add(new LocalTimeRange(start, end));
                      }
                   }
                }
@@ -334,7 +334,7 @@ final class MPP8Reader implements MPPVariantReader
                         LocalTime start = MPPUtility.getTime(extData, offset + 12 + (exceptionPeriodIndex * 2));
                         duration = MPPUtility.getDuration(extData, offset + 20 + (exceptionPeriodIndex * 4));
                         LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
-                        exception.add(new TimeRange(start, end));
+                        exception.add(new LocalTimeRange(start, end));
                      }
                   }
                }

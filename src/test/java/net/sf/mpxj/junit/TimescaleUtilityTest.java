@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.mpp.TimescaleUnits;
 import net.sf.mpxj.utility.TimescaleUtility;
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class TimescaleUtilityTest
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
       TimescaleUtility ts = new TimescaleUtility();
 
-      ArrayList<DateRange> result = ts.createTimescale(startDate, TimescaleUnits.MINUTES, 5);
+      ArrayList<LocalDateTimeRange> result = ts.createTimescale(startDate, TimescaleUnits.MINUTES, 5);
       assertEquals("22/06/2023 00:00:00.0 22/06/2023 00:00:59.9", result.get(0));
       assertEquals("22/06/2023 00:01:00.0 22/06/2023 00:01:59.9", result.get(1));
       assertEquals("22/06/2023 00:02:00.0 22/06/2023 00:02:59.9", result.get(2));
@@ -61,7 +61,7 @@ public class TimescaleUtilityTest
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
       TimescaleUtility ts = new TimescaleUtility();
 
-      ArrayList<DateRange> result = ts.createTimescale(startDate, TimescaleUnits.HOURS, 5);
+      ArrayList<LocalDateTimeRange> result = ts.createTimescale(startDate, TimescaleUnits.HOURS, 5);
       assertEquals("22/06/2023 00:00:00.0 22/06/2023 00:59:59.9", result.get(0));
       assertEquals("22/06/2023 01:00:00.0 22/06/2023 01:59:59.9", result.get(1));
       assertEquals("22/06/2023 02:00:00.0 22/06/2023 02:59:59.9", result.get(2));
@@ -77,7 +77,7 @@ public class TimescaleUtilityTest
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
       TimescaleUtility ts = new TimescaleUtility();
 
-      ArrayList<DateRange> result = ts.createTimescale(startDate, TimescaleUnits.DAYS, 5);
+      ArrayList<LocalDateTimeRange> result = ts.createTimescale(startDate, TimescaleUnits.DAYS, 5);
       assertEquals("22/06/2023 00:00:00.0 22/06/2023 23:59:59.9", result.get(0));
       assertEquals("23/06/2023 00:00:00.0 23/06/2023 23:59:59.9", result.get(1));
       assertEquals("24/06/2023 00:00:00.0 24/06/2023 23:59:59.9", result.get(2));
@@ -94,7 +94,7 @@ public class TimescaleUtilityTest
       TimescaleUtility ts = new TimescaleUtility();
 
       ts.setWeekStartDay(DayOfWeek.SUNDAY);
-      ArrayList<DateRange> result = ts.createTimescale(startDate, TimescaleUnits.WEEKS, 5);
+      ArrayList<LocalDateTimeRange> result = ts.createTimescale(startDate, TimescaleUnits.WEEKS, 5);
       assertEquals("25/06/2023 00:00:00.0 01/07/2023 23:59:59.9", result.get(0));
       assertEquals("02/07/2023 00:00:00.0 08/07/2023 23:59:59.9", result.get(1));
       assertEquals("09/07/2023 00:00:00.0 15/07/2023 23:59:59.9", result.get(2));
@@ -158,7 +158,7 @@ public class TimescaleUtilityTest
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
       TimescaleUtility ts = new TimescaleUtility();
 
-      ArrayList<DateRange> result = ts.createTimescale(startDate, TimescaleUnits.THIRDS_OF_MONTHS, 5);
+      ArrayList<LocalDateTimeRange> result = ts.createTimescale(startDate, TimescaleUnits.THIRDS_OF_MONTHS, 5);
       assertEquals("01/06/2023 00:00:00.0 10/06/2023 23:59:59.9", result.get(0));
       assertEquals("11/06/2023 00:00:00.0 20/06/2023 23:59:59.9", result.get(1));
       assertEquals("21/06/2023 00:00:00.0 30/06/2023 23:59:59.9", result.get(2));
@@ -174,7 +174,7 @@ public class TimescaleUtilityTest
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
       TimescaleUtility ts = new TimescaleUtility();
 
-      ArrayList<DateRange> result = ts.createTimescale(startDate, TimescaleUnits.MONTHS, 5);
+      ArrayList<LocalDateTimeRange> result = ts.createTimescale(startDate, TimescaleUnits.MONTHS, 5);
       assertEquals("01/06/2023 00:00:00.0 30/06/2023 23:59:59.9", result.get(0));
       assertEquals("01/07/2023 00:00:00.0 31/07/2023 23:59:59.9", result.get(1));
       assertEquals("01/08/2023 00:00:00.0 31/08/2023 23:59:59.9", result.get(2));
@@ -190,7 +190,7 @@ public class TimescaleUtilityTest
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
       TimescaleUtility ts = new TimescaleUtility();
 
-      ArrayList<DateRange> result = ts.createTimescale(startDate, TimescaleUnits.QUARTERS, 5);
+      ArrayList<LocalDateTimeRange> result = ts.createTimescale(startDate, TimescaleUnits.QUARTERS, 5);
       assertEquals("01/04/2023 00:00:00.0 30/06/2023 23:59:59.9", result.get(0));
       assertEquals("01/07/2023 00:00:00.0 30/09/2023 23:59:59.9", result.get(1));
       assertEquals("01/10/2023 00:00:00.0 31/12/2023 23:59:59.9", result.get(2));
@@ -206,7 +206,7 @@ public class TimescaleUtilityTest
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
       TimescaleUtility ts = new TimescaleUtility();
 
-      ArrayList<DateRange> result = ts.createTimescale(startDate, TimescaleUnits.HALF_YEARS, 5);
+      ArrayList<LocalDateTimeRange> result = ts.createTimescale(startDate, TimescaleUnits.HALF_YEARS, 5);
       assertEquals("01/01/2023 00:00:00.0 30/06/2023 23:59:59.9", result.get(0));
       assertEquals("01/07/2023 00:00:00.0 31/12/2023 23:59:59.9", result.get(1));
       assertEquals("01/01/2024 00:00:00.0 30/06/2024 23:59:59.9", result.get(2));
@@ -222,7 +222,7 @@ public class TimescaleUtilityTest
       LocalDateTime startDate = LocalDateTime.parse("22/06/2023 09:00", m_basicDateFormat);
       TimescaleUtility ts = new TimescaleUtility();
 
-      ArrayList<DateRange> result = ts.createTimescale(startDate, TimescaleUnits.YEARS, 5);
+      ArrayList<LocalDateTimeRange> result = ts.createTimescale(startDate, TimescaleUnits.YEARS, 5);
       assertEquals("01/01/2023 00:00:00.0 31/12/2023 23:59:59.9", result.get(0));
       assertEquals("01/01/2024 00:00:00.0 31/12/2024 23:59:59.9", result.get(1));
       assertEquals("01/01/2025 00:00:00.0 31/12/2025 23:59:59.9", result.get(2));
@@ -230,12 +230,12 @@ public class TimescaleUtilityTest
       assertEquals("01/01/2027 00:00:00.0 31/12/2027 23:59:59.9", result.get(4));
    }
 
-   private void assertEquals(String expected, DateRange actual)
+   private void assertEquals(String expected, LocalDateTimeRange actual)
    {
       org.junit.Assert.assertEquals(expected, formatDateRange(actual));
    }
 
-   private String formatDateRange(DateRange range)
+   private String formatDateRange(LocalDateTimeRange range)
    {
       return m_fullDateFormat.format(range.getStart()) + " " + m_fullDateFormat.format(range.getEnd());
    }

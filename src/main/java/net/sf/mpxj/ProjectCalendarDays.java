@@ -185,7 +185,7 @@ public abstract class ProjectCalendarDays
          case NON_WORKING:
          {
             // Non-working days should have an empty list
-            List<TimeRange> hours = getCalendarHours(day);
+            List<LocalTimeRange> hours = getCalendarHours(day);
             if (hours == null)
             {
                addCalendarHours(day);
@@ -234,6 +234,6 @@ public abstract class ProjectCalendarDays
    /**
     * Constants representing the default working morning and afternoon hours.
     */
-   public static final TimeRange DEFAULT_WORKING_MORNING = new TimeRange(LocalTime.of(8, 0), LocalTime.of(12, 0));
-   public static final TimeRange DEFAULT_WORKING_AFTERNOON = new TimeRange(LocalTime.of(13, 0), LocalTime.of(17, 0));
+   public static final LocalTimeRange DEFAULT_WORKING_MORNING = new LocalTimeRange(LocalTime.of(8, 0), LocalTime.of(12, 0));
+   public static final LocalTimeRange DEFAULT_WORKING_AFTERNOON = new LocalTimeRange(LocalTime.of(13, 0), LocalTime.of(17, 0));
 }

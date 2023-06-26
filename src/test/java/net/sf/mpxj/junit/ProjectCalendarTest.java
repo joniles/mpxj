@@ -34,7 +34,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpp.MPPReader;
 
@@ -211,7 +211,7 @@ public class ProjectCalendarTest
       assertEquals(8.88, variance.getDuration(), 0.01);
 
       ProjectCalendarException exception = projectCalendar.addCalendarException(LocalDate.of(206, 3, 18), LocalDate.of(2006, 3, 18));
-      exception.add(new TimeRange(LocalTime.of(8,0), LocalTime.of(12,0)));
+      exception.add(new LocalTimeRange(LocalTime.of(8,0), LocalTime.of(12,0)));
 
       startDate = LocalDateTime.of(2006, 3, 18, 8, 0);
       endDate = LocalDateTime.of(2006, 3, 18, 16, 0);
@@ -651,7 +651,7 @@ public class ProjectCalendarTest
       // Make Saturday 11th a working day
       //
       ProjectCalendarException ex = cal.addCalendarException(LocalDate.of(2003, 10, 11), LocalDate.of(2003, 10, 11));
-      ex.add(new TimeRange(LocalTime.of(9, 0), LocalTime.of(13, 0)));
+      ex.add(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(13, 0)));
 
       //
       // Cross weekend with a non-working day exception and a working day exception

@@ -68,7 +68,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.UserDefinedField;
@@ -1686,7 +1686,7 @@ final class AstaReader
                DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
                if (hours != null && type == DayType.WORKING)
                {
-                  hours.add(new TimeRange(startTime, endTime));
+                  hours.add(new LocalTimeRange(startTime, endTime));
                   week.setCalendarDayType(currentDay, DayType.WORKING);
                }
             }

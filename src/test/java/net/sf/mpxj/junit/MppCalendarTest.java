@@ -35,7 +35,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 
@@ -190,12 +190,12 @@ public class MppCalendarTest
       ProjectCalendarHours hours = cal.getCalendarHours(DayOfWeek.MONDAY);
       assertEquals(2, hours.size());
 
-      TimeRange range = hours.get(0);
-      assertEquals(LocalTime.of(8,0), range.getStartAsLocalTime());
-      assertEquals(LocalTime.of(12,0), range.getEndAsLocalTime());
+      LocalTimeRange range = hours.get(0);
+      assertEquals(LocalTime.of(8,0), range.getStart());
+      assertEquals(LocalTime.of(12,0), range.getEnd());
       range = cal.getCalendarHours(DayOfWeek.MONDAY).get(1);
-      assertEquals(LocalTime.of(13,0), range.getStartAsLocalTime());
-      assertEquals(LocalTime.of(17,0), range.getEndAsLocalTime());
+      assertEquals(LocalTime.of(13,0), range.getStart());
+      assertEquals(LocalTime.of(17,0), range.getEnd());
    }
 
    /**
@@ -225,45 +225,45 @@ public class MppCalendarTest
       assertFalse(exception.getWorking());
       assertEquals(LocalDate.of(2008, 3, 5), exception.getFromDate());
       assertEquals(LocalDate.of(2008, 3, 5), exception.getToDate());
-      assertNull(exception.get(0).getStartAsLocalTime());
-      assertNull(exception.get(0).getEndAsLocalTime());
-      assertNull(exception.get(1).getStartAsLocalTime());
-      assertNull(exception.get(1).getEndAsLocalTime());
-      assertNull(exception.get(2).getStartAsLocalTime());
-      assertNull(exception.get(2).getEndAsLocalTime());
-      assertNull(exception.get(3).getStartAsLocalTime());
-      assertNull(exception.get(3).getEndAsLocalTime());
-      assertNull(exception.get(4).getStartAsLocalTime());
-      assertNull(exception.get(4).getEndAsLocalTime());
+      assertNull(exception.get(0).getStart());
+      assertNull(exception.get(0).getEnd());
+      assertNull(exception.get(1).getStart());
+      assertNull(exception.get(1).getEnd());
+      assertNull(exception.get(2).getStart());
+      assertNull(exception.get(2).getEnd());
+      assertNull(exception.get(3).getStart());
+      assertNull(exception.get(3).getEnd());
+      assertNull(exception.get(4).getStart());
+      assertNull(exception.get(4).getEnd());
 
       exception = exceptions.get(1);
       assertTrue(exception.getWorking());
       assertEquals(LocalDate.of(2008, 3, 9), exception.getFromDate());
       assertEquals(LocalDate.of(2008, 3, 9), exception.getToDate());
-      assertEquals(LocalTime.of(8,0), exception.get(0).getStartAsLocalTime());
-      assertEquals(LocalTime.of(12,0), exception.get(0).getEndAsLocalTime());
-      assertEquals(LocalTime.of(13,0), exception.get(1).getStartAsLocalTime());
-      assertEquals(LocalTime.of(17, 0), exception.get(1).getEndAsLocalTime());
-      assertNull(exception.get(2).getStartAsLocalTime());
-      assertNull(exception.get(2).getEndAsLocalTime());
-      assertNull(exception.get(3).getStartAsLocalTime());
-      assertNull(exception.get(3).getEndAsLocalTime());
-      assertNull(exception.get(4).getStartAsLocalTime());
-      assertNull(exception.get(4).getEndAsLocalTime());
+      assertEquals(LocalTime.of(8,0), exception.get(0).getStart());
+      assertEquals(LocalTime.of(12,0), exception.get(0).getEnd());
+      assertEquals(LocalTime.of(13,0), exception.get(1).getStart());
+      assertEquals(LocalTime.of(17, 0), exception.get(1).getEnd());
+      assertNull(exception.get(2).getStart());
+      assertNull(exception.get(2).getEnd());
+      assertNull(exception.get(3).getStart());
+      assertNull(exception.get(3).getEnd());
+      assertNull(exception.get(4).getStart());
+      assertNull(exception.get(4).getEnd());
 
       exception = exceptions.get(2);
       assertTrue(exception.getWorking());
       assertEquals(LocalDate.of(2008, 3, 16), exception.getFromDate());
       assertEquals(LocalDate.of(2008, 3, 16), exception.getToDate());
-      assertEquals(LocalTime.of(8, 0), exception.get(0).getStartAsLocalTime());
-      assertEquals(LocalTime.of(9,0), exception.get(0).getEndAsLocalTime());
-      assertEquals(LocalTime.of(11,0), exception.get(1).getStartAsLocalTime());
-      assertEquals(LocalTime.of(12, 0), exception.get(1).getEndAsLocalTime());
-      assertEquals(LocalTime.of(14,0), exception.get(2).getStartAsLocalTime());
-      assertEquals(LocalTime.of(15, 0), exception.get(2).getEndAsLocalTime());
-      assertEquals(LocalTime.of(16, 0), exception.get(3).getStartAsLocalTime());
-      assertEquals(LocalTime.of(17, 0), exception.get(3).getEndAsLocalTime());
-      assertEquals(LocalTime.of(18, 0), exception.get(4).getStartAsLocalTime());
-      assertEquals(LocalTime.of(19, 0), exception.get(4).getEndAsLocalTime());
+      assertEquals(LocalTime.of(8, 0), exception.get(0).getStart());
+      assertEquals(LocalTime.of(9,0), exception.get(0).getEnd());
+      assertEquals(LocalTime.of(11,0), exception.get(1).getStart());
+      assertEquals(LocalTime.of(12, 0), exception.get(1).getEnd());
+      assertEquals(LocalTime.of(14,0), exception.get(2).getStart());
+      assertEquals(LocalTime.of(15, 0), exception.get(2).getEnd());
+      assertEquals(LocalTime.of(16, 0), exception.get(3).getStart());
+      assertEquals(LocalTime.of(17, 0), exception.get(3).getEnd());
+      assertEquals(LocalTime.of(18, 0), exception.get(4).getStart());
+      assertEquals(LocalTime.of(19, 0), exception.get(4).getEnd());
    }
 }

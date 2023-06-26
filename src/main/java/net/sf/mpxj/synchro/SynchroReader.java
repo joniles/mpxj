@@ -48,7 +48,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
@@ -149,7 +149,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
    {
       ProjectCalendar calendar = m_project.addCalendar();
 
-      Map<UUID, List<TimeRange>> dayTypeMap = processDayTypes(row.getRows("DAY_TYPES"));
+      Map<UUID, List<LocalTimeRange>> dayTypeMap = processDayTypes(row.getRows("DAY_TYPES"));
 
       calendar.setName(row.getString("NAME"));
 
@@ -182,7 +182,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
     * @param ranges time ranges from a Synchro table
     * @param container time range container
     */
-   private void processRanges(List<TimeRange> ranges, ProjectCalendarHours container)
+   private void processRanges(List<LocalTimeRange> ranges, ProjectCalendarHours container)
    {
       if (ranges != null)
       {
@@ -196,15 +196,15 @@ public final class SynchroReader extends AbstractProjectStreamReader
     * @param types Synchro day type rows
     * @return Map of day types by UUID
     */
-   private Map<UUID, List<TimeRange>> processDayTypes(List<MapRow> types)
+   private Map<UUID, List<LocalTimeRange>> processDayTypes(List<MapRow> types)
    {
-      Map<UUID, List<TimeRange>> map = new HashMap<>();
+      Map<UUID, List<LocalTimeRange>> map = new HashMap<>();
       for (MapRow row : types)
       {
-         List<TimeRange> ranges = new ArrayList<>();
+         List<LocalTimeRange> ranges = new ArrayList<>();
          for (MapRow range : row.getRows("TIME_RANGES"))
          {
-            ranges.add(new TimeRange(range.getTime("START"), range.getTime("END")));
+            ranges.add(new LocalTimeRange(range.getTime("START"), range.getTime("END")));
          }
          map.put(row.getUUID("UUID"), ranges);
       }

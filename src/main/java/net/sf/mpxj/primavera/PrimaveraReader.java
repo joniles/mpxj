@@ -87,7 +87,7 @@ import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
@@ -473,7 +473,7 @@ final class PrimaveraReader
             if (hours.size() > 0)
             {
                ++workingDays;
-               for (TimeRange range : hours)
+               for (LocalTimeRange range : hours)
                {
                   minutesPerWeek += (range.getDurationAsMilliseconds() / (1000 * 60));
                }
@@ -593,7 +593,7 @@ final class PrimaveraReader
       {
          LocalTime start = LocalTime.parse(startText, formatter);
          LocalTime end = LocalTime.parse(endText, formatter);
-         ranges.add(new TimeRange(start, end));
+         ranges.add(new LocalTimeRange(start, end));
       }
 
       catch (DateTimeParseException e)

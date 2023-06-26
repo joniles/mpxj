@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimephasedWork;
 
@@ -62,19 +62,19 @@ public final class SplitTaskFactory
          firstPlanned = timephasedPlanned.get(0);
       }
 
-      List<DateRange> splits = new ArrayList<>();
+      List<LocalDateTimeRange> splits = new ArrayList<>();
       TimephasedWork lastAssignment = null;
-      DateRange lastRange = null;
+      LocalDateTimeRange lastRange = null;
       for (TimephasedWork assignment : timephasedComplete)
       {
          if (lastAssignment != null && lastRange != null && lastAssignment.getTotalAmount().getDuration() != 0 && assignment.getTotalAmount().getDuration() != 0)
          {
             splits.remove(splits.size() - 1);
-            lastRange = new DateRange(lastRange.getStart(), assignment.getFinish());
+            lastRange = new LocalDateTimeRange(lastRange.getStart(), assignment.getFinish());
          }
          else
          {
-            lastRange = new DateRange(assignment.getStart(), assignment.getFinish());
+            lastRange = new LocalDateTimeRange(assignment.getStart(), assignment.getFinish());
          }
          splits.add(lastRange);
          lastAssignment = assignment;
@@ -100,16 +100,16 @@ public final class SplitTaskFactory
             if (lastAssignment != null && lastRange != null && lastAssignment.getTotalAmount().getDuration() != 0 && assignment.getTotalAmount().getDuration() != 0)
             {
                splits.remove(splits.size() - 1);
-               lastRange = new DateRange(lastRange.getStart(), assignment.getFinish());
+               lastRange = new LocalDateTimeRange(lastRange.getStart(), assignment.getFinish());
             }
             else
             {
-               lastRange = new DateRange(assignment.getStart(), assignment.getFinish());
+               lastRange = new LocalDateTimeRange(assignment.getStart(), assignment.getFinish());
             }
          }
          else
          {
-            lastRange = new DateRange(splitStart, assignment.getFinish());
+            lastRange = new LocalDateTimeRange(splitStart, assignment.getFinish());
          }
          splits.add(lastRange);
          splitStart = null;

@@ -38,7 +38,7 @@ import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
-import net.sf.mpxj.TimeRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -120,7 +120,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                      LocalTime start = MPPUtility.getTime(data, offset + 20 + (exceptionPeriodIndex * 2));
                      long duration = MPPUtility.getDuration(data, offset + 32 + (exceptionPeriodIndex * 4));
                      LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
-                     exception.add(new TimeRange(start, end));
+                     exception.add(new LocalTimeRange(start, end));
                   }
                }
 
@@ -316,7 +316,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
                LocalTime startTime = MPPUtility.getTime(data, offset + 8 + (index * 2));
                int durationInSeconds = MPPUtility.getInt(data, offset + 20 + (index * 4)) * 6;
                LocalTime finishTime = startTime.plus(durationInSeconds, ChronoUnit.SECONDS);
-               hours.add(new TimeRange(startTime, finishTime));
+               hours.add(new LocalTimeRange(startTime, finishTime));
             }
          }
       }
