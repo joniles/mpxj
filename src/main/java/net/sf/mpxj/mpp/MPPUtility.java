@@ -1309,16 +1309,6 @@ public final class MPPUtility
    }
 
    /**
-    * Get the epoch date.
-    *
-    * @return epoch date.
-    */
-   public static LocalDateTime getEpochDate()
-   {
-      return EPOCH_DATE;
-   }
-
-   /**
     * Epoch date for MPP date calculation is 31/12/1983.
     */
    public static final LocalDateTime EPOCH_DATE = LocalDateTime.of(1983, 12, 31, 0, 0);

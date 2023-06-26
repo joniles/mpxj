@@ -1272,7 +1272,7 @@ final class MPP12Reader implements MPPVariantReader
 
          // Unfortunately it looks like 'null' tasks sometimes make it through. So let's check for to see if we
          // need to mark this task as a null task after all.
-         if (task.getName() == null && ((task.getStart() == null || task.getStart().equals(MPPUtility.getEpochDate())) || (task.getFinish() == null || task.getFinish().equals(MPPUtility.getEpochDate())) /*|| (task.getCreateDate() == null || task.getCreateDate().equals(MPPUtility.getEpochDate())*//* Valid tasks can have a null create date */))
+         if (task.getName() == null && ((task.getStart() == null || task.getStart().equals(MPPUtility.EPOCH_DATE)) || (task.getFinish() == null || task.getFinish().equals(MPPUtility.EPOCH_DATE)) /*|| (task.getCreateDate() == null || task.getCreateDate().equals(MPPUtility.getEpochDate())*//* Valid tasks can have a null create date */))
          {
             m_file.removeTask(task);
 

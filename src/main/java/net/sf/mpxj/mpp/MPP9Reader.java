@@ -1233,7 +1233,7 @@ final class MPP9Reader implements MPPVariantReader
          // so let's check for to see if we need to mark this task as a null
          // task after all.
          //
-         if (task.getName() == null && ((task.getStart() == null || task.getStart().equals(MPPUtility.getEpochDate())) || (task.getFinish() == null || task.getFinish().equals(MPPUtility.getEpochDate())) || (task.getCreateDate() == null || task.getCreateDate().equals(MPPUtility.getEpochDate()))))
+         if (task.getName() == null && ((task.getStart() == null || task.getStart().equals(MPPUtility.EPOCH_DATE)) || (task.getFinish() == null || task.getFinish().equals(MPPUtility.EPOCH_DATE)) || (task.getCreateDate() == null || task.getCreateDate().equals(MPPUtility.EPOCH_DATE))))
          {
             m_file.removeTask(task);
             task = m_file.addTask();
