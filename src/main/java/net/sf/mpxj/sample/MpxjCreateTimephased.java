@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Resource;
@@ -84,7 +85,8 @@ public class MpxjCreateTimephased
       //
       // Add a default calendar called "Standard"
       //
-      file.addDefaultBaseCalendar();
+      ProjectCalendar calendar = file.addDefaultBaseCalendar();
+      file.setDefaultCalendar(calendar);
 
       //
       // Retrieve the project properties and set the start date. Note Microsoft
@@ -94,7 +96,7 @@ public class MpxjCreateTimephased
       // today's date.
       //
       ProjectProperties properties = file.getProjectProperties();
-      properties.setStartDate(LocalDateTime.of(2003, 1, 1, 3, 0, 0));
+      properties.setStartDate(LocalDateTime.of(2003, 1, 1, 3, 0));
 
       //
       // Add a resource
@@ -108,8 +110,8 @@ public class MpxjCreateTimephased
       Task task1 = file.addTask();
       task1.setName("Timephased Task");
       task1.setDuration(Duration.getInstance(3, TimeUnit.DAYS));
-      task1.setStart(LocalDateTime.of(2003, 1, 1, 3, 0, 0));
-      task1.setFinish(LocalDateTime.of(2003, 1, 3, 10, 0, 0));
+      task1.setStart(LocalDateTime.of(2003, 1, 1, 3, 0));
+      task1.setFinish(LocalDateTime.of(2003, 1, 3, 10, 0));
       ResourceAssignment assignment3 = task1.addResourceAssignment(resource1);
 
       //
@@ -118,22 +120,22 @@ public class MpxjCreateTimephased
       //
       final TimephasedWork day1 = new TimephasedWork();
       day1.setAmountPerDay(Duration.getInstance(20, TimeUnit.HOURS));
-      day1.setStart(LocalDateTime.of(2003, 1, 1, 3, 0, 0));
-      day1.setFinish(LocalDateTime.of(2003, 1, 1, 23, 0, 0));
+      day1.setStart(LocalDateTime.of(2003, 1, 1, 3, 0));
+      day1.setFinish(LocalDateTime.of(2003, 1, 1, 23, 0));
       day1.setModified(true);
       day1.setTotalAmount(Duration.getInstance(20, TimeUnit.HOURS));
 
       final TimephasedWork day2 = new TimephasedWork();
       day2.setAmountPerDay(Duration.getInstance(2, TimeUnit.HOURS));
-      day2.setStart(LocalDateTime.of(2003, 1, 2, 8, 0, 0));
-      day2.setFinish(LocalDateTime.of(2003, 1, 1, 10, 0, 0));
+      day2.setStart(LocalDateTime.of(2003, 1, 2, 8, 0));
+      day2.setFinish(LocalDateTime.of(2003, 1, 1, 10, 0));
       day2.setModified(true);
       day2.setTotalAmount(Duration.getInstance(2, TimeUnit.HOURS));
 
       final TimephasedWork day3 = new TimephasedWork();
       day3.setAmountPerDay(Duration.getInstance(2, TimeUnit.HOURS));
-      day3.setStart(LocalDateTime.of(2003, 1, 3, 8, 0, 0));
-      day3.setFinish(LocalDateTime.of(2003, 1, 1, 10, 0, 0));
+      day3.setStart(LocalDateTime.of(2003, 1, 3, 8, 0));
+      day3.setFinish(LocalDateTime.of(2003, 1, 1, 10, 0));
       day3.setModified(true);
       day3.setTotalAmount(Duration.getInstance(2, TimeUnit.HOURS));
 
