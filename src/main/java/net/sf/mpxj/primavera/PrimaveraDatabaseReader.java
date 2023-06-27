@@ -300,7 +300,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       if (!rows.isEmpty())
       {
          StructuredTextRecord record = new StructuredTextParser().parse(rows.get(0).getString("prop_value"));
-         m_reader.processScheduleOptions(new MapRow(new HashMap<>(record.getAttributes())));
+         m_reader.processScheduleOptions(new MapRow(new HashMap<>(record.getAttributes()), false));
       }
    }
 
@@ -511,7 +511,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
             while (rs.next())
             {
-               result.add(new ResultSetRow(rs, meta));
+               result.add(new ResultSetRow(rs, meta, false));
             }
             return result;
          }
@@ -540,7 +540,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
             while (rs.next())
             {
-               result.add(new ResultSetRow(rs, meta));
+               result.add(new ResultSetRow(rs, meta, false));
             }
          }
       }
