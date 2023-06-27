@@ -441,10 +441,10 @@ final class PrimaveraReader
       //
       // Try and extract minutes per period from the calendar row
       //
-      Double rowHoursPerDay = getHoursPerPeriod(row, "day_hr_cnt");
-      Double rowHoursPerWeek = getHoursPerPeriod(row, "week_hr_cnt");
-      Double rowHoursPerMonth = getHoursPerPeriod(row, "month_hr_cnt");
-      Double rowHoursPerYear = getHoursPerPeriod(row, "year_hr_cnt");
+      Double rowHoursPerDay = row.getDouble("day_hr_cnt");
+      Double rowHoursPerWeek = row.getDouble("week_hr_cnt");
+      Double rowHoursPerMonth = row.getDouble("month_hr_cnt");
+      Double rowHoursPerYear = row.getDouble("year_hr_cnt");
 
       calendar.setCalendarMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerDay) * 60)));
       calendar.setCalendarMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerWeek) * 60)));
@@ -508,22 +508,6 @@ final class PrimaveraReader
       m_eventManager.fireCalendarReadEvent(calendar);
 
       return calendar;
-   }
-
-   private Double getHoursPerPeriod(Row row, String name)
-   {
-      try
-      {
-         return row.getDouble(name);
-      }
-
-      catch (ClassCastException ex)
-      {
-         // We have seen examples of malformed calendar data where fields have been missing
-         // from the record. We'll typically get a class cast exception here as we're trying
-         // to process something which isn't a double.
-         return null;
-      }
    }
 
    /**

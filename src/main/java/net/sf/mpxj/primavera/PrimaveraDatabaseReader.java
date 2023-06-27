@@ -300,7 +300,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       if (!rows.isEmpty())
       {
          StructuredTextRecord record = new StructuredTextParser().parse(rows.get(0).getString("prop_value"));
-         m_reader.processScheduleOptions(new MapRow(new HashMap<>(record.getAttributes())));
+         m_reader.processScheduleOptions(new MapRow(new HashMap<>(record.getAttributes()), false));
       }
    }
 

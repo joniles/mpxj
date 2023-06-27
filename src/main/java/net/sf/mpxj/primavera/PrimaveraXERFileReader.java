@@ -817,7 +817,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          map.put(fieldName, objectValue);
       }
 
-      Row currentRow = new MapRow(map);
+      Row currentRow = new MapRow(map, m_ignoreErrors);
       m_currentTable.add(currentRow);
 
       //
@@ -1012,6 +1012,26 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Returns true if errors during import are ignored.
+    *
+    * @return true if errors during import are ignored
+    */
+   public boolean getIgnoreErrors()
+   {
+      return m_ignoreErrors;
+   }
+
+   /**
+    * When set to true, errors during import are ignored.
+    *
+    * @param ignoreErrors set to true to ignore erros during import
+    */
+   public void setIgnoreErrors(boolean ignoreErrors)
+   {
+      m_ignoreErrors = ignoreErrors;
+   }
+
+   /**
     * Rather than using FIELD_TYPE_MAP directly, we copy it. This allows the
     * caller to add or modify type mappings for an individual instance of
     * the reader class.
@@ -1045,6 +1065,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;
+   private boolean m_ignoreErrors = true;
 
    /**
     * Represents expected record types.
