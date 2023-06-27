@@ -122,7 +122,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
    {
       return size() != 0;
    }
-
+   
    /**
     * Expand the current exception into a list of exception.
     * If the current exception is not recurring, or it is recurring and
@@ -208,17 +208,6 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
    public boolean contains(ProjectCalendarException exception)
    {
       return !(LocalDateHelper.compare(getToDate(), exception.getFromDate()) < 0 || LocalDateHelper.compare(exception.getToDate(), getFromDate()) < 0);
-   }
-
-   /**
-    * Used to determine if this exception makes the days it is
-    * applied to into working days or non-working days.
-    *
-    * @return {@code true} if this exception makes the dates it is applied to into working days
-    */
-   public boolean isWorking()
-   {
-      return !isEmpty();
    }
 
    @Override public int compareTo(ProjectCalendarException o)
