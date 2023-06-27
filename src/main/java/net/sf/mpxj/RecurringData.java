@@ -152,7 +152,7 @@ public class RecurringData
     *
     * @return true if daily recurrence applies to working days only
     */
-   public boolean isWorkingDaysOnly()
+   public boolean getWorkingDaysOnly()
    {
       return m_workingDaysOnly;
    }
