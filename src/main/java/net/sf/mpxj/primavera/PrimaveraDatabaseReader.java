@@ -511,7 +511,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
             while (rs.next())
             {
-               result.add(new ResultSetRow(rs, meta, false));
+               result.add(new ResultSetRow(rs, meta));
             }
             return result;
          }
@@ -540,7 +540,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
             while (rs.next())
             {
-               result.add(new ResultSetRow(rs, meta, false));
+               result.add(new ResultSetRow(rs, meta));
             }
          }
       }

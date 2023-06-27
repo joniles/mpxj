@@ -47,10 +47,10 @@ final class ResultSetRow extends MapRow
     * @param meta
     *            result set meta data
     */
-   public ResultSetRow(ResultSet rs, Map<String, Integer> meta, boolean ignoreErrors)
+   public ResultSetRow(ResultSet rs, Map<String, Integer> meta)
       throws SQLException
    {
-      super(new HashMap<>(), ignoreErrors);
+      super(new HashMap<>(), false);
 
       for (Entry<String, Integer> entry : meta.entrySet())
       {
