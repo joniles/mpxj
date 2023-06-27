@@ -24,7 +24,7 @@ additional options, as described below.
 ### Ignore Errors
 By default P6 ignores records it can't successfully read from an XER file. MPXJ
 takes the same approach, and in most cases if it doesn't receive the data it
-expects for a particular record it will ignore the problematic data item.
+expects for a particular record it will ignore the problematic item.
 
 This behavior is controlled using the `setIgnoreErrors` method. The example
 below illustrates how we can force the `PrimaveraXERFileReader` to report
