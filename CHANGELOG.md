@@ -1,6 +1,10 @@
 # Changelog
 
-## 11.5.4 (unreleased)
+## 11.5.5 (unreleased)
+
+## 11.5.4 (2023-06-27)
+* Improve accuracy of dates read from Synchro, Suretrak and Turboproject files.
+* By default ignore errors in individual records read from XER files. This matches P6's behavior when importing XER files. Use the `PrimaveraXERFileReader.setIgnoreErrors` method to change the behavior.
 
 ## 11.5.3 (2023-06-19)
 * When writing an XER file, provide the necessary default values to allow non-P6 schedules to be successfully imported into P6.

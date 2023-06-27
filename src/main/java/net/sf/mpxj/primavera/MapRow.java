@@ -41,6 +41,7 @@ class MapRow implements Row
     * Constructor.
     *
     * @param map map to be wrapped by this instance
+    * @param ignoreErrors true if errors reading values are ignored
     */
    public MapRow(Map<String, Object> map, boolean ignoreErrors)
    {
