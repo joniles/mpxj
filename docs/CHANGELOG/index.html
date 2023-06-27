@@ -267,8 +267,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1154-unreleased" class="md-nav__link">
-    11.5.4 (unreleased)
+  <a href="#1155-unreleased" class="md-nav__link">
+    11.5.5 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1154-2023-06-27" class="md-nav__link">
+    11.5.4 (2023-06-27)
   </a>
   
 </li>
@@ -2708,8 +2715,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1154-unreleased" class="md-nav__link">
-    11.5.4 (unreleased)
+  <a href="#1155-unreleased" class="md-nav__link">
+    11.5.5 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1154-2023-06-27" class="md-nav__link">
+    11.5.4 (2023-06-27)
   </a>
   
 </li>
@@ -4263,7 +4277,12 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1154-unreleased">11.5.4 (unreleased)</h2>
+<h2 id="1155-unreleased">11.5.5 (unreleased)</h2>
+<h2 id="1154-2023-06-27">11.5.4 (2023-06-27)</h2>
+<ul>
+<li>Improve accuracy of dates read from Synchro, Suretrak and Turboproject files.</li>
+<li>By default ignore errors in individual records read from XER files. This matches P6's behavior when importing XER files. Use the <code>PrimaveraXERFileReader.setIgnoreErrors</code> method to change the behavior.</li>
+</ul>
 <h2 id="1153-2023-06-19">11.5.3 (2023-06-19)</h2>
 <ul>
 <li>When writing an XER file, provide the necessary default values to allow non-P6 schedules to be successfully imported into P6.</li>

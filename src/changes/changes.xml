@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="11.5.4">
+		<release date="unreleased" version="11.5.5">
+		</release>
+		<release date="2023-06-27" version="11.5.4">
 			<action dev="joniles" type="update">Improve accuracy of dates read from Synchro, Suretrak and Turboproject files.</action>
 			<action dev="joniles" type="update">By default ignore errors in individual records read from XER files. This matches P6's behavior when importing XER files. Use the `PrimaveraXERFileReader.setIgnoreErrors` method to change the behavior.</action>
 		</release>
