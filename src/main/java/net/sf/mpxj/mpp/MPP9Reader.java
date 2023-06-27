@@ -1548,19 +1548,16 @@ final class MPP9Reader implements MPPVariantReader
       // object, and set this attribute using the most recent
       // value.
       //
-      SubProject currentSubProject = null;
+      String currentSubProject = null;
 
       for (Task currentTask : externalTasks)
       {
-         //noinspection deprecation
-         SubProject sp = currentTask.getSubProject();
+         String sp = currentTask.getSubprojectFile();
          if (sp == null)
          {
             if (currentSubProject != null)
             {
-               //noinspection deprecation
-               currentTask.setSubProject(currentSubProject);
-               currentTask.setSubprojectFile(currentSubProject.getFullPath());
+               currentTask.setSubprojectFile(currentSubProject);
             }
          }
          else
@@ -1571,7 +1568,7 @@ final class MPP9Reader implements MPPVariantReader
          if (currentSubProject != null)
          {
             //System.out.println ("Task: " +currentTask.getUniqueID() + " " + currentTask.getName() + " File=" + currentSubProject.getFullPath() + " ID=" + currentTask.getExternalTaskID());
-            currentTask.setProject(currentSubProject.getFullPath());
+            currentTask.setProject(currentSubProject);
          }
       }
    }
