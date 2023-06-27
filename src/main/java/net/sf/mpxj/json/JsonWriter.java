@@ -74,7 +74,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceRequestType;
-import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
@@ -850,12 +849,6 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
-         case SUBPROJECT:
-         {
-            writeSubproject(fieldName, value);
-            break;
-         }
-
          case RATE:
          {
             writeRateField(fieldName, value);
@@ -1214,37 +1207,6 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
-   }
-
-   /**
-    * Write a subproject to the JSON file.
-    *
-    * @param fieldName field name
-    * @param value field value
-    */
-   private void writeSubproject(String fieldName, Object value) throws IOException
-   {
-      SubProject sp = (SubProject) value;
-      m_writer.writeStartObject(fieldName);
-
-      writeStringField("project_guid", sp.getProjectGUID());
-      writeStringField("dos_file_name", sp.getDosFileName());
-      writeStringField("dos_full_path", sp.getDosFullPath());
-      writeStringField("file_name", sp.getFileName());
-      writeStringField("full_path", sp.getFullPath());
-      writeIntegerField("task_unique_id", sp.getTaskUniqueID());
-      writeIntegerField("unique_id_offset", sp.getUniqueIDOffset());
-
-      m_writer.writeStartList("all_external_task_unique_ids");
-      for (Integer id : sp.getAllExternalTaskUniqueIDs())
-      {
-         m_writer.writeStartObject(null);
-         writeIntegerField("id", id);
-         m_writer.writeEndObject();
-      }
-      m_writer.writeEndList();
-
-      m_writer.writeEndObject();
    }
 
    /**
@@ -1686,6 +1648,6 @@ public final class JsonWriter extends AbstractProjectWriter
       TYPE_MAP.put(Integer.class.getName(), DataType.INTEGER);
    }
 
-   private static final Set<FieldType> IGNORED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.ASSIGNMENT_TASK_GUID, AssignmentField.ASSIGNMENT_RESOURCE_GUID, ResourceField.CALENDAR_GUID, ResourceField.STANDARD_RATE_UNITS, ResourceField.OVERTIME_RATE_UNITS));
+   private static final Set<FieldType> IGNORED_FIELDS = new HashSet<>(Arrays.asList(AssignmentField.ASSIGNMENT_TASK_GUID, AssignmentField.ASSIGNMENT_RESOURCE_GUID, ResourceField.CALENDAR_GUID, ResourceField.STANDARD_RATE_UNITS, ResourceField.OVERTIME_RATE_UNITS, TaskField.SUBPROJECT));
    private static final Set<FieldType> MANDATORY_FIELDS = new HashSet<>(Arrays.asList(TaskField.UNIQUE_ID, TaskField.PARENT_TASK_UNIQUE_ID, ProjectField.DEFAULT_CALENDAR_UNIQUE_ID));
 }
