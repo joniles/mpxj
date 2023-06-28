@@ -1028,8 +1028,9 @@ public enum TaskField implements FieldType
    RESUME_VALID(DataType.BOOLEAN),
    NULL(DataType.BOOLEAN),
    FINISH(DataType.DATE),
-   BAR_NAME(DataType.STRING);
-
+   BAR_NAME(DataType.STRING),
+   EXPECTED_FINISH(DataType.DATE);
+   
    /**
     * Constructor.
     *

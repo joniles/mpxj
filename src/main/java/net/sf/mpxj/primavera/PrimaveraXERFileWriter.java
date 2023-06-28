@@ -1089,7 +1089,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("act_end_date", t -> t.getActualFinish());
       ACTIVITY_COLUMNS.put("late_start_date", t -> t.getLateStart());
       ACTIVITY_COLUMNS.put("late_end_date", t -> t.getLateFinish());
-      ACTIVITY_COLUMNS.put("expect_end_date", t -> null);
+      ACTIVITY_COLUMNS.put("expect_end_date", t -> t.getExpectedFinish());
       ACTIVITY_COLUMNS.put("early_start_date", t -> t.getEarlyStart());
       ACTIVITY_COLUMNS.put("early_end_date", t -> t.getEarlyFinish());
       ACTIVITY_COLUMNS.put("restart_date", t -> t.getRemainingEarlyStart());

@@ -916,6 +916,7 @@ final class PrimaveraPMProjectWriter
       xml.setCalendarObjectId(effectiveCalendar == null ? null : effectiveCalendar.getUniqueID());
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setDurationType(TaskTypeHelper.getXmlFromInstance(mpxj.getType()));
+      xml.setExpectedFinishDate(mpxj.getExpectedFinish());
       xml.setExternalEarlyStartDate(mpxj.getExternalEarlyStart());
       xml.setExternalLateFinishDate(mpxj.getExternalLateFinish());
       xml.setFinishDate(mpxj.getFinish());

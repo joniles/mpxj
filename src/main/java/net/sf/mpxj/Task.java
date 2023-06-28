@@ -5454,6 +5454,26 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Retrieve the expected finish date.
+    *
+    * @return expected finish date
+    */
+   public Date getExpectedFinish()
+   {
+      return (Date) get(TaskField.EXPECTED_FINISH);
+   }
+
+   /**
+    * Set the expected finish date.
+    *
+    * @param value expected finish date
+    */
+   public void setExpectedFinish(Date value)
+   {
+      set(TaskField.EXPECTED_FINISH, value);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.
