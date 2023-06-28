@@ -1202,6 +1202,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setExternalLateFinish(row.getExternalLateFinishDate());
          task.setLongestPath(row.isIsLongestPath());
          task.setLocationUniqueID(row.getLocationObjectId());
+         task.setExpectedFinish(row.getExpectedFinishDate());
 
          if (parentTask != null)
          {

@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="11.5.5">
+			<action dev="joniles" type="update">Added support for reading and writing the Activity attribute "Expected Finish" for P6 schedules.</action>
 		</release>
 		<release date="2023-06-27" version="11.5.4">
 			<action dev="joniles" type="update">Improve accuracy of dates read from Synchro, Suretrak and Turboproject files.</action>
