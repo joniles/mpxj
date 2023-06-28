@@ -1030,10 +1030,7 @@ public enum TaskField implements FieldType
    FINISH(DataType.DATE),
    BAR_NAME(DataType.STRING),
    EXPECTED_FINISH(DataType.DATE);
-
-
-
-
+   
    /**
     * Constructor.
     *
