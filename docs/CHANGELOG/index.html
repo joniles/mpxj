@@ -267,8 +267,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1155-unreleased" class="md-nav__link">
-    11.5.5 (unreleased)
+  <a href="#1201-unreleased" class="md-nav__link">
+    12.0.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1200-2023-06-29" class="md-nav__link">
+    12.0.0 (2023-06-29)
   </a>
   
 </li>
@@ -2715,8 +2722,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1155-unreleased" class="md-nav__link">
-    11.5.5 (unreleased)
+  <a href="#1201-unreleased" class="md-nav__link">
+    12.0.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1200-2023-06-29" class="md-nav__link">
+    12.0.0 (2023-06-29)
   </a>
   
 </li>
@@ -4277,7 +4291,17 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1155-unreleased">11.5.5 (unreleased)</h2>
+<h2 id="1201-unreleased">12.0.1 (unreleased)</h2>
+<h2 id="1200-2023-06-29">12.0.0 (2023-06-29)</h2>
+<ul>
+<li>NOTE: this is a major version release, breaking changes have been made to the MPXJ API as documented below.</li>
+<li>Timestamps, dates, and times are now represented by <code>java.time.LocalDateTime</code>, <code>java.time.LocalDate</code> and <code>java.time.LocalTime</code> respectively, rather than <code>java.util.Date</code> as they were originally.</li>
+<li>For .Net users, new <code>ToDateTime</code> and <code>ToNullableDateTime</code> extension methods have been provided to convert <code>java.time.LocalDateTime</code>, <code>java.time.LocalDate</code>, <code>java.time.LocalTime</code> to <code>DateTime</code> instances.</li>
+<li>For .Net users, new <code>ToJavaLocalDateTime</code>, <code>ToJavaLocalDate</code> and <code>ToJavaLocalTime</code> extension methods have been provided to convert <code>DateTime</code> instances to <code>java.time.LocalDateTime</code>, <code>java.time.LocalDate</code>, and <code>java.time.LocalTime</code>.</li>
+<li>The class <code>net.sf.mpxj.Day</code> has been replaced by <code>java.time.DayOfWeek</code>.</li>
+<li>All code previously marked as deprecated has been removed.</li>
+<li>Added support for reading and writing the Activity attribute "Expected Finish" for P6 schedules.</li>
+</ul>
 <h2 id="1154-2023-06-27">11.5.4 (2023-06-27)</h2>
 <ul>
 <li>Improve accuracy of dates read from Synchro, Suretrak and Turboproject files.</li>

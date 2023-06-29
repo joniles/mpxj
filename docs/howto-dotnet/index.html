@@ -1316,12 +1316,12 @@ language you may still find it useful to refer to the Java examples, and
 indeed the original Java source of MPXJ, to give you an insight into how the
 API can be used.</p>
 <h2 id="net-and-java-types">.Net and Java types</h2>
-<p>The .Net version of MPXJ has been generated directly from the Java
-version using a tool called IKVM. One of the side effects of using IKVM to
-perform this conversion is that the MPXJ exposes .Net versions of the
-original Java data types, so for example you will find that the API returns
-a type called <code>Date</code> rather than a .Net <code>DateTime</code>, and collections which 
-don't expose the familiar <code>IEnumerable</code> interface.</p>
+<p>The .Net version of MPXJ has been generated directly from the Java version using
+a tool called IKVM. One of the side effects of using IKVM to perform this
+conversion is that the MPXJ exposes .Net versions of the original Java data
+types, so for example you will find that the API returns a type called
+<code>LocalDateTime</code> rather than a .Net <code>DateTime</code>, and collections which don't
+expose the familiar <code>IEnumerable</code> interface.</p>
 <p>To simplify the translation between Java and .Net types, a set of extension
 methods have been provided. These are included n the NuGet package, and the
 source can be found in the <code>src.net\utilities</code> folder, in a project called

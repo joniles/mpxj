@@ -1438,78 +1438,62 @@ working days, with 8 working hours each day (8am to noon, then 1pm to 5pm).</p>
 <p>As you can see from the code above, the calendar also has a name which we can
 set to distinguish between different calendars.</p>
 <h2 id="working-days">Working Days</h2>
-<p>Let's see what the calendar can tell us. First we'll use the <code>Day</code> enumeration
-to retrieve the working/non-working state for each day.</p>
-<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Day</span><span class="w"> </span><span class="n">day</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Day</span><span class="p">.</span><span class="na">values</span><span class="p">())</span>
-<span class="p">{</span>
+<p>Let's see what the calendar can tell us. First we'll use the <code>DayOfWeek</code>
+enumeration to retrieve the working/non-working state for each day.</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">DayOfWeek</span><span class="w"> </span><span class="n">day</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">values</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">   </span><span class="n">String</span><span class="w"> </span><span class="n">dayType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getCalendarDayType</span><span class="p">(</span><span class="n">day</span><span class="p">).</span><span class="na">toString</span><span class="p">();</span>
 <span class="w">   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">day</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; is a &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dayType</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; day&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Running the code shown above will produce output like this:</p>
-<div class="highlight"><pre><span></span><code>SUNDAY is a NON_WORKING day
-MONDAY is a WORKING day
+<div class="highlight"><pre><span></span><code>MONDAY is a WORKING day
 TUESDAY is a WORKING day
 WEDNESDAY is a WORKING day
 THURSDAY is a WORKING day
 FRIDAY is a WORKING day
 SATURDAY is a NON_WORKING day
+SUNDAY is a NON_WORKING day
 </code></pre></div>
 <p>We can use the <code>setWorkingDay</code> method to change our pattern of working day.
 Let's make Saturday a working day for our team, and make Monday a non-working
 day to compensate.</p>
-<div class="highlight"><pre><span></span><code><span class="n">calendar</span><span class="p">.</span><span class="na">setWorkingDay</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">SATURDAY</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
-<span class="n">calendar</span><span class="p">.</span><span class="na">setWorkingDay</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">MONDAY</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="n">calendar</span><span class="p">.</span><span class="na">setWorkingDay</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">SATURDAY</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="n">calendar</span><span class="p">.</span><span class="na">setWorkingDay</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">MONDAY</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">);</span>
 </code></pre></div>
 <p>Now if we use the loop we saw previously to inspect the week days, we'll see
 this output:</p>
-<div class="highlight"><pre><span></span><code>SUNDAY is a NON_WORKING day
-MONDAY is a NON_WORKING day
+<div class="highlight"><pre><span></span><code>MONDAY is a NON_WORKING day
 TUESDAY is a WORKING day
 WEDNESDAY is a WORKING day
 THURSDAY is a WORKING day
 FRIDAY is a WORKING day
 SATURDAY is a WORKING day
+SUNDAY is a NON_WORKING day
 </code></pre></div>
 <h2 id="working-hours">Working Hours</h2>
 <p>So far, all we have done is set a flag which tells us whether a day is working
 or non-working. How do we know the working times on those days? We can use the
 <code>getCalendarHours</code> method to find that information.</p>
-<p>The <code>getCalendarHours</code> method returns a <code>List</code> of <code>DateRange</code> instances.
-<code>DateRange</code> is a simple immutable class which represents a span of time between
-a start date and an end date as an inclusive range. Let's try printing these
-<code>DateRange</code> instances to our output to see what we get:</p>
-<div class="highlight"><pre><span></span><code><span class="n">List</span><span class="o">&lt;</span><span class="n">DateRange</span><span class="o">&gt;</span><span class="w"> </span><span class="n">hours</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getCalendarHours</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">);</span>
+<p>The <code>getCalendarHours</code> method returns a <code>List</code> of <code>LocalTimeRange</code> instances.
+<code>LocalTimeRange</code> is a simple immutable class which represents a span of time
+between a start time and an end time as an inclusive range. Let's try printing
+these <code>LocalTimeRange</code> instances to our output to see what we get:</p>
+<div class="highlight"><pre><span></span><code><span class="n">List</span><span class="o">&lt;</span><span class="n">LocalTimeRange</span><span class="o">&gt;</span><span class="w"> </span><span class="n">hours</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getCalendarHours</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">);</span>
 <span class="n">hours</span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">::</span><span class="n">println</span><span class="p">);</span>
 </code></pre></div>
 <p>Here's the output:</p>
-<div class="highlight"><pre><span></span><code>[DateRange start=Sat Jan 01 08:00:00 GMT 1 end=Sat Jan 01 12:00:00 GMT 1]
-[DateRange start=Sat Jan 01 13:00:00 GMT 1 end=Sat Jan 01 17:00:00 GMT 1]
+<div class="highlight"><pre><span></span><code>[LocalTimeRange start=08:00 end=12:00]
+[LocalTimeRange start=13:00 end=17:00]
 </code></pre></div>
-<p>This isn't quite what we were expecting! What's happening here is that
-<code>DateRange</code> is using <code>java.util.Date</code> values to represent the start and end of
-the range, and the <code>toString</code> method of the <code>dateRange</code> class is just using
-these values directly. As these <code>java.util.Date</code> represent a full timestamp,
-we're seeing the entire timestamp here in our output. The day, month and year
-components of the timestamp have been set to a default value (in this case
-January 1st 0001).</p>
-<blockquote>
-<p>As work on MPXJ started in 2002, <code>java.util.Date</code> was the logical choice
-for representing dates, times and timestamps. Since Java 1.8, <code>LocalTime</code>
-would probably be a better representation for these values. This is likely
-to be a future enhancement to MPXJ.</p>
-</blockquote>
-<p>Let's add a method to format the hours of a day tidily for display:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">formatDateRanges</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">DateRange</span><span class="o">&gt;</span><span class="w"> </span><span class="n">hours</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">   </span><span class="n">DateFormat</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleDateFormat</span><span class="p">(</span><span class="s">&quot;HH:mm&quot;</span><span class="p">);</span>
+<p>Let's add a method to format the hours of a day a little more concisely for
+display:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">formatLocalTimeRanges</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">LocalTimeRange</span><span class="o">&gt;</span><span class="w"> </span><span class="n">hours</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">   </span><span class="k">return</span><span class="w"> </span><span class="n">hours</span><span class="p">.</span><span class="na">stream</span><span class="p">()</span>
-<span class="w">      </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">df</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="n">h</span><span class="p">.</span><span class="na">getStart</span><span class="p">())</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;-&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">df</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="n">h</span><span class="p">.</span><span class="na">getEnd</span><span class="p">()))</span>
+<span class="w">      </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">h</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">h</span><span class="p">.</span><span class="na">getStart</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;-&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="p">.</span><span class="na">getEnd</span><span class="p">())</span>
 <span class="w">      </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">joining</span><span class="p">(</span><span class="s">&quot;, &quot;</span><span class="p">));</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>In a real application we probably wouldn't want to instantiate a new
-<code>DateFormat</code> each time we call the method, but this is fine as a demonstration.
-So now our output looks like this:</p>
+<p>So now our output looks like this:</p>
 <div class="highlight"><pre><span></span><code>08:00-12:00, 13:00-17:00
 </code></pre></div>
 <p>Let's use this method to take a look at the whole week again:</p>
@@ -1517,17 +1501,17 @@ So now our output looks like this:</p>
 <span class="w">   </span><span class="n">String</span><span class="w"> </span><span class="n">dayType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getCalendarDayType</span><span class="p">(</span><span class="n">day</span><span class="p">).</span><span class="na">toString</span><span class="p">();</span>
 <span class="w">   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">day</span>
 <span class="w">      </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; is a &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dayType</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; day (&quot;</span>
-<span class="w">      </span><span class="o">+</span><span class="w"> </span><span class="n">formatDateRanges</span><span class="p">(</span><span class="n">calendar</span><span class="p">.</span><span class="na">getCalendarHours</span><span class="p">(</span><span class="n">day</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;)&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="o">+</span><span class="w"> </span><span class="n">formatLocalTimeRanges</span><span class="p">(</span><span class="n">calendar</span><span class="p">.</span><span class="na">getCalendarHours</span><span class="p">(</span><span class="n">day</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;)&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Here's the output:</p>
-<div class="highlight"><pre><span></span><code>SUNDAY is a NON_WORKING day ()
-MONDAY is a NON_WORKING day ()
+<div class="highlight"><pre><span></span><code>MONDAY is a NON_WORKING day ()
 TUESDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 WEDNESDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 THURSDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 FRIDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 SATURDAY is a WORKING day ()
+SUNDAY is a NON_WORKING day ()
 </code></pre></div>
 <p>The one thing we're missing now is that although we have set Saturday to be a
 working day, it doesn't have any working hours. MPXJ has some constants which
@@ -1537,46 +1521,32 @@ can be used to help us add some working hours:</p>
 <span class="n">hours</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">ProjectCalendarDays</span><span class="p">.</span><span class="na">DEFAULT_WORKING_AFTERNOON</span><span class="p">);</span>
 </code></pre></div>
 <p>Now when we examine our week this is what we see:</p>
-<div class="highlight"><pre><span></span><code>SUNDAY is a NON_WORKING day ()
-MONDAY is a NON_WORKING day ()
+<div class="highlight"><pre><span></span><code>MONDAY is a NON_WORKING day ()
 TUESDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 WEDNESDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 THURSDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 FRIDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 SATURDAY is a WORKING day (08:00-12:00, 13:00-17:00)
+SUNDAY is a NON_WORKING day ()
 </code></pre></div>
 <blockquote>
-<p>The version of MPXJ at the time of writing (10.5.0) has a limitation
+<p>The version of MPXJ at the time of writing (12.0.0) has a limitation
 that if <code>setCalendarDayType</code> is used to make a day into a working day, we don't
 automatically add working hours for it. This behaviour is likely to
 change with the next major version of MPXJ.</p>
 </blockquote>
 <p>What if we want to supply some working hours different from the defaults we've
 used so far? To set our own working hours we just need to create as many
-<code>DateRange</code> instances as we need using a pair of <code>Date</code> instances for each one
-to represent the start and end times. The year, month and day components of each
-<code>Date</code> are ignored. Here's an example of using Java's <code>Calendar</code> class
-to set a new working time for Saturday:</p>
-<div class="highlight"><pre><span></span><code><span class="n">Calendar</span><span class="w"> </span><span class="n">javaCalendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Calendar</span><span class="p">.</span><span class="na">getInstance</span><span class="p">();</span>
-<span class="n">javaCalendar</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">Calendar</span><span class="p">.</span><span class="na">HOUR_OF_DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">);</span>
-<span class="n">javaCalendar</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">Calendar</span><span class="p">.</span><span class="na">MINUTE</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">Date</span><span class="w"> </span><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">javaCalendar</span><span class="p">.</span><span class="na">getTime</span><span class="p">();</span>
-
-<span class="n">javaCalendar</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">Calendar</span><span class="p">.</span><span class="na">HOUR_OF_DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">);</span>
-<span class="n">javaCalendar</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">Calendar</span><span class="p">.</span><span class="na">MINUTE</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
-<span class="n">Date</span><span class="w"> </span><span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">javaCalendar</span><span class="p">.</span><span class="na">getTime</span><span class="p">();</span>
-
-<span class="n">hours</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getCalendarHours</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">SATURDAY</span><span class="p">);</span>
+<code>LocalTimeRange</code> instances as we need using a pair of <code>LocalTime</code> instances for
+each one to represent the start and end times.</p>
+<div class="highlight"><pre><span></span><code><span class="n">LocalTime</span><span class="w"> </span><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">LocalTime</span><span class="w"> </span><span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
+<span class="n">hours</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getCalendarHours</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">SATURDAY</span><span class="p">);</span>
 <span class="n">hours</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span>
-<span class="n">hours</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">DateRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">));</span>
+<span class="n">hours</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">LocalTimeRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">));</span>
 </code></pre></div>
 <p>Now when we look at the working hours for Saturday, this is what we see:</p>
 <div class="highlight"><pre><span></span><code>SATURDAY is a WORKING day (09:00-14:30)
-</code></pre></div>
-<p>MPXJ actually provides a helper method to simplify this process, here's the
-equivalent code:</p>
-<div class="highlight"><pre><span></span><code><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
 </code></pre></div>
 <p>Now we've seen how we can create our own ranges of working time for a day, let's
 tackle a slightly more challenging case: dealing with midnight. Our first step
@@ -1597,146 +1567,119 @@ we always know the units of the duration amount.</p>
 nicely formatted result, complete with an abbreviation for the units.</p>
 <p>Let's try to change Saturday to be 24 hour working. First we'll configure a
 midnight to midnight date range:</p>
-<div class="highlight"><pre><span></span><code><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">MIDNIGHT</span><span class="p">;</span>
+<span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">MIDNIGHT</span><span class="p">;</span>
 <span class="n">hours</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span>
-<span class="n">hours</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">DateRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">));</span>
-<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">formatDateRanges</span><span class="p">(</span><span class="n">calendar</span><span class="p">.</span><span class="na">getCalendarHours</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">SATURDAY</span><span class="p">)));</span>
+<span class="n">hours</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">LocalTimeRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">));</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">formatLocalTimeRanges</span><span class="p">(</span><span class="n">calendar</span><span class="p">.</span><span class="na">getCalendarHours</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">SATURDAY</span><span class="p">)));</span>
 </code></pre></div>
 <p>This looks reasonable:</p>
 <div class="highlight"><pre><span></span><code>00:00-00:00
 </code></pre></div>
 <p>Now let's see how much work this represents:</p>
-<div class="highlight"><pre><span></span><code><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getWork</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">SATURDAY</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">HOURS</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getWork</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">SATURDAY</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">HOURS</span><span class="p">);</span>
 <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">duration</span><span class="p">);</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>0.0h
-</code></pre></div>
-<p>Oh dear, that's not what we're expecting! This is one of the "gotchas" of the
-way MPXJ works presently: if we want to use midnight at the end of a date
-range, we actually need to explicitly create a time which is "+1 day" from our
-start time. The code below shows how we can do this using <code>Calendar</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="n">javaCalendar</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">Calendar</span><span class="p">.</span><span class="na">HOUR_OF_DAY</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">javaCalendar</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">Calendar</span><span class="p">.</span><span class="na">MINUTE</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">javaCalendar</span><span class="p">.</span><span class="na">getTime</span><span class="p">();</span>
-
-<span class="n">javaCalendar</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Calendar</span><span class="p">.</span><span class="na">DAY_OF_YEAR</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
-<span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">javaCalendar</span><span class="p">.</span><span class="na">getTime</span><span class="p">();</span>
-
-<span class="n">hours</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span>
-<span class="n">hours</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">DateRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">));</span>
-<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">formatDateRanges</span><span class="p">(</span><span class="n">calendar</span><span class="p">.</span><span class="na">getCalendarHours</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">SATURDAY</span><span class="p">)));</span>
-</code></pre></div>
-<p>We still end up with a range which looks like this:</p>
-<div class="highlight"><pre><span></span><code>00:00-00:00
-</code></pre></div>
-<p>But crucially now if we re-run the duration calculation, we get:</p>
 <div class="highlight"><pre><span></span><code>24.0h
 </code></pre></div>
 <p>So we have our 24 hours of work on Saturday!</p>
 <h2 id="exceptions">Exceptions</h2>
 <p>After working a few of these 24 hour days on Saturdays, we might be in need of a
 vacation! How can we add this to our calendar?</p>
-<p>So far we've been working with the <code>Day</code> class to make changes to days of the
-week, rather than any specific date. Now we'll need to work with a specific
+<p>So far we've been working with the <code>DayOfWeek</code> class to make changes to days of
+the week, rather than any specific date. Now we'll need to work with a specific
 date, and add an "exception" for this date. The terminology here can be
 slightly confusing when coming from a programming background, but the term
 exception is often used by scheduling applications in the context of making
 ad-hoc adjustments to a calendar.</p>
-<div class="highlight"><pre><span></span><code><span class="n">DateFormat</span><span class="w"> </span><span class="n">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleDateFormat</span><span class="p">(</span><span class="s">&quot;dd/MM/yyyy&quot;</span><span class="p">);</span>
-<span class="n">Date</span><span class="w"> </span><span class="n">exceptionDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">&quot;10/05/2022&quot;</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="n">LocalDate</span><span class="w"> </span><span class="n">exceptionDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
 
 <span class="kt">boolean</span><span class="w"> </span><span class="n">workingDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">isWorkingDate</span><span class="p">(</span><span class="n">exceptionDate</span><span class="p">);</span>
-<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="n">exceptionDate</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; is a &quot;</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">exceptionDate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; is a &quot;</span>
 <span class="w">   </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">workingDate</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;working&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;non-working&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; day&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>In the code above we're creating a <code>Date</code> instance to represent the date we want
+<p>In the code above we're creating a <code>LocalDate</code> instance to represent the date we want
 to add an exception for. The code uses the <code>isWorkingDate</code> method to determine
 whether or not the  given date is a working day. Before we add the exception,
 here's the output we get:</p>
-<div class="highlight"><pre><span></span><code>10/05/2022 is a working day
+<div class="highlight"><pre><span></span><code>2022-05-10 is a working day
 </code></pre></div>
 <p>Now we can create our exception.</p>
 <div class="highlight"><pre><span></span><code><span class="n">ProjectCalendarException</span><span class="w"> </span><span class="n">exception</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">addCalendarException</span><span class="p">(</span><span class="n">exceptionDate</span><span class="p">);</span>
 <span class="n">exception</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;A day off&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>The code above illustrates adding an exception for a single day. The time
-component of the <code>Date</code> instance you pass in here is irrelevant, the exception
-is always effective from the beginning of the day to the end of the day. The
-code above also shows that optionally an exception can be named, this can make
-it easier to understand the purpose of each exception. Now if we re-run our
-code which displays whether our chosen date is a working day, this is what we
-see:</p>
-<div class="highlight"><pre><span></span><code>10/05/2022 is a non-working day
+<p>The code above illustrates adding an exception for a single day. The code above
+also shows that optionally an exception can be named, this can make it easier
+to understand the purpose of each exception. Now if we re-run our code which
+displays whether our chosen date is a working day, this is what we see:</p>
+<div class="highlight"><pre><span></span><code>2022-05-10 is a non-working day
 </code></pre></div>
 <p>We have successfully added an exception to turn this date into a day off!</p>
 <p>Perhaps we were being a little too generous in giving ourselves the entire day
 off, perhaps in this case we should make this a half day instead. To do that, we
 just need to add a time range to the exception:</p>
-<div class="highlight"><pre><span></span><code><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">exception</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">DateRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">));</span>
+<div class="highlight"><pre><span></span><code><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">exception</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">LocalTimeRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">));</span>
 </code></pre></div>
 <p>Now if we look at our chosen date, this is what we see:</p>
-<div class="highlight"><pre><span></span><code>10/05/2022 is a working day
+<div class="highlight"><pre><span></span><code>2022-05-10 is a working day
 </code></pre></div>
 <p>Let's take a closer look at what's happening on that day:</p>
 <div class="highlight"><pre><span></span><code><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Working time on Tuesdays is normally &quot;</span>
-<span class="w">   </span><span class="o">+</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getWork</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">HOURS</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; but on &quot;</span>
-<span class="w">   </span><span class="o">+</span><span class="w"> </span><span class="n">df</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="n">exceptionDate</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; it is &quot;</span>
+<span class="w">   </span><span class="o">+</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getWork</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">HOURS</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; but on &quot;</span>
+<span class="w">   </span><span class="o">+</span><span class="w"> </span><span class="n">exceptionDate</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; it is &quot;</span>
 <span class="w">   </span><span class="o">+</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getWork</span><span class="p">(</span><span class="n">exceptionDate</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">HOURS</span><span class="p">));</span>
 </code></pre></div>
-<p>The code above shows how we use the <code>getWork</code> method which takes a <code>Day</code> as an
-argument to look at what the default working hours are on a Tuesday, then we
-use the <code>getWork</code> method which takes a <code>Date</code> instance as an argument to see
-what's happening on the specific Tuesday of our exception. Here's the output we
-get:</p>
-<div class="highlight"><pre><span></span><code>Working time on Tuesdays is normally 8.0h but on 10/05/2022 it is 4.0h
+<p>The code above shows how we use the <code>getWork</code> method which takes a <code>DayOfWeek</code>
+as an argument to look at what the default working hours are on a Tuesday, then
+we use the <code>getWork</code> method which takes a <code>LocalDate</code> instance as an argument
+to see what's happening on the specific Tuesday of our exception. Here's the
+output we get:</p>
+<div class="highlight"><pre><span></span><code>Working time on Tuesdays is normally 8.0h but on 2022-05-10 it is 4.0h
 </code></pre></div>
-<p>We can see the effect of adding a <code>DateRange</code> to our exception: we've gone from
-an exception which changes a working day into a non-working day to an exception
-which just changes the number of working hours in the day. This same approach
-can be used to change a date which falls on a day that's typically non-working
-(for example a Sunday) into a working day, just by adding an exception with
-some working hours.</p>
+<p>We can see the effect of adding a <code>LocalTimeRange</code> to our exception: we've gone
+from an exception which changes a working day into a non-working day to an
+exception which just changes the number of working hours in the day. This same
+approach can be used to change a date which falls on a day that's typically
+non-working (for example a Sunday) into a working day, just by adding an
+exception with some working hours.</p>
 <p>We can also use a single exception to affect a number of days. First let's
 write a little code to see the number of working hours over a range of days:</p>
-<div class="highlight"><pre><span></span><code><span class="n">Calendar</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Calendar</span><span class="p">.</span><span class="na">getInstance</span><span class="p">();</span>
-<span class="n">start</span><span class="p">.</span><span class="na">setTime</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">&quot;23/05/2022&quot;</span><span class="p">));</span>
-<span class="n">Calendar</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Calendar</span><span class="p">.</span><span class="na">getInstance</span><span class="p">();</span>
-<span class="n">end</span><span class="p">.</span><span class="na">setTime</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">&quot;28/05/2022&quot;</span><span class="p">));</span>
-
-<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Date</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start</span><span class="p">.</span><span class="na">getTime</span><span class="p">();</span><span class="w"> </span><span class="n">start</span><span class="p">.</span><span class="na">before</span><span class="p">(</span><span class="n">end</span><span class="p">);</span><span class="w"> </span><span class="n">start</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Calendar</span><span class="p">.</span><span class="na">DATE</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start</span><span class="p">.</span><span class="na">getTime</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">   </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="n">date</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;\t&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getWork</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">HOURS</span><span class="p">));</span>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">dateDump</span><span class="p">(</span><span class="n">ProjectCalendar</span><span class="w"> </span><span class="n">calendar</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDate</span><span class="w"> </span><span class="n">startDate</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDate</span><span class="w"> </span><span class="n">endDate</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">   </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">LocalDate</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">startDate</span><span class="p">;</span><span class="w"> </span><span class="n">date</span><span class="p">.</span><span class="na">isBefore</span><span class="p">(</span><span class="n">endDate</span><span class="p">);</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">date</span><span class="p">.</span><span class="na">plusDays</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">date</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;\t&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">getWork</span><span class="p">(</span><span class="n">date</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">HOURS</span><span class="p">));</span>
+<span class="w">   </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Running this code with our calendar as its stands produces this output for the
 example week we're using:</p>
-<div class="highlight"><pre><span></span><code>23/05/2022  0.0h
-24/05/2022  8.0h
-25/05/2022  8.0h
-26/05/2022  8.0h
-27/05/2022  8.0h
+<div class="highlight"><pre><span></span><code>2022-05-23  0.0h
+2022-05-24  8.0h
+2022-05-25  8.0h
+2022-05-26  8.0h
+2022-05-27  8.0h
 </code></pre></div>
 <p>Let's add an exception which covers Tuesday to Thursday that week (24th to
 26th), and changes the working hours, so there are now only four hours of work
 per day (9am to 12pm):</p>
-<div class="highlight"><pre><span></span><code><span class="n">Date</span><span class="w"> </span><span class="n">exceptionStartDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">&quot;24/05/2022&quot;</span><span class="p">);</span>
-<span class="n">Date</span><span class="w"> </span><span class="n">exceptionEndDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">&quot;26/05/2022&quot;</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="n">LocalDate</span><span class="w"> </span><span class="n">exceptionStartDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">);</span>
+<span class="n">LocalDate</span><span class="w"> </span><span class="n">exceptionEndDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">26</span><span class="p">);</span>
 <span class="n">exception</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">addCalendarException</span><span class="p">(</span><span class="n">exceptionStartDate</span><span class="p">,</span><span class="w"> </span><span class="n">exceptionEndDate</span><span class="p">);</span>
-<span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">exception</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">DateRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">));</span>
+<span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">exception</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">LocalTimeRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">));</span>
 </code></pre></div>
 <p>Here we can see that we're using a different version of the
 <code>addCalendarException</code> method which takes a start and an end date, rather that
 just a single date. Running our code again to print out the working hours for
 each day now gives us this output:</p>
-<div class="highlight"><pre><span></span><code>23/05/2022  0.0h
-24/05/2022  4.0h
-25/05/2022  4.0h
-26/05/2022  4.0h
-27/05/2022  8.0h
+<div class="highlight"><pre><span></span><code>2022-05-23  0.0h
+2022-05-24  4.0h
+2022-05-25  4.0h
+2022-05-26  4.0h
+2022-05-27  8.0h
 </code></pre></div>
 <p>As we can see, we've changed multiple days with this single exception.</p>
 <h2 id="working-weeks">Working Weeks</h2>
@@ -1761,70 +1704,69 @@ far is actually already a form of working week (they share a common parent
 class). The main differences between the two are that a <code>ProjectCalendarWeek</code>
 allows us to specify the range of dates over which it is effective, and a
 <code>ProjectCalendarWeek</code> does not have exceptions: exceptions are only added to
-a <code>ProjectCalendar</code>. Here's how our example looks in code:</p>
-<div class="highlight"><pre><span></span><code><span class="n">calendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addDefaultBaseCalendar</span><span class="p">();</span>
-<span class="n">ProjectCalendarWeek</span><span class="w"> </span><span class="n">week</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">addWorkWeek</span><span class="p">();</span>
-<span class="n">week</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Crunch Time!&quot;</span><span class="p">);</span>
-
-<span class="n">Date</span><span class="w"> </span><span class="n">weekStart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">&quot;01/10/2022&quot;</span><span class="p">);</span>
-<span class="n">Date</span><span class="w"> </span><span class="n">weekEnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">&quot;21/10/2022&quot;</span><span class="p">);</span>
-<span class="n">week</span><span class="p">.</span><span class="na">setDateRange</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">DateRange</span><span class="p">(</span><span class="n">weekStart</span><span class="p">,</span><span class="w"> </span><span class="n">weekEnd</span><span class="p">));</span>
-
-<span class="n">Arrays</span><span class="p">.</span><span class="na">stream</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">values</span><span class="p">()).</span><span class="na">forEach</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">week</span><span class="p">.</span><span class="na">setWorkingDay</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">));</span>
-</code></pre></div>
+a <code>ProjectCalendar</code>. </p>
 <p>For a fresh start, we'll create a new <code>ProjectCalendar</code> instance. With this
 we'll add a new working week definition and give it a name, to make it easily
 identifiable. Now we'll set the dates for which this work pattern is valid
 (in this case the first three weeks of October). Finally we mark every day as a
-working day.</p>
+working day. Here's how our example looks in code:</p>
+<div class="highlight"><pre><span></span><code><span class="n">LocalDate</span><span class="w"> </span><span class="n">weekStart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="n">LocalDate</span><span class="w"> </span><span class="n">weekEnd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">21</span><span class="p">);</span>
+<span class="n">calendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addDefaultBaseCalendar</span><span class="p">();</span>
+<span class="n">ProjectCalendarWeek</span><span class="w"> </span><span class="n">week</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calendar</span><span class="p">.</span><span class="na">addWorkWeek</span><span class="p">();</span>
+<span class="n">week</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Crunch Time!&quot;</span><span class="p">);</span>
+<span class="n">week</span><span class="p">.</span><span class="na">setDateRange</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">LocalDateRange</span><span class="p">(</span><span class="n">weekStart</span><span class="p">,</span><span class="w"> </span><span class="n">weekEnd</span><span class="p">));</span>
+<span class="n">Arrays</span><span class="p">.</span><span class="na">stream</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">values</span><span class="p">()).</span><span class="na">forEach</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">week</span><span class="p">.</span><span class="na">setWorkingDay</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">));</span>
+</code></pre></div>
 <p>Next we can set up our weekend 9am to 5pm working pattern:</p>
-<div class="highlight"><pre><span></span><code><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">DateRange</span><span class="w"> </span><span class="n">weekendHours</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DateRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">);</span>
-<span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">SATURDAY</span><span class="p">,</span><span class="w"> </span><span class="n">Day</span><span class="p">.</span><span class="na">SUNDAY</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">LocalTimeRange</span><span class="w"> </span><span class="n">weekendHours</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LocalTimeRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">);</span>
+<span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">SATURDAY</span><span class="p">,</span><span class="w"> </span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">SUNDAY</span><span class="p">)</span>
 <span class="w">   </span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">forEach</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">week</span><span class="p">.</span><span class="na">addCalendarHours</span><span class="p">(</span><span class="n">d</span><span class="p">).</span><span class="na">add</span><span class="p">(</span><span class="n">weekendHours</span><span class="p">));</span>
 </code></pre></div>
 <p>Finally we can set up our weekday 5am to 9pm pattern:</p>
-<div class="highlight"><pre><span></span><code><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">DateRange</span><span class="w"> </span><span class="n">weekdayHours</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DateRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">);</span>
-<span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">MONDAY</span><span class="p">,</span><span class="w"> </span><span class="n">Day</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">,</span><span class="w"> </span><span class="n">Day</span><span class="p">.</span><span class="na">WEDNESDAY</span><span class="p">,</span><span class="w"> </span><span class="n">Day</span><span class="p">.</span><span class="na">THURSDAY</span><span class="p">,</span><span class="w"> </span><span class="n">Day</span><span class="p">.</span><span class="na">FRIDAY</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">LocalTimeRange</span><span class="w"> </span><span class="n">weekdayHours</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LocalTimeRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">);</span>
+<span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">MONDAY</span><span class="p">,</span><span class="w"> </span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">,</span><span class="w"> </span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">WEDNESDAY</span><span class="p">,</span>
+<span class="w">      </span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">THURSDAY</span><span class="p">,</span><span class="w"> </span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">FRIDAY</span><span class="p">)</span>
 <span class="w">   </span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">forEach</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">week</span><span class="p">.</span><span class="na">addCalendarHours</span><span class="p">(</span><span class="n">d</span><span class="p">).</span><span class="na">add</span><span class="p">(</span><span class="n">weekdayHours</span><span class="p">));</span>
 </code></pre></div>
 <p>As <code>ProjectCalendar</code> and <code>ProjectCalendarWeek</code> are both derived from the same
 parent class, we can use the same code we did previously to examine how our new
 <code>ProjectCalendarWeek</code> instance looks:</p>
-<div class="highlight"><pre><span></span><code>SUNDAY is a WORKING day (09:00-17:00)
-MONDAY is a WORKING day (05:00-21:00)
+<div class="highlight"><pre><span></span><code>MONDAY is a WORKING day (05:00-21:00)
 TUESDAY is a WORKING day (05:00-21:00)
 WEDNESDAY is a WORKING day (05:00-21:00)
 THURSDAY is a WORKING day (05:00-21:00)
 FRIDAY is a WORKING day (05:00-21:00)
 SATURDAY is a WORKING day (09:00-17:00)
+SUNDAY is a WORKING day (09:00-17:00)
 </code></pre></div>
 <p>To see the effect that our new working week has had on the calendar, let's first
 take a look at the week running up to the start of our crunch period. Using the
 same code we worked with previously to present working hours for a range of
 dates we see this output:</p>
-<div class="highlight"><pre><span></span><code>24/09/2022  0.0h
-25/09/2022  0.0h
-26/09/2022  8.0h
-27/09/2022  8.0h
-28/09/2022  8.0h
-29/09/2022  8.0h
-30/09/2022  8.0h
+<div class="highlight"><pre><span></span><code>2022-09-24  0.0h
+2022-09-25  0.0h
+2022-09-26  8.0h
+2022-09-27  8.0h
+2022-09-28  8.0h
+2022-09-29  8.0h
+2022-09-30  8.0h
 </code></pre></div>
 <p>So starting from Saturday 24th we can see that we have that standard working
 pattern: weekends are non-working (zero working hours), and week days have 8
 hours of working time.</p>
 <p>Now let's look at the first week of our crunch period:</p>
-<div class="highlight"><pre><span></span><code>01/10/2022  8.0h
-02/10/2022  8.0h
-03/10/2022  16.0h
-04/10/2022  16.0h
-05/10/2022  16.0h
-06/10/2022  16.0h
-07/10/2022  16.0h
+<div class="highlight"><pre><span></span><code>2022-10-01  8.0h
+2022-10-02  8.0h
+2022-10-03  16.0h
+2022-10-04  16.0h
+2022-10-05  16.0h
+2022-10-06  16.0h
+2022-10-07  16.0h
 </code></pre></div>
 <p>We can see that the crunch is in full effect, we're working 8 hour days at the
 weekend, and 16 hour days for the rest of the week - not something I'd like to
@@ -1851,12 +1793,12 @@ with this we can use recurring exceptions.</p>
 <span class="n">recurringData</span><span class="p">.</span><span class="na">setOccurrences</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
 <span class="n">recurringData</span><span class="p">.</span><span class="na">setDayNumber</span><span class="p">(</span><span class="n">Integer</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
 <span class="n">recurringData</span><span class="p">.</span><span class="na">setMonthNumber</span><span class="p">(</span><span class="n">Integer</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
-<span class="n">recurringData</span><span class="p">.</span><span class="na">setStartDate</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">&quot;01/01/2023&quot;</span><span class="p">));</span>
+<span class="n">recurringData</span><span class="p">.</span><span class="na">setStartDate</span><span class="p">(</span><span class="n">LocalDate</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
 <span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">recurringData</span><span class="p">);</span>
 </code></pre></div>
 <p>The <code>toString</code> method on the <code>RecurringData</code> class tries to describe the
 recurrence as best it can, here's the output we'll see from the code above:</p>
-<div class="highlight"><pre><span></span><code><span class="go">[RecurringData Yearly on the 1 January From Sun Jan 01 00:00:00 GMT 2023 For 5 occurrences]</span>
+<div class="highlight"><pre><span></span><code><span class="go">[RecurringData Yearly on the 1 January From 2023-01-01 For 5 occurrences]</span>
 </code></pre></div>
 <p>The example above shows a very simple configuration. Full details of how to use
 <code>RecurringData</code> are provided elsewhere as they are beyond the scope of this
@@ -1885,7 +1827,7 @@ individuals on our team where we need to add variation, for example personal
 vacation time and so on.</p>
 <div class="highlight"><pre><span></span><code><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ProjectFile</span><span class="p">();</span>
 <span class="n">ProjectCalendar</span><span class="w"> </span><span class="n">parentCalendar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">.</span><span class="na">addDefaultBaseCalendar</span><span class="p">();</span>
-<span class="n">Date</span><span class="w"> </span><span class="n">christmasDay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">&quot;25/12/2023&quot;</span><span class="p">);</span>
+<span class="n">LocalDate</span><span class="w"> </span><span class="n">christmasDay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
 <span class="n">parentCalendar</span><span class="p">.</span><span class="na">addCalendarException</span><span class="p">(</span><span class="n">christmasDay</span><span class="p">);</span>
 </code></pre></div>
 <p>In the example above we've used the familiar <code>addDefaultBaseCalendar</code> method to
@@ -1905,12 +1847,12 @@ will be a working day, but as <code>childCalendar</code> is inheriting from
 <code>parentCalendar</code> it picks up the exception defined in <code>parentCalendar</code> and
 makes Christmas Day a non-working day.</p>
 <p>Here's the output when our code is executed:</p>
-<div class="highlight"><pre><span></span><code>Mon Dec 25 00:00:00 GMT 2023 is a working day: false
+<div class="highlight"><pre><span></span><code>2023-12-25 is a working day: false
 </code></pre></div>
 <p>We can also do the same thing with day types:</p>
-<div class="highlight"><pre><span></span><code><span class="n">parentCalendar</span><span class="p">.</span><span class="na">setCalendarDayType</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">,</span><span class="w"> </span><span class="n">DayType</span><span class="p">.</span><span class="na">NON_WORKING</span><span class="p">);</span>
-<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Is &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Day</span><span class="p">.</span><span class="na">TUESDAY</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; a working day: &quot;</span>
-<span class="w">   </span><span class="o">+</span><span class="w"> </span><span class="n">childCalendar</span><span class="p">.</span><span class="na">isWorkingDay</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">));</span>
+<div class="highlight"><pre><span></span><code><span class="n">parentCalendar</span><span class="p">.</span><span class="na">setCalendarDayType</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">,</span><span class="w"> </span><span class="n">DayType</span><span class="p">.</span><span class="na">NON_WORKING</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Is &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">TUESDAY</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; a working day: &quot;</span><span class="w"> </span>
+<span class="w">   </span><span class="o">+</span><span class="w"> </span><span class="n">childCalendar</span><span class="p">.</span><span class="na">isWorkingDay</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">));</span>
 </code></pre></div>
 <p>In the example above we've set Tuesday to be a non-working day in the parent
 calendar, and we can see that this is inherited by the child calendar. Here's
@@ -1948,13 +1890,14 @@ means that we should inherit the parent calendar's settings for this particular
 day: so whether the day is working, non-working, what the working hours are,
 and so on.</p>
 <p>We can override the day type we're inheriting from the base calendar:</p>
-<div class="highlight"><pre><span></span><code><span class="n">childCalendar</span><span class="p">.</span><span class="na">setCalendarDayType</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">,</span><span class="w"> </span><span class="n">DayType</span><span class="p">.</span><span class="na">WORKING</span><span class="p">);</span>
-<span class="n">Date</span><span class="w"> </span><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<span class="n">Date</span><span class="w"> </span><span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DateHelper</span><span class="p">.</span><span class="na">getTime</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
-<span class="n">childCalendar</span><span class="p">.</span><span class="na">addCalendarHours</span><span class="p">(</span><span class="n">Day</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">).</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">DateRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">));</span>
+<div class="highlight"><pre><span></span><code><span class="n">childCalendar</span><span class="p">.</span><span class="na">setCalendarDayType</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">,</span><span class="w"> </span><span class="n">DayType</span><span class="p">.</span><span class="na">WORKING</span><span class="p">);</span>
+<span class="n">LocalTime</span><span class="w"> </span><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">LocalTime</span><span class="w"> </span><span class="n">finishTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalTime</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
+<span class="n">childCalendar</span><span class="p">.</span><span class="na">addCalendarHours</span><span class="p">(</span><span class="n">DayOfWeek</span><span class="p">.</span><span class="na">TUESDAY</span><span class="p">).</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">LocalTimeRange</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span><span class="w"> </span><span class="n">finishTime</span><span class="p">));</span>
 </code></pre></div>
-<p>In the code above we're explicitly setting Tuesday to be a working day, rather than inheriting
-the settings for Tuesday from the parent calendar, then we're adding the working hours we want for Tuesday.</p>
+<p>In the code above we're explicitly setting Tuesday to be a working day, rather
+than inheriting the settings for Tuesday from the parent calendar, then we're
+adding the working hours we want for Tuesday.</p>
 <p>Earlier we said we come back and look at the <code>addDefaultDerivedCalendar</code> method
 in a little more detail. The main difference between
 <code>addDefaultDerivedCalendar</code> and <code>addDefaultBaseCalendar</code> is that the calendar
