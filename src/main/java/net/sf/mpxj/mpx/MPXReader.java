@@ -27,10 +27,11 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -40,8 +41,8 @@ import java.util.stream.Stream;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -67,9 +68,11 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamTokenizer;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.SlackHelper;
@@ -527,7 +530,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       properties.setDateOrder(record.getDateOrder(0));
       properties.setTimeFormat(record.getTimeFormat(1));
 
-      Date time = getTimeFromInteger(record.getInteger(2));
+      LocalTime time = getTimeFromInteger(record.getInteger(2));
       if (time != null)
       {
          properties.setDefaultStartTime(time);
@@ -557,26 +560,16 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param time integer time
     * @return Date instance
     */
-   private Date getTimeFromInteger(Integer time)
+   private LocalTime getTimeFromInteger(Integer time)
    {
-      Date result = null;
+      LocalTime result = null;
 
       if (time != null)
       {
-         int minutes = time.intValue();
-         int hours = minutes / 60;
-         minutes -= (hours * 60);
-
-         Calendar cal = DateHelper.popCalendar();
-         cal.set(Calendar.MILLISECOND, 0);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MINUTE, minutes);
-         cal.set(Calendar.HOUR_OF_DAY, hours);
-         result = cal.getTime();
-         DateHelper.pushCalendar(cal);
+         result = LocalTime.ofSecondOfDay(time.intValue() * 60L);
       }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -625,9 +618,9 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param record MPX record
     * @param calendar parent calendar
     */
-   private void populateCalendarHours(Record record, ProjectCalendar calendar) throws MPXJException
+   private void populateCalendarHours(Record record, ProjectCalendar calendar)
    {
-      ProjectCalendarHours hours = calendar.addCalendarHours(Day.getInstance(NumberHelper.getInt(record.getInteger(0))));
+      ProjectCalendarHours hours = calendar.addCalendarHours(DayOfWeekHelper.getInstance(NumberHelper.getInt(record.getInteger(0))));
       addDateRange(hours, record.getTime(1), record.getTime(2));
       addDateRange(hours, record.getTime(3), record.getTime(4));
       addDateRange(hours, record.getTime(5), record.getTime(6));
@@ -642,20 +635,11 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param start start date
     * @param end end date
     */
-   private void addDateRange(ProjectCalendarHours hours, Date start, Date end)
+   private void addDateRange(ProjectCalendarHours hours, LocalTime start, LocalTime end)
    {
       if (start != null && end != null)
       {
-         Calendar cal = DateHelper.popCalendar(end);
-         // If the time ends on midnight, the date should be the next day. Otherwise problems occur.
-         if (cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) == 0 && cal.get(Calendar.MILLISECOND) == 0)
-         {
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-         }
-         end = cal.getTime();
-         DateHelper.pushCalendar(cal);
-
-         hours.add(new DateRange(start, end));
+         hours.add(new LocalTimeRange(start, end));
       }
    }
 
@@ -665,10 +649,10 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param record MPX record
     * @param calendar calendar to which the exception will be added
     */
-   private void populateCalendarException(Record record, ProjectCalendar calendar) throws MPXJException
+   private void populateCalendarException(Record record, ProjectCalendar calendar)
    {
-      Date fromDate = record.getDate(0);
-      Date toDate = record.getDate(1);
+      LocalDateTime fromDate = record.getDate(0);
+      LocalDateTime toDate = record.getDate(1);
       boolean working = record.getNumericBoolean(2);
 
       // I have found an example MPX file where a single day exception is expressed with just the start date set.
@@ -678,7 +662,7 @@ public final class MPXReader extends AbstractProjectStreamReader
          toDate = fromDate;
       }
 
-      ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
+      ProjectCalendarException exception = calendar.addCalendarException(LocalDateHelper.getLocalDate(fromDate), LocalDateHelper.getLocalDate(toDate));
       if (working)
       {
          addExceptionRange(exception, record.getTime(3), record.getTime(4));
@@ -694,11 +678,11 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param start exception start
     * @param finish exception finish
     */
-   private void addExceptionRange(ProjectCalendarException exception, Date start, Date finish)
+   private void addExceptionRange(ProjectCalendarException exception, LocalTime start, LocalTime finish)
    {
       if (start != null && finish != null)
       {
-         exception.add(new DateRange(start, finish));
+         exception.add(new LocalTimeRange(start, finish));
       }
    }
 
@@ -720,13 +704,13 @@ public final class MPXReader extends AbstractProjectStreamReader
          calendar.setParent(m_projectFile.getCalendarByName(record.getString(0)));
       }
 
-      calendar.setCalendarDayType(Day.SUNDAY, record.getDayType(1));
-      calendar.setCalendarDayType(Day.MONDAY, record.getDayType(2));
-      calendar.setCalendarDayType(Day.TUESDAY, record.getDayType(3));
-      calendar.setCalendarDayType(Day.WEDNESDAY, record.getDayType(4));
-      calendar.setCalendarDayType(Day.THURSDAY, record.getDayType(5));
-      calendar.setCalendarDayType(Day.FRIDAY, record.getDayType(6));
-      calendar.setCalendarDayType(Day.SATURDAY, record.getDayType(7));
+      calendar.setCalendarDayType(DayOfWeek.SUNDAY, record.getDayType(1));
+      calendar.setCalendarDayType(DayOfWeek.MONDAY, record.getDayType(2));
+      calendar.setCalendarDayType(DayOfWeek.TUESDAY, record.getDayType(3));
+      calendar.setCalendarDayType(DayOfWeek.WEDNESDAY, record.getDayType(4));
+      calendar.setCalendarDayType(DayOfWeek.THURSDAY, record.getDayType(5));
+      calendar.setCalendarDayType(DayOfWeek.FRIDAY, record.getDayType(6));
+      calendar.setCalendarDayType(DayOfWeek.SATURDAY, record.getDayType(7));
 
       m_eventManager.fireCalendarReadEvent(calendar);
    }
@@ -867,7 +851,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       }
 
       CostRateTable table = new CostRateTable();
-      table.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
+      table.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
       resource.setCostRateTable(0, table);
 
       //
@@ -1198,15 +1182,7 @@ public final class MPXReader extends AbstractProjectStreamReader
             case START5:
             case STOP:
             {
-               try
-               {
-                  task.set(taskField, m_formats.getDateTimeFormat().parse(field));
-               }
-
-               catch (ParseException ex)
-               {
-                  throw new MPXJException("Failed to parse date time", ex);
-               }
+               task.set(taskField, m_formats.parseDateTime(field));
                break;
             }
 
@@ -1367,11 +1343,11 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param record MPX record
     * @param task recurring task
     */
-   private void populateRecurringTask(Record record, RecurringTask task) throws MPXJException
+   private void populateRecurringTask(Record record, RecurringTask task)
    {
       //System.out.println(record);
-      task.setStartDate(record.getDateTime(1));
-      task.setFinishDate(record.getDateTime(2));
+      task.setStartDate(LocalDateHelper.getLocalDate(record.getDateTime(1)));
+      task.setFinishDate(LocalDateHelper.getLocalDate(record.getDateTime(2)));
       task.setDuration(RecurrenceUtility.getDuration(m_projectFile.getProjectProperties(), record.getInteger(3), record.getInteger(4)));
       task.setOccurrences(record.getInteger(5));
       task.setRecurrenceType(RecurrenceUtility.getRecurrenceType(record.getInteger(6)));
@@ -1424,7 +1400,7 @@ public final class MPXReader extends AbstractProjectStreamReader
                }
                else
                {
-                  task.setYearlyAbsoluteFromDate(record.getDateTime(23));
+                  task.setYearlyAbsoluteFromDate(LocalDateHelper.getLocalDate(record.getDateTime(23)));
                }
                break;
             }
@@ -1494,7 +1470,7 @@ public final class MPXReader extends AbstractProjectStreamReader
     * @param record MPX record
     * @param workgroup workgroup instance
     */
-   private void populateResourceAssignmentWorkgroupFields(Record record, ResourceAssignmentWorkgroupFields workgroup) throws MPXJException
+   private void populateResourceAssignmentWorkgroupFields(Record record, ResourceAssignmentWorkgroupFields workgroup)
    {
       workgroup.setMessageUniqueID(record.getString(0));
       workgroup.setConfirmed(NumberHelper.getInt(record.getInteger(1)) == 1);
@@ -1552,7 +1528,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       // then we assume it was intended to have a parent calendar, so we set the
       // parent to be the default calendar for this project.
       //
-      if (calendar.getParent() == null && Stream.of(Day.values()).anyMatch(d -> calendar.getCalendarDayType(d) == DayType.DEFAULT))
+      if (calendar.getParent() == null && Stream.of(DayOfWeek.values()).anyMatch(d -> calendar.getCalendarDayType(d) == DayType.DEFAULT))
       {
          calendar.setParent(m_projectFile.getDefaultCalendar());
       }
@@ -1560,7 +1536,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       //
       // Populate WORKING or NON_WORKING days with calendar hours if they are missing.
       //
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          if (calendar.getCalendarHours(day) == null)
          {

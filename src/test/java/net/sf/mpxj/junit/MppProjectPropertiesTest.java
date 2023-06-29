@@ -25,8 +25,7 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.ProjectFile;
@@ -117,8 +116,8 @@ public class MppProjectPropertiesTest
       //
       // Create time and date formatters
       //
-      DateFormat tf = new SimpleDateFormat("HH:mm");
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter tf = DateTimeFormatter.ofPattern("HH:mm");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
       //
       // Check the values of project properties.

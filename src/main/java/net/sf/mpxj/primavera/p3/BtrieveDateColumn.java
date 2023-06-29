@@ -23,10 +23,8 @@
 
 package net.sf.mpxj.primavera.p3;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.primavera.common.AbstractColumn;
 
 /**
@@ -45,27 +43,18 @@ class BtrieveDateColumn extends AbstractColumn
       super(name, offset);
    }
 
-   @Override public Date read(int offset, byte[] data)
+   @Override public LocalDateTime read(int offset, byte[] data)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       int i = offset + m_offset;
 
       int day = data[i];
       int month = data[i + 1];
       int year = (data[i + 2] & 0xff) | ((data[i + 3] & 0xff) << 8);
-      if (year != 0)
+      if (year > 0 && month > 0 && month <= 12 && day > 0 && day <= 31)
       {
-         Calendar cal = DateHelper.popCalendar();
-         cal.set(Calendar.YEAR, year);
-         cal.set(Calendar.MONTH, month - 1);
-         cal.set(Calendar.DAY_OF_MONTH, day);
-         cal.set(Calendar.HOUR_OF_DAY, 0);
-         cal.set(Calendar.MINUTE, 0);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-         result = cal.getTime();
-         DateHelper.pushCalendar(cal);
+         result = LocalDateTime.of(year, month, day, 0, 0);
       }
 
       return result;

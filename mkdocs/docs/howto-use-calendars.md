@@ -23,12 +23,11 @@ As you can see from the code above, the calendar also has a name which we can
 set to distinguish between different calendars.
 
 ## Working Days
-Let's see what the calendar can tell us. First we'll use the `Day` enumeration
-to retrieve the working/non-working state for each day.
+Let's see what the calendar can tell us. First we'll use the `DayOfWeek`
+enumeration to retrieve the working/non-working state for each day.
 
 ```java
-for (Day day : Day.values())
-{
+for (DayOfWeek day : DayOfWeek.values()) {
    String dayType = calendar.getCalendarDayType(day).toString();
    System.out.println(day + " is a " + dayType + " day");
 }
@@ -37,13 +36,13 @@ for (Day day : Day.values())
 Running the code shown above will produce output like this:
 
 ```
-SUNDAY is a NON_WORKING day
 MONDAY is a WORKING day
 TUESDAY is a WORKING day
 WEDNESDAY is a WORKING day
 THURSDAY is a WORKING day
 FRIDAY is a WORKING day
 SATURDAY is a NON_WORKING day
+SUNDAY is a NON_WORKING day
 ```
 
 We can use the `setWorkingDay` method to change our pattern of working day.
@@ -51,21 +50,21 @@ Let's make Saturday a working day for our team, and make Monday a non-working
 day to compensate.
 
 ```java
-calendar.setWorkingDay(Day.SATURDAY, true);
-calendar.setWorkingDay(Day.MONDAY, false);
+calendar.setWorkingDay(DayOfWeek.SATURDAY, true);
+calendar.setWorkingDay(DayOfWeek.MONDAY, false);
 ```
 
 Now if we use the loop we saw previously to inspect the week days, we'll see
 this output:
 
 ```
-SUNDAY is a NON_WORKING day
 MONDAY is a NON_WORKING day
 TUESDAY is a WORKING day
 WEDNESDAY is a WORKING day
 THURSDAY is a WORKING day
 FRIDAY is a WORKING day
 SATURDAY is a WORKING day
+SUNDAY is a NON_WORKING day
 ```
 
 ## Working Hours
@@ -74,49 +73,34 @@ or non-working. How do we know the working times on those days? We can use the
 `getCalendarHours` method to find that information.
 
 
-The `getCalendarHours` method returns a `List` of `DateRange` instances.
-`DateRange` is a simple immutable class which represents a span of time between
-a start date and an end date as an inclusive range. Let's try printing these
-`DateRange` instances to our output to see what we get:
+The `getCalendarHours` method returns a `List` of `LocalTimeRange` instances.
+`LocalTimeRange` is a simple immutable class which represents a span of time
+between a start time and an end time as an inclusive range. Let's try printing
+these `LocalTimeRange` instances to our output to see what we get:
 
 ```java
-List<DateRange> hours = calendar.getCalendarHours(Day.TUESDAY);
+List<LocalTimeRange> hours = calendar.getCalendarHours(Day.TUESDAY);
 hours.forEach(System.out::println);
 ```
 
 Here's the output:
 
 ```
-[DateRange start=Sat Jan 01 08:00:00 GMT 1 end=Sat Jan 01 12:00:00 GMT 1]
-[DateRange start=Sat Jan 01 13:00:00 GMT 1 end=Sat Jan 01 17:00:00 GMT 1]
+[LocalTimeRange start=08:00 end=12:00]
+[LocalTimeRange start=13:00 end=17:00]
 ```
 
-This isn't quite what we were expecting! What's happening here is that
-`DateRange` is using `java.util.Date` values to represent the start and end of
-the range, and the `toString` method of the `dateRange` class is just using
-these values directly. As these `java.util.Date` represent a full timestamp,
-we're seeing the entire timestamp here in our output. The day, month and year
-components of the timestamp have been set to a default value (in this case
-January 1st 0001).
-
-> As work on MPXJ started in 2002, `java.util.Date` was the logical choice
-> for representing dates, times and timestamps. Since Java 1.8, `LocalTime`
-> would probably be a better representation for these values. This is likely
-> to be a future enhancement to MPXJ.
-
-Let's add a method to format the hours of a day tidily for display:
+Let's add a method to format the hours of a day a little more concisely for
+display:
 
 ```java
-private String formatDateRanges(List<DateRange> hours) {
-   DateFormat df = new SimpleDateFormat("HH:mm");
+private String formatLocalTimeRanges(List<LocalTimeRange> hours) {
    return hours.stream()
-      .map(h -> df.format(h.getStart()) + "-" + df.format(h.getEnd()))
+      .map(h -> h.getStart() + "-" + h.getEnd())
       .collect(Collectors.joining(", "));
 }
 ```
 
-In a real application we probably wouldn't want to instantiate a new
-`DateFormat` each time we call the method, but this is fine as a demonstration.
 So now our output looks like this:
 
 ```
@@ -130,20 +114,20 @@ for (Day day : Day.values()) {
    String dayType = calendar.getCalendarDayType(day).toString();
    System.out.println(day
       + " is a " + dayType + " day ("
-      + formatDateRanges(calendar.getCalendarHours(day)) + ")");
+      + formatLocalTimeRanges(calendar.getCalendarHours(day)) + ")");
 }
 ```
 
 Here's the output:
 
 ```
-SUNDAY is a NON_WORKING day ()
 MONDAY is a NON_WORKING day ()
 TUESDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 WEDNESDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 THURSDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 FRIDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 SATURDAY is a WORKING day ()
+SUNDAY is a NON_WORKING day ()
 ```
 
 The one thing we're missing now is that although we have set Saturday to be a
@@ -159,54 +143,37 @@ hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
 Now when we examine our week this is what we see:
 
 ```
-SUNDAY is a NON_WORKING day ()
 MONDAY is a NON_WORKING day ()
 TUESDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 WEDNESDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 THURSDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 FRIDAY is a WORKING day (08:00-12:00, 13:00-17:00)
 SATURDAY is a WORKING day (08:00-12:00, 13:00-17:00)
+SUNDAY is a NON_WORKING day ()
 ```
 
-> The version of MPXJ at the time of writing (10.5.0) has a limitation
+> The version of MPXJ at the time of writing (12.0.0) has a limitation
 > that if `setCalendarDayType` is used to make a day into a working day, we don't
 > automatically add working hours for it. This behaviour is likely to
 > change with the next major version of MPXJ.
 
 What if we want to supply some working hours different from the defaults we've
 used so far? To set our own working hours we just need to create as many
-`DateRange` instances as we need using a pair of `Date` instances for each one
-to represent the start and end times. The year, month and day components of each
-`Date` are ignored. Here's an example of using Java's `Calendar` class
-to set a new working time for Saturday:
+`LocalTimeRange` instances as we need using a pair of `LocalTime` instances for
+each one to represent the start and end times.
 
 ```java
-Calendar javaCalendar = Calendar.getInstance();
-javaCalendar.set(Calendar.HOUR_OF_DAY, 9);
-javaCalendar.set(Calendar.MINUTE, 0);
-Date startTime = javaCalendar.getTime();
-
-javaCalendar.set(Calendar.HOUR_OF_DAY, 14);
-javaCalendar.set(Calendar.MINUTE, 30);
-Date finishTime = javaCalendar.getTime();
-
-hours = calendar.getCalendarHours(Day.SATURDAY);
+LocalTime startTime = LocalTime.of(9, 0);
+LocalTime finishTime = LocalTime.of(14, 30);
+hours = calendar.getCalendarHours(DayOfWeek.SATURDAY);
 hours.clear();
-hours.add(new DateRange(startTime, finishTime));
+hours.add(new LocalTimeRange(startTime, finishTime));
 ```
 
 Now when we look at the working hours for Saturday, this is what we see:
 
 ```
 SATURDAY is a WORKING day (09:00-14:30)
-```
-
-MPXJ actually provides a helper method to simplify this process, here's the
-equivalent code:
-
-```java
-startTime = DateHelper.getTime(9, 0);
-finishTime = DateHelper.getTime(14, 30);
 ```
 
 Now we've seen how we can create our own ranges of working time for a day, let's
@@ -238,11 +205,11 @@ Let's try to change Saturday to be 24 hour working. First we'll configure a
 midnight to midnight date range:
 
 ```java
-startTime = DateHelper.getTime(0, 0);
-finishTime = DateHelper.getTime(0, 0);
+startTime = LocalTime.MIDNIGHT;
+finishTime = LocalTime.MIDNIGHT;
 hours.clear();
-hours.add(new DateRange(startTime, finishTime));
-System.out.println(formatDateRanges(calendar.getCalendarHours(Day.SATURDAY)));
+hours.add(new LocalTimeRange(startTime, finishTime));
+System.out.println(formatLocalTimeRanges(calendar.getCalendarHours(DayOfWeek.SATURDAY)));
 ```
 
 This looks reasonable:
@@ -254,39 +221,9 @@ This looks reasonable:
 Now let's see how much work this represents:
 
 ```java
-duration = calendar.getWork(Day.SATURDAY, TimeUnit.HOURS);
+duration = calendar.getWork(DayOfWeek.SATURDAY, TimeUnit.HOURS);
 System.out.println(duration);
 ```
-
-```
-0.0h
-```
-
-Oh dear, that's not what we're expecting! This is one of the "gotchas" of the
-way MPXJ works presently: if we want to use midnight at the end of a date
-range, we actually need to explicitly create a time which is "+1 day" from our
-start time. The code below shows how we can do this using `Calendar`.
-
-```java
-javaCalendar.set(Calendar.HOUR_OF_DAY, 0);
-javaCalendar.set(Calendar.MINUTE, 0);
-startTime = javaCalendar.getTime();
-
-javaCalendar.add(Calendar.DAY_OF_YEAR, 1);
-finishTime = javaCalendar.getTime();
-
-hours.clear();
-hours.add(new DateRange(startTime, finishTime));
-System.out.println(formatDateRanges(calendar.getCalendarHours(Day.SATURDAY)));
-```
-
-We still end up with a range which looks like this:
-
-```
-00:00-00:00
-```
-
-But crucially now if we re-run the duration calculation, we get:
 
 ```
 24.0h
@@ -299,29 +236,28 @@ So we have our 24 hours of work on Saturday!
 After working a few of these 24 hour days on Saturdays, we might be in need of a
 vacation! How can we add this to our calendar?
 
-So far we've been working with the `Day` class to make changes to days of the
-week, rather than any specific date. Now we'll need to work with a specific
+So far we've been working with the `DayOfWeek` class to make changes to days of
+the week, rather than any specific date. Now we'll need to work with a specific
 date, and add an "exception" for this date. The terminology here can be
 slightly confusing when coming from a programming background, but the term
 exception is often used by scheduling applications in the context of making
 ad-hoc adjustments to a calendar.
 
 ```java
-DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-Date exceptionDate = df.parse("10/05/2022");
+LocalDate exceptionDate = LocalDate.of(2022, 5, 10);
 
 boolean workingDate = calendar.isWorkingDate(exceptionDate);
-System.out.println(df.format(exceptionDate) + " is a "
+System.out.println(exceptionDate + " is a "
    + (workingDate ? "working" : "non-working") + " day");
 ```
 
-In the code above we're creating a `Date` instance to represent the date we want
+In the code above we're creating a `LocalDate` instance to represent the date we want
 to add an exception for. The code uses the `isWorkingDate` method to determine
 whether or not the  given date is a working day. Before we add the exception,
 here's the output we get:
 
 ```
-10/05/2022 is a working day
+2022-05-10 is a working day
 ```
 
 Now we can create our exception.
@@ -331,16 +267,13 @@ ProjectCalendarException exception = calendar.addCalendarException(exceptionDate
 exception.setName("A day off");
 ```
 
-The code above illustrates adding an exception for a single day. The time
-component of the `Date` instance you pass in here is irrelevant, the exception
-is always effective from the beginning of the day to the end of the day. The
-code above also shows that optionally an exception can be named, this can make
-it easier to understand the purpose of each exception. Now if we re-run our
-code which displays whether our chosen date is a working day, this is what we
-see:
+The code above illustrates adding an exception for a single day. The code above
+also shows that optionally an exception can be named, this can make it easier
+to understand the purpose of each exception. Now if we re-run our code which
+displays whether our chosen date is a working day, this is what we see:
 
 ```
-10/05/2022 is a non-working day
+2022-05-10 is a non-working day
 ```
 
 We have successfully added an exception to turn this date into a day off!
@@ -350,54 +283,52 @@ off, perhaps in this case we should make this a half day instead. To do that, we
 just need to add a time range to the exception:
 
 ```java
-startTime = DateHelper.getTime(8, 0);
-finishTime = DateHelper.getTime(12, 0);
-exception.add(new DateRange(startTime, finishTime));
+startTime = LocalTime.of(8, 0);
+finishTime = LocalTime.of(12, 0);
+exception.add(new LocalTimeRange(startTime, finishTime));
 ```
 
 Now if we look at our chosen date, this is what we see:
 
 ```
-10/05/2022 is a working day
+2022-05-10 is a working day
 ```
 
 Let's take a closer look at what's happening on that day:
 
 ```java
 System.out.println("Working time on Tuesdays is normally "
-   + calendar.getWork(Day.TUESDAY, TimeUnit.HOURS) + " but on "
-   + df.format(exceptionDate) + " it is "
+   + calendar.getWork(DayOfWeek.TUESDAY, TimeUnit.HOURS) + " but on "
+   + exceptionDate + " it is "
    + calendar.getWork(exceptionDate, TimeUnit.HOURS));
 ```
 
-The code above shows how we use the `getWork` method which takes a `Day` as an
-argument to look at what the default working hours are on a Tuesday, then we
-use the `getWork` method which takes a `Date` instance as an argument to see
-what's happening on the specific Tuesday of our exception. Here's the output we
-get:
+The code above shows how we use the `getWork` method which takes a `DayOfWeek`
+as an argument to look at what the default working hours are on a Tuesday, then
+we use the `getWork` method which takes a `LocalDate` instance as an argument
+to see what's happening on the specific Tuesday of our exception. Here's the
+output we get:
 
 ```
-Working time on Tuesdays is normally 8.0h but on 10/05/2022 it is 4.0h
+Working time on Tuesdays is normally 8.0h but on 2022-05-10 it is 4.0h
 ```
 
-We can see the effect of adding a `DateRange` to our exception: we've gone from
-an exception which changes a working day into a non-working day to an exception
-which just changes the number of working hours in the day. This same approach
-can be used to change a date which falls on a day that's typically non-working
-(for example a Sunday) into a working day, just by adding an exception with
-some working hours.
+We can see the effect of adding a `LocalTimeRange` to our exception: we've gone
+from an exception which changes a working day into a non-working day to an
+exception which just changes the number of working hours in the day. This same
+approach can be used to change a date which falls on a day that's typically
+non-working (for example a Sunday) into a working day, just by adding an
+exception with some working hours.
 
 We can also use a single exception to affect a number of days. First let's
 write a little code to see the number of working hours over a range of days:
 
 ```java
-Calendar start = Calendar.getInstance();
-start.setTime(df.parse("23/05/2022"));
-Calendar end = Calendar.getInstance();
-end.setTime(df.parse("28/05/2022"));
-
-for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
-   System.out.println(df.format(date) + "\t" + calendar.getWork(date, TimeUnit.HOURS));
+private void dateDump(ProjectCalendar calendar, LocalDate startDate, LocalDate endDate)
+{
+   for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+      System.out.println(date + "\t" + calendar.getWork(date, TimeUnit.HOURS));
+   }
 }
 ```
 
@@ -405,11 +336,11 @@ Running this code with our calendar as its stands produces this output for the
 example week we're using:
 
 ```
-23/05/2022  0.0h
-24/05/2022  8.0h
-25/05/2022  8.0h
-26/05/2022  8.0h
-27/05/2022  8.0h
+2022-05-23  0.0h
+2022-05-24  8.0h
+2022-05-25  8.0h
+2022-05-26  8.0h
+2022-05-27  8.0h
 ```
 
 Let's add an exception which covers Tuesday to Thursday that week (24th to
@@ -417,12 +348,12 @@ Let's add an exception which covers Tuesday to Thursday that week (24th to
 per day (9am to 12pm):
 
 ```java
-Date exceptionStartDate = df.parse("24/05/2022");
-Date exceptionEndDate = df.parse("26/05/2022");
+LocalDate exceptionStartDate = LocalDate.of(2022, 5, 24);
+LocalDate exceptionEndDate = LocalDate.of(2022, 5, 26);
 exception = calendar.addCalendarException(exceptionStartDate, exceptionEndDate);
-startTime = DateHelper.getTime(9, 0);
-finishTime = DateHelper.getTime(13, 0);
-exception.add(new DateRange(startTime, finishTime));
+startTime = LocalTime.of(9, 0);
+finishTime = LocalTime.of(13, 0);
+exception.add(new LocalTimeRange(startTime, finishTime));
 ``` 
 
 Here we can see that we're using a different version of the
@@ -431,11 +362,11 @@ just a single date. Running our code again to print out the working hours for
 each day now gives us this output:
 
 ```
-23/05/2022  0.0h
-24/05/2022  4.0h
-25/05/2022  4.0h
-26/05/2022  4.0h
-27/05/2022  8.0h
+2022-05-23  0.0h
+2022-05-24  4.0h
+2022-05-25  4.0h
+2022-05-26  4.0h
+2022-05-27  8.0h
 ```
 
 As we can see, we've changed multiple days with this single exception.
@@ -460,49 +391,47 @@ from a few days to many weeks. What it represents is the pattern of working an
 non-working time over the seven days of a week, and this pattern is applied
 from the start to the end of the date range we configure.
 
-
 The `ProjectCalendar` we've been working with so
 far is actually already a form of working week (they share a common parent
 class). The main differences between the two are that a `ProjectCalendarWeek`
 allows us to specify the range of dates over which it is effective, and a
 `ProjectCalendarWeek` does not have exceptions: exceptions are only added to
-a `ProjectCalendar`. Here's how our example looks in code:
-
-```java
-calendar = file.addDefaultBaseCalendar();
-ProjectCalendarWeek week = calendar.addWorkWeek();
-week.setName("Crunch Time!");
-
-Date weekStart = df.parse("01/10/2022");
-Date weekEnd = df.parse("21/10/2022");
-week.setDateRange(new DateRange(weekStart, weekEnd));
-
-Arrays.stream(Day.values()).forEach(d -> week.setWorkingDay(d, true));
-```
+a `ProjectCalendar`. 
 
 For a fresh start, we'll create a new `ProjectCalendar` instance. With this
 we'll add a new working week definition and give it a name, to make it easily
 identifiable. Now we'll set the dates for which this work pattern is valid
 (in this case the first three weeks of October). Finally we mark every day as a
-working day.
+working day. Here's how our example looks in code:
+
+```java
+LocalDate weekStart = LocalDate.of(2022, 10, 1);
+LocalDate weekEnd = LocalDate.of(2022, 10, 21);
+calendar = file.addDefaultBaseCalendar();
+ProjectCalendarWeek week = calendar.addWorkWeek();
+week.setName("Crunch Time!");
+week.setDateRange(new LocalDateRange(weekStart, weekEnd));
+Arrays.stream(DayOfWeek.values()).forEach(d -> week.setWorkingDay(d, true));
+```
 
 Next we can set up our weekend 9am to 5pm working pattern:
 
 ```java
-startTime = DateHelper.getTime(9, 0);
-finishTime = DateHelper.getTime(17, 0);
-DateRange weekendHours = new DateRange(startTime, finishTime);
-Arrays.asList(Day.SATURDAY, Day.SUNDAY)
+startTime = LocalTime.of(9, 0);
+finishTime = LocalTime.of(17, 0);
+LocalTimeRange weekendHours = new LocalTimeRange(startTime, finishTime);
+Arrays.asList(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY)
    .stream().forEach(d -> week.addCalendarHours(d).add(weekendHours));
 ```
 
 Finally we can set up our weekday 5am to 9pm pattern:
 
 ```java
-startTime = DateHelper.getTime(5, 0);
-finishTime = DateHelper.getTime(21, 0);
-DateRange weekdayHours = new DateRange(startTime, finishTime);
-Arrays.asList(Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY)
+startTime = LocalTime.of(5, 0);
+finishTime = LocalTime.of(21, 0);
+LocalTimeRange weekdayHours = new LocalTimeRange(startTime, finishTime);
+Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY,
+      DayOfWeek.THURSDAY, DayOfWeek.FRIDAY)
    .stream().forEach(d -> week.addCalendarHours(d).add(weekdayHours));
 ```
 
@@ -511,13 +440,13 @@ parent class, we can use the same code we did previously to examine how our new
 `ProjectCalendarWeek` instance looks:
 
 ```
-SUNDAY is a WORKING day (09:00-17:00)
 MONDAY is a WORKING day (05:00-21:00)
 TUESDAY is a WORKING day (05:00-21:00)
 WEDNESDAY is a WORKING day (05:00-21:00)
 THURSDAY is a WORKING day (05:00-21:00)
 FRIDAY is a WORKING day (05:00-21:00)
 SATURDAY is a WORKING day (09:00-17:00)
+SUNDAY is a WORKING day (09:00-17:00)
 ```
 
 To see the effect that our new working week has had on the calendar, let's first
@@ -526,13 +455,13 @@ same code we worked with previously to present working hours for a range of
 dates we see this output:
 
 ```
-24/09/2022  0.0h
-25/09/2022  0.0h
-26/09/2022  8.0h
-27/09/2022  8.0h
-28/09/2022  8.0h
-29/09/2022  8.0h
-30/09/2022  8.0h
+2022-09-24  0.0h
+2022-09-25  0.0h
+2022-09-26  8.0h
+2022-09-27  8.0h
+2022-09-28  8.0h
+2022-09-29  8.0h
+2022-09-30  8.0h
 ```
 
 So starting from Saturday 24th we can see that we have that standard working
@@ -542,13 +471,13 @@ hours of working time.
 Now let's look at the first week of our crunch period:
 
 ```
-01/10/2022  8.0h
-02/10/2022  8.0h
-03/10/2022  16.0h
-04/10/2022  16.0h
-05/10/2022  16.0h
-06/10/2022  16.0h
-07/10/2022  16.0h
+2022-10-01  8.0h
+2022-10-02  8.0h
+2022-10-03  16.0h
+2022-10-04  16.0h
+2022-10-05  16.0h
+2022-10-06  16.0h
+2022-10-07  16.0h
 ```
 
 We can see that the crunch is in full effect, we're working 8 hour days at the
@@ -584,7 +513,7 @@ recurringData.setRecurrenceType(RecurrenceType.YEARLY);
 recurringData.setOccurrences(5);
 recurringData.setDayNumber(Integer.valueOf(1));
 recurringData.setMonthNumber(Integer.valueOf(1));
-recurringData.setStartDate(df.parse("01/01/2023"));
+recurringData.setStartDate(LocalDate.of(2023, 1, 1));
 System.out.println(recurringData);
 ```
 
@@ -592,7 +521,7 @@ The `toString` method on the `RecurringData` class tries to describe the
 recurrence as best it can, here's the output we'll see from the code above:
 
 ```console
-[RecurringData Yearly on the 1 January From Sun Jan 01 00:00:00 GMT 2023 For 5 occurrences]
+[RecurringData Yearly on the 1 January From 2023-01-01 For 5 occurrences]
 ```
 
 The example above shows a very simple configuration. Full details of how to use
@@ -627,7 +556,7 @@ vacation time and so on.
 ```java
 ProjectFile file = new ProjectFile();
 ProjectCalendar parentCalendar = file.addDefaultBaseCalendar();
-Date christmasDay = df.parse("25/12/2023");
+LocalDate christmasDay = LocalDate.of(2023, 12, 25);
 parentCalendar.addCalendarException(christmasDay);
 ```
 
@@ -654,15 +583,15 @@ makes Christmas Day a non-working day.
 Here's the output when our code is executed:
 
 ```
-Mon Dec 25 00:00:00 GMT 2023 is a working day: false
+2023-12-25 is a working day: false
 ```
 
 We can also do the same thing with day types:
 
 ```java
-parentCalendar.setCalendarDayType(Day.TUESDAY, DayType.NON_WORKING);
-System.out.println("Is " + Day.TUESDAY + " a working day: "
-   + childCalendar.isWorkingDay(Day.TUESDAY));
+parentCalendar.setCalendarDayType(DayOfWeek.TUESDAY, DayType.NON_WORKING);
+System.out.println("Is " + DayOfWeek.TUESDAY + " a working day: " 
+   + childCalendar.isWorkingDay(DayOfWeek.TUESDAY));
 ```
 
 In the example above we've set Tuesday to be a non-working day in the parent
@@ -714,14 +643,15 @@ and so on.
 We can override the day type we're inheriting from the base calendar:
 
 ```java
-childCalendar.setCalendarDayType(Day.TUESDAY, DayType.WORKING);
-Date startTime = DateHelper.getTime(9, 0);
-Date finishTime = DateHelper.getTime(12, 30);
-childCalendar.addCalendarHours(Day.TUESDAY).add(new DateRange(startTime, finishTime));
+childCalendar.setCalendarDayType(DayOfWeek.TUESDAY, DayType.WORKING);
+LocalTime startTime = LocalTime.of(9, 0);
+LocalTime finishTime = LocalTime.of(12, 30);
+childCalendar.addCalendarHours(DayOfWeek.TUESDAY).add(new LocalTimeRange(startTime, finishTime));
 ```
 
-In the code above we're explicitly setting Tuesday to be a working day, rather than inheriting
-the settings for Tuesday from the parent calendar, then we're adding the working hours we want for Tuesday.
+In the code above we're explicitly setting Tuesday to be a working day, rather
+than inheriting the settings for Tuesday from the parent calendar, then we're
+adding the working hours we want for Tuesday.
 
 Earlier we said we come back and look at the `addDefaultDerivedCalendar` method
 in a little more detail. The main difference between

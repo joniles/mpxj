@@ -23,9 +23,10 @@
 
 package net.sf.mpxj.sdef;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.common.LocalDateHelper;
 
 /**
  * SDEF holiday record.
@@ -44,7 +45,7 @@ class HolidayRecord extends AbstractSDEFRecord
       {
          for (int index = 1; index < 16; index++)
          {
-            Date date = getDate(index);
+            LocalDate date = LocalDateHelper.getLocalDate(getDate(index));
             if (date != null)
             {
                calendar.addCalendarException(date);

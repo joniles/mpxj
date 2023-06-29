@@ -37,7 +37,6 @@ public class ActivityCode
    /**
     * Constructor.
     *
-    * @param parentFile parent file
     * @param uniqueID activity code unique ID
     * @param scope activity code scope
     * @param scopeEpsUniqueID scope EPS Unique ID
@@ -47,7 +46,7 @@ public class ActivityCode
     * @param secure secure flag
     * @param maxLength max length
     */
-   public ActivityCode(ProjectFile parentFile, Integer uniqueID, ActivityCodeScope scope, Integer scopeEpsUniqueID, Integer scopeProjectUniqueID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
+   public ActivityCode(Integer uniqueID, ActivityCodeScope scope, Integer scopeEpsUniqueID, Integer scopeProjectUniqueID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
    {
       m_uniqueID = uniqueID;
       m_scope = scope;

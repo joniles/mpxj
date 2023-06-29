@@ -24,8 +24,9 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -291,7 +292,7 @@ public class CustomFieldValueReader9
 
             case DATE:
             {
-               Date value = MPPUtility.getTimestamp(data, index);
+               LocalDateTime value = MPPUtility.getTimestamp(data, index);
                result.add(value);
                index += 4;
                break;

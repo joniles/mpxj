@@ -23,20 +23,20 @@
 
 package net.sf.mpxj.primavera;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.LocalTimeRange;
 
 /**
  * Encapsulates the functionality required to write a ProjectCalendar
@@ -72,13 +72,13 @@ class ProjectCalendarStructuredTextWriter
       daysOfWeekRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
       daysOfWeekRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, "DaysOfWeek");
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          StructuredTextRecord dayRecord = new StructuredTextRecord();
          daysOfWeekRecord.addChild(dayRecord);
 
          dayRecord.addAttribute(StructuredTextRecord.RECORD_NUMBER_ATTRIBUTE, "0");
-         dayRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, Integer.toString(day.getValue()));
+         dayRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, Integer.toString(DayOfWeekHelper.getValue(day)));
 
          // Working days/hours are not inherited between calendars, just exceptions.
          writeHours(dayRecord, calendar.getHours(day));
@@ -100,17 +100,16 @@ class ProjectCalendarStructuredTextWriter
       exceptionsRecord.addAttribute(StructuredTextRecord.RECORD_NAME_ATTRIBUTE, "Exceptions");
 
       int exceptionIndex = 0;
-      Calendar javaCalendar = DateHelper.popCalendar();
-      Set<Date> exceptionDates = new HashSet<>();
+      Set<LocalDate> exceptionDates = new HashSet<>();
 
       List<ProjectCalendarException> exceptions = net.sf.mpxj.common.ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(calendar);
       for (ProjectCalendarException exception : exceptions)
       {
-         javaCalendar.setTime(exception.getFromDate());
-         while (javaCalendar.getTimeInMillis() < exception.getToDate().getTime())
+         LocalDate currentDate = exception.getFromDate();
+         while (!currentDate.isAfter(exception.getToDate()))
          {
-            Date exceptionDate = javaCalendar.getTime();
-            javaCalendar.add(Calendar.DAY_OF_YEAR, 1);
+            LocalDate exceptionDate = currentDate;
+            currentDate = currentDate.plusDays(1);
 
             // Prevent duplicate exception dates being written.
             // P6 will fail to import files with duplicate exceptions.
@@ -119,7 +118,7 @@ class ProjectCalendarStructuredTextWriter
                continue;
             }
 
-            long dateValue = (long) Math.ceil((double) (DateHelper.getLongFromDate(exceptionDate) - PrimaveraReader.EXCEPTION_EPOCH) / DateHelper.MS_PER_DAY);
+            long dateValue = PrimaveraReader.EXCEPTION_EPOCH.until(exceptionDate, ChronoUnit.DAYS);
 
             StructuredTextRecord exceptionRecord = new StructuredTextRecord();
             exceptionsRecord.addChild(exceptionRecord);
@@ -130,8 +129,6 @@ class ProjectCalendarStructuredTextWriter
             writeHours(exceptionRecord, exception);
          }
       }
-
-      DateHelper.pushCalendar(javaCalendar);
 
       return exceptionsRecord;
    }
@@ -145,7 +142,7 @@ class ProjectCalendarStructuredTextWriter
    private void writeHours(StructuredTextRecord parentRecord, ProjectCalendarHours hours)
    {
       int hoursIndex = 0;
-      for (DateRange range : hours)
+      for (LocalTimeRange range : hours)
       {
          StructuredTextRecord hoursRecord = new StructuredTextRecord();
          parentRecord.addChild(hoursRecord);
@@ -156,5 +153,5 @@ class ProjectCalendarStructuredTextWriter
       }
    }
 
-   private final DateFormat m_timeFormat = new SimpleDateFormat("HH:mm");
+   private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HH:mm");
 }

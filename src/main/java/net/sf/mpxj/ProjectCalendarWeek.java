@@ -26,11 +26,12 @@ package net.sf.mpxj;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 
 /**
  * This class represents a basic working week, with no exceptions.
@@ -43,7 +44,7 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
     *
     * @return date range, or null
     */
-   public DateRange getDateRange()
+   public LocalDateRange getDateRange()
    {
       return m_dateRange;
    }
@@ -54,7 +55,7 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
     *
     * @param range date range, or null
     */
-   public void setDateRange(DateRange range)
+   public void setDateRange(LocalDateRange range)
    {
       m_dateRange = range;
    }
@@ -76,16 +77,16 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
 
       // Avoid generating exceptions beyond the bounds of the project
       List<ProjectCalendarException> result = new ArrayList<>();
-      Date earliestStartDate = calendar.getParentFile().getEarliestStartDate();
-      Date fromDate = m_dateRange.getStart();
-      if (DateHelper.compare(earliestStartDate, fromDate) > 0)
+      LocalDate earliestStartDate = LocalDateHelper.getLocalDate(calendar.getParentFile().getEarliestStartDate());
+      LocalDate fromDate = m_dateRange.getStart();
+      if (LocalDateHelper.compare(earliestStartDate, fromDate) > 0)
       {
          fromDate = earliestStartDate;
       }
 
-      Date latestFinishDate = calendar.getParentFile().getLatestFinishDate();
-      Date toDate = m_dateRange.getEnd();
-      if (DateHelper.compare(toDate, latestFinishDate) > 0)
+      LocalDate latestFinishDate = LocalDateHelper.getLocalDate(calendar.getParentFile().getLatestFinishDate());
+      LocalDate toDate = m_dateRange.getEnd();
+      if (LocalDateHelper.compare(toDate, latestFinishDate) > 0)
       {
          toDate = latestFinishDate;
       }
@@ -93,7 +94,7 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
       //
       // Generate a recurring exception for each day
       //
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          if (getCalendarDayType(day) == DayType.DEFAULT)
          {
@@ -123,9 +124,7 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
 
    @Override public int compareTo(ProjectCalendarWeek o)
    {
-      long fromTime1 = m_dateRange.getStart().getTime();
-      long fromTime2 = o.m_dateRange.getStart().getTime();
-      return (Long.compare(fromTime1, fromTime2));
+      return m_dateRange.getStart().compareTo(o.m_dateRange.getStart());
    }
 
    @Override public String toString()
@@ -136,7 +135,7 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
       pw.println("   name=" + getName());
       pw.println("   date_range=" + getDateRange());
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          pw.println("   [Day " + day);
          pw.println("      type=" + getCalendarDayType(day));
@@ -152,5 +151,5 @@ public class ProjectCalendarWeek extends ProjectCalendarDays implements Comparab
    /**
     * Date range for which this week is valid, null if this is the default week.
     */
-   private DateRange m_dateRange;
+   private LocalDateRange m_dateRange;
 }

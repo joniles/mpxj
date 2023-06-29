@@ -23,21 +23,20 @@
 
 package net.sf.mpxj.phoenix;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * This class contains methods used to perform the datatype conversions
@@ -161,9 +160,9 @@ public final class DatatypeConverter
     * @param value Date instance
     * @return formatted date time
     */
-   public static final String printDateTime(Date value)
+   public static final String printDateTime(LocalDateTime value)
    {
-      return (value == null ? null : DATE_FORMAT.get().format(value));
+      return (value == null ? null : DATE_FORMAT.format(value));
    }
 
    /**
@@ -172,7 +171,7 @@ public final class DatatypeConverter
     * @param value Phoenix date time
     * @return Date instance
     */
-   public static final Date parseDateTime(String value)
+   public static final LocalDateTime parseDateTime(String value)
    {
       if (value == null || value.isEmpty() || value.equals(NOT_A_DATE_TIME))
       {
@@ -181,17 +180,17 @@ public final class DatatypeConverter
 
       if (value.equals(PLUS_INFINITY))
       {
-         return DateHelper.END_DATE_NA;
+         return LocalDateTimeHelper.END_DATE_NA;
       }
 
-      Date result = null;
+      LocalDateTime result = null;
 
       try
       {
-         result = DATE_FORMAT.get().parse(value);
+         result = LocalDateTime.parse(value, DATE_FORMAT);
       }
 
-      catch (ParseException ex)
+      catch (DateTimeParseException ex)
       {
          // Ignored
       }
@@ -245,7 +244,7 @@ public final class DatatypeConverter
     * @param value Phoenix day
     * @return Day instance
     */
-   public static final Day parseDay(String value)
+   public static final DayOfWeek parseDay(String value)
    {
       return NAME_TO_DAY.get(value);
    }
@@ -256,13 +255,13 @@ public final class DatatypeConverter
     * @param value Date instance
     * @return formatted date time
     */
-   public static final String printFinishDateTime(Date value)
+   public static final String printFinishDateTime(LocalDateTime value)
    {
       if (value != null)
       {
-         value = DateHelper.addDays(value, 1);
+         value = value.plusDays(1);
       }
-      return (value == null ? null : DATE_FORMAT.get().format(value));
+      return (value == null ? null : DATE_FORMAT.format(value));
    }
 
    /**
@@ -271,12 +270,12 @@ public final class DatatypeConverter
     * @param value Phoenix date time
     * @return Date instance
     */
-   public static final Date parseFinishDateTime(String value)
+   public static final LocalDateTime parseFinishDateTime(String value)
    {
-      Date result = parseDateTime(value);
+      LocalDateTime result = parseDateTime(value);
       if (result != null)
       {
-         result = DateHelper.addDays(result, -1);
+         result = result.minusDays(1);
       }
       return result;
    }
@@ -287,7 +286,7 @@ public final class DatatypeConverter
     * @param value Day instance
     * @return formatted day
     */
-   public static final String printDay(Day value)
+   public static final String printDay(DayOfWeek value)
    {
       return DAY_TO_NAME.get(value);
    }
@@ -339,36 +338,32 @@ public final class DatatypeConverter
       RELATION_TYPE_TO_NAME.put(RelationType.START_START, "StartToStart");
    }
 
-   private static final Map<String, Day> NAME_TO_DAY = new HashMap<>();
+   private static final Map<String, DayOfWeek> NAME_TO_DAY = new HashMap<>();
    static
    {
-      NAME_TO_DAY.put("Mon", Day.MONDAY);
-      NAME_TO_DAY.put("Tue", Day.TUESDAY);
-      NAME_TO_DAY.put("Wed", Day.WEDNESDAY);
-      NAME_TO_DAY.put("Thu", Day.THURSDAY);
-      NAME_TO_DAY.put("Fri", Day.FRIDAY);
-      NAME_TO_DAY.put("Sat", Day.SATURDAY);
-      NAME_TO_DAY.put("Sun", Day.SUNDAY);
+      NAME_TO_DAY.put("Mon", DayOfWeek.MONDAY);
+      NAME_TO_DAY.put("Tue", DayOfWeek.TUESDAY);
+      NAME_TO_DAY.put("Wed", DayOfWeek.WEDNESDAY);
+      NAME_TO_DAY.put("Thu", DayOfWeek.THURSDAY);
+      NAME_TO_DAY.put("Fri", DayOfWeek.FRIDAY);
+      NAME_TO_DAY.put("Sat", DayOfWeek.SATURDAY);
+      NAME_TO_DAY.put("Sun", DayOfWeek.SUNDAY);
    }
 
-   private static final Map<Day, String> DAY_TO_NAME = new HashMap<>();
+   private static final Map<DayOfWeek, String> DAY_TO_NAME = new HashMap<>();
    static
    {
-      DAY_TO_NAME.put(Day.MONDAY, "Mon");
-      DAY_TO_NAME.put(Day.TUESDAY, "Tue");
-      DAY_TO_NAME.put(Day.WEDNESDAY, "Wed");
-      DAY_TO_NAME.put(Day.THURSDAY, "Thu");
-      DAY_TO_NAME.put(Day.FRIDAY, "Fri");
-      DAY_TO_NAME.put(Day.SATURDAY, "Sat");
-      DAY_TO_NAME.put(Day.SUNDAY, "Sun");
+      DAY_TO_NAME.put(DayOfWeek.MONDAY, "Mon");
+      DAY_TO_NAME.put(DayOfWeek.TUESDAY, "Tue");
+      DAY_TO_NAME.put(DayOfWeek.WEDNESDAY, "Wed");
+      DAY_TO_NAME.put(DayOfWeek.THURSDAY, "Thu");
+      DAY_TO_NAME.put(DayOfWeek.FRIDAY, "Fri");
+      DAY_TO_NAME.put(DayOfWeek.SATURDAY, "Sat");
+      DAY_TO_NAME.put(DayOfWeek.SUNDAY, "Sun");
    }
 
    private static final String NOT_A_DATE_TIME = "not-a-date-time";
    private static final String PLUS_INFINITY = "+infinity";
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyyMMdd'T'HHmmss");
-      df.setLenient(false);
-      return df;
-   });
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss");
 }

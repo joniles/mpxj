@@ -23,8 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * This class represents a resource's availability table.
@@ -37,13 +37,13 @@ public final class AvailabilityTable extends ArrayList<Availability>
     * @param date required date
     * @return cost rate table entry
     */
-   public Availability getEntryByDate(Date date)
+   public Availability getEntryByDate(LocalDateTime date)
    {
       Availability result = null;
 
       for (Availability entry : this)
       {
-         DateRange range = entry.getRange();
+         LocalDateTimeRange range = entry.getRange();
          int comparisonResult = range.compareTo(date);
          if (comparisonResult >= 0)
          {

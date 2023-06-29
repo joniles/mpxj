@@ -24,7 +24,6 @@
 package net.sf.mpxj.junit;
 
 import net.sf.mpxj.junit.assignment.EffectiveRateTest;
-import net.sf.mpxj.junit.calendar.GetStartDateTest;
 import net.sf.mpxj.mspdi.XsdDurationTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -154,7 +153,6 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    LocaleDataTest.class,
    MultiDayExceptionsTest.class,
    SemVerTest.class,
-   GetStartDateTest.class,
    EffectiveRateTest.class,
    CombinedCalendarTest.class,
    XsdDurationTest.class,

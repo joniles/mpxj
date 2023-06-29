@@ -23,10 +23,11 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -316,9 +317,9 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     *
     * @return start date
     */
-   public Date getEarliestStartDate()
+   public LocalDateTime getEarliestStartDate()
    {
-      Date startDate = null;
+      LocalDateTime startDate = null;
 
       for (Task task : m_tasks)
       {
@@ -336,7 +337,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
          // is always correct, the milestone start date may be different
          // to reflect a missed deadline.
          //
-         Date taskStartDate;
+         LocalDateTime taskStartDate;
          if (task.getMilestone())
          {
             taskStartDate = task.getActualFinish();
@@ -362,7 +363,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
             }
             else
             {
-               if (taskStartDate.getTime() < startDate.getTime())
+               if (taskStartDate.isBefore(startDate))
                {
                   startDate = taskStartDate;
                }
@@ -378,9 +379,9 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     *
     * @return finish date
     */
-   public Date getLatestFinishDate()
+   public LocalDateTime getLatestFinishDate()
    {
-      Date finishDate = null;
+      LocalDateTime finishDate = null;
 
       for (Task task : m_tasks)
       {
@@ -395,7 +396,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
          //
          // Select the actual or forecast start date
          //
-         Date taskFinishDate;
+         LocalDateTime taskFinishDate;
          taskFinishDate = task.getActualFinish();
          if (taskFinishDate == null)
          {
@@ -410,7 +411,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
             }
             else
             {
-               if (taskFinishDate.getTime() > finishDate.getTime())
+               if (taskFinishDate.isAfter(finishDate))
                {
                   finishDate = taskFinishDate;
                }
@@ -459,17 +460,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    public GroupContainer getGroups()
    {
       return m_groups;
-   }
-
-   /**
-    * Retrieves all the subprojects for this project.
-    *
-    * @return all subproject details
-    * @deprecated use the attributes on individual tasks to retrieve subproject details
-    */
-   @Deprecated public SubProjectContainer getSubProjects()
-   {
-      return m_subProjects;
    }
 
    /**
@@ -702,7 +692,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * files can be located and loaded correctly, this will present
     * a complete view of the project.
     */
-   public void expandSubprojects() throws MPXJException
+   public void expandSubprojects()
    {
       for (Task task : getTasks())
       {
@@ -735,7 +725,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final TableContainer m_tables = new TableContainer();
    private final FilterContainer m_filters = new FilterContainer();
    private final GroupContainer m_groups = new GroupContainer();
-   private final SubProjectContainer m_subProjects = new SubProjectContainer();
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
    private final CustomFieldContainer m_customFields = new CustomFieldContainer();

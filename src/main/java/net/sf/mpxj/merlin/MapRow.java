@@ -23,18 +23,18 @@
 
 package net.sf.mpxj.merlin;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 import java.util.Map;
 import java.util.UUID;
 
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -133,14 +133,14 @@ class MapRow implements Row
       return (NumberHelper.getInt((Number) getObject(name)));
    }
 
-   @Override public Date getTimestamp(String name)
+   @Override public LocalDateTime getTimestamp(String name)
    {
-      return (Date) getObject(name);
+      return (LocalDateTime) getObject(name);
    }
 
-   @Override public Date getDate(String name)
+   @Override public LocalDateTime getDate(String name)
    {
-      Date result;
+      LocalDateTime result;
       // They are stored as days since Jan 7th, 2001 00:00
       Integer value = getInteger(name);
       if (value == null)
@@ -149,10 +149,7 @@ class MapRow implements Row
       }
       else
       {
-         Calendar cal = DateHelper.popCalendar(DATE_EPOCH);
-         cal.add(Calendar.DAY_OF_YEAR, value.intValue());
-         result = cal.getTime();
-         DateHelper.pushCalendar(cal);
+         result = DATE_EPOCH.plusDays(value.intValue());
       }
       return result;
    }
@@ -381,13 +378,13 @@ class MapRow implements Row
       return Duration.getInstance(durationValue, durationUnits);
    }
 
-   @Override public Day getDay(String name)
+   @Override public DayOfWeek getDay(String name)
    {
-      Day result = null;
+      DayOfWeek result = null;
       Integer value = getInteger(name);
       if (value != null)
       {
-         result = Day.getInstance(value.intValue() + 1);
+         result = DayOfWeekHelper.getInstance(value.intValue() + 1);
       }
       return result;
    }
@@ -397,5 +394,5 @@ class MapRow implements Row
    /**
     * 07/01/2001 00:00.
     */
-   private static final long DATE_EPOCH = 978825600000L;
+   private static final LocalDateTime DATE_EPOCH = LocalDateTime.of(2001, 1, 7, 0, 0);
 }

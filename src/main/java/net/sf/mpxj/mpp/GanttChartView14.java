@@ -25,10 +25,12 @@ package net.sf.mpxj.mpp;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.Map;
 
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.GenericCriteria;
@@ -325,13 +327,13 @@ public final class GanttChartView14 extends GanttChartView
       m_progressLinesIntervalDailyDayNumber = progressLineData[8];
       m_progressLinesIntervalDailyWorkday = (progressLineData[10] != 0);
       m_progressLinesIntervalWeekleyWeekNumber = progressLineData[12];
-      m_progressLinesIntervalWeeklyDay[Day.SUNDAY.getValue()] = (progressLineData[14] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.MONDAY.getValue()] = (progressLineData[16] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.TUESDAY.getValue()] = (progressLineData[18] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.WEDNESDAY.getValue()] = (progressLineData[20] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.THURSDAY.getValue()] = (progressLineData[22] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.FRIDAY.getValue()] = (progressLineData[24] != 0);
-      m_progressLinesIntervalWeeklyDay[Day.SATURDAY.getValue()] = (progressLineData[26] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(DayOfWeek.SUNDAY)] = (progressLineData[14] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(DayOfWeek.MONDAY)] = (progressLineData[16] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(DayOfWeek.TUESDAY)] = (progressLineData[18] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(DayOfWeek.WEDNESDAY)] = (progressLineData[20] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(DayOfWeek.THURSDAY)] = (progressLineData[22] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(DayOfWeek.FRIDAY)] = (progressLineData[24] != 0);
+      m_progressLinesIntervalWeeklyDay[DayOfWeekHelper.getValue(DayOfWeek.SATURDAY)] = (progressLineData[26] != 0);
       m_progressLinesIntervalMonthlyDay = (progressLineData[32] != 0);
       m_progressLinesIntervalMonthlyDayDayNumber = progressLineData[34];
       m_progressLinesIntervalMonthlyDayMonthNumber = progressLineData[28];
@@ -358,7 +360,7 @@ public final class GanttChartView14 extends GanttChartView
       int dateCount = MPPUtility.getShort(progressLineData, 50);
       if (dateCount != 0)
       {
-         m_progressLinesDisplaySelectedDates = new Date[dateCount];
+         m_progressLinesDisplaySelectedDates = new LocalDateTime[dateCount];
          int offset = 144;
          int count = 0;
          while (count < dateCount && offset < progressLineData.length)

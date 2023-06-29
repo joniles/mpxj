@@ -23,14 +23,14 @@
 
 package net.sf.mpxj;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * This class represents the criteria used as part of an evaluation.
@@ -155,7 +155,7 @@ public class GenericCriteria
             {
                if (lhs != null)
                {
-                  lhs = DateHelper.getDayStartDate((Date) lhs);
+                  lhs = LocalDateTimeHelper.getDayStartDate((LocalDateTime) lhs);
                }
                break;
             }
@@ -286,7 +286,7 @@ public class GenericCriteria
                {
                   if (value != null)
                   {
-                     value = DateHelper.getDayStartDate((Date) value);
+                     value = LocalDateTimeHelper.getDayStartDate((LocalDateTime) value);
                   }
                   break;
                }
@@ -352,7 +352,7 @@ public class GenericCriteria
    @Override public String toString()
    {
       StringBuilder sb = new StringBuilder();
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
       sb.append("(");
 
       switch (m_operator)
@@ -381,11 +381,11 @@ public class GenericCriteria
             sb.append(" ");
             sb.append(m_operator);
             sb.append(" ");
-            sb.append(m_definedRightValues[0] instanceof Date ? df.format(m_definedRightValues[0]) : m_definedRightValues[0]);
+            sb.append(m_definedRightValues[0] instanceof LocalDateTime ? df.format((LocalDateTime) m_definedRightValues[0]) : m_definedRightValues[0]);
             if (m_definedRightValues[1] != null)
             {
                sb.append(",");
-               sb.append(m_definedRightValues[1] instanceof Date ? df.format(m_definedRightValues[1]) : m_definedRightValues[1]);
+               sb.append(m_definedRightValues[1] instanceof LocalDateTime ? df.format((LocalDateTime) m_definedRightValues[1]) : m_definedRightValues[1]);
             }
          }
       }

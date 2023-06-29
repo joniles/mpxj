@@ -23,7 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * This class represents a row from a resource's availability table.
@@ -37,9 +37,9 @@ public final class Availability implements Comparable<Availability>
     * @param endDate end date
     * @param units units for the period
     */
-   public Availability(Date startDate, Date endDate, Number units)
+   public Availability(LocalDateTime startDate, LocalDateTime endDate, Number units)
    {
-      m_range = new DateRange(startDate, endDate);
+      m_range = new LocalDateTimeRange(startDate, endDate);
       m_units = units;
    }
 
@@ -48,7 +48,7 @@ public final class Availability implements Comparable<Availability>
     *
     * @return start date
     */
-   public DateRange getRange()
+   public LocalDateTimeRange getRange()
    {
       return m_range;
    }
@@ -73,6 +73,6 @@ public final class Availability implements Comparable<Availability>
       return "[Availability range=" + m_range + " units=" + m_units + "]";
    }
 
-   private final DateRange m_range;
+   private final LocalDateTimeRange m_range;
    private final Number m_units;
 }

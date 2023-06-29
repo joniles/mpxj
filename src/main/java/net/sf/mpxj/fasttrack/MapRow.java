@@ -23,14 +23,15 @@
 
 package net.sf.mpxj.fasttrack;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import java.util.Map;
 import java.util.UUID;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -129,29 +130,36 @@ class MapRow
     * @param timeName field containing the time component
     * @return Date instance
     */
-   public Date getTimestamp(FastTrackField dateName, FastTrackField timeName)
+   public LocalDateTime getTimestamp(FastTrackField dateName, FastTrackField timeName)
    {
-      Date result = null;
-      Date date = getDate(dateName);
+      LocalDateTime result = null;
+      LocalDate date = getDate(dateName);
       if (date != null)
       {
-         Calendar dateCal = DateHelper.popCalendar(date);
          Object timeObject = getObject(timeName);
          // TODO: we should probably associated a type with each column and validate as we read
-         if (timeObject instanceof Date)
+         if (timeObject instanceof LocalTime)
          {
-            Calendar timeCal = DateHelper.popCalendar((Date) timeObject);
-            dateCal.set(Calendar.HOUR_OF_DAY, timeCal.get(Calendar.HOUR_OF_DAY));
-            dateCal.set(Calendar.MINUTE, timeCal.get(Calendar.MINUTE));
-            dateCal.set(Calendar.SECOND, timeCal.get(Calendar.SECOND));
-            dateCal.set(Calendar.MILLISECOND, timeCal.get(Calendar.MILLISECOND));
-            DateHelper.pushCalendar(timeCal);
+            LocalTime time = (LocalTime) timeObject;
+            result = LocalDateTime.of(date, time);
          }
-
-         result = dateCal.getTime();
-         DateHelper.pushCalendar(dateCal);
+         else
+         {
+            result = date.atStartOfDay();
+         }
       }
 
+      return result;
+   }
+
+   public LocalDateTime getTimestamp(FastTrackField dateName)
+   {
+      LocalDateTime result = null;
+      LocalDate date = getDate(dateName);
+      if (date != null)
+      {
+         result = date.atStartOfDay();
+      }
       return result;
    }
 
@@ -161,9 +169,9 @@ class MapRow
     * @param type field type
     * @return Date instance
     */
-   public Date getDate(FastTrackField type)
+   public LocalDate getDate(FastTrackField type)
    {
-      return (Date) getObject(type);
+      return (LocalDate) getObject(type);
    }
 
    /**

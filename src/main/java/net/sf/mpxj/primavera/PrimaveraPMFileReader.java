@@ -26,10 +26,13 @@ package net.sf.mpxj.primavera;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -46,13 +49,17 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Location;
 import net.sf.mpxj.LocationContainer;
 import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.Step;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
@@ -68,8 +75,7 @@ import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ExpenseCategory;
@@ -100,7 +106,6 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
@@ -550,7 +555,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          properties.setMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerWeek()) * 60)));
          properties.setMinutesPerMonth(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerMonth()) * 60)));
          properties.setMinutesPerYear(Integer.valueOf((int) (NumberHelper.getDouble(prefs.getHoursPerYear()) * 60)));
-         properties.setWeekStartDay(Day.getInstance(NumberHelper.getInt(prefs.getStartDayOfWeek())));
+         properties.setWeekStartDay(DayOfWeekHelper.getInstance(NumberHelper.getInt(prefs.getStartDayOfWeek())));
 
          List<CurrencyType> currencyList = apibo.getCurrency();
          for (CurrencyType currency : currencyList)
@@ -633,7 +638,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       for (ActivityCodeTypeType type : types)
       {
-         ActivityCode code = new ActivityCode(m_projectFile, type.getObjectId(), ActivityCodeScopeHelper.getInstanceFromXml(type.getScope()), type.getEPSObjectId(), type.getProjectObjectId(), type.getSequenceNumber(), type.getName(), BooleanHelper.getBoolean(type.isIsSecureCode()), type.getLength());
+         ActivityCode code = new ActivityCode(type.getObjectId(), ActivityCodeScopeHelper.getInstanceFromXml(type.getScope()), type.getEPSObjectId(), type.getProjectObjectId(), type.getSequenceNumber(), type.getName(), BooleanHelper.getBoolean(type.isIsSecureCode()), type.getLength());
          container.add(code);
          map.put(code.getUniqueID(), code);
       }
@@ -837,7 +842,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_defaultCalendarObjectID = id;
       }
 
-      Map<Day, StandardWorkHours> hoursMap = new HashMap<>();
+      Map<DayOfWeek, StandardWorkHours> hoursMap = new HashMap<>();
       StandardWorkWeek stdWorkWeek = row.getStandardWorkWeek();
       if (stdWorkWeek != null)
       {
@@ -847,13 +852,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
       }
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          // If we don't have an entry for a day, use default values
          StandardWorkHours hours = hoursMap.get(day);
          if (hours == null)
          {
-            calendar.setWorkingDay(day, day != Day.SATURDAY && day != Day.SUNDAY);
+            calendar.setWorkingDay(day, day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY);
             if (calendar.isWorkingDay(day))
             {
                calendar.addCalendarHours(day).add(ProjectCalendarHelper.getDefaultCalendarHours());
@@ -874,7 +879,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             {
                if (work != null)
                {
-                  calendarHours.add(new DateRange(work.getStart(), getEndTime(work.getFinish())));
+                  calendarHours.add(new LocalTimeRange(work.getStart(), getEndTime(work.getFinish())));
                }
             }
          }
@@ -885,8 +890,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       {
          for (HolidayOrException ex : hoe.getHolidayOrException())
          {
-            Date startDate = DateHelper.getDayStartDate(ex.getDate());
-            Date endDate = DateHelper.getDayEndDate(ex.getDate());
+            LocalDate startDate = LocalDateHelper.getLocalDate(ex.getDate());
+            LocalDate endDate = LocalDateHelper.getLocalDate(ex.getDate());
             ProjectCalendarException pce = calendar.addCalendarException(startDate, endDate);
 
             List<WorkTimeType> workTime = ex.getWorkTime();
@@ -894,7 +899,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             {
                if (work != null && work.getStart() != null && work.getFinish() != null)
                {
-                  pce.add(new DateRange(work.getStart(), getEndTime(work.getFinish())));
+                  pce.add(new LocalTimeRange(work.getStart(), getEndTime(work.getFinish())));
                }
             }
          }
@@ -926,7 +931,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          int minutesPerWeek = 0;
          int workingDays = 0;
 
-         for (Day day : Day.values())
+         for (DayOfWeek day : DayOfWeek.values())
          {
             ProjectCalendarHours hours = calendar.getCalendarHours(day);
             if (hours == null)
@@ -937,10 +942,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             if (hours.size() > 0)
             {
                ++workingDays;
-               for (DateRange range : hours)
+               for (LocalTimeRange range : hours)
                {
-                  long milliseconds = range.getEnd().getTime() - range.getStart().getTime();
-                  minutesPerWeek += (milliseconds / (1000 * 60));
+                  minutesPerWeek += (range.getDurationAsMilliseconds() / (1000 * 60));
                }
             }
          }
@@ -1249,15 +1253,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                // The task has started, let's calculate the finish date using the planned start and duration
                //
                ProjectCalendar calendar = task.getEffectiveCalendar();
-               Date finish = calendar.getDate(task.getPlannedStart(), duration, false);
+               LocalDateTime finish = calendar.getDate(task.getPlannedStart(), duration, false);
 
                //
                // Deal with an oddity where the finish date shows up as the
                // start of work date for the next working day. If we can identify this,
                // wind the date back to the end of the previous working day.
                //
-               Date nextWorkStart = calendar.getNextWorkStart(finish);
-               if (DateHelper.compare(finish, nextWorkStart) == 0)
+               LocalDateTime nextWorkStart = calendar.getNextWorkStart(finish);
+               if (LocalDateTimeHelper.compare(finish, nextWorkStart) == 0)
                {
                   finish = calendar.getPreviousWorkFinish(finish);
                }
@@ -1380,22 +1384,22 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date startDate = parentTask.getStart();
-         Date finishDate = parentTask.getFinish();
-         Date plannedStartDate = parentTask.getPlannedStart();
-         Date plannedFinishDate = parentTask.getPlannedFinish();
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
-         Date baselineStartDate = parentTask.getBaselineStart();
-         Date baselineFinishDate = parentTask.getBaselineFinish();
-         Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
-         Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
-         Date remainingLateStartDate = parentTask.getRemainingLateStart();
-         Date remainingLateFinishDate = parentTask.getRemainingLateFinish();
+         LocalDateTime startDate = parentTask.getStart();
+         LocalDateTime finishDate = parentTask.getFinish();
+         LocalDateTime plannedStartDate = parentTask.getPlannedStart();
+         LocalDateTime plannedFinishDate = parentTask.getPlannedFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime baselineStartDate = parentTask.getBaselineStart();
+         LocalDateTime baselineFinishDate = parentTask.getBaselineFinish();
+         LocalDateTime remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
+         LocalDateTime remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
+         LocalDateTime remainingLateStartDate = parentTask.getRemainingLateStart();
+         LocalDateTime remainingLateFinishDate = parentTask.getRemainingLateFinish();
 
          boolean critical = false;
 
@@ -1406,22 +1410,22 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
             // still must protect against some children having null dates
 
-            startDate = DateHelper.min(startDate, task.getStart());
-            finishDate = DateHelper.max(finishDate, task.getFinish());
-            plannedStartDate = DateHelper.min(plannedStartDate, task.getPlannedStart());
-            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getPlannedFinish());
-            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
-            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
-            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
-            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
-            remainingEarlyStartDate = DateHelper.min(remainingEarlyStartDate, task.getRemainingEarlyStart());
-            remainingEarlyFinishDate = DateHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
-            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
-            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
-            remainingLateStartDate = DateHelper.min(remainingLateStartDate, task.getRemainingLateStart());
-            remainingLateFinishDate = DateHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
-            baselineStartDate = DateHelper.min(baselineStartDate, task.getBaselineStart());
-            baselineFinishDate = DateHelper.max(baselineFinishDate, task.getBaselineFinish());
+            startDate = LocalDateTimeHelper.min(startDate, task.getStart());
+            finishDate = LocalDateTimeHelper.max(finishDate, task.getFinish());
+            plannedStartDate = LocalDateTimeHelper.min(plannedStartDate, task.getPlannedStart());
+            plannedFinishDate = LocalDateTimeHelper.max(plannedFinishDate, task.getPlannedFinish());
+            actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+            remainingEarlyStartDate = LocalDateTimeHelper.min(remainingEarlyStartDate, task.getRemainingEarlyStart());
+            remainingEarlyFinishDate = LocalDateTimeHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
+            remainingLateStartDate = LocalDateTimeHelper.min(remainingLateStartDate, task.getRemainingLateStart());
+            remainingLateFinishDate = LocalDateTimeHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
+            baselineStartDate = LocalDateTimeHelper.min(baselineStartDate, task.getBaselineStart());
+            baselineFinishDate = LocalDateTimeHelper.max(baselineFinishDate, task.getBaselineFinish());
 
             if (task.getActualFinish() != null)
             {
@@ -1472,7 +1476,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
             if (parentTask.getActualFinish() == null)
             {
-               Date taskStartDate = parentTask.getRemainingEarlyStart();
+               LocalDateTime taskStartDate = parentTask.getRemainingEarlyStart();
                if (taskStartDate == null)
                {
                   taskStartDate = parentTask.getEarlyStart();
@@ -1482,7 +1486,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                   }
                }
 
-               Date taskFinishDate = parentTask.getRemainingEarlyFinish();
+               LocalDateTime taskFinishDate = parentTask.getRemainingEarlyFinish();
                if (taskFinishDate == null)
                {
                   taskFinishDate = parentTask.getEarlyFinish();
@@ -1801,9 +1805,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             return cmp;
          }
-         Date d1 = r1.getEffectiveDate();
-         Date d2 = r2.getEffectiveDate();
-         return DateHelper.compare(d1, d2);
+         LocalDateTime d1 = r1.getEffectiveDate();
+         LocalDateTime d2 = r2.getEffectiveDate();
+         return LocalDateTimeHelper.compare(d1, d2);
       });
 
       Resource resource = null;
@@ -1834,29 +1838,26 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
-         Date startDate = row.getEffectiveDate();
-         Date endDate = DateHelper.END_DATE_NA;
+         LocalDateTime startDate = row.getEffectiveDate();
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
 
          if (i + 1 < rates.size())
          {
             ResourceRateType nextRow = rates.get(i + 1);
             if (NumberHelper.equals(resourceID, nextRow.getResourceObjectId()))
             {
-               Calendar cal = DateHelper.popCalendar(nextRow.getEffectiveDate());
-               cal.add(Calendar.MINUTE, -1);
-               endDate = cal.getTime();
-               DateHelper.pushCalendar(cal);
+               endDate = nextRow.getEffectiveDate().minusMinutes(1);
             }
          }
 
-         if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
          {
-            startDate = DateHelper.START_DATE_NA;
+            startDate = LocalDateTimeHelper.START_DATE_NA;
          }
 
-         if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
          {
-            endDate = DateHelper.END_DATE_NA;
+            endDate = LocalDateTimeHelper.END_DATE_NA;
          }
 
          resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
@@ -1898,9 +1899,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             return cmp;
          }
-         Date d1 = r1.getEffectiveDate();
-         Date d2 = r2.getEffectiveDate();
-         return DateHelper.compare(d1, d2);
+         LocalDateTime d1 = r1.getEffectiveDate();
+         LocalDateTime d2 = r2.getEffectiveDate();
+         return LocalDateTimeHelper.compare(d1, d2);
       });
 
       Resource resource = null;
@@ -1931,29 +1932,26 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
-         Date startDate = row.getEffectiveDate();
-         Date endDate = DateHelper.END_DATE_NA;
+         LocalDateTime startDate = row.getEffectiveDate();
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
 
          if (i + 1 < rates.size())
          {
             RoleRateType nextRow = rates.get(i + 1);
             if (NumberHelper.equals(row.getRoleObjectId(), nextRow.getRoleObjectId()))
             {
-               Calendar cal = DateHelper.popCalendar(nextRow.getEffectiveDate());
-               cal.add(Calendar.MINUTE, -1);
-               endDate = cal.getTime();
-               DateHelper.pushCalendar(cal);
+               endDate = nextRow.getEffectiveDate().minusMinutes(1);
             }
          }
 
-         if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
          {
-            startDate = DateHelper.START_DATE_NA;
+            startDate = LocalDateTimeHelper.START_DATE_NA;
          }
 
-         if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
          {
-            endDate = DateHelper.END_DATE_NA;
+            endDate = LocalDateTimeHelper.END_DATE_NA;
          }
 
          resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
@@ -2106,9 +2104,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * @param date Primavera end time
     * @return date MPXJ end time
     */
-   private Date getEndTime(Date date)
+   private LocalTime getEndTime(LocalTime date)
    {
-      return new Date(date.getTime() + 60000);
+      return date.plus(1, ChronoUnit.MINUTES);
    }
 
    /**
@@ -2388,26 +2386,26 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private Integer m_defaultCalendarObjectID;
    private PrimaveraBaselineStrategy m_baselineStrategy = PrimaveraBaselineStrategy.PLANNED_DATES;
 
-   private static final Map<String, Day> DAY_MAP = new HashMap<>();
+   private static final Map<String, DayOfWeek> DAY_MAP = new HashMap<>();
    static
    {
       // Current PMXML schema
-      DAY_MAP.put("Monday", Day.MONDAY);
-      DAY_MAP.put("Tuesday", Day.TUESDAY);
-      DAY_MAP.put("Wednesday", Day.WEDNESDAY);
-      DAY_MAP.put("Thursday", Day.THURSDAY);
-      DAY_MAP.put("Friday", Day.FRIDAY);
-      DAY_MAP.put("Saturday", Day.SATURDAY);
-      DAY_MAP.put("Sunday", Day.SUNDAY);
+      DAY_MAP.put("Monday", DayOfWeek.MONDAY);
+      DAY_MAP.put("Tuesday", DayOfWeek.TUESDAY);
+      DAY_MAP.put("Wednesday", DayOfWeek.WEDNESDAY);
+      DAY_MAP.put("Thursday", DayOfWeek.THURSDAY);
+      DAY_MAP.put("Friday", DayOfWeek.FRIDAY);
+      DAY_MAP.put("Saturday", DayOfWeek.SATURDAY);
+      DAY_MAP.put("Sunday", DayOfWeek.SUNDAY);
 
       // Older (6.2?) schema
-      DAY_MAP.put("1", Day.SUNDAY);
-      DAY_MAP.put("2", Day.MONDAY);
-      DAY_MAP.put("3", Day.TUESDAY);
-      DAY_MAP.put("4", Day.WEDNESDAY);
-      DAY_MAP.put("5", Day.THURSDAY);
-      DAY_MAP.put("6", Day.FRIDAY);
-      DAY_MAP.put("7", Day.SATURDAY);
+      DAY_MAP.put("1", DayOfWeek.SUNDAY);
+      DAY_MAP.put("2", DayOfWeek.MONDAY);
+      DAY_MAP.put("3", DayOfWeek.TUESDAY);
+      DAY_MAP.put("4", DayOfWeek.WEDNESDAY);
+      DAY_MAP.put("5", DayOfWeek.THURSDAY);
+      DAY_MAP.put("6", DayOfWeek.FRIDAY);
+      DAY_MAP.put("7", DayOfWeek.SATURDAY);
    }
 
    private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();

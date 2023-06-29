@@ -23,9 +23,7 @@
 
 package net.sf.mpxj.junit.assignment;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
@@ -59,11 +57,10 @@ public class EffectiveRateTest
       testRates(new UniversalProjectReader().read(MpxjTestData.filePath("assignment/resource-rates-test.xml")));
    }
 
-   private void testRates(ProjectFile file) throws Exception
+   private void testRates(ProjectFile file)
    {
-      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-      Date date1 = dateFormat.parse("01/02/2022");
-      Date date2 = dateFormat.parse("01/02/2023");
+      LocalDateTime date1 = LocalDateTime.of(2022, 2, 1, 0, 0);
+      LocalDateTime date2 = LocalDateTime.of(2023, 2, 1, 0, 0);
 
       ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(Integer.valueOf(6639));
       assertEquals(RateSource.RESOURCE, assignment.getRateSource());

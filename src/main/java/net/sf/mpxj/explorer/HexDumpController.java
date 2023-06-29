@@ -26,9 +26,8 @@ package net.sf.mpxj.explorer;
 import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -186,9 +185,9 @@ public class HexDumpController
       int offset = m_model.getOffset();
       Point selectedCell = m_model.getSelectedCell();
 
-      DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-      DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-      DateFormat timestampFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+      DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+      DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
+      DateTimeFormatter timestampFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
       int selectionIndex = (selectedCell.y * m_model.getColumns()) + selectedCell.x;
       String selectionLabel = selectedCell.y + "," + selectedCell.x;
@@ -218,7 +217,7 @@ public class HexDumpController
             percentageValueLabel = value.toString();
          }
 
-         Date date = MPPUtility.getDate(data, selectionIndex + offset);
+         LocalDateTime date = MPPUtility.getDate(data, selectionIndex + offset);
          if (date != null)
          {
             dateValueLabel = dateFormat.format(date);
@@ -237,7 +236,7 @@ public class HexDumpController
       //
       if (selectionIndex + offset + 4 <= data.length)
       {
-         Date timestamp = MPPUtility.getTimestamp(data, selectionIndex + offset);
+         LocalDateTime timestamp = MPPUtility.getTimestamp(data, selectionIndex + offset);
          if (timestamp != null)
          {
             timestampValueLabel = timestampFormat.format(timestamp);

@@ -25,10 +25,12 @@ package net.sf.mpxj.projectcommander;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +39,8 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
@@ -51,8 +53,11 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
@@ -176,25 +181,25 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
 
          // This is guesswork - need some samples with more variation
          int workingDays = DatatypeConverter.getByte(data, offset);
-         calendar.setWorkingDay(Day.SATURDAY, (workingDays & 0x40) != 0);
-         calendar.setWorkingDay(Day.SUNDAY, (workingDays & 0x20) != 0);
-         calendar.setWorkingDay(Day.MONDAY, (workingDays & 0x10) != 0);
-         calendar.setWorkingDay(Day.TUESDAY, (workingDays & 0x08) != 0);
-         calendar.setWorkingDay(Day.WEDNESDAY, (workingDays & 0x04) != 0);
-         calendar.setWorkingDay(Day.THURSDAY, (workingDays & 0x02) != 0);
-         calendar.setWorkingDay(Day.FRIDAY, (workingDays & 0x01) != 0);
+         calendar.setWorkingDay(DayOfWeek.SATURDAY, (workingDays & 0x40) != 0);
+         calendar.setWorkingDay(DayOfWeek.SUNDAY, (workingDays & 0x20) != 0);
+         calendar.setWorkingDay(DayOfWeek.MONDAY, (workingDays & 0x10) != 0);
+         calendar.setWorkingDay(DayOfWeek.TUESDAY, (workingDays & 0x08) != 0);
+         calendar.setWorkingDay(DayOfWeek.WEDNESDAY, (workingDays & 0x04) != 0);
+         calendar.setWorkingDay(DayOfWeek.THURSDAY, (workingDays & 0x02) != 0);
+         calendar.setWorkingDay(DayOfWeek.FRIDAY, (workingDays & 0x01) != 0);
          offset += 28;
 
-         Map<Day, List<DateRange>> ranges = new HashMap<>();
-         ranges.put(Day.SATURDAY, readCalendarHours(data, offset));
-         ranges.put(Day.SUNDAY, readCalendarHours(data, offset + 16));
-         ranges.put(Day.MONDAY, readCalendarHours(data, offset + 32));
-         ranges.put(Day.TUESDAY, readCalendarHours(data, offset + 48));
-         ranges.put(Day.WEDNESDAY, readCalendarHours(data, offset + 64));
-         ranges.put(Day.THURSDAY, readCalendarHours(data, offset + 80));
-         ranges.put(Day.FRIDAY, readCalendarHours(data, offset + 96));
+         Map<DayOfWeek, List<LocalTimeRange>> ranges = new HashMap<>();
+         ranges.put(DayOfWeek.SATURDAY, readCalendarHours(data, offset));
+         ranges.put(DayOfWeek.SUNDAY, readCalendarHours(data, offset + 16));
+         ranges.put(DayOfWeek.MONDAY, readCalendarHours(data, offset + 32));
+         ranges.put(DayOfWeek.TUESDAY, readCalendarHours(data, offset + 48));
+         ranges.put(DayOfWeek.WEDNESDAY, readCalendarHours(data, offset + 64));
+         ranges.put(DayOfWeek.THURSDAY, readCalendarHours(data, offset + 80));
+         ranges.put(DayOfWeek.FRIDAY, readCalendarHours(data, offset + 96));
 
-         for (Day day : DAYS)
+         for (DayOfWeek day : DAYS)
          {
             ProjectCalendarHours hours = calendar.addCalendarHours(day);
             if (calendar.isWorkingDay(day))
@@ -218,9 +223,9 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     * @param offset offset into calendar data
     * @return list of DateRange instances representing working hours
     */
-   private List<DateRange> readCalendarHours(byte[] data, int offset)
+   private List<LocalTimeRange> readCalendarHours(byte[] data, int offset)
    {
-      List<DateRange> ranges = new ArrayList<>();
+      List<LocalTimeRange> ranges = new ArrayList<>();
       addRange(ranges, DatatypeConverter.getInt(data, offset), DatatypeConverter.getInt(data, offset + 4));
       addRange(ranges, DatatypeConverter.getInt(data, offset + 8), DatatypeConverter.getInt(data, offset + 12));
       return ranges;
@@ -233,13 +238,13 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     * @param startMinutes start time in minutes
     * @param endMinutes end time in minutes
     */
-   private void addRange(List<DateRange> ranges, int startMinutes, int endMinutes)
+   private void addRange(List<LocalTimeRange> ranges, int startMinutes, int endMinutes)
    {
       if (startMinutes != endMinutes)
       {
-         Date start = DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(startMinutes));
-         Date end = DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(endMinutes));
-         ranges.add(new DateRange(start, end));
+         LocalTime start = LocalTime.ofSecondOfDay(startMinutes * 60L);
+         LocalTime end = LocalTime.ofSecondOfDay(endMinutes * 60L);
+         ranges.add(new LocalTimeRange(start, end));
       }
    }
 
@@ -250,22 +255,16 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     * @param ranges default day of week working times
     * @param data byte array
     */
-   private void readCalendarException(ProjectCalendar calendar, Map<Day, List<DateRange>> ranges, byte[] data)
+   private void readCalendarException(ProjectCalendar calendar, Map<DayOfWeek, List<LocalTimeRange>> ranges, byte[] data)
    {
       long timestampInDays = DatatypeConverter.getShort(data, 2, 0);
 
       // Heuristic to filter out odd exception dates
       if (timestampInDays > 0xFF)
       {
-         long timestampInMilliseconds = timestampInDays * 24 * 60 * 60 * 1000;
-         Date exceptionDate = DateHelper.getTimestampFromLong(timestampInMilliseconds);
-
-         Calendar cal = DateHelper.popCalendar();
-         cal.setTime(exceptionDate);
-         Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-         DateHelper.pushCalendar(cal);
-
+         LocalDate exceptionDate = EPOCH_DATE.plusDays(timestampInDays);
          ProjectCalendarException ex = calendar.addCalendarException(exceptionDate);
+         DayOfWeek day = exceptionDate.getDayOfWeek();
          if (!calendar.isWorkingDay(day))
          {
             ex.addAll(ranges.get(day));
@@ -388,8 +387,8 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
          task.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
          task.setMilestone(true);
-         Date startDate = DatatypeConverter.getTimestamp(cBarData, 7);
-         task.setStart(DateHelper.setTime(startDate, calendar.getStartTime(startDate)));
+         LocalDateTime startDate = DatatypeConverter.getTimestamp(cBarData, 7);
+         task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(LocalDateHelper.getLocalDate(startDate))));
          task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
       }
       else
@@ -422,8 +421,8 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
             task.setWork(durationInHours);
 
             ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
-            Date startDate = DatatypeConverter.getTimestamp(cBarData, 5);
-            task.setStart(DateHelper.setTime(startDate, calendar.getStartTime(startDate)));
+            LocalDateTime startDate = DatatypeConverter.getTimestamp(cBarData, 5);
+            task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(LocalDateHelper.getLocalDate(startDate))));
             task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
 
             if (resource != null)
@@ -608,15 +607,15 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
    {
       if (parentTask.hasChildTasks())
       {
-         Date plannedStartDate = parentTask.getStart();
-         Date plannedFinishDate = parentTask.getFinish();
+         LocalDateTime plannedStartDate = parentTask.getStart();
+         LocalDateTime plannedFinishDate = parentTask.getFinish();
 
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
 
-            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart());
-            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish());
+            plannedStartDate = LocalDateTimeHelper.min(plannedStartDate, task.getStart());
+            plannedFinishDate = LocalDateTimeHelper.max(plannedFinishDate, task.getFinish());
          }
 
          parentTask.setStart(plannedStartDate);
@@ -649,14 +648,16 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
 
    private static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
 
-   private static final Day[] DAYS =
+   private static final DayOfWeek[] DAYS =
    {
-      Day.SATURDAY,
-      Day.SUNDAY,
-      Day.MONDAY,
-      Day.TUESDAY,
-      Day.WEDNESDAY,
-      Day.THURSDAY,
-      Day.FRIDAY
+      DayOfWeek.SATURDAY,
+      DayOfWeek.SUNDAY,
+      DayOfWeek.MONDAY,
+      DayOfWeek.TUESDAY,
+      DayOfWeek.WEDNESDAY,
+      DayOfWeek.THURSDAY,
+      DayOfWeek.FRIDAY
    };
+
+   private static final LocalDate EPOCH_DATE = LocalDate.of(1970, 1, 1);
 }

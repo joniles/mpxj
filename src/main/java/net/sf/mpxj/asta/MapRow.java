@@ -23,8 +23,9 @@
 
 package net.sf.mpxj.asta;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Map;
 
@@ -132,9 +133,9 @@ class MapRow implements Row
       return (NumberHelper.getInt((Number) getObject(name)));
    }
 
-   @Override public Date getDate(String name)
+   @Override public LocalDateTime getDate(String name)
    {
-      return ((Date) getObject(name));
+      return ((LocalDateTime) getObject(name));
    }
 
    @Override public Duration getDuration(String name)

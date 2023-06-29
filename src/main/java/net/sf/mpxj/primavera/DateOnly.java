@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.primavera;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Represents a date only value when writing an XER file.
@@ -35,7 +35,7 @@ final class DateOnly
     *
     * @param date value to be wrapped
     */
-   public DateOnly(Date date)
+   public DateOnly(LocalDateTime date)
    {
       m_date = date;
    }
@@ -45,10 +45,10 @@ final class DateOnly
     *
     * @return wrapped value
     */
-   public Date toDate()
+   public LocalDateTime toDate()
    {
       return m_date;
    }
 
-   private final Date m_date;
+   private final LocalDateTime m_date;
 }

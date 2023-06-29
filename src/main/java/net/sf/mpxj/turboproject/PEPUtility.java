@@ -23,10 +23,7 @@
 
 package net.sf.mpxj.turboproject;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import net.sf.mpxj.common.DateHelper;
+import java.time.LocalDateTime;
 
 /**
  * Common utility methods for extracting data from a byte array.
@@ -118,10 +115,10 @@ final class PEPUtility
     * @param offset offset into byte array
     * @return start date
     */
-   public static final Date getStartDate(byte[] data, int offset)
+   public static final LocalDateTime getStartDate(byte[] data, int offset)
    {
-      Date result;
-      int days = getShort(data, offset);
+      LocalDateTime result;
+      long days = getShort(data, offset);
 
       if (days == 0x8000)
       {
@@ -129,10 +126,7 @@ final class PEPUtility
       }
       else
       {
-         Calendar cal = DateHelper.popCalendar(new Date(EPOCH));
-         cal.add(Calendar.DAY_OF_YEAR, days);
-         result = cal.getTime();
-         DateHelper.pushCalendar(cal);
+         result = EPOCH.plusDays(days);
       }
 
       return (result);
@@ -145,10 +139,10 @@ final class PEPUtility
     * @param offset offset into byte array
     * @return finish date
     */
-   public static final Date getFinishDate(byte[] data, int offset)
+   public static final LocalDateTime getFinishDate(byte[] data, int offset)
    {
-      Date result;
-      int days = getShort(data, offset);
+      LocalDateTime result;
+      long days = getShort(data, offset);
 
       if (days == 0x8000)
       {
@@ -156,14 +150,11 @@ final class PEPUtility
       }
       else
       {
-         Calendar cal = DateHelper.popCalendar(new Date(EPOCH));
-         cal.add(Calendar.DAY_OF_YEAR, days - 1);
-         result = cal.getTime();
-         DateHelper.pushCalendar(cal);
+         result = EPOCH.plusDays(days - 1);
       }
 
       return (result);
    }
 
-   private static final long EPOCH = 946598400000L;
+   private static final LocalDateTime EPOCH = LocalDateTime.of(1999, 12, 31, 0, 0);
 }

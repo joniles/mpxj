@@ -25,9 +25,10 @@ package net.sf.mpxj.phoenix;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,11 +49,13 @@ import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
@@ -68,7 +71,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DebugLogPrintWriter;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
@@ -232,7 +234,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
     */
    private void readActivityCode(Code code, Integer activityCodeSequence)
    {
-      ActivityCode activityCode = new ActivityCode(m_projectFile, Integer.valueOf(++m_activityCodeUniqueID), ActivityCodeScope.GLOBAL, null, null, activityCodeSequence, code.getName(), false, null);
+      ActivityCode activityCode = new ActivityCode(Integer.valueOf(++m_activityCodeUniqueID), ActivityCodeScope.GLOBAL, null, null, activityCodeSequence, code.getName(), false, null);
 
       UUID codeUUID = getCodeUUID(code.getUuid(), code.getName());
       int activityCodeValueSequence = 0;
@@ -263,7 +265,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       mpxjCalendar.setName(calendar.getName());
 
       // Default all days to working
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          mpxjCalendar.setWorkingDay(day, true);
       }
@@ -272,7 +274,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       calendar.getNonWork().stream().filter(n -> NON_WORKING_DAY_MAP.containsKey(n.getType())).forEach(n -> NON_WORKING_DAY_MAP.get(n.getType()).apply(this, mpxjCalendar, n));
 
       // Add default working hours for working days
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
          if (mpxjCalendar.isWorkingDay(day))
@@ -306,11 +308,11 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       RecurringData data = new RecurringData();
       data.setRecurrenceType(type);
       data.setFrequency(nonWork.getInterval());
-      data.setStartDate(nonWork.getStart());
+      data.setStartDate(LocalDateHelper.getLocalDate(nonWork.getStart()));
       data.setUseEndDate(NumberHelper.getInt(nonWork.getCount()) == 0);
       if (data.getUseEndDate())
       {
-         data.setFinishDate(nonWork.getUntil());
+         data.setFinishDate(LocalDateHelper.getLocalDate(nonWork.getUntil()));
       }
       else
       {
@@ -329,7 +331,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    {
       if (NumberHelper.getInt(nonWork.getCount()) == 1)
       {
-         mpxjCalendar.addCalendarException(nonWork.getStart());
+         mpxjCalendar.addCalendarException(LocalDateHelper.getLocalDate(nonWork.getStart()));
       }
       else
       {
@@ -347,9 +349,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    private void addWeeklyRecurringException(ProjectCalendar mpxjCalendar, NonWork nonWork)
    {
       RecurringData data = recurringData(RecurrenceType.WEEKLY, nonWork);
-      java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
-      data.setWeeklyDay(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)), true);
-      DateHelper.pushCalendar(calendar);
+      data.setWeeklyDay(nonWork.getStart().getDayOfWeek(), true);
       mpxjCalendar.addCalendarException(data);
    }
 
@@ -365,17 +365,15 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       RecurringData data = recurringData(RecurrenceType.MONTHLY, nonWork);
 
       data.setRelative(NumberHelper.getInt(nonWork.getNthDow()) != 0);
-      java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
       if (data.getRelative())
       {
          data.setDayNumber(nonWork.getNthDow());
-         data.setDayOfWeek(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)));
+         data.setDayOfWeek(nonWork.getStart().getDayOfWeek());
       }
       else
       {
-         data.setDayNumber(Integer.valueOf(calendar.get(java.util.Calendar.DAY_OF_MONTH)));
+         data.setDayNumber(Integer.valueOf(nonWork.getStart().getDayOfMonth()));
       }
-      DateHelper.pushCalendar(calendar);
       mpxjCalendar.addCalendarException(data);
    }
 
@@ -390,18 +388,17 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       // TODO: support snap to end of month
       RecurringData data = recurringData(RecurrenceType.YEARLY, nonWork);
       data.setRelative(NumberHelper.getInt(nonWork.getNthDow()) != 0);
-      java.util.Calendar calendar = DateHelper.popCalendar(nonWork.getStart());
-      data.setMonthNumber(Integer.valueOf(calendar.get(java.util.Calendar.MONTH) + 1));
+
+      data.setMonthNumber(Integer.valueOf(nonWork.getStart().getMonthValue()));
       if (data.getRelative())
       {
          data.setDayNumber(nonWork.getNthDow());
-         data.setDayOfWeek(Day.getInstance(calendar.get(java.util.Calendar.DAY_OF_WEEK)));
+         data.setDayOfWeek(nonWork.getStart().getDayOfWeek());
       }
       else
       {
-         data.setDayNumber(Integer.valueOf(calendar.get(java.util.Calendar.DAY_OF_MONTH)));
+         data.setDayNumber(Integer.valueOf(nonWork.getStart().getDayOfMonth()));
       }
-      DateHelper.pushCalendar(calendar);
       mpxjCalendar.addCalendarException(data);
    }
 
@@ -447,7 +444,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       mpxjResource.setGUID(phoenixResource.getUuid());
 
       CostRateTable costRateTable = new CostRateTable();
-      costRateTable.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, phoenixResource.getMonetarycostperuse(), new Rate(phoenixResource.getMonetaryrate(), rateUnits)));
+      costRateTable.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, phoenixResource.getMonetarycostperuse(), new Rate(phoenixResource.getMonetaryrate(), rateUnits)));
       mpxjResource.setCostRateTable(0, costRateTable);
 
       m_eventManager.fireResourceReadEvent(mpxjResource);
@@ -526,7 +523,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
          m_log.println("\"codeSequence\": [" + codeJoiner + "],");
 
          StringJoiner sequenceJoiner = new StringJoiner(",");
-         m_activityCodeValues.forEach((key1, value1) -> sequenceJoiner.add("\"" + key1 + "\": " + value1.getSequenceNumber() + ""));
+         m_activityCodeValues.forEach((key1, value1) -> sequenceJoiner.add("\"" + key1 + "\": " + value1.getSequenceNumber()));
          m_log.println("\"activityCodeSequence\": {" + sequenceJoiner + "},");
 
          StringJoiner activityJoiner = new StringJoiner(",");
@@ -670,12 +667,12 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
          // will be the same as the start date, so applying our "subtract 1" fix
          // gives us a finish date before the start date. The code below
          // deals with this situation.
-         if (DateHelper.compare(task.getStart(), task.getFinish()) > 0)
+         if (LocalDateTimeHelper.compare(task.getStart(), task.getFinish()) > 0)
          {
             task.setFinish(task.getStart());
          }
 
-         if (task.getActualStart() != null && task.getActualFinish() != null && DateHelper.compare(task.getActualStart(), task.getActualFinish()) > 0)
+         if (task.getActualStart() != null && task.getActualFinish() != null && LocalDateTimeHelper.compare(task.getActualStart(), task.getActualFinish()) > 0)
          {
             task.setActualFinish(task.getActualStart());
          }
@@ -907,7 +904,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    private Storepoint getCurrentStorepoint(Project phoenixProject)
    {
       List<Storepoint> storepoints = phoenixProject.getStorepoints() == null ? Collections.emptyList() : phoenixProject.getStorepoints().getStorepoint();
-      storepoints.sort((o1, o2) -> DateHelper.compare(o2.getCreationTime(), o1.getCreationTime()));
+      storepoints.sort((o1, o2) -> LocalDateTimeHelper.compare(o2.getCreationTime(), o1.getCreationTime()));
       return storepoints.get(0);
    }
 
@@ -970,28 +967,28 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date plannedStartDate = parentTask.getStart();
-         Date plannedFinishDate = parentTask.getFinish();
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime plannedStartDate = parentTask.getStart();
+         LocalDateTime plannedFinishDate = parentTask.getFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
          boolean critical = false;
 
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
 
-            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart());
-            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish());
-            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
-            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
-            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
-            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
-            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
-            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+            plannedStartDate = LocalDateTimeHelper.min(plannedStartDate, task.getStart());
+            plannedFinishDate = LocalDateTimeHelper.max(plannedFinishDate, task.getFinish());
+            actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
 
             if (task.getActualFinish() != null)
             {

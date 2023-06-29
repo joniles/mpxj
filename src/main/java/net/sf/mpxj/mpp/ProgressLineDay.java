@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.MpxjEnum;
 import net.sf.mpxj.common.EnumHelper;
 
@@ -33,13 +33,13 @@ import net.sf.mpxj.common.EnumHelper;
  */
 public enum ProgressLineDay implements MpxjEnum
 {
-   SUNDAY(1, Day.SUNDAY),
-   MONDAY(2, Day.MONDAY),
-   TUESDAY(3, Day.TUESDAY),
-   WEDNESDAY(4, Day.WEDNESDAY),
-   THURSDAY(5, Day.THURSDAY),
-   FRIDAY(6, Day.FRIDAY),
-   SATURDAY(7, Day.SATURDAY),
+   SUNDAY(1, DayOfWeek.SUNDAY),
+   MONDAY(2, DayOfWeek.MONDAY),
+   TUESDAY(3, DayOfWeek.TUESDAY),
+   WEDNESDAY(4, DayOfWeek.WEDNESDAY),
+   THURSDAY(5, DayOfWeek.THURSDAY),
+   FRIDAY(6, DayOfWeek.FRIDAY),
+   SATURDAY(7, DayOfWeek.SATURDAY),
    DAY(8, null),
    WORKINGDAY(9, null),
    NONWORKINGDAY(10, null);
@@ -50,7 +50,7 @@ public enum ProgressLineDay implements MpxjEnum
     * @param value day value
     * @param day equivalent Day instance
     */
-   ProgressLineDay(int value, Day day)
+   ProgressLineDay(int value, DayOfWeek day)
    {
       m_value = value;
       m_day = day;
@@ -71,7 +71,7 @@ public enum ProgressLineDay implements MpxjEnum
     *
     * @return Day instance
     */
-   public Day getDay()
+   public DayOfWeek getDay()
    {
       return m_day;
    }
@@ -120,6 +120,6 @@ public enum ProgressLineDay implements MpxjEnum
    private static final ProgressLineDay[] TYPE_VALUES = EnumHelper.createTypeArray(ProgressLineDay.class, 1);
 
    private final int m_value;
-   private final Day m_day;
+   private final DayOfWeek m_day;
 
 }

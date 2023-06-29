@@ -27,12 +27,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -287,9 +288,9 @@ public final class SageReader extends AbstractProjectStreamReader
     * @param index field index
     * @return date value
     */
-   private Date parseDate(String[] columns, int index)
+   private LocalDateTime parseDate(String[] columns, int index)
    {
-      Date result;
+      LocalDateTime result;
 
       String date = getText(columns, index);
       if (date == null || date.isEmpty())
@@ -300,9 +301,9 @@ public final class SageReader extends AbstractProjectStreamReader
       {
          try
          {
-            result = DATE_FORMAT.get().parse(date);
+            result = LocalDate.parse(date, DATE_FORMAT).atStartOfDay();
          }
-         catch (ParseException e)
+         catch (DateTimeParseException e)
          {
             result = null;
          }
@@ -361,7 +362,7 @@ public final class SageReader extends AbstractProjectStreamReader
     */
    private void setConstraint(Task task, ConstraintType type, String[] columns, int index)
    {
-      Date date = parseDate(columns, index);
+      LocalDateTime date = parseDate(columns, index);
       if (date != null)
       {
          task.setConstraintType(type);
@@ -373,7 +374,7 @@ public final class SageReader extends AbstractProjectStreamReader
    private EventManager m_eventManager;
    private Map<String, Task> m_taskMap;
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("MM/dd/yyyy"));
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static

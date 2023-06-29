@@ -27,10 +27,10 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
-import java.text.Format;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -280,8 +280,8 @@ final class XerWriter
 
    private final ProjectFile m_file;
    private final OutputStreamWriter m_writer;
-   private final Format m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-   private final Format m_timestampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+   private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+   private final DateTimeFormatter m_timestampFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
    private final DecimalFormat m_doubleFormat = new DecimalFormat("0.######");
    private final DecimalFormat m_currencyFormat = new DecimalFormat("0.0000");
    private final DecimalFormat m_maxUnitsFormat = new DecimalFormat("0.####");
@@ -290,8 +290,7 @@ final class XerWriter
    static
    {
       FORMAT_MAP.put(DateOnly.class, (w, o) -> w.m_dateFormat.format(((DateOnly) o).toDate()));
-      FORMAT_MAP.put(Date.class, (w, o) -> w.m_timestampFormat.format(o));
-      FORMAT_MAP.put(java.sql.Date.class, (w, o) -> w.m_timestampFormat.format(o));
+      FORMAT_MAP.put(LocalDateTime.class, (w, o) -> w.m_timestampFormat.format((LocalDateTime) o));
       FORMAT_MAP.put(Double.class, (w, o) -> w.m_doubleFormat.format(o));
       FORMAT_MAP.put(Boolean.class, (w, o) -> ((Boolean) o).booleanValue() ? "Y" : "N");
       FORMAT_MAP.put(Rate.class, (w, o) -> w.m_currencyFormat.format(((Rate) o).getAmount()));

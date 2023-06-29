@@ -23,9 +23,6 @@
 
 package net.sf.mpxj.mpd;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -52,7 +49,7 @@ final class JackcessResultSetRow extends MapRow
       {
          String name = column.getName().toUpperCase();
          DataType type = column.getType();
-         Object value = null;
+         Object value;
 
          switch (type)
          {
@@ -73,11 +70,7 @@ final class JackcessResultSetRow extends MapRow
             case EXT_DATE_TIME:
             case SHORT_DATE_TIME:
             {
-               LocalDateTime l = row.getLocalDateTime(name);
-               if (l != null)
-               {
-                  value = Date.from(l.atZone(ZoneId.systemDefault()).toInstant());
-               }
+               value = row.getLocalDateTime(name);
                break;
             }
 

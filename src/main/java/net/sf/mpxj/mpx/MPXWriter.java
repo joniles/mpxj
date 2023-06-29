@@ -27,11 +27,13 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -39,12 +41,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.time.LocalTime;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -65,9 +68,9 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceAssignmentWorkgroupFields;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.mpp.UserDefinedFieldMap;
@@ -365,7 +368,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(name));
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          DayType type = record.getCalendarDayType(day);
          if (type == null)
@@ -379,7 +382,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          ProjectCalendarHours hours = record.getCalendarHours(day);
          if (hours != null)
@@ -411,7 +414,7 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param day day to which these hours are attached
     * @param record calendar hours instance
     */
-   private void writeCalendarHours(ProjectCalendar parentCalendar, Day day, ProjectCalendarHours record) throws IOException
+   private void writeCalendarHours(ProjectCalendar parentCalendar, DayOfWeek day, ProjectCalendarHours record) throws IOException
    {
       m_buffer.setLength(0);
 
@@ -426,22 +429,22 @@ public final class MPXWriter extends AbstractProjectWriter
          recordNumber = MPXConstants.RESOURCE_CALENDAR_HOURS_RECORD_NUMBER;
       }
 
-      DateRange range1 = record.get(0);
+      LocalTimeRange range1 = record.get(0);
       if (range1 == null)
       {
-         range1 = DateRange.EMPTY_RANGE;
+         range1 = LocalTimeRange.EMPTY_RANGE;
       }
 
-      DateRange range2 = record.get(1);
+      LocalTimeRange range2 = record.get(1);
       if (range2 == null)
       {
-         range2 = DateRange.EMPTY_RANGE;
+         range2 = LocalTimeRange.EMPTY_RANGE;
       }
 
-      DateRange range3 = record.get(2);
+      LocalTimeRange range3 = record.get(2);
       if (range3 == null)
       {
-         range3 = DateRange.EMPTY_RANGE;
+         range3 = LocalTimeRange.EMPTY_RANGE;
       }
 
       m_buffer.append(recordNumber);
@@ -823,7 +826,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(record.getUseEndDate() ? "1" : "0");
          m_buffer.append(m_delimiter);
-         m_buffer.append(record.isWorkingDaysOnly() ? "1" : "0");
+         m_buffer.append(record.getWorkingDaysOnly() ? "1" : "0");
          m_buffer.append(m_delimiter);
          m_buffer.append(format(RecurrenceUtility.getDays(record)));
          m_buffer.append(m_delimiter);
@@ -837,7 +840,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(monthlyRelative ? record.getDayNumber() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(RecurrenceUtility.getDay(monthlyRelative ? record.getDayOfWeek() : Day.MONDAY)));
+         m_buffer.append(format(RecurrenceUtility.getDay(monthlyRelative ? record.getDayOfWeek() : DayOfWeek.MONDAY)));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(monthlyRelative ? record.getFrequency() : "1"));
          m_buffer.append(m_delimiter);
@@ -847,7 +850,7 @@ public final class MPXWriter extends AbstractProjectWriter
          m_buffer.append(m_delimiter);
          m_buffer.append(format(yearlyRelative ? record.getDayNumber() : "1"));
          m_buffer.append(m_delimiter);
-         m_buffer.append(format(RecurrenceUtility.getDay(yearlyRelative ? record.getDayOfWeek() : Day.MONDAY)));
+         m_buffer.append(format(RecurrenceUtility.getDay(yearlyRelative ? record.getDayOfWeek() : DayOfWeek.MONDAY)));
          m_buffer.append(m_delimiter);
          m_buffer.append(format(record.getMonthNumber()));
          m_buffer.append(m_delimiter);
@@ -957,21 +960,17 @@ public final class MPXWriter extends AbstractProjectWriter
     * This internal method is used to convert from a Date instance to an
     * integer representing the number of minutes past midnight.
     *
-    * @param date date instance
+    * @param time date instance
     * @return minutes past midnight as an integer
     */
-   private Integer getIntegerTimeInMinutes(Date date)
+   private Integer getIntegerTimeInMinutes(LocalTime time)
    {
       Integer result = null;
-      if (date != null)
+      if (time != null)
       {
-         Calendar cal = DateHelper.popCalendar(date);
-         int time = cal.get(Calendar.HOUR_OF_DAY) * 60;
-         time += cal.get(Calendar.MINUTE);
-         DateHelper.pushCalendar(cal);
-         result = Integer.valueOf(time);
+         result = Integer.valueOf(time.toSecondOfDay() / 60);
       }
-      return (result);
+      return result;
    }
 
    /**
@@ -1076,9 +1075,9 @@ public final class MPXWriter extends AbstractProjectWriter
             }
             else
             {
-               if (o instanceof Day)
+               if (o instanceof DayOfWeek)
                {
-                  result = Integer.toString(((Day) o).getValue());
+                  result = Integer.toString(DayOfWeekHelper.getValue((DayOfWeek) o));
                }
                else
                {
@@ -1137,9 +1136,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value time value
     * @return formatted time value
     */
-   private String formatTime(Date value)
+   private String formatTime(LocalTime value)
    {
-      return (value == null ? null : m_formats.getTimeFormat().format(value));
+      return m_formats.printTime(value);
    }
 
    /**
@@ -1164,20 +1163,30 @@ public final class MPXWriter extends AbstractProjectWriter
       return (value == null ? null : m_formats.getUnitsDecimalFormat().format(value.doubleValue() / 100));
    }
 
+   private String formatDateTime(Object value)
+   {
+      if (value instanceof LocalDateTime)
+      {
+         return formatDateTime((LocalDateTime) value);
+      }
+
+      if (value instanceof LocalDate)
+      {
+         return formatDateTime((LocalDate) value);
+      }
+
+      return null;
+   }
+
    /**
     * This method is called to format a date.
     *
     * @param value date value
     * @return formatted date value
     */
-   private String formatDateTime(Object value)
+   private String formatDateTime(TemporalAccessor value)
    {
-      String result = null;
-      if (value instanceof Date)
-      {
-         result = m_formats.getDateTimeFormat().format(value);
-      }
-      return result;
+      return m_formats.printDateTime(value);
    }
 
    /**
@@ -1187,9 +1196,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value date value
     * @return formatted date value
     */
-   private String formatDateTimeNull(Date value)
+   private String formatDateTimeNull(LocalDateTime value)
    {
-      return (value == null ? m_formats.getNullText() : m_formats.getDateTimeFormat().format(value));
+      return value == null ? m_formats.getNullText() : m_formats.printDateTime(value);
    }
 
    /**
@@ -1198,9 +1207,9 @@ public final class MPXWriter extends AbstractProjectWriter
     * @param value date value
     * @return formatted date value
     */
-   private String formatDate(Date value)
+   private String formatDate(LocalDate value)
    {
-      return (value == null ? null : m_formats.getDateFormat().format(value));
+      return m_formats.printDate(value);
    }
 
    /**

@@ -220,7 +220,6 @@ Start Slack|✓|✓|✓|✓
 Start Variance|✓|✓|✓|✓
 Steps|✓|✓|✓|✓
 Stop|✓|✓|✓|✓
-Subproject| |✓|✓|✓
 Subproject File| |✓|✓|✓
 Subproject GUID| | |✓|✓
 Subproject Task ID| |✓|✓|✓

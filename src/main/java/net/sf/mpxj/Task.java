@@ -24,9 +24,10 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -38,7 +39,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.TaskFieldLists;
 
@@ -621,7 +622,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param val value to be set
     */
-   public void setActualFinish(Date val)
+   public void setActualFinish(LocalDateTime val)
    {
       set(TaskField.ACTUAL_FINISH, val);
    }
@@ -633,7 +634,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Project sets the actual start date to the scheduled start date.
     * @param val value to be set
     */
-   public void setActualStart(Date val)
+   public void setActualStart(LocalDateTime val)
    {
       set(TaskField.ACTUAL_START, val);
    }
@@ -680,7 +681,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param val Date to be set
     */
-   public void setBaselineFinish(Date val)
+   public void setBaselineFinish(LocalDateTime val)
    {
       set(TaskField.BASELINE_FINISH, val);
    }
@@ -693,7 +694,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param val Date to be set
     */
-   public void setBaselineStart(Date val)
+   public void setBaselineStart(LocalDateTime val)
    {
       set(TaskField.BASELINE_START, val);
    }
@@ -763,7 +764,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param val Date to be set
     */
-   public void setConstraintDate(Date val)
+   public void setConstraintDate(LocalDateTime val)
    {
       set(TaskField.CONSTRAINT_DATE, val);
    }
@@ -773,7 +774,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param date secondary constraint date
     */
-   public void setSecondaryConstraintDate(Date date)
+   public void setSecondaryConstraintDate(LocalDateTime date)
    {
       set(TaskField.SECONDARY_CONSTRAINT_DATE, date);
    }
@@ -862,7 +863,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param val date
     */
-   public void setCreateDate(Date val)
+   public void setCreateDate(LocalDateTime val)
    {
       set(TaskField.CREATED, val);
    }
@@ -965,7 +966,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param date Date value
     */
-   public void setEarlyFinish(Date date)
+   public void setEarlyFinish(LocalDateTime date)
    {
       set(TaskField.EARLY_FINISH, date);
    }
@@ -975,7 +976,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    *
    * @param date Date value
    */
-   public void setRemainingEarlyFinish(Date date)
+   public void setRemainingEarlyFinish(LocalDateTime date)
    {
       set(TaskField.REMAINING_EARLY_FINISH, date);
    }
@@ -987,7 +988,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param date Date value
     */
-   public void setEarlyStart(Date date)
+   public void setEarlyStart(LocalDateTime date)
    {
       set(TaskField.EARLY_START, date);
    }
@@ -997,7 +998,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    *
    * @param date Date value
    */
-   public void setRemainingEarlyStart(Date date)
+   public void setRemainingEarlyStart(LocalDateTime date)
    {
       set(TaskField.REMAINING_EARLY_START, date);
    }
@@ -1010,7 +1011,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param date Date value
     */
-   public void setFinish(Date date)
+   public void setFinish(LocalDateTime date)
    {
       set(TaskField.FINISH, date);
    }
@@ -1102,7 +1103,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param date date value
     */
-   public void setLateFinish(Date date)
+   public void setLateFinish(LocalDateTime date)
    {
       set(TaskField.LATE_FINISH, date);
    }
@@ -1112,7 +1113,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param date remaining late finish
     */
-   public void setRemainingLateFinish(Date date)
+   public void setRemainingLateFinish(LocalDateTime date)
    {
       set(TaskField.REMAINING_LATE_FINISH, date);
    }
@@ -1125,7 +1126,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param date date value
     */
-   public void setLateStart(Date date)
+   public void setLateStart(LocalDateTime date)
    {
       set(TaskField.LATE_START, date);
    }
@@ -1135,7 +1136,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param date remaining late start
     */
-   public void setRemainingLateStart(Date date)
+   public void setRemainingLateStart(LocalDateTime date)
    {
       set(TaskField.REMAINING_LATE_START, date);
    }
@@ -1338,7 +1339,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param val - Date
     */
-   public void setResume(Date val)
+   public void setResume(LocalDateTime val)
    {
       set(TaskField.RESUME, val);
    }
@@ -1363,7 +1364,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * should begin. Or, you can have Microsoft Project calculate the start date.
     * @param val - Date
     */
-   public void setStart(Date val)
+   public void setStart(LocalDateTime val)
    {
       set(TaskField.START, val);
    }
@@ -1397,21 +1398,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param val - Date
     */
-   public void setStop(Date val)
+   public void setStop(LocalDateTime val)
    {
       set(TaskField.STOP, val);
-   }
-
-   /**
-    * The Subproject File field contains the external
-    * project's path and file name.
-    *
-    * @param val - String
-    * @deprecated use setSubprojectFile
-    */
-   @Deprecated public void setSubprojectName(String val)
-   {
-      setSubprojectFile(val);
    }
 
    /**
@@ -1598,9 +1587,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getActualFinish()
+   public LocalDateTime getActualFinish()
    {
-      return (Date) get(TaskField.ACTUAL_FINISH);
+      return (LocalDateTime) get(TaskField.ACTUAL_FINISH);
    }
 
    /**
@@ -1612,9 +1601,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getActualStart()
+   public LocalDateTime getActualStart()
    {
-      return (Date) get(TaskField.ACTUAL_START);
+      return (LocalDateTime) get(TaskField.ACTUAL_START);
    }
 
    /**
@@ -1686,14 +1675,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getBaselineFinish()
+   public LocalDateTime getBaselineFinish()
    {
       Object result = get(TaskField.BASELINE_FINISH);
-      if (!(result instanceof Date))
+      if (!(result instanceof LocalDateTime))
       {
          result = null;
       }
-      return (Date) result;
+      return (LocalDateTime) result;
    }
 
    /**
@@ -1728,14 +1717,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getBaselineStart()
+   public LocalDateTime getBaselineStart()
    {
       Object result = get(TaskField.BASELINE_START);
-      if (!(result instanceof Date))
+      if (!(result instanceof LocalDateTime))
       {
          result = null;
       }
-      return (Date) result;
+      return (LocalDateTime) result;
    }
 
    /**
@@ -1821,9 +1810,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getConstraintDate()
+   public LocalDateTime getConstraintDate()
    {
-      return (Date) get(TaskField.CONSTRAINT_DATE);
+      return (LocalDateTime) get(TaskField.CONSTRAINT_DATE);
    }
 
    /**
@@ -1831,9 +1820,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return secondary constraint date
     */
-   public Date getSecondaryConstraintDate()
+   public LocalDateTime getSecondaryConstraintDate()
    {
-      return (Date) get(TaskField.SECONDARY_CONSTRAINT_DATE);
+      return (LocalDateTime) get(TaskField.SECONDARY_CONSTRAINT_DATE);
    }
 
    /**
@@ -1899,9 +1888,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getCreateDate()
+   public LocalDateTime getCreateDate()
    {
-      return (Date) get(TaskField.CREATED);
+      return (LocalDateTime) get(TaskField.CREATED);
    }
 
    /**
@@ -2006,9 +1995,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getEarlyFinish()
+   public LocalDateTime getEarlyFinish()
    {
-      return (Date) get(TaskField.EARLY_FINISH);
+      return (LocalDateTime) get(TaskField.EARLY_FINISH);
    }
 
    /**
@@ -2016,9 +2005,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    *
    * @return Date
    */
-   public Date getRemainingEarlyFinish()
+   public LocalDateTime getRemainingEarlyFinish()
    {
-      return (Date) get(TaskField.REMAINING_EARLY_FINISH);
+      return (LocalDateTime) get(TaskField.REMAINING_EARLY_FINISH);
    }
 
    /**
@@ -2028,9 +2017,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getEarlyStart()
+   public LocalDateTime getEarlyStart()
    {
-      return (Date) get(TaskField.EARLY_START);
+      return (LocalDateTime) get(TaskField.EARLY_START);
    }
 
    /**
@@ -2038,9 +2027,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    *
    * @return Date
    */
-   public Date getRemainingEarlyStart()
+   public LocalDateTime getRemainingEarlyStart()
    {
-      return (Date) get(TaskField.REMAINING_EARLY_START);
+      return (LocalDateTime) get(TaskField.REMAINING_EARLY_START);
    }
 
    /**
@@ -2051,9 +2040,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getFinish()
+   public LocalDateTime getFinish()
    {
-      return (Date) get(TaskField.FINISH);
+      return (LocalDateTime) get(TaskField.FINISH);
    }
 
    /**
@@ -2072,7 +2061,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param index finish index (1-10)
     * @param value finish value
     */
-   public void setFinish(int index, Date value)
+   public void setFinish(int index, LocalDateTime value)
    {
       set(selectField(TaskFieldLists.CUSTOM_FINISH, index), value);
    }
@@ -2083,9 +2072,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param index finish index (1-10)
     * @return finish value
     */
-   public Date getFinish(int index)
+   public LocalDateTime getFinish(int index)
    {
-      return (Date) get(selectField(TaskFieldLists.CUSTOM_FINISH, index));
+      return (LocalDateTime) get(selectField(TaskFieldLists.CUSTOM_FINISH, index));
    }
 
    /**
@@ -2178,9 +2167,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getLateFinish()
+   public LocalDateTime getLateFinish()
    {
-      return (Date) get(TaskField.LATE_FINISH);
+      return (LocalDateTime) get(TaskField.LATE_FINISH);
    }
 
    /**
@@ -2188,9 +2177,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return remaining late finish
     */
-   public Date getRemainingLateFinish()
+   public LocalDateTime getRemainingLateFinish()
    {
-      return (Date) get(TaskField.REMAINING_LATE_FINISH);
+      return (LocalDateTime) get(TaskField.REMAINING_LATE_FINISH);
    }
 
    /**
@@ -2201,9 +2190,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getLateStart()
+   public LocalDateTime getLateStart()
    {
-      return (Date) get(TaskField.LATE_START);
+      return (LocalDateTime) get(TaskField.LATE_START);
    }
 
    /**
@@ -2211,9 +2200,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return remaining late start
     */
-   public Date getRemainingLateStart()
+   public LocalDateTime getRemainingLateStart()
    {
-      return (Date) get(TaskField.REMAINING_LATE_START);
+      return (LocalDateTime) get(TaskField.REMAINING_LATE_START);
    }
 
    /**
@@ -2482,9 +2471,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getResume()
+   public LocalDateTime getResume()
    {
-      return (Date) get(TaskField.RESUME);
+      return (LocalDateTime) get(TaskField.RESUME);
    }
 
    /**
@@ -2510,9 +2499,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getStart()
+   public LocalDateTime getStart()
    {
-      return (Date) get(TaskField.START);
+      return (LocalDateTime) get(TaskField.START);
    }
 
    /**
@@ -2531,7 +2520,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param index start index (1-10)
     * @param value start value
     */
-   public void setStart(int index, Date value)
+   public void setStart(int index, LocalDateTime value)
    {
       set(selectField(TaskFieldLists.CUSTOM_START, index), value);
    }
@@ -2542,9 +2531,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param index start index (1-10)
     * @return start value
     */
-   public Date getStart(int index)
+   public LocalDateTime getStart(int index)
    {
-      return (Date) get(selectField(TaskFieldLists.CUSTOM_START, index));
+      return (LocalDateTime) get(selectField(TaskFieldLists.CUSTOM_START, index));
    }
 
    /**
@@ -2564,21 +2553,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Date
     */
-   public Date getStop()
+   public LocalDateTime getStop()
    {
-      return (Date) get(TaskField.STOP);
-   }
-
-   /**
-    * Contains the file name and path of the sub project represented by
-    * the current task.
-    *
-    * @return sub project file path
-    * @deprecated use getSubprojectFile
-    */
-   @Deprecated public String getSubprojectName()
-   {
-      return getSubprojectFile();
+      return (LocalDateTime) get(TaskField.STOP);
    }
 
    /**
@@ -2810,9 +2787,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return Task deadline
     */
-   public Date getDeadline()
+   public LocalDateTime getDeadline()
    {
-      return (Date) get(TaskField.DEADLINE);
+      return (LocalDateTime) get(TaskField.DEADLINE);
    }
 
    /**
@@ -2820,7 +2797,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param deadline deadline date
     */
-   public void setDeadline(Date deadline)
+   public void setDeadline(LocalDateTime deadline)
    {
       set(TaskField.DEADLINE, deadline);
    }
@@ -3045,28 +3022,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Retrieves the external task project file name.
-    *
-    * @return external task project file name
-    * @deprecated use getSubprojectFile
-    */
-   @Deprecated public String getExternalTaskProject()
-   {
-      return getSubprojectFile();
-   }
-
-   /**
-    * Sets the external task project file name.
-    *
-    * @param externalTaskProject external task project file name
-    * @deprecated use setSubprojectFile
-    */
-   @Deprecated public void setExternalTaskProject(String externalTaskProject)
-   {
-      setSubprojectFile(externalTaskProject);
-   }
-
-   /**
     * Retrieve the ACWP value.
     *
     * @return ACWP value
@@ -3252,7 +3207,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param index date index (1-10)
     * @param value date value
     */
-   public void setDate(int index, Date value)
+   public void setDate(int index, LocalDateTime value)
    {
       set(selectField(TaskFieldLists.CUSTOM_DATE, index), value);
    }
@@ -3263,9 +3218,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param index date index (1-10)
     * @return date value
     */
-   public Date getDate(int index)
+   public LocalDateTime getDate(int index)
    {
-      return (Date) get(selectField(TaskFieldLists.CUSTOM_DATE, index));
+      return (LocalDateTime) get(selectField(TaskFieldLists.CUSTOM_DATE, index));
    }
 
    /**
@@ -3493,9 +3448,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return preleveled start
     */
-   public Date getPreleveledStart()
+   public LocalDateTime getPreleveledStart()
    {
-      return (Date) get(TaskField.PRELEVELED_START);
+      return (LocalDateTime) get(TaskField.PRELEVELED_START);
    }
 
    /**
@@ -3503,9 +3458,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return preleveled finish
     */
-   public Date getPreleveledFinish()
+   public LocalDateTime getPreleveledFinish()
    {
-      return (Date) get(TaskField.PRELEVELED_FINISH);
+      return (LocalDateTime) get(TaskField.PRELEVELED_FINISH);
    }
 
    /**
@@ -3513,7 +3468,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param date preleveled start attribute
     */
-   public void setPreleveledStart(Date date)
+   public void setPreleveledStart(LocalDateTime date)
    {
       set(TaskField.PRELEVELED_START, date);
    }
@@ -3523,7 +3478,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param date preleveled finish attribute
     */
-   public void setPreleveledFinish(Date date)
+   public void setPreleveledFinish(LocalDateTime date)
    {
       set(TaskField.PRELEVELED_FINISH, date);
    }
@@ -3705,9 +3660,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return list of split times
     */
-   @SuppressWarnings("unchecked") public List<DateRange> getSplits()
+   @SuppressWarnings("unchecked") public List<LocalDateTimeRange> getSplits()
    {
-      return (List<DateRange>) get(TaskField.SPLITS);
+      return (List<LocalDateTimeRange>) get(TaskField.SPLITS);
    }
 
    /**
@@ -3715,7 +3670,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param splits list of split times
     */
-   public void setSplits(List<DateRange> splits)
+   public void setSplits(List<LocalDateTimeRange> splits)
    {
       set(TaskField.SPLITS, splits);
    }
@@ -3726,28 +3681,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public void remove()
    {
       getParentFile().removeTask(this);
-   }
-
-   /**
-    * Retrieve the subproject represented by this task.
-    *
-    * @return sub project
-    * @deprecated use the task's subproject attributes
-    */
-   @Deprecated public SubProject getSubProject()
-   {
-      return (SubProject) get(TaskField.SUBPROJECT);
-   }
-
-   /**
-    * Set the subproject represented by this task.
-    *
-    * @param subProject sub project
-    * @deprecated use the task's subproject attributes
-    */
-   @Deprecated public void setSubProject(SubProject subProject)
-   {
-      set(TaskField.SUBPROJECT, subProject);
    }
 
    /**
@@ -3845,9 +3778,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param index field index
     * @return field value
     */
-   public Date getEnterpriseDate(int index)
+   public LocalDateTime getEnterpriseDate(int index)
    {
-      return (Date) get((selectField(TaskFieldLists.ENTERPRISE_CUSTOM_DATE, index)));
+      return (LocalDateTime) get((selectField(TaskFieldLists.ENTERPRISE_CUSTOM_DATE, index)));
    }
 
    /**
@@ -3856,7 +3789,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param index field index
     * @param value field value
     */
-   public void setEnterpriseDate(int index, Date value)
+   public void setEnterpriseDate(int index, LocalDateTime value)
    {
       set(selectField(TaskFieldLists.ENTERPRISE_CUSTOM_DATE, index), value);
    }
@@ -3977,7 +3910,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
-   public void setBaselineFinish(int baselineNumber, Date value)
+   public void setBaselineFinish(int baselineNumber, LocalDateTime value)
    {
       set(selectField(TaskFieldLists.BASELINE_FINISHES, baselineNumber), value);
    }
@@ -3988,7 +3921,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
-   public void setBaselineStart(int baselineNumber, Date value)
+   public void setBaselineStart(int baselineNumber, LocalDateTime value)
    {
       set(selectField(TaskFieldLists.BASELINE_STARTS, baselineNumber), value);
    }
@@ -4064,14 +3997,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
-   public Date getBaselineFinish(int baselineNumber)
+   public LocalDateTime getBaselineFinish(int baselineNumber)
    {
       Object result = get(selectField(TaskFieldLists.BASELINE_FINISHES, baselineNumber));
-      if (!(result instanceof Date))
+      if (!(result instanceof LocalDateTime))
       {
          result = null;
       }
-      return (Date) result;
+      return (LocalDateTime) result;
    }
 
    /**
@@ -4107,14 +4040,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
-   public Date getBaselineStart(int baselineNumber)
+   public LocalDateTime getBaselineStart(int baselineNumber)
    {
       Object result = get(selectField(TaskFieldLists.BASELINE_STARTS, baselineNumber));
-      if (!(result instanceof Date))
+      if (!(result instanceof LocalDateTime))
       {
          result = null;
       }
-      return (Date) result;
+      return (LocalDateTime) result;
    }
 
    /**
@@ -4161,9 +4094,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return complete through date
     */
-   public Date getCompleteThrough()
+   public LocalDateTime getCompleteThrough()
    {
-      return (Date) get(TaskField.COMPLETE_THROUGH);
+      return (LocalDateTime) get(TaskField.COMPLETE_THROUGH);
    }
 
    /**
@@ -4172,7 +4105,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param value complete through date
     */
-   public void setCompleteThrough(Date value)
+   public void setCompleteThrough(LocalDateTime value)
    {
       set(TaskField.COMPLETE_THROUGH, value);
    }
@@ -4182,9 +4115,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return summary progress date
     */
-   public Date getSummaryProgress()
+   public LocalDateTime getSummaryProgress()
    {
-      return (Date) get(TaskField.SUMMARY_PROGRESS);
+      return (LocalDateTime) get(TaskField.SUMMARY_PROGRESS);
    }
 
    /**
@@ -4192,7 +4125,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param value summary progress date
     */
-   public void setSummaryProgress(Date value)
+   public void setSummaryProgress(LocalDateTime value)
    {
       set(TaskField.SUMMARY_PROGRESS, value);
    }
@@ -4309,9 +4242,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return baseline estimated start
     */
-   public Date getBaselineEstimatedStart()
+   public LocalDateTime getBaselineEstimatedStart()
    {
-      return (Date) get(TaskField.BASELINE_ESTIMATED_START);
+      return (LocalDateTime) get(TaskField.BASELINE_ESTIMATED_START);
    }
 
    /**
@@ -4319,7 +4252,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param date baseline estimated start
     */
-   public void setBaselineEstimatedStart(Date date)
+   public void setBaselineEstimatedStart(LocalDateTime date)
    {
       set(TaskField.BASELINE_ESTIMATED_START, date);
    }
@@ -4330,14 +4263,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
-   public Date getBaselineEstimatedStart(int baselineNumber)
+   public LocalDateTime getBaselineEstimatedStart(int baselineNumber)
    {
       Object result = get(selectField(TaskFieldLists.BASELINE_ESTIMATED_STARTS, baselineNumber));
-      if (!(result instanceof Date))
+      if (!(result instanceof LocalDateTime))
       {
          result = null;
       }
-      return (Date) result;
+      return (LocalDateTime) result;
    }
 
    /**
@@ -4346,7 +4279,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
-   public void setBaselineEstimatedStart(int baselineNumber, Date value)
+   public void setBaselineEstimatedStart(int baselineNumber, LocalDateTime value)
    {
       set(selectField(TaskFieldLists.BASELINE_ESTIMATED_STARTS, baselineNumber), value);
    }
@@ -4356,9 +4289,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return baseline estimated finish
     */
-   public Date getBaselineEstimatedFinish()
+   public LocalDateTime getBaselineEstimatedFinish()
    {
-      return (Date) get(TaskField.BASELINE_ESTIMATED_FINISH);
+      return (LocalDateTime) get(TaskField.BASELINE_ESTIMATED_FINISH);
    }
 
    /**
@@ -4366,7 +4299,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param date baseline estimated finish
     */
-   public void setBaselineEstimatedFinish(Date date)
+   public void setBaselineEstimatedFinish(LocalDateTime date)
    {
       set(TaskField.BASELINE_ESTIMATED_FINISH, date);
    }
@@ -4377,14 +4310,14 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
-   public Date getBaselineEstimatedFinish(int baselineNumber)
+   public LocalDateTime getBaselineEstimatedFinish(int baselineNumber)
    {
       Object result = get(selectField(TaskFieldLists.BASELINE_ESTIMATED_FINISHES, baselineNumber));
-      if (!(result instanceof Date))
+      if (!(result instanceof LocalDateTime))
       {
          result = null;
       }
-      return (Date) result;
+      return (LocalDateTime) result;
    }
 
    /**
@@ -4393,7 +4326,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
-   public void setBaselineEstimatedFinish(int baselineNumber, Date value)
+   public void setBaselineEstimatedFinish(int baselineNumber, LocalDateTime value)
    {
       set(selectField(TaskFieldLists.BASELINE_ESTIMATED_FINISHES, baselineNumber), value);
    }
@@ -4809,7 +4742,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param value planned finish value
     */
-   public void setPlannedFinish(Date value)
+   public void setPlannedFinish(LocalDateTime value)
    {
       set(TaskField.PLANNED_FINISH, value);
    }
@@ -4819,9 +4752,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return planned finish value
     */
-   public Date getPlannedFinish()
+   public LocalDateTime getPlannedFinish()
    {
-      return (Date) get(TaskField.PLANNED_FINISH);
+      return (LocalDateTime) get(TaskField.PLANNED_FINISH);
    }
 
    /**
@@ -4829,7 +4762,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param value planned start value
     */
-   public void setPlannedStart(Date value)
+   public void setPlannedStart(LocalDateTime value)
    {
       set(TaskField.PLANNED_START, value);
    }
@@ -4839,9 +4772,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return planned start value
     */
-   public Date getPlannedStart()
+   public LocalDateTime getPlannedStart()
    {
-      return (Date) get(TaskField.PLANNED_START);
+      return (LocalDateTime) get(TaskField.PLANNED_START);
    }
 
    /**
@@ -4909,7 +4842,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param value suspend date value
     */
-   public void setSuspendDate(Date value)
+   public void setSuspendDate(LocalDateTime value)
    {
       set(TaskField.SUSPEND_DATE, value);
    }
@@ -4919,9 +4852,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return suspend date value
     */
-   public Date getSuspendDate()
+   public LocalDateTime getSuspendDate()
    {
-      return (Date) get(TaskField.SUSPEND_DATE);
+      return (LocalDateTime) get(TaskField.SUSPEND_DATE);
    }
 
    /**
@@ -5073,9 +5006,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return external early start date
     */
-   public Date getExternalEarlyStart()
+   public LocalDateTime getExternalEarlyStart()
    {
-      return (Date) get(TaskField.EXTERNAL_EARLY_START);
+      return (LocalDateTime) get(TaskField.EXTERNAL_EARLY_START);
    }
 
    /**
@@ -5083,7 +5016,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param value external early start date
     */
-   public void setExternalEarlyStart(Date value)
+   public void setExternalEarlyStart(LocalDateTime value)
    {
       set(TaskField.EXTERNAL_EARLY_START, value);
    }
@@ -5093,9 +5026,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return external late finish date
     */
-   public Date getExternalLateFinish()
+   public LocalDateTime getExternalLateFinish()
    {
-      return (Date) get(TaskField.EXTERNAL_LATE_FINISH);
+      return (LocalDateTime) get(TaskField.EXTERNAL_LATE_FINISH);
    }
 
    /**
@@ -5103,7 +5036,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param value external late finish date
     */
-   public void setExternalLateFinish(Date value)
+   public void setExternalLateFinish(LocalDateTime value)
    {
       set(TaskField.EXTERNAL_LATE_FINISH, value);
    }
@@ -5173,9 +5106,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return scheduled start value
     */
-   public Date getScheduledStart()
+   public LocalDateTime getScheduledStart()
    {
-      return (Date) get(TaskField.SCHEDULED_START);
+      return (LocalDateTime) get(TaskField.SCHEDULED_START);
    }
 
    /**
@@ -5183,7 +5116,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param value scheduled start value
     */
-   public void setScheduledStart(Date value)
+   public void setScheduledStart(LocalDateTime value)
    {
       set(TaskField.SCHEDULED_START, value);
    }
@@ -5193,9 +5126,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return scheduled finish value
     */
-   public Date getScheduledFinish()
+   public LocalDateTime getScheduledFinish()
    {
-      return (Date) get(TaskField.SCHEDULED_FINISH);
+      return (LocalDateTime) get(TaskField.SCHEDULED_FINISH);
    }
 
    /**
@@ -5204,7 +5137,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param value scheduled finish value
     */
-   public void setScheduledFinish(Date value)
+   public void setScheduledFinish(LocalDateTime value)
    {
       set(TaskField.SCHEDULED_FINISH, value);
    }
@@ -5458,9 +5391,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return expected finish date
     */
-   public Date getExpectedFinish()
+   public LocalDateTime getExpectedFinish()
    {
-      return (Date) get(TaskField.EXPECTED_FINISH);
+      return (LocalDateTime) get(TaskField.EXPECTED_FINISH);
    }
 
    /**
@@ -5468,7 +5401,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param value expected finish date
     */
-   public void setExpectedFinish(Date value)
+   public void setExpectedFinish(LocalDateTime value)
    {
       set(TaskField.EXPECTED_FINISH, value);
    }
@@ -5635,7 +5568,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    @Override public String toString()
    {
-      return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + (getExternalTask() ? " [EXTERNAL uid=" + getSubprojectTaskUniqueID() + " id=" + getSubprojectTaskID() + "]" : "]") + (getSubProject() == null ? "" : (" project=" + getSubProject())));
+      return ("[Task id=" + getID() + " uniqueID=" + getUniqueID() + " name=" + getName() + (getExternalTask() ? " [EXTERNAL uid=" + getSubprojectTaskUniqueID() + " id=" + getSubprojectTaskID() + "]" : "]"));
    }
 
    /**
@@ -5702,41 +5635,41 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private Duration calculateStartVariance()
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-      return DateHelper.getVariance(this, getBaselineStart(), getStart(), format);
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getBaselineStart(), getStart(), format);
    }
 
    private Duration calculateFinishVariance()
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-      return DateHelper.getVariance(this, getBaselineFinish(), getFinish(), format);
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getBaselineFinish(), getFinish(), format);
    }
 
    private Duration calculateStartSlack()
    {
       Duration duration = getDuration();
-      Date lateStart = getLateStart();
-      Date earlyStart = getEarlyStart();
+      LocalDateTime lateStart = getLateStart();
+      LocalDateTime earlyStart = getEarlyStart();
 
       if (duration == null || lateStart == null || earlyStart == null)
       {
          return null;
       }
 
-      return DateHelper.getVariance(this, earlyStart, lateStart, duration.getUnits());
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), earlyStart, lateStart, duration.getUnits());
    }
 
    private Duration calculateFinishSlack()
    {
       Duration duration = getDuration();
-      Date earlyFinish = getEarlyFinish();
-      Date lateFinish = getLateFinish();
+      LocalDateTime earlyFinish = getEarlyFinish();
+      LocalDateTime lateFinish = getLateFinish();
 
       if (duration == null || earlyFinish == null || lateFinish == null)
       {
          return null;
       }
 
-      return DateHelper.getVariance(this, earlyFinish, lateFinish, duration.getUnits());
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), earlyFinish, lateFinish, duration.getUnits());
    }
 
    private Double calculateCostVariance()
@@ -5880,9 +5813,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Boolean.valueOf(totalSlack.getDuration() <= criticalSlackLimit.getDuration() && NumberHelper.getInt(getPercentageComplete()) != 100 && ((getTaskMode() == TaskMode.AUTO_SCHEDULED) || (getDurationText() == null && getStartText() == null && getFinishText() == null)));
    }
 
-   private Date calculateCompleteThrough()
+   private LocalDateTime calculateCompleteThrough()
    {
-      Date value = null;
+      LocalDateTime value = null;
       int percentComplete = NumberHelper.getInt(getPercentageComplete());
       switch (percentComplete)
       {
@@ -5899,7 +5832,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
          default:
          {
-            Date actualStart = getActualStart();
+            LocalDateTime actualStart = getActualStart();
             Duration duration = getDuration();
             if (actualStart != null && duration != null)
             {

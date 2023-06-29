@@ -27,10 +27,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,7 +49,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkContourContainer;
 import net.sf.mpxj.common.CharsetHelper;
-import net.sf.mpxj.common.MultiDateFormat;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
@@ -764,10 +765,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
                {
                   try
                   {
-                     objectValue = m_df.parseObject(fieldValue);
+                     objectValue = LocalDateTimeHelper.parseBest(m_df, fieldValue);
                   }
 
-                  catch (ParseException ex)
+                  catch (DateTimeParseException ex)
                   {
                      objectValue = fieldValue;
                   }
@@ -1054,7 +1055,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private String m_defaultCurrencyName;
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
-   private final DateFormat m_df = new MultiDateFormat("yyyy-MM-dd HH:mm", "yyyy-MM-dd");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("yyyy-MM-dd[ HH:mm[:ss]]");
    private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
    private final Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
