@@ -2101,7 +2101,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @return modify on integrate value
     */
-   public Boolean getModifyOnIntegrate()
+   public boolean getModifyOnIntegrate()
    {
       return BooleanHelper.getBoolean((Boolean) get(ResourceField.MODIFY_ON_INTEGRATE));
    }
@@ -2121,7 +2121,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @return expenses only value
     */
-   public Boolean getExpensesOnly()
+   public boolean getExpensesOnly()
    {
       return BooleanHelper.getBoolean((Boolean) get(ResourceField.EXPENSES_ONLY));
    }

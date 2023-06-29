@@ -702,7 +702,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeResources()
    {
-      m_projectFile.getResources().stream().filter(r -> !BooleanHelper.getBoolean(r.getRole()) && r.getUniqueID().intValue() != 0).forEach(this::writeResource);
+      m_projectFile.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).forEach(this::writeResource);
    }
 
    /**
@@ -756,7 +756,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeRoles()
    {
-      m_projectFile.getResources().stream().filter(r -> BooleanHelper.getBoolean(r.getRole()) && r.getUniqueID().intValue() != 0).forEach(this::writeRole);
+      m_projectFile.getResources().stream().filter(r -> r.getRole() && r.getUniqueID().intValue() != 0).forEach(this::writeRole);
    }
 
    /**
@@ -1015,7 +1015,7 @@ final class PrimaveraPMProjectWriter
       plannedFinish = Optional.ofNullable(plannedFinish).orElseGet(task::getFinish);
       plannedFinish = Optional.ofNullable(plannedFinish).orElse(plannedStart);
 
-      if (BooleanHelper.getBoolean(mpxj.getResource().getRole()))
+      if (mpxj.getResource().getRole())
       {
          xml.setRoleObjectId(mpxj.getResourceUniqueID());
       }
@@ -1204,7 +1204,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeResourceRates()
    {
-      m_projectFile.getResources().stream().filter(r -> !BooleanHelper.getBoolean(r.getRole()) && r.getUniqueID().intValue() != 0).forEach(this::writeResourceRates);
+      m_projectFile.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).forEach(this::writeResourceRates);
    }
 
    /**
@@ -1268,7 +1268,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeRoleRates()
    {
-      m_projectFile.getResources().stream().filter(r -> BooleanHelper.getBoolean(r.getRole())).forEach(this::writeRoleRates);
+      m_projectFile.getResources().stream().filter(r -> r.getRole()).forEach(this::writeRoleRates);
    }
 
    /**
