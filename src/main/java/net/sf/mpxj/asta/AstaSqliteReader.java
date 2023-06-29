@@ -28,10 +28,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,7 +110,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
          return project;
       }
 
-      catch (SQLException | ParseException ex)
+      catch (SQLException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
@@ -133,7 +133,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
    /**
     * Process calendars.
     */
-   private void processCalendars() throws SQLException, ParseException
+   private void processCalendars() throws SQLException
    {
       List<Row> rows = getRows("select id as exceptionnid, * from exceptionn");
       Map<Integer, DayType> exceptionTypeMap = m_reader.createExceptionTypeMap(rows);
@@ -271,7 +271,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     * @param rows calendar rows
     * @return work pattern assignment map
     */
-   private Map<Integer, List<Row>> createWorkPatternAssignmentMap(List<Row> rows) throws ParseException
+   private Map<Integer, List<Row>> createWorkPatternAssignmentMap(List<Row> rows)
    {
       Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
@@ -289,7 +289,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     * @param workPatterns string representation of work pattern assignments
     * @return list of work pattern assignment rows
     */
-   private List<Row> createWorkPatternAssignmentRowList(String workPatterns) throws ParseException
+   private List<Row> createWorkPatternAssignmentRowList(String workPatterns)
    {
       List<Row> list = new ArrayList<>();
       String[] patterns = workPatterns.split("[,:]");
@@ -297,8 +297,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       while (index < patterns.length)
       {
          Integer workPattern = Integer.valueOf(patterns[index + 1]);
-         Date startDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 3]);
-         Date endDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 4]);
+         LocalDateTime startDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 3]);
+         LocalDateTime endDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 4]);
 
          Map<String, Object> map = new HashMap<>();
          map.put("WORK_PATTERN", workPattern);
@@ -344,8 +344,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       int index = 1;
       while (index < exceptions.length)
       {
-         Date startDate = DatatypeConverter.parseEpochTimestamp(exceptions[index]);
-         Date endDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 1]);
+         LocalDateTime startDate = DatatypeConverter.parseEpochTimestamp(exceptions[index]);
+         LocalDateTime endDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 1]);
          //Integer exceptionTypeID = Integer.valueOf(exceptions[index + 2]);
 
          Map<String, Object> map = new HashMap<>();
@@ -366,7 +366,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     * @param rows work pattern rows
     * @return time entry map
     */
-   private Map<Integer, List<Row>> createTimeEntryMap(List<Row> rows) throws ParseException
+   private Map<Integer, List<Row>> createTimeEntryMap(List<Row> rows)
    {
       Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
@@ -384,7 +384,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     * @param shiftData string representation of time entries
     * @return list of time entry rows
     */
-   private List<Row> createTimeEntryRowList(String shiftData) throws ParseException
+   private List<Row> createTimeEntryRowList(String shiftData)
    {
       List<Row> list = new ArrayList<>();
       String[] shifts = shiftData.split("[,:]");
@@ -398,8 +398,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
          for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
          {
             Integer exceptionTypeID = Integer.valueOf(shifts[index]);
-            Date startTime = DatatypeConverter.parseBasicTime(shifts[index + 1]);
-            Date endTime = DatatypeConverter.parseBasicTime(shifts[index + 2]);
+            LocalDateTime startTime = DatatypeConverter.parseBasicTime(shifts[index + 1]);
+            LocalDateTime endTime = DatatypeConverter.parseBasicTime(shifts[index + 2]);
 
             Map<String, Object> map = new HashMap<>();
             map.put("START_TIME", startTime);

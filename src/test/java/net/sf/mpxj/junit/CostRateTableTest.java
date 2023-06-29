@@ -25,8 +25,8 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -111,7 +111,7 @@ public class CostRateTableTest
     *
     * @param file project file
     */
-   private void testCostRateTable(ProjectFile file) throws Exception
+   private void testCostRateTable(ProjectFile file)
    {
       //
       // Resource with default tables
@@ -229,9 +229,9 @@ public class CostRateTableTest
       //
       // Validate date-based row selection
       //
-      CostRateTableEntry entry = table.getEntryByDate(m_df.parse("18/06/2009 07:00"));
+      CostRateTableEntry entry = table.getEntryByDate(LocalDateTime.of(2009, 6, 18, 7, 0));
       assertRateEquals(125, TimeUnit.HOURS, 130, TimeUnit.HOURS, 135, "01/01/1984 00:00", "19/06/2009 07:59", entry);
-      entry = table.getEntryByDate(m_df.parse("19/06/2009 10:00"));
+      entry = table.getEntryByDate(LocalDateTime.of(2009, 6, 19, 10, 0));
       assertRateEquals(140, TimeUnit.HOURS, 145, TimeUnit.HOURS, 150, "19/06/2009 08:00", "31/12/2049 23:59", entry);
    }
 
@@ -276,5 +276,5 @@ public class CostRateTableTest
       assertEquals(overtimeRateFormat, entry.getOvertimeRate().getUnits());
    }
 
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 }

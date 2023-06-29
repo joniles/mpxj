@@ -25,9 +25,11 @@ package net.sf.mpxj.mpx;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -235,81 +237,47 @@ final class Record
    }
 
    /**
-    * Accessor method used to retrieve an Date instance representing the
+    * Accessor method used to retrieve a LocalDateTime instance representing the
     * contents of an individual field. If the field does not exist in the
     * record, null is returned.
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
-    * @throws MPXJException normally thrown when parsing fails
     */
-   public Date getDateTime(int field) throws MPXJException
+   public LocalDateTime getDateTime(int field)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         try
-         {
-            result = m_formats.getDateTimeFormat().parse(m_fields[field]);
-         }
-
-         catch (ParseException ex)
-         {
-            // Failed to parse a full date time.
-         }
-
-         //
-         // Fall back to trying just parsing the date component
-         //
-         if (result == null)
-         {
-            try
-            {
-               result = m_formats.getDateFormat().parse(m_fields[field]);
-            }
-
-            catch (ParseException ex)
-            {
-               throw new MPXJException("Failed to parse date time", ex);
-            }
-         }
+         result = m_formats.parseDateTime(m_fields[field]);
       }
 
       return result;
    }
 
    /**
-    * Accessor method used to retrieve an Date instance representing the
+    * Accessor method used to retrieve a LocalDateTime instance representing the
     * contents of an individual field. If the field does not exist in the
     * record, null is returned.
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
-    * @throws MPXJException normally thrown when parsing fails
     */
-   public Date getDate(int field) throws MPXJException
+   public LocalDateTime getDate(int field)
    {
-      try
+      LocalDateTime result;
+
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         Date result;
-
-         if ((field < m_fields.length) && (m_fields[field].length() != 0))
-         {
-            result = m_formats.getDateFormat().parse(m_fields[field]);
-         }
-         else
-         {
-            result = null;
-         }
-
-         return (result);
+         result = m_formats.parseDate(m_fields[field]);
+      }
+      else
+      {
+         result = null;
       }
 
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse date", ex);
-      }
+      return (result);
    }
 
    /**
@@ -319,30 +287,21 @@ final class Record
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
-    * @throws MPXJException normally thrown when parsing fails
     */
-   public Date getTime(int field) throws MPXJException
+   public LocalTime getTime(int field)
    {
-      try
+      LocalTime result;
+
+      if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         Date result;
-
-         if ((field < m_fields.length) && (m_fields[field].length() != 0))
-         {
-            result = m_formats.getTimeFormat().parse(m_fields[field]);
-         }
-         else
-         {
-            result = null;
-         }
-
-         return (result);
+         result = m_formats.parseTime(m_fields[field]);
+      }
+      else
+      {
+         result = null;
       }
 
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse time", ex);
-      }
+      return (result);
    }
 
    /**

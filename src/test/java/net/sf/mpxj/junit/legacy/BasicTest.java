@@ -27,8 +27,8 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 
@@ -128,7 +128,7 @@ public class BasicTest
    {
       File in = new File(MpxjTestData.filePath("legacy/empty.mpp"));
       ProjectFile mpx = new MPPReader().read(in);
-      mpx.getProjectProperties().setCurrentDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/03/2006"));
+      mpx.getProjectProperties().setCurrentDate(LocalDateTime.of(2006, 3, 1, 0, 0));
       File out = Files.createTempFile("junit", ".mpx").toFile();
       MPXWriter writer = new MPXWriter();
       writer.setUseLocaleDefaults(false);
@@ -402,31 +402,31 @@ public class BasicTest
       Task task1 = file1.addTask();
       task1.setName("Test Task 1");
       task1.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
-      task1.setStart(new Date());
+      task1.setStart(LocalDateTime.now());
       task1.setNotes(notes1);
 
       Task task2 = file1.addTask();
       task2.setName("Test Task 2");
       task2.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
-      task2.setStart(new Date());
+      task2.setStart(LocalDateTime.now());
       task2.setNotes(notes2);
 
       Task task3 = file1.addTask();
       task3.setName("Test Task 3");
       task3.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
-      task3.setStart(new Date());
+      task3.setStart(LocalDateTime.now());
       task3.setNotes(notes3);
 
       Task task4 = file1.addTask();
       task4.setName("Test Task 4");
       task4.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
-      task4.setStart(new Date());
+      task4.setStart(LocalDateTime.now());
       task4.setNotes(notes4);
 
       Task task5 = file1.addTask();
       task5.setName("Test Task 5");
       task5.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
-      task5.setStart(new Date());
+      task5.setStart(LocalDateTime.now());
       task5.setNotes(notes5);
 
       File out = Files.createTempFile("junit", ".mpx").toFile();
@@ -1229,13 +1229,12 @@ public class BasicTest
       //
       // Create a simple MPX file
       //
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       ProjectFile file = new ProjectFile();
       file.addDefaultBaseCalendar();
 
       ProjectProperties properties = file.getProjectProperties();
       properties.setComments("Project Header Comments: Some\rExample\nText\r\nWith\n\rBreaks");
-      properties.setStartDate(df.parse("01/01/2003"));
+      properties.setStartDate(LocalDateTime.of(2003, 1, 1, 0, 0));
 
       Resource resource1 = file.addResource();
       resource1.setName("Resource1: Some\rExample\nText\r\nWith\n\rBreaks");
@@ -1357,14 +1356,13 @@ public class BasicTest
    {
       List<Task> tasks = xml.getTasks();
       assertEquals(2, tasks.size());
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
       Task task = tasks.get(1);
       assertEquals("Task Text One", task.getText(1));
-      assertEquals("01/01/2004", df.format(task.getStart(1)));
-      assertEquals("31/12/2004", df.format(task.getFinish(1)));
+      assertEquals(LocalDateTime.of(2004, 1, 1, 8, 0), task.getStart(1));
+      assertEquals(LocalDateTime.of(2004, 12, 31, 17, 0), task.getFinish(1));
       assertEquals(99.95, task.getCost(1).doubleValue(), 0.0);
-      assertEquals("18/07/2004", df.format(task.getDate(1)));
+      assertEquals(LocalDateTime.of(2004, 7, 18, 8, 0), task.getDate(1));
       assertTrue(task.getFlag(1));
       assertEquals(55.56, task.getNumber(1).doubleValue(), 0.0);
       assertEquals(13.0, task.getDuration(1).getDuration(), 0.0);
@@ -1375,10 +1373,10 @@ public class BasicTest
 
       Resource resource = resources.get(1);
       assertEquals("Resource Text One", resource.getText(1));
-      assertEquals("01/01/2003", df.format(resource.getStart(1)));
-      assertEquals("31/12/2003", df.format(resource.getFinish(1)));
+      assertEquals(LocalDateTime.of(2003, 1, 1, 8, 0), resource.getStart(1));
+      assertEquals(LocalDateTime.of(2003, 12, 31, 17, 0), resource.getFinish(1));
       assertEquals(29.99, resource.getCost(1).doubleValue(), 0.0);
-      assertEquals("18/07/2003", df.format(resource.getDate(1)));
+      assertEquals(LocalDateTime.of(2003, 7, 18, 8, 0), resource.getDate(1));
       assertTrue(resource.getFlag(1));
       assertEquals(5.99, resource.getNumber(1).doubleValue(), 0.0);
       assertEquals(22.0, resource.getDuration(1).getDuration(), 0.0);

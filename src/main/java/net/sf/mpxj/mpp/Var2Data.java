@@ -27,7 +27,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -186,9 +187,9 @@ final class Var2Data extends MPPComponent
     * @param type data type identifier
     * @return required timestamp data
     */
-   public Date getTimestamp(Integer id, Integer type)
+   public LocalDateTime getTimestamp(Integer id, Integer type)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       Integer offset = m_meta.getOffset(id, type);
 

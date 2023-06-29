@@ -24,8 +24,9 @@
 package net.sf.mpxj.fasttrack;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -48,7 +49,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
@@ -232,7 +233,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
          resource.setUniqueID(Integer.valueOf(uniqueID));
 
          CostRateTable costRateTable = new CostRateTable();
-         costRateTable.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, row.getCurrency(ResourceField.PER_USE_COST)));
+         costRateTable.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, row.getCurrency(ResourceField.PER_USE_COST)));
          resource.setCostRateTable(0, costRateTable);
 
          m_eventManager.fireResourceReadEvent(resource);
@@ -407,16 +408,16 @@ public final class FastTrackReader extends AbstractProjectFileReader
          task.setCost(9, row.getCurrency(ActBarField.COST_9));
          task.setCost(10, row.getCurrency(ActBarField.COST_10));
          // Created
-         task.setDate(1, row.getDate(ActBarField.DATE_1));
-         task.setDate(2, row.getDate(ActBarField.DATE_2));
-         task.setDate(3, row.getDate(ActBarField.DATE_3));
-         task.setDate(4, row.getDate(ActBarField.DATE_4));
-         task.setDate(5, row.getDate(ActBarField.DATE_5));
-         task.setDate(6, row.getDate(ActBarField.DATE_6));
-         task.setDate(7, row.getDate(ActBarField.DATE_7));
-         task.setDate(8, row.getDate(ActBarField.DATE_8));
-         task.setDate(9, row.getDate(ActBarField.DATE_9));
-         task.setDate(10, row.getDate(ActBarField.DATE_10));
+         task.setDate(1, row.getTimestamp(ActBarField.DATE_1));
+         task.setDate(2, row.getTimestamp(ActBarField.DATE_2));
+         task.setDate(3, row.getTimestamp(ActBarField.DATE_3));
+         task.setDate(4, row.getTimestamp(ActBarField.DATE_4));
+         task.setDate(5, row.getTimestamp(ActBarField.DATE_5));
+         task.setDate(6, row.getTimestamp(ActBarField.DATE_6));
+         task.setDate(7, row.getTimestamp(ActBarField.DATE_7));
+         task.setDate(8, row.getTimestamp(ActBarField.DATE_8));
+         task.setDate(9, row.getTimestamp(ActBarField.DATE_9));
+         task.setDate(10, row.getTimestamp(ActBarField.DATE_10));
          task.setBaselineDuration(row.getDuration(ActBarField.DURATION));
          task.setDuration(1, row.getDuration(ActBarField.DURATION_1));
          task.setDuration(2, row.getDuration(ActBarField.DURATION_2));
@@ -654,16 +655,16 @@ public final class FastTrackReader extends AbstractProjectFileReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date startDate = parentTask.getStart();
-         Date finishDate = parentTask.getFinish();
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
-         Date baselineStartDate = parentTask.getBaselineStart();
-         Date baselineFinishDate = parentTask.getBaselineFinish();
+         LocalDateTime startDate = parentTask.getStart();
+         LocalDateTime finishDate = parentTask.getFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime baselineStartDate = parentTask.getBaselineStart();
+         LocalDateTime baselineFinishDate = parentTask.getBaselineFinish();
 
          boolean critical = false;
 
@@ -671,16 +672,16 @@ public final class FastTrackReader extends AbstractProjectFileReader
          {
             rollupDates(task);
 
-            startDate = DateHelper.min(startDate, task.getStart());
-            finishDate = DateHelper.max(finishDate, task.getFinish());
-            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
-            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
-            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
-            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
-            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
-            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
-            baselineStartDate = DateHelper.min(baselineStartDate, task.getBaselineStart());
-            baselineFinishDate = DateHelper.max(baselineFinishDate, task.getBaselineFinish());
+            startDate = LocalDateTimeHelper.min(startDate, task.getStart());
+            finishDate = LocalDateTimeHelper.max(finishDate, task.getFinish());
+            actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
+            baselineStartDate = LocalDateTimeHelper.min(baselineStartDate, task.getBaselineStart());
+            baselineFinishDate = LocalDateTimeHelper.max(baselineFinishDate, task.getBaselineFinish());
 
             if (task.getActualFinish() != null)
             {

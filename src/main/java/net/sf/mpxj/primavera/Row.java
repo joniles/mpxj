@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.primavera;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import net.sf.mpxj.Duration;
@@ -84,7 +84,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Date getDate(String name);
+   public LocalDateTime getDate(String name);
 
    /**
     * Retrieve a duration attribute.

@@ -4,12 +4,12 @@
                schemaLocation="./jaxb/gantt-designer.xsd">
 
    <jxb:globalBindings>
-      <jxb:javaType name="java.util.Date"
+      <jxb:javaType name="java.time.LocalDateTime"
          xmlType="xs:dateTime"     
          parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseTimestamp" 
          printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printTimestamp"/>
 
-      <jxb:javaType name="java.util.Date"
+      <jxb:javaType name="java.time.LocalDate"
          xmlType="xs:date"     
          parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDate" 
          printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printDate"/>
@@ -24,7 +24,7 @@
 	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parsePercent" 
 	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printPercent"/>      
 
-	  <jxb:javaType name="net.sf.mpxj.Day"
+	  <jxb:javaType name="java.time.DayOfWeek"
 	     xmlType="ganttDesignerDay"     
 	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDay" 
 	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printDay"/>      

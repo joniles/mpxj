@@ -25,13 +25,14 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.View;
 import net.sf.mpxj.mpp.ChartPattern;
@@ -300,7 +301,7 @@ public class MppGanttTest
     */
    private void testProgressLines(ProjectFile file)
    {
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
       List<View> views = file.getViews();
 
@@ -317,13 +318,13 @@ public class MppGanttTest
       assertEquals(1, view.getProgressLinesIntervalDailyDayNumber());
       assertTrue(view.isProgressLinesIntervalDailyWorkday());
       boolean[] weeklyDay = view.getProgressLinesIntervalWeeklyDay();
-      assertFalse(weeklyDay[Day.SUNDAY.getValue()]);
-      assertTrue(weeklyDay[Day.MONDAY.getValue()]);
-      assertFalse(weeklyDay[Day.TUESDAY.getValue()]);
-      assertFalse(weeklyDay[Day.WEDNESDAY.getValue()]);
-      assertFalse(weeklyDay[Day.THURSDAY.getValue()]);
-      assertFalse(weeklyDay[Day.FRIDAY.getValue()]);
-      assertFalse(weeklyDay[Day.SATURDAY.getValue()]);
+      assertFalse(weeklyDay[DayOfWeekHelper.getValue(DayOfWeek.SUNDAY)]);
+      assertTrue(weeklyDay[DayOfWeekHelper.getValue(DayOfWeek.MONDAY)]);
+      assertFalse(weeklyDay[DayOfWeekHelper.getValue(DayOfWeek.TUESDAY)]);
+      assertFalse(weeklyDay[DayOfWeekHelper.getValue(DayOfWeek.WEDNESDAY)]);
+      assertFalse(weeklyDay[DayOfWeekHelper.getValue(DayOfWeek.THURSDAY)]);
+      assertFalse(weeklyDay[DayOfWeekHelper.getValue(DayOfWeek.FRIDAY)]);
+      assertFalse(weeklyDay[DayOfWeekHelper.getValue(DayOfWeek.SATURDAY)]);
       assertEquals(1, view.getProgressLinesIntervalWeekleyWeekNumber());
       assertFalse(view.getProgressLinesIntervalMonthlyDay());
       assertEquals(1, view.getProgressLinesIntervalMonthlyDayMonthNumber());

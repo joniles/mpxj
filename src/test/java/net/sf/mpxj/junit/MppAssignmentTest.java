@@ -26,8 +26,7 @@ package net.sf.mpxj.junit;
 import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -129,7 +128,7 @@ public class MppAssignmentTest
     */
    private void testCustomFields(ProjectFile mpp)
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
       Task task = mpp.getTaskByID(Integer.valueOf(1));
       assertEquals("Task One", task.getName());
       List<ResourceAssignment> assignments = task.getResourceAssignments();
@@ -270,7 +269,7 @@ public class MppAssignmentTest
     */
    private void testFields(ProjectFile mpp, String guid1, String guid2)
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
 
       //
       // Retrieve the summary task

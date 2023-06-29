@@ -26,11 +26,11 @@ package net.sf.mpxj.merlin;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -82,7 +82,7 @@ final class SqliteResultSetRow extends MapRow
                }
                else
                {
-                  value = rs.getDate(name);
+                  value = rs.getDate(name).toLocalDate().atStartOfDay();
                }
                break;
             }
@@ -96,7 +96,7 @@ final class SqliteResultSetRow extends MapRow
                }
                else
                {
-                  value = DateHelper.getTimestampFromLong(TIMESTAMP_EPOCH + (ts * 1000));
+                  value = TIMESTAMP_EPOCH.plusSeconds(ts);
                }
                break;
             }
@@ -160,5 +160,5 @@ final class SqliteResultSetRow extends MapRow
    /**
     * 01/01/2001 00:00.
     */
-   private static final long TIMESTAMP_EPOCH = 978307200000L;
+   private static final LocalDateTime TIMESTAMP_EPOCH = LocalDateTime.of(2001, 1, 1, 0, 0);
 }

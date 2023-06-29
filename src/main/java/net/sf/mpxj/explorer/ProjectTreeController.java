@@ -24,7 +24,7 @@
 package net.sf.mpxj.explorer;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,8 +43,7 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataLink;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.Group;
@@ -57,6 +56,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.json.JsonWriter;
@@ -86,8 +86,8 @@ public class ProjectTreeController
       WRITER_MAP.put("XER", PrimaveraXERFileWriter.class);
    }
 
-   final SimpleDateFormat m_timeFormat = new SimpleDateFormat("HH:mm");
-   final SimpleDateFormat m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+   final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HH:mm");
+   final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
    private static final Set<String> FILE_EXCLUDED_METHODS = excludedMethods("getAllResourceAssignments", "getAllResources", "getAllTasks", "getChildTasks", "getCalendars", "getCustomFields", "getEventManager", "getFilters", "getGroups", "getProjectProperties", "getProjectConfig", "getViews", "getTables");
    private static final Set<String> CALENDAR_EXCLUDED_METHODS = excludedMethods("getCalendarExceptions", "getExpandedCalendarExceptions", "getDerivedCalendars", "getHours", "getDays", "getParent", "getCalendar", "getWorkWeeks");
@@ -288,7 +288,7 @@ public class ProjectTreeController
       MpxjTreeNode daysFolder = new MpxjTreeNode("Days");
       calendarNode.add(daysFolder);
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          addCalendarDay(daysFolder, calendar, day);
       }
@@ -343,7 +343,7 @@ public class ProjectTreeController
       MpxjTreeNode daysFolder = new MpxjTreeNode("Days");
       weekNode.add(daysFolder);
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          addCalendarDay(daysFolder, week, day);
       }
@@ -357,7 +357,7 @@ public class ProjectTreeController
     * @param calendar ProjectCalendar instance
     * @param day calendar day
     */
-   private void addCalendarDay(MpxjTreeNode parentNode, ProjectCalendarDays calendar, final Day day)
+   private void addCalendarDay(MpxjTreeNode parentNode, ProjectCalendarDays calendar, final DayOfWeek day)
    {
       MpxjTreeNode dayNode = new MpxjTreeNode(day)
       {
@@ -383,9 +383,9 @@ public class ProjectTreeController
          return;
       }
 
-      for (DateRange range : hours)
+      for (LocalTimeRange range : hours)
       {
-         final DateRange r = range;
+         final LocalTimeRange r = range;
          MpxjTreeNode rangeNode = new MpxjTreeNode(range)
          {
             @Override public String toString()

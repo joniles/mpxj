@@ -39,11 +39,11 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
-import java.text.Format;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,7 +57,6 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
@@ -148,9 +147,9 @@ public final class SDEFWriter extends AbstractProjectWriter
     */
    private void writeProjectProperties(ProjectProperties record) throws IOException
    {
-      Date dataDate = record.getStatusDate() == null ? m_projectFile.getProjectProperties().getCurrentDate() : record.getStatusDate();
-      Date startDate = record.getStartDate();
-      Date finishDate = record.getFinishDate();
+      LocalDateTime dataDate = record.getStatusDate() == null ? m_projectFile.getProjectProperties().getCurrentDate() : record.getStatusDate();
+      LocalDateTime startDate = record.getStartDate();
+      LocalDateTime finishDate = record.getFinishDate();
 
       // reset buffer to be empty, then concatenate data as required by USACE
       m_buffer.setLength(0);
@@ -237,17 +236,14 @@ public final class SDEFWriter extends AbstractProjectWriter
     */
    private void generateCalendarExceptions(ProjectCalendarException record, List<String> formattedExceptions)
    {
-      Calendar stepDay = DateHelper.popCalendar(record.getFromDate()); // Start at From Date, then step through days...
-      Calendar lastDay = DateHelper.popCalendar(record.getToDate()); // last day in this exception
+      LocalDate stepDay = record.getFromDate(); // Start at From Date, then step through days...
+      LocalDate lastDay = record.getToDate(); // last day in this exception
 
-      while (stepDay.compareTo(lastDay) <= 0)
+      while (!stepDay.isAfter(lastDay))
       {
-         formattedExceptions.add(formatDate(stepDay.getTime()));
-         stepDay.add(Calendar.DAY_OF_MONTH, 1);
+         formattedExceptions.add(formatDate(stepDay));
+         stepDay = stepDay.plusDays(1);
       }
-
-      DateHelper.pushCalendar(stepDay);
-      DateHelper.pushCalendar(lastDay);
    }
 
    /**
@@ -282,7 +278,7 @@ public final class SDEFWriter extends AbstractProjectWriter
 
          String conType;
          String formattedConstraintDate;
-         Date conDate = record.getConstraintDate();
+         LocalDateTime conDate = record.getConstraintDate();
          if (conDate == null)
          {
             conType = "   ";
@@ -428,7 +424,7 @@ public final class SDEFWriter extends AbstractProjectWriter
       { // I don't use summary tasks for SDEF
          m_buffer.append("PROG ");
          m_buffer.append(getActivityID(record)).append(" ");
-         Date temp = record.getActualStart();
+         LocalDateTime temp = record.getActualStart();
          if (temp == null)
          {
             m_buffer.append("        "); // SDEF is column sensitive, so the number of blanks here is crucial
@@ -520,7 +516,7 @@ public final class SDEFWriter extends AbstractProjectWriter
       }
    }
 
-   private String formatDate(Date date)
+   private String formatDate(LocalDateTime date)
    {
       String result;
       if (date == null)
@@ -530,6 +526,20 @@ public final class SDEFWriter extends AbstractProjectWriter
       else
       {
          result = m_formatter.format(date).toUpperCase();
+      }
+      return result;
+   }
+
+   private String formatDate(LocalDate date)
+   {
+      String result;
+      if (date == null)
+      {
+         result = "       ";
+      }
+      else
+      {
+         result = m_localDateFormatter.format(date).toUpperCase();
       }
       return result;
    }
@@ -572,7 +582,7 @@ public final class SDEFWriter extends AbstractProjectWriter
    private OutputStreamWriter m_writer;
    private StringBuilder m_buffer;
    private Charset m_charset = StandardCharsets.US_ASCII;
-   private final Format m_formatter = new SimpleDateFormat("ddMMMyy");
-
+   private final DateTimeFormatter m_formatter = DateTimeFormatter.ofPattern("ddMMMyy");
+   private final DateTimeFormatter m_localDateFormatter = DateTimeFormatter.ofPattern("ddMMMyy");
    private static final int MAX_EXCEPTIONS_PER_RECORD = 15;
 }

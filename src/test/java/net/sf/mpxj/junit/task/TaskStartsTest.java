@@ -26,10 +26,9 @@ package net.sf.mpxj.junit.task;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.junit.ProjectUtility;
 import net.sf.mpxj.reader.UniversalProjectReader;
@@ -83,20 +82,22 @@ public class TaskStartsTest
     * @param maxIndex highest index to test
     * @param useDateFormat true=use date-only format false=use date time format
     */
-   private void testTaskStartDates(File file, Task task, int testIndex, int maxIndex, boolean useDateFormat) throws ParseException
+   private void testTaskStartDates(File file, Task task, int testIndex, int maxIndex, boolean useDateFormat)
    {
-      DateFormat format = useDateFormat ? m_dateFormat : m_dateTimeFormat;
       for (int index = 1; index <= maxIndex; index++)
       {
-         Date expectedValue = testIndex == index ? format.parse(DATES[index - 1]) : null;
-         Date actualValue = task.getStart(index);
+         LocalDateTime expectedValue = testIndex == index ? LocalDateTime.parse(DATES[index - 1], m_dateTimeFormat) : null;
+         if (useDateFormat && expectedValue != null)
+         {
+            expectedValue = LocalDateTime.of(expectedValue.toLocalDate(), LocalTime.MIDNIGHT);
+         }
+         LocalDateTime actualValue = task.getStart(index);
 
          assertEquals(file.getName() + " Start" + index, expectedValue, actualValue);
       }
    }
 
-   private final DateFormat m_dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-   private final DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+   private final DateTimeFormatter m_dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
    private static final String[] DATES = new String[]
    {

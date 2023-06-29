@@ -28,10 +28,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -47,10 +49,15 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.common.DayOfWeekHelper;
+import net.sf.mpxj.LocalDateRange;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;
 import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.mpp.MPPTimephasedBaselineCostNormaliser;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -63,8 +70,7 @@ import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.CustomFieldValueMask;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -86,7 +92,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.ScheduleFrom;
-import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskMode;
@@ -94,7 +99,6 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.CharsetHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
@@ -477,13 +481,13 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
       else
       {
-         bc.setCalendarDayType(Day.SUNDAY, DayType.DEFAULT);
-         bc.setCalendarDayType(Day.MONDAY, DayType.DEFAULT);
-         bc.setCalendarDayType(Day.TUESDAY, DayType.DEFAULT);
-         bc.setCalendarDayType(Day.WEDNESDAY, DayType.DEFAULT);
-         bc.setCalendarDayType(Day.THURSDAY, DayType.DEFAULT);
-         bc.setCalendarDayType(Day.FRIDAY, DayType.DEFAULT);
-         bc.setCalendarDayType(Day.SATURDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.SUNDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.MONDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.TUESDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.WEDNESDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.THURSDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.FRIDAY, DayType.DEFAULT);
+         bc.setCalendarDayType(DayOfWeek.SATURDAY, DayType.DEFAULT);
       }
 
       readWorkWeeks(calendar, bc);
@@ -528,7 +532,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private void readNormalDay(ProjectCalendar calendar, Project.Calendars.Calendar.WeekDays.WeekDay weekDay)
    {
       int dayNumber = weekDay.getDayType().intValue();
-      Day day = Day.getInstance(dayNumber);
+      DayOfWeek day = DayOfWeekHelper.getInstance(dayNumber);
       calendar.setWorkingDay(day, BooleanHelper.getBoolean(weekDay.isDayWorking()));
       ProjectCalendarHours hours = calendar.addCalendarHours(day);
 
@@ -537,17 +541,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       {
          for (Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime period : times.getWorkingTime())
          {
-            Date startTime = period.getFromTime();
-            Date endTime = period.getToTime();
+            LocalTime startTime = period.getFromTime();
+            LocalTime endTime = period.getToTime();
 
             if (startTime != null && endTime != null)
             {
-               if (startTime.getTime() >= endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
-               hours.add(new DateRange(startTime, endTime));
+               hours.add(new LocalTimeRange(startTime, endTime));
             }
          }
       }
@@ -562,8 +561,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private void readExceptionDay(ProjectCalendar calendar, Project.Calendars.Calendar.WeekDays.WeekDay day)
    {
       Project.Calendars.Calendar.WeekDays.WeekDay.TimePeriod timePeriod = day.getTimePeriod();
-      Date fromDate = timePeriod.getFromDate();
-      Date toDate = timePeriod.getToDate();
+      LocalDate fromDate = LocalDateHelper.getLocalDate(timePeriod.getFromDate());
+      LocalDate toDate = LocalDateHelper.getLocalDate(timePeriod.getToDate());
       Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes times = day.getWorkingTimes();
       ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
 
@@ -572,17 +571,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          List<Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime> time = times.getWorkingTime();
          for (Project.Calendars.Calendar.WeekDays.WeekDay.WorkingTimes.WorkingTime period : time)
          {
-            Date startTime = period.getFromTime();
-            Date endTime = period.getToTime();
+            LocalTime startTime = period.getFromTime();
+            LocalTime endTime = period.getToTime();
 
             if (startTime != null && endTime != null)
             {
-               if (startTime.getTime() >= endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
-               exception.add(new DateRange(startTime, endTime));
+               exception.add(new LocalTimeRange(startTime, endTime));
             }
          }
       }
@@ -615,8 +609,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     */
    private void readException(ProjectCalendar bc, Project.Calendars.Calendar.Exceptions.Exception exception)
    {
-      Date fromDate = exception.getTimePeriod().getFromDate();
-      Date toDate = exception.getTimePeriod().getToDate();
+      LocalDate fromDate = LocalDateHelper.getLocalDate(exception.getTimePeriod().getFromDate());
+      LocalDate toDate = LocalDateHelper.getLocalDate(exception.getTimePeriod().getToDate());
 
       // Vico Schedule Planner seems to write start and end dates to FromTime and ToTime
       // rather than FromDate and ToDate. This is plain wrong, and appears to be ignored by MS Project,
@@ -649,23 +643,18 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          List<Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime> time = times.getWorkingTime();
          for (Project.Calendars.Calendar.Exceptions.Exception.WorkingTimes.WorkingTime period : time)
          {
-            Date startTime = period.getFromTime();
-            Date endTime = period.getToTime();
+            LocalTime startTime = period.getFromTime();
+            LocalTime endTime = period.getToTime();
 
             if (startTime != null && endTime != null)
             {
-               if (startTime.getTime() >= endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
-               bce.add(new DateRange(startTime, endTime));
+               bce.add(new LocalTimeRange(startTime, endTime));
             }
          }
       }
    }
 
-   private RecurringData readRecurringData(Project.Calendars.Calendar.Exceptions.Exception exception, Date fromDate, Date toDate)
+   private RecurringData readRecurringData(Project.Calendars.Calendar.Exceptions.Exception exception, LocalDate fromDate, LocalDate toDate)
    {
       RecurringData rd = null;
       RecurrenceType rt = getRecurrenceType(NumberHelper.getInt(exception.getType()));
@@ -697,7 +686,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             {
                if (rd.getRelative())
                {
-                  rd.setDayOfWeek(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
+                  rd.setDayOfWeek(DayOfWeekHelper.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
                   rd.setDayNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
                }
                else
@@ -712,7 +701,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             {
                if (rd.getRelative())
                {
-                  rd.setDayOfWeek(Day.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
+                  rd.setDayOfWeek(DayOfWeekHelper.getInstance(NumberHelper.getInt(exception.getMonthItem()) - 2));
                   rd.setDayNumber(Integer.valueOf(NumberHelper.getInt(exception.getMonthPosition()) + 1));
                }
                else
@@ -821,13 +810,13 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       ProjectCalendarWeek week = mpxjCalendar.addWorkWeek();
       week.setName(xmlWeek.getName());
-      week.setDateRange(new DateRange(xmlWeek.getTimePeriod().getFromDate(), xmlWeek.getTimePeriod().getToDate()));
+      week.setDateRange(new LocalDateRange(LocalDateHelper.getLocalDate(xmlWeek.getTimePeriod().getFromDate()), LocalDateHelper.getLocalDate(xmlWeek.getTimePeriod().getToDate())));
 
       WeekDays xmlWeekDays = xmlWeek.getWeekDays();
       if (xmlWeekDays != null)
       {
-         Map<Day, WeekDay> map = xmlWeekDays.getWeekDay().stream().collect(Collectors.toMap(d -> Day.getInstance(d.getDayType().intValue()), d -> d));
-         for (Day day : Day.values())
+         Map<DayOfWeek, WeekDay> map = xmlWeekDays.getWeekDay().stream().collect(Collectors.toMap(d -> DayOfWeekHelper.getInstance(d.getDayType().intValue()), d -> d));
+         for (DayOfWeek day : DayOfWeek.values())
          {
             WeekDay xmlWeekDay = map.get(day);
             if (xmlWeekDay == null)
@@ -849,7 +838,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * @param day day to read
     * @param xmlWeekDay day data
     */
-   private void readWorkWeekDay(ProjectCalendarWeek week, Day day, WeekDay xmlWeekDay)
+   private void readWorkWeekDay(ProjectCalendarWeek week, DayOfWeek day, WeekDay xmlWeekDay)
    {
       week.setWorkingDay(day, BooleanHelper.getBoolean(xmlWeekDay.isDayWorking()));
       ProjectCalendarHours hours = week.addCalendarHours(day);
@@ -859,17 +848,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       {
          for (Project.Calendars.Calendar.WorkWeeks.WorkWeek.WeekDays.WeekDay.WorkingTimes.WorkingTime period : times.getWorkingTime())
          {
-            Date startTime = period.getFromTime();
-            Date endTime = period.getToTime();
+            LocalTime startTime = period.getFromTime();
+            LocalTime endTime = period.getToTime();
 
             if (startTime != null && endTime != null)
             {
-               if (startTime.getTime() >= endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
-               hours.add(new DateRange(startTime, endTime));
+               hours.add(new LocalTimeRange(startTime, endTime));
             }
          }
       }
@@ -937,7 +921,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       Resource mpx = m_projectFile.addResource();
 
       mpx.setAccrueAt(xml.getAccrueAt());
-      mpx.setActveDirectoryGUID(xml.getActiveDirectoryGUID());
+      mpx.setActiveDirectoryGUID(xml.getActiveDirectoryGUID());
       mpx.setActualCost(DatatypeConverter.parseCurrency(xml.getActualCost()));
       mpx.setActualOvertimeCost(DatatypeConverter.parseCurrency(xml.getActualOvertimeCost()));
       mpx.setActualOvertimeWork(DatatypeConverter.parseDuration(m_projectFile, null, xml.getActualOvertimeWork()));
@@ -1108,8 +1092,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             CostRateTable table = new CostRateTable();
             if (index == 0)
             {
-               Date startDate = CostRateTableEntry.DEFAULT_ENTRY.getStartDate();
-               Date endDate = CostRateTableEntry.DEFAULT_ENTRY.getEndDate();
+               LocalDateTime startDate = CostRateTableEntry.DEFAULT_ENTRY.getStartDate();
+               LocalDateTime endDate = CostRateTableEntry.DEFAULT_ENTRY.getEndDate();
                table.add(new CostRateTableEntry(startDate, endDate, defaultCostPerUse, defaultStandardRate, defaultOvertimeRate));
             }
             else
@@ -1123,7 +1107,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       else
       {
          CostRateTable[] tables = new CostRateTable[CostRateTable.MAX_TABLES];
-         Calendar cal = DateHelper.popCalendar();
 
          for (net.sf.mpxj.mspdi.schema.Project.Resources.Resource.Rates.Rate rate : rates.getRate())
          {
@@ -1145,29 +1128,26 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             Rate overtimeRate = DatatypeConverter.parseRate(rate.getOvertimeRate(), overtimeRateFormat);
 
             Double costPerUse = DatatypeConverter.parseCurrency(rate.getCostPerUse());
-            Date startDate = rate.getRatesFrom();
-            Date endDate = rate.getRatesTo();
+            LocalDateTime startDate = rate.getRatesFrom();
+            LocalDateTime endDate = rate.getRatesTo();
 
-            if (startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+            if (startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
             {
-               startDate = DateHelper.START_DATE_NA;
+               startDate = LocalDateTimeHelper.START_DATE_NA;
             }
 
-            if (endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+            if (endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
             {
-               endDate = DateHelper.END_DATE_NA;
+               endDate = LocalDateTimeHelper.END_DATE_NA;
             }
 
             //
             // See the note in CostRateTableFactory for more details of this heuristic.
             //
-            cal.setTime(endDate);
-            int minutes = cal.get(Calendar.MINUTE);
-
+            int minutes = endDate.getMinute();
             if ((minutes % 5) == 0)
             {
-               cal.add(Calendar.MINUTE, -1);
-               endDate = cal.getTime();
+               endDate = endDate.minusMinutes(1);
             }
 
             CostRateTableEntry entry = new CostRateTableEntry(startDate, endDate, costPerUse, standardRate, overtimeRate);
@@ -1179,8 +1159,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             }
             table.add(entry);
          }
-
-         DateHelper.pushCalendar(cal);
 
          for (int tableIndex = 0; tableIndex < tables.length; tableIndex++)
          {
@@ -1208,18 +1186,18 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          List<AvailabilityPeriod> list = periods.getAvailabilityPeriod();
          for (AvailabilityPeriod period : list)
          {
-            Date start = period.getAvailableFrom();
-            Date end = period.getAvailableTo();
+            LocalDateTime start = period.getAvailableFrom();
+            LocalDateTime end = period.getAvailableTo();
             Number units = DatatypeConverter.parseUnits(period.getAvailableUnits());
 
-            if (start == null || start.getTime() < DateHelper.START_DATE_NA.getTime())
+            if (start == null || start.isBefore(LocalDateTimeHelper.START_DATE_NA))
             {
-               start = DateHelper.START_DATE_NA;
+               start = LocalDateTimeHelper.START_DATE_NA;
             }
 
-            if (end == null || end.getTime() > DateHelper.END_DATE_NA.getTime())
+            if (end == null || end.isAfter(LocalDateTimeHelper.END_DATE_NA))
             {
-               end = DateHelper.END_DATE_NA;
+               end = LocalDateTimeHelper.END_DATE_NA;
             }
 
             Availability availability = new Availability(start, end, units);
@@ -1291,10 +1269,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
          if (BooleanHelper.getBoolean(xml.isIsSubproject()))
          {
-            SubProject subProject = new SubProject();
-            subProject.setFullPath(xml.getSubprojectName());
-            //noinspection deprecation
-            mpx.setSubProject(subProject);
             mpx.setSubprojectFile(xml.getSubprojectName());
             mpx.setSubprojectReadOnly(BooleanHelper.getBoolean(xml.isIsSubprojectReadOnly()));
          }
@@ -1531,7 +1505,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       if (task.getFinish() == null)
       {
-         Date startDate = task.getStart();
+         LocalDateTime startDate = task.getStart();
          if (startDate != null)
          {
             if (task.getMilestone())
@@ -1570,8 +1544,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
          Double cost = DatatypeConverter.parseCurrency(baseline.getCost());
          Duration duration = DatatypeConverter.parseDuration(m_projectFile, durationFormat, baseline.getDuration());
-         Date finish = baseline.getFinish();
-         Date start = baseline.getStart();
+         LocalDateTime finish = baseline.getFinish();
+         LocalDateTime start = baseline.getStart();
          Duration work = DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, baseline.getWork());
 
          if (number == 0)
@@ -2113,9 +2087,9 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //baseline.getBCWP()
          //baseline.getBCWS()
          Number cost = DatatypeConverter.parseCustomFieldCurrency(baseline.getCost());
-         Date finish = DatatypeConverter.parseCustomFieldDate(baseline.getFinish());
+         LocalDateTime finish = DatatypeConverter.parseCustomFieldDate(baseline.getFinish());
          //baseline.getNumber()
-         Date start = DatatypeConverter.parseCustomFieldDate(baseline.getStart());
+         LocalDateTime start = DatatypeConverter.parseCustomFieldDate(baseline.getStart());
          Duration work = DatatypeConverter.parseDuration(m_projectFile, TimeUnit.HOURS, baseline.getWork());
 
          if (number == 0)

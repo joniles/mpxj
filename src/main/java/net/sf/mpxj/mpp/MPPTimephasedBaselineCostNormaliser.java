@@ -23,8 +23,10 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -32,7 +34,9 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.TimephasedNormaliser;
 
@@ -83,22 +87,22 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
       {
          if (remainderInserted)
          {
-            assignment.setStart(DateHelper.addDays(assignment.getStart(), 1));
+            assignment.setStart(assignment.getStart().plusDays(1));
             remainderInserted = false;
          }
 
          while (assignment != null)
          {
-            Date startDay = DateHelper.getDayStartDate(assignment.getStart());
-            Date finishDay = DateHelper.getDayStartDate(assignment.getFinish());
+            LocalDateTime startDay = LocalDateTimeHelper.getDayStartDate(assignment.getStart());
+            LocalDateTime finishDay = LocalDateTimeHelper.getDayStartDate(assignment.getFinish());
 
             // special case - when the finishday time is midnight, it's really the previous day...
-            if (assignment.getFinish().getTime() == finishDay.getTime())
+            if (assignment.getFinish().equals(finishDay))
             {
-               finishDay = DateHelper.addDays(finishDay, -1);
+               finishDay = finishDay.minusDays(1);
             }
 
-            if (startDay.getTime() == finishDay.getTime())
+            if (startDay.equals(finishDay))
             {
                result.add(assignment);
                break;
@@ -137,8 +141,8 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
       //
       // Retrieve data used to calculate the pro-rata work split
       //
-      Date assignmentStart = assignment.getStart();
-      Date assignmentFinish = assignment.getFinish();
+      LocalDateTime assignmentStart = assignment.getStart();
+      LocalDateTime assignmentFinish = assignment.getFinish();
       Duration calendarWork = calendar.getWork(assignmentStart, assignmentFinish, TimeUnit.MINUTES);
 
       if (calendarWork.getDuration() != 0)
@@ -146,12 +150,12 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
          //
          // Split the first day
          //
-         Date splitFinish;
+         LocalDateTime splitFinish;
          double splitCost;
-         if (calendar.isWorkingDate(assignmentStart))
+         LocalDate assignmentStartAsLocalDate = LocalDateHelper.getLocalDate(assignmentStart);
+         if (calendar.isWorkingDate(assignmentStartAsLocalDate))
          {
-            Date splitFinishTime = calendar.getFinishTime(assignmentStart);
-            splitFinish = DateHelper.setTime(assignmentStart, splitFinishTime);
+            splitFinish = LocalTimeHelper.setEndTime(assignmentStart, calendar.getFinishTime(assignmentStartAsLocalDate));
             Duration calendarSplitWork = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES);
             splitCost = (assignment.getTotalAmount().doubleValue() * calendarSplitWork.getDuration()) / calendarWork.getDuration();
 
@@ -171,10 +175,10 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
          //
          // Split the remainder
          //
-         Date splitStart = calendar.getNextWorkStart(splitFinish);
+         LocalDateTime splitStart = calendar.getNextWorkStart(splitFinish);
          splitFinish = assignmentFinish;
          TimephasedCost split;
-         if (splitStart.getTime() > splitFinish.getTime())
+         if (splitStart.isAfter(splitFinish))
          {
             split = null;
          }
@@ -208,12 +212,12 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
       {
          if (previousAssignment != null)
          {
-            Date previousAssignmentStart = previousAssignment.getStart();
-            Date previousAssignmentStartDay = DateHelper.getDayStartDate(previousAssignmentStart);
-            Date assignmentStart = assignment.getStart();
-            Date assignmentStartDay = DateHelper.getDayStartDate(assignmentStart);
+            LocalDateTime previousAssignmentStart = previousAssignment.getStart();
+            LocalDateTime previousAssignmentStartDay = LocalDateTimeHelper.getDayStartDate(previousAssignmentStart);
+            LocalDateTime assignmentStart = assignment.getStart();
+            LocalDateTime assignmentStartDay = LocalDateTimeHelper.getDayStartDate(assignmentStart);
 
-            if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
+            if (previousAssignmentStartDay.equals(assignmentStartDay))
             {
                result.remove(result.size() - 1);
 
@@ -262,8 +266,8 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
 
             if (NumberHelper.equals(previousAssignmentCost.doubleValue(), assignmentCost.doubleValue(), 0.01))
             {
-               Date assignmentStart = previousAssignment.getStart();
-               Date assignmentFinish = assignment.getFinish();
+               LocalDateTime assignmentStart = previousAssignment.getStart();
+               LocalDateTime assignmentFinish = assignment.getFinish();
                double total = previousAssignment.getTotalAmount().doubleValue();
                total += assignmentCost.doubleValue();
 

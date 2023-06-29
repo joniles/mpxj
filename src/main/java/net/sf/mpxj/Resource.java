@@ -24,9 +24,10 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResourceFieldLists;
 
@@ -466,9 +467,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @return available from date
     */
-   public Date getAvailableFrom()
+   public LocalDateTime getAvailableFrom()
    {
-      return (Date) get(ResourceField.AVAILABLE_FROM);
+      return (LocalDateTime) get(ResourceField.AVAILABLE_FROM);
    }
 
    /**
@@ -476,7 +477,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @param date available from date
     */
-   public void setAvailableFrom(Date date)
+   public void setAvailableFrom(LocalDateTime date)
    {
       set(ResourceField.AVAILABLE_FROM, date);
    }
@@ -486,9 +487,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @return available from date
     */
-   public Date getAvailableTo()
+   public LocalDateTime getAvailableTo()
    {
-      return (Date) get(ResourceField.AVAILABLE_TO);
+      return (LocalDateTime) get(ResourceField.AVAILABLE_TO);
    }
 
    /**
@@ -496,7 +497,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @param date available to date
     */
-   public void setAvailableTo(Date date)
+   public void setAvailableTo(LocalDateTime date)
    {
       set(ResourceField.AVAILABLE_TO, date);
    }
@@ -506,12 +507,12 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @return start date
     */
-   public Date getStart()
+   public LocalDateTime getStart()
    {
-      Date result = null;
+      LocalDateTime result = null;
       for (ResourceAssignment assignment : m_assignments)
       {
-         if (result == null || DateHelper.compare(result, assignment.getStart()) > 0)
+         if (result == null || LocalDateTimeHelper.compare(result, assignment.getStart()) > 0)
          {
             result = assignment.getStart();
          }
@@ -524,12 +525,12 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @return finish date
     */
-   public Date getFinish()
+   public LocalDateTime getFinish()
    {
-      Date result = null;
+      LocalDateTime result = null;
       for (ResourceAssignment assignment : m_assignments)
       {
-         if (result == null || DateHelper.compare(result, assignment.getFinish()) < 0)
+         if (result == null || LocalDateTimeHelper.compare(result, assignment.getFinish()) < 0)
          {
             result = assignment.getFinish();
          }
@@ -1127,7 +1128,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @param guid active directory GUID
     */
-   public void setActveDirectoryGUID(String guid)
+   public void setActiveDirectoryGUID(String guid)
    {
       m_activeDirectoryGUID = guid;
    }
@@ -1207,7 +1208,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @param creationDate creation date
     */
-   public void setCreationDate(Date creationDate)
+   public void setCreationDate(LocalDateTime creationDate)
    {
       set(ResourceField.CREATED, creationDate);
    }
@@ -1217,9 +1218,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @return creation date
     */
-   public Date getCreationDate()
+   public LocalDateTime getCreationDate()
    {
-      return (Date) get(ResourceField.CREATED);
+      return (LocalDateTime) get(ResourceField.CREATED);
    }
 
    /**
@@ -1538,7 +1539,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * @param index start index (1-10)
     * @param value start value
     */
-   public void setStart(int index, Date value)
+   public void setStart(int index, LocalDateTime value)
    {
       set(selectField(ResourceFieldLists.CUSTOM_START, index), value);
    }
@@ -1549,9 +1550,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * @param index start index (1-10)
     * @return start value
     */
-   public Date getStart(int index)
+   public LocalDateTime getStart(int index)
    {
-      return (Date) get(selectField(ResourceFieldLists.CUSTOM_START, index));
+      return (LocalDateTime) get(selectField(ResourceFieldLists.CUSTOM_START, index));
    }
 
    /**
@@ -1560,7 +1561,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * @param index finish index (1-10)
     * @param value finish value
     */
-   public void setFinish(int index, Date value)
+   public void setFinish(int index, LocalDateTime value)
    {
       set(selectField(ResourceFieldLists.CUSTOM_FINISH, index), value);
    }
@@ -1571,9 +1572,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * @param index finish index (1-10)
     * @return finish value
     */
-   public Date getFinish(int index)
+   public LocalDateTime getFinish(int index)
    {
-      return (Date) get(selectField(ResourceFieldLists.CUSTOM_FINISH, index));
+      return (LocalDateTime) get(selectField(ResourceFieldLists.CUSTOM_FINISH, index));
    }
 
    /**
@@ -1626,7 +1627,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * @param index date index (1-10)
     * @param value date value
     */
-   public void setDate(int index, Date value)
+   public void setDate(int index, LocalDateTime value)
    {
       set(selectField(ResourceFieldLists.CUSTOM_DATE, index), value);
    }
@@ -1637,9 +1638,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * @param index date index (1-10)
     * @return date value
     */
-   public Date getDate(int index)
+   public LocalDateTime getDate(int index)
    {
-      return (Date) get(selectField(ResourceFieldLists.CUSTOM_DATE, index));
+      return (LocalDateTime) get(selectField(ResourceFieldLists.CUSTOM_DATE, index));
    }
 
    /**
@@ -1827,9 +1828,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * @param index field index
     * @return field value
     */
-   public Date getEnterpriseDate(int index)
+   public LocalDateTime getEnterpriseDate(int index)
    {
-      return (Date) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_DATE, index));
+      return (LocalDateTime) get(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_DATE, index));
    }
 
    /**
@@ -1838,7 +1839,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * @param index field index
     * @param value field value
     */
-   public void setEnterpriseDate(int index, Date value)
+   public void setEnterpriseDate(int index, LocalDateTime value)
    {
       set(selectField(ResourceFieldLists.ENTERPRISE_CUSTOM_DATE, index), value);
    }
@@ -2102,7 +2103,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Boolean getModifyOnIntegrate()
    {
-      return (Boolean) get(ResourceField.MODIFY_ON_INTEGRATE);
+      return BooleanHelper.getBoolean((Boolean) get(ResourceField.MODIFY_ON_INTEGRATE));
    }
 
    /**
@@ -2122,7 +2123,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public Boolean getExpensesOnly()
    {
-      return (Boolean) get(ResourceField.EXPENSES_ONLY);
+      return BooleanHelper.getBoolean((Boolean) get(ResourceField.EXPENSES_ONLY));
    }
 
    /**
@@ -2261,9 +2262,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @return role value
     */
-   public Boolean getRole()
+   public boolean getRole()
    {
-      return (Boolean) get(ResourceField.ROLE);
+      return BooleanHelper.getBoolean((Boolean) get(ResourceField.ROLE));
    }
 
    /**
@@ -2312,7 +2313,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public CostRateTableEntry getCurrentCostRateTableEntry(int costRateTable)
    {
-      return getCostRateTable(costRateTable).getEntryByDate(new Date());
+      return getCostRateTable(costRateTable).getEntryByDate(LocalDateTime.now());
    }
 
    /**

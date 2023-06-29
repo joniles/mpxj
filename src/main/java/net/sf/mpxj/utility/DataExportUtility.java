@@ -34,7 +34,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.Locale;
 import java.util.Set;
 
@@ -182,7 +182,7 @@ public final class DataExportUtility
                case Types.DATE:
                case Types.TIME:
                {
-                  Date data = rs.getDate(index + 1);
+                  java.util.Date data = rs.getDate(index + 1);
                   if (data != null)
                   {
                      pw.print(df.format(data));

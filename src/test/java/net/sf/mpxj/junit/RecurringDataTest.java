@@ -25,14 +25,12 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.junit.Test;
 
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 
@@ -44,16 +42,15 @@ public class RecurringDataTest
    /**
     * Test the getEntryByDate method.
     */
-   @Test public void testGetDates() throws Exception
+   @Test public void testGetDates()
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       RecurringData data = new RecurringData();
 
       //
       // Daily
       //
       data.setRecurrenceType(RecurrenceType.DAILY);
-      data.setStartDate(df.parse("01/11/2017"));
+      data.setStartDate(LocalDate.of(2017, 11, 1));
       data.setFrequency(Integer.valueOf(2));
       data.setOccurrences(Integer.valueOf(3));
       testDates(data, "01/11/2017", "03/11/2017", "05/11/2017");
@@ -68,19 +65,19 @@ public class RecurringDataTest
       data.setRecurrenceType(RecurrenceType.WEEKLY);
       data.setFrequency(Integer.valueOf(2));
       data.setOccurrences(Integer.valueOf(3));
-      data.setWeeklyDay(Day.MONDAY, true);
+      data.setWeeklyDay(DayOfWeek.MONDAY, true);
       testDates(data, "13/11/2017", "27/11/2017", "11/12/2017");
 
-      data.setWeeklyDay(Day.MONDAY, false);
-      data.setWeeklyDay(Day.TUESDAY, true);
+      data.setWeeklyDay(DayOfWeek.MONDAY, false);
+      data.setWeeklyDay(DayOfWeek.TUESDAY, true);
       testDates(data, "14/11/2017", "28/11/2017", "12/12/2017");
 
-      data.setWeeklyDay(Day.MONDAY, true);
-      data.setWeeklyDay(Day.TUESDAY, true);
+      data.setWeeklyDay(DayOfWeek.MONDAY, true);
+      data.setWeeklyDay(DayOfWeek.TUESDAY, true);
       testDates(data, "13/11/2017", "14/11/2017", "27/11/2017");
 
-      data.setWeeklyDay(Day.MONDAY, true);
-      data.setWeeklyDay(Day.TUESDAY, false);
+      data.setWeeklyDay(DayOfWeek.MONDAY, true);
+      data.setWeeklyDay(DayOfWeek.TUESDAY, false);
       data.setFrequency(Integer.valueOf(1));
       testDates(data, "06/11/2017", "13/11/2017", "20/11/2017");
 
@@ -90,27 +87,27 @@ public class RecurringDataTest
       data.setRecurrenceType(RecurrenceType.MONTHLY);
       data.setRelative(true);
       data.setDayNumber(Integer.valueOf(1));
-      data.setDayOfWeek(Day.MONDAY);
+      data.setDayOfWeek(DayOfWeek.MONDAY);
       data.setFrequency(Integer.valueOf(1));
       data.setOccurrences(Integer.valueOf(3));
       testDates(data, "06/11/2017", "04/12/2017", "01/01/2018");
 
       // Ensure start dates aligned with the first recurrence date are handled correctly
-      data.setStartDate(df.parse("04/12/2017"));
+      data.setStartDate(LocalDate.of(2017, 12, 4));
       testDates(data, "04/12/2017", "01/01/2018", "05/02/2018");
 
-      data.setStartDate(df.parse("07/11/2017"));
+      data.setStartDate(LocalDate.of(2017, 11, 7));
       testDates(data, "04/12/2017", "01/01/2018", "05/02/2018");
 
       data.setDayNumber(Integer.valueOf(3));
-      data.setDayOfWeek(Day.WEDNESDAY);
+      data.setDayOfWeek(DayOfWeek.WEDNESDAY);
       data.setFrequency(Integer.valueOf(2));
       data.setOccurrences(Integer.valueOf(3));
       testDates(data, "15/11/2017", "17/01/2018", "21/03/2018");
 
-      data.setStartDate(df.parse("01/11/2017"));
+      data.setStartDate(LocalDate.of(2017, 11, 1));
       data.setDayNumber(Integer.valueOf(5));
-      data.setDayOfWeek(Day.MONDAY);
+      data.setDayOfWeek(DayOfWeek.MONDAY);
       data.setFrequency(Integer.valueOf(1));
       data.setOccurrences(Integer.valueOf(3));
       testDates(data, "27/11/2017", "25/12/2017", "29/01/2018");
@@ -120,7 +117,7 @@ public class RecurringDataTest
       //
       data.setRecurrenceType(RecurrenceType.MONTHLY);
       data.setRelative(false);
-      data.setStartDate(df.parse("01/11/2017"));
+      data.setStartDate(LocalDate.of(2017, 11, 1));
       data.setDayNumber(Integer.valueOf(11));
       data.setFrequency(Integer.valueOf(1));
       data.setOccurrences(Integer.valueOf(3));
@@ -128,7 +125,7 @@ public class RecurringDataTest
 
       data.setRecurrenceType(RecurrenceType.MONTHLY);
       data.setRelative(false);
-      data.setStartDate(df.parse("01/11/2017"));
+      data.setStartDate(LocalDate.of(2017, 11, 1));
       data.setDayNumber(Integer.valueOf(31));
       data.setFrequency(Integer.valueOf(1));
       data.setOccurrences(Integer.valueOf(3));
@@ -136,7 +133,7 @@ public class RecurringDataTest
 
       data.setRecurrenceType(RecurrenceType.MONTHLY);
       data.setRelative(false);
-      data.setStartDate(df.parse("01/11/2017"));
+      data.setStartDate(LocalDate.of(2017, 11, 1));
       data.setDayNumber(Integer.valueOf(31));
       data.setFrequency(Integer.valueOf(2));
       data.setOccurrences(Integer.valueOf(3));
@@ -148,31 +145,31 @@ public class RecurringDataTest
       data.setRecurrenceType(RecurrenceType.YEARLY);
       data.setRelative(true);
       data.setDayNumber(Integer.valueOf(3));
-      data.setDayOfWeek(Day.WEDNESDAY);
+      data.setDayOfWeek(DayOfWeek.WEDNESDAY);
       data.setMonthNumber(Integer.valueOf(12));
       data.setOccurrences(Integer.valueOf(3));
 
       // Ensure start dates aligned with the first recurrence date are handled correctly
-      data.setStartDate(df.parse("20/12/2017"));
+      data.setStartDate(LocalDate.of(2017, 12, 20));
       testDates(data, "20/12/2017", "19/12/2018", "18/12/2019");
 
-      data.setStartDate(df.parse("01/11/2017"));
+      data.setStartDate(LocalDate.of(2017, 11, 1));
       testDates(data, "20/12/2017", "19/12/2018", "18/12/2019");
 
       data.setRecurrenceType(RecurrenceType.YEARLY);
       data.setRelative(true);
-      data.setStartDate(df.parse("01/11/2017"));
+      data.setStartDate(LocalDate.of(2017, 11, 1));
       data.setDayNumber(Integer.valueOf(3));
-      data.setDayOfWeek(Day.WEDNESDAY);
+      data.setDayOfWeek(DayOfWeek.WEDNESDAY);
       data.setMonthNumber(Integer.valueOf(9));
       data.setOccurrences(Integer.valueOf(3));
       testDates(data, "19/09/2018", "18/09/2019", "16/09/2020");
 
       data.setRecurrenceType(RecurrenceType.YEARLY);
       data.setRelative(true);
-      data.setStartDate(df.parse("01/11/2017"));
+      data.setStartDate(LocalDate.of(2017, 11, 1));
       data.setDayNumber(Integer.valueOf(5));
-      data.setDayOfWeek(Day.WEDNESDAY);
+      data.setDayOfWeek(DayOfWeek.WEDNESDAY);
       data.setMonthNumber(Integer.valueOf(6));
       data.setOccurrences(Integer.valueOf(3));
       testDates(data, "27/06/2018", "26/06/2019", "24/06/2020");
@@ -182,7 +179,7 @@ public class RecurringDataTest
       //
       data.setRecurrenceType(RecurrenceType.YEARLY);
       data.setRelative(false);
-      data.setStartDate(df.parse("01/11/2017"));
+      data.setStartDate(LocalDate.of(2017, 11, 1));
       data.setDayNumber(Integer.valueOf(15));
       data.setMonthNumber(Integer.valueOf(12));
       data.setOccurrences(Integer.valueOf(3));
@@ -190,7 +187,7 @@ public class RecurringDataTest
 
       data.setRecurrenceType(RecurrenceType.YEARLY);
       data.setRelative(false);
-      data.setStartDate(df.parse("01/11/2017"));
+      data.setStartDate(LocalDate.of(2017, 11, 1));
       data.setDayNumber(Integer.valueOf(15));
       data.setMonthNumber(Integer.valueOf(6));
       data.setOccurrences(Integer.valueOf(3));
@@ -204,12 +201,12 @@ public class RecurringDataTest
     *
     * @param data recurrence data
     * @param expectedDates expected dates    */
-   private void testDates(RecurringData data, String... expectedDates) throws ParseException
+   private void testDates(RecurringData data, String... expectedDates)
    {
       //
       // First validate that the date sequence bounded by occurrences matches the expected data
       //
-      Date[] dates = data.getDates();
+      LocalDate[] dates = data.getDates();
 
       assertEquals(expectedDates.length, dates.length);
       for (int index = 0; index < expectedDates.length; index++)
@@ -222,7 +219,7 @@ public class RecurringDataTest
       //
       Integer occurrences = data.getOccurrences();
       data.setOccurrences(null);
-      data.setFinishDate(m_df.parse(expectedDates[expectedDates.length - 1]));
+      data.setFinishDate(LocalDate.parse(expectedDates[expectedDates.length - 1], m_df));
 
       dates = data.getDates();
 
@@ -235,5 +232,5 @@ public class RecurringDataTest
       data.setFinishDate(null);
    }
 
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 }

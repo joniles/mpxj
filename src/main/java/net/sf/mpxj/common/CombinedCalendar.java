@@ -23,13 +23,14 @@
 
 package net.sf.mpxj.common;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
-import java.util.Date;
 
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarHours;
+import net.sf.mpxj.LocalTimeRange;
 
 /**
  * A calendar which represents the intersection of working time between
@@ -50,36 +51,52 @@ public class CombinedCalendar extends ProjectCalendar
       m_calendar2 = calendar2;
    }
 
-   @Override protected ProjectCalendarHours getRanges(Date date, Calendar cal, Day day)
+   @Override protected ProjectCalendarHours getRanges(LocalDate date, Calendar cal, DayOfWeek day)
    {
       ProjectCalendarHours result = new ProjectCalendarHours();
       ProjectCalendarHours hours1 = date == null ? m_calendar1.getHours(day) : m_calendar1.getHours(date);
       ProjectCalendarHours hours2 = date == null ? m_calendar2.getHours(day) : m_calendar2.getHours(date);
 
-      for (DateRange range1 : hours1)
+      for (LocalTimeRange range1 : hours1)
       {
-         Date range1Start = DateHelper.getCanonicalTime(range1.getStart());
-         Date range1End = DateHelper.getCanonicalEndTime(range1.getStart(), range1.getEnd());
+         LocalTime range1Start = range1.getStart();
+         LocalTime range1End = range1.getEnd();
 
-         for (DateRange range2 : hours2)
+         for (LocalTimeRange range2 : hours2)
          {
-            Date range2Start = DateHelper.getCanonicalTime(range2.getStart());
-            if (DateHelper.compare(range1End, range2Start) <= 0)
+            LocalTime range2Start = range2.getStart();
+
+            if (range1End != LocalTime.MIDNIGHT && !range1End.isAfter(range2Start))
             {
                // range1 finishes before range2 starts so there is no overlap, get the next range1
                break;
             }
 
-            Date range2End = DateHelper.getCanonicalEndTime(range2.getStart(), range2.getEnd());
-            if (DateHelper.compare(range1Start, range2End) >= 0)
+            LocalTime range2End = range2.getEnd();
+            if (range2End != LocalTime.MIDNIGHT && !range1Start.isBefore(range2End))
             {
                // range1 starts after range2 so there is no overlap, get the next range2
                continue;
             }
 
-            Date start = DateHelper.max(range1Start, range2Start);
-            Date end = DateHelper.min(range1End, range2End);
-            result.add(new DateRange(start, end));
+            LocalTime start = range1Start.isAfter(range2Start) ? range1Start : range2Start;
+            LocalTime end;
+            if (range1End == LocalTime.MIDNIGHT)
+            {
+               end = range2End;
+            }
+            else
+            {
+               if (range2End == LocalTime.MIDNIGHT)
+               {
+                  end = range1End;
+               }
+               else
+               {
+                  end = range1End.isBefore(range2End) ? range1End : range2End;
+               }
+            }
+            result.add(new LocalTimeRange(start, end));
          }
       }
 

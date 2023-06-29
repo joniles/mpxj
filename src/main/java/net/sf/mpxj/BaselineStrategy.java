@@ -1,7 +1,7 @@
 
 package net.sf.mpxj;
 
-interface BaselineStrategy
+public interface BaselineStrategy
 {
 
    /**

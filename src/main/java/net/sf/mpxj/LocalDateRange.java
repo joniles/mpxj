@@ -1,5 +1,5 @@
 /*
- * file:       DateRange.java
+ * file:       LocalDateRange.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2005
  * date:       25/03/2005
@@ -23,14 +23,14 @@
 
 package net.sf.mpxj;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 
 /**
  * This class represents a period of time.
  */
-public final class DateRange implements Comparable<DateRange>
+public final class LocalDateRange implements Comparable<LocalDateRange>
 {
    /**
     * Constructor.
@@ -38,7 +38,7 @@ public final class DateRange implements Comparable<DateRange>
     * @param startDate start date
     * @param endDate end date
     */
-   public DateRange(Date startDate, Date endDate)
+   public LocalDateRange(LocalDate startDate, LocalDate endDate)
    {
       m_start = startDate;
       m_end = endDate;
@@ -49,7 +49,7 @@ public final class DateRange implements Comparable<DateRange>
     *
     * @return start date
     */
-   public Date getStart()
+   public LocalDate getStart()
    {
       return m_start;
    }
@@ -59,7 +59,7 @@ public final class DateRange implements Comparable<DateRange>
     *
     * @return end date
     */
-   public Date getEnd()
+   public LocalDate getEnd()
    {
       return m_end;
    }
@@ -73,17 +73,17 @@ public final class DateRange implements Comparable<DateRange>
     * @param date target date
     * @return comparison result
     */
-   public int compareTo(Date date)
+   public int compareTo(LocalDate date)
    {
-      return DateHelper.compare(m_start, m_end, date);
+      return LocalDateHelper.compare(m_start, m_end, date);
    }
 
-   @Override public int compareTo(DateRange o)
+   @Override public int compareTo(LocalDateRange o)
    {
-      int result = net.sf.mpxj.common.DateHelper.compare(m_start, o.m_start);
+      int result = LocalDateHelper.compare(m_start, o.m_start);
       if (result == 0)
       {
-         result = net.sf.mpxj.common.DateHelper.compare(m_end, o.m_end);
+         result = LocalDateHelper.compare(m_end, o.m_end);
       }
       return result;
    }
@@ -91,9 +91,9 @@ public final class DateRange implements Comparable<DateRange>
    @Override public boolean equals(Object o)
    {
       boolean result = false;
-      if (o instanceof DateRange)
+      if (o instanceof LocalDateRange)
       {
-         DateRange rhs = (DateRange) o;
+         LocalDateRange rhs = (LocalDateRange) o;
          result = (compareTo(rhs) == 0);
       }
       return result;
@@ -101,18 +101,16 @@ public final class DateRange implements Comparable<DateRange>
 
    @Override public int hashCode()
    {
-      long start = m_start == null ? 0 : m_start.getTime();
-      long end = m_end == null ? 0 : m_end.getTime();
+      long start = m_start == null ? 0 : m_start.toEpochDay();
+      long end = m_end == null ? 0 : m_end.toEpochDay();
       return ((int) start ^ (int) (start >> 32)) ^ ((int) end ^ (int) (end >> 32));
    }
 
    @Override public String toString()
    {
-      return ("[DateRange start=" + m_start + " end=" + m_end + "]");
+      return ("[LocalDateRange start=" + m_start + " end=" + m_end + "]");
    }
 
-   public static final DateRange EMPTY_RANGE = new DateRange(null, null);
-
-   private final Date m_start;
-   private final Date m_end;
+   private final LocalDate m_start;
+   private final LocalDate m_end;
 }

@@ -25,7 +25,8 @@ package net.sf.mpxj.primavera.p3;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -517,15 +518,15 @@ class DatabaseReader
    {
       @Override public boolean validRow(Map<String, Object> row)
       {
-         Date date = (Date) row.get("PROJECT_START_DATE");
-         return date != null && date.getTime() > EPOCH;
+         LocalDateTime date = (LocalDateTime) row.get("PROJECT_START_DATE");
+         return date != null && date.isAfter(EPOCH);
       }
    };
 
    /**
     * Epoch for date calculations. Represents 31/12/1983.
     */
-   static final long EPOCH = 441676800000L;
+   static final LocalDateTime EPOCH = LocalDateTime.of(1983, 12, 31, 0, 0);
 
    private static final Map<String, TableDefinition> TABLE_DEFINITIONS = new HashMap<>();
    static

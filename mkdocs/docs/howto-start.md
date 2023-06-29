@@ -285,7 +285,7 @@ the default values provided by Microsoft Project if it is a base calendar.
 If a particular day is defined as a working day, then the calendar will also
 contain a set of working hours for that day. The working hours for a day are
 defined by an instance of the ProjectCalendarHours class. This contains a 
-collection of DateRange instances which defined the start and end times
+collection of `LocalTimeRange` instances which defined the start and end times
 of each working period during the day.
 
 Alongside the flags which control whether a day is working or non-working,  and

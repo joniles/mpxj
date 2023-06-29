@@ -77,12 +77,12 @@ indeed the original Java source of MPXJ, to give you an insight into how the
 API can be used.
 
 ## .Net and Java types
-The .Net version of MPXJ has been generated directly from the Java
-version using a tool called IKVM. One of the side effects of using IKVM to
-perform this conversion is that the MPXJ exposes .Net versions of the
-original Java data types, so for example you will find that the API returns
-a type called `Date` rather than a .Net `DateTime`, and collections which 
-don't expose the familiar `IEnumerable` interface.
+The .Net version of MPXJ has been generated directly from the Java version using
+a tool called IKVM. One of the side effects of using IKVM to perform this
+conversion is that the MPXJ exposes .Net versions of the original Java data
+types, so for example you will find that the API returns a type called
+`LocalDateTime` rather than a .Net `DateTime`, and collections which don't
+expose the familiar `IEnumerable` interface.
 
 To simplify the translation between Java and .Net types, a set of extension
 methods have been provided. These are included n the NuGet package, and the

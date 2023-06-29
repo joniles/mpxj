@@ -26,10 +26,8 @@ package net.sf.mpxj.junit.task;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
@@ -79,18 +77,18 @@ public class TaskDatesTest
     * @param testIndex index of number being tested
     * @param maxIndex maximum number of custom fields to expect in this file
     */
-   private void testTaskDates(File file, Task task, int testIndex, int maxIndex) throws ParseException
+   private void testTaskDates(File file, Task task, int testIndex, int maxIndex)
    {
       for (int index = 1; index <= maxIndex; index++)
       {
-         Date expectedValue = testIndex == index ? m_dateFormat.parse(DATES[index - 1]) : null;
-         Date actualValue = task.getDate(index);
+         LocalDateTime expectedValue = testIndex == index ? LocalDateTime.parse(DATES[index - 1], m_dateFormat) : null;
+         LocalDateTime actualValue = task.getDate(index);
 
          assertEquals(file.getName() + " Date" + index, expectedValue, actualValue);
       }
    }
 
-   private final DateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
    private static final String[] DATES = new String[]
    {

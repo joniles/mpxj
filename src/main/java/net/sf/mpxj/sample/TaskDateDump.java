@@ -23,9 +23,8 @@
 
 package net.sf.mpxj.sample;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
@@ -37,7 +36,7 @@ import net.sf.mpxj.reader.UniversalProjectReader;
  */
 public class TaskDateDump
 {
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
    /**
     * Command line entry point.
@@ -99,7 +98,7 @@ public class TaskDateDump
     * @param date raw date
     * @return formatted date
     */
-   private String format(Date date)
+   private String format(LocalDateTime date)
    {
       return date == null ? "" : m_df.format(date);
    }

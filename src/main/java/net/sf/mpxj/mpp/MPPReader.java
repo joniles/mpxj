@@ -43,7 +43,7 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
@@ -184,7 +184,7 @@ public final class MPPReader extends AbstractProjectStreamReader
          for (Task task : projectFile.getTasks())
          {
             task.setSummary(task.hasChildTasks() || task.getExternalProject());
-            List<DateRange> splits = task.getSplits();
+            List<LocalDateTimeRange> splits = task.getSplits();
             if (splits != null && splits.isEmpty())
             {
                task.setSplits(null);

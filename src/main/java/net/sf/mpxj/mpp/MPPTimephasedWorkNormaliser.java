@@ -23,8 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -34,7 +35,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.CombinedCalendar;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
  * Normalise timephased resource assignment data from an MPP file.
@@ -72,12 +73,12 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
       {
          if (previousAssignment != null)
          {
-            Date previousAssignmentStart = previousAssignment.getStart();
-            Date previousAssignmentStartDay = DateHelper.getDayStartDate(previousAssignmentStart);
-            Date assignmentStart = assignment.getStart();
-            Date assignmentStartDay = DateHelper.getDayStartDate(assignmentStart);
+            LocalDateTime previousAssignmentStart = previousAssignment.getStart();
+            LocalDateTime previousAssignmentStartDay = LocalDateTimeHelper.getDayStartDate(previousAssignmentStart);
+            LocalDateTime assignmentStart = assignment.getStart();
+            LocalDateTime assignmentStartDay = LocalDateTimeHelper.getDayStartDate(assignmentStart);
 
-            if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
+            if (previousAssignmentStartDay.equals(assignmentStartDay))
             {
                Duration previousAssignmentWork = previousAssignment.getTotalAmount();
                Duration assignmentWork = assignment.getTotalAmount();
@@ -87,9 +88,9 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
                   continue;
                }
 
-               Date previousAssignmentFinish = previousAssignment.getFinish();
+               LocalDateTime previousAssignmentFinish = previousAssignment.getFinish();
 
-               if (previousAssignmentFinish.getTime() == assignmentStart.getTime() || calendar.getNextWorkStart(previousAssignmentFinish).getTime() == assignmentStart.getTime())
+               if (previousAssignmentFinish.equals(assignmentStart) || calendar.getNextWorkStart(previousAssignmentFinish).equals(assignmentStart))
                {
                   result.remove(result.size() - 1);
 

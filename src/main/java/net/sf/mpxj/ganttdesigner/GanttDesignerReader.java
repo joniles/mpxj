@@ -33,10 +33,12 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.common.DayOfWeekHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
@@ -136,17 +138,17 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
       m_projectFile.setDefaultCalendar(calendar);
 
       String workingDays = ganttCalendar.getWorkDays();
-      calendar.setWorkingDay(Day.SUNDAY, workingDays.charAt(0) == '1');
-      calendar.setWorkingDay(Day.MONDAY, workingDays.charAt(1) == '1');
-      calendar.setWorkingDay(Day.TUESDAY, workingDays.charAt(2) == '1');
-      calendar.setWorkingDay(Day.WEDNESDAY, workingDays.charAt(3) == '1');
-      calendar.setWorkingDay(Day.THURSDAY, workingDays.charAt(4) == '1');
-      calendar.setWorkingDay(Day.FRIDAY, workingDays.charAt(5) == '1');
-      calendar.setWorkingDay(Day.SATURDAY, workingDays.charAt(6) == '1');
+      calendar.setWorkingDay(DayOfWeek.SUNDAY, workingDays.charAt(0) == '1');
+      calendar.setWorkingDay(DayOfWeek.MONDAY, workingDays.charAt(1) == '1');
+      calendar.setWorkingDay(DayOfWeek.TUESDAY, workingDays.charAt(2) == '1');
+      calendar.setWorkingDay(DayOfWeek.WEDNESDAY, workingDays.charAt(3) == '1');
+      calendar.setWorkingDay(DayOfWeek.THURSDAY, workingDays.charAt(4) == '1');
+      calendar.setWorkingDay(DayOfWeek.FRIDAY, workingDays.charAt(5) == '1');
+      calendar.setWorkingDay(DayOfWeek.SATURDAY, workingDays.charAt(6) == '1');
 
       for (int i = 1; i <= 7; i++)
       {
-         Day day = Day.getInstance(i);
+         DayOfWeek day = DayOfWeekHelper.getInstance(i);
          ProjectCalendarHours hours = calendar.addCalendarHours(day);
          if (calendar.isWorkingDay(day))
          {
@@ -196,12 +198,12 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          task.setCost(ganttTask.getC());
          task.setName(ganttTask.getContent());
          task.setDuration(ganttTask.getD());
-         task.setDeadline(ganttTask.getDL());
+         task.setDeadline(LocalDateHelper.getLocalDateTime(ganttTask.getDL()));
          //ganttTask.getH() // height
          //ganttTask.getIn(); // indent
          task.setWBS(wbs);
          task.setPercentageComplete(ganttTask.getPC());
-         task.setStart(ganttTask.getS());
+         task.setStart(LocalDateHelper.getLocalDateTime(ganttTask.getS()));
          //ganttTask.getU(); // Unknown
          //ganttTask.getVA(); // Valign
 

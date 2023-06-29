@@ -25,8 +25,7 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
@@ -41,26 +40,25 @@ public class AvailabilityTableTest
    /**
     * Test the getEntryByDate method.
     */
-   @Test public void testGetEntryByDate() throws Exception
+   @Test public void testGetEntryByDate()
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-      Availability availability1 = new Availability(df.parse("01/02/2015 08:00"), df.parse("03/02/2015 17:00"), null);
-      Availability availability2 = new Availability(df.parse("01/03/2015 08:00"), df.parse("03/03/2015 17:00"), null);
+      Availability availability1 = new Availability(LocalDateTime.of(2015, 2, 1, 8, 0), LocalDateTime.of(2015, 2, 3, 17, 0), null);
+      Availability availability2 = new Availability(LocalDateTime.of(2015, 3, 1, 8, 0), LocalDateTime.of(2015, 3, 3, 17, 0), null);
       AvailabilityTable table = new AvailabilityTable();
       table.add(availability1);
       table.add(availability2);
 
-      assertNull(table.getEntryByDate(df.parse("01/01/2015 09:00")));
-      assertNull(table.getEntryByDate(df.parse("01/02/2015 07:00")));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2015, 1, 1, 9, 0)));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2015, 2, 1, 7, 0)));
 
-      assertEquals(availability1, table.getEntryByDate(df.parse("01/02/2015 08:00")));
-      assertEquals(availability1, table.getEntryByDate(df.parse("02/02/2015 08:00")));
-      assertEquals(availability1, table.getEntryByDate(df.parse("03/02/2015 08:00")));
-      assertNull(table.getEntryByDate(df.parse("03/02/2015 18:00")));
+      assertEquals(availability1, table.getEntryByDate(LocalDateTime.of(2015, 2, 1, 8, 0)));
+      assertEquals(availability1, table.getEntryByDate(LocalDateTime.of(2015, 2, 2, 8, 0)));
+      assertEquals(availability1, table.getEntryByDate(LocalDateTime.of(2015, 2, 3, 8, 0)));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2015, 2, 3, 18, 0)));
 
-      assertEquals(availability2, table.getEntryByDate(df.parse("01/03/2015 08:00")));
-      assertEquals(availability2, table.getEntryByDate(df.parse("02/03/2015 08:00")));
-      assertEquals(availability2, table.getEntryByDate(df.parse("03/03/2015 08:00")));
-      assertNull(table.getEntryByDate(df.parse("03/03/2015 18:00")));
+      assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015, 3, 1, 8, 0)));
+      assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015, 3, 2, 8, 0)));
+      assertEquals(availability2, table.getEntryByDate(LocalDateTime.of(2015, 3, 3, 8, 0)));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2015, 3, 3, 18, 0)));
    }
 }

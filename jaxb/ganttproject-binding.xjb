@@ -4,8 +4,7 @@
                schemaLocation="./jaxb/ganttproject-2.8.xsd">
 
    <jxb:globalBindings>
-      <!-- globally map date types to Calendar to allow custom print and parse to be used -->
-      <jxb:javaType name="java.util.Date"
+      <jxb:javaType name="java.time.LocalDateTime"
          xmlType="xs:date"     
          parseMethod="net.sf.mpxj.ganttproject.DatatypeConverter.parseDate" 
          printMethod="net.sf.mpxj.ganttproject.DatatypeConverter.printDate"/>      

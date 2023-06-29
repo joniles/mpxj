@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.time.DayOfWeek;
+
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -89,13 +91,13 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
    {
       ProjectCalendar calendar = add();
 
-      calendar.setCalendarDayType(Day.SUNDAY, DayType.DEFAULT);
-      calendar.setCalendarDayType(Day.MONDAY, DayType.DEFAULT);
-      calendar.setCalendarDayType(Day.TUESDAY, DayType.DEFAULT);
-      calendar.setCalendarDayType(Day.WEDNESDAY, DayType.DEFAULT);
-      calendar.setCalendarDayType(Day.THURSDAY, DayType.DEFAULT);
-      calendar.setCalendarDayType(Day.FRIDAY, DayType.DEFAULT);
-      calendar.setCalendarDayType(Day.SATURDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.SUNDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.MONDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.TUESDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.WEDNESDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.THURSDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.FRIDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.SATURDAY, DayType.DEFAULT);
 
       return (calendar);
    }

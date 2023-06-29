@@ -25,8 +25,7 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import net.sf.mpxj.AccrueType;
@@ -172,7 +171,7 @@ public class MppResourceTest
        * Base Calendar
        */
 
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
       List<Resource> listAllResources = mpp.getResources();
       assertNotNull(listAllResources);
@@ -378,7 +377,7 @@ public class MppResourceTest
    private void testResourceAssignments(ProjectFile mpp)
    {
       Integer intOne = Integer.valueOf(1);
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
       List<ResourceAssignment> listResourceAssignments = mpp.getResourceAssignments();
 

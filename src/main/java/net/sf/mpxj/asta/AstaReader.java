@@ -23,11 +23,12 @@
 
 package net.sf.mpxj.asta;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -46,14 +47,14 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.LocalDateRange;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -67,11 +68,14 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -221,7 +225,7 @@ final class AstaReader
          resource.setInitials(getInitials(resource.getName()));
 
          CostRateTable table = new CostRateTable();
-         table.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, row.getDouble("COST_PER_USEDEFAULTSAMOUNT")));
+         table.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, row.getDouble("COST_PER_USEDEFAULTSAMOUNT")));
          resource.setCostRateTable(0, table);
       }
    }
@@ -908,23 +912,23 @@ final class AstaReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
 
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
 
-            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
-            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
-            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
-            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
-            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
-            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+            actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
 
             if (task.getActualFinish() != null)
             {
@@ -1342,7 +1346,7 @@ final class AstaReader
    private void processConstraints(Row row, Task task)
    {
       ConstraintType constraintType = ConstraintType.AS_SOON_AS_POSSIBLE;
-      Date constraintDate = null;
+      LocalDateTime constraintDate = null;
 
       switch (row.getInt("CONSTRAINU"))
       {
@@ -1571,7 +1575,7 @@ final class AstaReader
                if (defaultWeekSet)
                {
                   ProjectCalendarWeek newWeek = calendar.addWorkWeek();
-                  newWeek.setDateRange(new DateRange(row.getDate("START_DATE"), row.getDate("END_DATE")));
+                  newWeek.setDateRange(new LocalDateRange(LocalDateHelper.getLocalDate(row.getDate("START_DATE")), LocalDateHelper.getLocalDate(row.getDate("END_DATE"))));
                   week = newWeek;
                }
                else
@@ -1593,20 +1597,20 @@ final class AstaReader
       rows = exceptionAssignmentMap.get(calendar.getUniqueID());
       if (rows != null)
       {
-         List<DateRange> ranges = new ArrayList<>();
+         List<LocalDateRange> ranges = new ArrayList<>();
 
          for (Row row : rows)
          {
-            Date startDate = row.getDate("STARU_DATE");
-            Date endDate = row.getDate("ENE_DATE");
+            LocalDateTime startDate = row.getDate("STARU_DATE");
+            LocalDateTime endDate = row.getDate("ENE_DATE");
 
             // special case - when the exception end time is midnight, it really finishes at the end of the previous day
-            if (endDate.getTime() == DateHelper.getDayStartDate(endDate).getTime())
+            if (endDate.equals(LocalDateTimeHelper.getDayStartDate(endDate)))
             {
-               endDate = DateHelper.addDays(endDate, -1);
+               endDate = endDate.plusDays(-1);
             }
 
-            ranges.add(new DateRange(DateHelper.getDayStartDate(startDate), DateHelper.getDayEndDate(endDate)));
+            ranges.add(new LocalDateRange(LocalDateHelper.getLocalDate(startDate), LocalDateHelper.getLocalDate(endDate)));
          }
 
          ranges.stream().distinct().forEach(r -> calendar.addCalendarException(r.getStart(), r.getEnd()));
@@ -1615,7 +1619,7 @@ final class AstaReader
       //
       // Populate WORKING or NON_WORKING days with calendar hours if they are missing.
       //
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          if (calendar.getCalendarHours(day) == null)
          {
@@ -1654,49 +1658,40 @@ final class AstaReader
          List<Row> timeEntryRows = timeEntryMap.get(workPatternID);
          if (timeEntryRows != null)
          {
-            // TODO: it looks like at least one PP file we've come across doesn't start from Sunday,
-            // Haven't worked out how the start day is determined.
-            Day currentDay = Day.SATURDAY;
+            DayOfWeek currentDay = DayOfWeek.SATURDAY;
+            Arrays.stream(DayOfWeek.values()).forEach(d -> week.setCalendarDayType(d, DayType.NON_WORKING));
             ProjectCalendarHours hours = null;
-            Arrays.stream(Day.values()).forEach(d -> week.setCalendarDayType(d, DayType.NON_WORKING));
 
             for (Row row : timeEntryRows)
             {
-               Date startTime = row.getDate("START_TIME");
-               Date endTime = row.getDate("END_TIME");
+               LocalTime startTime = LocalTimeHelper.getLocalTime(row.getDate("START_TIME"));
+               LocalTime endTime = LocalTimeHelper.getLocalTime(row.getDate("END_TIME"));
+
                if (startTime == null)
                {
-                  startTime = RANGE_START_MIDNIGHT;
+                  startTime = LocalTime.MIDNIGHT;
                }
 
                if (endTime == null)
                {
-                  endTime = RANGE_END_MIDNIGHT;
+                  endTime = LocalTime.MIDNIGHT;
                }
 
-               if (isMidnight(startTime))
+               if (startTime == LocalTime.MIDNIGHT)
                {
-                  currentDay = currentDay.getNextDay();
+                  currentDay = currentDay.plus(1);
                   hours = week.addCalendarHours(currentDay);
                }
 
                DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
                if (hours != null && type == DayType.WORKING)
                {
-                  hours.add(new DateRange(startTime, endTime));
+                  hours.add(new LocalTimeRange(startTime, endTime));
                   week.setCalendarDayType(currentDay, DayType.WORKING);
                }
             }
          }
       }
-   }
-
-   private boolean isMidnight(Date date)
-   {
-      Calendar cal = DateHelper.popCalendar(date);
-      boolean result = cal.get(Calendar.HOUR_OF_DAY) == 0 && cal.get(Calendar.MINUTE) == 0 && cal.get(Calendar.SECOND) == 0;
-      DateHelper.pushCalendar(cal);
-      return result;
    }
 
    /**
@@ -2033,14 +2028,14 @@ final class AstaReader
     * @param row result set row
     * @return value
     */
-   private Date getUserDefinedFieldDate(Row row)
+   private LocalDateTime getUserDefinedFieldDate(Row row)
    {
       Object value = row.getObject("DATA_AS_DATE");
-      if (!(value instanceof Date))
+      if (!(value instanceof LocalDateTime))
       {
          value = null;
       }
-      return (Date) value;
+      return (LocalDateTime) value;
    }
 
    /**
@@ -2076,7 +2071,7 @@ final class AstaReader
       for (Row row : types)
       {
          Integer sequenceNumber = Integer.valueOf(codeMap.size() + 1);
-         ActivityCode code = new ActivityCode(m_project, row.getInteger("ID"), ActivityCodeScope.GLOBAL, null, null, sequenceNumber, row.getString("NAME"), false, null);
+         ActivityCode code = new ActivityCode(row.getInteger("ID"), ActivityCodeScope.GLOBAL, null, null, sequenceNumber, row.getString("NAME"), false, null);
          container.add(code);
          codeMap.put(code.getUniqueID(), code);
       }
@@ -2166,15 +2161,5 @@ final class AstaReader
       DATA_TYPE_MAP.put(Integer.valueOf(13), DataType.DATE); // Date
       DATA_TYPE_MAP.put(Integer.valueOf(15), DataType.DURATION); // Duration
       DATA_TYPE_MAP.put(Integer.valueOf(24), DataType.STRING); // URL
-   }
-
-   private static final Date RANGE_START_MIDNIGHT = DateHelper.getDayStartDate(new Date(0));
-   private static final Date RANGE_END_MIDNIGHT;
-   static
-   {
-      Calendar cal = DateHelper.popCalendar(RANGE_START_MIDNIGHT);
-      cal.add(Calendar.DAY_OF_YEAR, 1);
-      RANGE_END_MIDNIGHT = cal.getTime();
-      DateHelper.pushCalendar(cal);
    }
 }

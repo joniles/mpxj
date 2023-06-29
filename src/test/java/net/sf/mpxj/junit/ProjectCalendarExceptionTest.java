@@ -23,10 +23,7 @@
 
 package net.sf.mpxj.junit;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 import static org.junit.Assert.*;
 
@@ -46,54 +43,34 @@ public class ProjectCalendarExceptionTest
    @Test public void testContains()
    {
       ProjectCalendar calendar = new ProjectCalendar(new ProjectFile());
-      ProjectCalendarException exception = calendar.addCalendarException(toDate("10/01/2020"), toDate("12/01/2020"));
+      ProjectCalendarException exception = calendar.addCalendarException(LocalDate.of(2020, 1, 10), LocalDate.of(2020, 1, 12));
 
       //
       // Test single date
       //
-      assertFalse(exception.contains(toDate("09/01/2020")));
-      assertTrue(exception.contains(toDate("10/01/2020")));
-      assertTrue(exception.contains(toDate("11/01/2020")));
-      assertTrue(exception.contains(toDate("12/01/2020")));
-      assertFalse(exception.contains(toDate("13/01/2020")));
+      assertFalse(exception.contains(LocalDate.of(2020, 1, 9)));
+      assertTrue(exception.contains(LocalDate.of(2020, 1, 10)));
+      assertTrue(exception.contains(LocalDate.of(2020, 1, 11)));
+      assertTrue(exception.contains(LocalDate.of(2020, 1, 12)));
+      assertFalse(exception.contains(LocalDate.of(2020, 1, 13)));
 
       //
       // Test calendar exception
       //
 
       // Range is entirely before
-      assertFalse(exception.contains(calendar.addCalendarException(toDate("08/01/2020"), toDate("09/01/2020"))));
+      assertFalse(exception.contains(calendar.addCalendarException(LocalDate.of(2020, 1, 8), LocalDate.of(2020, 1, 9))));
 
       // Range is entirely after
-      assertFalse(exception.contains(calendar.addCalendarException(toDate("13/01/2020"), toDate("14/01/2020"))));
+      assertFalse(exception.contains(calendar.addCalendarException(LocalDate.of(2020, 1, 13), LocalDate.of(2020, 1, 14))));
 
       // Range matches exactly
-      assertTrue(exception.contains(calendar.addCalendarException(toDate("10/01/2020"), toDate("12/01/2020"))));
+      assertTrue(exception.contains(calendar.addCalendarException(LocalDate.of(2020, 1, 10), LocalDate.of(2020, 1, 12))));
 
       // Range overlaps start
-      assertTrue(exception.contains(calendar.addCalendarException(toDate("09/01/2020"), toDate("11/01/2020"))));
+      assertTrue(exception.contains(calendar.addCalendarException(LocalDate.of(2020, 1, 9), LocalDate.of(2020, 1, 11))));
 
       // Range overlaps end
-      assertTrue(exception.contains(calendar.addCalendarException(toDate("11/01/2020"), toDate("14/01/2020"))));
+      assertTrue(exception.contains(calendar.addCalendarException(LocalDate.of(2020, 1, 11), LocalDate.of(2020, 1, 14))));
    }
-
-   /**
-    * Convert a string to a date.
-    *
-    * @param date date string
-    * @return Date instance
-    */
-   private Date toDate(String date)
-   {
-      try
-      {
-         return m_df.parse(date);
-      }
-      catch (ParseException e)
-      {
-         throw new RuntimeException(e);
-      }
-   }
-
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy");
 }

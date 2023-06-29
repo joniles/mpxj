@@ -24,12 +24,8 @@
 package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import net.sf.mpxj.common.DateHelper;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Column containing time values.
@@ -46,33 +42,27 @@ class TimeColumn extends AbstractColumn
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);
       offset = data.getOffset();
 
-      Calendar cal = DateHelper.popCalendar();
       byte[][] rawData = data.getData();
-      m_data = new Date[rawData.length];
+      m_data = new LocalTime[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
          if (rawData[index].length > 1)
          {
             int value = FastTrackUtility.getShort(rawData[index], 0);
-            cal.set(Calendar.HOUR_OF_DAY, (value / 60));
-            cal.set(Calendar.MINUTE, (value % 60));
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);
-            m_data[index] = cal.getTime();
+            m_data[index] = LocalTime.of((value / 60) % 24, (value % 60));
          }
       }
-      DateHelper.pushCalendar(cal);
 
       return offset;
    }
 
    @Override protected void dumpData(PrintWriter pw)
    {
-      DateFormat df = new SimpleDateFormat("HH:mm:ss");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm:ss");
       pw.println("  [Data");
       for (Object item : m_data)
       {
-         pw.println("    " + df.format((Date) item));
+         pw.println("    " + df.format((LocalTime) item));
       }
       pw.println("  ]");
    }

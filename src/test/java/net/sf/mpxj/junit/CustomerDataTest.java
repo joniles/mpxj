@@ -30,9 +30,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -722,5 +723,5 @@ public class CustomerDataTest
    private static int TEST_COUNT;
    private static final boolean OS_IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
    private static final FieldReporter FIELD_REPORTER = new FieldReporter();
-   private static final Date BASELINE_CURRENT_DATE = new Date(1544100702000L);
+   private static final LocalDateTime BASELINE_CURRENT_DATE = LocalDateTime.of(2018, 12, 6, 12, 51, 42);
 }
