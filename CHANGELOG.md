@@ -1,6 +1,15 @@
 # Changelog
 
-## 11.5.5 (unreleased)
+## 12.0.1 (unreleased)
+
+## 12.0.0 (2023-06-29)
+* NOTE: this is a major version release, breaking changes have been made to the MPXJ API as documented below.
+* Timestamps, dates, and times are now represented by `java.time.LocalDateTime`, `java.time.LocalDate` and `java.time.LocalTime` respectively, rather than `java.util.Date` as they were originally.
+* For .Net users, new `ToDateTime` and `ToNullableDateTime` extension methods have been provided to convert `java.time.LocalDateTime`, `java.time.LocalDate`, `java.time.LocalTime` to `DateTime` instances.
+* For .Net users, new `ToJavaLocalDateTime`, `ToJavaLocalDate` and `ToJavaLocalTime` extension methods have been provided to convert `DateTime` instances to `java.time.LocalDateTime`, `java.time.LocalDate`, and `java.time.LocalTime`.
+* The class `net.sf.mpxj.Day` has been replaced by `java.time.DayOfWeek`.
+* All code previously marked as deprecated has been removed.
+* Added support for reading and writing the Activity attribute "Expected Finish" for P6 schedules.
 
 ## 11.5.4 (2023-06-27)
 * Improve accuracy of dates read from Synchro, Suretrak and Turboproject files.

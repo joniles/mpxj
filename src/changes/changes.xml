@@ -7,7 +7,7 @@
 	<body>
 		<release date="unreleased" version="12.0.1">
 		</release>
-		<release date="unreleased" version="12.0.0">
+		<release date="2023-06-29" version="12.0.0">
 			<action dev="joniles" type="update">NOTE: this is a major version release, breaking changes have been made to the MPXJ API as documented below.</action>
 			<action dev="joniles" type="update">Timestamps, dates, and times are now represented by `java.time.LocalDateTime`, `java.time.LocalDate` and `java.time.LocalTime` respectively, rather than `java.util.Date` as they were originally.</action>
 			<action dev="joniles" type="update">For .Net users, new `ToDateTime` and `ToNullableDateTime` extension methods have been provided to convert `java.time.LocalDateTime`, `java.time.LocalDate`, `java.time.LocalTime` to `DateTime` instances.</action>
