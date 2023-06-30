@@ -1,35 +1,35 @@
 <jxb:bindings version="1.0"
                xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               schemaLocation="./jaxb/gantt-designer.xsd">
+               schemaLocation="gantt-designer.xsd">
 
    <jxb:globalBindings>
       <jxb:javaType name="java.time.LocalDateTime"
-         xmlType="xs:dateTime"     
-         parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseTimestamp" 
+         xmlType="xs:dateTime"
+         parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseTimestamp"
          printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printTimestamp"/>
 
       <jxb:javaType name="java.time.LocalDate"
-         xmlType="xs:date"     
-         parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDate" 
+         xmlType="xs:date"
+         parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDate"
          printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printDate"/>
-         
+
 	  <jxb:javaType name="net.sf.mpxj.Duration"
-	     xmlType="ganttDesignerDuration"     
-	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDuration" 
-	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printDuration"/>      
+	     xmlType="ganttDesignerDuration"
+	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDuration"
+	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printDuration"/>
 
 	  <jxb:javaType name="java.lang.Double"
-	     xmlType="ganttDesignerPercent"     
-	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parsePercent" 
-	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printPercent"/>      
+	     xmlType="ganttDesignerPercent"
+	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parsePercent"
+	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printPercent"/>
 
 	  <jxb:javaType name="java.time.DayOfWeek"
-	     xmlType="ganttDesignerDay"     
-	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDay" 
-	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printDay"/>      
-               
-   </jxb:globalBindings>      
+	     xmlType="ganttDesignerDay"
+	     parseMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDay"
+	     printMethod="net.sf.mpxj.ganttdesigner.DatatypeConverter.printDay"/>
+
+   </jxb:globalBindings>
 
 
 </jxb:bindings>

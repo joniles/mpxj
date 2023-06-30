@@ -1,6 +1,6 @@
 <jxb:bindings version="1.0" xmlns:jxb="http://java.sun.com/xml/ns/jaxb" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <!-- note that the schemaLocation will need to be changed to be correct for your system -->
-  <jxb:bindings node="/xsd:schema" schemaLocation="file:./jaxb/document-corrected.xsd">
+  <jxb:bindings node="/xsd:schema" schemaLocation="file:document-corrected.xsd">
     <jxb:globalBindings generateElementProperty="false">
       <jxb:javaType name="java.lang.Integer" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseInteger" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printInteger" xmlType="xsd:integer"/>
       <jxb:javaType name="java.lang.Double" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseDouble" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printDouble" xmlType="xsd:double"/>
