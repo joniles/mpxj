@@ -10,10 +10,10 @@
 		<property name="current.version" value="12.0.0" />
 
 		<!-- Environment Configuration-->
-		<property name="maven.cmd" value="c:/java/apache-maven-3.8.5/bin/mvn.cmd"/>
-		<property name="ruby.cmd" value="C:/Ruby23/bin/bundle.bat"/>
-		<property name="python.cmd" value="c:/windows/py.exe" />
-		<property name="nuget.cmd" value="${basedir}/../nuget/nuget.exe" />
+		<property name="maven.cmd" value="mvn.cmd"/>
+		<property name="ruby.cmd" value="bundle.bat"/>
+		<property name="python.cmd" value="py.exe" />
+		<property name="nuget.cmd" value="nuget.exe" />
 		<property name="ikvm.net45.dir" value="${basedir}/../ikvm-8.1.5717.0" />
 		<property name="ikvmc.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmc.exe" />
 		<property name="ikvmstub.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmstub.exe" />
