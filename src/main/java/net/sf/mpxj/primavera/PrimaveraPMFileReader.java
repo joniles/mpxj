@@ -1032,7 +1032,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       for (RoleType role : apibo.getRole())
       {
          Resource resource = m_projectFile.addResource();
-         resource.setRole(Boolean.TRUE);
+         resource.setRole(true);
          resource.setUniqueID(m_roleClashMap.getID(role.getObjectId()));
          resource.setName(role.getName());
          resource.setResourceID(role.getId());

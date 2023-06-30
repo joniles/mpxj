@@ -643,7 +643,7 @@ final class PrimaveraReader
       {
          Resource resource = m_project.addResource();
          processFields(m_roleFields, row, resource);
-         resource.setRole(Boolean.TRUE);
+         resource.setRole(true);
          resource.setUniqueID(m_roleClashMap.addID(resource.getUniqueID()));
          resource.setNotesObject(getNotes(resource.getNotes()));
       }

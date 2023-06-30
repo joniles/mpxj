@@ -2091,7 +2091,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @param value modify on integrate value
     */
-   public void setModifyOnIntegrate(Boolean value)
+   public void setModifyOnIntegrate(boolean value)
    {
       set(ResourceField.MODIFY_ON_INTEGRATE, value);
    }
@@ -2111,7 +2111,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @param value expenses only value
     */
-   public void setExpensesOnly(Boolean value)
+   public void setExpensesOnly(boolean value)
    {
       set(ResourceField.EXPENSES_ONLY, value);
    }
@@ -2251,7 +2251,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @param value role value
     */
-   public void setRole(Boolean value)
+   public void setRole(boolean value)
    {
       set(ResourceField.ROLE, value);
    }
