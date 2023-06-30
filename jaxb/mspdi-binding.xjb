@@ -3,7 +3,7 @@
                xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <!-- note that the schemaLocation will need to be changed to be correct for your system -->
-  <jxb:bindings schemaLocation="file:mspdi_pj15-correct.xsd" node="/xsd:schema">
+  <jxb:bindings schemaLocation="file:mspdi_pj15-corrected.xsd" node="/xsd:schema">
 
    <jxb:globalBindings>
       <!-- globally map float types to BigDecimal for consistency -->

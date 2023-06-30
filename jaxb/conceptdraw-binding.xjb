@@ -1,6 +1,6 @@
 <jxb:bindings version="1.0" xmlns:jxb="http://java.sun.com/xml/ns/jaxb" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <!-- note that the schemaLocation will need to be changed to be correct for your system -->
-  <jxb:bindings node="/xsd:schema" schemaLocation="file:document.xsd">
+  <jxb:bindings node="/xsd:schema" schemaLocation="file:document-corrected.xsd">
     <jxb:globalBindings generateElementProperty="false">
       <jxb:javaType name="java.lang.Integer" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseInteger" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printInteger" xmlType="xsd:integer"/>
       <jxb:javaType name="java.lang.Double" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseDouble" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printDouble" xmlType="xsd:double"/>
@@ -30,12 +30,12 @@
     </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='Task']//xsd:element[@name='Complete']">
       <jxb:javaType name="java.lang.Double" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parsePercent" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printPercent"/>
-    </jxb:bindings>    
+    </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='SchedulingType']">
       <jxb:javaType name="net.sf.mpxj.TaskType" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseTaskType" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printTaskType"/>
     </jxb:bindings>
     <jxb:bindings node="//xsd:element[@name='Link']//xsd:element[@name='Type']">
       <jxb:javaType name="net.sf.mpxj.RelationType" parseMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.parseRelationType" printMethod="net.sf.mpxj.conceptdraw.DatatypeConverter.printRelationType"/>
-    </jxb:bindings>    
+    </jxb:bindings>
   </jxb:bindings>
 </jxb:bindings>

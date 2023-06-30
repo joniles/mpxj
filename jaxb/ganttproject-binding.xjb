@@ -1,14 +1,14 @@
 <jxb:bindings version="1.0"
                xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               schemaLocation="./jaxb/ganttproject-2.8.xsd">
+               schemaLocation="ganttproject-2.8.xsd">
 
    <jxb:globalBindings>
       <jxb:javaType name="java.time.LocalDateTime"
-         xmlType="xs:date"     
-         parseMethod="net.sf.mpxj.ganttproject.DatatypeConverter.parseDate" 
-         printMethod="net.sf.mpxj.ganttproject.DatatypeConverter.printDate"/>      
-   </jxb:globalBindings>      
+         xmlType="xs:date"
+         parseMethod="net.sf.mpxj.ganttproject.DatatypeConverter.parseDate"
+         printMethod="net.sf.mpxj.ganttproject.DatatypeConverter.printDate"/>
+   </jxb:globalBindings>
 
     <!-- rename the value element -->
 	<jxb:bindings node="//xs:complexType[@name='only-show-weekends']">
@@ -16,7 +16,7 @@
     		<jxb:property name="valueAttribute"/>
 		</jxb:bindings>
     </jxb:bindings>
-    
+
     <!-- rename the value element -->
 	<jxb:bindings node="//xs:complexType[@name='custom-task-property']">
 		<jxb:bindings node=".//xs:attribute[@name='value']">
@@ -30,7 +30,7 @@
     		<jxb:property name="valueAttribute"/>
 		</jxb:bindings>
     </jxb:bindings>
-               
+
 	<!-- rename the value element -->
 	<jxb:bindings node="//xs:complexType[@name='rate']">
 		<jxb:bindings node=".//xs:attribute[@name='value']">
