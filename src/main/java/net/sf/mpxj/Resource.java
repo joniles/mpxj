@@ -103,6 +103,19 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Removes a child resource.
+    *
+    * @param child child resource instance
+    */
+   public void removeChildResource(Resource child)
+   {
+      if (m_children.remove(child))
+      {
+         child.setParentResourceUniqueID(null);
+      }
+   }
+
+   /**
     * Sets Name field value.
     *
     * @param val value

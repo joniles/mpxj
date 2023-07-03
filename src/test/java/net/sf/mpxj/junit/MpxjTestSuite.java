@@ -158,6 +158,7 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    XsdDurationTest.class,
    CalendarExceptionPrecedenceTest.class,
    TimescaleUtilityTest.class,
+   ResourceHierarchyTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
