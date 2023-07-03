@@ -4622,7 +4622,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param value hammock code value
     */
-   public void setHammockCode(Boolean value)
+   public void setHammockCode(boolean value)
    {
       set(TaskField.HAMMOCK_CODE, value);
    }
@@ -4632,9 +4632,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return hammock code value
     */
-   public Boolean getHammockCode()
+   public boolean getHammockCode()
    {
-      return (Boolean) get(TaskField.HAMMOCK_CODE);
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.HAMMOCK_CODE)));
    }
 
    /**
@@ -4986,9 +4986,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @return true if part of the longest path
     */
-   public Boolean getLongestPath()
+   public boolean getLongestPath()
    {
-      return (Boolean) get(TaskField.LONGEST_PATH);
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.LONGEST_PATH)));
    }
 
    /**
@@ -4996,7 +4996,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param value true if part of the longest path
     */
-   public void setLongestPath(Boolean value)
+   public void setLongestPath(boolean value)
    {
       set(TaskField.LONGEST_PATH, value);
    }
