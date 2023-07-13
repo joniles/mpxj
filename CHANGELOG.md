@@ -1,6 +1,7 @@
 # Changelog
 
 ## 12.0.1 (unreleased)
+* Improve resource hierarchy handling.
 
 ## 12.0.0 (2023-06-29)
 * NOTE: this is a major version release, breaking changes have been made to the MPXJ API as documented below.
