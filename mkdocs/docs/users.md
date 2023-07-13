@@ -77,6 +77,7 @@ like to be featured in this list.
 * SmartWorks [www.smartworks.us/](http://www.smartworks.us)
 * StaffPM [code.google.com/p/mhe3-staffpm](http://code.google.com/p/mhe3-staffpm/)
 * Steelray Project Viewer [www.steelray.com](http://www.steelray.com)
+* Tamara [www.vosesoftware.com/products/tamara](https://www.vosesoftware.com/products/tamara)
 * Task Adapter [www.taskadapter.com](http://www.taskadapter.com/taskadapter_info)
 * Team Elements [sourceforge.net/projects/teamelements](http://sourceforge.net/projects/teamelements/)
 * Teamwork [www.twproject.com](http://www.twproject.com)
