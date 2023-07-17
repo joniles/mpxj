@@ -1779,19 +1779,24 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       String subprojectFile = splitIndex == -1 ? crossProjectName : crossProjectName.substring(0, splitIndex);
       Integer subprojectTaskID = splitIndex + 1 >= crossProjectName.length() ? null : Integer.valueOf(crossProjectName.substring(splitIndex + 1));
 
-      Task task = m_projectFile.addTask();
-      task.setName("External Task");
-      task.setExternalTask(true);
-      task.setSubprojectFile(subprojectFile);
-      task.setSubprojectTaskID(subprojectTaskID);
-      task.setOutlineLevel(currTask.getOutlineLevel());
-      task.setUniqueID(NumberHelper.getInteger(link.getPredecessorUID()));
-      task.setID(currTask.getID());
-      currTask.setID(Integer.valueOf(currTask.getID().intValue() + 1));
+      Integer taskUniqueID = NumberHelper.getInteger(link.getPredecessorUID());
+      Task task = m_projectFile.getTaskByUniqueID(taskUniqueID);
+      if (task == null)
+      {
+         task = m_projectFile.addTask();
+         task.setName("External Task");
+         task.setExternalTask(true);
+         task.setSubprojectFile(subprojectFile);
+         task.setSubprojectTaskID(subprojectTaskID);
+         task.setOutlineLevel(currTask.getOutlineLevel());
+         task.setUniqueID(NumberHelper.getInteger(link.getPredecessorUID()));
+         task.setID(currTask.getID());
+         currTask.setID(Integer.valueOf(currTask.getID().intValue() + 1));
 
-      ChildTaskContainer container = currTask.getParentTask() == null ? m_projectFile : currTask.getParentTask();
-      int insertionIndex = container.getChildTasks().indexOf(currTask);
-      container.getChildTasks().add(insertionIndex, task);
+         ChildTaskContainer container = currTask.getParentTask() == null ? m_projectFile : currTask.getParentTask();
+         int insertionIndex = container.getChildTasks().indexOf(currTask);
+         container.getChildTasks().add(insertionIndex, task);
+      }
 
       return task;
    }
