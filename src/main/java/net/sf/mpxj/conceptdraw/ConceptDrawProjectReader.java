@@ -93,6 +93,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
          config.setAutoResourceUniqueID(false);
          config.setAutoResourceID(false);
          config.setAutoRelationUniqueID(false);
+         config.setAutoAssignmentUniqueID(false);
 
          m_projectFile.getProjectProperties().setFileApplication("ConceptDraw PROJECT");
          m_projectFile.getProjectProperties().setFileType("CDP");
