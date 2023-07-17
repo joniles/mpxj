@@ -125,9 +125,8 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
             result = addDefaultBaseCalendar();
             if (NumberHelper.getInt(result.getUniqueID()) == 0)
             {
-               ProjectConfig config = m_projectFile.getProjectConfig();
-               config.updateCalendarUniqueCounter();
-               result.setUniqueID(Integer.valueOf(config.getNextCalendarUniqueID()));
+               updateUniqueIdCounter();
+               result.setUniqueID(getNextUniqueID());
             }
          }
       }

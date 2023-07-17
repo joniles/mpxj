@@ -21,16 +21,24 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.primavera;
+package net.sf.mpxj.common;
 
 /**
  * Simple sequence generation class.
  */
-final class ObjectSequence
+public final class ObjectSequence
 {
    public ObjectSequence(int id)
    {
       m_id = id;
+   }
+
+   public void reset(int currentMaxValue)
+   {
+      if (currentMaxValue >= m_id)
+      {
+         m_id = currentMaxValue + 1;
+      }
    }
 
    public Integer getNext()

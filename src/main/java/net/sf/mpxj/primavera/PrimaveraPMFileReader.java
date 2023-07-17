@@ -816,8 +816,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       // Ensure that resource calendars we create later have valid unique IDs
       ProjectConfig config = m_projectFile.getProjectConfig();
-      config.updateCalendarUniqueCounter();
       config.setAutoCalendarUniqueID(true);
+      m_projectFile.getResources().updateUniqueIdCounter();
    }
 
    /**

@@ -62,7 +62,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
       if (file.getProjectConfig().getAutoAssignmentUniqueID())
       {
-         setUniqueID(Integer.valueOf(file.getProjectConfig().getNextAssignmentUniqueID()));
+         setUniqueID(file.getResourceAssignments().getNextUniqueID());
       }
 
       m_task = task;

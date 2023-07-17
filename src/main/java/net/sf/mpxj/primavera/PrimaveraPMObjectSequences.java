@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.primavera;
 
+import net.sf.mpxj.common.ObjectSequence;
+
 /**
  * Collection of sequence generator used across multiple ProjectFile exports.
  */

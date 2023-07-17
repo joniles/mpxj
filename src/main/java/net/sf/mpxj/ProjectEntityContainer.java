@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ObjectSequence;
 
 /**
  * Common implementation shared by project entities, providing storage, iteration and lookup.
@@ -129,7 +130,18 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       m_uniqueIDMap.put(newUniqueID, element);
    }
 
+   public Integer getNextUniqueID()
+   {
+      return m_uniqueIdSequence.getNext();
+   }
+
+   public void updateUniqueIdCounter()
+   {
+      m_uniqueIdSequence.reset(stream().mapToInt(t -> NumberHelper.getInt(t.getUniqueID())).max().orElse(0));
+   }
+
    protected final ProjectFile m_projectFile;
+   private final ObjectSequence m_uniqueIdSequence = new ObjectSequence(1);
    private final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
 
    /**

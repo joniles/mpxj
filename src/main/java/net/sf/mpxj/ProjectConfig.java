@@ -25,8 +25,6 @@ package net.sf.mpxj;
 
 import java.io.File;
 
-import net.sf.mpxj.common.NumberHelper;
-
 /**
  * Container for configuration details used to control the behaviour of the ProjectFile class.
  */
@@ -257,9 +255,9 @@ public class ProjectConfig
     *
     * @return next unique ID
     */
-   public int getNextTaskUniqueID()
+   @Deprecated public int getNextTaskUniqueID()
    {
-      return ++m_taskUniqueID;
+      return m_parent.getTasks().getNextUniqueID().intValue();
    }
 
    /**
@@ -267,9 +265,9 @@ public class ProjectConfig
     *
     * @return next unique ID
     */
-   public int getNextCalendarUniqueID()
+   @Deprecated public int getNextCalendarUniqueID()
    {
-      return ++m_calendarUniqueID;
+      return m_parent.getCalendars().getNextUniqueID().intValue();
    }
 
    /**
@@ -277,9 +275,9 @@ public class ProjectConfig
     *
     * @return next unique ID
     */
-   int getNextAssignmentUniqueID()
+   @Deprecated int getNextAssignmentUniqueID()
    {
-      return ++m_assignmentUniqueID;
+      return m_parent.getResourceAssignments().getNextUniqueID();
    }
 
    /**
@@ -297,9 +295,9 @@ public class ProjectConfig
     *
     * @return next unique ID
     */
-   public int getNextResourceUniqueID()
+   @Deprecated public int getNextResourceUniqueID()
    {
-      return ++m_resourceUniqueID;
+      return m_parent.getResources().getNextUniqueID();
    }
 
    /**
@@ -353,70 +351,42 @@ public class ProjectConfig
     */
    public void updateUniqueCounters()
    {
-      updateTaskUniqueCounter();
-      updateResourceUniqueCounter();
-      updateCalendarUniqueCounter();
-      updateAssignmentUniqueCounter();
+      m_parent.getTasks().updateUniqueIdCounter();
+      m_parent.getResources().updateUniqueIdCounter();
+      m_parent.getCalendars().updateUniqueIdCounter();
+      m_parent.getResourceAssignments().updateUniqueIdCounter();
    }
 
    /**
     * Ensure unique ID counter is in sync with project file.
     */
-   public void updateTaskUniqueCounter()
+   @Deprecated public void updateTaskUniqueCounter()
    {
-      for (Task task : m_parent.getTasks())
-      {
-         int uniqueID = NumberHelper.getInt(task.getUniqueID());
-         if (uniqueID > m_taskUniqueID)
-         {
-            m_taskUniqueID = uniqueID;
-         }
-      }
+      m_parent.getTasks().updateUniqueIdCounter();
    }
 
    /**
     * Ensure unique ID counter is in sync with project file.
     */
-   public void updateResourceUniqueCounter()
+   @Deprecated public void updateResourceUniqueCounter()
    {
-      for (Resource resource : m_parent.getResources())
-      {
-         int uniqueID = NumberHelper.getInt(resource.getUniqueID());
-         if (uniqueID > m_resourceUniqueID)
-         {
-            m_resourceUniqueID = uniqueID;
-         }
-      }
+      m_parent.getResources().updateUniqueIdCounter();
    }
 
    /**
     * Ensure unique ID counter is in sync with project file.
     */
-   public void updateCalendarUniqueCounter()
+   @Deprecated public void updateCalendarUniqueCounter()
    {
-      for (ProjectCalendar calendar : m_parent.getCalendars())
-      {
-         int uniqueID = NumberHelper.getInt(calendar.getUniqueID());
-         if (uniqueID > m_calendarUniqueID)
-         {
-            m_calendarUniqueID = uniqueID;
-         }
-      }
+      m_parent.getCalendars().updateUniqueIdCounter();
    }
 
    /**
     * Ensure unique ID counter is in sync with project file.
     */
-   public void updateAssignmentUniqueCounter()
+   @Deprecated public void updateAssignmentUniqueCounter()
    {
-      for (ResourceAssignment assignment : m_parent.getResourceAssignments())
-      {
-         int uniqueID = NumberHelper.getInt(assignment.getUniqueID());
-         if (uniqueID > m_assignmentUniqueID)
-         {
-            m_assignmentUniqueID = uniqueID;
-         }
-      }
+      m_parent.getResourceAssignments().updateUniqueIdCounter();
    }
 
    /**
@@ -526,29 +496,9 @@ public class ProjectConfig
    private boolean m_autoRelationUniqueID = true;
 
    /**
-    * Counter used to populate the unique ID field of a task.
-    */
-   private int m_taskUniqueID;
-
-   /**
-    * Counter used to populate the unique ID field of a calendar.
-    */
-   private int m_calendarUniqueID;
-
-   /**
-    * Counter used to populate the unique ID field of an assignment.
-    */
-   private int m_assignmentUniqueID;
-
-   /**
     * Counter used to populate the ID field of a task.
     */
    private int m_taskID;
-
-   /**
-    * Counter used to populate the unique ID field of a resource.
-    */
-   private int m_resourceUniqueID;
 
    /**
     * Counter used to populate the ID field of a resource.
