@@ -847,7 +847,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
       if (m_projectConfig.getAutoResourceID())
       {
-         resource.setID(Integer.valueOf(m_projectConfig.getNextResourceID()));
+         resource.setID(m_projectFile.getResources().getNextID());
       }
 
       CostRateTable table = new CostRateTable();
@@ -1296,7 +1296,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
       if (task.getID() == null || m_projectConfig.getAutoTaskID())
       {
-         task.setID(Integer.valueOf(m_projectConfig.getNextTaskID()));
+         task.setID(m_projectFile.getTasks().getNextID());
       }
 
       //
