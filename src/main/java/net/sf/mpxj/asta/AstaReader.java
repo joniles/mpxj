@@ -620,7 +620,7 @@ final class AstaReader
             name = extendedTaskName;
          }
       }
-      
+
       ProjectCalendar calendar = m_project.getCalendarByUniqueID(calendarID);
 
       //PROJID
