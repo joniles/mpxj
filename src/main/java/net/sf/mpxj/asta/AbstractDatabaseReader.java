@@ -192,7 +192,8 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
       List<Row> expandedTasks = getRows("expanded_task", m_projectKey);
       List<Row> tasks = getRows("task", m_projectKey);
       List<Row> milestones = getRows("milestone", m_projectKey);
-      m_reader.processTasks(bars, expandedTasks, tasks, milestones);
+      List<Row> hammocks = getRows("hammock_task", m_projectKey);
+      m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks);
    }
 
    /**
