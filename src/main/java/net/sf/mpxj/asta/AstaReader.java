@@ -375,7 +375,6 @@ final class AstaReader
          //
          // Don't export hammock tasks.
          //
-         //if (rowIsBar && row.getChildRows().isEmpty())
          if (rowIsBar && childRowsAreHammocks(row))
          {
             continue;
@@ -429,6 +428,12 @@ final class AstaReader
       return childRows.size() == 1 && childRows.get(0).getChildRows().isEmpty();
    }
 
+   /**
+    * Returns true if all children of this row are hammock tasks.
+    *
+    * @param row parent row
+    * @return true if all children are hammocks
+    */
    private boolean childRowsAreHammocks(Row row)
    {
       int childCount = row.getChildRows().size();
@@ -438,12 +443,7 @@ final class AstaReader
       }
 
       int count = (int)row.getChildRows().stream().filter(r -> r.getInteger("HAMMOCK_TASKID") != null).count();
-      if (count == childCount)
-      {
-         return true;
-      }
-
-      return false;
+      return count == childCount;
    }
 
    /**
