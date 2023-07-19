@@ -494,6 +494,11 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public Duration getDuration(LocalDateTime startDate, LocalDateTime endDate)
    {
+      if (startDate == null || endDate == null)
+      {
+         return null;
+      }
+
       int days = getDaysInRange(startDate, endDate);
       int duration = 0;
       DayOfWeek day = startDate.getDayOfWeek();

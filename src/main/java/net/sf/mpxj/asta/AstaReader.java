@@ -238,9 +238,9 @@ final class AstaReader
     * @param tasks task data
     * @param milestones milestone data
     */
-   public void processTasks(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones)
+   public void processTasks(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones, List<Row> hammocks)
    {
-      List<Row> parentBars = buildRowHierarchy(bars, expandedTasks, tasks, milestones);
+      List<Row> parentBars = buildRowHierarchy(bars, expandedTasks, tasks, milestones, hammocks);
       createTasks(m_project, "", parentBars);
       deriveProjectCalendar();
       updateUniqueIDs();
@@ -265,7 +265,7 @@ final class AstaReader
     * @param milestones milestone data
     * @return list containing the top level tasks
     */
-   private List<Row> buildRowHierarchy(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones)
+   private List<Row> buildRowHierarchy(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones, List<Row> hammocks)
    {
       //
       // Create a list of leaf nodes by merging the task and milestone lists
@@ -273,6 +273,7 @@ final class AstaReader
       List<Row> leaves = new ArrayList<>();
       leaves.addAll(tasks);
       leaves.addAll(milestones);
+      leaves.addAll(hammocks);
 
       //
       // Sort the bars and the leaves
@@ -374,7 +375,7 @@ final class AstaReader
          //
          // Don't export hammock tasks.
          //
-         if (rowIsBar && row.getChildRows().isEmpty())
+         if (rowIsBar && childRowsAreHammocks(row))
          {
             continue;
          }
@@ -425,6 +426,24 @@ final class AstaReader
    {
       List<Row> childRows = row.getChildRows();
       return childRows.size() == 1 && childRows.get(0).getChildRows().isEmpty();
+   }
+
+   /**
+    * Returns true if all children of this row are hammock tasks.
+    *
+    * @param row parent row
+    * @return true if all children are hammocks
+    */
+   private boolean childRowsAreHammocks(Row row)
+   {
+      int childCount = row.getChildRows().size();
+      if (childCount == 0)
+      {
+         return false;
+      }
+
+      int count = (int)row.getChildRows().stream().filter(r -> r.getInteger("HAMMOCK_TASKID") != null).count();
+      return count == childCount;
    }
 
    /**
