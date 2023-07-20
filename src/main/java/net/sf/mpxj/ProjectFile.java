@@ -726,6 +726,10 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       getResourceAssignments().updateUniqueIdCounter();
    }
 
+   /**
+    * This method is called to renumber any Unique ID values which
+    * were found to have duplicates.
+    */
    public void fixUniqueIdClashes()
    {
       getTasks().fixUniqueIdClashes();
