@@ -189,14 +189,11 @@ public final class MPXReader extends AbstractProjectStreamReader
          //
          m_projectFile.updateStructure();
 
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         m_projectConfig.updateUniqueCounters();
-
          m_projectConfig.setAutoCalendarUniqueID(false);
 
-         return (m_projectFile);
+         m_projectFile.readComplete();
+
+         return m_projectFile;
       }
 
       catch (Exception ex)

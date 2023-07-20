@@ -195,6 +195,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          readTasks();
          readRelationships();
          readResourceAssignments();
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }

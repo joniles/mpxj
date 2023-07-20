@@ -35,10 +35,7 @@ public final class ObjectSequence
 
    public void reset(int currentMaxValue)
    {
-      if (currentMaxValue >= m_id)
-      {
-         m_id = currentMaxValue + 1;
-      }
+      m_id = currentMaxValue + 1;
    }
 
    public Integer getNext()

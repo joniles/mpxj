@@ -171,8 +171,9 @@ abstract class MPD9AbstractReader
          processCustomAttributes();
          processSubProjects();
          postProcessing();
+         m_project.readComplete();
 
-         return (m_project);
+         return m_project;
       }
 
       catch (MpdException ex)
@@ -1587,11 +1588,6 @@ abstract class MPD9AbstractReader
       {
          task.setSummary(task.hasChildTasks());
       }
-
-      //
-      // Ensure that the unique ID counters are correct
-      //
-      config.updateUniqueCounters();
    }
 
    /*

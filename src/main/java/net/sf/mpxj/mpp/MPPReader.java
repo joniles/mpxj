@@ -228,11 +228,6 @@ public final class MPPReader extends AbstractProjectStreamReader
          }
 
          //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
-
-         //
          // Add some analytics
          //
          String projectFilePath = projectFile.getProjectProperties().getProjectFilePath();
@@ -245,6 +240,8 @@ public final class MPPReader extends AbstractProjectStreamReader
             projectProperties.setFileApplication("Microsoft");
          }
          projectProperties.setFileType("MPP");
+
+         projectFile.readComplete();
 
          return (projectFile);
       }

@@ -119,13 +119,9 @@ public final class PlannerReader extends AbstractProjectStreamReader
          readResources(plannerProject);
          readTasks(plannerProject);
          readAssignments(plannerProject);
+         m_projectFile.readComplete();
 
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
-
-         return (m_projectFile);
+         return m_projectFile;
       }
 
       catch (ParserConfigurationException | SAXException | JAXBException ex)

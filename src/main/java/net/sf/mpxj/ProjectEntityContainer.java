@@ -68,6 +68,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       {
          entity.setUniqueID(Integer.valueOf(uid++));
       }
+      updateUniqueIdCounter();
    }
 
    /**
@@ -116,7 +117,6 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
       if (currentElement != null)
       {
-         System.out.println("CLASH2: " + uniqueID);
          m_uniqueIDClashList.add(element);
       }
 
@@ -155,7 +155,6 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
       if (currentElement != null)
       {
-         System.out.println("CLASH1: " + newUniqueID);
          m_uniqueIDClashList.add(element);
       }
 

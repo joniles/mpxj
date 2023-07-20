@@ -87,6 +87,7 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          readProjectProperties(gantt);
          readCalendar(gantt);
          readTasks(gantt);
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }

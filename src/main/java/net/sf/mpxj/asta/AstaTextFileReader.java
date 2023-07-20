@@ -66,6 +66,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
          processPredecessors();
          processAssignments();
          // TODO: user defined field support
+         project.readComplete();
 
          return project;
       }

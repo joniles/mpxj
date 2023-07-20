@@ -107,11 +107,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
          readResources(cdp);
          readTasks(cdp);
          readRelationships(cdp);
-
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }

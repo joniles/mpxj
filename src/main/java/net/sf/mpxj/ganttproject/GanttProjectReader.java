@@ -133,11 +133,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          readTasks(ganttProject);
          readRelationships(ganttProject);
          readResourceAssignments(ganttProject);
-
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }

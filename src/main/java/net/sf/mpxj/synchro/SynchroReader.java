@@ -115,6 +115,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
       processResources();
       processTasks();
       processPredecessors();
+      m_project.readComplete();
 
       return m_project;
    }

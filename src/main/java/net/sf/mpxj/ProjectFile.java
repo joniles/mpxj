@@ -704,6 +704,14 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       }
    }
 
+   /**
+    * Called by a reader class when reading a schedule is complete.
+    */
+   public void readComplete()
+   {
+      m_config.updateUniqueCounters();
+   }
+
    void addExternalProject(String fileName, ProjectFile projectFile)
    {
       m_externalProjects.add(fileName, projectFile);

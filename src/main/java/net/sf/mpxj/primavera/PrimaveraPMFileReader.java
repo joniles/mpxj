@@ -450,13 +450,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          rollupValues();
 
          m_projectFile.updateStructure();
+         m_projectFile.readComplete();
 
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
-
-         return (m_projectFile);
+         return m_projectFile;
       }
 
       finally
