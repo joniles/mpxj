@@ -710,6 +710,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    public void readComplete()
    {
       updateUniqueIdCounters();
+      //fixUniqueIdClashes();
    }
 
    /**
@@ -723,6 +724,14 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       getResources().updateUniqueIdCounter();
       getCalendars().updateUniqueIdCounter();
       getResourceAssignments().updateUniqueIdCounter();
+   }
+
+   public void fixUniqueIdClashes()
+   {
+      getTasks().fixUniqueIdClashes();
+      getResources().fixUniqueIdClashes();
+      getCalendars().fixUniqueIdClashes();
+      getResourceAssignments().fixUniqueIdClashes();
    }
 
    void addExternalProject(String fileName, ProjectFile projectFile)

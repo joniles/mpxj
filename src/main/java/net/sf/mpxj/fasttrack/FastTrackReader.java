@@ -127,6 +127,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
       processDependencies();
       processAssignments();
       rollupValues();
+      m_project.readComplete();
 
       return m_project;
    }

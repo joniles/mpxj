@@ -117,6 +117,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
       if (currentElement != null)
       {
+         System.out.println("CLASH1");
          m_uniqueIDClashList.add(element);
       }
 
@@ -155,6 +156,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
       if (currentElement != null)
       {
+         System.out.println("CLASH2");
          m_uniqueIDClashList.add(element);
       }
 
@@ -169,6 +171,19 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    public void updateUniqueIdCounter()
    {
       m_uniqueIdSequence.reset(stream().mapToInt(t -> NumberHelper.getInt(t.getUniqueID())).max().orElse(0));
+   }
+
+   public void fixUniqueIdClashes()
+   {
+      if (m_uniqueIDClashList.isEmpty())
+      {
+         return;
+      }
+
+      m_uniqueIDClashList.forEach(i -> i.setUniqueID(getNextUniqueID()));
+      m_uniqueIDClashList.clear();
+      m_uniqueIDMap.clear();
+      forEach(i -> m_uniqueIDMap.put(i.getUniqueID(), i));
    }
 
    protected final ProjectFile m_projectFile;

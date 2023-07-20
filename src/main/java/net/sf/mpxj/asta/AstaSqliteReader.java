@@ -104,6 +104,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
          processAssignments();
          processUserDefinedFields();
          processCodeLibraries();
+         project.readComplete();
 
          m_reader = null;
 

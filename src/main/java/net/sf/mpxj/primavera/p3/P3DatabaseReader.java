@@ -185,6 +185,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          readTasks();
          readRelationships();
          readResourceAssignments();
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }
