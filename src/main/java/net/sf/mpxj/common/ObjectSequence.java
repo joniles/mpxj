@@ -28,16 +28,31 @@ package net.sf.mpxj.common;
  */
 public final class ObjectSequence
 {
+   /**
+    * Constructor.
+    *
+    * @param id initial value
+    */
    public ObjectSequence(int id)
    {
       m_id = id;
    }
 
+   /**
+    * Reset the sequence to start after the current maximum value.
+    *
+    * @param currentMaxValue current maximum value
+    */
    public void reset(int currentMaxValue)
    {
       m_id = currentMaxValue + 1;
    }
 
+   /**
+    * Retrieve the next value from the sequence.
+    *
+    * @return next value
+    */
    public Integer getNext()
    {
       return Integer.valueOf(m_id++);
