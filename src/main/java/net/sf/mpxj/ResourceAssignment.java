@@ -2907,7 +2907,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
    @Override public String toString()
    {
-      return ("[Resource Assignment task=" + getTask().getName() + " resource=" + (getResource() == null ? "Unassigned" : getResource().getName()) + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
+      String taskName = getTask() == null ? "null" : getTask().getName();
+      String resourceName = getResource() == null ? "Unassigned" : getResource().getName();
+      return ("[Resource Assignment task=" + taskName + " resource=" + resourceName + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
    }
 
    /**
@@ -3036,7 +3038,11 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       LocalDateTime result = (LocalDateTime) getCachedValue(AssignmentField.START);
       if (result == null)
       {
-         result = getTask().getStart();
+         Task task = getTask();
+         if (task != null)
+         {
+            result = task.getStart();
+         }
       }
       return result;
    }
@@ -3046,7 +3052,11 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       LocalDateTime result = (LocalDateTime) getCachedValue(AssignmentField.FINISH);
       if (result == null)
       {
-         result = getTask().getFinish();
+         Task task = getTask();
+         if (task != null)
+         {
+            result = task.getFinish();
+         }
       }
       return result;
    }

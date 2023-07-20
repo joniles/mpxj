@@ -1900,6 +1900,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // file shows the correct percent complete amount for the task.
       //
       ProjectConfig config = m_projectFile.getProjectConfig();
+      m_projectFile.getResourceAssignments().updateUniqueIdCounter();
       boolean autoUniqueID = config.getAutoAssignmentUniqueID();
       if (!autoUniqueID)
       {
