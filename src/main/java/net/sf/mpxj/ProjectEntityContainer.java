@@ -117,7 +117,6 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
       if (currentElement != null)
       {
-         System.out.println("CLASH1");
          m_uniqueIDClashList.add(element);
       }
 
@@ -156,7 +155,6 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
       if (currentElement != null)
       {
-         System.out.println("CLASH2");
          m_uniqueIDClashList.add(element);
       }
 

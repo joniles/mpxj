@@ -710,7 +710,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    public void readComplete()
    {
       updateUniqueIdCounters();
-      //fixUniqueIdClashes();
+      fixUniqueIdClashes();
    }
 
    /**
