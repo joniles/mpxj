@@ -161,16 +161,30 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       m_uniqueIDMap.put(newUniqueID, element);
    }
 
+   /**
+    * Retrieve the next Unique ID value for this entity.
+    *
+    * @return next Unique ID value
+    */
    public Integer getNextUniqueID()
    {
       return m_uniqueIdSequence.getNext();
    }
 
+   /**
+    * Update the Unique ID counter to ensure it produces
+    * values which start after the highest Unique ID
+    * currently in use for this entity.
+    */
    public void updateUniqueIdCounter()
    {
       m_uniqueIdSequence.reset(stream().mapToInt(t -> NumberHelper.getInt(t.getUniqueID())).max().orElse(0));
    }
 
+   /**
+    * Provide new Unique ID values for entity instances
+    * which were found to be duplicated.
+    */
    public void fixUniqueIdClashes()
    {
       if (m_uniqueIDClashList.isEmpty())
