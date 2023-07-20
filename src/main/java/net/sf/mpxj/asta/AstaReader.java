@@ -425,7 +425,13 @@ final class AstaReader
    private boolean skipBar(Row row)
    {
       List<Row> childRows = row.getChildRows();
-      return childRows.size() == 1 && childRows.get(0).getChildRows().isEmpty();
+      if (childRows.size() != 1)
+      {
+         return false;
+      }
+
+      Row childRow = childRows.get(0);
+      return (childRow.getInteger("TASKID") != null || childRow.getInteger("MILESTONEID") != null) && childRow.getChildRows().isEmpty();
    }
 
    /**
@@ -462,8 +468,17 @@ final class AstaReader
       }
       else
       {
-         populateMilestone(row, task);
-         m_milestoneMap.put(row.getInteger("MILESTONEID"), task);
+         if (row.getInteger("MILESTONEID") != null)
+         {
+            populateMilestone(row, task);
+            m_milestoneMap.put(row.getInteger("MILESTONEID"), task);
+         }
+         else
+         {
+            // Bar with no linked row
+            task.setUniqueID(row.getInteger("BARID"));
+            task.setName(row.getString("NAMH"));
+         }
       }
 
       String name = task.getName();
