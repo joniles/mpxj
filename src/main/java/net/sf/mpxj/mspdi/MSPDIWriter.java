@@ -523,7 +523,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       // Ensure that if we need to generate some temporary calendars
       // we can assign valid unique IDs.
-      m_projectFile.getProjectConfig().updateCalendarUniqueCounter();
+      m_projectFile.getCalendars().updateUniqueIdCounter();
 
       //
       // Create the new MSPDI calendar list
@@ -1900,6 +1900,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // file shows the correct percent complete amount for the task.
       //
       ProjectConfig config = m_projectFile.getProjectConfig();
+      m_projectFile.getResourceAssignments().updateUniqueIdCounter();
       boolean autoUniqueID = config.getAutoAssignmentUniqueID();
       if (!autoUniqueID)
       {

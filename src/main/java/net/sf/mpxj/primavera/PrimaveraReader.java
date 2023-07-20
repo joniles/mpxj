@@ -95,6 +95,7 @@ import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ObjectSequence;
 import net.sf.mpxj.common.SlackHelper;
 
 /**
@@ -383,7 +384,7 @@ final class PrimaveraReader
       //
       ProjectConfig config = m_project.getProjectConfig();
       config.setAutoCalendarUniqueID(true);
-      config.updateCalendarUniqueCounter();
+      m_project.getCalendars().updateUniqueIdCounter();
 
       ProjectCalendar defaultCalendar = m_project.getCalendarByUniqueID(m_defaultCalendarID);
       if (defaultCalendar == null)

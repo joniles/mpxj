@@ -94,6 +94,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
       }
 
       project.setDefaultCalendar(project.getCalendars().findOrCreateDefaultCalendar());
+      project.readComplete();
 
       return project;
    }

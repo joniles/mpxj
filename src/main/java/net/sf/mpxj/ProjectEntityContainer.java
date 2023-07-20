@@ -23,10 +23,13 @@
 
 package net.sf.mpxj;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ObjectSequence;
 
 /**
  * Common implementation shared by project entities, providing storage, iteration and lookup.
@@ -65,6 +68,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       {
          entity.setUniqueID(Integer.valueOf(uid++));
       }
+      updateUniqueIdCounter();
    }
 
    /**
@@ -103,6 +107,19 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       {
          return;
       }
+
+      Integer uniqueID = element.getUniqueID();
+      T currentElement = m_uniqueIDMap.get(uniqueID);
+      if (currentElement == element)
+      {
+         return;
+      }
+
+      if (currentElement != null)
+      {
+         m_uniqueIDClashList.add(element);
+      }
+
       m_uniqueIDMap.put(element.getUniqueID(), element);
    }
 
@@ -125,12 +142,66 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
     */
    public void updateUniqueID(T element, Integer oldUniqueID, Integer newUniqueID)
    {
-      m_uniqueIDMap.remove(oldUniqueID);
+      if (oldUniqueID != null)
+      {
+         m_uniqueIDMap.remove(oldUniqueID);
+      }
+
+      T currentElement = m_uniqueIDMap.get(newUniqueID);
+      if (currentElement == element)
+      {
+         return;
+      }
+
+      if (currentElement != null)
+      {
+         m_uniqueIDClashList.add(element);
+      }
+
       m_uniqueIDMap.put(newUniqueID, element);
    }
 
+   /**
+    * Retrieve the next Unique ID value for this entity.
+    *
+    * @return next Unique ID value
+    */
+   public Integer getNextUniqueID()
+   {
+      return m_uniqueIdSequence.getNext();
+   }
+
+   /**
+    * Update the Unique ID counter to ensure it produces
+    * values which start after the highest Unique ID
+    * currently in use for this entity.
+    */
+   public void updateUniqueIdCounter()
+   {
+      m_uniqueIdSequence.reset(stream().mapToInt(t -> NumberHelper.getInt(t.getUniqueID())).max().orElse(0));
+   }
+
+   /**
+    * Provide new Unique ID values for entity instances
+    * which were found to be duplicated.
+    */
+   public void fixUniqueIdClashes()
+   {
+      if (m_uniqueIDClashList.isEmpty())
+      {
+         return;
+      }
+
+      m_uniqueIDClashList.forEach(i -> i.setUniqueID(getNextUniqueID()));
+      m_uniqueIDClashList.clear();
+      m_uniqueIDMap.clear();
+      forEach(i -> m_uniqueIDMap.put(i.getUniqueID(), i));
+   }
+
    protected final ProjectFile m_projectFile;
+   private final ObjectSequence m_uniqueIdSequence = new ObjectSequence(1);
    private final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
+   private final List<T> m_uniqueIDClashList = new ArrayList<>();
 
    /**
     * Maximum unique ID value MS Project will accept.

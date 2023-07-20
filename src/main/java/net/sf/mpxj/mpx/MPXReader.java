@@ -189,14 +189,11 @@ public final class MPXReader extends AbstractProjectStreamReader
          //
          m_projectFile.updateStructure();
 
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         m_projectConfig.updateUniqueCounters();
-
          m_projectConfig.setAutoCalendarUniqueID(false);
 
-         return (m_projectFile);
+         m_projectFile.readComplete();
+
+         return m_projectFile;
       }
 
       catch (Exception ex)
@@ -842,12 +839,12 @@ public final class MPXReader extends AbstractProjectStreamReader
 
       if (m_projectConfig.getAutoResourceUniqueID())
       {
-         resource.setUniqueID(Integer.valueOf(m_projectConfig.getNextResourceUniqueID()));
+         resource.setUniqueID(m_projectFile.getResources().getNextUniqueID());
       }
 
       if (m_projectConfig.getAutoResourceID())
       {
-         resource.setID(Integer.valueOf(m_projectConfig.getNextResourceID()));
+         resource.setID(m_projectFile.getResources().getNextID());
       }
 
       CostRateTable table = new CostRateTable();
@@ -1291,12 +1288,12 @@ public final class MPXReader extends AbstractProjectStreamReader
 
       if (m_projectConfig.getAutoTaskUniqueID())
       {
-         task.setUniqueID(Integer.valueOf(m_projectConfig.getNextTaskUniqueID()));
+         task.setUniqueID(m_projectFile.getTasks().getNextUniqueID());
       }
 
       if (task.getID() == null || m_projectConfig.getAutoTaskID())
       {
-         task.setID(Integer.valueOf(m_projectConfig.getNextTaskID()));
+         task.setID(m_projectFile.getTasks().getNextID());
       }
 
       //

@@ -704,6 +704,40 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       }
    }
 
+   /**
+    * Called by a reader class when reading a schedule is complete.
+    */
+   public void readComplete()
+   {
+      updateUniqueIdCounters();
+      fixUniqueIdClashes();
+   }
+
+   /**
+    * This method is called to ensure that after a project file has been
+    * read, the cached unique ID values used to generate new unique IDs
+    * start after the end of the existing set of unique IDs.
+    */
+   public void updateUniqueIdCounters()
+   {
+      getTasks().updateUniqueIdCounter();
+      getResources().updateUniqueIdCounter();
+      getCalendars().updateUniqueIdCounter();
+      getResourceAssignments().updateUniqueIdCounter();
+   }
+
+   /**
+    * This method is called to renumber any Unique ID values which
+    * were found to have duplicates.
+    */
+   public void fixUniqueIdClashes()
+   {
+      getTasks().fixUniqueIdClashes();
+      getResources().fixUniqueIdClashes();
+      getCalendars().fixUniqueIdClashes();
+      getResourceAssignments().fixUniqueIdClashes();
+   }
+
    void addExternalProject(String fileName, ProjectFile projectFile)
    {
       m_externalProjects.add(fileName, projectFile);

@@ -97,7 +97,7 @@ public final class ProjectCalendarHelper
 
       if (NumberHelper.getInt(derivedCalendar.getUniqueID()) == 0)
       {
-         derivedCalendar.setUniqueID(Integer.valueOf(file.getProjectConfig().getNextCalendarUniqueID()));
+         derivedCalendar.setUniqueID(file.getCalendars().getNextUniqueID());
       }
 
       return derivedCalendar;

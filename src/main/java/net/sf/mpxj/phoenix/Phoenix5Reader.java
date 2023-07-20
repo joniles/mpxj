@@ -140,12 +140,9 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
          readTasks(phoenixProject, storepoint);
          readResources(storepoint);
          readRelationships(storepoint);
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
+         m_projectFile.readComplete();
 
-         return (m_projectFile);
+         return m_projectFile;
       }
 
       catch (ParserConfigurationException | SAXException | JAXBException ex)

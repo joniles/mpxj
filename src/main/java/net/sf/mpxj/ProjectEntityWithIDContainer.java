@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ObjectSequence;
 
 /**
  * Common implementation shared by project entities, providing storage, iteration and lookup.
@@ -105,5 +106,16 @@ public abstract class ProjectEntityWithIDContainer<T extends ProjectEntityWithID
       m_idMap.put(id, entity);
    }
 
+   /**
+    * Retrieve the next ID value for this entity.
+    *
+    * @return next ID value
+    */
+   public Integer getNextID()
+   {
+      return m_idSequence.getNext();
+   }
+
+   private final ObjectSequence m_idSequence = new ObjectSequence(1);
    protected final Map<Integer, T> m_idMap = new HashMap<>();
 }

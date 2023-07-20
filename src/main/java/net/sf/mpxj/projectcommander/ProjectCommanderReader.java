@@ -91,6 +91,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          readResources();
          readTasks();
          readRelationships();
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }

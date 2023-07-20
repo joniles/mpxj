@@ -124,6 +124,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
          m_reader = null;
          project.updateStructure();
+         project.readComplete();
 
          return (project);
       }

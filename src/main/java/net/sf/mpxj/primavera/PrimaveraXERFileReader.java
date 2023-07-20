@@ -238,8 +238,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          processExpenseItems();
          processActivitySteps();
          m_reader.rollupValues();
-
          project.updateStructure();
+         project.readComplete();
 
          return project;
       }

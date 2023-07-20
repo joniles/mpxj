@@ -106,6 +106,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
          config.setAutoOutlineLevel(false);
          config.setAutoOutlineNumber(false);
          config.setAutoWBS(false);
+         config.setAutoCalendarUniqueID(false);
 
          m_projectFile.getProjectProperties().setFileApplication("Planner");
          m_projectFile.getProjectProperties().setFileType("XML");
@@ -119,13 +120,9 @@ public final class PlannerReader extends AbstractProjectStreamReader
          readResources(plannerProject);
          readTasks(plannerProject);
          readAssignments(plannerProject);
+         m_projectFile.readComplete();
 
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
-
-         return (m_projectFile);
+         return m_projectFile;
       }
 
       catch (ParserConfigurationException | SAXException | JAXBException ex)
@@ -181,6 +178,8 @@ public final class PlannerReader extends AbstractProjectStreamReader
       if (m_defaultCalendar == null)
       {
          m_defaultCalendar = m_projectFile.addDefaultBaseCalendar();
+         m_projectFile.getCalendars().updateUniqueIdCounter();
+         m_defaultCalendar.setUniqueID(m_projectFile.getCalendars().getNextUniqueID());
       }
 
       m_projectFile.getProjectProperties().setDefaultCalendar(m_defaultCalendar);

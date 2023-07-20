@@ -59,12 +59,12 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
       if (config.getAutoResourceUniqueID())
       {
-         setUniqueID(Integer.valueOf(config.getNextResourceUniqueID()));
+         setUniqueID(file.getResources().getNextUniqueID());
       }
 
       if (config.getAutoResourceID())
       {
-         setID(Integer.valueOf(config.getNextResourceID()));
+         setID(file.getResources().getNextID());
       }
 
       m_costRateTables = new CostRateTable[CostRateTable.MAX_TABLES];

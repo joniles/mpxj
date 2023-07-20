@@ -218,11 +218,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          readAssignments(project);
 
          //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
-
-         //
          // Prune unused derived calendars.
          // Normally we'd just be getting rid of any odd resource calendars which might have
          // slipped in which aren't actually associated with a resource. When applications
@@ -265,6 +260,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                }
             }
          }
+
+         m_projectFile.readComplete();
 
          //
          // Process any embedded external projects

@@ -77,6 +77,7 @@ public final class SageReader extends AbstractProjectStreamReader
          processCalendars();
          processTasks(lines);
          processPredecessors(lines);
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }

@@ -91,11 +91,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
          readTasks();
          readRelationships();
          readResourceAssignments();
-
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }

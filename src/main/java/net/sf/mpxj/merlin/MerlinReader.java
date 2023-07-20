@@ -172,6 +172,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       processTasks();
       processAssignments();
       processDependencies();
+      m_project.readComplete();
 
       return m_project;
    }
