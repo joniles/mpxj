@@ -106,6 +106,11 @@ public abstract class ProjectEntityWithIDContainer<T extends ProjectEntityWithID
       m_idMap.put(id, entity);
    }
 
+   /**
+    * Retrieve the next ID value for this entity.
+    *
+    * @return next ID value
+    */
    public Integer getNextID()
    {
       return m_idSequence.getNext();
