@@ -171,7 +171,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
       // Update unique counters at this point as we will be generating
       // resource calendars, and will need to auto generate IDs
       //
-      m_reader.getProject().getProjectConfig().updateUniqueCounters();
+      m_reader.getProject().updateUniqueIdCounters();
    }
 
    /**

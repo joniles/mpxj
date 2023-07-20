@@ -354,17 +354,18 @@ public class ProjectConfig
     * This method is called to ensure that after a project file has been
     * read, the cached unique ID values used to generate new unique IDs
     * start after the end of the existing set of unique IDs.
+    *
+    * @deprecated use ProjectFile.updateUniqueCounters
     */
-   public void updateUniqueCounters()
+   @Deprecated public void updateUniqueCounters()
    {
-      m_parent.getTasks().updateUniqueIdCounter();
-      m_parent.getResources().updateUniqueIdCounter();
-      m_parent.getCalendars().updateUniqueIdCounter();
-      m_parent.getResourceAssignments().updateUniqueIdCounter();
+      m_parent.updateUniqueIdCounters();
    }
 
    /**
     * Ensure unique ID counter is in sync with project file.
+    *
+    * @deprecated use ProjectFile.getTasks().updateUniqueIdCounter()
     */
    @Deprecated public void updateTaskUniqueCounter()
    {

@@ -709,7 +709,20 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public void readComplete()
    {
-      m_config.updateUniqueCounters();
+      updateUniqueIdCounters();
+   }
+
+   /**
+    * This method is called to ensure that after a project file has been
+    * read, the cached unique ID values used to generate new unique IDs
+    * start after the end of the existing set of unique IDs.
+    */
+   public void updateUniqueIdCounters()
+   {
+      getTasks().updateUniqueIdCounter();
+      getResources().updateUniqueIdCounter();
+      getCalendars().updateUniqueIdCounter();
+      getResourceAssignments().updateUniqueIdCounter();
    }
 
    void addExternalProject(String fileName, ProjectFile projectFile)
