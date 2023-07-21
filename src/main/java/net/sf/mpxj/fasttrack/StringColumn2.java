@@ -1,5 +1,5 @@
 /*
- * file:       StringColumn.java
+ * file:       StringColumn2.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2017
  * date:       14/03/2017
@@ -28,7 +28,7 @@ import java.io.PrintWriter;
 /**
  * Column containing text values.
  */
-class StringColumn extends AbstractColumn
+class StringColumn2 extends AbstractColumn
 {
    @Override protected int postHeaderSkipBytes()
    {

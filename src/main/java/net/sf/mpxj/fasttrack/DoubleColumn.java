@@ -28,13 +28,8 @@ import java.io.PrintWriter;
 /**
  * Column containing double values.
  */
-class DoubleColumn extends AbstractColumn
+abstract class DoubleColumn extends AbstractColumn
 {
-   @Override protected int postHeaderSkipBytes()
-   {
-      return 16 + 14;
-   }
-
    @Override protected int readData(byte[] buffer, int offset)
    {
       m_data = new Double[FastTrackUtility.getInt(buffer, offset)];

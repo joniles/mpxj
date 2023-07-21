@@ -28,13 +28,8 @@ import java.io.PrintWriter;
 /**
  * Column containing two byte integer values.
  */
-class ShortColumn extends AbstractColumn
+abstract class ShortColumn extends AbstractColumn
 {
-   @Override protected int postHeaderSkipBytes()
-   {
-      return 18 + 14;
-   }
-
    @Override protected int readData(byte[] buffer, int offset)
    {
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);

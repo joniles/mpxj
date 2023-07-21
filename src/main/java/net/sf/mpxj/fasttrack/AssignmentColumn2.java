@@ -1,5 +1,5 @@
 /*
- * file:       AssignmentColumn.java
+ * file:       AssignmentColumn2.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2017
  * date:       14/03/2017
@@ -28,42 +28,15 @@ import java.io.PrintWriter;
 /**
  * Represents resource assignments.
  */
-class AssignmentColumn extends AbstractColumn
+class AssignmentColumn2 extends AbstractColumn
 {
    @Override protected int postHeaderSkipBytes()
    {
-      return 14;
+      return 14 + 20;
    }
 
    @Override protected int readData(byte[] buffer, int offset)
    {
-      /*
-      if (FastTrackUtility.getByte(buffer, offset) == 0x01)
-      {
-         offset += 2;
-      }
-      else
-      {
-         offset += 20;
-         StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, offset, false);
-         m_options = options.getData();
-         offset = options.getOffset();
-
-         // Handle unknown string structure seen in a couple of examples from v11/2020
-         if (FastTrackUtility.getByte(buffer, offset + 1) == 0x01)
-         {
-            offset += 4;
-            int stringLength = FastTrackUtility.getInt(buffer, offset);
-            offset += 4;
-            // FastTrackUtility.getString(buffer, offset, stringLength);
-            offset += stringLength;
-         }
-
-         offset += 8;
-      }
-*/
-
-      offset += 20;
       StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, offset, false);
       m_data = data.getData();
       offset = data.getOffset();
