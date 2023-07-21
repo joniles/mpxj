@@ -314,7 +314,6 @@ final class FastTrackUtility
       return (sb.toString());
    }
 
-
    /**
     * Dump raw data as hex.
     *
