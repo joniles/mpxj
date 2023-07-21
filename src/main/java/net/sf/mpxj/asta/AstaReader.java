@@ -237,6 +237,7 @@ final class AstaReader
     * @param expandedTasks expanded task data
     * @param tasks task data
     * @param milestones milestone data
+    * @param hammocks hammock data
     */
    public void processTasks(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones, List<Row> hammocks)
    {
@@ -263,6 +264,7 @@ final class AstaReader
     * @param expandedTasks expanded task data
     * @param tasks task data
     * @param milestones milestone data
+    * @param hammocks hammock data
     * @return list containing the top level tasks
     */
    private List<Row> buildRowHierarchy(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones, List<Row> hammocks)
@@ -448,7 +450,7 @@ final class AstaReader
          return false;
       }
 
-      int count = (int)row.getChildRows().stream().filter(r -> r.getInteger("HAMMOCK_TASKID") != null).count();
+      int count = (int) row.getChildRows().stream().filter(r -> r.getInteger("HAMMOCK_TASKID") != null).count();
       return count == childCount;
    }
 

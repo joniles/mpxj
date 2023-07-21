@@ -279,6 +279,7 @@ final class FastTrackUtility
     *
     * @param buffer buffer
     * @param offset offset into buffer
+    * @param showRawOffset show raw offset, not offset from data start
     * @param length length of data to dump
     * @param ascii true if ASCII should also be printed
     * @param columns number of columns

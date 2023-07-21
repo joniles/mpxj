@@ -923,7 +923,7 @@ final class PrimaveraPMProjectWriter
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setId(mpxj.getActivityID() == null ? mpxj.getWBS() : mpxj.getActivityID());
       // Note that P6 doesn't write this attribute to PMXML, but appears to read it
-      xml.setIsLongestPath(BooleanHelper.getBoolean(mpxj.getLongestPath()) ? Boolean.TRUE : null);
+      xml.setIsLongestPath(mpxj.getLongestPath() ? Boolean.TRUE : null);
       xml.setLevelingPriority(PriorityHelper.getXmlFromInstance(mpxj.getPriority()));
       xml.setLocationObjectId(mpxj.getLocationUniqueID());
       xml.setName(name);

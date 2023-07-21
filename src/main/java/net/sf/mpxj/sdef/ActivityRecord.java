@@ -47,7 +47,7 @@ class ActivityRecord extends AbstractSDEFRecord
       task.setConstraintDate(getDate(3));
       task.setConstraintType(getConstraintType(4));
       task.setCalendar(context.getCalendar(getString(5)));
-      task.setHammockCode(Boolean.valueOf("Y".equals(getString(6))));
+      task.setHammockCode("Y".equals(getString(6)));
       task.setWorkersPerDay(getInteger(7));
       task.setResponsibilityCode(getString(8));
       task.setWorkAreaCode(getString(9));

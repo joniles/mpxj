@@ -56,7 +56,6 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.writer.AbstractProjectWriter;
@@ -309,7 +308,7 @@ public final class SDEFWriter extends AbstractProjectWriter
          m_buffer.append(formattedConstraintDate).append(" ");
          m_buffer.append(conType);
          m_buffer.append(SDEFmethods.lset(record.getEffectiveCalendar().getUniqueID().toString(), 1)).append(" ");
-         m_buffer.append(BooleanHelper.getBoolean(record.getHammockCode()) ? "Y " : "  ");
+         m_buffer.append(record.getHammockCode() ? "Y " : "  ");
          m_buffer.append(SDEFmethods.rset(formatNumber(record.getWorkersPerDay()), 3)).append(" ");
          m_buffer.append(SDEFmethods.lset(record.getResponsibilityCode(), 4)).append(" ");
          m_buffer.append(SDEFmethods.lset(record.getWorkAreaCode(), 4)).append(" ");

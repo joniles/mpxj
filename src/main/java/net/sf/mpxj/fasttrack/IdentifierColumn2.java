@@ -23,8 +23,6 @@
 
 package net.sf.mpxj.fasttrack;
 
-import java.io.PrintWriter;
-
 /**
  * Column containing integer values.
  */

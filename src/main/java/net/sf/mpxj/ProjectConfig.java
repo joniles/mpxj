@@ -280,7 +280,7 @@ public class ProjectConfig
     */
    @Deprecated int getNextAssignmentUniqueID()
    {
-      return m_parent.getResourceAssignments().getNextUniqueID();
+      return m_parent.getResourceAssignments().getNextUniqueID().intValue();
    }
 
    /**
@@ -302,7 +302,7 @@ public class ProjectConfig
     */
    @Deprecated public int getNextResourceUniqueID()
    {
-      return m_parent.getResources().getNextUniqueID();
+      return m_parent.getResources().getNextUniqueID().intValue();
    }
 
    /**
@@ -313,7 +313,7 @@ public class ProjectConfig
     */
    @Deprecated public int getNextResourceID()
    {
-      return m_parent.getResources().getNextID();
+      return m_parent.getResources().getNextID().intValue();
    }
 
    /**
