@@ -116,11 +116,11 @@ class BlockHeader
       ByteArrayOutputStream os = new ByteArrayOutputStream();
       PrintWriter pw = new PrintWriter(os);
       pw.println("  [BlockHeader");
-      pw.print("    Header: " + FastTrackUtility.hexdump(m_header, 0, m_header.length, false, 16, ""));
+      pw.print("    Header: " + FastTrackUtility.hexdump(m_header, 0, true, m_header.length, false, 16, ""));
       pw.println("    Name: " + m_name);
       pw.println("    Type: " + m_columnType);
       pw.println("    Flags: " + m_flags);
-      pw.print("    Skip:\n" + FastTrackUtility.hexdump(m_skip, 0, m_skip.length, false, 16, "      "));
+      pw.print("    Skip:\n" + FastTrackUtility.hexdump(m_skip, 0, true, m_skip.length, false, 16, "      "));
       pw.println("  ]");
       pw.flush();
       return (os.toString());

@@ -98,6 +98,11 @@ final class FastTrackUtility
     */
    public static final int getInt(byte[] data, int offset)
    {
+      if (offset + 4 > data.length)
+      {
+         throw new UnexpectedStructureException();
+      }
+
       int result = 0;
       int i = offset;
       for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
@@ -117,6 +122,11 @@ final class FastTrackUtility
     */
    public static final int getShort(byte[] data, int offset)
    {
+      if (offset + 2 > data.length)
+      {
+         throw new UnexpectedStructureException();
+      }
+
       int result = 0;
       int i = offset;
       for (int shiftBy = 0; shiftBy < 16; shiftBy += 8)
@@ -136,7 +146,7 @@ final class FastTrackUtility
     */
    public static final long getLong(byte[] data, int offset)
    {
-      if (data.length != 8)
+      if (offset + 8 > data.length)
       {
          throw new UnexpectedStructureException();
       }
@@ -275,12 +285,13 @@ final class FastTrackUtility
     * @param prefix prefix when printing
     * @return hex dump
     */
-   public static final String hexdump(byte[] buffer, int offset, int length, boolean ascii, int columns, String prefix)
+   public static final String hexdump(byte[] buffer, int offset, boolean showRawOffset, int length, boolean ascii, int columns, String prefix)
    {
       StringBuilder sb = new StringBuilder();
       if (buffer != null)
       {
          int index = offset;
+         int indexAdjust = showRawOffset ? 0 : offset;
          DecimalFormat df = new DecimalFormat("00000");
 
          while (index < (offset + length))
@@ -291,7 +302,7 @@ final class FastTrackUtility
             }
 
             sb.append(prefix);
-            sb.append(df.format(index - offset));
+            sb.append(df.format(index - indexAdjust));
             sb.append(":");
             sb.append(hexdump(buffer, index, columns, ascii));
             sb.append('\n');
