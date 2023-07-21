@@ -757,6 +757,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
+            task.setFixedCost(NumberHelper.sumAsDouble(task.getFixedCost(), ei.getAtCompletionCost()));
          }
       }
    }
