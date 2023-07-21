@@ -209,7 +209,7 @@ Feature of Work| | | | | | | | | | | | | | | | | | |✓| | |
 Finish|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Finish Slack|✓| |✓| | | | |✓|✓|✓|✓|✓| |✓|✓|✓| | |✓|✓|✓| | 
 Finish Variance| |✓|✓| | | | |✓|✓|✓| | | |✓|✓|✓| | | | | | | 
-Fixed Cost| | |✓| | | |✓|✓| | | | | | | | | | | | | | | 
+Fixed Cost| | |✓| | | |✓|✓| | | | | |✓|✓|✓| | | | | | | 
 Fixed Cost Accrual| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Free Slack| | |✓| | | |✓|✓|✓|✓|✓|✓| | |✓|✓| | | | | | | 
 GUID| |✓|✓| | |✓| |✓| |✓| |✓| |✓|✓|✓| | |✓| | |✓| 
@@ -436,7 +436,7 @@ Baseline Estimated Duration| | | | | | | |✓| | | | | | | | | |
 Baseline Estimated Finish| | | | | | | |✓| | | | | | | | | | | | | | | 
 Baseline Estimated Start| | | | | | | |✓| | | | | | | | | | | | | | | 
 Baseline Finish|✓|✓|✓| | | |✓|✓|✓|✓| | | |✓|✓|✓| | | | | | | 
-Baseline Fixed Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
+Baseline Fixed Cost| | | | | | | |✓| | | | | |✓|✓| | | | | | | | 
 Baseline Fixed Cost Accrual| | | | | | | |✓| | | | | | | | | | | | | | | 
 Baseline Start|✓|✓|✓| | | |✓|✓|✓|✓| | | |✓|✓|✓| | | | | | | 
 Baseline Work| | | | | | |✓|✓|✓|✓| | | |✓|✓|✓| | | | | | | 
