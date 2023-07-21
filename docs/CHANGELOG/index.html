@@ -17,7 +17,7 @@
         <link rel="next" href="../support/">
       
       <link rel="icon" href="../images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.16">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.19">
     
     
       
@@ -25,7 +25,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.26e3688c.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.eebd395e.min.css">
       
       
 
@@ -267,8 +267,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1201-unreleased" class="md-nav__link">
-    12.0.1 (unreleased)
+  <a href="#1202-unreleased" class="md-nav__link">
+    12.0.2 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1201-2023-07-21" class="md-nav__link">
+    12.0.1 (2023-07-21)
   </a>
   
 </li>
@@ -2722,8 +2729,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1201-unreleased" class="md-nav__link">
-    12.0.1 (unreleased)
+  <a href="#1202-unreleased" class="md-nav__link">
+    12.0.2 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1201-2023-07-21" class="md-nav__link">
+    12.0.1 (2023-07-21)
   </a>
   
 </li>
@@ -4291,9 +4305,17 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1201-unreleased">12.0.1 (unreleased)</h2>
+<h2 id="1202-unreleased">12.0.2 (unreleased)</h2>
+<h2 id="1201-2023-07-21">12.0.1 (2023-07-21)</h2>
 <ul>
 <li>Improve resource hierarchy handling.</li>
+<li>Improve handling of external tasks read from MSPDI files.</li>
+<li>Improve handling of resource assignments read from Asta PP files containing multiple baselines.</li>
+<li>Improve filtering to ignore hammock tasks in Asta PP files and ensure that non-hammock items are not incorrectly ignored.</li>
+<li>Improve handling of bars without additional linked data read from Asta PP files.</li>
+<li>Ensure that invalid duplicate Unique ID values encountered when reading schedule data are renumbered to maintain uniqueness.</li>
+<li>Improve reading certain FastTrack FTS files.</li>
+<li>Roll up the expense item at completion values read from P6 schedules to the task Fixed Cost attribute.</li>
 </ul>
 <h2 id="1200-2023-06-29">12.0.0 (2023-06-29)</h2>
 <ul>
@@ -6447,10 +6469,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.a51614de.min.js"></script>
+      <script src="../assets/javascripts/bundle.220ee61c.min.js"></script>
       
     
   </body>
