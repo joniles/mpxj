@@ -1,5 +1,5 @@
 /*
- * file:       IdentifierColumn.java
+ * file:       RelationColumn1.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2017
  * date:       14/03/2017
@@ -26,32 +26,12 @@ package net.sf.mpxj.fasttrack;
 import java.io.PrintWriter;
 
 /**
- * Column containing integer values.
+ * Column containing task relationships.
  */
-abstract class IdentifierColumn extends AbstractColumn
+class RelationColumn1 extends RelationColumn
 {
-   @Override protected int readData(byte[] buffer, int offset)
+   @Override protected int postHeaderSkipBytes()
    {
-      FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);
-      offset = data.getOffset();
-
-      byte[][] rawData = data.getData();
-      m_data = new Integer[rawData.length];
-      for (int index = 0; index < rawData.length; index++)
-      {
-         m_data[index] = Integer.valueOf(FastTrackUtility.getInt(rawData[index], 0));
-      }
-
-      return offset;
-   }
-
-   @Override protected void dumpData(PrintWriter pw)
-   {
-      pw.println("  [Data");
-      for (Object item : m_data)
-      {
-         pw.println("    " + item);
-      }
-      pw.println("  ]");
+      return 16;
    }
 }

@@ -109,6 +109,7 @@ class FastTrackData
          {
             m_supported = true;
             m_charset = CharsetHelper.UTF16LE;
+            m_columnMap = COLUMN_MAP1;
             break;
          }
 
@@ -117,6 +118,15 @@ class FastTrackData
          {
             m_supported = true;
             m_charset = CharsetHelper.UTF8;
+            m_columnMap = COLUMN_MAP1;
+            break;
+         }
+
+         case 146: // 12.0 / 2022?
+         {
+            m_supported = true;
+            m_charset = CharsetHelper.UTF8;
+            m_columnMap = COLUMN_MAP2;
             break;
          }
 
@@ -283,7 +293,7 @@ class FastTrackData
       if (m_currentTable != null)
       {
          int value = FastTrackUtility.getByte(m_buffer, startIndex);
-         Class<?> klass = COLUMN_MAP[value];
+         Class<?> klass = m_columnMap[value];
          if (klass == null)
          {
             klass = UnknownColumn.class;
@@ -546,6 +556,7 @@ class FastTrackData
    private TimeUnit m_workTimeUnit;
    private boolean m_supported;
    private Charset m_charset;
+   private Class<?>[] m_columnMap;
 
    private static final ThreadLocal<FastTrackData> INSTANCE = ThreadLocal.withInitial(FastTrackData::new);
 
@@ -655,29 +666,54 @@ class FastTrackData
       }
    };
 
-   private static final Class<?>[] COLUMN_MAP = new Class<?>[256];
+   private static final Class<?>[] COLUMN_MAP1 = new Class<?>[256];
    static
    {
-      COLUMN_MAP[0x6E] = DateColumn.class;
-      COLUMN_MAP[0x6F] = TimeColumn.class;
-      COLUMN_MAP[0x71] = DurationColumn.class;
-      COLUMN_MAP[0x46] = PercentColumn.class;
-      COLUMN_MAP[0x6C] = ShortColumn.class;
-      COLUMN_MAP[0x73] = ShortColumn.class;
-      COLUMN_MAP[0x6D] = IdentifierColumn.class;
-      COLUMN_MAP[0x70] = NumberColumn.class;
-      COLUMN_MAP[0x5C] = CalendarColumn.class;
-      COLUMN_MAP[0x4B] = IntegerColumn.class;
-      COLUMN_MAP[0x49] = AssignmentColumn.class;
-      COLUMN_MAP[0x59] = EnumColumn.class;
-      COLUMN_MAP[0x53] = BooleanColumn.class;
-      COLUMN_MAP[0x5b] = DoubleColumn.class;
-      COLUMN_MAP[0x4A] = DoubleColumn.class;
-      COLUMN_MAP[0x54] = DoubleColumn.class;
-      COLUMN_MAP[0x57] = RelationColumn.class;
-      COLUMN_MAP[0x58] = RelationColumn.class;
-      COLUMN_MAP[0x68] = StringColumn.class;
-      COLUMN_MAP[0x69] = StringColumn.class;
+      COLUMN_MAP1[0x6E] = DateColumn.class;
+      COLUMN_MAP1[0x6F] = TimeColumn.class;
+      COLUMN_MAP1[0x71] = DurationColumn1.class;
+      COLUMN_MAP1[0x46] = PercentColumn.class;
+      COLUMN_MAP1[0x6C] = ShortColumn1.class;
+      COLUMN_MAP1[0x73] = ShortColumn1.class;
+      COLUMN_MAP1[0x6D] = IdentifierColumn1.class;
+      COLUMN_MAP1[0x70] = NumberColumn1.class;
+      COLUMN_MAP1[0x5C] = CalendarColumn1.class;
+      COLUMN_MAP1[0x4B] = IntegerColumn.class;
+      COLUMN_MAP1[0x49] = AssignmentColumn1.class;
+      COLUMN_MAP1[0x59] = EnumColumn.class;
+      COLUMN_MAP1[0x53] = BooleanColumn.class;
+      COLUMN_MAP1[0x5b] = DoubleColumn1.class;
+      COLUMN_MAP1[0x4A] = DoubleColumn1.class;
+      COLUMN_MAP1[0x54] = DoubleColumn1.class;
+      COLUMN_MAP1[0x57] = RelationColumn1.class;
+      COLUMN_MAP1[0x58] = RelationColumn1.class;
+      COLUMN_MAP1[0x68] = StringColumn1.class;
+      COLUMN_MAP1[0x69] = StringColumn1.class;
+   }
+
+   private static final Class<?>[] COLUMN_MAP2 = new Class<?>[256];
+   static
+   {
+      COLUMN_MAP2[0x6E] = DateColumn.class;
+      COLUMN_MAP2[0x6F] = TimeColumn.class;
+      COLUMN_MAP2[0x71] = DurationColumn2.class;
+      COLUMN_MAP2[0x46] = PercentColumn.class;
+      COLUMN_MAP2[0x6C] = ShortColumn2.class;
+      COLUMN_MAP2[0x73] = ShortColumn2.class;
+      COLUMN_MAP2[0x6D] = IdentifierColumn2.class;
+      COLUMN_MAP2[0x70] = NumberColumn2.class;
+      COLUMN_MAP2[0x5C] = CalendarColumn2.class;
+      COLUMN_MAP2[0x4B] = IntegerColumn.class;
+      COLUMN_MAP2[0x49] = AssignmentColumn2.class;
+      COLUMN_MAP2[0x59] = EnumColumn.class;
+      COLUMN_MAP2[0x53] = BooleanColumn.class;
+      COLUMN_MAP2[0x5b] = DoubleColumn2.class;
+      COLUMN_MAP2[0x4A] = DoubleColumn2.class;
+      COLUMN_MAP2[0x54] = DoubleColumn2.class;
+      COLUMN_MAP2[0x57] = RelationColumn2.class;
+      COLUMN_MAP2[0x58] = RelationColumn2.class;
+      COLUMN_MAP2[0x68] = StringColumn2.class;
+      COLUMN_MAP2[0x69] = StringColumn2.class;
    }
 
    private static final Map<String, FastTrackTableType> REQUIRED_TABLES = new HashMap<>();

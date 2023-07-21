@@ -12,6 +12,7 @@
 			<action dev="joniles" type="update">Improve filtering to ignore hammock tasks in Asta PP files and ensure that non-hammock items are not incorrectly ignored.</action>
 			<action dev="joniles" type="update">Improve handling of bars without additional linked data read from Asta PP files.</action>
 			<action dev="joniles" type="update">Ensure that invalid duplicate Unique ID values encountered when reading schedule data are renumbered to maintain uniqueness.</action>
+			<action dev="joniles" type="update">Improve reading certain FastTrack FTS files.</action>
 		</release>
 		<release date="2023-06-29" version="12.0.0">
 			<action dev="joniles" type="update">NOTE: this is a major version release, breaking changes have been made to the MPXJ API as documented below.</action>

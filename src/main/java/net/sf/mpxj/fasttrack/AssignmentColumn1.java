@@ -1,5 +1,5 @@
 /*
- * file:       RelationColumn.java
+ * file:       AssignmentColumn1.java
  * author:     Jon Iles
  * copyright:  (c) Packwood Software 2017
  * date:       14/03/2017
@@ -26,12 +26,41 @@ package net.sf.mpxj.fasttrack;
 import java.io.PrintWriter;
 
 /**
- * Column containing task relationships.
+ * Represents resource assignments.
  */
-abstract class RelationColumn extends AbstractColumn
+class AssignmentColumn1 extends AbstractColumn
 {
+   @Override protected int postHeaderSkipBytes()
+   {
+      return 14;
+   }
+
    @Override protected int readData(byte[] buffer, int offset)
    {
+      if (FastTrackUtility.getByte(buffer, offset) == 0x01)
+      {
+         offset += 2;
+      }
+      else
+      {
+         offset += 20;
+         StringsWithLengthBlock options = new StringsWithLengthBlock().read(buffer, offset, false);
+         m_options = options.getData();
+         offset = options.getOffset();
+
+         // Handle unknown string structure seen in a couple of examples from v11/2020
+         if (FastTrackUtility.getByte(buffer, offset + 1) == 0x01)
+         {
+            offset += 4;
+            int stringLength = FastTrackUtility.getInt(buffer, offset);
+            offset += 4;
+            // FastTrackUtility.getString(buffer, offset, stringLength);
+            offset += stringLength;
+         }
+
+         offset += 8;
+      }
+
       StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, offset, true);
       m_data = data.getData();
       offset = data.getOffset();
@@ -41,6 +70,15 @@ abstract class RelationColumn extends AbstractColumn
 
    @Override protected void dumpData(PrintWriter pw)
    {
+      if (m_options != null)
+      {
+         pw.println("  [Options");
+         for (String item : m_options)
+         {
+            pw.println("    " + item);
+         }
+         pw.println("  ]");
+      }
       pw.println("  [Data");
       for (Object item : m_data)
       {
@@ -48,4 +86,6 @@ abstract class RelationColumn extends AbstractColumn
       }
       pw.println("  ]");
    }
+
+   private String[] m_options;
 }
