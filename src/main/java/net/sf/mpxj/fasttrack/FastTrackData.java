@@ -114,6 +114,7 @@ class FastTrackData
 
          case 144: // 10.2
          case 145: // 11.0 / 2020?
+         case 146:
          {
             m_supported = true;
             m_charset = CharsetHelper.UTF8;
@@ -470,7 +471,7 @@ class FastTrackData
          m_log.println("Block Index: " + blockIndex);
          m_log.println("Length: " + blockLength + " (" + Integer.toHexString(blockLength) + ")");
          m_log.println();
-         m_log.println(FastTrackUtility.hexdump(m_buffer, startIndex, blockLength, true, 16, ""));
+         m_log.println(FastTrackUtility.hexdump(m_buffer, startIndex, true, blockLength, true, 16, ""));
          m_log.flush();
       }
    }
@@ -486,7 +487,7 @@ class FastTrackData
       if (m_log != null)
       {
          m_log.println();
-         m_log.println(FastTrackUtility.hexdump(m_buffer, startIndex, length, true, 16, ""));
+         m_log.println(FastTrackUtility.hexdump(m_buffer, startIndex, true, length, true, 16, ""));
          m_log.println();
          m_log.flush();
       }
@@ -617,6 +618,14 @@ class FastTrackData
       },
       {
          0x05,
+         0x00,
+         0x00,
+         0x00,
+         0x02,
+         0x00
+      },
+      {
+         0x06,
          0x00,
          0x00,
          0x00,

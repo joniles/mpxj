@@ -32,7 +32,7 @@ class RelationColumn extends AbstractColumn
 {
    @Override protected int postHeaderSkipBytes()
    {
-      return 16;
+      return 16 + 14;
    }
 
    @Override protected int readData(byte[] buffer, int offset)

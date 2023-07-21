@@ -32,7 +32,7 @@ class CalendarColumn extends AbstractColumn
 {
    @Override protected int postHeaderSkipBytes()
    {
-      return 18;
+      return 18 + 14;
    }
 
    @Override protected int readData(byte[] buffer, int offset)

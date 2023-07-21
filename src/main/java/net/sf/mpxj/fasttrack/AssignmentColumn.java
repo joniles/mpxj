@@ -37,6 +37,7 @@ class AssignmentColumn extends AbstractColumn
 
    @Override protected int readData(byte[] buffer, int offset)
    {
+      /*
       if (FastTrackUtility.getByte(buffer, offset) == 0x01)
       {
          offset += 2;
@@ -60,8 +61,10 @@ class AssignmentColumn extends AbstractColumn
 
          offset += 8;
       }
+*/
 
-      StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, offset, true);
+      offset += 20;
+      StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, offset, false);
       m_data = data.getData();
       offset = data.getOffset();
 

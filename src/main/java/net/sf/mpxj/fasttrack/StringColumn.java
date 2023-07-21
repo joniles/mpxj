@@ -38,15 +38,15 @@ class StringColumn extends AbstractColumn
    @Override protected int readData(byte[] buffer, int offset)
    {
       // Unknown
-      offset += 6;
+      offset += 2;
 
       // The presence of a non-zero value here determines what structure we expect next
-      int structureFlags = FastTrackUtility.getInt(buffer, offset);
-      offset += 4;
+      int structureFlags = FastTrackUtility.getByte(buffer, offset);
+      offset += 1;
 
-      if (structureFlags == 0)
+      if (structureFlags == 0x00)
       {
-         offset += 10;
+         offset += 33;
       }
       else
       {
@@ -85,9 +85,12 @@ class StringColumn extends AbstractColumn
    @Override protected void dumpData(PrintWriter pw)
    {
       pw.println("  [Data");
-      for (Object item : m_data)
+      if (m_data != null)
       {
-         pw.println("    " + item);
+         for (Object item : m_data)
+         {
+            pw.println("    " + item);
+         }
       }
       pw.println("  ]");
    }

@@ -93,7 +93,7 @@ abstract class AbstractColumn implements FastTrackColumn
       pw.println("[" + getClass().getSimpleName());
       pw.println(m_header.toString());
       dumpData(pw);
-      pw.print("  Trailer: " + FastTrackUtility.hexdump(m_trailer, 0, m_trailer.length, false, 16, ""));
+      pw.print("  Trailer: " + FastTrackUtility.hexdump(m_trailer, 0, true, m_trailer.length, false, 16, ""));
       pw.println("]");
       pw.flush();
       return (os.toString());
