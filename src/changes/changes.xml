@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="12.0.1">
+		<release date="unreleased" version="12.0.2">
+		</release>
+		<release date="2023-07-21" version="12.0.1">
 			<action dev="joniles" type="update">Improve resource hierarchy handling.</action>
 			<action dev="joniles" type="update">Improve handling of external tasks read from MSPDI files.</action>
 			<action dev="joniles" type="update">Improve handling of resource assignments read from Asta PP files containing multiple baselines.</action>

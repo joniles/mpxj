@@ -1,7 +1,16 @@
 # Changelog
 
-## 12.0.1 (unreleased)
+## 12.0.2 (unreleased)
+
+## 12.0.1 (2023-07-21)
 * Improve resource hierarchy handling.
+* Improve handling of external tasks read from MSPDI files.
+* Improve handling of resource assignments read from Asta PP files containing multiple baselines.
+* Improve filtering to ignore hammock tasks in Asta PP files and ensure that non-hammock items are not incorrectly ignored.
+* Improve handling of bars without additional linked data read from Asta PP files.
+* Ensure that invalid duplicate Unique ID values encountered when reading schedule data are renumbered to maintain uniqueness.
+* Improve reading certain FastTrack FTS files.
+* Roll up the expense item at completion values read from P6 schedules to the task Fixed Cost attribute.
 
 ## 12.0.0 (2023-06-29)
 * NOTE: this is a major version release, breaking changes have been made to the MPXJ API as documented below.
