@@ -13,6 +13,7 @@
 			<action dev="joniles" type="update">Improve handling of bars without additional linked data read from Asta PP files.</action>
 			<action dev="joniles" type="update">Ensure that invalid duplicate Unique ID values encountered when reading schedule data are renumbered to maintain uniqueness.</action>
 			<action dev="joniles" type="update">Improve reading certain FastTrack FTS files.</action>
+			<action dev="joniles" type="update">Roll up the expense item at completion values read from P6 schedules to the task Fixed Cost attribute.</action>
 		</release>
 		<release date="2023-06-29" version="12.0.0">
 			<action dev="joniles" type="update">NOTE: this is a major version release, breaking changes have been made to the MPXJ API as documented below.</action>
