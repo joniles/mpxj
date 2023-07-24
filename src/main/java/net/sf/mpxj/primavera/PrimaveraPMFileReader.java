@@ -2286,6 +2286,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          double actualCost = 0;
          double remainingCost = 0;
          double cost = 0;
+         double fixedCost = 0;
 
          //process children first before adding their costs
          for (Task child : parentTask.getChildTasks())
@@ -2295,12 +2296,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             actualCost += NumberHelper.getDouble(child.getActualCost());
             remainingCost += NumberHelper.getDouble(child.getRemainingCost());
             cost += NumberHelper.getDouble(child.getCost());
+            fixedCost += NumberHelper.getDouble(child.getFixedCost());
          }
 
          parentTask.setPlannedCost(NumberHelper.getDouble(plannedCost));
          parentTask.setActualCost(NumberHelper.getDouble(actualCost));
          parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
          parentTask.setCost(NumberHelper.getDouble(cost));
+         parentTask.setFixedCost(NumberHelper.getDouble(fixedCost));
       }
    }
 
