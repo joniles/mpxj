@@ -1,6 +1,9 @@
 # Changelog
 
-## 12.0.2 (unreleased)
+## 12.0.3 (unreleased)
+
+## 12.0.2 (2023-07-25)
+* Ensure that the Fixed Cost attribute is rolled up from activities to WBS entries when reading P6 schedules.
 
 ## 12.0.1 (2023-07-21)
 * Improve resource hierarchy handling.
