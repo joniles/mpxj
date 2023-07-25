@@ -134,10 +134,7 @@
 	</target>
 
 	<target name="releasenotes" depends="init" description="Create release notes">
-		<xslt in="${basedir}/src/changes/changes.xml" out="${dist.dir}/github-release.md" style="${basedir}/doc/github-releasenote.xsl">
-			<param name="version" expression="${current.version}"/>
-		</xslt>
-		<xslt in="${basedir}/src/changes/changes.xml" out="${dist.dir}/readme.md" style="${basedir}/doc/sourceforge-releasenote.xsl">
+		<xslt in="${basedir}/src/changes/changes.xml" out="${dist.dir}/readme.md" style="${basedir}/doc/releasenote.xsl">
 			<param name="version" expression="${current.version}"/>
 		</xslt>
 	</target>
@@ -922,14 +919,8 @@
 	</target>
 
 	<target name="github-deploy" depends="init" description="Deploy to GitHub">
-		<echo message="Tagging"/>
-		<exec executable="hub" failonerror="true">
-			<arg line="tag v${current.version}" />
-		</exec>
-
-		<echo message="Releasing"/>
-		<exec executable="hub" failonerror="true">
-			<arg line='release create v${current.version} -a ${distribution} -f ${dist.dir}/github-release.md'/>
+		<exec executable="gh" failonerror="true">
+			<arg line='release create -F ${dist.dir}/readme.md -t "Version ${current.version}" v${current.version} ${distribution}'/>
 		</exec>
 	</target>
 
