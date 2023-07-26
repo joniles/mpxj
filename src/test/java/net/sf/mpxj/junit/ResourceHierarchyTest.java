@@ -1,5 +1,5 @@
 /*
- * file:       Resource HierarchyTest.java
+ * file:       ResourceHierarchyTest.java
  * author:     Jon Iles
  * date:       2023-07-03
  */
