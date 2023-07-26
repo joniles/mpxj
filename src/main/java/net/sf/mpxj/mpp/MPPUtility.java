@@ -971,7 +971,7 @@ public final class MPPUtility
          targetUnits = TimeUnit.HOURS;
       }
 
-      resource.set(rateField, RateHelper.convertFromHours(file, rate, targetUnits));
+      resource.set(rateField, RateHelper.convertFromHours(file.getProjectProperties(), rate, targetUnits));
    }
 
    /**

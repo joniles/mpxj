@@ -969,8 +969,8 @@ abstract class MPD9AbstractReader
          resource.setOverAllocated(NumberHelper.getDouble(resource.getPeakUnits()) > NumberHelper.getDouble(resource.getMaxUnits()));
 
          Number costPerUse = row.getCurrency("RES_COST_PER_USE");
-         Rate standardRate = RateHelper.convertFromHours(m_project, NumberHelper.getDouble(row.getDouble("RES_STD_RATE")), TimeUnit.getInstance(row.getInt("RES_STD_RATE_FMT") - 1));
-         Rate overtimeRate = RateHelper.convertFromHours(m_project, NumberHelper.getDouble(row.getDouble("RES_OVT_RATE")), TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1));
+         Rate standardRate = RateHelper.convertFromHours(m_project.getProjectProperties(), NumberHelper.getDouble(row.getDouble("RES_STD_RATE")), TimeUnit.getInstance(row.getInt("RES_STD_RATE_FMT") - 1));
+         Rate overtimeRate = RateHelper.convertFromHours(m_project.getProjectProperties(), NumberHelper.getDouble(row.getDouble("RES_OVT_RATE")), TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1));
 
          CostRateTable costRateTable = new CostRateTable();
          costRateTable.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));

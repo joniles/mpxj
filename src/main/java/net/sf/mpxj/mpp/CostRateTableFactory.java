@@ -90,10 +90,10 @@ final class CostRateTableFactory
          for (int i = 16; i + 44 <= data.length; i += 44)
          {
             TimeUnit standardRateFormat = getFormat(MPPUtility.getShort(data, i + 8));
-            Rate standardRate = RateHelper.convertFromHours(m_file, MPPUtility.getDouble(data, i), standardRateFormat);
+            Rate standardRate = RateHelper.convertFromHours(m_file.getProjectProperties(), MPPUtility.getDouble(data, i), standardRateFormat);
 
             TimeUnit overtimeRateFormat = getFormat(MPPUtility.getShort(data, i + 24));
-            Rate overtimeRate = RateHelper.convertFromHours(m_file, MPPUtility.getDouble(data, i + 16), overtimeRateFormat);
+            Rate overtimeRate = RateHelper.convertFromHours(m_file.getProjectProperties(), MPPUtility.getDouble(data, i + 16), overtimeRateFormat);
 
             Double costPerUse = NumberHelper.getDouble(MPPUtility.getDouble(data, i + 32) / 100.0);
             LocalDateTime endDate = MPPUtility.getTimestampFromTenths(data, i + 40);

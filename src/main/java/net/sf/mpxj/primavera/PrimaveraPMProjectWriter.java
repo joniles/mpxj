@@ -1261,7 +1261,7 @@ final class PrimaveraPMProjectWriter
          return null;
       }
 
-      return Double.valueOf(RateHelper.convertToHours(m_projectFile, rate));
+      return Double.valueOf(RateHelper.convertToHours(m_projectFile.getProjectProperties(), rate));
    }
 
    /**

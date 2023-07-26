@@ -1690,7 +1690,7 @@ public final class DatatypeConverter
          return BIGDECIMAL_ZERO;
       }
 
-      return new BigDecimal(RATE_NUMBER_FORMAT.get().format(RateHelper.convertToHours(PARENT_FILE.get(), rate)));
+      return new BigDecimal(RATE_NUMBER_FORMAT.get().format(RateHelper.convertToHours(PARENT_FILE.get().getProjectProperties(), rate)));
    }
 
    /**
@@ -1716,7 +1716,7 @@ public final class DatatypeConverter
             targetUnits = TimeUnit.HOURS;
          }
 
-         result = RateHelper.convertFromHours(PARENT_FILE.get(), originalValue, targetUnits);
+         result = RateHelper.convertFromHours(PARENT_FILE.get().getProjectProperties(), originalValue, targetUnits);
       }
 
       return result;
