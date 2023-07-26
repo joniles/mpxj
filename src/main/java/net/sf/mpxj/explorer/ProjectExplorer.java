@@ -28,6 +28,7 @@ import java.awt.GridLayout;
 import java.io.File;
 import java.util.List;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -49,6 +50,8 @@ import net.sf.mpxj.reader.UniversalProjectReader;
 public class ProjectExplorer
 {
    protected JFrame m_frame;
+   private boolean m_openAll;
+   private boolean m_expandSubprojects;
 
    /**
     * Launch the application.
@@ -132,9 +135,6 @@ public class ProjectExplorer
       JMenuItem mntmOpen = new JMenuItem("Open...");
       mnFile.add(mntmOpen);
 
-      JMenuItem mntmOpenAll = new JMenuItem("Open All...");
-      mnFile.add(mntmOpenAll);
-
       final JMenuItem mntmSave = new JMenuItem("Save As...");
       mntmSave.setEnabled(false);
       mnFile.add(mntmSave);
@@ -143,15 +143,25 @@ public class ProjectExplorer
       mntmClean.setEnabled(false);
       mnFile.add(mntmClean);
 
+      final JMenuItem mntmOpenAll = new JCheckBoxMenuItem("Open All");
+      mnFile.add(mntmOpenAll);
+
+      final JMenuItem mntmExpandSubprojects = new JCheckBoxMenuItem("Expand Subprojects");
+      mnFile.add(mntmExpandSubprojects);
+
       //
       // Open
       //
-      mntmOpen.addActionListener(e -> fileChooserController.openFileChooser());
-
-      //
-      // Open All
-      //
-      mntmOpenAll.addActionListener(e -> openAllFileChooserController.openFileChooser());
+      mntmOpen.addActionListener(e -> {
+         if (m_openAll)
+         {
+            openAllFileChooserController.openFileChooser();
+         }
+         else
+         {
+            fileChooserController.openFileChooser();
+         }
+      });
 
       //
       // Save
@@ -162,6 +172,16 @@ public class ProjectExplorer
       // Clean
       //
       mntmClean.addActionListener(e -> fileCleanerController.openFileCleaner());
+
+      //
+      // Open All
+      //
+      mntmOpenAll.addActionListener(e -> m_openAll = !m_openAll);
+
+      //
+      // Expand Subprojects
+      //
+      mntmExpandSubprojects.addActionListener(e -> m_expandSubprojects = !m_expandSubprojects);
 
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       m_frame.getContentPane().add(tabbedPane);
@@ -178,9 +198,11 @@ public class ProjectExplorer
                return;
             }
 
-            // If we want to automatically expand subprojects...
-            //projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
-            //projectFile.expandSubprojects();
+            if (m_expandSubprojects)
+            {
+               projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
+               projectFile.expandSubprojects();
+            }
 
             tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile));
             mntmSave.setEnabled(true);
@@ -209,6 +231,11 @@ public class ProjectExplorer
             for (ProjectFile projectFile : projectFiles)
             {
                String name = projectFiles.size() == 1 ? file.getName() : file.getName() + " (" + (index++) + ")";
+               if (m_expandSubprojects)
+               {
+                  projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
+                  projectFile.expandSubprojects();
+               }
                tabbedPane.add(name, new ProjectFilePanel(file, projectFile));
             }
             mntmSave.setEnabled(true);
