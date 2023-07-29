@@ -1231,7 +1231,7 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.LEVELING_DELAY.getValue()] = "Leveling Delay";
       RESOURCE_COLUMNS_ARRAY[ResourceField.RESPONSE_PENDING.getValue()] = "Response Pending";
       RESOURCE_COLUMNS_ARRAY[ResourceField.START.getValue()] = "Start";
-      RESOURCE_COLUMNS_ARRAY[ResourceField.TEAMSTATUS_PENDING.getValue()] = "TeamStatus Pending";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.TEAM_STATUS_PENDING.getValue()] = "TeamStatus Pending";
       RESOURCE_COLUMNS_ARRAY[ResourceField.CV.getValue()] = "CV";
       RESOURCE_COLUMNS_ARRAY[ResourceField.UPDATE_NEEDED.getValue()] = "Update Needed";
       RESOURCE_COLUMNS_ARRAY[ResourceField.COST_RATE_TABLE.getValue()] = "Cost Rate Table";
