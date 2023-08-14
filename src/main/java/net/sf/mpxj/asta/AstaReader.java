@@ -772,7 +772,7 @@ final class AstaReader
          task.setPercentageComplete(INCOMPLETE);
       }
 
-      // Asta files may not have explicit values for early finish and lat finish.
+      // Asta files may not have explicit values for early finish and late finish.
       // If not present, use the values from  early start and late start respectively.
       if (task.getEarlyFinish() == null)
       {
