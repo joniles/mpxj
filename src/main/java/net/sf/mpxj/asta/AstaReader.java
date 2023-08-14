@@ -718,6 +718,8 @@ final class AstaReader
       //ACTUAL_DURATIONHOURS
       task.setEarlyStart(row.getDate("EARLY_START_DATE"));
       task.setLateStart(row.getDate("LATE_START_DATE"));
+      task.setEarlyFinish(row.getDate("EARLY_END_DATE_RS"));
+      task.setLateFinish(row.getDate("LATE_END_DATE_RS"));
       //FREE_START_DATE
       //START_CONSTRAINT_DATE
       //END_CONSTRAINT_DATE
@@ -768,6 +770,18 @@ final class AstaReader
       else
       {
          task.setPercentageComplete(INCOMPLETE);
+      }
+
+      // Asta files may not have explicit values for early finish and late finish.
+      // If not present, use the values from  early start and late start respectively.
+      if (task.getEarlyFinish() == null)
+      {
+         task.setEarlyFinish(task.getEarlyStart());
+      }
+
+      if (task.getLateFinish() == null)
+      {
+         task.setLateFinish(task.getLateStart());
       }
 
       processConstraints(row, task);
