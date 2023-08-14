@@ -5734,38 +5734,28 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       }
 
       Duration startSlack = getStartSlack();
-      Duration finishSlack = getFinishSlack();
+      if (startSlack == null)
+      {
+         return null;
+      }
 
-      if (startSlack == null && finishSlack == null)
+      Duration finishSlack = getFinishSlack();
+      if (finishSlack == null)
       {
          return null;
       }
 
       TimeUnit units = duration.getUnits();
-
-      if (startSlack == null)
+      if (startSlack.getUnits() != units)
       {
-         startSlack = Duration.getInstance(0, units);
-      }
-      else
-      {
-         if (startSlack.getUnits() != units)
-         {
-            startSlack = startSlack.convertUnits(units, getParentFile().getProjectProperties());
-         }
+         startSlack = startSlack.convertUnits(units, getParentFile().getProjectProperties());
       }
 
-      if (finishSlack == null)
+      if (finishSlack.getUnits() != units)
       {
-         finishSlack = Duration.getInstance(0, units);
+         finishSlack = finishSlack.convertUnits(units, getParentFile().getProjectProperties());
       }
-      else
-      {
-         if (finishSlack.getUnits() != units)
-         {
-            finishSlack = finishSlack.convertUnits(units, getParentFile().getProjectProperties());
-         }
-      }
+
 
       Duration totalSlack;
       double startSlackDuration = startSlack.getDuration();

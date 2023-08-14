@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">Fix an arithmetic error in RateHelper when converting a rate from minutes to hours.</action>
 			<action dev="joniles" type="update">Introduced new methods to RateHelper accepting a `TimeUnitDefaultsContainer` argument rather than a `ProjectFile` for greater flexibility. Marked methods taking a `ProjectFile` argument as deprecated.</action>
 			<action dev="joniles" type="update">Ensure Early Finish and Late Finish are populated for Asta milestones and tasks.</action>
+			<action dev="joniles" type="update">Don't attempt to calculate total slack if start slack or finish slack are missing.</action>
 		</release>
 		<release date="2023-07-25" version="12.0.2">
 			<action dev="joniles" type="update">Ensure that the Fixed Cost attribute is rolled up from activities to WBS entries when reading P6 schedules.</action>
