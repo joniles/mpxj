@@ -611,6 +611,16 @@ final class AstaReader
          }
       }
 
+      if (task.getEarlyStart() != null && task.getEarlyFinish() == null)
+      {
+         task.setEarlyFinish(task.getEffectiveCalendar().getDate(task.getEarlyStart(), task.getDuration(), false));
+      }
+
+      if (task.getLateStart() != null && task.getLateFinish() == null)
+      {
+         task.setLateFinish(task.getEffectiveCalendar().getDate(task.getLateStart(), task.getDuration(), false));
+      }
+
       processConstraints(row, task);
    }
 
