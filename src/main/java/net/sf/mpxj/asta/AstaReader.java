@@ -718,6 +718,8 @@ final class AstaReader
       //ACTUAL_DURATIONHOURS
       task.setEarlyStart(row.getDate("EARLY_START_DATE"));
       task.setLateStart(row.getDate("LATE_START_DATE"));
+      task.setEarlyFinish(row.getDate("EARLY_END_DATE_RS"));
+      task.setLateFinish(row.getDate("LATE_END_DATE_RS"));
       //FREE_START_DATE
       //START_CONSTRAINT_DATE
       //END_CONSTRAINT_DATE
