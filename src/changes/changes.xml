@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Ensure Early Finish and Late Finish are populated for Asta milestones and tasks.</action>
 			<action dev="joniles" type="update">Don't attempt to calculate total slack if start slack or finish slack are missing.</action>
 			<action dev="joniles" type="update">Ensure completed tasks are not marked as critical.</action>
+			<action dev="joniles" type="update">Improve handling of non-standard Boolean values in MPX files.</action>
 		</release>
 		<release date="2023-07-25" version="12.0.2">
 			<action dev="joniles" type="update">Ensure that the Fixed Cost attribute is rolled up from activities to WBS entries when reading P6 schedules.</action>

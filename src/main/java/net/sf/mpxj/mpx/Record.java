@@ -698,7 +698,21 @@ final class Record
 
       if ((field < m_fields.length) && (m_fields[field].length() != 0))
       {
-         result = (m_fields[field].equalsIgnoreCase(falseText) ? Boolean.FALSE : Boolean.TRUE);
+         String value = m_fields[field];
+
+         // Handle common non-standard true/false values
+         if (value.equals("0"))
+         {
+            return false;
+         }
+
+         if (value.equals("1"))
+         {
+            return true;
+         }
+
+         // Handle standard true/false value
+         result = Boolean.valueOf(!value.equalsIgnoreCase(falseText));
       }
       else
       {
