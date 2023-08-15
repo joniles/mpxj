@@ -321,7 +321,9 @@ public final class MPXReader extends AbstractProjectStreamReader
          case MPXConstants.RESOURCE_RECORD_NUMBER:
          {
             m_lastResource = m_projectFile.addResource();
+            m_lastResource.disableEvents();
             populateResource(m_lastResource, record);
+            m_lastResource.enableEvents();
             m_eventManager.fireResourceReadEvent(m_lastResource);
             break;
          }
@@ -392,7 +394,9 @@ public final class MPXReader extends AbstractProjectStreamReader
          case MPXConstants.TASK_RECORD_NUMBER:
          {
             m_lastTask = m_projectFile.addTask();
+            m_lastTask.disableEvents();
             populateTask(record, m_lastTask);
+            m_lastTask.enableEvents();
 
             int outlineLevel = NumberHelper.getInt(m_lastTask.getOutlineLevel());
 
@@ -442,7 +446,9 @@ public final class MPXReader extends AbstractProjectStreamReader
             if (m_lastTask != null)
             {
                m_lastResourceAssignment = m_lastTask.addResourceAssignment((Resource) null);
+               m_lastResourceAssignment.disableEvents();
                populateResourceAssignment(record, m_lastResourceAssignment);
+               m_lastResourceAssignment.enableEvents();
             }
 
             break;
