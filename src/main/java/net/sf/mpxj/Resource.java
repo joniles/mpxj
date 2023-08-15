@@ -2585,7 +2585,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * @param field modified field
     * @param newValue new value
     */
-   @Override protected void invalidateCache(FieldType field, Object oldValue, Object newValue)
+   @Override protected void handleFieldChange(FieldType field, Object oldValue, Object newValue)
    {
       if (field == ResourceField.UNIQUE_ID)
       {
@@ -2602,13 +2602,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
          return;
       }
 
-      List<FieldType> dependencies = DEPENDENCY_MAP.get(field);
-      if (dependencies == null)
-      {
-         return;
-      }
-
-      dependencies.forEach(f -> set(f, null));
+      clearDependentFields(DEPENDENCY_MAP, field);
    }
 
    @Override protected boolean getAlwaysCalculatedField(FieldType field)

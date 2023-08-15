@@ -5528,7 +5528,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     *
     * @param field modified field
     */
-   @Override void invalidateCache(FieldType field, Object oldValue, Object newValue)
+   @Override void handleFieldChange(FieldType field, Object oldValue, Object newValue)
    {
       if (field == TaskField.UNIQUE_ID)
       {
@@ -5536,13 +5536,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return;
       }
 
-      List<FieldType> dependencies = DEPENDENCY_MAP.get(field);
-      if (dependencies == null)
-      {
-         return;
-      }
-
-      dependencies.forEach(f -> set(f, null));
+      clearDependentFields(DEPENDENCY_MAP, field);
    }
 
    @Override boolean getAlwaysCalculatedField(FieldType field)

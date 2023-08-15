@@ -2928,7 +2928,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param field modified field
     */
-   @Override protected void invalidateCache(FieldType field, Object oldValue, Object newValue)
+   @Override protected void handleFieldChange(FieldType field, Object oldValue, Object newValue)
    {
       if (field == AssignmentField.UNIQUE_ID)
       {
@@ -2936,13 +2936,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
          return;
       }
 
-      List<FieldType> dependencies = DEPENDENCY_MAP.get(field);
-      if (dependencies == null)
-      {
-         return;
-      }
-
-      dependencies.forEach(f -> set(f, null));
+      clearDependentFields(DEPENDENCY_MAP, field);
    }
 
    @Override boolean getAlwaysCalculatedField(FieldType field)
