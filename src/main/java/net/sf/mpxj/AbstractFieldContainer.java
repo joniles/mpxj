@@ -114,9 +114,19 @@ public abstract class AbstractFieldContainer<T> extends ProjectEntity implements
 
    @Override public void set(FieldType field, Object value)
    {
-      if (field != null)
+      if (field == null)
       {
-         Object oldValue = value == null ? m_fields.remove(field) : m_fields.put(field, value);
+         return;
+      }
+
+      Object oldValue = value == null ? m_fields.remove(field) : m_fields.put(field, value);
+      if (oldValue == value)
+      {
+         return;
+      }
+
+      if ((oldValue == null && value != null) || (oldValue != null && value == null) || (!oldValue.equals(value)))
+      {
          handleFieldChange(field, oldValue, value);
          fireFieldChangeEvent(field, oldValue, value);
       }
