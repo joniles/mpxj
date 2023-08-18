@@ -148,6 +148,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setNewTasksAreManual(true);
       setWeekStartDay(DEFAULT_WEEK_START_DAY);
       setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
+      setTotalSlackCalculationType(TotalSlackCalculationType.SMALLEST_SLACK);
    }
 
    /**
@@ -2872,6 +2873,16 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    public ProjectFile getResourcePoolObject()
    {
       return getParentFile().readExternalProject(getResourcePoolFile());
+   }
+
+   public void setTotalSlackCalculationType(TotalSlackCalculationType type)
+   {
+      set(ProjectField.TOTAL_SLACK_CALCULATION_TYPE, type);
+   }
+
+   public TotalSlackCalculationType getTotalSlackCalculationType()
+   {
+      return (TotalSlackCalculationType) get(ProjectField.TOTAL_SLACK_CALCULATION_TYPE);
    }
 
    /**

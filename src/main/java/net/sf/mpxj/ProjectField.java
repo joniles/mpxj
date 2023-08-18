@@ -170,7 +170,8 @@ public enum ProjectField implements FieldType
    PLANNED_START(DataType.DATE),
    FINISH_DATE(DataType.DATE),
    LOCATION_UNIQUE_ID(DataType.INTEGER),
-   RESOURCE_POOL_FILE(DataType.STRING);
+   RESOURCE_POOL_FILE(DataType.STRING),
+   TOTAL_SLACK_CALCULATION_TYPE(DataType.TOTAL_SLACK_TYPE);
 
    /**
     * Constructor.
