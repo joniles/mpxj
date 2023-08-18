@@ -2213,6 +2213,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ScheduleOptionsType options = list.get(0);
       Map<String, Object> customProperties = new TreeMap<>();
 
+      // TODO: migrate schedule options to project properties and deprecate custom properties
+      ProjectProperties projectProperties = m_projectFile.getProjectProperties();
+
       //
       // Leveling Options
       //
@@ -2247,6 +2250,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", options.isCalculateFloatBasedOnFinishDate());
       customProperties.put("ComputeTotalFloatAs", options.getComputeTotalFloatType());
       customProperties.put("CalendarForSchedulingRelationshipLag", options.getRelationshipLagCalendar());
+      projectProperties.setTotalSlackCalculationType(TotalSlackCalculationTypeHelper.getInstanceFromXml(options.getComputeTotalFloatType()));
 
       //
       // Schedule Options - Advanced
@@ -2257,7 +2261,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       //customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
       customProperties.put("NumberofPathsToCalculate", options.getMaximumMultipleFloatPaths());
 
-      m_projectFile.getProjectProperties().setCustomProperties(customProperties);
+      projectProperties.setCustomProperties(customProperties);
    }
 
    private void rollupValues()
