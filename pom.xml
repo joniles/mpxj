@@ -48,17 +48,17 @@
 			<version>1.16.0</version>
 		</dependency>
 
-		<!-- Make JAXB an explicit dependency to avoid issues across different Java versions -->
 		<dependency>
 		    <groupId>jakarta.xml.bind</groupId>
 		    <artifactId>jakarta.xml.bind-api</artifactId>
-		    <version>2.3.2</version>
+		    <version>4.0.0</version>
 		</dependency>
 
 		<dependency>
-		    <groupId>org.glassfish.jaxb</groupId>
-		    <artifactId>jaxb-runtime</artifactId>
-		    <version>2.3.2</version>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>4.0.2</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.healthmarketscience.jackcess/jackcess -->
