@@ -7,7 +7,7 @@
 
 package net.sf.mpxj.conceptdraw.schema;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter16 extends XmlAdapter<String, Integer>
 {

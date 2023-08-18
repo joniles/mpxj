@@ -7,7 +7,7 @@
 
 package net.sf.mpxj.conceptdraw.schema;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.CurrencySymbolPosition;
 
 public class Adapter15 extends XmlAdapter<String, CurrencySymbolPosition>

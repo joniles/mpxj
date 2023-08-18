@@ -7,7 +7,7 @@
 
 package net.sf.mpxj.conceptdraw.schema;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.RelationType;
 
 public class Adapter9 extends XmlAdapter<String, RelationType>

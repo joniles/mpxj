@@ -8,7 +8,7 @@
 package net.sf.mpxj.conceptdraw.schema;
 
 import java.time.LocalTime;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter3 extends XmlAdapter<String, LocalTime>
 {

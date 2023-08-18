@@ -7,7 +7,7 @@
 
 package net.sf.mpxj.phoenix.schema.phoenix4;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.TimeUnit;
 
 public class Adapter6 extends XmlAdapter<String, TimeUnit>
