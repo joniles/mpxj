@@ -2238,18 +2238,18 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       //
       // Schedule Options - General
       //
-      //customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", row.getString("sched_outer_depend_type"));
+      customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", options.isIgnoreOtherProjectRelationships());
       customProperties.put("MakeOpenEndedActivitiesCritical", options.isMakeOpenEndedActivitiesCritical());
       customProperties.put("UseExpectedFinishDates", options.isUseExpectedFinishDates());
-      // Schedule automatically when a change affects dates
-      // Level resources during scheduling
-      //customProperties.put("WhenSchedulingProgressedActivitiesUseRetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
-      //customProperties.put("WhenSchedulingProgressedActivitiesUseProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
+      // Schedule automatically when a change affects dates - not in PMXML?
+      // Level resources during scheduling - not in PMXML?
       customProperties.put("ComputeStartToStartLagFromEarlyStart", options.isStartToStartLagCalculationType());
+      customProperties.put("WhenSchedulingProgressedActivitiesUse", options.getOutOfSequenceScheduleType());
+
       // Define critical activities as
       customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", options.isCalculateFloatBasedOnFinishDate());
-      customProperties.put("ComputeTotalFloatAs", options.getComputeTotalFloatType());
       customProperties.put("CalendarForSchedulingRelationshipLag", options.getRelationshipLagCalendar());
+      customProperties.put("ComputeTotalFloatAs", options.getComputeTotalFloatType());
       projectProperties.setTotalSlackCalculationType(TotalSlackCalculationTypeHelper.getInstanceFromXml(options.getComputeTotalFloatType()));
 
       //
@@ -2258,7 +2258,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       customProperties.put("CalculateMultipleFloatPaths", options.isMultipleFloatPathsEnabled());
       customProperties.put("CalculateMultiplePathsUsingTotalFloat", options.isMultipleFloatPathsUseTotalFloat());
       customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", options.getMultipleFloatPathsEndingActivityObjectId());
-      //customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
       customProperties.put("NumberofPathsToCalculate", options.getMaximumMultipleFloatPaths());
 
       projectProperties.setCustomProperties(customProperties);
