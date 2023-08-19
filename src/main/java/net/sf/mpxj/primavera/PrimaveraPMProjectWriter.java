@@ -589,7 +589,7 @@ final class PrimaveraPMProjectWriter
       options.setProjectObjectId(m_projectObjectID);
       list.add(options);
       ProjectProperties projectProperties = m_projectFile.getProjectProperties();
-      CustomPropertiesMap customProperties = new CustomPropertiesMap(projectProperties.getCustomProperties());
+      CustomPropertiesMap customProperties = new CustomPropertiesMap(m_projectFile, projectProperties.getCustomProperties());
 
       //
       // Leveling Options

@@ -2,22 +2,30 @@ package net.sf.mpxj.primavera;
 import java.util.Collections;
 import java.util.Map;
 
+import net.sf.mpxj.ProjectFile;
+
 class CustomPropertiesMap
 {
-   public CustomPropertiesMap(Map<String, Object> map)
+   public CustomPropertiesMap(ProjectFile project, Map<String, Object> map)
    {
+      m_project = project;
       m_map = map == null ? Collections.emptyMap() : map;
+   }
+
+   public ProjectFile getProject()
+   {
+      return m_project;
    }
 
    public Boolean getBoolean(String key, Boolean defaultValue)
    {
-      Object result = m_map.get("key");
+      Object result = m_map.get(key);
       return result instanceof Boolean ? (Boolean)result : defaultValue;
    }
 
    public Integer getInteger(String key, Integer defaultValue)
    {
-      Object result = m_map.get("key");
+      Object result = m_map.get(key);
       if (result instanceof Integer)
       {
          return (Integer)result;
@@ -33,7 +41,7 @@ class CustomPropertiesMap
 
    public Double getDouble(String key, Double defaultValue)
    {
-      Object result = m_map.get("key");
+      Object result = m_map.get(key);
       if (result instanceof Double)
       {
          return (Double)result;
@@ -49,7 +57,7 @@ class CustomPropertiesMap
 
    public String getString(String key, String defaultValue)
    {
-      Object result = m_map.get("key");
+      Object result = m_map.get(key);
       if (result instanceof String)
       {
          return (String)result;
@@ -58,5 +66,6 @@ class CustomPropertiesMap
       return defaultValue;
    }
 
+   private final ProjectFile m_project;
    private final Map<String, Object> m_map;
 }

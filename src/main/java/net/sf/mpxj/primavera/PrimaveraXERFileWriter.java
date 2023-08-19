@@ -137,6 +137,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeProject();
          writeRoleRates();
          writeCalendars();
+         writeScheduleOptions();
          writeWBS();
          writeResources();
          writeActivityCodes();
@@ -294,6 +295,15 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       m_writer.writeTable("CALENDAR", CALENDAR_COLUMNS);
       m_file.getCalendars().stream().sorted(Comparator.comparing(ProjectCalendar::getUniqueID)).map(ProjectCalendarHelper::normalizeCalendar).forEach(c -> m_writer.writeRecord(CALENDAR_COLUMNS, c));
+   }
+
+   /**
+    * Write schedule options.
+    */
+   private void writeScheduleOptions()
+   {
+      m_writer.writeTable("SCHEDOPTIONS", SCHEDULE_OPTIONS_COLUMNS);
+      m_writer.writeRecord(SCHEDULE_OPTIONS_COLUMNS, new CustomPropertiesMap(m_file, m_file.getProjectProperties().getCustomProperties()));
    }
 
    /**
@@ -1384,5 +1394,35 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_NOTE_COLUMNS.put("memo_type_id", n -> n.get("memo_type_id"));
       ACTIVITY_NOTE_COLUMNS.put("proj_id", n -> n.get("proj_id"));
       ACTIVITY_NOTE_COLUMNS.put("task_memo", n -> n.get("entity_memo"));
+   }
+
+   private static final Map<String, ExportFunction<CustomPropertiesMap>> SCHEDULE_OPTIONS_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      SCHEDULE_OPTIONS_COLUMNS.put("schedoptions_id", o -> 1);
+      SCHEDULE_OPTIONS_COLUMNS.put("proj_id", o -> getProjectID(o.getProject().getProjectProperties().getUniqueID()));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_outer_depend_type", o -> o.getBoolean("IgnoreRelationshipsToAndFromOtherProjects", false).booleanValue() ? "SD_None" : "SD_Both");
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_open_critical_flag", o -> o.getBoolean("MakeOpenEndedActivitiesCritical", false));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_lag_early_start_flag", o -> o.getBoolean("ComputeStartToStartLagFromEarlyStart", true));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_retained_logic", o -> o.getBoolean("WhenSchedulingProgressedActivitiesUseRetainedLogic", true));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_setplantoforecast", o -> o.getBoolean("SetDataDateAndPlannedStartToProjectForecastStart", false));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_float_type", o -> TotalSlackCalculationTypeHelper.getXerFromInstance(o.getProject().getProjectProperties().getTotalSlackCalculationType()));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_calendar_on_relationship_lag", o -> "rcal_Predecessor"); // TODO: translation required
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_use_expect_end_flag", o -> o.getBoolean("UseExpectedFinishDates", true));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_progress_override", o -> o.getBoolean("WhenSchedulingProgressedActivitiesUseProgressOverride", false));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_float_thrs_cnt", o -> o.getInteger("PreserveMinimumFloatWhenLeveling", 1));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_flag", o -> o.getBoolean("ConsiderAssignmentsInOtherProjects", false));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_priority", o -> o.getInteger("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", 5));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_over_alloc_pct", o -> o.getDouble("MaxPercentToOverallocateResources", 25.0));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_within_float_flag", o -> o.getBoolean("LevelResourcesOnlyWithinActivityTotalFloat", false));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_keep_sched_date_flag", o -> o.getBoolean("PreserveScheduledEarlyAndLateDates", true));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_all_rsrc_flag", o -> o.getBoolean("LevelAllResources", true));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_use_project_end_date_for_float", o -> o.getBoolean("CalculateFloatBasedOnFishDateOfEachProject", true));
+      SCHEDULE_OPTIONS_COLUMNS.put("enable_multiple_longest_path_calc", o -> o.getBoolean("CalculateMultipleFloatPaths", false));
+      SCHEDULE_OPTIONS_COLUMNS.put("limit_multiple_longest_path_calc", o -> Boolean.TRUE);
+      SCHEDULE_OPTIONS_COLUMNS.put("max_multiple_longest_path", o -> o.getInteger("NumberofPathsToCalculate", 10));
+      SCHEDULE_OPTIONS_COLUMNS.put("use_total_float_multiple_longest_paths", o -> o.getBoolean("CalculateMultiplePathsUsingTotalFloat", true));
+      SCHEDULE_OPTIONS_COLUMNS.put("key_activity_for_multiple_longest_paths", o -> o.getInteger("DisplayMultipleFloatPathsEndingWithActivity", null));
+      SCHEDULE_OPTIONS_COLUMNS.put("LevelPriorityList", o -> "priority_type,ASC_BY_FIELD/ASC"); // TODO: translation required
    }
 }

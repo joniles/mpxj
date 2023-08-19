@@ -1871,7 +1871,7 @@ final class PrimaveraReader
       //
       // Schedule Options - General
       //
-      customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", row.getString("sched_outer_depend_type"));
+      customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", "SD_None".equals(row.getString("sched_outer_depend_type")));
       customProperties.put("MakeOpenEndedActivitiesCritical", Boolean.valueOf(row.getBoolean("sched_open_critical_flag")));
       customProperties.put("UseExpectedFinishDates", Boolean.valueOf(row.getBoolean("sched_use_expect_end_flag")));
       // Schedule automatically when a change affects dates
@@ -1882,6 +1882,7 @@ final class PrimaveraReader
       // Define critical activities as
       customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", Boolean.valueOf(row.getBoolean("sched_use_project_end_date_for_float")));
       customProperties.put("ComputeTotalFloatAs", row.getString("sched_float_type"));
+      m_project.getProjectProperties().setTotalSlackCalculationType(TotalSlackCalculationTypeHelper.getInstanceFromXer(row.getString("sched_float_type")));
       customProperties.put("CalendarForSchedulingRelationshipLag", row.getString("sched_calendar_on_relationship_lag"));
 
       //
