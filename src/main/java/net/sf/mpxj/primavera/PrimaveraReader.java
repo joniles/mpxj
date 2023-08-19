@@ -1819,13 +1819,13 @@ final class PrimaveraReader
       //
       // Automatically level resources when scheduling
       customProperties.put("ConsiderAssignmentsInOtherProjects", Boolean.valueOf(row.getBoolean("level_outer_assign_flag")));
-      customProperties.put("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", row.getString("level_outer_assign_priority"));
+      customProperties.put("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", NumberHelper.getInteger(row.getString("level_outer_assign_priority")));
       customProperties.put("PreserveScheduledEarlyAndLateDates", Boolean.valueOf(row.getBoolean("level_keep_sched_date_flag")));
       // Recalculate assignment costs after leveling
       customProperties.put("LevelAllResources", Boolean.valueOf(row.getBoolean("level_all_rsrc_flag")));
       customProperties.put("LevelResourcesOnlyWithinActivityTotalFloat", Boolean.valueOf(row.getBoolean("level_within_float_flag")));
-      customProperties.put("PreserveMinimumFloatWhenLeveling", row.getString("level_float_thrs_cnt"));
-      customProperties.put("MaxPercentToOverallocateResources", row.getString("level_over_alloc_pct"));
+      customProperties.put("PreserveMinimumFloatWhenLeveling", NumberHelper.getInteger(row.getString("level_float_thrs_cnt")));
+      customProperties.put("MaxPercentToOverallocateResources", NumberHelper.getDouble(row.getString("level_over_alloc_pct")));
       customProperties.put("LevelingPriorities", row.getString("levelprioritylist"));
 
       //
@@ -1836,7 +1836,7 @@ final class PrimaveraReader
       //
       // Schedule Options - General
       //
-      customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", row.getString("sched_outer_depend_type"));
+      customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", "SD_None".equals(row.getString("sched_outer_depend_type")));
       customProperties.put("MakeOpenEndedActivitiesCritical", Boolean.valueOf(row.getBoolean("sched_open_critical_flag")));
       customProperties.put("UseExpectedFinishDates", Boolean.valueOf(row.getBoolean("sched_use_expect_end_flag")));
       // Schedule automatically when a change affects dates
@@ -1847,6 +1847,7 @@ final class PrimaveraReader
       // Define critical activities as
       customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", Boolean.valueOf(row.getBoolean("sched_use_project_end_date_for_float")));
       customProperties.put("ComputeTotalFloatAs", row.getString("sched_float_type"));
+      m_project.getProjectProperties().setTotalSlackCalculationType(TotalSlackCalculationTypeHelper.getInstanceFromXer(row.getString("sched_float_type")));
       customProperties.put("CalendarForSchedulingRelationshipLag", row.getString("sched_calendar_on_relationship_lag"));
 
       //
@@ -1854,9 +1855,9 @@ final class PrimaveraReader
       //
       customProperties.put("CalculateMultipleFloatPaths", Boolean.valueOf(row.getBoolean("enable_multiple_longest_path_calc")));
       customProperties.put("CalculateMultiplePathsUsingTotalFloat", Boolean.valueOf(row.getBoolean("use_total_float_multiple_longest_paths")));
-      customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", row.getString("key_activity_for_multiple_longest_paths"));
+      customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", NumberHelper.getInteger(row.getString("key_activity_for_multiple_longest_paths")));
       customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
-      customProperties.put("NumberofPathsToCalculate", row.getString("max_multiple_longest_path"));
+      customProperties.put("NumberofPathsToCalculate", NumberHelper.getInteger(row.getString("max_multiple_longest_path")));
 
       m_project.getProjectProperties().setCustomProperties(customProperties);
    }

@@ -102,6 +102,7 @@ Template|✓|✓|✓|✓
 Thousands Separator|✓|✓|✓|✓
 Time Format|✓|✓|✓|✓
 Time Separator|✓|✓|✓|✓
+Total Slack Calculation Type|✓|✓|✓|✓
 Updating Task Status Updates Resource Status|✓|✓|✓|✓
 Week Start Day|✓|✓|✓|✓
 

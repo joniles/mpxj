@@ -118,6 +118,7 @@ import net.sf.mpxj.primavera.schema.ResourceRateType;
 import net.sf.mpxj.primavera.schema.ResourceType;
 import net.sf.mpxj.primavera.schema.RoleRateType;
 import net.sf.mpxj.primavera.schema.RoleType;
+import net.sf.mpxj.primavera.schema.ScheduleOptionsType;
 import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.WBSType;
@@ -520,6 +521,8 @@ final class PrimaveraPMProjectWriter
       project.setUseProjectBaselineForEarnedValue(Boolean.TRUE);
       project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
       project.setLocationObjectId(mpxj.getLocationUniqueID());
+
+      writeScheduleOptions(project.getScheduleOptions());
    }
 
    private void writeProjectProperties(BaselineProjectType project)
@@ -578,6 +581,60 @@ final class PrimaveraPMProjectWriter
       project.setStrategicPriority(Integer.valueOf(500));
       project.setSummarizeToWBSLevel(Integer.valueOf(2));
       project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
+   }
+
+   private void writeScheduleOptions(List<ScheduleOptionsType> list)
+   {
+      ScheduleOptionsType options = m_factory.createScheduleOptionsType();
+      options.setProjectObjectId(m_projectObjectID);
+      list.add(options);
+      ProjectProperties projectProperties = m_projectFile.getProjectProperties();
+      CustomPropertiesMap customProperties = new CustomPropertiesMap(m_projectFile, projectProperties.getCustomProperties());
+
+      //
+      // Leveling Options
+      //
+      // Automatically level resources when scheduling
+      options.setIncludeExternalResAss(customProperties.getBoolean("ConsiderAssignmentsInOtherProjects", false));
+      options.setExternalProjectPriorityLimit(customProperties.getInteger("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", 5));
+      options.setPreserveScheduledEarlyAndLateDates(customProperties.getBoolean("PreserveScheduledEarlyAndLateDates", true));
+      // Recalculate assignment costs after leveling
+      options.setLevelAllResources(customProperties.getBoolean("LevelAllResources", true));
+      options.setLevelWithinFloat(customProperties.getBoolean("LevelResourcesOnlyWithinActivityTotalFloat", false));
+      options.setMinFloatToPreserve(customProperties.getInteger("PreserveMinimumFloatWhenLeveling", 1));
+      options.setOverAllocationPercentage(customProperties.getDouble("MaxPercentToOverallocateResources", 25.0));
+      options.setPriorityList("(0||priority_type(sort_type|ASC)())"); // TODO: translation required
+
+      //
+      // Schedule
+      //
+      //customProperties.put("SetDataDateAndPlannedStartToProjectForecastStart", Boolean.valueOf(row.getBoolean("sched_setplantoforecast")));
+
+      //
+      // Schedule Options - General
+      //
+      options.setIgnoreOtherProjectRelationships(customProperties.getBoolean("IgnoreRelationshipsToAndFromOtherProjects", false));
+      options.setMakeOpenEndedActivitiesCritical(customProperties.getBoolean("MakeOpenEndedActivitiesCritical", false));
+      options.setUseExpectedFinishDates(customProperties.getBoolean("UseExpectedFinishDates", true));
+      // Schedule automatically when a change affects dates - not in PMXML?
+      // Level resources during scheduling - not in PMXML?
+      options.setStartToStartLagCalculationType(customProperties.getBoolean("ComputeStartToStartLagFromEarlyStart", true));
+      options.setOutOfSequenceScheduleType("Retained Logic"); // TODO: translation required
+
+      // Define critical activities as
+      options.setCalculateFloatBasedOnFinishDate(customProperties.getBoolean("CalculateFloatBasedOnFishDateOfEachProject", true));
+      options.setRelationshipLagCalendar("Predecessor Activity Calendar"); // TODO: translation required
+      options.setComputeTotalFloatType(TotalSlackCalculationTypeHelper.getXmlFromInstance(projectProperties.getTotalSlackCalculationType()));
+      options.setCriticalActivityFloatThreshold(Double.valueOf(projectProperties.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, projectProperties).getDuration()));
+      options.setCriticalActivityPathType(CriticalActivityTypeHelper.getXmlFromInstance(projectProperties.getCriticalActivityType()));
+
+      //
+      // Schedule Options - Advanced
+      //
+      options.setMultipleFloatPathsEnabled(customProperties.getBoolean("CalculateMultipleFloatPaths", false));
+      options.setMultipleFloatPathsUseTotalFloat(customProperties.getBoolean("CalculateMultiplePathsUsingTotalFloat", true));
+      options.setMultipleFloatPathsEndingActivityObjectId(customProperties.getInteger("DisplayMultipleFloatPathsEndingWithActivity", null));
+      options.setMaximumMultipleFloatPaths(customProperties.getInteger("NumberofPathsToCalculate", 10));
    }
 
    private String getProjectID(ProjectProperties mpxj)
