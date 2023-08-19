@@ -1487,42 +1487,7 @@ final class PrimaveraReader
          }
 
          // Force total slack calculation to avoid overwriting the critical flag
-         //TODO: we need to implement a strategy type to select the correct calculation
-         //parentTask.getTotalSlack();
-         Duration startSlack = parentTask.getStartSlack();
-         Duration finishSlack = parentTask.getFinishSlack();
-         if (startSlack != null && finishSlack != null)
-         {
-            Duration totalSlack;
-            double startSlackDuration = startSlack.getDuration();
-            double finishSlackDuration = finishSlack.getDuration();
-
-            if (startSlackDuration == 0 || finishSlackDuration == 0)
-            {
-               if (startSlackDuration != 0)
-               {
-                  totalSlack = startSlack;
-               }
-               else
-               {
-                  totalSlack = finishSlack;
-               }
-            }
-            else
-            {
-               if (startSlackDuration < finishSlackDuration)
-               {
-                  totalSlack = startSlack;
-               }
-               else
-               {
-                  totalSlack = finishSlack;
-               }
-            }
-
-            parentTask.setTotalSlack(totalSlack);
-         }
-
+         parentTask.getTotalSlack();
          parentTask.setCritical(critical);
       }
    }

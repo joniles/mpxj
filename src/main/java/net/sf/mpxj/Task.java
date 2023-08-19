@@ -5726,6 +5726,18 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       Duration startSlack = getStartSlack();
       Duration finishSlack = getFinishSlack();
 
+      TotalSlackCalculationType calculationType = getParentFile().getProjectProperties().getTotalSlackCalculationType();
+
+      if (calculationType == TotalSlackCalculationType.START_SLACK)
+      {
+         return startSlack;
+      }
+
+      if (calculationType == TotalSlackCalculationType.FINISH_SLACK)
+      {
+         return finishSlack;
+      }
+
       if (getActualStart() != null)
       {
          return finishSlack;
