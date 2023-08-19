@@ -41,7 +41,7 @@ final class TaskHelper
    {
       // If we don't have a WBS code, use a default value
       String code = task.getWBS();
-      if (code == null || code.length() == 0)
+      if (code == null || code.isEmpty())
       {
          code = DEFAULT_WBS_CODE;
       }

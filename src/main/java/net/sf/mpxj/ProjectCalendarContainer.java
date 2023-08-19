@@ -145,7 +145,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
    {
       ProjectCalendar calendar = null;
 
-      if (calendarName != null && calendarName.length() != 0)
+      if (calendarName != null && !calendarName.isEmpty())
       {
          for (ProjectCalendar projectCalendar : this)
          {

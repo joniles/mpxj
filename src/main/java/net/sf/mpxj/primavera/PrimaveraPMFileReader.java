@@ -936,7 +936,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                continue;
             }
 
-            if (hours.size() > 0)
+            if (!hours.isEmpty())
             {
                ++workingDays;
                for (LocalTimeRange range : hours)
@@ -2103,7 +2103,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private LocalTime getEndTime(LocalTime date)
    {
-      return date.plus(1, ChronoUnit.MINUTES);
+      return date.plusMinutes(1);
    }
 
    /**

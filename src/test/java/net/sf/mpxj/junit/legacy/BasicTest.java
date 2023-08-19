@@ -600,7 +600,7 @@ public class BasicTest
       File in = new File(MpxjTestData.filePath("legacy/mpp8flags1.mpp"));
       ProjectFile mpp = new MPPReader().read(in);
       List<Task> tasks = mpp.getTasks();
-      assertTrue("Not enough tasks", (tasks.size() > 0));
+      assertTrue("Not enough tasks", (!tasks.isEmpty()));
       assertTrue("Not an even number of tasks", (tasks.size() % 2 == 0));
 
       Iterator<Task> iter = tasks.iterator();
@@ -692,7 +692,7 @@ public class BasicTest
       Task parentTask = mpp.getTaskByID(Integer.valueOf(0));
       assertNotNull("Parent task missing", parentTask);
       List<Task> tasks = parentTask.getChildTasks();
-      assertTrue("Not enough tasks", (tasks.size() > 0));
+      assertTrue("Not enough tasks", (!tasks.isEmpty()));
       assertTrue("Not an even number of tasks", (tasks.size() % 2 == 0));
 
       Iterator<Task> iter = tasks.iterator();

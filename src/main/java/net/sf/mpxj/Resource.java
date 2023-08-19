@@ -1339,7 +1339,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public void setBaseCalendar(String val)
    {
-      set(ResourceField.BASE_CALENDAR, val == null || val.length() == 0 ? "Standard" : val);
+      set(ResourceField.BASE_CALENDAR, val == null || val.isEmpty() ? "Standard" : val);
    }
 
    /**

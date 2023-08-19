@@ -227,7 +227,7 @@ public final class ProjectCalendarHelper
          // Populate day types and hours
          ProjectCalendarHours hours = source.getHours(day);
          ProjectCalendarHours newHours = target.addCalendarHours(day);
-         if (hours == null || hours.size() == 0)
+         if (hours == null || hours.isEmpty())
          {
             target.setCalendarDayType(day, DayType.NON_WORKING);
          }

@@ -753,7 +753,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          XerFieldType fieldType = getFieldType(fieldName);
 
          Object objectValue;
-         if (fieldValue.length() == 0)
+         if (fieldValue.isEmpty())
          {
             objectValue = null;
          }

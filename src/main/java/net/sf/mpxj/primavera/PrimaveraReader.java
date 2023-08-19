@@ -471,7 +471,7 @@ final class PrimaveraReader
                continue;
             }
 
-            if (hours.size() > 0)
+            if (!hours.isEmpty())
             {
                ++workingDays;
                for (LocalTimeRange range : hours)
@@ -540,7 +540,7 @@ final class PrimaveraReader
       // Get hours
       ProjectCalendarHours hours = calendar.addCalendarHours(day);
       List<StructuredTextRecord> recHours = dayRecord.getChildren();
-      if (recHours.size() == 0)
+      if (recHours.isEmpty())
       {
          // No data -> not working
          calendar.setWorkingDay(day, false);

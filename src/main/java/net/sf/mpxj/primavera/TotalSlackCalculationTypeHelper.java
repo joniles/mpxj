@@ -26,7 +26,6 @@ package net.sf.mpxj.primavera;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.TotalSlackCalculationType;
 
 /**

@@ -53,7 +53,7 @@ public final class NumberHelper
     */
    public static final int getInt(String value)
    {
-      return (value == null || value.length() == 0 ? 0 : Integer.parseInt(value));
+      return (value == null || value.isEmpty() ? 0 : Integer.parseInt(value));
    }
 
    /**
@@ -65,7 +65,7 @@ public final class NumberHelper
     */
    public static final double getDouble(String value)
    {
-      return (value == null || value.length() == 0 ? 0 : Double.parseDouble(value));
+      return (value == null || value.isEmpty() ? 0 : Double.parseDouble(value));
    }
 
    /**
@@ -193,7 +193,7 @@ public final class NumberHelper
     */
    public static final Integer parseInteger(String value)
    {
-      return (value == null || value.length() == 0 ? null : Integer.valueOf(Integer.parseInt(value)));
+      return (value == null || value.isEmpty() ? null : Integer.valueOf(Integer.parseInt(value)));
    }
 
    /**

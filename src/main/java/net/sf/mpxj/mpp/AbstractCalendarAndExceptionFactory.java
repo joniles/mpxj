@@ -315,7 +315,7 @@ abstract class AbstractCalendarAndExceptionFactory extends AbstractCalendarFacto
             {
                LocalTime startTime = MPPUtility.getTime(data, offset + 8 + (index * 2));
                int durationInSeconds = MPPUtility.getInt(data, offset + 20 + (index * 4)) * 6;
-               LocalTime finishTime = startTime.plus(durationInSeconds, ChronoUnit.SECONDS);
+               LocalTime finishTime = startTime.plusSeconds(durationInSeconds);
                hours.add(new LocalTimeRange(startTime, finishTime));
             }
          }

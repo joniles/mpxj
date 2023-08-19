@@ -172,7 +172,7 @@ public class MppBarStyleTest
       //
       List<View> views = mpp.getViews();
       assertNotNull(views);
-      assertTrue(views.size() > 0);
+      assertTrue(!views.isEmpty());
 
       //
       // Retrieve the Gantt Chart view
@@ -202,7 +202,7 @@ public class MppBarStyleTest
       //
       List<View> views = mpp.getViews();
       assertNotNull(views);
-      assertTrue(views.size() > 0);
+      assertTrue(!views.isEmpty());
 
       //
       // Retrieve the Gantt Chart view

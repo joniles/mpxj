@@ -73,7 +73,7 @@ public class ColorHelper
    public static Color parseHexColor(String value)
    {
       Color result = null;
-      if (value != null && value.length() > 0)
+      if (value != null && !value.isEmpty())
       {
          result = new Color(Integer.parseInt(value, 16));
       }

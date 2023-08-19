@@ -575,7 +575,7 @@ public class RecurringData
          }
 
          date = LocalDate.of(date.getYear(), date.getMonth(), 1);
-         date = date.plus(frequency, ChronoUnit.MONTHS);
+         date = date.plusMonths(frequency);
       }
    }
 
@@ -593,7 +593,7 @@ public class RecurringData
       int requiredDayNumber = NumberHelper.getInt(m_dayNumber);
       if (requiredDayNumber < currentDayNumber)
       {
-         date = date.plus(1, ChronoUnit.MONTHS);
+         date = date.plusMonths(1);
       }
 
       while (moreDates(date, dates))
@@ -610,7 +610,7 @@ public class RecurringData
          dates.add(date);
 
          date = LocalDate.of(date.getYear(), date.getMonth(), 1);
-         date = date.plus(frequency, ChronoUnit.MONTHS);
+         date = date.plusMonths(frequency);
       }
    }
 
@@ -688,12 +688,12 @@ public class RecurringData
          date = LocalDate.of(date.getYear(), date.getMonth(), useDayNumber);
          if (date.isBefore(m_startDate))
          {
-            date = date.plus(1, ChronoUnit.YEARS);
+            date = date.plusYears(1);
          }
 
          dates.add(date);
          date = LocalDate.of(date.getYear(), date.getMonth(), 1);
-         date = date.plus(1, ChronoUnit.YEARS);
+         date = date.plusYears(1);
       }
    }
 

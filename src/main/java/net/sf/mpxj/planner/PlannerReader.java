@@ -736,7 +736,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
    {
       Duration result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          double seconds = getLong(value);
          double hours = seconds / (60 * 60);
@@ -766,7 +766,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
    {
       Duration result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          double seconds = getLong(value);
          double hours = seconds / (60 * 60);

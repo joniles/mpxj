@@ -749,7 +749,7 @@ final class MPP12Reader implements MPPVariantReader
          name = MPPUtility.getUnicodeString(data, offset);
          offset += 64;
 
-         if (name.length() != 0)
+         if (!name.isEmpty())
          {
             FontBase fontBase = new FontBase(Integer.valueOf(loop), name, size);
             m_fontBases.put(fontBase.getIndex(), fontBase);

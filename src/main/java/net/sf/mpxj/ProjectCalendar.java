@@ -958,7 +958,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private boolean isWorkingDate(LocalDate date, DayOfWeek day)
    {
       ProjectCalendarHours ranges = getRanges(date, null, day);
-      return ranges.size() != 0;
+      return !ranges.isEmpty();
    }
 
    /**
@@ -1284,7 +1284,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          if (isSameDay(startDate, endDate))
          {
             ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(startDate), null, null);
-            if (ranges.size() != 0)
+            if (!ranges.isEmpty())
             {
                totalTime = getTotalTime(ranges, LocalTimeHelper.getLocalTime(startDate), LocalTimeHelper.getLocalTime(endDate));
             }
@@ -1340,7 +1340,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   // Skip this day if it has no working time
                   //
                   ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(currentDate), null, day);
-                  if (ranges.size() == 0)
+                  if (ranges.isEmpty())
                   {
                      continue;
                   }
@@ -1356,7 +1356,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             // We are now at the last day
             //
             ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(endDate), null, day);
-            if (ranges.size() != 0)
+            if (!ranges.isEmpty())
             {
                totalTime += getTotalTime(ranges, LocalTime.of(0, 0), LocalTimeHelper.getLocalTime(endDate));
             }

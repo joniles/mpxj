@@ -126,7 +126,7 @@ final class TableFactory14
             column.setWidth(MPPUtility.getByte(data, index + 4));
 
             String columnTitle = MPPUtility.getUnicodeString(data, index + 13);
-            if (columnTitle.length() != 0)
+            if (!columnTitle.isEmpty())
             {
                column.setTitle(columnTitle);
             }

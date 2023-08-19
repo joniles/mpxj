@@ -1315,7 +1315,7 @@ final class AstaReader
    {
       String result = null;
 
-      if (name != null && name.length() != 0)
+      if (name != null && !name.isEmpty())
       {
          StringBuilder sb = new StringBuilder();
          sb.append(name.charAt(0));

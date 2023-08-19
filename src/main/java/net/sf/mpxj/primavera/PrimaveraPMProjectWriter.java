@@ -1887,7 +1887,7 @@ final class PrimaveraPMProjectWriter
     */
    private LocalTime getEndTime(LocalTime date)
    {
-      return date.minus(1, ChronoUnit.MINUTES);
+      return date.minusMinutes(1);
    }
 
    /**

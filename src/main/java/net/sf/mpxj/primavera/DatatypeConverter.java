@@ -123,7 +123,7 @@ public final class DatatypeConverter
    {
       LocalDateTime result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          try
          {
@@ -159,7 +159,7 @@ public final class DatatypeConverter
    public static final LocalTime parseTime(String value)
    {
       LocalTime result = null;
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          try
          {

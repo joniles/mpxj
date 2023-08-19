@@ -548,7 +548,7 @@ public final class MPXWriter extends AbstractProjectWriter
       // Write the resource notes
       //
       String notes = record.getNotes();
-      if (notes.length() != 0)
+      if (!notes.isEmpty())
       {
          writeNotes(MPXConstants.RESOURCE_NOTES_RECORD_NUMBER, notes);
       }
@@ -749,7 +749,7 @@ public final class MPXWriter extends AbstractProjectWriter
       // Write the task notes
       //
       String notes = record.getNotes();
-      if (notes.length() != 0)
+      if (!notes.isEmpty())
       {
          writeNotes(MPXConstants.TASK_NOTES_RECORD_NUMBER, notes);
       }
@@ -1358,7 +1358,7 @@ public final class MPXWriter extends AbstractProjectWriter
    {
       String result = null;
 
-      if (value != null && value.size() != 0)
+      if (value != null && !value.isEmpty())
       {
          StringBuilder sb = new StringBuilder();
          for (Relation relation : value)
