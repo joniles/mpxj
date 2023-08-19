@@ -2875,11 +2875,21 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return getParentFile().readExternalProject(getResourcePoolFile());
    }
 
+   /**
+    * Set the total slcak calculation type.
+    *
+    * @param type total slack calculation type
+    */
    public void setTotalSlackCalculationType(TotalSlackCalculationType type)
    {
       set(ProjectField.TOTAL_SLACK_CALCULATION_TYPE, type);
    }
 
+   /**
+    * Retrieve the total slack calculation type.
+    *
+    * @return total slack calculation type
+    */
    public TotalSlackCalculationType getTotalSlackCalculationType()
    {
       return (TotalSlackCalculationType) get(ProjectField.TOTAL_SLACK_CALCULATION_TYPE);
