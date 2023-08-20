@@ -35,7 +35,7 @@ Content Status| |✓|✓|✓
 Content Type| |✓|✓|✓
 Creation Date|✓|✓|✓|✓
 Critical Activity Type|✓|✓|✓|✓
-Critical Slack Limit| |✓|✓| 
+Critical Slack Limit| | |✓| 
 Currency Code| |✓|✓|✓
 Currency Digits|✓|✓|✓|✓
 Currency Symbol|✓|✓|✓|✓
@@ -59,7 +59,7 @@ Editing Time|✓|✓|✓|✓
 File Application|✓|✓|✓|✓
 File Type|✓|✓|✓|✓
 Finish Date|✓|✓|✓|✓
-Fiscal Year Start|✓|✓|✓|✓
+Fiscal Year Start|✓| | |✓
 Fiscal Year Start Month|✓|✓|✓|✓
 Full Application Name|✓|✓|✓|✓
 GUID|✓|✓|✓|✓
@@ -89,7 +89,7 @@ PM Text|✓|✓|✓|✓
 Presentation Format| |✓|✓|✓
 Project File Path| |✓|✓|✓
 Project Title|✓|✓|✓|✓
-Resource Pool File| |✓|✓|✓
+Resource Pool File| |✓|✓| 
 Revision|✓|✓|✓|✓
 Schedule From|✓|✓|✓|✓
 Short Application Name|✓|✓|✓|✓
@@ -109,15 +109,15 @@ Week Start Day|✓|✓|✓|✓
 ### Baseline Fields
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
-Baseline1 Date| |✓|✓|✓
-Baseline2 Date| |✓| |✓
-Baseline3 Date| |✓| |✓
-Baseline4 Date| |✓| |✓
-Baseline5 Date| |✓| |✓
-Baseline6 Date| |✓| |✓
-Baseline7 Date| |✓| |✓
-Baseline8 Date| |✓| |✓
-Baseline9 Date| |✓| |✓
+Baseline1 Date| | | |✓
+Baseline2 Date| | | |✓
+Baseline3 Date| | | |✓
+Baseline4 Date| | | |✓
+Baseline5 Date| | | |✓
+Baseline6 Date| | | |✓
+Baseline7 Date| | | |✓
+Baseline8 Date| | | |✓
+Baseline9 Date| | | |✓
 Baseline10 Date| | |✓|✓
 Baseline Date| |✓|✓|✓
 
@@ -137,17 +137,16 @@ Actual Overtime Cost|✓|✓|✓|✓
 Actual Overtime Work|✓|✓|✓|✓
 Actual Start|✓|✓|✓|✓
 Actual Work|✓|✓|✓|✓
-Actual Work Protected| | |✓| 
 Board Status ID| | | |✓
 Budget Cost| |✓|✓|✓
 Budget Work| |✓|✓|✓
 Calendar Unique ID| |✓|✓|✓
-Complete Through|✓|✓|✓|✓
+Complete Through| |✓|✓|✓
 Constraint Date|✓|✓|✓|✓
 Constraint Type|✓|✓|✓|✓
 Contact| |✓|✓|✓
 Cost|✓|✓|✓|✓
-Cost Variance|✓|✓|✓|✓
+Cost Variance|✓| |✓|✓
 Created|✓|✓|✓|✓
 Critical|✓|✓|✓|✓
 Deadline| |✓|✓|✓
@@ -165,17 +164,16 @@ External Project| |✓|✓|✓
 External Task| |✓|✓|✓
 Finish|✓|✓|✓|✓
 Finish Slack|✓|✓|✓|✓
-Finish Variance|✓|✓|✓|✓
+Finish Variance| |✓|✓|✓
 Fixed Cost|✓|✓|✓|✓
 Fixed Cost Accrual|✓|✓|✓|✓
 Free Slack| |✓|✓|✓
 GUID| | |✓|✓
 Hide Bar|✓|✓|✓|✓
-Hyperlink|✓|✓|✓|✓
-Hyperlink Address|✓|✓|✓|✓
+Hyperlink| |✓|✓|✓
+Hyperlink Address| |✓|✓|✓
 Hyperlink Data| |✓|✓|✓
-Hyperlink Screen Tip| |✓|✓|✓
-Hyperlink SubAddress|✓|✓|✓|✓
+Hyperlink SubAddress| |✓| | 
 ID|✓|✓|✓|✓
 Ignore Resource Calendar| |✓|✓|✓
 Late Finish|✓|✓|✓|✓
@@ -194,7 +192,7 @@ Outline Level|✓|✓|✓|✓
 Outline Number|✓|✓|✓|✓
 Overtime Cost|✓|✓|✓|✓
 Parent Task Unique ID| |✓|✓|✓
-Physical % Complete| |✓|✓|✓
+Physical % Complete| | |✓|✓
 Predecessors|✓|✓|✓|✓
 Preleveled Finish|✓|✓|✓|✓
 Preleveled Start|✓|✓|✓|✓
@@ -218,7 +216,7 @@ Splits| |✓|✓|✓
 Sprint ID| | | |✓
 Start|✓|✓|✓|✓
 Start Slack|✓|✓|✓|✓
-Start Variance|✓|✓|✓|✓
+Start Variance| |✓|✓|✓
 Steps|✓|✓|✓|✓
 Stop|✓|✓|✓|✓
 Subproject File| |✓|✓|✓
@@ -357,9 +355,8 @@ Baseline Budget Cost| |✓| | 
 Baseline Budget Work| |✓| | 
 Baseline Cost|✓|✓|✓|✓
 Baseline Deliverable Finish| | |✓| 
-Baseline Deliverable Start| | |✓| 
 Baseline Duration|✓|✓|✓|✓
-Baseline Duration Units| |✓|✓|✓
+Baseline Duration Units| |✓| |✓
 Baseline Estimated Duration| | | |✓
 Baseline Estimated Finish| | | |✓
 Baseline Estimated Start| | | |✓
@@ -492,11 +489,11 @@ Start7|✓|✓|✓|✓
 Start8|✓|✓|✓|✓
 Start9|✓|✓|✓|✓
 Start10|✓|✓|✓|✓
-Text1|✓|✓|✓|✓
-Text2|✓|✓|✓|✓
-Text3|✓|✓|✓|✓
-Text4|✓|✓|✓|✓
-Text5|✓|✓|✓|✓
+Text1| |✓|✓|✓
+Text2| |✓|✓|✓
+Text3| |✓|✓|✓
+Text4| |✓|✓|✓
+Text5| |✓|✓|✓
 Text6| |✓|✓|✓
 Text7| |✓|✓|✓
 Text8| |✓|✓|✓
@@ -541,29 +538,17 @@ Enterprise Project Date1| | |✓| 
 Enterprise Project Date2| | |✓| 
 Enterprise Project Date3| | |✓| 
 Enterprise Project Date4| | |✓| 
-Enterprise Project Number2| | |✓| 
-Enterprise Project Number4| | |✓| 
-Enterprise Project Number5| | |✓| 
-Enterprise Project Number22| |✓| | 
 Enterprise Project Text1| |✓|✓|✓
-Enterprise Project Text2| |✓|✓| 
-Enterprise Project Text3| |✓|✓| 
-Enterprise Project Text4| |✓|✓| 
-Enterprise Project Text5| |✓| | 
-Enterprise Project Text6| |✓|✓| 
-Enterprise Project Text8| | |✓| 
+Enterprise Project Text2| | |✓| 
+Enterprise Project Text3| | |✓| 
+Enterprise Project Text4| | |✓| 
 Enterprise Project Text9| | |✓| 
 Enterprise Project Text10| | |✓| 
-Enterprise Project Text11| | |✓| 
-Enterprise Project Text12| | |✓| 
 Enterprise Project Text13| | |✓| 
 Enterprise Project Text14| | |✓| 
-Enterprise Project Text15| | |✓| 
-Enterprise Project Text16| | |✓| 
 Enterprise Project Text17| | |✓| 
 Enterprise Project Text18| | |✓| 
 Enterprise Project Text19| | |✓| 
-Enterprise Project Text21| | |✓| 
 Enterprise Project Text40| |✓|✓|✓
 
 ## Resource
@@ -576,7 +561,6 @@ Actual Cost| |✓|✓|✓
 Actual Overtime Cost| |✓|✓|✓
 Actual Overtime Work| |✓|✓|✓
 Actual Work|✓|✓|✓|✓
-Actual Work Protected| | |✓| 
 Availability Data| |✓|✓|✓
 Available From| |✓|✓|✓
 Available To| |✓|✓|✓
@@ -596,17 +580,12 @@ Cost Rate B| |✓|✓|✓
 Cost Rate C| |✓|✓|✓
 Cost Rate D| |✓|✓|✓
 Cost Rate E| |✓|✓|✓
-Cost Variance|✓|✓|✓|✓
+Cost Variance| |✓|✓| 
 Created| |✓|✓|✓
 Email Address| |✓|✓|✓
 GUID| | |✓|✓
 Generic| |✓|✓|✓
 Group|✓|✓|✓|✓
-Hyperlink| |✓|✓|✓
-Hyperlink Address| |✓|✓|✓
-Hyperlink Data| |✓|✓|✓
-Hyperlink Screen Tip| |✓|✓|✓
-Hyperlink SubAddress| |✓|✓|✓
 ID|✓|✓|✓|✓
 Initials|✓|✓|✓|✓
 Material Label| |✓|✓|✓
@@ -619,7 +598,6 @@ Overtime Rate| |✓|✓|✓
 Overtime Rate Units| |✓|✓|✓
 Overtime Work| |✓|✓|✓
 Peak|✓|✓|✓|✓
-Phonetics| | |✓| 
 Regular Work|✓|✓|✓|✓
 Remaining Cost|✓|✓|✓|✓
 Remaining Overtime Cost| |✓|✓|✓
@@ -627,10 +605,10 @@ Remaining Overtime Work| |✓|✓|✓
 Remaining Work|✓|✓|✓|✓
 Standard Rate| |✓|✓|✓
 Standard Rate Units| |✓|✓|✓
-Subproject Unique Resource ID| |✓|✓| 
+Subproject Unique Resource ID| | |✓| 
 Type|✓|✓|✓|✓
 Unique ID|✓|✓|✓|✓
-Windows User Account| |✓|✓|✓
+Windows User Account| |✓|✓| 
 Work|✓|✓|✓|✓
 Work Variance|✓|✓|✓|✓
 Workgroup| |✓|✓|✓
@@ -638,48 +616,26 @@ Workgroup| |✓|✓|✓
 ### Baseline Fields
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
-Baseline1 Budget Cost| | | |✓
-Baseline1 Budget Work| | | |✓
 Baseline1 Cost| |✓|✓|✓
 Baseline1 Work| |✓|✓|✓
-Baseline2 Budget Cost| | | |✓
-Baseline2 Budget Work| | | |✓
 Baseline2 Cost| |✓|✓|✓
 Baseline2 Work| |✓|✓|✓
-Baseline3 Budget Cost| | | |✓
-Baseline3 Budget Work| | | |✓
 Baseline3 Cost| |✓|✓|✓
 Baseline3 Work| |✓|✓|✓
-Baseline4 Budget Cost| | | |✓
-Baseline4 Budget Work| | | |✓
 Baseline4 Cost| |✓|✓|✓
 Baseline4 Work| |✓|✓|✓
-Baseline5 Budget Cost| | | |✓
-Baseline5 Budget Work| | | |✓
 Baseline5 Cost| |✓|✓|✓
 Baseline5 Work| |✓|✓|✓
-Baseline6 Budget Cost| | | |✓
-Baseline6 Budget Work| | | |✓
 Baseline6 Cost| |✓|✓|✓
 Baseline6 Work| |✓|✓|✓
-Baseline7 Budget Cost| | | |✓
-Baseline7 Budget Work| | | |✓
 Baseline7 Cost| |✓|✓|✓
 Baseline7 Work| |✓|✓|✓
-Baseline8 Budget Cost| | | |✓
-Baseline8 Budget Work| | | |✓
 Baseline8 Cost| |✓|✓|✓
 Baseline8 Work| |✓|✓|✓
-Baseline9 Budget Cost| | | |✓
-Baseline9 Budget Work| | | |✓
 Baseline9 Cost| |✓|✓|✓
 Baseline9 Work| |✓|✓|✓
-Baseline10 Budget Cost| | | |✓
-Baseline10 Budget Work| | | |✓
 Baseline10 Cost| |✓|✓|✓
 Baseline10 Work| |✓|✓|✓
-Baseline Budget Cost| | | |✓
-Baseline Budget Work| | | |✓
 Baseline Cost| |✓|✓|✓
 Baseline Work|✓|✓|✓|✓
 
@@ -806,7 +762,7 @@ Start7| |✓|✓|✓
 Start8| |✓|✓|✓
 Start9| |✓|✓|✓
 Start10| |✓|✓|✓
-Text1|✓|✓|✓|✓
+Text1| |✓|✓|✓
 Text2| |✓|✓|✓
 Text3| |✓|✓|✓
 Text4| |✓|✓|✓
@@ -852,7 +808,7 @@ Enterprise Duration7 Units| | |✓|✓
 Enterprise Duration8 Units| | |✓|✓
 Enterprise Duration9 Units| | |✓|✓
 Enterprise Duration10 Units| | |✓|✓
-Enterprise Unique ID| |✓|✓|✓
+Enterprise Unique ID| | |✓|✓
 
 ## Resource Assignment
 ### Core Fields
@@ -863,8 +819,7 @@ Actual Finish| |✓|✓|✓
 Actual Overtime Cost| |✓|✓|✓
 Actual Overtime Work| |✓|✓|✓
 Actual Start| |✓|✓|✓
-Actual Work|✓|✓|✓|✓
-Actual Work Protected| | |✓| 
+Actual Work| |✓|✓|✓
 Assignment Delay| |✓|✓|✓
 Assignment GUID| | |✓|✓
 Assignment Resource GUID| | |✓|✓
@@ -872,11 +827,10 @@ Assignment Task GUID| | |✓|✓
 Assignment Units|✓|✓|✓|✓
 Budget Cost| | |✓|✓
 Budget Work| | |✓|✓
-Calculate Costs From Units|✓|✓|✓|✓
+Calculate Costs From Units| |✓|✓|✓
 Confirmed| |✓|✓|✓
 Cost|✓|✓|✓|✓
 Cost Rate Table| |✓|✓|✓
-Cost Variance| |✓|✓|✓
 Created| |✓|✓|✓
 Finish|✓|✓|✓|✓
 Finish Variance| |✓|✓|✓
@@ -885,14 +839,11 @@ Hyperlink Address| |✓|✓|✓
 Hyperlink Data| |✓|✓|✓
 Hyperlink Screen Tip| |✓|✓|✓
 Hyperlink Subaddress| |✓|✓|✓
-Leveling Delay| |✓|✓|✓
 Leveling Delay Units| |✓| |✓
-Linked Fields| |✓|✓|✓
 Notes| |✓|✓|✓
 Overtime Work| |✓|✓|✓
-Owner| | |✓|✓
-Percent Work Complete|✓|✓|✓|✓
-Rate Source|✓|✓|✓|✓
+Percent Work Complete| |✓|✓|✓
+Rate Source| |✓|✓|✓
 Regular Work| |✓|✓|✓
 Remaining Cost| |✓|✓|✓
 Remaining Overtime Cost| |✓|✓|✓
@@ -911,7 +862,6 @@ Timephased Actual Overtime Work| |✓|✓|✓
 Timephased Actual Work| |✓|✓|✓
 Timephased Work| |✓|✓|✓
 Unique ID|✓|✓|✓|✓
-Variable Rate Units| |✓| |✓
 Work|✓|✓|✓|✓
 Work Contour| |✓|✓|✓
 Work Variance| |✓|✓|✓
@@ -987,24 +937,24 @@ Baseline Start| |✓|✓|✓
 Baseline Work| |✓|✓|✓
 Timephased Baseline1 Cost| |✓|✓|✓
 Timephased Baseline1 Work| |✓|✓|✓
-Timephased Baseline2 Cost| |✓| |✓
-Timephased Baseline2 Work| |✓| |✓
-Timephased Baseline3 Cost| |✓| |✓
-Timephased Baseline3 Work| |✓| |✓
-Timephased Baseline4 Cost| |✓| |✓
-Timephased Baseline4 Work| |✓| |✓
-Timephased Baseline5 Cost| |✓| |✓
-Timephased Baseline5 Work| |✓| |✓
-Timephased Baseline6 Cost| |✓| |✓
-Timephased Baseline6 Work| |✓| |✓
-Timephased Baseline7 Cost| |✓| |✓
-Timephased Baseline7 Work| |✓| |✓
-Timephased Baseline8 Cost| |✓| |✓
-Timephased Baseline8 Work| |✓| |✓
-Timephased Baseline9 Cost| |✓| |✓
-Timephased Baseline9 Work| |✓| |✓
-Timephased Baseline10 Cost| |✓|✓|✓
-Timephased Baseline10 Work| |✓|✓|✓
+Timephased Baseline2 Cost| | | |✓
+Timephased Baseline2 Work| | | |✓
+Timephased Baseline3 Cost| | | |✓
+Timephased Baseline3 Work| | | |✓
+Timephased Baseline4 Cost| | | |✓
+Timephased Baseline4 Work| | | |✓
+Timephased Baseline5 Cost| | | |✓
+Timephased Baseline5 Work| | | |✓
+Timephased Baseline6 Cost| | | |✓
+Timephased Baseline6 Work| | | |✓
+Timephased Baseline7 Cost| | | |✓
+Timephased Baseline7 Work| | | |✓
+Timephased Baseline8 Cost| | | |✓
+Timephased Baseline8 Work| | | |✓
+Timephased Baseline9 Cost| | | |✓
+Timephased Baseline9 Work| | | |✓
+Timephased Baseline10 Cost| | |✓|✓
+Timephased Baseline10 Work| | |✓|✓
 Timephased Baseline Cost| |✓|✓|✓
 Timephased Baseline Work| |✓|✓|✓
 
@@ -1032,25 +982,25 @@ Date8| |✓|✓|✓
 Date9| |✓|✓|✓
 Date10| |✓|✓|✓
 Duration1| |✓|✓|✓
-Duration1 Units| |✓|✓|✓
+Duration1 Units| |✓| |✓
 Duration2| |✓|✓|✓
-Duration2 Units| |✓|✓|✓
+Duration2 Units| |✓| |✓
 Duration3| |✓|✓|✓
-Duration3 Units| |✓|✓|✓
+Duration3 Units| |✓| |✓
 Duration4| |✓|✓|✓
-Duration4 Units| |✓|✓|✓
+Duration4 Units| |✓| |✓
 Duration5| |✓|✓|✓
-Duration5 Units| |✓|✓|✓
+Duration5 Units| |✓| |✓
 Duration6| |✓|✓|✓
-Duration6 Units| |✓|✓|✓
+Duration6 Units| |✓| |✓
 Duration7| |✓|✓|✓
-Duration7 Units| |✓|✓|✓
+Duration7 Units| |✓| |✓
 Duration8| |✓|✓|✓
-Duration8 Units| |✓|✓|✓
+Duration8 Units| |✓| |✓
 Duration9| |✓|✓|✓
-Duration9 Units| |✓|✓|✓
+Duration9 Units| |✓| |✓
 Duration10| |✓|✓|✓
-Duration10 Units| |✓|✓|✓
+Duration10 Units| |✓| |✓
 Finish1| |✓|✓|✓
 Finish2| |✓|✓|✓
 Finish3| |✓|✓|✓

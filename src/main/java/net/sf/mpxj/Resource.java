@@ -522,15 +522,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public LocalDateTime getStart()
    {
-      LocalDateTime result = null;
-      for (ResourceAssignment assignment : m_assignments)
-      {
-         if (result == null || LocalDateTimeHelper.compare(result, assignment.getStart()) > 0)
-         {
-            result = assignment.getStart();
-         }
-      }
-      return (result);
+      return (LocalDateTime)get(ResourceField.START);
    }
 
    /**
@@ -540,15 +532,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public LocalDateTime getFinish()
    {
-      LocalDateTime result = null;
-      for (ResourceAssignment assignment : m_assignments)
-      {
-         if (result == null || LocalDateTimeHelper.compare(result, assignment.getFinish()) < 0)
-         {
-            result = assignment.getFinish();
-         }
-      }
-      return (result);
+      return (LocalDateTime)get(ResourceField.FINISH);
    }
 
    /**
@@ -2744,6 +2728,32 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return entry.getCostPerUse();
    }
 
+   private LocalDateTime calculateStart()
+   {
+      LocalDateTime result = null;
+      for (ResourceAssignment assignment : m_assignments)
+      {
+         if (result == null || LocalDateTimeHelper.compare(result, assignment.getStart()) > 0)
+         {
+            result = assignment.getStart();
+         }
+      }
+      return result;
+   }
+
+   private LocalDateTime calculateFinish()
+   {
+      LocalDateTime result = null;
+      for (ResourceAssignment assignment : m_assignments)
+      {
+         if (result == null || LocalDateTimeHelper.compare(result, assignment.getFinish()) < 0)
+         {
+            result = assignment.getFinish();
+         }
+      }
+      return result;
+   }
+
    /**
     * This method implements the only method in the Comparable interface. This
     * allows Resources to be compared and sorted based on their ID value. Note
@@ -2799,7 +2809,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    private final CostRateTable[] m_costRateTables;
    private final AvailabilityTable m_availability = new AvailabilityTable();
 
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(ResourceField.STANDARD_RATE, ResourceField.OVERTIME_RATE, ResourceField.COST_PER_USE));
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(ResourceField.STANDARD_RATE, ResourceField.OVERTIME_RATE, ResourceField.COST_PER_USE, ResourceField.START, ResourceField.FINISH));
 
    private static final Map<FieldType, Function<Resource, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
@@ -2812,6 +2822,8 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.STANDARD_RATE, Resource::calculateStandardRate);
       CALCULATED_FIELD_MAP.put(ResourceField.OVERTIME_RATE, Resource::calculateOvertimeRate);
       CALCULATED_FIELD_MAP.put(ResourceField.COST_PER_USE, Resource::calculateCostPerUse);
+      CALCULATED_FIELD_MAP.put(ResourceField.START, Resource::calculateStart);
+      CALCULATED_FIELD_MAP.put(ResourceField.FINISH, Resource::calculateFinish);
       CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
       CALCULATED_FIELD_MAP.put(ResourceField.ROLE, Resource::defaultRoleFlag);
       CALCULATED_FIELD_MAP.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, Resource::defaultCalculateCostsFromUnits);
