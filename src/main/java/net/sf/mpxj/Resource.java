@@ -28,16 +28,17 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResourceFieldLists;
 
@@ -2730,28 +2731,12 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
    private LocalDateTime calculateStart()
    {
-      LocalDateTime result = null;
-      for (ResourceAssignment assignment : m_assignments)
-      {
-         if (result == null || LocalDateTimeHelper.compare(result, assignment.getStart()) > 0)
-         {
-            result = assignment.getStart();
-         }
-      }
-      return result;
+      return m_assignments.stream().map(a -> a.getStart()).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
    }
 
    private LocalDateTime calculateFinish()
    {
-      LocalDateTime result = null;
-      for (ResourceAssignment assignment : m_assignments)
-      {
-         if (result == null || LocalDateTimeHelper.compare(result, assignment.getFinish()) < 0)
-         {
-            result = assignment.getFinish();
-         }
-      }
-      return result;
+      return m_assignments.stream().map(a -> a.getFinish()).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
    }
 
    /**
