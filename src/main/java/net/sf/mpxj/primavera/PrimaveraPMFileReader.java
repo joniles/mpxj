@@ -1508,7 +1508,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             }
             else
             {
-               if (parentTask.getActualStart() != null) {
+               if (parentTask.getActualStart() != null)
+               {
                   actualDuration = effectiveCalendar.getWork(parentTask.getActualStart(), parentTask.getActualFinish(), TimeUnit.HOURS);
                }
 
