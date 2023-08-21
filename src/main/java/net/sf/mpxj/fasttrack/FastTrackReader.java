@@ -638,7 +638,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
    {
       String value = task.getWBS();
       Integer result = Integer.valueOf(1);
-      if (value != null && value.length() > 0)
+      if (value != null && !value.isEmpty())
       {
          String[] path = WBS_SPLIT_REGEX.split(value);
          result = Integer.valueOf(path.length);

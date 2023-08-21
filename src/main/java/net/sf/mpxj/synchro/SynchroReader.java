@@ -164,7 +164,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
 
       for (DayOfWeek day : DayOfWeek.values())
       {
-         calendar.setWorkingDay(day, calendar.getCalendarHours(day).size() > 0);
+         calendar.setWorkingDay(day, !calendar.getCalendarHours(day).isEmpty());
       }
 
       for (MapRow assignment : row.getRows("DAY_TYPE_ASSIGNMENTS"))

@@ -883,7 +883,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       FieldType field = FieldTypeHelper.getInstance(m_projectFile, Integer.parseInt(attribute.getFieldID()));
       m_lookupTableMap.put(attribute.getLtuid(), field);
       String alias = attribute.getAlias();
-      if (alias != null && alias.length() != 0)
+      if (alias != null && !alias.isEmpty())
       {
          m_projectFile.getCustomFields().getOrCreate(field).setAlias(attribute.getAlias());
       }
@@ -957,7 +957,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setMaterialLabel(xml.getMaterialLabel());
       mpx.setMaxUnits(DatatypeConverter.parseUnits(xml.getMaxUnits()));
       mpx.setName(xml.getName());
-      if (xml.getNotes() != null && xml.getNotes().length() != 0)
+      if (xml.getNotes() != null && !xml.getNotes().isEmpty())
       {
          mpx.setNotes(xml.getNotes());
       }
@@ -1362,7 +1362,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //mpx.setMarked();
          mpx.setMilestone(BooleanHelper.getBoolean(xml.isMilestone()));
          mpx.setName(xml.getName());
-         if (xml.getNotes() != null && xml.getNotes().length() != 0)
+         if (xml.getNotes() != null && !xml.getNotes().isEmpty())
          {
             mpx.setNotes(xml.getNotes());
          }

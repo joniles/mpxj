@@ -744,7 +744,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
          String field = record.getString(i);
 
-         if (field == null || field.length() == 0)
+         if (field == null || field.isEmpty())
          {
             continue;
          }
@@ -1054,7 +1054,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
          field = record.getString(i++);
 
-         if ((field == null) || (field.length() == 0))
+         if ((field == null) || (field.isEmpty()))
          {
             continue;
          }

@@ -158,7 +158,7 @@ final class MPP9Reader implements MPPVariantReader
          // It looks like it is possible for a project file to have the password protection flag on without a password. In
          // this case MS Project treats the file as NOT protected. We need to do the same. It is worth noting that MS Project does
          // correct the problem if the file is re-saved (at least it did for me).
-         if (readPassword != null && readPassword.length() > 0)
+         if (readPassword != null && !readPassword.isEmpty())
          {
             // See if the correct read password was given
             if (reader.getReadPassword() == null || !reader.getReadPassword().matches(readPassword))
@@ -691,7 +691,7 @@ final class MPP9Reader implements MPPVariantReader
          name = MPPUtility.getUnicodeString(data, offset);
          offset += 64;
 
-         if (name.length() != 0)
+         if (!name.isEmpty())
          {
             FontBase fontBase = new FontBase(Integer.valueOf(loop), name, size);
             m_fontBases.put(fontBase.getIndex(), fontBase);

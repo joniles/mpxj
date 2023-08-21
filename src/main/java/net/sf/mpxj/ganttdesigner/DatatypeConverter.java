@@ -48,7 +48,7 @@ public final class DatatypeConverter
    {
       LocalDateTime result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          try
          {
@@ -107,7 +107,7 @@ public final class DatatypeConverter
    {
       LocalDate result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          try
          {

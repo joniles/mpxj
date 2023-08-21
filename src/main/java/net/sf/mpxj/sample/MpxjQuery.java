@@ -240,7 +240,7 @@ public class MpxjQuery
          listTaskHierarchy(task, indent + " ");
       }
 
-      if (indent.length() == 0)
+      if (indent.isEmpty())
       {
          System.out.println();
       }
@@ -261,7 +261,7 @@ public class MpxjQuery
          listResourceHierarchy(resource, indent + " ");
       }
 
-      if (indent.length() == 0)
+      if (indent.isEmpty())
       {
          System.out.println();
       }
@@ -411,7 +411,7 @@ public class MpxjQuery
       {
          String notes = task.getNotes();
 
-         if (notes.length() != 0)
+         if (!notes.isEmpty())
          {
             System.out.println("Notes for " + task.getName() + ": " + notes);
          }
@@ -431,7 +431,7 @@ public class MpxjQuery
       {
          String notes = resource.getNotes();
 
-         if (notes.length() != 0)
+         if (!notes.isEmpty())
          {
             System.out.println("Notes for " + resource.getName() + ": " + notes);
          }

@@ -234,7 +234,7 @@ public class GenericCriteria
    {
       boolean result = false;
 
-      if (m_criteriaList.size() == 0)
+      if (m_criteriaList.isEmpty())
       {
          result = true;
       }

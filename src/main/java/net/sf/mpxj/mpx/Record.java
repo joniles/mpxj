@@ -77,7 +77,7 @@ final class Record
             list.add(tk.getToken());
          }
 
-         if (list.size() > 0)
+         if (!list.isEmpty())
          {
             setRecordNumber(list);
             m_fields = list.toArray(new String[0]);
@@ -168,7 +168,7 @@ final class Record
    {
       Character result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = Character.valueOf(m_fields[field].charAt(0));
       }
@@ -194,7 +194,7 @@ final class Record
       {
          Number result;
 
-         if ((field < m_fields.length) && (m_fields[field].length() != 0))
+         if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
          {
             result = m_formats.getDecimalFormat().parse(m_fields[field]);
          }
@@ -224,7 +224,7 @@ final class Record
    {
       Integer result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = Integer.valueOf(m_fields[field]);
       }
@@ -248,7 +248,7 @@ final class Record
    {
       LocalDateTime result = null;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = m_formats.parseDateTime(m_fields[field]);
       }
@@ -268,7 +268,7 @@ final class Record
    {
       LocalDateTime result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = m_formats.parseDate(m_fields[field]);
       }
@@ -292,7 +292,7 @@ final class Record
    {
       LocalTime result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = m_formats.parseTime(m_fields[field]);
       }
@@ -316,7 +316,7 @@ final class Record
    {
       boolean result = false;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = Integer.parseInt(m_fields[field]) == 1;
       }
@@ -337,7 +337,7 @@ final class Record
    {
       Rate result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          try
          {
@@ -386,7 +386,7 @@ final class Record
    {
       Number result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          try
          {
@@ -419,7 +419,7 @@ final class Record
    {
       Number result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          try
          {
@@ -452,7 +452,7 @@ final class Record
    {
       Duration result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = DurationUtility.getInstance(m_fields[field], m_formats.getDurationDecimalFormat(), m_locale);
       }
@@ -477,7 +477,7 @@ final class Record
    {
       Number result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          try
          {
@@ -509,7 +509,7 @@ final class Record
    {
       TimeUnit result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = TimeUnit.getInstance(Integer.parseInt(m_fields[field]));
       }
@@ -533,7 +533,7 @@ final class Record
    {
       ProjectTimeFormat result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = ProjectTimeFormat.getInstance(Integer.parseInt(m_fields[field]));
       }
@@ -557,7 +557,7 @@ final class Record
    {
       ScheduleFrom result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = ScheduleFrom.getInstance(Integer.parseInt(m_fields[field]));
       }
@@ -581,7 +581,7 @@ final class Record
    {
       DateOrder result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = DateOrder.getInstance(Integer.parseInt(m_fields[field]));
       }
@@ -605,7 +605,7 @@ final class Record
    {
       CurrencySymbolPosition result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = CurrencySymbolPosition.getInstance(Integer.parseInt(m_fields[field]));
       }
@@ -629,7 +629,7 @@ final class Record
    {
       ProjectDateFormat result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = ProjectDateFormat.getInstance(Integer.parseInt(m_fields[field]));
       }
@@ -651,7 +651,7 @@ final class Record
    {
       CodePage result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = CodePage.getInstance(m_fields[field]);
       }
@@ -673,7 +673,7 @@ final class Record
    {
       AccrueType result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = AccrueTypeUtility.getInstance(m_fields[field], m_locale);
       }
@@ -696,7 +696,7 @@ final class Record
    {
       Boolean result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          String value = m_fields[field];
 
@@ -732,7 +732,7 @@ final class Record
    {
       DayType result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = DayType.getInstance(Integer.parseInt(m_fields[field]));
       }

@@ -178,7 +178,7 @@ final class FixDeferFix extends MPPComponent
       TreeSet<Integer> read = new TreeSet<>();
       int startOffset;
 
-      while (fileOffset < available || skipped.size() != 0)
+      while (fileOffset < available || !skipped.isEmpty())
       {
          Integer temp;
 

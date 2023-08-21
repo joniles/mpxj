@@ -5721,19 +5721,38 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
    private Duration calculateTotalSlack()
    {
+      // Calculate these first to avoid clearing our total slack value
       Duration duration = getDuration();
+      Duration startSlack = getStartSlack();
+      Duration finishSlack = getFinishSlack();
+
+      TotalSlackCalculationType calculationType = getParentFile().getProjectProperties().getTotalSlackCalculationType();
+
+      if (calculationType == TotalSlackCalculationType.START_SLACK)
+      {
+         return startSlack;
+      }
+
+      if (calculationType == TotalSlackCalculationType.FINISH_SLACK)
+      {
+         return finishSlack;
+      }
+
+      if (getActualStart() != null)
+      {
+         return finishSlack;
+      }
+
       if (duration == null)
       {
          return null;
       }
 
-      Duration startSlack = getStartSlack();
       if (startSlack == null)
       {
          return null;
       }
 
-      Duration finishSlack = getFinishSlack();
       if (finishSlack == null)
       {
          return null;
@@ -5750,32 +5769,17 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          finishSlack = finishSlack.convertUnits(units, getParentFile().getProjectProperties());
       }
 
-
       Duration totalSlack;
       double startSlackDuration = startSlack.getDuration();
       double finishSlackDuration = finishSlack.getDuration();
 
-      if (startSlackDuration == 0 || finishSlackDuration == 0)
+      if (startSlackDuration < finishSlackDuration)
       {
-         if (startSlackDuration != 0)
-         {
-            totalSlack = startSlack;
-         }
-         else
-         {
-            totalSlack = finishSlack;
-         }
+         totalSlack = startSlack;
       }
       else
       {
-         if (startSlackDuration < finishSlackDuration)
-         {
-            totalSlack = startSlack;
-         }
-         else
-         {
-            totalSlack = finishSlack;
-         }
+         totalSlack = finishSlack;
       }
 
       return totalSlack;
@@ -5979,7 +5983,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       dependencies.calculatedField(TaskField.WORK_VARIANCE).dependsOn(TaskField.WORK, TaskField.BASELINE_WORK);
       dependencies.calculatedField(TaskField.CV).dependsOn(TaskField.BCWP, TaskField.ACWP);
       dependencies.calculatedField(TaskField.SV).dependsOn(TaskField.BCWP, TaskField.BCWS);
-      dependencies.calculatedField(TaskField.TOTAL_SLACK).dependsOn(TaskField.START_SLACK, TaskField.FINISH_SLACK);
+      dependencies.calculatedField(TaskField.TOTAL_SLACK).dependsOn(TaskField.START_SLACK, TaskField.FINISH_SLACK, TaskField.ACTUAL_START);
       dependencies.calculatedField(TaskField.CRITICAL).dependsOn(TaskField.TOTAL_SLACK, TaskField.ACTUAL_FINISH);
       dependencies.calculatedField(TaskField.COMPLETE_THROUGH).dependsOn(TaskField.DURATION, TaskField.ACTUAL_START, TaskField.PERCENT_COMPLETE);
       dependencies.calculatedField(TaskField.EXTERNAL_PROJECT).dependsOn(TaskField.SUBPROJECT_FILE, TaskField.EXTERNAL_TASK);

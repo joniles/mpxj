@@ -148,7 +148,7 @@ final class DatatypeConverter
    {
       Integer result = null;
 
-      if (value.length() > 0 && value.indexOf(' ') == -1)
+      if (!value.isEmpty() && value.indexOf(' ') == -1)
       {
          if (value.indexOf('.') == -1)
          {
@@ -174,7 +174,7 @@ final class DatatypeConverter
    {
       LocalDateTime result = null;
 
-      if (value.length() > 0)
+      if (!value.isEmpty())
       {
          if (!value.equals("-1 -1"))
          {
@@ -231,7 +231,7 @@ final class DatatypeConverter
    {
       LocalDateTime result = null;
 
-      if (value.length() > 0)
+      if (!value.isEmpty())
       {
          if (!value.equals("0"))
          {
