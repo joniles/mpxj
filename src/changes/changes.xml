@@ -14,6 +14,7 @@
 			<action dev="joniles" type="update">Improve handling of non-standard Boolean values in MPX files.</action>
 			<action dev="joniles" type="update">Improve Total Slack calculation for P6 projects.</action>
 			<action dev="joniles" type="update">Write schedule options to PMXML abd XER files.</action>
+			<action dev="joniles" type="update">Handle finish milestones with `null` actual start date for actual duration calculation when reading PMXML files (Contributed by Andrew Marks).</action>
 		</release>
 		<release date="2023-07-25" version="12.0.2">
 			<action dev="joniles" type="update">Ensure that the Fixed Cost attribute is rolled up from activities to WBS entries when reading P6 schedules.</action>
