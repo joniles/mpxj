@@ -1261,6 +1261,11 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public Duration getWork(LocalDateTime startDate, LocalDateTime endDate, TimeUnit format)
    {
+      if (startDate == null || endDate == null)
+      {
+         return null;
+      }
+
       LocalDateTimeRange range = new LocalDateTimeRange(startDate, endDate);
       Long cachedResult = m_workingDateCache.get(range);
       long totalTime = 0;
