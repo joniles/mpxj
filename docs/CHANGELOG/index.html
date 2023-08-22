@@ -267,8 +267,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1203-unreleased" class="md-nav__link">
-    12.0.3 (unreleased)
+  <a href="#1211-unreleased" class="md-nav__link">
+    12.1.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1210-2023-08-22" class="md-nav__link">
+    12.1.0 (2023-08-22)
   </a>
   
 </li>
@@ -2736,8 +2743,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1203-unreleased" class="md-nav__link">
-    12.0.3 (unreleased)
+  <a href="#1211-unreleased" class="md-nav__link">
+    12.1.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1210-2023-08-22" class="md-nav__link">
+    12.1.0 (2023-08-22)
   </a>
   
 </li>
@@ -4319,7 +4333,19 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1203-unreleased">12.0.3 (unreleased)</h2>
+<h2 id="1211-unreleased">12.1.1 (unreleased)</h2>
+<h2 id="1210-2023-08-22">12.1.0 (2023-08-22)</h2>
+<ul>
+<li>Write schedule options to PMXML abd XER files.</li>
+<li>Fix an arithmetic error in RateHelper when converting a rate from minutes to hours.</li>
+<li>Introduced new methods to RateHelper accepting a <code>TimeUnitDefaultsContainer</code> argument rather than a <code>ProjectFile</code> for greater flexibility. Marked methods taking a <code>ProjectFile</code> argument as deprecated.</li>
+<li>Ensure Early Finish and Late Finish are populated for Asta milestones and tasks.</li>
+<li>Don't attempt to calculate total slack if start slack or finish slack are missing.</li>
+<li>Ensure completed tasks are not marked as critical.</li>
+<li>Improve handling of non-standard Boolean values in MPX files.</li>
+<li>Improve Total Slack calculation for P6 projects.</li>
+<li>Handle finish milestones with <code>null</code> actual start date for actual duration calculation when reading PMXML files (Contributed by Andrew Marks).</li>
+</ul>
 <h2 id="1202-2023-07-25">12.0.2 (2023-07-25)</h2>
 <ul>
 <li>Ensure that the Fixed Cost attribute is rolled up from activities to WBS entries when reading P6 schedules.</li>
