@@ -66,7 +66,7 @@ class CustomPropertiesMap
    public Boolean getBoolean(String key, Boolean defaultValue)
    {
       Object result = m_map.get(key);
-      return result instanceof Boolean ? (Boolean)result : defaultValue;
+      return result instanceof Boolean ? (Boolean) result : defaultValue;
    }
 
    /**
@@ -81,12 +81,12 @@ class CustomPropertiesMap
       Object result = m_map.get(key);
       if (result instanceof Integer)
       {
-         return (Integer)result;
+         return (Integer) result;
       }
 
       if (result instanceof Number)
       {
-         return Integer.valueOf(((Number)result).intValue());
+         return Integer.valueOf(((Number) result).intValue());
       }
 
       return defaultValue;
@@ -104,12 +104,12 @@ class CustomPropertiesMap
       Object result = m_map.get(key);
       if (result instanceof Double)
       {
-         return (Double)result;
+         return (Double) result;
       }
 
       if (result instanceof Number)
       {
-         return Double.valueOf(((Number)result).doubleValue());
+         return Double.valueOf(((Number) result).doubleValue());
       }
 
       return defaultValue;
@@ -127,7 +127,7 @@ class CustomPropertiesMap
       Object result = m_map.get(key);
       if (result instanceof String)
       {
-         return (String)result;
+         return (String) result;
       }
 
       return defaultValue;

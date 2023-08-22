@@ -160,7 +160,6 @@ public final class RateHelper
       return convertFromHours(defaults, value.doubleValue(), targetUnits);
    }
 
-
    /**
     * Convert a rate from amount per hour to an amount per target unit.
     *
