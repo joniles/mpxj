@@ -1825,7 +1825,7 @@ final class PrimaveraReader
       customProperties.put("LevelAllResources", Boolean.valueOf(row.getBoolean("level_all_rsrc_flag")));
       customProperties.put("LevelResourcesOnlyWithinActivityTotalFloat", Boolean.valueOf(row.getBoolean("level_within_float_flag")));
       customProperties.put("PreserveMinimumFloatWhenLeveling", NumberHelper.getInteger(row.getString("level_float_thrs_cnt")));
-      customProperties.put("MaxPercentToOverallocateResources", NumberHelper.getDouble(row.getString("level_over_alloc_pct")));
+      customProperties.put("MaxPercentToOverallocateResources", NumberHelper.getDoubleObject(row.getString("level_over_alloc_pct")));
       customProperties.put("LevelingPriorities", row.getString("levelprioritylist"));
 
       //

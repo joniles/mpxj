@@ -69,6 +69,22 @@ public final class NumberHelper
    }
 
    /**
+    * This method retrieves a double value from a String instance.
+    * It returns null by default if a null value or an empty string is supplied.
+    *
+    * @param value string representation of a double
+    * @return double value
+    */
+   public static final Double getDoubleObject(String value)
+   {
+      if (value == null || value.isEmpty())
+      {
+         return null;
+      }
+      return Double.valueOf(value);
+   }
+
+   /**
     * Utility method used to convert an arbitrary Number into an Integer.
     *
     * @param value Number instance
