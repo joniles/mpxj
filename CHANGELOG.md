@@ -1,6 +1,17 @@
 # Changelog
 
-## 12.0.3 (unreleased)
+## 12.1.1 (unreleased)
+
+## 12.1.0 (2023-08-22)
+* Write schedule options to PMXML abd XER files.
+* Fix an arithmetic error in RateHelper when converting a rate from minutes to hours.
+* Introduced new methods to RateHelper accepting a `TimeUnitDefaultsContainer` argument rather than a `ProjectFile` for greater flexibility. Marked methods taking a `ProjectFile` argument as deprecated.
+* Ensure Early Finish and Late Finish are populated for Asta milestones and tasks.
+* Don't attempt to calculate total slack if start slack or finish slack are missing.
+* Ensure completed tasks are not marked as critical.
+* Improve handling of non-standard Boolean values in MPX files.
+* Improve Total Slack calculation for P6 projects.
+* Handle finish milestones with `null` actual start date for actual duration calculation when reading PMXML files (Contributed by Andrew Marks).
 
 ## 12.0.2 (2023-07-25)
 * Ensure that the Fixed Cost attribute is rolled up from activities to WBS entries when reading P6 schedules.

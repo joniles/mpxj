@@ -5,7 +5,10 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="12.1.0">
+		<release date="unreleased" version="12.1.1">
+		</release>
+		<release date="2023-08-22" version="12.1.0">
+			<action dev="joniles" type="update">Write schedule options to PMXML abd XER files.</action>
 			<action dev="joniles" type="update">Fix an arithmetic error in RateHelper when converting a rate from minutes to hours.</action>
 			<action dev="joniles" type="update">Introduced new methods to RateHelper accepting a `TimeUnitDefaultsContainer` argument rather than a `ProjectFile` for greater flexibility. Marked methods taking a `ProjectFile` argument as deprecated.</action>
 			<action dev="joniles" type="update">Ensure Early Finish and Late Finish are populated for Asta milestones and tasks.</action>
@@ -13,7 +16,6 @@
 			<action dev="joniles" type="update">Ensure completed tasks are not marked as critical.</action>
 			<action dev="joniles" type="update">Improve handling of non-standard Boolean values in MPX files.</action>
 			<action dev="joniles" type="update">Improve Total Slack calculation for P6 projects.</action>
-			<action dev="joniles" type="update">Write schedule options to PMXML abd XER files.</action>
 			<action dev="joniles" type="update">Handle finish milestones with `null` actual start date for actual duration calculation when reading PMXML files (Contributed by Andrew Marks).</action>
 		</release>
 		<release date="2023-07-25" version="12.0.2">
