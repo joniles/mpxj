@@ -567,10 +567,8 @@ final class AstaReader
       // The attribute we thought contained the duration appears to be unreliable.
       // To match what we see in Asta the best way to determine the duration appears
       // to be to calculate it from the start and finish dates.
-      // Note the conversion to hours is not strictly necessary, but matches the units previously used.
       //
-      Duration duration = task.getEffectiveCalendar().getDuration(task.getStart(), task.getFinish());
-      duration = duration.convertUnits(TimeUnit.HOURS, m_project.getProjectProperties());
+      Duration duration = task.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
       task.setDuration(duration);
 
       //
@@ -678,6 +676,7 @@ final class AstaReader
       task.setCalendar(calendar);
 
       task.setDuration(deriveEffectiveCalendar(task).getDuration(task.getStart(), task.getFinish()));
+      //task.setDuration(deriveEffectiveCalendar(task).getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS));
    }
 
    /**
