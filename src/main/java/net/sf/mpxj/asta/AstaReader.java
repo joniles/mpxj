@@ -568,6 +568,8 @@ final class AstaReader
       // To match what we see in Asta the best way to determine the duration appears
       // to be to calculate it from the start and finish dates.
       //
+
+      // TODO: looks like we need to handle elapsed durations specifically
       Duration duration = task.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
       task.setDuration(duration);
 
