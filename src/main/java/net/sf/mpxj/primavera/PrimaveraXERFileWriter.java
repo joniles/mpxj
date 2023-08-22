@@ -1399,29 +1399,29 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<CustomPropertiesMap>> SCHEDULE_OPTIONS_COLUMNS = new LinkedHashMap<>();
    static
    {
-      SCHEDULE_OPTIONS_COLUMNS.put("schedoptions_id", o -> 1);
+      SCHEDULE_OPTIONS_COLUMNS.put("schedoptions_id", o -> Integer.valueOf(1));
       SCHEDULE_OPTIONS_COLUMNS.put("proj_id", o -> getProjectID(o.getProject().getProjectProperties().getUniqueID()));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_outer_depend_type", o -> o.getBoolean("IgnoreRelationshipsToAndFromOtherProjects", false).booleanValue() ? "SD_None" : "SD_Both");
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_open_critical_flag", o -> o.getBoolean("MakeOpenEndedActivitiesCritical", false));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_lag_early_start_flag", o -> o.getBoolean("ComputeStartToStartLagFromEarlyStart", true));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_retained_logic", o -> o.getBoolean("WhenSchedulingProgressedActivitiesUseRetainedLogic", true));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_setplantoforecast", o -> o.getBoolean("SetDataDateAndPlannedStartToProjectForecastStart", false));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_outer_depend_type", o -> o.getBoolean("IgnoreRelationshipsToAndFromOtherProjects", Boolean.FALSE).booleanValue() ? "SD_None" : "SD_Both");
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_open_critical_flag", o -> o.getBoolean("MakeOpenEndedActivitiesCritical", Boolean.FALSE));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_lag_early_start_flag", o -> o.getBoolean("ComputeStartToStartLagFromEarlyStart", Boolean.TRUE));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_retained_logic", o -> o.getBoolean("WhenSchedulingProgressedActivitiesUseRetainedLogic", Boolean.TRUE));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_setplantoforecast", o -> o.getBoolean("SetDataDateAndPlannedStartToProjectForecastStart", Boolean.FALSE));
       SCHEDULE_OPTIONS_COLUMNS.put("sched_float_type", o -> TotalSlackCalculationTypeHelper.getXerFromInstance(o.getProject().getProjectProperties().getTotalSlackCalculationType()));
       SCHEDULE_OPTIONS_COLUMNS.put("sched_calendar_on_relationship_lag", o -> "rcal_Predecessor"); // TODO: translation required
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_use_expect_end_flag", o -> o.getBoolean("UseExpectedFinishDates", true));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_progress_override", o -> o.getBoolean("WhenSchedulingProgressedActivitiesUseProgressOverride", false));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_float_thrs_cnt", o -> o.getInteger("PreserveMinimumFloatWhenLeveling", 1));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_flag", o -> o.getBoolean("ConsiderAssignmentsInOtherProjects", false));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_priority", o -> o.getInteger("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", 5));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_over_alloc_pct", o -> o.getDouble("MaxPercentToOverallocateResources", 25.0));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_within_float_flag", o -> o.getBoolean("LevelResourcesOnlyWithinActivityTotalFloat", false));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_keep_sched_date_flag", o -> o.getBoolean("PreserveScheduledEarlyAndLateDates", true));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_all_rsrc_flag", o -> o.getBoolean("LevelAllResources", true));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_use_project_end_date_for_float", o -> o.getBoolean("CalculateFloatBasedOnFishDateOfEachProject", true));
-      SCHEDULE_OPTIONS_COLUMNS.put("enable_multiple_longest_path_calc", o -> o.getBoolean("CalculateMultipleFloatPaths", false));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_use_expect_end_flag", o -> o.getBoolean("UseExpectedFinishDates", Boolean.TRUE));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_progress_override", o -> o.getBoolean("WhenSchedulingProgressedActivitiesUseProgressOverride", Boolean.FALSE));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_float_thrs_cnt", o -> o.getInteger("PreserveMinimumFloatWhenLeveling", Integer.valueOf(1)));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_flag", o -> o.getBoolean("ConsiderAssignmentsInOtherProjects", Boolean.FALSE));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_priority", o -> o.getInteger("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", Integer.valueOf(5)));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_over_alloc_pct", o -> o.getDouble("MaxPercentToOverallocateResources", Double.valueOf(25.0)));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_within_float_flag", o -> o.getBoolean("LevelResourcesOnlyWithinActivityTotalFloat", Boolean.FALSE));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_keep_sched_date_flag", o -> o.getBoolean("PreserveScheduledEarlyAndLateDates", Boolean.TRUE));
+      SCHEDULE_OPTIONS_COLUMNS.put("level_all_rsrc_flag", o -> o.getBoolean("LevelAllResources", Boolean.TRUE));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_use_project_end_date_for_float", o -> o.getBoolean("CalculateFloatBasedOnFishDateOfEachProject", Boolean.TRUE));
+      SCHEDULE_OPTIONS_COLUMNS.put("enable_multiple_longest_path_calc", o -> o.getBoolean("CalculateMultipleFloatPaths", Boolean.FALSE));
       SCHEDULE_OPTIONS_COLUMNS.put("limit_multiple_longest_path_calc", o -> Boolean.TRUE);
-      SCHEDULE_OPTIONS_COLUMNS.put("max_multiple_longest_path", o -> o.getInteger("NumberofPathsToCalculate", 10));
-      SCHEDULE_OPTIONS_COLUMNS.put("use_total_float_multiple_longest_paths", o -> o.getBoolean("CalculateMultiplePathsUsingTotalFloat", true));
+      SCHEDULE_OPTIONS_COLUMNS.put("max_multiple_longest_path", o -> o.getInteger("NumberofPathsToCalculate", Integer.valueOf(10)));
+      SCHEDULE_OPTIONS_COLUMNS.put("use_total_float_multiple_longest_paths", o -> o.getBoolean("CalculateMultiplePathsUsingTotalFloat", Boolean.TRUE));
       SCHEDULE_OPTIONS_COLUMNS.put("key_activity_for_multiple_longest_paths", o -> o.getInteger("DisplayMultipleFloatPathsEndingWithActivity", null));
       SCHEDULE_OPTIONS_COLUMNS.put("LevelPriorityList", o -> "priority_type,ASC_BY_FIELD/ASC"); // TODO: translation required
    }
