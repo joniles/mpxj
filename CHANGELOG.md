@@ -1,6 +1,9 @@
 # Changelog
 
-## 12.1.1 (unreleased)
+## 12.1.2 (unreleased)
+
+## 12.1.1 (2023-08-23)
+* Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on Mac OS.
 
 ## 12.1.0 (2023-08-22)
 * Write schedule options to PMXML abd XER files.
