@@ -8,7 +8,7 @@
 package net.sf.mpxj.phoenix.schema.phoenix4;
 
 import java.time.LocalDateTime;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter1 extends XmlAdapter<String, LocalDateTime>
 {

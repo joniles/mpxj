@@ -7,7 +7,7 @@
 
 package net.sf.mpxj.mspdi.schema;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.WorkContour;
 
 public class Adapter12 extends XmlAdapter<String, WorkContour>

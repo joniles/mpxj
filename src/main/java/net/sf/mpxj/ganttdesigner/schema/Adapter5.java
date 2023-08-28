@@ -8,7 +8,7 @@
 package net.sf.mpxj.ganttdesigner.schema;
 
 import java.time.DayOfWeek;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter5 extends XmlAdapter<String, DayOfWeek>
 {

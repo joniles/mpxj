@@ -7,7 +7,7 @@
 
 package net.sf.mpxj.phoenix.schema.phoenix5;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter2 extends XmlAdapter<String, Integer>
 {

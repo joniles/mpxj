@@ -8,7 +8,7 @@
 package net.sf.mpxj.mspdi.schema;
 
 import java.util.UUID;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter31 extends XmlAdapter<String, UUID>
 {

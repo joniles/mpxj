@@ -8,14 +8,14 @@
 package net.sf.mpxj.mspdi.schema;
 
 import java.math.BigDecimal;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter2 extends XmlAdapter<String, BigDecimal>
 {
 
    @Override public BigDecimal unmarshal(String value)
    {
-      return (javax.xml.bind.DatatypeConverter.parseDecimal(value));
+      return (jakarta.xml.bind.DatatypeConverter.parseDecimal(value));
    }
 
    @Override public String marshal(BigDecimal value)
@@ -24,7 +24,7 @@ public class Adapter2 extends XmlAdapter<String, BigDecimal>
       {
          return null;
       }
-      return (javax.xml.bind.DatatypeConverter.printDecimal(value));
+      return (jakarta.xml.bind.DatatypeConverter.printDecimal(value));
    }
 
 }

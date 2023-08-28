@@ -8,7 +8,7 @@
 package net.sf.mpxj.phoenix.schema.phoenix4;
 
 import java.util.UUID;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter4 extends XmlAdapter<String, UUID>
 {

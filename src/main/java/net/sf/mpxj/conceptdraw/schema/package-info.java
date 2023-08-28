@@ -5,4 +5,4 @@
 // Generated on: 2023.06.16 at 11:06:06 AM BST
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.schemas.conceptdraw.com/cdprj/document.xsd", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED) package net.sf.mpxj.conceptdraw.schema;
+@jakarta.xml.bind.annotation.XmlSchema(namespace = "http://www.schemas.conceptdraw.com/cdprj/document.xsd", elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED) package net.sf.mpxj.conceptdraw.schema;

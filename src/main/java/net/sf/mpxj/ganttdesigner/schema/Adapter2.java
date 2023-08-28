@@ -8,7 +8,7 @@
 package net.sf.mpxj.ganttdesigner.schema;
 
 import java.time.LocalDate;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter2 extends XmlAdapter<String, LocalDate>
 {

@@ -8,7 +8,7 @@
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter4 extends XmlAdapter<String, LocalDateTime>
 {
