@@ -11,6 +11,7 @@
 /src.net/lib/**/sqlite-jdbc*.dll
 /src.net/lib/**/jsoup*.dll
 /src.net/lib/**/jackcess*.dll
+/src.net/lib/**/jakarta*.dll
 /src.net/lib/**/MpxjUtilities.dll
 /src.net/lib/**/*.tlb
 /src.net/lib/**/*.bat
