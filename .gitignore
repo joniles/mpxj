@@ -13,6 +13,7 @@
 /src.net/lib/**/jackcess*.dll
 /src.net/lib/**/jakarta*.dll
 /src.net/lib/**/istack*.dll
+/src.net/lib/**/txw*.dll
 /src.net/lib/**/MpxjUtilities.dll
 /src.net/lib/**/*.tlb
 /src.net/lib/**/*.bat
