@@ -612,7 +612,7 @@
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jaxb-runtime.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${jaxb-core.net45.dll} ${lib.dir}\${jaxb-runtime.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jaxb-runtime.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 -reference:${txw2.net45.dll} -reference:${jaxb-core.net45.dll} ${lib.dir}\${jaxb-runtime.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
@@ -820,7 +820,7 @@
 		</exec>
 
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jaxb-runtime.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${jaxb-core.nca31.dll} ${basedir}\lib\${jaxb-runtime.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${jaxb-runtime.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll -reference:${txw2.nca31.dll} -reference:${jaxb-core.nca31.dll} ${basedir}\lib\${jaxb-runtime.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
