@@ -16,13 +16,13 @@ public class Adapter2 extends XmlAdapter<String, BigDecimal>
    @Override
    public BigDecimal unmarshal(String value)
    {
-      return (javax.xml.bind.DatatypeConverter.parseDecimal(value));
+      return (jakarta.xml.bind.DatatypeConverter.parseDecimal(value));
    }
 
    @Override
    public String marshal(BigDecimal value)
    {
-      return (javax.xml.bind.DatatypeConverter.printDecimal(value));
+      return (jakarta.xml.bind.DatatypeConverter.printDecimal(value));
    }
 
 }
