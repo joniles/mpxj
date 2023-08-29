@@ -9,8 +9,8 @@
       <!-- globally map float types to BigDecimal for consistency -->
       <jxb:javaType name="java.math.BigDecimal"
                     xmlType="xsd:float"
-                    parseMethod="javax.xml.bind.DatatypeConverter.parseDecimal"
-                    printMethod="javax.xml.bind.DatatypeConverter.printDecimal"/>
+                    parseMethod="jakarta.xml.bind.DatatypeConverter.parseDecimal"
+                    printMethod="jakarta.xml.bind.DatatypeConverter.printDecimal"/>
       <jxb:javaType name="java.time.LocalTime"
                     xmlType="xsd:time"
                     parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseTime"
