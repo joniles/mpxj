@@ -53,40 +53,6 @@ public final class MarshallerHelper
          throw new IOException(ex.toString());
       }
 
-      /*
-       * The problem we're trying to solve here is that MPXJ running in a JVM will
-       * escape characters slightly differently in XML than the IKVM version.
-       * This makes no difference to end users, but for regression testing
-       * we can use this code to inject a custom escape handler
-       * which will align the JVM XML output with the IKVM XML output.
-       */
-      if (ENABLE_CUSTOM_ESCAPE_HANDLING)
-      {
-         try
-         {
-            marshaller.setProperty("com.sun.xml.bind.characterEscapeHandler", Class.forName(CUSTOM_ESCAPE_HANDLER).newInstance());
-         }
-
-         catch (Exception ex)
-         {
-            // If we can't set the handler, ignore the error
-         }
-      }
-
       return marshaller;
    }
-
-   /**
-    * Called to enable custom escape handling. Normally only
-    * used to support regression testing.
-    *
-    * @param enabled true to enable the custom escape handler
-    */
-   public static void enableCustomEscapeHandling(boolean enabled)
-   {
-      ENABLE_CUSTOM_ESCAPE_HANDLING = enabled;
-   }
-
-   private static boolean ENABLE_CUSTOM_ESCAPE_HANDLING;
-   private static final String CUSTOM_ESCAPE_HANDLER = "net.sf.mpxj.junit.CustomerDataTestCharacterEscapeHandler";
 }
