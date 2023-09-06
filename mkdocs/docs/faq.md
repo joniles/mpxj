@@ -165,3 +165,17 @@ shown below when you initialize `jpype`.
 ```python
 jpype.startJVM("-Dlog4j2.loggerContextFactory=org.apache.logging.log4j.simple.SimpleLoggerContextFactory")
 ```
+## JAXB 3
+
+The migration between JAXB 2 and JAXB 3 was made in a way which meant that it
+was difficult to maintain backward compatibility with older code using JAXB 1
+in an environment where only JAXB 3 or later is available. To compound this,
+JAXB 4 only works with Java 11 and later, whereas MPXJ needs to maintain
+compatibility with Java 8. This raised itself as an
+[issue](https://github.com/joniles/mpxj/issues/548)
+with the popular Spring Boot framework which moved from JAXB 2 in Spring Boot
+2.x to JAXB 4 in Spring Boot 3.x. The version of JAXB provided by Spring Boot
+took precedence over the version required as a dependency of MPXJ, and so
+MPXJ would no longer work.
+
+The "least worst" fix for this situation was for MPXJ
