@@ -52,13 +52,13 @@
 		<dependency>
 		    <groupId>jakarta.xml.bind</groupId>
 		    <artifactId>jakarta.xml.bind-api</artifactId>
-		    <version>2.3.2</version>
+		    <version>3.0.1</version>
 		</dependency>
 
 		<dependency>
 		    <groupId>org.glassfish.jaxb</groupId>
 		    <artifactId>jaxb-runtime</artifactId>
-		    <version>2.3.2</version>
+		    <version>3.0.2</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.healthmarketscience.jackcess/jackcess -->
