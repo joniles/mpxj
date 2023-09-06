@@ -200,7 +200,7 @@ class MapRow implements Row
       String value = getString(name);
       value = value.replace("-", "+").replace("_", "/");
 
-      byte[] data = javax.xml.bind.DatatypeConverter.parseBase64Binary(value + "==");
+      byte[] data = jakarta.xml.bind.DatatypeConverter.parseBase64Binary(value + "==");
       long msb = 0;
       long lsb = 0;
 

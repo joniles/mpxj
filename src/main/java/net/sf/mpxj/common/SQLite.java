@@ -74,7 +74,7 @@ public final class SQLite
 
       // Handle an issue where SQLite is no longer generating
       // the correct native library name when run via IKVM on OSX.
-      SQLiteLibHelper lib  = new SQLiteLibHelper();
+      SQLiteLibHelper lib = new SQLiteLibHelper();
 
       try
       {

@@ -252,7 +252,7 @@ final class XerWriter
       data[2] = (byte) (msb >> 48 & 0xff);
       data[3] = (byte) (msb >> 56 & 0xff);
 
-      String result = javax.xml.bind.DatatypeConverter.printBase64Binary(data);
+      String result = jakarta.xml.bind.DatatypeConverter.printBase64Binary(data);
 
       return result.substring(0, result.length() - 2);
    }

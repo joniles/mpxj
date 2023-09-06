@@ -60,7 +60,7 @@ public final class DatatypeConverter
             if (value.length() == 22)
             {
                // Standard XER representation: CrkTPqCalki5irI4SJSsRA
-               byte[] data = javax.xml.bind.DatatypeConverter.parseBase64Binary(value + "==");
+               byte[] data = jakarta.xml.bind.DatatypeConverter.parseBase64Binary(value + "==");
 
                long msb = (data[3] & 0xff);
                msb = (msb << 8) | (data[2] & 0xff);
@@ -193,7 +193,7 @@ public final class DatatypeConverter
       else
       {
          // Fall back on the standard behaviour
-         result = Boolean.valueOf(javax.xml.bind.DatatypeConverter.parseBoolean(value));
+         result = Boolean.valueOf(jakarta.xml.bind.DatatypeConverter.parseBoolean(value));
       }
       return result;
    }
@@ -238,7 +238,7 @@ public final class DatatypeConverter
       else
       {
          // Fall back on the standard behaviour
-         result = Double.valueOf(javax.xml.bind.DatatypeConverter.parseDouble(value));
+         result = Double.valueOf(jakarta.xml.bind.DatatypeConverter.parseDouble(value));
       }
       return result;
    }
