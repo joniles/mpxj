@@ -53,6 +53,9 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.Duration;
@@ -187,15 +190,10 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
 
       // Handle the variability we see in date value formats
       String shortPattern = DateTimeFormatterBuilder.getLocalizedDateTimePattern(FormatStyle.SHORT, null, IsoChronology.INSTANCE, Locale.forLanguageTag(locale));
-
-      //shortPattern.chars().filter(c -> c=='y')
-      if (shortPattern.contains("yyyy"))
+      Matcher matcher = YEAR_PATTERN.matcher(shortPattern);
+      if (matcher.matches())
       {
-         shortPattern = shortPattern.replace("yyyy", "[yyyy][yy]");
-      }
-      else
-      {
-         shortPattern = shortPattern.replace("yy", "[yyyy][yy]");
+         shortPattern = shortPattern.replace(matcher.group(1), "[yyyy][yy]");
       }
       m_localeDateFormat = DateTimeFormatter.ofPattern(shortPattern);
    }
@@ -843,6 +841,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       DATA_TYPE_MAP.put("date", DataType.DATE);
       DATA_TYPE_MAP.put("boolean", DataType.BOOLEAN);
    }
+
+   private static final  Pattern YEAR_PATTERN = Pattern.compile("[^y]*([y]+)[^y]*");
 
    /**
     * Cached context to minimise construction cost.
