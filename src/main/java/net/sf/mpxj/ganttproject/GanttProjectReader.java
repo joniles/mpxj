@@ -30,6 +30,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +53,8 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
+import java.util.stream.Stream;
+
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
@@ -184,6 +187,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
 
       // Handle the variability we see in date value formats
       String shortPattern = DateTimeFormatterBuilder.getLocalizedDateTimePattern(FormatStyle.SHORT, null, IsoChronology.INSTANCE, Locale.forLanguageTag(locale));
+
+      //shortPattern.chars().filter(c -> c=='y')
       if (shortPattern.contains("yyyy"))
       {
          shortPattern = shortPattern.replace("yyyy", "[yyyy][yy]");
