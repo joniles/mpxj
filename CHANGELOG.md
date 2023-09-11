@@ -1,6 +1,7 @@
 # Changelog
 
 ## 12.1.2 (unreleased)
+* Updates to improve compatibility with versions of Java after Java 8.
 
 ## 12.1.1 (2023-08-23)
 * Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on Mac OS.
