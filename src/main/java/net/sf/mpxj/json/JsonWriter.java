@@ -987,6 +987,8 @@ public final class JsonWriter extends AbstractProjectWriter
          double val = ((Number) value).doubleValue();
          if (val != 0)
          {
+            // Round to 4 decimal places
+            val = Math.round(val * 10000.0) / 10000.0;
             m_writer.writeNameValuePair(fieldName, val);
          }
       }
