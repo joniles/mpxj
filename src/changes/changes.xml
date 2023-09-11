@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.1.2">
+			<action dev="joniles" type="update">Updates to improve compatibility with versions of Java after Java 8.</action>
 		</release>
 		<release date="2023-08-23" version="12.1.1">
 			<action dev="joniles" type="update">Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on Mac OS.</action>

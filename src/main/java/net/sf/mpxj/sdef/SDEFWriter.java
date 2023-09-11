@@ -45,6 +45,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.Duration;
@@ -581,7 +582,7 @@ public final class SDEFWriter extends AbstractProjectWriter
    private OutputStreamWriter m_writer;
    private StringBuilder m_buffer;
    private Charset m_charset = StandardCharsets.US_ASCII;
-   private final DateTimeFormatter m_formatter = DateTimeFormatter.ofPattern("ddMMMyy");
-   private final DateTimeFormatter m_localDateFormatter = DateTimeFormatter.ofPattern("ddMMMyy");
+   private final DateTimeFormatter m_formatter = DateTimeFormatter.ofPattern("ddMMMyy", Locale.ENGLISH);
+   private final DateTimeFormatter m_localDateFormatter = DateTimeFormatter.ofPattern("ddMMMyy", Locale.ENGLISH);
    private static final int MAX_EXCEPTIONS_PER_RECORD = 15;
 }
