@@ -192,7 +192,15 @@ public final class DatatypeConverter
 
       catch (DateTimeParseException ex)
       {
-         // Ignored
+         // Try format with fractions
+         try {
+            result = LocalDateTime.parse(value, DATE_FORMAT_WITH_FRACTIONS);
+         }
+
+         catch (DateTimeParseException e)
+         {
+            // Ignored
+         }
       }
 
       return result;
@@ -366,4 +374,5 @@ public final class DatatypeConverter
    private static final String PLUS_INFINITY = "+infinity";
 
    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss");
+   private static final DateTimeFormatter DATE_FORMAT_WITH_FRACTIONS = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss.SSSSSS");
 }
