@@ -365,5 +365,5 @@ public final class DatatypeConverter
    private static final String NOT_A_DATE_TIME = "not-a-date-time";
    private static final String PLUS_INFINITY = "+infinity";
 
-   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss");
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss[.SSSSSS]");
 }
