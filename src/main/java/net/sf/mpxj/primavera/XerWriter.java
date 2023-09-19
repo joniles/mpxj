@@ -273,6 +273,28 @@ final class XerWriter
       return m_doubleFormat.format(duration.convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration());
    }
 
+   /**
+    * Format a String instance. This is used to escape double quote characters
+    * if they are present.
+    *
+    * @param value String instance
+    * @return formatted value
+    */
+   private String formatString(String value)
+   {
+      if (value == null || value.isEmpty())
+      {
+         return "";
+      }
+
+      if (value.indexOf('"') == -1)
+      {
+         return value;
+      }
+
+      return value.replace("\"", "\"\"");
+   }
+
    private interface FormatFunction
    {
       String apply(XerWriter writer, Object source);
@@ -313,5 +335,6 @@ final class XerWriter
       FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType) o));
       FORMAT_MAP.put(MaxUnits.class, (w, o) -> w.m_maxUnitsFormat.format(NumberHelper.getDouble(((MaxUnits) o).toNumber()) / 100.0));
       FORMAT_MAP.put(Currency.class, (w, o) -> w.m_currencyFormat.format(((Currency) o).toNumber()));
+      //FORMAT_MAP.put(String.class, (w, o) -> w.formatString((String) o));
    }
 }

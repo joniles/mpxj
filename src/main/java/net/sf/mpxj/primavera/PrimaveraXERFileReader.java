@@ -808,7 +808,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
 
                default:
                {
-                  objectValue = fieldValue;
+                  objectValue = unescapeQuotes(fieldValue);
                   break;
                }
             }
@@ -829,6 +829,21 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       {
          processCurrency(currentRow);
       }
+   }
+
+   private String unescapeQuotes(String value)
+   {
+      if (value == null || value.isEmpty())
+      {
+         return value;
+      }
+
+      if (!value.contains("\"\""))
+      {
+         return value;
+      }
+
+      return value.replace("\"\"", "\"");
    }
 
    /**
