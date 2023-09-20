@@ -219,7 +219,7 @@ final class XerWriter
          result = result.replace("\n", "\u007F\u007F");
       }
 
-      return result;
+      return formatString(result);
    }
 
    /**
@@ -335,6 +335,6 @@ final class XerWriter
       FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType) o));
       FORMAT_MAP.put(MaxUnits.class, (w, o) -> w.m_maxUnitsFormat.format(NumberHelper.getDouble(((MaxUnits) o).toNumber()) / 100.0));
       FORMAT_MAP.put(Currency.class, (w, o) -> w.m_currencyFormat.format(((Currency) o).toNumber()));
-      //FORMAT_MAP.put(String.class, (w, o) -> w.formatString((String) o));
+      FORMAT_MAP.put(String.class, (w, o) -> w.formatString((String) o));
    }
 }
