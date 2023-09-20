@@ -73,6 +73,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskContainer;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
@@ -123,6 +124,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       populateWbsNotes();
       populateActivityNotes();
 
+      // Ensure the WBS hierarchy has a single root WBS
+      createValidWbsHierarchy();
+
       try
       {
          writeHeader();
@@ -159,6 +163,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
       finally
       {
+         revertWbsHierarchyChange();
          m_writer = null;
       }
    }
@@ -739,6 +744,62 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return availability == null ? MaxUnits.ZERO : new MaxUnits(availability.getUnits());
    }
 
+   private void createValidWbsHierarchy()
+   {
+      List<Task> wbsWithoutParent = m_file.getTasks().stream().filter(Task::getSummary).filter(t -> t.getParentTask() == null).collect(Collectors.toList());
+      if (wbsWithoutParent.size() < 2)
+      {
+         return;
+      }
+
+      TaskContainer tasks = m_file.getTasks();
+      ProjectProperties projectProperties = m_file.getProjectProperties();
+
+      Integer uniqueID = tasks.stream().map(t -> t.getUniqueID()).min((l, r) -> l.compareTo(r)).orElse(null);
+      if (uniqueID == null || uniqueID.intValue() <= 1)
+      {
+         tasks.updateUniqueIdCounter();
+         uniqueID = tasks.getNextUniqueID();
+      }
+      else
+      {
+         uniqueID = Integer.valueOf(uniqueID.intValue() - 1);
+      }
+
+      String name = projectProperties.getName();
+      if (name == null || name.isEmpty())
+      {
+         name = projectProperties.getProjectTitle();
+      }
+
+      m_originalOutlineLevel = wbsWithoutParent.get(0).getOutlineLevel();
+
+      m_temporaryRootWbs = m_file.addTask();
+      m_temporaryRootWbs.setUniqueID(uniqueID);
+      //m_temporaryRootWbs.setActivityID(projectProperties.getProjectID());
+      m_temporaryRootWbs.setName(name);
+      m_temporaryRootWbs.setSequenceNumber(0);
+      m_temporaryRootWbs.setWBS("0");
+      wbsWithoutParent.forEach(t-> m_temporaryRootWbs.addChildTask(t));
+   }
+
+   private void revertWbsHierarchyChange()
+   {
+      if (m_temporaryRootWbs == null)
+      {
+         return;
+      }
+
+      List<Task> childTasks = new ArrayList(m_temporaryRootWbs.getChildTasks());
+      for (Task task : childTasks)
+      {
+         m_temporaryRootWbs.removeChildTask(task);
+         task.setOutlineLevel(m_originalOutlineLevel);
+      };
+
+      m_file.removeTask(m_temporaryRootWbs);
+   }
+
    /**
     * Calculate actual regular work for a resource assignment.
     *
@@ -839,6 +900,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> m_wbsNotes;
    private List<Map<String, Object>> m_activityNotes;
    private Set<FieldType> m_userDefinedFields;
+   private Task m_temporaryRootWbs;
+   private Integer m_originalOutlineLevel;
+
    private static final Integer DEFAULT_PROJECT_ID = Integer.valueOf(1);
 
    interface ExportFunction<T>
