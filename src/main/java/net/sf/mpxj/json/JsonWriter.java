@@ -1177,6 +1177,11 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       @SuppressWarnings("unchecked")
       Map<String, Object> map = (Map<String, Object>) value;
+      if (map.isEmpty())
+      {
+         return;
+      }
+
       m_writer.writeStartObject(fieldName);
       for (Map.Entry<String, Object> entry : map.entrySet())
       {
