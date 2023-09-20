@@ -9,6 +9,7 @@
 			<action dev="joniles" type="update">Updates to improve compatibility with versions of Java after Java 8.</action>
 			<action dev="joniles" type="update">Ensure timestamps with fractional sections are read correctly from Phoenix PPX files (Based on a contribution by Rohit Sinha).</action>
 			<action dev="joniles" type="update">Improve handling of double quotes when reading and writing XER files.</action>
+			<action dev="joniles" type="update">To allow XER files written by MPXJ can be imported correctly by P6, ensure that they have a single top level WBS entry (Based on a contribution by Alex Matatov)</action>
 		</release>
 		<release date="2023-08-23" version="12.1.1">
 			<action dev="joniles" type="update">Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on Mac OS.</action>
