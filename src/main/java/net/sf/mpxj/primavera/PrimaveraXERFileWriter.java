@@ -744,6 +744,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return availability == null ? MaxUnits.ZERO : new MaxUnits(availability.getUnits());
    }
 
+   /**
+    * P6 expects XER files to have a single root WBS entry. If we have more
+    * than one WBS entry at the top level we'll temporarily create a parent entry
+    * to keep P6 happy.
+    */
    private void createValidWbsHierarchy()
    {
       List<Task> wbsWithoutParent = m_file.getTasks().stream().filter(Task::getSummary).filter(t -> t.getParentTask() == null).collect(Collectors.toList());
@@ -755,7 +760,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       TaskContainer tasks = m_file.getTasks();
       ProjectProperties projectProperties = m_file.getProjectProperties();
 
-      Integer uniqueID = tasks.stream().map(t -> t.getUniqueID()).min((l, r) -> l.compareTo(r)).orElse(null);
+      // Try to assign a unique ID before the other WBS entries if possible
+      Integer uniqueID = tasks.stream().map(t -> t.getUniqueID()).min(Comparator.naturalOrder()).orElse(null);
       if (uniqueID == null || uniqueID.intValue() <= 1)
       {
          tasks.updateUniqueIdCounter();
@@ -779,9 +785,14 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_temporaryRootWbs.setName(name);
       m_temporaryRootWbs.setSequenceNumber(0);
       m_temporaryRootWbs.setWBS(projectProperties.getProjectID());
-      wbsWithoutParent.forEach(t-> m_temporaryRootWbs.addChildTask(t));
+
+      m_file.getTasks().stream().filter(t -> t != m_temporaryRootWbs && t.getParentTask() == null).forEach(t-> m_temporaryRootWbs.addChildTask(t));
    }
 
+   /**
+    * Once we're done exporting, if we've created a temporary top level WBS
+    * entry, we'll remove it to ensure the data is unchanged.
+    */
    private void revertWbsHierarchyChange()
    {
       if (m_temporaryRootWbs == null)
@@ -789,12 +800,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          return;
       }
 
-      List<Task> childTasks = new ArrayList(m_temporaryRootWbs.getChildTasks());
+      List<Task> childTasks = new ArrayList<>(m_temporaryRootWbs.getChildTasks());
       for (Task task : childTasks)
       {
          m_temporaryRootWbs.removeChildTask(task);
          task.setOutlineLevel(m_originalOutlineLevel);
-      };
+      }
 
       m_file.removeTask(m_temporaryRootWbs);
    }
