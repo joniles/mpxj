@@ -831,6 +831,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       }
    }
 
+   /**
+    * Handle unescaping of double quotes.
+    *
+    * @param value string value
+    * @return string value with unescaped double quotes
+    */
    private String unescapeQuotes(String value)
    {
       if (value == null || value.isEmpty())
