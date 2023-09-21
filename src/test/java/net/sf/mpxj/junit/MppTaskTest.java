@@ -750,8 +750,8 @@ public class MppTaskTest
       List<Resource> listAllResources = mpp.getResources();
       assertNotNull(listAllTasks);
       assertNotNull(listAllResources);
-      assertTrue(!listAllTasks.isEmpty());
-      assertTrue(!listAllResources.isEmpty());
+      assertFalse(listAllTasks.isEmpty());
+      assertFalse(listAllResources.isEmpty());
 
       Task baseTask, subtask1, subtask2, subtask3, subtask4, subtask5, completeTask, complexOutlineNumberTask, subtaskA, subtaskA1, subtaskA2, subtaskB, subtaskB1, subtaskB1a;
 

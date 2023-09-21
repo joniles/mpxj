@@ -3009,7 +3009,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
    private Map<String, Object> defaultCustomProperties()
    {
-      return new HashMap<String, Object>();
+      return new HashMap<>();
    }
 
    /**
