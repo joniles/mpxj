@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Improve handling of double quotes when reading and writing XER files.</action>
 			<action dev="joniles" type="update">To allow XER files written by MPXJ to be imported correctly by P6, ensure that they have a single top level WBS entry (Based on a contribution by Alex Matatov)</action>
 			<action dev="joniles" type="update">Ensure that `ProjectProperties.getCustomProperties()` returns an empty Map rather than returning `null` if no custom properties have been configured.</action>
+			<action dev="joniles" type="update">Ensure project calendars and project activity codes are nested within the project tag of PMXML files.</action>
 		</release>
 		<release date="2023-08-23" version="12.1.1">
 			<action dev="joniles" type="update">Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on macOS.</action>
