@@ -169,6 +169,7 @@ final class PrimaveraPMProjectWriter
 
             writeProjectProperties(project);
             writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
+            writeCalendars(project.getCalendar());
             writeTasks();
             writeAssignments();
             writeExpenseItems();
@@ -192,6 +193,7 @@ final class PrimaveraPMProjectWriter
             writeLocations();
             writeProjectProperties(project);
             writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
+            writeCalendars(project.getCalendar());
             writeUDF();
             writeActivityCodes();
             writeCurrency();
@@ -662,10 +664,12 @@ final class PrimaveraPMProjectWriter
    private void writeCalendars()
    {
       List<CalendarType> calendars = m_apibo.getCalendar();
-      for (ProjectCalendar calendar : m_projectFile.getCalendars())
-      {
-         writeCalendar(calendars, calendar);
-      }
+      m_projectFile.getCalendars().stream().filter(c -> c.getType() != net.sf.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
+   }
+
+   private void writeCalendars(List<CalendarType> calendars)
+   {
+      m_projectFile.getCalendars().stream().filter(c -> c.getType() == net.sf.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
    }
 
    /**
@@ -683,6 +687,11 @@ final class PrimaveraPMProjectWriter
       if (name == null || name.isEmpty())
       {
          name = "(blank)";
+      }
+
+      if (calendar.getType() == net.sf.mpxj.CalendarType.PROJECT)
+      {
+         xml.setProjectObjectId(m_projectObjectID);
       }
 
       xml.setBaseCalendarObjectId(mpxj.getParentUniqueID());
