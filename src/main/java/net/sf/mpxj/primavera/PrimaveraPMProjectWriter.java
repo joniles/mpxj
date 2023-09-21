@@ -667,6 +667,11 @@ final class PrimaveraPMProjectWriter
       m_projectFile.getCalendars().stream().filter(c -> c.getType() != net.sf.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
    }
 
+   /**
+    * This method writes project calendar data to a PMXML file
+    *
+    * @param calendars project calendar container
+    */
    private void writeCalendars(List<CalendarType> calendars)
    {
       m_projectFile.getCalendars().stream().filter(c -> c.getType() == net.sf.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
