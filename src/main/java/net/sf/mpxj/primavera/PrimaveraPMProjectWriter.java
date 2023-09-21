@@ -659,21 +659,23 @@ final class PrimaveraPMProjectWriter
     */
    private void writeCalendars()
    {
+      List<CalendarType> calendars = m_apibo.getCalendar();
       for (ProjectCalendar calendar : m_projectFile.getCalendars())
       {
-         writeCalendar(ProjectCalendarHelper.normalizeCalendar(calendar));
+         writeCalendar(calendars, calendar);
       }
    }
 
    /**
     * This method writes data for an individual calendar to a PM XML file.
     *
-    * @param mpxj ProjectCalendar instance
+    * @param calendar ProjectCalendar instance
     */
-   private void writeCalendar(ProjectCalendar mpxj)
+   private void writeCalendar(List<CalendarType> calendars, ProjectCalendar calendar)
    {
+      ProjectCalendar mpxj = ProjectCalendarHelper.normalizeCalendar(calendar);
       CalendarType xml = m_factory.createCalendarType();
-      m_apibo.getCalendar().add(xml);
+      calendars.add(xml);
 
       String name = mpxj.getName();
       if (name == null || name.isEmpty())
@@ -1620,7 +1622,7 @@ final class PrimaveraPMProjectWriter
     *
     * @param code activity code
     */
-   private void writeActivityCode(ActivityCode code)
+   private void writeActivityCode(List<ActivityCodeTypeTypeActivityCode code)
    {
       ActivityCodeTypeType xml = m_factory.createActivityCodeTypeType();
       m_apibo.getActivityCodeType().add(xml);
