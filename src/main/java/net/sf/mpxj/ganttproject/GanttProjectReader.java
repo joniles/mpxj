@@ -839,7 +839,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       DATA_TYPE_MAP.put("boolean", DataType.BOOLEAN);
    }
 
-   private static final  Pattern YEAR_PATTERN = Pattern.compile("[^y]*(y+)[^y]*");
+   private static final Pattern YEAR_PATTERN = Pattern.compile("[^y]*(y+)[^y]*");
 
    /**
     * Cached context to minimise construction cost.

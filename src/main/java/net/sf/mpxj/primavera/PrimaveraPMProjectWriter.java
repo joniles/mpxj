@@ -680,7 +680,7 @@ final class PrimaveraPMProjectWriter
    /**
     * This method writes data for an individual calendar to a PMXML file.
     *
-    * @param calendars calendars container 
+    * @param calendars calendars container
     * @param calendar ProjectCalendar instance
     */
    private void writeCalendar(List<CalendarType> calendars, ProjectCalendar calendar)
