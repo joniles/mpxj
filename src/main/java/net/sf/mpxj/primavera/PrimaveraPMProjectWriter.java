@@ -321,7 +321,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Add UDFType objects to a PM XML file.
+    * Add UDFType objects to a PMXML file.
     *
     * @author kmahan
     * @author lsong
@@ -659,7 +659,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * This method writes calendar data to a PM XML file.
+    * This method writes calendar data to a PMXML file.
     */
    private void writeCalendars()
    {
@@ -678,7 +678,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * This method writes data for an individual calendar to a PM XML file.
+    * This method writes data for an individual calendar to a PMXML file.
     *
     * @param calendar ProjectCalendar instance
     */
@@ -923,7 +923,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Writes a WBS entity to the PM XML file.
+    * Writes a WBS entity to the PMXML file.
     *
     * @param mpxj MPXJ Task entity
     * @param sequence number for this WBS entry
@@ -956,7 +956,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Writes an activity to a PM XML file.
+    * Writes an activity to a PMXML file.
     *
     * @param mpxj MPXJ Task instance
     */
@@ -1046,7 +1046,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Writes assignment data to a PM XML file.
+    * Writes assignment data to a PMXML file.
     */
    private void writeAssignments()
    {
@@ -1068,7 +1068,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Writes a resource assignment to a PM XML file.
+    * Writes a resource assignment to a PMXML file.
     *
     * @param mpxj MPXJ ResourceAssignment instance
     */
@@ -1135,7 +1135,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Writes task predecessor links to a PM XML file.
+    * Writes task predecessor links to a PMXML file.
     *
     * @param task MPXJ Task instance
     */
