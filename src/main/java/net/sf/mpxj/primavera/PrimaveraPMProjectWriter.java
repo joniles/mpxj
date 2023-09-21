@@ -668,7 +668,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * This method writes project calendar data to a PMXML file
+    * This method writes project calendar data to a PMXML file.
     *
     * @param calendars project calendar container
     */
@@ -680,6 +680,7 @@ final class PrimaveraPMProjectWriter
    /**
     * This method writes data for an individual calendar to a PMXML file.
     *
+    * @param calendars calendars container 
     * @param calendar ProjectCalendar instance
     */
    private void writeCalendar(List<CalendarType> calendars, ProjectCalendar calendar)
@@ -1639,6 +1640,7 @@ final class PrimaveraPMProjectWriter
     * Write Project activity code definitions.
     *
     * @param codes activity codes container
+    * @param values activity code values container
     */
    private void writeActivityCodes(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values)
    {
@@ -1648,6 +1650,8 @@ final class PrimaveraPMProjectWriter
    /**
     * Write an activity code definition.
     *
+    * @param codes activity codes container
+    * @param values activity code values container
     * @param code activity code
     */
    private void writeActivityCode(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values, ActivityCode code)

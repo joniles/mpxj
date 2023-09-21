@@ -783,7 +783,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_temporaryRootWbs = m_file.addTask();
       m_temporaryRootWbs.setUniqueID(uniqueID);
       m_temporaryRootWbs.setName(name);
-      m_temporaryRootWbs.setSequenceNumber(0);
+      m_temporaryRootWbs.setSequenceNumber(Integer.valueOf(0));
       m_temporaryRootWbs.setWBS(projectProperties.getProjectID());
 
       m_file.getTasks().stream().filter(t -> t != m_temporaryRootWbs && t.getParentTask() == null).forEach(t-> m_temporaryRootWbs.addChildTask(t));
