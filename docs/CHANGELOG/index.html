@@ -267,8 +267,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1212-unreleased" class="md-nav__link">
-    12.1.2 (unreleased)
+  <a href="#1213-unreleased" class="md-nav__link">
+    12.1.3 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1212-2023-09-21" class="md-nav__link">
+    12.1.2 (2023-09-21)
   </a>
   
 </li>
@@ -2750,8 +2757,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1212-unreleased" class="md-nav__link">
-    12.1.2 (unreleased)
+  <a href="#1213-unreleased" class="md-nav__link">
+    12.1.3 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1212-2023-09-21" class="md-nav__link">
+    12.1.2 (2023-09-21)
   </a>
   
 </li>
@@ -4347,13 +4361,19 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1212-unreleased">12.1.2 (unreleased)</h2>
+<h2 id="1213-unreleased">12.1.3 (unreleased)</h2>
+<h2 id="1212-2023-09-21">12.1.2 (2023-09-21)</h2>
 <ul>
 <li>Updates to improve compatibility with versions of Java after Java 8.</li>
+<li>Ensure timestamps with fractional sections are read correctly from Phoenix PPX files (Based on a contribution by Rohit Sinha).</li>
+<li>Improve handling of double quotes when reading and writing XER files.</li>
+<li>To allow XER files written by MPXJ to be imported correctly by P6, ensure that they have a single top level WBS entry (Based on a contribution by Alex Matatov)</li>
+<li>Ensure that <code>ProjectProperties.getCustomProperties()</code> returns an empty Map rather than returning <code>null</code> if no custom properties have been configured.</li>
+<li>Ensure project calendars and project activity codes are nested within the project tag of PMXML files.</li>
 </ul>
 <h2 id="1211-2023-08-23">12.1.1 (2023-08-23)</h2>
 <ul>
-<li>Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on Mac OS.</li>
+<li>Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on macOS.</li>
 </ul>
 <h2 id="1210-2023-08-22">12.1.0 (2023-08-22)</h2>
 <ul>
