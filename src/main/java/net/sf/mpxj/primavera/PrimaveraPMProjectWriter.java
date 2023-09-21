@@ -1614,7 +1614,8 @@ final class PrimaveraPMProjectWriter
     */
    private void writeActivityCodes()
    {
-      m_projectFile.getActivityCodes().stream().sorted(Comparator.comparing(ActivityCode::getSequenceNumber)).forEach(this::writeActivityCode);
+      List<ActivityCodeTypeType> codes = m_apibo.getActivityCodeType();
+      m_projectFile.getActivityCodes().stream().sorted(Comparator.comparing(ActivityCode::getSequenceNumber)).forEach(c -> writeActivityCode(codes, c));
    }
 
    /**
@@ -1622,10 +1623,10 @@ final class PrimaveraPMProjectWriter
     *
     * @param code activity code
     */
-   private void writeActivityCode(List<ActivityCodeTypeTypeActivityCode code)
+   private void writeActivityCode(List<ActivityCodeTypeType> codes, ActivityCode code)
    {
       ActivityCodeTypeType xml = m_factory.createActivityCodeTypeType();
-      m_apibo.getActivityCodeType().add(xml);
+      codes.add(xml);
       xml.setObjectId(code.getUniqueID());
       xml.setScope(ActivityCodeScopeHelper.getXmlFromInstance(code.getScope()));
       xml.setSequenceNumber(code.getSequenceNumber());
