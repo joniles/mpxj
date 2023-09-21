@@ -1,10 +1,17 @@
 # Changelog
 
-## 12.1.2 (unreleased)
+## 12.1.3 (unreleased)
+
+## 12.1.2 (2023-09-21)
 * Updates to improve compatibility with versions of Java after Java 8.
+* Ensure timestamps with fractional sections are read correctly from Phoenix PPX files (Based on a contribution by Rohit Sinha).
+* Improve handling of double quotes when reading and writing XER files.
+* To allow XER files written by MPXJ to be imported correctly by P6, ensure that they have a single top level WBS entry (Based on a contribution by Alex Matatov)
+* Ensure that `ProjectProperties.getCustomProperties()` returns an empty Map rather than returning `null` if no custom properties have been configured.
+* Ensure project calendars and project activity codes are nested within the project tag of PMXML files.
 
 ## 12.1.1 (2023-08-23)
-* Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on Mac OS.
+* Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on macOS.
 
 ## 12.1.0 (2023-08-22)
 * Write schedule options to PMXML abd XER files.
