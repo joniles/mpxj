@@ -125,6 +125,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setSubject(null);
       setAuthor(null);
       setKeywords(null);
+      setRelationshipLagCalendar(RelationshipLagCalendar.PREDECESSOR);
 
       //
       // Configure non-MPX attributes
@@ -2893,6 +2894,14 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    public TotalSlackCalculationType getTotalSlackCalculationType()
    {
       return (TotalSlackCalculationType) get(ProjectField.TOTAL_SLACK_CALCULATION_TYPE);
+   }
+
+   public void setRelationshipLagCalendar(RelationshipLagCalendar relationshipLagCalendar) {
+      set(ProjectField.RELATIONSHIP_LAG_CALENDAR, relationshipLagCalendar);
+   }
+
+   public RelationshipLagCalendar getRelationshipLagCalendar() {
+      return (RelationshipLagCalendar) get(ProjectField.RELATIONSHIP_LAG_CALENDAR);
    }
 
    /**

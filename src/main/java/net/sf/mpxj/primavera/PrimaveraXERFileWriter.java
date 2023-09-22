@@ -1481,7 +1481,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       SCHEDULE_OPTIONS_COLUMNS.put("sched_retained_logic", o -> o.getBoolean("WhenSchedulingProgressedActivitiesUseRetainedLogic", Boolean.TRUE));
       SCHEDULE_OPTIONS_COLUMNS.put("sched_setplantoforecast", o -> o.getBoolean("SetDataDateAndPlannedStartToProjectForecastStart", Boolean.FALSE));
       SCHEDULE_OPTIONS_COLUMNS.put("sched_float_type", o -> TotalSlackCalculationTypeHelper.getXerFromInstance(o.getProject().getProjectProperties().getTotalSlackCalculationType()));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_calendar_on_relationship_lag", o -> "rcal_Predecessor"); // TODO: translation required
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_calendar_on_relationship_lag", o -> RelationshipLagCalendarHelper.getXerFromInstance(o.getProject().getProjectProperties().getRelationshipLagCalendar()));
       SCHEDULE_OPTIONS_COLUMNS.put("sched_use_expect_end_flag", o -> o.getBoolean("UseExpectedFinishDates", Boolean.TRUE));
       SCHEDULE_OPTIONS_COLUMNS.put("sched_progress_override", o -> o.getBoolean("WhenSchedulingProgressedActivitiesUseProgressOverride", Boolean.FALSE));
       SCHEDULE_OPTIONS_COLUMNS.put("level_float_thrs_cnt", o -> o.getInteger("PreserveMinimumFloatWhenLeveling", Integer.valueOf(1)));
