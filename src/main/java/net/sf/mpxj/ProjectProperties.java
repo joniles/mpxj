@@ -2896,11 +2896,23 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return (TotalSlackCalculationType) get(ProjectField.TOTAL_SLACK_CALCULATION_TYPE);
    }
 
-   public void setRelationshipLagCalendar(RelationshipLagCalendar relationshipLagCalendar) {
-      set(ProjectField.RELATIONSHIP_LAG_CALENDAR, relationshipLagCalendar);
+   /**
+    * Set the relationship lag calendar.
+    *
+    * @param calendar relationship lag calendar
+    */
+   public void setRelationshipLagCalendar(RelationshipLagCalendar calendar)
+   {
+      set(ProjectField.RELATIONSHIP_LAG_CALENDAR, calendar);
    }
 
-   public RelationshipLagCalendar getRelationshipLagCalendar() {
+   /**
+    * Retrieve the relationship lag calendar.
+    *
+    * @return relationship lag calendar
+    */
+   public RelationshipLagCalendar getRelationshipLagCalendar()
+   {
       return (RelationshipLagCalendar) get(ProjectField.RELATIONSHIP_LAG_CALENDAR);
    }
 
