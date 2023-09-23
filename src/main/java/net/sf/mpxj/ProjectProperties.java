@@ -125,7 +125,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setSubject(null);
       setAuthor(null);
       setKeywords(null);
-      setRelationshipLagCalendar(RelationshipLagCalendar.PREDECESSOR);
 
       //
       // Configure non-MPX attributes
@@ -150,6 +149,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setWeekStartDay(DEFAULT_WEEK_START_DAY);
       setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
       setTotalSlackCalculationType(TotalSlackCalculationType.SMALLEST_SLACK);
+      setRelationshipLagCalendar(RelationshipLagCalendar.PREDECESSOR);
    }
 
    /**
