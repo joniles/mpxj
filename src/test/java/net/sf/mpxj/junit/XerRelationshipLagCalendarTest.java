@@ -37,8 +37,8 @@ public class XerRelationshipLagCalendarTest
    /**
     * Validate default lag calendar read correctly.
     */
-   @Test
-   public void testProjectDefaultCalendar() throws Exception {
+   @Test public void testProjectDefaultCalendar() throws Exception
+   {
       ProjectFile xml = new PrimaveraXERFileReader().read(MpxjTestData.filePath("ProjectDefaultCalendar.xer"));
       assertEquals(xml.getProjectProperties().getRelationshipLagCalendar(), RelationshipLagCalendar.PROJECT_DEFAULT);
    }
@@ -46,8 +46,8 @@ public class XerRelationshipLagCalendarTest
    /**
     * Validate predecessor lag calendar read correctly.
     */
-   @Test
-   public void testPredecessorCalendar() throws Exception {
+   @Test public void testPredecessorCalendar() throws Exception
+   {
       ProjectFile xml = new PrimaveraXERFileReader().read(MpxjTestData.filePath("PredecessorCalendar.xer"));
       assertEquals(xml.getProjectProperties().getRelationshipLagCalendar(), RelationshipLagCalendar.PREDECESSOR);
    }
@@ -55,8 +55,8 @@ public class XerRelationshipLagCalendarTest
    /**
     * Validate successor lag calendar read correctly.
     */
-   @Test
-   public void testSuccessorCalendar() throws Exception {
+   @Test public void testSuccessorCalendar() throws Exception
+   {
       ProjectFile xml = new PrimaveraXERFileReader().read(MpxjTestData.filePath("SuccessorCalendar.xer"));
       assertEquals(xml.getProjectProperties().getRelationshipLagCalendar(), RelationshipLagCalendar.SUCCESSOR);
    }
@@ -64,8 +64,8 @@ public class XerRelationshipLagCalendarTest
    /**
     * Validate 24-hour lag calendar read correctly.
     */
-   @Test
-   public void testTwentyFourHourCalendar() throws Exception {
+   @Test public void testTwentyFourHourCalendar() throws Exception
+   {
       ProjectFile xml = new PrimaveraXERFileReader().read(MpxjTestData.filePath("TwentyFourHourCalendar.xer"));
       assertEquals(xml.getProjectProperties().getRelationshipLagCalendar(), RelationshipLagCalendar.TWENTY_FOUR_HOUR);
    }
