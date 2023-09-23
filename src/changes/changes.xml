@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.1.3">
+			<action dev="joniles" type="update">Added the Project Properties attribute Relationship Lag Calendar and implemented read and write support for this for P6 schedules. (Contributed by Rohit Sinha).</action>
 		</release>
 		<release date="2023-09-21" version="12.1.2">
 			<action dev="joniles" type="update">Updates to improve compatibility with versions of Java after Java 8.</action>
