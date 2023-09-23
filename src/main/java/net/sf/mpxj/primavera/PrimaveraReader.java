@@ -1807,6 +1807,7 @@ final class PrimaveraReader
 
    /**
     * Extract schedule options.
+    * TODO: deprecate the use of custom properties and replace with specific attributes
     *
     * @param row schedule options row
     */
@@ -1849,6 +1850,7 @@ final class PrimaveraReader
       customProperties.put("ComputeTotalFloatAs", row.getString("sched_float_type"));
       m_project.getProjectProperties().setTotalSlackCalculationType(TotalSlackCalculationTypeHelper.getInstanceFromXer(row.getString("sched_float_type")));
       customProperties.put("CalendarForSchedulingRelationshipLag", row.getString("sched_calendar_on_relationship_lag"));
+      m_project.getProjectProperties().setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXer(row.getString("sched_calendar_on_relationship_lag")));
 
       //
       // Schedule Options - Advanced

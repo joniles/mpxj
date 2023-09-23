@@ -589,6 +589,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setMustFinishBy(project.getMustFinishByDate());
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
       properties.setLocationUniqueID(project.getLocationObjectId());
+      properties.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXml(project.getRelationshipLagCalendar()));
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 

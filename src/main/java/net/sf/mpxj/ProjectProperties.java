@@ -149,6 +149,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setWeekStartDay(DEFAULT_WEEK_START_DAY);
       setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
       setTotalSlackCalculationType(TotalSlackCalculationType.SMALLEST_SLACK);
+      setRelationshipLagCalendar(RelationshipLagCalendar.PREDECESSOR);
    }
 
    /**
@@ -2893,6 +2894,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    public TotalSlackCalculationType getTotalSlackCalculationType()
    {
       return (TotalSlackCalculationType) get(ProjectField.TOTAL_SLACK_CALCULATION_TYPE);
+   }
+
+   /**
+    * Set the relationship lag calendar.
+    *
+    * @param calendar relationship lag calendar
+    */
+   public void setRelationshipLagCalendar(RelationshipLagCalendar calendar)
+   {
+      set(ProjectField.RELATIONSHIP_LAG_CALENDAR, calendar);
+   }
+
+   /**
+    * Retrieve the relationship lag calendar.
+    *
+    * @return relationship lag calendar
+    */
+   public RelationshipLagCalendar getRelationshipLagCalendar()
+   {
+      return (RelationshipLagCalendar) get(ProjectField.RELATIONSHIP_LAG_CALENDAR);
    }
 
    /**

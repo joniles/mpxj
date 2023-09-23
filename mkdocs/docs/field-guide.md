@@ -109,6 +109,7 @@ Project Externally Edited| | | | | | | | | |✓| | | | | | | | 
 Project File Path| | | | | | | |✓| | | | | | | | | | | | | | | 
 Project ID| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Project Title|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Relationship Lag Calendar|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Resource Pool File| | | | | | | |✓| | | | | | | | | | | | | | | 
 Revision| | | | | | | |✓| |✓| | | | | | | | | | | | | 
 Schedule From|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
