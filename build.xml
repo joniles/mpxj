@@ -222,16 +222,18 @@
 		<copy file="${env.MPXJ_SCHEMA_DIR}/conceptdraw/document-corrected.xsd" toDir="${basedir}/jaxb"/>
 		<copy file="${env.MPXJ_SCHEMA_DIR}/mspdi/mspdi_pj15-corrected.xsd" toDir="${basedir}/jaxb"/>
 		<copy file="${env.MPXJ_SCHEMA_DIR}/pmxml/p6v2212-p6apibo-corrected.xsd" toDir="${basedir}/jaxb"/>
-
+<!--
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mspdi-binding.xjb -p net.sf.mpxj.mspdi.schema mspdi_pj15-corrected.xsd" />
 		</exec>
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b mrproject.xjb -p net.sf.mpxj.planner.schema mrproject-0.6.xsd" />
 		</exec>
+-->
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b pm-binding.xjb -p net.sf.mpxj.primavera.schema p6v2212-p6apibo-corrected.xsd" />
 		</exec>
+<!--
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b phoenix-4-binding.xjb -p net.sf.mpxj.phoenix.schema.phoenix4 phoenix-4.xsd" />
 		</exec>
@@ -247,7 +249,7 @@
 		<exec executable="${xjc.cmd}" dir="${basedir}/jaxb" failonerror="true">
 			<arg line="-classpath ${classes.dir} -d ${basedir}/src/main/java -b gantt-designer-binding.xjb -p net.sf.mpxj.ganttdesigner.schema gantt-designer.xsd" />
 		</exec>
-
+-->
 		<!-- Remove schemas not included with MPXJ -->
 		<delete file="${basedir}/jaxb/document-corrected.xsd"/>
 		<delete file="${basedir}/jaxb/mspdi_pj15-corrected.xsd"/>
