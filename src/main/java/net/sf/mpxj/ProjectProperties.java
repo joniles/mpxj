@@ -2917,11 +2917,11 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Maps a field index to a TaskField instance.
+    * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
     * @param index required field index
-    * @return TaskField instance
+    * @return ProjectField instance
     */
    private ProjectField selectField(ProjectField[] fields, int index)
    {
