@@ -571,6 +571,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *           &amp;lt;element name="ResourceAssignmentPeriodActual" type="{http://xmlns.oracle.com/Primavera/P6/V22.12/API/BusinessObjects}ResourceAssignmentPeriodActualType" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *           &amp;lt;element name="Document" type="{http://xmlns.oracle.com/Primavera/P6/V22.12/API/BusinessObjects}DocumentType" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *           &amp;lt;element name="ProjectDocument" type="{http://xmlns.oracle.com/Primavera/P6/V22.12/API/BusinessObjects}ProjectDocumentType" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
+ *           &amp;lt;element name="ScheduleOptions" type="{http://xmlns.oracle.com/Primavera/P6/V22.12/API/BusinessObjects}ScheduleOptionsType" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *           &amp;lt;element name="Risk" type="{http://xmlns.oracle.com/Primavera/P6/V22.12/API/BusinessObjects}RiskType" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *           &amp;lt;element name="ActivityRisk" type="{http://xmlns.oracle.com/Primavera/P6/V22.12/API/BusinessObjects}ActivityRiskType" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
  *           &amp;lt;element name="RiskImpact" type="{http://xmlns.oracle.com/Primavera/P6/V22.12/API/BusinessObjects}RiskImpactType" maxOccurs="unbounded" minOccurs="0"/&amp;gt;
@@ -858,6 +859,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    "resourceAssignmentPeriodActual",
    "document",
    "projectDocument",
+   "scheduleOptions",
    "risk",
    "activityRisk",
    "riskImpact",
@@ -1137,6 +1139,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    @XmlElement(name = "ResourceAssignmentPeriodActual") protected List<ResourceAssignmentPeriodActualType> resourceAssignmentPeriodActual;
    @XmlElement(name = "Document") protected List<DocumentType> document;
    @XmlElement(name = "ProjectDocument") protected List<ProjectDocumentType> projectDocument;
+   @XmlElement(name = "ScheduleOptions") protected List<ScheduleOptionsType> scheduleOptions;
    @XmlElement(name = "Risk") protected List<RiskType> risk;
    @XmlElement(name = "ActivityRisk") protected List<ActivityRiskType> activityRisk;
    @XmlElement(name = "RiskImpact") protected List<RiskImpactType> riskImpact;
@@ -8297,6 +8300,37 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
          projectDocument = new ArrayList<>();
       }
       return this.projectDocument;
+   }
+
+   /**
+    * Gets the value of the scheduleOptions property.
+    *
+    * &lt;p&gt;
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the JAXB object.
+    * This is why there is not a &lt;CODE&gt;set&lt;/CODE&gt; method for the scheduleOptions property.
+    *
+    * &lt;p&gt;
+    * For example, to add a new item, do as follows:
+    * &lt;pre&gt;
+    *    getScheduleOptions().add(newItem);
+    * &lt;/pre&gt;
+    *
+    *
+    * &lt;p&gt;
+    * Objects of the following type(s) are allowed in the list
+    * {@link ScheduleOptionsType }
+    *
+    *
+    */
+   public List<ScheduleOptionsType> getScheduleOptions()
+   {
+      if (scheduleOptions == null)
+      {
+         scheduleOptions = new ArrayList<>();
+      }
+      return this.scheduleOptions;
    }
 
    /**

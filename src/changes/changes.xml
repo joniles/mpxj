@@ -7,6 +7,8 @@
 	<body>
 		<release date="unreleased" version="12.1.3">
 			<action dev="joniles" type="update">Added the Project Properties attribute Relationship Lag Calendar and implemented read and write support for this for P6 schedules. (Contributed by Rohit Sinha).</action>
+			<action dev="joniles" type="update">Improve compatibility of PMXML files with P6 EPPM by moving the Schedule Options tag.</action>
+			<action dev="joniles" type="update">Ensure Baseline Projects in PMXML files include Schedule Options and Location Object ID.</action>
 		</release>
 		<release date="2023-09-21" version="12.1.2">
 			<action dev="joniles" type="update">Updates to improve compatibility with versions of Java after Java 8.</action>
