@@ -614,6 +614,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
+
+      processScheduleOptions(project.getScheduleOptions());
    }
 
    /**
