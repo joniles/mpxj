@@ -823,6 +823,13 @@ module MPXJ
       attribute_values['project_title']
     end
 
+    # Retrieve the Relationship Lag Calendar value
+    #
+    # @return Relationship Lag Calendar value
+    def relationship_lag_calendar
+      attribute_values['relationship_lag_calendar']
+    end
+
     # Retrieve the Remove File Properties value
     #
     # @return Remove File Properties value
@@ -1109,6 +1116,7 @@ module MPXJ
       'project_file_path' => :string,
       'project_id' => :string,
       'project_title' => :string,
+      'relationship_lag_calendar' => :relationship_lag_calendar,
       'remove_file_properties' => :boolean,
       'resource_pool_file' => :string,
       'revision' => :integer,

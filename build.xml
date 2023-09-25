@@ -7,7 +7,7 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="12.1.2" />
+		<property name="current.version" value="12.1.3" />
 
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="mvn.cmd"/>
