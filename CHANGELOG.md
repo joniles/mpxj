@@ -1,6 +1,33 @@
 # Changelog
 
-## 12.0.3 (unreleased)
+## 12.1.4 (unreleased)
+
+## 12.1.3 (2023-09-25)
+* Added the Project Properties attribute Relationship Lag Calendar and implemented read and write support for this for P6 schedules. (Contributed by Rohit Sinha).
+* Improve compatibility of PMXML files with P6 EPPM by moving the Schedule Options tag.
+* Ensure Baseline Projects in PMXML files include Schedule Options and Location Object ID.
+
+## 12.1.2 (2023-09-21)
+* Updates to improve compatibility with versions of Java after Java 8.
+* Ensure timestamps with fractional sections are read correctly from Phoenix PPX files (Based on a contribution by Rohit Sinha).
+* Improve handling of double quotes when reading and writing XER files.
+* To allow XER files written by MPXJ to be imported correctly by P6, ensure that they have a single top level WBS entry (Based on a contribution by Alex Matatov)
+* Ensure that `ProjectProperties.getCustomProperties()` returns an empty Map rather than returning `null` if no custom properties have been configured.
+* Ensure project calendars and project activity codes are nested within the project tag of PMXML files.
+
+## 12.1.1 (2023-08-23)
+* Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on macOS.
+
+## 12.1.0 (2023-08-22)
+* Write schedule options to PMXML abd XER files.
+* Fix an arithmetic error in RateHelper when converting a rate from minutes to hours.
+* Introduced new methods to RateHelper accepting a `TimeUnitDefaultsContainer` argument rather than a `ProjectFile` for greater flexibility. Marked methods taking a `ProjectFile` argument as deprecated.
+* Ensure Early Finish and Late Finish are populated for Asta milestones and tasks.
+* Don't attempt to calculate total slack if start slack or finish slack are missing.
+* Ensure completed tasks are not marked as critical.
+* Improve handling of non-standard Boolean values in MPX files.
+* Improve Total Slack calculation for P6 projects.
+* Handle finish milestones with `null` actual start date for actual duration calculation when reading PMXML files (Contributed by Andrew Marks).
 
 ## 12.0.2 (2023-07-25)
 * Ensure that the Fixed Cost attribute is rolled up from activities to WBS entries when reading P6 schedules.

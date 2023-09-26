@@ -5,7 +5,26 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="12.1.0">
+		<release date="unreleased" version="12.1.4">
+		</release>
+		<release date="2023-09-25" version="12.1.3">
+			<action dev="joniles" type="update">Added the Project Properties attribute Relationship Lag Calendar and implemented read and write support for this for P6 schedules. (Contributed by Rohit Sinha).</action>
+			<action dev="joniles" type="update">Improve compatibility of PMXML files with P6 EPPM by moving the Schedule Options tag.</action>
+			<action dev="joniles" type="update">Ensure Baseline Projects in PMXML files include Schedule Options and Location Object ID.</action>
+		</release>
+		<release date="2023-09-21" version="12.1.2">
+			<action dev="joniles" type="update">Updates to improve compatibility with versions of Java after Java 8.</action>
+			<action dev="joniles" type="update">Ensure timestamps with fractional sections are read correctly from Phoenix PPX files (Based on a contribution by Rohit Sinha).</action>
+			<action dev="joniles" type="update">Improve handling of double quotes when reading and writing XER files.</action>
+			<action dev="joniles" type="update">To allow XER files written by MPXJ to be imported correctly by P6, ensure that they have a single top level WBS entry (Based on a contribution by Alex Matatov)</action>
+			<action dev="joniles" type="update">Ensure that `ProjectProperties.getCustomProperties()` returns an empty Map rather than returning `null` if no custom properties have been configured.</action>
+			<action dev="joniles" type="update">Ensure project calendars and project activity codes are nested within the project tag of PMXML files.</action>
+		</release>
+		<release date="2023-08-23" version="12.1.1">
+			<action dev="joniles" type="update">Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on macOS.</action>
+		</release>
+		<release date="2023-08-22" version="12.1.0">
+			<action dev="joniles" type="update">Write schedule options to PMXML abd XER files.</action>
 			<action dev="joniles" type="update">Fix an arithmetic error in RateHelper when converting a rate from minutes to hours.</action>
 			<action dev="joniles" type="update">Introduced new methods to RateHelper accepting a `TimeUnitDefaultsContainer` argument rather than a `ProjectFile` for greater flexibility. Marked methods taking a `ProjectFile` argument as deprecated.</action>
 			<action dev="joniles" type="update">Ensure Early Finish and Late Finish are populated for Asta milestones and tasks.</action>
@@ -13,7 +32,6 @@
 			<action dev="joniles" type="update">Ensure completed tasks are not marked as critical.</action>
 			<action dev="joniles" type="update">Improve handling of non-standard Boolean values in MPX files.</action>
 			<action dev="joniles" type="update">Improve Total Slack calculation for P6 projects.</action>
-			<action dev="joniles" type="update">Write schedule options to PMXML abd XER files.</action>
 			<action dev="joniles" type="update">Handle finish milestones with `null` actual start date for actual duration calculation when reading PMXML files (Contributed by Andrew Marks).</action>
 		</release>
 		<release date="2023-07-25" version="12.0.2">

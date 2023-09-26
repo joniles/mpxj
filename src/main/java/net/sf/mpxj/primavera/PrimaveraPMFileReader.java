@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -590,6 +589,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setMustFinishBy(project.getMustFinishByDate());
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
       properties.setLocationUniqueID(project.getLocationObjectId());
+      properties.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXml(project.getRelationshipLagCalendar()));
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 
@@ -614,6 +614,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
+
+      processScheduleOptions(project.getScheduleOptions());
    }
 
    /**

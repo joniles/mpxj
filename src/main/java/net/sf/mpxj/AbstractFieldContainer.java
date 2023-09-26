@@ -125,7 +125,7 @@ public abstract class AbstractFieldContainer<T> extends ProjectEntity implements
          return;
       }
 
-      if ((oldValue == null && value != null) || (oldValue != null && value == null) || (!oldValue.equals(value)))
+      if ((oldValue == null && value != null) || (oldValue != null && value == null) || (oldValue != null && !oldValue.equals(value)))
       {
          handleFieldChange(field, oldValue, value);
          fireFieldChangeEvent(field, oldValue, value);

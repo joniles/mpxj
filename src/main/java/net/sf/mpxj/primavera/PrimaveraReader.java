@@ -1807,6 +1807,7 @@ final class PrimaveraReader
 
    /**
     * Extract schedule options.
+    * TODO: deprecate the use of custom properties and replace with specific attributes
     *
     * @param row schedule options row
     */
@@ -1825,7 +1826,7 @@ final class PrimaveraReader
       customProperties.put("LevelAllResources", Boolean.valueOf(row.getBoolean("level_all_rsrc_flag")));
       customProperties.put("LevelResourcesOnlyWithinActivityTotalFloat", Boolean.valueOf(row.getBoolean("level_within_float_flag")));
       customProperties.put("PreserveMinimumFloatWhenLeveling", NumberHelper.getInteger(row.getString("level_float_thrs_cnt")));
-      customProperties.put("MaxPercentToOverallocateResources", NumberHelper.getDouble(row.getString("level_over_alloc_pct")));
+      customProperties.put("MaxPercentToOverallocateResources", NumberHelper.getDoubleObject(row.getString("level_over_alloc_pct")));
       customProperties.put("LevelingPriorities", row.getString("levelprioritylist"));
 
       //
@@ -1836,7 +1837,7 @@ final class PrimaveraReader
       //
       // Schedule Options - General
       //
-      customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", "SD_None".equals(row.getString("sched_outer_depend_type")));
+      customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", Boolean.valueOf("SD_None".equals(row.getString("sched_outer_depend_type"))));
       customProperties.put("MakeOpenEndedActivitiesCritical", Boolean.valueOf(row.getBoolean("sched_open_critical_flag")));
       customProperties.put("UseExpectedFinishDates", Boolean.valueOf(row.getBoolean("sched_use_expect_end_flag")));
       // Schedule automatically when a change affects dates
@@ -1849,6 +1850,7 @@ final class PrimaveraReader
       customProperties.put("ComputeTotalFloatAs", row.getString("sched_float_type"));
       m_project.getProjectProperties().setTotalSlackCalculationType(TotalSlackCalculationTypeHelper.getInstanceFromXer(row.getString("sched_float_type")));
       customProperties.put("CalendarForSchedulingRelationshipLag", row.getString("sched_calendar_on_relationship_lag"));
+      m_project.getProjectProperties().setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXer(row.getString("sched_calendar_on_relationship_lag")));
 
       //
       // Schedule Options - Advanced

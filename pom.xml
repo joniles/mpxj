@@ -9,7 +9,7 @@
 	<artifactId>mpxj</artifactId>
 
 	<!-- Note - this is automatically updated by the ant build ... don't remove the MPXJ comment! -->
-	<!-- MPXJ --><version>12.0.2</version>
+	<!-- MPXJ --><version>12.1.3</version>
 
 	<name>MPXJ</name>
 	<url>http://mpxj.org</url>
@@ -190,6 +190,9 @@
 		</contributor>
 		<contributor>
 			<name>Nathaniel Marrin</name>
+		</contributor>
+		<contributor>
+			<name>Alex Matatov</name>
 		</contributor>
 		<contributor>
 			<name>Dave McKay</name>

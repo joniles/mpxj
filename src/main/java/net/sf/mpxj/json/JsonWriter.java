@@ -987,6 +987,8 @@ public final class JsonWriter extends AbstractProjectWriter
          double val = ((Number) value).doubleValue();
          if (val != 0)
          {
+            // Round to 4 decimal places
+            val = Math.round(val * 10000.0) / 10000.0;
             m_writer.writeNameValuePair(fieldName, val);
          }
       }
@@ -1175,6 +1177,11 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       @SuppressWarnings("unchecked")
       Map<String, Object> map = (Map<String, Object>) value;
+      if (map.isEmpty())
+      {
+         return;
+      }
+
       m_writer.writeStartObject(fieldName);
       for (Map.Entry<String, Object> entry : map.entrySet())
       {

@@ -89,6 +89,7 @@ PM Text|✓|✓|✓|✓
 Presentation Format| |✓|✓|✓
 Project File Path| |✓|✓|✓
 Project Title|✓|✓|✓|✓
+Relationship Lag Calendar|✓|✓|✓|✓
 Resource Pool File| |✓|✓|✓
 Revision|✓|✓|✓|✓
 Schedule From|✓|✓|✓|✓

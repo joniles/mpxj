@@ -523,7 +523,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public LocalDateTime getStart()
    {
-      return (LocalDateTime)get(ResourceField.START);
+      return (LocalDateTime) get(ResourceField.START);
    }
 
    /**
@@ -533,7 +533,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public LocalDateTime getFinish()
    {
-      return (LocalDateTime)get(ResourceField.FINISH);
+      return (LocalDateTime) get(ResourceField.FINISH);
    }
 
    /**

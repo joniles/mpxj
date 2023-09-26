@@ -703,12 +703,12 @@ final class Record
          // Handle common non-standard true/false values
          if (value.equals("0"))
          {
-            return false;
+            return Boolean.FALSE;
          }
 
          if (value.equals("1"))
          {
-            return true;
+            return Boolean.TRUE;
          }
 
          // Handle standard true/false value

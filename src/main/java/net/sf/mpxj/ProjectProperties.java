@@ -149,6 +149,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setWeekStartDay(DEFAULT_WEEK_START_DAY);
       setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
       setTotalSlackCalculationType(TotalSlackCalculationType.SMALLEST_SLACK);
+      setRelationshipLagCalendar(RelationshipLagCalendar.PREDECESSOR);
    }
 
    /**
@@ -2896,11 +2897,31 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Maps a field index to a TaskField instance.
+    * Set the relationship lag calendar.
+    *
+    * @param calendar relationship lag calendar
+    */
+   public void setRelationshipLagCalendar(RelationshipLagCalendar calendar)
+   {
+      set(ProjectField.RELATIONSHIP_LAG_CALENDAR, calendar);
+   }
+
+   /**
+    * Retrieve the relationship lag calendar.
+    *
+    * @return relationship lag calendar
+    */
+   public RelationshipLagCalendar getRelationshipLagCalendar()
+   {
+      return (RelationshipLagCalendar) get(ProjectField.RELATIONSHIP_LAG_CALENDAR);
+   }
+
+   /**
+    * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
     * @param index required field index
-    * @return TaskField instance
+    * @return ProjectField instance
     */
    private ProjectField selectField(ProjectField[] fields, int index)
    {
@@ -2957,12 +2978,12 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return getParentFile().getLatestFinishDate();
    }
 
-   private Integer calculateDaysPerMonth()
+   private Integer defaultDaysPerMonth()
    {
       return DEFAULT_DAYS_PER_MONTH;
    }
 
-   private Integer calculateMinutesPerDay()
+   private Integer defaultMinutesPerDay()
    {
       return DEFAULT_MINUTES_PER_DAY;
    }
@@ -2982,29 +3003,34 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
    }
 
-   private Character calculateDateSeparator()
+   private Character defaultDateSeparator()
    {
       return Character.valueOf(DEFAULT_DATE_SEPARATOR);
    }
 
-   private Character calculateTimeSeparator()
+   private Character defaultTimeSeparator()
    {
       return Character.valueOf(DEFAULT_TIME_SEPARATOR);
    }
 
-   private Character calculateDecimalSeparator()
+   private Character defaultDecimalSeparator()
    {
       return Character.valueOf(DEFAULT_DECIMAL_SEPARATOR);
    }
 
-   private Character calculateThousandsSeparator()
+   private Character defaultThousandsSeparator()
    {
       return Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR);
    }
 
-   private Character calculateMpxDelimiter()
+   private Character defaultMpxDelimiter()
    {
       return Character.valueOf(DEFAULT_MPX_DELIMITER);
+   }
+
+   private Map<String, Object> defaultCustomProperties()
+   {
+      return new HashMap<>();
    }
 
    /**
@@ -3122,15 +3148,16 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    {
       CALCULATED_FIELD_MAP.put(ProjectField.START_DATE, ProjectProperties::calculateStartDate);
       CALCULATED_FIELD_MAP.put(ProjectField.FINISH_DATE, ProjectProperties::calculateFinishDate);
-      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, ProjectProperties::calculateDaysPerMonth);
-      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, ProjectProperties::calculateMinutesPerDay);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, ProjectProperties::calculateMinutesPerWeek);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, ProjectProperties::calculateMinutesPerMonth);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, ProjectProperties::calculateMinutesPerYear);
-      CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, ProjectProperties::calculateDateSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, ProjectProperties::calculateTimeSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, ProjectProperties::calculateThousandsSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, ProjectProperties::calculateDecimalSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, ProjectProperties::calculateMpxDelimiter);
+      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, ProjectProperties::defaultDaysPerMonth);
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, ProjectProperties::defaultMinutesPerDay);
+      CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, ProjectProperties::defaultDateSeparator);
+      CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, ProjectProperties::defaultTimeSeparator);
+      CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, ProjectProperties::defaultThousandsSeparator);
+      CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, ProjectProperties::defaultDecimalSeparator);
+      CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, ProjectProperties::defaultMpxDelimiter);
+      CALCULATED_FIELD_MAP.put(ProjectField.CUSTOM_PROPERTIES, ProjectProperties::defaultCustomProperties);
    }
 }
