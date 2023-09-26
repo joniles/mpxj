@@ -570,18 +570,31 @@ final class AstaReader
       // To match what we see in Asta the best way to determine the duration appears
       // to be to calculate it from the start and finish dates.
       //
-      Duration duration;
+      Duration remainingDuration;
       if (timeUnitIsElapsed(row.getInt("DURATION_TIMJ_UNIT")))
       {
-         duration = Duration.getInstance(task.getStart().until(task.getFinish(), ChronoUnit.HOURS), TimeUnit.HOURS);
+         remainingDuration = Duration.getInstance(task.getResume().until(task.getFinish(), ChronoUnit.HOURS), TimeUnit.HOURS);
       }
       else
       {
-         duration = task.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
-      }
-      task.setDuration(duration);
+         LocalDateTime startDate = task.getResume();
+         if (startDate == null)
+         {
+            startDate = task.getStart();
+         }
 
-      System.out.println(task.getName() + "\t" + duration + "\t" + row.getString("PLANNED_DURATION"));
+         remainingDuration = task.getEffectiveCalendar().getWork(startDate, task.getFinish(), TimeUnit.HOURS);
+         if (remainingDuration == null)
+         {
+            remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
+         }
+      }
+      // TODO: test duration change first before applying this
+      //task.setRemainingDuration(remainingDuration);
+
+      Duration actualDuration = task.getActualDuration();
+      Duration durationAtCompletion = Duration.getInstance(actualDuration.getDuration() + remainingDuration.getDuration(), TimeUnit.HOURS);
+      task.setDuration(durationAtCompletion);
 
       //
       // Overall Percent Complete
@@ -602,13 +615,12 @@ final class AstaReader
       }
       else
       {
-         Duration actualDuration = task.getActualDuration();
-         if (duration != null && duration.getDuration() > 0 && actualDuration != null && actualDuration.getDuration() > 0)
+         if (durationAtCompletion != null && durationAtCompletion.getDuration() > 0 && actualDuration != null && actualDuration.getDuration() > 0)
          {
             // We have an actual duration, so we must have an actual start date
             task.setActualStart(task.getStart());
 
-            double percentComplete = (actualDuration.getDuration() / duration.getDuration()) * 100.0;
+            double percentComplete = (actualDuration.getDuration() / durationAtCompletion.getDuration()) * 100.0;
             task.setPercentageComplete(Double.valueOf(percentComplete));
             if (percentComplete > 99.0)
             {
@@ -687,8 +699,8 @@ final class AstaReader
       //Related_Documents
       task.setCalendar(calendar);
 
-      task.setDuration(deriveEffectiveCalendar(task).getDuration(task.getStart(), task.getFinish()));
-      //task.setDuration(deriveEffectiveCalendar(task).getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS));
+      Duration durationAtCompletion = deriveEffectiveCalendar(task).getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
+      task.setDuration(durationAtCompletion);
    }
 
    /**
