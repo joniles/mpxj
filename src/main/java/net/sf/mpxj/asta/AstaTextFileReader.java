@@ -197,12 +197,12 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
     */
    private void processFileType(String token) throws MPXJException
    {
-      String version = token.substring(2).split(" ")[0];
+      m_fileVersion = Integer.valueOf(token.substring(2).split(" ")[0]);
       //System.out.println(version);
-      Class<? extends AbstractFileFormat> fileFormatClass = FILE_VERSION_MAP.get(Integer.valueOf(version));
+      Class<? extends AbstractFileFormat> fileFormatClass = FILE_VERSION_MAP.get(m_fileVersion);
       if (fileFormatClass == null)
       {
-         throw new MPXJException("Unsupported PP file format version " + version);
+         throw new MPXJException("Unsupported PP file format version " + m_fileVersion);
       }
 
       try
@@ -225,7 +225,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       List<Row> rows = getTable("PROJECT_SUMMARY");
       if (!rows.isEmpty())
       {
-         m_reader.processProjectProperties(rows.get(0), null, null);
+         m_reader.processProjectProperties(m_fileVersion, rows.get(0), null, null);
       }
    }
 
@@ -395,6 +395,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       return m_tables.getOrDefault(name, Collections.emptyList());
    }
 
+   private Integer m_fileVersion;
    private AstaReader m_reader;
    private Map<String, List<Row>> m_tables;
    private Map<Integer, TableDefinition> m_tableDefinitions;

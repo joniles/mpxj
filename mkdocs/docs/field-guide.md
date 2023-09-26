@@ -27,7 +27,7 @@ Actual Duration| | | | | | | | |✓| | | | | | | | | | | | |
 Actual Start| | | | | | | | |✓| | | | | | | | | | | | | | 
 Actual Work| | | | | | | | |✓| | | | | | | | | | | | | | 
 Actuals In Sync| | | | | | | | | |✓| | | | | | | | | | | | | 
-Application Version| | | | | | | |✓| |✓| | | | | | | |✓| | | | | 
+Application Version|✓| | | | | | |✓| |✓| | | | | | | |✓| | | | | 
 Author|✓| | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
 Auto Add New Resources and Tasks|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Auto Filter| | | | | | | |✓| | | | | | | | | | | | | | | 
