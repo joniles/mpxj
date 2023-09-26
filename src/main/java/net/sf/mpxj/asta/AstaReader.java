@@ -123,9 +123,10 @@ final class AstaReader
     * @param userSettings user settings
     * @param progressPeriods progress period data.
     */
-   public void processProjectProperties(Row projectSummary, Row userSettings, List<Row> progressPeriods)
+   public void processProjectProperties(Integer schemaVersion, Row projectSummary, Row userSettings, List<Row> progressPeriods)
    {
       ProjectProperties ph = m_project.getProjectProperties();
+      ph.setApplicationVersion(schemaVersion);
       final Integer currentProgressPeriodID;
 
       if (projectSummary != null)

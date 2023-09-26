@@ -122,13 +122,15 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processProjectProperties() throws SQLException
    {
+      List<Row> schemaVersionRows = getRows("select* from dodschem");
       List<Row> projectSummaryRows = getRows("select duration as durationhours, project_start as staru, project_end as ene, * from project_summary where projid=?", m_projectID);
       List<Row> progressPeriodRows = getRows("select id as progress_periodid, * from progress_period where projid=?", m_projectID);
       List<Row> userSettingsRows = getRows("select * from userr where projid=?", m_projectID);
+      Integer schemaVersion = schemaVersionRows.isEmpty() ? null : schemaVersionRows.get(0).getInteger("SCHVER");
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
       Row userSettings = userSettingsRows.isEmpty() ? null : userSettingsRows.get(0);
       List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;
-      m_reader.processProjectProperties(projectSummary, userSettings, progressPeriods);
+      m_reader.processProjectProperties(schemaVersion, projectSummary, userSettings, progressPeriods);
    }
 
    /**
