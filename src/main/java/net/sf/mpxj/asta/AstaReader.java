@@ -25,6 +25,7 @@ package net.sf.mpxj.asta;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -568,10 +569,18 @@ final class AstaReader
       // To match what we see in Asta the best way to determine the duration appears
       // to be to calculate it from the start and finish dates.
       //
-
-      // TODO: looks like we need to handle elapsed durations specifically
-      Duration duration = task.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
+      Duration duration;
+      if (timeUnitIsElapsed(row.getInt("DURATION_TIMJ_UNIT")))
+      {
+         duration = Duration.getInstance(task.getStart().until(task.getFinish(), ChronoUnit.HOURS), TimeUnit.HOURS);
+      }
+      else
+      {
+         duration = task.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
+      }
       task.setDuration(duration);
+
+      System.out.println(task.getName() + "\t" + duration + "\t" + row.getString("PLANNED_DURATION"));
 
       //
       // Overall Percent Complete
@@ -2187,6 +2196,30 @@ final class AstaReader
             task.addActivityCode(value);
          }
       }
+   }
+
+   private boolean timeUnitIsElapsed(int timeUnit)
+   {
+      // 10 Elapsed Year
+      // 11 Elapsed Quarter
+      // 12 Elapsed Month
+      // 13 Elapsed Week
+      // 14 Elapsed Day
+      // 15 Elapsed Half Day
+      // 16 Elapsed Hours
+      // 17 Elapsed Minutes
+      // 18 Elapsed Seconds
+      // 19 Year
+      // 20 Quarter
+      // 21 Month
+      // 22 Week
+      // 23 Day
+      // 24 Half Day
+      // 25 Hours
+      // 26 Minutes
+      // 27 Seconds
+
+      return timeUnit >= 10 && timeUnit <= 18;
    }
 
    private final ProjectFile m_project;
