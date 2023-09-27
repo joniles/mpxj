@@ -566,16 +566,20 @@ final class AstaReader
       //LAST_EDITED_BY
 
       //
+      // Overall Percent Complete
+      //
+      Double overallPercentComplete = row.getPercent("OVERALL_PERCENV_COMPLETE");
+      task.setOverallPercentComplete(overallPercentComplete);
+      m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
+      boolean taskIsComplete = overallPercentComplete != null && overallPercentComplete.doubleValue() > 99.0;
+
+      //
       // The attribute we thought contained the duration appears to be unreliable.
       // To match what we see in Asta the best way to determine the duration appears
       // to be to calculate it from the start and finish dates.
       //
-      Duration remainingDuration;
-      if (timeUnitIsElapsed(row.getInt("DURATION_TIMJ_UNIT")))
-      {
-         remainingDuration = Duration.getInstance(task.getResume().until(task.getFinish(), ChronoUnit.HOURS), TimeUnit.HOURS);
-      }
-      else
+      Duration remainingDuration = null;
+      if (!taskIsComplete)
       {
          LocalDateTime startDate = task.getResume();
          if (startDate == null)
@@ -583,25 +587,26 @@ final class AstaReader
             startDate = task.getStart();
          }
 
-         remainingDuration = task.getEffectiveCalendar().getWork(startDate, task.getFinish(), TimeUnit.HOURS);
-         if (remainingDuration == null)
+         if (timeUnitIsElapsed(row.getInt("DURATION_TIMJ_UNIT")))
          {
-            remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
+            remainingDuration = Duration.getInstance(startDate.until(task.getFinish(), ChronoUnit.HOURS), TimeUnit.HOURS);
+         }
+         else
+         {
+            remainingDuration = task.getEffectiveCalendar().getWork(startDate, task.getFinish(), TimeUnit.HOURS);
          }
       }
-      // TODO: test duration change first before applying this
+
+      if (remainingDuration == null)
+      {
+         remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
+      }
+      // TODO: re-enable
       //task.setRemainingDuration(remainingDuration);
 
       Duration actualDuration = task.getActualDuration();
       Duration durationAtCompletion = Duration.getInstance(actualDuration.getDuration() + remainingDuration.getDuration(), TimeUnit.HOURS);
       task.setDuration(durationAtCompletion);
-
-      //
-      // Overall Percent Complete
-      //
-      Double overallPercentComplete = row.getPercent("OVERALL_PERCENV_COMPLETE");
-      task.setOverallPercentComplete(overallPercentComplete);
-      m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
 
       //
       // Duration Percent Complete
