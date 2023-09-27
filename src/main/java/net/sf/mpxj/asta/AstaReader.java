@@ -25,6 +25,7 @@ package net.sf.mpxj.asta;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -565,21 +566,46 @@ final class AstaReader
       //LAST_EDITED_BY
 
       //
-      // The attribute we thought contained the duration appears to be unreliable.
-      // To match what we see in Asta the best way to determine the duration appears
-      // to be to calculate it from the start and finish dates.
-      // Note the conversion to hours is not strictly necessary, but matches the units previously used.
-      //
-      Duration duration = task.getEffectiveCalendar().getDuration(task.getStart(), task.getFinish());
-      duration = duration.convertUnits(TimeUnit.HOURS, m_project.getProjectProperties());
-      task.setDuration(duration);
-
-      //
       // Overall Percent Complete
       //
       Double overallPercentComplete = row.getPercent("OVERALL_PERCENV_COMPLETE");
       task.setOverallPercentComplete(overallPercentComplete);
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
+      boolean taskIsComplete = overallPercentComplete != null && overallPercentComplete.doubleValue() > 99.0;
+
+      //
+      // The attribute we thought contained the duration appears to be unreliable.
+      // To match what we see in Asta the best way to determine the duration appears
+      // to be to calculate it from the start and finish dates.
+      //
+      Duration remainingDuration = null;
+      if (!taskIsComplete)
+      {
+         LocalDateTime startDate = task.getResume();
+         if (startDate == null)
+         {
+            startDate = task.getStart();
+         }
+
+         if (timeUnitIsElapsed(row.getInt("DURATION_TIMJ_UNIT")))
+         {
+            remainingDuration = Duration.getInstance(startDate.until(task.getFinish(), ChronoUnit.HOURS), TimeUnit.HOURS);
+         }
+         else
+         {
+            remainingDuration = task.getEffectiveCalendar().getWork(startDate, task.getFinish(), TimeUnit.HOURS);
+         }
+      }
+
+      if (remainingDuration == null)
+      {
+         remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
+      }
+      task.setRemainingDuration(remainingDuration);
+
+      Duration actualDuration = task.getActualDuration();
+      Duration durationAtCompletion = Duration.getInstance(actualDuration.getDuration() + remainingDuration.getDuration(), TimeUnit.HOURS);
+      task.setDuration(durationAtCompletion);
 
       //
       // Duration Percent Complete
@@ -593,13 +619,12 @@ final class AstaReader
       }
       else
       {
-         Duration actualDuration = task.getActualDuration();
-         if (duration != null && duration.getDuration() > 0 && actualDuration != null && actualDuration.getDuration() > 0)
+         if (durationAtCompletion != null && durationAtCompletion.getDuration() > 0 && actualDuration != null && actualDuration.getDuration() > 0)
          {
             // We have an actual duration, so we must have an actual start date
             task.setActualStart(task.getStart());
 
-            double percentComplete = (actualDuration.getDuration() / duration.getDuration()) * 100.0;
+            double percentComplete = (actualDuration.getDuration() / durationAtCompletion.getDuration()) * 100.0;
             task.setPercentageComplete(Double.valueOf(percentComplete));
             if (percentComplete > 99.0)
             {
@@ -678,7 +703,8 @@ final class AstaReader
       //Related_Documents
       task.setCalendar(calendar);
 
-      task.setDuration(deriveEffectiveCalendar(task).getDuration(task.getStart(), task.getFinish()));
+      Duration durationAtCompletion = deriveEffectiveCalendar(task).getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
+      task.setDuration(durationAtCompletion);
    }
 
    /**
@@ -2187,6 +2213,36 @@ final class AstaReader
             task.addActivityCode(value);
          }
       }
+   }
+
+   /**
+    * Returns true if the Asta time unit is an elapsed unit.
+    *
+    * @param timeUnit Asta time unit value
+    * @return true if elapsed
+    */
+   private boolean timeUnitIsElapsed(int timeUnit)
+   {
+      // 10 Elapsed Year
+      // 11 Elapsed Quarter
+      // 12 Elapsed Month
+      // 13 Elapsed Week
+      // 14 Elapsed Day
+      // 15 Elapsed Half Day
+      // 16 Elapsed Hours
+      // 17 Elapsed Minutes
+      // 18 Elapsed Seconds
+      // 19 Year
+      // 20 Quarter
+      // 21 Month
+      // 22 Week
+      // 23 Day
+      // 24 Half Day
+      // 25 Hours
+      // 26 Minutes
+      // 27 Seconds
+
+      return timeUnit >= 10 && timeUnit <= 18;
    }
 
    private final ProjectFile m_project;
