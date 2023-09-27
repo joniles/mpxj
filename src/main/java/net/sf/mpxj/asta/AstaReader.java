@@ -601,8 +601,7 @@ final class AstaReader
       {
          remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
       }
-      // TODO: re-enable
-      //task.setRemainingDuration(remainingDuration);
+      task.setRemainingDuration(remainingDuration);
 
       Duration actualDuration = task.getActualDuration();
       Duration durationAtCompletion = Duration.getInstance(actualDuration.getDuration() + remainingDuration.getDuration(), TimeUnit.HOURS);
