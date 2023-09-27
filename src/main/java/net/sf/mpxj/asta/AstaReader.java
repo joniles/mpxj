@@ -2215,6 +2215,12 @@ final class AstaReader
       }
    }
 
+   /**
+    * Returns true if the Asta time unit is an elapsed unit.
+    *
+    * @param timeUnit Asta time unit value
+    * @return true if elapsed
+    */
    private boolean timeUnitIsElapsed(int timeUnit)
    {
       // 10 Elapsed Year
