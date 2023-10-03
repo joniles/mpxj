@@ -1,6 +1,8 @@
 # Changelog
 
 ## 12.1.4 (unreleased)
+* Updated to use POI 5.2.4
+* Improve task duration and percent completion calculation for Asta PP files.
 
 ## 12.1.3 (2023-09-25)
 * Added the Project Properties attribute Relationship Lag Calendar and implemented read and write support for this for P6 schedules. (Contributed by Rohit Sinha).
