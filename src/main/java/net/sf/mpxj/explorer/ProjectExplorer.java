@@ -67,9 +67,9 @@ public class ProjectExplorer
             ProjectExplorer window = new ProjectExplorer();
             window.m_frame.setVisible(true);
          }
-         catch (Exception e)
+         catch (Exception ex)
          {
-            e.printStackTrace();
+            ex.printStackTrace();
          }
       });
    }
