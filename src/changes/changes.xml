@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.1.4">
+			<action dev="joniles" type="update">Updated to use POI 5.2.4</action>
 			<action dev="joniles" type="update">Improve task duration and percent completion calculation for Asta PP files.</action>
 		</release>
 		<release date="2023-09-25" version="12.1.3">
