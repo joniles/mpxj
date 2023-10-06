@@ -52,6 +52,12 @@ public final class Relation
       {
          m_lag = Duration.getInstance(0, TimeUnit.DAYS);
       }
+
+      ProjectConfig projectConfig = sourceTask.getParentFile().getProjectConfig();
+      if (projectConfig.getAutoRelationUniqueID())
+      {
+         setUniqueID(Integer.valueOf(projectConfig.getNextRelationUniqueID()));
+      }
    }
 
    /**
