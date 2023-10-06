@@ -776,6 +776,7 @@ final class MPP8Reader implements MPPVariantReader
 
       catch (FileNotFoundException ex)
       {
+         // TODO: capture exception
          consDir = null;
       }
 

@@ -676,6 +676,7 @@ final class MPP14Reader implements MPPVariantReader
       //
       catch (ArrayIndexOutOfBoundsException ex)
       {
+         // TODO: capture exception
          // Do nothing
       }
    }
@@ -1788,6 +1789,7 @@ final class MPP14Reader implements MPPVariantReader
          // MS Project opens the file fine. If we get into this state, we'll just ignore the filter definitions.
          catch (NoSuchElementException | IndexOutOfBoundsException | IOException ex)
          {
+            // TODO: capture exception
             return;
          }
 

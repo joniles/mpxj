@@ -34,13 +34,31 @@ import net.sf.mpxj.RelationType;
  */
 abstract class AbstractSDEFRecord implements SDEFRecord
 {
-   @Override public void read(String line)
+   @Override public void read(String line, boolean ignoreErrors)
    {
       int index = 0;
       int offset = 5;
       for (SDEFField field : getFieldDefinitions())
       {
-         m_fields[index++] = field.read(line, offset);
+         Object value;
+         try
+         {
+            value = field.read(line, offset);
+         }
+
+         catch (Exception ex)
+         {
+            if (ignoreErrors)
+            {
+               // TODO: capture exception
+               value = null;
+            }
+            else
+            {
+               throw ex;
+            }
+         }
+         m_fields[index++] = value;
          offset += (field.getLength() + 1);
       }
    }

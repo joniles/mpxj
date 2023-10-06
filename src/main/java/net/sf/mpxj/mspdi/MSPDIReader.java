@@ -169,7 +169,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          }
 
          ProjectFile projectFile = new ProjectFile();
-         DatatypeConverter.setParentFile(projectFile);
+         DatatypeConverter.setContext(projectFile, m_ignoreErrors);
          @SuppressWarnings("unchecked")
          Project project = ((JAXBElement<Project>) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput)).getValue();
 
@@ -2236,7 +2236,29 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     */
    public boolean getMicrosoftProjectCompatibleInput()
    {
-      return (m_compatibleInput);
+      return m_compatibleInput;
+   }
+
+   /**
+    * Set a flag to determine if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @param ignoreErrors pass true to ignore errors
+    */
+   public void setIgnoreErrors(boolean ignoreErrors)
+   {
+      m_ignoreErrors = ignoreErrors;
+   }
+
+   /**
+    * Retrieve the flag which determines if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @return true if datatype parse errors are ignored
+    */
+   public boolean getIgnoreErrors()
+   {
+      return m_ignoreErrors;
    }
 
    /**
@@ -2272,6 +2294,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    }
 
    private boolean m_compatibleInput = true;
+   private boolean m_ignoreErrors = true;
    private String m_encoding;
    private Charset m_charset;
    private ProjectFile m_projectFile;

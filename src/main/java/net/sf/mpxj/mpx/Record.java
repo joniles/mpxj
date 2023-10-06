@@ -114,6 +114,7 @@ final class Record
          // Malformed MPX file: the record number isn't a valid integer
          // Catch the exception here, leaving m_recordNumber as null
          // so we will skip this record entirely.
+         // TODO: capture exception
       }
    }
 

@@ -105,6 +105,28 @@ public final class SDEFReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Set a flag to determine if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @param ignoreErrors pass true to ignore errors
+    */
+   public void setIgnoreErrors(boolean ignoreErrors)
+   {
+      m_ignoreErrors = ignoreErrors;
+   }
+
+   /**
+    * Retrieve the flag which determines if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @return true if datatype parse errors are ignored
+    */
+   public boolean getIgnoreErrors()
+   {
+      return m_ignoreErrors;
+   }
+
+   /**
     * Process a single SDEF  record.
     *
     * @param context current context
@@ -136,7 +158,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
          throw new MPXJException(MPXJException.READ_ERROR, e);
       }
 
-      record.read(line);
+      record.read(line, m_ignoreErrors);
 
       record.process(context);
 
@@ -144,6 +166,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
    }
 
    private Charset m_charset = StandardCharsets.US_ASCII;
+   private boolean m_ignoreErrors = true;
 
    private static final Map<String, Class<? extends SDEFRecord>> RECORD_MAP = new HashMap<>();
    static

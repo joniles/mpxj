@@ -33,7 +33,7 @@ interface SDEFRecord
     *
     * @param line record data
     */
-   void read(String line);
+   void read(String line, boolean ignoreErrors);
 
    /**
     * Process the extracted fields.

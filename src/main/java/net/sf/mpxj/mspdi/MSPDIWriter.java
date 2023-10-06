@@ -219,7 +219,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_projectFile = projectFile;
          m_projectFile.validateUniqueIDsForMicrosoftProject();
          m_eventManager = m_projectFile.getEventManager();
-         DatatypeConverter.setParentFile(m_projectFile);
+         DatatypeConverter.setContext(m_projectFile, false);
 
          Marshaller marshaller = MarshallerHelper.create(CONTEXT);
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);

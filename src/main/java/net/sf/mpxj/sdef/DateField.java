@@ -57,15 +57,7 @@ class DateField extends StringField
       }
       else
       {
-         try
-         {
-            result = LocalDate.parse(value, DATE_FORMAT).atStartOfDay();
-         }
-
-         catch (DateTimeParseException e)
-         {
-            result = null;
-         }
+         result = LocalDate.parse(value, DATE_FORMAT).atStartOfDay();
       }
       return result;
    }

@@ -115,7 +115,7 @@ final class PrimaveraReader
     * @param matchPrimaveraWBS determine WBS behaviour
     * @param wbsIsFullPath determine the WBS attribute structure
     */
-   public PrimaveraReader(Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
+   public PrimaveraReader(Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors)
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -136,6 +136,7 @@ final class PrimaveraReader
 
       m_matchPrimaveraWBS = matchPrimaveraWBS;
       m_wbsIsFullPath = wbsIsFullPath;
+      m_ignoreErrors = ignoreErrors;
 
       m_relationObjectID = new ObjectSequence(1);
    }
@@ -581,9 +582,17 @@ final class PrimaveraReader
          ranges.add(new LocalTimeRange(start, end));
       }
 
-      catch (DateTimeParseException e)
+      catch (DateTimeParseException ex)
       {
-         // silently ignore date parse exceptions
+         if (m_ignoreErrors)
+         {
+            // silently ignore date parse exceptions
+            // TODO: capture exception
+         }
+         else
+         {
+            throw ex;
+         }
       }
    }
 
@@ -2187,6 +2196,7 @@ final class PrimaveraReader
    private final List<ExternalRelation> m_externalRelations = new ArrayList<>();
    private final boolean m_matchPrimaveraWBS;
    private final boolean m_wbsIsFullPath;
+   private final boolean m_ignoreErrors;
 
    private final Map<Integer, FieldType> m_udfFields = new HashMap<>();
    private final Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();

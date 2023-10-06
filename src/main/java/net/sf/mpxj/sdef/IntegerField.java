@@ -49,14 +49,7 @@ class IntegerField extends StringField
       }
       else
       {
-         try
-         {
-            result = Integer.valueOf(value);
-         }
-         catch (NumberFormatException ex)
-         {
-            result = null;
-         }
+         result = Integer.valueOf(value);
       }
       return result;
    }

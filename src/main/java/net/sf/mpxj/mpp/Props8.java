@@ -143,6 +143,7 @@ final class Props8 extends Props
 
       catch (IOException ex)
       {
+         // TODO: capture exception
          m_complete = false;
       }
    }

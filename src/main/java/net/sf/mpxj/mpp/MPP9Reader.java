@@ -590,6 +590,7 @@ final class MPP9Reader implements MPPVariantReader
       //
       catch (ArrayIndexOutOfBoundsException ex)
       {
+         // TODO: capture exception
          // Do nothing
       }
    }

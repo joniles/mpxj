@@ -41,6 +41,7 @@ public class ConstraintFactory
 
       catch (FileNotFoundException ex)
       {
+         // TODO: capture exception
          consDir = null;
       }
 

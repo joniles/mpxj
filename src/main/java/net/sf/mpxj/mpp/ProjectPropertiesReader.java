@@ -128,6 +128,7 @@ public final class ProjectPropertiesReader
             // the corrupt data. We'll do the same here. I have raised a bug with POI
             // to see if they want to make the library more robust in the face of bad data.
             // https://bz.apache.org/bugzilla/show_bug.cgi?id=61550
+            // TODO: capture exception
             ps = null;
          }
 
