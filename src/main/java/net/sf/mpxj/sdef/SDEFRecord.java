@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.sdef;
 
+import net.sf.mpxj.ProjectFile;
+
 /**
  * Interface implemented by SDEF records.
  */
@@ -31,9 +33,11 @@ interface SDEFRecord
    /**
     * Extract fields from the record.
     *
+    * @param file parent project file
     * @param line record data
+    * @param ignoreErrors true if parse errors are ignored
     */
-   void read(String line);
+   void read(ProjectFile file, String line, boolean ignoreErrors);
 
    /**
     * Process the extracted fields.

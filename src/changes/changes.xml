@@ -9,6 +9,8 @@
 			<action dev="joniles" type="update">Updated to use POI 5.2.4</action>
 			<action dev="joniles" type="update">Improve task duration and percent completion calculation for Asta PP files.</action>
 			<action dev="joniles" type="update">Improve date parsing when reading XER files written by older versions of P6.</action>
+			<action dev="joniles" type="update">Added the `setIgnoreErrors` method to the Primavera database reader class, and MSPDI, Schedule Grid, and SDEF file reader classes. The current default behavior of ignoring data type parse errors is unchanged. Calling `setIgnoreErrors(false)` on one of these reader classes will ensure that an exception is raised when a data type parse error is encountered.</action>
+			<action dev="joniles" type="update">Added the `ProjectFile.getIgnoredErrors()` method. The default behavior for MPXJ reader classes is to ignore data type parse errors. If any errors have been ignored when reading a schedule, details of these errors can be retrieved by calling the `ProjectFile.getIgnoredErrors()` method.</action>
 		</release>
 		<release date="2023-09-25" version="12.1.3">
 			<action dev="joniles" type="update">Added the Project Properties attribute Relationship Lag Calendar and implemented read and write support for this for P6 schedules. (Contributed by Rohit Sinha).</action>
@@ -27,7 +29,7 @@
 			<action dev="joniles" type="update">Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on macOS.</action>
 		</release>
 		<release date="2023-08-22" version="12.1.0">
-			<action dev="joniles" type="update">Write schedule options to PMXML abd XER files.</action>
+			<action dev="joniles" type="update">Write schedule options to PMXML and XER files.</action>
 			<action dev="joniles" type="update">Fix an arithmetic error in RateHelper when converting a rate from minutes to hours.</action>
 			<action dev="joniles" type="update">Introduced new methods to RateHelper accepting a `TimeUnitDefaultsContainer` argument rather than a `ProjectFile` for greater flexibility. Marked methods taking a `ProjectFile` argument as deprecated.</action>
 			<action dev="joniles" type="update">Ensure Early Finish and Late Finish are populated for Asta milestones and tasks.</action>

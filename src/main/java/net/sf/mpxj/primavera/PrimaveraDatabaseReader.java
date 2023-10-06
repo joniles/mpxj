@@ -96,7 +96,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       try
       {
-         m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
+         m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
          ProjectFile project = m_reader.getProject();
          addListenersToProject(project);
 
@@ -421,7 +421,15 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
          catch (Exception ex)
          {
-            // Skip any curves we can't read
+            if (m_ignoreErrors)
+            {
+               // Skip any curves we can't read
+               m_reader.getProject().addIgnoredError(ex);
+            }
+            else
+            {
+               throw ex;
+            }
          }
       }
    }
@@ -687,6 +695,28 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       m_wbsIsFullPath = wbsIsFullPath;
    }
 
+   /**
+    * Set a flag to determine if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @param ignoreErrors pass true to ignore errors
+    */
+   public void setIgnoreErrors(boolean ignoreErrors)
+   {
+      m_ignoreErrors = ignoreErrors;
+   }
+
+   /**
+    * Retrieve the flag which determines if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @return true if datatype parse errors are ignored
+    */
+   public boolean getIgnoreErrors()
+   {
+      return m_ignoreErrors;
+   }
+
    private PrimaveraReader m_reader;
    private Integer m_projectID;
    private String m_schema = "";
@@ -695,6 +725,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private boolean m_allocatedConnection;
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
+   private boolean m_ignoreErrors = true;
    private Set<String> m_tableNames;
 
    private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();

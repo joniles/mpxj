@@ -79,7 +79,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       //MPPUtility.fileHexDump("c:\\temp\\varmeta.txt", new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
 
       VarMeta calVarMeta = getCalendarVarMeta(calDir);
-      Var2Data calVarData = new Var2Data(calVarMeta, new DocumentInputStream((DocumentEntry) calDir.getEntry("Var2Data")));
+      Var2Data calVarData = new Var2Data(m_file, calVarMeta, new DocumentInputStream((DocumentEntry) calDir.getEntry("Var2Data")));
 
       //      System.out.println(calVarMeta);
       //      System.out.println(calVarData);

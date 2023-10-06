@@ -163,7 +163,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
-            m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
+            m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
             ProjectFile project = readProject();
             externalRelations.addAll(m_reader.getExternalRelations());
 
@@ -1033,23 +1033,25 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Returns true if errors during import are ignored.
+    * Set a flag to determine if datatype parse errors can be ignored.
+    * Defaults to true.
     *
-    * @return true if errors during import are ignored
-    */
-   public boolean getIgnoreErrors()
-   {
-      return m_ignoreErrors;
-   }
-
-   /**
-    * When set to true, errors during import are ignored.
-    *
-    * @param ignoreErrors set to true to ignore erros during import
+    * @param ignoreErrors pass true to ignore errors
     */
    public void setIgnoreErrors(boolean ignoreErrors)
    {
       m_ignoreErrors = ignoreErrors;
+   }
+
+   /**
+    * Retrieve the flag which determines if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @return true if datatype parse errors are ignored
+    */
+   public boolean getIgnoreErrors()
+   {
+      return m_ignoreErrors;
    }
 
    /**

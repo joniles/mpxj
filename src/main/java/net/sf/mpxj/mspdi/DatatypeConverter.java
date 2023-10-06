@@ -215,11 +215,18 @@ public final class DatatypeConverter
 
          catch (DateTimeParseException ex)
          {
-            // ignore exceptions
+            if (IGNORE_ERRORS.get().booleanValue())
+            {
+               PARENT_FILE.get().addIgnoredError(ex);
+            }
+            else
+            {
+               throw ex;
+            }
          }
       }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -1996,15 +2003,15 @@ public final class DatatypeConverter
    }
 
    /**
-    * This method is called to set the parent file for the current
-    * write operation. This allows task and resource write events
-    * to be captured and passed to any file listeners.
+    * This method is called to set the parent file to provide context for
+    * parse and print operations.
     *
     * @param file parent file instance
     */
-   public static final void setParentFile(ProjectFile file)
+   public static final void setContext(ProjectFile file, boolean ignoreErrors)
    {
       PARENT_FILE.set(file);
+      IGNORE_ERRORS.set(Boolean.valueOf(ignoreErrors));
    }
 
    /**
@@ -2063,7 +2070,7 @@ public final class DatatypeConverter
    });
 
    private static final ThreadLocal<ProjectFile> PARENT_FILE = new ThreadLocal<>();
-
+   private static final ThreadLocal<Boolean> IGNORE_ERRORS = new ThreadLocal<>();
    private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
    private static final BigDecimal BIGDECIMAL_ONE = BigDecimal.valueOf(1);
 }

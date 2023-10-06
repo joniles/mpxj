@@ -99,6 +99,28 @@ public final class SageReader extends AbstractProjectStreamReader
       return Collections.singletonList(read(inputStream));
    }
 
+   /**
+    * Set a flag to determine if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @param ignoreErrors pass true to ignore errors
+    */
+   public void setIgnoreErrors(boolean ignoreErrors)
+   {
+      m_ignoreErrors = ignoreErrors;
+   }
+
+   /**
+    * Retrieve the flag which determines if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @return true if datatype parse errors are ignored
+    */
+   public boolean getIgnoreErrors()
+   {
+      return m_ignoreErrors;
+   }
+
    private void processCalendars()
    {
       ProjectCalendar defaultCalendar = m_projectFile.addDefaultBaseCalendar();
@@ -304,9 +326,18 @@ public final class SageReader extends AbstractProjectStreamReader
          {
             result = LocalDate.parse(date, DATE_FORMAT).atStartOfDay();
          }
-         catch (DateTimeParseException e)
+
+         catch (DateTimeParseException ex)
          {
-            result = null;
+            if (m_ignoreErrors)
+            {
+               result = null;
+               m_projectFile.addIgnoredError(ex);
+            }
+            else
+            {
+               throw ex;
+            }
          }
       }
       return result;
@@ -374,6 +405,7 @@ public final class SageReader extends AbstractProjectStreamReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private Map<String, Task> m_taskMap;
+   private boolean m_ignoreErrors = true;
 
    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 

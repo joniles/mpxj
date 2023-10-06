@@ -41,6 +41,7 @@ public class ConstraintFactory
 
       catch (FileNotFoundException ex)
       {
+         file.addIgnoredError(ex);
          consDir = null;
       }
 

@@ -32,6 +32,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 
@@ -45,13 +46,14 @@ final class Var2Data extends MPPComponent
 {
    /**
     * Constructor. Extracts the content of the data block, with reference
-    * to the meta data held in the VarMeta block.
+    * to the metadata held in the VarMeta block.
     *
-    * @param meta meta data for this block
+    * @param file parent project file
+    * @param meta metadata for this block
     * @param is InputStream from which data is read
     * @throws IOException on file read error
     */
-   Var2Data(VarMeta meta, InputStream is)
+   Var2Data(ProjectFile file, VarMeta meta, InputStream is)
       throws IOException
    {
       m_meta = meta;
@@ -101,6 +103,7 @@ final class Var2Data extends MPPComponent
             // https://bz.apache.org/bugzilla/show_bug.cgi?id=61677
             // There is no fix presently, we just have to bail out at
             // this point - we're unable to read any more data.
+            file.addIgnoredError(ex);
             break;
          }
 
