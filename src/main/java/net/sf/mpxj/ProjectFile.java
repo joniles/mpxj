@@ -86,6 +86,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       m_tasks.validateUniqueIDsForMicrosoftProject();
       m_resources.validateUniqueIDsForMicrosoftProject();
       m_assignments.validateUniqueIDsForMicrosoftProject();
+      m_relations.validateUniqueIDsForMicrosoftProject();
       m_calendars.validateUniqueIDsForMicrosoftProject();
       setDefaultCalendar(defaultCalendar);
    }
@@ -225,6 +226,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    public ResourceAssignmentContainer getResourceAssignments()
    {
       return m_assignments;
+   }
+
+   /**
+    * Retrieves a list of all relations in this project.
+    *
+    * @return list of all relations
+    */
+   public RelationContainer getRelations()
+   {
+      return m_relations;
    }
 
    /**
@@ -775,6 +786,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final List<Task> m_childTasks = new ArrayList<>();
    private final List<Resource> m_childResources = new ArrayList<>();
    private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
+   private final RelationContainer m_relations = new RelationContainer(this);
    private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
    private final TableContainer m_tables = new TableContainer();
    private final FilterContainer m_filters = new FilterContainer();

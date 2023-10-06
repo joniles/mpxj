@@ -320,10 +320,11 @@ public class ProjectConfig
     * This method is used to retrieve the next unique ID for a relation.
     *
     * @return next unique ID
+    * @deprecated  use ProjectFile.getRelations().getNextUniqueID()
     */
-   public int getNextRelationUniqueID()
+   @Deprecated public int getNextRelationUniqueID()
    {
-      return ++m_relationUniqueID;
+      return m_parent.getRelations().getNextUniqueID().intValue();
    }
 
    /**
@@ -505,11 +506,6 @@ public class ProjectConfig
     * calculated on creation, or will be manually set.
     */
    private boolean m_autoRelationUniqueID = true;
-
-   /**
-    * Counter used to populate the unique ID field of a relation.
-    */
-   private int m_relationUniqueID;
 
    /**
     * Set to true provides compatibility with MS Project versions prior to 2007.
