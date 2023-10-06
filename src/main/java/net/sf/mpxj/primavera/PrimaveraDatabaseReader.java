@@ -424,7 +424,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             if (m_ignoreErrors)
             {
                // Skip any curves we can't read
-               // TODO: capture exception
+               m_reader.getProject().addIgnoredError(ex);
             }
             else
             {

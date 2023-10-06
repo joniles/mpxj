@@ -738,6 +738,26 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       getResourceAssignments().fixUniqueIdClashes();
    }
 
+   /**
+    * Add an error which has been ignored while reading this schedule.
+    *
+    * @param ex ignored error
+    */
+   public void addIgnoredError(Exception ex)
+   {
+      m_ignoredErrors.add(ex);
+   }
+
+   /**
+    * Retrieve a list of errors ignored when reading this schedule.
+    *
+    * @return list of errors
+    */
+   public List<Exception> getIgnoredErrors()
+   {
+      return m_ignoredErrors;
+   }
+
    void addExternalProject(String fileName, ProjectFile projectFile)
    {
       m_externalProjects.add(fileName, projectFile);
@@ -772,4 +792,5 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final LocationContainer m_locations = new LocationContainer(this);
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
+   private final List<Exception> m_ignoredErrors = new ArrayList<>();
 }

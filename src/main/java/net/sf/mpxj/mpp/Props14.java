@@ -27,6 +27,7 @@ package net.sf.mpxj.mpp;
 import java.io.IOException;
 import java.io.InputStream;
 
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.InputStreamHelper;
 
 /**
@@ -37,9 +38,10 @@ final class Props14 extends Props
    /**
     * Constructor, reads the property data from an input stream.
     *
+    * @param file parent project file
     * @param is input stream for reading props data
     */
-   Props14(InputStream is)
+   Props14(ProjectFile file, InputStream is)
       throws IOException
    {
       //FileOutputStream fos = new FileOutputStream ("c:\\temp\\props14." + System.currentTimeMillis() + ".txt");
@@ -84,7 +86,7 @@ final class Props14 extends Props
             // https://bz.apache.org/bugzilla/show_bug.cgi?id=61677
             // There is no fix presently, we just have to bail out at
             // this point - we're unable to read any more data.
-            // TODO: capture exception
+            file.addIgnoredError(ex);
             break;
          }
 

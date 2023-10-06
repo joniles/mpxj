@@ -158,7 +158,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
          throw new MPXJException(MPXJException.READ_ERROR, e);
       }
 
-      record.read(line, m_ignoreErrors);
+      record.read(context.getProject(), line, m_ignoreErrors);
 
       record.process(context);
 

@@ -217,7 +217,7 @@ public final class DatatypeConverter
          {
             if (IGNORE_ERRORS.get().booleanValue())
             {
-               // TODO: capture exception
+               PARENT_FILE.get().addIgnoredError(ex);
             }
             else
             {

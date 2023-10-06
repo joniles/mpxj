@@ -41,6 +41,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectDateFormat;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectTimeFormat;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ScheduleFrom;
@@ -56,12 +57,13 @@ final class Record
     * This constructor takes a stream of tokens and extracts the
     * fields of an individual record from those tokens.
     *
+    * @param file parent project file
     * @param locale target locale
     * @param tk tokenizer providing the input stream of tokens
     * @param formats formats used when parsing data
     * @throws MPXJException normally thrown when parsing fails
     */
-   Record(Locale locale, Tokenizer tk, MPXJFormats formats)
+   Record(ProjectFile file, Locale locale, Tokenizer tk, MPXJFormats formats)
       throws MPXJException
    {
       try
@@ -79,7 +81,7 @@ final class Record
 
          if (!list.isEmpty())
          {
-            setRecordNumber(list);
+            setRecordNumber(file, list);
             m_fields = list.toArray(new String[0]);
          }
       }
@@ -96,7 +98,7 @@ final class Record
     *
     * @param list MPX record
     */
-   private void setRecordNumber(List<String> list)
+   private void setRecordNumber(ProjectFile file, List<String> list)
    {
       try
       {
@@ -114,7 +116,7 @@ final class Record
          // Malformed MPX file: the record number isn't a valid integer
          // Catch the exception here, leaving m_recordNumber as null
          // so we will skip this record entirely.
-         // TODO: capture exception
+         file.addIgnoredError(ex);
       }
    }
 

@@ -586,8 +586,7 @@ final class PrimaveraReader
       {
          if (m_ignoreErrors)
          {
-            // silently ignore date parse exceptions
-            // TODO: capture exception
+            m_project.addIgnoredError(ex);
          }
          else
          {

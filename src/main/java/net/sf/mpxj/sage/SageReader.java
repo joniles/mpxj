@@ -332,7 +332,7 @@ public final class SageReader extends AbstractProjectStreamReader
             if (m_ignoreErrors)
             {
                result = null;
-               // TODO: capture exception
+               m_projectFile.addIgnoredError(ex);
             }
             else
             {
