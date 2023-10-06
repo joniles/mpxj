@@ -344,6 +344,6 @@ final class DatatypeConverter
       return Double.valueOf(result);
    }
 
-   private static final int NULL_SECONDS = 0x93406FFF;
+   private static final long NULL_SECONDS = 0x093406FFF;
    private static final LocalDateTime EPOCH = LocalDateTime.of(1970, 1, 1, 0, 0);
 }
