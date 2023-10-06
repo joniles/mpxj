@@ -53,10 +53,11 @@ public final class Relation implements ProjectEntityWithUniqueID
          m_lag = Duration.getInstance(0, TimeUnit.DAYS);
       }
 
-      ProjectConfig projectConfig = sourceTask.getParentFile().getProjectConfig();
+      ProjectFile project = sourceTask.getParentFile();
+      ProjectConfig projectConfig = project.getProjectConfig();
       if (projectConfig.getAutoRelationUniqueID())
       {
-         setUniqueID(Integer.valueOf(projectConfig.getNextRelationUniqueID()));
+         setUniqueID(project.getRelations().getNextUniqueID());
       }
    }
 

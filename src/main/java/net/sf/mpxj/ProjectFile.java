@@ -735,6 +735,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       getResources().updateUniqueIdCounter();
       getCalendars().updateUniqueIdCounter();
       getResourceAssignments().updateUniqueIdCounter();
+      getRelations().updateUniqueIdCounter();
    }
 
    /**
@@ -747,6 +748,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       getResources().fixUniqueIdClashes();
       getCalendars().fixUniqueIdClashes();
       getResourceAssignments().fixUniqueIdClashes();
+      getRelations().fixUniqueIdClashes();
    }
 
    /**
