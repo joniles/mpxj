@@ -42,6 +42,9 @@ reader.setIgnoreErrors(false);
 ProjectFile project = reader.read("my-sample.xer");
 ```
 
+Note that if errors are ignored when reading a file, the ignored errors
+are available by using the `ProjectFile.getIgnoredErrors()` method.
+
 ### Encoding
 By default MPXJ assumes that XER files are encoded using Windows-1252. The
 `UniversalProjectReader` understands Unicode Byte Order Marks (BOM) and will
