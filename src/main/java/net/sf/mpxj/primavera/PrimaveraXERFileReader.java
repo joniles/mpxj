@@ -27,10 +27,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,7 +49,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkContourContainer;
 import net.sf.mpxj.common.CharsetHelper;
-import net.sf.mpxj.common.MultiDateFormat;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
@@ -162,7 +163,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
-            m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
+            m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
             ProjectFile project = readProject();
             externalRelations.addAll(m_reader.getExternalRelations());
 
@@ -237,8 +238,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          processExpenseItems();
          processActivitySteps();
          m_reader.rollupValues();
-
          project.updateStructure();
+         project.readComplete();
 
          return project;
       }
@@ -752,7 +753,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          XerFieldType fieldType = getFieldType(fieldName);
 
          Object objectValue;
-         if (fieldValue.length() == 0)
+         if (fieldValue.isEmpty())
          {
             objectValue = null;
          }
@@ -764,10 +765,10 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
                {
                   try
                   {
-                     objectValue = m_df.parseObject(fieldValue);
+                     objectValue = LocalDateTimeHelper.parseBest(m_df, fieldValue);
                   }
 
-                  catch (ParseException ex)
+                  catch (DateTimeParseException ex)
                   {
                      objectValue = fieldValue;
                   }
@@ -807,7 +808,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
 
                default:
                {
-                  objectValue = fieldValue;
+                  objectValue = unescapeQuotes(fieldValue);
                   break;
                }
             }
@@ -816,7 +817,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          map.put(fieldName, objectValue);
       }
 
-      Row currentRow = new MapRow(map);
+      Row currentRow = new MapRow(map, m_ignoreErrors);
       m_currentTable.add(currentRow);
 
       //
@@ -828,6 +829,27 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       {
          processCurrency(currentRow);
       }
+   }
+
+   /**
+    * Handle unescaping of double quotes.
+    *
+    * @param value string value
+    * @return string value with unescaped double quotes
+    */
+   private String unescapeQuotes(String value)
+   {
+      if (value == null || value.isEmpty())
+      {
+         return value;
+      }
+
+      if (!value.contains("\"\""))
+      {
+         return value;
+      }
+
+      return value.replace("\"\"", "\"");
    }
 
    /**
@@ -1011,6 +1033,28 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Set a flag to determine if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @param ignoreErrors pass true to ignore errors
+    */
+   public void setIgnoreErrors(boolean ignoreErrors)
+   {
+      m_ignoreErrors = ignoreErrors;
+   }
+
+   /**
+    * Retrieve the flag which determines if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @return true if datatype parse errors are ignored
+    */
+   public boolean getIgnoreErrors()
+   {
+      return m_ignoreErrors;
+   }
+
+   /**
     * Rather than using FIELD_TYPE_MAP directly, we copy it. This allows the
     * caller to add or modify type mappings for an individual instance of
     * the reader class.
@@ -1034,7 +1078,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private String m_defaultCurrencyName;
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
-   private final DateFormat m_df = new MultiDateFormat("yyyy-MM-dd HH:mm", "yyyy-MM-dd");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("yyyy-M-dd[ HH:mm[:ss]]");
    private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
    private final Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
@@ -1044,6 +1088,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;
+   private boolean m_ignoreErrors = true;
 
    /**
     * Represents expected record types.

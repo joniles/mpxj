@@ -23,11 +23,13 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -43,7 +45,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     * @param fromDate exception start date
     * @param toDate exception end date
     */
-   ProjectCalendarException(Date fromDate, Date toDate)
+   ProjectCalendarException(LocalDate fromDate, LocalDate toDate)
    {
       this(fromDate, toDate, null);
    }
@@ -53,10 +55,10 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
       this(null, null, recurringData);
    }
 
-   ProjectCalendarException(Date fromDate, Date toDate, RecurringData recurringData)
+   ProjectCalendarException(LocalDate fromDate, LocalDate toDate, RecurringData recurringData)
    {
-      m_fromDate = DateHelper.getDayStartDate(fromDate);
-      m_toDate = DateHelper.getDayEndDate(toDate);
+      m_fromDate = fromDate;
+      m_toDate = toDate;
       m_recurring = recurringData;
    }
 
@@ -85,7 +87,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     *
     * @return Date
     */
-   public Date getFromDate()
+   public LocalDate getFromDate()
    {
       return m_recurring == null ? m_fromDate : m_recurring.getCalculatedFirstDate();
    }
@@ -95,9 +97,9 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     *
     * @return Date
     */
-   public Date getToDate()
+   public LocalDate getToDate()
    {
-      return m_recurring == null ? m_toDate : DateHelper.getDayEndDate(m_recurring.getCalculatedLastDate());
+      return m_recurring == null ? m_toDate : m_recurring.getCalculatedLastDate();
    }
 
    /**
@@ -142,11 +144,9 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
       }
       else
       {
-         for (Date date : m_recurring.getDates())
+         for (LocalDate date : m_recurring.getDates())
          {
-            Date startDate = DateHelper.getDayStartDate(date);
-            Date endDate = DateHelper.getDayEndDate(date);
-            ProjectCalendarException newException = new ProjectCalendarException(startDate, endDate);
+            ProjectCalendarException newException = new ProjectCalendarException(date, date);
             int rangeCount = size();
             for (int rangeIndex = 0; rangeIndex < rangeCount; rangeIndex++)
             {
@@ -167,13 +167,33 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     * @param date Date to be tested
     * @return Boolean value
     */
-   public boolean contains(Date date)
+   public boolean contains(LocalDateTime date)
    {
       boolean result = false;
 
       if (date != null)
       {
-         result = (DateHelper.compare(getFromDate(), getToDate(), date) == 0);
+         result = (LocalDateHelper.compare(getFromDate(), getToDate(), LocalDateHelper.getLocalDate(date)) == 0);
+      }
+
+      return result;
+   }
+
+   /**
+    * This method determines whether the given date falls in the range of
+    * dates covered by this exception. Note that this method assumes that both
+    * the start and end date of this exception have been set.
+    *
+    * @param date Date to be tested
+    * @return Boolean value
+    */
+   public boolean contains(LocalDate date)
+   {
+      boolean result = false;
+
+      if (date != null)
+      {
+         result = (LocalDateHelper.compare(getFromDate(), getToDate(), date) == 0);
       }
 
       return result;
@@ -187,25 +207,12 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
     */
    public boolean contains(ProjectCalendarException exception)
    {
-      return !(DateHelper.compare(getToDate(), exception.getFromDate()) < 0 || DateHelper.compare(exception.getToDate(), getFromDate()) < 0);
-   }
-
-   /**
-    * Used to determine if this exception makes the days it is
-    * applied to into working days or non-working days.
-    *
-    * @return {@code true} if this exception makes the dates it is applied to into working days
-    */
-   public boolean isWorking()
-   {
-      return !isEmpty();
+      return !(LocalDateHelper.compare(getToDate(), exception.getFromDate()) < 0 || LocalDateHelper.compare(exception.getToDate(), getFromDate()) < 0);
    }
 
    @Override public int compareTo(ProjectCalendarException o)
    {
-      long fromTime1 = getFromDate().getTime();
-      long fromTime2 = o.getFromDate().getTime();
-      return (Long.compare(fromTime1, fromTime2));
+      return getFromDate().compareTo(o.getFromDate());
    }
 
    @Override public String toString()
@@ -228,7 +235,7 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
          sb.append(" recurring=").append(m_recurring);
       }
 
-      for (DateRange range : this)
+      for (LocalTimeRange range : this)
       {
          sb.append(range.toString());
       }
@@ -237,8 +244,8 @@ public final class ProjectCalendarException extends ProjectCalendarHours impleme
       return (sb.toString());
    }
 
-   private final Date m_fromDate;
-   private final Date m_toDate;
+   private final LocalDate m_fromDate;
+   private final LocalDate m_toDate;
    private final RecurringData m_recurring;
    private String m_name;
 }

@@ -23,9 +23,8 @@
 
 package net.sf.mpxj.primavera.suretrak;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.primavera.common.AbstractShortColumn;
 
 /**
@@ -44,7 +43,7 @@ class DateInDaysColumn extends AbstractShortColumn
       super(name, offset);
    }
 
-   @Override public Date read(int offset, byte[] data)
+   @Override public LocalDateTime read(int offset, byte[] data)
    {
       int days = readShort(offset, data);
       if (days > RECURRING_OFFSET)
@@ -52,11 +51,11 @@ class DateInDaysColumn extends AbstractShortColumn
          days -= RECURRING_OFFSET;
       }
 
-      return DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY));
+      return EPOCH.plusDays(days);
    }
 
    static final int RECURRING_OFFSET = 25463;
 
    // 31/12/1979
-   private static final long EPOCH = 315446400000L;
+   private static final LocalDateTime EPOCH = LocalDateTime.of(1979, 12, 31, 0, 0);
 }

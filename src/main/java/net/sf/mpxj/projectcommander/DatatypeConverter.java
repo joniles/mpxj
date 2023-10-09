@@ -23,12 +23,11 @@
 
 package net.sf.mpxj.projectcommander;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
 
 /**
  * Contains methods to extract different data types from a byte array.
@@ -202,11 +201,10 @@ class DatatypeConverter
     * @param offset offset into byte array
     * @return timestamp value
     */
-   public static final Date getTimestamp(byte[] data, int offset)
+   public static final LocalDateTime getTimestamp(byte[] data, int offset)
    {
       long timestampInSeconds = DatatypeConverter.getInt(data, offset, 0);
-      long timestampInMilliseconds = timestampInSeconds * 1000;
-      return DateHelper.getTimestampFromLong(timestampInMilliseconds);
+      return EPOCH.plusSeconds(timestampInSeconds);
    }
 
    /**
@@ -250,4 +248,6 @@ class DatatypeConverter
 
       return result;
    }
+
+   private static final LocalDateTime EPOCH = LocalDateTime.of(1970, 1, 1, 0, 0);
 }

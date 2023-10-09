@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.sdef;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.Task;
@@ -66,8 +66,8 @@ class ProgressRecord extends AbstractSDEFRecord
       task.setLateFinish(getDate(10));
       task.setTotalSlack(totalFloat);
 
-      Date start = task.getActualStart() == null ? task.getEarlyStart() : task.getActualStart();
-      Date finish = task.getActualFinish() == null ? task.getEarlyFinish() : task.getActualFinish();
+      LocalDateTime start = task.getActualStart() == null ? task.getEarlyStart() : task.getActualStart();
+      LocalDateTime finish = task.getActualFinish() == null ? task.getEarlyFinish() : task.getActualFinish();
       double percentComplete = 0;
 
       if (task.getActualFinish() == null)

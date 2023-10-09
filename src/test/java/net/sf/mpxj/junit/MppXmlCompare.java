@@ -539,12 +539,12 @@ public final class MppXmlCompare
     */
    private void assertEquals(String expected, String actual) throws Exception
    {
-      if (expected != null && expected.trim().length() == 0)
+      if (expected != null && expected.trim().isEmpty())
       {
          expected = null;
       }
 
-      if (actual != null && actual.trim().length() == 0)
+      if (actual != null && actual.trim().isEmpty())
       {
          actual = null;
       }

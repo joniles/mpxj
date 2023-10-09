@@ -666,7 +666,6 @@ public enum TaskField implements FieldType
    DURATION_TEXT(DataType.STRING),
    MANUAL_DURATION_UNITS(DataType.TIME_UNITS),
    MANUAL_DURATION(DataType.DURATION, MANUAL_DURATION_UNITS),
-   SUBPROJECT(DataType.SUBPROJECT),
    SUBPROJECT_READ_ONLY(DataType.BOOLEAN),
    SUBPROJECT_TASKS_UNIQUEID_OFFSET(DataType.INTEGER),
    SUBPROJECT_FILE(DataType.STRING),
@@ -1028,7 +1027,8 @@ public enum TaskField implements FieldType
    RESUME_VALID(DataType.BOOLEAN),
    NULL(DataType.BOOLEAN),
    FINISH(DataType.DATE),
-   BAR_NAME(DataType.STRING);
+   BAR_NAME(DataType.STRING),
+   EXPECTED_FINISH(DataType.DATE);
 
    /**
     * Constructor.

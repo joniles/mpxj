@@ -23,15 +23,17 @@
 
 package net.sf.mpxj.conceptdraw;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.mpxj.CurrencySymbolPosition;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
@@ -164,9 +166,9 @@ public final class DatatypeConverter
     * @param value String representation
     * @return Day instance
     */
-   public static final Day parseDay(String value)
+   public static final DayOfWeek parseDay(String value)
    {
-      return Day.getInstance(Integer.parseInt(value) + 1);
+      return DayOfWeekHelper.getInstance(Integer.parseInt(value) + 1);
    }
 
    /**
@@ -175,7 +177,7 @@ public final class DatatypeConverter
     * @param value Day instance
     * @return String representation
     */
-   public static final String printDay(Day value)
+   public static final String printDay(DayOfWeek value)
    {
       throw new UnsupportedOperationException();
    }
@@ -186,18 +188,18 @@ public final class DatatypeConverter
     * @param value String representation
     * @return Date instance
     */
-   public static final Date parseTime(String value)
+   public static final LocalTime parseTime(String value)
    {
-      Date result = null;
+      LocalTime result = null;
 
       try
       {
          if (value != null && !value.isEmpty())
          {
-            result = TIME_FORMAT.get().parse(value);
+            result = LocalTime.parse(value, TIME_FORMAT);
          }
       }
-      catch (ParseException ex)
+      catch (DateTimeParseException ex)
       {
          // Ignore
       }
@@ -211,7 +213,7 @@ public final class DatatypeConverter
     * @param value Date instance
     * @return String representation
     */
-   public static final String printTime(Date value)
+   public static final String printTime(LocalTime value)
    {
       throw new UnsupportedOperationException();
    }
@@ -222,18 +224,18 @@ public final class DatatypeConverter
     * @param value String representation
     * @return Date instance
     */
-   public static final Date parseDate(String value)
+   public static final LocalDate parseDate(String value)
    {
-      Date result = null;
+      LocalDate result = null;
 
       try
       {
          if (value != null && !value.isEmpty())
          {
-            result = DATE_FORMAT.get().parse(value);
+            result = LocalDate.parse(value, DATE_FORMAT);
          }
       }
-      catch (ParseException ex)
+      catch (DateTimeParseException ex)
       {
          // Ignore
       }
@@ -247,7 +249,7 @@ public final class DatatypeConverter
     * @param value Date instance
     * @return String representation
     */
-   public static final String printDate(Date value)
+   public static final String printDate(LocalDate value)
    {
       throw new UnsupportedOperationException();
    }
@@ -258,18 +260,18 @@ public final class DatatypeConverter
     * @param value String representation
     * @return Date instance
     */
-   public static final Date parseDateTime(String value)
+   public static final LocalDateTime parseDateTime(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       try
       {
          if (value != null && !value.isEmpty())
          {
-            result = DATE_TIME_FORMAT.get().parse(value);
+            result = LocalDateTime.parse(value, DATE_TIME_FORMAT);
          }
       }
-      catch (ParseException ex)
+      catch (DateTimeParseException ex)
       {
          // Ignore
       }
@@ -283,7 +285,7 @@ public final class DatatypeConverter
     * @param value Date instance
     * @return String representation
     */
-   public static final String printDateTime(Date value)
+   public static final String printDateTime(LocalDateTime value)
    {
       throw new UnsupportedOperationException();
    }
@@ -455,21 +457,9 @@ public final class DatatypeConverter
 
    }
 
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("HH:mm:ss");
-      df.setLenient(false);
-      return df;
-   });
+   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-      df.setLenient(false);
-      return df;
-   });
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-   private static final ThreadLocal<DateFormat> DATE_TIME_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-      df.setLenient(false);
-      return df;
-   });
+   private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 }

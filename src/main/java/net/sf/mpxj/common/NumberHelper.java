@@ -53,7 +53,7 @@ public final class NumberHelper
     */
    public static final int getInt(String value)
    {
-      return (value == null || value.length() == 0 ? 0 : Integer.parseInt(value));
+      return (value == null || value.isEmpty() ? 0 : Integer.parseInt(value));
    }
 
    /**
@@ -65,7 +65,23 @@ public final class NumberHelper
     */
    public static final double getDouble(String value)
    {
-      return (value == null || value.length() == 0 ? 0 : Double.parseDouble(value));
+      return (value == null || value.isEmpty() ? 0 : Double.parseDouble(value));
+   }
+
+   /**
+    * This method retrieves a double value from a String instance.
+    * It returns null by default if a null value or an empty string is supplied.
+    *
+    * @param value string representation of a double
+    * @return double value
+    */
+   public static final Double getDoubleObject(String value)
+   {
+      if (value == null || value.isEmpty())
+      {
+         return null;
+      }
+      return Double.valueOf(value);
    }
 
    /**
@@ -193,7 +209,7 @@ public final class NumberHelper
     */
    public static final Integer parseInteger(String value)
    {
-      return (value == null || value.length() == 0 ? null : Integer.valueOf(Integer.parseInt(value)));
+      return (value == null || value.isEmpty() ? null : Integer.valueOf(Integer.parseInt(value)));
    }
 
    /**

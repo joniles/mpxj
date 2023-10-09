@@ -823,6 +823,13 @@ module MPXJ
       attribute_values['project_title']
     end
 
+    # Retrieve the Relationship Lag Calendar value
+    #
+    # @return Relationship Lag Calendar value
+    def relationship_lag_calendar
+      attribute_values['relationship_lag_calendar']
+    end
+
     # Retrieve the Remove File Properties value
     #
     # @return Remove File Properties value
@@ -947,6 +954,13 @@ module MPXJ
     # @return Time Separator value
     def time_separator
       attribute_values['time_separator']
+    end
+
+    # Retrieve the Total Slack Calculation Type value
+    #
+    # @return Total Slack Calculation Type value
+    def total_slack_calculation_type
+      attribute_values['total_slack_calculation_type']
     end
 
     # Retrieve the Unique ID value
@@ -1102,6 +1116,7 @@ module MPXJ
       'project_file_path' => :string,
       'project_id' => :string,
       'project_title' => :string,
+      'relationship_lag_calendar' => :relationship_lag_calendar,
       'remove_file_properties' => :boolean,
       'resource_pool_file' => :string,
       'revision' => :integer,
@@ -1120,6 +1135,7 @@ module MPXJ
       'thousands_separator' => :char,
       'time_format' => :project_time_format,
       'time_separator' => :char,
+      'total_slack_calculation_type' => :total_slack_type,
       'unique_id' => :integer,
       'updating_task_status_updates_resource_status' => :boolean,
       'week_start_day' => :day,

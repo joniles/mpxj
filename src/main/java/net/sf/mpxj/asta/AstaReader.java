@@ -23,10 +23,13 @@
 
 package net.sf.mpxj.asta;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -45,14 +48,14 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.LocalDateRange;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -66,12 +69,15 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -118,9 +124,10 @@ final class AstaReader
     * @param userSettings user settings
     * @param progressPeriods progress period data.
     */
-   public void processProjectProperties(Row projectSummary, Row userSettings, List<Row> progressPeriods)
+   public void processProjectProperties(Integer schemaVersion, Row projectSummary, Row userSettings, List<Row> progressPeriods)
    {
       ProjectProperties ph = m_project.getProjectProperties();
+      ph.setApplicationVersion(schemaVersion);
       final Integer currentProgressPeriodID;
 
       if (projectSummary != null)
@@ -222,7 +229,7 @@ final class AstaReader
          resource.setInitials(getInitials(resource.getName()));
 
          CostRateTable table = new CostRateTable();
-         table.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, row.getDouble("COST_PER_USEDEFAULTSAMOUNT")));
+         table.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, row.getDouble("COST_PER_USEDEFAULTSAMOUNT")));
          resource.setCostRateTable(0, table);
       }
    }
@@ -234,10 +241,11 @@ final class AstaReader
     * @param expandedTasks expanded task data
     * @param tasks task data
     * @param milestones milestone data
+    * @param hammocks hammock data
     */
-   public void processTasks(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones)
+   public void processTasks(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones, List<Row> hammocks)
    {
-      List<Row> parentBars = buildRowHierarchy(bars, expandedTasks, tasks, milestones);
+      List<Row> parentBars = buildRowHierarchy(bars, expandedTasks, tasks, milestones, hammocks);
       createTasks(m_project, "", parentBars);
       deriveProjectCalendar();
       updateUniqueIDs();
@@ -260,9 +268,10 @@ final class AstaReader
     * @param expandedTasks expanded task data
     * @param tasks task data
     * @param milestones milestone data
+    * @param hammocks hammock data
     * @return list containing the top level tasks
     */
-   private List<Row> buildRowHierarchy(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones)
+   private List<Row> buildRowHierarchy(List<Row> bars, List<Row> expandedTasks, List<Row> tasks, List<Row> milestones, List<Row> hammocks)
    {
       //
       // Create a list of leaf nodes by merging the task and milestone lists
@@ -270,6 +279,7 @@ final class AstaReader
       List<Row> leaves = new ArrayList<>();
       leaves.addAll(tasks);
       leaves.addAll(milestones);
+      leaves.addAll(hammocks);
 
       //
       // Sort the bars and the leaves
@@ -371,7 +381,7 @@ final class AstaReader
          //
          // Don't export hammock tasks.
          //
-         if (rowIsBar && row.getChildRows().isEmpty())
+         if (rowIsBar && childRowsAreHammocks(row))
          {
             continue;
          }
@@ -421,7 +431,31 @@ final class AstaReader
    private boolean skipBar(Row row)
    {
       List<Row> childRows = row.getChildRows();
-      return childRows.size() == 1 && childRows.get(0).getChildRows().isEmpty();
+      if (childRows.size() != 1)
+      {
+         return false;
+      }
+
+      Row childRow = childRows.get(0);
+      return (childRow.getInteger("TASKID") != null || childRow.getInteger("MILESTONEID") != null) && childRow.getChildRows().isEmpty();
+   }
+
+   /**
+    * Returns true if all children of this row are hammock tasks.
+    *
+    * @param row parent row
+    * @return true if all children are hammocks
+    */
+   private boolean childRowsAreHammocks(Row row)
+   {
+      int childCount = row.getChildRows().size();
+      if (childCount == 0)
+      {
+         return false;
+      }
+
+      int count = (int) row.getChildRows().stream().filter(r -> r.getInteger("HAMMOCK_TASKID") != null).count();
+      return count == childCount;
    }
 
    /**
@@ -440,8 +474,17 @@ final class AstaReader
       }
       else
       {
-         populateMilestone(row, task);
-         m_milestoneMap.put(row.getInteger("MILESTONEID"), task);
+         if (row.getInteger("MILESTONEID") != null)
+         {
+            populateMilestone(row, task);
+            m_milestoneMap.put(row.getInteger("MILESTONEID"), task);
+         }
+         else
+         {
+            // Bar with no linked row
+            task.setUniqueID(row.getInteger("BARID"));
+            task.setName(row.getString("NAMH"));
+         }
       }
 
       String name = task.getName();
@@ -525,21 +568,46 @@ final class AstaReader
       //LAST_EDITED_BY
 
       //
-      // The attribute we thought contained the duration appears to be unreliable.
-      // To match what we see in Asta the best way to determine the duration appears
-      // to be to calculate it from the start and finish dates.
-      // Note the conversion to hours is not strictly necessary, but matches the units previously used.
-      //
-      Duration duration = task.getEffectiveCalendar().getDuration(task.getStart(), task.getFinish());
-      duration = duration.convertUnits(TimeUnit.HOURS, m_project.getProjectProperties());
-      task.setDuration(duration);
-
-      //
       // Overall Percent Complete
       //
       Double overallPercentComplete = row.getPercent("OVERALL_PERCENV_COMPLETE");
       task.setOverallPercentComplete(overallPercentComplete);
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
+      boolean taskIsComplete = overallPercentComplete != null && overallPercentComplete.doubleValue() > 99.0;
+
+      //
+      // The attribute we thought contained the duration appears to be unreliable.
+      // To match what we see in Asta the best way to determine the duration appears
+      // to be to calculate it from the start and finish dates.
+      //
+      Duration remainingDuration = null;
+      if (!taskIsComplete)
+      {
+         LocalDateTime startDate = task.getResume();
+         if (startDate == null)
+         {
+            startDate = task.getStart();
+         }
+
+         if (timeUnitIsElapsed(row.getInt("DURATION_TIMJ_UNIT")))
+         {
+            remainingDuration = Duration.getInstance(startDate.until(task.getFinish(), ChronoUnit.HOURS), TimeUnit.HOURS);
+         }
+         else
+         {
+            remainingDuration = task.getEffectiveCalendar().getWork(startDate, task.getFinish(), TimeUnit.HOURS);
+         }
+      }
+
+      if (remainingDuration == null)
+      {
+         remainingDuration = Duration.getInstance(0, TimeUnit.HOURS);
+      }
+      task.setRemainingDuration(remainingDuration);
+
+      Duration actualDuration = task.getActualDuration();
+      Duration durationAtCompletion = Duration.getInstance(actualDuration.getDuration() + remainingDuration.getDuration(), TimeUnit.HOURS);
+      task.setDuration(durationAtCompletion);
 
       //
       // Duration Percent Complete
@@ -553,13 +621,12 @@ final class AstaReader
       }
       else
       {
-         Duration actualDuration = task.getActualDuration();
-         if (duration != null && duration.getDuration() > 0 && actualDuration != null && actualDuration.getDuration() > 0)
+         if (durationAtCompletion != null && durationAtCompletion.getDuration() > 0 && actualDuration != null && actualDuration.getDuration() > 0)
          {
             // We have an actual duration, so we must have an actual start date
             task.setActualStart(task.getStart());
 
-            double percentComplete = (actualDuration.getDuration() / duration.getDuration()) * 100.0;
+            double percentComplete = (actualDuration.getDuration() / durationAtCompletion.getDuration()) * 100.0;
             task.setPercentageComplete(Double.valueOf(percentComplete));
             if (percentComplete > 99.0)
             {
@@ -570,6 +637,16 @@ final class AstaReader
          {
             task.setPercentageComplete(INCOMPLETE);
          }
+      }
+
+      if (task.getEarlyStart() != null && task.getEarlyFinish() == null)
+      {
+         task.setEarlyFinish(task.getEffectiveCalendar().getDate(task.getEarlyStart(), task.getDuration(), false));
+      }
+
+      if (task.getLateStart() != null && task.getLateFinish() == null)
+      {
+         task.setLateFinish(task.getEffectiveCalendar().getDate(task.getLateStart(), task.getDuration(), false));
       }
 
       processConstraints(row, task);
@@ -628,7 +705,8 @@ final class AstaReader
       //Related_Documents
       task.setCalendar(calendar);
 
-      task.setDuration(deriveEffectiveCalendar(task).getDuration(task.getStart(), task.getFinish()));
+      Duration durationAtCompletion = deriveEffectiveCalendar(task).getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
+      task.setDuration(durationAtCompletion);
    }
 
    /**
@@ -679,6 +757,8 @@ final class AstaReader
       //ACTUAL_DURATIONHOURS
       task.setEarlyStart(row.getDate("EARLY_START_DATE"));
       task.setLateStart(row.getDate("LATE_START_DATE"));
+      task.setEarlyFinish(row.getDate("EARLY_END_DATE_RS"));
+      task.setLateFinish(row.getDate("LATE_END_DATE_RS"));
       //FREE_START_DATE
       //START_CONSTRAINT_DATE
       //END_CONSTRAINT_DATE
@@ -729,6 +809,18 @@ final class AstaReader
       else
       {
          task.setPercentageComplete(INCOMPLETE);
+      }
+
+      // Asta files may not have explicit values for early finish and late finish.
+      // If not present, use the values from  early start and late start respectively.
+      if (task.getEarlyFinish() == null)
+      {
+         task.setEarlyFinish(task.getEarlyStart());
+      }
+
+      if (task.getLateFinish() == null)
+      {
+         task.setLateFinish(task.getLateStart());
       }
 
       processConstraints(row, task);
@@ -909,23 +1001,23 @@ final class AstaReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
 
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
 
-            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
-            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
-            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
-            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
-            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
-            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+            actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
 
             if (task.getActualFinish() != null)
             {
@@ -1252,7 +1344,7 @@ final class AstaReader
    {
       String result = null;
 
-      if (name != null && name.length() != 0)
+      if (name != null && !name.isEmpty())
       {
          StringBuilder sb = new StringBuilder();
          sb.append(name.charAt(0));
@@ -1343,7 +1435,7 @@ final class AstaReader
    private void processConstraints(Row row, Task task)
    {
       ConstraintType constraintType = ConstraintType.AS_SOON_AS_POSSIBLE;
-      Date constraintDate = null;
+      LocalDateTime constraintDate = null;
 
       switch (row.getInt("CONSTRAINU"))
       {
@@ -1572,7 +1664,7 @@ final class AstaReader
                if (defaultWeekSet)
                {
                   ProjectCalendarWeek newWeek = calendar.addWorkWeek();
-                  newWeek.setDateRange(new DateRange(row.getDate("START_DATE"), row.getDate("END_DATE")));
+                  newWeek.setDateRange(new LocalDateRange(LocalDateHelper.getLocalDate(row.getDate("START_DATE")), LocalDateHelper.getLocalDate(row.getDate("END_DATE"))));
                   week = newWeek;
                }
                else
@@ -1594,20 +1686,20 @@ final class AstaReader
       rows = exceptionAssignmentMap.get(calendar.getUniqueID());
       if (rows != null)
       {
-         List<DateRange> ranges = new ArrayList<>();
+         List<LocalDateRange> ranges = new ArrayList<>();
 
          for (Row row : rows)
          {
-            Date startDate = row.getDate("STARU_DATE");
-            Date endDate = row.getDate("ENE_DATE");
+            LocalDateTime startDate = row.getDate("STARU_DATE");
+            LocalDateTime endDate = row.getDate("ENE_DATE");
 
             // special case - when the exception end time is midnight, it really finishes at the end of the previous day
-            if (endDate.getTime() == DateHelper.getDayStartDate(endDate).getTime())
+            if (endDate.equals(LocalDateTimeHelper.getDayStartDate(endDate)))
             {
-               endDate = DateHelper.addDays(endDate, -1);
+               endDate = endDate.plusDays(-1);
             }
 
-            ranges.add(new DateRange(DateHelper.getDayStartDate(startDate), DateHelper.getDayEndDate(endDate)));
+            ranges.add(new LocalDateRange(LocalDateHelper.getLocalDate(startDate), LocalDateHelper.getLocalDate(endDate)));
          }
 
          ranges.stream().distinct().forEach(r -> calendar.addCalendarException(r.getStart(), r.getEnd()));
@@ -1616,7 +1708,7 @@ final class AstaReader
       //
       // Populate WORKING or NON_WORKING days with calendar hours if they are missing.
       //
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          if (calendar.getCalendarHours(day) == null)
          {
@@ -1655,47 +1747,37 @@ final class AstaReader
          List<Row> timeEntryRows = timeEntryMap.get(workPatternID);
          if (timeEntryRows != null)
          {
-            long lastEndTime = Long.MIN_VALUE;
-
-            // TODO: it looks like at least one PP file we've come across doesn't start from Sunday,
-            // Haven't worked out how the start day is determined.
-            Day currentDay = Day.SUNDAY;
-            ProjectCalendarHours hours = week.addCalendarHours(currentDay);
-            Arrays.stream(Day.values()).forEach(d -> week.setCalendarDayType(d, DayType.NON_WORKING));
+            DayOfWeek currentDay = DayOfWeek.SATURDAY;
+            Arrays.stream(DayOfWeek.values()).forEach(d -> week.setCalendarDayType(d, DayType.NON_WORKING));
+            ProjectCalendarHours hours = null;
 
             for (Row row : timeEntryRows)
             {
-               Date startTime = row.getDate("START_TIME");
-               Date endTime = row.getDate("END_TIME");
+               LocalTime startTime = LocalTimeHelper.getLocalTime(row.getDate("START_TIME"));
+               LocalTime endTime = LocalTimeHelper.getLocalTime(row.getDate("END_TIME"));
+
                if (startTime == null)
                {
-                  startTime = DateHelper.getDayStartDate(new Date(0));
+                  startTime = LocalTime.MIDNIGHT;
                }
 
                if (endTime == null)
                {
-                  endTime = DateHelper.getDayEndDate(new Date(0));
+                  endTime = LocalTime.MIDNIGHT;
                }
 
-               if (startTime.getTime() > endTime.getTime())
+               if (startTime == LocalTime.MIDNIGHT)
                {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
-               if (startTime.getTime() < lastEndTime)
-               {
-                  currentDay = currentDay.getNextDay();
+                  currentDay = currentDay.plus(1);
                   hours = week.addCalendarHours(currentDay);
                }
 
                DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
-               if (type == DayType.WORKING)
+               if (hours != null && type == DayType.WORKING)
                {
-                  hours.add(new DateRange(startTime, endTime));
+                  hours.add(new LocalTimeRange(startTime, endTime));
                   week.setCalendarDayType(currentDay, DayType.WORKING);
                }
-
-               lastEndTime = endTime.getTime();
             }
          }
       }
@@ -2035,14 +2117,14 @@ final class AstaReader
     * @param row result set row
     * @return value
     */
-   private Date getUserDefinedFieldDate(Row row)
+   private LocalDateTime getUserDefinedFieldDate(Row row)
    {
       Object value = row.getObject("DATA_AS_DATE");
-      if (!(value instanceof Date))
+      if (!(value instanceof LocalDateTime))
       {
          value = null;
       }
-      return (Date) value;
+      return (LocalDateTime) value;
    }
 
    /**
@@ -2078,7 +2160,7 @@ final class AstaReader
       for (Row row : types)
       {
          Integer sequenceNumber = Integer.valueOf(codeMap.size() + 1);
-         ActivityCode code = new ActivityCode(m_project, row.getInteger("ID"), ActivityCodeScope.GLOBAL, null, null, sequenceNumber, row.getString("NAME"), false, null);
+         ActivityCode code = new ActivityCode(row.getInteger("ID"), ActivityCodeScope.GLOBAL, null, null, sequenceNumber, row.getString("NAME"), false, null);
          container.add(code);
          codeMap.put(code.getUniqueID(), code);
       }
@@ -2133,6 +2215,36 @@ final class AstaReader
             task.addActivityCode(value);
          }
       }
+   }
+
+   /**
+    * Returns true if the Asta time unit is an elapsed unit.
+    *
+    * @param timeUnit Asta time unit value
+    * @return true if elapsed
+    */
+   private boolean timeUnitIsElapsed(int timeUnit)
+   {
+      // 10 Elapsed Year
+      // 11 Elapsed Quarter
+      // 12 Elapsed Month
+      // 13 Elapsed Week
+      // 14 Elapsed Day
+      // 15 Elapsed Half Day
+      // 16 Elapsed Hours
+      // 17 Elapsed Minutes
+      // 18 Elapsed Seconds
+      // 19 Year
+      // 20 Quarter
+      // 21 Month
+      // 22 Week
+      // 23 Day
+      // 24 Half Day
+      // 25 Hours
+      // 26 Minutes
+      // 27 Seconds
+
+      return timeUnit >= 10 && timeUnit <= 18;
    }
 
    private final ProjectFile m_project;

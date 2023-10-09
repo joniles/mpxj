@@ -66,3 +66,24 @@ MSPDIReader reader = new MSPDIReader();
 reader.setMicrosoftProjectCompatibleInput(false);
 ProjectFile project = reader.read("my-sample.xml");
 ```
+
+### Ignore Errors
+By default MPXJ will ignore errors when parsing attributes from an MSPDI file.
+This behavior is controlled using the `setIgnoreErrors` method. The example
+below illustrates how we can force the `MSPDIReader` to report
+errors encountered when reading a file:
+
+```java
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.mspdi.MSPDIReader;
+
+// ...
+
+MSPDIReader reader = new MSPDIReader();
+
+reader.setIgnoreErrors(false);
+ProjectFile project = reader.read("my-sample.xml");
+```
+
+Note that if errors are ignored when reading a file, the ignored errors
+are available by using the `ProjectFile.getIgnoredErrors()` method.

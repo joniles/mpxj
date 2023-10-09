@@ -3,7 +3,7 @@
                xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <!-- note that the schemaLocation will need to be changed to be correct for your system -->
-  <jxb:bindings schemaLocation="file:mspdi_pj15-correct.xsd" node="/xsd:schema">
+  <jxb:bindings schemaLocation="file:mspdi_pj15-corrected.xsd" node="/xsd:schema">
 
    <jxb:globalBindings>
       <!-- globally map float types to BigDecimal for consistency -->
@@ -11,13 +11,11 @@
                     xmlType="xsd:float"
                     parseMethod="javax.xml.bind.DatatypeConverter.parseDecimal"
                     printMethod="javax.xml.bind.DatatypeConverter.printDecimal"/>
-      <!-- globally map time types to Calendar to allow custom print and parse to be used -->
-      <jxb:javaType name="java.util.Date"
+      <jxb:javaType name="java.time.LocalTime"
                     xmlType="xsd:time"
                     parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseTime"
                     printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printTime"/>
-      <!-- globally map dateTime types to Calendar to allow custom print and parse to be used -->
-      <jxb:javaType name="java.util.Date"
+      <jxb:javaType name="java.time.LocalDateTime"
                     xmlType="xsd:dateTime"
                     parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseDateTime"
                     printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printDateTime"/>

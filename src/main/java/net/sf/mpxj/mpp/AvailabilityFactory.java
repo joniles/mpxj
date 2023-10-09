@@ -23,13 +23,12 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Date;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -47,7 +46,6 @@ final class AvailabilityFactory
    {
       if (data != null)
       {
-         Calendar cal = DateHelper.popCalendar();
          int items = MPPUtility.getShort(data, 0);
          int offset = 12;
 
@@ -56,21 +54,19 @@ final class AvailabilityFactory
             double unitsValue = MPPUtility.getDouble(data, offset + 4);
             if (unitsValue != 0)
             {
-               Date startDate = MPPUtility.getTimestampFromTenths(data, offset);
-               Date endDate = MPPUtility.getTimestampFromTenths(data, offset + 20);
-               cal.setTime(endDate);
-               cal.add(Calendar.MINUTE, -1);
-               endDate = cal.getTime();
+               LocalDateTime startDate = MPPUtility.getTimestampFromTenths(data, offset);
+               LocalDateTime endDate = MPPUtility.getTimestampFromTenths(data, offset + 20);
+               endDate = endDate.minusMinutes(1);
                Double units = NumberHelper.getDouble(unitsValue / 100);
 
-               if (startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+               if (startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
                {
-                  startDate = DateHelper.START_DATE_NA;
+                  startDate = LocalDateTimeHelper.START_DATE_NA;
                }
 
-               if (endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+               if (endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
                {
-                  endDate = DateHelper.END_DATE_NA;
+                  endDate = LocalDateTimeHelper.END_DATE_NA;
                }
 
                Availability item = new Availability(startDate, endDate, units);
@@ -78,7 +74,6 @@ final class AvailabilityFactory
             }
             offset += 20;
          }
-         DateHelper.pushCalendar(cal);
          Collections.sort(table);
       }
    }

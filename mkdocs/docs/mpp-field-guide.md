@@ -89,6 +89,7 @@ PM Text|✓|✓|✓|✓
 Presentation Format| |✓|✓|✓
 Project File Path| |✓|✓|✓
 Project Title|✓|✓|✓|✓
+Relationship Lag Calendar|✓|✓|✓|✓
 Resource Pool File| |✓|✓|✓
 Revision|✓|✓|✓|✓
 Schedule From|✓|✓|✓|✓
@@ -102,6 +103,7 @@ Template|✓|✓|✓|✓
 Thousands Separator|✓|✓|✓|✓
 Time Format|✓|✓|✓|✓
 Time Separator|✓|✓|✓|✓
+Total Slack Calculation Type|✓|✓|✓|✓
 Updating Task Status Updates Resource Status|✓|✓|✓|✓
 Week Start Day|✓|✓|✓|✓
 
@@ -220,7 +222,6 @@ Start Slack|✓|✓|✓|✓
 Start Variance|✓|✓|✓|✓
 Steps|✓|✓|✓|✓
 Stop|✓|✓|✓|✓
-Subproject| |✓|✓|✓
 Subproject File| |✓|✓|✓
 Subproject GUID| | |✓|✓
 Subproject Task ID| |✓|✓|✓

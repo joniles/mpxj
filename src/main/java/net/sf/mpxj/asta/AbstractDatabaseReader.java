@@ -92,6 +92,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
          processPredecessors();
          processAssignments();
          // TODO: user defined field support (where is udf_data?)
+         project.readComplete();
 
          m_reader = null;
 
@@ -114,13 +115,15 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
     */
    private void processProjectProperties() throws AstaDatabaseException
    {
+      List<Row> schemaVersionRows = getRows("dodschem", Collections.emptyMap());
       List<Row> projectSummaryRows = getRows("project_summary", m_projectKey);
       List<Row> progressPeriodRows = getRows("progress_period", m_projectKey);
       List<Row> userSettingsRows = getRows("userr", m_projectKey);
+      Integer schemaVersion = schemaVersionRows.isEmpty() ? null : schemaVersionRows.get(0).getInteger("SCHVER");
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
       Row userSettings = userSettingsRows.isEmpty() ? null : userSettingsRows.get(0);
       List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;
-      m_reader.processProjectProperties(projectSummary, userSettings, progressPeriods);
+      m_reader.processProjectProperties(schemaVersion, projectSummary, userSettings, progressPeriods);
    }
 
    /**
@@ -170,7 +173,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
       // Update unique counters at this point as we will be generating
       // resource calendars, and will need to auto generate IDs
       //
-      m_reader.getProject().getProjectConfig().updateUniqueCounters();
+      m_reader.getProject().updateUniqueIdCounters();
    }
 
    /**
@@ -192,7 +195,8 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
       List<Row> expandedTasks = getRows("expanded_task", m_projectKey);
       List<Row> tasks = getRows("task", m_projectKey);
       List<Row> milestones = getRows("milestone", m_projectKey);
-      m_reader.processTasks(bars, expandedTasks, tasks, milestones);
+      List<Row> hammocks = getRows("hammock_task", m_projectKey);
+      m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks);
    }
 
    /**

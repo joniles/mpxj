@@ -650,7 +650,6 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.WARNING.getValue()] = "Warning";
       TASK_COLUMNS_ARRAY[TaskField.UNAVAILABLE.getValue()] = "<Unavailable>";
       TASK_COLUMNS_ARRAY[TaskField.SPLITS.getValue()] = "Splits";
-      TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT.getValue()] = "Subproject";
 
       TASK_COLUMNS_ARRAY[TaskField.DURATION_UNITS.getValue()] = "Duration Units";
       TASK_COLUMNS_ARRAY[TaskField.BASELINE_DURATION_UNITS.getValue()] = "Baseline Duration Units";
@@ -1049,6 +1048,7 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.NULL.getValue()] = "Null";
       TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT_GUID.getValue()] = "Subproject GUID";
       TASK_COLUMNS_ARRAY[TaskField.BAR_NAME.getValue()] = "Bar Name";
+      TASK_COLUMNS_ARRAY[TaskField.EXPECTED_FINISH.getValue()] = "Expected Finish";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";
@@ -1231,7 +1231,7 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.LEVELING_DELAY.getValue()] = "Leveling Delay";
       RESOURCE_COLUMNS_ARRAY[ResourceField.RESPONSE_PENDING.getValue()] = "Response Pending";
       RESOURCE_COLUMNS_ARRAY[ResourceField.START.getValue()] = "Start";
-      RESOURCE_COLUMNS_ARRAY[ResourceField.TEAMSTATUS_PENDING.getValue()] = "TeamStatus Pending";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.TEAM_STATUS_PENDING.getValue()] = "TeamStatus Pending";
       RESOURCE_COLUMNS_ARRAY[ResourceField.CV.getValue()] = "CV";
       RESOURCE_COLUMNS_ARRAY[ResourceField.UPDATE_NEEDED.getValue()] = "Update Needed";
       RESOURCE_COLUMNS_ARRAY[ResourceField.COST_RATE_TABLE.getValue()] = "Cost Rate Table";
@@ -2251,6 +2251,8 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.PLANNED_START.getValue()] = "Planned Start";
       PROJECT_COLUMNS_ARRAY[ProjectField.LOCATION_UNIQUE_ID.getValue()] = "Location Unique ID";
       PROJECT_COLUMNS_ARRAY[ProjectField.RESOURCE_POOL_FILE.getValue()] = "Resource Pool File";
+      PROJECT_COLUMNS_ARRAY[ProjectField.TOTAL_SLACK_CALCULATION_TYPE.getValue()] = "Total Slack Calculation Type";
+      PROJECT_COLUMNS_ARRAY[ProjectField.RELATIONSHIP_LAG_CALENDAR.getValue()] = "Relationship Lag Calendar";
    }
 
    private static final Object[][] RESOURCES =

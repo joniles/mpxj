@@ -84,7 +84,7 @@ public final class MPXJNumberFormat extends DecimalFormat
       {
          str = str.trim();
 
-         if (str.length() == 0)
+         if (str.isEmpty())
          {
             parsePosition.setIndex(-1);
          }

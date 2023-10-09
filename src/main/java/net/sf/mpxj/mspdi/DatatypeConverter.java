@@ -25,13 +25,16 @@ package net.sf.mpxj.mspdi;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.ParsePosition;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -40,7 +43,8 @@ import net.sf.mpxj.BookingType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
 import net.sf.mpxj.FieldContainer;
@@ -55,7 +59,6 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.WorkGroup;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.common.XmlHelper;
@@ -151,9 +154,9 @@ public final class DatatypeConverter
     * @param value date value
     * @return string representation
     */
-   public static final String printCustomFieldDate(Date value)
+   public static final String printCustomFieldDate(LocalDateTime value)
    {
-      return (value == null ? null : DATE_FORMAT.get().format(value));
+      return (value == null ? null : DATE_FORMAT.format(value));
    }
 
    /**
@@ -162,24 +165,16 @@ public final class DatatypeConverter
     * @param value Date value
     * @return timestamp value
     */
-   public static final String printOutlineCodeValueDate(Date value)
+   public static final String printOutlineCodeValueDate(LocalDateTime value)
    {
-      String result;
       if (value == null)
       {
-         result = null;
+         return null;
       }
-      else
-      {
-         long rawValue = DateHelper.getLongFromTimestamp(value);
 
-         long dateComponent = ((rawValue - MPPUtility.EPOCH) / DateHelper.MS_PER_DAY) * 65536;
-         long dateValue = ((dateComponent / 65536) * DateHelper.MS_PER_DAY) + MPPUtility.EPOCH;
-         long timeComponent = (rawValue - dateValue) / (6 * 1000);
-
-         result = String.valueOf(dateComponent + timeComponent);
-      }
-      return result;
+      long dateComponent = MPPUtility.EPOCH_DATE.until(value, ChronoUnit.DAYS) * 65536;
+      long timeComponent = value.toLocalTime().toSecondOfDay() / 6;
+      return String.valueOf(dateComponent + timeComponent);
    }
 
    /**
@@ -188,17 +183,17 @@ public final class DatatypeConverter
     * @param value timestamp value
     * @return Date instance
     */
-   public static final Date parseOutlineCodeValueDate(String value)
+   public static final LocalDateTime parseOutlineCodeValueDate(String value)
    {
-      Date result = null;
-      if (value != null && !value.isEmpty())
+      if (value == null || value.isEmpty())
       {
-         long rawValue = Long.parseLong(value);
-         long dateMS = ((rawValue / 65536) * DateHelper.MS_PER_DAY) + MPPUtility.EPOCH;
-         long timeMS = (rawValue % 65536) * (6 * 1000);
-         result = DateHelper.getTimestampFromLong(dateMS + timeMS);
+         return null;
       }
-      return result;
+
+      long rawValue = Long.parseLong(value);
+      long days = rawValue / 65536;
+      long seconds = (rawValue % 65536) * 6;
+      return MPPUtility.EPOCH_DATE.plusDays(days).plusSeconds(seconds);
    }
 
    /**
@@ -207,24 +202,31 @@ public final class DatatypeConverter
     * @param value string representation
     * @return date value
     */
-   public static final Date parseCustomFieldDate(String value)
+   public static final LocalDateTime parseCustomFieldDate(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       if (value != null)
       {
          try
          {
-            result = DATE_FORMAT.get().parse(value);
+            result = LocalDateTime.parse(value, DATE_FORMAT);
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
-            // ignore exceptions
+            if (IGNORE_ERRORS.get().booleanValue())
+            {
+               PARENT_FILE.get().addIgnoredError(ex);
+            }
+            else
+            {
+               throw ex;
+            }
          }
       }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -241,7 +243,7 @@ public final class DatatypeConverter
 
       if (type == DataType.DATE)
       {
-         result = printCustomFieldDate((Date) value);
+         result = printCustomFieldDate((LocalDateTime) value);
       }
       else
       {
@@ -351,7 +353,7 @@ public final class DatatypeConverter
 
       if (type == DataType.DATE)
       {
-         result = printOutlineCodeValueDate((Date) value);
+         result = printOutlineCodeValueDate((LocalDateTime) value);
       }
       else
       {
@@ -774,13 +776,13 @@ public final class DatatypeConverter
     * @param value time value
     * @return calendar value
     */
-   public static final String printTime(Date value)
+   public static final String printTime(LocalTime value)
    {
       String result = null;
 
       if (value != null)
       {
-         result = TIME_FORMAT.get().format(value);
+         result = TIME_FORMAT.format(value);
       }
 
       return result;
@@ -913,7 +915,7 @@ public final class DatatypeConverter
       Duration result = null;
       XsdDuration xsd = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          try
          {
@@ -1695,7 +1697,7 @@ public final class DatatypeConverter
          return BIGDECIMAL_ZERO;
       }
 
-      return new BigDecimal(RATE_NUMBER_FORMAT.get().format(RateHelper.convertToHours(PARENT_FILE.get(), rate)));
+      return new BigDecimal(RATE_NUMBER_FORMAT.get().format(RateHelper.convertToHours(PARENT_FILE.get().getProjectProperties(), rate)));
    }
 
    /**
@@ -1721,7 +1723,7 @@ public final class DatatypeConverter
             targetUnits = TimeUnit.HOURS;
          }
 
-         result = RateHelper.convertFromHours(PARENT_FILE.get(), originalValue, targetUnits);
+         result = RateHelper.convertFromHours(PARENT_FILE.get().getProjectProperties(), originalValue, targetUnits);
       }
 
       return result;
@@ -1733,9 +1735,9 @@ public final class DatatypeConverter
     * @param day Day instance
     * @return day value
     */
-   public static final BigInteger printDay(Day day)
+   public static final BigInteger printDay(DayOfWeek day)
    {
-      return (day == null ? null : BigInteger.valueOf(day.getValue() - 1));
+      return (day == null ? null : BigInteger.valueOf(DayOfWeekHelper.getValue(day) - 1));
    }
 
    /**
@@ -1744,9 +1746,9 @@ public final class DatatypeConverter
     * @param value day value
     * @return Day instance
     */
-   public static final Day parseDay(Number value)
+   public static final DayOfWeek parseDay(Number value)
    {
-      return (Day.getInstance(NumberHelper.getInt(value) + 1));
+      return (DayOfWeekHelper.getInstance(NumberHelper.getInt(value) + 1));
    }
 
    /**
@@ -1878,17 +1880,22 @@ public final class DatatypeConverter
     * @param value time value
     * @return time value
     */
-   public static final Date parseTime(String value)
+   public static final LocalTime parseTime(String value)
    {
-      Date result = null;
-      if (value != null && value.length() != 0)
+      LocalTime result = null;
+      if (value != null && !value.isEmpty())
       {
          try
          {
-            result = TIME_FORMAT.get().parse(value);
+            // As seen in MSPDI files generated by Synchro
+            if (value.equals("24:00:00"))
+            {
+               value = "00:00:00";
+            }
+            result = LocalTime.parse(value, TIME_FORMAT);
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
             // Ignore parse errors
          }
@@ -1902,9 +1909,9 @@ public final class DatatypeConverter
     * @param value date time value
     * @return string representation
     */
-   public static final String printDateTime(Date value)
+   public static final String printDateTime(LocalDateTime value)
    {
-      return (value == null ? null : DATE_FORMAT.get().format(value));
+      return value == null ? null : DATE_FORMAT.format(value);
    }
 
    /**
@@ -1913,18 +1920,18 @@ public final class DatatypeConverter
     * @param value string representation
     * @return date time value
     */
-   public static final Date parseDateTime(String value)
+   public static final LocalDateTime parseDateTime(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          try
          {
-            result = DATE_FORMAT.get().parse(value);
+            result = LocalDateTime.from(DATE_FORMAT.parse(value, new ParsePosition(0)));
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
             // Ignore parse errors
          }
@@ -1996,15 +2003,15 @@ public final class DatatypeConverter
    }
 
    /**
-    * This method is called to set the parent file for the current
-    * write operation. This allows task and resource write events
-    * to be captured and passed to any file listeners.
+    * This method is called to set the parent file to provide context for
+    * parse and print operations.
     *
     * @param file parent file instance
     */
-   public static final void setParentFile(ProjectFile file)
+   public static final void setContext(ProjectFile file, boolean ignoreErrors)
    {
       PARENT_FILE.set(file);
+      IGNORE_ERRORS.set(Boolean.valueOf(ignoreErrors));
    }
 
    /**
@@ -2030,17 +2037,9 @@ public final class DatatypeConverter
       return result;
    }
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-      df.setLenient(false);
-      return df;
-   });
+   private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("yyyy-MM-dd'T'HH:mm:ss").toFormatter();
 
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("HH:mm:ss");
-      df.setLenient(false);
-      return df;
-   });
+   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
    private static final ThreadLocal<NumberFormat> NUMBER_FORMAT = ThreadLocal.withInitial(() -> {
       // XML numbers should use . as decimal separator and no grouping.
@@ -2071,7 +2070,7 @@ public final class DatatypeConverter
    });
 
    private static final ThreadLocal<ProjectFile> PARENT_FILE = new ThreadLocal<>();
-
+   private static final ThreadLocal<Boolean> IGNORE_ERRORS = new ThreadLocal<>();
    private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
    private static final BigDecimal BIGDECIMAL_ONE = BigDecimal.valueOf(1);
 }

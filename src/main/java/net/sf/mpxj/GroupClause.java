@@ -30,6 +30,7 @@ import net.sf.mpxj.mpp.FontStyle;
 
 /**
  * This class represents a clause from a definition of a group.
+ * TODO: recreate this as a hierarchy of classes.
  */
 public final class GroupClause
 {

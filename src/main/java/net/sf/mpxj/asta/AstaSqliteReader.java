@@ -28,10 +28,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,13 +104,14 @@ public class AstaSqliteReader extends AbstractProjectFileReader
          processAssignments();
          processUserDefinedFields();
          processCodeLibraries();
+         project.readComplete();
 
          m_reader = null;
 
          return project;
       }
 
-      catch (SQLException | ParseException ex)
+      catch (SQLException ex)
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
@@ -121,19 +122,21 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processProjectProperties() throws SQLException
    {
+      List<Row> schemaVersionRows = getRows("select* from dodschem");
       List<Row> projectSummaryRows = getRows("select duration as durationhours, project_start as staru, project_end as ene, * from project_summary where projid=?", m_projectID);
       List<Row> progressPeriodRows = getRows("select id as progress_periodid, * from progress_period where projid=?", m_projectID);
       List<Row> userSettingsRows = getRows("select * from userr where projid=?", m_projectID);
+      Integer schemaVersion = schemaVersionRows.isEmpty() ? null : schemaVersionRows.get(0).getInteger("SCHVER");
       Row projectSummary = projectSummaryRows.isEmpty() ? null : projectSummaryRows.get(0);
       Row userSettings = userSettingsRows.isEmpty() ? null : userSettingsRows.get(0);
       List<Row> progressPeriods = progressPeriodRows.isEmpty() ? null : progressPeriodRows;
-      m_reader.processProjectProperties(projectSummary, userSettings, progressPeriods);
+      m_reader.processProjectProperties(schemaVersion, projectSummary, userSettings, progressPeriods);
    }
 
    /**
     * Process calendars.
     */
-   private void processCalendars() throws SQLException, ParseException
+   private void processCalendars() throws SQLException
    {
       List<Row> rows = getRows("select id as exceptionnid, * from exceptionn");
       Map<Integer, DayType> exceptionTypeMap = m_reader.createExceptionTypeMap(rows);
@@ -160,7 +163,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       // Update unique counters at this point as we will be generating
       // resource calendars, and will need to auto generate IDs
       //
-      m_reader.getProject().getProjectConfig().updateUniqueCounters();
+      m_reader.getProject().updateUniqueIdCounters();
    }
 
    /**
@@ -180,11 +183,12 @@ public class AstaSqliteReader extends AbstractProjectFileReader
    {
       List<Row> bars = getRows("select id as barid, bar_start as starv, bar_finish as enf, name as namh, * from bar where projid=?", m_projectID);
 
-      List<Row> expandedTasks = getRows("select id as expanded_taskid, constraint_flag as constrainu, * from expanded_task where projid=?", m_projectID);
-      List<Row> tasks = getRows("select id as taskid, given_duration as given_durationhours, actual_duration as actual_durationhours, overall_percent_complete as overall_percenv_complete, name as nare, calendar as calendau, linkable_start as starz, linkable_finish as enj, notes as notet, wbs as wbt, natural_order as naturao_order, constraint_flag as constrainu, * from task where projid=?", m_projectID);
+      List<Row> expandedTasks = getRows("select id as expanded_taskid, constraint_flag as constrainu, calendar as calendau, * from expanded_task where projid=?", m_projectID);
+      List<Row> tasks = getRows("select id as taskid, given_duration as given_durationhours, actual_duration as actual_durationhours, overall_percent_complete as overall_percenv_complete, name as nare, calendar as calendau, linkable_start as starz, linkable_finish as enj, notes as notet, wbs as wbt, natural_order as naturao_order, constraint_flag as constrainu, duration_time_unit as duration_timj_unit, * from task where projid=?", m_projectID);
       List<Row> milestones = getRows("select id as milestoneid, name as nare, calendar as calendau, wbs as wbt, natural_order as naturao_order, constraint_flag as constrainu, * from milestone where projid=?", m_projectID);
+      List<Row> hammocks = getRows("select id as hammock_taskid, * from hammock_task where projid=?", m_projectID);
 
-      m_reader.processTasks(bars, expandedTasks, tasks, milestones);
+      m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks);
    }
 
    /**
@@ -202,7 +206,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     */
    private void processAssignments() throws SQLException
    {
-      List<Row> permanentAssignments = getRows("select allocated_to as allocatee_to, player, percent_complete, effort as efforw, permanent_schedul_allocation.id as permanent_schedul_allocationid, linkable_start as starz, linkable_finish as enj, given_allocation, delay as delaahours from permanent_schedul_allocation inner join perm_resource_skill on permanent_schedul_allocation.allocation_of = perm_resource_skill.id where permanent_schedul_allocation.projid=? order by permanent_schedul_allocation.id", m_projectID);
+      List<Row> permanentAssignments = getRows("select allocated_to as allocatee_to, player, percent_complete, effort as efforw, permanent_schedul_allocation.id as permanent_schedul_allocationid, linkable_start as starz, linkable_finish as enj, given_allocation, delay as delaahours from permanent_schedul_allocation inner join perm_resource_skill on perm_resource_skill.id = permanent_schedul_allocation.allocation_of and perm_resource_skill.projid=permanent_schedul_allocation.projid where permanent_schedul_allocation.projid=? order by permanent_schedul_allocation.id", m_projectID);
       m_reader.processAssignments(permanentAssignments);
    }
 
@@ -271,7 +275,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     * @param rows calendar rows
     * @return work pattern assignment map
     */
-   private Map<Integer, List<Row>> createWorkPatternAssignmentMap(List<Row> rows) throws ParseException
+   private Map<Integer, List<Row>> createWorkPatternAssignmentMap(List<Row> rows)
    {
       Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
@@ -289,7 +293,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     * @param workPatterns string representation of work pattern assignments
     * @return list of work pattern assignment rows
     */
-   private List<Row> createWorkPatternAssignmentRowList(String workPatterns) throws ParseException
+   private List<Row> createWorkPatternAssignmentRowList(String workPatterns)
    {
       List<Row> list = new ArrayList<>();
       String[] patterns = workPatterns.split("[,:]");
@@ -297,8 +301,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       while (index < patterns.length)
       {
          Integer workPattern = Integer.valueOf(patterns[index + 1]);
-         Date startDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 3]);
-         Date endDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 4]);
+         LocalDateTime startDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 3]);
+         LocalDateTime endDate = DatatypeConverter.parseBasicTimestamp(patterns[index + 4]);
 
          Map<String, Object> map = new HashMap<>();
          map.put("WORK_PATTERN", workPattern);
@@ -344,8 +348,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       int index = 1;
       while (index < exceptions.length)
       {
-         Date startDate = DatatypeConverter.parseEpochTimestamp(exceptions[index]);
-         Date endDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 1]);
+         LocalDateTime startDate = DatatypeConverter.parseEpochTimestamp(exceptions[index]);
+         LocalDateTime endDate = DatatypeConverter.parseEpochTimestamp(exceptions[index + 1]);
          //Integer exceptionTypeID = Integer.valueOf(exceptions[index + 2]);
 
          Map<String, Object> map = new HashMap<>();
@@ -366,7 +370,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     * @param rows work pattern rows
     * @return time entry map
     */
-   private Map<Integer, List<Row>> createTimeEntryMap(List<Row> rows) throws ParseException
+   private Map<Integer, List<Row>> createTimeEntryMap(List<Row> rows)
    {
       Map<Integer, List<Row>> map = new HashMap<>();
       for (Row row : rows)
@@ -384,7 +388,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
     * @param shiftData string representation of time entries
     * @return list of time entry rows
     */
-   private List<Row> createTimeEntryRowList(String shiftData) throws ParseException
+   private List<Row> createTimeEntryRowList(String shiftData)
    {
       List<Row> list = new ArrayList<>();
       String[] shifts = shiftData.split("[,:]");
@@ -398,8 +402,8 @@ public class AstaSqliteReader extends AbstractProjectFileReader
          for (int entryIndex = 0; entryIndex < entryCount; entryIndex++)
          {
             Integer exceptionTypeID = Integer.valueOf(shifts[index]);
-            Date startTime = DatatypeConverter.parseBasicTime(shifts[index + 1]);
-            Date endTime = DatatypeConverter.parseBasicTime(shifts[index + 2]);
+            LocalDateTime startTime = DatatypeConverter.parseBasicTime(shifts[index + 1]);
+            LocalDateTime endTime = DatatypeConverter.parseBasicTime(shifts[index + 2]);
 
             Map<String, Object> map = new HashMap<>();
             map.put("START_TIME", startTime);

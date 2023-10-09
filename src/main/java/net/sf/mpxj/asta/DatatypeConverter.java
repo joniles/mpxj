@@ -23,14 +23,14 @@
 
 package net.sf.mpxj.asta;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /*
  * Duration Types
@@ -148,7 +148,7 @@ final class DatatypeConverter
    {
       Integer result = null;
 
-      if (value.length() > 0 && value.indexOf(' ') == -1)
+      if (!value.isEmpty() && value.indexOf(' ') == -1)
       {
          if (value.indexOf('.') == -1)
          {
@@ -170,16 +170,14 @@ final class DatatypeConverter
     * @param value string representation
     * @return Java representation
     */
-   public static Date parseEpochTimestamp(String value)
+   public static LocalDateTime parseEpochTimestamp(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
-      if (value.length() > 0)
+      if (!value.isEmpty())
       {
          if (!value.equals("-1 -1"))
          {
-            Calendar cal = DateHelper.popCalendar(JAVA_EPOCH);
-
             int index = value.indexOf(' ');
             if (index == -1)
             {
@@ -193,24 +191,14 @@ final class DatatypeConverter
                int minutes = Integer.parseInt(value.substring(2, 4));
                int seconds = Integer.parseInt(value.substring(4));
 
-               cal.set(Calendar.HOUR, hours);
-               cal.set(Calendar.MINUTE, minutes);
-               cal.set(Calendar.SECOND, seconds);
+               result = JAVA_EPOCH.plusHours(hours).plusMinutes(minutes).plusSeconds(seconds);
             }
             else
             {
                long astaDays = Long.parseLong(value.substring(0, index));
                int astaSeconds = Integer.parseInt(value.substring(index + 1));
-
-               cal.add(Calendar.DAY_OF_YEAR, (int) (astaDays - ASTA_EPOCH));
-               cal.set(Calendar.MILLISECOND, 0);
-               cal.set(Calendar.SECOND, 0);
-               cal.set(Calendar.HOUR, 0);
-               cal.add(Calendar.SECOND, astaSeconds);
+               result = JAVA_EPOCH.plusDays(astaDays - ASTA_EPOCH).plusSeconds(astaSeconds);
             }
-
-            result = cal.getTime();
-            DateHelper.pushCalendar(cal);
          }
       }
 
@@ -223,43 +211,14 @@ final class DatatypeConverter
     * @param value timestamp as String
     * @return timestamp as Date
     */
-   public static Date parseBasicTimestamp(String value) throws ParseException
+   public static LocalDateTime parseBasicTimestamp(String value)
    {
-      Date result = null;
-
-      if (value.length() > 0)
+      if (value.isEmpty() || value.equals("-1 -1") || value.equals("0"))
       {
-         if (!value.equals("-1 -1") && !value.equals("0"))
-         {
-            DateFormat df;
-            if (value.endsWith(" 0"))
-            {
-               df = DATE_FORMAT1.get();
-            }
-            else
-            {
-               if (value.indexOf(' ') == -1)
-               {
-                  df = DATE_FORMAT2.get();
-               }
-               else
-               {
-                  df = TIMESTAMP_FORMAT.get();
-                  int timeIndex = value.indexOf(' ') + 1;
-                  if (timeIndex + 6 > value.length())
-                  {
-                     String time = value.substring(timeIndex);
-                     value = value.substring(0, timeIndex) + "0" + time;
-                  }
-               }
-            }
-
-            result = df.parse(value);
-         }
+         return null;
       }
 
-      //System.out.println(value + "=>" + result);
-      return result;
+      return LocalDateTimeHelper.parseBest(TIMESTAMP_FORMAT, value);
    }
 
    /**
@@ -268,33 +227,29 @@ final class DatatypeConverter
     * @param value time as String
     * @return time as Date
     */
-   public static Date parseBasicTime(String value) throws ParseException
+   public static LocalDateTime parseBasicTime(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
-      if (value.length() > 0)
+      if (!value.isEmpty())
       {
          if (!value.equals("0"))
          {
             value = "000000" + value;
             value = value.substring(value.length() - 6);
-            result = TIME_FORMAT.get().parse(value);
+            result = LocalDateTime.of(LocalDate.MIN, LocalTime.parse(value, TIME_FORMAT));
          }
       }
 
       return result;
    }
 
-   private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd HHmmss"));
+   private static final DateTimeFormatter TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd[ HHmmss][ Hmmss][ 0]");
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT1 = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd 0"));
-
-   private static final ThreadLocal<DateFormat> DATE_FORMAT2 = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd"));
-
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("HHmmss"));
+   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HHmmss");
 
    private static final ThreadLocal<DecimalFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> new DecimalFormat("#.#E0"));
 
-   private static final long JAVA_EPOCH = -2208988800000L;
+   private static final LocalDateTime JAVA_EPOCH = LocalDateTime.of(1900, 1, 1, 0, 0);
    private static final long ASTA_EPOCH = 2415021L;
 }

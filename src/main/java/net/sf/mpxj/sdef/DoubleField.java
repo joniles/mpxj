@@ -49,15 +49,7 @@ class DoubleField extends StringField
       }
       else
       {
-         try
-         {
-            result = Double.valueOf(value);
-         }
-
-         catch (NumberFormatException ex)
-         {
-            result = null;
-         }
+         result = Double.valueOf(value);
       }
       return result;
    }

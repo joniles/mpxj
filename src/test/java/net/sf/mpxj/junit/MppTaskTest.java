@@ -26,13 +26,12 @@ package net.sf.mpxj.junit;
 import static net.sf.mpxj.junit.MpxjAssert.*;
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectFile;
@@ -401,8 +400,7 @@ public class MppTaskTest
     */
    private void testBasicTask(ProjectFile mpp)
    {
-
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
       ProjectProperties properties = mpp.getProjectProperties();
       assertNotNull(properties);
@@ -746,14 +744,14 @@ public class MppTaskTest
        * WBS
        */
 
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
       List<Task> listAllTasks = mpp.getTasks();
       List<Resource> listAllResources = mpp.getResources();
       assertNotNull(listAllTasks);
       assertNotNull(listAllResources);
-      assertTrue(listAllTasks.size() > 0);
-      assertTrue(listAllResources.size() > 0);
+      assertFalse(listAllTasks.isEmpty());
+      assertFalse(listAllResources.isEmpty());
 
       Task baseTask, subtask1, subtask2, subtask3, subtask4, subtask5, completeTask, complexOutlineNumberTask, subtaskA, subtaskA1, subtaskA2, subtaskB, subtaskB1, subtaskB1a;
 
@@ -863,8 +861,8 @@ public class MppTaskTest
       Task task1 = mpp.getTaskByID(Integer.valueOf(1));
       Task task2 = mpp.getTaskByID(Integer.valueOf(2));
 
-      List<DateRange> listSplits1 = task1.getSplits();
-      List<DateRange> listSplits2 = task2.getSplits();
+      List<LocalDateTimeRange> listSplits1 = task1.getSplits();
+      List<LocalDateTimeRange> listSplits2 = task2.getSplits();
 
       assertEquals(3, listSplits1.size());
       assertEquals(5, listSplits2.size());
@@ -887,7 +885,7 @@ public class MppTaskTest
     * @param start expected start date
     * @param end expected end date
     */
-   private void testSplit(DateRange range, String start, String end)
+   private void testSplit(LocalDateTimeRange range, String start, String end)
    {
       assertEquals(start, m_df.format(range.getStart()));
       assertEquals(end, m_df.format(range.getEnd()));
@@ -965,5 +963,5 @@ public class MppTaskTest
       assertEquals(RelationType.START_FINISH, relation.getType());
    }
 
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 }

@@ -23,9 +23,11 @@
 
 package net.sf.mpxj;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.List;
 
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 
 /**
  * This class represents a basic working week, with no exceptions.
@@ -61,9 +63,9 @@ public abstract class ProjectCalendarDays
     * @param day Day instance
     * @return calendar hours
     */
-   public ProjectCalendarHours getCalendarHours(Day day)
+   public ProjectCalendarHours getCalendarHours(DayOfWeek day)
    {
-      return m_hours[day.getValue() - 1];
+      return m_hours[DayOfWeekHelper.getValue(day) - 1];
    }
 
    /**
@@ -72,7 +74,7 @@ public abstract class ProjectCalendarDays
     */
    public void addDefaultCalendarHours()
    {
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          addDefaultCalendarHours(day);
       }
@@ -83,13 +85,13 @@ public abstract class ProjectCalendarDays
     */
    public void addDefaultCalendarDays()
    {
-      setWorkingDay(Day.SUNDAY, false);
-      setWorkingDay(Day.MONDAY, true);
-      setWorkingDay(Day.TUESDAY, true);
-      setWorkingDay(Day.WEDNESDAY, true);
-      setWorkingDay(Day.THURSDAY, true);
-      setWorkingDay(Day.FRIDAY, true);
-      setWorkingDay(Day.SATURDAY, false);
+      setWorkingDay(DayOfWeek.SUNDAY, false);
+      setWorkingDay(DayOfWeek.MONDAY, true);
+      setWorkingDay(DayOfWeek.TUESDAY, true);
+      setWorkingDay(DayOfWeek.WEDNESDAY, true);
+      setWorkingDay(DayOfWeek.THURSDAY, true);
+      setWorkingDay(DayOfWeek.FRIDAY, true);
+      setWorkingDay(DayOfWeek.SATURDAY, false);
    }
 
    /**
@@ -98,11 +100,11 @@ public abstract class ProjectCalendarDays
     *
     * @param day Day for which to add default hours for
     */
-   public void addDefaultCalendarHours(Day day)
+   public void addDefaultCalendarHours(DayOfWeek day)
    {
       ProjectCalendarHours hours = addCalendarHours(day);
 
-      if (day != Day.SATURDAY && day != Day.SUNDAY)
+      if (day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY)
       {
          hours.add(DEFAULT_WORKING_MORNING);
          hours.add(DEFAULT_WORKING_AFTERNOON);
@@ -115,10 +117,10 @@ public abstract class ProjectCalendarDays
     * @param day target day
     * @return new ProjectCalendarHours instance
     */
-   public ProjectCalendarHours addCalendarHours(Day day)
+   public ProjectCalendarHours addCalendarHours(DayOfWeek day)
    {
       ProjectCalendarHours bch = new ProjectCalendarHours();
-      m_hours[day.getValue() - 1] = bch;
+      m_hours[DayOfWeekHelper.getValue(day) - 1] = bch;
       return bch;
    }
 
@@ -127,9 +129,9 @@ public abstract class ProjectCalendarDays
     *
     * @param day target day
     */
-   public void removeCalendarHours(Day day)
+   public void removeCalendarHours(DayOfWeek day)
    {
-      m_hours[day.getValue() - 1] = null;
+      m_hours[DayOfWeekHelper.getValue(day) - 1] = null;
    }
 
    /**
@@ -145,9 +147,9 @@ public abstract class ProjectCalendarDays
     * @param day required day
     * @return value of underlying working day flag
     */
-   public DayType getCalendarDayType(Day day)
+   public DayType getCalendarDayType(DayOfWeek day)
    {
-      return m_days[day.getValue() - 1];
+      return m_days[DayOfWeekHelper.getValue(day) - 1];
    }
 
    /**
@@ -157,7 +159,7 @@ public abstract class ProjectCalendarDays
     * @param day required day
     * @param working flag indicating if the day is a working day
     */
-   public void setWorkingDay(Day day, boolean working)
+   public void setWorkingDay(DayOfWeek day, boolean working)
    {
       setCalendarDayType(day, (working ? DayType.WORKING : DayType.NON_WORKING));
    }
@@ -168,9 +170,9 @@ public abstract class ProjectCalendarDays
     * @param day required day
     * @param type day type flag
     */
-   public void setCalendarDayType(Day day, DayType type)
+   public void setCalendarDayType(DayOfWeek day, DayType type)
    {
-      m_days[day.getValue() - 1] = type;
+      m_days[DayOfWeekHelper.getValue(day) - 1] = type;
 
       switch (type)
       {
@@ -184,7 +186,7 @@ public abstract class ProjectCalendarDays
          case NON_WORKING:
          {
             // Non-working days should have an empty list
-            List<DateRange> hours = getCalendarHours(day);
+            List<LocalTimeRange> hours = getCalendarHours(day);
             if (hours == null)
             {
                addCalendarHours(day);
@@ -233,6 +235,6 @@ public abstract class ProjectCalendarDays
    /**
     * Constants representing the default working morning and afternoon hours.
     */
-   public static final DateRange DEFAULT_WORKING_MORNING = new DateRange(DateHelper.getTime(8, 0), DateHelper.getTime(12, 0));
-   public static final DateRange DEFAULT_WORKING_AFTERNOON = new DateRange(DateHelper.getTime(13, 0), DateHelper.getTime(17, 0));
+   public static final LocalTimeRange DEFAULT_WORKING_MORNING = new LocalTimeRange(LocalTime.of(8, 0), LocalTime.of(12, 0));
+   public static final LocalTimeRange DEFAULT_WORKING_AFTERNOON = new LocalTimeRange(LocalTime.of(13, 0), LocalTime.of(17, 0));
 }

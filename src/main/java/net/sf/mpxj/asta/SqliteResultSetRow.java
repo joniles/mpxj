@@ -28,7 +28,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.ParseException;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -78,25 +78,12 @@ final class SqliteResultSetRow extends MapRow
             }
 
             case Types.DATE:
-            {
-               String stringValue = rs.getString(name);
-               if (stringValue == null || stringValue.isEmpty())
-               {
-                  value = null;
-               }
-               else
-               {
-                  value = rs.getDate(name);
-               }
-               break;
-            }
-
             case Types.TIMESTAMP:
             {
                Timestamp ts = rs.getTimestamp(name);
                if (ts != null)
                {
-                  value = new Date(ts.getTime());
+                  value = ts.toLocalDateTime();
                }
                else
                {

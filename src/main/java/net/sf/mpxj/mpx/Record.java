@@ -25,9 +25,11 @@ package net.sf.mpxj.mpx;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -39,6 +41,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectDateFormat;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectTimeFormat;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ScheduleFrom;
@@ -54,12 +57,13 @@ final class Record
     * This constructor takes a stream of tokens and extracts the
     * fields of an individual record from those tokens.
     *
+    * @param file parent project file
     * @param locale target locale
     * @param tk tokenizer providing the input stream of tokens
     * @param formats formats used when parsing data
     * @throws MPXJException normally thrown when parsing fails
     */
-   Record(Locale locale, Tokenizer tk, MPXJFormats formats)
+   Record(ProjectFile file, Locale locale, Tokenizer tk, MPXJFormats formats)
       throws MPXJException
    {
       try
@@ -75,9 +79,9 @@ final class Record
             list.add(tk.getToken());
          }
 
-         if (list.size() > 0)
+         if (!list.isEmpty())
          {
-            setRecordNumber(list);
+            setRecordNumber(file, list);
             m_fields = list.toArray(new String[0]);
          }
       }
@@ -94,7 +98,7 @@ final class Record
     *
     * @param list MPX record
     */
-   private void setRecordNumber(List<String> list)
+   private void setRecordNumber(ProjectFile file, List<String> list)
    {
       try
       {
@@ -112,6 +116,7 @@ final class Record
          // Malformed MPX file: the record number isn't a valid integer
          // Catch the exception here, leaving m_recordNumber as null
          // so we will skip this record entirely.
+         file.addIgnoredError(ex);
       }
    }
 
@@ -166,7 +171,7 @@ final class Record
    {
       Character result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = Character.valueOf(m_fields[field].charAt(0));
       }
@@ -192,7 +197,7 @@ final class Record
       {
          Number result;
 
-         if ((field < m_fields.length) && (m_fields[field].length() != 0))
+         if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
          {
             result = m_formats.getDecimalFormat().parse(m_fields[field]);
          }
@@ -222,9 +227,53 @@ final class Record
    {
       Integer result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = Integer.valueOf(m_fields[field]);
+      }
+      else
+      {
+         result = null;
+      }
+
+      return (result);
+   }
+
+   /**
+    * Accessor method used to retrieve a LocalDateTime instance representing the
+    * contents of an individual field. If the field does not exist in the
+    * record, null is returned.
+    *
+    * @param field the index number of the field to be retrieved
+    * @return the value of the required field
+    */
+   public LocalDateTime getDateTime(int field)
+   {
+      LocalDateTime result = null;
+
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
+      {
+         result = m_formats.parseDateTime(m_fields[field]);
+      }
+
+      return result;
+   }
+
+   /**
+    * Accessor method used to retrieve a LocalDateTime instance representing the
+    * contents of an individual field. If the field does not exist in the
+    * record, null is returned.
+    *
+    * @param field the index number of the field to be retrieved
+    * @return the value of the required field
+    */
+   public LocalDateTime getDate(int field)
+   {
+      LocalDateTime result;
+
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
+      {
+         result = m_formats.parseDate(m_fields[field]);
       }
       else
       {
@@ -241,108 +290,21 @@ final class Record
     *
     * @param field the index number of the field to be retrieved
     * @return the value of the required field
-    * @throws MPXJException normally thrown when parsing fails
     */
-   public Date getDateTime(int field) throws MPXJException
+   public LocalTime getTime(int field)
    {
-      Date result = null;
+      LocalTime result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
-         try
-         {
-            result = m_formats.getDateTimeFormat().parse(m_fields[field]);
-         }
-
-         catch (ParseException ex)
-         {
-            // Failed to parse a full date time.
-         }
-
-         //
-         // Fall back to trying just parsing the date component
-         //
-         if (result == null)
-         {
-            try
-            {
-               result = m_formats.getDateFormat().parse(m_fields[field]);
-            }
-
-            catch (ParseException ex)
-            {
-               throw new MPXJException("Failed to parse date time", ex);
-            }
-         }
+         result = m_formats.parseTime(m_fields[field]);
+      }
+      else
+      {
+         result = null;
       }
 
-      return result;
-   }
-
-   /**
-    * Accessor method used to retrieve an Date instance representing the
-    * contents of an individual field. If the field does not exist in the
-    * record, null is returned.
-    *
-    * @param field the index number of the field to be retrieved
-    * @return the value of the required field
-    * @throws MPXJException normally thrown when parsing fails
-    */
-   public Date getDate(int field) throws MPXJException
-   {
-      try
-      {
-         Date result;
-
-         if ((field < m_fields.length) && (m_fields[field].length() != 0))
-         {
-            result = m_formats.getDateFormat().parse(m_fields[field]);
-         }
-         else
-         {
-            result = null;
-         }
-
-         return (result);
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse date", ex);
-      }
-   }
-
-   /**
-    * Accessor method used to retrieve an Date instance representing the
-    * contents of an individual field. If the field does not exist in the
-    * record, null is returned.
-    *
-    * @param field the index number of the field to be retrieved
-    * @return the value of the required field
-    * @throws MPXJException normally thrown when parsing fails
-    */
-   public Date getTime(int field) throws MPXJException
-   {
-      try
-      {
-         Date result;
-
-         if ((field < m_fields.length) && (m_fields[field].length() != 0))
-         {
-            result = m_formats.getTimeFormat().parse(m_fields[field]);
-         }
-         else
-         {
-            result = null;
-         }
-
-         return (result);
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse time", ex);
-      }
+      return (result);
    }
 
    /**
@@ -357,7 +319,7 @@ final class Record
    {
       boolean result = false;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = Integer.parseInt(m_fields[field]) == 1;
       }
@@ -378,7 +340,7 @@ final class Record
    {
       Rate result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          try
          {
@@ -427,7 +389,7 @@ final class Record
    {
       Number result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          try
          {
@@ -460,7 +422,7 @@ final class Record
    {
       Number result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          try
          {
@@ -493,7 +455,7 @@ final class Record
    {
       Duration result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = DurationUtility.getInstance(m_fields[field], m_formats.getDurationDecimalFormat(), m_locale);
       }
@@ -518,7 +480,7 @@ final class Record
    {
       Number result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          try
          {
@@ -550,7 +512,7 @@ final class Record
    {
       TimeUnit result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = TimeUnit.getInstance(Integer.parseInt(m_fields[field]));
       }
@@ -574,7 +536,7 @@ final class Record
    {
       ProjectTimeFormat result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = ProjectTimeFormat.getInstance(Integer.parseInt(m_fields[field]));
       }
@@ -598,7 +560,7 @@ final class Record
    {
       ScheduleFrom result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = ScheduleFrom.getInstance(Integer.parseInt(m_fields[field]));
       }
@@ -622,7 +584,7 @@ final class Record
    {
       DateOrder result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = DateOrder.getInstance(Integer.parseInt(m_fields[field]));
       }
@@ -646,7 +608,7 @@ final class Record
    {
       CurrencySymbolPosition result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = CurrencySymbolPosition.getInstance(Integer.parseInt(m_fields[field]));
       }
@@ -670,7 +632,7 @@ final class Record
    {
       ProjectDateFormat result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = ProjectDateFormat.getInstance(Integer.parseInt(m_fields[field]));
       }
@@ -692,7 +654,7 @@ final class Record
    {
       CodePage result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = CodePage.getInstance(m_fields[field]);
       }
@@ -714,7 +676,7 @@ final class Record
    {
       AccrueType result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = AccrueTypeUtility.getInstance(m_fields[field], m_locale);
       }
@@ -737,9 +699,23 @@ final class Record
    {
       Boolean result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
-         result = (m_fields[field].equalsIgnoreCase(falseText) ? Boolean.FALSE : Boolean.TRUE);
+         String value = m_fields[field];
+
+         // Handle common non-standard true/false values
+         if (value.equals("0"))
+         {
+            return Boolean.FALSE;
+         }
+
+         if (value.equals("1"))
+         {
+            return Boolean.TRUE;
+         }
+
+         // Handle standard true/false value
+         result = Boolean.valueOf(!value.equalsIgnoreCase(falseText));
       }
       else
       {
@@ -759,7 +735,7 @@ final class Record
    {
       DayType result;
 
-      if ((field < m_fields.length) && (m_fields[field].length() != 0))
+      if ((field < m_fields.length) && (!m_fields[field].isEmpty()))
       {
          result = DayType.getInstance(Integer.parseInt(m_fields[field]));
       }

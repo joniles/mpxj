@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?><APIBusinessObjects xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.oracle.com/Primavera/P6/V18.1/API/BusinessObjects http://xmlns.oracle.com/Primavera/P6/V18.1/API/p6apibo.xsd">
+  <ProjectList>
+    <Project ObjectId="34136">
+      <Id>201020</Id>
+      <Name>Test Project</Name>
+    </Project>
+  </ProjectList>
+  <Calendar>
+    <HoursPerDay>8.0</HoursPerDay>
+    <HoursPerMonth>172.0</HoursPerMonth>
+    <HoursPerWeek>40.0</HoursPerWeek>
+    <HoursPerYear>2000.0</HoursPerYear>
+    <IsDefault>0</IsDefault>
+    <IsPersonal>0</IsPersonal>
+    <Name>Test Calendar</Name>
+    <ObjectId>12002</ObjectId>
+    <Type>Global</Type>
+    <StandardWorkWeek>
+      <StandardWorkHours>
+        <DayOfWeek>Monday</DayOfWeek>
+        <WorkTime>
+          <Start>07:00:00</Start>
+          <Finish>11:59:00</Finish>
+        </WorkTime>
+        <WorkTime>
+          <Start>12:30:00</Start>
+          <Finish>15:29:00</Finish>
+        </WorkTime>
+      </StandardWorkHours>
+      <StandardWorkHours>
+        <DayOfWeek>Tuesday</DayOfWeek>
+        <WorkTime>
+          <Start>07:00:00</Start>
+          <Finish>11:59:00</Finish>
+        </WorkTime>
+        <WorkTime>
+          <Start>12:30:00</Start>
+          <Finish>15:29:00</Finish>
+        </WorkTime>
+      </StandardWorkHours>
+      <StandardWorkHours>
+        <DayOfWeek>Wednesday</DayOfWeek>
+        <WorkTime>
+          <Start>07:00:00</Start>
+          <Finish>11:59:00</Finish>
+        </WorkTime>
+        <WorkTime>
+          <Start>12:30:00</Start>
+          <Finish>15:29:00</Finish>
+        </WorkTime>
+      </StandardWorkHours>
+      <StandardWorkHours>
+        <DayOfWeek>Thursday</DayOfWeek>
+        <WorkTime>
+          <Start>07:00:00</Start>
+          <Finish>11:59:00</Finish>
+        </WorkTime>
+        <WorkTime>
+          <Start>12:30:00</Start>
+          <Finish>15:29:00</Finish>
+        </WorkTime>
+      </StandardWorkHours>
+      <StandardWorkHours>
+        <DayOfWeek>Friday</DayOfWeek>
+        <WorkTime>
+          <Start>07:00:00</Start>
+          <Finish>11:59:00</Finish>
+        </WorkTime>
+        <WorkTime>
+          <Start>12:30:00</Start>
+          <Finish>15:29:00</Finish>
+        </WorkTime>
+      </StandardWorkHours>
+      <StandardWorkHours>
+        <DayOfWeek>Saturday</DayOfWeek>
+      </StandardWorkHours>
+      <StandardWorkHours>
+        <DayOfWeek>Sunday</DayOfWeek>
+      </StandardWorkHours>
+    </StandardWorkWeek>
+    <HolidayOrExceptions>
+    </HolidayOrExceptions>
+  </Calendar>
+  <Project>
+    <ActivityDefaultActivityType>Task Dependent</ActivityDefaultActivityType>
+    <ActivityDefaultCalendarName>Test Calendar</ActivityDefaultCalendarName>
+    <ActivityDefaultCalendarObjectId>12002</ActivityDefaultCalendarObjectId>
+    <ActivityDefaultDurationType>Fixed Duration and Units</ActivityDefaultDurationType>
+    <ActivityDefaultPercentCompleteType>Duration</ActivityDefaultPercentCompleteType>
+    <ActivityDefaultPricePerUnit>0.0</ActivityDefaultPricePerUnit>
+    <ActivityIdIncrement>10</ActivityIdIncrement>
+    <ActivityIdPrefix>A</ActivityIdPrefix>
+    <ActivityIdSuffix>1000</ActivityIdSuffix>
+    <ActivityPercentCompleteBasedOnActivitySteps>0</ActivityPercentCompleteBasedOnActivitySteps>
+    <AddActualToRemaining>0</AddActualToRemaining>
+    <AssignmentDefaultDrivingFlag>1</AssignmentDefaultDrivingFlag>
+    <AssignmentDefaultRateType>Price / Unit</AssignmentDefaultRateType>
+    <CalculateFloatBasedOnFinishDate>1</CalculateFloatBasedOnFinishDate>
+    <ComputeTotalFloatType>Smallest of Start Float and Finish Float</ComputeTotalFloatType>
+    <CriticalActivityFloatThreshold>0.0</CriticalActivityFloatThreshold>
+    <CriticalActivityFloatThreshold>0.0</CriticalActivityFloatThreshold>
+    <CriticalActivityPathType>Longest Path</CriticalActivityPathType>
+    <CriticalActivityFloatThreshold>0.0</CriticalActivityFloatThreshold>
+    <DataDate>2021-05-17T22:00:00</DataDate>
+    <Id>201020</Id>
+    <IgnoreOtherProjectRelationships>1</IgnoreOtherProjectRelationships>
+    <LastUpdateDate>2021-05-19T11:42:41</LastUpdateDate>
+    <LinkPercentCompleteWithActual>1</LinkPercentCompleteWithActual>
+    <LinkPlannedAndAtCompletionFlag>1</LinkPlannedAndAtCompletionFlag>
+    <MakeOpenEndedActivitiesCritical>0</MakeOpenEndedActivitiesCritical>
+    <Name>Test Project</Name>
+    <ObjectId>34136</ObjectId>
+    <OutOfSequenceScheduleType>Retained Logic</OutOfSequenceScheduleType>
+    <PlannedStartDate>2020-09-01T00:00:00</PlannedStartDate>
+    <RelationshipLagCalendar>Predecessor Activity Calendar</RelationshipLagCalendar>
+    <ResetPlannedToRemainingFlag>0</ResetPlannedToRemainingFlag>
+    <ResourceCanBeAssignedToSameActivityMoreThanOnce>1</ResourceCanBeAssignedToSameActivityMoreThanOnce>
+    <ScheduledFinishDate>2022-01-20T17:00:00</ScheduledFinishDate>
+    <StartDate>2020-07-01T00:00:00</StartDate>
+    <StartToStartLagCalculationType>1</StartToStartLagCalculationType>
+    <Status>Active</Status>
+    <StrategicPriority>500</StrategicPriority>
+    <SummaryPlannedDuration>2904.0</SummaryPlannedDuration>
+    <SummaryRemainingDuration>1424.0</SummaryRemainingDuration>
+    <UseExpectedFinishDates>1</UseExpectedFinishDates>
+    <WBS>
+      <Code>1</Code>
+      <Name>Test Project</Name>
+      <ObjectId>36331</ObjectId>
+      <ProjectObjectId>34136</ProjectObjectId>
+      <SequenceNumber>1500</SequenceNumber>
+    </WBS>
+    <Activity>
+      <ActualDuration>415.0</ActualDuration>
+      <ActualFinishDate>2021-04-19T15:30:00</ActualFinishDate>
+      <ActualLaborCost>0.0</ActualLaborCost>
+      <ActualLaborUnits>0.0</ActualLaborUnits>
+      <ActualNonLaborCost>0.0</ActualNonLaborCost>
+      <ActualNonLaborUnits>0.0</ActualNonLaborUnits>
+      <ActualStartDate>2021-02-05T08:00:00</ActualStartDate>
+      <AtCompletionDuration>415.0</AtCompletionDuration>
+      <AtCompletionLaborCost>0.0</AtCompletionLaborCost>
+      <AtCompletionLaborUnits>0.0</AtCompletionLaborUnits>
+      <AtCompletionNonLaborCost>0.0</AtCompletionNonLaborCost>
+      <AtCompletionNonLaborUnits>0.0</AtCompletionNonLaborUnits>
+      <CalendarObjectId>12002</CalendarObjectId>
+      <DurationPercentComplete>1.0</DurationPercentComplete>
+      <DurationType>Fixed Duration and Units/Time</DurationType>
+      <EarlyFinishDate>2021-05-17T22:00:00</EarlyFinishDate>
+      <EarlyStartDate>2021-05-17T22:00:00</EarlyStartDate>
+      <FinishDate>2021-04-19T15:30:00</FinishDate>
+      <Id>A1000</Id>
+      <IsStarred>0</IsStarred>
+      <LateFinishDate>2021-05-18T07:00:00</LateFinishDate>
+      <LateStartDate>2021-05-18T07:00:00</LateStartDate>
+      <LevelingPriority>Normal</LevelingPriority>
+      <Name>Test</Name>
+      <ObjectId>140001</ObjectId>
+      <PercentComplete>1.0</PercentComplete>
+      <PercentCompleteType>Duration</PercentCompleteType>
+      <PhysicalPercentComplete>1.0</PhysicalPercentComplete>
+      <PlannedDuration>360.0</PlannedDuration>
+      <PlannedFinishDate>2021-05-18T08:00:00</PlannedFinishDate>
+      <PlannedLaborCost>0.0</PlannedLaborCost>
+      <PlannedLaborUnits>0.0</PlannedLaborUnits>
+      <PlannedNonLaborCost>0.0</PlannedNonLaborCost>
+      <PlannedNonLaborUnits>0.0</PlannedNonLaborUnits>
+      <PlannedStartDate>2021-03-16T08:00:00</PlannedStartDate>
+      <PrimaryConstraintType/>
+      <ProjectObjectId>34136</ProjectObjectId>
+      <RemainingDuration>0.0</RemainingDuration>
+      <RemainingLaborCost>0.0</RemainingLaborCost>
+      <RemainingLaborUnits>0.0</RemainingLaborUnits>
+      <RemainingNonLaborCost>0.0</RemainingNonLaborCost>
+      <RemainingNonLaborUnits>0.0</RemainingNonLaborUnits>
+      <ScopePercentComplete>0.0</ScopePercentComplete>
+      <SecondaryConstraintType/>
+      <StartDate>2021-02-05T08:00:00</StartDate>
+      <Status>Completed</Status>
+      <Type>Task Dependent</Type>
+      <UnitsPercentComplete>0.0</UnitsPercentComplete>
+      <WBSObjectId>36331</WBSObjectId>
+    </Activity>
+  </Project>
+</APIBusinessObjects>

@@ -23,8 +23,10 @@
 
 package net.sf.mpxj.common;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -65,8 +67,8 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
             {
                Duration assignmentWork = currentTimephasedWork.getTotalAmount();
 
-               Date assignmentStart = previousTimephasedWork.getStart();
-               Date assignmentFinish = currentTimephasedWork.getFinish();
+               LocalDateTime assignmentStart = previousTimephasedWork.getStart();
+               LocalDateTime assignmentFinish = currentTimephasedWork.getFinish();
                double total = previousTimephasedWork.getTotalAmount().getDuration();
                total += assignmentWork.getDuration();
                Duration totalWork = Duration.getInstance(total, TimeUnit.MINUTES);
@@ -139,16 +141,16 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
    {
       ProjectCalendarHours hours = calendar.getHours(timephasedWork.getStart());
 
-      Date calendarStart = DateHelper.getCanonicalTime(hours.get(0).getStart());
-      Date timephasedStart = DateHelper.getCanonicalTime(timephasedWork.getStart());
-      if (DateHelper.compare(assignment.getStart(), timephasedWork.getStart()) != 0 && DateHelper.compare(calendarStart, timephasedStart) != 0)
+      LocalTime calendarStart = hours.get(0).getStart();
+      LocalTime timephasedStart = LocalTimeHelper.getLocalTime(timephasedWork.getStart());
+      if (LocalDateTimeHelper.compare(assignment.getStart(), timephasedWork.getStart()) != 0 && LocalTimeHelper.compare(calendarStart, timephasedStart) != 0)
       {
          return false;
       }
 
-      Date calendarEnd = DateHelper.getCanonicalTime(hours.get(hours.size() - 1).getEnd());
-      Date timephasedEnd = DateHelper.getCanonicalTime(timephasedWork.getFinish());
-      return DateHelper.compare(assignment.getFinish(), timephasedWork.getFinish()) == 0 || DateHelper.compare(calendarEnd, timephasedEnd) == 0;
+      LocalTime calendarEnd = hours.get(hours.size() - 1).getEnd();
+      LocalTime timephasedEnd = LocalTimeHelper.getLocalTime(timephasedWork.getFinish());
+      return LocalDateTimeHelper.compare(assignment.getFinish(), timephasedWork.getFinish()) == 0 || LocalTimeHelper.compare(calendarEnd, timephasedEnd) == 0;
    }
 
    /**

@@ -296,7 +296,7 @@ public final class MPPResourceField
       FIELD_ARRAY[263] = ResourceField.LEVELING_DELAY;
       FIELD_ARRAY[264] = ResourceField.RESPONSE_PENDING;
       FIELD_ARRAY[265] = ResourceField.START;
-      FIELD_ARRAY[266] = ResourceField.TEAMSTATUS_PENDING;
+      FIELD_ARRAY[266] = ResourceField.TEAM_STATUS_PENDING;
       FIELD_ARRAY[267] = ResourceField.UPDATE_NEEDED;
       FIELD_ARRAY[268] = ResourceField.CV;
       FIELD_ARRAY[269] = ResourceField.COST_RATE_TABLE;

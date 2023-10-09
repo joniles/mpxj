@@ -54,7 +54,7 @@ public class MpxjTestData
          dataDirValue = System.getProperty("mpxj.junit.datadir");
       }
 
-      if (dataDirValue == null || dataDirValue.length() == 0)
+      if (dataDirValue == null || dataDirValue.isEmpty())
       {
          fail("missing datadir property");
       }

@@ -30,6 +30,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Map;
 
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 
@@ -48,9 +49,10 @@ final class Props8 extends Props
    /**
     * Constructor, reads the property data from an input stream.
     *
-    * @param is input stream fo reading Props data
+    * @param file parent project file
+    * @param is input stream for reading Props data
     */
-   Props8(InputStream is)
+   Props8(ProjectFile file, InputStream is)
    {
       try
       {
@@ -143,6 +145,7 @@ final class Props8 extends Props
 
       catch (IOException ex)
       {
+         file.addIgnoredError(ex);
          m_complete = false;
       }
    }

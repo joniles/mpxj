@@ -1,6 +1,80 @@
 # Changelog
 
-## 11.5.1 (unreleased)
+## 12.1.4 (unreleased)
+* Updated to use POI 5.2.4
+* Improve task duration and percent completion calculation for Asta PP files.
+
+## 12.1.3 (2023-09-25)
+* Added the Project Properties attribute Relationship Lag Calendar and implemented read and write support for this for P6 schedules. (Contributed by Rohit Sinha).
+* Improve compatibility of PMXML files with P6 EPPM by moving the Schedule Options tag.
+* Ensure Baseline Projects in PMXML files include Schedule Options and Location Object ID.
+
+## 12.1.2 (2023-09-21)
+* Updates to improve compatibility with versions of Java after Java 8.
+* Ensure timestamps with fractional sections are read correctly from Phoenix PPX files (Based on a contribution by Rohit Sinha).
+* Improve handling of double quotes when reading and writing XER files.
+* To allow XER files written by MPXJ to be imported correctly by P6, ensure that they have a single top level WBS entry (Based on a contribution by Alex Matatov)
+* Ensure that `ProjectProperties.getCustomProperties()` returns an empty Map rather than returning `null` if no custom properties have been configured.
+* Ensure project calendars and project activity codes are nested within the project tag of PMXML files.
+
+## 12.1.1 (2023-08-23)
+* Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on macOS.
+
+## 12.1.0 (2023-08-22)
+* Write schedule options to PMXML abd XER files.
+* Fix an arithmetic error in RateHelper when converting a rate from minutes to hours.
+* Introduced new methods to RateHelper accepting a `TimeUnitDefaultsContainer` argument rather than a `ProjectFile` for greater flexibility. Marked methods taking a `ProjectFile` argument as deprecated.
+* Ensure Early Finish and Late Finish are populated for Asta milestones and tasks.
+* Don't attempt to calculate total slack if start slack or finish slack are missing.
+* Ensure completed tasks are not marked as critical.
+* Improve handling of non-standard Boolean values in MPX files.
+* Improve Total Slack calculation for P6 projects.
+* Handle finish milestones with `null` actual start date for actual duration calculation when reading PMXML files (Contributed by Andrew Marks).
+
+## 12.0.2 (2023-07-25)
+* Ensure that the Fixed Cost attribute is rolled up from activities to WBS entries when reading P6 schedules.
+
+## 12.0.1 (2023-07-21)
+* Improve resource hierarchy handling.
+* Improve handling of external tasks read from MSPDI files.
+* Improve handling of resource assignments read from Asta PP files containing multiple baselines.
+* Improve filtering to ignore hammock tasks in Asta PP files and ensure that non-hammock items are not incorrectly ignored.
+* Improve handling of bars without additional linked data read from Asta PP files.
+* Ensure that invalid duplicate Unique ID values encountered when reading schedule data are renumbered to maintain uniqueness.
+* Improve reading certain FastTrack FTS files.
+* Roll up the expense item at completion values read from P6 schedules to the task Fixed Cost attribute.
+
+## 12.0.0 (2023-06-29)
+* NOTE: this is a major version release, breaking changes have been made to the MPXJ API as documented below.
+* Timestamps, dates, and times are now represented by `java.time.LocalDateTime`, `java.time.LocalDate` and `java.time.LocalTime` respectively, rather than `java.util.Date` as they were originally.
+* For .Net users, new `ToDateTime` and `ToNullableDateTime` extension methods have been provided to convert `java.time.LocalDateTime`, `java.time.LocalDate`, `java.time.LocalTime` to `DateTime` instances.
+* For .Net users, new `ToJavaLocalDateTime`, `ToJavaLocalDate` and `ToJavaLocalTime` extension methods have been provided to convert `DateTime` instances to `java.time.LocalDateTime`, `java.time.LocalDate`, and `java.time.LocalTime`.
+* The class `net.sf.mpxj.Day` has been replaced by `java.time.DayOfWeek`.
+* All code previously marked as deprecated has been removed.
+* Added support for reading and writing the Activity attribute "Expected Finish" for P6 schedules.
+
+## 11.5.4 (2023-06-27)
+* Improve accuracy of dates read from Synchro, Suretrak and Turboproject files.
+* By default ignore errors in individual records read from XER files. This matches P6's behavior when importing XER files. Use the `PrimaveraXERFileReader.setIgnoreErrors` method to change the behavior.
+
+## 11.5.3 (2023-06-19)
+* When writing an XER file, provide the necessary default values to allow non-P6 schedules to be successfully imported into P6.
+* Ensure multi-day exceptions are written to XER files correctly.
+* Ensure GanttProject exception dates are read correctly.
+* More closely match the Planner predecessor lag calculation.
+* Ensure that `java.sql.Date` values are correctly formatted when writing XER files.
+* When reading from a P6 database, check to ensure the location table is present before attemting to read locations.
+
+## 11.5.2 (2023-06-08)
+* Improve accuracy of calendar data read from certain Powerproject schedules.
+* Improve handling of unusual XER files with calendar time ranges expressed in 12-hour format.
+* Correctly parse midnight represented as 24:00:00 from MSPDI files written by certain non-Microsoft Project applications.
+* For MSPDI files produced by applications other than Microsoft Project which have an incorrectly nested calendar hierarchy, avoid pruning derived calendars which are referenced elsewhere in the hierarchy.
+
+## 11.5.1 (2023-05-24)
+* Improve read performance when working with large schedules.
+* Improve read and write performance of code handling resource calendars.
+* Updated to use sqlite-jdbc 3.42.0.0
 
 ## 11.5.0 (2023-05-19)
 * Added the ability to read Subproject data embedded in MSPDI files.

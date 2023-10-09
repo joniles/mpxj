@@ -23,9 +23,7 @@
 
 package net.sf.mpxj.turboproject;
 
-import java.util.Date;
-
-import net.sf.mpxj.common.DateHelper;
+import java.time.LocalDateTime;
 
 /**
  * Common utility methods for extracting data from a byte array.
@@ -117,9 +115,9 @@ final class PEPUtility
     * @param offset offset into byte array
     * @return start date
     */
-   public static final Date getStartDate(byte[] data, int offset)
+   public static final LocalDateTime getStartDate(byte[] data, int offset)
    {
-      Date result;
+      LocalDateTime result;
       long days = getShort(data, offset);
 
       if (days == 0x8000)
@@ -128,7 +126,7 @@ final class PEPUtility
       }
       else
       {
-         result = DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY));
+         result = EPOCH.plusDays(days);
       }
 
       return (result);
@@ -141,9 +139,9 @@ final class PEPUtility
     * @param offset offset into byte array
     * @return finish date
     */
-   public static final Date getFinishDate(byte[] data, int offset)
+   public static final LocalDateTime getFinishDate(byte[] data, int offset)
    {
-      Date result;
+      LocalDateTime result;
       long days = getShort(data, offset);
 
       if (days == 0x8000)
@@ -152,11 +150,11 @@ final class PEPUtility
       }
       else
       {
-         result = DateHelper.getDateFromLong(EPOCH + ((days - 1) * DateHelper.MS_PER_DAY));
+         result = EPOCH.plusDays(days - 1);
       }
 
       return (result);
    }
 
-   private static final long EPOCH = 946598400000L;
+   private static final LocalDateTime EPOCH = LocalDateTime.of(1999, 12, 31, 0, 0);
 }

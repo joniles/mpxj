@@ -27,12 +27,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +77,7 @@ public final class SageReader extends AbstractProjectStreamReader
          processCalendars();
          processTasks(lines);
          processPredecessors(lines);
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }
@@ -95,6 +97,28 @@ public final class SageReader extends AbstractProjectStreamReader
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Collections.singletonList(read(inputStream));
+   }
+
+   /**
+    * Set a flag to determine if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @param ignoreErrors pass true to ignore errors
+    */
+   public void setIgnoreErrors(boolean ignoreErrors)
+   {
+      m_ignoreErrors = ignoreErrors;
+   }
+
+   /**
+    * Retrieve the flag which determines if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @return true if datatype parse errors are ignored
+    */
+   public boolean getIgnoreErrors()
+   {
+      return m_ignoreErrors;
    }
 
    private void processCalendars()
@@ -287,9 +311,9 @@ public final class SageReader extends AbstractProjectStreamReader
     * @param index field index
     * @return date value
     */
-   private Date parseDate(String[] columns, int index)
+   private LocalDateTime parseDate(String[] columns, int index)
    {
-      Date result;
+      LocalDateTime result;
 
       String date = getText(columns, index);
       if (date == null || date.isEmpty())
@@ -300,11 +324,20 @@ public final class SageReader extends AbstractProjectStreamReader
       {
          try
          {
-            result = DATE_FORMAT.get().parse(date);
+            result = LocalDate.parse(date, DATE_FORMAT).atStartOfDay();
          }
-         catch (ParseException e)
+
+         catch (DateTimeParseException ex)
          {
-            result = null;
+            if (m_ignoreErrors)
+            {
+               result = null;
+               m_projectFile.addIgnoredError(ex);
+            }
+            else
+            {
+               throw ex;
+            }
          }
       }
       return result;
@@ -361,7 +394,7 @@ public final class SageReader extends AbstractProjectStreamReader
     */
    private void setConstraint(Task task, ConstraintType type, String[] columns, int index)
    {
-      Date date = parseDate(columns, index);
+      LocalDateTime date = parseDate(columns, index);
       if (date != null)
       {
          task.setConstraintType(type);
@@ -372,8 +405,9 @@ public final class SageReader extends AbstractProjectStreamReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private Map<String, Task> m_taskMap;
+   private boolean m_ignoreErrors = true;
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> new SimpleDateFormat("MM/dd/yyyy"));
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
    private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
    static

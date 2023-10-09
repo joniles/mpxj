@@ -25,12 +25,11 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 import org.junit.Test;
 
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
@@ -124,8 +123,6 @@ public class MppRecurringTest
     */
    private void testRecurringTasks(ProjectFile mpp)
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
       //
       // Task 1
       //
@@ -137,9 +134,9 @@ public class MppRecurringTest
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.DAILY, rt.getRecurrenceType());
       assertEquals(1, rt.getFrequency().intValue());
-      assertFalse(rt.isWorkingDaysOnly());
-      assertEquals("15/06/2008", df.format(rt.getStartDate()));
-      assertEquals("16/06/2008", df.format(rt.getFinishDate()));
+      assertFalse(rt.getWorkingDaysOnly());
+      assertEquals(LocalDate.of(2008, 6, 15), rt.getStartDate());
+      assertEquals(LocalDate.of(2008, 6, 16), rt.getFinishDate());
       assertEquals(2, rt.getOccurrences().intValue());
       assertTrue(rt.getUseEndDate());
 
@@ -154,9 +151,9 @@ public class MppRecurringTest
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.DAILY, rt.getRecurrenceType());
       assertEquals(2, rt.getFrequency().intValue());
-      assertTrue(rt.isWorkingDaysOnly());
-      assertEquals("15/06/2008", df.format(rt.getStartDate()));
-      assertEquals("23/06/2008", df.format(rt.getFinishDate()));
+      assertTrue(rt.getWorkingDaysOnly());
+      assertEquals(LocalDate.of(2008, 6, 15), rt.getStartDate());
+      assertEquals(LocalDate.of(2008, 6, 23), rt.getFinishDate());
       assertEquals(3, rt.getOccurrences().intValue());
       assertFalse(rt.getUseEndDate());
 
@@ -171,15 +168,15 @@ public class MppRecurringTest
       assertEquals(TimeUnit.HOURS, rt.getDuration().getUnits());
       assertEquals(RecurrenceType.WEEKLY, rt.getRecurrenceType());
       assertEquals(1, rt.getFrequency().intValue());
-      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(Day.SUNDAY)));
-      assertEquals(Boolean.TRUE, Boolean.valueOf(rt.getWeeklyDay(Day.MONDAY)));
-      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(Day.TUESDAY)));
-      assertEquals(Boolean.TRUE, Boolean.valueOf(rt.getWeeklyDay(Day.WEDNESDAY)));
-      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(Day.THURSDAY)));
-      assertEquals(Boolean.TRUE, Boolean.valueOf(rt.getWeeklyDay(Day.FRIDAY)));
-      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(Day.SATURDAY)));
-      assertEquals("15/06/2008", df.format(rt.getStartDate()));
-      assertEquals("20/06/2008", df.format(rt.getFinishDate()));
+      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.SUNDAY)));
+      assertEquals(Boolean.TRUE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.MONDAY)));
+      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.TUESDAY)));
+      assertEquals(Boolean.TRUE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.WEDNESDAY)));
+      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.THURSDAY)));
+      assertEquals(Boolean.TRUE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.FRIDAY)));
+      assertEquals(Boolean.FALSE, Boolean.valueOf(rt.getWeeklyDay(DayOfWeek.SATURDAY)));
+      assertEquals(LocalDate.of(2008, 6, 15), rt.getStartDate());
+      assertEquals(LocalDate.of(2008, 6, 20), rt.getFinishDate());
       assertEquals(3, rt.getOccurrences().intValue());
       assertFalse(rt.getUseEndDate());
 
@@ -196,8 +193,8 @@ public class MppRecurringTest
       assertFalse(rt.getRelative());
       assertEquals(15, rt.getDayNumber().intValue());
       assertEquals(1, rt.getFrequency().intValue());
-      assertEquals("15/06/2008", df.format(rt.getStartDate()));
-      assertEquals("15/08/2008", df.format(rt.getFinishDate()));
+      assertEquals(LocalDate.of(2008, 6, 15), rt.getStartDate());
+      assertEquals(LocalDate.of(2008, 8, 15), rt.getFinishDate());
       assertEquals(3, rt.getOccurrences().intValue());
       assertFalse(rt.getUseEndDate());
 
@@ -213,10 +210,10 @@ public class MppRecurringTest
       assertEquals(RecurrenceType.MONTHLY, rt.getRecurrenceType());
       assertTrue(rt.getRelative());
       assertEquals(3, rt.getDayNumber().intValue());
-      assertEquals(Day.MONDAY, rt.getDayOfWeek());
+      assertEquals(DayOfWeek.MONDAY, rt.getDayOfWeek());
       assertEquals(1, rt.getFrequency().intValue());
-      assertEquals("15/06/2008", df.format(rt.getStartDate()));
-      assertEquals("18/08/2008", df.format(rt.getFinishDate()));
+      assertEquals(LocalDate.of(2008, 6, 15), rt.getStartDate());
+      assertEquals(LocalDate.of(2008, 8, 18), rt.getFinishDate());
       assertEquals(3, rt.getOccurrences().intValue());
       assertFalse(rt.getUseEndDate());
 
@@ -233,8 +230,8 @@ public class MppRecurringTest
       assertFalse(rt.getRelative());
       assertEquals(15, rt.getDayNumber().intValue());
       assertEquals(6, rt.getMonthNumber().intValue());
-      assertEquals("15/06/2008", df.format(rt.getStartDate()));
-      assertEquals("15/06/2010", df.format(rt.getFinishDate()));
+      assertEquals(LocalDate.of(2008, 6, 15), rt.getStartDate());
+      assertEquals(LocalDate.of(2010, 6, 15), rt.getFinishDate());
       assertEquals(3, rt.getOccurrences().intValue());
       assertFalse(rt.getUseEndDate());
 
@@ -250,10 +247,10 @@ public class MppRecurringTest
       assertEquals(RecurrenceType.YEARLY, rt.getRecurrenceType());
       assertTrue(rt.getRelative());
       assertEquals(3, rt.getDayNumber().intValue());
-      assertEquals(Day.MONDAY, rt.getDayOfWeek());
+      assertEquals(DayOfWeek.MONDAY, rt.getDayOfWeek());
       assertEquals(6, rt.getMonthNumber().intValue());
-      assertEquals("15/06/2008", df.format(rt.getStartDate()));
-      assertEquals("21/06/2010", df.format(rt.getFinishDate()));
+      assertEquals(LocalDate.of(2008, 6, 15), rt.getStartDate());
+      assertEquals(LocalDate.of(2010, 6, 21), rt.getFinishDate());
       assertEquals(3, rt.getOccurrences().intValue());
       assertFalse(rt.getUseEndDate());
    }

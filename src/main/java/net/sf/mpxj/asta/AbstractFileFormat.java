@@ -53,6 +53,7 @@ abstract class AbstractFileFormat
       result.put(Integer.valueOf(21), new TableDefinition("TASK", columnDefinitions(TASK_COLUMNS, taskColumnsOrder())));
       result.put(Integer.valueOf(22), new TableDefinition("MILESTONE", columnDefinitions(MILESTONE_COLUMNS, milestoneColumnsOrder())));
       result.put(Integer.valueOf(23), new TableDefinition("EXPANDED_TASK", columnDefinitions(EXPANDED_TASK_COLUMNS, expandedTaskColumnsOrder())));
+      result.put(Integer.valueOf(24), new TableDefinition("HAMMOCK_TASK", columnDefinitions(HAMMOCK_TASK_COLUMNS, hammockTaskColumnsOrder())));
       result.put(Integer.valueOf(25), new TableDefinition("LINK", columnDefinitions(LINK_COLUMNS, linkColumnsOrder())));
       result.put(Integer.valueOf(61), new TableDefinition("CONSUMABLE_RESOURCE", columnDefinitions(CONSUMABLE_RESOURCE_COLUMNS, consumableResourceColumnsOrder())));
       result.put(Integer.valueOf(62), new TableDefinition("PERMANENT_RESOURCE", columnDefinitions(PERMANENT_RESOURCE_COLUMNS, permanentResourceColumnsOrder())));
@@ -189,6 +190,8 @@ abstract class AbstractFileFormat
     * @return ordered column names
     */
    protected abstract String[] taskCompletedSectionColumnsOrder();
+
+   protected abstract String[] hammockTaskColumnsOrder();
 
    /**
     * Generate an ordered set of column definitions from an ordered set of column names.
@@ -973,5 +976,94 @@ abstract class AbstractFileFormat
       new ColumnDefinition("ALT_ID", Types.INTEGER),
       new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
       new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
+   };
+
+   private static final ColumnDefinition[] HAMMOCK_TASK_COLUMNS = new ColumnDefinition[]
+   {
+      new ColumnDefinition("HAMMOCK_TASKID", Types.INTEGER),
+      new ColumnDefinition("CUMULATIVH_COSTCURRENCZ", Types.INTEGER),
+      new ColumnDefinition("CUMULATIVH_COSTAMOUNT", Types.DOUBLE),
+      new ColumnDefinition("CUMULATIVH_INCOMECURRENCZ", Types.INTEGER),
+      new ColumnDefinition("CUMULATIVH_INCOMEAMOUNT", Types.DOUBLE),
+      new ColumnDefinition("CUMULATIVE_ACTU_COSTCURRENCZ", Types.INTEGER),
+      new ColumnDefinition("CUMULATIVE_ACTU_COSTAMOUNT", Types.DOUBLE),
+      new ColumnDefinition("CUMULATIV_DURATIONTYPF", Types.INTEGER),
+      new ColumnDefinition("CUMULATIV_DURATIONELA_MONTHS", Types.INTEGER),
+      new ColumnDefinition("CUMULATIV_DURATIONHOURS", Types.DOUBLE),
+      new ColumnDefinition("ACTUAL_CU_DURATIONTYPF", Types.INTEGER),
+      new ColumnDefinition("ACTUAL_CU_DURATIONELA_MONTHS", Types.INTEGER),
+      new ColumnDefinition("ACTUAL_CU_DURATIONHOURS", Types.DOUBLE),
+      new ColumnDefinition("ACTUAL_CUMULATIVE_QUANTITY", Types.DOUBLE),
+      new ColumnDefinition("CUMULATIVE_QUANTIT_REMAINING", Types.DOUBLE),
+      new ColumnDefinition("CUMULATIVE_EFFORT_P_COMPLETE", Types.DOUBLE),
+      new ColumnDefinition("CUMULATIVE_WORK_PER_COMPLETE", Types.DOUBLE),
+      new ColumnDefinition("CUMULATIVE_QUANTITY_COMPLETE", Types.DOUBLE),
+      new ColumnDefinition("MILESTONE_PERCENT_COMPLETE", Types.DOUBLE),
+      new ColumnDefinition("FIRST_PREFERRED_START", Types.TIMESTAMP),
+      new ColumnDefinition("CALCULATED_PROGRESS_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("EARLIEST_PROGRESS_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("LATEST_PROGRESS_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("EARLY_END_DATE_RT", Types.TIMESTAMP),
+      new ColumnDefinition("LATE_END_DATE_RT", Types.TIMESTAMP),
+      new ColumnDefinition("FREE_END_DATE_RT", Types.TIMESTAMP),
+      new ColumnDefinition("CUMULATIVE_DEMANE_EFFORT", Types.DOUBLE),
+      new ColumnDefinition("CUMULATIVE_SCHEDULEE_EFFORT", Types.DOUBLE),
+      new ColumnDefinition("ACTUAL_CUMULATIVF_EFFORT", Types.DOUBLE),
+      new ColumnDefinition("CUMULATIVE_EFFORU_REMAINING", Types.DOUBLE),
+      new ColumnDefinition("ACTUAL_CUMULATIVE_WORK", Types.DOUBLE),
+      new ColumnDefinition("CUMULATIVE_WORK_REMAINING", Types.DOUBLE),
+      new ColumnDefinition("MILESTONES_DONE", Types.INTEGER),
+      new ColumnDefinition("MILESTONES_REMAINING", Types.INTEGER),
+      new ColumnDefinition("CUMULATIVE_EFFORT_TIME_UNIT", Types.INTEGER),
+      new ColumnDefinition("CUMULATIVE_LATEST_PRO_PERIOD", Types.INTEGER),
+      new ColumnDefinition("ACTUAL_DURATIONTYPF", Types.INTEGER),
+      new ColumnDefinition("ACTUAL_DURATIONELA_MONTHS", Types.INTEGER),
+      new ColumnDefinition("ACTUAL_DURATIONHOURS", Types.DOUBLE),
+      new ColumnDefinition("EARLY_START_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("LATE_START_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("FREE_START_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("START_CONSTRAINT_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("END_CONSTRAINT_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("EFFORT_BUDGET", Types.DOUBLE),
+      new ColumnDefinition("NATURAO_ORDER", Types.INTEGER),
+      new ColumnDefinition("LOGICAL_PRECEDENCE", Types.INTEGER),
+      new ColumnDefinition("SPAVE_INTEGER", Types.INTEGER),
+      new ColumnDefinition("SWIM_LANE", Types.INTEGER),
+      new ColumnDefinition("USER_PERCENT_COMPLETE", Types.DOUBLE),
+      new ColumnDefinition("OVERALL_PERCENV_COMPLETE", Types.DOUBLE),
+      new ColumnDefinition("OVERALL_PERCENT_COMPL_WEIGHT", Types.DOUBLE),
+      new ColumnDefinition("NARE", Types.VARCHAR),
+      new ColumnDefinition("WBN_CODE", Types.VARCHAR),
+      new ColumnDefinition("NOTET", Types.LONGVARCHAR),
+      new ColumnDefinition("UNIQUE_TASK_ID", Types.VARCHAR),
+      new ColumnDefinition("CALENDAU", Types.INTEGER),
+      new ColumnDefinition("WBT", Types.INTEGER),
+      new ColumnDefinition("EFFORT_TIMI_UNIT", Types.INTEGER),
+      new ColumnDefinition("WORL_UNIT", Types.INTEGER),
+      new ColumnDefinition("LATEST_ALLOC_PROGRESS_PERIOD", Types.INTEGER),
+      new ColumnDefinition("WORN", Types.DOUBLE),
+      new ColumnDefinition("BAR", Types.INTEGER),
+      new ColumnDefinition("CONSTRAINU", Types.INTEGER),
+      new ColumnDefinition("PRIORITB", Types.INTEGER),
+      new ColumnDefinition("CRITICAM", Types.BIT),
+      new ColumnDefinition("USE_PARENU_CALENDAR", Types.BIT),
+      new ColumnDefinition("BUFFER_TASK", Types.BIT),
+      new ColumnDefinition("MARK_FOS_HIDING", Types.BIT),
+      new ColumnDefinition("OWNED_BY_TIMESHEEV_X", Types.BIT),
+      new ColumnDefinition("START_ON_NEX_DAY", Types.BIT),
+      new ColumnDefinition("LONGEST_PATH", Types.BIT),
+      new ColumnDefinition("DURATIOTTYPF", Types.INTEGER),
+      new ColumnDefinition("DURATIOTELA_MONTHS", Types.INTEGER),
+      new ColumnDefinition("DURATIOTHOURS", Types.DOUBLE),
+      new ColumnDefinition("STARZ", Types.TIMESTAMP),
+      new ColumnDefinition("ENJ", Types.TIMESTAMP),
+      new ColumnDefinition("DURATION_TIMJ_UNIT", Types.INTEGER),
+      new ColumnDefinition("UNSCHEDULABLG", Types.BIT),
+      new ColumnDefinition("SUBPROJECT_ID", Types.INTEGER),
+      new ColumnDefinition("ALT_ID", Types.INTEGER),
+      new ColumnDefinition("LAST_EDITED_DATE", Types.TIMESTAMP),
+      new ColumnDefinition("LAST_EDITED_BY", Types.INTEGER),
+      new ColumnDefinition("IFC_PRODUCT_SET", Types.INTEGER),
+      new ColumnDefinition("IFC_TASK_TYPE", Types.INTEGER)
    };
 }

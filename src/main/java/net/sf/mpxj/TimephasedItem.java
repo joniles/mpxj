@@ -23,7 +23,7 @@
 
 package net.sf.mpxj;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * This class represents an amount, spread over a period of time.
@@ -37,7 +37,7 @@ public abstract class TimephasedItem<T>
     *
     * @return start date
     */
-   public Date getStart()
+   public LocalDateTime getStart()
    {
       return m_start;
    }
@@ -47,7 +47,7 @@ public abstract class TimephasedItem<T>
     *
     * @param start start date
     */
-   public void setStart(Date start)
+   public void setStart(LocalDateTime start)
    {
       m_start = start;
    }
@@ -117,7 +117,7 @@ public abstract class TimephasedItem<T>
     *
     * @return finish date
     */
-   public Date getFinish()
+   public LocalDateTime getFinish()
    {
       return m_finish;
    }
@@ -127,7 +127,7 @@ public abstract class TimephasedItem<T>
     *
     * @param finish finish date
     */
-   public void setFinish(Date finish)
+   public void setFinish(LocalDateTime finish)
    {
       m_finish = finish;
    }
@@ -155,9 +155,9 @@ public abstract class TimephasedItem<T>
       return m_start.hashCode() + m_finish.hashCode() + m_totalAmount.hashCode() + m_amountPerDay.hashCode();
    }
 
-   private Date m_start;
+   private LocalDateTime m_start;
    private T m_totalAmount;
-   private Date m_finish;
+   private LocalDateTime m_finish;
    private T m_amountPerDay;
    private boolean m_modified;
 }

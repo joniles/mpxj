@@ -170,8 +170,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\net45\rtfparserkit-1.16.0.dll</HintPath>
     </Reference>
-    <Reference Include="sqlite-jdbc-3.36.0.3">
-      <HintPath>..\..\lib\net45\sqlite-jdbc-3.36.0.3.dll</HintPath>
+    <Reference Include="sqlite-jdbc-3.42.0.0">
+      <HintPath>..\..\lib\net45\sqlite-jdbc-3.42.0.0.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

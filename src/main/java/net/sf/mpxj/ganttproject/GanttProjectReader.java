@@ -24,12 +24,13 @@
 package net.sf.mpxj.ganttproject;
 
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.chrono.IsoChronology;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.format.FormatStyle;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -44,12 +45,16 @@ import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
@@ -69,7 +74,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.UnmarshalHelper;
@@ -109,7 +113,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          m_resourcePropertyDefinitions = new HashMap<>();
          m_taskPropertyDefinitions = new HashMap<>();
          m_roleDefinitions = new HashMap<>();
-         m_dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
+         m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
          m_userDefinedFieldID = 0;
 
          ProjectConfig config = m_projectFile.getProjectConfig();
@@ -132,11 +136,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          readTasks(ganttProject);
          readRelationships(ganttProject);
          readResourceAssignments(ganttProject);
-
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }
@@ -185,7 +185,14 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          locale = locale.replace('_', '-');
       }
 
-      m_localeDateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.forLanguageTag(locale));
+      // Handle the variability we see in date value formats
+      String shortPattern = DateTimeFormatterBuilder.getLocalizedDateTimePattern(FormatStyle.SHORT, null, IsoChronology.INSTANCE, Locale.forLanguageTag(locale));
+      Matcher matcher = YEAR_PATTERN.matcher(shortPattern);
+      if (matcher.matches())
+      {
+         shortPattern = shortPattern.replace(matcher.group(1), "[yyyy][yy]");
+      }
+      m_localeDateFormat = DateTimeFormatter.ofPattern(shortPattern);
    }
 
    /**
@@ -217,26 +224,26 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       DefaultWeek defaultWeek = dayTypes.getDefaultWeek();
       if (defaultWeek == null)
       {
-         mpxjCalendar.setWorkingDay(Day.SUNDAY, false);
-         mpxjCalendar.setWorkingDay(Day.MONDAY, true);
-         mpxjCalendar.setWorkingDay(Day.TUESDAY, true);
-         mpxjCalendar.setWorkingDay(Day.WEDNESDAY, true);
-         mpxjCalendar.setWorkingDay(Day.THURSDAY, true);
-         mpxjCalendar.setWorkingDay(Day.FRIDAY, true);
-         mpxjCalendar.setWorkingDay(Day.SATURDAY, false);
+         mpxjCalendar.setWorkingDay(DayOfWeek.SUNDAY, false);
+         mpxjCalendar.setWorkingDay(DayOfWeek.MONDAY, true);
+         mpxjCalendar.setWorkingDay(DayOfWeek.TUESDAY, true);
+         mpxjCalendar.setWorkingDay(DayOfWeek.WEDNESDAY, true);
+         mpxjCalendar.setWorkingDay(DayOfWeek.THURSDAY, true);
+         mpxjCalendar.setWorkingDay(DayOfWeek.FRIDAY, true);
+         mpxjCalendar.setWorkingDay(DayOfWeek.SATURDAY, false);
       }
       else
       {
-         mpxjCalendar.setWorkingDay(Day.MONDAY, isWorkingDay(defaultWeek.getMon()));
-         mpxjCalendar.setWorkingDay(Day.TUESDAY, isWorkingDay(defaultWeek.getTue()));
-         mpxjCalendar.setWorkingDay(Day.WEDNESDAY, isWorkingDay(defaultWeek.getWed()));
-         mpxjCalendar.setWorkingDay(Day.THURSDAY, isWorkingDay(defaultWeek.getThu()));
-         mpxjCalendar.setWorkingDay(Day.FRIDAY, isWorkingDay(defaultWeek.getFri()));
-         mpxjCalendar.setWorkingDay(Day.SATURDAY, isWorkingDay(defaultWeek.getSat()));
-         mpxjCalendar.setWorkingDay(Day.SUNDAY, isWorkingDay(defaultWeek.getSun()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.MONDAY, isWorkingDay(defaultWeek.getMon()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.TUESDAY, isWorkingDay(defaultWeek.getTue()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.WEDNESDAY, isWorkingDay(defaultWeek.getWed()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.THURSDAY, isWorkingDay(defaultWeek.getThu()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.FRIDAY, isWorkingDay(defaultWeek.getFri()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.SATURDAY, isWorkingDay(defaultWeek.getSat()));
+         mpxjCalendar.setWorkingDay(DayOfWeek.SUNDAY, isWorkingDay(defaultWeek.getSun()));
       }
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          ProjectCalendarHours hours = mpxjCalendar.addCalendarHours(day);
          if (mpxjCalendar.isWorkingDay(day))
@@ -291,12 +298,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       }
       else
       {
-         Calendar calendar = DateHelper.popCalendar();
-         calendar.set(Calendar.YEAR, Integer.parseInt(year));
-         calendar.set(Calendar.MONTH, NumberHelper.getInt(date.getMonth()));
-         calendar.set(Calendar.DAY_OF_MONTH, NumberHelper.getInt(date.getDate()));
-         Date exceptionDate = calendar.getTime();
-         DateHelper.pushCalendar(calendar);
+         LocalDate exceptionDate = LocalDate.of(Integer.parseInt(year), date.getMonth().intValue(), date.getDate().intValue());
          ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate);
 
          // TODO: not sure how NEUTRAL should be handled
@@ -442,7 +444,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       if (gpRate != null)
       {
          CostRateTable table = new CostRateTable();
-         table.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, NumberHelper.DOUBLE_ZERO, new Rate(gpRate.getValueAttribute(), TimeUnit.DAYS)));
+         table.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, NumberHelper.DOUBLE_ZERO, new Rate(gpRate.getValueAttribute(), TimeUnit.DAYS)));
          mpxjResource.setCostRateTable(0, table);
       }
 
@@ -557,7 +559,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       }
    }
 
-   private Object parseValue(DataType type, DateFormat dateFormat, String value)
+   private Object parseValue(DataType type, DateTimeFormatter dateFormat, String value)
    {
       Object result = null;
 
@@ -582,9 +584,9 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
             {
                try
                {
-                  result = dateFormat.parse(value);
+                  result = LocalDateTimeHelper.parseBest(dateFormat, value);
                }
-               catch (ParseException ex)
+               catch (DateTimeParseException ex)
                {
                   // Ignore the error and return null
                }
@@ -802,8 +804,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
    private ProjectFile m_projectFile;
    private ProjectCalendar m_mpxjCalendar;
    private EventManager m_eventManager;
-   private DateFormat m_localeDateFormat;
-   private DateFormat m_dateFormat;
+   private DateTimeFormatter m_localeDateFormat;
+   private DateTimeFormatter m_dateFormat;
    private Map<String, Pair<FieldType, Object>> m_resourcePropertyDefinitions;
    private Map<String, Pair<FieldType, Object>> m_taskPropertyDefinitions;
    private Map<String, String> m_roleDefinitions;
@@ -836,6 +838,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       DATA_TYPE_MAP.put("date", DataType.DATE);
       DATA_TYPE_MAP.put("boolean", DataType.BOOLEAN);
    }
+
+   private static final Pattern YEAR_PATTERN = Pattern.compile("[^y]*(y+)[^y]*");
 
    /**
     * Cached context to minimise construction cost.

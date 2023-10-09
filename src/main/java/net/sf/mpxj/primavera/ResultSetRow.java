@@ -27,7 +27,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -50,7 +50,7 @@ final class ResultSetRow extends MapRow
    public ResultSetRow(ResultSet rs, Map<String, Integer> meta)
       throws SQLException
    {
-      super(new HashMap<>());
+      super(new HashMap<>(), false);
 
       for (Entry<String, Integer> entry : meta.entrySet())
       {
@@ -79,18 +79,13 @@ final class ResultSetRow extends MapRow
             }
 
             case Types.DATE:
-            {
-               value = rs.getDate(name);
-               break;
-            }
-
             case Types.TIMESTAMP:
             case SQL_SERVER_TIMESTAMP:
             {
                Timestamp ts = rs.getTimestamp(name);
                if (ts != null)
                {
-                  value = new Date(ts.getTime());
+                  value = ts.toLocalDateTime();
                }
                else
                {

@@ -25,8 +25,6 @@ package net.sf.mpxj;
 
 import java.io.File;
 
-import net.sf.mpxj.common.NumberHelper;
-
 /**
  * Container for configuration details used to control the behaviour of the ProjectFile class.
  */
@@ -256,70 +254,77 @@ public class ProjectConfig
     * This method is used to retrieve the next unique ID for a task.
     *
     * @return next unique ID
+    * @deprecated use ProjectFile.getTasks().getNextUniqueID()
     */
-   public int getNextTaskUniqueID()
+   @Deprecated public int getNextTaskUniqueID()
    {
-      return ++m_taskUniqueID;
+      return m_parent.getTasks().getNextUniqueID().intValue();
    }
 
    /**
     * This method is used to retrieve the next unique ID for a calendar.
     *
     * @return next unique ID
+    * @deprecated use ProjectFile.getCalendars().getNextUniqueID()
     */
-   public int getNextCalendarUniqueID()
+   @Deprecated public int getNextCalendarUniqueID()
    {
-      return ++m_calendarUniqueID;
+      return m_parent.getCalendars().getNextUniqueID().intValue();
    }
 
    /**
     * This method is used to retrieve the next unique ID for an assignment.
     *
     * @return next unique ID
+    * @deprecated use ProjectFile.getResourceAssignments().getNextUniqueID()
     */
-   int getNextAssignmentUniqueID()
+   @Deprecated int getNextAssignmentUniqueID()
    {
-      return ++m_assignmentUniqueID;
+      return m_parent.getResourceAssignments().getNextUniqueID().intValue();
    }
 
    /**
     * This method is used to retrieve the next ID for a task.
     *
     * @return next ID
+    * @deprecated use ProjectFile.getTasks().getNextID()
     */
-   public int getNextTaskID()
+   @Deprecated public int getNextTaskID()
    {
-      return ++m_taskID;
+      return m_parent.getTasks().getNextID().intValue();
    }
 
    /**
     * This method is used to retrieve the next unique ID for a resource.
     *
     * @return next unique ID
+    * @deprecated use ProjectFile.getResources().getNextUniqueID()
     */
-   public int getNextResourceUniqueID()
+   @Deprecated public int getNextResourceUniqueID()
    {
-      return ++m_resourceUniqueID;
+      return m_parent.getResources().getNextUniqueID().intValue();
    }
 
    /**
     * This method is used to retrieve the next ID for a resource.
     *
     * @return next ID
+    * @deprecated use ProjectFile.getResources().getNextID()
     */
-   public int getNextResourceID()
+   @Deprecated public int getNextResourceID()
    {
-      return ++m_resourceID;
+      return m_parent.getResources().getNextID().intValue();
    }
 
    /**
     * This method is used to retrieve the next unique ID for a relation.
     *
     * @return next unique ID
+    * @deprecated  use ProjectFile.getRelations().getNextUniqueID()
     */
-   public int getNextRelationUniqueID()
+   @Deprecated public int getNextRelationUniqueID()
    {
-      return ++m_relationUniqueID;
+      return m_parent.getRelations().getNextUniqueID().intValue();
    }
 
    /**
@@ -350,73 +355,50 @@ public class ProjectConfig
     * This method is called to ensure that after a project file has been
     * read, the cached unique ID values used to generate new unique IDs
     * start after the end of the existing set of unique IDs.
+    *
+    * @deprecated use ProjectFile.updateUniqueCounters
     */
-   public void updateUniqueCounters()
+   @Deprecated public void updateUniqueCounters()
    {
-      updateTaskUniqueCounter();
-      updateResourceUniqueCounter();
-      updateCalendarUniqueCounter();
-      updateAssignmentUniqueCounter();
+      m_parent.updateUniqueIdCounters();
+   }
+
+   /**
+    * Ensure unique ID counter is in sync with project file.
+    *
+    * @deprecated use ProjectFile.getTasks().updateUniqueIdCounter()
+    */
+   @Deprecated public void updateTaskUniqueCounter()
+   {
+      m_parent.getTasks().updateUniqueIdCounter();
+   }
+
+   /**
+    * Ensure unique ID counter is in sync with project file.
+    *
+    * @deprecated use ProjectFile.getResources().updateUniqueIdCounter()
+    */
+   @Deprecated public void updateResourceUniqueCounter()
+   {
+      m_parent.getResources().updateUniqueIdCounter();
+   }
+
+   /**
+    * Ensure unique ID counter is in sync with project file.
+    *
+    * @deprecated use ProjectFile.getResources().updateUniqueIdCounter()
+    */
+   @Deprecated public void updateCalendarUniqueCounter()
+   {
+      m_parent.getCalendars().updateUniqueIdCounter();
    }
 
    /**
     * Ensure unique ID counter is in sync with project file.
     */
-   public void updateTaskUniqueCounter()
+   @Deprecated public void updateAssignmentUniqueCounter()
    {
-      for (Task task : m_parent.getTasks())
-      {
-         int uniqueID = NumberHelper.getInt(task.getUniqueID());
-         if (uniqueID > m_taskUniqueID)
-         {
-            m_taskUniqueID = uniqueID;
-         }
-      }
-   }
-
-   /**
-    * Ensure unique ID counter is in sync with project file.
-    */
-   public void updateResourceUniqueCounter()
-   {
-      for (Resource resource : m_parent.getResources())
-      {
-         int uniqueID = NumberHelper.getInt(resource.getUniqueID());
-         if (uniqueID > m_resourceUniqueID)
-         {
-            m_resourceUniqueID = uniqueID;
-         }
-      }
-   }
-
-   /**
-    * Ensure unique ID counter is in sync with project file.
-    */
-   public void updateCalendarUniqueCounter()
-   {
-      for (ProjectCalendar calendar : m_parent.getCalendars())
-      {
-         int uniqueID = NumberHelper.getInt(calendar.getUniqueID());
-         if (uniqueID > m_calendarUniqueID)
-         {
-            m_calendarUniqueID = uniqueID;
-         }
-      }
-   }
-
-   /**
-    * Ensure unique ID counter is in sync with project file.
-    */
-   public void updateAssignmentUniqueCounter()
-   {
-      for (ResourceAssignment assignment : m_parent.getResourceAssignments())
-      {
-         int uniqueID = NumberHelper.getInt(assignment.getUniqueID());
-         if (uniqueID > m_assignmentUniqueID)
-         {
-            m_assignmentUniqueID = uniqueID;
-         }
-      }
+      m_parent.getResourceAssignments().updateUniqueIdCounter();
    }
 
    /**
@@ -524,41 +506,6 @@ public class ProjectConfig
     * calculated on creation, or will be manually set.
     */
    private boolean m_autoRelationUniqueID = true;
-
-   /**
-    * Counter used to populate the unique ID field of a task.
-    */
-   private int m_taskUniqueID;
-
-   /**
-    * Counter used to populate the unique ID field of a calendar.
-    */
-   private int m_calendarUniqueID;
-
-   /**
-    * Counter used to populate the unique ID field of an assignment.
-    */
-   private int m_assignmentUniqueID;
-
-   /**
-    * Counter used to populate the ID field of a task.
-    */
-   private int m_taskID;
-
-   /**
-    * Counter used to populate the unique ID field of a resource.
-    */
-   private int m_resourceUniqueID;
-
-   /**
-    * Counter used to populate the ID field of a resource.
-    */
-   private int m_resourceID;
-
-   /**
-    * Counter used to populate the unique ID field of a relation.
-    */
-   private int m_relationUniqueID;
 
    /**
     * Set to true provides compatibility with MS Project versions prior to 2007.

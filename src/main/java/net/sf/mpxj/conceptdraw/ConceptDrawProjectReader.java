@@ -38,11 +38,11 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.LocalTimeRange;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import org.xml.sax.SAXException;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
@@ -93,6 +93,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
          config.setAutoResourceUniqueID(false);
          config.setAutoResourceID(false);
          config.setAutoRelationUniqueID(false);
+         config.setAutoAssignmentUniqueID(false);
 
          m_projectFile.getProjectProperties().setFileApplication("ConceptDraw PROJECT");
          m_projectFile.getProjectProperties().setFileType("CDP");
@@ -106,11 +107,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
          readResources(cdp);
          readTasks(cdp);
          readRelationships(cdp);
-
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }
@@ -218,7 +215,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       {
          for (Document.Calendars.Calendar.WeekDays.WeekDay.TimePeriods.TimePeriod period : day.getTimePeriods().getTimePeriod())
          {
-            hours.add(new DateRange(period.getFrom(), period.getTo()));
+            hours.add(new LocalTimeRange(period.getFrom(), period.getTo()));
          }
       }
    }
@@ -236,7 +233,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       {
          for (Document.Calendars.Calendar.ExceptedDays.ExceptedDay.TimePeriods.TimePeriod period : day.getTimePeriods().getTimePeriod())
          {
-            mpxjException.add(new DateRange(period.getFrom(), period.getTo()));
+            mpxjException.add(new LocalTimeRange(period.getFrom(), period.getTo()));
          }
       }
    }
@@ -275,7 +272,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       mpxjResource.setType(resource.getSubType() == null ? resource.getType() : resource.getSubType());
 
       CostRateTable table = new CostRateTable();
-      table.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, NumberHelper.DOUBLE_ZERO, new Rate(resource.getCost(), resource.getCostTimeUnit())));
+      table.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, NumberHelper.DOUBLE_ZERO, new Rate(resource.getCost(), resource.getCostTimeUnit())));
       mpxjResource.setCostRateTable(0, table);
 
       m_eventManager.fireResourceReadEvent(mpxjResource);

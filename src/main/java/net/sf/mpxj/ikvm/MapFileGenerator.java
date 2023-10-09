@@ -223,7 +223,7 @@ public class MapFileGenerator
     */
    private void addProperty(XMLStreamWriter writer, String name, Class<?> propertyType, String readMethod, String writeMethod) throws XMLStreamException
    {
-      if (name.length() != 0)
+      if (!name.isEmpty())
       {
          writer.writeStartElement("property");
 

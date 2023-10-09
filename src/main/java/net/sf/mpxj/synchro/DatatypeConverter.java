@@ -26,17 +26,18 @@ package net.sf.mpxj.synchro;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import java.util.UUID;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.CharsetHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 
 /**
- * Common data extraction/conversion conversion methods.
+ * Common data extraction/conversion methods.
  */
 final class DatatypeConverter
 {
@@ -265,16 +266,14 @@ final class DatatypeConverter
     * @param is input stream
     * @return Date instance
     */
-   public static final Date getDate(InputStream is) throws IOException
+   public static final LocalDateTime getDate(InputStream is) throws IOException
    {
       long timeInSeconds = getInt(is);
       if (timeInSeconds == NULL_SECONDS)
       {
          return null;
       }
-      timeInSeconds -= 3600;
-      timeInSeconds *= 1000;
-      return DateHelper.getDateFromLong(timeInSeconds);
+      return EPOCH.plusSeconds(timeInSeconds);
    }
 
    /**
@@ -283,12 +282,11 @@ final class DatatypeConverter
     * @param is input stream
     * @return Date instance
     */
-   public static final Date getTime(InputStream is) throws IOException
+   public static final LocalTime getTime(InputStream is) throws IOException
    {
       int timeValue = getInt(is);
       timeValue -= 86400;
-      timeValue /= 60;
-      return DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(timeValue));
+      return LocalTime.ofSecondOfDay(timeValue);
    }
 
    /**
@@ -346,5 +344,6 @@ final class DatatypeConverter
       return Double.valueOf(result);
    }
 
-   private static final int NULL_SECONDS = 0x93406FFF;
+   private static final long NULL_SECONDS = 0x093406FFF;
+   private static final LocalDateTime EPOCH = LocalDateTime.of(1970, 1, 1, 0, 0);
 }

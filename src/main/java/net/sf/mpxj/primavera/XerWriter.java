@@ -27,10 +27,10 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
-import java.text.Format;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -219,7 +219,7 @@ final class XerWriter
          result = result.replace("\n", "\u007F\u007F");
       }
 
-      return result;
+      return formatString(result);
    }
 
    /**
@@ -273,6 +273,28 @@ final class XerWriter
       return m_doubleFormat.format(duration.convertUnits(TimeUnit.HOURS, m_file.getProjectProperties()).getDuration());
    }
 
+   /**
+    * Format a String instance. This is used to escape double quote characters
+    * if they are present.
+    *
+    * @param value String instance
+    * @return formatted value
+    */
+   private String formatString(String value)
+   {
+      if (value == null || value.isEmpty())
+      {
+         return "";
+      }
+
+      if (value.indexOf('"') == -1)
+      {
+         return value;
+      }
+
+      return value.replace("\"", "\"\"");
+   }
+
    private interface FormatFunction
    {
       String apply(XerWriter writer, Object source);
@@ -280,8 +302,8 @@ final class XerWriter
 
    private final ProjectFile m_file;
    private final OutputStreamWriter m_writer;
-   private final Format m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-   private final Format m_timestampFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+   private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+   private final DateTimeFormatter m_timestampFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
    private final DecimalFormat m_doubleFormat = new DecimalFormat("0.######");
    private final DecimalFormat m_currencyFormat = new DecimalFormat("0.0000");
    private final DecimalFormat m_maxUnitsFormat = new DecimalFormat("0.####");
@@ -290,7 +312,7 @@ final class XerWriter
    static
    {
       FORMAT_MAP.put(DateOnly.class, (w, o) -> w.m_dateFormat.format(((DateOnly) o).toDate()));
-      FORMAT_MAP.put(Date.class, (w, o) -> w.m_timestampFormat.format(o));
+      FORMAT_MAP.put(LocalDateTime.class, (w, o) -> w.m_timestampFormat.format((LocalDateTime) o));
       FORMAT_MAP.put(Double.class, (w, o) -> w.m_doubleFormat.format(o));
       FORMAT_MAP.put(Boolean.class, (w, o) -> ((Boolean) o).booleanValue() ? "Y" : "N");
       FORMAT_MAP.put(Rate.class, (w, o) -> w.m_currencyFormat.format(((Rate) o).getAmount()));
@@ -313,5 +335,6 @@ final class XerWriter
       FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType) o));
       FORMAT_MAP.put(MaxUnits.class, (w, o) -> w.m_maxUnitsFormat.format(NumberHelper.getDouble(((MaxUnits) o).toNumber()) / 100.0));
       FORMAT_MAP.put(Currency.class, (w, o) -> w.m_currencyFormat.format(((Currency) o).toNumber()));
+      FORMAT_MAP.put(String.class, (w, o) -> w.formatString((String) o));
    }
 }

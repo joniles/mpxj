@@ -23,9 +23,13 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;
@@ -36,7 +40,6 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-import net.sf.mpxj.Day;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
@@ -90,7 +93,7 @@ public final class ProjectPropertiesReader
          ph.setDefaultTaskType(TaskTypeHelper.getInstance(props.getShort(Props.DEFAULT_TASK_TYPE)));
          ph.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
          //ph.setThousandsSeparator();
-         ph.setWeekStartDay(Day.getInstance(props.getShort(Props.WEEK_START_DAY) + 1));
+         ph.setWeekStartDay(DayOfWeekHelper.getInstance(props.getShort(Props.WEEK_START_DAY) + 1));
          ph.setFiscalYearStartMonth(Integer.valueOf(props.getShort(Props.FISCAL_YEAR_START_MONTH)));
          ph.setFiscalYearStart(props.getShort(Props.FISCAL_YEAR_START) == 1);
          ph.setDaysPerMonth(Integer.valueOf(props.getShort(Props.DAYS_PER_MONTH)));
@@ -107,11 +110,11 @@ public final class ProjectPropertiesReader
          ph.setTemplate(summaryInformation.getTemplate());
          ph.setLastAuthor(summaryInformation.getLastAuthor());
          ph.setRevision(NumberHelper.parseInteger(summaryInformation.getRevNumber()));
-         ph.setCreationDate(summaryInformation.getCreateDateTime());
-         ph.setLastSaved(summaryInformation.getLastSaveDateTime());
+         ph.setCreationDate(getLocalDateTime(summaryInformation.getCreateDateTime()));
+         ph.setLastSaved(getLocalDateTime(summaryInformation.getLastSaveDateTime()));
          ph.setShortApplicationName(summaryInformation.getApplicationName());
          ph.setEditingTime(Integer.valueOf((int) summaryInformation.getEditTime()));
-         ph.setLastPrinted(summaryInformation.getLastPrinted());
+         ph.setLastPrinted(getLocalDateTime(summaryInformation.getLastPrinted()));
 
          try
          {
@@ -125,6 +128,7 @@ public final class ProjectPropertiesReader
             // the corrupt data. We'll do the same here. I have raised a bug with POI
             // to see if they want to make the library more robust in the face of bad data.
             // https://bz.apache.org/bugzilla/show_bug.cgi?id=61550
+            file.addIgnoredError(ex);
             ps = null;
          }
 
@@ -144,7 +148,12 @@ public final class ProjectPropertiesReader
          {
             for (CustomProperty property : customProperties.properties())
             {
-               customPropertiesMap.put(property.getName(), property.getValue());
+               Object value = property.getValue();
+               if (value instanceof Date)
+               {
+                  value = getLocalDateTime((Date) value);
+               }
+               customPropertiesMap.put(property.getName(), value);
             }
          }
          ph.setCustomProperties(customPropertiesMap);
@@ -204,4 +213,17 @@ public final class ProjectPropertiesReader
 
       return MPPUtility.getUnicodeString(data, offset);
    }
+
+   private LocalDateTime getLocalDateTime(Date date)
+   {
+      if (date == null)
+      {
+         return null;
+      }
+
+      m_calendar.setTime(date);
+      return LocalDateTime.of(m_calendar.get(Calendar.YEAR), m_calendar.get(Calendar.MONTH) + 1, m_calendar.get(Calendar.DAY_OF_MONTH), m_calendar.get(Calendar.HOUR_OF_DAY), m_calendar.get(Calendar.MINUTE), m_calendar.get(Calendar.SECOND));
+   }
+
+   private final Calendar m_calendar = Calendar.getInstance();
 }

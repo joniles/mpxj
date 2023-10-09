@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.mpd;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import net.sf.mpxj.Duration;
 
@@ -91,7 +91,7 @@ interface Row
     * @param name attribute name
     * @return attribute value
     */
-   public Date getDate(String name);
+   public LocalDateTime getDate(String name);
 
    /**
     * Retrieve a duration attribute.

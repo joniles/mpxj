@@ -4617,6 +4617,13 @@ module MPXJ
       get_boolean_value(attribute_values['expanded'])
     end
 
+    # Retrieve the Expected Finish value
+    #
+    # @return Expected Finish value
+    def expected_finish
+      get_date_value(attribute_values['expected_finish'])
+    end
+
     # Retrieve the Expense Items value
     #
     # @return Expense Items value
@@ -6374,13 +6381,6 @@ module MPXJ
       get_float_value(attribute_values['stored_material'])
     end
 
-    # Retrieve the Subproject value
-    #
-    # @return Subproject value
-    def subproject
-      attribute_values['subproject']
-    end
-
     # Retrieve the Subproject File value
     #
     # @return Subproject File value
@@ -7496,6 +7496,7 @@ module MPXJ
       'error_message' => :string,
       'estimated' => :boolean,
       'expanded' => :boolean,
+      'expected_finish' => :date,
       'expense_items' => :expense_item_list,
       'external_early_start' => :date,
       'external_late_finish' => :date,
@@ -7747,7 +7748,6 @@ module MPXJ
       'steps' => :step_list,
       'stop' => :date,
       'stored_material' => :currency,
-      'subproject' => :subproject,
       'subproject_file' => :string,
       'subproject_guid' => :guid,
       'subproject_read_only' => :boolean,

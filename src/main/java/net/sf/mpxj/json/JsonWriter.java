@@ -27,10 +27,13 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +44,7 @@ import java.util.stream.Collectors;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
@@ -48,8 +52,8 @@ import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import net.sf.mpxj.LocalDateTimeRange;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EarnedValueMethod;
@@ -63,6 +67,7 @@ import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.TaskMode;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnitDefaultsContainer;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectField;
@@ -74,7 +79,6 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceRequestType;
-import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
@@ -84,8 +88,8 @@ import net.sf.mpxj.View;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ColorHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.mpp.GanttBarStyle;
 import net.sf.mpxj.mpp.GanttBarStyleException;
 import net.sf.mpxj.mpp.GanttChartView;
@@ -473,7 +477,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendarDays(ProjectCalendarDays week) throws IOException
    {
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          m_writer.writeStartObject(day.name().toLowerCase());
          writeStringField("type", week.getCalendarDayType(day).toString().toLowerCase());
@@ -489,10 +493,10 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCalendarHours(ProjectCalendarHours hours) throws IOException
    {
-      if (hours != null && hours.size() != 0)
+      if (hours != null && !hours.isEmpty())
       {
          m_writer.writeStartList("hours");
-         for (DateRange range : hours)
+         for (LocalTimeRange range : hours)
          {
             m_writer.writeStartObject(null);
             writeTimeField("from", range.getStart());
@@ -567,7 +571,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeIntegerField("month_number", data.getMonthNumber());
          writeBooleanField("use_end_date", Boolean.valueOf(data.getUseEndDate()));
 
-         List<Object> weeklyDays = Arrays.stream(Day.values()).filter(data::getWeeklyDay).map(d -> "\"" + d.toString().toLowerCase() + "\"").collect(Collectors.toList());
+         List<Object> weeklyDays = Arrays.stream(DayOfWeekHelper.ORDERED_DAYS).filter(data::getWeeklyDay).map(d -> "\"" + d.toString().toLowerCase() + "\"").collect(Collectors.toList());
          if (!weeklyDays.isEmpty())
          {
             m_writer.writeList("weekly_days", weeklyDays);
@@ -688,14 +692,14 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeStartList(Integer.toString(index));
          for (CostRateTableEntry entry : table)
          {
-            Date startDate = entry.getStartDate();
-            if (startDate != null && DateHelper.compare(startDate, DateHelper.START_DATE_NA) <= 0)
+            LocalDateTime startDate = entry.getStartDate();
+            if (startDate != null && LocalDateTimeHelper.compare(startDate, LocalDateTimeHelper.START_DATE_NA) <= 0)
             {
                startDate = null;
             }
 
-            Date endDate = entry.getEndDate();
-            if (endDate != null && DateHelper.compare(DateHelper.END_DATE_NA, endDate) <= 0)
+            LocalDateTime endDate = entry.getEndDate();
+            if (endDate != null && LocalDateTimeHelper.compare(LocalDateTimeHelper.END_DATE_NA, endDate) <= 0)
             {
                endDate = null;
             }
@@ -850,12 +854,6 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
-         case SUBPROJECT:
-         {
-            writeSubproject(fieldName, value);
-            break;
-         }
-
          case RATE:
          {
             writeRateField(fieldName, value);
@@ -989,6 +987,8 @@ public final class JsonWriter extends AbstractProjectWriter
          double val = ((Number) value).doubleValue();
          if (val != 0)
          {
+            // Round to 4 decimal places
+            val = Math.round(val * 10000.0) / 10000.0;
             m_writer.writeNameValuePair(fieldName, val);
          }
       }
@@ -1087,7 +1087,7 @@ public final class JsonWriter extends AbstractProjectWriter
          }
          else
          {
-            Date val = (Date) value;
+            LocalDateTime val = (LocalDateTime) value;
             m_writer.writeNameValuePair(fieldName, val);
          }
       }
@@ -1103,7 +1103,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value != null)
       {
-         m_writer.writeNameValuePairAsDate(fieldName, (Date) value);
+         m_writer.writeNameValuePairAsDate(fieldName, (LocalDate) value);
       }
    }
 
@@ -1117,7 +1117,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       if (value != null)
       {
-         m_writer.writeNameValuePairAsTime(fieldName, (Date) value);
+         m_writer.writeNameValuePairAsTime(fieldName, (LocalTime) value);
       }
    }
 
@@ -1177,6 +1177,11 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       @SuppressWarnings("unchecked")
       Map<String, Object> map = (Map<String, Object>) value;
+      if (map.isEmpty())
+      {
+         return;
+      }
+
       m_writer.writeStartObject(fieldName);
       for (Map.Entry<String, Object> entry : map.entrySet())
       {
@@ -1204,9 +1209,9 @@ public final class JsonWriter extends AbstractProjectWriter
    private void writeDateRangeList(String fieldName, Object value) throws IOException
    {
       @SuppressWarnings("unchecked")
-      List<DateRange> list = (List<DateRange>) value;
+      List<LocalDateTimeRange> list = (List<LocalDateTimeRange>) value;
       m_writer.writeStartList(fieldName);
-      for (DateRange entry : list)
+      for (LocalDateTimeRange entry : list)
       {
          m_writer.writeStartObject(null);
          writeTimestampField("start", entry.getStart());
@@ -1214,37 +1219,6 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
-   }
-
-   /**
-    * Write a subproject to the JSON file.
-    *
-    * @param fieldName field name
-    * @param value field value
-    */
-   private void writeSubproject(String fieldName, Object value) throws IOException
-   {
-      SubProject sp = (SubProject) value;
-      m_writer.writeStartObject(fieldName);
-
-      writeStringField("project_guid", sp.getProjectGUID());
-      writeStringField("dos_file_name", sp.getDosFileName());
-      writeStringField("dos_full_path", sp.getDosFullPath());
-      writeStringField("file_name", sp.getFileName());
-      writeStringField("full_path", sp.getFullPath());
-      writeIntegerField("task_unique_id", sp.getTaskUniqueID());
-      writeIntegerField("unique_id_offset", sp.getUniqueIDOffset());
-
-      m_writer.writeStartList("all_external_task_unique_ids");
-      for (Integer id : sp.getAllExternalTaskUniqueIDs())
-      {
-         m_writer.writeStartObject(null);
-         writeIntegerField("id", id);
-         m_writer.writeEndObject();
-      }
-      m_writer.writeEndList();
-
-      m_writer.writeEndObject();
    }
 
    /**
@@ -1680,7 +1654,7 @@ public final class JsonWriter extends AbstractProjectWriter
    static
    {
       TYPE_MAP.put(Boolean.class.getName(), DataType.BOOLEAN);
-      TYPE_MAP.put(Date.class.getName(), DataType.DATE);
+      TYPE_MAP.put(LocalDateTime.class.getName(), DataType.DATE);
       TYPE_MAP.put(Double.class.getName(), DataType.NUMERIC);
       TYPE_MAP.put(Duration.class.getName(), DataType.DURATION);
       TYPE_MAP.put(Integer.class.getName(), DataType.INTEGER);

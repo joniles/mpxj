@@ -1,5 +1,5 @@
 <jxb:bindings version="1.0" xmlns:jxb="http://java.sun.com/xml/ns/jaxb" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <jxb:bindings node="/xsd:schema" schemaLocation="file:jaxb/mrproject-0.6.xsd">
+  <jxb:bindings node="/xsd:schema" schemaLocation="file:mrproject-0.6.xsd">
     <jxb:globalBindings generateElementProperty="false">
       <jxb:javaType name="java.lang.String" parseMethod="net.sf.mpxj.planner.DatatypeConverter.parseString" printMethod="net.sf.mpxj.planner.DatatypeConverter.printString" xmlType="xs:string"/>
     </jxb:globalBindings>

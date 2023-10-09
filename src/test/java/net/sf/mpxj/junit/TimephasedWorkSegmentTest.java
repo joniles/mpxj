@@ -25,12 +25,12 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -120,13 +120,12 @@ public class TimephasedWorkSegmentTest
     *
     * @param file ProjectFile instance
     */
-   private void testSegments(ProjectFile file) throws Exception
+   private void testSegments(ProjectFile file)
    {
       //
       // Set the start date
       //
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-      Date startDate = df.parse("07/02/2011");
+      LocalDateTime startDate = LocalDateTime.of(2011, 2, 7, 0, 0);
 
       //
       // Task One - 5 day assignment at 100% utilisation
@@ -1097,9 +1096,9 @@ public class TimephasedWorkSegmentTest
     * @param expected array of expected durations for each segment
     * @param complete flag indicating if planned or complete work is required
     */
-   private void testSegments(ResourceAssignment assignment, Date startDate, TimescaleUnits units, double[] expected, boolean complete)
+   private void testSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected, boolean complete)
    {
-      ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       ProjectCalendar calendar = assignment.getCalendar();
       List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());

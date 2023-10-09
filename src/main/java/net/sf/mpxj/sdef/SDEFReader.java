@@ -94,6 +94,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
       }
 
       project.setDefaultCalendar(project.getCalendars().findOrCreateDefaultCalendar());
+      project.readComplete();
 
       return project;
    }
@@ -101,6 +102,28 @@ public final class SDEFReader extends AbstractProjectStreamReader
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       return Collections.singletonList(read(inputStream));
+   }
+
+   /**
+    * Set a flag to determine if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @param ignoreErrors pass true to ignore errors
+    */
+   public void setIgnoreErrors(boolean ignoreErrors)
+   {
+      m_ignoreErrors = ignoreErrors;
+   }
+
+   /**
+    * Retrieve the flag which determines if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @return true if datatype parse errors are ignored
+    */
+   public boolean getIgnoreErrors()
+   {
+      return m_ignoreErrors;
    }
 
    /**
@@ -135,7 +158,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
          throw new MPXJException(MPXJException.READ_ERROR, e);
       }
 
-      record.read(line);
+      record.read(context.getProject(), line, m_ignoreErrors);
 
       record.process(context);
 
@@ -143,6 +166,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
    }
 
    private Charset m_charset = StandardCharsets.US_ASCII;
+   private boolean m_ignoreErrors = true;
 
    private static final Map<String, Class<? extends SDEFRecord>> RECORD_MAP = new HashMap<>();
    static

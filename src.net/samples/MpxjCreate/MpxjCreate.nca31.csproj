@@ -117,8 +117,8 @@
     <Reference Include="MpxjUtilities">
       <HintPath>..\..\lib\netcoreapp3.1\MpxjUtilities.dll</HintPath>
     </Reference>
-    <Reference Include="sqlite-jdbc-3.36.0.3">
-      <HintPath>..\..\lib\netcoreapp3.1\sqlite-jdbc-3.36.0.3.dll</HintPath>
+    <Reference Include="sqlite-jdbc-3.42.0.0">
+      <HintPath>..\..\lib\netcoreapp3.1\sqlite-jdbc-3.42.0.0.dll</HintPath>
     </Reference>
   </ItemGroup>
 

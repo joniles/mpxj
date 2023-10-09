@@ -1,7 +1,7 @@
 <jxb:bindings version="1.0"
                xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               schemaLocation="./jaxb/phoenix-4.xsd">
+               schemaLocation="phoenix-4.xsd">
 
    <jxb:globalBindings>
 		<jxb:javaType name="java.lang.Integer"
@@ -9,7 +9,7 @@
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseInteger"
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printInteger"/>
 
-		<jxb:javaType name="java.util.Date"
+		<jxb:javaType name="java.time.LocalDateTime"
                     xmlType="xs:dateTime"
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDateTime"
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printDateTime"/>
@@ -39,12 +39,12 @@
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseResourceType"
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printResourceType"/>
 
-        <jxb:javaType name="net.sf.mpxj.Day"
+        <jxb:javaType name="java.time.DayOfWeek"
                     xmlType="phoenixDay"
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseDay"
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printDay"/>
 
-		<jxb:javaType name="java.util.Date"
+		<jxb:javaType name="java.time.LocalDateTime"
                     xmlType="phoenixFinish"
                     parseMethod="net.sf.mpxj.phoenix.DatatypeConverter.parseFinishDateTime"
                     printMethod="net.sf.mpxj.phoenix.DatatypeConverter.printFinishDateTime"/>

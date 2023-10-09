@@ -23,10 +23,11 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -85,6 +86,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       m_tasks.validateUniqueIDsForMicrosoftProject();
       m_resources.validateUniqueIDsForMicrosoftProject();
       m_assignments.validateUniqueIDsForMicrosoftProject();
+      m_relations.validateUniqueIDsForMicrosoftProject();
       m_calendars.validateUniqueIDsForMicrosoftProject();
       setDefaultCalendar(defaultCalendar);
    }
@@ -227,6 +229,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * Retrieves a list of all relations in this project.
+    *
+    * @return list of all relations
+    */
+   public RelationContainer getRelations()
+   {
+      return m_relations;
+   }
+
+   /**
     * Retrieves the named calendar. This method will return
     * null if the named calendar is not located.
     *
@@ -316,9 +328,9 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     *
     * @return start date
     */
-   public Date getEarliestStartDate()
+   public LocalDateTime getEarliestStartDate()
    {
-      Date startDate = null;
+      LocalDateTime startDate = null;
 
       for (Task task : m_tasks)
       {
@@ -336,7 +348,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
          // is always correct, the milestone start date may be different
          // to reflect a missed deadline.
          //
-         Date taskStartDate;
+         LocalDateTime taskStartDate;
          if (task.getMilestone())
          {
             taskStartDate = task.getActualFinish();
@@ -362,7 +374,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
             }
             else
             {
-               if (taskStartDate.getTime() < startDate.getTime())
+               if (taskStartDate.isBefore(startDate))
                {
                   startDate = taskStartDate;
                }
@@ -378,9 +390,9 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     *
     * @return finish date
     */
-   public Date getLatestFinishDate()
+   public LocalDateTime getLatestFinishDate()
    {
-      Date finishDate = null;
+      LocalDateTime finishDate = null;
 
       for (Task task : m_tasks)
       {
@@ -395,7 +407,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
          //
          // Select the actual or forecast start date
          //
-         Date taskFinishDate;
+         LocalDateTime taskFinishDate;
          taskFinishDate = task.getActualFinish();
          if (taskFinishDate == null)
          {
@@ -410,7 +422,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
             }
             else
             {
-               if (taskFinishDate.getTime() > finishDate.getTime())
+               if (taskFinishDate.isAfter(finishDate))
                {
                   finishDate = taskFinishDate;
                }
@@ -459,17 +471,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    public GroupContainer getGroups()
    {
       return m_groups;
-   }
-
-   /**
-    * Retrieves all the subprojects for this project.
-    *
-    * @return all subproject details
-    * @deprecated use the attributes on individual tasks to retrieve subproject details
-    */
-   @Deprecated public SubProjectContainer getSubProjects()
-   {
-      return m_subProjects;
    }
 
    /**
@@ -707,7 +708,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * files can be located and loaded correctly, this will present
     * a complete view of the project.
     */
-   public void expandSubprojects() throws MPXJException
+   public void expandSubprojects()
    {
       for (Task task : getTasks())
       {
@@ -717,6 +718,62 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
             file.expandSubprojects();
          }
       }
+   }
+
+   /**
+    * Called by a reader class when reading a schedule is complete.
+    */
+   public void readComplete()
+   {
+      updateUniqueIdCounters();
+      fixUniqueIdClashes();
+   }
+
+   /**
+    * This method is called to ensure that after a project file has been
+    * read, the cached unique ID values used to generate new unique IDs
+    * start after the end of the existing set of unique IDs.
+    */
+   public void updateUniqueIdCounters()
+   {
+      getTasks().updateUniqueIdCounter();
+      getResources().updateUniqueIdCounter();
+      getCalendars().updateUniqueIdCounter();
+      getResourceAssignments().updateUniqueIdCounter();
+      getRelations().updateUniqueIdCounter();
+   }
+
+   /**
+    * This method is called to renumber any Unique ID values which
+    * were found to have duplicates.
+    */
+   public void fixUniqueIdClashes()
+   {
+      getTasks().fixUniqueIdClashes();
+      getResources().fixUniqueIdClashes();
+      getCalendars().fixUniqueIdClashes();
+      getResourceAssignments().fixUniqueIdClashes();
+      getRelations().fixUniqueIdClashes();
+   }
+
+   /**
+    * Add an error which has been ignored while reading this schedule.
+    *
+    * @param ex ignored error
+    */
+   public void addIgnoredError(Exception ex)
+   {
+      m_ignoredErrors.add(ex);
+   }
+
+   /**
+    * Retrieve a list of errors ignored when reading this schedule.
+    *
+    * @return list of errors
+    */
+   public List<Exception> getIgnoredErrors()
+   {
+      return m_ignoredErrors;
    }
 
    void addExternalProject(String fileName, ProjectFile projectFile)
@@ -736,11 +793,11 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final List<Task> m_childTasks = new ArrayList<>();
    private final List<Resource> m_childResources = new ArrayList<>();
    private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
+   private final RelationContainer m_relations = new RelationContainer(this);
    private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
    private final TableContainer m_tables = new TableContainer();
    private final FilterContainer m_filters = new FilterContainer();
    private final GroupContainer m_groups = new GroupContainer();
-   private final SubProjectContainer m_subProjects = new SubProjectContainer();
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
    private final CustomFieldContainer m_customFields = new CustomFieldContainer();
@@ -755,4 +812,5 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final UnitOfMeasureContainer m_unitsOfMeasure = new UnitOfMeasureContainer(this);
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
+   private final List<Exception> m_ignoredErrors = new ArrayList<>();
 }

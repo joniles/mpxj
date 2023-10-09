@@ -23,10 +23,10 @@
 
 package net.sf.mpxj.ganttproject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * This class contains methods used to perform the datatype conversions
@@ -41,18 +41,18 @@ public final class DatatypeConverter
     * @param value string representation
     * @return date value
     */
-   public static final Date parseDate(String value)
+   public static final LocalDateTime parseDate(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          try
          {
-            result = DATE_FORMAT.get().parse(value);
+            result = LocalDate.parse(value, DATE_FORMAT).atStartOfDay();
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
             // Ignore parse exception
          }
@@ -67,14 +67,10 @@ public final class DatatypeConverter
     * @param value time value
     * @return time value
     */
-   public static final String printDate(Date value)
+   public static final String printDate(LocalDateTime value)
    {
-      return (value == null ? null : DATE_FORMAT.get().format(value));
+      return value == null ? null : DATE_FORMAT.format(value);
    }
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-      df.setLenient(false);
-      return df;
-   });
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 }

@@ -49,12 +49,13 @@ public abstract class AbstractFieldContainer<T> extends ProjectEntity implements
    }
 
    /**
-    * Invalidate the cache as a result of a field being updated.
+    * Allow the entity to take action in response to the changed field.
     *
     * @param field updated field
-    * @param newValue update field new value
+    * @param oldValue old value of the updated field
+    * @param newValue new value of the updated field
     */
-   abstract void invalidateCache(FieldType field, Object oldValue, Object newValue);
+   abstract void handleFieldChange(FieldType field, Object oldValue, Object newValue);
 
    /**
     * Determine if the supplied field is always calculated.
@@ -73,11 +74,34 @@ public abstract class AbstractFieldContainer<T> extends ProjectEntity implements
    abstract Function<T, Object> getCalculationMethod(FieldType field);
 
    /**
+    * Clear any dependent fields which will need to be recalculated
+    * in response to a changed field.
+    *
+    * @param dependencyMap ma of field dependencies
+    * @param field changed field.
+    */
+   void clearDependentFields(Map<FieldType, List<FieldType>> dependencyMap, FieldType field)
+   {
+      if (!m_clearDependentFieldsEnabled)
+      {
+         return;
+      }
+
+      List<FieldType> dependencies = dependencyMap.get(field);
+      if (dependencies == null)
+      {
+         return;
+      }
+
+      dependencies.forEach(f -> set(f, null));
+   }
+
+   /**
     * Disable events firing when fields are updated.
     */
    public void disableEvents()
    {
-      m_eventsEnabled = false;
+      m_clearDependentFieldsEnabled = false;
    }
 
    /**
@@ -85,19 +109,26 @@ public abstract class AbstractFieldContainer<T> extends ProjectEntity implements
     */
    public void enableEvents()
    {
-      m_eventsEnabled = true;
+      m_clearDependentFieldsEnabled = true;
    }
 
    @Override public void set(FieldType field, Object value)
    {
-      if (field != null)
+      if (field == null)
       {
-         Object oldValue = value == null ? m_fields.remove(field) : m_fields.put(field, value);
-         if (m_eventsEnabled)
-         {
-            invalidateCache(field, oldValue, value);
-            fireFieldChangeEvent(field, oldValue, value);
-         }
+         return;
+      }
+
+      Object oldValue = value == null ? m_fields.remove(field) : m_fields.put(field, value);
+      if (oldValue == value)
+      {
+         return;
+      }
+
+      if ((oldValue == null && value != null) || (oldValue != null && value == null) || (oldValue != null && !oldValue.equals(value)))
+      {
+         handleFieldChange(field, oldValue, value);
+         fireFieldChangeEvent(field, oldValue, value);
       }
    }
 
@@ -163,7 +194,7 @@ public abstract class AbstractFieldContainer<T> extends ProjectEntity implements
       }
    }
 
-   private boolean m_eventsEnabled = true;
+   private boolean m_clearDependentFieldsEnabled = true;
    private final Map<FieldType, Object> m_fields = new HashMap<>();
    private List<FieldListener> m_listeners;
 }

@@ -57,7 +57,7 @@ final class UdfHelper
       set.addAll(file.getUserDefinedFields());
 
       // All custom fields with values
-      set.addAll(file.getPopulatedFields().stream().filter(FieldLists.CUSTOM_FIELDS::contains).collect(Collectors.toSet()));
+      set.addAll(file.getPopulatedFields().stream().filter(FieldLists.CUSTOM_FIELDS_SET::contains).collect(Collectors.toSet()));
 
       // Remove unknown fields
       set.removeIf(f -> net.sf.mpxj.common.FieldTypeHelper.getFieldID(f) == -1);

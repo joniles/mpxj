@@ -23,11 +23,13 @@
 
 package net.sf.mpxj.mpp;
 
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringTask;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.common.LocalDateHelper;
 
 /**
  * This class allows recurring task definitions to be read from an MPP file.
@@ -53,20 +55,20 @@ final class RecurringTaskReader
    public void processRecurringTask(Task task, byte[] data)
    {
       RecurringTask rt = task.addRecurringTask();
-      rt.setStartDate(MPPUtility.getDate(data, 6));
-      rt.setFinishDate(MPPUtility.getDate(data, 10));
+      rt.setStartDate(LocalDateHelper.getLocalDate(MPPUtility.getDate(data, 6)));
+      rt.setFinishDate(LocalDateHelper.getLocalDate(MPPUtility.getDate(data, 10)));
       rt.setDuration(MPPUtility.getAdjustedDuration(m_properties, MPPUtility.getInt(data, 12), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 16))));
       rt.setOccurrences(Integer.valueOf(MPPUtility.getShort(data, 18)));
       rt.setRecurrenceType(RecurrenceType.getInstance(MPPUtility.getShort(data, 20)));
       rt.setUseEndDate(MPPUtility.getShort(data, 24) == 1);
       rt.setWorkingDaysOnly(MPPUtility.getShort(data, 26) == 1);
-      rt.setWeeklyDay(Day.SUNDAY, MPPUtility.getShort(data, 28) == 1);
-      rt.setWeeklyDay(Day.MONDAY, MPPUtility.getShort(data, 30) == 1);
-      rt.setWeeklyDay(Day.TUESDAY, MPPUtility.getShort(data, 32) == 1);
-      rt.setWeeklyDay(Day.WEDNESDAY, MPPUtility.getShort(data, 34) == 1);
-      rt.setWeeklyDay(Day.THURSDAY, MPPUtility.getShort(data, 36) == 1);
-      rt.setWeeklyDay(Day.FRIDAY, MPPUtility.getShort(data, 38) == 1);
-      rt.setWeeklyDay(Day.SATURDAY, MPPUtility.getShort(data, 40) == 1);
+      rt.setWeeklyDay(DayOfWeek.SUNDAY, MPPUtility.getShort(data, 28) == 1);
+      rt.setWeeklyDay(DayOfWeek.MONDAY, MPPUtility.getShort(data, 30) == 1);
+      rt.setWeeklyDay(DayOfWeek.TUESDAY, MPPUtility.getShort(data, 32) == 1);
+      rt.setWeeklyDay(DayOfWeek.WEDNESDAY, MPPUtility.getShort(data, 34) == 1);
+      rt.setWeeklyDay(DayOfWeek.THURSDAY, MPPUtility.getShort(data, 36) == 1);
+      rt.setWeeklyDay(DayOfWeek.FRIDAY, MPPUtility.getShort(data, 38) == 1);
+      rt.setWeeklyDay(DayOfWeek.SATURDAY, MPPUtility.getShort(data, 40) == 1);
 
       int frequencyOffset = 0;
       int dayOfWeekOffset = 0;
@@ -130,7 +132,7 @@ final class RecurringTaskReader
 
       if (dayOfWeekOffset != 0)
       {
-         rt.setDayOfWeek(Day.getInstance(MPPUtility.getShort(data, dayOfWeekOffset) + 1));
+         rt.setDayOfWeek(DayOfWeekHelper.getInstance(MPPUtility.getShort(data, dayOfWeekOffset) + 1));
       }
 
       if (dayNumberOffset != 0)
@@ -145,7 +147,7 @@ final class RecurringTaskReader
 
       if (dateOffset != 0)
       {
-         rt.setYearlyAbsoluteFromDate(MPPUtility.getDate(data, dateOffset));
+         rt.setYearlyAbsoluteFromDate(LocalDateHelper.getLocalDate(MPPUtility.getDate(data, dateOffset)));
       }
    }
 

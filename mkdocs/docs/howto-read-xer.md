@@ -21,6 +21,30 @@ You can work directly with the `PrimaveraXERFileReader` class by replacing
 `UniversalProjectReader` with `PrimaveraXERFileReader`. This provides access to
 additional options, as described below.
 
+### Ignore Errors
+By default P6 ignores records it can't successfully read from an XER file. MPXJ
+takes the same approach, and in most cases if it doesn't receive the data it
+expects for a particular record it will ignore the problematic item.
+
+This behavior is controlled using the `setIgnoreErrors` method. The example
+below illustrates how we can force the `PrimaveraXERFileReader` to report
+errors encountered when reading a file:
+
+```java
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+
+// ...
+
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+
+reader.setIgnoreErrors(false);
+ProjectFile project = reader.read("my-sample.xer");
+```
+
+Note that if errors are ignored when reading a file, the ignored errors
+are available by using the `ProjectFile.getIgnoredErrors()` method.
+
 ### Encoding
 By default MPXJ assumes that XER files are encoded using Windows-1252. The
 `UniversalProjectReader` understands Unicode Byte Order Marks (BOM) and will

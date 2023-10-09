@@ -30,9 +30,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -589,12 +590,15 @@ public class CustomerDataTest
          ((MSPDIWriter) w).setSplitTimephasedAsDays(false);
       };
 
-      boolean mspdi = testBaseline(name, project, baselineDirectory, "mspdi", ".xml", MSPDIWriter.class, mspdiConfig);
+
+      // TODO: randomise order of execution
       boolean pmxml = testBaseline(name, project, baselineDirectory, "pmxml", ".xml", PrimaveraPMFileWriter.class, pmxmlConfig);
       boolean json = testBaseline(name, project, baselineDirectory, "json", ".json", JsonWriter.class, jsonConfig);
       boolean planner = testBaseline(name, project, baselineDirectory, "planner", ".xml", PlannerWriter.class, null);
       boolean sdef = testBaseline(name, project, baselineDirectory, "sdef", ".sdef", SDEFWriter.class, null);
       boolean xer = testBaseline(name, project, baselineDirectory, "xer", ".xer", PrimaveraXERFileWriter.class, null);
+      // TODO: fix in-place renumbering for MS Project
+      boolean mspdi = testBaseline(name, project, baselineDirectory, "mspdi", ".xml", MSPDIWriter.class, mspdiConfig);
       boolean mpx = testBaseline(name, project, baselineDirectory, "mpx", ".mpx", MPXWriter.class, mpxConfig);
 
       return mspdi && pmxml && json && planner && sdef && xer && mpx;
@@ -722,5 +726,5 @@ public class CustomerDataTest
    private static int TEST_COUNT;
    private static final boolean OS_IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("windows");
    private static final FieldReporter FIELD_REPORTER = new FieldReporter();
-   private static final Date BASELINE_CURRENT_DATE = new Date(1544100702438L);
+   private static final LocalDateTime BASELINE_CURRENT_DATE = LocalDateTime.of(2018, 12, 6, 12, 51, 42);
 }

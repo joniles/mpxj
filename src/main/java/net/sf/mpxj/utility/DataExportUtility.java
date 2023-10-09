@@ -26,7 +26,6 @@ package net.sf.mpxj.utility;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,10 +34,12 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.Locale;
+import java.util.Set;
 
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.ConnectionHelper;
 import net.sf.mpxj.common.JdbcOdbcHelper;
 import net.sf.mpxj.common.XmlHelper;
 
@@ -96,12 +97,7 @@ public final class DataExportUtility
       //
       // Retrieve metadata about the connection
       //
-      DatabaseMetaData dmd = connection.getMetaData();
-
-      String[] types =
-      {
-         "TABLE"
-      };
+      Set<String> tableNames = ConnectionHelper.getTableNames(connection);
 
       FileWriter fw = new FileWriter(directory);
       PrintWriter pw = new PrintWriter(fw);
@@ -110,17 +106,14 @@ public final class DataExportUtility
       pw.println();
       pw.println("<database>");
 
-      ResultSet tables = dmd.getTables(null, null, null, types);
-      while (tables.next())
+      for (String tableName : tableNames)
       {
-         processTable(pw, connection, tables.getString("TABLE_NAME"));
+         processTable(pw, connection, tableName);
       }
 
       pw.println("</database>");
 
       pw.close();
-
-      tables.close();
    }
 
    /**
@@ -189,7 +182,7 @@ public final class DataExportUtility
                case Types.DATE:
                case Types.TIME:
                {
-                  Date data = rs.getDate(index + 1);
+                  java.util.Date data = rs.getDate(index + 1);
                   if (data != null)
                   {
                      pw.print(df.format(data));
