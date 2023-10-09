@@ -76,6 +76,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskContainer;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
@@ -136,6 +137,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeNoteTypes();
          writeResourceCurves();
          writeUdfDefinitions();
+         writeUnitsOfMeasure();
          writeCostAccounts();
          writeRoles();
          writeProject();
@@ -363,6 +365,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       m_writer.writeTable("COSTTYPE", EXPENSE_CATEGORY_COLUMNS);
       m_file.getExpenseCategories().stream().sorted(Comparator.comparing(ExpenseCategory::getUniqueID)).forEach(a -> m_writer.writeRecord(EXPENSE_CATEGORY_COLUMNS, a));
+   }
+
+   private void writeUnitsOfMeasure()
+   {
+      m_writer.writeTable("UMEASURE", UNIT_OF_MEASURE_COLUMNS);
+      m_file.getUnitsOfMeasure().stream().sorted(Comparator.comparing(UnitOfMeasure::getUniqueID)).forEach(a -> m_writer.writeRecord(UNIT_OF_MEASURE_COLUMNS, a));
    }
 
    /**
@@ -1007,7 +1015,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       RESOURCE_COLUMNS.put("ot_flag", r -> Boolean.FALSE);
       RESOURCE_COLUMNS.put("curr_id", r -> CURRENCY_COLUMNS.get("curr_id"));
-      RESOURCE_COLUMNS.put("unit_id", r -> "");
+      RESOURCE_COLUMNS.put("unit_id", r -> r.getUnitOfMeasureUniqueID());
       RESOURCE_COLUMNS.put("rsrc_type", r -> r.getType());
       RESOURCE_COLUMNS.put("location_id", r -> r.getLocationUniqueID());
       RESOURCE_COLUMNS.put("rsrc_notes", r -> r.getNotesObject());
@@ -1498,5 +1506,14 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       SCHEDULE_OPTIONS_COLUMNS.put("use_total_float_multiple_longest_paths", o -> o.getBoolean("CalculateMultiplePathsUsingTotalFloat", Boolean.TRUE));
       SCHEDULE_OPTIONS_COLUMNS.put("key_activity_for_multiple_longest_paths", o -> o.getInteger("DisplayMultipleFloatPathsEndingWithActivity", null));
       SCHEDULE_OPTIONS_COLUMNS.put("LevelPriorityList", o -> "priority_type,ASC_BY_FIELD/ASC"); // TODO: translation required
+   }
+
+   private static final Map<String, ExportFunction<UnitOfMeasure>> UNIT_OF_MEASURE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      UNIT_OF_MEASURE_COLUMNS.put("unit_id", u -> u.getUniqueID());
+      UNIT_OF_MEASURE_COLUMNS.put("seq_num", u -> u.getSequenceNumber());
+      UNIT_OF_MEASURE_COLUMNS.put("unit_abbrev", u -> u.getAbbreviation());
+      UNIT_OF_MEASURE_COLUMNS.put("unit_name", u -> u.getName());
    }
 }
