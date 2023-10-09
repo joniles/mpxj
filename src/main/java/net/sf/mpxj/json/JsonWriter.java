@@ -213,11 +213,11 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.setPretty(m_pretty);
 
          m_writer.writeStartObject(null);
+         writeProperties();
          writeUserDefinedFields();
          writeCustomFields();
          writeWorkContours();
          writeActivityCodes();
-         writeProperties();
          writeCalendars();
          writeResources();
          writeTasks();
