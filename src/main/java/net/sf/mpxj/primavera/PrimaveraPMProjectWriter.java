@@ -1153,7 +1153,7 @@ final class PrimaveraPMProjectWriter
          m_relationships.add(xml);
 
          xml.setLag(getDuration(mpxj.getLag()));
-         xml.setObjectId(m_sequences.getRelationshipObjectID());
+         xml.setObjectId(mpxj.getUniqueID());
          xml.setPredecessorActivityObjectId(mpxj.getTargetTask().getUniqueID());
          xml.setSuccessorActivityObjectId(mpxj.getSourceTask().getUniqueID());
          xml.setPredecessorProjectObjectId(m_projectObjectID);
