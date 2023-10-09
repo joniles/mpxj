@@ -26,7 +26,7 @@ package net.sf.mpxj;
 /**
  * This class represents the relationship between two tasks.
  */
-public final class Relation
+public final class Relation implements ProjectEntityWithUniqueID
 {
    /**
     * Default constructor.
@@ -53,10 +53,11 @@ public final class Relation
          m_lag = Duration.getInstance(0, TimeUnit.DAYS);
       }
 
-      ProjectConfig projectConfig = sourceTask.getParentFile().getProjectConfig();
+      ProjectFile project = sourceTask.getParentFile();
+      ProjectConfig projectConfig = project.getProjectConfig();
       if (projectConfig.getAutoRelationUniqueID())
       {
-         setUniqueID(Integer.valueOf(projectConfig.getNextRelationUniqueID()));
+         setUniqueID(project.getRelations().getNextUniqueID());
       }
    }
 
@@ -119,6 +120,7 @@ public final class Relation
     */
    public void setUniqueID(Integer uniqueID)
    {
+      m_sourceTask.getParentFile().getRelations().updateUniqueID(this, m_uniqueID, uniqueID);
       m_uniqueID = uniqueID;
    }
 

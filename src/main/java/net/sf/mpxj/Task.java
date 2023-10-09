@@ -504,6 +504,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       if (predecessorRelation == null)
       {
          predecessorRelation = new Relation(this, targetTask, type, lag);
+         getParentFile().getRelations().add(predecessorRelation);
          predecessorList.add(predecessorRelation);
       }
 
@@ -538,6 +539,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       if (successorRelation == null)
       {
          successorRelation = new Relation(targetTask, this, type, lag);
+         targetTask.getParentFile().getRelations().add(successorRelation);
          successorList.add(successorRelation);
       }
 
@@ -5490,6 +5492,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
             if (relation.getType() == type && relation.getLag().compareTo(lag) == 0)
             {
                matchFound = relationList.remove(relation);
+               relation.getSourceTask().getParentFile().getRelations().remove(relation);
                break;
             }
          }
