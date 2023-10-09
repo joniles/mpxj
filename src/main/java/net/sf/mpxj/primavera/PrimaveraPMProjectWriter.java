@@ -418,6 +418,9 @@ final class PrimaveraPMProjectWriter
       }
    }
 
+   /**
+    * Write units of measure.
+    */
    private void writeUnitsOfMeasure()
    {
       List<UnitOfMeasureType> units = m_apibo.getUnitOfMeasure();

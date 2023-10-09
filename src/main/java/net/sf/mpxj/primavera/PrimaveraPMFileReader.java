@@ -721,19 +721,30 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       apibo.getCostAccount().forEach(c -> container.getByUniqueID(c.getObjectId()).setParent(container.getByUniqueID(c.getParentObjectId())));
    }
 
+   /**
+    * Process units of measure.
+    *
+    * @param apibo top level object
+    */
    private void processUnitsOfMeasure(APIBusinessObjects apibo)
    {
       UnitOfMeasureContainer container = m_projectFile.getUnitsOfMeasure();
       apibo.getUnitOfMeasure().forEach(u -> container.add(processUnitOfMeasure(u)));
    }
 
+   /**
+    * Create a unit of measure.
+    *
+    * @param u unit of measure data
+    * @return UnitOfMeasure instance
+    */
    private UnitOfMeasure processUnitOfMeasure(UnitOfMeasureType u)
    {
       return new UnitOfMeasure.Builder()
-         .setUniqueID(u.getObjectId())
-         .setAbbreviation(u.getAbbreviation())
-         .setName(u.getName())
-         .setSequenceNumber(u.getSequenceNumber())
+         .uniqueID(u.getObjectId())
+         .abbreviation(u.getAbbreviation())
+         .name(u.getName())
+         .sequenceNumber(u.getSequenceNumber())
          .build();
    }
 

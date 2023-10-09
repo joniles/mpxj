@@ -263,6 +263,9 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       m_reader.processCostAccounts(getRows("select * from " + m_schema + "account"));
    }
 
+   /**
+    * Process units of measure.
+    */
    private void processUnitsOfMeasure() throws SQLException
    {
       m_reader.processUnitsOfMeasure(getRows("select * from " + m_schema + "umeasure"));

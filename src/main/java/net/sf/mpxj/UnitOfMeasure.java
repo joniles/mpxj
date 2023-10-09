@@ -1,7 +1,37 @@
+/*
+ * file:       UnitOfMeasure.java
+ * author:     Jon Iles
+ * date:       09/10/2023
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package net.sf.mpxj;
 
+/**
+ * Class representing a unit of measure.
+ */
 public class UnitOfMeasure implements ProjectEntityWithUniqueID
 {
+   /**
+    * Constructor.
+    *
+    * @param builder builder instance
+    */
    private UnitOfMeasure(Builder builder)
    {
       m_uniqueID = builder.m_uniqueID;
@@ -20,16 +50,31 @@ public class UnitOfMeasure implements ProjectEntityWithUniqueID
       throw new UnsupportedOperationException();
    }
 
+   /**
+    * Retrieve the unit of measure name.
+    *
+    * @return unit of meansure name
+    */
    public String getName()
    {
       return m_name;
    }
 
+   /**
+    * Retrieve the unit of measure abbreviation.
+    *
+    * @return unit of measure abbreviation
+    */
    public String getAbbreviation()
    {
       return m_abbreviation;
    }
 
+   /**
+    * Retrieve the unit of measure sequence number.
+    *
+    * @return seqience number
+    */
    public Integer getSequenceNumber()
    {
       return m_sequenceNumber;
@@ -40,32 +85,63 @@ public class UnitOfMeasure implements ProjectEntityWithUniqueID
    private final String m_abbreviation;
    private final Integer m_sequenceNumber;
 
+   /**
+    * Unit of measure builder.
+    */
    public static class Builder
    {
-      public Builder setUniqueID(Integer uniqueID)
+      /**
+       * Add the unique ID
+       * @param uniqueID unique ID
+       * @return builder
+       */
+      public Builder uniqueID(Integer uniqueID)
       {
          m_uniqueID = uniqueID;
          return this;
       }
 
-      public Builder setName(String name)
+      /**
+       * Add the name.
+       *
+       * @param name name
+       * @return builder
+       */
+      public Builder name(String name)
       {
          m_name = name;
          return this;
       }
 
-      public Builder setAbbreviation(String abbreviation)
+      /**
+       * Add the abbreviation.
+       *
+       * @param abbreviation abbreviation
+       * @return builder
+       */
+      public Builder abbreviation(String abbreviation)
       {
          m_abbreviation = abbreviation;
          return this;
       }
 
-      public Builder setSequenceNumber(Integer sequenceNumber)
+      /**
+       * Add the sequence number.
+       *
+       * @param sequenceNumber sequence number
+       * @return builder
+       */
+      public Builder sequenceNumber(Integer sequenceNumber)
       {
          m_sequenceNumber = sequenceNumber;
          return this;
       }
 
+      /**
+       * Build a UnitOfMeasure instance.
+       *
+       * @return UnitOfMeasure instance
+       */
       public UnitOfMeasure build()
       {
          return new UnitOfMeasure(this);

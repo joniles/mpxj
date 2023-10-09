@@ -464,6 +464,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       m_reader.processCostAccounts(getRows("account", null, null));
    }
 
+   /**
+    * Process units of measure.
+    */
    private void processUnitsOfMeasure()
    {
       m_reader.processUnitsOfMeasure(getRows("umeasure", null, null));

@@ -367,6 +367,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_file.getExpenseCategories().stream().sorted(Comparator.comparing(ExpenseCategory::getUniqueID)).forEach(a -> m_writer.writeRecord(EXPENSE_CATEGORY_COLUMNS, a));
    }
 
+   /**
+    * Write units of measure.
+    */
    private void writeUnitsOfMeasure()
    {
       m_writer.writeTable("UMEASURE", UNIT_OF_MEASURE_COLUMNS);

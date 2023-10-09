@@ -23,10 +23,10 @@ public class UnitOfMeasureContainer extends ProjectEntityContainer<UnitOfMeasure
    private UnitOfMeasure buildUnitOfMeasure(String name)
    {
       UnitOfMeasure uom = new UnitOfMeasure.Builder()
-         .setName(name)
-         .setAbbreviation(name)
-         .setUniqueID(stream().mapToInt(u -> u.getUniqueID()).max().orElse(0) + 1)
-         .setSequenceNumber(stream().mapToInt(u -> u.getSequenceNumber()).max().orElse(0) + 1)
+         .name(name)
+         .abbreviation(name)
+         .uniqueID(stream().mapToInt(u -> u.getUniqueID()).max().orElse(0) + 1)
+         .sequenceNumber(stream().mapToInt(u -> u.getSequenceNumber()).max().orElse(0) + 1)
          .build();
       add(uom);
       return uom;

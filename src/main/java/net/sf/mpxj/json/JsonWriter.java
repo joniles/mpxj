@@ -372,6 +372,9 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeEndObject();
    }
 
+   /**
+    * Write units of measure.
+    */
    private void writeUnitsOfMeasure() throws IOException
    {
       if (m_projectFile.getUnitsOfMeasure().isEmpty())
@@ -387,6 +390,11 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeEndList();
    }
 
+   /**
+    * Write an individual unit of measure.
+    *
+    * @param uom unit of measure
+    */
    private void writeUnitOfMeasure(UnitOfMeasure uom) throws IOException
    {
       m_writer.writeStartObject(null);

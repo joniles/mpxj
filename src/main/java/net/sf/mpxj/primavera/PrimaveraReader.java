@@ -100,7 +100,6 @@ import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ObjectSequence;
 import net.sf.mpxj.common.SlackHelper;
-import net.sf.mpxj.primavera.schema.UnitOfMeasureType;
 
 /**
  * This class provides a generic front end to read project data from
@@ -254,19 +253,30 @@ final class PrimaveraReader
       accounts.forEach(row -> container.getByUniqueID(row.getInteger("acct_id")).setParent(container.getByUniqueID(row.getInteger("parent_acct_id"))));
    }
 
+   /**
+    * Process units of measure.
+    *
+    * @param units units of measure
+    */
    public void processUnitsOfMeasure(List<Row> units)
    {
       UnitOfMeasureContainer container = m_project.getUnitsOfMeasure();
       units.forEach(row -> container.add(processUnitOfMeasure(row)));
    }
 
+   /**
+    * Create a unit of measure instance.
+    *
+    * @param row unit of measure data
+    * @return UnitOfMeasure instance
+    */
    private UnitOfMeasure processUnitOfMeasure(Row row)
    {
       return new UnitOfMeasure.Builder()
-         .setUniqueID(row.getInteger("unit_id"))
-         .setAbbreviation(row.getString("unit_abbrev"))
-         .setName(row.getString("unit_name"))
-         .setSequenceNumber(row.getInteger("seq_num"))
+         .uniqueID(row.getInteger("unit_id"))
+         .abbreviation(row.getString("unit_abbrev"))
+         .name(row.getString("unit_name"))
+         .sequenceNumber(row.getInteger("seq_num"))
          .build();
    }
 
