@@ -102,6 +102,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
          processTableNames();
          processAnalytics();
+         processUnitsOfMeasure();
          processUserDefinedFields();
          processLocations();
          processProjectProperties();
@@ -260,6 +261,11 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private void processCostAccounts() throws SQLException
    {
       m_reader.processCostAccounts(getRows("select * from " + m_schema + "account"));
+   }
+
+   private void processUnitsOfMeasure() throws SQLException
+   {
+      m_reader.processUnitsOfMeasure(getRows("select * from " + m_schema + "umeasure"));
    }
 
    /**
