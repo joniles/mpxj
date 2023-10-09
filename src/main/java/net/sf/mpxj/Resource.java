@@ -2539,6 +2539,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return getParentFile().getLocations().getByUniqueID(getLocationUniqueID());
    }
 
+   /**
+    * Sets the location.
+    *
+    * @param location location
+    */
+   public void setLocation(Location location)
+   {
+      setLocationUniqueID(location == null ? null : location.getUniqueID());
+   }
+
    public Integer getUnitOfMeasureUniqueID()
    {
       return (Integer) get(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID);
