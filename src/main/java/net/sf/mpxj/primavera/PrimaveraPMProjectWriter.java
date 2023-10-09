@@ -49,6 +49,8 @@ import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
+
+import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
@@ -120,6 +122,7 @@ import net.sf.mpxj.primavera.schema.RoleType;
 import net.sf.mpxj.primavera.schema.ScheduleOptionsType;
 import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
+import net.sf.mpxj.primavera.schema.UnitOfMeasureType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
 
@@ -192,6 +195,7 @@ final class PrimaveraPMProjectWriter
 
             writeLocations();
             writeProjectProperties(project);
+            writeUnitsOfMeasure();
             writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
             writeCalendars(project.getCalendar());
             writeUDF();
@@ -411,6 +415,23 @@ final class PrimaveraPMProjectWriter
          cat.setSequenceNumber(account.getSequenceNumber());
          cat.setParentObjectId(account.getParentUniqueID());
          costAccounts.add(cat);
+      }
+   }
+
+   /**
+    * Write units of measure.
+    */
+   private void writeUnitsOfMeasure()
+   {
+      List<UnitOfMeasureType> units = m_apibo.getUnitOfMeasure();
+      for (UnitOfMeasure uom : m_projectFile.getUnitsOfMeasure())
+      {
+         UnitOfMeasureType unit = m_factory.createUnitOfMeasureType();
+         unit.setObjectId(uom.getUniqueID());
+         unit.setAbbreviation(uom.getAbbreviation());
+         unit.setName(uom.getName());
+         unit.setSequenceNumber(uom.getSequenceNumber());
+         units.add(unit);
       }
    }
 
@@ -821,6 +842,7 @@ final class PrimaveraPMProjectWriter
       xml.setResourceType(ResourceTypeHelper.getXmlFromInstance(mpxj.getType()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
       xml.setLocationObjectId(mpxj.getLocationUniqueID());
+      xml.setUnitOfMeasureObjectId(mpxj.getUnitOfMeasureUniqueID());
 
       // Write both attributes for backward compatibility,
       // "DefaultUnitsPerTime" is the value read by recent versions of P6

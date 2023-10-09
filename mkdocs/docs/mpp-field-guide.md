@@ -631,6 +631,7 @@ Standard Rate Units| |✓|✓|✓
 Subproject Unique Resource ID| |✓|✓| 
 Type|✓|✓|✓|✓
 Unique ID|✓|✓|✓|✓
+Unit of Measure Unique ID| |✓|✓|✓
 Windows User Account| |✓|✓|✓
 Work|✓|✓|✓|✓
 Work Variance|✓|✓|✓|✓

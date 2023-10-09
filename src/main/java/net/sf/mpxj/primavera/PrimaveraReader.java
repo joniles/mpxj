@@ -53,6 +53,9 @@ import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
+
+import net.sf.mpxj.UnitOfMeasure;
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -248,6 +251,33 @@ final class PrimaveraReader
       CostAccountContainer container = m_project.getCostAccounts();
       accounts.forEach(row -> container.add(new CostAccount(row.getInteger("acct_id"), row.getString("acct_short_name"), row.getString("acct_name"), row.getString("acct_descr"), row.getInteger("acct_seq_num"))));
       accounts.forEach(row -> container.getByUniqueID(row.getInteger("acct_id")).setParent(container.getByUniqueID(row.getInteger("parent_acct_id"))));
+   }
+
+   /**
+    * Process units of measure.
+    *
+    * @param units units of measure
+    */
+   public void processUnitsOfMeasure(List<Row> units)
+   {
+      UnitOfMeasureContainer container = m_project.getUnitsOfMeasure();
+      units.forEach(row -> container.add(processUnitOfMeasure(row)));
+   }
+
+   /**
+    * Create a unit of measure instance.
+    *
+    * @param row unit of measure data
+    * @return UnitOfMeasure instance
+    */
+   private UnitOfMeasure processUnitOfMeasure(Row row)
+   {
+      return new UnitOfMeasure.Builder()
+         .uniqueID(row.getInteger("unit_id"))
+         .abbreviation(row.getString("unit_abbrev"))
+         .name(row.getString("unit_name"))
+         .sequenceNumber(row.getInteger("seq_num"))
+         .build();
    }
 
    /**
@@ -2056,6 +2086,7 @@ final class PrimaveraReader
       map.put(ResourceField.SEQUENCE_NUMBER, "rsrc_seq_num");
       map.put(ResourceField.ACTIVE, "active_flag");
       map.put(ResourceField.LOCATION_UNIQUE_ID, "location_id");
+      map.put(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID, "unit_id");
 
       return map;
    }

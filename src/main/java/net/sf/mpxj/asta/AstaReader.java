@@ -72,6 +72,7 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
 import net.sf.mpxj.common.LocalDateHelper;
@@ -212,6 +213,7 @@ final class AstaReader
       //
       // Process consumable resources
       //
+      UnitOfMeasureContainer uom = m_project.getUnitsOfMeasure();
       for (Row row : consumableRows)
       {
          Resource resource = m_project.addResource();
@@ -223,7 +225,7 @@ final class AstaReader
          resource.setAvailableFrom(row.getDate("AVAILABLE_FROM"));
          resource.setAvailableTo(row.getDate("AVAILABLE_TO"));
          resource.setGeneric(row.getBoolean("CREATED_AS_FOLDER"));
-         resource.setMaterialLabel(row.getString("MEASUREMENT"));
+         resource.setUnitOfMeasure(uom.getOrCreateByAbbreviation(row.getString("MEASUREMENT")));
          resource.setInitials(getInitials(resource.getName()));
 
          CostRateTable table = new CostRateTable();

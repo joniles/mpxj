@@ -37,6 +37,8 @@ import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.UnitOfMeasure;
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -200,8 +202,9 @@ public final class MPPReader extends AbstractProjectStreamReader
          projectFile.getCalendars().removeIf(c -> c.isDerived() && !resourceCalendarMap.containsKey(c.getUniqueID()));
 
          //
-         // Resource calendar post processing
+         // Resource post-processing
          //
+         UnitOfMeasureContainer unitsOfMeasure = projectFile.getUnitsOfMeasure();
          for (Resource resource : projectFile.getResources())
          {
             ProjectCalendar calendar = resource.getCalendar();
@@ -224,6 +227,12 @@ public final class MPPReader extends AbstractProjectStreamReader
                   }
                   calendar.setName(name);
                }
+            }
+
+            UnitOfMeasure uom = unitsOfMeasure.getOrCreateByAbbreviation(resource.getMaterialLabel());
+            if (uom != null)
+            {
+               resource.setUnitOfMeasure(uom);
             }
          }
 

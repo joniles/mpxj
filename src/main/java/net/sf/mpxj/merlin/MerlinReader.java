@@ -47,6 +47,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.common.LocalDateHelper;
@@ -312,6 +313,8 @@ public final class MerlinReader extends AbstractProjectFileReader
    private void processResources() throws SQLException
    {
       List<Row> rows = getRows("select * from zresource where zproject=? order by zorderinproject", m_projectID);
+      UnitOfMeasureContainer uom = m_project.getUnitsOfMeasure();
+
       for (Row row : rows)
       {
          Resource resource = m_project.addResource();
@@ -321,7 +324,7 @@ public final class MerlinReader extends AbstractProjectFileReader
          resource.setName(row.getString("ZTITLE_"));
          resource.setGUID(row.getUUID("ZUNIQUEID"));
          resource.setType(row.getResourceType("ZTYPE"));
-         resource.setMaterialLabel(row.getString("ZMATERIALUNIT"));
+         resource.setUnitOfMeasure(uom.getOrCreateByAbbreviation(row.getString("ZMATERIALUNIT")));
 
          if (resource.getType() == ResourceType.WORK)
          {

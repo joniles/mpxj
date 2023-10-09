@@ -220,6 +220,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          addListenersToProject(project);
 
          processProjectID();
+         processUnitsOfMeasure();
          processUserDefinedFields();
          processLocations();
          processProjectProperties();
@@ -461,6 +462,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private void processCostAccounts()
    {
       m_reader.processCostAccounts(getRows("account", null, null));
+   }
+
+   /**
+    * Process units of measure.
+    */
+   private void processUnitsOfMeasure()
+   {
+      m_reader.processUnitsOfMeasure(getRows("umeasure", null, null));
    }
 
    /**
@@ -1259,6 +1268,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("udf_type_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("udf_type_label", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("udf_type_name", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("unit_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("wbs_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("wbs_memo_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("week_hr_cnt", XerFieldType.DOUBLE);
@@ -1294,6 +1304,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       REQUIRED_TABLES.add("rsrccurvdata");
       REQUIRED_TABLES.add("taskproc");
       REQUIRED_TABLES.add("location");
+      REQUIRED_TABLES.add("umeasure");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();

@@ -574,6 +574,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * Retrieve the units of measure available for this schedule.
+    *
+    * @return units of measure
+    */
+   public UnitOfMeasureContainer getUnitsOfMeasure()
+   {
+      return m_unitsOfMeasure;
+   }
+
+   /**
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project properties. If a calendar of this name cannot be found, then
     * the first calendar listed for the project will be returned. If the
@@ -804,6 +814,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final WorkContourContainer m_workContours = new WorkContourContainer(this);
    private final NotesTopicContainer m_notesTopics = new NotesTopicContainer(this);
    private final LocationContainer m_locations = new LocationContainer(this);
+   private final UnitOfMeasureContainer m_unitsOfMeasure = new UnitOfMeasureContainer(this);
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
    private final List<Exception> m_ignoredErrors = new ArrayList<>();

@@ -240,10 +240,11 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * Set the units label for a material resource.
     *
     * @param materialLabel material resource units label
+    * @deprecated use setUnitOfMeasure
     */
-   public void setMaterialLabel(String materialLabel)
+   @Deprecated public void setMaterialLabel(String materialLabel)
    {
-      set(ResourceField.MATERIAL_LABEL, materialLabel);
+
    }
 
    /**
@@ -2549,6 +2550,46 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Retrieve the unit of measure unique ID.
+    *
+    * @return unit of measure unique ID
+    */
+   public Integer getUnitOfMeasureUniqueID()
+   {
+      return (Integer) get(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID);
+   }
+
+   /**
+    * Sets the unit of measure unique ID.
+    *
+    * @param uniqueID unit of measure unique ID
+    */
+   public void setUnitOfMeasureUniqueID(Integer uniqueID)
+   {
+      set(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID, uniqueID);
+   }
+
+   /**
+    * Retrieves the unit of measure for this resource.
+    *
+    * @return unit of measure instance
+    */
+   public UnitOfMeasure getUnitOfMeasure()
+   {
+      return getParentFile().getUnitsOfMeasure().getByUniqueID(getUnitOfMeasureUniqueID());
+   }
+
+   /**
+    * Sets the unit of measure instance for this resource.
+    *
+    * @param unitOfMeasure unit of measure instance
+    */
+   public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure)
+   {
+      setUnitOfMeasureUniqueID(unitOfMeasure == null ? null : unitOfMeasure.getUniqueID());
+   }
+
+   /**
     * Maps a field index to a ResourceField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
@@ -2729,6 +2770,12 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return entry.getCostPerUse();
    }
 
+   private String calculateMaterialLabel()
+   {
+      UnitOfMeasure uom = getUnitOfMeasure();
+      return uom == null ? null : uom.getAbbreviation();
+   }
+
    private LocalDateTime calculateStart()
    {
       return m_assignments.stream().map(a -> a.getStart()).filter(Objects::nonNull).min(Comparator.naturalOrder()).orElse(null);
@@ -2807,6 +2854,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.STANDARD_RATE, Resource::calculateStandardRate);
       CALCULATED_FIELD_MAP.put(ResourceField.OVERTIME_RATE, Resource::calculateOvertimeRate);
       CALCULATED_FIELD_MAP.put(ResourceField.COST_PER_USE, Resource::calculateCostPerUse);
+      CALCULATED_FIELD_MAP.put(ResourceField.MATERIAL_LABEL, Resource::calculateMaterialLabel);
       CALCULATED_FIELD_MAP.put(ResourceField.START, Resource::calculateStart);
       CALCULATED_FIELD_MAP.put(ResourceField.FINISH, Resource::calculateFinish);
       CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
@@ -2823,5 +2871,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       dependencies.calculatedField(ResourceField.CV).dependsOn(ResourceField.BCWP, ResourceField.ACWP);
       dependencies.calculatedField(ResourceField.SV).dependsOn(ResourceField.BCWP, ResourceField.BCWS);
       dependencies.calculatedField(ResourceField.OVERALLOCATED).dependsOn(ResourceField.PEAK, ResourceField.MAX_UNITS);
+      dependencies.calculatedField(ResourceField.MATERIAL_LABEL).dependsOn(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID);
    }
 }
