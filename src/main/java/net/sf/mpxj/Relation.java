@@ -120,6 +120,7 @@ public final class Relation implements ProjectEntityWithUniqueID
     */
    public void setUniqueID(Integer uniqueID)
    {
+      m_sourceTask.getParentFile().getRelations().updateUniqueID(this, m_uniqueID, uniqueID);
       m_uniqueID = uniqueID;
    }
 
