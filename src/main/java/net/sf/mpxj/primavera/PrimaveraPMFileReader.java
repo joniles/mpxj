@@ -48,6 +48,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.UnitOfMeasure;
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Location;
 import net.sf.mpxj.LocationContainer;
@@ -60,6 +62,7 @@ import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
+import net.sf.mpxj.primavera.schema.UnitOfMeasureType;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -431,6 +434,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
 
          processGlobalProperties(apibo);
+         processUnitsOfMeasure(apibo);
          processExpenseCategories(apibo);
          processCostAccounts(apibo);
          processNotebookTopics(apibo);
@@ -715,6 +719,22 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       CostAccountContainer container = m_projectFile.getCostAccounts();
       apibo.getCostAccount().forEach(c -> container.add(new CostAccount(c.getObjectId(), c.getId(), c.getName(), c.getDescription(), c.getSequenceNumber())));
       apibo.getCostAccount().forEach(c -> container.getByUniqueID(c.getObjectId()).setParent(container.getByUniqueID(c.getParentObjectId())));
+   }
+
+   private void processUnitsOfMeasure(APIBusinessObjects apibo)
+   {
+      UnitOfMeasureContainer container = m_projectFile.getUnitsOfMeasure();
+      apibo.getUnitOfMeasure().forEach(u -> container.add(processUnitOfMeasure(u)));
+   }
+
+   private UnitOfMeasure processUnitOfMeasure(UnitOfMeasureType u)
+   {
+      return new UnitOfMeasure.Builder()
+         .setUniqueID(u.getObjectId())
+         .setAbbreviation(u.getAbbreviation())
+         .setName(u.getName())
+         .setSequenceNumber(u.getSequenceNumber())
+         .build();
    }
 
    /**
@@ -1014,6 +1034,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setSequenceNumber(xml.getSequenceNumber());
          resource.setActive(BooleanHelper.getBoolean(xml.isIsActive()));
          resource.setLocationUniqueID(xml.getLocationObjectId());
+         resource.setUnitOfMeasureUniqueID(xml.getUnitOfMeasureObjectId());
 
          populateUserDefinedFieldValues(resource, xml.getUDF());
 

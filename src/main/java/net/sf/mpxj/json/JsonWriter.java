@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.ProjectCalendarDays;
@@ -218,6 +219,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeCustomFields();
          writeWorkContours();
          writeActivityCodes();
+         writeUnitsOfMeasure();
          writeCalendars();
          writeResources();
          writeTasks();
@@ -367,6 +369,31 @@ public final class JsonWriter extends AbstractProjectWriter
       writeStringField("data_type", field.getDataType().toString().toLowerCase());
       writeStringField("internal_name", field.name().toLowerCase());
       writeStringField("external_name", field.getName());
+      m_writer.writeEndObject();
+   }
+
+   private void writeUnitsOfMeasure() throws IOException
+   {
+      if (m_projectFile.getUnitsOfMeasure().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("units_of_measure");
+      for (UnitOfMeasure uom : m_projectFile.getUnitsOfMeasure())
+      {
+         writeUnitOfMeasure(uom);
+      }
+      m_writer.writeEndList();
+   }
+
+   private void writeUnitOfMeasure(UnitOfMeasure uom) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeMandatoryIntegerField("unique_id", uom.getUniqueID());
+      writeStringField("abbreviation", uom.getAbbreviation());
+      writeStringField("name", uom.getName());
+      writeMandatoryIntegerField("sequence_number", uom.getSequenceNumber());
       m_writer.writeEndObject();
    }
 
