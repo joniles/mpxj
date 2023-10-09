@@ -573,6 +573,11 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_locations;
    }
 
+   /**
+    * Retrieve the units of measure available for this schedule.
+    *
+    * @return units of measure
+    */
    public UnitOfMeasureContainer getUnitsOfMeasure()
    {
       return m_unitsOfMeasure;

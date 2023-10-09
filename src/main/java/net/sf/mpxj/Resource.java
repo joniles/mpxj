@@ -2549,21 +2549,41 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       setLocationUniqueID(location == null ? null : location.getUniqueID());
    }
 
+   /**
+    * Retrieve the unit of measure unique ID.
+    *
+    * @return unit of measure unique ID
+    */
    public Integer getUnitOfMeasureUniqueID()
    {
       return (Integer) get(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID);
    }
 
+   /**
+    * Sets the unit of measure unique ID.
+    *
+    * @param uniqueID unit of measure unique ID
+    */
    public void setUnitOfMeasureUniqueID(Integer uniqueID)
    {
       set(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID, uniqueID);
    }
 
+   /**
+    * Retrieves the unit of measure for this resource.
+    *
+    * @return unit of measure instance
+    */
    public UnitOfMeasure getUnitOfMeasure()
    {
       return getParentFile().getUnitsOfMeasure().getByUniqueID(getUnitOfMeasureUniqueID());
    }
 
+   /**
+    * Sets the unit of measure instance for this resource.
+    *
+    * @param unitOfMeasure unit of measure instance
+    */
    public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure)
    {
       setUnitOfMeasureUniqueID(unitOfMeasure == null ? null : unitOfMeasure.getUniqueID());
