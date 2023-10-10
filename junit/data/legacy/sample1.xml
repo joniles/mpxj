@@ -1416,7 +1416,6 @@ formatting.
             <IsEnterprise>0</IsEnterprise>
             <BookingType>0</BookingType>
             <IsBudget>0</IsBudget>
-            <AvailabilityPeriods/>
         </Resource>
         <Resource>
             <UID>2</UID>
@@ -1453,7 +1452,6 @@ formatting.
             <IsEnterprise>0</IsEnterprise>
             <BookingType>0</BookingType>
             <IsBudget>0</IsBudget>
-            <AvailabilityPeriods/>
         </Resource>
     </Resources>
     <Assignments>

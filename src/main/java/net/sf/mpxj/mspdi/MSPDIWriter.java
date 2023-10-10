@@ -1330,14 +1330,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAvailability(Project.Resources.Resource xml, Resource mpx)
    {
-      AvailabilityPeriods periods = m_factory.createProjectResourcesResourceAvailabilityPeriods();
-      xml.setAvailabilityPeriods(periods);
-
       AvailabilityTable table = mpx.getAvailability();
       if (table.isEmpty() || table.hasDefaultDateRange())
       {
          return;
       }
+
+      AvailabilityPeriods periods = m_factory.createProjectResourcesResourceAvailabilityPeriods();
+      xml.setAvailabilityPeriods(periods);
 
       List<AvailabilityPeriod> list = periods.getAvailabilityPeriod();
       for (Availability availability : table)
