@@ -664,13 +664,11 @@ final class PrimaveraReader
 
          resource.setNotesObject(getNotes(resource.getNotes()));
 
-         Number defaultUnitsPerTime = row.getDouble("def_qty_per_hr");
          // Note: if default units per time is an empty field, this represents a value of zero in P6
+         Number defaultUnitsPerTime = row.getDouble("def_qty_per_hr");
          defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
-
-
          resource.setDefaultUnits(defaultUnitsPerTime);
-         resource.setMaxUnits(defaultUnitsPerTime);
+
 
          m_eventManager.fireResourceReadEvent(resource);
       }

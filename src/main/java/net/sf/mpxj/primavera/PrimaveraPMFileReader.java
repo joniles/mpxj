@@ -1040,7 +1040,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setCreationDate(xml.getCreateDate());
          resource.setType(ResourceTypeHelper.getInstanceFromXml(xml.getResourceType()));
          resource.setDefaultUnits(defaultUnitsPerTime);
-         resource.setMaxUnits(defaultUnitsPerTime);
          resource.setParentResourceUniqueID(xml.getParentObjectId());
          resource.setResourceID(xml.getId());
          resource.setCalendar(m_projectFile.getCalendars().getByUniqueID(xml.getCalendarObjectId()));

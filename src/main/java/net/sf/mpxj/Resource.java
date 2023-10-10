@@ -2348,6 +2348,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Retrieve the availability table entry effective for the current date.
+    *
+    * @return availability table entry
+    */
+   public Availability getCurrentAvailabilityTableEntry()
+   {
+      return m_availability.getEntryByDate(LocalDateTime.now());
+   }
+
+   /**
     * Retrieve the budget cost.
     *
     * @return budget cost value
@@ -2818,6 +2828,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return m_assignments.stream().map(a -> a.getFinish()).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
    }
 
+   private Number calculateMaxUnits()
+   {
+      Availability entry = getCurrentAvailabilityTableEntry();
+      if (entry == null)
+      {
+         return null;
+      }
+      return entry.getUnits();
+   }
+
    /**
     * This method implements the only method in the Comparable interface. This
     * allows Resources to be compared and sorted based on their ID value. Note
@@ -2887,6 +2907,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.OVERTIME_RATE, Resource::calculateOvertimeRate);
       CALCULATED_FIELD_MAP.put(ResourceField.COST_PER_USE, Resource::calculateCostPerUse);
       CALCULATED_FIELD_MAP.put(ResourceField.MATERIAL_LABEL, Resource::calculateMaterialLabel);
+      CALCULATED_FIELD_MAP.put(ResourceField.MAX_UNITS, Resource::calculateMaxUnits);
       CALCULATED_FIELD_MAP.put(ResourceField.START, Resource::calculateStart);
       CALCULATED_FIELD_MAP.put(ResourceField.FINISH, Resource::calculateFinish);
       CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
