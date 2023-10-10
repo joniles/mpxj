@@ -1323,7 +1323,7 @@ final class PrimaveraPMProjectWriter
          if (costRateTableWriteRequired(entry))
          {
             Availability availability = availabilityTable.getEntryByDate(entry.getStartDate());
-            Double maxUnits = availability == null ? Double.valueOf(1) : Double.valueOf(availability.getUnits().doubleValue() / 100.0);
+            Double maxUnits = availability == null || availability.getUnits() == null ? Double.valueOf(1) : Double.valueOf(availability.getUnits().doubleValue() / 100.0);
 
             ResourceRateType rate = m_factory.createResourceRateType();
             m_apibo.getResourceRate().add(rate);

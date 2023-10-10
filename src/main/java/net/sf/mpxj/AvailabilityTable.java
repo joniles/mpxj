@@ -26,6 +26,8 @@ package net.sf.mpxj;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import net.sf.mpxj.common.LocalDateTimeHelper;
+
 /**
  * This class represents a resource's availability table.
  */
@@ -60,5 +62,10 @@ public final class AvailabilityTable extends ArrayList<Availability>
       }
 
       return result;
+   }
+
+   public boolean hasDefaultDateRange()
+   {
+      return size() == 1 && LocalDateTimeHelper.NA.equals(get(0).getRange());
    }
 }

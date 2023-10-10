@@ -1377,7 +1377,7 @@
             <WorkGroup>0</WorkGroup>
             <MaxUnits>1</MaxUnits>
             <PeakUnits>1.5</PeakUnits>
-            <OverAllocated>0</OverAllocated>
+            <OverAllocated>1</OverAllocated>
             <Start>2003-01-07T08:00:00</Start>
             <Finish>2003-03-17T17:00:00</Finish>
             <CanLevel>0</CanLevel>
@@ -1428,7 +1428,7 @@ formatting.
             <WorkGroup>0</WorkGroup>
             <MaxUnits>1</MaxUnits>
             <PeakUnits>1.75</PeakUnits>
-            <OverAllocated>0</OverAllocated>
+            <OverAllocated>1</OverAllocated>
             <Start>2003-01-07T23:00:00</Start>
             <Finish>2003-03-18T08:00:00</Finish>
             <CanLevel>0</CanLevel>
