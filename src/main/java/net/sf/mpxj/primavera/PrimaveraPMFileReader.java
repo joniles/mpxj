@@ -1037,6 +1037,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setCreationDate(xml.getCreateDate());
          resource.setType(ResourceTypeHelper.getInstanceFromXml(xml.getResourceType()));
          // Note: a default units per time value of zero represents an empty field in P6
+         resource.setDefaultUnits(defaultUnitsPerTime == null || defaultUnitsPerTime.doubleValue() == 0.0 ? null : NumberHelper.getDouble(defaultUnitsPerTime.doubleValue() * 100));
          resource.setMaxUnits(defaultUnitsPerTime == null || defaultUnitsPerTime.doubleValue() == 0.0 ? null : NumberHelper.getDouble(defaultUnitsPerTime.doubleValue() * 100));
          resource.setParentResourceUniqueID(xml.getParentObjectId());
          resource.setResourceID(xml.getId());
