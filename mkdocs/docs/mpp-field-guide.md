@@ -612,7 +612,7 @@ Hyperlink SubAddress| |✓|✓|✓
 ID|✓|✓|✓|✓
 Initials|✓|✓|✓|✓
 Material Label| |✓|✓|✓
-Max Units|✓|✓|✓|✓
+Max Units| |✓|✓|✓
 Name|✓|✓|✓|✓
 Notes|✓|✓|✓|✓
 Overallocated|✓|✓|✓|✓

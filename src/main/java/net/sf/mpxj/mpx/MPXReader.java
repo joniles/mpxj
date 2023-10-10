@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -772,7 +773,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
             case MAX_UNITS:
             {
-               resource.set(resourceField, record.getUnits(i));
+               resource.getAvailability().add(new Availability(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, record.getUnits(i)));
                break;
             }
 
@@ -856,6 +857,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       CostRateTable table = new CostRateTable();
       table.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
       resource.setCostRateTable(0, table);
+
 
       //
       // Handle malformed MPX files - ensure we have a unique ID
