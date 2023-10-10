@@ -418,6 +418,26 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Sets the default availability of a resource.
+    *
+    * @param defaultUnits default availability
+    */
+   public void setDefaultUnits(Number defaultUnits)
+   {
+      set(ResourceField.DEFAULT_UNITS, defaultUnits);
+   }
+
+   /**
+    * Retrieves the default availability of a resource.
+    *
+    * @return maximum availability
+    */
+   public Number getDefaultUnits()
+   {
+      return (Number) get(ResourceField.DEFAULT_UNITS);
+   }
+
+   /**
     * Sets the maximum availability of a resource.
     *
     * @param maxUnits maximum availability
@@ -2730,6 +2750,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return Boolean.TRUE;
    }
 
+   /**
+    * Supply a default value for the default units.
+    *
+    * @return default value for default units
+    */
+   private Number defaultDefaultUnits()
+   {
+      return DEFAULT_DEFAULT_UNITS;
+   }
+
    private Double calculateSV()
    {
       Double variance = null;
@@ -2863,6 +2893,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.ROLE, Resource::defaultRoleFlag);
       CALCULATED_FIELD_MAP.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, Resource::defaultCalculateCostsFromUnits);
       CALCULATED_FIELD_MAP.put(ResourceField.ACTIVE, Resource::defaultActive);
+      CALCULATED_FIELD_MAP.put(ResourceField.DEFAULT_UNITS, Resource::defaultDefaultUnits);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
@@ -2875,4 +2906,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       dependencies.calculatedField(ResourceField.OVERALLOCATED).dependsOn(ResourceField.PEAK, ResourceField.MAX_UNITS);
       dependencies.calculatedField(ResourceField.MATERIAL_LABEL).dependsOn(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID);
    }
+
+   private static final Number DEFAULT_DEFAULT_UNITS = Double.valueOf(100.0);
 }
