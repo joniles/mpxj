@@ -441,14 +441,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * Sets the maximum availability of a resource.
     *
     * @param maxUnits maximum availability
+    * @deprecated create entries in the availability table to set this value
     */
-   public void setMaxUnits(Number maxUnits)
+   @Deprecated public void setMaxUnits(Number maxUnits)
    {
       set(ResourceField.MAX_UNITS, maxUnits);
    }
 
    /**
-    * Retrieves the maximum availability of a resource.
+    * Retrieves the maximum availability of a resource on the current date.
+    * Refer to teh availability table to retrieve this value for other dates.
     *
     * @return maximum availability
     */
