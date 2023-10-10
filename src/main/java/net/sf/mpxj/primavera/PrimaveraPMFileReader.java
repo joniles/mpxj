@@ -1028,6 +1028,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             defaultUnitsPerTime = xml.getMaxUnitsPerTime();
          }
 
+         // Note: if default units per time is an empty field, this represents a value of zero in P6
+         defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
+
          resource.setUniqueID(xml.getObjectId());
          resource.setName(xml.getName());
          resource.setCode(xml.getEmployeeId());
@@ -1036,9 +1039,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setNotesObject(getNotes(xml.getResourceNotes()));
          resource.setCreationDate(xml.getCreateDate());
          resource.setType(ResourceTypeHelper.getInstanceFromXml(xml.getResourceType()));
-         // Note: a default units per time value of zero represents an empty field in P6
-         resource.setDefaultUnits(defaultUnitsPerTime == null || defaultUnitsPerTime.doubleValue() == 0.0 ? null : NumberHelper.getDouble(defaultUnitsPerTime.doubleValue() * 100));
-         resource.setMaxUnits(defaultUnitsPerTime == null || defaultUnitsPerTime.doubleValue() == 0.0 ? null : NumberHelper.getDouble(defaultUnitsPerTime.doubleValue() * 100));
+         resource.setDefaultUnits(defaultUnitsPerTime);
+         resource.setMaxUnits(defaultUnitsPerTime);
          resource.setParentResourceUniqueID(xml.getParentObjectId());
          resource.setResourceID(xml.getId());
          resource.setCalendar(m_projectFile.getCalendars().getByUniqueID(xml.getCalendarObjectId()));

@@ -823,8 +823,7 @@ final class PrimaveraPMProjectWriter
       }
 
       // Note: a default units per time value of zero represents an empty field in P6
-      Number maxUnits = mpxj.getMaxUnits();
-      Double defaultUnitsPerTime = maxUnits == null ? Double.valueOf(0) : Double.valueOf(maxUnits.doubleValue() / 100.0);
+      Double defaultUnitsPerTime = mpxj.getDefaultUnits() == null ? Double.valueOf(0) : Double.valueOf(mpxj.getDefaultUnits().doubleValue() / 100.0);
 
       xml.setAutoComputeActuals(Boolean.TRUE);
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
