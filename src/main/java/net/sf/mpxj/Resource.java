@@ -2167,6 +2167,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
    /**
     * Set the rate field.
+    * Note that this is a TurboProject-specific field.
     *
     * @param value rate value
     */
@@ -2177,6 +2178,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
    /**
     * Retrieve the rate field.
+    * Note that this is a TurboProject-specific field.
     *
     * @return rate value
     */
