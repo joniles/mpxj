@@ -1618,7 +1618,7 @@ final class MPP9Reader implements MPPVariantReader
          // Process availability table
          //
          AvailabilityFactory af = new AvailabilityFactory();
-         af.process(resource.getAvailability(), rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.AVAILABILITY_DATA)));
+         af.process(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.AVAILABILITY_DATA)));
 
          //
          // Process resource type
