@@ -599,6 +599,7 @@ Cost Rate D| |✓|✓|✓
 Cost Rate E| |✓|✓|✓
 Cost Variance|✓|✓|✓|✓
 Created| |✓|✓|✓
+Default Units|✓|✓|✓|✓
 Email Address| |✓|✓|✓
 GUID| | |✓|✓
 Generic| |✓|✓|✓

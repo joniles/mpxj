@@ -1010,7 +1010,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("rsrc_name", r -> r.getName());
       RESOURCE_COLUMNS.put("rsrc_short_name", r -> r.getResourceID());
       RESOURCE_COLUMNS.put("rsrc_title_name", r -> "");
-      RESOURCE_COLUMNS.put("def_qty_per_hr", r -> r.getDefaultUnits() == null ? null : Double.valueOf(r.getDefaultUnits().doubleValue() / 100.0));
+      RESOURCE_COLUMNS.put("def_qty_per_hr", r -> r.getDefaultUnits() == null || r.getDefaultUnits().doubleValue() == 0.0 ? null : Double.valueOf(r.getDefaultUnits().doubleValue() / 100.0));
       RESOURCE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
       RESOURCE_COLUMNS.put("ot_factor", r -> "");
       RESOURCE_COLUMNS.put("active_flag", r -> Boolean.valueOf(r.getActive()));
