@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -431,6 +432,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeFields(resource, ResourceField.values());
          writeFields(resource, m_projectFile.getUserDefinedFields().getResourceFields().toArray(new FieldType[0]));
          writeCostRateTables(resource);
+         writeAvailabilityTable(resource);
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
@@ -712,6 +714,31 @@ public final class JsonWriter extends AbstractProjectWriter
          }
          m_writer.writeEndObject();
       }
+   }
+
+   /**
+    * Write the availability table for a resource.
+    *
+    * @param resource parent resource
+    */
+   private void writeAvailabilityTable(Resource resource) throws IOException
+   {
+      List<Availability> availability = resource.getAvailability();
+      if (availability.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("availability_table");
+      for (Availability entry : availability)
+      {
+         m_writer.writeStartObject(null);
+         writeTimestampField("start", entry.getRange().getStart());
+         writeTimestampField("end", entry.getRange().getEnd());
+         writeDoubleField("units", entry.getUnits());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
    }
 
    /**
