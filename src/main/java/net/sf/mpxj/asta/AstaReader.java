@@ -43,6 +43,7 @@ import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTable;
@@ -191,9 +192,10 @@ final class AstaReader
          // EFFORT_TIME_UNIT
          resource.setName(row.getString("NASE"));
          resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAV")));
-         resource.setMaxUnits(Double.valueOf(row.getDouble("AVAILABILITY").doubleValue() * 100));
          resource.setGeneric(row.getBoolean("CREATED_AS_FOLDER"));
          resource.setInitials(getInitials(resource.getName()));
+
+         resource.getAvailability().add(new Availability(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, Double.valueOf(row.getDouble("AVAILABILITY").doubleValue() * 100)));
       }
 
       //
@@ -219,7 +221,6 @@ final class AstaReader
          Resource resource = m_project.addResource();
          resource.setType(ResourceType.MATERIAL);
          resource.setUniqueID(row.getInteger("CONSUMABLE_RESOURCEID"));
-         resource.setPeakUnits(Double.valueOf(row.getDouble("AVAILABILITY").doubleValue() * 100));
          resource.setName(row.getString("NASE"));
          resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAV")));
          resource.setAvailableFrom(row.getDate("AVAILABLE_FROM"));
@@ -231,6 +232,12 @@ final class AstaReader
          CostRateTable table = new CostRateTable();
          table.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, row.getDouble("COST_PER_USEDEFAULTSAMOUNT")));
          resource.setCostRateTable(0, table);
+
+         LocalDateTime availableFrom = row.getDate("AVAILABLE_FROM");
+         LocalDateTime availableTo = row.getDate("AVAILABLE_TO");
+         availableFrom = availableFrom == null ? LocalDateTimeHelper.START_DATE_NA : availableFrom;
+         availableTo = availableTo == null ? LocalDateTimeHelper.END_DATE_NA : availableTo;
+         resource.getAvailability().add(new Availability(availableFrom, availableTo, Double.valueOf(row.getDouble("AVAILABILITY").doubleValue() * 100)));
       }
    }
 

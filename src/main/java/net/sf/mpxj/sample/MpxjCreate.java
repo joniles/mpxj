@@ -26,6 +26,7 @@ package net.sf.mpxj.sample;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.Duration;
@@ -38,6 +39,7 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.ProjectWriterUtility;
@@ -148,7 +150,7 @@ public class MpxjCreate
       // output file format when alternative separators and delimiters
       // are used.
       //
-      resource2.setMaxUnits(Double.valueOf(50.0));
+      resource2.getAvailability().add(new Availability(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, Double.valueOf(50.0)));
 
       //
       // Create a summary task
