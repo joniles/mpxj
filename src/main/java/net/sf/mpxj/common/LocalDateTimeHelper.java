@@ -210,9 +210,4 @@ public final class LocalDateTimeHelper
     * TODO: consider making this behaviour configurable.
     */
    public static final LocalDateTime END_DATE_NA = LocalDateTime.of(2049, 12, 31, 23, 59);
-
-   /**
-    * Default range.
-    */
-   public static final LocalDateTimeRange NA = new LocalDateTimeRange(START_DATE_NA, END_DATE_NA);
 }

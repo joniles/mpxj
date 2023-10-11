@@ -1331,7 +1331,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private void writeAvailability(Project.Resources.Resource xml, Resource mpx)
    {
       AvailabilityTable table = mpx.getAvailability();
-      if (table.isEmpty() || table.hasDefaultDateRange())
+      if (table.hasDefaultDateRange())
       {
          return;
       }
