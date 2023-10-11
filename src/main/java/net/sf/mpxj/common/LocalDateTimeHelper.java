@@ -29,7 +29,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 
 import net.sf.mpxj.Duration;
-import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.TimeUnit;
 
