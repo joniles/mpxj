@@ -65,11 +65,22 @@ public final class AvailabilityTable extends ArrayList<Availability>
       return result;
    }
 
+   /**
+    * Determine if this table only contains a sinle entry with empty start and end dates.
+    *
+    * @return true if the table just has the default entry
+    */
    public boolean hasDefaultDateRange()
    {
       return size() == 1 && LocalDateTimeHelper.NA.equals(get(0).getRange());
    }
 
+   /**
+    * Calculate the Available From attribute for the given date.
+    *
+    * @param date target date
+    * @return available from attribute
+    */
    public LocalDateTime availableFrom(LocalDateTime date)
    {
       if (unboundedRange())
@@ -118,6 +129,12 @@ public final class AvailabilityTable extends ArrayList<Availability>
       return previousRange.getEnd().plusMinutes(1);
    }
 
+   /**
+    * Calculate the Available To attribute for the given date.
+    *
+    * @param date target date
+    * @return available to attribute
+    */
    public LocalDateTime availableTo(LocalDateTime date)
    {
       if (unboundedRange())
