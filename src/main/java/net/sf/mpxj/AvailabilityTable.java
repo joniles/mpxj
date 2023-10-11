@@ -25,6 +25,7 @@ package net.sf.mpxj;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import net.sf.mpxj.common.LocalDateTimeHelper;
 
@@ -68,4 +69,122 @@ public final class AvailabilityTable extends ArrayList<Availability>
    {
       return size() == 1 && LocalDateTimeHelper.NA.equals(get(0).getRange());
    }
+
+   public LocalDateTime availableFrom(LocalDateTime date)
+   {
+      if (unboundedRange())
+      {
+         return null;
+      }
+
+      // Let's ensure we are sorted
+      sort(Comparator.naturalOrder());
+
+      LocalDateTimeRange previousRange = null;
+      for (Availability availability : this)
+      {
+         LocalDateTimeRange currentRange = availability.getRange();
+
+         LocalDateTime rangeStart = currentRange.getStart();
+         if(rangeStart == null)
+         {
+            rangeStart = LocalDateTimeHelper.START_DATE_NA;
+         }
+
+         // Is our date is before this range?
+         if (date.isBefore(rangeStart))
+         {
+            if (previousRange == null)
+            {
+               return null;
+            }
+            else
+            {
+               return previousRange.getEnd().plusMinutes(1);
+            }
+         }
+
+         // Is our date within this range?
+         LocalDateTime rangeEnd = currentRange.getEnd();
+         if (rangeEnd == null || rangeEnd.isAfter(END_DATE_NA) ||date.isBefore(rangeEnd) || date.isEqual(rangeEnd))
+         {
+            return LocalDateTimeHelper.START_DATE_NA.isEqual(rangeStart) ? null : rangeStart;
+         }
+
+         // Our date is after this range
+         previousRange = currentRange;
+      }
+
+      return previousRange.getEnd().plusMinutes(1);
+   }
+
+   public LocalDateTime availableTo(LocalDateTime date)
+   {
+      if (unboundedRange())
+      {
+         return null;
+      }
+
+      // Let's ensure we are sorted
+      sort(Comparator.naturalOrder());
+      LocalDateTimeRange currentRange = null;
+
+      for (Availability availability : this)
+      {
+         currentRange = availability.getRange();
+
+         LocalDateTime rangeEnd = currentRange.getEnd();
+         if(rangeEnd == null)
+         {
+            rangeEnd = LocalDateTimeHelper.END_DATE_NA;
+         }
+
+         // Is our date after this range?
+         if (date.isAfter(rangeEnd))
+         {
+            continue;
+         }
+
+         LocalDateTime rangeStart = currentRange.getStart();
+         if(rangeStart == null)
+         {
+            rangeStart = LocalDateTimeHelper.START_DATE_NA;
+         }
+
+         // Is our date before this range?
+         if (date.isBefore(rangeStart))
+         {
+            return rangeStart.minusMinutes(1);
+         }
+
+         // Our date is within the range
+         return rangeEnd.isAfter(END_DATE_NA) ? null : rangeEnd;
+      }
+
+      return null;
+   }
+
+   private boolean unboundedRange()
+   {
+      // No ranges
+      if (isEmpty())
+      {
+         return true;
+      }
+
+      // One range, NA start and end dates
+      if (size() == 1)
+      {
+         LocalDateTimeRange range = get(0).getRange();
+         if ((range.getStart() == null || range.getStart().equals(LocalDateTimeHelper.START_DATE_NA)) &&
+            (range.getEnd() == null || range.getEnd().isAfter(END_DATE_NA)))
+         {
+            return true;
+         }
+      }
+
+      return false;
+   }
+
+   public static final LocalDateTime END_DATE_NA = LocalDateTime.of(2049, 12, 31, 23, 58);
 }

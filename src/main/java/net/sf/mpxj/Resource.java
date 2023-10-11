@@ -2840,6 +2840,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return entry.getUnits();
    }
 
+   private LocalDateTime calculateAvailableFrom()
+   {
+      return m_availability.availableFrom(LocalDateTime.now());
+   }
+
+   private LocalDateTime calculateAvailableTo()
+   {
+      return m_availability.availableTo(LocalDateTime.now());
+   }
+
    /**
     * This method implements the only method in the Comparable interface. This
     * allows Resources to be compared and sorted based on their ID value. Note
@@ -2910,6 +2920,8 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.COST_PER_USE, Resource::calculateCostPerUse);
       CALCULATED_FIELD_MAP.put(ResourceField.MATERIAL_LABEL, Resource::calculateMaterialLabel);
       CALCULATED_FIELD_MAP.put(ResourceField.MAX_UNITS, Resource::calculateMaxUnits);
+      CALCULATED_FIELD_MAP.put(ResourceField.AVAILABLE_FROM, Resource::calculateAvailableFrom);
+      CALCULATED_FIELD_MAP.put(ResourceField.AVAILABLE_TO, Resource::calculateAvailableTo);
       CALCULATED_FIELD_MAP.put(ResourceField.START, Resource::calculateStart);
       CALCULATED_FIELD_MAP.put(ResourceField.FINISH, Resource::calculateFinish);
       CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
