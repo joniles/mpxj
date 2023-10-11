@@ -34,6 +34,7 @@ import java.util.Map;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -753,8 +754,6 @@ abstract class MPD9AbstractReader
          //resource.setActualWorkProtected();
          //resource.setActiveDirectoryGUID();
          resource.setACWP(row.getCurrency("RES_ACWP"));
-         resource.setAvailableFrom(row.getDate("RES_AVAIL_FROM"));
-         resource.setAvailableTo(row.getDate("RES_AVAIL_TO"));
          //resource.setBaseCalendar();
          resource.setBaselineCost(getDefaultOnNull(row.getCurrency("RES_BASE_COST"), NumberHelper.DOUBLE_ZERO));
          resource.setBaselineWork(row.getDuration("RES_BASE_WORK"));
@@ -840,7 +839,6 @@ abstract class MPD9AbstractReader
          //resource.setIsNull();
          //resource.setLinkedFields();RES_HAS_LINKED_FIELDS = false ( java.lang.Boolean)
          resource.setUnitOfMeasure(uom.getOrCreateByAbbreviation(row.getString("RES_MATERIAL_LABEL")));
-         resource.setMaxUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("RES_MAX_UNITS")) * 100));
          resource.setName(row.getString("RES_NAME"));
          //resource.setNtAccount();
          //resource.setNumber1();
@@ -978,6 +976,12 @@ abstract class MPD9AbstractReader
          CostRateTable costRateTable = new CostRateTable();
          costRateTable.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
          resource.setCostRateTable(0, costRateTable);
+
+         LocalDateTime availableFrom = row.getDate("RES_AVAIL_FROM");
+         LocalDateTime availableTo = row.getDate("RES_AVAIL_TO");
+         availableFrom = availableFrom == null ? LocalDateTimeHelper.START_DATE_NA : availableFrom;
+         availableTo = availableTo == null ? LocalDateTimeHelper.END_DATE_NA : availableTo;
+         resource.getAvailability().add(new Availability(availableFrom, availableTo, Double.valueOf(NumberHelper.getDouble(row.getDouble("RES_MAX_UNITS")) * 100)));
 
          m_eventManager.fireResourceReadEvent(resource);
 

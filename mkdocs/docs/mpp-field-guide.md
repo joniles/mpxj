@@ -599,6 +599,7 @@ Cost Rate D| |✓|✓|✓
 Cost Rate E| |✓|✓|✓
 Cost Variance|✓|✓|✓|✓
 Created| |✓|✓|✓
+Default Units|✓|✓|✓|✓
 Email Address| |✓|✓|✓
 GUID| | |✓|✓
 Generic| |✓|✓|✓
@@ -611,7 +612,7 @@ Hyperlink SubAddress| |✓|✓|✓
 ID|✓|✓|✓|✓
 Initials|✓|✓|✓|✓
 Material Label| |✓|✓|✓
-Max Units|✓|✓|✓|✓
+Max Units| |✓|✓|✓
 Name|✓|✓|✓|✓
 Notes|✓|✓|✓|✓
 Overallocated|✓|✓|✓|✓

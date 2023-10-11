@@ -49,6 +49,7 @@ import javax.xml.bind.Marshaller;
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
+import net.sf.mpxj.AvailabilityTable;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CustomField;
@@ -1329,10 +1330,17 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAvailability(Project.Resources.Resource xml, Resource mpx)
    {
+      AvailabilityTable table = mpx.getAvailability();
+      if (table.hasDefaultDateRange())
+      {
+         return;
+      }
+
       AvailabilityPeriods periods = m_factory.createProjectResourcesResourceAvailabilityPeriods();
       xml.setAvailabilityPeriods(periods);
+
       List<AvailabilityPeriod> list = periods.getAvailabilityPeriod();
-      for (Availability availability : mpx.getAvailability())
+      for (Availability availability : table)
       {
          AvailabilityPeriod period = m_factory.createProjectResourcesResourceAvailabilityPeriodsAvailabilityPeriod();
          list.add(period);

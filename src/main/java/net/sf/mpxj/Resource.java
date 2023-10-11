@@ -418,17 +418,39 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Sets the default availability of a resource.
+    *
+    * @param defaultUnits default availability
+    */
+   public void setDefaultUnits(Number defaultUnits)
+   {
+      set(ResourceField.DEFAULT_UNITS, defaultUnits);
+   }
+
+   /**
+    * Retrieves the default availability of a resource.
+    *
+    * @return maximum availability
+    */
+   public Number getDefaultUnits()
+   {
+      return (Number) get(ResourceField.DEFAULT_UNITS);
+   }
+
+   /**
     * Sets the maximum availability of a resource.
     *
     * @param maxUnits maximum availability
+    * @deprecated create entries in the availability table to set this value
     */
-   public void setMaxUnits(Number maxUnits)
+   @Deprecated public void setMaxUnits(Number maxUnits)
    {
       set(ResourceField.MAX_UNITS, maxUnits);
    }
 
    /**
-    * Retrieves the maximum availability of a resource.
+    * Retrieves the maximum availability of a resource on the current date.
+    * Refer to the availability table to retrieve this value for other dates.
     *
     * @return maximum availability
     */
@@ -491,8 +513,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * Set the "available from" date.
     *
     * @param date available from date
+    * @deprecated this attribute is now derived from the resources' availability table
     */
-   public void setAvailableFrom(LocalDateTime date)
+   @Deprecated public void setAvailableFrom(LocalDateTime date)
    {
       set(ResourceField.AVAILABLE_FROM, date);
    }
@@ -511,8 +534,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * Set the "available to" date.
     *
     * @param date available to date
+    * @deprecated this attribute is now derived from the resources' availability table
     */
-   public void setAvailableTo(LocalDateTime date)
+   @Deprecated public void setAvailableTo(LocalDateTime date)
    {
       set(ResourceField.AVAILABLE_TO, date);
    }
@@ -2328,6 +2352,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Retrieve the availability table entry effective for the current date.
+    *
+    * @return availability table entry
+    */
+   public Availability getCurrentAvailabilityTableEntry()
+   {
+      return m_availability.getEntryByDate(LocalDateTime.now());
+   }
+
+   /**
     * Retrieve the budget cost.
     *
     * @return budget cost value
@@ -2730,6 +2764,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return Boolean.TRUE;
    }
 
+   /**
+    * Supply a default value for the default units.
+    *
+    * @return default value for default units
+    */
+   private Number defaultDefaultUnits()
+   {
+      return DEFAULT_DEFAULT_UNITS;
+   }
+
    private Double calculateSV()
    {
       Double variance = null;
@@ -2788,6 +2832,22 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return m_assignments.stream().map(a -> a.getFinish()).filter(Objects::nonNull).max(Comparator.naturalOrder()).orElse(null);
    }
 
+   private Number calculateMaxUnits()
+   {
+      Availability entry = getCurrentAvailabilityTableEntry();
+      return entry == null ? null : entry.getUnits();
+   }
+
+   private LocalDateTime calculateAvailableFrom()
+   {
+      return m_availability.availableFrom(LocalDateTime.now());
+   }
+
+   private LocalDateTime calculateAvailableTo()
+   {
+      return m_availability.availableTo(LocalDateTime.now());
+   }
+
    /**
     * This method implements the only method in the Comparable interface. This
     * allows Resources to be compared and sorted based on their ID value. Note
@@ -2843,7 +2903,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    private final CostRateTable[] m_costRateTables;
    private final AvailabilityTable m_availability = new AvailabilityTable();
 
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(ResourceField.STANDARD_RATE, ResourceField.OVERTIME_RATE, ResourceField.COST_PER_USE, ResourceField.START, ResourceField.FINISH));
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(ResourceField.STANDARD_RATE, ResourceField.OVERTIME_RATE, ResourceField.COST_PER_USE, ResourceField.START, ResourceField.FINISH, ResourceField.MAX_UNITS, ResourceField.AVAILABLE_FROM, ResourceField.AVAILABLE_TO));
 
    private static final Map<FieldType, Function<Resource, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
@@ -2857,12 +2917,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.OVERTIME_RATE, Resource::calculateOvertimeRate);
       CALCULATED_FIELD_MAP.put(ResourceField.COST_PER_USE, Resource::calculateCostPerUse);
       CALCULATED_FIELD_MAP.put(ResourceField.MATERIAL_LABEL, Resource::calculateMaterialLabel);
+      CALCULATED_FIELD_MAP.put(ResourceField.MAX_UNITS, Resource::calculateMaxUnits);
+      CALCULATED_FIELD_MAP.put(ResourceField.AVAILABLE_FROM, Resource::calculateAvailableFrom);
+      CALCULATED_FIELD_MAP.put(ResourceField.AVAILABLE_TO, Resource::calculateAvailableTo);
       CALCULATED_FIELD_MAP.put(ResourceField.START, Resource::calculateStart);
       CALCULATED_FIELD_MAP.put(ResourceField.FINISH, Resource::calculateFinish);
       CALCULATED_FIELD_MAP.put(ResourceField.TYPE, Resource::defaultType);
       CALCULATED_FIELD_MAP.put(ResourceField.ROLE, Resource::defaultRoleFlag);
       CALCULATED_FIELD_MAP.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, Resource::defaultCalculateCostsFromUnits);
       CALCULATED_FIELD_MAP.put(ResourceField.ACTIVE, Resource::defaultActive);
+      CALCULATED_FIELD_MAP.put(ResourceField.DEFAULT_UNITS, Resource::defaultDefaultUnits);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();
@@ -2875,4 +2939,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       dependencies.calculatedField(ResourceField.OVERALLOCATED).dependsOn(ResourceField.PEAK, ResourceField.MAX_UNITS);
       dependencies.calculatedField(ResourceField.MATERIAL_LABEL).dependsOn(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID);
    }
+
+   private static final Number DEFAULT_DEFAULT_UNITS = Double.valueOf(100.0);
 }

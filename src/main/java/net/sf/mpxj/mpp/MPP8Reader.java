@@ -26,12 +26,14 @@ package net.sf.mpxj.mpp;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.common.DayOfWeekHelper;
@@ -885,8 +887,6 @@ final class MPP8Reader implements MPPVariantReader
          resource.setActualCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 114)) / 100));
          resource.setActualOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 144)) / 100));
          resource.setActualWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 62)) / 100, TimeUnit.HOURS));
-         resource.setAvailableFrom(MPPUtility.getTimestamp(data, 28));
-         resource.setAvailableTo(MPPUtility.getTimestamp(data, 32));
          //resource.setBaseCalendar();
          resource.setBaselineCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 126)) / 100));
          resource.setBaselineWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 68)) / 100, TimeUnit.HOURS));
@@ -937,7 +937,6 @@ final class MPP8Reader implements MPPVariantReader
          resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
          resource.setInitials(rscVarData.getUnicodeString(getOffset(data, 160)));
          //resource.setLinkedFields(); // Calculated value
-         resource.setMaxUnits(NumberHelper.getDouble(((double) MPPUtility.getInt(data, 52)) / 100));
          resource.setName(rscVarData.getUnicodeString(getOffset(data, 156)));
          resource.setNumber(1, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER1)));
          resource.setNumber(2, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER2)));
@@ -1034,6 +1033,12 @@ final class MPP8Reader implements MPPVariantReader
          CostRateTable costRateTable = new CostRateTable();
          costRateTable.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
          resource.setCostRateTable(0, costRateTable);
+
+         LocalDateTime availableFrom = MPPUtility.getTimestamp(data, 28);
+         LocalDateTime availableTo = MPPUtility.getTimestamp(data, 32);
+         availableFrom = availableFrom == null ? LocalDateTimeHelper.START_DATE_NA : availableFrom;
+         availableTo = availableTo == null ? LocalDateTimeHelper.END_DATE_NA : availableTo;
+         resource.getAvailability().add(new Availability(availableFrom, availableTo, NumberHelper.getDouble(((double) MPPUtility.getInt(data, 52)) / 100)));
 
          m_eventManager.fireResourceReadEvent(resource);
       }

@@ -897,7 +897,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    /**
     * Retrieve the day type. If this is a derived calendar and the day type is
     * DEFAULT, recurse through the calendar hierarchy to find the effective
-    * day type. Note that if teh calendar hierarchy has been incorrectly
+    * day type. Note that if the calendar hierarchy has been incorrectly
     * configured and that the base calendar defines the day as DEFAULT,
     * this implementation will assume Saturday and Sunday are non-working
     * days.

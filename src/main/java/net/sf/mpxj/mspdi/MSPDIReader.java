@@ -55,7 +55,6 @@ import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;
 import net.sf.mpxj.TimephasedWorkContainer;
-import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
@@ -926,8 +925,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(m_projectFile, null, xml.getActualOvertimeWorkProtected()));
       mpx.setActualWorkProtected(DatatypeConverter.parseDuration(m_projectFile, null, xml.getActualWorkProtected()));
       mpx.setACWP(DatatypeConverter.parseCurrency(xml.getACWP()));
-      mpx.setAvailableFrom(xml.getAvailableFrom());
-      mpx.setAvailableTo(xml.getAvailableTo());
       mpx.setBCWS(DatatypeConverter.parseCurrency(xml.getBCWS()));
       mpx.setBCWP(DatatypeConverter.parseCurrency(xml.getBCWP()));
       mpx.setBookingType(xml.getBookingType());
@@ -956,7 +953,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setIsNull(BooleanHelper.getBoolean(xml.isIsNull()));
       //mpx.setLinkedFields();
       mpx.setUnitOfMeasure(m_projectFile.getUnitsOfMeasure().getOrCreateByAbbreviation(xml.getMaterialLabel()));
-      mpx.setMaxUnits(DatatypeConverter.parseUnits(xml.getMaxUnits()));
       mpx.setName(xml.getName());
       if (xml.getNotes() != null && !xml.getNotes().isEmpty())
       {
@@ -995,15 +991,15 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
       mpx.setCalendar(calendarMap.get(xml.getCalendarUID()));
 
-      // ensure that we cache this value
-      mpx.setOverAllocated(BooleanHelper.getBoolean(xml.isOverAllocated()));
-
       Rate standardRate = DatatypeConverter.parseRate(xml.getStandardRate(), DatatypeConverter.parseTimeUnit(xml.getStandardRateFormat()));
       Rate overtimeRate = DatatypeConverter.parseRate(xml.getOvertimeRate(), DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat()));
       Number costPerUse = DatatypeConverter.parseCurrency(xml.getCostPerUse());
       readCostRateTables(mpx, standardRate, overtimeRate, costPerUse, xml.getRates());
 
-      readAvailabilityTable(mpx, xml.getAvailabilityPeriods());
+      readAvailabilityTable(mpx, xml);
+
+      // ensure that we cache this value
+      mpx.setOverAllocated(BooleanHelper.getBoolean(xml.isOverAllocated()));
 
       m_eventManager.fireResourceReadEvent(mpx);
    }
@@ -1174,11 +1170,21 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * Reads the availability table from the file.
     *
     * @param resource MPXJ resource instance
-    * @param periods MSPDI availability periods
+    * @param xml MSPDI resource
     */
-   private void readAvailabilityTable(Resource resource, AvailabilityPeriods periods)
+   private void readAvailabilityTable(Resource resource, Project.Resources.Resource xml)
    {
-      if (periods != null)
+      AvailabilityPeriods periods = xml.getAvailabilityPeriods();
+      if (periods == null || periods.getAvailabilityPeriod() == null || periods.getAvailabilityPeriod().isEmpty())
+      {
+         LocalDateTime availableFrom = xml.getAvailableFrom();
+         LocalDateTime availableTo = xml.getAvailableTo();
+         availableFrom = availableFrom == null ? LocalDateTimeHelper.START_DATE_NA : availableFrom;
+         availableTo = availableTo == null ? LocalDateTimeHelper.END_DATE_NA : availableTo;
+         Availability availability = new Availability(availableFrom, availableTo, DatatypeConverter.parseUnits(xml.getMaxUnits()));
+         resource.getAvailability().add(new Availability(availableFrom, availableTo, DatatypeConverter.parseUnits(xml.getMaxUnits())));
+      }
+      else
       {
          AvailabilityTable table = resource.getAvailability();
          List<AvailabilityPeriod> list = periods.getAvailabilityPeriod();
