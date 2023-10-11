@@ -66,13 +66,30 @@ public final class AvailabilityTable extends ArrayList<Availability>
    }
 
    /**
-    * Determine if this table only contains a sinle entry with empty start and end dates.
+    * Determine if this table only contains a single entry with empty start and end dates.
     *
     * @return true if the table just has the default entry
     */
    public boolean hasDefaultDateRange()
    {
-      return size() == 1 && LocalDateTimeHelper.NA.equals(get(0).getRange());
+      // No ranges
+      if (isEmpty())
+      {
+         return true;
+      }
+
+      // One range, NA start and end dates
+      if (size() == 1)
+      {
+         LocalDateTimeRange range = get(0).getRange();
+         if ((range.getStart() == null || range.getStart().equals(LocalDateTimeHelper.START_DATE_NA)) &&
+            (range.getEnd() == null || range.getEnd().isAfter(END_DATE_NA)))
+         {
+            return true;
+         }
+      }
+
+      return false;
    }
 
    /**
@@ -83,7 +100,7 @@ public final class AvailabilityTable extends ArrayList<Availability>
     */
    public LocalDateTime availableFrom(LocalDateTime date)
    {
-      if (unboundedRange())
+      if (hasDefaultDateRange())
       {
          return null;
       }
@@ -137,7 +154,7 @@ public final class AvailabilityTable extends ArrayList<Availability>
     */
    public LocalDateTime availableTo(LocalDateTime date)
    {
-      if (unboundedRange())
+      if (hasDefaultDateRange())
       {
          return null;
       }
@@ -181,27 +198,9 @@ public final class AvailabilityTable extends ArrayList<Availability>
       return null;
    }
 
-   private boolean unboundedRange()
-   {
-      // No ranges
-      if (isEmpty())
-      {
-         return true;
-      }
-
-      // One range, NA start and end dates
-      if (size() == 1)
-      {
-         LocalDateTimeRange range = get(0).getRange();
-         if ((range.getStart() == null || range.getStart().equals(LocalDateTimeHelper.START_DATE_NA)) &&
-            (range.getEnd() == null || range.getEnd().isAfter(END_DATE_NA)))
-         {
-            return true;
-         }
-      }
-
-      return false;
-   }
-
+   /**
+    * This value differs from the one in LocalDateTimeHelper to allow us to deal with inconsistent values
+    * used by Microsoft Project.
+    */
    public static final LocalDateTime END_DATE_NA = LocalDateTime.of(2049, 12, 31, 23, 58);
 }
