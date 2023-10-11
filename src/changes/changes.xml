@@ -15,6 +15,9 @@
 			<action dev="joniles" type="update">Added the `ProjectFile.getIgnoredErrors()` method. The default behavior for MPXJ reader classes is to ignore data type parse errors. If any errors have been ignored when reading a schedule, details of these errors can be retrieved by calling the `ProjectFile.getIgnoredErrors()` method.</action>
 			<action dev="joniles" type="update">Handle duplicate relation unique IDs when reading schedules.</action>
 			<action dev="joniles" type="update">Include resource availability table in JSON output.</action>
+			<action dev="joniles" type="update">Add the Resource field Default Units, and ensure this field is read and written for P6 Schedules.</action>
+			<action dev="joniles" type="update">Updated the Resource attribute Max Units to ensure that this is calculated from the resource's availability table. Note that the `Resource.getMaxUnits()` method will return the resource's Max Units attribute for the current date. To retrieve the Max Units for a differtn date, use the `AvailabilityTable.getEntryByDate()` method.</action>
+			<action dev="joniles" type="update">Marked the `Resource.setMaxUnits()` method as deprecated. The Max Units attribute is derived from the resource's availability table. Cahnges to Max Units should now be made by modifying the availability table.</action>
 		</release>
 		<release date="2023-09-25" version="12.1.3">
 			<action dev="joniles" type="update">Added the Project Properties attribute Relationship Lag Calendar and implemented read and write support for this for P6 schedules. (Contributed by Rohit Sinha).</action>

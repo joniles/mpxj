@@ -450,7 +450,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
    /**
     * Retrieves the maximum availability of a resource on the current date.
-    * Refer to teh availability table to retrieve this value for other dates.
+    * Refer to the availability table to retrieve this value for other dates.
     *
     * @return maximum availability
     */
