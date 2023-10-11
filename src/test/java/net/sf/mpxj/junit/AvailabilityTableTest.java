@@ -63,6 +63,9 @@ public class AvailabilityTableTest
       assertNull(table.getEntryByDate(LocalDateTime.of(2015, 3, 3, 18, 0)));
    }
 
+   /**
+    * Test the availabilityFrom method.
+    */
    @Test public void testAvailabilityFrom()
    {
       LocalDateTime date = LocalDateTime.of(2023, 10, 11, 8, 0);
@@ -131,6 +134,9 @@ public class AvailabilityTableTest
       assertEquals(LocalDateTime.of(2023, 10, 11, 0, 0), table.availableFrom(date));
    }
 
+   /**
+    * Test the availabilityTo method.
+    */
    @Test public void testAvailabilityTo()
    {
       LocalDateTime date = LocalDateTime.of(2023, 10, 11, 8, 0);

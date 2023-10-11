@@ -2835,11 +2835,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    private Number calculateMaxUnits()
    {
       Availability entry = getCurrentAvailabilityTableEntry();
-      if (entry == null)
-      {
-         return null;
-      }
-      return entry.getUnits();
+      return entry == null ? null : entry.getUnits();
    }
 
    private LocalDateTime calculateAvailableFrom()
