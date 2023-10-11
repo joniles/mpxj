@@ -857,7 +857,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       CostRateTable table = new CostRateTable();
       table.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
       resource.setCostRateTable(0, table);
-      
+
       //
       // Handle malformed MPX files - ensure we have a unique ID
       //
