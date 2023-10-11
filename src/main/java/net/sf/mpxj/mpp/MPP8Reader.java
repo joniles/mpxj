@@ -887,8 +887,6 @@ final class MPP8Reader implements MPPVariantReader
          resource.setActualCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 114)) / 100));
          resource.setActualOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 144)) / 100));
          resource.setActualWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 62)) / 100, TimeUnit.HOURS));
-         resource.setAvailableFrom(MPPUtility.getTimestamp(data, 28));
-         resource.setAvailableTo(MPPUtility.getTimestamp(data, 32));
          //resource.setBaseCalendar();
          resource.setBaselineCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 126)) / 100));
          resource.setBaselineWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 68)) / 100, TimeUnit.HOURS));

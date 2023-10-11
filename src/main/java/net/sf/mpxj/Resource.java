@@ -513,8 +513,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * Set the "available from" date.
     *
     * @param date available from date
+    * @deprecated this attribute is now derived from the resources' availability table
     */
-   public void setAvailableFrom(LocalDateTime date)
+   @Deprecated public void setAvailableFrom(LocalDateTime date)
    {
       set(ResourceField.AVAILABLE_FROM, date);
    }
@@ -533,8 +534,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * Set the "available to" date.
     *
     * @param date available to date
+    * @deprecated this attribute is now derived from the resources' availability table
     */
-   public void setAvailableTo(LocalDateTime date)
+   @Deprecated public void setAvailableTo(LocalDateTime date)
    {
       set(ResourceField.AVAILABLE_TO, date);
    }

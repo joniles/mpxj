@@ -223,8 +223,6 @@ final class AstaReader
          resource.setUniqueID(row.getInteger("CONSUMABLE_RESOURCEID"));
          resource.setName(row.getString("NASE"));
          resource.setCalendar(m_project.getCalendars().getByUniqueID(row.getInteger("CALENDAV")));
-         resource.setAvailableFrom(row.getDate("AVAILABLE_FROM"));
-         resource.setAvailableTo(row.getDate("AVAILABLE_TO"));
          resource.setGeneric(row.getBoolean("CREATED_AS_FOLDER"));
          resource.setUnitOfMeasure(uom.getOrCreateByAbbreviation(row.getString("MEASUREMENT")));
          resource.setInitials(getInitials(resource.getName()));

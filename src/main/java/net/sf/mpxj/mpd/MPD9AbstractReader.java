@@ -754,8 +754,6 @@ abstract class MPD9AbstractReader
          //resource.setActualWorkProtected();
          //resource.setActiveDirectoryGUID();
          resource.setACWP(row.getCurrency("RES_ACWP"));
-         resource.setAvailableFrom(row.getDate("RES_AVAIL_FROM"));
-         resource.setAvailableTo(row.getDate("RES_AVAIL_TO"));
          //resource.setBaseCalendar();
          resource.setBaselineCost(getDefaultOnNull(row.getCurrency("RES_BASE_COST"), NumberHelper.DOUBLE_ZERO));
          resource.setBaselineWork(row.getDuration("RES_BASE_WORK"));
