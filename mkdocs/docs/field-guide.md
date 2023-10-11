@@ -654,7 +654,7 @@ Actual Overtime Work| | | | | | |✓|✓| |✓| | | | | | | | | 
 Actual Work| | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
 Actual Work Protected| | | | | | | |✓| | | | | | | | | | | | | | | 
 Availability Data| | | | | | | |✓| | | | | | | | | | | | | | | 
-Available From| | | | | | | |✓| | | | | |✓|✓|✓| | | | | | | 
+Available From| | | | | | | |✓| | | | | | | | | | | | | | | 
 Available To| | | | | | | |✓| | | | | | | | | | | | | | | 
 BCWS| | | | | | | | | |✓| | | | | | | | | | | | | 
 Base Calendar| | | | | | | | |✓| | | | | | | | | | | | | | 

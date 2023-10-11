@@ -2907,7 +2907,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    private final CostRateTable[] m_costRateTables;
    private final AvailabilityTable m_availability = new AvailabilityTable();
 
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(ResourceField.STANDARD_RATE, ResourceField.OVERTIME_RATE, ResourceField.COST_PER_USE, ResourceField.START, ResourceField.FINISH, ResourceField.MAX_UNITS));
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(ResourceField.STANDARD_RATE, ResourceField.OVERTIME_RATE, ResourceField.COST_PER_USE, ResourceField.START, ResourceField.FINISH, ResourceField.MAX_UNITS, ResourceField.AVAILABLE_FROM, ResourceField.AVAILABLE_TO));
 
    private static final Map<FieldType, Function<Resource, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
