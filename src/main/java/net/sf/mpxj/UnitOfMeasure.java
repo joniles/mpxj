@@ -92,7 +92,7 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
    {
       /**
        * Add the unique ID.
-       * 
+       *
        * @param uniqueID unique ID
        * @return builder
        */

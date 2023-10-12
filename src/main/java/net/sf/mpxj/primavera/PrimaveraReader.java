@@ -670,7 +670,6 @@ final class PrimaveraReader
          defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
          resource.setDefaultUnits(defaultUnitsPerTime);
 
-
          m_eventManager.fireResourceReadEvent(resource);
       }
    }

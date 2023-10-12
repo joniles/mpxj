@@ -52,11 +52,11 @@ final class AvailabilityFactory
          // If we don't have an availability table, we'll construct one.
          // Note the use of getCachedValue to ensure we use the values read from
          // the file rather than attempting to calculate them.
-         LocalDateTime availableFrom = (LocalDateTime)resource.getCachedValue(ResourceField.AVAILABLE_FROM);
-         LocalDateTime availableTo = (LocalDateTime)resource.getCachedValue(ResourceField.AVAILABLE_TO);
+         LocalDateTime availableFrom = (LocalDateTime) resource.getCachedValue(ResourceField.AVAILABLE_FROM);
+         LocalDateTime availableTo = (LocalDateTime) resource.getCachedValue(ResourceField.AVAILABLE_TO);
          availableFrom = availableFrom == null ? LocalDateTimeHelper.START_DATE_NA : availableFrom;
          availableTo = availableTo == null ? LocalDateTimeHelper.END_DATE_NA : availableTo;
-         table.add(new Availability(availableFrom, availableTo, (Number)resource.getCachedValue(ResourceField.MAX_UNITS)));
+         table.add(new Availability(availableFrom, availableTo, (Number) resource.getCachedValue(ResourceField.MAX_UNITS)));
       }
       else
       {
