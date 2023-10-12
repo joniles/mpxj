@@ -7,7 +7,7 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="12.1.3" />
+		<property name="current.version" value="12.2.0" />
 
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="mvn.cmd"/>
@@ -781,19 +781,23 @@
 
 	<target name="archive" depends="package,ikvm-nca31-dll,vs-nca31-dll,ikvm-net45-dll,vs-net45-dll,gem-source,changelog,releasenotes" description="Create library files"/>
 
-	<target name="distribute" depends="archive,clean-dot-net,nuget-package" description="Create distribution">
+	<target name="distribute" depends="archive,dotnet-clean,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">
 			<zipfileset dir="${basedir}" prefix="mpxj" excludes="target/**, dist/**" />
 		</zip>
 	</target>
 
-	<target name="clean-temp" depends="init" description="Clean up temporary files">
+	<target name="dist-clean" depends="init" description="Clean up distribution folder">
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="temp-clean" depends="init" description="Clean up temporary files">
 		<delete>
 			<fileset dir="${basedir}" includes="**/*~" defaultexcludes="no" />
 		</delete>
 	</target>
 
-	<target name="clean-dot-net" depends="ikvm-init" description="Clean up .Net build files">
+	<target name="dotnet-clean" depends="ikvm-init" description="Clean up .Net build files">
 		<delete includeemptydirs="true">
 			<fileset dir="${basedir}/src.net" defaultexcludes="false">
 				<include name="**/bin/**" />
@@ -807,7 +811,7 @@
 		<delete dir="${ikvm.working.dir}" />
 	</target>
 
-	<target name="clean-ruby" depends="init" description="Clean up Ruby files">
+	<target name="ruby-clean" depends="init" description="Clean up Ruby files">
 		<delete dir="${basedir}/src.ruby/mpxj/doc" />
 		<delete dir="${basedir}/src.ruby/mpxj/legal" />
 		<delete dir="${basedir}/src.ruby/mpxj/pkg" />
@@ -820,7 +824,7 @@
 		</delete>
 	</target>
 
-	<target name="clean-python" depends="init" description="Clean up python files">
+	<target name="python-clean" depends="init" description="Clean up python files">
 		<delete dir="${basedir}/src.python/mpxj/build" />
 		<delete dir="${basedir}/src.python/mpxj/dist" />
 		<delete dir="${basedir}/src.python/mpxj/mpxj.egg-info" />
@@ -829,7 +833,7 @@
 		<mkdir dir="${basedir}/src.python/mpxj/mpxj/lib" />
 	</target>
 
-	<target name="clean" depends="init, clean-temp, clean-dot-net, clean-ruby, clean-python, maven-clean" description="Clean up all files">
+	<target name="clean" depends="init, temp-clean, dotnet-clean, ruby-clean, python-clean, maven-clean" description="Clean up all files">
 		<delete file="${basedir}/mpxj.jar" />
 		<delete file="${basedir}/mpxj-test.jar" />
 

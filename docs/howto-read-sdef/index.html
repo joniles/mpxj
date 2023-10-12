@@ -803,6 +803,26 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#using-sdefreader" class="md-nav__link">
+    Using SDEFReader
+  </a>
+  
+    <nav class="md-nav" aria-label="Using SDEFReader">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ignore-errors" class="md-nav__link">
+    Ignore Errors
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1183,6 +1203,26 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#using-sdefreader" class="md-nav__link">
+    Using SDEFReader
+  </a>
+  
+    <nav class="md-nav" aria-label="Using SDEFReader">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ignore-errors" class="md-nav__link">
+    Ignore Errors
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1213,10 +1253,27 @@ this format can be found
 <span class="n">UniversalProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
 <span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.sdef&quot;</span><span class="p">);</span>
 </code></pre></div>
-<p>You can work directly with the <code>SDEFReader</code> by replacing
-<code>UniversalProjectReader</code> with <code>SDEFReader</code>, although this offers no particular
-advantage as there are no additional configuration settings available on the
-<code>SDEFReader</code> class.</p>
+<h2 id="using-sdefreader">Using SDEFReader</h2>
+<p>You can work directly with the <code>SDEFReader</code> class by replacing
+<code>UniversalProjectReader</code> with <code>SDEFReader</code>. This provides access to additional
+options, as described below.</p>
+<h3 id="ignore-errors">Ignore Errors</h3>
+<p>By default MPXJ will ignore errors when parsing attributes from an SDEF file.
+This behavior is controlled using the <code>setIgnoreErrors</code> method. The example
+below illustrates how we can force the <code>SDEFReader</code> to report
+errors encountered when reading a file:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.sdef.SDEFReader</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="n">SDEFReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SDEFReader</span><span class="p">();</span>
+
+<span class="n">reader</span><span class="p">.</span><span class="na">setIgnoreErrors</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.sdef&quot;</span><span class="p">);</span>
+</code></pre></div>
+<p>Note that if errors are ignored when reading a file, the ignored errors
+are available by using the <code>ProjectFile.getIgnoredErrors()</code> method.</p>
 
 
   

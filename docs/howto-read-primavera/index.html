@@ -755,6 +755,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ignore-errors" class="md-nav__link">
+    Ignore Errors
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1260,6 +1267,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ignore-errors" class="md-nav__link">
+    Ignore Errors
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1440,6 +1454,23 @@ You can modify these existing mappings, or add new ones, for example:</p>
 <span class="c1">//</span>
 <span class="n">activityFieldMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">TEXT10</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;an_example_field&quot;</span><span class="p">);</span>
 </code></pre></div>
+<h3 id="ignore-errors">Ignore Errors</h3>
+<p>By default MPXJ will ignore errors when parsing attributes from a Primavera
+database. This behavior is controlled using the <code>setIgnoreErrors</code> method. The
+example below illustrates how we can force the <code>PrimaveraDatabaseReader</code> to
+report errors encountered when reading from a Primavera database:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.mspdi.MSPDIReader</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+
+<span class="n">reader</span><span class="p">.</span><span class="na">setIgnoreErrors</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+</code></pre></div>
+<p>Note that if errors are ignored when reading from a Primavera database, the
+ignored errors are available by using the <code>ProjectFile.getIgnoredErrors()</code>
+method.</p>
 
 
   
