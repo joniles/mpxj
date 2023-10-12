@@ -96,6 +96,7 @@ final class Record
     * Pop the record number from the front of the list, and parse it to ensure that
     * it is a valid integer.
     *
+    * @param file parent file
     * @param list MPX record
     */
    private void setRecordNumber(ProjectFile file, List<String> list)

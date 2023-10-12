@@ -117,6 +117,7 @@ final class PrimaveraReader
     * @param roleFields role field mapping
     * @param matchPrimaveraWBS determine WBS behaviour
     * @param wbsIsFullPath determine the WBS attribute structure
+    * @param ignoreErrors ignore errors flag
     */
    public PrimaveraReader(Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors)
    {
@@ -668,7 +669,6 @@ final class PrimaveraReader
          Number defaultUnitsPerTime = row.getDouble("def_qty_per_hr");
          defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
          resource.setDefaultUnits(defaultUnitsPerTime);
-
 
          m_eventManager.fireResourceReadEvent(resource);
       }

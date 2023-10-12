@@ -2007,6 +2007,7 @@ public final class DatatypeConverter
     * parse and print operations.
     *
     * @param file parent file instance
+    * @param ignoreErrors ignore errors flag
     */
    public static final void setContext(ProjectFile file, boolean ignoreErrors)
    {

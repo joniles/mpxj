@@ -82,8 +82,7 @@ public final class AvailabilityTable extends ArrayList<Availability>
       if (size() == 1)
       {
          LocalDateTimeRange range = get(0).getRange();
-         if ((range.getStart() == null || range.getStart().equals(LocalDateTimeHelper.START_DATE_NA)) &&
-            (range.getEnd() == null || range.getEnd().isAfter(END_DATE_NA)))
+         if ((range.getStart() == null || range.getStart().equals(LocalDateTimeHelper.START_DATE_NA)) && (range.getEnd() == null || range.getEnd().isAfter(END_DATE_NA)))
          {
             return true;
          }
@@ -114,7 +113,7 @@ public final class AvailabilityTable extends ArrayList<Availability>
          LocalDateTimeRange currentRange = availability.getRange();
 
          LocalDateTime rangeStart = currentRange.getStart();
-         if(rangeStart == null)
+         if (rangeStart == null)
          {
             rangeStart = LocalDateTimeHelper.START_DATE_NA;
          }
@@ -122,19 +121,12 @@ public final class AvailabilityTable extends ArrayList<Availability>
          // Is our date is before this range?
          if (date.isBefore(rangeStart))
          {
-            if (previousRange == null)
-            {
-               return null;
-            }
-            else
-            {
-               return previousRange.getEnd().plusMinutes(1);
-            }
+            return previousRange == null ? null : previousRange.getEnd().plusMinutes(1);
          }
 
          // Is our date within this range?
          LocalDateTime rangeEnd = currentRange.getEnd();
-         if (rangeEnd == null || rangeEnd.isAfter(END_DATE_NA) ||date.isBefore(rangeEnd) || date.isEqual(rangeEnd))
+         if (rangeEnd == null || rangeEnd.isAfter(END_DATE_NA) || date.isBefore(rangeEnd) || date.isEqual(rangeEnd))
          {
             return LocalDateTimeHelper.START_DATE_NA.isEqual(rangeStart) ? null : rangeStart;
          }
@@ -143,7 +135,7 @@ public final class AvailabilityTable extends ArrayList<Availability>
          previousRange = currentRange;
       }
 
-      return previousRange.getEnd().plusMinutes(1);
+      return previousRange == null ? null : previousRange.getEnd().plusMinutes(1);
    }
 
    /**
@@ -168,7 +160,7 @@ public final class AvailabilityTable extends ArrayList<Availability>
          currentRange = availability.getRange();
 
          LocalDateTime rangeEnd = currentRange.getEnd();
-         if(rangeEnd == null)
+         if (rangeEnd == null)
          {
             rangeEnd = LocalDateTimeHelper.END_DATE_NA;
          }
@@ -180,7 +172,7 @@ public final class AvailabilityTable extends ArrayList<Availability>
          }
 
          LocalDateTime rangeStart = currentRange.getStart();
-         if(rangeStart == null)
+         if (rangeStart == null)
          {
             rangeStart = LocalDateTimeHelper.START_DATE_NA;
          }

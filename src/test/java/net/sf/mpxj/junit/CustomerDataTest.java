@@ -590,7 +590,6 @@ public class CustomerDataTest
          ((MSPDIWriter) w).setSplitTimephasedAsDays(false);
       };
 
-
       // TODO: randomise order of execution
       boolean pmxml = testBaseline(name, project, baselineDirectory, "pmxml", ".xml", PrimaveraPMFileWriter.class, pmxmlConfig);
       boolean json = testBaseline(name, project, baselineDirectory, "json", ".json", JsonWriter.class, jsonConfig);

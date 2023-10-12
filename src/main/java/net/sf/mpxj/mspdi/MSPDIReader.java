@@ -1181,7 +1181,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          LocalDateTime availableTo = xml.getAvailableTo();
          availableFrom = availableFrom == null ? LocalDateTimeHelper.START_DATE_NA : availableFrom;
          availableTo = availableTo == null ? LocalDateTimeHelper.END_DATE_NA : availableTo;
-         Availability availability = new Availability(availableFrom, availableTo, DatatypeConverter.parseUnits(xml.getMaxUnits()));
          resource.getAvailability().add(new Availability(availableFrom, availableTo, DatatypeConverter.parseUnits(xml.getMaxUnits())));
       }
       else
