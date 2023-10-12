@@ -13,6 +13,7 @@ like to be featured in this list.
 * Autodesk Build – Schedule [construction.autodesk.com/products/autodesk-build/](https://construction.autodesk.com/products/autodesk-build/)
 * Bosch RefinemySite [www.bosch-refinemysite.com](https://www.bosch-refinemysite.com/)
 * Bryntum [bryntum.com](https://www.bryntum.com/)
+* Buildots [buildots.com](https://buildots.com/)
 * Celoxis [www.celoxis.com](http://www.celoxis.com)
 * Change Inspector [www.changeinspector.com](http://www.changeinspector.com)
 * Comindwork [www.comindwork.com](http://www.comindwork.com)
