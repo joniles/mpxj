@@ -906,9 +906,15 @@ final class PrimaveraReader
       }
    }
 
+   /**
+    * Primavera defines role tables by role and start dates so sort by start date
+    * to allow us to determine the end date of each entry.
+    *
+    * @param rows role table rows
+    */
    private void sortRoleTableRows(List<Row> rows)
    {
-      // Primavera defines role tables by start dates so sort and define end by next
+      //
       rows.sort((r1, r2) -> {
          Integer id1 = r1.getInteger("role_id");
          Integer id2 = r2.getInteger("role_id");
