@@ -1,8 +1,23 @@
 # Changelog
 
-## 12.1.4 (unreleased)
-* Updated to use POI 5.2.4
+## 12.2.1 (unreleased)
+
+## 12.2.0 (unreleased)
+* Add the `UnitOfMeasure` class to represent the unit of measure for a material resource. The unit of measure corresponds to the current "material label" attribute of a resource. The `Resource.getMaterialLabel()` method will now retrieve the label from the `UnitOfMeasure` instance associated with the resource. The `Resource.setMaterialLabel()` method is now deprecated, the `Resource.setUnitOfMeasure()` or `Resource.setUnitOfMeasureUniqueID()` methods should be used instead.
+* Unit of measure for material resources are now read from and written to Primavera schedules.
 * Improve task duration and percent completion calculation for Asta PP files.
+* Improve date parsing when reading XER files written by older versions of P6.
+* Added the `setIgnoreErrors` method to the Primavera database reader class, and MSPDI, Schedule Grid, and SDEF file reader classes. The current default behavior of ignoring data type parse errors is unchanged. Calling `setIgnoreErrors(false)` on one of these reader classes will ensure that an exception is raised when a data type parse error is encountered.
+* Added the `ProjectFile.getIgnoredErrors()` method. The default behavior for MPXJ reader classes is to ignore data type parse errors. If any errors have been ignored when reading a schedule, details of these errors can be retrieved by calling the `ProjectFile.getIgnoredErrors()` method.
+* Handle duplicate relation unique IDs when reading schedules.
+* Include resource availability table in JSON output.
+* Add the Resource field Default Units, and ensure this field is read and written for P6 Schedules.
+* Updated the Resource attribute Max Units to ensure that this is calculated from the resource's availability table. Note that the `Resource.getMaxUnits()` method will return the resource's Max Units attribute for the current date. To retrieve the Max Units for a different date, use the `AvailabilityTable.getEntryByDate()` method.
+* Marked the `Resource.setMaxUnits()` method as deprecated. The Max Units attribute is derived from the resource's availability table. Changes to Max Units should now be made by modifying the availability table.
+* Updated the Resource attribute Available From to ensure that this is calculated from the resource's availability table. Note that the `Resource.getAvailableFrom()` method will return the resource's Available From attribute for the current date. To retrieve the Available From attribute for a different date, use the `AvailabilityTable.availableFrom()` method.
+* Marked the `Resource.setAvailableFrom()` method as deprecated. The Available From attribute is derived from the resource's availability table. Changes to the Available From attribute  should now be made by modifying the availability table.
+* Updated the Resource attribute Available To to ensure that this is calculated from the resource's availability table. Note that the `Resource.getAvailableTo()` method will return the resource's Available To attribute for the current date. To retrieve the Available To attribute for a different date, use the `AvailabilityTable.availableTo()` method.
+* Marked the `Resource.setAvailableTo()` method as deprecated. The Available To attribute is derived from the resource's availability table. Changes to the Available To attribute  should now be made by modifying the availability table.
 
 ## 12.1.3 (2023-09-25)
 * Added the Project Properties attribute Relationship Lag Calendar and implemented read and write support for this for P6 schedules. (Contributed by Rohit Sinha).
@@ -21,7 +36,7 @@
 * Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on macOS.
 
 ## 12.1.0 (2023-08-22)
-* Write schedule options to PMXML abd XER files.
+* Write schedule options to PMXML and XER files.
 * Fix an arithmetic error in RateHelper when converting a rate from minutes to hours.
 * Introduced new methods to RateHelper accepting a `TimeUnitDefaultsContainer` argument rather than a `ProjectFile` for greater flexibility. Marked methods taking a `ProjectFile` argument as deprecated.
 * Ensure Early Finish and Late Finish are populated for Asta milestones and tasks.

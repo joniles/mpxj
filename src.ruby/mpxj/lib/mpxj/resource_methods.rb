@@ -914,6 +914,13 @@ module MPXJ
       attribute_values['default_assignment_owner']
     end
 
+    # Retrieve the Default Units value
+    #
+    # @return Default Units value
+    def default_units
+      get_float_value(attribute_values['default_units'])
+    end
+
     # Retrieve the Description value
     #
     # @return Description value
@@ -3819,6 +3826,13 @@ module MPXJ
       attribute_values['unit']
     end
 
+    # Retrieve the Unit of Measure Unique ID value
+    #
+    # @return Unit of Measure Unique ID value
+    def unit_of_measure_unique_id
+      get_integer_value(attribute_values['unit_of_measure_unique_id'])
+    end
+
     # Retrieve the Update Needed value
     #
     # @return Update Needed value
@@ -4006,6 +4020,7 @@ module MPXJ
       'date8' => :date,
       'date9' => :date,
       'default_assignment_owner' => :string,
+      'default_units' => :units,
       'description' => :string,
       'duration1' => :duration,
       'duration10' => :duration,
@@ -4421,6 +4436,7 @@ module MPXJ
       'unavailable' => :string,
       'unique_id' => :integer,
       'unit' => :string,
+      'unit_of_measure_unique_id' => :integer,
       'update_needed' => :boolean,
       'vac' => :currency,
       'wbs' => :string,
