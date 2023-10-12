@@ -108,7 +108,7 @@ public final class Relation implements ProjectEntityWithUniqueID
     *
     * @return unique ID
     */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return m_uniqueID;
    }
@@ -118,7 +118,7 @@ public final class Relation implements ProjectEntityWithUniqueID
     *
     * @param uniqueID unique ID
     */
-   public void setUniqueID(Integer uniqueID)
+   @Override public void setUniqueID(Integer uniqueID)
    {
       m_sourceTask.getParentFile().getRelations().updateUniqueID(this, m_uniqueID, uniqueID);
       m_uniqueID = uniqueID;

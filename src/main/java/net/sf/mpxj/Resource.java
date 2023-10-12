@@ -244,7 +244,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    @Deprecated public void setMaterialLabel(String materialLabel)
    {
-
+      // Deprecated
    }
 
    /**

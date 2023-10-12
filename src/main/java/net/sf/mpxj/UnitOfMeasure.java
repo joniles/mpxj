@@ -25,7 +25,7 @@ package net.sf.mpxj;
 /**
  * Class representing a unit of measure.
  */
-public class UnitOfMeasure implements ProjectEntityWithUniqueID
+public final class UnitOfMeasure implements ProjectEntityWithUniqueID
 {
    /**
     * Constructor.
@@ -91,7 +91,8 @@ public class UnitOfMeasure implements ProjectEntityWithUniqueID
    public static class Builder
    {
       /**
-       * Add the unique ID
+       * Add the unique ID.
+       * 
        * @param uniqueID unique ID
        * @return builder
        */

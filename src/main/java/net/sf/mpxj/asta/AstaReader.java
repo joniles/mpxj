@@ -121,6 +121,7 @@ final class AstaReader
    /**
     * Process project properties.
     *
+    * @param schemaVersion schema version
     * @param projectSummary project properties data.
     * @param userSettings user settings
     * @param progressPeriods progress period data.
@@ -626,7 +627,7 @@ final class AstaReader
       }
       else
       {
-         if (durationAtCompletion != null && durationAtCompletion.getDuration() > 0 && actualDuration != null && actualDuration.getDuration() > 0)
+         if (durationAtCompletion != null && durationAtCompletion.getDuration() > 0 && actualDuration.getDuration() > 0)
          {
             // We have an actual duration, so we must have an actual start date
             task.setActualStart(task.getStart());

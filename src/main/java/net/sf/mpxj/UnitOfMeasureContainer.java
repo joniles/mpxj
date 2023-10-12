@@ -63,8 +63,8 @@ public class UnitOfMeasureContainer extends ProjectEntityContainer<UnitOfMeasure
       UnitOfMeasure uom = new UnitOfMeasure.Builder()
          .name(name)
          .abbreviation(name)
-         .uniqueID(stream().mapToInt(u -> u.getUniqueID()).max().orElse(0) + 1)
-         .sequenceNumber(stream().mapToInt(u -> u.getSequenceNumber()).max().orElse(0) + 1)
+         .uniqueID(Integer.valueOf(stream().mapToInt(u -> u.getUniqueID().intValue()).max().orElse(0) + 1))
+         .sequenceNumber(Integer.valueOf(stream().mapToInt(u -> u.getSequenceNumber().intValue()).max().orElse(0) + 1))
          .build();
       add(uom);
       return uom;

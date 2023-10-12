@@ -122,14 +122,7 @@ public final class AvailabilityTable extends ArrayList<Availability>
          // Is our date is before this range?
          if (date.isBefore(rangeStart))
          {
-            if (previousRange == null)
-            {
-               return null;
-            }
-            else
-            {
-               return previousRange.getEnd().plusMinutes(1);
-            }
+            return previousRange == null ? null : previousRange.getEnd().plusMinutes(1);
          }
 
          // Is our date within this range?
@@ -143,7 +136,7 @@ public final class AvailabilityTable extends ArrayList<Availability>
          previousRange = currentRange;
       }
 
-      return previousRange.getEnd().plusMinutes(1);
+      return previousRange == null ? null : previousRange.getEnd().plusMinutes(1);
    }
 
    /**
