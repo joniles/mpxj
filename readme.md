@@ -84,7 +84,7 @@ licences for the third party libraries used by MPXJ.
 This library includes functionality provided by:
 
 * [POI](http://poi.apache.org/)
-* [IKVM.NET](http://www.ikvm.net/)
+* [IKVM](https://ikvm.org/)
 * [RTF Parser Kit](https://github.com/joniles/rtfparserkit)
 * [SQLITE-JDBC](https://github.com/xerial/sqlite-jdbc)
 * [ZLIB/CONTRIB](https://github.com/madler/zlib)
