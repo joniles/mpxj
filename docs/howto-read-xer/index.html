@@ -1357,6 +1357,8 @@ errors encountered when reading a file:</p>
 <span class="n">reader</span><span class="p">.</span><span class="na">setIgnoreErrors</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 <span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xer&quot;</span><span class="p">);</span>
 </code></pre></div>
+<p>Note that if errors are ignored when reading a file, the ignored errors
+are available by using the <code>ProjectFile.getIgnoredErrors()</code> method.</p>
 <h3 id="encoding">Encoding</h3>
 <p>By default MPXJ assumes that XER files are encoded using Windows-1252. The
 <code>UniversalProjectReader</code> understands Unicode Byte Order Marks (BOM) and will
