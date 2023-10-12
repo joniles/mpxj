@@ -557,6 +557,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    {
       List<Row> rows = getRows("rolerate", null, null);
       m_reader.processRoleRates(rows);
+      m_reader.processRoleAvailability(rows);
    }
 
    /**

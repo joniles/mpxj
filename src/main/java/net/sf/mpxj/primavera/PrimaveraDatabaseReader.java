@@ -115,6 +115,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processRoles();
          processResourceRates();
          processRoleRates();
+         processRoleAvailability();
          processTasks();
          processPredecessors();
          processWorkContours();
@@ -365,6 +366,15 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       List<Row> rows = getRows("select * from " + m_schema + "rolerate where delete_date is null and role_id in (select role_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by role_rate_id", m_projectID);
       m_reader.processRoleRates(rows);
+   }
+
+   /**
+    * Process role availability.
+    */
+   private void processRoleAvailability() throws SQLException
+   {
+      List<Row> rows = getRows("select * from " + m_schema + "rolelimit where delete_date is null and role_id in (select role_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by rolelimit_id", m_projectID);
+      m_reader.processRoleAvailability(rows);
    }
 
    /**

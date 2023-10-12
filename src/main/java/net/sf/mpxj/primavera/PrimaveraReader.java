@@ -797,19 +797,7 @@ final class PrimaveraReader
     */
    public void processRoleRates(List<Row> rows)
    {
-      // Primavera defines resource cost tables by start dates so sort and define end by next
-      rows.sort((r1, r2) -> {
-         Integer id1 = r1.getInteger("role_id");
-         Integer id2 = r2.getInteger("role_id");
-         int cmp = NumberHelper.compare(id1, id2);
-         if (cmp != 0)
-         {
-            return cmp;
-         }
-         LocalDateTime d1 = r1.getDate("start_date");
-         LocalDateTime d2 = r2.getDate("start_date");
-         return LocalDateTimeHelper.compare(d1, d2);
-      });
+      sortRoleTableRows(rows);
 
       Resource resource = null;
 
@@ -838,7 +826,6 @@ final class PrimaveraReader
          };
 
          Double costPerUse = NumberHelper.getDouble(0.0);
-         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
          LocalDateTime startDate = row.getDate("start_date");
          LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
 
@@ -862,8 +849,84 @@ final class PrimaveraReader
          }
 
          resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
+      }
+   }
+
+   /**
+    * Process role availability.
+    *
+    * @param rows role availability data
+    */
+   public void processRoleAvailability(List<Row> rows)
+   {
+      sortRoleTableRows(rows);
+
+      Resource resource = null;
+
+      for (int i = 0; i < rows.size(); ++i)
+      {
+         Row row = rows.get(i);
+
+         Integer resourceID = m_roleClashMap.getID(row.getInteger("role_id"));
+         if (resource == null || !resource.getUniqueID().equals(resourceID))
+         {
+            resource = m_project.getResourceByUniqueID(resourceID);
+            if (resource == null)
+            {
+               continue;
+            }
+            resource.getAvailability().clear();
+         }
+
+
+         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
+         LocalDateTime startDate = row.getDate("start_date");
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
+
+         if (i + 1 < rows.size())
+         {
+            Row nextRow = rows.get(i + 1);
+            if (NumberHelper.equals(row.getInteger("role_id"), nextRow.getInteger("role_id")))
+            {
+               endDate = nextRow.getDate("start_date").minusMinutes(1);
+            }
+         }
+
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
+         {
+            startDate = LocalDateTimeHelper.START_DATE_NA;
+         }
+
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
+         {
+            endDate = LocalDateTimeHelper.END_DATE_NA;
+         }
+
          resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
       }
+   }
+
+   /**
+    * Primavera defines role tables by role and start dates so sort by start date
+    * to allow us to determine the end date of each entry.
+    *
+    * @param rows role table rows
+    */
+   private void sortRoleTableRows(List<Row> rows)
+   {
+      //
+      rows.sort((r1, r2) -> {
+         Integer id1 = r1.getInteger("role_id");
+         Integer id2 = r2.getInteger("role_id");
+         int cmp = NumberHelper.compare(id1, id2);
+         if (cmp != 0)
+         {
+            return cmp;
+         }
+         LocalDateTime d1 = r1.getDate("start_date");
+         LocalDateTime d2 = r2.getDate("start_date");
+         return LocalDateTimeHelper.compare(d1, d2);
+      });
    }
 
    /**
