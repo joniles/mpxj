@@ -365,6 +365,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       List<Row> rows = getRows("select * from " + m_schema + "rolerate where delete_date is null and role_id in (select role_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by role_rate_id", m_projectID);
       m_reader.processRoleRates(rows);
+      m_reader.processRoleAvailability(rows);
    }
 
    /**
