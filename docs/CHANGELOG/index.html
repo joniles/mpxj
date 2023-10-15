@@ -274,8 +274,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1220-unreleased" class="md-nav__link">
-    12.2.0 (unreleased)
+  <a href="#1220-2023-10-12" class="md-nav__link">
+    12.2.0 (2023-10-12)
   </a>
   
 </li>
@@ -2778,8 +2778,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1220-unreleased" class="md-nav__link">
-    12.2.0 (unreleased)
+  <a href="#1220-2023-10-12" class="md-nav__link">
+    12.2.0 (2023-10-12)
   </a>
   
 </li>
@@ -4390,7 +4390,10 @@
 
 <h1 id="changelog">Changelog</h1>
 <h2 id="1221-unreleased">12.2.1 (unreleased)</h2>
-<h2 id="1220-unreleased">12.2.0 (unreleased)</h2>
+<ul>
+<li>Ensure role availability data is retrieved when reading a schedule from a P6 database.</li>
+</ul>
+<h2 id="1220-2023-10-12">12.2.0 (2023-10-12)</h2>
 <ul>
 <li>Add the <code>UnitOfMeasure</code> class to represent the unit of measure for a material resource. The unit of measure corresponds to the current "material label" attribute of a resource. The <code>Resource.getMaterialLabel()</code> method will now retrieve the label from the <code>UnitOfMeasure</code> instance associated with the resource. The <code>Resource.setMaterialLabel()</code> method is now deprecated, the <code>Resource.setUnitOfMeasure()</code> or <code>Resource.setUnitOfMeasureUniqueID()</code> methods should be used instead.</li>
 <li>Unit of measure for material resources are now read from and written to Primavera schedules.</li>

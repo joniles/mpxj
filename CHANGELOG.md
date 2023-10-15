@@ -1,8 +1,9 @@
 # Changelog
 
 ## 12.2.1 (unreleased)
+* Ensure role availability data is retrieved when reading a schedule from a P6 database.
 
-## 12.2.0 (unreleased)
+## 12.2.0 (2023-10-12)
 * Add the `UnitOfMeasure` class to represent the unit of measure for a material resource. The unit of measure corresponds to the current "material label" attribute of a resource. The `Resource.getMaterialLabel()` method will now retrieve the label from the `UnitOfMeasure` instance associated with the resource. The `Resource.setMaterialLabel()` method is now deprecated, the `Resource.setUnitOfMeasure()` or `Resource.setUnitOfMeasureUniqueID()` methods should be used instead.
 * Unit of measure for material resources are now read from and written to Primavera schedules.
 * Improve task duration and percent completion calculation for Asta PP files.
