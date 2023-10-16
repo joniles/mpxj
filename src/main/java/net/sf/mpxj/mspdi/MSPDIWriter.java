@@ -269,6 +269,32 @@ public final class MSPDIWriter extends AbstractProjectWriter
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
 
+      // If we don't have a name, use a default value.
+      // MS Project uses the file name.
+      String name = properties.getName();
+      if (name == null || name.isEmpty())
+      {
+         name = "project.xml";
+      }
+
+      // If we don't have a title, provide a default.
+      // This is usually the project summary task name,
+      // so we'll try the first task name, otherwise we'll
+      // use a generic value.
+      String title = properties.getProjectTitle();
+      if (title == null || title.isEmpty())
+      {
+         if (!m_projectFile.getTasks().isEmpty())
+         {
+            title = m_projectFile.getTasks().get(0).getName();
+         }
+
+         if (title == null || title.isEmpty())
+         {
+            title = "project";
+         }
+      }
+
       project.setActualsInSync(Boolean.valueOf(properties.getActualsInSync()));
       project.setAdminProject(Boolean.valueOf(properties.getAdminProject()));
       project.setAuthor(properties.getAuthor());
@@ -313,7 +339,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setMoveRemainingStartsBack(Boolean.valueOf(properties.getMoveRemainingStartsBack()));
       project.setMoveRemainingStartsForward(Boolean.valueOf(properties.getMoveRemainingStartsForward()));
       project.setMultipleCriticalPaths(Boolean.valueOf(properties.getMultipleCriticalPaths()));
-      project.setName(properties.getName());
+      project.setName(name);
       project.setNewTasksEffortDriven(Boolean.valueOf(properties.getNewTasksEffortDriven()));
       project.setNewTasksEstimated(Boolean.valueOf(properties.getNewTasksEstimated()));
       project.setNewTaskStartDate(properties.getNewTaskStartIsProjectStart() ? BigInteger.ZERO : BigInteger.ONE);
@@ -330,7 +356,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setStatusDate(properties.getStatusDate());
       project.setSubject(properties.getSubject());
       project.setTaskUpdatesResource(Boolean.valueOf(properties.getUpdatingTaskStatusUpdatesResourceStatus()));
-      project.setTitle(properties.getProjectTitle());
+      project.setTitle(title);
       project.setWeekStartDay(DatatypeConverter.printDay(properties.getWeekStartDay()));
       project.setWorkFormat(DatatypeConverter.printWorkUnits(properties.getDefaultWorkUnits()));
    }
