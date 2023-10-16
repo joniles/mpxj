@@ -795,7 +795,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_temporaryRootWbs.setUniqueID(uniqueID);
       m_temporaryRootWbs.setName(name);
       m_temporaryRootWbs.setSequenceNumber(Integer.valueOf(0));
-      m_temporaryRootWbs.setWBS(projectProperties.getProjectID());
+      m_temporaryRootWbs.setWBS(getProjectShortName(projectProperties));
 
       m_file.getTasks().stream().filter(t -> t != m_temporaryRootWbs && t.getParentTask() == null).forEach(t -> m_temporaryRootWbs.addChildTask(t));
    }
@@ -910,6 +910,16 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static String getActivityID(Task task)
    {
       return task.getActivityID() == null ? task.getWBS() : task.getActivityID();
+   }
+
+   private static String getProjectShortName(ProjectProperties props)
+   {
+      String shortName = props.getProjectID();
+      if (shortName == null || shortName.isEmpty())
+      {
+         shortName = "PROJECT";
+      }
+      return shortName;
    }
 
    private String m_encoding;
@@ -1042,7 +1052,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("batch_sum_flag", p -> Boolean.TRUE);
       PROJECT_COLUMNS.put("name_sep_char", p -> ".");
       PROJECT_COLUMNS.put("def_complete_pct_type", p -> PercentCompleteType.DURATION);
-      PROJECT_COLUMNS.put("proj_short_name", p -> p.getProjectID());
+      PROJECT_COLUMNS.put("proj_short_name", p -> getProjectShortName(p));
       PROJECT_COLUMNS.put("acct_id", p -> "");
       PROJECT_COLUMNS.put("orig_proj_id", p -> "");
       PROJECT_COLUMNS.put("source_proj_id", p -> "");
