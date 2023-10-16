@@ -328,7 +328,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeActivities()
    {
       m_writer.writeTable("TASK", ACTIVITY_COLUMNS);
-      m_file.getTasks().stream().filter(t -> !t.getSummary()).sorted(Comparator.comparing(Task::getUniqueID)).forEach(t -> m_writer.writeRecord(ACTIVITY_COLUMNS, t));
+      m_file.getTasks().stream().filter(t -> !t.getSummary() && !t.getNull()).sorted(Comparator.comparing(Task::getUniqueID)).forEach(t -> m_writer.writeRecord(ACTIVITY_COLUMNS, t));
    }
 
    /**
