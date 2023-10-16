@@ -10,7 +10,7 @@
 			<action dev="joniles" type="update">Ensure the project's Name and Title attributes are populated when exporting an MSPDI file.</action>
 			<action dev="joniles" type="update">Ensure the Project ID attribute is populated when writing an XER file.</action>
 			<action dev="joniles" type="update">Ensure null tasks (blank tasks) are not included when writing an XER file.</action>
-			<action dev="joniles" type="update">Ensure entity names written to MSPDI files do not contain control characters.</action>
+			<action dev="joniles" type="update">Ensure entity names written to MSPDI files and XER files do not contain control characters.</action>
 			<action dev="joniles" type="update">Ensure resource material labels written to MSPDI files meet Microsoft Project's naming requirements.</action>
 		</release>
 		<release date="2023-10-12" version="12.2.0">
