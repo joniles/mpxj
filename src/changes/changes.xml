@@ -10,6 +10,8 @@
 			<action dev="joniles" type="update">Ensure the project's Name and Title attributes are populated when exporting an MSPDI file.</action>
 			<action dev="joniles" type="update">Ensure the Project ID attribute is populated when writing an XER file.</action>
 			<action dev="joniles" type="update">Ensure null tasks (blank tasks) are not included when writing an XER file.</action>
+			<action dev="joniles" type="update">Ensure entity names written to MSPDI files do not contain control characters.</action>
+			<action dev="joniles" type="update">Ensure resource material labels written to MSPDI files meet Microsoft Project's naming requirements.</action>
 		</release>
 		<release date="2023-10-12" version="12.2.0">
 			<action dev="joniles" type="update">Add the `UnitOfMeasure` class to represent the unit of measure for a material resource. The unit of measure corresponds to the current "material label" attribute of a resource. The `Resource.getMaterialLabel()` method will now retrieve the label from the `UnitOfMeasure` instance associated with the resource. The `Resource.setMaterialLabel()` method is now deprecated, the `Resource.setUnitOfMeasure()` or `Resource.setUnitOfMeasureUniqueID()` methods should be used instead.</action>

@@ -339,7 +339,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setMoveRemainingStartsBack(Boolean.valueOf(properties.getMoveRemainingStartsBack()));
       project.setMoveRemainingStartsForward(Boolean.valueOf(properties.getMoveRemainingStartsForward()));
       project.setMultipleCriticalPaths(Boolean.valueOf(properties.getMultipleCriticalPaths()));
-      project.setName(name);
+      project.setName(stripInvalidCharacters(name));
       project.setNewTasksEffortDriven(Boolean.valueOf(properties.getNewTasksEffortDriven()));
       project.setNewTasksEstimated(Boolean.valueOf(properties.getNewTasksEstimated()));
       project.setNewTaskStartDate(properties.getNewTaskStartIsProjectStart() ? BigInteger.ZERO : BigInteger.ONE);
@@ -633,7 +633,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       ProjectCalendar base = mpxjCalendar.getParent();
       // SF-329: null default required to keep Powerproject happy when importing MSPDI files
       calendar.setBaseCalendarUID(base == null ? NULL_CALENDAR_ID : NumberHelper.getBigInteger(base.getUniqueID()));
-      calendar.setName(mpxjCalendar.getName());
+      calendar.setName(stripInvalidCharacters(mpxjCalendar.getName()));
 
       //
       // Create a list of normal days
@@ -800,7 +800,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          Exceptions.Exception ex = m_factory.createProjectCalendarsCalendarExceptionsException();
          el.add(ex);
 
-         ex.setName(exception.getName());
+         ex.setName(stripInvalidCharacters(exception.getName()));
          boolean working = exception.getWorking();
          ex.setDayWorking(Boolean.valueOf(working));
 
@@ -941,7 +941,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
             WorkWeek xmlWeek = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeek();
             xmlWorkWeekList.add(xmlWeek);
 
-            xmlWeek.setName(week.getName());
+            xmlWeek.setName(stripInvalidCharacters(week.getName()));
             TimePeriod xmlTimePeriod = m_factory.createProjectCalendarsCalendarWorkWeeksWorkWeekTimePeriod();
             xmlWeek.setTimePeriod(xmlTimePeriod);
             xmlTimePeriod.setFromDate(week.getDateRange().getStart().atStartOfDay());
@@ -1062,9 +1062,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setIsGeneric(Boolean.valueOf(mpx.getGeneric()));
       xml.setIsInactive(Boolean.valueOf(!mpx.getActive()));
       xml.setIsNull(Boolean.valueOf(mpx.getNull()));
-      xml.setMaterialLabel(mpx.getMaterialLabel());
+      xml.setMaterialLabel(formatMaterialLabel(mpx.getMaterialLabel()));
       xml.setMaxUnits(DatatypeConverter.printUnits(mpx.getMaxUnits()));
-      xml.setName(mpx.getName());
+      xml.setName(stripInvalidCharacters(mpx.getName()));
 
       if (!mpx.getNotes().isEmpty())
       {
@@ -1503,7 +1503,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       xml.setMilestone(Boolean.valueOf(mpx.getMilestone()));
-      xml.setName(mpx.getName());
+      xml.setName(stripInvalidCharacters(mpx.getName()));
 
       if (!mpx.getNotes().isEmpty())
       {
@@ -2566,6 +2566,104 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
+    * Strip control characters from the supplied text.
+    *
+    * @param text text to strip
+    * @return text without control characters
+    */
+   private String stripInvalidCharacters(String text)
+   {
+      if (text == null || text.isEmpty())
+      {
+         return text;
+      }
+
+      int index = 0;
+      while (index < text.length())
+      {
+         if (Character.isISOControl(text.charAt(index)))
+         {
+            return stripInvalidCharacters(text, index);
+         }
+         ++index;
+      }
+
+      return text;
+   }
+
+   /**
+    * Strip control characters from the supplied text.
+    * index represents the first control character in the text.
+    *
+    * @param text text to strip
+    * @param index index of first control character
+    * @return text without control characters
+    */
+   private String stripInvalidCharacters(String text, int index)
+   {
+      StringBuilder sb = new StringBuilder();
+      if (index != 0)
+      {
+         sb.append(text, 0, index);
+      }
+
+      ++index;
+
+      while (index < text.length())
+      {
+         char c = text.charAt(index);
+         if (!Character.isISOControl(c))
+         {
+            sb.append(c);
+         }
+         ++index;
+      }
+
+      return sb.toString();
+   }
+
+   /**
+    * Format a material label to meet MS Project's requirements.
+    *
+    * @param text material label
+    * @return material label acceptable to MS Project
+    */
+   private String formatMaterialLabel(String text)
+   {
+      if (text == null || text.isEmpty())
+      {
+         return text;
+      }
+
+      // Can't contain square brackets
+      int index = text.indexOf('[');
+      if (index != -1)
+      {
+         text = text.replace("[", "");
+      }
+
+      index = text.indexOf(']');
+      if (index != -1)
+      {
+         text = text.replace("]", "");
+      }
+
+      // Can't contain time unit names
+      if (TIME_UNIT_NAMES.contains(text.trim()))
+      {
+         text = text.trim() + ".";
+      }
+
+      // Can't be longer than 32 characters
+      if (text.length() > 32)
+      {
+         text = text.substring(0, 32);
+      }
+
+      return text;
+   }
+
+   /**
     * Cached context to minimise construction cost.
     */
    private static JAXBContext CONTEXT;
@@ -2697,4 +2795,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       65,
       71,
    };
+
+   private static final Set<String> TIME_UNIT_NAMES = new HashSet<>(Arrays.stream(TimeUnit.values()).map(u -> u.getName()).collect(Collectors.toList()));
 }
