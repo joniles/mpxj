@@ -2176,8 +2176,17 @@ final class AstaReader
          ActivityCode code = codeMap.get(row.getInteger("CODE_LIBRARY"));
          if (code != null)
          {
+            Integer id = row.getInteger("ID");
             Integer sequenceNumber = Integer.valueOf(code.getValues().size() + 1);
-            ActivityCodeValue value = code.addValue(row.getInteger("ID"), sequenceNumber, row.getString("SHORT_NAME"), row.getString("NAME"), null);
+            String name = row.getString("SHORT_NAME");
+            String description = row.getString("NAME");
+
+            if (name == null || name.isEmpty())
+            {
+               name = description;
+            }
+
+            ActivityCodeValue value = code.addValue(id, sequenceNumber, name, description, null);
             valueMap.put(value.getUniqueID(), value);
          }
       }
@@ -2192,6 +2201,9 @@ final class AstaReader
          }
       }
 
+      // We'll use a set to collect the values assigned to each task
+      // to allow us to weed out duplicates.
+      Map<Task, Set<ActivityCodeValue>> assignmentMap = new HashMap<>();
       for (Row row : assignments)
       {
          ActivityCodeValue value = valueMap.get(row.getInteger("ASSIGNED_TO"));
@@ -2218,8 +2230,15 @@ final class AstaReader
          // Task will be null here for hammock tasks
          if (task != null)
          {
-            task.addActivityCode(value);
+            assignmentMap.computeIfAbsent(task, t -> new HashSet<>()).add(value);
          }
+      }
+
+      // Now we can assign our de-duplicated values
+      for(Entry<Task, Set<ActivityCodeValue>> entry : assignmentMap.entrySet())
+      {
+         Task task = entry.getKey();
+         entry.getValue().stream().sorted(Comparator.comparing(v -> v.getUniqueID())).forEach(v -> task.addActivityCode(v));
       }
    }
 
