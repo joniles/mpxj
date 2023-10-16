@@ -453,7 +453,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeActivityCodeAssignments(Task task, List<ActivityCodeValue> values)
    {
-      values.stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ACTIVITY_CODE_ASSIGNMENT_COLUMNS, new Pair<>(task, v)));
+      Map<ActivityCode, ActivityCodeValue> map = new HashMap<>();
+      values.forEach(v -> map.put(v.getType(), v));
+      map.values().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ACTIVITY_CODE_ASSIGNMENT_COLUMNS, new Pair<>(task, v)));
    }
 
    /**
