@@ -25,7 +25,6 @@ package net.sf.mpxj.explorer;
 
 import java.io.File;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -265,7 +264,7 @@ public class ProjectTreeController
 
    private void addCalendars(MpxjTreeNode parentNode, List<ProjectCalendar> calendars)
    {
-      calendars.stream().forEach(c -> addCalendar(parentNode, c));
+      calendars.forEach(c -> addCalendar(parentNode, c));
    }
 
    /**
@@ -668,27 +667,14 @@ public class ProjectTreeController
 
    private void addActivityCodeValues(MpxjTreeNode parentNode, ActivityCode code)
    {
-      List<ActivityCodeValue> values = new ArrayList<>(code.getValues());
-      values.sort((v1, v2) -> {
-         int id1 = v1.getParent() == null ? 0 : v1.getParent().getUniqueID().intValue();
-         int id2 = v2.getParent() == null ? 0 : v2.getParent().getUniqueID().intValue();
-         return id1 - id2;
-      });
+      code.getChildValues().forEach(v -> addActivityCodeValues(parentNode, v));
+   }
 
-      Map<ActivityCodeValue, MpxjTreeNode> nodes = new HashMap<>();
-      for (ActivityCodeValue value : values)
-      {
-         MpxjTreeNode node = new MpxjTreeNode(value, ACTIVITY_CODE_VALUE_EXCLUDED_METHODS);
-         nodes.put(value, node);
-         if (value.getParent() == null)
-         {
-            parentNode.add(node);
-         }
-         else
-         {
-            nodes.get(value.getParent()).add(node);
-         }
-      }
+   private void addActivityCodeValues(MpxjTreeNode parentNode, ActivityCodeValue value)
+   {
+      MpxjTreeNode node = new MpxjTreeNode(value, ACTIVITY_CODE_VALUE_EXCLUDED_METHODS);
+      parentNode.add(node);
+      value.getChildValues().forEach(v -> addActivityCodeValues(node, v));
    }
 
    /**
