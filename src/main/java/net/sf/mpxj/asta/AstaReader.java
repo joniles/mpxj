@@ -2201,9 +2201,6 @@ final class AstaReader
          }
       }
 
-      // We'll use a set to collect the values assigned to each task
-      // to allow us to weed out duplicates.
-      Map<Task, Set<ActivityCodeValue>> assignmentMap = new HashMap<>();
       for (Row row : assignments)
       {
          ActivityCodeValue value = valueMap.get(row.getInteger("ASSIGNED_TO"));
@@ -2230,15 +2227,8 @@ final class AstaReader
          // Task will be null here for hammock tasks
          if (task != null)
          {
-            assignmentMap.computeIfAbsent(task, t -> new HashSet<>()).add(value);
+            task.addActivityCode(value);
          }
-      }
-
-      // Now we can assign our de-duplicated values
-      for(Entry<Task, Set<ActivityCodeValue>> entry : assignmentMap.entrySet())
-      {
-         Task task = entry.getKey();
-         entry.getValue().stream().sorted(Comparator.comparing(v -> v.getUniqueID())).forEach(v -> task.addActivityCode(v));
       }
    }
 
