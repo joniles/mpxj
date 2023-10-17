@@ -935,6 +935,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return task.getActivityID() == null ? task.getWBS() : task.getActivityID();
    }
 
+   private static ActivityType getActivityType(Task task)
+   {
+      ActivityType type = task.getActivityType();
+      return type == null ? ActivityTypeHelper.EXISTING_ACTIVITY_DEFAULT_TYPE : type;
+   }
+
    private static String getProjectShortName(ProjectProperties props)
    {
       String shortName = props.getProjectID();
@@ -1197,7 +1203,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("lock_plan_flag", t -> Boolean.FALSE);
       ACTIVITY_COLUMNS.put("auto_compute_act_flag", t -> Boolean.TRUE);
       ACTIVITY_COLUMNS.put("complete_pct_type", t -> t.getPercentCompleteType());
-      ACTIVITY_COLUMNS.put("task_type", t -> t.getActivityType());
+      ACTIVITY_COLUMNS.put("task_type", t -> getActivityType(t));
       ACTIVITY_COLUMNS.put("duration_type", t -> t.getType());
       ACTIVITY_COLUMNS.put("status_code", t -> ActivityStatusHelper.getActivityStatus(t));
       ACTIVITY_COLUMNS.put("task_code", t -> getActivityID(t));
