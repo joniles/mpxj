@@ -66,7 +66,7 @@ final class ActivityTypeHelper
    {
       if (value == null)
       {
-         value = ActivityType.RESOURCE_DEPENDENT;
+         value = EXISTING_ACTIVITY_DEFAULT_TYPE;
       }
 
       return TYPE_XML_MAP.get(value);
@@ -82,11 +82,14 @@ final class ActivityTypeHelper
    {
       if (value == null)
       {
-         value = ActivityType.RESOURCE_DEPENDENT;
+         value = EXISTING_ACTIVITY_DEFAULT_TYPE;
       }
 
       return TYPE_XER_MAP.get(value);
    }
+
+   public static final ActivityType NEW_ACTIVITY_DEFAULT_TYPE = ActivityType.TASK_DEPENDENT;
+   public static final ActivityType EXISTING_ACTIVITY_DEFAULT_TYPE = ActivityType.RESOURCE_DEPENDENT;
 
    private static final Map<String, net.sf.mpxj.ActivityType> XML_TYPE_MAP = new HashMap<>();
    static

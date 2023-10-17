@@ -1107,7 +1107,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("def_rate_type", p -> RateTypeHelper.getXerFromInstance(Integer.valueOf(0)));
       PROJECT_COLUMNS.put("add_act_remain_flag", p -> Boolean.FALSE);
       PROJECT_COLUMNS.put("act_this_per_link_flag", p -> Boolean.TRUE);
-      PROJECT_COLUMNS.put("def_task_type", p -> ActivityType.TASK_DEPENDENT);
+      PROJECT_COLUMNS.put("def_task_type", p -> ActivityTypeHelper.NEW_ACTIVITY_DEFAULT_TYPE);
       PROJECT_COLUMNS.put("act_pct_link_flag", p -> Boolean.FALSE);
       PROJECT_COLUMNS.put("critical_path_type", p -> p.getCriticalActivityType());
       PROJECT_COLUMNS.put("task_code_prefix_flag", p -> Boolean.TRUE);
