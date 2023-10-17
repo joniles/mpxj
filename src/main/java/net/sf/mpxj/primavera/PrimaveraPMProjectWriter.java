@@ -29,6 +29,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -1730,7 +1731,9 @@ final class PrimaveraPMProjectWriter
     */
    private void writeActivityCodeAssignments(Task task, ActivityType xml)
    {
-      task.getActivityCodes().forEach(v -> writeActivityCodeAssignment(xml, v));
+      Map<ActivityCode, ActivityCodeValue> map = new HashMap<>();
+      task.getActivityCodes().forEach(v -> map.put(v.getType(), v));
+      map.values().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeActivityCodeAssignment(xml, v));
    }
 
    /**
