@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ObjectSequence;
 
@@ -81,7 +82,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       {
          for (T entity : this)
          {
-            if (NumberHelper.getInt(entity.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
+            if (NumberHelper.getInt(entity.getUniqueID()) > MicrosoftProjectConstants.MAX_UNIQUE_ID)
             {
                renumberUniqueIDs();
                break;
@@ -202,9 +203,4 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    private final ObjectSequence m_uniqueIdSequence = new ObjectSequence(1);
    private final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
    private final List<T> m_uniqueIDClashList = new ArrayList<>();
-
-   /**
-    * Maximum unique ID value MS Project will accept.
-    */
-   public static final int MS_PROJECT_MAX_UNIQUE_ID = 0x1FFFFF;
 }
