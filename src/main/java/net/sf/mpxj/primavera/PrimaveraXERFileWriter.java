@@ -951,6 +951,24 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return shortName;
    }
 
+   private static Integer getSequenceNumber(Task task)
+   {
+      Integer sequenceNumber = task.getSequenceNumber();
+      return sequenceNumber == null ? task.getID() : sequenceNumber;
+   }
+
+   private static Integer getSequenceNumber(Resource resource)
+   {
+      Integer sequenceNumber = resource.getSequenceNumber();
+      return sequenceNumber == null ? resource.getID() : sequenceNumber;
+   }
+
+   private static PercentCompleteType getPercentCompleteType(Task task)
+   {
+      PercentCompleteType type = task.getPercentCompleteType();
+      return type == null ?PercentCompleteType.DURATION : type;
+   }
+
    private String m_encoding;
    private Charset m_charset;
    private ProjectFile m_file;
@@ -1041,7 +1059,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("user_id", r -> "");
       RESOURCE_COLUMNS.put("pobs_id", r -> "");
       RESOURCE_COLUMNS.put("guid", r -> r.getGUID());
-      RESOURCE_COLUMNS.put("rsrc_seq_num", r -> r.getSequenceNumber());
+      RESOURCE_COLUMNS.put("rsrc_seq_num", r -> getSequenceNumber(r));
       RESOURCE_COLUMNS.put("email_addr", r -> r.getEmailAddress());
       RESOURCE_COLUMNS.put("employee_code", r -> r.getCode());
       RESOURCE_COLUMNS.put("office_phone", r -> "");
@@ -1165,7 +1183,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("wbs_id", t -> t.getUniqueID());
       WBS_COLUMNS.put("proj_id", t -> getProjectID(t.getParentFile().getProjectProperties().getUniqueID()));
       WBS_COLUMNS.put("obs_id", t -> "");
-      WBS_COLUMNS.put("seq_num", t -> t.getSequenceNumber());
+      WBS_COLUMNS.put("seq_num", t -> getSequenceNumber(t));
       WBS_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
       WBS_COLUMNS.put("proj_node_flag", t -> Boolean.FALSE);
       WBS_COLUMNS.put("sum_data_flag", t -> Boolean.TRUE);
@@ -1202,7 +1220,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
       ACTIVITY_COLUMNS.put("lock_plan_flag", t -> Boolean.FALSE);
       ACTIVITY_COLUMNS.put("auto_compute_act_flag", t -> Boolean.TRUE);
-      ACTIVITY_COLUMNS.put("complete_pct_type", t -> t.getPercentCompleteType());
+      ACTIVITY_COLUMNS.put("complete_pct_type", t -> getPercentCompleteType(t));
       ACTIVITY_COLUMNS.put("task_type", t -> getActivityType(t));
       ACTIVITY_COLUMNS.put("duration_type", t -> t.getType());
       ACTIVITY_COLUMNS.put("status_code", t -> ActivityStatusHelper.getActivityStatus(t));
@@ -1214,8 +1232,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("remain_drtn_hr_cnt", t -> t.getRemainingDuration());
       ACTIVITY_COLUMNS.put("act_work_qty", t -> t.getActualWork());
       ACTIVITY_COLUMNS.put("remain_work_qty", t -> t.getRemainingWork());
-      ACTIVITY_COLUMNS.put("target_work_qty", t -> t.getPlannedWork());
-      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", t -> t.getPlannedDuration());
+      ACTIVITY_COLUMNS.put("target_work_qty", t -> t.getPlannedWork() == null ? Duration.getInstance(0, TimeUnit.HOURS) : t.getPlannedWork());
+      ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", t -> t.getPlannedDuration() == null ? Duration.getInstance(0, TimeUnit.HOURS) : t.getPlannedDuration());
       ACTIVITY_COLUMNS.put("target_equip_qty", t -> Integer.valueOf(0));
       ACTIVITY_COLUMNS.put("act_equip_qty", t -> Integer.valueOf(0));
       ACTIVITY_COLUMNS.put("remain_equip_qty", t -> Integer.valueOf(0));
@@ -1243,9 +1261,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("tmpl_guid", t -> null);
       ACTIVITY_COLUMNS.put("cstr_date2", t -> t.getSecondaryConstraintDate());
       ACTIVITY_COLUMNS.put("cstr_type2", t -> t.getSecondaryConstraintType());
-      ACTIVITY_COLUMNS.put("driving_path_flag", t -> null);
-      ACTIVITY_COLUMNS.put("act_this_per_work_qty", t -> null);
-      ACTIVITY_COLUMNS.put("act_this_per_equip_qty", t -> null);
+      ACTIVITY_COLUMNS.put("driving_path_flag", t -> Boolean.FALSE);
+      ACTIVITY_COLUMNS.put("act_this_per_work_qty", t -> Integer.valueOf(0));
+      ACTIVITY_COLUMNS.put("act_this_per_equip_qty", t -> Integer.valueOf(0));
       ACTIVITY_COLUMNS.put("external_early_start_date", t -> null);
       ACTIVITY_COLUMNS.put("external_late_end_date", t -> null);
       ACTIVITY_COLUMNS.put("create_date", t -> t.getCreateDate());
