@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ObjectSequence;
 
