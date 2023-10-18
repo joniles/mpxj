@@ -74,20 +74,11 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    /**
     * Validate that the Unique IDs for the entities in this container are valid for MS Project.
     * If they are not valid, i.e. one or more of them are too large, renumber them.
+    * @deprecated no longer required as the MSPDI and MPX writers handle this dynamically without changing the original schedule
     */
-   public void validateUniqueIDsForMicrosoftProject()
+   @Deprecated public void validateUniqueIDsForMicrosoftProject()
    {
-      if (!isEmpty())
-      {
-         for (T entity : this)
-         {
-            if (NumberHelper.getInt(entity.getUniqueID()) > MS_PROJECT_MAX_UNIQUE_ID)
-            {
-               renumberUniqueIDs();
-               break;
-            }
-         }
-      }
+
    }
 
    /**
@@ -202,9 +193,4 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    private final ObjectSequence m_uniqueIdSequence = new ObjectSequence(1);
    private final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
    private final List<T> m_uniqueIDClashList = new ArrayList<>();
-
-   /**
-    * Maximum unique ID value MS Project will accept.
-    */
-   public static final int MS_PROJECT_MAX_UNIQUE_ID = 0x1FFFFF;
 }

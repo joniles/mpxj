@@ -75,20 +75,11 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * held by MPXJ are within the range supported by MS Project.
     * If any of these values fall outside of this range, the unique IDs
     * of the relevant entities are renumbered.
+    * @deprecated no longer required as the MSPDI and MPX writers handle this dynamically without changing the original schedule
     */
-   public void validateUniqueIDsForMicrosoftProject()
+   @Deprecated public void validateUniqueIDsForMicrosoftProject()
    {
-      // The default calendar is a special case as we hold
-      // a reference to its ID in the project properties.
-      // We'll grab a copy of it here then set it again
-      // after we've renumbered, so the ID value is correct.
-      ProjectCalendar defaultCalendar = getDefaultCalendar();
-      m_tasks.validateUniqueIDsForMicrosoftProject();
-      m_resources.validateUniqueIDsForMicrosoftProject();
-      m_assignments.validateUniqueIDsForMicrosoftProject();
-      m_relations.validateUniqueIDsForMicrosoftProject();
-      m_calendars.validateUniqueIDsForMicrosoftProject();
-      setDefaultCalendar(defaultCalendar);
+
    }
 
    /**

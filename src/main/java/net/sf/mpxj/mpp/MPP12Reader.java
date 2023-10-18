@@ -37,6 +37,7 @@ import java.util.TreeMap;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.MicrosoftProjectConstants;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -44,7 +45,6 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectEntityContainer;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Resource;
@@ -674,7 +674,7 @@ final class MPP12Reader implements MPPVariantReader
 
       int value = MPPUtility.getInt(data, uniqueIDOffset);
       int type = MPPUtility.getInt(data, uniqueIDOffset + 4);
-      Integer taskUniqueID = value == 0 || value > ProjectEntityContainer.MS_PROJECT_MAX_UNIQUE_ID ? null : Integer.valueOf(value);
+      Integer taskUniqueID = value == 0 || value > MicrosoftProjectConstants.MAX_UNIQUE_ID ? null : Integer.valueOf(value);
       if (taskUniqueID != null)
       {
          switch (type)
