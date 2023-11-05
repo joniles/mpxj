@@ -1,7 +1,15 @@
 # Changelog
 
 ## 12.2.1 (unreleased)
-* Ensure role availability data is retrieved when reading a schedule from a P6 database.
+* Retrieve role availability data when reading a schedule from a P6 database.
+* Populate the project's Name and Title attributes when exporting an MSPDI file.
+* Ensure the Project ID attribute is populated when writing an XER file.
+* Don't include null tasks (blank tasks) when writing an XER file.
+* Strip control characters from entity names written to MSPDI files and XER files.
+* Ensure resource material labels written to MSPDI files meet Microsoft Project's naming requirements.
+* Ensure the activity code value Name attribute is populated when read from an Asta PP file.
+* Don't allow multiple values for an activity code when writing XER and PMXML files.
+* The MSPDI and MPX writers now dynamically renumber Unique ID values which are too large for Microsoft Project. The original schedule is no longer modified to achieve this.
 
 ## 12.2.0 (2023-10-12)
 * Add the `UnitOfMeasure` class to represent the unit of measure for a material resource. The unit of measure corresponds to the current "material label" attribute of a resource. The `Resource.getMaterialLabel()` method will now retrieve the label from the `UnitOfMeasure` instance associated with the resource. The `Resource.setMaterialLabel()` method is now deprecated, the `Resource.setUnitOfMeasure()` or `Resource.setUnitOfMeasureUniqueID()` methods should be used instead.
