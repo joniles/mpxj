@@ -9,7 +9,7 @@
 	<artifactId>mpxj</artifactId>
 
 	<!-- Note - this is automatically updated by the ant build ... don't remove the MPXJ comment! -->
-	<!-- MPXJ --><version>12.2.0</version>
+	<!-- MPXJ --><version>12.3.0</version>
 
 	<name>MPXJ</name>
 	<url>http://mpxj.org</url>

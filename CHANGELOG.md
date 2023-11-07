@@ -1,6 +1,8 @@
 # Changelog
 
-## 12.2.1 (unreleased)
+## 12.3.1 (unreleased)
+
+## 12.3.0 (2023-11-07)
 * Retrieve role availability data when reading a schedule from a P6 database.
 * Populate the project's Name and Title attributes when exporting an MSPDI file.
 * Ensure the Project ID attribute is populated when writing an XER file.
