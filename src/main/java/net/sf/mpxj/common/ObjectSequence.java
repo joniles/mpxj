@@ -48,6 +48,14 @@ public final class ObjectSequence
       m_id = currentMaxValue + 1;
    }
 
+   public void resetIfGreater(int newValue)
+   {
+      if (newValue >= m_id)
+      {
+         m_id = newValue + 1;
+      }
+   }
+
    /**
     * Retrieve the next value from the sequence.
     *

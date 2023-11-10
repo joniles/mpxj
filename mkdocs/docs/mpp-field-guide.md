@@ -111,7 +111,7 @@ Week Start Day|✓|✓|✓|✓
 ### Baseline Fields
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
-Baseline1 Date| |✓|✓|✓
+Baseline1 Date| |✓| |✓
 Baseline2 Date| |✓| |✓
 Baseline3 Date| |✓| |✓
 Baseline4 Date| |✓| |✓
@@ -546,13 +546,11 @@ Enterprise Project Date4| | |✓| 
 Enterprise Project Number2| | |✓| 
 Enterprise Project Number4| | |✓| 
 Enterprise Project Number5| | |✓| 
-Enterprise Project Number22| |✓| | 
 Enterprise Project Text1| |✓|✓|✓
 Enterprise Project Text2| |✓|✓| 
 Enterprise Project Text3| |✓|✓| 
 Enterprise Project Text4| |✓|✓| 
-Enterprise Project Text5| |✓| | 
-Enterprise Project Text6| |✓|✓| 
+Enterprise Project Text6| | |✓| 
 Enterprise Project Text8| | |✓| 
 Enterprise Project Text9| | |✓| 
 Enterprise Project Text10| | |✓| 

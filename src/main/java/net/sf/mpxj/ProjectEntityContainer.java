@@ -71,7 +71,6 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
          // TODO: remove from interface when this method is deleted
          entity.setUniqueID(Integer.valueOf(uid++));
       }
-      updateUniqueIdCounter();
    }
 
    /**
@@ -153,26 +152,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       }
 
       m_uniqueIDMap.put(newUniqueID, element);
-   }
-
-   /**
-    * Retrieve the next Unique ID value for this entity.
-    *
-    * @return next Unique ID value
-    */
-   public Integer getNextUniqueID()
-   {
-      return m_uniqueIdSequence.getNext();
-   }
-
-   /**
-    * Update the Unique ID counter to ensure it produces
-    * values which start after the highest Unique ID
-    * currently in use for this entity.
-    */
-   public void updateUniqueIdCounter()
-   {
-      m_uniqueIdSequence.reset(stream().mapToInt(t -> NumberHelper.getInt(t.getUniqueID())).max().orElse(0));
+      m_projectFile.getObjectSequence(element.getClass()).resetIfGreater(newUniqueID.intValue());
    }
 
    /**
@@ -186,14 +166,15 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
          return;
       }
 
-      m_uniqueIDClashList.forEach(i -> i.setUniqueID(getNextUniqueID()));
+      ObjectSequence sequence = m_projectFile.getObjectSequence(m_uniqueIDClashList.get(0).getClass());
+      m_uniqueIDClashList.forEach(i -> i.setUniqueID(sequence.getNext()));
       m_uniqueIDClashList.clear();
       m_uniqueIDMap.clear();
       forEach(i -> m_uniqueIDMap.put(i.getUniqueID(), i));
    }
 
    protected final ProjectFile m_projectFile;
-   private final ObjectSequence m_uniqueIdSequence = new ObjectSequence(1);
+
    private final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
    private final List<T> m_uniqueIDClashList = new ArrayList<>();
 }

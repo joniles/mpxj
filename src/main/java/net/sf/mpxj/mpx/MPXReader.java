@@ -846,7 +846,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
       if (m_projectConfig.getAutoResourceUniqueID())
       {
-         resource.setUniqueID(m_projectFile.getResources().getNextUniqueID());
+         resource.setUniqueID(m_projectFile.getObjectSequence(Resource.class).getNext());
       }
 
       if (m_projectConfig.getAutoResourceID())
@@ -1295,7 +1295,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
       if (m_projectConfig.getAutoTaskUniqueID())
       {
-         task.setUniqueID(m_projectFile.getTasks().getNextUniqueID());
+         task.setUniqueID(m_projectFile.getObjectSequence(Task.class).getNext());
       }
 
       if (task.getID() == null || m_projectConfig.getAutoTaskID())

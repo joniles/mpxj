@@ -205,7 +205,7 @@ Expanded|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Expected Finish| | | | | | | | | | | | | |✓| |✓| | | | | | | 
 Expense Items|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 External Early Start| | | | | | | | | | | | | |✓| |✓| | | | | | | 
-External Late Finish| | | | | | | | | | | | | |✓| |✓| | | | | | | 
+External Late Finish| | | | | | | | | | | | | |✓| | | | | | | | | 
 External Project| | | | | | | |✓| |✓| | | | | | | | | | | | | 
 External Task| | | | | | | |✓| |✓| | | | | | | | | | | | | 
 Feature of Work| | | | | | | | | | | | | | | | | | |✓| | | | 
@@ -539,7 +539,7 @@ Number19| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Number20| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Outline Code1| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Outline Code1 Index| | | | | | | |✓| | | | | | | | | | | | | | | 
-Outline Code2| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
+Outline Code2| | | | | | |✓|✓| | | | | | | | | | | | | | | 
 Outline Code2 Index| | | | | | | |✓| | | | | | | | | | | | | | | 
 Outline Code3| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Outline Code3 Index| | | | | | | |✓| | | | | | | | | | | | | | | 
@@ -619,12 +619,10 @@ Enterprise Project Date4| | | | | | | |✓| | | | | | | | | | |
 Enterprise Project Number2| | | | | | | |✓| | | | | | | | | | | | | | | 
 Enterprise Project Number4| | | | | | | |✓| | | | | | | | | | | | | | | 
 Enterprise Project Number5| | | | | | | |✓| | | | | | | | | | | | | | | 
-Enterprise Project Number22| | | | | | | |✓| | | | | | | | | | | | | | | 
 Enterprise Project Text1| | | | | | | |✓| |✓| | | | | | | | | | | | | 
 Enterprise Project Text2| | | | | | | |✓| | | | | | | | | | | | | | | 
 Enterprise Project Text3| | | | | | | |✓| | | | | | | | | | | | | | | 
 Enterprise Project Text4| | | | | | | |✓| | | | | | | | | | | | | | | 
-Enterprise Project Text5| | | | | | | |✓| | | | | | | | | | | | | | | 
 Enterprise Project Text6| | | | | | | |✓| | | | | | | | | | | | | | | 
 Enterprise Project Text8| | | | | | | |✓| | | | | | | | | | | | | | | 
 Enterprise Project Text9| | | | | | | |✓| | | | | | | | | | | | | | | 
