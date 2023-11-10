@@ -37,6 +37,7 @@ public interface ProjectEntityWithUniqueID
 
    /**
     * Set the Unique ID value of the entity.
+    * TODO: this can be removed when renumbering is no longer supported
     *
     * @param id Unique ID value
     */

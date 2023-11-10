@@ -60,12 +60,15 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
    /**
     * Renumbers all entity unique IDs.
+    *
+    * @deprecated no longer required as the MSPDI and MPX writers handle this dynamically without changing the original schedule
     */
-   public void renumberUniqueIDs()
+   @Deprecated public void renumberUniqueIDs()
    {
       int uid = firstUniqueID();
       for (T entity : this)
       {
+         // TODO: remove from interface when this method is deleted
          entity.setUniqueID(Integer.valueOf(uid++));
       }
       updateUniqueIdCounter();
