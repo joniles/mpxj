@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.3.1">
+			<action dev="joniles" type="update">Added support for the WBS Code Separator attribute to `ProjectProperties`.</action>
 		</release>
 		<release date="2023-11-07" version="12.3.0">
 			<action dev="joniles" type="update">Retrieve role availability data when reading a schedule from a P6 database.</action>

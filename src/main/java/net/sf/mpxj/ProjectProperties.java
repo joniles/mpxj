@@ -2917,6 +2917,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Retrieve the WBS Code separator character.
+    *
+    * @return WBS Code separator character
+    */
+   public String getWbsCodeSeparator()
+   {
+      return (String)get(ProjectField.WBS_CODE_SEPARATOR);
+   }
+
+   /**
+    * Set the WBS Code separator character.
+    *
+    * @param value WBS Code separator character
+    */
+   public void setWbsCodeSeparator(String value)
+   {
+      set(ProjectField.WBS_CODE_SEPARATOR, value);
+   }
+   
+   /**
     * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
@@ -3031,6 +3051,11 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    private Map<String, Object> defaultCustomProperties()
    {
       return new HashMap<>();
+   }
+
+   private String defaultWbsCodeSeparator()
+   {
+      return ".";
    }
 
    /**
@@ -3159,5 +3184,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, ProjectProperties::defaultDecimalSeparator);
       CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, ProjectProperties::defaultMpxDelimiter);
       CALCULATED_FIELD_MAP.put(ProjectField.CUSTOM_PROPERTIES, ProjectProperties::defaultCustomProperties);
+      CALCULATED_FIELD_MAP.put(ProjectField.WBS_CODE_SEPARATOR, ProjectProperties::defaultWbsCodeSeparator);
    }
 }

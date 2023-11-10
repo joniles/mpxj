@@ -545,7 +545,7 @@ final class PrimaveraPMProjectWriter
       project.setSummarizeToWBSLevel(Integer.valueOf(2));
       project.setSummaryLevel("Assignment Level");
       project.setUseProjectBaselineForEarnedValue(Boolean.TRUE);
-      project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
+      project.setWBSCodeSeparator(mpxj.getWbsCodeSeparator());
       project.setLocationObjectId(mpxj.getLocationUniqueID());
 
       writeScheduleOptions(project.getScheduleOptions());
@@ -606,7 +606,7 @@ final class PrimaveraPMProjectWriter
       project.setStatus("Active");
       project.setStrategicPriority(Integer.valueOf(500));
       project.setSummarizeToWBSLevel(Integer.valueOf(2));
-      project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
+      project.setWBSCodeSeparator(mpxj.getWbsCodeSeparator());
       project.setLocationObjectId(mpxj.getLocationUniqueID());
 
       writeScheduleOptions(project.getScheduleOptions());

@@ -1097,7 +1097,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("step_complete_flag", p -> Boolean.TRUE);
       PROJECT_COLUMNS.put("cost_qty_recalc_flag", p -> Boolean.TRUE);
       PROJECT_COLUMNS.put("batch_sum_flag", p -> Boolean.TRUE);
-      PROJECT_COLUMNS.put("name_sep_char", p -> ".");
+      PROJECT_COLUMNS.put("name_sep_char", p -> p.getWbsCodeSeparator());
       PROJECT_COLUMNS.put("def_complete_pct_type", p -> PercentCompleteType.DURATION);
       PROJECT_COLUMNS.put("proj_short_name", p -> getProjectShortName(p));
       PROJECT_COLUMNS.put("acct_id", p -> "");

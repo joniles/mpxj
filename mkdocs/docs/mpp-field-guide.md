@@ -105,6 +105,7 @@ Time Format|✓|✓|✓|✓
 Time Separator|✓|✓|✓|✓
 Total Slack Calculation Type|✓|✓|✓|✓
 Updating Task Status Updates Resource Status|✓|✓|✓|✓
+WBS Code Separator|✓|✓|✓|✓
 Week Start Day|✓|✓|✓|✓
 
 ### Baseline Fields
