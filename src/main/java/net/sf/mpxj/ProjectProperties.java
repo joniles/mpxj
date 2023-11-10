@@ -2916,6 +2916,17 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return (RelationshipLagCalendar) get(ProjectField.RELATIONSHIP_LAG_CALENDAR);
    }
 
+   public String getWbsCodeSeparator()
+   {
+      return (String)get(ProjectField.WBS_CODE_SEPARATOR);
+   }
+
+   public void setWbsCodeSeparator(String value)
+   {
+      set(ProjectField.WBS_CODE_SEPARATOR, value);
+   }
+
+
    /**
     * Maps a field index to a ProjectField instance.
     *
@@ -3031,6 +3042,11 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    private Map<String, Object> defaultCustomProperties()
    {
       return new HashMap<>();
+   }
+
+   private String defaultWbsCodeSeparator()
+   {
+      return ".";
    }
 
    /**
@@ -3159,5 +3175,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, ProjectProperties::defaultDecimalSeparator);
       CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, ProjectProperties::defaultMpxDelimiter);
       CALCULATED_FIELD_MAP.put(ProjectField.CUSTOM_PROPERTIES, ProjectProperties::defaultCustomProperties);
+      CALCULATED_FIELD_MAP.put(ProjectField.WBS_CODE_SEPARATOR, ProjectProperties::defaultWbsCodeSeparator);
    }
 }

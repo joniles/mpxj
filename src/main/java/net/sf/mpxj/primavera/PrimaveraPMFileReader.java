@@ -594,6 +594,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
       properties.setLocationUniqueID(project.getLocationObjectId());
       properties.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXml(project.getRelationshipLagCalendar()));
+      properties.setWbsCodeSeparator(project.getWBSCodeSeparator());
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 
@@ -616,6 +617,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setExportFlag(false);
       properties.setMustFinishBy(project.getMustFinishByDate());
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
+      properties.setWbsCodeSeparator(project.getWBSCodeSeparator());
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 
@@ -1356,7 +1358,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (Task task : container.getChildTasks())
       {
-         String wbs = prefix.isEmpty() ? task.getWBS() : prefix + PrimaveraReader.DEFAULT_WBS_SEPARATOR + task.getWBS();
+         String wbs = prefix.isEmpty() ? task.getWBS() : prefix + m_projectFile.getProjectProperties().getWbsCodeSeparator() + task.getWBS();
          task.setWBS(wbs);
          task.setActivityID(wbs);
          populateWBS(wbs, task);

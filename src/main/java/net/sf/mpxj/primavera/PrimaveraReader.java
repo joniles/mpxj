@@ -195,6 +195,7 @@ final class PrimaveraReader
          properties.setMustFinishBy(row.getDate("plan_end_date"));
          properties.setCriticalSlackLimit(Duration.getInstance(row.getInt("critical_drtn_hr_cnt"), TimeUnit.HOURS));
          properties.setLocationUniqueID(row.getInteger("location_id"));
+         properties.setWbsCodeSeparator(row.getString("name_sep_char"));
 
          // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");
@@ -1127,7 +1128,7 @@ final class PrimaveraReader
    {
       if (parent != null)
       {
-         task.setWBS(parent.getWBS() + DEFAULT_WBS_SEPARATOR + task.getWBS());
+         task.setWBS(parent.getWBS() + m_project.getProjectProperties().getWbsCodeSeparator() + task.getWBS());
          task.setActivityID(task.getWBS());
       }
       task.getChildTasks().forEach(t -> populateWBS(task, t));
@@ -2336,6 +2337,4 @@ final class PrimaveraReader
    }
 
    static final LocalDate EXCEPTION_EPOCH = LocalDate.of(1899, 12, 30);
-
-   static final String DEFAULT_WBS_SEPARATOR = ".";
 }

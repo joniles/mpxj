@@ -2254,6 +2254,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.RESOURCE_POOL_FILE.getValue()] = "Resource Pool File";
       PROJECT_COLUMNS_ARRAY[ProjectField.TOTAL_SLACK_CALCULATION_TYPE.getValue()] = "Total Slack Calculation Type";
       PROJECT_COLUMNS_ARRAY[ProjectField.RELATIONSHIP_LAG_CALENDAR.getValue()] = "Relationship Lag Calendar";
+      PROJECT_COLUMNS_ARRAY[ProjectField.WBS_CODE_SEPARATOR.getValue()] = "WBS Code Separator";
    }
 
    private static final Object[][] RESOURCES =
