@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ObjectSequence;
 
 /**
@@ -152,7 +151,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       }
 
       m_uniqueIDMap.put(newUniqueID, element);
-      m_projectFile.getObjectSequence(element.getClass()).resetIfGreater(newUniqueID.intValue());
+      m_projectFile.getObjectSequence(element.getClass()).sync(newUniqueID.intValue());
    }
 
    /**

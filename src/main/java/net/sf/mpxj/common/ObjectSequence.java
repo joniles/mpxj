@@ -42,17 +42,24 @@ public final class ObjectSequence
     * Reset the sequence to start after the current maximum value.
     *
     * @param currentMaxValue current maximum value
+    * @deprecated no longer used
     */
-   public void reset(int currentMaxValue)
+   @Deprecated public void reset(int currentMaxValue)
    {
       m_id = currentMaxValue + 1;
    }
 
-   public void resetIfGreater(int newValue)
+   /**
+    * Sync the sequence with a value known to be in use.
+    * If necessary, update the sequence to follow on from this value.
+    *
+    * @param id value in use
+    */
+   public void sync(int id)
    {
-      if (newValue >= m_id)
+      if (id >= m_id)
       {
-         m_id = newValue + 1;
+         m_id = id + 1;
       }
    }
 
