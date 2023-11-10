@@ -751,6 +751,12 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       getRelations().fixUniqueIdClashes();
    }
 
+   /**
+    * Retrieve the ObjectSequence insyance used to generate Unique ID values for a given class.
+    *
+    * @param c target class
+    * @return ObjectSequence instance
+    */
    public ObjectSequence getUniqueIdObjectSequence(Class<?> c)
    {
       return m_uniqueIdObjectSequences.computeIfAbsent(c, x -> new ObjectSequence(1));

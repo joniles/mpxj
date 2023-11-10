@@ -158,7 +158,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
     * Retrieve the next Unique ID value for this entity.
     *
     * @return next Unique ID value
-    * @deprecated no longer required
+    * @deprecated use ProjectFile.getUniqueIdObjectSequence(T.class).getNext()
     */
    @Deprecated public Integer getNextUniqueID()
    {
