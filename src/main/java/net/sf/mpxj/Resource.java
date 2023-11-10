@@ -60,7 +60,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
       if (config.getAutoResourceUniqueID())
       {
-         setUniqueID(file.getObjectSequence(Resource.class).getNext());
+         setUniqueID(file.getUniqueIdObjectSequence(Resource.class).getNext());
       }
 
       if (config.getAutoResourceID())

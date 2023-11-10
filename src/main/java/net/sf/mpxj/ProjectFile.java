@@ -740,9 +740,9 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       getRelations().fixUniqueIdClashes();
    }
 
-   public ObjectSequence getObjectSequence(Class c)
+   public ObjectSequence getUniqueIdObjectSequence(Class<?> c)
    {
-      return m_objectSequences.computeIfAbsent(c, x -> new ObjectSequence(1));
+      return m_uniqueIdObjectSequences.computeIfAbsent(c, x -> new ObjectSequence(1));
    }
 
    /**
@@ -802,5 +802,5 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
-   private final Map<Class, ObjectSequence> m_objectSequences = new HashMap<>();
+   private final Map<Class<?>, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 }

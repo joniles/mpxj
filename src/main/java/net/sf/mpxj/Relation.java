@@ -57,7 +57,7 @@ public final class Relation implements ProjectEntityWithUniqueID
       ProjectConfig projectConfig = project.getProjectConfig();
       if (projectConfig.getAutoRelationUniqueID())
       {
-         setUniqueID(project.getObjectSequence(Relation.class).getNext());
+         setUniqueID(project.getUniqueIdObjectSequence(Relation.class).getNext());
       }
    }
 

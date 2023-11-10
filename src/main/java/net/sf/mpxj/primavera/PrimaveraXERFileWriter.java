@@ -778,7 +778,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       Integer uniqueID = tasks.stream().map(t -> t.getUniqueID()).min(Comparator.naturalOrder()).orElse(null);
       if (uniqueID == null || uniqueID.intValue() <= 1)
       {
-         uniqueID = m_file.getObjectSequence(Task.class).getNext();
+         uniqueID = m_file.getUniqueIdObjectSequence(Task.class).getNext();
       }
       else
       {

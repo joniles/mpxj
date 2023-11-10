@@ -258,7 +258,7 @@ public class ProjectConfig
     */
    @Deprecated public int getNextTaskUniqueID()
    {
-      return m_parent.getObjectSequence(Task.class).getNext().intValue();
+      return m_parent.getUniqueIdObjectSequence(Task.class).getNext().intValue();
    }
 
    /**
@@ -269,7 +269,7 @@ public class ProjectConfig
     */
    @Deprecated public int getNextCalendarUniqueID()
    {
-      return m_parent.getObjectSequence(ProjectCalendar.class).getNext().intValue();
+      return m_parent.getUniqueIdObjectSequence(ProjectCalendar.class).getNext().intValue();
    }
 
    /**
@@ -280,7 +280,7 @@ public class ProjectConfig
     */
    @Deprecated int getNextAssignmentUniqueID()
    {
-      return m_parent.getObjectSequence(ResourceAssignment.class).getNext().intValue();
+      return m_parent.getUniqueIdObjectSequence(ResourceAssignment.class).getNext().intValue();
    }
 
    /**
@@ -302,7 +302,7 @@ public class ProjectConfig
     */
    @Deprecated public int getNextResourceUniqueID()
    {
-      return m_parent.getObjectSequence(Resource.class).getNext().intValue();
+      return m_parent.getUniqueIdObjectSequence(Resource.class).getNext().intValue();
    }
 
    /**
@@ -324,7 +324,7 @@ public class ProjectConfig
     */
    @Deprecated public int getNextRelationUniqueID()
    {
-      return m_parent.getObjectSequence(Relation.class).getNext().intValue();
+      return m_parent.getUniqueIdObjectSequence(Relation.class).getNext().intValue();
    }
 
    /**

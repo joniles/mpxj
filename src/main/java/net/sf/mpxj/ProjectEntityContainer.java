@@ -151,7 +151,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       }
 
       m_uniqueIDMap.put(newUniqueID, element);
-      m_projectFile.getObjectSequence(element.getClass()).sync(newUniqueID.intValue());
+      m_projectFile.getUniqueIdObjectSequence(element.getClass()).sync(newUniqueID.intValue());
    }
 
    /**
@@ -165,7 +165,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
          return;
       }
 
-      ObjectSequence sequence = m_projectFile.getObjectSequence(m_uniqueIDClashList.get(0).getClass());
+      ObjectSequence sequence = m_projectFile.getUniqueIdObjectSequence(m_uniqueIDClashList.get(0).getClass());
       m_uniqueIDClashList.forEach(i -> i.setUniqueID(sequence.getNext()));
       m_uniqueIDClashList.clear();
       m_uniqueIDMap.clear();

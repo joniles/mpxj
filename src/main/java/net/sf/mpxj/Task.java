@@ -63,7 +63,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
       if (config.getAutoTaskUniqueID())
       {
-         setUniqueID(file.getObjectSequence(Task.class).getNext());
+         setUniqueID(file.getUniqueIdObjectSequence(Task.class).getNext());
       }
 
       if (config.getAutoTaskID())
