@@ -1679,17 +1679,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             // If we're missing the predecessor or successor we assume they are external relations
             if (successorTask != null && predecessorTask == null)
             {
-               ExternalRelation relation = new ExternalRelation(predecessorID, successorTask, type, lag, true);
+               ExternalRelation relation = new ExternalRelation(row.getObjectId(), predecessorID, successorTask, type, lag, true);
                m_externalRelations.add(relation);
-               relation.setUniqueID(row.getObjectId());
             }
             else
             {
                if (successorTask == null && predecessorTask != null)
                {
-                  ExternalRelation relation = new ExternalRelation(successorID, predecessorTask, type, lag, false);
+                  ExternalRelation relation = new ExternalRelation(row.getObjectId(), successorID, predecessorTask, type, lag, false);
                   m_externalRelations.add(relation);
-                  relation.setUniqueID(row.getObjectId());
                }
             }
          }

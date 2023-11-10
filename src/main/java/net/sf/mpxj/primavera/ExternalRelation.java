@@ -41,10 +41,28 @@ public final class ExternalRelation
     * @param targetTask target task instance
     * @param type relation type
     * @param lag relation lag
-    * @param predecessor TODO
+    * @param predecessor true if this is a predecessor of the current task
+    * @deprecated use the constructor which requires te unique ID
     */
-   public ExternalRelation(Integer sourceUniqueID, Task targetTask, RelationType type, Duration lag, boolean predecessor)
+   @Deprecated public ExternalRelation(Integer sourceUniqueID, Task targetTask, RelationType type, Duration lag, boolean predecessor)
    {
+      // TODO: make uniqueID immutable once this method is removed
+      this(null, sourceUniqueID, targetTask, type, lag, predecessor);
+   }
+
+   /**
+    * Default constructor.
+    *
+    * @param uniqueID external relation unique ID
+    * @param sourceUniqueID source task unique ID
+    * @param targetTask target task instance
+    * @param type relation type
+    * @param lag relation lag
+    * @param predecessor true if this is a predecessor of the current task
+    */
+   public ExternalRelation(Integer uniqueID, Integer sourceUniqueID, Task targetTask, RelationType type, Duration lag, boolean predecessor)
+   {
+      m_uniqueID = uniqueID;
       m_externalTaskUniqueID = sourceUniqueID;
       m_targetTask = targetTask;
 
