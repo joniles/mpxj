@@ -196,7 +196,6 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    }
 
    protected final ProjectFile m_projectFile;
-
    private final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
    private final List<T> m_uniqueIDClashList = new ArrayList<>();
 }
