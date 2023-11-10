@@ -2916,17 +2916,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return (RelationshipLagCalendar) get(ProjectField.RELATIONSHIP_LAG_CALENDAR);
    }
 
+   /**
+    * Retrieve the WBS Code separator character.
+    *
+    * @return WBS Code separator character
+    */
    public String getWbsCodeSeparator()
    {
       return (String)get(ProjectField.WBS_CODE_SEPARATOR);
    }
 
+   /**
+    * Set the WBS Code separator character.
+    *
+    * @param value WBS Code separator character
+    */
    public void setWbsCodeSeparator(String value)
    {
       set(ProjectField.WBS_CODE_SEPARATOR, value);
    }
-
-
+   
    /**
     * Maps a field index to a ProjectField instance.
     *
