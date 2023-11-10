@@ -155,6 +155,18 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    }
 
    /**
+    * Update the Unique ID counter to ensure it produces
+    * values which start after the highest Unique ID
+    * currently in use for this entity.
+    *
+    * @deprecated no longer required
+    */
+   @Deprecated public void updateUniqueIdCounter()
+   {
+
+   }
+
+   /**
     * Provide new Unique ID values for entity instances
     * which were found to be duplicated.
     */
