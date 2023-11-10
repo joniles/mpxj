@@ -728,6 +728,17 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * This method is called to ensure that after a project file has been
+    * read, the cached unique ID values used to generate new unique IDs
+    * start after the end of the existing set of unique IDs.
+    *
+    * @deprecated no longer required
+    */
+   @Deprecated public void updateUniqueIdCounters()
+   {
+   }
+
+   /**
     * This method is called to renumber any Unique ID values which
     * were found to have duplicates.
     */
