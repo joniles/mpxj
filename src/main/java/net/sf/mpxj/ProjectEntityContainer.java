@@ -155,6 +155,17 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    }
 
    /**
+    * Retrieve the next Unique ID value for this entity.
+    *
+    * @return next Unique ID value
+    * @deprecated no longer required
+    */
+   @Deprecated public Integer getNextUniqueID()
+   {
+      throw new UnsupportedOperationException();
+   }
+
+   /**
     * Update the Unique ID counter to ensure it produces
     * values which start after the highest Unique ID
     * currently in use for this entity.
