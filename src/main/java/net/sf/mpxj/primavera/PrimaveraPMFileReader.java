@@ -2042,15 +2042,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processNotebookTopic(NotebookTopicType xml)
    {
-      Integer uniqueID = xml.getObjectId();
-      Integer sequenceNumber = xml.getSequenceNumber();
-      boolean epsFlag = BooleanHelper.getBoolean(xml.isAvailableForEPS());
-      boolean projectFlag = BooleanHelper.getBoolean(xml.isAvailableForProject());
-      boolean wbsFlag = BooleanHelper.getBoolean(xml.isAvailableForWBS());
-      boolean activityFlag = BooleanHelper.getBoolean(xml.isAvailableForActivity());
-      String name = xml.getName();
+      NotesTopic topic = new NotesTopic.Builder(m_projectFile)
+         .uniqueID(xml.getObjectId())
+         .sequenceNumber(xml.getSequenceNumber())
+         .availableForEPS(BooleanHelper.getBoolean(xml.isAvailableForEPS()))
+         .availableForProject(BooleanHelper.getBoolean(xml.isAvailableForProject()))
+         .availableForWBS(BooleanHelper.getBoolean(xml.isAvailableForWBS()))
+         .availableForActivity(BooleanHelper.getBoolean(xml.isAvailableForActivity()))
+         .name(xml.getName())
+         .build();
 
-      m_projectFile.getNotesTopics().add(new NotesTopic(uniqueID, sequenceNumber, name, epsFlag, projectFlag, wbsFlag, activityFlag));
+      m_projectFile.getNotesTopics().add(topic);
    }
 
    /**
