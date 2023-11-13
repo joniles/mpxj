@@ -1253,15 +1253,17 @@ final class PrimaveraReader
     */
    private void processNotebookTopic(Row row)
    {
-      Integer uniqueID = row.getInteger("memo_type_id");
-      Integer sequenceNumber = row.getInteger("seq_num");
-      boolean epsFlag = row.getBoolean("eps_flag");
-      boolean projectFlag = row.getBoolean("proj_flag");
-      boolean wbsFlag = row.getBoolean("wbs_flag");
-      boolean activityFlag = row.getBoolean("task_flag");
-      String name = row.getString("memo_type");
+      NotesTopic topic = new NotesTopic.Builder(m_project)
+         .uniqueID(row.getInteger("memo_type_id"))
+         .sequenceNumber(row.getInteger("seq_num"))
+         .availableForEPS(row.getBoolean("eps_flag"))
+         .availableForProject(row.getBoolean("proj_flag"))
+         .availableForWBS(row.getBoolean("wbs_flag"))
+         .availableForActivity(row.getBoolean("task_flag"))
+         .name(row.getString("memo_type"))
+         .build();
 
-      m_project.getNotesTopics().add(new NotesTopic(uniqueID, sequenceNumber, name, epsFlag, projectFlag, wbsFlag, activityFlag));
+      m_project.getNotesTopics().add(topic);
    }
 
    /**
