@@ -60,10 +60,9 @@ public class UnitOfMeasureContainer extends ProjectEntityContainer<UnitOfMeasure
     */
    private UnitOfMeasure buildUnitOfMeasure(String name)
    {
-      UnitOfMeasure uom = new UnitOfMeasure.Builder()
+      UnitOfMeasure uom = new UnitOfMeasure.Builder(m_projectFile)
          .name(name)
          .abbreviation(name)
-         .uniqueID(Integer.valueOf(stream().mapToInt(u -> u.getUniqueID().intValue()).max().orElse(0) + 1))
          .sequenceNumber(Integer.valueOf(stream().mapToInt(u -> u.getSequenceNumber().intValue()).max().orElse(0) + 1))
          .build();
       add(uom);
