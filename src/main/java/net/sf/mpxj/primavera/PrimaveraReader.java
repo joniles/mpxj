@@ -1841,35 +1841,40 @@ final class PrimaveraReader
          Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
          if (task != null)
          {
-            List<ExpenseItem> items = task.getExpenseItems();
-            ExpenseItem ei = new ExpenseItem(task);
-            items.add(ei);
+            Double actualCost = row.getDouble("act_cost");
+            Double remainingCost = row.getDouble("remain_cost");
+            Double pricePerUnit = row.getDouble("cost_per_qty");
 
-            ei.setAccount(m_project.getCostAccounts().getByUniqueID(row.getInteger("acct_id")));
-            ei.setAccrueType(AccrueTypeHelper.getInstanceFromXer(row.getString("cost_load_type")));
-            ei.setActualCost(row.getDouble("act_cost"));
-            ei.setAutoComputeActuals(row.getBoolean("auto_compute_act_flag"));
-            ei.setCategory(m_project.getExpenseCategories().getByUniqueID(row.getInteger("cost_type_id")));
-            ei.setDescription(row.getString("cost_descr"));
-            ei.setDocumentNumber(row.getString("po_number"));
-            ei.setName(row.getString("cost_name"));
-            ei.setPlannedCost(row.getDouble("target_cost"));
-            ei.setPlannedUnits(row.getDouble("target_qty"));
-            ei.setPricePerUnit(row.getDouble("cost_per_qty"));
-            ei.setRemainingCost(row.getDouble("remain_cost"));
-            ei.setUniqueID(row.getInteger("cost_item_id"));
-            ei.setUnitOfMeasure(row.getString("qty_name"));
-            ei.setVendor(row.getString("vendor_name"));
+            ExpenseItem.Builder builder = new ExpenseItem.Builder(task)
+               .account(m_project.getCostAccounts().getByUniqueID(row.getInteger("acct_id")))
+               .accrueType(AccrueTypeHelper.getInstanceFromXer(row.getString("cost_load_type")))
+               .actualCost(actualCost)
+               .autoComputeActuals(row.getBoolean("auto_compute_act_flag"))
+               .category(m_project.getExpenseCategories().getByUniqueID(row.getInteger("cost_type_id")))
+               .description(row.getString("cost_descr"))
+               .documentNumber(row.getString("po_number"))
+               .name(row.getString("cost_name"))
+               .plannedCost(row.getDouble("target_cost"))
+               .plannedUnits(row.getDouble("target_qty"))
+               .pricePerUnit(pricePerUnit)
+               .remainingCost(remainingCost)
+               .uniqueID(row.getInteger("cost_item_id"))
+               .unitOfMeasure(row.getString("qty_name"))
+               .vendor(row.getString("vendor_name"))
+               .atCompletionCost(NumberHelper.sumAsDouble(actualCost, remainingCost));
 
-            ei.setAtCompletionCost(NumberHelper.sumAsDouble(ei.getActualCost(), ei.getRemainingCost()));
-
-            double pricePerUnit = NumberHelper.getDouble(ei.getPricePerUnit());
-            if (pricePerUnit != 0.0)
+            double pricePerUnitValue = NumberHelper.getDouble(pricePerUnit);
+            if (pricePerUnitValue != 0.0)
             {
-               ei.setActualUnits(Double.valueOf(NumberHelper.getDouble(ei.getActualCost()) / pricePerUnit));
-               ei.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(ei.getRemainingCost()) / pricePerUnit));
-               ei.setAtCompletionUnits(NumberHelper.sumAsDouble(ei.getActualUnits(), ei.getRemainingUnits()));
+               Double actualUnits = Double.valueOf(NumberHelper.getDouble(actualCost) / pricePerUnitValue);
+               Double remainingUnits = Double.valueOf(NumberHelper.getDouble(remainingCost) / pricePerUnitValue);
+               builder.actualUnits(actualUnits)
+                  .remainingUnits(remainingUnits)
+                  .atCompletionUnits(NumberHelper.sumAsDouble(actualUnits, remainingUnits));
             }
+
+            ExpenseItem ei = builder.build();
+            task.getExpenseItems().add(ei);
 
             // Roll up to parent task
             task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), ei.getPlannedCost()));
