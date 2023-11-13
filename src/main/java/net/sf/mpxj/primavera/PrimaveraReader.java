@@ -1901,14 +1901,16 @@ final class PrimaveraReader
             continue;
          }
 
-         Step step = new Step(task);
+         Step step = new Step.Builder(task)
+            .uniqueID(row.getInteger("proc_id"))
+            .name(row.getString("proc_name"))
+            .percentComplete(row.getDouble("complete_pct"))
+            .sequenceNumber(row.getInteger("seq_num"))
+            .weight(row.getDouble("proc_wt"))
+            .description(getNotes(row.getString("proc_descr")))
+            .build();
+
          task.getSteps().add(step);
-         step.setUniqueID(row.getInteger("proc_id"));
-         step.setName(row.getString("proc_name"));
-         step.setPercentComplete(row.getDouble("complete_pct"));
-         step.setSequenceNumber(row.getInteger("seq_num"));
-         step.setWeight(row.getDouble("proc_wt"));
-         step.setDescriptionObject(getNotes(row.getString("proc_descr")));
       }
    }
 
