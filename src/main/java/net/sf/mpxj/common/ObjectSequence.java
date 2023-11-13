@@ -73,6 +73,13 @@ public final class ObjectSequence
       return Integer.valueOf(m_id++);
    }
 
+   /**
+    * If the id is not null, sync the sequence with it.
+    * If the id is null, generate a new id.
+    *
+    * @param id id value
+    * @return id value
+    */
    public Integer syncOrGetNext(Integer id)
    {
       if (id == null)
