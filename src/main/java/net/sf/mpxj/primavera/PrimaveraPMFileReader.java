@@ -681,7 +681,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       LocationContainer container = m_projectFile.getLocations();
       apibo.getLocation().forEach(c -> container.add(
-         new Location.Builder()
+         new Location.Builder(m_projectFile)
             .uniqueID(c.getObjectId())
             .name(c.getName())
             .addressLine1(c.getAddressLine1())
