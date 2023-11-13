@@ -151,7 +151,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       }
 
       m_uniqueIDMap.put(newUniqueID, element);
-      m_projectFile.getUniqueIdObjectSequence(element.getClass()).sync(newUniqueID.intValue());
+      m_projectFile.getUniqueIdObjectSequence(element.getClass()).sync(newUniqueID);
    }
 
    /**
