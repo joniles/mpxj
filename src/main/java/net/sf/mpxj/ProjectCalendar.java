@@ -79,7 +79,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
       if (file.getProjectConfig().getAutoCalendarUniqueID())
       {
-         setUniqueID(file.getCalendars().getNextUniqueID());
+         setUniqueID(file.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
       }
    }
 

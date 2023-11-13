@@ -28,12 +28,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ObjectSequence;
 
 /**
  * This class represents a project plan.
@@ -721,7 +724,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public void readComplete()
    {
-      updateUniqueIdCounters();
       fixUniqueIdClashes();
    }
 
@@ -729,14 +731,11 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * This method is called to ensure that after a project file has been
     * read, the cached unique ID values used to generate new unique IDs
     * start after the end of the existing set of unique IDs.
+    *
+    * @deprecated no longer required
     */
-   public void updateUniqueIdCounters()
+   @Deprecated public void updateUniqueIdCounters()
    {
-      getTasks().updateUniqueIdCounter();
-      getResources().updateUniqueIdCounter();
-      getCalendars().updateUniqueIdCounter();
-      getResourceAssignments().updateUniqueIdCounter();
-      getRelations().updateUniqueIdCounter();
    }
 
    /**
@@ -750,6 +749,17 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       getCalendars().fixUniqueIdClashes();
       getResourceAssignments().fixUniqueIdClashes();
       getRelations().fixUniqueIdClashes();
+   }
+
+   /**
+    * Retrieve the ObjectSequence insyance used to generate Unique ID values for a given class.
+    *
+    * @param c target class
+    * @return ObjectSequence instance
+    */
+   public ObjectSequence getUniqueIdObjectSequence(Class<?> c)
+   {
+      return m_uniqueIdObjectSequences.computeIfAbsent(c, x -> new ObjectSequence(1));
    }
 
    /**
@@ -809,4 +819,5 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
+   private final Map<Class<?>, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 }

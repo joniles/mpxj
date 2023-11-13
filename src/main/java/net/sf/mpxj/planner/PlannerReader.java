@@ -178,8 +178,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
       if (m_defaultCalendar == null)
       {
          m_defaultCalendar = m_projectFile.addDefaultBaseCalendar();
-         m_projectFile.getCalendars().updateUniqueIdCounter();
-         m_defaultCalendar.setUniqueID(m_projectFile.getCalendars().getNextUniqueID());
+         m_defaultCalendar.setUniqueID(m_projectFile.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
       }
 
       m_projectFile.getProjectProperties().setDefaultCalendar(m_defaultCalendar);

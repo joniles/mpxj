@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ObjectSequence;
 
 /**
@@ -71,7 +70,6 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
          // TODO: remove from interface when this method is deleted
          entity.setUniqueID(Integer.valueOf(uid++));
       }
-      updateUniqueIdCounter();
    }
 
    /**
@@ -153,26 +151,30 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       }
 
       m_uniqueIDMap.put(newUniqueID, element);
+      m_projectFile.getUniqueIdObjectSequence(element.getClass()).sync(newUniqueID.intValue());
    }
 
    /**
     * Retrieve the next Unique ID value for this entity.
     *
     * @return next Unique ID value
+    * @deprecated use ProjectFile.getUniqueIdObjectSequence(T.class).getNext()
     */
-   public Integer getNextUniqueID()
+   @Deprecated public Integer getNextUniqueID()
    {
-      return m_uniqueIdSequence.getNext();
+      throw new UnsupportedOperationException();
    }
 
    /**
     * Update the Unique ID counter to ensure it produces
     * values which start after the highest Unique ID
     * currently in use for this entity.
+    *
+    * @deprecated no longer required
     */
-   public void updateUniqueIdCounter()
+   @Deprecated public void updateUniqueIdCounter()
    {
-      m_uniqueIdSequence.reset(stream().mapToInt(t -> NumberHelper.getInt(t.getUniqueID())).max().orElse(0));
+
    }
 
    /**
@@ -186,14 +188,14 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
          return;
       }
 
-      m_uniqueIDClashList.forEach(i -> i.setUniqueID(getNextUniqueID()));
+      ObjectSequence sequence = m_projectFile.getUniqueIdObjectSequence(m_uniqueIDClashList.get(0).getClass());
+      m_uniqueIDClashList.forEach(i -> i.setUniqueID(sequence.getNext()));
       m_uniqueIDClashList.clear();
       m_uniqueIDMap.clear();
       forEach(i -> m_uniqueIDMap.put(i.getUniqueID(), i));
    }
 
    protected final ProjectFile m_projectFile;
-   private final ObjectSequence m_uniqueIdSequence = new ObjectSequence(1);
    private final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
    private final List<T> m_uniqueIDClashList = new ArrayList<>();
 }

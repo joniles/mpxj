@@ -417,7 +417,6 @@ final class PrimaveraReader
       //
       ProjectConfig config = m_project.getProjectConfig();
       config.setAutoCalendarUniqueID(true);
-      m_project.getCalendars().updateUniqueIdCounter();
 
       ProjectCalendar defaultCalendar = m_project.getCalendarByUniqueID(m_defaultCalendarID);
       if (defaultCalendar == null)
