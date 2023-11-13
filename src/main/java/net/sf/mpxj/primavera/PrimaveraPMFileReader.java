@@ -742,7 +742,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private UnitOfMeasure processUnitOfMeasure(UnitOfMeasureType u)
    {
-      return new UnitOfMeasure.Builder()
+      return new UnitOfMeasure.Builder(m_projectFile)
          .uniqueID(u.getObjectId())
          .abbreviation(u.getAbbreviation())
          .name(u.getName())

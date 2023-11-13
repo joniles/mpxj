@@ -34,7 +34,7 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
     */
    private UnitOfMeasure(Builder builder)
    {
-      m_uniqueID = builder.m_uniqueID;
+      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(UnitOfMeasure.class).syncOrGetNext(builder.m_uniqueID);
       m_name = builder.m_name;
       m_abbreviation = builder.m_abbreviation;
       m_sequenceNumber = builder.m_sequenceNumber;
@@ -90,6 +90,26 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
     */
    public static class Builder
    {
+      /**
+       * Constructor.
+       *
+       * @deprecated use Builder(ProjectFile) constructor
+       */
+      @Deprecated public Builder()
+      {
+
+      }
+
+      /**
+       * Constructor.
+       *
+       * @param file parent file
+       */
+      public Builder(ProjectFile file)
+      {
+         m_file = file;
+      }
+
       /**
        * Add the unique ID.
        *
@@ -148,6 +168,7 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
          return new UnitOfMeasure(this);
       }
 
+      private ProjectFile m_file;
       private Integer m_uniqueID;
       private String m_name;
       private String m_abbreviation;

@@ -274,7 +274,7 @@ final class PrimaveraReader
     */
    private UnitOfMeasure processUnitOfMeasure(Row row)
    {
-      return new UnitOfMeasure.Builder()
+      return new UnitOfMeasure.Builder(m_project)
          .uniqueID(row.getInteger("unit_id"))
          .abbreviation(row.getString("unit_abbrev"))
          .name(row.getString("unit_name"))

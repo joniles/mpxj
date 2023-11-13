@@ -55,11 +55,11 @@ public final class ObjectSequence
     *
     * @param id value in use
     */
-   public void sync(int id)
+   public void sync(Integer id)
    {
-      if (id >= m_id)
+      if (id != null && id.intValue() >= m_id)
       {
-         m_id = id + 1;
+         m_id = id.intValue() + 1;
       }
    }
 
@@ -71,6 +71,16 @@ public final class ObjectSequence
    public Integer getNext()
    {
       return Integer.valueOf(m_id++);
+   }
+
+   public Integer syncOrGetNext(Integer id)
+   {
+      if (id == null)
+      {
+         return getNext();
+      }
+      sync(id);
+      return id;
    }
 
    private int m_id;
