@@ -12,6 +12,8 @@
 			<action dev="joniles" type="update">The `ProjectEntityContainer` method `updateUniqueIdCounter` has been marked as deprecated as it is no longer required.</action>
 			<action dev="joniles" type="update">The `ProjectFile` method `updateUniqueIdCounters` has been marked as deprecated as it is no longer required.</action>
 			<action dev="joniles" type="update">The `ObjectSequence` method `reset` has been marked as deprecated as it is no longer required.</action>
+			<action dev="joniles" type="update">When creating a `Location` instance using the `Builder` class, a Unique ID will be generated if one is not supplied.</action>
+			<action dev="joniles" type="update">The no-arg `Location.Builder` constructor has been marked a deprecated. Use the constructor which requires a `ProjectFile` instance instead.</action>
 		</release>
 		<release date="2023-11-07" version="12.3.0">
 			<action dev="joniles" type="update">Retrieve role availability data when reading a schedule from a P6 database.</action>
