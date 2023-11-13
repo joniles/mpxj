@@ -39,6 +39,11 @@ public final class ExpenseItem
       m_task = task;
    }
 
+   /**
+    * Constructor.
+    *
+    * @param builder Builder instance
+    */
    private ExpenseItem(Builder builder)
    {
       m_task = builder.m_task;
@@ -517,8 +522,16 @@ public final class ExpenseItem
    private boolean m_autoComputeActuals;
    private String m_unitOfMeasure;
 
+   /**
+    * Expense item builder.
+    */
    public static class Builder
    {
+      /**
+       * Constructor.
+       *
+       * @param task parent task
+       */
       public Builder(Task task)
       {
          m_task = task;
@@ -548,108 +561,215 @@ public final class ExpenseItem
          return this;
       }
 
+      /**
+       * Add the cost account.
+       *
+       * @param value cost account
+       * @return builder
+       */
       public Builder account(CostAccount value)
       {
          m_account = value;
          return this;
       }
 
+      /**
+       * Add the expense category.
+       *
+       * @param value expense category
+       * @return builder
+       */
       public Builder category(ExpenseCategory value)
       {
          m_category = value;
          return this;
       }
 
+      /**
+       * Add the description.
+       *
+       * @param value description
+       * @return builder
+       */
       public Builder description(String value)
       {
          m_description = value;
          return this;
       }
 
+      /**
+       * Add the document number.
+       *
+       * @param value document number
+       * @return builder
+       */
       public Builder documentNumber(String value)
       {
          m_documentNumber = value;
          return this;
       }
 
+      /**
+       * Add the vendor.
+       *
+       * @param value vendor
+       * @return builder
+       */
       public Builder vendor(String value)
       {
          m_vendor = value;
          return this;
       }
 
+      /**
+       * Add the at completion cost.
+       *
+       * @param value at completion cost
+       * @return builder
+       */
       public Builder atCompletionCost(Double value)
       {
          m_atCompletionCost = value;
          return this;
       }
 
+      /**
+       * Add the at completion units.
+       *
+       * @param value at completion units
+       * @return builder
+       */
       public Builder atCompletionUnits(Double value)
       {
          m_atCompletionUnits = value;
          return this;
       }
 
+      /**
+       * Add the actual cost.
+       *
+       * @param value actual cost
+       * @return builder
+       */
       public Builder actualCost(Double value)
       {
          m_actualCost = value;
          return this;
       }
 
+      /**
+       * Add the actual units.
+       *
+       * @param value actual units
+       * @return builder
+       */
       public Builder actualUnits(Double value)
       {
          m_actualUnits = value;
          return this;
       }
 
+      /**
+       * Add the price per unit.
+       *
+       * @param value price per unit
+       * @return builder
+       */
       public Builder pricePerUnit(Double value)
       {
          m_pricePerUnit = value;
          return this;
       }
 
+      /**
+       * Add the remaining cost.
+       *
+       * @param value remaining cost
+       * @return builder
+       */
       public Builder remainingCost(Double value)
       {
          m_remainingCost = value;
          return this;
       }
 
+      /**
+       * Add the remaining units.
+       *
+       * @param value remaining units
+       * @return builder
+       */
       public Builder remainingUnits(Double value)
       {
          m_remainingUnits = value;
          return this;
       }
 
+      /**
+       * Add the planned cost.
+       *
+       * @param value planned cost
+       * @return builder
+       */
       public Builder plannedCost(Double value)
       {
          m_plannedCost = value;
          return this;
       }
 
+      /**
+       * Add the planned units.
+       *
+       * @param value planned units
+       * @return builder
+       */
       public Builder plannedUnits(Double value)
       {
          m_plannedUnits = value;
          return this;
       }
 
+      /**
+       * Add the accrue type.
+       *
+       * @param value accrue type
+       * @return builder
+       */
       public Builder accrueType(AccrueType value)
       {
          m_accrueType = value;
          return this;
       }
 
+      /**
+       * Add the auto compute actuals flag.
+       *
+       * @param value auto compute actuals flag
+       * @return builder
+       */
       public Builder autoComputeActuals(boolean value)
       {
          m_autoComputeActuals = value;
          return this;
       }
 
+      /**
+       * Add the unit of measure.
+       *
+       * @param value unit of measure
+       * @return builder
+       */
       public Builder unitOfMeasure(String value)
       {
          m_unitOfMeasure = value;
          return this;
       }
 
+      /**
+       * Build an ExpenseItem instance.
+       *
+       * @return ExpenseItem instance.
+       */
       public ExpenseItem build()
       {
          return new ExpenseItem(this);
