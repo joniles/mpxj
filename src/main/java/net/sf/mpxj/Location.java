@@ -35,7 +35,7 @@ public final class Location implements ProjectEntityWithUniqueID
     */
    private Location(Builder builder)
    {
-      m_uniqueID = builder.m_uniqueID == null ? builder.m_file.getUniqueIdObjectSequence(Location.class).getNext() : builder.m_uniqueID;
+      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(Location.class).syncOrGetNext(builder.m_uniqueID);
       m_addressLine1 = builder.m_addressLine1;
       m_addressLine2 = builder.m_addressLine2;
       m_addressLine3 = builder.m_addressLine3;

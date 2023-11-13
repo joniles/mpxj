@@ -47,7 +47,7 @@ public final class ExpenseItem
    private ExpenseItem(Builder builder)
    {
       m_task = builder.m_task;
-      m_uniqueID = builder.m_uniqueID == null ? m_task.getParentFile().getUniqueIdObjectSequence(ExpenseItem.class).getNext() : builder.m_uniqueID;
+      m_uniqueID = m_task.getParentFile().getUniqueIdObjectSequence(ExpenseItem.class).syncOrGetNext(builder.m_uniqueID);
       m_name = builder.m_name;
       m_account = builder.m_account;
       m_category = builder.m_category;
