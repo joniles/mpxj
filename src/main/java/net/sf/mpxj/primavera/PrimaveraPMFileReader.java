@@ -2012,14 +2012,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             continue;
          }
 
-         Step step = new Step(task);
+         Step step = new Step.Builder(task)
+            .name(activityStep.getName())
+            .sequenceNumber(activityStep.getSequenceNumber())
+            .uniqueID(activityStep.getObjectId())
+            .weight(activityStep.getWeight())
+            .percentComplete(Double.valueOf(NumberHelper.getDouble(activityStep.getPercentComplete()) * 100.0))
+            .description(getHtmlNote(activityStep.getDescription()))
+            .build();
+
          task.getSteps().add(step);
-         step.setName(activityStep.getName());
-         step.setSequenceNumber(activityStep.getSequenceNumber());
-         step.setUniqueID(activityStep.getObjectId());
-         step.setWeight(activityStep.getWeight());
-         step.setPercentComplete(Double.valueOf(NumberHelper.getDouble(activityStep.getPercentComplete()) * 100.0));
-         step.setDescriptionObject(getHtmlNote(activityStep.getDescription()));
       }
    }
 
