@@ -35,6 +35,7 @@ public final class Location implements ProjectEntityWithUniqueID
     */
    private Location(Builder builder)
    {
+      m_uniqueID = builder.m_uniqueID == null ? builder.m_file.getUniqueIdObjectSequence(Location.class).getNext() : builder.m_uniqueID;
       m_addressLine1 = builder.m_addressLine1;
       m_addressLine2 = builder.m_addressLine2;
       m_addressLine3 = builder.m_addressLine3;
@@ -45,7 +46,6 @@ public final class Location implements ProjectEntityWithUniqueID
       m_longitude = builder.m_longitude;
       m_municipality = builder.m_municipality;
       m_name = builder.m_name;
-      m_uniqueID = builder.m_uniqueID;
       m_postalCode = builder.m_postalCode;
       m_state = builder.m_state;
       m_stateCode = builder.m_stateCode;
@@ -221,6 +221,26 @@ public final class Location implements ProjectEntityWithUniqueID
     */
    public static class Builder
    {
+      /**
+       * Constructor.
+       *
+       * @deprecated use Builder(ProjectFile file)
+       */
+      @Deprecated public Builder()
+      {
+
+      }
+
+      /**
+       * Constructor.
+       *
+       * @param file parent project file.
+       */
+      public Builder(ProjectFile file)
+      {
+         m_file = file;
+      }
+
       /**
        * Add an address line.
        *
@@ -399,6 +419,7 @@ public final class Location implements ProjectEntityWithUniqueID
          return new Location(this);
       }
 
+      private ProjectFile m_file;
       private String m_addressLine1;
       private String m_addressLine2;
       private String m_addressLine3;

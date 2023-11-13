@@ -212,7 +212,7 @@ final class PrimaveraReader
       LocationContainer container = m_project.getLocations();
       locations.forEach(
          row -> container.add(
-            new Location.Builder()
+            new Location.Builder(m_project)
                .uniqueID(row.getInteger("location_id"))
                .name(row.getString("location_name"))
                .addressLine1(row.getString("address_line1"))
