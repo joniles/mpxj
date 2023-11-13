@@ -762,30 +762,29 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(item.getActivityObjectId()));
          if (task != null)
          {
-            List<ExpenseItem> items = task.getExpenseItems();
-            ExpenseItem ei = new ExpenseItem(task);
-            items.add(ei);
+            ExpenseItem.Builder builder = new ExpenseItem.Builder(task)
+               .account(m_projectFile.getCostAccounts().getByUniqueID(item.getCostAccountObjectId()))
+               .accrueType(AccrueTypeHelper.getInstanceFromXml(item.getAccrualType()))
+               .actualCost(item.getActualCost())
+               .actualUnits(item.getActualUnits())
+               .atCompletionUnits(item.getAtCompletionUnits())
+               .autoComputeActuals(BooleanHelper.getBoolean(item.isAutoComputeActuals()))
+               .category(m_projectFile.getExpenseCategories().getByUniqueID(item.getExpenseCategoryObjectId()))
+               .description(item.getExpenseDescription())
+               .documentNumber(item.getDocumentNumber())
+               .name(item.getExpenseItem())
+               .plannedCost(item.getPlannedCost())
+               .plannedUnits(item.getPlannedUnits())
+               .pricePerUnit(item.getPricePerUnit())
+               .remainingCost(item.getRemainingCost())
+               .remainingUnits(item.getRemainingUnits())
+               .uniqueID(item.getObjectId())
+               .unitOfMeasure(item.getUnitOfMeasure())
+               .vendor(item.getVendor())
+               .atCompletionCost(NumberHelper.sumAsDouble(item.getActualCost(), item.getRemainingCost()));
 
-            ei.setAccount(m_projectFile.getCostAccounts().getByUniqueID(item.getCostAccountObjectId()));
-            ei.setAccrueType(AccrueTypeHelper.getInstanceFromXml(item.getAccrualType()));
-            ei.setActualCost(item.getActualCost());
-            ei.setActualUnits(item.getActualUnits());
-            ei.setAtCompletionUnits(item.getAtCompletionUnits());
-            ei.setAutoComputeActuals(BooleanHelper.getBoolean(item.isAutoComputeActuals()));
-            ei.setCategory(m_projectFile.getExpenseCategories().getByUniqueID(item.getExpenseCategoryObjectId()));
-            ei.setDescription(item.getExpenseDescription());
-            ei.setDocumentNumber(item.getDocumentNumber());
-            ei.setName(item.getExpenseItem());
-            ei.setPlannedCost(item.getPlannedCost());
-            ei.setPlannedUnits(item.getPlannedUnits());
-            ei.setPricePerUnit(item.getPricePerUnit());
-            ei.setRemainingCost(item.getRemainingCost());
-            ei.setRemainingUnits(item.getRemainingUnits());
-            ei.setUniqueID(item.getObjectId());
-            ei.setUnitOfMeasure(item.getUnitOfMeasure());
-            ei.setVendor(item.getVendor());
-
-            ei.setAtCompletionCost(NumberHelper.sumAsDouble(item.getActualCost(), item.getRemainingCost()));
+            ExpenseItem ei = builder.build();
+            task.getExpenseItems().add(ei);
 
             // Roll up to parent task
             task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), ei.getPlannedCost()));
