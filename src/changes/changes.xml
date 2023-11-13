@@ -5,9 +5,13 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="12.3.1">
+		<release date="unreleased" version="12.4.0">
 			<action dev="joniles" type="update">Added support for the WBS Code Separator attribute to `ProjectProperties`.</action>
 			<action dev="joniles" type="update">The `ProjectEntityContainer` method `renumberUniqueIDs` has been marked as deprecated.</action>
+			<action dev="joniles" type="update">The `ProjectEntityContainer` method `getNextUniqueID` has been marked as deprecated. Use `ProjectFile.getUniqueIdObjectSequence(class).getNext()` instead.</action>
+			<action dev="joniles" type="update">The `ProjectEntityContainer` method `updateUniqueIdCounter` has been marked as deprecated as it is no longer required.</action>
+			<action dev="joniles" type="update">The `ProjectFile` method `updateUniqueIdCounters` has been marked as deprecated as it is no longer required.</action>
+			<action dev="joniles" type="update">The `ObjectSequence` method `reset` has been marked as deprecated as it is no longer required.</action>
 		</release>
 		<release date="2023-11-07" version="12.3.0">
 			<action dev="joniles" type="update">Retrieve role availability data when reading a schedule from a P6 database.</action>
