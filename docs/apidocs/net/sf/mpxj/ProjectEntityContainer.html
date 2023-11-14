@@ -25,7 +25,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":42};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":42,"i5":10,"i6":42,"i7":10,"i8":42,"i9":42};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"],32:["t6","Deprecated Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -237,7 +237,9 @@ extends <a href="../../../net/sf/mpxj/ListWithCallbacks.html" title="class in ne
 <tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectEntityContainer.html#getNextUniqueID--">getNextUniqueID</a></span>()</code>
-<div class="block">Retrieve the next Unique ID value for this entity.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">use ProjectFile.getUniqueIdObjectSequence(T.class).getNext()</span></div>
+</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
@@ -249,7 +251,9 @@ extends <a href="../../../net/sf/mpxj/ListWithCallbacks.html" title="class in ne
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectEntityContainer.html#renumberUniqueIDs--">renumberUniqueIDs</a></span>()</code>
-<div class="block">Renumbers all entity unique IDs.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">no longer required as the MSPDI and MPX writers handle this dynamically without changing the original schedule</span></div>
+</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -263,9 +267,9 @@ extends <a href="../../../net/sf/mpxj/ListWithCallbacks.html" title="class in ne
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/ProjectEntityContainer.html#updateUniqueIdCounter--">updateUniqueIdCounter</a></span>()</code>
-<div class="block">Update the Unique ID counter to ensure it produces
- values which start after the highest Unique ID
- currently in use for this entity.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">no longer required</span></div>
+</div>
 </td>
 </tr>
 <tr id="i9" class="rowColor">
@@ -399,7 +403,9 @@ extends <a href="../../../net/sf/mpxj/ListWithCallbacks.html" title="class in ne
 <ul class="blockList">
 <li class="blockList">
 <h4>renumberUniqueIDs</h4>
-<pre>public&nbsp;void&nbsp;renumberUniqueIDs()</pre>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public&nbsp;void&nbsp;renumberUniqueIDs()</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">no longer required as the MSPDI and MPX writers handle this dynamically without changing the original schedule</span></div>
 <div class="block">Renumbers all entity unique IDs.</div>
 </li>
 </ul>
@@ -495,7 +501,9 @@ public&nbsp;void&nbsp;validateUniqueIDsForMicrosoftProject()</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getNextUniqueID</h4>
-<pre>public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;getNextUniqueID()</pre>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public&nbsp;<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;getNextUniqueID()</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">use ProjectFile.getUniqueIdObjectSequence(T.class).getNext()</span></div>
 <div class="block">Retrieve the next Unique ID value for this entity.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -509,7 +517,9 @@ public&nbsp;void&nbsp;validateUniqueIDsForMicrosoftProject()</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>updateUniqueIdCounter</h4>
-<pre>public&nbsp;void&nbsp;updateUniqueIdCounter()</pre>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public&nbsp;void&nbsp;updateUniqueIdCounter()</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">no longer required</span></div>
 <div class="block">Update the Unique ID counter to ensure it produces
  values which start after the highest Unique ID
  currently in use for this entity.</div>

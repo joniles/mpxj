@@ -57,7 +57,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../net/sf/mpxj/Notes.html" title="class in net.sf.mpxj"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../net/sf/mpxj/NotesTopicContainer.html" title="class in net.sf.mpxj"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../net/sf/mpxj/NotesTopic.Builder.html" title="class in net.sf.mpxj"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../index.html?net/sf/mpxj/NotesTopic.html" target="_top">Frames</a></li>
@@ -81,7 +81,7 @@ var activeTableTab = "activeTableTab";
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
@@ -130,6 +130,27 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="nested.class.summary">
+<!--   -->
+</a>
+<h3>Nested Class Summary</h3>
+<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Nested Class Summary table, listing nested classes, and an explanation">
+<caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Class and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static class&nbsp;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../net/sf/mpxj/NotesTopic.Builder.html" title="class in net.sf.mpxj">NotesTopic.Builder</a></span></code>
+<div class="block">NotesTopic builder.</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
 <!-- =========== FIELD SUMMARY =========== -->
 <ul class="blockList">
 <li class="blockList"><a name="field.summary">
@@ -168,7 +189,9 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
           boolean&nbsp;availableForProject,
           boolean&nbsp;availableForWBS,
           boolean&nbsp;availableForActivity)</code>
-<div class="block">Constructor.</div>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">use builder class</span></div>
+</div>
 </td>
 </tr>
 </table>
@@ -279,13 +302,15 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
 <ul class="blockListLast">
 <li class="blockList">
 <h4>NotesTopic</h4>
-<pre>public&nbsp;NotesTopic(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;uniqueID,
-                  <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;sequenceNumber,
-                  <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name,
-                  boolean&nbsp;availableForEPS,
-                  boolean&nbsp;availableForProject,
-                  boolean&nbsp;availableForWBS,
-                  boolean&nbsp;availableForActivity)</pre>
+<pre><a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Deprecated.html?is-external=true" title="class or interface in java.lang">@Deprecated</a>
+public&nbsp;NotesTopic(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;uniqueID,
+                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;sequenceNumber,
+                               <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name,
+                               boolean&nbsp;availableForEPS,
+                               boolean&nbsp;availableForProject,
+                               boolean&nbsp;availableForWBS,
+                               boolean&nbsp;availableForActivity)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">use builder class</span></div>
 <div class="block">Constructor.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -332,7 +357,8 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
 <h4>setUniqueID</h4>
 <pre>public&nbsp;void&nbsp;setUniqueID(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;id)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html#setUniqueID-java.lang.Integer-">ProjectEntityWithUniqueID</a></code></span></div>
-<div class="block">Set the Unique ID value of the entity.</div>
+<div class="block">Set the Unique ID value of the entity.
+ TODO: this can be removed when renumbering is no longer supported</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html#setUniqueID-java.lang.Integer-">setUniqueID</a></code>&nbsp;in interface&nbsp;<code><a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="interface in net.sf.mpxj">ProjectEntityWithUniqueID</a></code></dd>
@@ -454,7 +480,7 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../net/sf/mpxj/Notes.html" title="class in net.sf.mpxj"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../net/sf/mpxj/NotesTopicContainer.html" title="class in net.sf.mpxj"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../net/sf/mpxj/NotesTopic.Builder.html" title="class in net.sf.mpxj"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../index.html?net/sf/mpxj/NotesTopic.html" target="_top">Frames</a></li>
@@ -478,7 +504,7 @@ implements <a href="../../../net/sf/mpxj/ProjectEntityWithUniqueID.html" title="
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>

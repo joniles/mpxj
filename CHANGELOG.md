@@ -1,6 +1,22 @@
 # Changelog
 
-## 12.3.1 (unreleased)
+## 12.4.0 (unreleased)
+* Added support for the WBS Code Separator attribute to `ProjectProperties`.
+* The `ProjectEntityContainer` method `renumberUniqueIDs` has been marked as deprecated.
+* The `ProjectEntityContainer` method `getNextUniqueID` has been marked as deprecated. Use `ProjectFile.getUniqueIdObjectSequence(class).getNext()` instead.
+* The `ProjectEntityContainer` method `updateUniqueIdCounter` has been marked as deprecated as it is no longer required.
+* The `ProjectFile` method `updateUniqueIdCounters` has been marked as deprecated as it is no longer required.
+* The `ObjectSequence` method `reset` has been marked as deprecated as it is no longer required.
+* When creating a `Location` instance using the `Builder` class, a Unique ID will be generated if one is not supplied.
+* The no-arg `Location.Builder` constructor has been marked a deprecated. Use the constructor which requires a `ProjectFile` instance instead.
+* Implemented the `ExpenseItem.Builder` class.
+* Marked the `ExpenseItem(task)` constructor as deprecated, use the `ExpenseItem.Builder` class instead.
+* Marked all `ExpenseItem` setter methods a deprecated. The `ExpenseItem` class will be immutable in the next major release.
+* Marked no-arg `UnitOfMeasure.Builder()` constructor as deprecated, use the `UnitOfMeasure.Builder(ProjectFile)` constructor instead.
+* Implemented the `Step.Builder` class.
+* Marked the `Step(task)` constructor as deprecated, use the `Step.Builder` class instead.
+* Marked all `Step` setter methods a deprecated. The `Step` class will be immutable in the next major release.
+* Marked the `NotesTopic` constructor as deprecated, use the `NotesTopic.Builder(ProjectFile)` constructor instead.
 
 ## 12.3.0 (2023-11-07)
 * Retrieve role availability data when reading a schedule from a P6 database.

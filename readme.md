@@ -19,12 +19,15 @@ Work to build and maintain MPXJ is kindly supported by my sponsors:
 </p>
 <p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
 <a href="https://www.bryntum.com/"><img width="30%" alt="Bryntum Logo" src="mkdocs/docs/images/bryntum.png"/></a>
-<img width="5%"/>
+<img width="10%"/>
 <a href="https://www.turbo-chart.com/"><img width="15%" alt="Turbo Chart Logo" src="mkdocs/docs/images/turbo-chart.png"/></a>
-<img width="5%"/>
+<img width="10%"/>
 <a href="https://www.rationalplan.com/"><img width="15%" alt="RationalPlan Logo" src="mkdocs/docs/images/rationalplan.png"/></a>
-<img width="5%"/>
-<a href="https://corasystems.com/"><img width="20%" alt="Cora Systems Logo" src="mkdocs/docs/images/cora.png"/></a>
+</p>
+<p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
+<a href="https://corasystems.com/"><img width="22%" alt="Cora Systems Logo" src="mkdocs/docs/images/cora.png"/></a>
+<img width="10%"/>
+<a href="https://www.alicetechnologies.com/"><img width="22%" alt="ALICE Technologies Logo" src="mkdocs/docs/images/alice.png"/></a>
 </p>
 
 Head over to my [sponsors page](https://github.com/sponsors/joniles)
