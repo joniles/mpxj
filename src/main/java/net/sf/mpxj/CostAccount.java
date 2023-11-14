@@ -46,6 +46,16 @@ public class CostAccount implements ProjectEntityWithUniqueID
       m_sequenceNumber = sequenceNumber;
    }
 
+   public CostAccount(Integer uniqueID, String id, String name, String description, Integer sequenceNumber, CostAccount parent)
+   {
+      m_uniqueID = uniqueID;
+      m_id = id;
+      m_name = name;
+      m_description = description;
+      m_sequenceNumber = sequenceNumber;
+      m_parent = parent;
+   }
+
    @Override public Integer getUniqueID()
    {
       return m_uniqueID;
@@ -137,4 +147,14 @@ public class CostAccount implements ProjectEntityWithUniqueID
    private final String m_description;
    private final Integer m_sequenceNumber;
    private CostAccount m_parent;
+
+   public static class Builder
+   {
+      public Builder(ProjectFile file)
+      {
+         m_file = file;
+      }
+
+      private final ProjectFile m_file;
+   }
 }

@@ -58,6 +58,7 @@ import net.sf.mpxj.Step;
 import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.ColorHelper;
+import net.sf.mpxj.common.HierarchyHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
@@ -719,8 +720,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private void processCostAccounts(APIBusinessObjects apibo)
    {
       CostAccountContainer container = m_projectFile.getCostAccounts();
-      apibo.getCostAccount().forEach(c -> container.add(new CostAccount(c.getObjectId(), c.getId(), c.getName(), c.getDescription(), c.getSequenceNumber())));
-      apibo.getCostAccount().forEach(c -> container.getByUniqueID(c.getObjectId()).setParent(container.getByUniqueID(c.getParentObjectId())));
+      HierarchyHelper.sortHierarchy(apibo.getCostAccount(), v -> v.getObjectId(), v -> v.getParentObjectId()).forEach(c -> container.add(new CostAccount(c.getObjectId(), c.getId(), c.getName(), c.getDescription(), c.getSequenceNumber(), container.getByUniqueID(c.getParentObjectId()))));
    }
 
    /**
