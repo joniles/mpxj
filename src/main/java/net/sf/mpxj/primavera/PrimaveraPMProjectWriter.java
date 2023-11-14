@@ -406,17 +406,25 @@ final class PrimaveraPMProjectWriter
    private void writeCostAccounts()
    {
       List<CostAccountType> costAccounts = m_apibo.getCostAccount();
-      for (CostAccount account : m_projectFile.getCostAccounts())
-      {
-         CostAccountType cat = m_factory.createCostAccountType();
-         cat.setObjectId(account.getUniqueID());
-         cat.setId(account.getID());
-         cat.setName(account.getName());
-         cat.setDescription(account.getDescription());
-         cat.setSequenceNumber(account.getSequenceNumber());
-         cat.setParentObjectId(account.getParentUniqueID());
-         costAccounts.add(cat);
-      }
+      m_projectFile.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(c -> writeCostAccount(costAccounts, c));
+   }
+
+   /**
+    * Write a cost account.
+    *
+    * @param costAccounts cost accounts list
+    * @param account cost account
+    */
+   private void writeCostAccount(List<CostAccountType> costAccounts, CostAccount account)
+   {
+      CostAccountType cat = m_factory.createCostAccountType();
+      cat.setObjectId(account.getUniqueID());
+      cat.setId(account.getID());
+      cat.setName(account.getName());
+      cat.setDescription(account.getDescription());
+      cat.setSequenceNumber(account.getSequenceNumber());
+      cat.setParentObjectId(account.getParentUniqueID());
+      costAccounts.add(cat);
    }
 
    /**
