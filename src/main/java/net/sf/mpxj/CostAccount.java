@@ -157,14 +157,4 @@ public class CostAccount implements ProjectEntityWithUniqueID
    private final String m_description;
    private final Integer m_sequenceNumber;
    private CostAccount m_parent;
-
-   public static class Builder
-   {
-      public Builder(ProjectFile file)
-      {
-         m_file = file;
-      }
-
-      private final ProjectFile m_file;
-   }
 }
