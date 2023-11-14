@@ -708,7 +708,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private void processExpenseCategories(APIBusinessObjects apibo)
    {
       ExpenseCategoryContainer container = m_projectFile.getExpenseCategories();
-      apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory(c.getObjectId(), c.getName(), c.getSequenceNumber())));
+      apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory.Builder(m_projectFile).uniqueID(c.getObjectId()).name(c.getName()).sequenceNumber(c.getSequenceNumber()).build()));
    }
 
    /**
