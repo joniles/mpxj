@@ -240,7 +240,7 @@ final class PrimaveraReader
    public void processExpenseCategories(List<Row> categories)
    {
       ExpenseCategoryContainer container = m_project.getExpenseCategories();
-      categories.forEach(row -> container.add(new ExpenseCategory(row.getInteger("cost_type_id"), row.getString("cost_type"), row.getInteger("seq_num"))));
+      categories.forEach(row -> container.add(new ExpenseCategory.Builder(m_project).uniqueID(row.getInteger("cost_type_id")).name(row.getString("cost_type")).sequenceNumber(row.getInteger("seq_num")).build()));
    }
 
    /**
