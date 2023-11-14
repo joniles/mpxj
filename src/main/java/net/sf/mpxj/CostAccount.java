@@ -46,6 +46,16 @@ public class CostAccount implements ProjectEntityWithUniqueID
       m_sequenceNumber = sequenceNumber;
    }
 
+   /**
+    * Constructor.
+    *
+    * @param uniqueID unique ID
+    * @param id short name
+    * @param name name
+    * @param description description
+    * @param sequenceNumber sequence number
+    * @param parent parent
+    */
    public CostAccount(Integer uniqueID, String id, String name, String description, Integer sequenceNumber, CostAccount parent)
    {
       m_uniqueID = uniqueID;
