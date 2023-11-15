@@ -52,6 +52,17 @@ public class ActivityCodeValue
       m_color = color;
    }
 
+   public ActivityCodeValue(ActivityCode type, Integer uniqueID, Integer sequenceNumber, String name, String description, Color color, ActivityCodeValue parent)
+   {
+      m_type = type;
+      m_uniqueID = uniqueID;
+      m_sequenceNumber = sequenceNumber;
+      m_name = name;
+      m_description = description;
+      m_color = color;
+      m_parent = parent;
+   }
+
    /**
     * Retrieves the parent activity code type.
     *

@@ -155,6 +155,13 @@ public class ActivityCode
       return value;
    }
 
+   public ActivityCodeValue addValue(Integer uniqueID, Integer sequenceNumber, String name, String description, Color color, ActivityCodeValue parent)
+   {
+      ActivityCodeValue value = new ActivityCodeValue(this, uniqueID, sequenceNumber, name, description, color, parent);
+      m_values.add(value);
+      return value;
+   }
+
    /**
     * Retrieve a list of all values for this activity code,
     * including child values from the hierarchy.

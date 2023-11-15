@@ -76,6 +76,7 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
+import net.sf.mpxj.common.HierarchyHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
@@ -2171,6 +2172,7 @@ final class AstaReader
          codeMap.put(code.getUniqueID(), code);
       }
 
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, r -> r.getInteger("ID"), r -> r.getInteger("CODE_LIBRARY_ENTRY"));
       for (Row row : typeValues)
       {
          ActivityCode code = codeMap.get(row.getInteger("CODE_LIBRARY"));
@@ -2186,18 +2188,8 @@ final class AstaReader
                name = description;
             }
 
-            ActivityCodeValue value = code.addValue(id, sequenceNumber, name, description, null);
+            ActivityCodeValue value = code.addValue(id, sequenceNumber, name, description, null, valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY")));
             valueMap.put(value.getUniqueID(), value);
-         }
-      }
-
-      for (Row row : typeValues)
-      {
-         ActivityCodeValue child = valueMap.get(row.getInteger("ID"));
-         ActivityCodeValue parent = valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY"));
-         if (parent != null && child != null)
-         {
-            child.setParent(parent);
          }
       }
 
