@@ -2179,7 +2179,7 @@ final class AstaReader
          if (code != null)
          {
             Integer id = row.getInteger("ID");
-            Integer sequenceNumber = Integer.valueOf(code.getValues().size() + 1);
+            Integer sequenceNumber = row.getInteger("SORT_ORDER");
             String name = row.getString("SHORT_NAME");
             String description = row.getString("NAME");
 
