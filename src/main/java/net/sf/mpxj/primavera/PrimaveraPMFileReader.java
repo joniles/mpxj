@@ -720,7 +720,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private void processCostAccounts(APIBusinessObjects apibo)
    {
       CostAccountContainer container = m_projectFile.getCostAccounts();
-      HierarchyHelper.sortHierarchy(apibo.getCostAccount(), v -> v.getObjectId(), v -> v.getParentObjectId()).forEach(c -> container.add(new CostAccount(c.getObjectId(), c.getId(), c.getName(), c.getDescription(), c.getSequenceNumber(), container.getByUniqueID(c.getParentObjectId()))));
+      HierarchyHelper.sortHierarchy(apibo.getCostAccount(), v -> v.getObjectId(), v -> v.getParentObjectId()).forEach(c -> container.add(
+         new CostAccount.Builder(m_projectFile)
+            .uniqueID(c.getObjectId())
+            .id(c.getId())
+            .name(c.getName())
+            .description(c.getDescription())
+            .sequenceNumber(c.getSequenceNumber())
+            .parent(container.getByUniqueID(c.getParentObjectId()))
+            .build()));
    }
 
    /**
