@@ -36,8 +36,9 @@ public class CostAccount implements ProjectEntityWithUniqueID
     * @param name name
     * @param description description
     * @param sequenceNumber sequence number
+    * @deprecated use builder
     */
-   public CostAccount(Integer uniqueID, String id, String name, String description, Integer sequenceNumber)
+   @Deprecated public CostAccount(Integer uniqueID, String id, String name, String description, Integer sequenceNumber)
    {
       m_uniqueID = uniqueID;
       m_id = id;
@@ -49,21 +50,16 @@ public class CostAccount implements ProjectEntityWithUniqueID
    /**
     * Constructor.
     *
-    * @param uniqueID unique ID
-    * @param id short name
-    * @param name name
-    * @param description description
-    * @param sequenceNumber sequence number
-    * @param parent parent
+    * @param builder builder
     */
-   public CostAccount(Integer uniqueID, String id, String name, String description, Integer sequenceNumber, CostAccount parent)
+   private CostAccount(Builder builder)
    {
-      m_uniqueID = uniqueID;
-      m_id = id;
-      m_name = name;
-      m_description = description;
-      m_sequenceNumber = sequenceNumber;
-      m_parent = parent;
+      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(CostAccount.class).syncOrGetNext(builder.m_uniqueID);
+      m_id = builder.m_id;
+      m_name = builder.m_name;
+      m_description = builder.m_description;
+      m_sequenceNumber = builder.m_sequenceNumber;
+      m_parent = builder.m_parent;;
    }
 
    @Override public Integer getUniqueID()
@@ -157,4 +153,110 @@ public class CostAccount implements ProjectEntityWithUniqueID
    private final String m_description;
    private final Integer m_sequenceNumber;
    private CostAccount m_parent;
+
+   /**
+    * CostAccount builder.
+    */
+   public static class Builder
+   {
+      /**
+       * Constructor.
+       *
+       * @param file parent file
+       */
+      public Builder(ProjectFile file)
+      {
+         m_file = file;
+      }
+
+      /**
+       * Add unique ID.
+       *
+       * @param value unique ID
+       * @return builder
+       */
+      public Builder uniqueID(Integer value)
+      {
+         m_uniqueID = value;
+         return this;
+      }
+
+      /**
+       * Add ID.
+       *
+       * @param value id
+       * @return builder
+       */
+      public Builder id(String value)
+      {
+         m_id = value;
+         return this;
+      }
+
+      /**
+       * Add name.
+       *
+       * @param value name
+       * @return builder
+       */
+      public Builder name(String value)
+      {
+         m_name = value;
+         return this;
+      }
+
+      /**
+       * Add description.
+       *
+       * @param value description
+       * @return builder
+       */
+      public Builder description(String value)
+      {
+         m_description = value;
+         return this;
+      }
+
+      /**
+       * Add sequence number.
+       *
+       * @param value sequence number
+       * @return builder
+       */
+      public Builder sequenceNumber(Integer value)
+      {
+         m_sequenceNumber = value;
+         return this;
+      }
+
+      /**
+       * Add parent.
+       *
+       * @param value parent
+       * @return builder
+       */
+      public Builder parent(CostAccount value)
+      {
+         m_parent = value;
+         return this;
+      }
+
+      /**
+       * Build a CostAccount instance.
+       *
+       * @return CostAccount instance
+       */
+      public CostAccount build()
+      {
+         return new CostAccount(this);
+      }
+
+      private final ProjectFile m_file;
+      private Integer m_uniqueID;
+      private String m_id;
+      private String m_name;
+      private String m_description;
+      private Integer m_sequenceNumber;
+      private CostAccount m_parent;
+   }
 }

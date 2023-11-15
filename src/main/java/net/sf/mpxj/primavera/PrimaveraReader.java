@@ -252,7 +252,15 @@ final class PrimaveraReader
    public void processCostAccounts(List<Row> accounts)
    {
       CostAccountContainer container = m_project.getCostAccounts();
-      HierarchyHelper.sortHierarchy(accounts, v -> v.getInteger("acct_id"), v -> v.getInteger("parent_acct_id")).forEach(row -> container.add(new CostAccount(row.getInteger("acct_id"), row.getString("acct_short_name"), row.getString("acct_name"), row.getString("acct_descr"), row.getInteger("acct_seq_num"), container.getByUniqueID(row.getInteger("parent_acct_id")))));
+      HierarchyHelper.sortHierarchy(accounts, v -> v.getInteger("acct_id"), v -> v.getInteger("parent_acct_id")).forEach(row -> container.add(
+         new CostAccount.Builder(m_project)
+            .uniqueID(row.getInteger("acct_id"))
+            .id(row.getString("acct_short_name"))
+            .name(row.getString("acct_name"))
+            .description(row.getString("acct_descr"))
+            .sequenceNumber(row.getInteger("acct_seq_num"))
+            .parent(container.getByUniqueID(row.getInteger("parent_acct_id")))
+            .build()));
    }
 
    /**
