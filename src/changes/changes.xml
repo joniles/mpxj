@@ -7,7 +7,7 @@
 	<body>
 		<release date="unreleased" version="12.4.0">
 			<action dev="joniles" type="update">Added support for the WBS Code Separator attribute to `ProjectProperties`.</action>
-			<action dev="joniles" type="update">Avoid creating duplicate `ActivityCodeValue` instances when redaing Asta PP files.</action>
+			<action dev="joniles" type="update">Avoid creating duplicate `ActivityCodeValue` instances when reading Asta PP files.</action>
 			<action dev="joniles" type="update">The `ProjectEntityContainer` method `renumberUniqueIDs` has been marked as deprecated.</action>
 			<action dev="joniles" type="update">The `ProjectEntityContainer` method `getNextUniqueID` has been marked as deprecated. Use `ProjectFile.getUniqueIdObjectSequence(class).getNext()` instead.</action>
 			<action dev="joniles" type="update">The `ProjectEntityContainer` method `updateUniqueIdCounter` has been marked as deprecated as it is no longer required.</action>
