@@ -22,8 +22,10 @@
 			<action dev="joniles" type="update">Marked the `Step(task)` constructor as deprecated, use the `Step.Builder` class instead.</action>
 			<action dev="joniles" type="update">Marked all `Step` setter methods a deprecated. The `Step` class will be immutable in the next major release.</action>
 			<action dev="joniles" type="update">Marked the `NotesTopic` constructor as deprecated, use the `NotesTopic.Builder(ProjectFile)` constructor instead.</action>
-			<action dev="joniles" type="update">Implemented the `Expensecategory.Builder` class.</action>
+			<action dev="joniles" type="update">Implemented the `ExpenseCategory.Builder` class.</action>
 			<action dev="joniles" type="update">Marked the `ExpenseCategory` constructor as deprecated, use the `ExpenseCategory.Builder` class instead.</action>
+			<action dev="joniles" type="update">Implemented the `CostAccount.Builder` class.</action>
+			<action dev="joniles" type="update">Marked the `CostAccount` constructor as deprecated, use the `CostAccount.Builder` class instead.</action>
 		</release>
 		<release date="2023-11-07" version="12.3.0">
 			<action dev="joniles" type="update">Retrieve role availability data when reading a schedule from a P6 database.</action>
