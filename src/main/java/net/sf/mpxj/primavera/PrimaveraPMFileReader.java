@@ -653,7 +653,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       typeValues.addAll(activityCodes);
 
       typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getObjectId(), v -> v.getParentObjectId());
-
       for (ActivityCodeType typeValue : typeValues)
       {
          ActivityCode code = map.get(typeValue.getCodeTypeObjectId());

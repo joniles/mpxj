@@ -30,6 +30,7 @@
 			<action dev="joniles" type="update">Implemented the `ActivityCodeValue.Builder` class.</action>
 			<action dev="joniles" type="update">Marked the `ActivityCodeValue` constructor as deprecated, use the `ActivityCodeValue.Builder` class instead.</action>
 			<action dev="joniles" type="update">Marked the `ActivityCodeValue.setParent` method as deprecated, use the `ActivityCodeValue.Builder` class instead.</action>
+			<action dev="joniles" type="update">Marked the `ActivityCode.addValue` method as deprecated, use the `ActivityCodeValue.Builder` class instead to create an `ActivityCodeValue` instance and add it directly to the list held by the parent `ActivityCode`.</action>
 		</release>
 		<release date="2023-11-07" version="12.3.0">
 			<action dev="joniles" type="update">Retrieve role availability data when reading a schedule from a P6 database.</action>
