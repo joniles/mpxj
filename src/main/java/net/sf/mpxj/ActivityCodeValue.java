@@ -54,6 +54,11 @@ public class ActivityCodeValue
       m_color = color;
    }
 
+   /**
+    * Constructor.
+    *
+    * @param builder builder
+    */
    private ActivityCodeValue(Builder builder)
    {
       m_uniqueID = builder.m_file.getUniqueIdObjectSequence(ActivityCodeValue.class).syncOrGetNext(builder.m_uniqueID);
@@ -179,55 +184,110 @@ public class ActivityCodeValue
    private final Color m_color;
    private ActivityCodeValue m_parent;
 
+   /**
+    * ActivityCodeValue builder.
+    */
    public static class Builder
    {
+      /**
+       * Constructor.
+       *
+       * @param file parent project file
+       */
       public Builder(ProjectFile file)
       {
          m_file = file;
       }
 
+      /**
+       * Add parent activity code.
+       *
+       * @param value activity code
+       * @return builder
+       */
       public Builder type(ActivityCode value)
       {
          m_type = value;
          return this;
       }
 
+      /**
+       * Add unique ID.
+       *
+       * @param value unique ID
+       * @return builder
+       */
       public Builder uniqueID(Integer value)
       {
          m_uniqueID = value;
          return this;
       }
 
+      /**
+       * Add sequence number.
+       *
+       * @param value sequence number
+       * @return builder
+       */
       public Builder sequenceNumber(Integer value)
       {
          m_sequenceNumber = value;
          return this;
       }
 
+      /**
+       * Add name.
+       *
+       * @param value name
+       * @return builder
+       */
       public Builder name(String value)
       {
          m_name = value;
          return this;
       }
 
+      /**
+       * Add description.
+       *
+       * @param value description
+       * @return builder
+       */
       public Builder description(String value)
       {
          m_description = value;
          return this;
       }
 
+      /**
+       * Add color.
+       *
+       * @param value color
+       * @return builder
+       */
       public Builder color(Color value)
       {
          m_color = value;
          return this;
       }
 
+      /**
+       * Add parent value.
+       *
+       * @param value parent value
+       * @return builder
+       */
       public Builder parent(ActivityCodeValue value)
       {
          m_parent = value;
          return this;
       }
 
+      /**
+       * Build an ActivityCodeValue instance.
+       *
+       * @return ActivityCodeValue instance
+       */
       public ActivityCodeValue build()
       {
          return new ActivityCodeValue(this);
