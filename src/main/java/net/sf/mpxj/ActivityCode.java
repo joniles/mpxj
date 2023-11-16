@@ -147,8 +147,9 @@ public class ActivityCode
     * @param description value description
     * @param color value color
     * @return ActivityCodeValue instance
+    * @deprecated use ActivityCodeValue.Builder and pass result to addValue(ActivityCodeValue) method
     */
-   public ActivityCodeValue addValue(Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
+   @Deprecated public ActivityCodeValue addValue(Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
    {
       ActivityCodeValue value = new ActivityCodeValue(this, uniqueID, sequenceNumber, name, description, color);
       m_values.add(value);

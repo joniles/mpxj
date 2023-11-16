@@ -76,10 +76,12 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
+import net.sf.mpxj.common.HierarchyHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ObjectSequence;
 
 /**
  * This class provides a generic front end to read project data from
@@ -2171,34 +2173,41 @@ final class AstaReader
          codeMap.put(code.getUniqueID(), code);
       }
 
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, r -> r.getInteger("ID"), r -> r.getInteger("CODE_LIBRARY_ENTRY"), Comparator.comparing(r -> r.getString("SHORT_NAME")));
+      Map<ActivityCode, ObjectSequence> sequences = new HashMap<>();
+
+      ActivityCode previousCode = null;
       for (Row row : typeValues)
       {
          ActivityCode code = codeMap.get(row.getInteger("CODE_LIBRARY"));
-         if (code != null)
+         if (code == null)
          {
-            Integer id = row.getInteger("ID");
-            Integer sequenceNumber = row.getInteger("SORT_ORDER");
-            String name = row.getString("SHORT_NAME");
-            String description = row.getString("NAME");
-
-            if (name == null || name.isEmpty())
-            {
-               name = description;
-            }
-
-            ActivityCodeValue value = code.addValue(id, sequenceNumber, name, description, null);
-            valueMap.put(value.getUniqueID(), value);
+            continue;
          }
-      }
 
-      for (Row row : typeValues)
-      {
-         ActivityCodeValue child = valueMap.get(row.getInteger("ID"));
-         ActivityCodeValue parent = valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY"));
-         if (parent != null && child != null)
+         Integer id = row.getInteger("ID");
+         // Note: this is a user-supplied value, there can be multiple rows with the same sort order.
+         // This doesn't appear to be the same concept as the sequence number.
+         //Integer sequenceNumber = row.getInteger("SORT_ORDER");
+         String name = row.getString("SHORT_NAME");
+         String description = row.getString("NAME");
+
+         if (name == null || name.isEmpty())
          {
-            child.setParent(parent);
+            name = description;
          }
+
+         ObjectSequence sequence = sequences.computeIfAbsent(code, x -> new ObjectSequence(1));
+         ActivityCodeValue value = new ActivityCodeValue.Builder(m_project)
+            .type(code)
+            .uniqueID(id)
+            .sequenceNumber(sequence.getNext())
+            .name(name)
+            .description(description)
+            .parent(valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY")))
+            .build();
+         code.getValues().add(value);
+         valueMap.put(value.getUniqueID(), value);
       }
 
       for (Row row : assignments)

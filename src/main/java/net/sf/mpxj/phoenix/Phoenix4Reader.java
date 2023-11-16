@@ -214,7 +214,12 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       int activityCodeValueSequence = 0;
       for (Value typeValue : code.getValue())
       {
-         ActivityCodeValue activityCodeValue = activityCode.addValue(Integer.valueOf(++m_activityCodeValueUniqueID), Integer.valueOf(++activityCodeValueSequence), typeValue.getName(), typeValue.getName(), null);
+         ActivityCodeValue activityCodeValue = new ActivityCodeValue.Builder(m_projectFile)
+            .type(activityCode)
+            .sequenceNumber(Integer.valueOf(++activityCodeValueSequence))
+            .name(typeValue.getName())
+            .description(typeValue.getName())
+            .build();
 
          String name = typeValue.getName();
          UUID uuid = getValueUUID(codeUUID, typeValue.getUuid(), name);
@@ -1079,11 +1084,6 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
     * Counter used to populate the unique ID field of Activity Code.
     */
    private int m_activityCodeUniqueID;
-
-   /**
-    * Counter used to populate the unique ID field of Activity Code Value.
-    */
-   private int m_activityCodeValueUniqueID;
 
    /**
     * Cached context to minimise construction cost.
