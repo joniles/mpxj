@@ -81,6 +81,7 @@ import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ObjectSequence;
 
 /**
  * This class provides a generic front end to read project data from
@@ -2172,25 +2173,33 @@ final class AstaReader
          codeMap.put(code.getUniqueID(), code);
       }
 
-      typeValues = HierarchyHelper.sortHierarchy(typeValues, r -> r.getInteger("ID"), r -> r.getInteger("CODE_LIBRARY_ENTRY"));
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, r -> r.getInteger("ID"), r -> r.getInteger("CODE_LIBRARY_ENTRY"), Comparator.comparing(r -> r.getString("SHORT_NAME")));
+      Map<ActivityCode, ObjectSequence> sequences = new HashMap<>();
+
+      ActivityCode previousCode = null;
       for (Row row : typeValues)
       {
          ActivityCode code = codeMap.get(row.getInteger("CODE_LIBRARY"));
-         if (code != null)
+         if (code == null)
          {
-            Integer id = row.getInteger("ID");
-            Integer sequenceNumber = row.getInteger("SORT_ORDER");
-            String name = row.getString("SHORT_NAME");
-            String description = row.getString("NAME");
-
-            if (name == null || name.isEmpty())
-            {
-               name = description;
-            }
-
-            ActivityCodeValue value = code.addValue(id, sequenceNumber, name, description, null, valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY")));
-            valueMap.put(value.getUniqueID(), value);
+            continue;
          }
+
+         Integer id = row.getInteger("ID");
+         // Note: this is a user-supplied value, there can be multiple rows with the same sort order.
+         // This doesn't appear to be the same concept as the sequence number.
+         //Integer sequenceNumber = row.getInteger("SORT_ORDER");
+         String name = row.getString("SHORT_NAME");
+         String description = row.getString("NAME");
+
+         if (name == null || name.isEmpty())
+         {
+            name = description;
+         }
+
+         ObjectSequence sequence = sequences.computeIfAbsent(code, x -> new ObjectSequence(1));
+         ActivityCodeValue value = code.addValue(id, sequence.getNext(), name, description, null, valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY")));
+         valueMap.put(value.getUniqueID(), value);
       }
 
       for (Row row : assignments)
