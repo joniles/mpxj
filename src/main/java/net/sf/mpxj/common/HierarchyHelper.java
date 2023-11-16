@@ -23,6 +23,7 @@
 package net.sf.mpxj.common;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,24 @@ public class HierarchyHelper
     */
    public static final <K, V> List<V> sortHierarchy(List<V> list, Function<V, K> getId, Function<V, K> getParentId)
    {
+      return sortHierarchy(list, getId, getParentId, null);
+   }
+
+   /**
+    * Given a list of items, sort the items such that parent items always appear
+    * before child items and ensure child items are sorted.
+    * This allows for "one shot" creation of object instances
+    * based on this data rather than having to make a second pass to create
+    * the hierarchy.
+    *
+    * @param list list of items
+    * @param getId function to retrieve an item's ID
+    * @param getParentId function to retrieve an item's parent ID
+    * @param comparator sort order for items within the hierarchy
+    * @return list sorted to ensure parents appear before children
+    */
+   public static final <K, V> List<V> sortHierarchy(List<V> list, Function<V, K> getId, Function<V, K> getParentId, Comparator<V> comparator)
+   {
       // Bail out early if sorting is not required
       if (list.size() < 2 || list.stream().allMatch(v -> getParentId.apply(v) == null))
       {
@@ -62,7 +81,7 @@ public class HierarchyHelper
          (parent == null ? root : parent).addChild(entry.getValue());
       }
 
-      return addChildNodes(new ArrayList<>(), root);
+      return comparator == null ? addChildNodes(new ArrayList<>(), root) : addChildNodes(new ArrayList<>(), root, (o1, o2) -> comparator.compare(o1.getItem(), o2.getItem()));
    }
 
    /**
@@ -75,6 +94,20 @@ public class HierarchyHelper
    private static <V> List<V> addChildNodes(List<V> list, HierarchyNode<V> parent)
    {
       parent.getChildNodes().forEach(c -> { list.add(c.getItem()); addChildNodes(list, c); });
+      return list;
+   }
+
+   /**
+    * Recursively add parent and child items to a list, with child items sorted.
+    *
+    * @param list list to which items are added
+    * @param parent parent node
+    * @param hierarchyNodeComparator sort order for items
+    * @return list with nodes added
+    */
+   private static <V> List<V> addChildNodes(List<V> list, HierarchyNode<V> parent, Comparator<HierarchyNode<V>> hierarchyNodeComparator)
+   {
+      parent.getChildNodes().stream().sorted(hierarchyNodeComparator).forEach(c -> { list.add(c.getItem()); addChildNodes(list, c, hierarchyNodeComparator); });
       return list;
    }
 
