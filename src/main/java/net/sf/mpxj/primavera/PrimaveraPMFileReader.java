@@ -657,7 +657,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ActivityCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ActivityCodeValue value = code.addValue(typeValue.getObjectId(), typeValue.getSequenceNumber(), typeValue.getCodeValue(), typeValue.getDescription(), ColorHelper.parseHtmlColor(typeValue.getColor()));
+            ActivityCodeValue value = new ActivityCodeValue.Builder(m_projectFile)
+               .type(code)
+               .uniqueID(typeValue.getObjectId())
+               .sequenceNumber(typeValue.getSequenceNumber())
+               .name(typeValue.getCodeValue())
+               .description(typeValue.getDescription())
+               .color(ColorHelper.parseHtmlColor(typeValue.getColor()))
+               .build();
+            code.getValues().add(value);
             m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }
