@@ -1704,7 +1704,8 @@ final class PrimaveraPMProjectWriter
          xml.setProjectObjectId(m_projectObjectID);
       }
 
-      code.getChildValues().stream().sorted(Comparator.comparing(ActivityCodeValue::getSequenceNumber)).forEach(v -> writeActivityCodeValue(xml, null, values, v));
+      Comparator<ActivityCodeValue> comparator = Comparator.comparing(ActivityCodeValue::getSequenceNumber).thenComparing(ActivityCodeValue::getUniqueID);
+      code.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValue(xml, null, values, v, comparator));
    }
 
    /**
@@ -1715,7 +1716,7 @@ final class PrimaveraPMProjectWriter
     * @param values value container
     * @param value value to write
     */
-   private void writeActivityCodeValue(ActivityCodeTypeType code, ActivityCodeType parentValue, List<ActivityCodeType> values, ActivityCodeValue value)
+   private void writeActivityCodeValue(ActivityCodeTypeType code, ActivityCodeType parentValue, List<ActivityCodeType> values, ActivityCodeValue value, Comparator<ActivityCodeValue> comparator)
    {
       ActivityCodeType xml = m_factory.createActivityCodeType();
       values.add(xml);
@@ -1728,7 +1729,7 @@ final class PrimaveraPMProjectWriter
       xml.setDescription(value.getDescription());
       xml.setColor(ColorHelper.getHtmlColor(value.getColor()));
 
-      value.getChildValues().stream().sorted(Comparator.comparing(ActivityCodeValue::getSequenceNumber)).forEach(v -> writeActivityCodeValue(code, xml, values, v));
+      value.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValue(code, xml, values, v, comparator));
    }
 
    /**

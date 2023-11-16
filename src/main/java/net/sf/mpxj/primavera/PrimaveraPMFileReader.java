@@ -652,6 +652,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       typeValues.addAll(apibo.getActivityCode());
       typeValues.addAll(activityCodes);
 
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getObjectId(), v -> v.getParentObjectId());
+
       for (ActivityCodeType typeValue : typeValues)
       {
          ActivityCode code = map.get(typeValue.getCodeTypeObjectId());
@@ -664,19 +666,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                .name(typeValue.getCodeValue())
                .description(typeValue.getDescription())
                .color(ColorHelper.parseHtmlColor(typeValue.getColor()))
+               .parent(m_activityCodeMap.get(typeValue.getParentObjectId()))
                .build();
             code.getValues().add(value);
             m_activityCodeMap.put(value.getUniqueID(), value);
-         }
-      }
-
-      for (ActivityCodeType typeValue : typeValues)
-      {
-         ActivityCodeValue child = m_activityCodeMap.get(typeValue.getObjectId());
-         ActivityCodeValue parent = m_activityCodeMap.get(typeValue.getParentObjectId());
-         if (parent != null && child != null)
-         {
-            child.setParent(parent);
          }
       }
    }

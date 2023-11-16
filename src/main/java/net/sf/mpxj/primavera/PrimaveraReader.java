@@ -309,6 +309,7 @@ final class PrimaveraReader
          map.put(code.getUniqueID(), code);
       }
 
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getInteger("actv_code_id"), v -> v.getInteger("parent_actv_code_id"));
       for (Row row : typeValues)
       {
          ActivityCode code = map.get(row.getInteger("actv_code_type_id"));
@@ -321,19 +322,10 @@ final class PrimaveraReader
                .name(row.getString("short_name"))
                .description(row.getString("actv_code_name"))
                .color(ColorHelper.parseHexColor(row.getString("color")))
+               .parent(m_activityCodeMap.get(row.getInteger("parent_actv_code_id")))
                .build();
             code.getValues().add(value);
             m_activityCodeMap.put(value.getUniqueID(), value);
-         }
-      }
-
-      for (Row row : typeValues)
-      {
-         ActivityCodeValue child = m_activityCodeMap.get(row.getInteger("actv_code_id"));
-         ActivityCodeValue parent = m_activityCodeMap.get(row.getInteger("parent_actv_code_id"));
-         if (parent != null && child != null)
-         {
-            child.setParent(parent);
          }
       }
 
