@@ -2198,7 +2198,15 @@ final class AstaReader
          }
 
          ObjectSequence sequence = sequences.computeIfAbsent(code, x -> new ObjectSequence(1));
-         ActivityCodeValue value = code.addValue(id, sequence.getNext(), name, description, null, valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY")));
+         ActivityCodeValue value = new ActivityCodeValue.Builder(m_project)
+            .type(code)
+            .uniqueID(id)
+            .sequenceNumber(sequence.getNext())
+            .name(name)
+            .description(description)
+            .parent(valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY")))
+            .build();
+         code.getValues().add(value);
          valueMap.put(value.getUniqueID(), value);
       }
 

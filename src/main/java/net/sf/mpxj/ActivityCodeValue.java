@@ -42,8 +42,9 @@ public class ActivityCodeValue
     * @param name value name
     * @param description value description
     * @param color value color
+    * @deprecated use builder
     */
-   public ActivityCodeValue(ActivityCode type, Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
+   @Deprecated public ActivityCodeValue(ActivityCode type, Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
    {
       m_type = type;
       m_uniqueID = uniqueID;
@@ -53,15 +54,15 @@ public class ActivityCodeValue
       m_color = color;
    }
 
-   public ActivityCodeValue(ActivityCode type, Integer uniqueID, Integer sequenceNumber, String name, String description, Color color, ActivityCodeValue parent)
+   private ActivityCodeValue(Builder builder)
    {
-      m_type = type;
-      m_uniqueID = uniqueID;
-      m_sequenceNumber = sequenceNumber;
-      m_name = name;
-      m_description = description;
-      m_color = color;
-      m_parent = parent;
+      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(ActivityCodeValue.class).syncOrGetNext(builder.m_uniqueID);
+      m_type = builder.m_type;
+      m_sequenceNumber = builder.m_sequenceNumber;
+      m_name = builder.m_name;
+      m_description = builder.m_description;
+      m_color = builder.m_color;
+      m_parent = builder.m_parent;
    }
 
    /**
@@ -148,8 +149,9 @@ public class ActivityCodeValue
     * Set the parent ActivityCodeValue.
     *
     * @param parent parent ActivityCodeValue
+    * @deprecated use builder
     */
-   public void setParent(ActivityCodeValue parent)
+   @Deprecated public void setParent(ActivityCodeValue parent)
    {
       m_parent = parent;
    }
@@ -176,4 +178,68 @@ public class ActivityCodeValue
    private final String m_description;
    private final Color m_color;
    private ActivityCodeValue m_parent;
+
+   public static class Builder
+   {
+      public Builder(ProjectFile file)
+      {
+         m_file = file;
+      }
+
+      public Builder type(ActivityCode value)
+      {
+         m_type = value;
+         return this;
+      }
+
+      public Builder uniqueID(Integer value)
+      {
+         m_uniqueID = value;
+         return this;
+      }
+
+      public Builder sequenceNumber(Integer value)
+      {
+         m_sequenceNumber = value;
+         return this;
+      }
+
+      public Builder name(String value)
+      {
+         m_name = value;
+         return this;
+      }
+
+      public Builder description(String value)
+      {
+         m_description = value;
+         return this;
+      }
+
+      public Builder color(Color value)
+      {
+         m_color = value;
+         return this;
+      }
+
+      public Builder parent(ActivityCodeValue value)
+      {
+         m_parent = value;
+         return this;
+      }
+
+      public ActivityCodeValue build()
+      {
+         return new ActivityCodeValue(this);
+      }
+
+      private final ProjectFile m_file;
+      private ActivityCode m_type;
+      private Integer m_uniqueID;
+      private Integer m_sequenceNumber;
+      private String m_name;
+      private String m_description;
+      private Color m_color;
+      private ActivityCodeValue m_parent;
+   }
 }

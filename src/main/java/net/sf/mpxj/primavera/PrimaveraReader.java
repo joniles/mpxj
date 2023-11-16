@@ -314,7 +314,15 @@ final class PrimaveraReader
          ActivityCode code = map.get(row.getInteger("actv_code_type_id"));
          if (code != null)
          {
-            ActivityCodeValue value = code.addValue(row.getInteger("actv_code_id"), row.getInteger("seq_num"), row.getString("short_name"), row.getString("actv_code_name"), ColorHelper.parseHexColor(row.getString("color")));
+            ActivityCodeValue value = new ActivityCodeValue.Builder(m_project)
+               .type(code)
+               .uniqueID(row.getInteger("actv_code_id"))
+               .sequenceNumber(row.getInteger("seq_num"))
+               .name(row.getString("short_name"))
+               .description(row.getString("actv_code_name"))
+               .color(ColorHelper.parseHexColor(row.getString("color")))
+               .build();
+            code.getValues().add(value);
             m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }
