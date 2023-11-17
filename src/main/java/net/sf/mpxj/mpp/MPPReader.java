@@ -296,7 +296,7 @@ public final class MPPReader extends AbstractProjectStreamReader
    }
 
    /**
-    * If a baseline field is not populate, but the estimated version of that field is populated
+    * If a baseline field is not populated, but the estimated version of that field is populated
     * then we fall back on using the estimated field.
     *
     * @param task task to update
