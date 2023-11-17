@@ -643,7 +643,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       for (ActivityCodeTypeType type : types)
       {
-         ActivityCode code = new ActivityCode(type.getObjectId(), ActivityCodeScopeHelper.getInstanceFromXml(type.getScope()), type.getEPSObjectId(), type.getProjectObjectId(), type.getSequenceNumber(), type.getName(), BooleanHelper.getBoolean(type.isIsSecureCode()), type.getLength());
+         ActivityCode code = new ActivityCode.Builder(m_projectFile)
+            .uniqueID(type.getObjectId())
+            .scope(ActivityCodeScopeHelper.getInstanceFromXml(type.getScope()))
+            .scopeEpsUniqueID(type.getEPSObjectId())
+            .scopeProjectUniqueID(type.getProjectObjectId())
+            .sequenceNumber(type.getSequenceNumber())
+            .name(type.getName())
+            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
+            .maxLength(type.getLength())
+            .build();
          container.add(code);
          map.put(code.getUniqueID(), code);
       }

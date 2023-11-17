@@ -45,7 +45,6 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.ActivityCode;
-import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
@@ -231,9 +230,12 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
     */
    private void readActivityCode(Code code, Integer activityCodeSequence)
    {
-      ActivityCode activityCode = new ActivityCode(Integer.valueOf(++m_activityCodeUniqueID), ActivityCodeScope.GLOBAL, null, null, activityCodeSequence, code.getName(), false, null);
-
+      ActivityCode activityCode = new ActivityCode.Builder(m_projectFile)
+         .sequenceNumber(activityCodeSequence)
+         .name(code.getName())
+         .build();
       UUID codeUUID = getCodeUUID(code.getUuid(), code.getName());
+
       int activityCodeValueSequence = 0;
       for (Value typeValue : code.getValue())
       {
@@ -1057,11 +1059,6 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    private EventManager m_eventManager;
    List<UUID> m_codeSequence;
    private final boolean m_useActivityCodesForTaskHierarchy;
-
-   /**
-    * Counter used to populate the unique ID field of Activity Code.
-    */
-   private int m_activityCodeUniqueID;
 
    /**
     * Cached context to minimise construction cost.

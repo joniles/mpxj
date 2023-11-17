@@ -304,7 +304,16 @@ final class PrimaveraReader
 
       for (Row row : types)
       {
-         ActivityCode code = new ActivityCode(row.getInteger("actv_code_type_id"), ActivityCodeScopeHelper.getInstanceFromXer(row.getString("actv_code_type_scope")), row.getInteger("wbs_id"), row.getInteger("proj_id"), row.getInteger("seq_num"), row.getString("actv_code_type"), row.getBoolean("super_flag"), row.getInteger("actv_short_len"));
+         ActivityCode code = new ActivityCode.Builder(m_project)
+            .uniqueID(row.getInteger("actv_code_type_id"))
+            .scope(ActivityCodeScopeHelper.getInstanceFromXer(row.getString("actv_code_type_scope")))
+            .scopeEpsUniqueID(row.getInteger("wbs_id"))
+            .scopeProjectUniqueID(row.getInteger("proj_id"))
+            .sequenceNumber(row.getInteger("seq_num"))
+            .name(row.getString("actv_code_type"))
+            .secure(row.getBoolean("super_flag"))
+            .maxLength(row.getInteger("actv_short_len"))
+            .build();
          container.add(code);
          map.put(code.getUniqueID(), code);
       }
