@@ -59,7 +59,12 @@ public class ActivityCode
       m_maxLength = maxLength;
    }
 
-   public ActivityCode(Builder builder)
+   /**
+    * Constructor.
+    *
+    * @param builder builder
+    */
+   private ActivityCode(Builder builder)
    {
       m_uniqueID = builder.m_file.getUniqueIdObjectSequence(ActivityCode.class).syncOrGetNext(builder.m_uniqueID);
       m_scope = builder.m_scope;
@@ -202,61 +207,122 @@ public class ActivityCode
    private final Integer m_maxLength;
    private final List<ActivityCodeValue> m_values = new ArrayList<>();
 
+   /**
+    * ActivityCode builder.
+    */
    public static class Builder
    {
+      /**
+       * Constructor.
+       *
+       * @param file parent file
+       */
       public Builder(ProjectFile file)
       {
          m_file = file;
       }
 
+      /**
+       * Add unique ID.
+       *
+       * @param value unique ID
+       * @return builder
+       */
       public Builder uniqueID(Integer value)
       {
          m_uniqueID = value;
          return this;
       }
 
+      /**
+       * Add scope.
+       *
+       * @param value scope
+       * @return builder
+       */
       public Builder scope(ActivityCodeScope value)
       {
          m_scope = value;
          return this;
       }
 
+      /**
+       * Add scope EPS ID.
+       *
+       * @param value scope EPS ID
+       * @return builder
+       */
       public Builder scopeEpsUniqueID(Integer value)
       {
          m_scopeEpsUniqueID = value;
          return this;
       }
 
+      /**
+       * Add scope project ID.
+       *
+       * @param value scope project ID
+       * @return builder
+       */
       public Builder scopeProjectUniqueID(Integer value)
       {
          m_scopeProjectUniqueID = value;
          return this;
       }
 
+      /**
+       * Add sequence number.
+       *
+       * @param value sequence number
+       * @return builder
+       */
       public Builder sequenceNumber(Integer value)
       {
          m_sequenceNumber = value;
          return this;
       }
 
+      /**
+       * Add name.
+       *
+       * @param value name
+       * @return builder
+       */
       public Builder name(String value)
       {
          m_name = value;
          return this;
       }
 
+      /**
+       * Add secure flag.
+       *
+       * @param value secure flag
+       * @return builder
+       */
       public Builder secure(boolean value)
       {
          m_secure = value;
          return this;
       }
 
+      /**
+       * Add max length.
+       *
+       * @param value max length
+       * @return builder
+       */
       public Builder maxLength(Integer value)
       {
          m_maxLength = value;
          return this;
       }
 
+      /**
+       * Build an ActivityCode instance.
+       *
+       * @return ActivityCode instance
+       */
       public ActivityCode build()
       {
          return new ActivityCode(this);
