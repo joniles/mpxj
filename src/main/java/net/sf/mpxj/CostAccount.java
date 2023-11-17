@@ -59,7 +59,7 @@ public class CostAccount implements ProjectEntityWithUniqueID
       m_name = builder.m_name;
       m_description = builder.m_description;
       m_sequenceNumber = builder.m_sequenceNumber;
-      m_parent = builder.m_parent;;
+      m_parent = builder.m_parent;
    }
 
    @Override public Integer getUniqueID()

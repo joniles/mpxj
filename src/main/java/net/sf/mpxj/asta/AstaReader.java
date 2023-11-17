@@ -41,7 +41,6 @@ import java.util.function.Function;
 
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
-import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ChildTaskContainer;
@@ -2179,7 +2178,6 @@ final class AstaReader
       typeValues = HierarchyHelper.sortHierarchy(typeValues, r -> r.getInteger("ID"), r -> r.getInteger("CODE_LIBRARY_ENTRY"), Comparator.comparing(r -> r.getString("SHORT_NAME")));
       Map<ActivityCode, ObjectSequence> sequences = new HashMap<>();
 
-      ActivityCode previousCode = null;
       for (Row row : typeValues)
       {
          ActivityCode code = codeMap.get(row.getInteger("CODE_LIBRARY"));

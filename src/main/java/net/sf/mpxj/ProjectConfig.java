@@ -360,7 +360,7 @@ public class ProjectConfig
     */
    @Deprecated public void updateUniqueCounters()
    {
-
+      // Deprecated
    }
 
    /**
@@ -370,7 +370,7 @@ public class ProjectConfig
     */
    @Deprecated public void updateTaskUniqueCounter()
    {
-
+      // Deprecated
    }
 
    /**
@@ -380,7 +380,7 @@ public class ProjectConfig
     */
    @Deprecated public void updateResourceUniqueCounter()
    {
-
+      // Deprecated
    }
 
    /**
@@ -390,7 +390,7 @@ public class ProjectConfig
     */
    @Deprecated public void updateCalendarUniqueCounter()
    {
-
+      // Deprecated
    }
 
    /**
@@ -398,7 +398,7 @@ public class ProjectConfig
     */
    @Deprecated public void updateAssignmentUniqueCounter()
    {
-
+      // Deprecated
    }
 
    /**

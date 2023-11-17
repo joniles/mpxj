@@ -79,7 +79,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
     */
    @Deprecated public void validateUniqueIDsForMicrosoftProject()
    {
-
+      // Deprecated
    }
 
    /**
@@ -174,7 +174,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
     */
    @Deprecated public void updateUniqueIdCounter()
    {
-
+      // Deprecated
    }
 
    /**

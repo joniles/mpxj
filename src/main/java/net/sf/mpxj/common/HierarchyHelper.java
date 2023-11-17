@@ -40,10 +40,12 @@ public class HierarchyHelper
     * based on this data rather than having to make a second pass to create
     * the hierarchy.
     *
+    * @param <K> ID type
+    * @param <V> value type
     * @param list list of items
     * @param getId function to retrieve an item's ID
     * @param getParentId function to retrieve an item's parent ID
-    * @return list sorted to ensure parents appear before children
+    * @return list sorted to ensure parents appear before children 
     */
    public static final <K, V> List<V> sortHierarchy(List<V> list, Function<V, K> getId, Function<V, K> getParentId)
    {
@@ -57,6 +59,8 @@ public class HierarchyHelper
     * based on this data rather than having to make a second pass to create
     * the hierarchy.
     *
+    * @param <K> ID type
+    * @param <V> value type
     * @param list list of items
     * @param getId function to retrieve an item's ID
     * @param getParentId function to retrieve an item's parent ID
@@ -87,6 +91,7 @@ public class HierarchyHelper
    /**
     * Recursively add parent and child items to a list.
     *
+    * @param <V> value type
     * @param list list to which items are added
     * @param parent parent node
     * @return list with nodes added
@@ -100,6 +105,7 @@ public class HierarchyHelper
    /**
     * Recursively add parent and child items to a list, with child items sorted.
     *
+    * @param <V> value type
     * @param list list to which items are added
     * @param parent parent node
     * @param hierarchyNodeComparator sort order for items
@@ -113,6 +119,8 @@ public class HierarchyHelper
 
    /**
     * Class used to represent an item and any child items.
+    * 
+    * @param <V> value type
     */
    private static class HierarchyNode<V>
    {

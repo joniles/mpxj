@@ -82,7 +82,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    @Deprecated public void validateUniqueIDsForMicrosoftProject()
    {
-
+      // Deprecated
    }
 
    /**
@@ -736,6 +736,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    @Deprecated public void updateUniqueIdCounters()
    {
+      // Deprecated
    }
 
    /**
