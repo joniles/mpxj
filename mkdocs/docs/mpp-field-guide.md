@@ -197,7 +197,6 @@ Outline Number|✓|✓|✓|✓
 Overtime Cost|✓|✓|✓|✓
 Parent Task Unique ID| |✓|✓|✓
 Physical % Complete| |✓|✓|✓
-Predecessors|✓|✓|✓|✓
 Preleveled Finish|✓|✓|✓|✓
 Preleveled Start|✓|✓|✓|✓
 Priority|✓|✓|✓|✓
@@ -228,7 +227,6 @@ Subproject GUID| | |✓|✓
 Subproject Task ID| |✓|✓|✓
 Subproject Task Unique ID| |✓|✓|✓
 Subproject Tasks Unique ID Offset| |✓|✓|✓
-Successors|✓|✓|✓|✓
 Summary|✓|✓|✓|✓
 Summary Progress| |✓|✓|✓
 Task Calendar GUID| | |✓|✓

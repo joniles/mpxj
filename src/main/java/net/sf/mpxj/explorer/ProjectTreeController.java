@@ -161,7 +161,7 @@ public class ProjectTreeController
       projectNode.add(assignmentsFolder);
       addAssignments(assignmentsFolder, m_projectFile);
 
-      MpxjTreeNode relationsFolder = new MpxjTreeNode("Relations");
+      MpxjTreeNode relationsFolder = new MpxjTreeNode("Predecessors");
       projectNode.add(relationsFolder);
       addRelations(relationsFolder, m_projectFile);
 
@@ -636,7 +636,7 @@ public class ProjectTreeController
                Task target = r.getTargetTask();
                String targetTaskName = target == null ? "(unknown task)" : target.getName();
 
-               return sourceTaskName + "->" + targetTaskName + " " + r.getType() + " " + r.getLag();
+               return targetTaskName + "->" + sourceTaskName + " " + r.getType() + " " + r.getLag();
             }
          };
          parentNode.add(childNode);

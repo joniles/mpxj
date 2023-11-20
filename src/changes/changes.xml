@@ -33,6 +33,7 @@
 			<action dev="joniles" type="update">Marked the `ActivityCode.addValue` method as deprecated, use the `ActivityCodeValue.Builder` class instead to create an `ActivityCodeValue` instance and add it directly to the list held by the parent `ActivityCode`.</action>
 			<action dev="joniles" type="update">Implemented the `ActivityCode.Builder` class.</action>
 			<action dev="joniles" type="update">Marked the `ActivityCode` constructor as deprecated, use the `ActivityCode.Builder` class instead.</action>
+			<action dev="joniles" type="update">Only predecessor `Relation` instances are now stored in `RelationContainer`, successors are generated dynamically. You will only notice a difference if you are iterating over the `RelationContainer` collection directly, in which case you will only see predecessors.</action>
 		</release>
 		<release date="2023-11-07" version="12.3.0">
 			<action dev="joniles" type="update">Retrieve role availability data when reading a schedule from a P6 database.</action>
