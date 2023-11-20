@@ -198,12 +198,7 @@ public class ProjectExplorer
                return;
             }
 
-            if (m_expandSubprojects)
-            {
-               projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
-               projectFile.expandSubprojects();
-            }
-
+            expandSubprojects(file, projectFile);
             tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile));
             mntmSave.setEnabled(true);
             mntmClean.setEnabled(true);
@@ -231,11 +226,7 @@ public class ProjectExplorer
             for (ProjectFile projectFile : projectFiles)
             {
                String name = projectFiles.size() == 1 ? file.getName() : file.getName() + " (" + (index++) + ")";
-               if (m_expandSubprojects)
-               {
-                  projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
-                  projectFile.expandSubprojects();
-               }
+               expandSubprojects(file, projectFile);
                tabbedPane.add(name, new ProjectFilePanel(file, projectFile));
             }
             mntmSave.setEnabled(true);
@@ -259,6 +250,18 @@ public class ProjectExplorer
          ProjectFilePanel panel = (ProjectFilePanel) tabbedPane.getSelectedComponent();
          panel.cleanFile(fileCleanerModel.getFile());
       });
+   }
+
+   /**
+    * If configured, expand subprojects.
+    */
+   private void expandSubprojects(File file, ProjectFile projectFile)
+   {
+      if (m_expandSubprojects)
+      {
+         projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
+         projectFile.expandSubprojects();
+      }
    }
 
    private static final String[] READ_EXTENSIONS =
