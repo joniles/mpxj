@@ -255,7 +255,6 @@ Planned Duration| | | | | | | | | | | | | |✓|✓|✓| | | | |
 Planned Finish| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Planned Start| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Planned Work| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
-Predecessors|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Preleveled Finish| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Preleveled Start| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Primary Resource Unique ID| | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
@@ -299,7 +298,6 @@ Subproject GUID| | | | | | | |✓| | | | | | | | | | | | | |
 Subproject Task ID| | | | | | | |✓| |✓| | | | | | | | | | | | | 
 Subproject Task Unique ID| | | | | | | |✓| | | | | | | | | | | | | | | 
 Subproject Tasks Unique ID Offset| | | | | | | |✓| | | | | | | | | | | | | | | 
-Successors|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Summary|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓| | | | |✓|✓
 Summary Progress| | | | | | | |✓| | | | | | | | | | | | | | | 
 Suspend Date| | | | | | | | | | | | | | | |✓| | | | | | | 
