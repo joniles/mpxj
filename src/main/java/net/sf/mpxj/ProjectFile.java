@@ -709,14 +709,98 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public void expandSubprojects()
    {
+      System.out.println("BEGIN: expandSubprojects");
+      expandSubprojectsInternal();
+
+      List<Task> externalTasks = new ArrayList<>();
+      findExternalTasks(getChildTasks(), externalTasks);
+
+      for (Task task : externalTasks)
+      {
+         if (task.getExternalTask())
+         {
+            System.out.println();
+            ProjectFile originalProjectFile = findProject(task.getSubprojectFile());
+            Task originalTask = findTask(originalProjectFile, task);
+            System.out.println(task + " " + task.getSubprojectFile() + " " + task.getSubprojectTaskID() + " " + task.getSubprojectTaskUniqueID());
+            System.out.println(originalProjectFile);
+            System.out.println(findTask(originalProjectFile, task));
+            System.out.println();
+            replaceRelations(originalTask, task);
+         }
+      }
+      System.out.println("END: expandSubprojects");
+   }
+
+   private ProjectFile findProject(String name)
+   {
+      if (name.equals(m_properties.getProjectFilePath()))
+      {
+         return this;
+      }
+      return m_externalProjects.read(name);
+   }
+
+   private Task findTask(ProjectFile file, Task task)
+   {
+      Integer id = task.getSubprojectTaskUniqueID();
+      if (id != null)
+      {
+         Task result = file.getTaskByUniqueID(id);
+         if (result != null)
+         {
+            return result;
+         }
+      }
+
+      id = task.getSubprojectTaskID();
+      if (id != null)
+      {
+         Task result = file.getTaskByID(id);
+         if (result != null)
+         {
+            return result;
+         }
+      }
+
+      return null;
+   }
+
+   private void replaceRelations(Task originalTask, Task externalTask)
+   {
+      // create copies to avoid concurrent modification
+      List<Relation> successors = new ArrayList<>(externalTask.getSuccessors());
+      List<Relation> predecessors = new ArrayList<>(externalTask.getPredecessors());
+
+      for(Relation relation : successors)
+      {
+         relation.getTargetTask().removePredecessor(relation.getSourceTask(), relation.getType(), relation.getLag());
+      }
+
+      for(Relation relation : predecessors)
+      {
+         relation.getSourceTask().removePredecessor(relation.getTargetTask(), relation.getType(), relation.getLag());
+      }
+   }
+
+   private void expandSubprojectsInternal()
+   {
+      System.out.println("BEGIN: expandSubprojectsInternal");
       for (Task task : getTasks())
       {
          ProjectFile file = task.expandSubproject();
          if (file != null)
          {
-            file.expandSubprojects();
+            file.expandSubprojectsInternal();
          }
       }
+      System.out.println("END: expandSubprojectsInternal");
+   }
+
+   private void findExternalTasks(List<Task> tasks, List<Task> externalTasks)
+   {
+      externalTasks.addAll(tasks.stream().filter(t -> t.getExternalTask()).collect(Collectors.toList()));
+      tasks.forEach(t -> findExternalTasks(t.getChildTasks(), externalTasks));
    }
 
    /**
