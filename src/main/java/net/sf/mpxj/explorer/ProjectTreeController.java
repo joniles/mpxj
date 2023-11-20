@@ -51,6 +51,7 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Table;
@@ -159,6 +160,10 @@ public class ProjectTreeController
       MpxjTreeNode assignmentsFolder = new MpxjTreeNode("Assignments");
       projectNode.add(assignmentsFolder);
       addAssignments(assignmentsFolder, m_projectFile);
+
+      MpxjTreeNode relationsFolder = new MpxjTreeNode("Relations");
+      projectNode.add(relationsFolder);
+      addRelations(relationsFolder, m_projectFile);
 
       MpxjTreeNode calendarsFolder = new MpxjTreeNode("Calendars");
       projectNode.add(calendarsFolder);
@@ -604,6 +609,34 @@ public class ProjectTreeController
                Task task = a.getTask();
                String taskName = task == null ? "(unknown task)" : task.getName();
                return resourceName + "->" + taskName;
+            }
+         };
+         parentNode.add(childNode);
+      }
+   }
+
+   /**
+    * Add relations to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param file parent file
+    */
+   private void addRelations(MpxjTreeNode parentNode, ProjectFile file)
+   {
+      for (Relation relation : file.getRelations())
+      {
+         final Relation r = relation;
+         MpxjTreeNode childNode = new MpxjTreeNode(r)
+         {
+            @Override public String toString()
+            {
+               Task source = r.getSourceTask();
+               String sourceTaskName = source == null ? "(unknown task)" : source.getName();
+
+               Task target = r.getTargetTask();
+               String targetTaskName = target == null ? "(unknown task)" : target.getName();
+
+               return sourceTaskName + "->" + targetTaskName + " " + r.getType() + " " + r.getLag();
             }
          };
          parentNode.add(childNode);
