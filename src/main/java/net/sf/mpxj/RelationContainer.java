@@ -113,30 +113,23 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
       // Ensure that there is only one predecessor relationship between
       // these two tasks.
       //
-      Relation predecessorRelation = null;
-      Iterator<Relation> iter = predecessorList.iterator();
-      while (iter.hasNext())
+      for (Relation relation : predecessorList)
       {
-         predecessorRelation = iter.next();
-         if (predecessorRelation.getTargetTask() == targetTask)
+         if (relation.getTargetTask() == targetTask)
          {
-            if (predecessorRelation.getType() != type || predecessorRelation.getLag().compareTo(lag) != 0)
+            if (relation.getType() == type && relation.getLag().compareTo(lag) == 0)
             {
-               predecessorRelation = null;
+               return relation;
             }
             break;
          }
-         predecessorRelation = null;
       }
 
       //
       // If necessary, create a new predecessor relationship
       //
-      if (predecessorRelation == null)
-      {
-         predecessorRelation = new Relation(sourceTask, targetTask, type, lag);
-         add(predecessorRelation);
-      }
+      Relation predecessorRelation = new Relation(sourceTask, targetTask, type, lag);
+      add(predecessorRelation);
 
       return predecessorRelation;
    }
@@ -172,14 +165,11 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
       boolean matchFound = false;
       for (Relation relation : predecessorList)
       {
-         if (relation.getTargetTask() == targetTask)
+         if (relation.getTargetTask() == targetTask && relation.getType() == type && relation.getLag().compareTo(lag) == 0)
          {
-            if (relation.getType() == type && relation.getLag().compareTo(lag) == 0)
-            {
-               matchFound = true;
-               remove(relation);
-               break;
-            }
+            matchFound = true;
+            remove(relation);
+            break;
          }
       }
       return matchFound;
