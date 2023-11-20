@@ -45,6 +45,12 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
       super(projectFile);
    }
 
+   /**
+    * Retrieve the predecessors for a given task.
+    *
+    * @param task task
+    * @return task predecessors
+    */
    public List<Relation> getPredecessors(Task task)
    {
       return m_predecessors.getOrDefault(task, EMPTY_LIST);
@@ -68,11 +74,26 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
       added(newElement);
    }
 
+   /**
+    * Retrieve the successors of a given task.
+    *
+    * @param task task
+    * @return task successors
+    */
    public List<Relation> getSuccessors(Task task)
    {
       return m_successors.getOrDefault(task, EMPTY_LIST).stream().map(r -> new Relation(r.getTargetTask(), r.getSourceTask(), r.getType(), r.getLag())).collect(Collectors.toList());
    }
 
+   /**
+    * Add a predecessor for a task.
+    *
+    * @param sourceTask source task
+    * @param targetTask target task (the predecessor)
+    * @param type relationship type
+    * @param lag relationship lag
+    * @return new Relation instance
+    */
    public Relation addPredecessor(Task sourceTask, Task targetTask, RelationType type, Duration lag)
    {
       //
@@ -120,6 +141,15 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
       return predecessorRelation;
    }
 
+   /**
+    * Remove a matching predecessor relationship from a task.
+    *
+    * @param sourceTask source task
+    * @param targetTask target task (the predecessor to remove)
+    * @param type relationship type
+    * @param lag relationship lag
+    * @return true if a matching predecessor was removed
+    */
    public boolean removePredecessor(Task sourceTask, Task targetTask, RelationType type, Duration lag)
    {
       //
@@ -155,7 +185,7 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
       return matchFound;
    }
 
-   private Map<Task, List<Relation>> m_predecessors = new HashMap<>();
-   private Map<Task, List<Relation>> m_successors = new HashMap<>();
+   private final Map<Task, List<Relation>> m_predecessors = new HashMap<>();
+   private final Map<Task, List<Relation>> m_successors = new HashMap<>();
    private static final List<Relation> EMPTY_LIST = Collections.emptyList();
 }
