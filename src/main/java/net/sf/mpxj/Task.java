@@ -26,6 +26,7 @@ package net.sf.mpxj;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import java.util.HashMap;
@@ -463,87 +464,24 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param lag relation lag
     * @return relationship
     */
-   @SuppressWarnings("unchecked") public Relation addPredecessor(Task targetTask, RelationType type, Duration lag)
+   public Relation addPredecessor(Task targetTask, RelationType type, Duration lag)
    {
-      //
-      // Ensure that we have a valid lag duration
-      //
-      if (lag == null)
-      {
-         lag = Duration.getInstance(0, TimeUnit.DAYS);
-      }
+      return getParentFile().getRelations().addPredecessor(this, targetTask, type, lag);
+   }
 
-      //
-      // Retrieve the list of predecessors
-      //
-      List<Relation> predecessorList = (List<Relation>) get(TaskField.PREDECESSORS);
-
-      //
-      // Ensure that there is only one predecessor relationship between
-      // these two tasks.
-      //
-      Relation predecessorRelation = null;
-      Iterator<Relation> iter = predecessorList.iterator();
-      while (iter.hasNext())
-      {
-         predecessorRelation = iter.next();
-         if (predecessorRelation.getTargetTask() == targetTask)
-         {
-            if (predecessorRelation.getType() != type || predecessorRelation.getLag().compareTo(lag) != 0)
-            {
-               predecessorRelation = null;
-            }
-            break;
-         }
-         predecessorRelation = null;
-      }
-
-      //
-      // If necessary, create a new predecessor relationship
-      //
-      if (predecessorRelation == null)
-      {
-         predecessorRelation = new Relation(this, targetTask, type, lag);
-         getParentFile().getRelations().add(predecessorRelation);
-         predecessorList.add(predecessorRelation);
-      }
-
-      //
-      // Retrieve the list of successors
-      //
-      List<Relation> successorList = (List<Relation>) targetTask.get(TaskField.SUCCESSORS);
-
-      //
-      // Ensure that there is only one successor relationship between
-      // these two tasks.
-      //
-      Relation successorRelation = null;
-      iter = successorList.iterator();
-      while (iter.hasNext())
-      {
-         successorRelation = iter.next();
-         if (successorRelation.getTargetTask() == this)
-         {
-            if (successorRelation.getType() != type || successorRelation.getLag().compareTo(lag) != 0)
-            {
-               successorRelation = null;
-            }
-            break;
-         }
-         successorRelation = null;
-      }
-
-      //
-      // If necessary, create a new successor relationship
-      //
-      if (successorRelation == null)
-      {
-         successorRelation = new Relation(targetTask, this, type, lag);
-         targetTask.getParentFile().getRelations().add(successorRelation);
-         successorList.add(successorRelation);
-      }
-
-      return predecessorRelation;
+   /**
+    * This method allows a predecessor relationship to be removed from this
+    * task instance.  It will only delete relationships that exactly match the
+    * given targetTask, type and lag time.
+    *
+    * @param targetTask the predecessor task
+    * @param type relation type
+    * @param lag relation lag
+    * @return returns true if the relation is found and removed
+    */
+   public boolean removePredecessor(Task targetTask, RelationType type, Duration lag)
+   {
+      return getParentFile().getRelations().removePredecessor(this, targetTask, type, lag);
    }
 
    /**
@@ -5416,91 +5354,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * This method allows a predecessor relationship to be removed from this
-    * task instance.  It will only delete relationships that exactly match the
-    * given targetTask, type and lag time.
-    *
-    * @param targetTask the predecessor task
-    * @param type relation type
-    * @param lag relation lag
-    * @return returns true if the relation is found and removed
-    */
-   public boolean removePredecessor(Task targetTask, RelationType type, Duration lag)
-   {
-      boolean matchFound = false;
-
-      //
-      // Retrieve the list of predecessors
-      //
-      List<Relation> predecessorList = getPredecessors();
-      if (!predecessorList.isEmpty())
-      {
-         //
-         // Ensure that we have a valid lag duration
-         //
-         if (lag == null)
-         {
-            lag = Duration.getInstance(0, TimeUnit.DAYS);
-         }
-
-         //
-         // Ensure that there is a predecessor relationship between
-         // these two tasks, and remove it.
-         //
-         matchFound = removeRelation(predecessorList, targetTask, type, lag);
-
-         //
-         // If we have removed a predecessor, then we must remove the
-         // corresponding successor entry from the target task list
-         //
-         if (matchFound)
-         {
-            //
-            // Retrieve the list of successors
-            //
-            List<Relation> successorList = targetTask.getSuccessors();
-            if (!successorList.isEmpty())
-            {
-               //
-               // Ensure that there is a successor relationship between
-               // these two tasks, and remove it.
-               //
-               removeRelation(successorList, this, type, lag);
-            }
-         }
-      }
-
-      return matchFound;
-   }
-
-   /**
-    * Internal method used to locate and remove an item from a list Relations.
-    *
-    * @param relationList list of Relation instances
-    * @param targetTask target relationship task
-    * @param type target relationship type
-    * @param lag target relationship lag
-    * @return true if a relationship was removed
-    */
-   private boolean removeRelation(List<Relation> relationList, Task targetTask, RelationType type, Duration lag)
-   {
-      boolean matchFound = false;
-      for (Relation relation : relationList)
-      {
-         if (relation.getTargetTask() == targetTask)
-         {
-            if (relation.getType() == type && relation.getLag().compareTo(lag) == 0)
-            {
-               matchFound = relationList.remove(relation);
-               relation.getSourceTask().getParentFile().getRelations().remove(relation);
-               break;
-            }
-         }
-      }
-      return matchFound;
-   }
-
-   /**
     * Maps a field index to a TaskField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
@@ -5839,6 +5692,16 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return Boolean.valueOf(getSubprojectFile() != null && !getExternalTask());
    }
 
+   private List<Relation> calculatePredecessors()
+   {
+      return getParentFile().getRelations().getPredecessors(this);
+   }
+
+   private List<Relation> calculateSuccessors()
+   {
+      return getParentFile().getRelations().getSuccessors(this);
+   }
+
    /**
     * Supply a default value for constraint type.
     *
@@ -5931,7 +5794,8 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    private RecurringTask m_recurringTask;
 
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Collections.singletonList(TaskField.PARENT_TASK_UNIQUE_ID));
+
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS));
 
    private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
@@ -5950,12 +5814,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
       CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
       CALCULATED_FIELD_MAP.put(TaskField.EXTERNAL_PROJECT, Task::calculateExternalProject);
+      CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::calculatePredecessors);
+      CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::calculateSuccessors);
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
       CALCULATED_FIELD_MAP.put(TaskField.TASK_MODE, Task::defaultTaskMode);
-      CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::defaultRelationList);
-      CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::defaultRelationList);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODES, Task::defaultActivityCodesList);
       CALCULATED_FIELD_MAP.put(TaskField.EXPENSE_ITEMS, Task::defaultExpenseItems);
       CALCULATED_FIELD_MAP.put(TaskField.STEPS, Task::defaultSteps);

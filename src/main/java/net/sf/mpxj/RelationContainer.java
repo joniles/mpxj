@@ -22,6 +22,14 @@
 
 package net.sf.mpxj;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
  * Represents Relation instances from the current project.
  */
@@ -36,4 +44,118 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
    {
       super(projectFile);
    }
+
+   public List<Relation> getPredecessors(Task task)
+   {
+      return m_predecessors.getOrDefault(task, EMPTY_LIST);
+   }
+
+   @Override protected void added(Relation element)
+   {
+      m_predecessors.computeIfAbsent(element.getSourceTask(), t -> new ArrayList<>()).add(element);
+      m_successors.computeIfAbsent(element.getTargetTask(), t -> new ArrayList<>()).add(element);
+   }
+
+   @Override protected void removed(Relation element)
+   {
+      m_predecessors.getOrDefault(element.getSourceTask(), EMPTY_LIST).remove(element);
+      m_successors.getOrDefault(element.getTargetTask(), EMPTY_LIST).remove(element);
+   }
+
+   @Override protected void replaced(Relation oldElement, Relation newElement)
+   {
+      removed(oldElement);
+      added(newElement);
+   }
+
+   public List<Relation> getSuccessors(Task task)
+   {
+      return m_successors.getOrDefault(task, EMPTY_LIST).stream().map(r -> new Relation(r.getTargetTask(), r.getSourceTask(), r.getType(), r.getLag())).collect(Collectors.toList());
+   }
+
+   public Relation addPredecessor(Task sourceTask, Task targetTask, RelationType type, Duration lag)
+   {
+      //
+      // Ensure that we have a valid lag duration
+      //
+      if (lag == null)
+      {
+         lag = Duration.getInstance(0, TimeUnit.DAYS);
+      }
+
+      //
+      // Retrieve the list of predecessors
+      //
+      List<Relation> predecessorList = m_predecessors.getOrDefault(sourceTask, EMPTY_LIST);
+
+      //
+      // Ensure that there is only one predecessor relationship between
+      // these two tasks.
+      //
+      Relation predecessorRelation = null;
+      Iterator<Relation> iter = predecessorList.iterator();
+      while (iter.hasNext())
+      {
+         predecessorRelation = iter.next();
+         if (predecessorRelation.getTargetTask() == targetTask)
+         {
+            if (predecessorRelation.getType() != type || predecessorRelation.getLag().compareTo(lag) != 0)
+            {
+               predecessorRelation = null;
+            }
+            break;
+         }
+         predecessorRelation = null;
+      }
+
+      //
+      // If necessary, create a new predecessor relationship
+      //
+      if (predecessorRelation == null)
+      {
+         predecessorRelation = new Relation(sourceTask, targetTask, type, lag);
+         add(predecessorRelation);
+      }
+
+      return predecessorRelation;
+   }
+
+   public boolean removePredecessor(Task sourceTask, Task targetTask, RelationType type, Duration lag)
+   {
+      //
+      // Retrieve the list of predecessors
+      //
+      List<Relation> predecessorList = m_predecessors.getOrDefault(sourceTask, EMPTY_LIST);
+      if (predecessorList.isEmpty())
+      {
+         return false;
+      }
+
+      //
+      // Ensure that we have a valid lag duration
+      //
+      if (lag == null)
+      {
+         lag = Duration.getInstance(0, TimeUnit.DAYS);
+      }
+
+      boolean matchFound = false;
+      for (Relation relation : predecessorList)
+      {
+         if (relation.getTargetTask() == targetTask)
+         {
+            if (relation.getType() == type && relation.getLag().compareTo(lag) == 0)
+            {
+               matchFound = true;
+               remove(relation);
+               break;
+            }
+         }
+      }
+      return matchFound;
+   }
+
+   private Map<Task, List<Relation>> m_predecessors = new HashMap<>();
+   private Map<Task, List<Relation>> m_successors = new HashMap<>();
+   private static final List<Relation> EMPTY_LIST = Collections.emptyList();
 }
