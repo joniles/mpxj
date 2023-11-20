@@ -103,7 +103,7 @@ class ExternalProjectContainer
     * directory for the process. If the Subproject Working Directory has
     * been configured in ProjectConfig, use this instead.
     *
-    * @param fileName file to ocate
+    * @param fileName file to locate
     * @return File instance or null
     */
    private File findFile(String fileName)
