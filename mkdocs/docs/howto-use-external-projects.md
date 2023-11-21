@@ -41,7 +41,7 @@ for (Task task : file.getTasks())
 }
 ```
 
-The example above illustrates how we can identify a Subproject using a task's
+The example above illustrates how we can identify a Subproject by using a task's
 External Project attribute. Once we have identified that we have a Subproject
 we can determine where the file is located, using the Subproject File 
 attribute, and the GUID of this project, using the Subproject GUID attribute.
@@ -133,8 +133,17 @@ by using the `expandSubprojects` method on the project file itself:
 
 ```java
 ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-file.expandSubprojects();
+file.expandSubprojects(false);
 ```
+
+> Remember that all the "expand subproject" functionality described in the
+> notes above is doing is attaching the tasks from one `ProjectFile` instance
+> as child tasks of a task in another `ProjectFile` instance. This will allow
+> you to recursively descend through the tasks in a project and any subprojects.
+> However, these tasks still belong to separate `ProjectFile` instances,
+> so calling the `getTasks()` method on the top level `ProjectFile` instance
+> will only return the tasks from that project, and will not include tasks
+> from any subprojects.
 
 ## External Predecessors
 The second way an external project can be referenced in a Microsoft Project
@@ -180,6 +189,41 @@ As with a task representing an external project, you can retrieve the project
 for an external predecessor task using the `getSubprojectObject` method. Note
 however that the `expandSubproject` method will have no effect as the external
 predecessor task does not represent an entire project!
+
+## Predecessors and Successors from Subprojects
+As we saw in a previous section, when working with Microsoft Project you can
+configure a project with a number of subprojects. When this is the case you can
+also create predecessor or successor relationships  between tasks in any
+of these projects. When you open your MPP file in Microsoft Project, and all of
+the subprojects can also be opened, then Microsoft Project will present you
+with a unified view of the tasks and their relationships, even though the
+relationships cross different files. However, if you open your project but do
+not have the subproject files available, you will see placeholder external
+tasks representing the predecessor or successor tasks from the missing
+subproject files.
+
+When reading the file using MPXJ, you will encounter the same situation: opening
+your MPP file without any of the subprojects being available you will see
+placeholder external tasks for predecessor and successor tasks from the
+subproject files. As we have already seen, the `expandSubprojects` method can
+be used to expand all subprojects, if the files they represent are available,
+allowing you to traverse the hierarchy of tasks. The `expandSubprojects` method
+also offers some additional functionality: when you pass `true` to this method,
+MPXJ will attempt to replace any predecessor or successor relationships which
+include placeholder external tasks with relationships which refer to the
+original task from a subproject, and those placeholder external tasks will be
+removed from the project entirely. This functionality is intended to replicate
+what you would see if you opened your file in Microsoft Project and all
+subprojects were successfully loaded.
+
+> As noted previously, the `expandSubprojects` method is only stitching together
+> a set of individual `ProjectFile` instances so the tasks they contain can
+> be traversed seamlessly, and in this case the predecessor and successor
+> relationships between those tasks no longer use placeholder external tasks.
+> This is still not a single unified `ProjectFile` instance so care should be
+> taken when working with this data to bear in mind that it comes from a number
+> of separate files.
+
 
 ## Resource Pools
 The final way an external project can be used from a Microsoft Project schedule
