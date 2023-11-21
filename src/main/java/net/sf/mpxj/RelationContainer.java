@@ -93,7 +93,7 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
    /**
     * Retrieve the successors for a task in their "raw" form where each
     * Relation instance lists the successor as the source task attribute and
-    * the predecesor as the target task attribute.
+    * the predecessor as the target task attribute.
     *
     * @param task task
     * @return raw task successors

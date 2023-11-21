@@ -758,6 +758,12 @@ public class ProjectTreeController
       }
    }
 
+   /**
+    * Retrieve the task name, decorated to indicate if it is an external task or project.
+    *
+    * @param task Task instance
+    * @return decorated task name
+    */
    private String getTaskName(Task task)
    {
       if (task == null)
