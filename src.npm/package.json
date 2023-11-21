@@ -1,0 +1,23 @@
+{
+  "name": "mpxj",
+  "version": "1.0.0",
+  "description": "MPXJ is a Java library which allows a variety of project file formats and databases to be read and written. This package uses the Java library to read a schedule file and returns its contents in a form which can be used from JavaScript.",
+  "main": "mpxj.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mpxj",
+    "read",
+    "project",
+    "schedule"
+  ],
+  "author": "Jon Iles",
+  "license": "LGPL",
+  "dependencies": {
+  },
+  "files": [
+    "mpxj.js",
+    "lib"
+  ]
+}
