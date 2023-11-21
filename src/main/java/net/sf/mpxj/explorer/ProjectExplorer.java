@@ -52,6 +52,7 @@ public class ProjectExplorer
    protected JFrame m_frame;
    private boolean m_openAll;
    private boolean m_expandSubprojects;
+   private boolean m_removeExternalTasks = true;
 
    /**
     * Launch the application.
@@ -146,8 +147,12 @@ public class ProjectExplorer
       final JMenuItem mntmOpenAll = new JCheckBoxMenuItem("Open All");
       mnFile.add(mntmOpenAll);
 
-      final JMenuItem mntmExpandSubprojects = new JCheckBoxMenuItem("Expand Subprojects");
+      final JMenuItem mntmExpandSubprojects = new JCheckBoxMenuItem("Expand Subprojects", m_expandSubprojects);
       mnFile.add(mntmExpandSubprojects);
+
+      final JMenuItem mntmRemoveExternalTasks = new JCheckBoxMenuItem("Remove External Tasks", m_removeExternalTasks);
+      mntmRemoveExternalTasks.setEnabled(m_expandSubprojects);
+      mnFile.add(mntmRemoveExternalTasks);
 
       //
       // Open
@@ -181,7 +186,16 @@ public class ProjectExplorer
       //
       // Expand Subprojects
       //
-      mntmExpandSubprojects.addActionListener(e -> m_expandSubprojects = !m_expandSubprojects);
+      mntmExpandSubprojects.addActionListener(e -> {
+            m_expandSubprojects = !m_expandSubprojects;
+            mntmRemoveExternalTasks.setEnabled(m_expandSubprojects);
+         }
+      );
+
+      //
+      // Remove external tasks
+      //
+      mntmRemoveExternalTasks.addActionListener(e -> m_removeExternalTasks = !m_removeExternalTasks);
 
       final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
       m_frame.getContentPane().add(tabbedPane);
@@ -260,7 +274,7 @@ public class ProjectExplorer
       if (m_expandSubprojects)
       {
          projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
-         projectFile.expandSubprojects();
+         projectFile.expandSubprojects(m_removeExternalTasks);
       }
    }
 

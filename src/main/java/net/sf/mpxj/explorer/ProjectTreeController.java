@@ -226,7 +226,7 @@ public class ProjectTreeController
          {
             @Override public String toString()
             {
-               return t.getName();
+               return getTaskName(t);
             }
          };
          parentNode.add(childNode);
@@ -607,8 +607,7 @@ public class ProjectTreeController
                Resource resource = a.getResource();
                String resourceName = resource == null ? "(unknown resource)" : resource.getName();
                Task task = a.getTask();
-               String taskName = task == null ? "(unknown task)" : task.getName();
-               return resourceName + "->" + taskName;
+               return resourceName + "->" + getTaskName(task);
             }
          };
          parentNode.add(childNode);
@@ -630,13 +629,7 @@ public class ProjectTreeController
          {
             @Override public String toString()
             {
-               Task source = r.getSourceTask();
-               String sourceTaskName = source == null ? "(unknown task)" : source.getName();
-
-               Task target = r.getTargetTask();
-               String targetTaskName = target == null ? "(unknown task)" : target.getName();
-
-               return targetTaskName + "->" + sourceTaskName + " " + r.getType() + " " + r.getLag();
+               return getTaskName(r.getTargetTask()) + "->" + getTaskName(r.getSourceTask()) + " " + r.getType() + " " + r.getLag();
             }
          };
          parentNode.add(childNode);
@@ -763,6 +756,25 @@ public class ProjectTreeController
       {
          throw new RuntimeException(ex);
       }
+   }
+
+   /**
+    * Retrieve the task name, decorated to indicate if it is an external task or project.
+    *
+    * @param task Task instance
+    * @return decorated task name
+    */
+   private String getTaskName(Task task)
+   {
+      if (task == null)
+      {
+         return "(unknown task)";
+      }
+
+      String externalTaskLabel = task.getExternalTask() ? " [EXTERNAL TASK]" : "";
+      String externalProjectLabel = task.getExternalProject() ? " [EXTERNAL PROJECT]" : "";
+
+      return task.getName() + externalTaskLabel + externalProjectLabel;
    }
 
    /**
