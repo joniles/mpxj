@@ -75,13 +75,32 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
 
    /**
     * Retrieve the successors of a given task.
+    * Note that the convention currently used by MPXJ is that the source task in the relation
+    * object is the current task, and the target task is the predecessor or successor.
+    * As we're only storing Relation instances representing predecessors, in order to
+    * conform to the convention for successors we need create a new list of Relation instances with
+    * transposed source and target tasks.
+    * TODO: review to determine if we need to continue with this approach
     *
     * @param task task
     * @return task successors
     */
    public List<Relation> getSuccessors(Task task)
    {
-      return m_successors.getOrDefault(task, EMPTY_LIST).stream().map(r -> new Relation(r.getTargetTask(), r.getSourceTask(), r.getType(), r.getLag())).collect(Collectors.toList());
+      return getRawSuccessors(task).stream().map(r -> new Relation(r.getTargetTask(), r.getSourceTask(), r.getType(), r.getLag())).collect(Collectors.toList());
+   }
+
+   /**
+    * Retrieve the successors for a task in their "raw" form where each
+    * Relation instance lists the successor as the source task attribute and
+    * the predecesor as the target task attribute.
+    *
+    * @param task task
+    * @return raw task successors
+    */
+   public List<Relation> getRawSuccessors(Task task)
+   {
+      return m_successors.getOrDefault(task, EMPTY_LIST);
    }
 
    /**

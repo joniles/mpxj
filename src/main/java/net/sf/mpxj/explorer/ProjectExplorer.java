@@ -261,6 +261,7 @@ public class ProjectExplorer
       {
          projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
          projectFile.expandSubprojects();
+         projectFile.replaceExternalTasks();
       }
    }
 
