@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -708,53 +707,91 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * to what was originally the subproject task. Assuming all subproject
     * files can be located and loaded correctly, this will present
     * a complete view of the project.
+    * <p/>
     * Note that the current project and any subprojects are still independent
     * projects, so while you can recursively descend through the hierarchy
-    * of tasks to visit all tasks from all files, the `ProjectFile.getTasks`
+    * of tasks to visit all tasks from all files, the {@code ProjectFile.getTasks()}
     * collection will still only contain the tasks from the original project,
     * not  all the subprojects.
+    *
+    * @deprecated use the new version of this method which accepts a Boolean flag
     */
-   public void expandSubprojects()
+   @Deprecated public void expandSubprojects()
    {
       getTasks().stream().map(Task::expandSubproject).filter(Objects::nonNull).forEach(ProjectFile::expandSubprojects);
    }
 
    /**
-    * Assuming you have already called the {@code expandSubprojects} method to
-    * ensure any tasks from subprojects have been attached to this project, calling this method
-    * will replace any predecessors or successors which link to external tasks with new predecessors or successors
-    * which link to the correct tasks across projects. As the external task instance are ust placeholders,
+    * Calling this method will recursively expand any subprojects
+    * in the current file and in turn any subprojects those files contain.
+    * The tasks from the subprojects will be attached
+    * to what was originally the subproject task. Assuming all subproject
+    * files can be located and loaded correctly, this will present
+    * a complete view of the project.
+    * <p/>
+    * Note that the current project and any subprojects are still independent
+    * projects, so while you can recursively descend through the hierarchy
+    * of tasks to visit all tasks from all files, the {@code ProjectFile.getTasks()}
+    * collection will still only contain the tasks from the original project,
+    * not  all the subprojects.
+    * <p/>
+    * Passing {@code true} for the {@code replaceExternalTasks} flag will
+    * replace any predecessor or successor relationships with external tasks
+    * with new relationships which link to the original tasks. For each
+    * external task where this is successful, the external task itself will
+    * be removed as it is just a placeholder and is no longer required.
+    *
+    * @param replaceExternalTasks flag indicating if external tasks should be replaced
+    */
+   public void expandSubprojects(boolean replaceExternalTasks)
+   {
+      getTasks().stream().map(Task::expandSubproject).filter(Objects::nonNull).forEach(ProjectFile::expandSubprojects);
+      if (replaceExternalTasks)
+      {
+         replaceExternalTasks();
+      }
+   }
+
+   /**
+    * Calling this method will replace any predecessors or successors which link to external tasks with new predecessors or successors
+    * which link to the correct tasks across projects. As the external task instance are just placeholders,
     * these are now removed as they serve no further purpose.
     */
-   public void replaceExternalTasks()
+   private void replaceExternalTasks()
    {
       List<Task> externalTasks = new ArrayList<>();
       findExternalTasks(getChildTasks(), externalTasks);
-      Set<Task> replacedTasks = new HashSet<>();
-
-      for (Task externalTask : externalTasks)
-      {
-         ProjectFile originalProjectFile = findProject(externalTask.getSubprojectFile());
-         if (originalProjectFile == null)
-         {
-            continue;
-         }
-
-         Task originalTask = findTask(originalProjectFile, externalTask);
-         if (originalTask == null)
-         {
-            continue;
-         }
-
-         replaceRelations(externalTask, originalTask);
-         replacedTasks.add(externalTask);
-      }
-
+      Set<Task> replacedTasks = externalTasks.stream().map(t -> replaceRelations(t)).filter(t -> t != null).collect(Collectors.toSet());
       removeExternalTasks(getChildTasks(), replacedTasks);
    }
 
    /**
-    * Given a project's filename, find relevant  ProjectFile instance.
+    * Replaces any predecessor or successor relations for this external task.
+    *
+    * @param externalTask external task to replace
+    * @return the external task if relations successfully replaced, or null if not replaced
+    */
+   private Task replaceRelations(Task externalTask)
+   {
+      ProjectFile originalProjectFile = findProject(externalTask.getSubprojectFile());
+      if (originalProjectFile == null)
+      {
+         return null;
+      }
+
+      Task originalTask = findTask(originalProjectFile, externalTask);
+      if (originalTask == null)
+      {
+         return null;
+      }
+
+      replaceRelations(externalTask, originalTask);
+
+      return externalTask;
+   }
+
+   /**
+    * Given a project's filename, find the relevant ProjectFile instance.
     *
     * @param name project filename
     * @return ProjectFile instance or null if the project can't be found
@@ -812,18 +849,18 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       List<Relation> successors = new ArrayList<>(relations.getRawSuccessors(externalTask));
       List<Relation> predecessors = new ArrayList<>(relations.getPredecessors(externalTask));
 
-      for (Relation relation : successors)
+      for (Relation originalRelation : successors)
       {
-         boolean result = relations.remove(relation);
-         Relation newRelation = relation.getSourceTask().addPredecessor(originalTask, relation.getType(), relation.getLag());
-         newRelation.setUniqueID(relation.getUniqueID());
+         relations.remove(originalRelation);
+         Relation newRelation = originalRelation.getSourceTask().addPredecessor(originalTask, originalRelation.getType(), originalRelation.getLag());
+         newRelation.setUniqueID(originalRelation.getUniqueID());
       }
 
-      for (Relation relation : predecessors)
+      for (Relation originalRelation : predecessors)
       {
-         boolean result = relations.remove(relation);
-         Relation newRelation = originalTask.addPredecessor(relation.getTargetTask(), relation.getType(), relation.getLag());
-         newRelation.setUniqueID(relation.getUniqueID());
+         relations.remove(originalRelation);
+         Relation newRelation = originalTask.addPredecessor(originalRelation.getTargetTask(), originalRelation.getType(), originalRelation.getLag());
+         newRelation.setUniqueID(originalRelation.getUniqueID());
       }
    }
 

@@ -260,8 +260,7 @@ public class ProjectExplorer
       if (m_expandSubprojects)
       {
          projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
-         projectFile.expandSubprojects();
-         projectFile.replaceExternalTasks();
+         projectFile.expandSubprojects(true);
       }
    }
 
