@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2023-11-14</li>
+        <li id="publishDate">Last Published: 2023-11-23</li>
           </ul>
         </div>
       </header>
@@ -68,75 +68,137 @@
 <h2><a name="MPXJ_Changes"></a>MPXJ Changes</h2><section>
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
-<h3 id="a12.4.0">Release 12.4.0 &#x2013; unreleased</h3>
+<h3 id="a12.4.1">Release 12.4.1 &#x2013; unreleased</h3>
+<p>No changes in this release.</p></section><section>
+<h3 id="a12.4.0">Release 12.4.0 &#x2013; 2023-11-23</h3>
 <table border="0" class="table table-striped">
-<tr class="b">
+<tr class="a">
 <th>Type</th>
 <th>Changes</th>
 <th>By</th></tr>
-<tr class="a">
+<tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Added support for the WBS Code Separator attribute to `ProjectProperties`.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Avoid creating duplicate `ActivityCodeValue` instances when reading Asta PP files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added a new version of the `ProjectFile.expandSubprojects` method which takes a `boolean` argument indicating if external tasks should be removed. Passing `true` to this method will recreate predecessor and successor relationships using the original tasks rather than the placeholder external tasks, and will remove the external tasks.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ProjectFile.expandSubprojects()` method as deprecated, use the new version which takes a `boolean` argument instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure the `ProjectProperties` name attribute is set correctly when reading XER files and P6 databases.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>The `ProjectEntityContainer` method `renumberUniqueIDs` has been marked as deprecated.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="a">
+<tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>The `ProjectEntityContainer` method `getNextUniqueID` has been marked as deprecated. Use `ProjectFile.getUniqueIdObjectSequence(class).getNext()` instead.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="b">
+<tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>The `ProjectEntityContainer` method `updateUniqueIdCounter` has been marked as deprecated as it is no longer required.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="a">
+<tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>The `ProjectFile` method `updateUniqueIdCounters` has been marked as deprecated as it is no longer required.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="b">
+<tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>The `ObjectSequence` method `reset` has been marked as deprecated as it is no longer required.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="a">
+<tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>When creating a `Location` instance using the `Builder` class, a Unique ID will be generated if one is not supplied.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="b">
+<tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>The no-arg `Location.Builder` constructor has been marked a deprecated. Use the constructor which requires a `ProjectFile` instance instead.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="a">
+<tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Implemented the `ExpenseItem.Builder` class.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="b">
+<tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Marked the `ExpenseItem(task)` constructor as deprecated, use the `ExpenseItem.Builder` class instead.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="a">
+<tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Marked all `ExpenseItem` setter methods a deprecated. The `ExpenseItem` class will be immutable in the next major release.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="b">
+<tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Marked no-arg `UnitOfMeasure.Builder()` constructor as deprecated, use the `UnitOfMeasure.Builder(ProjectFile)` constructor instead.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="a">
+<tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Implemented the `Step.Builder` class.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="b">
+<tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Marked the `Step(task)` constructor as deprecated, use the `Step.Builder` class instead.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="a">
+<tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Marked all `Step` setter methods a deprecated. The `Step` class will be immutable in the next major release.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="b">
+<tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Marked the `NotesTopic` constructor as deprecated, use the `NotesTopic.Builder(ProjectFile)` constructor instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Implemented the `ExpenseCategory.Builder` class.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ExpenseCategory` constructor as deprecated, use the `ExpenseCategory.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Implemented the `CostAccount.Builder` class.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `CostAccount` constructor as deprecated, use the `CostAccount.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Implemented the `ActivityCodeValue.Builder` class.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ActivityCodeValue` constructor as deprecated, use the `ActivityCodeValue.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ActivityCodeValue.setParent` method as deprecated, use the `ActivityCodeValue.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ActivityCode.addValue` method as deprecated, use the `ActivityCodeValue.Builder` class instead to create an `ActivityCodeValue` instance and add it directly to the list held by the parent `ActivityCode`.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Implemented the `ActivityCode.Builder` class.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ActivityCode` constructor as deprecated, use the `ActivityCode.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Only predecessor `Relation` instances are now stored in `RelationContainer`, successors are generated dynamically. You will only notice a difference if you are iterating over the `RelationContainer` collection directly, in which case you will only see predecessors.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a12.3.0">Release 12.3.0 &#x2013; 2023-11-07</h3>
 <table border="0" class="table table-striped">

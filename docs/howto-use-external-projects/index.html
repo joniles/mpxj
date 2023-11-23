@@ -1373,6 +1373,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#predecessors-and-successors-from-subprojects" class="md-nav__link">
+    Predecessors and Successors from Subprojects
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#resource-pools" class="md-nav__link">
     Resource Pools
   </a>
@@ -1610,6 +1617,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#predecessors-and-successors-from-subprojects" class="md-nav__link">
+    Predecessors and Successors from Subprojects
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#resource-pools" class="md-nav__link">
     Resource Pools
   </a>
@@ -1676,7 +1690,7 @@ contents of the Subproject.</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The example above illustrates how we can identify a Subproject using a task's
+<p>The example above illustrates how we can identify a Subproject by using a task's
 External Project attribute. Once we have identified that we have a Subproject
 we can determine where the file is located, using the Subproject File 
 attribute, and the GUID of this project, using the Subproject GUID attribute.</p>
@@ -1750,8 +1764,18 @@ we did when using the <code>getSubprojectObject</code> method.</p>
 <p>You can also do this globally and expand all Subproject tasks in a project
 by using the <code>expandSubprojects</code> method on the project file itself:</p>
 <div class="highlight"><pre><span></span><code><span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">().</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;sample.mpp&quot;</span><span class="p">);</span>
-<span class="n">file</span><span class="p">.</span><span class="na">expandSubprojects</span><span class="p">();</span>
+<span class="n">file</span><span class="p">.</span><span class="na">expandSubprojects</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 </code></pre></div>
+<blockquote>
+<p>Remember that all the "expand subproject" functionality described in the
+notes above is doing is attaching the tasks from one <code>ProjectFile</code> instance
+as child tasks of a task in another <code>ProjectFile</code> instance. This will allow
+you to recursively descend through the tasks in a project and any subprojects.
+However, these tasks still belong to separate <code>ProjectFile</code> instances,
+so calling the <code>getTasks()</code> method on the top level <code>ProjectFile</code> instance
+will only return the tasks from that project, and will not include tasks
+from any subprojects.</p>
+</blockquote>
 <h2 id="external-predecessors">External Predecessors</h2>
 <p>The second way an external project can be referenced in a Microsoft Project
 schedule is through the use of an external predecessor task. Project allows you
@@ -1790,6 +1814,39 @@ ID which are the ID and Unique ID of the task in the schedule it comes from.</p>
 for an external predecessor task using the <code>getSubprojectObject</code> method. Note
 however that the <code>expandSubproject</code> method will have no effect as the external
 predecessor task does not represent an entire project!</p>
+<h2 id="predecessors-and-successors-from-subprojects">Predecessors and Successors from Subprojects</h2>
+<p>As we saw in a previous section, when working with Microsoft Project you can
+configure a project with a number of subprojects. When this is the case you can
+also create predecessor or successor relationships  between tasks in any
+of these projects. When you open your MPP file in Microsoft Project, and all of
+the subprojects can also be opened, then Microsoft Project will present you
+with a unified view of the tasks and their relationships, even though the
+relationships cross different files. However, if you open your project but do
+not have the subproject files available, you will see placeholder external
+tasks representing the predecessor or successor tasks from the missing
+subproject files.</p>
+<p>When reading the file using MPXJ, you will encounter the same situation: opening
+your MPP file without any of the subprojects being available you will see
+placeholder external tasks for predecessor and successor tasks from the
+subproject files. As we have already seen, the <code>expandSubprojects</code> method can
+be used to expand all subprojects, if the files they represent are available,
+allowing you to traverse the hierarchy of tasks. The <code>expandSubprojects</code> method
+also offers some additional functionality: when you pass <code>true</code> to this method,
+MPXJ will attempt to replace any predecessor or successor relationships which
+include placeholder external tasks with relationships which refer to the
+original task from a subproject, and those placeholder external tasks will be
+removed from the project entirely. This functionality is intended to replicate
+what you would see if you opened your file in Microsoft Project and all
+subprojects were successfully loaded.</p>
+<blockquote>
+<p>As noted previously, the <code>expandSubprojects</code> method is only stitching together
+a set of individual <code>ProjectFile</code> instances so the tasks they contain can
+be traversed seamlessly, and in this case the predecessor and successor
+relationships between those tasks no longer use placeholder external tasks.
+This is still not a single unified <code>ProjectFile</code> instance so care should be
+taken when working with this data to bear in mind that it comes from a number
+of separate files.</p>
+</blockquote>
 <h2 id="resource-pools">Resource Pools</h2>
 <p>The final way an external project can be used from a Microsoft Project schedule
 is as a resource pool. A resource pool schedule allows you to capture details

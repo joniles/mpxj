@@ -289,8 +289,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1240-unreleased" class="md-nav__link">
-    12.4.0 (unreleased)
+  <a href="#1241-unreleased" class="md-nav__link">
+    12.4.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1240-2023-11-23" class="md-nav__link">
+    12.4.0 (2023-11-23)
   </a>
   
 </li>
@@ -3122,8 +3129,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1240-unreleased" class="md-nav__link">
-    12.4.0 (unreleased)
+  <a href="#1241-unreleased" class="md-nav__link">
+    12.4.1 (unreleased)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1240-2023-11-23" class="md-nav__link">
+    12.4.0 (2023-11-23)
   </a>
   
 </li>
@@ -4747,9 +4761,14 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1240-unreleased">12.4.0 (unreleased)</h2>
+<h2 id="1241-unreleased">12.4.1 (unreleased)</h2>
+<h2 id="1240-2023-11-23">12.4.0 (2023-11-23)</h2>
 <ul>
 <li>Added support for the WBS Code Separator attribute to <code>ProjectProperties</code>.</li>
+<li>Avoid creating duplicate <code>ActivityCodeValue</code> instances when reading Asta PP files.</li>
+<li>Added a new version of the <code>ProjectFile.expandSubprojects</code> method which takes a <code>boolean</code> argument indicating if external tasks should be removed. Passing <code>true</code> to this method will recreate predecessor and successor relationships using the original tasks rather than the placeholder external tasks, and will remove the external tasks.</li>
+<li>Marked the <code>ProjectFile.expandSubprojects()</code> method as deprecated, use the new version which takes a <code>boolean</code> argument instead.</li>
+<li>Ensure the <code>ProjectProperties</code> name attribute is set correctly when reading XER files and P6 databases.</li>
 <li>The <code>ProjectEntityContainer</code> method <code>renumberUniqueIDs</code> has been marked as deprecated.</li>
 <li>The <code>ProjectEntityContainer</code> method <code>getNextUniqueID</code> has been marked as deprecated. Use <code>ProjectFile.getUniqueIdObjectSequence(class).getNext()</code> instead.</li>
 <li>The <code>ProjectEntityContainer</code> method <code>updateUniqueIdCounter</code> has been marked as deprecated as it is no longer required.</li>
@@ -4765,6 +4784,17 @@
 <li>Marked the <code>Step(task)</code> constructor as deprecated, use the <code>Step.Builder</code> class instead.</li>
 <li>Marked all <code>Step</code> setter methods a deprecated. The <code>Step</code> class will be immutable in the next major release.</li>
 <li>Marked the <code>NotesTopic</code> constructor as deprecated, use the <code>NotesTopic.Builder(ProjectFile)</code> constructor instead.</li>
+<li>Implemented the <code>ExpenseCategory.Builder</code> class.</li>
+<li>Marked the <code>ExpenseCategory</code> constructor as deprecated, use the <code>ExpenseCategory.Builder</code> class instead.</li>
+<li>Implemented the <code>CostAccount.Builder</code> class.</li>
+<li>Marked the <code>CostAccount</code> constructor as deprecated, use the <code>CostAccount.Builder</code> class instead.</li>
+<li>Implemented the <code>ActivityCodeValue.Builder</code> class.</li>
+<li>Marked the <code>ActivityCodeValue</code> constructor as deprecated, use the <code>ActivityCodeValue.Builder</code> class instead.</li>
+<li>Marked the <code>ActivityCodeValue.setParent</code> method as deprecated, use the <code>ActivityCodeValue.Builder</code> class instead.</li>
+<li>Marked the <code>ActivityCode.addValue</code> method as deprecated, use the <code>ActivityCodeValue.Builder</code> class instead to create an <code>ActivityCodeValue</code> instance and add it directly to the list held by the parent <code>ActivityCode</code>.</li>
+<li>Implemented the <code>ActivityCode.Builder</code> class.</li>
+<li>Marked the <code>ActivityCode</code> constructor as deprecated, use the <code>ActivityCode.Builder</code> class instead.</li>
+<li>Only predecessor <code>Relation</code> instances are now stored in <code>RelationContainer</code>, successors are generated dynamically. You will only notice a difference if you are iterating over the <code>RelationContainer</code> collection directly, in which case you will only see predecessors.</li>
 </ul>
 <h2 id="1230-2023-11-07">12.3.0 (2023-11-07)</h2>
 <ul>
