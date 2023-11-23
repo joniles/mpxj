@@ -962,17 +962,6 @@ final class PrimaveraReader
       boolean baselineFromCurrentProject = m_project.getProjectProperties().getBaselineProjectUniqueID() == null;
 
       //
-      // We set the project name when we read the project properties, but that's just
-      // the short name. The full project name lives on the first WBS item. Rather than
-      // querying twice, we'll just set it here where we have access to the WBS items.
-      // We'll leave the short name in place if there is no WBS.
-      //
-      if (!wbs.isEmpty())
-      {
-         projectProperties.setName(wbs.get(0).getString("wbs_name"));
-      }
-
-      //
       // Read WBS entries and create tasks.
       // Note that the wbs list is supplied to us in the correct order.
       //
@@ -1138,6 +1127,21 @@ final class PrimaveraReader
       new ActivitySorter(wbsTasks).sort(m_project);
 
       updateStructure();
+
+      //
+      // We set the project name when we read the project properties, but that's just
+      // the short name. The full project name lives on the first WBS item. Rather than
+      // querying twice, we'll just set it here where we have access to the WBS items.
+      // We'll leave the short name in place if there is no WBS.
+      //
+      if (m_project.getChildTasks().size() == 1)
+      {
+         Task firstChildTask = m_project.getChildTasks().get(0);
+         if (firstChildTask.getSummary())
+         {
+            projectProperties.setName(firstChildTask.getName());
+         }
+      }
    }
 
    private void populateWBS(Task parent, Task task)
