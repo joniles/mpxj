@@ -1,7 +1,13 @@
 # Changelog
 
-## 12.4.0 (unreleased)
+## 12.4.1 (unreleased)
+
+## 12.4.0 (2023-11-23)
 * Added support for the WBS Code Separator attribute to `ProjectProperties`.
+* Avoid creating duplicate `ActivityCodeValue` instances when reading Asta PP files.
+* Added a new version of the `ProjectFile.expandSubprojects` method which takes a `boolean` argument indicating if external tasks should be removed. Passing `true` to this method will recreate predecessor and successor relationships using the original tasks rather than the placeholder external tasks, and will remove the external tasks.
+* Marked the `ProjectFile.expandSubprojects()` method as deprecated, use the new version which takes a `boolean` argument instead.
+* Ensure the `ProjectProperties` name attribute is set correctly when reading XER files and P6 databases.
 * The `ProjectEntityContainer` method `renumberUniqueIDs` has been marked as deprecated.
 * The `ProjectEntityContainer` method `getNextUniqueID` has been marked as deprecated. Use `ProjectFile.getUniqueIdObjectSequence(class).getNext()` instead.
 * The `ProjectEntityContainer` method `updateUniqueIdCounter` has been marked as deprecated as it is no longer required.
@@ -17,6 +23,17 @@
 * Marked the `Step(task)` constructor as deprecated, use the `Step.Builder` class instead.
 * Marked all `Step` setter methods a deprecated. The `Step` class will be immutable in the next major release.
 * Marked the `NotesTopic` constructor as deprecated, use the `NotesTopic.Builder(ProjectFile)` constructor instead.
+* Implemented the `ExpenseCategory.Builder` class.
+* Marked the `ExpenseCategory` constructor as deprecated, use the `ExpenseCategory.Builder` class instead.
+* Implemented the `CostAccount.Builder` class.
+* Marked the `CostAccount` constructor as deprecated, use the `CostAccount.Builder` class instead.
+* Implemented the `ActivityCodeValue.Builder` class.
+* Marked the `ActivityCodeValue` constructor as deprecated, use the `ActivityCodeValue.Builder` class instead.
+* Marked the `ActivityCodeValue.setParent` method as deprecated, use the `ActivityCodeValue.Builder` class instead.
+* Marked the `ActivityCode.addValue` method as deprecated, use the `ActivityCodeValue.Builder` class instead to create an `ActivityCodeValue` instance and add it directly to the list held by the parent `ActivityCode`.
+* Implemented the `ActivityCode.Builder` class.
+* Marked the `ActivityCode` constructor as deprecated, use the `ActivityCode.Builder` class instead.
+* Only predecessor `Relation` instances are now stored in `RelationContainer`, successors are generated dynamically. You will only notice a difference if you are iterating over the `RelationContainer` collection directly, in which case you will only see predecessors.
 
 ## 12.3.0 (2023-11-07)
 * Retrieve role availability data when reading a schedule from a P6 database.

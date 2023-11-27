@@ -977,6 +977,13 @@ module MPXJ
       get_boolean_value(attribute_values['updating_task_status_updates_resource_status'])
     end
 
+    # Retrieve the WBS Code Separator value
+    #
+    # @return WBS Code Separator value
+    def wbs_code_separator
+      attribute_values['wbs_code_separator']
+    end
+
     # Retrieve the Week Start Day value
     #
     # @return Week Start Day value
@@ -1138,6 +1145,7 @@ module MPXJ
       'total_slack_calculation_type' => :total_slack_type,
       'unique_id' => :integer,
       'updating_task_status_updates_resource_status' => :boolean,
+      'wbs_code_separator' => :string,
       'week_start_day' => :day,
       'work' => :work,
       'work2' => :numeric,
