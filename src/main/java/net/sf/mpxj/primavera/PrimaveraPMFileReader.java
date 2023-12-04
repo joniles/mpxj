@@ -594,6 +594,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setMustFinishBy(project.getMustFinishByDate());
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
       properties.setLocationUniqueID(project.getLocationObjectId());
+      // NOTE: this also appears in the schedule options. We will override this with the schedule options value if both are present
       properties.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXml(project.getRelationshipLagCalendar()));
       properties.setWbsCodeSeparator(project.getWBSCodeSeparator());
 
@@ -2336,7 +2337,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", options.isCalculateFloatBasedOnFinishDate());
       projectProperties.setCalculateFloatBasedOnFinishDateOfEachProject(options.isCalculateFloatBasedOnFinishDate());
 
+      // NOTE: this also appears as a project attribute, this one takes precedence
       customProperties.put("CalendarForSchedulingRelationshipLag", options.getRelationshipLagCalendar());
+      projectProperties.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXml(options.getRelationshipLagCalendar()));
 
       customProperties.put("ComputeTotalFloatAs", options.getComputeTotalFloatType());
       projectProperties.setTotalSlackCalculationType(TotalSlackCalculationTypeHelper.getInstanceFromXml(options.getComputeTotalFloatType()));
