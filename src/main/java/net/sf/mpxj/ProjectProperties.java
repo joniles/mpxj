@@ -3222,7 +3222,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    {
       return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
    }
-   
+
    /**
     * Default time separator character.
     */
@@ -3333,6 +3333,14 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    private static final Integer DEFAULT_MINUTES_PER_WEEK = Integer.valueOf(2400);
 
+   private static final Integer DEFAULT_OTHER_PROJECT_ASSIGNMENT_PRIORITY = Integer.valueOf(5);
+
+   private static final Duration DEFAULT_MINIMUM_FLOAT = Duration.getInstance(1, TimeUnit.HOURS);
+
+   private static final Double DEFAULT_OVERALLOCATION = Double.valueOf(25.0);
+
+   private static final Integer DEFAULT_FLOAT_PATHS = Integer.valueOf(10);
+
    private static final Map<FieldType, Function<ProjectProperties, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
@@ -3352,12 +3360,12 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.CUSTOM_PROPERTIES, p -> new HashMap<String, Object>());
       CALCULATED_FIELD_MAP.put(ProjectField.WBS_CODE_SEPARATOR, p -> ".");
       CALCULATED_FIELD_MAP.put(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS, p -> Boolean.FALSE);
-      CALCULATED_FIELD_MAP.put(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN, p -> Integer.valueOf(5));
+      CALCULATED_FIELD_MAP.put(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN, p -> DEFAULT_OTHER_PROJECT_ASSIGNMENT_PRIORITY);
       CALCULATED_FIELD_MAP.put(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.LEVEL_ALL_RESOURCES, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT, p -> Boolean.FALSE);
-      CALCULATED_FIELD_MAP.put(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING, p -> Duration.getInstance(1, TimeUnit.HOURS));
-      CALCULATED_FIELD_MAP.put(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES, p -> Double.valueOf(25.0));
+      CALCULATED_FIELD_MAP.put(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING, p -> DEFAULT_MINIMUM_FLOAT);
+      CALCULATED_FIELD_MAP.put(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES, p -> DEFAULT_OVERALLOCATION);
       CALCULATED_FIELD_MAP.put(ProjectField.LEVELING_PRIORITIES, p -> "(0||priority_type(sort_type|ASC)())");
       CALCULATED_FIELD_MAP.put(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START, p -> Boolean.FALSE);
       CALCULATED_FIELD_MAP.put(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS, p -> Boolean.FALSE);
@@ -3368,6 +3376,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS, p -> Boolean.FALSE);
       CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.LIMIT_NUMBER_OF_PATHS_TO_CALCULATE, p -> Boolean.TRUE);
-      CALCULATED_FIELD_MAP.put(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> Integer.valueOf(10));
+      CALCULATED_FIELD_MAP.put(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> DEFAULT_FLOAT_PATHS);
    }
 }
