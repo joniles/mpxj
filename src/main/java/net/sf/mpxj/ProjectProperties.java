@@ -3106,14 +3106,14 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       set(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS, value);
    }
 
-   public boolean getCalculateMultiplePathsUsingTotalFloat()
+   public boolean getCalculateMultipleFloatPathsUsingTotalFloat()
    {
-      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_MULTIPLE_PATHS_USING_TOTAL_FLOAT));
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT));
    }
 
-   public void setCalculateMultiplePathsUsingTotalFloat(boolean value)
+   public void setCalculateMultipleFloatPathsUsingTotalFloat(boolean value)
    {
-      set(ProjectField.CALCULATE_MULTIPLE_PATHS_USING_TOTAL_FLOAT, value);
+      set(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT, value);
    }
 
    public Integer getDisplayMultipleFloatPathsEndingWithActivity()
@@ -3136,14 +3136,14 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       set(ProjectField.LIMIT_NUMBER_OF_PATHS_TO_CALCULATE, value);
    }
 
-   public Integer getNumberOfPathsToCalculate()
+   public Integer getMaxiumuNumberOfFloatPathsToCalculate()
    {
-      return (Integer)get(ProjectField.NUMBER_OF_PATHS_TO_CALCULATE);
+      return (Integer)get(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE);
    }
 
-   public void setNumberOfPathsToCalculate(Integer value)
+   public void setMaximumNumberOfFloatPathsToCalculate(Integer value)
    {
-      set(ProjectField.NUMBER_OF_PATHS_TO_CALCULATE, value);
+      set(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, value);
    }
 
    /**

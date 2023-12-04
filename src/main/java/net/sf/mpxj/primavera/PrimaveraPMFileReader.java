@@ -2273,7 +2273,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       ScheduleOptionsType options = list.get(0);
       Map<String, Object> customProperties = new TreeMap<>();
 
-      // NOTE: custom properties are deprecated ans will be removed at the next major release
+      // NOTE: custom properties are deprecated and will be removed at the next major release
       ProjectProperties projectProperties = m_projectFile.getProjectProperties();
 
       //
@@ -2348,9 +2348,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Schedule Options - Advanced
       //
       customProperties.put("CalculateMultipleFloatPaths", options.isMultipleFloatPathsEnabled());
+      projectProperties.setCalculateMultipleFloatPaths(options.isMultipleFloatPathsEnabled());
+
       customProperties.put("CalculateMultiplePathsUsingTotalFloat", options.isMultipleFloatPathsUseTotalFloat());
+      projectProperties.setCalculateMultipleFloatPathsUsingTotalFloat(options.isMultipleFloatPathsUseTotalFloat());
+
       customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", options.getMultipleFloatPathsEndingActivityObjectId());
+      projectProperties.setDisplayMultipleFloatPathsEndingWithActivity(options.getMultipleFloatPathsEndingActivityObjectId());
+
       customProperties.put("NumberofPathsToCalculate", options.getMaximumMultipleFloatPaths());
+      projectProperties.setMaximumNumberOfFloatPathsToCalculate(options.getMaximumMultipleFloatPaths());
 
       projectProperties.setCustomProperties(customProperties);
    }
