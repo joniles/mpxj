@@ -28,7 +28,7 @@ Auto Add New Resources and Tasks|✓|✓|✓|✓
 Auto Filter| |✓|✓| 
 Auto Link|✓|✓|✓|✓
 Bar Text Date Format|✓|✓|✓|✓
-Calculate Float on Finish Date From Each Project|✓|✓|✓|✓
+Calculate Float on Finish Date of Each Project|✓|✓|✓|✓
 Calculate Multiple Paths Using Total Float|✓|✓|✓|✓
 Category|✓|✓|✓|✓
 Comments|✓|✓|✓|✓
@@ -75,15 +75,15 @@ Last Author|✓|✓|✓|✓
 Last Printed|✓|✓|✓|✓
 Last Saved|✓|✓|✓|✓
 Level All Resources|✓|✓|✓|✓
-Leveling Prioities|✓|✓|✓|✓
-Limit Number of Paths to Calculate|✓|✓|✓|✓
+Leveling Priorities|✓|✓|✓|✓
+Limit Number of Float Paths to Calculate|✓|✓|✓|✓
 MPP File Type|✓|✓|✓|✓
 MPX Code Page|✓|✓|✓|✓
 MPX Delimiter|✓|✓|✓|✓
 MPX File Version|✓|✓|✓|✓
 MPX Program Name|✓|✓|✓|✓
 Manager|✓|✓|✓|✓
-Max Percent to Overallocate Resources|✓|✓|✓|✓
+Maximum Percentage to Overallocate Resources|✓|✓|✓|✓
 Microsoft Project Server URL|✓|✓|✓|✓
 Minutes per Day|✓|✓|✓|✓
 Minutes per Month|✓|✓|✓|✓
@@ -93,7 +93,7 @@ Multiple Critical Paths| |✓|✓|✓
 New Task Start Is Project Start|✓|✓|✓|✓
 New Tasks Are Manual| |✓|✓|✓
 New Tasks Estimated|✓|✓|✓|✓
-Number of Paths to Calculate|✓|✓|✓|✓
+Number of Float Paths to Calculate|✓|✓|✓|✓
 PM Text|✓|✓|✓|✓
 Presentation Format| |✓|✓|✓
 Preserve Minimum Float When Leveling|✓|✓|✓|✓
