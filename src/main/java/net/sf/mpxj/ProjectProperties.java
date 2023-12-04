@@ -3386,6 +3386,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, ProjectProperties::calculateMinutesPerWeek);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, ProjectProperties::calculateMinutesPerMonth);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, ProjectProperties::calculateMinutesPerYear);
+
       CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, ProjectProperties::defaultDaysPerMonth);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, ProjectProperties::defaultMinutesPerDay);
       CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, ProjectProperties::defaultDateSeparator);
@@ -3395,5 +3396,24 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, ProjectProperties::defaultMpxDelimiter);
       CALCULATED_FIELD_MAP.put(ProjectField.CUSTOM_PROPERTIES, ProjectProperties::defaultCustomProperties);
       CALCULATED_FIELD_MAP.put(ProjectField.WBS_CODE_SEPARATOR, ProjectProperties::defaultWbsCodeSeparator);
+
+      CALCULATED_FIELD_MAP.put(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN, p -> Integer.valueOf(5));
+      CALCULATED_FIELD_MAP.put(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.LEVEL_ALL_RESOURCES, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING, p -> Duration.getInstance(1, TimeUnit.HOURS));
+      CALCULATED_FIELD_MAP.put(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES, p -> Double.valueOf(25.0));
+      CALCULATED_FIELD_MAP.put(ProjectField.LEVELING_PRIORITIES, p -> "(0||priority_type(sort_type|ASC)())");
+      CALCULATED_FIELD_MAP.put(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.USE_EXPECTED_FINISH_DATES, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.LIMIT_NUMBER_OF_PATHS_TO_CALCULATE, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> Integer.valueOf(10));
    }
 }

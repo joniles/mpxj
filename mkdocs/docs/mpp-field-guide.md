@@ -28,9 +28,13 @@ Auto Add New Resources and Tasks|✓|✓|✓|✓
 Auto Filter| |✓|✓| 
 Auto Link|✓|✓|✓|✓
 Bar Text Date Format|✓|✓|✓|✓
+Calculate Float on Finish Date From Each Project|✓|✓|✓|✓
+Calculate Multiple Paths Using Total Float|✓|✓|✓|✓
 Category|✓|✓|✓|✓
 Comments|✓|✓|✓|✓
 Company|✓|✓|✓|✓
+Compute Start to Start Lag From Early Start|✓|✓|✓|✓
+Consider Assignments In Other Project With Priority Equal or Higher Than|✓|✓|✓|✓
 Content Status| |✓|✓|✓
 Content Type| |✓|✓|✓
 Creation Date|✓|✓|✓|✓
@@ -70,12 +74,16 @@ Language| |✓|✓|✓
 Last Author|✓|✓|✓|✓
 Last Printed|✓|✓|✓|✓
 Last Saved|✓|✓|✓|✓
+Level All Resources|✓|✓|✓|✓
+Leveling Prioities|✓|✓|✓|✓
+Limit Number of Paths to Calculate|✓|✓|✓|✓
 MPP File Type|✓|✓|✓|✓
 MPX Code Page|✓|✓|✓|✓
 MPX Delimiter|✓|✓|✓|✓
 MPX File Version|✓|✓|✓|✓
 MPX Program Name|✓|✓|✓|✓
 Manager|✓|✓|✓|✓
+Max Percent to Overallocate Resources|✓|✓|✓|✓
 Microsoft Project Server URL|✓|✓|✓|✓
 Minutes per Day|✓|✓|✓|✓
 Minutes per Month|✓|✓|✓|✓
@@ -85,8 +93,11 @@ Multiple Critical Paths| |✓|✓|✓
 New Task Start Is Project Start|✓|✓|✓|✓
 New Tasks Are Manual| |✓|✓|✓
 New Tasks Estimated|✓|✓|✓|✓
+Number of Paths to Calculate|✓|✓|✓|✓
 PM Text|✓|✓|✓|✓
 Presentation Format| |✓|✓|✓
+Preserve Minimum Float When Leveling|✓|✓|✓|✓
+Preserve Scheduled Early and Late Dates|✓|✓|✓|✓
 Project File Path| |✓|✓|✓
 Project Title|✓|✓|✓|✓
 Relationship Lag Calendar|✓|✓|✓|✓
@@ -105,6 +116,7 @@ Time Format|✓|✓|✓|✓
 Time Separator|✓|✓|✓|✓
 Total Slack Calculation Type|✓|✓|✓|✓
 Updating Task Status Updates Resource Status|✓|✓|✓|✓
+Use Expected Finish Dates|✓|✓|✓|✓
 WBS Code Separator|✓|✓|✓|✓
 Week Start Day|✓|✓|✓|✓
 
