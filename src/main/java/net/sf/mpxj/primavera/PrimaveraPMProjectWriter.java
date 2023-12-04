@@ -660,7 +660,7 @@ final class PrimaveraPMProjectWriter
 
       // Define critical activities as
       options.setCalculateFloatBasedOnFinishDate(customProperties.getBoolean("CalculateFloatBasedOnFishDateOfEachProject", Boolean.TRUE));
-      options.setRelationshipLagCalendar("Predecessor Activity Calendar"); // TODO: translation required
+      options.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getXmlFromInstance(projectProperties.getRelationshipLagCalendar()));
       options.setComputeTotalFloatType(TotalSlackCalculationTypeHelper.getXmlFromInstance(projectProperties.getTotalSlackCalculationType()));
       options.setCriticalActivityFloatThreshold(Double.valueOf(projectProperties.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, projectProperties).getDuration()));
       options.setCriticalActivityPathType(CriticalActivityTypeHelper.getXmlFromInstance(projectProperties.getCriticalActivityType()));
