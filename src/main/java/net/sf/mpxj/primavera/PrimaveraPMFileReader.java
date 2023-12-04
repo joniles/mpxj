@@ -2309,7 +2309,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Define critical activities as
       customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", options.isCalculateFloatBasedOnFinishDate());
 
-      // NOTE: this also appears as a project attribute, this one take precedence
+      // NOTE: this also appears as a project attribute, this one takes precedence
       customProperties.put("CalendarForSchedulingRelationshipLag", options.getRelationshipLagCalendar());
       projectProperties.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXml(options.getRelationshipLagCalendar()));
 
