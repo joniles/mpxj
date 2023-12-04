@@ -281,7 +281,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Flag representing whether or not to split in-progress tasks.
+    * Flag representing whether to split in-progress tasks.
     *
     * @return Boolean value
     */
@@ -291,7 +291,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Flag representing whether or not to split in-progress tasks.
+    * Flag representing whether to split in-progress tasks.
     *
     * @param flag boolean value
     */
@@ -1138,15 +1138,15 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    /**
     * Sets the position of the currency symbol.
     *
-    * @param posn currency symbol position.
+    * @param value currency symbol position.
     */
-   public void setSymbolPosition(CurrencySymbolPosition posn)
+   public void setSymbolPosition(CurrencySymbolPosition value)
    {
-      if (posn == null)
+      if (value == null)
       {
-         posn = DEFAULT_CURRENCY_SYMBOL_POSITION;
+         value = DEFAULT_CURRENCY_SYMBOL_POSITION;
       }
-      set(ProjectField.CURRENCY_SYMBOL_POSITION, posn);
+      set(ProjectField.CURRENCY_SYMBOL_POSITION, value);
    }
 
    /**
@@ -2581,7 +2581,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
    /**
     * This method retrieves a value representing the type of MPP file
-    * that has been read. Currently this method will return the value 8 for
+    * that has been read. Currently, this method will return the value 8 for
     * an MPP8 file (Project 98), 9 for an MPP9 file (Project 2000 and
     * Project 2002), 12 for an MPP12 file (Project 2003, Project 2007) and 14 for an
     * MPP14 file (Project 2010 and Project 2013).
@@ -2877,7 +2877,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Set the total slcak calculation type.
+    * Set the total slack calculation type.
     *
     * @param type total slack calculation type
     */
@@ -2935,7 +2935,217 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    {
       set(ProjectField.WBS_CODE_SEPARATOR, value);
    }
-   
+
+   public boolean getConsiderAssignmentsInOtherProjects()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS));
+   }
+
+   public void setConsiderAssignmentsInOtherProjects(boolean value)
+   {
+      set(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS, value);
+   }
+
+   public Integer getConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan()
+   {
+      return (Integer)get(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN);
+   }
+
+   public void setConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan(Integer value)
+   {
+      set(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN, value);
+   }
+
+   public boolean getPreserveScheduledEarlyAndLateDates()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES));
+   }
+
+   public void setPreserveScheduledEarlyAndLateDates(boolean value)
+   {
+      set(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES, value);
+   }
+
+   public boolean getLevelAllResources()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.LEVEL_ALL_RESOURCES));
+   }
+
+   public void setLevelAllResources(boolean value)
+   {
+      set(ProjectField.LEVEL_ALL_RESOURCES, value);
+   }
+
+   public boolean getLevelResourcesOnlyWithinActivityTotalFloat()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT));
+   }
+
+   public void setLevelResourcesOnlyWithinActivityTotalFloat(boolean value)
+   {
+      set(ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT, value);
+   }
+
+   public Duration getPreserveMinimumFloatWhenLeveling()
+   {
+      return (Duration)get(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING);
+   }
+
+   public void setPreserveMinimumFloatWhenLeveling(Duration value)
+   {
+      set(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING, value);
+   }
+
+   public Number getMaxPercentToOverallocateResources()
+   {
+      return (Number)get(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES);
+   }
+
+   public void setMaxPercentToOverallocateResources(Number value)
+   {
+      set(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES, value);
+   }
+
+   public String getLevelingPriorities()
+   {
+      return (String)get(ProjectField.LEVELING_PRIORITIES);
+   }
+
+   public void setLevelingPriorities(String value)
+   {
+      set(ProjectField.LEVELING_PRIORITIES, value);
+   }
+
+   public boolean getDataDateAndPlannedStartSetToProjectForecastStart()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START));
+   }
+
+   public void setDataDateAndPlannedStartSetToProjectForecastStart(boolean value)
+   {
+      set(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START, value);
+   }
+
+   public boolean getIgnoreRelationshipsToAndFromOterProjects()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS));
+   }
+
+   public void setIgnoreRelationshipsToAndFromOtherProjects(boolean value)
+   {
+      set(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS, value);
+   }
+
+   public boolean getMakeOpenEndedActivitiesCritical()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL));
+   }
+
+   public void setMakeOpenEndedActivitiesCritical(boolean value)
+   {
+      set(ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL, value);
+   }
+
+   public boolean getUseExpectedFinishDates()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.USE_EXPECTED_FINISH_DATES));
+   }
+
+   public void setUseExpectedFinishDates(boolean value)
+   {
+      set(ProjectField.USE_EXPECTED_FINISH_DATES, value);
+   }
+
+   public boolean getWhenSchedulingProgressedActivitiesUseRetainedLogic()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.WHEN_SCHEDULING_PROGRESSED_ACTIVITIES_USE_RETAINED_LOGIC));
+   }
+
+   public void setWhenSchedulingProgressedActivitiesUseRetainedLogic(boolean value)
+   {
+      set(ProjectField.WHEN_SCHEDULING_PROGRESSED_ACTIVITIES_USE_RETAINED_LOGIC, value);
+   }
+
+   public boolean getWhenSchedulingProgressedActivitiesUseProgressOverride()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.WHEN_SCHEDULING_PROGRESSED_ACTIVITIES_USE_PROGRESS_OVERRIDE));
+   }
+
+   public void setWhenSchedulingProgressedActivitiesUseProgressOverride(boolean value)
+   {
+      set(ProjectField.WHEN_SCHEDULING_PROGRESSED_ACTIVITIES_USE_PROGRESS_OVERRIDE, value);
+   }
+
+   public boolean getComputeStartToStartLagFromEarlyStart()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START));
+   }
+
+   public void setComputeStartToStartLagFromEarlyStart(boolean value)
+   {
+      set(ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START, value);
+   }
+
+   public boolean getCalculateFloatBasedOnFinishDateOfEachProject()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT));
+   }
+
+   public void setCalculateFloatBasedOnFinishDateOfEachProject(boolean value)
+   {
+      set(ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT, value);
+   }
+
+   public boolean getCalculateMultipleFloatPaths()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS));
+   }
+
+   public void setCalculateMultipleFloatPaths(boolean value)
+   {
+      set(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS, value);
+   }
+
+   public boolean getCalculateMultiplePathsUsingTotalFloat()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_MULTIPLE_PATHS_USING_TOTAL_FLOAT));
+   }
+
+   public void setCalculateMultiplePathsUsingTotalFloat(boolean value)
+   {
+      set(ProjectField.CALCULATE_MULTIPLE_PATHS_USING_TOTAL_FLOAT, value);
+   }
+
+   public Integer getDisplayMultipleFloatPathsEndingWithActivity()
+   {
+      return (Integer)get(ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY);
+   }
+
+   public void setDisplayMultipleFloatPathsEndingWithActivity(Integer value)
+   {
+      set(ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY, value);
+   }
+
+   public boolean getLimitNumberOfPathsToCalculate()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.LIMIT_NUMBER_OF_PATHS_TO_CALCULATE));
+   }
+
+   public void setLimitNumberOfPathsToCalculate(boolean value)
+   {
+      set(ProjectField.LIMIT_NUMBER_OF_PATHS_TO_CALCULATE, value);
+   }
+
+   public Integer getNumberOfPathsToCalculate()
+   {
+      return (Integer)get(ProjectField.NUMBER_OF_PATHS_TO_CALCULATE);
+   }
+
+   public void setNumberOfPathsToCalculate(Integer value)
+   {
+      set(ProjectField.NUMBER_OF_PATHS_TO_CALCULATE, value);
+   }
+
    /**
     * Maps a field index to a ProjectField instance.
     *
