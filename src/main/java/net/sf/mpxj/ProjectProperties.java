@@ -3208,16 +3208,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return getParentFile().getLatestFinishDate();
    }
 
-   private Integer defaultDaysPerMonth()
-   {
-      return DEFAULT_DAYS_PER_MONTH;
-   }
-
-   private Integer defaultMinutesPerDay()
-   {
-      return DEFAULT_MINUTES_PER_DAY;
-   }
-
    private Integer calculateMinutesPerWeek()
    {
       return Integer.valueOf(DEFAULT_DAYS_PER_WEEK * NumberHelper.getInt(getMinutesPerDay()));
@@ -3232,42 +3222,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    {
       return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
    }
-
-   private Character defaultDateSeparator()
-   {
-      return Character.valueOf(DEFAULT_DATE_SEPARATOR);
-   }
-
-   private Character defaultTimeSeparator()
-   {
-      return Character.valueOf(DEFAULT_TIME_SEPARATOR);
-   }
-
-   private Character defaultDecimalSeparator()
-   {
-      return Character.valueOf(DEFAULT_DECIMAL_SEPARATOR);
-   }
-
-   private Character defaultThousandsSeparator()
-   {
-      return Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR);
-   }
-
-   private Character defaultMpxDelimiter()
-   {
-      return Character.valueOf(DEFAULT_MPX_DELIMITER);
-   }
-
-   private Map<String, Object> defaultCustomProperties()
-   {
-      return new HashMap<>();
-   }
-
-   private String defaultWbsCodeSeparator()
-   {
-      return ".";
-   }
-
+   
    /**
     * Default time separator character.
     */
@@ -3387,16 +3342,15 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, ProjectProperties::calculateMinutesPerMonth);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, ProjectProperties::calculateMinutesPerYear);
 
-      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, ProjectProperties::defaultDaysPerMonth);
-      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, ProjectProperties::defaultMinutesPerDay);
-      CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, ProjectProperties::defaultDateSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, ProjectProperties::defaultTimeSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, ProjectProperties::defaultThousandsSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, ProjectProperties::defaultDecimalSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, ProjectProperties::defaultMpxDelimiter);
-      CALCULATED_FIELD_MAP.put(ProjectField.CUSTOM_PROPERTIES, ProjectProperties::defaultCustomProperties);
-      CALCULATED_FIELD_MAP.put(ProjectField.WBS_CODE_SEPARATOR, ProjectProperties::defaultWbsCodeSeparator);
-
+      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, p -> DEFAULT_DAYS_PER_MONTH);
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, p -> DEFAULT_MINUTES_PER_DAY);
+      CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, p -> DEFAULT_DATE_SEPARATOR);
+      CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, p -> DEFAULT_TIME_SEPARATOR);
+      CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, p -> DEFAULT_THOUSANDS_SEPARATOR);
+      CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, p -> DEFAULT_DECIMAL_SEPARATOR);
+      CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, p -> DEFAULT_MPX_DELIMITER);
+      CALCULATED_FIELD_MAP.put(ProjectField.CUSTOM_PROPERTIES, p -> new HashMap<String, Object>());
+      CALCULATED_FIELD_MAP.put(ProjectField.WBS_CODE_SEPARATOR, p -> ".");
       CALCULATED_FIELD_MAP.put(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS, p -> Boolean.FALSE);
       CALCULATED_FIELD_MAP.put(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN, p -> Integer.valueOf(5));
       CALCULATED_FIELD_MAP.put(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES, p -> Boolean.TRUE);
