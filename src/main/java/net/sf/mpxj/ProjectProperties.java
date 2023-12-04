@@ -3026,7 +3026,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       set(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START, value);
    }
 
-   public boolean getIgnoreRelationshipsToAndFromOterProjects()
+   public boolean getIgnoreRelationshipsToAndFromOtherProjects()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS));
    }
