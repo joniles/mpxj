@@ -2355,7 +2355,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       projectProperties.setCalculateMultipleFloatPathsUsingTotalFloat(options.isMultipleFloatPathsUseTotalFloat());
 
       customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", options.getMultipleFloatPathsEndingActivityObjectId());
-      projectProperties.setDisplayMultipleFloatPathsEndingWithActivity(options.getMultipleFloatPathsEndingActivityObjectId());
+      projectProperties.setDisplayMultipleFloatPathsEndingWithActivityUniqueID(options.getMultipleFloatPathsEndingActivityObjectId());
 
       customProperties.put("NumberofPathsToCalculate", options.getMaximumMultipleFloatPaths());
       projectProperties.setMaximumNumberOfFloatPathsToCalculate(options.getMaximumMultipleFloatPaths());

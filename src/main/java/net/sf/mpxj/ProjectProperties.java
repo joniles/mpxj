@@ -2936,211 +2936,381 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       set(ProjectField.WBS_CODE_SEPARATOR, value);
    }
 
+   /**
+    * Retrieve the consider assignments in other projects when leveling flag.
+    *
+    * @return consider assignments in other projects flag
+    */
    public boolean getConsiderAssignmentsInOtherProjects()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS));
    }
 
+   /**
+    * Set the consider assignments in other projects when leveling flag.
+    *
+    * @param value consider assignments in other projects fla
+    */
    public void setConsiderAssignmentsInOtherProjects(boolean value)
    {
       set(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS, value);
    }
 
+   /**
+    * Retrieve the priority of assignment in other projects to consider when leveling.
+    *
+    * @return assignment priority
+    */
    public Integer getConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan()
    {
       return (Integer)get(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN);
    }
 
+   /**
+    * Set the priority of assignment in other projects to consider when leveling.
+    *
+    * @param value assignment priority
+    */
    public void setConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan(Integer value)
    {
       set(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN, value);
    }
 
+   /**
+    * Retrieve the preserve scheduled early and late dates flag.
+    *
+    * @return preserve scheduled early and late dates flag
+    */
    public boolean getPreserveScheduledEarlyAndLateDates()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES));
    }
 
+   /**
+    * Set the preserve scheduled early and late dates flag.
+    *
+    * @param value preserve scheduled early and late dates flag
+    */
    public void setPreserveScheduledEarlyAndLateDates(boolean value)
    {
       set(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES, value);
    }
 
+   /**
+    * Retrieve the level all resources flag.
+    *
+    * @return level all resources flag
+    */
    public boolean getLevelAllResources()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.LEVEL_ALL_RESOURCES));
    }
 
+   /**
+    * Set the level all resources flag.
+    *
+    * @param value level all resources flag
+    */
    public void setLevelAllResources(boolean value)
    {
       set(ProjectField.LEVEL_ALL_RESOURCES, value);
    }
 
+   /**
+    * Retrieve the level resources only within activity total float flag.
+    *
+    * @return level resources only within activity total float flag
+    */
    public boolean getLevelResourcesOnlyWithinActivityTotalFloat()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT));
    }
 
+   /**
+    * Set the level resources only within activity total float flag.
+    *
+    * @param value level resources only within activity total float flag
+    */
    public void setLevelResourcesOnlyWithinActivityTotalFloat(boolean value)
    {
       set(ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT, value);
    }
 
+   /**
+    * Retrieve the preserve minimum float when leveling value.
+    *
+    * @return float to preserve when leveling
+    */
    public Duration getPreserveMinimumFloatWhenLeveling()
    {
       return (Duration)get(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING);
    }
 
+   /**
+    * Set the preserve minimum float when leveling value.
+    *
+    * @param value float to preserve when leveling
+    */
    public void setPreserveMinimumFloatWhenLeveling(Duration value)
    {
       set(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING, value);
    }
 
+   /**
+    * Retrieve the maximum percentage to overallocate resources.
+    *
+    * @return maximum percentage to overallocate resources
+    */
    public Number getMaxPercentToOverallocateResources()
    {
       return (Number)get(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES);
    }
 
+   /**
+    * Set the maximum percentage to overallocate resources.
+    *
+    * @param value maximum percentage to overallocate resources
+    */
    public void setMaxPercentToOverallocateResources(Number value)
    {
       set(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES, value);
    }
 
+   /**
+    * Retrieve the leveling priorities expression.
+    *
+    * @return leveling priorities expression
+    */
    public String getLevelingPriorities()
    {
       return (String)get(ProjectField.LEVELING_PRIORITIES);
    }
 
+   /**
+    * Set the leveling priorities expression.
+    *
+    * @param value leveling priorities expression
+    */
    public void setLevelingPriorities(String value)
    {
       set(ProjectField.LEVELING_PRIORITIES, value);
    }
 
+   /**
+    * Retrieve the data date and planned start set to project forecast start flag.
+    *
+    * @return data date and planned start set to project forecast start flag
+    */
    public boolean getDataDateAndPlannedStartSetToProjectForecastStart()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START));
    }
 
+   /**
+    * Set the data date and planned start set to project forecast start flag.
+    *
+    * @param value data date and planned start set to project forecast start flag
+    */
    public void setDataDateAndPlannedStartSetToProjectForecastStart(boolean value)
    {
       set(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START, value);
    }
 
+   /**
+    * Retrieve the ignore relationships to and from other projects flag.
+    *
+    * @return ignore relationships to and from other projects flag
+    */
    public boolean getIgnoreRelationshipsToAndFromOtherProjects()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS));
    }
 
+   /**
+    * Set the ignore relationships to and from other projects flag.
+    *
+    * @param value ignore relationships to and from other projects flag
+    */
    public void setIgnoreRelationshipsToAndFromOtherProjects(boolean value)
    {
       set(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS, value);
    }
 
+   /**
+    * Retrieve the mark open-ended activities as critical flag.
+    *
+    * @return mark open-ended activities as critical flag
+    */
    public boolean getMakeOpenEndedActivitiesCritical()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL));
    }
 
+   /**
+    * Set the mark open-ended activities as critical flag.
+    *
+    * @param value mark open-ended activities as critical flag
+    */
    public void setMakeOpenEndedActivitiesCritical(boolean value)
    {
       set(ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL, value);
    }
 
+   /**
+    * Retrieve the use expected finish dates flag.
+    *
+    * @return use expected finish dates flag
+    */
    public boolean getUseExpectedFinishDates()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.USE_EXPECTED_FINISH_DATES));
    }
 
+   /**
+    * Set the use expected finish dates flag.
+    *
+    * @param value use expected finish dates flag
+    */
    public void setUseExpectedFinishDates(boolean value)
    {
       set(ProjectField.USE_EXPECTED_FINISH_DATES, value);
    }
 
-   public boolean getWhenSchedulingProgressedActivitiesUseRetainedLogic()
-   {
-      return BooleanHelper.getBoolean((Boolean) get(ProjectField.WHEN_SCHEDULING_PROGRESSED_ACTIVITIES_USE_RETAINED_LOGIC));
-   }
-
-   public void setWhenSchedulingProgressedActivitiesUseRetainedLogic(boolean value)
-   {
-      set(ProjectField.WHEN_SCHEDULING_PROGRESSED_ACTIVITIES_USE_RETAINED_LOGIC, value);
-   }
-
-   public boolean getWhenSchedulingProgressedActivitiesUseProgressOverride()
-   {
-      return BooleanHelper.getBoolean((Boolean) get(ProjectField.WHEN_SCHEDULING_PROGRESSED_ACTIVITIES_USE_PROGRESS_OVERRIDE));
-   }
-
-   public void setWhenSchedulingProgressedActivitiesUseProgressOverride(boolean value)
-   {
-      set(ProjectField.WHEN_SCHEDULING_PROGRESSED_ACTIVITIES_USE_PROGRESS_OVERRIDE, value);
-   }
-
+   /**
+    * Retrieve the compute start to start lag from early start flag.
+    *
+    * @return start to start lag from early start flag
+    */
    public boolean getComputeStartToStartLagFromEarlyStart()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START));
    }
 
+   /**
+    * Set the compute start to start lag from early start flag.
+    *
+    * @param value compute start to start lag from early start flag
+    */
    public void setComputeStartToStartLagFromEarlyStart(boolean value)
    {
       set(ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START, value);
    }
 
+   /**
+    * Set the calculate float based on finish date of each project flag.
+    *
+    * @return calculate float based on finish date of each project flag
+    */
    public boolean getCalculateFloatBasedOnFinishDateOfEachProject()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT));
    }
 
+   /**
+    * Set the calculate float based on finish date of each project flag.
+    *
+    * @param value calculate float based on finish date of each project flag
+    */
    public void setCalculateFloatBasedOnFinishDateOfEachProject(boolean value)
    {
       set(ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT, value);
    }
 
+   /**
+    * Get the calculate multiple float paths flag.
+    *
+    * @return calculate multiple float paths flag
+    */
    public boolean getCalculateMultipleFloatPaths()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS));
    }
 
+   /**
+    * Set the calculate multiple float paths flag.
+    *
+    * @param value calculate multiple float paths flag
+    */
    public void setCalculateMultipleFloatPaths(boolean value)
    {
       set(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS, value);
    }
 
+   /**
+    * Retrieve the calculate multiple float paths using total float flag.
+    *
+    * @return calculate multiple float paths using total float flag
+    */
    public boolean getCalculateMultipleFloatPathsUsingTotalFloat()
    {
       return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT));
    }
 
+   /**
+    * Set the calculate multiple float paths using total float flag.
+    *
+    * @param value calculate multiple float paths using total float flag
+    */
    public void setCalculateMultipleFloatPathsUsingTotalFloat(boolean value)
    {
       set(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT, value);
    }
 
-   public Integer getDisplayMultipleFloatPathsEndingWithActivity()
+   /**
+    * Retrieve the display multiple float paths ending with activity unique ID value.
+    *
+    * @return display multiple float paths ending with activity unique ID value
+    */
+   public Integer getDisplayMultipleFloatPathsEndingWithActivityUniqueID()
    {
-      return (Integer)get(ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY);
+      return (Integer)get(ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY_UNIQUE_ID);
    }
 
-   public void setDisplayMultipleFloatPathsEndingWithActivity(Integer value)
+   /**
+    * Set the display multiple float paths ending with activity unique ID value.
+    *
+    * @param value display multiple float paths ending with activity unique ID value
+    */
+   public void setDisplayMultipleFloatPathsEndingWithActivityUniqueID(Integer value)
    {
-      set(ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY, value);
+      set(ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY_UNIQUE_ID, value);
    }
 
-   public boolean getLimitNumberOfPathsToCalculate()
+   /**
+    * Retrieve the limit number of paths to calculate flag.
+    *
+    * @return limit number of paths to calculate flag
+    */
+   public boolean getLimitNumberOfFloatPathsToCalculate()
    {
-      return BooleanHelper.getBoolean((Boolean) get(ProjectField.LIMIT_NUMBER_OF_PATHS_TO_CALCULATE));
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE));
    }
 
-   public void setLimitNumberOfPathsToCalculate(boolean value)
+   /**
+    * Set the limit number of paths to calculate flag.
+    *
+    * @param value limit number of paths to calculate flag
+    */
+   public void setLimitNumberOfFloatPathsToCalculate(boolean value)
    {
-      set(ProjectField.LIMIT_NUMBER_OF_PATHS_TO_CALCULATE, value);
+      set(ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, value);
    }
 
-   public Integer getMaxiumuNumberOfFloatPathsToCalculate()
+   /**
+    * Retrieve the maximum number of float paths to calculate.
+    *
+    * @return maximum number of float paths to calculate.
+    */
+   public Integer getMaximumNumberOfFloatPathsToCalculate()
    {
       return (Integer)get(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE);
    }
 
+   /**
+    * Set the maximum number of float paths to calculate.
+    *
+    * @param value maximum number of float paths to calculate
+    */
    public void setMaximumNumberOfFloatPathsToCalculate(Integer value)
    {
       set(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, value);
@@ -3375,7 +3545,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS, p -> Boolean.FALSE);
       CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT, p -> Boolean.TRUE);
-      CALCULATED_FIELD_MAP.put(ProjectField.LIMIT_NUMBER_OF_PATHS_TO_CALCULATE, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> DEFAULT_FLOAT_PATHS);
    }
 }

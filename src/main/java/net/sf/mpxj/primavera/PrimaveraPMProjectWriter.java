@@ -674,8 +674,8 @@ final class PrimaveraPMProjectWriter
       //
       options.setMultipleFloatPathsEnabled(projectProperties.getCalculateMultipleFloatPaths());
       options.setMultipleFloatPathsUseTotalFloat(projectProperties.getCalculateMultipleFloatPathsUsingTotalFloat());
-      options.setMultipleFloatPathsEndingActivityObjectId(projectProperties.getDisplayMultipleFloatPathsEndingWithActivity());
-      options.setMaximumMultipleFloatPaths(projectProperties.getMaxiumuNumberOfFloatPathsToCalculate());
+      options.setMultipleFloatPathsEndingActivityObjectId(projectProperties.getDisplayMultipleFloatPathsEndingWithActivityUniqueID());
+      options.setMaximumMultipleFloatPaths(projectProperties.getMaximumNumberOfFloatPathsToCalculate());
    }
 
    private String getProjectID(ProjectProperties mpxj)

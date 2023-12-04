@@ -2267,14 +2267,12 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS.getValue()] = "Ignore Relationships To And From Other Projects";
       PROJECT_COLUMNS_ARRAY[ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL.getValue()] = "Make Open Ended Activities Critical";
       PROJECT_COLUMNS_ARRAY[ProjectField.USE_EXPECTED_FINISH_DATES.getValue()] = "Use Expected Finish Dates";
-      PROJECT_COLUMNS_ARRAY[ProjectField.WHEN_SCHEDULING_PROGRESSED_ACTIVITIES_USE_RETAINED_LOGIC.getValue()] = "When Scheduling Progressed Activities Use Retained Logic";
-      PROJECT_COLUMNS_ARRAY[ProjectField.WHEN_SCHEDULING_PROGRESSED_ACTIVITIES_USE_PROGRESS_OVERRIDE.getValue()] = "When Scheduling Progressed Activities Use Progress Override";
       PROJECT_COLUMNS_ARRAY[ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START.getValue()] = "Compute Start to Start Lag From Early Start";
       PROJECT_COLUMNS_ARRAY[ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT.getValue()] = "Calculate Float on Finish Date From Each Project";
       PROJECT_COLUMNS_ARRAY[ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS.getValue()] = "Calculate Multiple Float Paths";
       PROJECT_COLUMNS_ARRAY[ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT.getValue()] = "Calculate Multiple Paths Using Total Float";
-      PROJECT_COLUMNS_ARRAY[ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY.getValue()] = "Calculate Multiple Float Paths Ending With Activity";
-      PROJECT_COLUMNS_ARRAY[ProjectField.LIMIT_NUMBER_OF_PATHS_TO_CALCULATE.getValue()] = "Limit Number of Paths to Calculate";
+      PROJECT_COLUMNS_ARRAY[ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY_UNIQUE_ID.getValue()] = "Calculate Multiple Float Paths Ending With Activity";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE.getValue()] = "Limit Number of Paths to Calculate";
       PROJECT_COLUMNS_ARRAY[ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE.getValue()] = "Number of Paths to Calculate";
    }
 

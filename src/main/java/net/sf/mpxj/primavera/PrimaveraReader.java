@@ -2028,10 +2028,10 @@ final class PrimaveraReader
       projectProperties.setCalculateMultipleFloatPathsUsingTotalFloat(Boolean.valueOf(row.getBoolean("use_total_float_multiple_longest_paths")));
 
       customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", NumberHelper.getInteger(row.getString("key_activity_for_multiple_longest_paths")));
-      projectProperties.setDisplayMultipleFloatPathsEndingWithActivity(NumberHelper.getInteger(row.getString("key_activity_for_multiple_longest_paths")));
+      projectProperties.setDisplayMultipleFloatPathsEndingWithActivityUniqueID(NumberHelper.getInteger(row.getString("key_activity_for_multiple_longest_paths")));
 
       customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
-      projectProperties.setLimitNumberOfPathsToCalculate(Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
+      projectProperties.setLimitNumberOfFloatPathsToCalculate(Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
 
       customProperties.put("NumberofPathsToCalculate", NumberHelper.getInteger(row.getString("max_multiple_longest_path")));
       projectProperties.setMaximumNumberOfFloatPathsToCalculate(NumberHelper.getInteger(row.getString("max_multiple_longest_path")));
