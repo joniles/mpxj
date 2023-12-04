@@ -2271,9 +2271,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
 
       ScheduleOptionsType options = list.get(0);
-      Map<String, Object> customProperties = new TreeMap<>();
 
       // NOTE: custom properties are deprecated and will be removed at the next major release
+      Map<String, Object> customProperties = new TreeMap<>();
       ProjectProperties projectProperties = m_projectFile.getProjectProperties();
 
       //
@@ -2330,10 +2330,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       customProperties.put("ComputeStartToStartLagFromEarlyStart", options.isStartToStartLagCalculationType());
       projectProperties.setComputeStartToStartLagFromEarlyStart(options.isStartToStartLagCalculationType());
 
-      customProperties.put("WhenSchedulingProgressedActivitiesUse", options.getOutOfSequenceScheduleType());
       // TODO: implement enum
+      customProperties.put("WhenSchedulingProgressedActivitiesUse", options.getOutOfSequenceScheduleType());
 
       // Define critical activities as
+
       customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", options.isCalculateFloatBasedOnFinishDate());
       projectProperties.setCalculateFloatBasedOnFinishDateOfEachProject(options.isCalculateFloatBasedOnFinishDate());
 
