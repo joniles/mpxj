@@ -89,6 +89,7 @@ like to be featured in this list.
 * TrackStudio [www.trackstudio.com](http://www.trackstudio.com/)
 * Turbo Chart - Linear Project Software [turbo-chart.com](https://www.turbo-chart.com/)
 * Virtuelle Projektverwaltung [www.swissasp.ch](http://www.swissasp.ch)
+* VisiLean [visilean.com](https://visilean.com)
 * Windchill ProjectLink [www.ptc.com/products/windchill-projectlink](http://www.ptc.com/products/windchill-projectlink)
 * Workfront [www.workfront.com](http://www.workfront.com)
 * Xena [xena.sourceforge.net](http://xena.sourceforge.net)

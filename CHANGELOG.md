@@ -1,6 +1,7 @@
 # Changelog
 
 ## 12.4.1 (unreleased)
+* Improve accuracy of reading and writing the `ProjectProperties` Relationship Lag Calendar attribute for PMXML files.
 
 ## 12.4.0 (2023-11-23)
 * Added support for the WBS Code Separator attribute to `ProjectProperties`.
