@@ -3337,6 +3337,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Retrieve the name of the baseline type associated with this project.
+    *
+    * @return baseline type name
+    */
+   public String getBaselineTypeName()
+   {
+      return (String)get(ProjectField.BASELINE_TYPE_NAME);
+   }
+
+   /**
+    * Set the name of the baseline type associated with this project
+    *
+    * @param value baseline type name
+    */
+   public void setBaselineTypeName(String value)
+   {
+      set(ProjectField.BASELINE_TYPE_NAME, value);
+   }
+
+   /**
     * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
