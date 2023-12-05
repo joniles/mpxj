@@ -99,7 +99,7 @@ public abstract class AbstractTimephasedWorkNormaliser implements TimephasedNorm
    /**
     * Determine if two Timephased Work instance can be merged.
     * They can be merged if they represent the same amount of work, and if they represent a non-zero amount of
-    * work, if their strat and end pint align with the start and end of the day (or of the assignment).
+    * work, if their start and end point align with the start and end of the day (or of the assignment).
     *
     * @param calendar effective calendar for the resource assignment
     * @param assignment resource assignment

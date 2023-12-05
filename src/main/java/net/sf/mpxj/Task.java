@@ -2487,7 +2487,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Contains the file name and path of the extrenal project linked
+    * Contains the file name and path of the external project linked
     * to this task.
     *
     * @return subproject file path

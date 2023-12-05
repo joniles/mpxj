@@ -84,7 +84,7 @@ public final class PrimaveraConvert
       Properties props = new Properties();
 
       //
-      // This is not a very robust way to detect that we're working with SQLlite...
+      // This is not a very robust way to detect that we're working with SQLite...
       // If you are trying to grab data from
       // a standalone P6 using SQLite, the SQLite JDBC driver needs this property
       // in order to correctly parse timestamps.

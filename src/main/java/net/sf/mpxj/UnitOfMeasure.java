@@ -53,7 +53,7 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
    /**
     * Retrieve the unit of measure name.
     *
-    * @return unit of meansure name
+    * @return unit of measure name
     */
    public String getName()
    {
@@ -73,7 +73,7 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
    /**
     * Retrieve the unit of measure sequence number.
     *
-    * @return seqience number
+    * @return sequence number
     */
    public Integer getSequenceNumber()
    {

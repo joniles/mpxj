@@ -100,7 +100,7 @@ public class ExpenseCategory implements ProjectEntityWithUniqueID
    public static class Builder
    {
       /**
-       * Consructor.
+       * Constructor.
        *
        * @param file parent file
        */

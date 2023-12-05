@@ -274,7 +274,7 @@ public class Step
       /**
        * Add the percent complete.
        *
-       * @param value pecent complete
+       * @param value percent complete
        * @return builder
        */
       public Builder percentComplete(Double value)

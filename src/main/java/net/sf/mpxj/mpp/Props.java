@@ -227,7 +227,7 @@ class Props extends MPPComponent
    }
 
    /**
-    * Retrieves a UUID value from the propetyy data.
+    * Retrieves a UUID value from the property data.
     *
     * @param type Type identifier
     * @return UUID value

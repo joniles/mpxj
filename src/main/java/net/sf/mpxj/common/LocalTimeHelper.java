@@ -31,7 +31,7 @@ import java.time.LocalTime;
 public final class LocalTimeHelper
 {
    /**
-    * Convert a LocalDateTime instance to a LOcalTime instance, handling null values.
+    * Convert a LocalDateTime instance to a LocalTime instance, handling null values.
     *
     * @param date LocalDateTime instance
     * @return LocalTime instance or null

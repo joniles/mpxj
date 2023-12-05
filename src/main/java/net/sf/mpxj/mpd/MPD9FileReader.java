@@ -44,7 +44,7 @@ import com.healthmarketscience.jackcess.Table;
 final class MPD9FileReader extends MPD9AbstractReader
 {
    /**
-    * Set the locatioj of the database to read.
+    * Set the location of the database to read.
     *
     * @param file database file
     */
