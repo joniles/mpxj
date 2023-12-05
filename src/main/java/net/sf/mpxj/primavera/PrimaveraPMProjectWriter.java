@@ -616,6 +616,7 @@ final class PrimaveraPMProjectWriter
       project.setSummarizeToWBSLevel(Integer.valueOf(2));
       project.setWBSCodeSeparator(mpxj.getWbsCodeSeparator());
       project.setLocationObjectId(mpxj.getLocationUniqueID());
+      project.setBaselineTypeName(mpxj.getBaselineTypeName());
 
       writeScheduleOptions(project.getScheduleOptions());
    }

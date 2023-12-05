@@ -8,6 +8,7 @@
 		<release date="unreleased" version="12.4.1">
 			<action dev="joniles" type="update">Improve accuracy of reading and writing the `ProjectProperties` Relationship Lag Calendar attribute for PMXML files.</action>
 			<action dev="joniles" type="update">All P6 scheduling and leveling options which were previously made available via the `ProjectProperties` custom properties map are now deprecated. These properties now have individual getter and setter methods available on the `ProjectProperties` class. Note: this may be a breaking change if you were creating schedules from scratch, populating the custom properties map, then writing PMXML or XER files. In this case you will need to update your code, for all other use cases your code will continue to work unchanged until the next major version of MPXJ.</action>
+			<action dev="joniles" type="update">Added support for reading and writing the Baseline Type Name for baseline projects in PMXML files.</action>
 		</release>
 		<release date="2023-11-23" version="12.4.0">
 			<action dev="joniles" type="update">Added support for the WBS Code Separator attribute to `ProjectProperties`.</action>
