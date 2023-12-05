@@ -2271,43 +2271,74 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
 
       ScheduleOptionsType options = list.get(0);
-      Map<String, Object> customProperties = new TreeMap<>();
 
-      // TODO: migrate schedule options to project properties and deprecate custom properties
+      // NOTE: custom properties are deprecated and will be removed at the next major release
+      Map<String, Object> customProperties = new TreeMap<>();
       ProjectProperties projectProperties = m_projectFile.getProjectProperties();
 
       //
       // Leveling Options
       //
+
       // Automatically level resources when scheduling
       customProperties.put("ConsiderAssignmentsInOtherProjects", options.isIncludeExternalResAss());
+      projectProperties.setConsiderAssignmentsInOtherProjects(options.isIncludeExternalResAss());
+
       customProperties.put("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", options.getExternalProjectPriorityLimit());
+      projectProperties.setConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan(options.getExternalProjectPriorityLimit());
+
       customProperties.put("PreserveScheduledEarlyAndLateDates", options.isPreserveScheduledEarlyAndLateDates());
+      projectProperties.setPreserveScheduledEarlyAndLateDates(options.isPreserveScheduledEarlyAndLateDates());
+
       // Recalculate assignment costs after leveling
       customProperties.put("LevelAllResources", options.isLevelAllResources());
+      projectProperties.setLevelAllResources(options.isLevelAllResources());
+
       customProperties.put("LevelResourcesOnlyWithinActivityTotalFloat", options.isLevelWithinFloat());
+      projectProperties.setLevelResourcesOnlyWithinActivityTotalFloat(options.isLevelWithinFloat());
+
       customProperties.put("PreserveMinimumFloatWhenLeveling", options.getMinFloatToPreserve());
+      projectProperties.setPreserveMinimumFloatWhenLeveling(options.getMinFloatToPreserve() == null ? null : Duration.getInstance(options.getMinFloatToPreserve().intValue(), TimeUnit.HOURS));
+
       customProperties.put("MaxPercentToOverallocateResources", options.getOverAllocationPercentage());
+      projectProperties.setMaxPercentToOverallocateResources(options.getOverAllocationPercentage());
+
       customProperties.put("LevelingPriorities", options.getPriorityList());
+      projectProperties.setLevelingPriorities(options.getPriorityList());
 
       //
       // Schedule
       //
-      // customProperties.put("SetDataDateAndPlannedStartToProjectForecastStart", Boolean.valueOf(row.getBoolean("sched_setplantoforecast")));
+      // Set Data Date and Planned Date to Project Forecast Start not in PMXML?
+      // Unsure how to enable forecasting in P6 to test this.
+      //projectProperties.setDataDateAndPlannedStartSetToProjectForecastStart();
 
       //
       // Schedule Options - General
       //
       customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", options.isIgnoreOtherProjectRelationships());
+      projectProperties.setIgnoreRelationshipsToAndFromOtherProjects(options.isIgnoreOtherProjectRelationships());
+
       customProperties.put("MakeOpenEndedActivitiesCritical", options.isMakeOpenEndedActivitiesCritical());
+      projectProperties.setMakeOpenEndedActivitiesCritical(options.isMakeOpenEndedActivitiesCritical());
+
       customProperties.put("UseExpectedFinishDates", options.isUseExpectedFinishDates());
+      projectProperties.setUseExpectedFinishDates(options.isUseExpectedFinishDates());
+
       // Schedule automatically when a change affects dates - not in PMXML?
+
       // Level resources during scheduling - not in PMXML?
+
       customProperties.put("ComputeStartToStartLagFromEarlyStart", options.isStartToStartLagCalculationType());
+      projectProperties.setComputeStartToStartLagFromEarlyStart(options.isStartToStartLagCalculationType());
+
       customProperties.put("WhenSchedulingProgressedActivitiesUse", options.getOutOfSequenceScheduleType());
+      projectProperties.setSchedulingProgressedActivities(SchedulingProgressedActivitiesHelper.getInstanceFromXml(options.getOutOfSequenceScheduleType()));
 
       // Define critical activities as
+
       customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", options.isCalculateFloatBasedOnFinishDate());
+      projectProperties.setCalculateFloatBasedOnFinishDateOfEachProject(options.isCalculateFloatBasedOnFinishDate());
 
       // NOTE: this also appears as a project attribute, this one takes precedence
       customProperties.put("CalendarForSchedulingRelationshipLag", options.getRelationshipLagCalendar());
@@ -2320,9 +2351,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Schedule Options - Advanced
       //
       customProperties.put("CalculateMultipleFloatPaths", options.isMultipleFloatPathsEnabled());
+      projectProperties.setCalculateMultipleFloatPaths(options.isMultipleFloatPathsEnabled());
+
       customProperties.put("CalculateMultiplePathsUsingTotalFloat", options.isMultipleFloatPathsUseTotalFloat());
+      projectProperties.setCalculateMultipleFloatPathsUsingTotalFloat(options.isMultipleFloatPathsUseTotalFloat());
+
       customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", options.getMultipleFloatPathsEndingActivityObjectId());
+      projectProperties.setDisplayMultipleFloatPathsEndingWithActivityUniqueID(options.getMultipleFloatPathsEndingActivityObjectId());
+
       customProperties.put("NumberofPathsToCalculate", options.getMaximumMultipleFloatPaths());
+      projectProperties.setMaximumNumberOfFloatPathsToCalculate(options.getMaximumMultipleFloatPaths());
 
       projectProperties.setCustomProperties(customProperties);
    }

@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="12.4.1">
 			<action dev="joniles" type="update">Improve accuracy of reading and writing the `ProjectProperties` Relationship Lag Calendar attribute for PMXML files.</action>
+			<action dev="joniles" type="update">All P6 scheduling and leveling options which were previously made available via the `ProjectProperties` custom properties map are now deprecated. These properties now have individual getter and setter methods available on the `ProjectProperties` class. Note: this may be a breaking change if you were creating schedules from scratch, populating the custom properties map, then writing PMXML or XER files. In this case you will need to update your code, for all other use cases your code will continue to work unchanged until the next major version of MPXJ.</action>
 		</release>
 		<release date="2023-11-23" version="12.4.0">
 			<action dev="joniles" type="update">Added support for the WBS Code Separator attribute to `ProjectProperties`.</action>
@@ -544,7 +545,7 @@
 			<action dev="joniles" type="update">When reading resource assignments from an MPP file, don't record Project's internal representation of a null resource ID (-65535), record the resource ID explicitly as null.</action>
 			<action dev="joniles" type="update">For MPX and Planner files, don't write resource assignments for the "null" resource.</action>
 			<action dev="joniles" type="update">Handle missing status date when reading P6 schedules from XER files or database.</action>
-			<action dev="joniles" type="update">When reading MPP files, treat UUID's which are all zeros as null.</action>
+			<action dev="joniles" type="update">When reading MPP files, treat UUIDs which are all zeros as null.</action>
 			<action dev="joniles" type="update">Deprecate the 10 Resource Outline Code get and set methods and replace with get and set methods which take an index argument.</action>
 			<action dev="joniles" type="update">Provide a helper method (PrimaveraHelper.baselineKey) to encapsulate key generation for setting Primavera baselines.</action>
 		</release>
@@ -565,7 +566,7 @@
 			<action dev="joniles" type="update">Preserve multiple assignments between an activity and a resource when reading P6 schedules.</action>
 			<action dev="joniles" type="update">Renamed WorkContour.isFlat to isContourFlat and WorkContour.isContoured to isContourManual.</action>
 			<action dev="joniles" type="update">Include an entry for 0% in the WorkContour curve definition.</action>
-			<action dev="joniles" type="update">Fix an issue where non working days were not being treated correctly in date calculations if they happen to still have time ranges attached.</action>
+			<action dev="joniles" type="update">Fix an issue where non-working days were not being treated correctly in date calculations if they happen to still have time ranges attached.</action>
 		</release>
 		<release date="2021-05-06" version="9.3.0">
 			<action dev="joniles" type="add">Add support for reading roles from P6 databases, XER and PMXML files, and for writing roles to PMXML files. Roles are represented as resources. The new resource Boolean attribute "Role" is used to distinguish between Resource instances which represent resources and those which represent roles.</action>
@@ -720,7 +721,7 @@
 			<action dev="joniles" type="update">Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from Asta schedules (Contributed by Dave McKay)</action>
 			<action dev="joniles" type="update">Gracefully handle a missing table name when reading an XER file.</action>
 			<action dev="joniles" type="update">Gracefully handle an unexpected calendar data when reading an XER file.</action>
-			<action dev="joniles" type="update">Correctly handle XER files with multi-byte character encoding.</action>
+			<action dev="joniles" type="update">Correctly handle XER files with multibyte character encoding.</action>
 			<action dev="joniles" type="update">Import all schedule and leveling options from XER files.</action>
 			<action dev="joniles" type="update">Ensure project calendars are read from PMXML files.</action>
 			<action dev="joniles" type="add">Added readAll methods to PrimaveraPMFileReader to allow all projects contained in a PMXML file to be read in a single pass.</action>
@@ -1002,7 +1003,7 @@
 			<action dev="joniles" type="update">Further improvements to task pruning for Asta PP files.</action>
 		</release>
 		<release date="2017-11-20" version="7.0.1">
-			<action dev="joniles" type="update">Improve robustness when reading MPP files when using certain 64 bit Java runtimes.</action>
+			<action dev="joniles" type="update">Improve robustness when reading MPP files when using certain 64-bit Java runtimes.</action>
 			<action dev="joniles" type="update">Populate the project's comments property when reading an MSPDI file.</action>
 			<action dev="joniles" type="fix">Ensure that tasks are not discarded when reading PP files from older Asta versions.</action>
 			<action dev="joniles" issue="319" type="fix">Wrong date ranges for split tasks</action>
@@ -1745,7 +1746,7 @@
 			<action dev="joniles" type="update">Updated to automatically generate WBS for tasks read from MPP files when no WBS information is present in the file.</action>
 			<action dev="joniles" type="fix">Fixed a bug when reading MPP files where task finish dates appeared before the start date where a &quot;start no later than&quot; constraint was in use.</action>
 			<action dev="joniles" type="fix">Fixed a bug which resulted in invalid MPX files being generated when a project either had no tasks, or it had no resources.</action>
-			<action dev="joniles" type="fix">Fixed a long standing bug where the calendar records were being written into MPX files after they were referred to in the project summary record.</action>
+			<action dev="joniles" type="fix">Fixed a long-standing bug where the calendar records were being written into MPX files after they were referred to in the project summary record.</action>
 			<action dev="joniles" type="fix">Fixed a bug where WBS and Outline Levels were not being auto generated correctly when an MPP file contained a project summary task.</action>
 			<action dev="joniles" type="fix">Fixed a bug where split tasks were not being reported correctly.</action>
 		</release>
@@ -1812,7 +1813,7 @@
 			<action dev="joniles" type="update">Updated MpqjQuery to parse MSPDI files as well as MPP and MPX files.</action>
 			<action dev="joniles" type="add">Added support for early start, early finish, late start, late finish to MPP files.</action>
 			<action dev="joniles" type="update">Updated MPP9 file support to handle start as late as possible constraints. </action>
-			<action dev="joniles" type="add">Added support for sub project file information in MPP9 files.</action>
+			<action dev="joniles" type="add">Added support for subproject file information in MPP9 files.</action>
 			<action dev="joniles" type="fix">Fixed a bug where occasionally a task in MPP9 files were not being read.</action>
 			<action dev="joniles" type="fix">Fixed a NegativeArrayIndexException thrown when reading certain MPP8 files.</action>
 			<action dev="joniles" type="update">Reduced the memory used by MPXJ by anything up to 60%, particularly when reading large MPP files.</action>
@@ -1825,9 +1826,9 @@
 		<release date="2005-01-10" version="0.0.24">
 			<action dev="joniles" type="fix">Fixed a bug (again!) where deleted resource assignments in MPP9 files were still seen by MPXJ.</action>
 			<action dev="joniles" type="update">Updated to use class instances instead of primitives to represent some enumerated types.</action>
-			<action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Resource attributes found in MSPDI files.</action>
-			<action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Task attributes found in MSPDI files.</action>
-			<action dev="joniles" type="update">Updated to implement support for reading and writing all of the basic Project Header attributes from MPP8 and MPP9 files.</action>
+			<action dev="joniles" type="update">Updated to implement support for reading and writing all the basic Resource attributes found in MSPDI files.</action>
+			<action dev="joniles" type="update">Updated to implement support for reading and writing all the basic Task attributes found in MSPDI files.</action>
+			<action dev="joniles" type="update">Updated to implement support for reading and writing all the basic Project Header attributes from MPP8 and MPP9 files.</action>
 			<action dev="joniles" type="add">Made MSPDI file parsing more robust to allow it by default to cope with non-schema-compliant XML in the same manner as MS Project. Implemented a new compatibility flag to allow this behaviour to be disabled in favour of strict parsing.</action>
 			<action dev="joniles" type="update">Merged DateTimeSettings, CurrencySettings, and DefaultSettings into the ProjectHeader class. This change makes the project header data easier to use as it is in a single place. It also makes the entities used to describe a project consistent with the contents of the MPP and MSPDI file formats.</action>
 		</release>
@@ -1843,7 +1844,7 @@
 			<action dev="joniles" type="fix">Fixed a bug where MPXFile attributes were not being correctly copied by the copy constructor.</action>
 			<action dev="joniles" type="fix">Fixed a rounding error in MPXCalendar.getDaysInRange (contributed by Wade Golden)</action>
 			<action dev="joniles" type="update">Updated to make MPXJ more robust in the face of unexpected offsets in MPP8 file format.</action>
-			<action dev="joniles" type="update">Updated support for password protected files to allow write reserved files to be read.</action>
+			<action dev="joniles" type="update">Updated support for password-protected files to allow write-reserved files to be read.</action>
 			<action dev="joniles" type="update">Updated to use the latest version of JAXB, as shipped in Sun's Java Web Services Developer Pack (JWSDP) version  1.4.</action>
 			<action dev="joniles" type="update">Updated the distribution to include the redistributable files from the JWSDP JAXB implementation. Users will no longer need to download JWSDP separately in order to make use of MPXJ's MSPDI functionality.</action>
 			<action dev="joniles" type="update">Updated to prevent empty notes records being added to tasks and resources when reading an MSPDI file.</action>

@@ -626,20 +626,21 @@ final class PrimaveraPMProjectWriter
       options.setProjectObjectId(m_projectObjectID);
       list.add(options);
       ProjectProperties projectProperties = m_projectFile.getProjectProperties();
-      CustomPropertiesMap customProperties = new CustomPropertiesMap(m_projectFile, projectProperties.getCustomProperties());
 
       //
       // Leveling Options
       //
+
       // Automatically level resources when scheduling
-      options.setIncludeExternalResAss(customProperties.getBoolean("ConsiderAssignmentsInOtherProjects", Boolean.FALSE));
-      options.setExternalProjectPriorityLimit(customProperties.getInteger("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", Integer.valueOf(5)));
-      options.setPreserveScheduledEarlyAndLateDates(customProperties.getBoolean("PreserveScheduledEarlyAndLateDates", Boolean.TRUE));
+      options.setIncludeExternalResAss(projectProperties.getConsiderAssignmentsInOtherProjects());
+      options.setExternalProjectPriorityLimit(projectProperties.getConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan());
+      options.setPreserveScheduledEarlyAndLateDates(projectProperties.getPreserveScheduledEarlyAndLateDates());
+
       // Recalculate assignment costs after leveling
-      options.setLevelAllResources(customProperties.getBoolean("LevelAllResources", Boolean.TRUE));
-      options.setLevelWithinFloat(customProperties.getBoolean("LevelResourcesOnlyWithinActivityTotalFloat", Boolean.FALSE));
-      options.setMinFloatToPreserve(customProperties.getInteger("PreserveMinimumFloatWhenLeveling", Integer.valueOf(1)));
-      options.setOverAllocationPercentage(customProperties.getDouble("MaxPercentToOverallocateResources", Double.valueOf(25.0)));
+      options.setLevelAllResources(projectProperties.getLevelAllResources());
+      options.setLevelWithinFloat(projectProperties.getLevelResourcesOnlyWithinActivityTotalFloat());
+      options.setMinFloatToPreserve(Integer.valueOf((int)projectProperties.getPreserveMinimumFloatWhenLeveling().convertUnits(TimeUnit.HOURS, projectProperties).getDuration()));
+      options.setOverAllocationPercentage(getDouble(projectProperties.getMaxPercentToOverallocateResources()));
       options.setPriorityList("(0||priority_type(sort_type|ASC)())"); // TODO: translation required
 
       //
@@ -650,16 +651,19 @@ final class PrimaveraPMProjectWriter
       //
       // Schedule Options - General
       //
-      options.setIgnoreOtherProjectRelationships(customProperties.getBoolean("IgnoreRelationshipsToAndFromOtherProjects", Boolean.FALSE));
-      options.setMakeOpenEndedActivitiesCritical(customProperties.getBoolean("MakeOpenEndedActivitiesCritical", Boolean.FALSE));
-      options.setUseExpectedFinishDates(customProperties.getBoolean("UseExpectedFinishDates", Boolean.TRUE));
+      options.setIgnoreOtherProjectRelationships(projectProperties.getIgnoreRelationshipsToAndFromOtherProjects());
+      options.setMakeOpenEndedActivitiesCritical(projectProperties.getMakeOpenEndedActivitiesCritical());
+      options.setUseExpectedFinishDates(projectProperties.getUseExpectedFinishDates());
+
       // Schedule automatically when a change affects dates - not in PMXML?
+
       // Level resources during scheduling - not in PMXML?
-      options.setStartToStartLagCalculationType(customProperties.getBoolean("ComputeStartToStartLagFromEarlyStart", Boolean.TRUE));
-      options.setOutOfSequenceScheduleType("Retained Logic"); // TODO: translation required
+
+      options.setStartToStartLagCalculationType(projectProperties.getComputeStartToStartLagFromEarlyStart());
+      options.setOutOfSequenceScheduleType(SchedulingProgressedActivitiesHelper.getXmlFromInstance(projectProperties.getSchedulingProgressedActivities()));
 
       // Define critical activities as
-      options.setCalculateFloatBasedOnFinishDate(customProperties.getBoolean("CalculateFloatBasedOnFishDateOfEachProject", Boolean.TRUE));
+      options.setCalculateFloatBasedOnFinishDate(projectProperties.getCalculateFloatBasedOnFinishDateOfEachProject());
       options.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getXmlFromInstance(projectProperties.getRelationshipLagCalendar()));
       options.setComputeTotalFloatType(TotalSlackCalculationTypeHelper.getXmlFromInstance(projectProperties.getTotalSlackCalculationType()));
       options.setCriticalActivityFloatThreshold(Double.valueOf(projectProperties.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, projectProperties).getDuration()));
@@ -668,10 +672,10 @@ final class PrimaveraPMProjectWriter
       //
       // Schedule Options - Advanced
       //
-      options.setMultipleFloatPathsEnabled(customProperties.getBoolean("CalculateMultipleFloatPaths", Boolean.FALSE));
-      options.setMultipleFloatPathsUseTotalFloat(customProperties.getBoolean("CalculateMultiplePathsUsingTotalFloat", Boolean.TRUE));
-      options.setMultipleFloatPathsEndingActivityObjectId(customProperties.getInteger("DisplayMultipleFloatPathsEndingWithActivity", null));
-      options.setMaximumMultipleFloatPaths(customProperties.getInteger("NumberofPathsToCalculate", Integer.valueOf(10)));
+      options.setMultipleFloatPathsEnabled(projectProperties.getCalculateMultipleFloatPaths());
+      options.setMultipleFloatPathsUseTotalFloat(projectProperties.getCalculateMultipleFloatPathsUsingTotalFloat());
+      options.setMultipleFloatPathsEndingActivityObjectId(projectProperties.getDisplayMultipleFloatPathsEndingWithActivityUniqueID());
+      options.setMaximumMultipleFloatPaths(projectProperties.getMaximumNumberOfFloatPathsToCalculate());
    }
 
    private String getProjectID(ProjectProperties mpxj)

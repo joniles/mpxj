@@ -2255,6 +2255,26 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.TOTAL_SLACK_CALCULATION_TYPE.getValue()] = "Total Slack Calculation Type";
       PROJECT_COLUMNS_ARRAY[ProjectField.RELATIONSHIP_LAG_CALENDAR.getValue()] = "Relationship Lag Calendar";
       PROJECT_COLUMNS_ARRAY[ProjectField.WBS_CODE_SEPARATOR.getValue()] = "WBS Code Separator";
+      PROJECT_COLUMNS_ARRAY[ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS.getValue()] = "Consider Assignments In Other Projects";
+      PROJECT_COLUMNS_ARRAY[ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN.getValue()] = "Consider Assignments In Other Project With Priority Equal or Higher Than";
+      PROJECT_COLUMNS_ARRAY[ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES.getValue()] = "Preserve Scheduled Early and Late Dates";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LEVEL_ALL_RESOURCES.getValue()] = "Level All Resources";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT.getValue()] = "Level Resources Only Within Activity Total Float";
+      PROJECT_COLUMNS_ARRAY[ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING.getValue()] = "Preserve Minimum Float When Leveling";
+      PROJECT_COLUMNS_ARRAY[ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES.getValue()] = "Maximum Percentage to Overallocate Resources";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LEVELING_PRIORITIES.getValue()] = "Leveling Priorities";
+      PROJECT_COLUMNS_ARRAY[ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START.getValue()] = "Date Date and Planned Start Set To Project Forecast Start";
+      PROJECT_COLUMNS_ARRAY[ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS.getValue()] = "Ignore Relationships To And From Other Projects";
+      PROJECT_COLUMNS_ARRAY[ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL.getValue()] = "Make Open Ended Activities Critical";
+      PROJECT_COLUMNS_ARRAY[ProjectField.USE_EXPECTED_FINISH_DATES.getValue()] = "Use Expected Finish Dates";
+      PROJECT_COLUMNS_ARRAY[ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START.getValue()] = "Compute Start to Start Lag From Early Start";
+      PROJECT_COLUMNS_ARRAY[ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT.getValue()] = "Calculate Float on Finish Date of Each Project";
+      PROJECT_COLUMNS_ARRAY[ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS.getValue()] = "Calculate Multiple Float Paths";
+      PROJECT_COLUMNS_ARRAY[ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT.getValue()] = "Calculate Multiple Paths Using Total Float";
+      PROJECT_COLUMNS_ARRAY[ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY_UNIQUE_ID.getValue()] = "Calculate Multiple Float Paths Ending With Activity Unique ID";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE.getValue()] = "Limit Number of Float Paths to Calculate";
+      PROJECT_COLUMNS_ARRAY[ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE.getValue()] = "Number of Float Paths to Calculate";
+      PROJECT_COLUMNS_ARRAY[ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES.getValue()] = "When Scheduling Progressed Activities Use";
    }
 
    private static final Object[][] RESOURCES =

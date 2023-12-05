@@ -70,6 +70,7 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
@@ -311,7 +312,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeScheduleOptions()
    {
       m_writer.writeTable("SCHEDOPTIONS", SCHEDULE_OPTIONS_COLUMNS);
-      m_writer.writeRecord(SCHEDULE_OPTIONS_COLUMNS, new CustomPropertiesMap(m_file, m_file.getProjectProperties().getCustomProperties()));
+      m_writer.writeRecord(SCHEDULE_OPTIONS_COLUMNS, m_file.getProjectProperties());
    }
 
    /**
@@ -1537,33 +1538,33 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_NOTE_COLUMNS.put("task_memo", n -> n.get("entity_memo"));
    }
 
-   private static final Map<String, ExportFunction<CustomPropertiesMap>> SCHEDULE_OPTIONS_COLUMNS = new LinkedHashMap<>();
+   private static final Map<String, ExportFunction<ProjectProperties>> SCHEDULE_OPTIONS_COLUMNS = new LinkedHashMap<>();
    static
    {
       SCHEDULE_OPTIONS_COLUMNS.put("schedoptions_id", o -> Integer.valueOf(1));
-      SCHEDULE_OPTIONS_COLUMNS.put("proj_id", o -> getProjectID(o.getProject().getProjectProperties().getUniqueID()));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_outer_depend_type", o -> o.getBoolean("IgnoreRelationshipsToAndFromOtherProjects", Boolean.FALSE).booleanValue() ? "SD_None" : "SD_Both");
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_open_critical_flag", o -> o.getBoolean("MakeOpenEndedActivitiesCritical", Boolean.FALSE));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_lag_early_start_flag", o -> o.getBoolean("ComputeStartToStartLagFromEarlyStart", Boolean.TRUE));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_retained_logic", o -> o.getBoolean("WhenSchedulingProgressedActivitiesUseRetainedLogic", Boolean.TRUE));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_setplantoforecast", o -> o.getBoolean("SetDataDateAndPlannedStartToProjectForecastStart", Boolean.FALSE));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_float_type", o -> TotalSlackCalculationTypeHelper.getXerFromInstance(o.getProject().getProjectProperties().getTotalSlackCalculationType()));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_calendar_on_relationship_lag", o -> RelationshipLagCalendarHelper.getXerFromInstance(o.getProject().getProjectProperties().getRelationshipLagCalendar()));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_use_expect_end_flag", o -> o.getBoolean("UseExpectedFinishDates", Boolean.TRUE));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_progress_override", o -> o.getBoolean("WhenSchedulingProgressedActivitiesUseProgressOverride", Boolean.FALSE));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_float_thrs_cnt", o -> o.getInteger("PreserveMinimumFloatWhenLeveling", Integer.valueOf(1)));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_flag", o -> o.getBoolean("ConsiderAssignmentsInOtherProjects", Boolean.FALSE));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_priority", o -> o.getInteger("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", Integer.valueOf(5)));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_over_alloc_pct", o -> o.getDouble("MaxPercentToOverallocateResources", Double.valueOf(25.0)));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_within_float_flag", o -> o.getBoolean("LevelResourcesOnlyWithinActivityTotalFloat", Boolean.FALSE));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_keep_sched_date_flag", o -> o.getBoolean("PreserveScheduledEarlyAndLateDates", Boolean.TRUE));
-      SCHEDULE_OPTIONS_COLUMNS.put("level_all_rsrc_flag", o -> o.getBoolean("LevelAllResources", Boolean.TRUE));
-      SCHEDULE_OPTIONS_COLUMNS.put("sched_use_project_end_date_for_float", o -> o.getBoolean("CalculateFloatBasedOnFishDateOfEachProject", Boolean.TRUE));
-      SCHEDULE_OPTIONS_COLUMNS.put("enable_multiple_longest_path_calc", o -> o.getBoolean("CalculateMultipleFloatPaths", Boolean.FALSE));
-      SCHEDULE_OPTIONS_COLUMNS.put("limit_multiple_longest_path_calc", o -> Boolean.TRUE);
-      SCHEDULE_OPTIONS_COLUMNS.put("max_multiple_longest_path", o -> o.getInteger("NumberofPathsToCalculate", Integer.valueOf(10)));
-      SCHEDULE_OPTIONS_COLUMNS.put("use_total_float_multiple_longest_paths", o -> o.getBoolean("CalculateMultiplePathsUsingTotalFloat", Boolean.TRUE));
-      SCHEDULE_OPTIONS_COLUMNS.put("key_activity_for_multiple_longest_paths", o -> o.getInteger("DisplayMultipleFloatPathsEndingWithActivity", null));
+      SCHEDULE_OPTIONS_COLUMNS.put("proj_id", o -> getProjectID(o.getUniqueID()));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_outer_depend_type", o -> o.getIgnoreRelationshipsToAndFromOtherProjects() ? "SD_None" : "SD_Both");
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_open_critical_flag", o -> o.getMakeOpenEndedActivitiesCritical());
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_lag_early_start_flag", o -> o.getComputeStartToStartLagFromEarlyStart());
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_retained_logic", o -> o.getSchedulingProgressedActivities() == SchedulingProgressedActivities.RETAINED_LOGIC);
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_setplantoforecast", o -> o.getDataDateAndPlannedStartSetToProjectForecastStart());
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_float_type", o -> TotalSlackCalculationTypeHelper.getXerFromInstance(o.getTotalSlackCalculationType()));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_calendar_on_relationship_lag", o -> RelationshipLagCalendarHelper.getXerFromInstance(o.getRelationshipLagCalendar()));
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_use_expect_end_flag", o -> o.getUseExpectedFinishDates());
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_progress_override", o -> o.getSchedulingProgressedActivities() == SchedulingProgressedActivities.PROGRESS_OVERRIDE);
+      SCHEDULE_OPTIONS_COLUMNS.put("level_float_thrs_cnt", o -> o.getPreserveMinimumFloatWhenLeveling());
+      SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_flag", o -> o.getConsiderAssignmentsInOtherProjects());
+      SCHEDULE_OPTIONS_COLUMNS.put("level_outer_assign_priority", o -> o.getConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan());
+      SCHEDULE_OPTIONS_COLUMNS.put("level_over_alloc_pct", o -> o.getMaxPercentToOverallocateResources());
+      SCHEDULE_OPTIONS_COLUMNS.put("level_within_float_flag", o -> o.getLevelResourcesOnlyWithinActivityTotalFloat());
+      SCHEDULE_OPTIONS_COLUMNS.put("level_keep_sched_date_flag", o -> o.getPreserveScheduledEarlyAndLateDates());
+      SCHEDULE_OPTIONS_COLUMNS.put("level_all_rsrc_flag", o -> o.getLevelAllResources());
+      SCHEDULE_OPTIONS_COLUMNS.put("sched_use_project_end_date_for_float", o -> o.getCalculateFloatBasedOnFinishDateOfEachProject());
+      SCHEDULE_OPTIONS_COLUMNS.put("enable_multiple_longest_path_calc", o -> o.getCalculateMultipleFloatPaths());
+      SCHEDULE_OPTIONS_COLUMNS.put("limit_multiple_longest_path_calc", o -> o.getLimitNumberOfFloatPathsToCalculate());
+      SCHEDULE_OPTIONS_COLUMNS.put("max_multiple_longest_path", o -> o.getMaximumNumberOfFloatPathsToCalculate());
+      SCHEDULE_OPTIONS_COLUMNS.put("use_total_float_multiple_longest_paths", o -> o.getCalculateMultipleFloatPathsUsingTotalFloat());
+      SCHEDULE_OPTIONS_COLUMNS.put("key_activity_for_multiple_longest_paths", o -> o.getDisplayMultipleFloatPathsEndingWithActivityUniqueID());
       SCHEDULE_OPTIONS_COLUMNS.put("LevelPriorityList", o -> "priority_type,ASC_BY_FIELD/ASC"); // TODO: translation required
    }
 
