@@ -2310,6 +2310,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Schedule
       //
       // Set Data Date and Planned Date to Project Forecast Start not in PMXML?
+      // Unsure how to enable forecasting in P6 to test this.
+      //projectProperties.setDataDateAndPlannedStartSetToProjectForecastStart();
 
       //
       // Schedule Options - General
