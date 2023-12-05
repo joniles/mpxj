@@ -85,7 +85,8 @@ public enum DataType implements MpxjEnum
    TASK_MODE(52),
    STEP_LIST(53),
    TOTAL_SLACK_TYPE(54),
-   RELATIONSHIP_LAG_CALENDAR(55);
+   RELATIONSHIP_LAG_CALENDAR(55),
+   SCHEDULING_PROGRESSED_ACTIVITIES(56);
 
    /**
     * Private constructor.

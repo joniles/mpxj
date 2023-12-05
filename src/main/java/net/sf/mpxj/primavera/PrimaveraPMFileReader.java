@@ -2330,8 +2330,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       customProperties.put("ComputeStartToStartLagFromEarlyStart", options.isStartToStartLagCalculationType());
       projectProperties.setComputeStartToStartLagFromEarlyStart(options.isStartToStartLagCalculationType());
 
-      // TODO: implement enum
       customProperties.put("WhenSchedulingProgressedActivitiesUse", options.getOutOfSequenceScheduleType());
+      projectProperties.setSchedulingProgressedActivities(SchedulingProgressedActivitiesHelper.getInstanceFromXml(options.getOutOfSequenceScheduleType()));
 
       // Define critical activities as
 

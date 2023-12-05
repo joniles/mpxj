@@ -3307,6 +3307,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Set the method used when scheduling progressed activities.
+    *
+    * @param value scheduling progressed activities method
+    */
+   public void setSchedulingProgressedActivities(SchedulingProgressedActivities value)
+   {
+      set(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES, value);
+   }
+
+   /**
+    * Retrieve the method used when scheduling progressed activities.
+    *
+    * @return maximum number of float paths to calculate.
+    */
+   public SchedulingProgressedActivities getSchedulingProgressedActivities()
+   {
+      return (SchedulingProgressedActivities) get(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES);
+   }
+
+   /**
     * Set the maximum number of float paths to calculate.
     *
     * @param value maximum number of float paths to calculate
@@ -3547,5 +3567,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> DEFAULT_FLOAT_PATHS);
+      CALCULATED_FIELD_MAP.put(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES, p -> SchedulingProgressedActivities.RETAINED_LOGIC);
    }
 }

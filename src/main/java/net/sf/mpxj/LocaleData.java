@@ -2274,6 +2274,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY_UNIQUE_ID.getValue()] = "Calculate Multiple Float Paths Ending With Activity Unique ID";
       PROJECT_COLUMNS_ARRAY[ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE.getValue()] = "Limit Number of Float Paths to Calculate";
       PROJECT_COLUMNS_ARRAY[ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE.getValue()] = "Number of Float Paths to Calculate";
+      PROJECT_COLUMNS_ARRAY[ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES.getValue()] = "When Scheduling Progressed Activities Use";
    }
 
    private static final Object[][] RESOURCES =

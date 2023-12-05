@@ -146,6 +146,7 @@ Updating Task Status Updates Resource Status|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Use Expected Finish Dates|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 WBS Code Separator|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Week Start Day|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+When Scheduling Progressed Activities Use|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Work| | | | | | | | |✓| | | | | | | | | | | | | | 
 Work 2| | | | | | | | |✓| | | | | | | | | | | | | | 
 

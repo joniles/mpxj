@@ -660,7 +660,7 @@ final class PrimaveraPMProjectWriter
       // Level resources during scheduling - not in PMXML?
 
       options.setStartToStartLagCalculationType(projectProperties.getComputeStartToStartLagFromEarlyStart());
-      options.setOutOfSequenceScheduleType("Retained Logic"); // TODO: translation required
+      options.setOutOfSequenceScheduleType(SchedulingProgressedActivitiesHelper.getXmlFromInstance(projectProperties.getSchedulingProgressedActivities()));
 
       // Define critical activities as
       options.setCalculateFloatBasedOnFinishDate(projectProperties.getCalculateFloatBasedOnFinishDateOfEachProject());

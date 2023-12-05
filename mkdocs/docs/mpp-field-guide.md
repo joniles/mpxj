@@ -119,6 +119,7 @@ Updating Task Status Updates Resource Status|✓|✓|✓|✓
 Use Expected Finish Dates|✓|✓|✓|✓
 WBS Code Separator|✓|✓|✓|✓
 Week Start Day|✓|✓|✓|✓
+When Scheduling Progressed Activities Use|✓|✓|✓|✓
 
 ### Baseline Fields
 Field|MPP8|MPP9|MPP12|MPP14
