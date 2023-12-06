@@ -3357,6 +3357,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Retrieve the last baseline update date.
+    *
+    * @return last baseline update date
+    */
+   public LocalDateTime getLastBaselineUpdateDate()
+   {
+      return (LocalDateTime)get(ProjectField.LAST_BASELINE_UPDATE_DATE);
+   }
+
+   /**
+    * Set the last baseline update date.
+    *
+    * @param value last baseline update date
+    */
+   public void setLastBaselineUpdateDate(LocalDateTime value)
+   {
+      set(ProjectField.LAST_BASELINE_UPDATE_DATE, value);
+   }
+
+   /**
     * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
