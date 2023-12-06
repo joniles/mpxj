@@ -2276,6 +2276,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE.getValue()] = "Number of Float Paths to Calculate";
       PROJECT_COLUMNS_ARRAY[ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES.getValue()] = "When Scheduling Progressed Activities Use";
       PROJECT_COLUMNS_ARRAY[ProjectField.BASELINE_TYPE_NAME.getValue()] = "Baseline Type Name";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LAST_BASELINE_UPDATE_DATE.getValue()] = "Last Baseline Update Date";
    }
 
    private static final Object[][] RESOURCES =

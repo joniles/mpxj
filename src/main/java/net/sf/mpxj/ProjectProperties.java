@@ -3356,6 +3356,16 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       set(ProjectField.BASELINE_TYPE_NAME, value);
    }
 
+   public LocalDateTime getLastBaselineUpdateDate()
+   {
+      return (LocalDateTime)get(ProjectField.LAST_BASELINE_UPDATE_DATE);
+   }
+
+   public void setLastBaselineUpdateDate(LocalDateTime value)
+   {
+      set(ProjectField.LAST_BASELINE_UPDATE_DATE, value);
+   }
+
    /**
     * Maps a field index to a ProjectField instance.
     *
