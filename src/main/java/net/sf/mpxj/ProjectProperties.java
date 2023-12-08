@@ -3347,7 +3347,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Set the name of the baseline type associated with this project
+    * Set the name of the baseline type associated with this project.
     *
     * @param value baseline type name
     */
@@ -3582,11 +3582,11 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
       CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, p -> DEFAULT_DAYS_PER_MONTH);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, p -> DEFAULT_MINUTES_PER_DAY);
-      CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, p -> DEFAULT_DATE_SEPARATOR);
-      CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, p -> DEFAULT_TIME_SEPARATOR);
-      CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, p -> DEFAULT_THOUSANDS_SEPARATOR);
-      CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, p -> DEFAULT_DECIMAL_SEPARATOR);
-      CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, p -> DEFAULT_MPX_DELIMITER);
+      CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, p -> Character.valueOf(DEFAULT_DATE_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, p -> Character.valueOf(DEFAULT_TIME_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, p -> Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, p -> Character.valueOf(DEFAULT_DECIMAL_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, p -> Character.valueOf(DEFAULT_MPX_DELIMITER));
       CALCULATED_FIELD_MAP.put(ProjectField.CUSTOM_PROPERTIES, p -> new HashMap<String, Object>());
       CALCULATED_FIELD_MAP.put(ProjectField.WBS_CODE_SEPARATOR, p -> ".");
       CALCULATED_FIELD_MAP.put(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS, p -> Boolean.FALSE);

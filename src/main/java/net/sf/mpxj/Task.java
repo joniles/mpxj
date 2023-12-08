@@ -5740,16 +5740,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return TaskMode.AUTO_SCHEDULED;
    }
 
-   /**
-    * Supply a default value for predecessor and successor lists.
-    *
-    * @return predecessor and successor list default value
-    */
-   private List<Relation> defaultRelationList()
-   {
-      return new ArrayList<>();
-   }
-
    private List<ActivityCodeValue> defaultActivityCodesList()
    {
       return new ArrayList<>();

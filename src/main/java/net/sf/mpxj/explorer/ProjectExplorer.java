@@ -268,6 +268,9 @@ public class ProjectExplorer
 
    /**
     * If configured, expand subprojects.
+    * 
+    * @param file selected file
+    * @param projectFile schedule data from selected file
     */
    private void expandSubprojects(File file, ProjectFile projectFile)
    {
