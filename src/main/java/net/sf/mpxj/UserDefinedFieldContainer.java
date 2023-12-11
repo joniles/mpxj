@@ -38,6 +38,16 @@ import java.util.function.Function;
  */
 public class UserDefinedFieldContainer implements Collection<UserDefinedField>
 {
+   /**
+    * Constructor.
+    *
+    * @param file parent project
+    */
+   public UserDefinedFieldContainer(ProjectFile file)
+   {
+      m_file = file;
+   }
+
    @Override public Iterator<UserDefinedField> iterator()
    {
       return m_fields.iterator();
@@ -108,6 +118,7 @@ public class UserDefinedFieldContainer implements Collection<UserDefinedField>
 
    @Override public boolean remove(Object o)
    {
+      m_file.getCustomFields().remove((UserDefinedField)o);
       m_taskFields.remove(o);
       m_resourceFields.remove(o);
       m_assignmentFields.remove(o);
@@ -262,6 +273,7 @@ public class UserDefinedFieldContainer implements Collection<UserDefinedField>
       return field;
    }
 
+   private final ProjectFile m_file;
    private final Map<Integer, UserDefinedField> m_taskFields = new HashMap<>();
    private final Map<Integer, UserDefinedField> m_resourceFields = new HashMap<>();
    private final Map<Integer, UserDefinedField> m_assignmentFields = new HashMap<>();

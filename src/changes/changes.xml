@@ -11,6 +11,8 @@
 			<action dev="joniles" type="update">Added support for reading and writing the `ProjectProperties` attributes Baseline Type Name, Baseline Type Unique ID, and Last Baseline Update Date for baseline projects in PMXML files.</action>
 			<action dev="joniles" type="update">When reading projects from PMXML files, if the creation date attribute is not present in the file fall back to populating the `ProjectProperties` creation date attribute with the PMXML date added attribute.</action>
 			<action dev="joniles" type="update">When writing PMXML files, ensure the date added attribute for projects is populated with the creation date.</action>
+			<action dev="joniles" type="update">Add the `CustomFieldContainer.remove` method to allow field configurations to be removed.</action>
+			<action dev="joniles" type="update">Updated the `UserDefinedFieldContainer.remove` method to ensure that any associated field configuration is removed from the `CustomFieldContainer`.</action>
 		</release>
 		<release date="2023-11-23" version="12.4.0">
 			<action dev="joniles" type="update">Added support for the WBS Code Separator attribute to `ProjectProperties`.</action>
