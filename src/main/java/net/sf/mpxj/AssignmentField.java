@@ -530,6 +530,8 @@ public enum AssignmentField implements FieldType
    RATE_SOURCE(DataType.RATE_SOURCE),
    CALCULATE_COSTS_FROM_UNITS(DataType.BOOLEAN),
    COST_ACCOUNT_UNIQUE_ID(DataType.INTEGER),
+   REMAINING_LATE_START(DataType.DATE),
+   REMAINING_LATE_FINISH(DataType.DATE),
    FINISH(DataType.DATE);
 
    /**

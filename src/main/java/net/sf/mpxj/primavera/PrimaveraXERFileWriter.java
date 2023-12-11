@@ -1321,8 +1321,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("reend_date", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_start_date", r -> r.getPlannedStart());
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_end_date", r -> r.getPlannedFinish());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_start_date", r -> null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_end_date", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_start_date", r -> r.getRemainingLateStart());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_end_date", r -> r.getRemainingLateFinish());
       RESOURCE_ASSIGNMENT_COLUMNS.put("rollup_dates_flag", r -> Boolean.TRUE);
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_crv", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_crv", r -> null);
