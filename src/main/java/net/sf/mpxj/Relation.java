@@ -126,7 +126,7 @@ public final class Relation implements ProjectEntityWithUniqueID
 
    @Override public String toString()
    {
-      return ("[Relation lag: " + m_lag + " type: " + m_type + " " + m_targetTask + " -> " +  m_sourceTask + "]");
+      return ("[Relation lag: " + m_lag + " type: " + m_type + " " + m_targetTask + " -> " + m_sourceTask + "]");
    }
 
    private Integer m_uniqueID;

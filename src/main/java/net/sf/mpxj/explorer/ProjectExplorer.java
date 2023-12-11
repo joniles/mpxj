@@ -187,10 +187,9 @@ public class ProjectExplorer
       // Expand Subprojects
       //
       mntmExpandSubprojects.addActionListener(e -> {
-            m_expandSubprojects = !m_expandSubprojects;
-            mntmRemoveExternalTasks.setEnabled(m_expandSubprojects);
-         }
-      );
+         m_expandSubprojects = !m_expandSubprojects;
+         mntmRemoveExternalTasks.setEnabled(m_expandSubprojects);
+      });
 
       //
       // Remove external tasks
@@ -268,7 +267,7 @@ public class ProjectExplorer
 
    /**
     * If configured, expand subprojects.
-    * 
+    *
     * @param file selected file
     * @param projectFile schedule data from selected file
     */

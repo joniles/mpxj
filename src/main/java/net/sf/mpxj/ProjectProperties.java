@@ -2923,7 +2923,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public String getWbsCodeSeparator()
    {
-      return (String)get(ProjectField.WBS_CODE_SEPARATOR);
+      return (String) get(ProjectField.WBS_CODE_SEPARATOR);
    }
 
    /**
@@ -2963,7 +2963,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public Integer getConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan()
    {
-      return (Integer)get(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN);
+      return (Integer) get(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN);
    }
 
    /**
@@ -3043,7 +3043,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public Duration getPreserveMinimumFloatWhenLeveling()
    {
-      return (Duration)get(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING);
+      return (Duration) get(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING);
    }
 
    /**
@@ -3063,7 +3063,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public Number getMaxPercentToOverallocateResources()
    {
-      return (Number)get(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES);
+      return (Number) get(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES);
    }
 
    /**
@@ -3083,7 +3083,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public String getLevelingPriorities()
    {
-      return (String)get(ProjectField.LEVELING_PRIORITIES);
+      return (String) get(ProjectField.LEVELING_PRIORITIES);
    }
 
    /**
@@ -3263,7 +3263,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public Integer getDisplayMultipleFloatPathsEndingWithActivityUniqueID()
    {
-      return (Integer)get(ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY_UNIQUE_ID);
+      return (Integer) get(ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY_UNIQUE_ID);
    }
 
    /**
@@ -3303,7 +3303,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public Integer getMaximumNumberOfFloatPathsToCalculate()
    {
-      return (Integer)get(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE);
+      return (Integer) get(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE);
    }
 
    /**
@@ -3343,7 +3343,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public String getBaselineTypeName()
    {
-      return (String)get(ProjectField.BASELINE_TYPE_NAME);
+      return (String) get(ProjectField.BASELINE_TYPE_NAME);
    }
 
    /**
@@ -3363,7 +3363,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public LocalDateTime getLastBaselineUpdateDate()
    {
-      return (LocalDateTime)get(ProjectField.LAST_BASELINE_UPDATE_DATE);
+      return (LocalDateTime) get(ProjectField.LAST_BASELINE_UPDATE_DATE);
    }
 
    /**

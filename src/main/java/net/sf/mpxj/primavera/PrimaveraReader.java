@@ -896,7 +896,6 @@ final class PrimaveraReader
             resource.getAvailability().clear();
          }
 
-
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
          LocalDateTime startDate = row.getDate("start_date");
          LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;

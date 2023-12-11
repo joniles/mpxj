@@ -643,7 +643,7 @@ final class PrimaveraPMProjectWriter
       // Recalculate assignment costs after leveling
       options.setLevelAllResources(Boolean.valueOf(projectProperties.getLevelAllResources()));
       options.setLevelWithinFloat(Boolean.valueOf(projectProperties.getLevelResourcesOnlyWithinActivityTotalFloat()));
-      options.setMinFloatToPreserve(Integer.valueOf((int)projectProperties.getPreserveMinimumFloatWhenLeveling().convertUnits(TimeUnit.HOURS, projectProperties).getDuration()));
+      options.setMinFloatToPreserve(Integer.valueOf((int) projectProperties.getPreserveMinimumFloatWhenLeveling().convertUnits(TimeUnit.HOURS, projectProperties).getDuration()));
       options.setOverAllocationPercentage(getDouble(projectProperties.getMaxPercentToOverallocateResources()));
       options.setPriorityList("(0||priority_type(sort_type|ASC)())"); // TODO: translation required
 
