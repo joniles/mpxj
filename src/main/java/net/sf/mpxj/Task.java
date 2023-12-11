@@ -5740,16 +5740,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return TaskMode.AUTO_SCHEDULED;
    }
 
-   /**
-    * Supply a default value for predecessor and successor lists.
-    *
-    * @return predecessor and successor list default value
-    */
-   private List<Relation> defaultRelationList()
-   {
-      return new ArrayList<>();
-   }
-
    private List<ActivityCodeValue> defaultActivityCodesList()
    {
       return new ArrayList<>();
@@ -5791,7 +5781,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Recurring task details associated with this task.
     */
    private RecurringTask m_recurringTask;
-
 
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS));
 

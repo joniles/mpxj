@@ -62,7 +62,7 @@ public class NotesTopic implements ProjectEntityWithUniqueID
       m_sequenceNumber = builder.m_sequenceNumber;
       m_name = builder.m_name;
       m_availableForEPS = builder.m_availableForEPS;
-      m_availableForProject =  builder.m_availableForProject;
+      m_availableForProject = builder.m_availableForProject;
       m_availableForWBS = builder.m_availableForWBS;
       m_availableForActivity = builder.m_availableForActivity;
    }

@@ -106,8 +106,8 @@ public final class MPXWriter extends AbstractProjectWriter
       projectFile.getUserDefinedFields().stream().sorted(Comparator.comparing(UserDefinedField::getUniqueID)).forEach(m_userDefinedFieldMap::generateMapping);
       m_resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
       m_taskMapper = new MicrosoftProjectUniqueIDMapper(m_projectFile.getTasks());
-      m_resourceMapper  = new MicrosoftProjectUniqueIDMapper(m_projectFile.getResources());
-      m_calendarMapper  = new MicrosoftProjectUniqueIDMapper(m_projectFile.getCalendars());
+      m_resourceMapper = new MicrosoftProjectUniqueIDMapper(m_projectFile.getResources());
+      m_calendarMapper = new MicrosoftProjectUniqueIDMapper(m_projectFile.getCalendars());
 
       try
       {
@@ -128,8 +128,8 @@ public final class MPXWriter extends AbstractProjectWriter
          m_userDefinedFieldMap = null;
          m_resourceCalendarMap = null;
          m_taskMapper = null;
-         m_resourceMapper  = null;
-         m_calendarMapper  = null;
+         m_resourceMapper = null;
+         m_calendarMapper = null;
       }
    }
 

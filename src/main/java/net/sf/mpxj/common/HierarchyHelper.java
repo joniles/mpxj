@@ -45,7 +45,7 @@ public class HierarchyHelper
     * @param list list of items
     * @param getId function to retrieve an item's ID
     * @param getParentId function to retrieve an item's parent ID
-    * @return list sorted to ensure parents appear before children 
+    * @return list sorted to ensure parents appear before children
     */
    public static final <K, V> List<V> sortHierarchy(List<V> list, Function<V, K> getId, Function<V, K> getParentId)
    {
@@ -98,7 +98,10 @@ public class HierarchyHelper
     */
    private static <V> List<V> addChildNodes(List<V> list, HierarchyNode<V> parent)
    {
-      parent.getChildNodes().forEach(c -> { list.add(c.getItem()); addChildNodes(list, c); });
+      parent.getChildNodes().forEach(c -> {
+         list.add(c.getItem());
+         addChildNodes(list, c);
+      });
       return list;
    }
 
@@ -113,13 +116,16 @@ public class HierarchyHelper
     */
    private static <V> List<V> addChildNodes(List<V> list, HierarchyNode<V> parent, Comparator<HierarchyNode<V>> hierarchyNodeComparator)
    {
-      parent.getChildNodes().stream().sorted(hierarchyNodeComparator).forEach(c -> { list.add(c.getItem()); addChildNodes(list, c, hierarchyNodeComparator); });
+      parent.getChildNodes().stream().sorted(hierarchyNodeComparator).forEach(c -> {
+         list.add(c.getItem());
+         addChildNodes(list, c, hierarchyNodeComparator);
+      });
       return list;
    }
 
    /**
     * Class used to represent an item and any child items.
-    * 
+    *
     * @param <V> value type
     */
    private static class HierarchyNode<V>

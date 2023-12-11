@@ -1301,7 +1301,7 @@ public final class JsonWriter extends AbstractProjectWriter
       if (!code.getValues().isEmpty())
       {
          m_writer.writeStartList("values");
-         for(ActivityCodeValue value : code.getValues().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).collect(Collectors.toList()))
+         for (ActivityCodeValue value : code.getValues().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).collect(Collectors.toList()))
          {
             writeActivityCodeValue(value);
          }

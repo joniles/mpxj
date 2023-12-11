@@ -70,7 +70,8 @@ public class MicrosoftProjectUniqueIDMapper
       do
       {
          newUniqueID = m_sequence.getNext();
-      } while (m_container.getByUniqueID(newUniqueID) != null);
+      }
+      while (m_container.getByUniqueID(newUniqueID) != null);
 
       m_map.put(currentUniqueID, newUniqueID);
 

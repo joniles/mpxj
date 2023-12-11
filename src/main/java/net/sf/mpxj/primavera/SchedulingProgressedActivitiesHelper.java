@@ -63,7 +63,6 @@ final class SchedulingProgressedActivitiesHelper
       XML_TYPE_MAP.put("Actual Dates", SchedulingProgressedActivities.ACTUAL_DATES);
    }
 
-
    private static final Map<SchedulingProgressedActivities, String> TYPE_XML_MAP = new HashMap<>();
    static
    {
