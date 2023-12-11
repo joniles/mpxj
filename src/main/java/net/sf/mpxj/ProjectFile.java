@@ -986,7 +986,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
    private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
-   private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer();
+   private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer(this);
    private final WorkContourContainer m_workContours = new WorkContourContainer(this);
    private final NotesTopicContainer m_notesTopics = new NotesTopicContainer(this);
    private final LocationContainer m_locations = new LocationContainer(this);

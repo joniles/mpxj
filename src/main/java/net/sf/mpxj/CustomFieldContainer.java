@@ -78,6 +78,16 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
+    * Remove a custom field.
+    *
+    * @param field field type to remove
+    */
+   public void remove(FieldType field)
+   {
+      m_configMap.remove(field);
+   }
+
+   /**
     * Retrieve a field type from a particular entity using its alias.
     *
     * @param typeClass the type of entity we are interested in
