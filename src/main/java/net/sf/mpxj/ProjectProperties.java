@@ -3357,6 +3357,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Retrieve the unique ID of the baseline type associated with this project.
+    *
+    * @return baseline type unique ID
+    */
+   public Integer getBaselineTypeUniqueID()
+   {
+      return (Integer) get(ProjectField.BASELINE_TYPE_UNIQUE_ID);
+   }
+
+   /**
+    * Set the unique ID of the baseline type associated with this project.
+    *
+    * @param value baseline type unique ID
+    */
+   public void setBaselineTypeUniqueID(Integer value)
+   {
+      set(ProjectField.BASELINE_TYPE_UNIQUE_ID, value);
+   }
+
+   /**
     * Retrieve the last baseline update date.
     *
     * @return last baseline update date

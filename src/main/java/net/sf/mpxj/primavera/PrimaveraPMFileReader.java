@@ -620,6 +620,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
       properties.setWbsCodeSeparator(project.getWBSCodeSeparator());
       properties.setBaselineTypeName(project.getBaselineTypeName());
+      properties.setBaselineTypeUniqueID(project.getBaselineTypeObjectId());
       properties.setLastBaselineUpdateDate(project.getLastBaselineUpdateDate());
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
