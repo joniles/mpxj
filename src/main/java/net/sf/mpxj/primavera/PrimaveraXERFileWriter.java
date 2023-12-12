@@ -36,6 +36,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -969,6 +970,77 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return type == null ? PercentCompleteType.DURATION : type;
    }
 
+   private static Number getTargetQuantity(ResourceAssignment mpxj)
+   {
+      if (mpxj.getResource().getType() == net.sf.mpxj.ResourceType.MATERIAL)
+      {
+         return mpxj.getUnits();
+      }
+
+      Duration work = Optional.ofNullable(mpxj.getPlannedWork()).orElseGet(mpxj::getWork);
+      return getDuration(mpxj.getParentFile(), work);
+   }
+
+   private static Double getTargetQuantityPerHour(ResourceAssignment mpxj)
+   {
+      if (mpxj.getResource().getType() == net.sf.mpxj.ResourceType.MATERIAL)
+      {
+         Task task = mpxj.getTask();
+         Duration duration = Optional.ofNullable(task.getPlannedDuration()).orElseGet(task::getDuration);
+         double units = NumberHelper.getDouble(mpxj.getUnits());
+         double time = NumberHelper.getDouble(getDuration(mpxj.getParentFile(), duration));
+         double unitsPerTime = time == 0 ? 0 : units / time;
+         return unitsPerTime == 0 ? null : Double.valueOf(unitsPerTime);
+      }
+
+      Double units = getPercentage(mpxj.getUnits());
+      return units == null || units.doubleValue() == 0 ? null : units;
+   }
+
+   /**
+    * Retrieve a duration in the form required by Primavera.
+    *
+    * @param duration Duration instance
+    * @return formatted duration
+    */
+   private static Double getDuration(ProjectFile file, Duration duration)
+   {
+      Double result;
+      if (duration == null)
+      {
+         result = null;
+      }
+      else
+      {
+         if (duration.getUnits() != TimeUnit.HOURS)
+         {
+            duration = duration.convertUnits(TimeUnit.HOURS, file.getProjectProperties());
+         }
+
+         result = Double.valueOf(duration.getDuration());
+      }
+      return result;
+   }
+
+
+   /**
+    * Formats a percentage value.
+    *
+    * @param number MPXJ percentage value
+    * @return Primavera percentage value
+    */
+   private static Double getPercentage(Number number)
+   {
+      Double result = null;
+
+      if (number != null)
+      {
+         result = Double.valueOf(number.doubleValue() / 100);
+      }
+
+      return result;
+   }
+
    private String m_encoding;
    private Charset m_charset;
    private ProjectFile m_file;
@@ -1302,10 +1374,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("pobs_id", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("skill_level", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty", r -> r.getRemainingWork());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty", r -> r.getPlannedWork());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty", r -> getTargetQuantity(r));
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty_per_hr", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_lag_drtn_hr_cnt", r -> r.getDelay());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty_per_hr", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty_per_hr", r -> getTargetQuantityPerHour(r));
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_qty", r -> r.getActualOvertimeWork());
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_qty", r -> PrimaveraXERFileWriter.getActualRegularWork(r));
       RESOURCE_ASSIGNMENT_COLUMNS.put("relag_drtn_hr_cnt", r -> null);

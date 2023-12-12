@@ -1764,9 +1764,9 @@ final class PrimaveraReader
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), assignment.getCost()));
 
             double units;
-            if (resource.getType() == ResourceType.MATERIAL)
+            if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)
             {
-               units = (totalWork == null) ? 0 : totalWork.getDuration() * 100;
+               units = row.getDouble("target_qty");
             }
             else // RT_Labor & RT_Equip
             {
