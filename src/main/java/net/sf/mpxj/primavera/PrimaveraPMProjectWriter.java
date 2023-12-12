@@ -1162,8 +1162,6 @@ final class PrimaveraPMProjectWriter
       xml.setPlannedCost(getDouble(mpxj.getPlannedCost()));
       xml.setPlannedFinishDate(plannedFinish);
       xml.setPlannedStartDate(plannedStart);
-      xml.setPlannedUnits(getDuration(mpxj.getPlannedWork()));
-      xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setProjectObjectId(m_projectObjectID);
       xml.setRemainingCost(getDouble(mpxj.getRemainingCost()));
       xml.setRemainingDuration(getDuration(mpxj.getRemainingWork()));
@@ -1178,6 +1176,22 @@ final class PrimaveraPMProjectWriter
       xml.setCostAccountObjectId(mpxj.getCostAccountUniqueID());
       xml.setRemainingStartDate(mpxj.getRemainingEarlyStart());
       xml.setRemainingFinishDate(mpxj.getRemainingEarlyFinish());
+
+      if (mpxj.getResource().getType() == net.sf.mpxj.ResourceType.MATERIAL)
+      {
+         Duration duration = Optional.ofNullable(task.getPlannedDuration()).orElseGet(task::getDuration);
+         double units = NumberHelper.getDouble(mpxj.getUnits());
+         double time = NumberHelper.getDouble(getDuration(duration));
+         double unitsPerTime = time == 0 ? 0 : units / time;
+         xml.setPlannedUnits(NumberHelper.getDouble(mpxj.getUnits()));
+         xml.setPlannedUnitsPerTime(Double.valueOf(unitsPerTime));
+      }
+      else
+      {
+         Duration work = Optional.ofNullable(mpxj.getPlannedWork()).orElseGet(mpxj::getWork);
+         xml.setPlannedUnits(getDuration(work));
+         xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
+      }
    }
 
    /**

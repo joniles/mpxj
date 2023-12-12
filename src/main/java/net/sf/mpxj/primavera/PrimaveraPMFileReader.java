@@ -1829,7 +1829,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             double units;
             if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)
             {
-               units = (totalWork == null) ? 0 : totalWork.getDuration() * 100;
+               units = row.getPlannedUnits();
             }
             else // RT_Labor & RT_Equip
             {
