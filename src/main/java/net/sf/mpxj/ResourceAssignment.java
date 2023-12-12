@@ -2873,6 +2873,46 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Retrieve the remaining early finish value.
+    *
+    * @return remaining early finish
+    */
+   public LocalDateTime getRemainingEarlyFinish()
+   {
+      return (LocalDateTime) get(AssignmentField.REMAINING_EARLY_FINISH);
+   }
+
+   /**
+    * Set the remaining early finish value.
+    *
+    * @param date remaining early finish
+    */
+   public void setRemainingEarlyFinish(LocalDateTime date)
+   {
+      set(AssignmentField.REMAINING_EARLY_FINISH, date);
+   }
+
+   /**
+    * Retrieve the remaining early start value.
+    *
+    * @return remaining early start
+    */
+   public LocalDateTime getRemainingEarlyStart()
+   {
+      return (LocalDateTime) get(AssignmentField.REMAINING_EARLY_START);
+   }
+
+   /**
+    * Set the remaining early start value.
+    *
+    * @param date remaining early start
+    */
+   public void setRemainingEarlyStart(LocalDateTime date)
+   {
+      set(AssignmentField.REMAINING_EARLY_START, date);
+   }
+
+   /**
     * Based on the configuration data for this resource assignment,
     * return the cost rate effective on the supplied date.
     *

@@ -2344,6 +2344,8 @@ final class PrimaveraReader
       map.put(AssignmentField.ASSIGNMENT_DELAY, "target_lag_drtn_hr_cnt");
       map.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, "cost_qty_link_flag");
       map.put(AssignmentField.COST_ACCOUNT_UNIQUE_ID, "acct_id");
+      map.put(AssignmentField.REMAINING_EARLY_START, "restart_date");
+      map.put(AssignmentField.REMAINING_EARLY_FINISH, "reend_date");
       map.put(AssignmentField.REMAINING_LATE_START, "rem_late_start_date");
       map.put(AssignmentField.REMAINING_LATE_FINISH, "rem_late_end_date");
       return map;

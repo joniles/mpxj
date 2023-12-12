@@ -1802,6 +1802,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setRateSource(RateSourceHelper.getInstanceFromXml(row.getRateSource()));
             assignment.setCalculateCostsFromUnits(BooleanHelper.getBoolean(row.isIsCostUnitsLinked()));
             assignment.setCostAccount(m_projectFile.getCostAccounts().getByUniqueID(row.getCostAccountObjectId()));
+            assignment.setRemainingEarlyStart(row.getRemainingStartDate());
+            assignment.setRemainingEarlyFinish(row.getRemainingFinishDate());
 
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
