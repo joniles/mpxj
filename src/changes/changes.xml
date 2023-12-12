@@ -5,7 +5,10 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="12.4.1">
+		<release date="unreleased" version="12.5.0">
+			<action dev="joniles" type="update">Add support for the following Resource Assignment attributes: Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish.</action>
+			<action dev="joniles" type="update">Ensure that the Resource Assignment attributes Remaining Early Start and Remaining Early Finish are read from and writtent to PMXML files.</action>
+			<action dev="joniles" type="update">Ensure that the Resource Assignment attributes Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish are read from and writtent to XER files.</action>
 			<action dev="joniles" type="update">Improve accuracy of reading and writing the `ProjectProperties` Relationship Lag Calendar attribute for PMXML files.</action>
 			<action dev="joniles" type="update">All P6 scheduling and leveling options which were previously made available via the `ProjectProperties` custom properties map are now deprecated. These properties now have individual getter and setter methods available on the `ProjectProperties` class. Note: this may be a breaking change if you were creating schedules from scratch, populating the custom properties map, then writing PMXML or XER files. In this case you will need to update your code, for all other use cases your code will continue to work unchanged until the next major version of MPXJ.</action>
 			<action dev="joniles" type="update">Added support for reading and writing the `ProjectProperties` attributes Baseline Type Name, Baseline Type Unique ID, and Last Baseline Update Date for baseline projects in PMXML files.</action>
