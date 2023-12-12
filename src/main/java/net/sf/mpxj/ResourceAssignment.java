@@ -2833,6 +2833,86 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Retrieve the remaining late finish value.
+    *
+    * @return remaining late finish
+    */
+   public LocalDateTime getRemainingLateFinish()
+   {
+      return (LocalDateTime) get(AssignmentField.REMAINING_LATE_FINISH);
+   }
+
+   /**
+    * Set the remaining late finish value.
+    *
+    * @param date remaining late finish
+    */
+   public void setRemainingLateFinish(LocalDateTime date)
+   {
+      set(AssignmentField.REMAINING_LATE_FINISH, date);
+   }
+
+   /**
+    * Retrieve the remaining late start value.
+    *
+    * @return remaining late start
+    */
+   public LocalDateTime getRemainingLateStart()
+   {
+      return (LocalDateTime) get(AssignmentField.REMAINING_LATE_START);
+   }
+
+   /**
+    * Set the remaining late start value.
+    *
+    * @param date remaining late start
+    */
+   public void setRemainingLateStart(LocalDateTime date)
+   {
+      set(AssignmentField.REMAINING_LATE_START, date);
+   }
+
+   /**
+    * Retrieve the remaining early finish value.
+    *
+    * @return remaining early finish
+    */
+   public LocalDateTime getRemainingEarlyFinish()
+   {
+      return (LocalDateTime) get(AssignmentField.REMAINING_EARLY_FINISH);
+   }
+
+   /**
+    * Set the remaining early finish value.
+    *
+    * @param date remaining early finish
+    */
+   public void setRemainingEarlyFinish(LocalDateTime date)
+   {
+      set(AssignmentField.REMAINING_EARLY_FINISH, date);
+   }
+
+   /**
+    * Retrieve the remaining early start value.
+    *
+    * @return remaining early start
+    */
+   public LocalDateTime getRemainingEarlyStart()
+   {
+      return (LocalDateTime) get(AssignmentField.REMAINING_EARLY_START);
+   }
+
+   /**
+    * Set the remaining early start value.
+    *
+    * @param date remaining early start
+    */
+   public void setRemainingEarlyStart(LocalDateTime date)
+   {
+      set(AssignmentField.REMAINING_EARLY_START, date);
+   }
+
+   /**
     * Based on the configuration data for this resource assignment,
     * return the cost rate effective on the supplied date.
     *
