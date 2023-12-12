@@ -285,7 +285,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeResources()
    {
       m_writer.writeTable("RSRC", RESOURCE_COLUMNS);
-      m_file.getResources().stream().filter(r -> !r.getRole()).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> m_writer.writeRecord(RESOURCE_COLUMNS, r));
+      m_file.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> m_writer.writeRecord(RESOURCE_COLUMNS, r));
    }
 
    /**
@@ -348,7 +348,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeResourceAssignments()
    {
       m_writer.writeTable("TASKRSRC", RESOURCE_ASSIGNMENT_COLUMNS);
-      m_file.getResourceAssignments().stream().sorted(Comparator.comparing(ResourceAssignment::getUniqueID)).forEach(t -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_COLUMNS, t));
+      m_file.getResourceAssignments().stream().filter(t -> isValidAssignment(t)).sorted(Comparator.comparing(ResourceAssignment::getUniqueID)).forEach(t -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_COLUMNS, t));
    }
 
    /**
@@ -842,6 +842,21 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private Stream<Task> getWbsStream()
    {
       return m_file.getTasks().stream().filter(Task::getSummary);
+   }
+
+   /**
+    * Determine if a resource assignment is valid to appear in the XER file.
+    * This avoids writing assignments which do not have a task or a resource
+    * and also avoids writing assignments for the "unknown" resource
+    * used by Microsoft Project.
+    *
+    * @param assignment assignment to test
+    * @return true if this assignment can be written to an XER file
+    */
+   private boolean isValidAssignment(ResourceAssignment assignment)
+   {
+      Task task = assignment.getTask();
+      return assignment.getResource() != null && task != null && task.getUniqueID().intValue() != 0 && !task.getSummary();
    }
 
    /**
