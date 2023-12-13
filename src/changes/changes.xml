@@ -20,7 +20,7 @@
 			<action dev="joniles" type="update">Ensure that resource assignments which are not associated with an Activity or a Resource are not written to XER files.</action>
 			<action dev="joniles" type="update">Durations are written to PMXML files in hours. We now round to 2 decimal places to allow minutes to be represented, and avoid unnecessary precision.</action>
 			<action dev="joniles" type="update">Currency amounts written to PMXML files are now rounded to 8 decimal places to more closely match the behavior of P6, and avoid unnecessary precision.</action>
-			<action dev="joniles" type="update">Decimal amounts other than currency and duration are written to PMXML files with 15 decimal plavces to matchthe behavior of P6.</action>
+			<action dev="joniles" type="update">Decimal amounts other than currency and duration are written to PMXML files with 15 decimal places to more closely match the behavior of P6.</action>
 		</release>
 		<release date="2023-11-23" version="12.4.0">
 			<action dev="joniles" type="update">Added support for the WBS Code Separator attribute to `ProjectProperties`.</action>
