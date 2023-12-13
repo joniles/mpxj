@@ -1866,7 +1866,8 @@ final class PrimaveraPMProjectWriter
             duration = duration.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
          }
 
-         result = Double.valueOf(duration.getDuration());
+         // Round to 2 decimal places which still allows minute accuracy
+         result = Double.valueOf(Math.round(duration.getDuration() * 100.0) / 100.0);
       }
       return result;
    }
