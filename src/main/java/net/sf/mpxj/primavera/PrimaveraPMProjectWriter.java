@@ -1178,11 +1178,10 @@ final class PrimaveraPMProjectWriter
       if (mpxj.getResource().getType() == net.sf.mpxj.ResourceType.MATERIAL)
       {
          // Planned
-         Duration duration = Optional.ofNullable(task.getPlannedDuration()).orElseGet(task::getDuration);
-         double units = NumberHelper.getDouble(mpxj.getUnits());
-         double time = NumberHelper.getDouble(getDurationInHours(duration));
+         double units = NumberHelper.getDouble(getDurationInHours(Optional.ofNullable(mpxj.getPlannedWork()).orElseGet(mpxj::getWork)));
+         double time = NumberHelper.getDouble(getDurationInHours(Optional.ofNullable(task.getPlannedDuration()).orElseGet(task::getDuration)));
          double unitsPerTime = time == 0 ? 0 : units / time;
-         Double plannedUnits = NumberHelper.getDouble(mpxj.getUnits());
+         Double plannedUnits = Double.valueOf(units);
          Double plannedUnitsPerTime = Double.valueOf(unitsPerTime);
          xml.setPlannedUnits(plannedUnits);
          xml.setPlannedUnitsPerTime(plannedUnitsPerTime);
