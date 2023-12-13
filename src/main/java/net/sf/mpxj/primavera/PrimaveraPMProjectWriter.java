@@ -1979,7 +1979,7 @@ final class PrimaveraPMProjectWriter
 
       return result;
    }
-   
+
    /**
     * The end of a Primavera time range finishes on the last minute
     * of the period, so a range of 12:00 -> 13:00 is represented by
