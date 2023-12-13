@@ -22,6 +22,7 @@
 			<action dev="joniles" type="update">Currency amounts written to PMXML files are now rounded to 8 decimal places to more closely match the behavior of P6, and avoid unnecessary precision.</action>
 			<action dev="joniles" type="update">Decimal amounts other than currency and duration are written to PMXML files with 15 decimal places to more closely match the behavior of P6.</action>
 			<action dev="joniles" type="update">Fix an issue reading ConceptDraw calendars.</action>
+			<action dev="joniles" type="update">Fixed a misspelled field name in the JSON output (Contributed by Daniel Taylor).</action>
 		</release>
 		<release date="2023-11-23" version="12.4.0">
 			<action dev="joniles" type="update">Added support for the WBS Code Separator attribute to `ProjectProperties`.</action>
