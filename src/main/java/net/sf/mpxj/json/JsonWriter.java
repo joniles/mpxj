@@ -1321,7 +1321,7 @@ public final class JsonWriter extends AbstractProjectWriter
       writeMandatoryIntegerField("unique_id", value.getUniqueID());
       writeMandatoryIntegerField("sequence_number", value.getSequenceNumber());
       writeStringField("name", value.getName());
-      writeStringField("desription", value.getDescription());
+      writeStringField("description", value.getDescription());
       writeColorField("color", value.getColor());
       if (value.getParent() != null)
       {

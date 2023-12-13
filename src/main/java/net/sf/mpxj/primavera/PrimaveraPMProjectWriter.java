@@ -1145,25 +1145,25 @@ final class PrimaveraPMProjectWriter
       }
 
       xml.setActivityObjectId(mpxj.getTaskUniqueID());
-      xml.setActualCost(getDouble(mpxj.getActualCost()));
+      xml.setActualCost(getCurrency(mpxj.getActualCost()));
       xml.setActualFinishDate(mpxj.getActualFinish());
-      xml.setActualOvertimeCost(getDouble(mpxj.getActualOvertimeCost()));
+      xml.setActualOvertimeCost(getCurrency(mpxj.getActualOvertimeCost()));
       xml.setActualOvertimeUnits(actualOvertimeUnits);
       xml.setActualRegularUnits(getDurationInHours(mpxj.getActualWork()));
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualUnits(getDurationInHours(mpxj.getActualWork()));
-      xml.setAtCompletionCost(NumberHelper.sumAsDouble(mpxj.getActualCost(), mpxj.getRemainingCost()));
+      xml.setAtCompletionCost(getCurrency(NumberHelper.sumAsDouble(mpxj.getActualCost(), mpxj.getRemainingCost())));
       xml.setAtCompletionUnits(getDurationInHours(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), task.getEffectiveCalendar())));
       xml.setResourceCurveObjectId(CurveHelper.getCurveID(mpxj.getWorkContour()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setIsCostUnitsLinked(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setPlannedCost(getDouble(mpxj.getPlannedCost()));
+      xml.setPlannedCost(getCurrency(mpxj.getPlannedCost()));
       xml.setPlannedFinishDate(plannedFinish);
       xml.setPlannedStartDate(plannedStart);
       xml.setProjectObjectId(m_projectObjectID);
-      xml.setRemainingCost(getDouble(mpxj.getRemainingCost()));
+      xml.setRemainingCost(getCurrency(mpxj.getRemainingCost()));
       xml.setRemainingDuration(getDurationInHours(mpxj.getRemainingWork()));
       xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(task.getParentTaskUniqueID());
@@ -1296,9 +1296,9 @@ final class PrimaveraPMProjectWriter
          //expense.setActivityId(value);
          //expense.setActivityName(value);
          expense.setActivityObjectId(task.getUniqueID());
-         expense.setActualCost(item.getActualCost());
+         expense.setActualCost(getCurrency(item.getActualCost()));
          expense.setActualUnits(item.getActualUnits());
-         //expense.setAtCompletionCost(item.getAtCompletionCost());
+         //expense.setAtCompletionCost(getCurrency(item.getAtCompletionCost()));
          //expense.setAtCompletionUnits(item.getAtCompletionUnits());
          expense.setAutoComputeActuals(Boolean.valueOf(item.getAutoComputeActuals()));
          //expense.setCBSCode(value);
@@ -1317,12 +1317,12 @@ final class PrimaveraPMProjectWriter
          //expense.setLastUpdateDate(value);
          //expense.setLastUpdateUser(value);
          expense.setObjectId(item.getUniqueID());
-         expense.setPlannedCost(item.getPlannedCost());
+         expense.setPlannedCost(getCurrency(item.getPlannedCost()));
          expense.setPlannedUnits(item.getPlannedUnits());
          expense.setPricePerUnit(pricePerUnit);
          //expense.setProjectId(PROJECT_ID);
          expense.setProjectObjectId(m_projectObjectID);
-         expense.setRemainingCost(item.getRemainingCost());
+         expense.setRemainingCost(getCurrency(item.getRemainingCost()));
          expense.setRemainingUnits(item.getRemainingUnits());
          expense.setUnitOfMeasure(item.getUnitOfMeasure());
          expense.setVendor(item.getVendor());
@@ -1918,7 +1918,8 @@ final class PrimaveraPMProjectWriter
             duration = duration.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
          }
 
-         result = Double.valueOf(duration.getDuration());
+         // Round to 2 decimal places which still allows minute accuracy
+         result = Double.valueOf(Math.round(duration.getDuration() * 100.0) / 100.0);
       }
       return result;
    }
@@ -1992,6 +1993,25 @@ final class PrimaveraPMProjectWriter
       }
 
       return getPercentage(result);
+   }
+
+   /**
+    * Formats a currency value.
+    *
+    * @param number numeric value
+    * @return Double instance
+    */
+   private Double getCurrency(Number number)
+   {
+      Double result = null;
+
+      if (number != null)
+      {
+         // P6 appears to write currency with 8 decimal places, so we'll round match this
+         result = Double.valueOf(Math.round(number.doubleValue() * 100000000.0) / 100000000.0);
+      }
+
+      return result;
    }
 
    /**
