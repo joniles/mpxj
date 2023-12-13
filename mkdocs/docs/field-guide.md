@@ -292,7 +292,7 @@ Remaining Overtime Work| | | | | | |✓|✓| |✓| | | | | | | | 
 Remaining Work| | | | | | |✓|✓|✓|✓| | |✓|✓|✓|✓| | | | | | | 
 Resource Names| | |✓| | | | | |✓| | | | | | | | | | | | | | 
 Responsibility Code| | | | | | | | | | | | | | | | | | |✓| | | | 
-Resume|✓| | | | | |✓|✓|✓|✓| | | | | |✓| | | | | | | 
+Resume|✓| | | | | |✓|✓|✓|✓| | | |✓| |✓| | | | | | | 
 Resume No Earlier Than| | | | | | | |✓| | | | | | | | | | | | | | | 
 Resume Valid| | | | | | | | | |✓| | | | | | | | | | | | | 
 Rollup| | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
@@ -317,7 +317,7 @@ Subproject Task Unique ID| | | | | | | |✓| | | | | | | | | | 
 Subproject Tasks Unique ID Offset| | | | | | | |✓| | | | | | | | | | | | | | | 
 Summary|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓| | | | |✓|✓
 Summary Progress| | | | | | | |✓| | | | | | | | | | | | | | | 
-Suspend Date| | | | | | | | | | | | | | | |✓| | | | | | | 
+Suspend Date| | | | | | | | | | | | | |✓| |✓| | | | | | | 
 Task Calendar GUID| | | | | | | |✓| | | | | | | | | | | | | | | 
 Task Mode| | | | | | | |✓| |✓| | | | | | | | | | | | | 
 Task Name|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
