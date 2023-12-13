@@ -1012,6 +1012,30 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return units == null || units.doubleValue() == 0 ? null : units;
    }
 
+   private static Double getRemainingQuantityPerHour(ResourceAssignment mpxj)
+   {
+      Task task = mpxj.getTask();
+      if (mpxj.getResource().getType() == net.sf.mpxj.ResourceType.MATERIAL)
+      {
+//         Duration duration = Optional.ofNullable(task.getPlannedDuration()).orElseGet(task::getDuration);
+//         double units = NumberHelper.getDouble(mpxj.getUnits());
+//         double time = NumberHelper.getDouble(getDuration(mpxj.getParentFile(), duration));
+//         double unitsPerTime = time == 0 ? 0 : units / time;
+//         return unitsPerTime == 0 ? null : Double.valueOf(unitsPerTime);
+         return null;
+      }
+
+      Duration duration = task.getRemainingDuration();
+      if (duration == null || duration.getDuration() == 0)
+      {
+         return getTargetQuantityPerHour(mpxj);
+      }
+
+      Duration remainingWork = mpxj.getRemainingWork();
+      double units = remainingWork.getDuration() / duration.getDuration();
+      return Double.valueOf(units);
+   }
+
    /**
     * Retrieve a duration in the form required by Primavera.
     *
@@ -1391,6 +1415,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty", r -> r.getRemainingWork());
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty", r -> getTargetQuantity(r));
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty_per_hr", r -> null);
+      //RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty_per_hr", r -> getRemainingQuantityPerHour(r));
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_lag_drtn_hr_cnt", r -> r.getDelay());
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty_per_hr", r -> getTargetQuantityPerHour(r));
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_qty", r -> r.getActualOvertimeWork());

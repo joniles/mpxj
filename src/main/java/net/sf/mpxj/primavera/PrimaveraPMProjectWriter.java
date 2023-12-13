@@ -1028,9 +1028,9 @@ final class PrimaveraPMProjectWriter
       ProjectCalendar effectiveCalendar = mpxj.getEffectiveCalendar();
 
       xml.setActualStartDate(mpxj.getActualStart());
-      xml.setActualDuration(getDuration(mpxj.getActualDuration()));
+      xml.setActualDuration(getDurationInHours(mpxj.getActualDuration()));
       xml.setActualFinishDate(mpxj.getActualFinish());
-      xml.setAtCompletionDuration(getDuration(mpxj.getDuration()));
+      xml.setAtCompletionDuration(getDurationInHours(mpxj.getDuration()));
       xml.setCalendarObjectId(effectiveCalendar == null ? null : effectiveCalendar.getUniqueID());
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
       xml.setDurationType(TaskTypeHelper.getXmlFromInstance(mpxj.getType()));
@@ -1052,11 +1052,11 @@ final class PrimaveraPMProjectWriter
       xml.setPrimaryConstraintType(ConstraintTypeHelper.getXmlFromInstance(mpxj.getConstraintType()));
       xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
       xml.setPrimaryResourceObjectId(mpxj.getPrimaryResourceID());
-      xml.setPlannedDuration(getDuration(mpxj.getPlannedDuration() == null ? mpxj.getDuration() : mpxj.getPlannedDuration()));
+      xml.setPlannedDuration(getDurationInHours(mpxj.getPlannedDuration() == null ? mpxj.getDuration() : mpxj.getPlannedDuration()));
       xml.setPlannedFinishDate(plannedFinish);
       xml.setPlannedStartDate(plannedStart);
       xml.setProjectObjectId(m_projectObjectID);
-      xml.setRemainingDuration(getDuration(mpxj.getRemainingDuration()));
+      xml.setRemainingDuration(getDurationInHours(mpxj.getRemainingDuration()));
       xml.setRemainingEarlyFinishDate(mpxj.getRemainingEarlyFinish());
       xml.setRemainingEarlyStartDate(mpxj.getRemainingEarlyStart());
       xml.setRemainingLateFinishDate(mpxj.getRemainingLateFinish());
@@ -1126,7 +1126,7 @@ final class PrimaveraPMProjectWriter
       //
       // P6 import may fail if planned start, planned finish, and actual overtime units are not populated
       //
-      Double actualOvertimeUnits = Optional.ofNullable(getDuration(mpxj.getActualOvertimeWork())).orElse(NumberHelper.DOUBLE_ZERO);
+      Double actualOvertimeUnits = Optional.ofNullable(getDurationInHours(mpxj.getActualOvertimeWork())).orElse(NumberHelper.DOUBLE_ZERO);
       LocalDateTime plannedStart = Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStart);
       plannedStart = Optional.ofNullable(plannedStart).orElseGet(task::getStart);
       // If we can't find any finish date to use we'll fall back on using the start date which we'll assume is always populated
@@ -1149,11 +1149,11 @@ final class PrimaveraPMProjectWriter
       xml.setActualFinishDate(mpxj.getActualFinish());
       xml.setActualOvertimeCost(getDouble(mpxj.getActualOvertimeCost()));
       xml.setActualOvertimeUnits(actualOvertimeUnits);
-      xml.setActualRegularUnits(getDuration(mpxj.getActualWork()));
+      xml.setActualRegularUnits(getDurationInHours(mpxj.getActualWork()));
       xml.setActualStartDate(mpxj.getActualStart());
-      xml.setActualUnits(getDuration(mpxj.getActualWork()));
+      xml.setActualUnits(getDurationInHours(mpxj.getActualWork()));
       xml.setAtCompletionCost(NumberHelper.sumAsDouble(mpxj.getActualCost(), mpxj.getRemainingCost()));
-      xml.setAtCompletionUnits(getDuration(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), task.getEffectiveCalendar())));
+      xml.setAtCompletionUnits(getDurationInHours(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), task.getEffectiveCalendar())));
       xml.setResourceCurveObjectId(CurveHelper.getCurveID(mpxj.getWorkContour()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
@@ -1164,9 +1164,7 @@ final class PrimaveraPMProjectWriter
       xml.setPlannedStartDate(plannedStart);
       xml.setProjectObjectId(m_projectObjectID);
       xml.setRemainingCost(getDouble(mpxj.getRemainingCost()));
-      xml.setRemainingDuration(getDuration(mpxj.getRemainingWork()));
-      xml.setRemainingUnits(getDuration(mpxj.getRemainingWork()));
-      xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
+      xml.setRemainingDuration(getDurationInHours(mpxj.getRemainingWork()));
       xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(task.getParentTaskUniqueID());
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, false, mpxj));
@@ -1179,18 +1177,59 @@ final class PrimaveraPMProjectWriter
 
       if (mpxj.getResource().getType() == net.sf.mpxj.ResourceType.MATERIAL)
       {
+         // Planned
          Duration duration = Optional.ofNullable(task.getPlannedDuration()).orElseGet(task::getDuration);
          double units = NumberHelper.getDouble(mpxj.getUnits());
-         double time = NumberHelper.getDouble(getDuration(duration));
+         double time = NumberHelper.getDouble(getDurationInHours(duration));
          double unitsPerTime = time == 0 ? 0 : units / time;
-         xml.setPlannedUnits(NumberHelper.getDouble(mpxj.getUnits()));
-         xml.setPlannedUnitsPerTime(Double.valueOf(unitsPerTime));
+         Double plannedUnits = NumberHelper.getDouble(mpxj.getUnits());
+         Double plannedUnitsPerTime = Double.valueOf(unitsPerTime);
+         xml.setPlannedUnits(plannedUnits);
+         xml.setPlannedUnitsPerTime(plannedUnitsPerTime);
+
+         // Remaining
+         if (mpxj.getActualStart() == null)
+         {
+            xml.setRemainingUnits(plannedUnits);
+            xml.setRemainingUnitsPerTime(plannedUnitsPerTime);
+         }
+         else
+         {
+            // TODO: review this
+            xml.setRemainingUnits(getDurationInHours(mpxj.getRemainingWork()));
+            xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
+         }
       }
       else
       {
-         Duration work = Optional.ofNullable(mpxj.getPlannedWork()).orElseGet(mpxj::getWork);
-         xml.setPlannedUnits(getDuration(work));
-         xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
+         // Planned
+         Duration plannedWork = Optional.ofNullable(mpxj.getPlannedWork()).orElseGet(mpxj::getWork);
+         Double plannedUnits = getDurationInHours(plannedWork);
+         Double plannedUnitsPerTime = getPercentage(mpxj.getUnits());
+         xml.setPlannedUnits(plannedUnits);
+         xml.setPlannedUnitsPerTime(plannedUnitsPerTime);
+
+         // Remaining
+         if (mpxj.getActualStart() == null)
+         {
+            xml.setRemainingUnits(plannedUnits);
+            xml.setRemainingUnitsPerTime(plannedUnitsPerTime);
+         }
+         else
+         {
+            xml.setRemainingUnits(getDurationInHours(mpxj.getRemainingWork()));
+            Double remainingDuration = getDurationInHours(task.getRemainingDuration());
+            if (remainingDuration == null || remainingDuration.doubleValue() == 0)
+            {
+               xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
+            }
+            else
+            {
+               Double remainingWork = getDurationInHours(mpxj.getRemainingWork());
+               double units = remainingWork == null ? 0 : remainingWork.doubleValue() / remainingDuration.doubleValue();
+               xml.setRemainingUnitsPerTime(Double.valueOf(units));
+            }
+         }
       }
    }
 
@@ -1207,7 +1246,7 @@ final class PrimaveraPMProjectWriter
          RelationshipType xml = m_factory.createRelationshipType();
          m_relationships.add(xml);
 
-         xml.setLag(getDuration(mpxj.getLag()));
+         xml.setLag(getDurationInHours(mpxj.getLag()));
          xml.setObjectId(mpxj.getUniqueID());
          xml.setPredecessorActivityObjectId(mpxj.getTargetTask().getUniqueID());
          xml.setSuccessorActivityObjectId(mpxj.getSourceTask().getUniqueID());
@@ -1866,7 +1905,7 @@ final class PrimaveraPMProjectWriter
     * @param duration Duration instance
     * @return formatted duration
     */
-   private Double getDuration(Duration duration)
+   private Double getDurationInHours(Duration duration)
    {
       Double result;
       if (duration == null)
