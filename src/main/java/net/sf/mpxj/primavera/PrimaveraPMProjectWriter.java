@@ -1215,8 +1215,7 @@ final class PrimaveraPMProjectWriter
       else
       {
          // Planned
-         Duration plannedWork = Optional.ofNullable(mpxj.getPlannedWork()).orElseGet(mpxj::getWork);
-         Double plannedUnits = getDurationInHours(plannedWork);
+         Double plannedUnits = getDurationInHours(Optional.ofNullable(mpxj.getPlannedWork()).orElseGet(mpxj::getWork));
          Double plannedUnitsPerTime = getPercentage(mpxj.getUnits());
          xml.setPlannedUnits(plannedUnits);
          xml.setPlannedUnitsPerTime(plannedUnitsPerTime);
@@ -1224,6 +1223,7 @@ final class PrimaveraPMProjectWriter
          // Remaining
          if (mpxj.getActualStart() == null)
          {
+            // The assignment has not started
             xml.setRemainingUnits(plannedUnits);
             xml.setRemainingUnitsPerTime(plannedUnitsPerTime);
          }
