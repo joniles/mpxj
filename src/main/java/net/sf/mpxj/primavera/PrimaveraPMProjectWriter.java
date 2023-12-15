@@ -1175,7 +1175,7 @@ final class PrimaveraPMProjectWriter
       xml.setRemainingStartDate(mpxj.getRemainingEarlyStart());
       xml.setRemainingFinishDate(mpxj.getRemainingEarlyFinish());
 
-      AbstractUnitsHelper unitsHelper = new PmxmlUnitsHelper(mpxj);
+      PmxmlUnitsHelper unitsHelper = new PmxmlUnitsHelper(mpxj);
       xml.setPlannedUnits(unitsHelper.getPlannedUnits());
       xml.setPlannedUnitsPerTime(unitsHelper.getPlannedUnitsPerTime());
       xml.setRemainingUnits(unitsHelper.getRemainingUnits());
