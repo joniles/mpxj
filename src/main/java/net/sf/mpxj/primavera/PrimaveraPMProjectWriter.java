@@ -1230,17 +1230,18 @@ final class PrimaveraPMProjectWriter
          else
          {
             double remainingDuration = NumberHelper.getDouble(getDurationInHours(task.getRemainingDuration()));
-            if (remainingDuration == 0)
+            if (mpxj.getActualFinish() == null)
             {
-               xml.setRemainingUnits(getDurationInHours(mpxj.getRemainingWork()));
-               xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
+               // The assignment is in progress
+               double remainingWork = NumberHelper.getDouble(getDurationInHours(mpxj.getRemainingWork()));
+               double units = remainingDuration == 0 ? 0 : remainingWork / remainingDuration;
+               xml.setRemainingUnits(Double.valueOf(remainingWork));
+               xml.setRemainingUnitsPerTime(Double.valueOf(units));
             }
             else
             {
-               Double remainingWork = getDurationInHours(mpxj.getRemainingWork());
-               double units = remainingWork == null ? 0 : remainingWork.doubleValue() / remainingDuration;
-               xml.setRemainingUnits(remainingWork);
-               xml.setRemainingUnitsPerTime(Double.valueOf(units));
+               xml.setRemainingUnits(getDurationInHours(mpxj.getRemainingWork()));
+               xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
             }
          }
       }
