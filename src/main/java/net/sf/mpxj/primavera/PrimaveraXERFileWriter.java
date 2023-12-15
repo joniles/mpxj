@@ -983,25 +983,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PercentCompleteType type = task.getPercentCompleteType();
       return type == null ? PercentCompleteType.DURATION : type;
    }
-
-   /**
-    * Formats a percentage value.
-    *
-    * @param number MPXJ percentage value
-    * @return Primavera percentage value
-    */
-   private static Double getPercentage(Number number)
-   {
-      Double result = null;
-
-      if (number != null)
-      {
-         result = Double.valueOf(number.doubleValue() / 100);
-      }
-
-      return result;
-   }
-
+   
    private String m_encoding;
    private Charset m_charset;
    private ProjectFile m_file;
