@@ -1412,11 +1412,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_id", r -> r.getResourceUniqueID());
       RESOURCE_ASSIGNMENT_COLUMNS.put("pobs_id", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("skill_level", r -> null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty", r -> new UnitsHelper(r, 6).getRemainingUnits());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty", r -> new UnitsHelper(r, 6).getPlannedUnits());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty_per_hr", r -> new UnitsHelper(r, 6).getRemainingUnitsPerTime());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty", r -> new XerUnitsHelper(r).getRemainingUnits());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty", r -> new XerUnitsHelper(r).getPlannedUnits());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty_per_hr", r -> new XerUnitsHelper(r).getRemainingUnitsPerTime());
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_lag_drtn_hr_cnt", r -> r.getDelay());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty_per_hr", r -> new UnitsHelper(r, 6).getPlannedUnitsPerTime());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty_per_hr", r -> new XerUnitsHelper(r).getPlannedUnitsPerTime());
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_qty", r -> r.getActualOvertimeWork());
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_qty", r -> PrimaveraXERFileWriter.getActualRegularWork(r));
       RESOURCE_ASSIGNMENT_COLUMNS.put("relag_drtn_hr_cnt", r -> null);

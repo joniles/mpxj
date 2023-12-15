@@ -1,5 +1,5 @@
 /*
- * file:       UnitsHelper.java
+ * file:       AbstractUnitsHelper.java
  * author:     Jon Iles
  * date:       2023-12-15
  */
@@ -33,19 +33,19 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
- * Callculate planned and remaining units ready for writing to PMXML and XER files.
+ * Common implementation for calculating planned and remaining units ready for writing to PMXML and XER files.
  */
-class UnitsHelper
+abstract class AbstractUnitsHelper
 {
-   public UnitsHelper(ResourceAssignment assignment, int decimalPlaces)
+   public AbstractUnitsHelper(ResourceAssignment assignment)
    {
       if (assignment.getResource().getType() == ResourceType.MATERIAL)
       {
-         materialResource(assignment, decimalPlaces);
+         materialResource(assignment);
       }
       else
       {
-         otherResource(assignment, decimalPlaces);
+         otherResource(assignment);
       }
    }
 
@@ -94,13 +94,13 @@ class UnitsHelper
     *
     * @param assignment resource assignment
     */
-   private void materialResource(ResourceAssignment assignment, int decimalPlaces)
+   private void materialResource(ResourceAssignment assignment)
    {
       // Planned
       ProjectFile file = assignment.getParentFile();
       Task task = assignment.getTask();
-      double units = NumberHelper.getDouble(getDurationInHours(file, decimalPlaces, Optional.ofNullable(assignment.getPlannedWork()).orElseGet(assignment::getWork)));
-      double time = NumberHelper.getDouble(getDurationInHours(file, decimalPlaces, Optional.ofNullable(task.getPlannedDuration()).orElseGet(task::getDuration)));
+      double units = NumberHelper.getDouble(getDurationInHours(file, Optional.ofNullable(assignment.getPlannedWork()).orElseGet(assignment::getWork)));
+      double time = NumberHelper.getDouble(getDurationInHours(file, Optional.ofNullable(task.getPlannedDuration()).orElseGet(task::getDuration)));
       double unitsPerTime = time == 0 ? 0 : units / time;
       m_plannedUnits = Double.valueOf(units);
       m_plannedUnitsPerTime = Double.valueOf(unitsPerTime);
@@ -117,8 +117,8 @@ class UnitsHelper
          if (assignment.getActualFinish() == null)
          {
             // The assignment is in progress
-            double remainingTime = NumberHelper.getDouble(getDurationInHours(file, decimalPlaces, task.getRemainingDuration()));
-            double remainingUnits = NumberHelper.getDouble(getDurationInHours(file, decimalPlaces, assignment.getRemainingWork()));
+            double remainingTime = NumberHelper.getDouble(getDurationInHours(file, task.getRemainingDuration()));
+            double remainingUnits = NumberHelper.getDouble(getDurationInHours(file, assignment.getRemainingWork()));
             double remainingUnitsPerTime = remainingTime == 0 ? 0 : remainingUnits / remainingTime;
             m_remainingUnits = Double.valueOf(remainingUnits);
             m_remainingUnitsPerTime = Double.valueOf(remainingUnitsPerTime);
@@ -137,12 +137,12 @@ class UnitsHelper
     *
     * @param assignment resource assignment
     */
-   private void otherResource(ResourceAssignment assignment, int decimalPlaces)
+   private void otherResource(ResourceAssignment assignment)
    {
       // Planned
       ProjectFile file = assignment.getParentFile();
       Task task = assignment.getTask();
-      m_plannedUnits = getDurationInHours(file, decimalPlaces, Optional.ofNullable(assignment.getPlannedWork()).orElseGet(assignment::getWork));
+      m_plannedUnits = getDurationInHours(file, Optional.ofNullable(assignment.getPlannedWork()).orElseGet(assignment::getWork));
       m_plannedUnitsPerTime = getPercentage(assignment.getUnits());
 
       // Remaining
@@ -154,11 +154,11 @@ class UnitsHelper
       }
       else
       {
-         double remainingDuration = NumberHelper.getDouble(getDurationInHours(file, decimalPlaces, task.getRemainingDuration()));
+         double remainingDuration = NumberHelper.getDouble(getDurationInHours(file, task.getRemainingDuration()));
          if (assignment.getActualFinish() == null)
          {
             // The assignment is in progress
-            double remainingWork = NumberHelper.getDouble(getDurationInHours(file, decimalPlaces, assignment.getRemainingWork()));
+            double remainingWork = NumberHelper.getDouble(getDurationInHours(file, assignment.getRemainingWork()));
             double units = remainingDuration == 0 ? 0 : remainingWork / remainingDuration;
             m_remainingUnits = Double.valueOf(remainingWork);
             m_remainingUnitsPerTime = Double.valueOf(units);
@@ -178,7 +178,7 @@ class UnitsHelper
     * @param duration Duration instance
     * @return formatted duration
     */
-   private Double getDurationInHours(ProjectFile file, int decimalPlaces, Duration duration)
+   private Double getDurationInHours(ProjectFile file, Duration duration)
    {
       Double result;
       if (duration == null)
@@ -192,9 +192,8 @@ class UnitsHelper
             duration = duration.convertUnits(TimeUnit.HOURS, file.getProjectProperties());
          }
 
-         // Round to 2 decimal places which still allows minute accuracy
-         double scale = Math.pow(10.0, decimalPlaces);
-         result = Double.valueOf(Math.round(duration.getDuration() * scale) / scale);
+         // Round result appropriately for target file type
+         result = Double.valueOf(Math.round(duration.getDuration() * getScale()) / getScale());
       }
       return result;
    }
@@ -216,6 +215,13 @@ class UnitsHelper
 
       return result;
    }
+
+   /**
+    * Retrieve the scale used for rounding.
+    *
+    * @return rounding scale
+    */
+   protected abstract double getScale();
 
    private Double m_plannedUnits;
    private Double m_plannedUnitsPerTime;
