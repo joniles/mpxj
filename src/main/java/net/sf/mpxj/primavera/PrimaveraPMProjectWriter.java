@@ -1175,77 +1175,11 @@ final class PrimaveraPMProjectWriter
       xml.setRemainingStartDate(mpxj.getRemainingEarlyStart());
       xml.setRemainingFinishDate(mpxj.getRemainingEarlyFinish());
 
-      if (mpxj.getResource().getType() == net.sf.mpxj.ResourceType.MATERIAL)
-      {
-         // Planned
-         double units = NumberHelper.getDouble(getDurationInHours(Optional.ofNullable(mpxj.getPlannedWork()).orElseGet(mpxj::getWork)));
-         double time = NumberHelper.getDouble(getDurationInHours(Optional.ofNullable(task.getPlannedDuration()).orElseGet(task::getDuration)));
-         double unitsPerTime = time == 0 ? 0 : units / time;
-         Double plannedUnits = Double.valueOf(units);
-         Double plannedUnitsPerTime = Double.valueOf(unitsPerTime);
-         xml.setPlannedUnits(plannedUnits);
-         xml.setPlannedUnitsPerTime(plannedUnitsPerTime);
-
-         // Remaining
-         if (mpxj.getActualStart() == null)
-         {
-            // The assignment has not started
-            xml.setRemainingUnits(plannedUnits);
-            xml.setRemainingUnitsPerTime(plannedUnitsPerTime);
-         }
-         else
-         {
-            if (mpxj.getActualFinish() == null)
-            {
-               // The assignment is in progress
-               double remainingTime = NumberHelper.getDouble(getDurationInHours(task.getRemainingDuration()));
-               double remainingUnits = NumberHelper.getDouble(getDurationInHours(mpxj.getRemainingWork()));
-               double remainingUnitsPerTime = remainingTime == 0 ? 0 : remainingUnits / remainingTime;
-               xml.setRemainingUnits(Double.valueOf(remainingUnits));
-               xml.setRemainingUnitsPerTime(Double.valueOf(remainingUnitsPerTime));
-            }
-            else
-            {
-               // The assignment is complete
-               xml.setRemainingUnits(NumberHelper.DOUBLE_ZERO);
-               xml.setRemainingUnitsPerTime(plannedUnitsPerTime);
-            }
-         }
-      }
-      else
-      {
-         // Planned
-         Double plannedUnits = getDurationInHours(Optional.ofNullable(mpxj.getPlannedWork()).orElseGet(mpxj::getWork));
-         Double plannedUnitsPerTime = getPercentage(mpxj.getUnits());
-         xml.setPlannedUnits(plannedUnits);
-         xml.setPlannedUnitsPerTime(plannedUnitsPerTime);
-
-         // Remaining
-         if (mpxj.getActualStart() == null)
-         {
-            // The assignment has not started
-            xml.setRemainingUnits(plannedUnits);
-            xml.setRemainingUnitsPerTime(plannedUnitsPerTime);
-         }
-         else
-         {
-            double remainingDuration = NumberHelper.getDouble(getDurationInHours(task.getRemainingDuration()));
-            if (mpxj.getActualFinish() == null)
-            {
-               // The assignment is in progress
-               double remainingWork = NumberHelper.getDouble(getDurationInHours(mpxj.getRemainingWork()));
-               double units = remainingDuration == 0 ? 0 : remainingWork / remainingDuration;
-               xml.setRemainingUnits(Double.valueOf(remainingWork));
-               xml.setRemainingUnitsPerTime(Double.valueOf(units));
-            }
-            else
-            {
-               // The assignment is complete
-               xml.setRemainingUnits(NumberHelper.DOUBLE_ZERO);
-               xml.setRemainingUnitsPerTime(plannedUnitsPerTime);
-            }
-         }
-      }
+      UnitsHelper unitsHelper = new UnitsHelper(mpxj);
+      xml.setPlannedUnits(unitsHelper.getPlannedUnits());
+      xml.setPlannedUnitsPerTime(unitsHelper.getPlannedUnitsPerTime());
+      xml.setRemainingUnits(unitsHelper.getRemainingUnits());
+      xml.setRemainingUnitsPerTime(unitsHelper.getRemainingUnitsPerTime());
    }
 
    /**
