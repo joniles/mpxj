@@ -3396,6 +3396,46 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       set(ProjectField.LAST_BASELINE_UPDATE_DATE, value);
    }
 
+   public String getActivityIdPrefix()
+   {
+      return (String) get(ProjectField.ACTIVITY_ID_PREFIX);
+   }
+
+   public void setActivityIdPrefix(String value)
+   {
+      set(ProjectField.ACTIVITY_ID_PREFIX, value);
+   }
+
+   public String getActivityIdSuffix()
+   {
+      return (String) get(ProjectField.ACTIVITY_ID_SUFFIX);
+   }
+
+   public void setActivityIdSuffix(String value)
+   {
+      set(ProjectField.ACTIVITY_ID_SUFFIX, value);
+   }
+
+   public Integer getActivityIdIncrement()
+   {
+      return (Integer) get(ProjectField.ACTIVITY_ID_INCREMENT);
+   }
+
+   public void setActivityIdIncrement(Integer value)
+   {
+      set(ProjectField.ACTIVITY_ID_INCREMENT, value);
+   }
+
+   public boolean getActivityIdIncrementBasedOnSelectedActivity()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY));
+   }
+
+   public void setActivityIdIncrementBasedOnSelectedActivity(boolean value)
+   {
+      set(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, value);
+   }
+
    /**
     * Maps a field index to a ProjectField instance.
     *
@@ -3628,5 +3668,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> DEFAULT_FLOAT_PATHS);
       CALCULATED_FIELD_MAP.put(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES, p -> SchedulingProgressedActivities.RETAINED_LOGIC);
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_PREFIX, p -> "A");
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_SUFFIX, p -> "1000");
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT, p -> Integer.valueOf(10));
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, p -> Boolean.TRUE);
    }
 }

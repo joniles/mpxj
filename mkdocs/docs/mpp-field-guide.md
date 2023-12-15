@@ -22,6 +22,10 @@ The tables are not hand-crafted: they have been generated from test data and are
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 AM Text|✓|✓|✓|✓
+Activity ID Increment|✓|✓|✓|✓
+Activity ID Increment Based On Selected Activity|✓|✓|✓|✓
+Activity ID Prefix|✓|✓|✓|✓
+Activity ID Suffix|✓|✓|✓|✓
 Application Version|✓|✓|✓|✓
 Author|✓|✓|✓|✓
 Auto Add New Resources and Tasks|✓|✓|✓|✓

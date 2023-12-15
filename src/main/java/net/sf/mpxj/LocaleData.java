@@ -2282,6 +2282,10 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.BASELINE_TYPE_NAME.getValue()] = "Baseline Type Name";
       PROJECT_COLUMNS_ARRAY[ProjectField.BASELINE_TYPE_UNIQUE_ID.getValue()] = "Baseline Type Name";
       PROJECT_COLUMNS_ARRAY[ProjectField.LAST_BASELINE_UPDATE_DATE.getValue()] = "Last Baseline Update Date";
+      PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_ID_PREFIX.getValue()] = "Activity ID Prefix";
+      PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_ID_SUFFIX.getValue()] = "Activity ID Suffix";
+      PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_ID_INCREMENT.getValue()] = "Activity ID Increment";
+      PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY.getValue()] = "Activity ID Increment Based On Selected Activity";
    }
 
    private static final Object[][] RESOURCES =
