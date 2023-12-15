@@ -1412,7 +1412,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_id", r -> r.getResourceUniqueID());
       RESOURCE_ASSIGNMENT_COLUMNS.put("pobs_id", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("skill_level", r -> null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty", r -> r.getRemainingWork());
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty", r -> new UnitsHelper(r, 6).getRemainingUnits());
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty", r -> new UnitsHelper(r, 6).getPlannedUnits());
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_qty_per_hr", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_lag_drtn_hr_cnt", r -> r.getDelay());
