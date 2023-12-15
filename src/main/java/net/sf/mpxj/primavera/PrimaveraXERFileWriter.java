@@ -983,7 +983,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PercentCompleteType type = task.getPercentCompleteType();
       return type == null ? PercentCompleteType.DURATION : type;
    }
-   
+
    private String m_encoding;
    private Charset m_charset;
    private ProjectFile m_file;
