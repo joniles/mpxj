@@ -1240,8 +1240,9 @@ final class PrimaveraPMProjectWriter
             }
             else
             {
-               xml.setRemainingUnits(getDurationInHours(mpxj.getRemainingWork()));
-               xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
+               // The assignment is complete
+               xml.setRemainingUnits(NumberHelper.DOUBLE_ZERO);
+               xml.setRemainingUnitsPerTime(plannedUnitsPerTime);
             }
          }
       }
