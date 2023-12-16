@@ -596,6 +596,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // NOTE: this also appears in the schedule options. We will override this with the schedule options value if both are present
       properties.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXml(project.getRelationshipLagCalendar()));
       properties.setWbsCodeSeparator(project.getWBSCodeSeparator());
+//      properties.setActivityIdPrefix(project.getActivityIdPrefix());
+//      properties.setActivityIdSuffix(project.getActivityIdSuffix());
+//      properties.setActivityIdIncrement(project.getActivityIdIncrement());
+//      properties.setActivityIdIncrementBasedOnSelectedActivity(project.isActivityIdBasedOnSelectedActivity());
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 

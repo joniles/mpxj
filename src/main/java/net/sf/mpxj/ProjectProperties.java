@@ -3406,12 +3406,12 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       set(ProjectField.ACTIVITY_ID_PREFIX, value);
    }
 
-   public String getActivityIdSuffix()
+   public Integer getActivityIdSuffix()
    {
-      return (String) get(ProjectField.ACTIVITY_ID_SUFFIX);
+      return (Integer) get(ProjectField.ACTIVITY_ID_SUFFIX);
    }
 
-   public void setActivityIdSuffix(String value)
+   public void setActivityIdSuffix(Integer value)
    {
       set(ProjectField.ACTIVITY_ID_SUFFIX, value);
    }
@@ -3669,7 +3669,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> DEFAULT_FLOAT_PATHS);
       CALCULATED_FIELD_MAP.put(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES, p -> SchedulingProgressedActivities.RETAINED_LOGIC);
       CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_PREFIX, p -> "A");
-      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_SUFFIX, p -> "1000");
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_SUFFIX, p -> Integer.valueOf(1000));
       CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT, p -> Integer.valueOf(10));
       CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, p -> Boolean.TRUE);
    }
