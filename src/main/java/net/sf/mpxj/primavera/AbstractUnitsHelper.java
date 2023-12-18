@@ -176,6 +176,7 @@ abstract class AbstractUnitsHelper
     * Retrieve a duration in the form required by Primavera.
     *
     * @param duration Duration instance
+    * @param file parent file
     * @return formatted duration
     */
    private Double getDurationInHours(ProjectFile file, Duration duration)

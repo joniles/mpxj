@@ -3457,7 +3457,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Retrieve the "increment activity ID based on selected activity" flag
+    * Retrieve the "increment activity ID based on selected activity" flag.
     *
     * @return "increment activity ID based on selected activity" flag
     */
@@ -3467,7 +3467,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Set the "increment activity ID based on selected activity" flag
+    * Set the "increment activity ID based on selected activity" flag.
     *
     * @param value "increment activity ID based on selected activity" flag
     */
