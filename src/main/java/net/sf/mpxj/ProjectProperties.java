@@ -3397,6 +3397,86 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Retrieve the prefix used when creating an Activity ID.
+    *
+    * @return activity ID prefix
+    */
+   public String getActivityIdPrefix()
+   {
+      return (String) get(ProjectField.ACTIVITY_ID_PREFIX);
+   }
+
+   /**
+    * Set the prefix used when creating an Activity ID.
+    *
+    * @param value activity ID prefix
+    */
+   public void setActivityIdPrefix(String value)
+   {
+      set(ProjectField.ACTIVITY_ID_PREFIX, value);
+   }
+
+   /**
+    * Retrieve the suffix used when creating an Activity ID.
+    *
+    * @return activity ID suffix
+    */
+   public Integer getActivityIdSuffix()
+   {
+      return (Integer) get(ProjectField.ACTIVITY_ID_SUFFIX);
+   }
+
+   /**
+    * Set the suffix used when creating an Activity ID.
+    *
+    * @param value activity ID suffix
+    */
+   public void setActivityIdSuffix(Integer value)
+   {
+      set(ProjectField.ACTIVITY_ID_SUFFIX, value);
+   }
+
+   /**
+    * Retrieve the increment used when creating Activity ID values.
+    *
+    * @return activity ID increment
+    */
+   public Integer getActivityIdIncrement()
+   {
+      return (Integer) get(ProjectField.ACTIVITY_ID_INCREMENT);
+   }
+
+   /**
+    * Set the increment used when creating Activity ID values.
+    *
+    * @param value activity ID increment
+    */
+   public void setActivityIdIncrement(Integer value)
+   {
+      set(ProjectField.ACTIVITY_ID_INCREMENT, value);
+   }
+
+   /**
+    * Retrieve the "increment activity ID based on selected activity" flag
+    *
+    * @return "increment activity ID based on selected activity" flag
+    */
+   public boolean getActivityIdIncrementBasedOnSelectedActivity()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY));
+   }
+
+   /**
+    * Set the "increment activity ID based on selected activity" flag
+    *
+    * @param value "increment activity ID based on selected activity" flag
+    */
+   public void setActivityIdIncrementBasedOnSelectedActivity(boolean value)
+   {
+      set(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, value);
+   }
+
+   /**
     * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
@@ -3628,5 +3708,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> DEFAULT_FLOAT_PATHS);
       CALCULATED_FIELD_MAP.put(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES, p -> SchedulingProgressedActivities.RETAINED_LOGIC);
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_PREFIX, p -> "A");
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_SUFFIX, p -> Integer.valueOf(1000));
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT, p -> Integer.valueOf(10));
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, p -> Boolean.TRUE);
    }
 }

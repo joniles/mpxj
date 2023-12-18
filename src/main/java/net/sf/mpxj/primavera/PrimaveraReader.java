@@ -198,6 +198,10 @@ final class PrimaveraReader
          properties.setCriticalSlackLimit(Duration.getInstance(row.getInt("critical_drtn_hr_cnt"), TimeUnit.HOURS));
          properties.setLocationUniqueID(row.getInteger("location_id"));
          properties.setWbsCodeSeparator(row.getString("name_sep_char"));
+         properties.setActivityIdPrefix(row.getString("task_code_prefix"));
+         properties.setActivityIdSuffix(row.getInteger("task_code_base"));
+         properties.setActivityIdIncrement(row.getInteger("task_code_step"));
+         properties.setActivityIdIncrementBasedOnSelectedActivity(row.getBoolean("task_code_prefix_flag"));
 
          // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");

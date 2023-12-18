@@ -24,6 +24,7 @@
 			<action dev="joniles" type="update">Fix an issue reading ConceptDraw calendars.</action>
 			<action dev="joniles" type="update">Fixed a misspelled field name in the JSON output (Contributed by Daniel Taylor).</action>
 			<action dev="joniles" type="update">Improved handling of the Resource Assignment Planned and Remaining Units and Units per Time attributes read from and written to P6 schedules.</action>
+			<action dev="joniles" type="update">Added support for the following project properties: Activity ID Prefix, Activity ID Suffix, Activity ID Increment and Activity ID Based On Selected Activity, and ensure these are read from and written to P6 schedules.</action>
 		</release>
 		<release date="2023-11-23" version="12.4.0">
 			<action dev="joniles" type="update">Added support for the WBS Code Separator attribute to `ProjectProperties`.</action>

@@ -1121,8 +1121,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("base_type_id", p -> "");
       PROJECT_COLUMNS.put("clndr_id", p -> p.getDefaultCalendarUniqueID());
       PROJECT_COLUMNS.put("sum_base_proj_id", p -> p.getBaselineProjectUniqueID());
-      PROJECT_COLUMNS.put("task_code_base", p -> Integer.valueOf(1000));
-      PROJECT_COLUMNS.put("task_code_step", p -> Integer.valueOf(10));
+      PROJECT_COLUMNS.put("task_code_base", p -> p.getActivityIdSuffix());
+      PROJECT_COLUMNS.put("task_code_step", p -> p.getActivityIdIncrement());
       PROJECT_COLUMNS.put("priority_num", p -> Integer.valueOf(10));
       PROJECT_COLUMNS.put("wbs_max_sum_level", p -> Integer.valueOf(0));
       PROJECT_COLUMNS.put("strgy_priority_num", p -> Integer.valueOf(100));
@@ -1137,7 +1137,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("last_tasksum_date", p -> "");
       PROJECT_COLUMNS.put("fcst_start_date", p -> "");
       PROJECT_COLUMNS.put("def_duration_type", p -> p.getDefaultTaskType());
-      PROJECT_COLUMNS.put("task_code_prefix", p -> "");
+      PROJECT_COLUMNS.put("task_code_prefix", p -> p.getActivityIdPrefix());
       PROJECT_COLUMNS.put("guid", p -> p.getGUID());
       PROJECT_COLUMNS.put("def_qty_type", p -> "QT_Hour");
       PROJECT_COLUMNS.put("add_by_name", p -> "admin");
@@ -1149,7 +1149,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("def_task_type", p -> ActivityTypeHelper.NEW_ACTIVITY_DEFAULT_TYPE);
       PROJECT_COLUMNS.put("act_pct_link_flag", p -> Boolean.FALSE);
       PROJECT_COLUMNS.put("critical_path_type", p -> p.getCriticalActivityType());
-      PROJECT_COLUMNS.put("task_code_prefix_flag", p -> Boolean.TRUE);
+      PROJECT_COLUMNS.put("task_code_prefix_flag", p -> Boolean.valueOf(p.getActivityIdIncrementBasedOnSelectedActivity()));
       PROJECT_COLUMNS.put("def_rollup_dates_flag", p -> Boolean.TRUE);
       PROJECT_COLUMNS.put("use_project_baseline_flag", p -> Boolean.TRUE);
       PROJECT_COLUMNS.put("rem_target_link_flag", p -> Boolean.TRUE);
