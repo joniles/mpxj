@@ -118,7 +118,7 @@ public class UserDefinedFieldContainer implements Collection<UserDefinedField>
 
    @Override public boolean remove(Object o)
    {
-      m_file.getCustomFields().remove((UserDefinedField)o);
+      m_file.getCustomFields().remove((UserDefinedField) o);
       m_taskFields.remove(o);
       m_resourceFields.remove(o);
       m_assignmentFields.remove(o);
