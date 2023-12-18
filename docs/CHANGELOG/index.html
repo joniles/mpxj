@@ -291,9 +291,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1241-unreleased" class="md-nav__link">
+  <a href="#1251-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      12.4.1 (unreleased)
+      12.5.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1250-2023-12-18" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.5.0 (2023-12-18)
     </span>
   </a>
   
@@ -3647,9 +3656,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1241-unreleased" class="md-nav__link">
+  <a href="#1251-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      12.4.1 (unreleased)
+      12.5.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1250-2023-12-18" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.5.0 (2023-12-18)
     </span>
   </a>
   
@@ -5741,9 +5759,28 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1241-unreleased">12.4.1 (unreleased)</h2>
+<h2 id="1251-unreleased">12.5.1 (unreleased)</h2>
+<h2 id="1250-2023-12-18">12.5.0 (2023-12-18)</h2>
 <ul>
+<li>Add support for the following Resource Assignment attributes: Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish.</li>
+<li>Ensure that the Resource Assignment attributes Remaining Early Start and Remaining Early Finish are read from and written to PMXML files.</li>
+<li>Ensure that the Resource Assignment attributes Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish are read from and written to XER files.</li>
 <li>Improve accuracy of reading and writing the <code>ProjectProperties</code> Relationship Lag Calendar attribute for PMXML files.</li>
+<li>All P6 scheduling and leveling options which were previously made available via the <code>ProjectProperties</code> custom properties map are now deprecated. These properties now have individual getter and setter methods available on the <code>ProjectProperties</code> class. Note: this may be a breaking change if you were creating schedules from scratch, populating the custom properties map, then writing PMXML or XER files. In this case you will need to update your code, for all other use cases your code will continue to work unchanged until the next major version of MPXJ.</li>
+<li>Added support for reading and writing the <code>ProjectProperties</code> attributes Baseline Type Name, Baseline Type Unique ID, and Last Baseline Update Date for baseline projects in PMXML files.</li>
+<li>When reading projects from PMXML files, if the creation date attribute is not present in the file fall back to populating the <code>ProjectProperties</code> creation date attribute with the PMXML date added attribute.</li>
+<li>When writing PMXML files, ensure the date added attribute for projects is populated with the creation date.</li>
+<li>Add the <code>CustomFieldContainer.remove</code> method to allow field configurations to be removed.</li>
+<li>Updated the <code>UserDefinedFieldContainer.remove</code> method to ensure that any associated field configuration is removed from the <code>CustomFieldContainer</code>.</li>
+<li>Ensure that Microsoft Project's "unknown" resource (with Unique ID zero) is not exported to XER files.</li>
+<li>Ensure that resource assignments which are not associated with an Activity or a Resource are not written to XER files.</li>
+<li>Durations are written to PMXML files in hours. We now round to 2 decimal places to allow minutes to be represented, and avoid unnecessary precision.</li>
+<li>Currency amounts written to PMXML files are now rounded to 8 decimal places to more closely match the behavior of P6, and avoid unnecessary precision.</li>
+<li>Decimal amounts other than currency and duration are written to PMXML files with 15 decimal places to more closely match the behavior of P6.</li>
+<li>Fix an issue reading ConceptDraw calendars.</li>
+<li>Fixed a misspelled field name in the JSON output (Contributed by Daniel Taylor).</li>
+<li>Improved handling of the Resource Assignment Planned and Remaining Units and Units per Time attributes read from and written to P6 schedules.</li>
+<li>Added support for the following project properties: Activity ID Prefix, Activity ID Suffix, Activity ID Increment and Activity ID Based On Selected Activity, and ensure these are read from and written to P6 schedules.</li>
 </ul>
 <h2 id="1240-2023-11-23">12.4.0 (2023-11-23)</h2>
 <ul>
@@ -6340,7 +6377,7 @@
 <li>When reading resource assignments from an MPP file, don't record Project's internal representation of a null resource ID (-65535), record the resource ID explicitly as null.</li>
 <li>For MPX and Planner files, don't write resource assignments for the "null" resource.</li>
 <li>Handle missing status date when reading P6 schedules from XER files or database.</li>
-<li>When reading MPP files, treat UUID's which are all zeros as null.</li>
+<li>When reading MPP files, treat UUIDs which are all zeros as null.</li>
 <li>Deprecate the 10 Resource Outline Code get and set methods and replace with get and set methods which take an index argument.</li>
 <li>Provide a helper method (PrimaveraHelper.baselineKey) to encapsulate key generation for setting Primavera baselines.</li>
 </ul>
@@ -6363,7 +6400,7 @@
 <li>Preserve multiple assignments between an activity and a resource when reading P6 schedules.</li>
 <li>Renamed WorkContour.isFlat to isContourFlat and WorkContour.isContoured to isContourManual.</li>
 <li>Include an entry for 0% in the WorkContour curve definition.</li>
-<li>Fix an issue where non working days were not being treated correctly in date calculations if they happen to still have time ranges attached.</li>
+<li>Fix an issue where non-working days were not being treated correctly in date calculations if they happen to still have time ranges attached.</li>
 </ul>
 <h2 id="930-2021-05-06">9.3.0 (2021-05-06)</h2>
 <ul>
@@ -6539,7 +6576,7 @@
 <li>Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from Asta schedules (Contributed by Dave McKay)</li>
 <li>Gracefully handle a missing table name when reading an XER file.</li>
 <li>Gracefully handle an unexpected calendar data when reading an XER file.</li>
-<li>Correctly handle XER files with multi-byte character encoding.</li>
+<li>Correctly handle XER files with multibyte character encoding.</li>
 <li>Import all schedule and leveling options from XER files.</li>
 <li>Ensure project calendars are read from PMXML files.</li>
 <li>Added readAll methods to PrimaveraPMFileReader to allow all projects contained in a PMXML file to be read in a single pass.</li>
@@ -6867,7 +6904,7 @@
 </ul>
 <h2 id="701-2017-11-20">7.0.1 (2017-11-20)</h2>
 <ul>
-<li>Improve robustness when reading MPP files when using certain 64 bit Java runtimes.</li>
+<li>Improve robustness when reading MPP files when using certain 64-bit Java runtimes.</li>
 <li>Populate the project's comments property when reading an MSPDI file.</li>
 <li>Ensure that tasks are not discarded when reading PP files from older Asta versions.</li>
 <li>Fixed <a href="https://sourceforge.net/p/mpxj/bugs/319">Issue 319</a>: Wrong date ranges for split tasks</li>
@@ -7693,7 +7730,7 @@
 <li>Updated to automatically generate WBS for tasks read from MPP files when no WBS information is present in the file.</li>
 <li>Fixed a bug when reading MPP files where task finish dates appeared before the start date where a "start no later than" constraint was in use.</li>
 <li>Fixed a bug which resulted in invalid MPX files being generated when a project either had no tasks, or it had no resources.</li>
-<li>Fixed a long standing bug where the calendar records were being written into MPX files after they were referred to in the project summary record.</li>
+<li>Fixed a long-standing bug where the calendar records were being written into MPX files after they were referred to in the project summary record.</li>
 <li>Fixed a bug where WBS and Outline Levels were not being auto generated correctly when an MPP file contained a project summary task.</li>
 <li>Fixed a bug where split tasks were not being reported correctly.</li>
 </ul>
@@ -7762,7 +7799,7 @@
 <li>Updated MpqjQuery to parse MSPDI files as well as MPP and MPX files.</li>
 <li>Added support for early start, early finish, late start, late finish to MPP files.</li>
 <li>Updated MPP9 file support to handle start as late as possible constraints. </li>
-<li>Added support for sub project file information in MPP9 files.</li>
+<li>Added support for subproject file information in MPP9 files.</li>
 <li>Fixed a bug where occasionally a task in MPP9 files were not being read.</li>
 <li>Fixed a NegativeArrayIndexException thrown when reading certain MPP8 files.</li>
 <li>Reduced the memory used by MPXJ by anything up to 60%, particularly when reading large MPP files.</li>
@@ -7776,9 +7813,9 @@
 <ul>
 <li>Fixed a bug (again!) where deleted resource assignments in MPP9 files were still seen by MPXJ.</li>
 <li>Updated to use class instances instead of primitives to represent some enumerated types.</li>
-<li>Updated to implement support for reading and writing all of the basic Resource attributes found in MSPDI files.</li>
-<li>Updated to implement support for reading and writing all of the basic Task attributes found in MSPDI files.</li>
-<li>Updated to implement support for reading and writing all of the basic Project Header attributes from MPP8 and MPP9 files.</li>
+<li>Updated to implement support for reading and writing all the basic Resource attributes found in MSPDI files.</li>
+<li>Updated to implement support for reading and writing all the basic Task attributes found in MSPDI files.</li>
+<li>Updated to implement support for reading and writing all the basic Project Header attributes from MPP8 and MPP9 files.</li>
 <li>Made MSPDI file parsing more robust to allow it by default to cope with non-schema-compliant XML in the same manner as MS Project. Implemented a new compatibility flag to allow this behaviour to be disabled in favour of strict parsing.</li>
 <li>Merged DateTimeSettings, CurrencySettings, and DefaultSettings into the ProjectHeader class. This change makes the project header data easier to use as it is in a single place. It also makes the entities used to describe a project consistent with the contents of the MPP and MSPDI file formats.</li>
 </ul>
@@ -7795,7 +7832,7 @@
 <li>Fixed a bug where MPXFile attributes were not being correctly copied by the copy constructor.</li>
 <li>Fixed a rounding error in MPXCalendar.getDaysInRange (contributed by Wade Golden)</li>
 <li>Updated to make MPXJ more robust in the face of unexpected offsets in MPP8 file format.</li>
-<li>Updated support for password protected files to allow write reserved files to be read.</li>
+<li>Updated support for password-protected files to allow write-reserved files to be read.</li>
 <li>Updated to use the latest version of JAXB, as shipped in Sun's Java Web Services Developer Pack (JWSDP) version  1.4.</li>
 <li>Updated the distribution to include the redistributable files from the JWSDP JAXB implementation. Users will no longer need to download JWSDP separately in order to make use of MPXJ's MSPDI functionality.</li>
 <li>Updated to prevent empty notes records being added to tasks and resources when reading an MSPDI file.</li>
