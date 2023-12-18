@@ -1766,16 +1766,14 @@ final class PrimaveraReader
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), assignment.getRemainingCost()));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), assignment.getCost()));
 
-            double units;
             if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)
             {
-               units = row.getDouble("target_qty");
+               assignment.setUnits(row.getDouble("target_qty"));
             }
             else // RT_Labor & RT_Equip
             {
-               units = NumberHelper.getDouble(row.getDouble("target_qty_per_hr")) * 100;
+               assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("target_qty_per_hr")) * 100));
             }
-            assignment.setUnits(NumberHelper.getDouble(units));
 
             // Add User Defined Fields
             populateUserDefinedFieldValues("TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());

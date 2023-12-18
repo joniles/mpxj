@@ -1830,16 +1830,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), remainingCost));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), atCompletionCost));
 
-            double units;
             if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)
             {
-               units = row.getPlannedUnits();
+               assignment.setUnits(row.getPlannedUnits());
             }
             else // RT_Labor & RT_Equip
             {
-               units = NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100;
+               assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100));
             }
-            assignment.setUnits(NumberHelper.getDouble(units));
 
             populateUserDefinedFieldValues(assignment, row.getUDF());
 
