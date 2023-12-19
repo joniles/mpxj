@@ -78,17 +78,15 @@ public final class AvailabilityTable extends ArrayList<Availability>
          return true;
       }
 
-      // One range, NA start and end dates
-      if (size() == 1)
+      // More than one range
+      if (size() != 1)
       {
-         LocalDateTimeRange range = get(0).getRange();
-         if ((range.getStart() == null || range.getStart().equals(LocalDateTimeHelper.START_DATE_NA)) && (range.getEnd() == null || range.getEnd().isAfter(END_DATE_NA)))
-         {
-            return true;
-         }
+         return false;
       }
 
-      return false;
+      // One range with NA start and end dates
+      LocalDateTimeRange range = get(0).getRange();
+      return (range.getStart() == null || range.getStart().equals(LocalDateTimeHelper.START_DATE_NA)) && (range.getEnd() == null || range.getEnd().isAfter(END_DATE_NA));
    }
 
    /**
@@ -153,11 +151,10 @@ public final class AvailabilityTable extends ArrayList<Availability>
 
       // Let's ensure we are sorted
       sort(Comparator.naturalOrder());
-      LocalDateTimeRange currentRange = null;
 
       for (Availability availability : this)
       {
-         currentRange = availability.getRange();
+         LocalDateTimeRange currentRange = availability.getRange();
 
          LocalDateTime rangeEnd = currentRange.getEnd();
          if (rangeEnd == null)
