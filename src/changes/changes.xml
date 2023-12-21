@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.5.1">
+			<action dev="joniles" type="update">Updated PMXML schema to version 23.12.</action>
 		</release>
 		<release date="2023-12-18" version="12.5.0">
 			<action dev="joniles" type="update">Add support for the following Resource Assignment attributes: Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish.</action>
