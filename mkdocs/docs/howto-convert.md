@@ -19,37 +19,49 @@ The extensions recognised by the `ProjectWriterUtility` class are:
 * SDEF
 
 ```java
+package org.mpxj.howto.convert;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.ProjectWriterUtility;
 
-// ...
+public class ConvertUniversal
+{
+   public void convert(String inputFile, String outputFile) throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile projectFile = reader.read(inputFile);
 
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile projectFile = reader.read(inputFile);
-
-ProjectWriter writer = ProjectWriterUtility.getProjectWriter(outputFile);
-writer.write(projectFile, outputFile);
+      ProjectWriter writer = ProjectWriterUtility.getProjectWriter(outputFile);
+      writer.write(projectFile, outputFile);
+   }
+}
 ```
 
 If you already know the file types you are converting between,
 you can use the specific Reader and Writer classes, as shown below.
 
 ```java
+package org.mpxj.howto.convert;
+
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.mpp.MPPReader;
 import net.sf.mpxj.mpx.MPXWriter;
+import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.writer.ProjectWriter;
 
-// ...
+public class ConvertMppToMpx
+{
+   public void convert(String inputFile, String outputFile) throws Exception
+   {
+      ProjectReader reader = new MPPReader();
+      ProjectFile projectFile = reader.read(inputFile);
 
-ProjectReader reader = new MPPReader();
-ProjectFile projectFile = reader.read(inputFile);
-
-ProjectWriter writer = new MPXWriter();
-writer.write(projectFile, outputFile);
+      ProjectWriter writer = new MPXWriter();
+      writer.write(projectFile, outputFile);
+   }
+}
 ```
 
 
