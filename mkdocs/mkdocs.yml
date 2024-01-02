@@ -9,6 +9,8 @@ theme:
   name: material
   logo: images/mpxj-white.svg
   favicon: images/favicon.png
+  features:
+    - content.tabs.link
 
 extra:
   analytics:
@@ -19,6 +21,8 @@ markdown_extensions:
   - attr_list
   - pymdownx.highlight
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 
 nav:
   - 'Introduction': 'index.md'
