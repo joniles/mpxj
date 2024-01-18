@@ -1965,23 +1965,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          Task task = m_projectFile.getTaskByUniqueID(Integer.valueOf(taskUID.intValue()));
          if (task != null)
          {
-            Resource resource = m_projectFile.getResourceByUniqueID(Integer.valueOf(resourceUID.intValue()));
-            ProjectCalendar calendar = null;
-            if (resource != null)
-            {
-               calendar = resource.getCalendar();
-            }
-
-            if (calendar == null || task.getIgnoreResourceCalendar())
-            {
-               calendar = task.getEffectiveCalendar();
-            }
+            ResourceAssignment mpx = task.addResourceAssignment(m_projectFile.getResourceByUniqueID(Integer.valueOf(resourceUID.intValue())));
+            ProjectCalendar calendar = mpx.getEffectiveCalendar();
 
             List<TimephasedWork> timephasedComplete = readTimephasedWork(calendar, assignment, 2);
             List<TimephasedWork> timephasedPlanned = readTimephasedWork(calendar, assignment, 1);
             boolean raw = true;
-
-            ResourceAssignment mpx = task.addResourceAssignment(resource);
 
             if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
             {
