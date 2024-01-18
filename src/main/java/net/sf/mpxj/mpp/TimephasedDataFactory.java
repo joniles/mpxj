@@ -311,6 +311,12 @@ final class TimephasedDataFactory
       // Each block contains the block end date, which is also then the start of the next block
       // First block only used to give us the start of the first timephased data
       // Last block is ignored
+      //
+      // 0 - 7: cumulative work; double 1/1000 minute
+      // 8 - 11: expected work this period; int 1/10 minute
+      // 12 - 15: unknown
+      // 16 - 19: block end date; int timestamp in 1/10 minute
+
       LocalDateTime blockEndDate = null;
       long previousTotalWorkInMinutes = 0;
       List<TimephasedWork> list = new ArrayList<>();
@@ -330,12 +336,12 @@ final class TimephasedDataFactory
          else
          {
             LocalDateTime blockStartDate = calendar.getNextWorkStart(blockEndDate);
-            long currentTotalWorkInMinutes = (long) (MPPUtility.getDouble(data, offset) / 1000.0);
+            long currentCumulativeWorkInMinutes = (long) (MPPUtility.getDouble(data, offset) / 1000.0);
             int expectedWorkThisPeriodInMinutes = MPPUtility.getInt(data, offset + 8) / 10;
             //int unknown = MPPUtility.getInt(data, offset + 12);
             blockEndDate = MPPUtility.getTimestampFromTenths(data, offset + 16);
 
-            long workThisPeriodInMinutes = currentTotalWorkInMinutes - previousTotalWorkInMinutes;
+            long workThisPeriodInMinutes = currentCumulativeWorkInMinutes - previousTotalWorkInMinutes;
             totalWork += workThisPeriodInMinutes;
 
             double workingDays = calendar.getWork(blockStartDate, blockEndDate, TimeUnit.DAYS).getDuration();
@@ -349,7 +355,7 @@ final class TimephasedDataFactory
             work.setAmountPerDay(Duration.getInstance(amountPerDay, TimeUnit.MINUTES));
             list.add(work);
 
-            previousTotalWorkInMinutes = currentTotalWorkInMinutes;
+            previousTotalWorkInMinutes = currentCumulativeWorkInMinutes;
          }
 
          offset += 20;
