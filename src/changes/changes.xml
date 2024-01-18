@@ -8,6 +8,7 @@
 		<release date="unreleased" version="12.6.0">
 			<action dev="joniles" type="update">Updated PMXML schema to version 23.12.</action>
 			<action dev="joniles" type="update">Ensure that baselines in PMXML files written by Oracle Primavera Cloud are read.</action>
+			<action dev="joniles" type="update">Fix an issue reading certain XER files and P6 databases where activities lost the relationship with their parent WBS entry.</action>
 		</release>
 		<release date="2023-12-18" version="12.5.0">
 			<action dev="joniles" type="update">Add support for the following Resource Assignment attributes: Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish.</action>
