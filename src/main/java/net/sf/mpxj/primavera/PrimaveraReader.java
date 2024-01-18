@@ -1050,16 +1050,16 @@ final class PrimaveraReader
             task.setWBS(parentTask.getWBS());
          }
 
-         Integer uniqueID = task.getUniqueID();
+         Integer originalUniqueID = row.getInteger("task_id");
 
          // Add User Defined Fields - before we handle ID clashes
-         populateUserDefinedFieldValues("TASK", FieldTypeClass.TASK, task, uniqueID);
+         populateUserDefinedFieldValues("TASK", FieldTypeClass.TASK, task, originalUniqueID);
 
-         populateActivityCodes(task);
+         populateActivityCodes(task, originalUniqueID);
 
-         task.setNotesObject(taskNotes.get(uniqueID));
+         task.setNotesObject(taskNotes.get(originalUniqueID));
 
-         task.setUniqueID(m_activityClashMap.addID(uniqueID));
+         task.setUniqueID(m_activityClashMap.addID(originalUniqueID));
 
          Integer calId = row.getInteger("clndr_id");
          ProjectCalendar cal = m_project.getCalendarByUniqueID(calId);
@@ -1169,10 +1169,11 @@ final class PrimaveraReader
     * Read details of any activity codes assigned to this task.
     *
     * @param task parent task
+    * @param uniqueID task Unique ID
     */
-   private void populateActivityCodes(Task task)
+   private void populateActivityCodes(Task task, Integer uniqueID)
    {
-      List<Integer> list = m_activityCodeAssignments.get(task.getUniqueID());
+      List<Integer> list = m_activityCodeAssignments.get(uniqueID);
       if (list != null)
       {
          for (Integer id : list)
@@ -2279,7 +2280,6 @@ final class PrimaveraReader
    {
       Map<FieldType, String> map = new LinkedHashMap<>();
 
-      map.put(TaskField.UNIQUE_ID, "task_id");
       map.put(TaskField.GUID, "guid");
       map.put(TaskField.NAME, "task_name");
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
