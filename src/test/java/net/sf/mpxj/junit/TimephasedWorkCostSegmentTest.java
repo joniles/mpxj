@@ -805,7 +805,7 @@ public class TimephasedWorkCostSegmentTest
    {
       ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
-      ArrayList<Double> costList = m_timephased.segmentCost(assignment.getCalendar(), assignments, units, dateList);
+      ArrayList<Double> costList = m_timephased.segmentCost(assignment.getEffectiveCalendar(), assignments, units, dateList);
       //dumpExpectedData(assignment, costList);
       assertEquals(expected.length, costList.size());
       for (int loop = 0; loop < expected.length; loop++)
