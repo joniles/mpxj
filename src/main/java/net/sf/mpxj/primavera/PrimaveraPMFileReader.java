@@ -1863,7 +1863,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             // calculate work
             Duration remainingWork = assignment.getRemainingWork();
             Duration actualWork = assignment.getActualWork();
-            Duration totalWork = Duration.add(actualWork, remainingWork, task.getEffectiveCalendar());
+            Duration totalWork = Duration.add(actualWork, remainingWork, assignment.getEffectiveCalendar());
             assignment.setWork(totalWork);
 
             // calculate cost
