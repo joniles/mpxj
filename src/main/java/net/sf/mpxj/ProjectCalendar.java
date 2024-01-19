@@ -77,7 +77,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       m_projectFile = file;
       m_temporaryCalendar = temporaryCalendar;
 
-      if (file.getProjectConfig().getAutoCalendarUniqueID())
+      if (!temporaryCalendar && file.getProjectConfig().getAutoCalendarUniqueID())
       {
          setUniqueID(file.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
       }

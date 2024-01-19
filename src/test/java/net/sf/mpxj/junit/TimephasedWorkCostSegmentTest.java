@@ -734,7 +734,7 @@ public class TimephasedWorkCostSegmentTest
       ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       List<TimephasedWork> assignments = assignment.getTimephasedBaselineWork(0);
-      ArrayList<Duration> durationList = m_timephased.segmentBaselineWork(file, assignments, units, dateList);
+      ArrayList<Duration> durationList = m_timephased.segmentBaselineWork(assignment.getEffectiveCalendar(), assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)
@@ -757,7 +757,7 @@ public class TimephasedWorkCostSegmentTest
       ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       List<TimephasedCost> assignments = assignment.getTimephasedBaselineCost(0);
-      ArrayList<Double> costList = m_timephased.segmentBaselineCost(file, assignments, units, dateList);
+      ArrayList<Double> costList = m_timephased.segmentBaselineCost(assignment.getEffectiveCalendar(), assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, costList.size());
       for (int loop = 0; loop < expected.length; loop++)
@@ -805,7 +805,7 @@ public class TimephasedWorkCostSegmentTest
    {
       ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
-      ArrayList<Double> costList = m_timephased.segmentCost(assignment.getCalendar(), assignments, units, dateList);
+      ArrayList<Double> costList = m_timephased.segmentCost(assignment.getEffectiveCalendar(), assignments, units, dateList);
       //dumpExpectedData(assignment, costList);
       assertEquals(expected.length, costList.size());
       for (int loop = 0; loop < expected.length; loop++)

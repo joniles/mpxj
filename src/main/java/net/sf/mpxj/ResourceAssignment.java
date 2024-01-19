@@ -40,6 +40,7 @@ import java.util.function.Function;
 
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
+import net.sf.mpxj.common.CombinedCalendar;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
@@ -886,7 +887,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
          else
          {
             //prorated way
-            result.addAll(splitCostProrated(getCalendar(), totalCost, costPerDay, standardWork.getStart()));
+            result.addAll(splitCostProrated(getEffectiveCalendar(), totalCost, costPerDay, standardWork.getStart()));
          }
 
       }
@@ -907,7 +908,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       List<TimephasedWork> standardWorkResult = new ArrayList<>();
       List<TimephasedWork> overtimeWorkResult = new ArrayList<>();
       CostRateTable table = getCostRateTable();
-      ProjectCalendar calendar = getCalendar();
+      ProjectCalendar calendar = getEffectiveCalendar();
 
       Iterator<TimephasedWork> iter = overtimeWorkList.iterator();
       for (TimephasedWork standardWork : standardWorkList)
@@ -947,7 +948,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    {
       List<TimephasedCost> result = new ArrayList<>();
 
-      ProjectCalendar cal = getCalendar();
+      ProjectCalendar cal = getEffectiveCalendar();
 
       double remainingCost = getRemainingCost().doubleValue();
 
@@ -1029,21 +1030,21 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
          if (accrueAt == AccrueType.START)
          {
-            result.add(splitCostStart(getCalendar(), actualCost, getActualStart()));
+            result.add(splitCostStart(getEffectiveCalendar(), actualCost, getActualStart()));
          }
          else
             if (accrueAt == AccrueType.END)
             {
-               result.add(splitCostEnd(getCalendar(), actualCost, getActualFinish()));
+               result.add(splitCostEnd(getEffectiveCalendar(), actualCost, getActualFinish()));
             }
             else
             {
                //for prorated, we have to deal with it differently; have to 'fill up' each
                //day with the standard amount before going to the next one
-               double numWorkingDays = getCalendar().getWork(getStart(), getFinish(), TimeUnit.DAYS).getDuration();
+               double numWorkingDays = getEffectiveCalendar().getWork(getStart(), getFinish(), TimeUnit.DAYS).getDuration();
                double standardAmountPerDay = getCost().doubleValue() / numWorkingDays;
 
-               result.addAll(splitCostProrated(getCalendar(), actualCost, standardAmountPerDay, getActualStart()));
+               result.addAll(splitCostProrated(getEffectiveCalendar(), actualCost, standardAmountPerDay, getActualStart()));
             }
       }
 
@@ -1315,8 +1316,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * Retrieves the calendar used for this resource assignment.
     *
     * @return ProjectCalendar instance
+    * @deprecated use getEffectveCalendar instead
     */
-   public ProjectCalendar getCalendar()
+   @Deprecated public ProjectCalendar getCalendar()
    {
       ProjectCalendar calendar = null;
       Resource resource = getResource();
@@ -1332,6 +1334,47 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       }
 
       return calendar;
+   }
+
+   /**
+    * Retrieves the effective calendar used for this resource assignment.
+    *
+    * @return ProjectCalendar instance
+    */
+   public ProjectCalendar getEffectiveCalendar()
+   {
+      ProjectCalendar result;
+
+      Task task = getTask();
+      Resource resource = getResource();
+
+      ProjectCalendar explicitTaskCalendar = task.getCalendar();
+      ProjectCalendar resourceCalendar = resource != null && !task.getIgnoreResourceCalendar() && resource.getType() == ResourceType.WORK ? resource.getCalendar() : null;
+
+      if (explicitTaskCalendar == null)
+      {
+         if (resourceCalendar == null)
+         {
+            result = task.getEffectiveCalendar();
+         }
+         else
+         {
+            result = resourceCalendar;
+         }
+      }
+      else
+      {
+        if (resourceCalendar == null)
+        {
+           result = explicitTaskCalendar;
+        }
+        else
+        {
+           result = new CombinedCalendar(explicitTaskCalendar, resourceCalendar);
+        }
+      }
+
+      return result;
    }
 
    /**
@@ -3098,13 +3141,13 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    private Duration calculateStartVariance()
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-      return LocalDateTimeHelper.getVariance(getTask().getEffectiveCalendar(), getBaselineStart(), getStart(), format);
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getBaselineStart(), getStart(), format);
    }
 
    private Duration calculateFinishVariance()
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-      return LocalDateTimeHelper.getVariance(getTask().getEffectiveCalendar(), getBaselineFinish(), getFinish(), format);
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getBaselineFinish(), getFinish(), format);
    }
 
    private LocalDateTime calculateStart()

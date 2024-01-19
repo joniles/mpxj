@@ -2272,18 +2272,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private ProjectCalendar getCalendar(ResourceAssignment assignment)
    {
-      ProjectCalendar taskCalendar = assignment.getTask().getCalendar();
-      ProjectCalendar resourceCalendar = assignment.getResource() != null && assignment.getResource().getType() == ResourceType.WORK ? assignment.getCalendar() : null;
-      ProjectCalendar result;
-      if (taskCalendar != null && resourceCalendar != null)
-      {
-         result = new CombinedCalendar(taskCalendar, resourceCalendar);
-      }
-      else
-      {
-         result = resourceCalendar == null ? assignment.getTask().getEffectiveCalendar() : resourceCalendar;
-      }
-      return result;
+      return assignment.getEffectiveCalendar();
    }
 
    /**

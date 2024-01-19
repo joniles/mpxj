@@ -46,7 +46,7 @@ public class CombinedCalendar extends ProjectCalendar
     */
    public CombinedCalendar(ProjectCalendar calendar1, ProjectCalendar calendar2)
    {
-      super(calendar1.getParentFile());
+      super(calendar1.getParentFile(), true);
       m_calendar1 = calendar1;
       m_calendar2 = calendar2;
    }

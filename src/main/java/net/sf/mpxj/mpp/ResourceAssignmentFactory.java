@@ -184,18 +184,7 @@ public class ResourceAssignmentFactory
 
             Resource resource = file.getResourceByUniqueID(assignment.getResourceUniqueID());
             ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
-            ProjectCalendar taskCalendar = task.getCalendar();
-            ProjectCalendar resourceCalendar = resource != null && resourceType == ResourceType.WORK ? assignment.getCalendar() : null;
-
-            ProjectCalendar calendar;
-            if (taskCalendar != null && resourceCalendar != null)
-            {
-               calendar = new CombinedCalendar(taskCalendar, resourceCalendar);
-            }
-            else
-            {
-               calendar = resourceCalendar == null ? assignment.getTask().getEffectiveCalendar() : resourceCalendar;
-            }
+            ProjectCalendar calendar = assignment.getEffectiveCalendar();
 
             for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
             {
@@ -289,7 +278,7 @@ public class ResourceAssignmentFactory
       {
          if (assignment.getVariableRateUnits() == null)
          {
-            Duration workingDays = assignment.getCalendar().getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.DAYS);
+            Duration workingDays = assignment.getEffectiveCalendar().getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.DAYS);
             double units = NumberHelper.getDouble(assignment.getUnits());
             double unitsPerDayAsMinutes = (units * 60) / (workingDays.getDuration() * 100);
             workPerDay = Duration.getInstance(unitsPerDayAsMinutes, TimeUnit.MINUTES);

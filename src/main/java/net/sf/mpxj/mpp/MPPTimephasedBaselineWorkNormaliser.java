@@ -42,7 +42,7 @@ public class MPPTimephasedBaselineWorkNormaliser extends MPPAbstractTimephasedWo
 {
    @Override protected ProjectCalendar getCalendar(ResourceAssignment assignment)
    {
-      return assignment.getParentFile().getBaselineCalendar();
+      return assignment.getEffectiveCalendar();
    }
 
    /**

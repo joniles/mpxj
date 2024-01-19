@@ -1100,7 +1100,7 @@ public class TimephasedWorkSegmentTest
    {
       ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
-      ProjectCalendar calendar = assignment.getCalendar();
+      ProjectCalendar calendar = assignment.getEffectiveCalendar();
       List<TimephasedWork> assignments = (complete ? assignment.getTimephasedActualWork() : assignment.getTimephasedWork());
       ArrayList<Duration> durationList = m_timephased.segmentWork(calendar, assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);

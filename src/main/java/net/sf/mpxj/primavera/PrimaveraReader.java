@@ -1747,9 +1747,9 @@ final class PrimaveraReader
             Duration remainingWork = assignment.getRemainingWork();
             Duration actualRegularWork = row.getDuration("act_reg_qty");
             Duration actualOvertimeWork = assignment.getActualOvertimeWork();
-            Duration actualWork = Duration.add(actualRegularWork, actualOvertimeWork, task.getEffectiveCalendar());
+            Duration actualWork = Duration.add(actualRegularWork, actualOvertimeWork, assignment.getEffectiveCalendar());
             assignment.setActualWork(actualWork);
-            Duration totalWork = Duration.add(actualWork, remainingWork, task.getEffectiveCalendar());
+            Duration totalWork = Duration.add(actualWork, remainingWork, assignment.getEffectiveCalendar());
             assignment.setWork(totalWork);
 
             // calculate cost
