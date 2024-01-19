@@ -69,7 +69,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
 
    protected ProjectCalendar getCalendar(ResourceAssignment assignment)
    {
-      return assignment.getParentFile().getBaselineCalendar();
+      return assignment.getEffectiveCalendar();
    }
 
    /**
