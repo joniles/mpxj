@@ -344,15 +344,11 @@ final class TimephasedDataFactory
             long workThisPeriodInMinutes = currentCumulativeWorkInMinutes - previousTotalWorkInMinutes;
             totalWork += workThisPeriodInMinutes;
 
-            double workingDays = calendar.getWork(blockStartDate, blockEndDate, TimeUnit.DAYS).getDuration();
-            double amountPerDay = workingDays == 0.0 ? 0.0 : workThisPeriodInMinutes / workingDays;
-
             TimephasedWork work = new TimephasedWork();
             work.setStart(blockStartDate);
             work.setFinish(blockEndDate);
             work.setTotalAmount(Duration.getInstance(workThisPeriodInMinutes, TimeUnit.MINUTES));
             work.setModified(workThisPeriodInMinutes != expectedWorkThisPeriodInMinutes);
-            work.setAmountPerDay(Duration.getInstance(amountPerDay, TimeUnit.MINUTES));
             list.add(work);
 
             previousTotalWorkInMinutes = currentCumulativeWorkInMinutes;
@@ -365,6 +361,8 @@ final class TimephasedDataFactory
       {
          return null;
       }
+
+      calculateAmountPerDay(calendar, list);
 
       return new DefaultTimephasedWorkContainer(assignment, normaliser, list, true);
    }
