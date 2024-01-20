@@ -690,7 +690,7 @@
 			<action dev="joniles" type="update">Updated PMXML schema to version 19.12.</action>
 			<action dev="joniles" type="update">Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.</action>
 			<action dev="joniles" type="update">Updated the getPopulatedFields methods to ignore fields with default values.</action>
-			<action dev="joniles" type="update">Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias "Resource ID" when reading PMXML and XER files, or from a P^ database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).</action>
+			<action dev="joniles" type="update">Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias "Resource ID" when reading PMXML and XER files, or from a P6 database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).</action>
 			<action dev="joniles" type="update">Populate the Resource ID with the value read from a P6 schedule when writing a PMXML file.</action>
 			<action dev="joniles" type="update">Ensure that the hours per day, week, month and year attributes are read from and written to PMXML files.</action>
 			<action dev="joniles" type="update">Fix an issue causing the hours per day calendar attribute to be read inaccurately from XER files and P6 databases.</action>
@@ -700,7 +700,7 @@
 		<release date="2020-11-24" version="8.3.3">
 			<action dev="joniles" type="add">Added cost rate table support when reading from and writing to PMXML files.</action>
 			<action dev="joniles" type="add">Added a getPopulatedFields method to the TaskContainer, ResourceContainer and ResourceAssignmentContainer classes. This will retrieve the set of fields which are populated with a non-null value across the whole project for Tasks, Resources, and ResourceAssignments respectively. </action>
-			<action dev="joniles" type="add">Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.</action>
+			<action dev="joniles" type="add">Add START_ON, FINISH_ON constraint types. § MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.</action>
 			<action dev="joniles" type="update">Improve handling of cost rate tables and availability tables when writing to an MSPDI file.</action>
 			<action dev="joniles" type="update">Handle P6 databases and XER files with user defined fields of type FT_FLOAT.</action>
 			<action dev="joniles" type="update">Align invalid XER record behaviour with P6.</action>
