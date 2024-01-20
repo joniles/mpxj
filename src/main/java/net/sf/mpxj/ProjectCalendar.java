@@ -817,21 +817,22 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                //
                // We have fewer hours to allocate than there are working hours
                // in this day. We need to calculate the time of day at which
-               // our work ends.
+               // our work starts.
                //
-               ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(cal), null, null);
+               List<LocalTimeRange> ranges = new ArrayList(getRanges(LocalDateHelper.getLocalDate(cal), null, null));
+               Collections.reverse(ranges);
 
                //
                // Now we have the range of working hours for this day,
                // step through it to work out the end point
                //
-               LocalTime endTime = null;
-               LocalTime currentDateStartTime = LocalTimeHelper.getLocalTime(currentDate);
-               boolean firstRange = true;
+               LocalTime startTime = null;
+               LocalTime currentDateEndTime = LocalTimeHelper.getLocalTime(currentDate);
+               boolean lastRange = true;
                for (LocalTimeRange range : ranges)
                {
                   //
-                  // Skip this range if its end is before our start time
+                  // Skip this range if our end time is before the range start
                   //
                   LocalTime rangeStart = range.getStart();
                   LocalTime rangeEnd = range.getEnd();
@@ -841,20 +842,20 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                      continue;
                   }
 
-                  if (firstRange && rangeEnd != LocalTime.MIDNIGHT && rangeEnd.isBefore(currentDateStartTime))
+                  if (currentDateEndTime.isBefore(rangeStart))
                   {
                      continue;
                   }
 
                   //
-                  // Move the start of the range if our current start is
-                  // past the range start
+                  // Move the end of the range if our current end is
+                  // before the range end
                   //
-                  if (firstRange && rangeStart.isBefore(currentDateStartTime))
+                  if (lastRange && rangeEnd.isAfter(currentDateEndTime))
                   {
-                     rangeStart = currentDateStartTime;
+                     rangeEnd = currentDateEndTime;
                   }
-                  firstRange = false;
+                  lastRange = false;
 
                   long rangeMilliseconds = LocalTimeHelper.getMillisecondsInRange(rangeStart, rangeEnd);
                   if (remainingMilliseconds > rangeMilliseconds)
@@ -865,11 +866,11 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   {
                      if (remainingMilliseconds == rangeMilliseconds)
                      {
-                        endTime = rangeEnd;
+                        startTime = rangeStart;
                      }
                      else
                      {
-                        endTime = rangeStart.plus(remainingMilliseconds, ChronoUnit.MILLIS);
+                        startTime = rangeEnd.minus(remainingMilliseconds, ChronoUnit.MILLIS);
                         returnNextWorkStart = false;
                      }
                      remainingMilliseconds = 0;
@@ -877,7 +878,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   }
                }
 
-               cal = LocalTimeHelper.setEndTime(cal, endTime);
+               cal = LocalTimeHelper.setEndTime(cal, startTime);
             }
          }
       }
