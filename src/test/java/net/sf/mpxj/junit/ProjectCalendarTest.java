@@ -681,34 +681,34 @@ public class ProjectCalendarTest
       LocalDateTime startDate = LocalDateTime.of(2003, 10, 9, 17, 0);
 
       //
-      // Add one 8 hour day
+      // Subtract one 8 hour day
       //
       Duration duration = Duration.getInstance(-8, TimeUnit.HOURS);
       LocalDateTime endDate = cal.getDate(startDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 9, 0), endDate);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 8, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 10, 9, 0), endDate);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 8, 0), endDate);
 
       //
-      // Add two 8 hour days
+      // Subtract two 8 hour days
       //
-      duration = Duration.getInstance(16, TimeUnit.HOURS);
+      duration = Duration.getInstance(-16, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 10, 17, 0), endDate);
+      assertEquals(LocalDateTime.of(2003, 10, 8, 8, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 13, 8, 0), endDate);
+      assertEquals(LocalDateTime.of(2003, 10, 8, 8, 0), endDate);
 
       //
-      // Add three 8 hour days which span a weekend
+      // Subtract five 8 hour days which span a weekend
       //
-      duration = Duration.getInstance(24, TimeUnit.HOURS);
+      duration = Duration.getInstance(-40, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 13, 17, 0), endDate);
+      assertEquals(LocalDateTime.of(2003, 10, 3, 8, 0), endDate);
       endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 14, 8, 0), endDate);
+      assertEquals(LocalDateTime.of(2003, 10, 3, 8, 0), endDate);
 
       //
-      // Add 9 hours from the start of a day
+      // Subtract 9 hours from the end of a day
       //
       duration = Duration.getInstance(9, TimeUnit.HOURS);
       endDate = cal.getDate(startDate, duration, false);
