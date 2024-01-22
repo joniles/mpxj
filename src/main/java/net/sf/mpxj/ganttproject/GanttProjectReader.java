@@ -652,7 +652,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       else
       {
          mpxjTask.setStart(gpTask.getStart());
-         mpxjTask.setFinish(m_mpxjCalendar.getDate(gpTask.getStart(), mpxjTask.getDuration(), false));
+         mpxjTask.setFinish(m_mpxjCalendar.getDate(gpTask.getStart(), mpxjTask.getDuration()));
       }
 
       mpxjTask.setConstraintDate(gpTask.getThirdDate());

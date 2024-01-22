@@ -981,7 +981,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
                   //partial day cost amount
 
                   int numActualDaysUsed = (int) Math.ceil(getActualCost().doubleValue() / standardAmountPerDay);
-                  LocalDateTime actualWorkFinish = cal.getDate(getStart(), Duration.getInstance(numActualDaysUsed, TimeUnit.DAYS), false);
+                  LocalDateTime actualWorkFinish = cal.getDate(getStart(), Duration.getInstance(numActualDaysUsed, TimeUnit.DAYS));
 
                   double partialDayActualAmount = getActualCost().doubleValue() % standardAmountPerDay;
 
@@ -1066,7 +1066,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    {
       TimephasedCost cost = new TimephasedCost();
       cost.setStart(start);
-      cost.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS), false));
+      cost.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS)));
       cost.setAmountPerDay(Double.valueOf(totalAmount));
       cost.setTotalAmount(Double.valueOf(totalAmount));
 
@@ -1121,7 +1121,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
       if (numStandardAmountDays > 0)
       {
-         LocalDateTime finishStandardBlock = calendar.getDate(start, Duration.getInstance(numStandardAmountDays, TimeUnit.DAYS), false);
+         LocalDateTime finishStandardBlock = calendar.getDate(start, Duration.getInstance(numStandardAmountDays, TimeUnit.DAYS));
 
          TimephasedCost standardBlock = new TimephasedCost();
          standardBlock.setAmountPerDay(Double.valueOf(standardAmountPerDay));
@@ -1141,7 +1141,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
          nextBlock.setAmountPerDay(Double.valueOf(amountForLastDay));
          nextBlock.setTotalAmount(Double.valueOf(amountForLastDay));
          nextBlock.setStart(start);
-         nextBlock.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS), false));
+         nextBlock.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS)));
 
          result.add(nextBlock);
       }

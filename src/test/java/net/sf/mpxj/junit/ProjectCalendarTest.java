@@ -501,45 +501,35 @@ public class ProjectCalendarTest
       // Add one 8 hour day
       //
       Duration duration = Duration.getInstance(8, TimeUnit.HOURS);
-      LocalDateTime endDate = cal.getDate(startDate, duration, false);
+      LocalDateTime endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 17, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 10, 8, 0), endDate);
 
       //
       // Add two 8 hour days
       //
       duration = Duration.getInstance(16, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 10, 17, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 13, 8, 0), endDate);
 
       //
       // Add three 8 hour days which span a weekend
       //
       duration = Duration.getInstance(24, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 13, 17, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 14, 8, 0), endDate);
 
       //
       // Add 9 hours from the start of a day
       //
       duration = Duration.getInstance(9, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 10, 9, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 10, 9, 0), endDate);
 
       //
       // Add 1 hour from the start of a day
       //
       duration = Duration.getInstance(1, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 9, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 9, 0), endDate);
 
       //
@@ -547,9 +537,7 @@ public class ProjectCalendarTest
       //
       startDate = LocalDateTime.of(2003, 10, 9, 9, 0);
       duration = Duration.getInstance(1, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 10, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 10, 0), endDate);
 
       //
@@ -557,9 +545,7 @@ public class ProjectCalendarTest
       //
       startDate = LocalDateTime.of(2003, 10, 9, 11, 30);
       duration = Duration.getInstance(1, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 13, 30), endDate);
-      endDate = cal.getDate(startDate, duration, true);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 13, 30), endDate);
 
       //
@@ -567,9 +553,7 @@ public class ProjectCalendarTest
       //
       startDate = LocalDateTime.of(2003, 10, 9, 13, 0);
       duration = Duration.getInstance(1, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 14, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 14, 0), endDate);
 
       //
@@ -577,9 +561,7 @@ public class ProjectCalendarTest
       //
       startDate = LocalDateTime.of(2003, 10, 9, 14, 0);
       duration = Duration.getInstance(1, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 15, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 15, 0), endDate);
 
       //
@@ -587,50 +569,40 @@ public class ProjectCalendarTest
       //
       startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(4, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 12, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 13, 0), endDate);
 
       //
       // Full second range
       //
       startDate = LocalDateTime.of(2003, 10, 9, 13, 0);
       duration = Duration.getInstance(4, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 17, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 10, 8, 0), endDate);
 
       //
       // Offset full first range
       //
       startDate = LocalDateTime.of(2003, 10, 9, 9, 0);
       duration = Duration.getInstance(3, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 12, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 13, 0), endDate);
 
       //
       // Offset full second range
       //
       startDate = LocalDateTime.of(2003, 10, 9, 14, 0);
       duration = Duration.getInstance(3, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 17, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 10, 8, 0), endDate);
 
       //
       // Cross weekend
       //
       startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(24, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 13, 17, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 14, 8, 0), endDate);
 
       //
       // Make Friday 10th a non-working day
@@ -642,10 +614,8 @@ public class ProjectCalendarTest
       //
       startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(24, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 14, 17, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 15, 8, 0), endDate);
 
       //
       // Make Saturday 11th a working day
@@ -658,20 +628,16 @@ public class ProjectCalendarTest
       //
       startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(24, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 14, 12, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 14, 13, 0), endDate);
 
       //
       // Make the start date a non-working day
       //
       startDate = LocalDateTime.of(2003, 10, 12, 8, 0);
       duration = Duration.getInstance(8, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
+      endDate = cal.getDate(startDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 13, 17, 0), endDate);
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals(LocalDateTime.of(2003, 10, 14, 8, 0), endDate);
    }
 
    @Test public void testGetDateWithNegativeDuration()
@@ -684,45 +650,35 @@ public class ProjectCalendarTest
       // Subtract one 8 hour day
       //
       Duration duration = Duration.getInstance(-8, TimeUnit.HOURS);
-      LocalDateTime startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 8, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      LocalDateTime startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 8, 0), startDate);
 
       //
       // Subtract two 8 hour days
       //
       duration = Duration.getInstance(-16, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 8, 8, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 8, 8, 0), startDate);
 
       //
       // Subtract five 8 hour days which span a weekend
       //
       duration = Duration.getInstance(-40, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 3, 8, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 3, 8, 0), startDate);
 
       //
       // Subtract 9 hours from the end of a day
       //
       duration = Duration.getInstance(-9, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 8, 16, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 8, 16, 0), startDate);
 
       //
       // Subtract 1 hour from the end of a day
       //
       duration = Duration.getInstance(-1, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 16, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 16, 0), startDate);
 
       //
@@ -730,9 +686,7 @@ public class ProjectCalendarTest
       //
       endDate = LocalDateTime.of(2003, 10, 9, 16, 0);
       duration = Duration.getInstance(-1, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 15, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 15, 0), startDate);
 
       //
@@ -740,9 +694,7 @@ public class ProjectCalendarTest
       //
       endDate = LocalDateTime.of(2003, 10, 9, 13, 30);
       duration = Duration.getInstance(-1, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 11, 30), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 11, 30), startDate);
 
       //
@@ -750,9 +702,7 @@ public class ProjectCalendarTest
       //
       endDate = LocalDateTime.of(2003, 10, 9, 12, 0);
       duration = Duration.getInstance(-1, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 11, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 11, 0), startDate);
 
       //
@@ -760,9 +710,7 @@ public class ProjectCalendarTest
       //
       endDate = LocalDateTime.of(2003, 10, 9, 11, 0);
       duration = Duration.getInstance(-1, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 10, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 10, 0), startDate);
 
       //
@@ -770,9 +718,7 @@ public class ProjectCalendarTest
       //
       endDate = LocalDateTime.of(2003, 10, 9, 12, 0);
       duration = Duration.getInstance(-4, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 8, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 8, 0), startDate);
 
       //
@@ -780,9 +726,7 @@ public class ProjectCalendarTest
       //
       endDate = LocalDateTime.of(2003, 10, 9, 17, 0);
       duration = Duration.getInstance(-4, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 13, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 13, 0), startDate);
 
       //
@@ -790,9 +734,7 @@ public class ProjectCalendarTest
       //
       endDate = LocalDateTime.of(2003, 10, 9, 11, 0);
       duration = Duration.getInstance(-3, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 8, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 8, 0), startDate);
 
       //
@@ -800,9 +742,7 @@ public class ProjectCalendarTest
       //
       endDate = LocalDateTime.of(2003, 10, 9, 16, 0);
       duration = Duration.getInstance(-3, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 9, 13, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 9, 13, 0), startDate);
 
       //
@@ -810,9 +750,7 @@ public class ProjectCalendarTest
       //
       endDate = LocalDateTime.of(2003, 10, 6, 9, 0);
       duration = Duration.getInstance(-24, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 1, 9, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 1, 9, 0), startDate);
 
       //
@@ -825,9 +763,7 @@ public class ProjectCalendarTest
       //
       endDate = LocalDateTime.of(2003, 10, 6, 9, 0);
       duration = Duration.getInstance(-24, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 9, 30, 9, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 9, 30, 9, 0), startDate);
 
       //
@@ -841,9 +777,7 @@ public class ProjectCalendarTest
       //
       endDate = LocalDateTime.of(2003, 10, 6, 9, 0);
       duration = Duration.getInstance(-24, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 9, 30, 14, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 9, 30, 14, 0), startDate);
 
       //
@@ -851,9 +785,7 @@ public class ProjectCalendarTest
       //
       endDate = LocalDateTime.of(2003, 10, 12, 8, 0);
       duration = Duration.getInstance(-8, TimeUnit.HOURS);
-      startDate = cal.getDate(endDate, duration, false);
-      assertEquals(LocalDateTime.of(2003, 10, 10, 8, 0), startDate);
-      startDate = cal.getDate(endDate, duration, true);
+      startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 10, 8, 0), startDate);
    }
 

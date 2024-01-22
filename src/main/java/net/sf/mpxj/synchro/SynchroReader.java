@@ -330,7 +330,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
             task.setStart(row.getDate("PLANNED_START"));
             if (task.getStart() != null && task.getDuration() != null)
             {
-               task.setFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getDuration(), false));
+               task.setFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getDuration()));
             }
             break;
          }

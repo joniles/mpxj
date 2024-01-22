@@ -584,13 +584,32 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param duration duration
     * @param returnNextWorkStart if set to true will return start of next working period
     * @return end date
+    * @deprecated use getDate method without the "returnNextWorkStart" boolean argument
     */
-   public LocalDateTime getDate(LocalDateTime startDate, Duration duration, boolean returnNextWorkStart)
+   @Deprecated public LocalDateTime getDate(LocalDateTime startDate, Duration duration, boolean returnNextWorkStart)
    {
-      return duration.getDuration() < 0 ? getDateFromNegativeDuration(startDate, duration, returnNextWorkStart) : getDateFromPositiveDuration(startDate, duration, returnNextWorkStart);
+      LocalDateTime cal = duration.getDuration() < 0 ? getDateFromNegativeDuration(startDate, duration) : getDateFromPositiveDuration(startDate, duration);
+      if (returnNextWorkStart)
+      {
+         cal = getNextWorkStart(cal);
+      }
+      return cal;
    }
 
-   private LocalDateTime getDateFromPositiveDuration(LocalDateTime startDate, Duration duration, boolean returnNextWorkStart)
+   /**
+    * Given a date and a duration, this method calculates the resulting date when the duration is added.
+    * This method handles both positive and negative durations.
+    *
+    * @param date date
+    * @param duration duration
+    * @return date plus duration
+    */
+   public LocalDateTime getDate(LocalDateTime date, Duration duration)
+   {
+      return duration.getDuration() < 0 ? getDateFromNegativeDuration(date, duration) : getDateFromPositiveDuration(date, duration);
+   }
+
+   private LocalDateTime getDateFromPositiveDuration(LocalDateTime startDate, Duration duration)
    {
       ProjectProperties properties = getParentFile().getProjectProperties();
       long remainingMilliseconds = Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
@@ -725,7 +744,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                      else
                      {
                         endTime = rangeStart.plus(remainingMilliseconds, ChronoUnit.MILLIS);
-                        returnNextWorkStart = false;
                      }
                      remainingMilliseconds = 0;
                      break;
@@ -744,15 +762,11 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       }
 
       m_getDateLastResult = cal;
-      if (returnNextWorkStart)
-      {
-         cal = updateToNextWorkStart(cal);
-      }
 
       return cal;
    }
 
-   private LocalDateTime getDateFromNegativeDuration(LocalDateTime startDate, Duration duration, boolean returnNextWorkStart)
+   private LocalDateTime getDateFromNegativeDuration(LocalDateTime startDate, Duration duration)
    {
       ProjectProperties properties = getParentFile().getProjectProperties();
       long remainingMilliseconds = -Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
@@ -766,8 +780,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          // working hours remain
          //
          LocalDateTime currentDate = cal;
-         LocalDateTime endCal = currentDate;
-         LocalDateTime currentDateStart = LocalDateTimeHelper.getDayStartDate(endCal);
+         LocalDateTime currentDateStart = LocalDateTimeHelper.getDayStartDate(currentDate);
          long currentDateWorkingMilliseconds = Math.round(getWork(currentDateStart, currentDate, TimeUnit.MINUTES).getDuration() * 60000.0);
 
          //
@@ -819,7 +832,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                // in this day. We need to calculate the time of day at which
                // our work starts.
                //
-               List<LocalTimeRange> ranges = new ArrayList(getRanges(LocalDateHelper.getLocalDate(cal), null, null));
+               List<LocalTimeRange> ranges = new ArrayList<>(getRanges(LocalDateHelper.getLocalDate(cal), null, null));
                Collections.reverse(ranges);
 
                //
@@ -871,7 +884,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                      else
                      {
                         startTime = rangeEnd.minus(remainingMilliseconds, ChronoUnit.MILLIS);
-                        returnNextWorkStart = false;
                      }
                      remainingMilliseconds = 0;
                      break;
@@ -888,24 +900,21 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       {
          cal = LocalDateTime.of(cal.toLocalDate(), LocalTime.of(cal.getHour(), cal.getMinute(), cal.getSecond()));
       }
-      
-      if (returnNextWorkStart)
-      {
-         cal = updateToNextWorkStart(cal);
-      }
 
       return cal;
    }
 
+
    /**
-    * This method finds the start of the next working period.
+    * Utility method to retrieve the next working date start time, given
+    * a date and time as a starting point.
     *
-    * @param cal current Calendar instance
-    * @return next work start
+    * @param date date and time start point
+    * @return date and time of next work start
     */
-   private LocalDateTime updateToNextWorkStart(LocalDateTime cal)
+   public LocalDateTime getNextWorkStart(LocalDateTime date)
    {
-      LocalDateTime originalDate = cal;
+      LocalDateTime originalDate = date;
 
       //
       // Find the date ranges for the current day
@@ -917,7 +926,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          // Do we have a start time today?
          //
-         LocalTime calTime = cal.toLocalTime();
+         LocalTime calTime = date.toLocalTime();
          LocalTime startTime = null;
          for (LocalTimeRange range : ranges)
          {
@@ -948,35 +957,36 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             int nonWorkingDayCount = 0;
             do
             {
-               cal = cal.plusDays(1);
-               day = cal.getDayOfWeek();
+               date = date.plusDays(1);
+               day = date.getDayOfWeek();
                ++nonWorkingDayCount;
                if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
                {
-                  cal = originalDate;
+                  date = originalDate;
                   break;
                }
             }
-            while (!isWorkingDate(LocalDateHelper.getLocalDate(cal), day));
+            while (!isWorkingDate(LocalDateHelper.getLocalDate(date), day));
 
-            startTime = getStartTime(LocalDateHelper.getLocalDate(cal));
+            startTime = getStartTime(LocalDateHelper.getLocalDate(date));
          }
 
-         cal = LocalTimeHelper.setTime(cal, startTime);
+         date = LocalTimeHelper.setTime(date, startTime);
       }
 
-      return cal;
+      return date;
    }
 
    /**
-    * This method finds the finish of the previous working period.
+    * Utility method to retrieve the previous working date finish time, given
+    * a date and time as a starting point.
     *
-    * @param cal current Calendar instance
-    * @return previous work finish
+    * @param date date and time start point
+    * @return date and time of previous work finish
     */
-   private LocalDateTime updateToPreviousWorkFinish(LocalDateTime cal)
+   public LocalDateTime getPreviousWorkFinish(LocalDateTime date)
    {
-      LocalDateTime originalDate = cal;
+      LocalDateTime originalDate = date;
 
       //
       // Find the date ranges for the current day
@@ -987,7 +997,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          // Do we have a start time today?
          //
-         LocalTime calTime = LocalTimeHelper.getLocalTime(cal);
+         LocalTime calTime = LocalTimeHelper.getLocalTime(date);
          LocalTime finishTime = null;
          for (LocalTimeRange range : ranges)
          {
@@ -1008,48 +1018,24 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             int nonWorkingDayCount = 0;
             do
             {
-               cal = cal.minusDays(1);
-               day = cal.getDayOfWeek();
+               date = date.minusDays(1);
+               day = date.getDayOfWeek();
                ++nonWorkingDayCount;
                if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
                {
-                  cal = originalDate;
+                  date = originalDate;
                   break;
                }
             }
-            while (!isWorkingDate(LocalDateHelper.getLocalDate(cal), day));
+            while (!isWorkingDate(LocalDateHelper.getLocalDate(date), day));
 
-            finishTime = getFinishTime(LocalDateHelper.getLocalDate(cal));
+            finishTime = getFinishTime(LocalDateHelper.getLocalDate(date));
          }
 
-         cal = LocalTimeHelper.setEndTime(cal, finishTime);
+         date = LocalTimeHelper.setEndTime(date, finishTime);
       }
 
-      return cal;
-   }
-
-   /**
-    * Utility method to retrieve the next working date start time, given
-    * a date and time as a starting point.
-    *
-    * @param date date and time start point
-    * @return date and time of next work start
-    */
-   public LocalDateTime getNextWorkStart(LocalDateTime date)
-   {
-      return updateToNextWorkStart(date);
-   }
-
-   /**
-    * Utility method to retrieve the previous working date finish time, given
-    * a date and time as a starting point.
-    *
-    * @param date date and time start point
-    * @return date and time of previous work finish
-    */
-   public LocalDateTime getPreviousWorkFinish(LocalDateTime date)
-   {
-      return updateToPreviousWorkFinish(date);
+      return date;
    }
 
    /**

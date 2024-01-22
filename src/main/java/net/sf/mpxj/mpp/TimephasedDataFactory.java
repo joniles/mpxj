@@ -111,7 +111,7 @@ final class TimephasedDataFactory
          }
          else
          {
-            start = calendar.getDate(startDate, startWork, true);
+            start = calendar.getNextWorkStart(calendar.getDate(startDate, startWork));
          }
 
          TimephasedWork assignment = new TimephasedWork();
@@ -120,7 +120,7 @@ final class TimephasedDataFactory
 
          if (previousAssignment != null)
          {
-            LocalDateTime finish = calendar.getDate(startDate, startWork, false);
+            LocalDateTime finish = calendar.getDate(startDate, startWork);
             previousAssignment.setFinish(finish);
             if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
             {
@@ -138,7 +138,7 @@ final class TimephasedDataFactory
       if (previousAssignment != null)
       {
          Duration finishWork = Duration.getInstance(finishTime / 80, TimeUnit.MINUTES);
-         LocalDateTime finish = calendar.getDate(startDate, finishWork, false);
+         LocalDateTime finish = calendar.getDate(startDate, finishWork);
          previousAssignment.setFinish(finish);
          if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
          {
@@ -217,7 +217,7 @@ final class TimephasedDataFactory
             }
             else
             {
-               start = calendar.getDate(offset, blockDuration, true);
+               start = calendar.getNextWorkStart(calendar.getDate(offset, blockDuration));
             }
 
             double currentCumulativeWork = MPPUtility.getDouble(data, index + 4);
@@ -242,7 +242,7 @@ final class TimephasedDataFactory
 
             if (previousAssignment != null)
             {
-               LocalDateTime finish = calendar.getDate(offset, blockDuration, false);
+               LocalDateTime finish = calendar.getDate(offset, blockDuration);
                previousAssignment.setFinish(finish);
                if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
                {
@@ -262,7 +262,7 @@ final class TimephasedDataFactory
             double time = MPPUtility.getInt(data, 24);
             time /= 80;
             Duration blockDuration = Duration.getInstance(time, TimeUnit.MINUTES);
-            LocalDateTime finish = calendar.getDate(offset, blockDuration, false);
+            LocalDateTime finish = calendar.getDate(offset, blockDuration);
             previousAssignment.setFinish(finish);
             if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
             {
