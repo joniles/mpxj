@@ -342,7 +342,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             continue;
          }
 
-         ProjectFile parentProject = map.get(project.getObjectId());
+         ProjectFile parentProject = map.get(Integer.valueOf(project.getObjectId()));
          if (parentProject == null)
          {
             continue;
@@ -351,7 +351,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          int baselineIndex = 0;
          for (ProjectListType.Project.BaselineProject baseline : baselineProjects)
          {
-            ProjectFile baselineProject = map.get(baseline.getObjectId());
+            ProjectFile baselineProject = map.get(Integer.valueOf(baseline.getObjectId()));
             if (baselineProject == null)
             {
                continue;
