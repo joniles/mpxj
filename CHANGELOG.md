@@ -1,6 +1,17 @@
 # Changelog
 
-## 12.5.1 (unreleased)
+## 12.6.0 (unreleased)
+* Updated PMXML schema to version 23.12.
+* Ensure that baselines in PMXML files written by Oracle Primavera Cloud are read.
+* Fix an issue reading certain XER files and P6 databases where activities lost the relationship with their parent WBS entry.
+* Added `ResourceAssignment.getEffectiveCalendar` method.
+* Deprecated `ResourceAssignment.getCalendar` method, use `getEffectiveCalendar` method instead.
+* Improved reading timephased baseline work from MPP files.
+* Added new versions of the `TimephasedUtility.segmentBaselineWork` and `segmentBaselineCost` methods which take a `ProjectCalendar` instance as the first argument rather than a `ProjectFile` instance.
+* Deprecated the `TimephasedUtility.segmentBaselineWork` and `segmentBaselineCost` methods which take a `ProjectFile` instance as the first argument.
+* Added a new version of the `ProjectCalendar.getDate()` method which just takes a date and a duration as its arguments. This method handles both positive and negative durations.
+* Marked the original version of the `ProjectCalendar.getDate()` method as deprecated. Use the new version instead.
+* Improve recognition of task splits when reading MPP and MSPDI files.
 
 ## 12.5.0 (2023-12-18)
 * Add support for the following Resource Assignment attributes: Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish.
@@ -677,7 +688,7 @@
 * Updated PMXML schema to version 19.12.
 * Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.
 * Updated the getPopulatedFields methods to ignore fields with default values.
-* Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias "Resource ID" when reading PMXML and XER files, or from a P^ database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).
+* Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias "Resource ID" when reading PMXML and XER files, or from a P6 database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).
 * Populate the Resource ID with the value read from a P6 schedule when writing a PMXML file.
 * Ensure that the hours per day, week, month and year attributes are read from and written to PMXML files.
 * Fix an issue causing the hours per day calendar attribute to be read inaccurately from XER files and P6 databases.
@@ -687,7 +698,7 @@
 ## 8.3.3 (2020-11-24)
 * Added cost rate table support when reading from and writing to PMXML files.
 * Added a getPopulatedFields method to the TaskContainer, ResourceContainer and ResourceAssignmentContainer classes. This will retrieve the set of fields which are populated with a non-null value across the whole project for Tasks, Resources, and ResourceAssignments respectively. 
-* Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.
+* Add START_ON, FINISH_ON constraint types. § MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.
 * Improve handling of cost rate tables and availability tables when writing to an MSPDI file.
 * Handle P6 databases and XER files with user defined fields of type FT_FLOAT.
 * Align invalid XER record behaviour with P6.
