@@ -216,7 +216,7 @@ public class ResourceAssignmentFactory
             if (!task.getMilestone() && !processedSplits.contains(task))
             {
                processedSplits.add(task);
-               splitFactory.processSplitData(task, timephasedActualWork, timephasedWork);
+               splitFactory.processSplitData(assignment, timephasedActualWork, timephasedWork);
             }
 
             createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);

@@ -1976,7 +1976,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             {
                workNormaliser.normalise(mpx, timephasedComplete);
                workNormaliser.normalise(mpx, timephasedPlanned);
-               splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
+               splitFactory.processSplitData(mpx, timephasedComplete, timephasedPlanned);
                raw = false;
             }
 
