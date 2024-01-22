@@ -1358,7 +1358,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                // The task has started, let's calculate the finish date using the planned start and duration
                //
                ProjectCalendar calendar = task.getEffectiveCalendar();
-               LocalDateTime finish = calendar.getDate(task.getPlannedStart(), duration, false);
+               LocalDateTime finish = calendar.getDate(task.getPlannedStart(), duration);
 
                //
                // Deal with an oddity where the finish date shows up as the

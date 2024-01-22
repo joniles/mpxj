@@ -5676,7 +5676,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
                double durationValue = (duration.getDuration() * percentComplete) / 100d;
                duration = Duration.getInstance(durationValue, duration.getUnits());
                ProjectCalendar calendar = getEffectiveCalendar();
-               value = calendar.getDate(actualStart, duration, getParentFile().getProjectConfig().getCompleteThroughIsNextWorkStart());
+               value = calendar.getDate(actualStart, duration);
+               if (getParentFile().getProjectConfig().getCompleteThroughIsNextWorkStart())
+               {
+                  value = calendar.getNextWorkStart(value);
+               }
             }
             break;
          }

@@ -1521,7 +1521,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                if (duration != null)
                {
                   ProjectCalendar calendar = task.getEffectiveCalendar();
-                  task.setFinish(calendar.getDate(startDate, duration, false));
+                  task.setFinish(calendar.getDate(startDate, duration));
                }
             }
          }

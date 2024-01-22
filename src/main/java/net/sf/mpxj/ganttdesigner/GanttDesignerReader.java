@@ -208,7 +208,7 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          //ganttTask.getU(); // Unknown
          //ganttTask.getVA(); // Valign
 
-         task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
+         task.setFinish(calendar.getDate(task.getStart(), task.getDuration()));
          m_taskMap.put(wbs, task);
 
          m_eventManager.fireTaskReadEvent(task);

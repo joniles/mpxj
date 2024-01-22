@@ -390,7 +390,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          task.setMilestone(true);
          LocalDateTime startDate = DatatypeConverter.getTimestamp(cBarData, 7);
          task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(LocalDateHelper.getLocalDate(startDate))));
-         task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
+         task.setFinish(calendar.getDate(task.getStart(), task.getDuration()));
       }
       else
       {
@@ -424,7 +424,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
             ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
             LocalDateTime startDate = DatatypeConverter.getTimestamp(cBarData, 5);
             task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(LocalDateHelper.getLocalDate(startDate))));
-            task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
+            task.setFinish(calendar.getDate(task.getStart(), task.getDuration()));
 
             if (resource != null)
             {

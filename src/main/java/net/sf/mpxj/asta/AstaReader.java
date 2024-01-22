@@ -648,12 +648,12 @@ final class AstaReader
 
       if (task.getEarlyStart() != null && task.getEarlyFinish() == null)
       {
-         task.setEarlyFinish(task.getEffectiveCalendar().getDate(task.getEarlyStart(), task.getDuration(), false));
+         task.setEarlyFinish(task.getEffectiveCalendar().getDate(task.getEarlyStart(), task.getDuration()));
       }
 
       if (task.getLateStart() != null && task.getLateFinish() == null)
       {
-         task.setLateFinish(task.getEffectiveCalendar().getDate(task.getLateStart(), task.getDuration(), false));
+         task.setLateFinish(task.getEffectiveCalendar().getDate(task.getLateStart(), task.getDuration()));
       }
 
       processConstraints(row, task);
