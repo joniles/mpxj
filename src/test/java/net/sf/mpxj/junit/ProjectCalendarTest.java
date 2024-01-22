@@ -640,6 +640,9 @@ public class ProjectCalendarTest
       assertEquals(LocalDateTime.of(2003, 10, 13, 17, 0), endDate);
    }
 
+   /**
+    * Simple tests to exercise the ProjectCalendar.getDate method with a negative duration.
+    */
    @Test public void testGetDateWithNegativeDuration()
    {
       ProjectFile file = new ProjectFile();

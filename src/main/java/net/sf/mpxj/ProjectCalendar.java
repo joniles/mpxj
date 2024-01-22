@@ -904,7 +904,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       return cal;
    }
 
-
    /**
     * Utility method to retrieve the next working date start time, given
     * a date and time as a starting point.

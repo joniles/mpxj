@@ -1364,14 +1364,14 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       }
       else
       {
-        if (resourceCalendar == null)
-        {
-           result = explicitTaskCalendar;
-        }
-        else
-        {
-           result = new CombinedCalendar(explicitTaskCalendar, resourceCalendar);
-        }
+         if (resourceCalendar == null)
+         {
+            result = explicitTaskCalendar;
+         }
+         else
+         {
+            result = new CombinedCalendar(explicitTaskCalendar, resourceCalendar);
+         }
       }
 
       return result;
