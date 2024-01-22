@@ -16,6 +16,7 @@
 			<action dev="joniles" type="update">Deprecated the `TimephasedUtility.segmentBaselineWork` and `segmentBaselineCost` methods which take a `ProjectFile` instance as the first argument.</action>
 			<action dev="joniles" type="update">Added a new version of the `ProjectCalendar.getDate()` method which just takes a date and a duration as its arguments. This method handles both positive and negative durations.</action>
 			<action dev="joniles" type="update">Marked the original version of the `ProjectCalendar.getDate()` method as deprecated. Use the new version instead.</action>
+			<action dev="joniles" type="update">Improve recognition of task splits when reading MPP and MSPDI files.</action>
 		</release>
 		<release date="2023-12-18" version="12.5.0">
 			<action dev="joniles" type="update">Add support for the following Resource Assignment attributes: Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish.</action>
