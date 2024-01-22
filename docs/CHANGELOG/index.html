@@ -291,9 +291,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1251-unreleased" class="md-nav__link">
+  <a href="#1261-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      12.5.1 (unreleased)
+      12.6.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1260-2024-01-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.6.0 (2024-01-22)
     </span>
   </a>
   
@@ -3656,9 +3665,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1251-unreleased" class="md-nav__link">
+  <a href="#1261-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      12.5.1 (unreleased)
+      12.6.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1260-2024-01-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.6.0 (2024-01-22)
     </span>
   </a>
   
@@ -5759,7 +5777,21 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1251-unreleased">12.5.1 (unreleased)</h2>
+<h2 id="1261-unreleased">12.6.1 (unreleased)</h2>
+<h2 id="1260-2024-01-22">12.6.0 (2024-01-22)</h2>
+<ul>
+<li>Updated PMXML schema to version 23.12.</li>
+<li>Ensure that baselines in PMXML files written by Oracle Primavera Cloud are read.</li>
+<li>Fix an issue reading certain XER files and P6 databases where activities lost the relationship with their parent WBS entry.</li>
+<li>Added <code>ResourceAssignment.getEffectiveCalendar</code> method.</li>
+<li>Deprecated <code>ResourceAssignment.getCalendar</code> method, use <code>getEffectiveCalendar</code> method instead.</li>
+<li>Improved reading timephased baseline work from MPP files.</li>
+<li>Added new versions of the <code>TimephasedUtility.segmentBaselineWork</code> and <code>segmentBaselineCost</code> methods which take a <code>ProjectCalendar</code> instance as the first argument rather than a <code>ProjectFile</code> instance.</li>
+<li>Deprecated the <code>TimephasedUtility.segmentBaselineWork</code> and <code>segmentBaselineCost</code> methods which take a <code>ProjectFile</code> instance as the first argument.</li>
+<li>Added a new version of the <code>ProjectCalendar.getDate()</code> method which just takes a date and a duration as its arguments. This method handles both positive and negative durations.</li>
+<li>Marked the original version of the <code>ProjectCalendar.getDate()</code> method as deprecated. Use the new version instead.</li>
+<li>Improve recognition of task splits when reading MPP and MSPDI files.</li>
+</ul>
 <h2 id="1250-2023-12-18">12.5.0 (2023-12-18)</h2>
 <ul>
 <li>Add support for the following Resource Assignment attributes: Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish.</li>
@@ -6512,7 +6544,7 @@
 <li>Updated PMXML schema to version 19.12.</li>
 <li>Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.</li>
 <li>Updated the getPopulatedFields methods to ignore fields with default values.</li>
-<li>Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias "Resource ID" when reading PMXML and XER files, or from a P^ database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).</li>
+<li>Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias "Resource ID" when reading PMXML and XER files, or from a P6 database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).</li>
 <li>Populate the Resource ID with the value read from a P6 schedule when writing a PMXML file.</li>
 <li>Ensure that the hours per day, week, month and year attributes are read from and written to PMXML files.</li>
 <li>Fix an issue causing the hours per day calendar attribute to be read inaccurately from XER files and P6 databases.</li>
@@ -6523,7 +6555,7 @@
 <ul>
 <li>Added cost rate table support when reading from and writing to PMXML files.</li>
 <li>Added a getPopulatedFields method to the TaskContainer, ResourceContainer and ResourceAssignmentContainer classes. This will retrieve the set of fields which are populated with a non-null value across the whole project for Tasks, Resources, and ResourceAssignments respectively. </li>
-<li>Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.</li>
+<li>Add START_ON, FINISH_ON constraint types. § MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.</li>
 <li>Improve handling of cost rate tables and availability tables when writing to an MSPDI file.</li>
 <li>Handle P6 databases and XER files with user defined fields of type FT_FLOAT.</li>
 <li>Align invalid XER record behaviour with P6.</li>
@@ -8017,6 +8049,8 @@
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
         </div>
         
       </main>
@@ -8045,7 +8079,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.cd18aaf1.min.js"></script>

@@ -1562,36 +1562,135 @@ file to determine the type of file written.</p>
 <li>PLANNER</li>
 <li>JSON</li>
 <li>SDEF</li>
+<li>XER</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Java</label><label for="__tabbed_1_2">C#</label><label for="__tabbed_1_3">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.convert</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.UniversalProjectReader</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.ProjectWriter</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.ProjectWriterUtility</span><span class="p">;</span>
 
-<span class="c1">// ...</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ConvertUniversal</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">convert</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">inputFile</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">outputFile</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">UniversalProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="n">inputFile</span><span class="p">);</span>
 
-<span class="n">UniversalProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
-<span class="n">ProjectFile</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="n">inputFile</span><span class="p">);</span>
-
-<span class="n">ProjectWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ProjectWriterUtility</span><span class="p">.</span><span class="na">getProjectWriter</span><span class="p">(</span><span class="n">outputFile</span><span class="p">);</span>
-<span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFile</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ProjectWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ProjectWriterUtility</span><span class="p">.</span><span class="na">getProjectWriter</span><span class="p">(</span><span class="n">outputFile</span><span class="p">);</span>
+<span class="w">        </span><span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFile</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer</span><span class="p">;</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">MpxjSamples.HowToConvert</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ConvertUniversal</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Convert</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">inputFile</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">outputFile</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">inputFile</span><span class="p">);</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ProjectWriterUtility</span><span class="p">.</span><span class="n">getProjectWriter</span><span class="p">(</span><span class="n">outputFile</span><span class="p">);</span>
+<span class="w">        </span><span class="n">writer</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFile</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">jpype</span>
+<span class="kn">import</span> <span class="nn">mpxj</span>
+
+<span class="n">jpype</span><span class="o">.</span><span class="n">startJVM</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">net.sf.mpxj.reader</span> <span class="kn">import</span> <span class="n">UniversalProjectReader</span>
+<span class="kn">from</span> <span class="nn">net.sf.mpxj.writer</span> <span class="kn">import</span> <span class="n">ProjectWriterUtility</span>
+
+<span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">UniversalProjectReader</span><span class="p">();</span>
+    <span class="n">project_file</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">input_file</span><span class="p">);</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">ProjectWriterUtility</span><span class="o">.</span><span class="n">getProjectWriter</span><span class="p">(</span><span class="n">output_file</span><span class="p">);</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">project_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">);</span>
+
+<span class="n">jpype</span><span class="o">.</span><span class="n">shutdownJVM</span><span class="p">()</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 <p>If you already know the file types you are converting between,
 you can use the specific Reader and Writer classes, as shown below.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.ProjectReader</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.ProjectWriter</span><span class="p">;</span>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Java</label><label for="__tabbed_2_2">C#</label><label for="__tabbed_2_3">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.convert</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.mpp.MPPReader</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.mpx.MPXWriter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.reader.ProjectReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.ProjectWriter</span><span class="p">;</span>
 
-<span class="c1">// ...</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ConvertMppToMpx</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">convert</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">inputFile</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">outputFile</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MPPReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="n">inputFile</span><span class="p">);</span>
 
-<span class="n">ProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MPPReader</span><span class="p">();</span>
-<span class="n">ProjectFile</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="n">inputFile</span><span class="p">);</span>
-
-<span class="n">ProjectWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MPXWriter</span><span class="p">();</span>
-<span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFile</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ProjectWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MPXWriter</span><span class="p">();</span>
+<span class="w">        </span><span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFile</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">net.sf.mpxj.mpp</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">net.sf.mpxj.mpx</span><span class="p">;</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">MpxjSamples.HowToConvert</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ConvertMppToMpx</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Convert</span><span class="p">(</span><span class="kt">string</span><span class="w"> </span><span class="n">inputFile</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">outputFile</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MPPReader</span><span class="p">();</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">inputFile</span><span class="p">);</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MPXWriter</span><span class="p">();</span>
+<span class="w">        </span><span class="n">writer</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFile</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">jpype</span>
+<span class="kn">import</span> <span class="nn">mpxj</span>
+
+<span class="n">jpype</span><span class="o">.</span><span class="n">startJVM</span><span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">net.sf.mpxj.mpp</span> <span class="kn">import</span> <span class="n">MPPReader</span>
+<span class="kn">from</span> <span class="nn">net.sf.mpxj.mpx</span> <span class="kn">import</span> <span class="n">MPXWriter</span>
+
+<span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">):</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">MPPReader</span><span class="p">()</span>
+    <span class="n">project_file</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">MPXWriter</span><span class="p">()</span>
+    <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">project_file</span><span class="p">,</span> <span class="n">output_file</span><span class="p">)</span>
+
+<span class="n">jpype</span><span class="o">.</span><span class="n">shutdownJVM</span><span class="p">()</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 
 
   
@@ -1604,6 +1703,8 @@ you can use the specific Reader and Writer classes, as shown below.</p>
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
         </div>
         
       </main>
@@ -1632,7 +1733,7 @@ you can use the specific Reader and Writer classes, as shown below.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.cd18aaf1.min.js"></script>

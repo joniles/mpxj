@@ -1,6 +1,8 @@
 # Changelog
 
-## 12.6.0 (unreleased)
+## 12.6.1 (unreleased)
+
+## 12.6.0 (2024-01-22)
 * Updated PMXML schema to version 23.12.
 * Ensure that baselines in PMXML files written by Oracle Primavera Cloud are read.
 * Fix an issue reading certain XER files and P6 databases where activities lost the relationship with their parent WBS entry.
