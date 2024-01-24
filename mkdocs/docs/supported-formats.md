@@ -43,10 +43,10 @@ file format.
 
 * **PRIMAVERA P6:** Primavera P6 is an industry-leading tool favoured
 by users with complex planning requirements. It can export project data in the
- form of XER or PMXML files, both of which MPXJ can read. It is also possible
+form of XER or PMXML files, both of which MPXJ can read. It is also possible
 for MPXJ to connect directly to the P6 database via JDBC to read project data.
-MPXJ can also write PMXML files  to allow data to be exported in a form which
-can be consumed by P6. The PMXML schema forms part of the P6 distribution
+MPXJ can also write PMXML and XER files  to allow data to be exported in a form
+which can be consumed by P6. The PMXML schema forms part of the P6 distribution
 media, which can be downloaded from the Oracle e-Delivery site.
 
 * **PRIMAVERA P3:** Primavera P3 (Primavera Project Planner) is the forerunner
