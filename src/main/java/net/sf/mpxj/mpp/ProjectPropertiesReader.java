@@ -99,6 +99,7 @@ public final class ProjectPropertiesReader
          ph.setDaysPerMonth(Integer.valueOf(props.getShort(Props.DAYS_PER_MONTH)));
          ph.setEditableActualCosts(props.getBoolean(Props.EDITABLE_ACTUAL_COSTS));
          ph.setHonorConstraints(!props.getBoolean(Props.HONOR_CONSTRAINTS));
+         ph.setBaselineCalendarName(props.getUnicodeString(Props.BASELINE_CALENDAR_NAME));
 
          PropertySet ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(SummaryInformation.DEFAULT_STREAM_NAME))));
          SummaryInformation summaryInformation = new SummaryInformation(ps);

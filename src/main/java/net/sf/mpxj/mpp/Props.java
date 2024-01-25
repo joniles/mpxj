@@ -374,6 +374,8 @@ class Props extends MPPComponent
    public static final Integer ASSIGNMENT_FIELD_MAP = Integer.valueOf(131095);
    public static final Integer ASSIGNMENT_FIELD_MAP2 = Integer.valueOf(50331671);
 
+   public static final Integer BASELINE_CALENDAR_NAME = Integer.valueOf(37753747);
+
    public static final Integer BASELINE_DATE = Integer.valueOf(37753749);
    public static final Integer BASELINE1_DATE = Integer.valueOf(37753750);
    public static final Integer BASELINE2_DATE = Integer.valueOf(37753751);
