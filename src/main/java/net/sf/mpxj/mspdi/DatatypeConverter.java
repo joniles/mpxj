@@ -1561,7 +1561,7 @@ public final class DatatypeConverter
     */
    public static String printUUID(UUID guid)
    {
-      return guid == null ? null : guid.toString();
+      return guid == null ? null : guid.toString().toUpperCase();
    }
 
    /**
