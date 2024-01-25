@@ -304,7 +304,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       properties.setAuthor(project.getAuthor());
       properties.setAutoAddNewResourcesAndTasks(BooleanHelper.getBoolean(project.isAutoAddNewResourcesAndTasks()));
       properties.setAutolink(BooleanHelper.getBoolean(project.isAutolink()));
-      properties.setBaselineCalendarName(project.getBaslineCalendar());
+      properties.setBaselineCalendarName(project.getBaselineCalendar());
       properties.setBaselineForEarnedValue(NumberHelper.getInteger(project.getBaselineForEarnedValue()));
       properties.setCategory(project.getCategory());
       properties.setCompany(project.getCompany());

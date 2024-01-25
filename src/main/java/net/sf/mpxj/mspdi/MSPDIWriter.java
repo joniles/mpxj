@@ -310,7 +310,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setAuthor(properties.getAuthor());
       project.setAutoAddNewResourcesAndTasks(Boolean.valueOf(properties.getAutoAddNewResourcesAndTasks()));
       project.setAutolink(Boolean.valueOf(properties.getAutolink()));
-      project.setBaslineCalendar(properties.getBaselineCalendarName());
+      project.setBaselineCalendar(properties.getBaselineCalendarName());
       project.setBaselineForEarnedValue(NumberHelper.getBigInteger(properties.getBaselineForEarnedValue()));
       project.setCalendarUID(m_projectFile.getDefaultCalendar() == null ? BigInteger.ONE : NumberHelper.getBigInteger(m_calendarMapper.getUniqueID(m_projectFile.getDefaultCalendar())));
       project.setCategory(properties.getCategory());
