@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.6.1">
+			<action dev="joniles" type="update">Added support for reading and writing the project property Baseline Calendar Name to and from MPP and MSPDI files.</action>
 		</release>
 		<release date="2024-01-22" version="12.6.0">
 			<action dev="joniles" type="update">Updated PMXML schema to version 23.12.</action>

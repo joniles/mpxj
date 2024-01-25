@@ -2286,6 +2286,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_ID_SUFFIX.getValue()] = "Activity ID Suffix";
       PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_ID_INCREMENT.getValue()] = "Activity ID Increment";
       PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY.getValue()] = "Activity ID Increment Based On Selected Activity";
+      PROJECT_COLUMNS_ARRAY[ProjectField.BASELINE_CALENDAR_NAME.getValue()] = "Baseline Calendar Name";
    }
 
    private static final Object[][] RESOURCES =

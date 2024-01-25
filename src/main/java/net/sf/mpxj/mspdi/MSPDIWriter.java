@@ -310,6 +310,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       project.setAuthor(properties.getAuthor());
       project.setAutoAddNewResourcesAndTasks(Boolean.valueOf(properties.getAutoAddNewResourcesAndTasks()));
       project.setAutolink(Boolean.valueOf(properties.getAutolink()));
+      project.setBaselineCalendar(nullIfEmpty(properties.getBaselineCalendarName()));
       project.setBaselineForEarnedValue(NumberHelper.getBigInteger(properties.getBaselineForEarnedValue()));
       project.setCalendarUID(m_projectFile.getDefaultCalendar() == null ? BigInteger.ONE : NumberHelper.getBigInteger(m_calendarMapper.getUniqueID(m_projectFile.getDefaultCalendar())));
       project.setCategory(properties.getCategory());
@@ -1071,12 +1072,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setMaterialLabel(formatMaterialLabel(mpx.getMaterialLabel()));
       xml.setMaxUnits(DatatypeConverter.printUnits(mpx.getMaxUnits()));
       xml.setName(StringHelper.stripControlCharacters(mpx.getName()));
-
-      if (!mpx.getNotes().isEmpty())
-      {
-         xml.setNotes(mpx.getNotes());
-      }
-
+      xml.setNotes(nullIfEmpty(mpx.getNotes()));
       xml.setNTAccount(mpx.getNtAccount());
       xml.setOverAllocated(Boolean.valueOf(mpx.getOverAllocated()));
       xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
@@ -1510,12 +1506,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       xml.setMilestone(Boolean.valueOf(mpx.getMilestone()));
       xml.setName(StringHelper.stripControlCharacters(mpx.getName()));
-
-      if (!mpx.getNotes().isEmpty())
-      {
-         xml.setNotes(mpx.getNotes());
-      }
-
+      xml.setNotes(nullIfEmpty(mpx.getNotes()));
       xml.setOutlineLevel(NumberHelper.getBigInteger(mpx.getOutlineLevel()));
       xml.setOutlineNumber(mpx.getOutlineNumber());
       xml.setOverAllocated(Boolean.valueOf(mpx.getOverAllocated()));
@@ -2020,12 +2011,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setHyperlinkSubAddress(mpx.getHyperlinkSubAddress());
       xml.setLevelingDelay(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getLevelingDelay()));
       xml.setLevelingDelayFormat(DatatypeConverter.printDurationTimeUnits(mpx.getLevelingDelay(), false));
-
-      if (!mpx.getNotes().isEmpty())
-      {
-         xml.setNotes(mpx.getNotes());
-      }
-
+      xml.setNotes(nullIfEmpty(mpx.getNotes()));
       xml.setOvertimeCost(DatatypeConverter.printCurrency(mpx.getOvertimeCost()));
       xml.setOvertimeWork(DatatypeConverter.printDuration(this, mpx.getOvertimeWork()));
       xml.setPercentWorkComplete(mpx.getPercentageWorkComplete());
@@ -2598,6 +2584,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       return text;
+   }
+
+   private String nullIfEmpty(String value)
+   {
+      return value != null && !value.isEmpty() ? value : null;
    }
 
    /**

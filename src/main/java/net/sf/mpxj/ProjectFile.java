@@ -606,6 +606,9 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
 
    /**
     * Retrieve the calendar used internally for timephased baseline calculation.
+    * All baseline timephased data is relative to this calendar.
+    * The calendar is created at the point the first baseline is taken and is
+    * a copy of the default calendar at that time.
     *
     * @return baseline calendar
     */
@@ -616,7 +619,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       // If this isn't present, fall back to using the default
       // project calendar.
       //
-      ProjectCalendar result = getCalendarByName("Used for Microsoft Project 98 Baseline Calendar");
+      ProjectCalendar result = getCalendarByName(m_properties.getBaselineCalendarName());
       if (result == null)
       {
          result = getDefaultCalendar();

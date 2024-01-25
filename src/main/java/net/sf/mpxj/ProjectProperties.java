@@ -3477,6 +3477,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Set the baseline calendar name.
+    *
+    * @return baseline calendar name
+    */
+   public String getBaselineCalendarName()
+   {
+      return (String)get(ProjectField.BASELINE_CALENDAR_NAME);
+   }
+
+   /**
+    * Retrieve the baseline calendar name.
+    *
+    * @param value baseline calendar name
+    */
+   public void setBaselineCalendarName(String value)
+   {
+      set(ProjectField.BASELINE_CALENDAR_NAME, value);
+   }
+
+   /**
     * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
