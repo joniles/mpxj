@@ -335,7 +335,7 @@ final class TimephasedDataFactory
          }
          else
          {
-            LocalDateTime blockStartDate = calendar.getNextWorkStart(blockEndDate);
+            LocalDateTime blockStartDate = blockEndDate;
             long currentCumulativeWorkInMinutes = (long) (MPPUtility.getDouble(data, offset) / 1000.0);
             int expectedWorkThisPeriodInMinutes = MPPUtility.getInt(data, offset + 8) / 10;
             //int unknown = MPPUtility.getInt(data, offset + 12);
