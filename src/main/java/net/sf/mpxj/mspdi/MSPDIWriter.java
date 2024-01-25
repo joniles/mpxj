@@ -585,9 +585,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
       baseCalendars.sort(Comparator.comparing(c -> m_calendarMapper.getUniqueID(c)));
       List<ProjectCalendar> derivedCalendars = new ArrayList<>(derivedCalendarSet);
       derivedCalendars.sort(Comparator.comparing(c -> m_calendarMapper.getUniqueID(c)));
+      String baselineCalendarName = m_projectFile.getProjectProperties().getBaselineCalendarName() == null ? "" : m_projectFile.getProjectProperties().getBaselineCalendarName();
 
-      baseCalendars.stream().map(c -> writeCalendar(c, Boolean.TRUE)).forEach(calendar::add);
-      derivedCalendars.stream().map(c -> writeCalendar(c, Boolean.FALSE)).forEach(calendar::add);
+      baseCalendars.stream().map(c -> writeCalendar(c, true, baselineCalendarName.equals(c.getName()))).forEach(calendar::add);
+      derivedCalendars.stream().map(c -> writeCalendar(c, false, baselineCalendarName.equals(c.getName()))).forEach(calendar::add);
    }
 
    /**
@@ -626,16 +627,18 @@ public final class MSPDIWriter extends AbstractProjectWriter
     *
     * @param mpxjCalendar MPXJ calendar data
     * @param isBaseCalendar true if we're writing a base calendar
+    * @param isBaselineCalendar true if we're writing the baseline calendar
     * @return New MSPDI calendar instance
     */
-   private Project.Calendars.Calendar writeCalendar(ProjectCalendar mpxjCalendar, Boolean isBaseCalendar)
+   private Project.Calendars.Calendar writeCalendar(ProjectCalendar mpxjCalendar, boolean isBaseCalendar, boolean isBaselineCalendar)
    {
       //
       // Create a calendar
       //
       Project.Calendars.Calendar calendar = m_factory.createProjectCalendarsCalendar();
       calendar.setUID(NumberHelper.getBigInteger(m_calendarMapper.getUniqueID(mpxjCalendar)));
-      calendar.setIsBaseCalendar(isBaseCalendar);
+      calendar.setIsBaseCalendar(Boolean.valueOf(isBaseCalendar));
+      calendar.setIsBaselineCalendar(Boolean.valueOf(isBaselineCalendar));
 
       ProjectCalendar base = mpxjCalendar.getParent();
       // SF-329: null default required to keep Powerproject happy when importing MSPDI files
