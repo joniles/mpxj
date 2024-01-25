@@ -1455,7 +1455,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setFinish(mpx.getFinish());
       xml.setFinishSlack(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getFinishSlack()));
       xml.setFinishText(mpx.getFinishText());
-      xml.setFinishVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getFinishVariance()));
+      xml.setFinishVariance(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getFinishVariance()));
       xml.setFixedCost(DatatypeConverter.printCurrency(mpx.getFixedCost()));
 
       AccrueType fixedCostAccrual = mpx.getFixedCostAccrual();
@@ -1548,7 +1548,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setStart(mpx.getStart());
       xml.setStartSlack(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getStartSlack()));
       xml.setStartText(mpx.getStartText());
-      xml.setStartVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getStartVariance()));
+      xml.setStartVariance(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getStartVariance()));
       xml.setStop(mpx.getStop());
       xml.setSubprojectName(mpx.getSubprojectFile());
       xml.setSummary(Boolean.valueOf(mpx.hasChildTasks()));
@@ -2038,8 +2038,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       xml.setCostVariance(DatatypeConverter.printCurrency(mpx.getCostVariance()));
       xml.setWorkVariance(DatatypeConverter.printDurationInDecimalThousandthsOfMinutes(mpx.getWorkVariance()));
-      xml.setStartVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getStartVariance()));
-      xml.setFinishVariance(DatatypeConverter.printDurationInIntegerThousandthsOfMinutes(mpx.getFinishVariance()));
+      xml.setStartVariance(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getStartVariance()));
+      xml.setFinishVariance(DatatypeConverter.printDurationInIntegerTenthsOfMinutes(mpx.getFinishVariance()));
 
       //
       // MS Project is a bit picky when it reads an MSPDI file. Even if a resource assignment
