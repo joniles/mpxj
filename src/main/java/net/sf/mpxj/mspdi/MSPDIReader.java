@@ -459,6 +459,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       ProjectCalendar bc = m_projectFile.addCalendar();
       bc.setUniqueID(NumberHelper.getInteger(calendar.getUID()));
+      bc.setGUID(calendar.getGUID());
       bc.setName(calendar.getName());
       BigInteger baseCalendarID = calendar.getBaseCalendarUID();
       if (baseCalendarID != null)

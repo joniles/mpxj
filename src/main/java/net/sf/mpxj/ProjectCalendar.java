@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
@@ -1215,6 +1216,26 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    }
 
    /**
+    * Retrieve the calendar's GUID.
+    *
+    * @return calendar GUID
+    */
+   public UUID getGUID()
+   {
+      return m_guid;
+   }
+
+   /**
+    * Set the calendar's GUID.
+    *
+    * @param value calendar GUID
+    */
+   public void setGUID(UUID value)
+   {
+      m_guid = value;
+   }
+
+   /**
     * Retrieve a list of tasks which use this calendar.
     *
     * @return list of tasks
@@ -2007,6 +2028,11 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * Unique identifier of this calendar.
     */
    private Integer m_uniqueID;
+
+   /**
+    * Calendar GUID.
+    */
+   private UUID m_guid;
 
    /**
     * List of exceptions to the base calendar.
