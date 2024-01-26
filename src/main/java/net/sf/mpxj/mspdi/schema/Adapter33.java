@@ -7,20 +7,20 @@
 
 package net.sf.mpxj.mspdi.schema;
 
+import java.util.UUID;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-import net.sf.mpxj.AccrueType;
 
-public class Adapter9 extends XmlAdapter<String, AccrueType>
+public class Adapter33 extends XmlAdapter<String, UUID>
 {
 
-   @Override public AccrueType unmarshal(String value)
+   @Override public UUID unmarshal(String value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.parseAccrueType(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseUUID(value));
    }
 
-   @Override public String marshal(AccrueType value)
+   @Override public String marshal(UUID value)
    {
-      return (net.sf.mpxj.mspdi.DatatypeConverter.printAccrueType(value));
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printUUID(value));
    }
 
 }
