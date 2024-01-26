@@ -90,8 +90,14 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       //      System.out.println(calFixedMeta);
       //      System.out.println(calFixedData);
 
-      FixedMeta calFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("Fixed2Meta"))), 9);
-      FixedData calFixed2Data = new FixedData(calFixed2Meta, inputStreamFactory.getInstance(calDir, "Fixed2Data"), 48);
+      FixedMeta calFixed2Meta = null;
+      FixedData calFixed2Data = null;
+
+      if (calDir.hasEntry("Fixed2Meta"))
+      {
+         calFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("Fixed2Meta"))), 9);
+         calFixed2Data = new FixedData(calFixed2Meta, inputStreamFactory.getInstance(calDir, "Fixed2Data"), 48);
+      }
 
       //      System.out.println(calFixed2Meta);
       //      System.out.println(calFixed2Data);
@@ -108,7 +114,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       for (int loop = 0; loop < items; loop++)
       {
          byte[] fixedData = calFixedData.getByteArrayValue(loop);
-         byte[] fixedData2 = calFixed2Data.getByteArrayValue(loop);
+         byte[] fixedData2 = calFixed2Data == null ? null : calFixed2Data.getByteArrayValue(loop);
 
          if (fixedData != null && fixedData.length >= 8)
          {
@@ -172,7 +178,11 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                   }
 
                   cal.setUniqueID(calendarID);
-                  System.out.println(cal.getName() + MPPUtility.getGUID(fixedData2, 0));
+
+                  if (fixedData2 != null)
+                  {
+                     cal.setGUID(MPPUtility.getGUID(fixedData2, 0));
+                  }
 
                   if (varData == null)
                   {

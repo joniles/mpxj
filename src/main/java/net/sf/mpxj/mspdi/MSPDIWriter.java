@@ -637,6 +637,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       //
       Project.Calendars.Calendar calendar = m_factory.createProjectCalendarsCalendar();
       calendar.setUID(NumberHelper.getBigInteger(m_calendarMapper.getUniqueID(mpxjCalendar)));
+      calendar.setGUID(mpxjCalendar.getGUID());
       calendar.setIsBaseCalendar(Boolean.valueOf(isBaseCalendar));
       calendar.setIsBaselineCalendar(Boolean.valueOf(isBaselineCalendar));
 
