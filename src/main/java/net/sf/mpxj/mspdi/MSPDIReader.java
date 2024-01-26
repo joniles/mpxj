@@ -1329,7 +1329,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //mpx.setFinish3();
          //mpx.setFinish4();
          //mpx.setFinish5();
-         mpx.setFinishVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getFinishVariance()));
+         mpx.setFinishVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(xml.getFinishVariance()));
          //mpx.setFixed();
          mpx.setFixedCost(DatatypeConverter.parseCurrency(xml.getFixedCost()));
          mpx.setFixedCostAccrual(xml.getFixedCostAccrual());
@@ -1412,7 +1412,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //mpx.setStart3();
          //mpx.setStart4();
          //mpx.setStart5();
-         mpx.setStartVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getStartVariance()));
+         mpx.setStartVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(xml.getStartVariance()));
          mpx.setStop(xml.getStop());
          //mpx.setSuccessors();
          // Rely on the presence of child tasks to determine if this is a summary task rather than using this attribute
@@ -1433,7 +1433,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //mpx.setUpdateNeeded();
          mpx.setWBS(xml.getWBS());
          mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getWork()));
-         mpx.setWorkVariance(Duration.getInstance(NumberHelper.getDouble(xml.getWorkVariance()) / 1000, TimeUnit.MINUTES));
+         mpx.setWorkVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getWorkVariance()));
 
          validateFinishDate(mpx);
 

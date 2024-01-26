@@ -1004,7 +1004,7 @@ Hyperlink Address| | | | | | |✓|✓| |✓| | | | | | | | | | 
 Hyperlink Data| | | | | | | |✓| | | | | | | | | | | | | | | 
 Hyperlink Screen Tip| | | | | | | |✓| | | | | | | | | | | | | | | 
 Hyperlink Subaddress| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
-Leveling Delay| | | | | | | |✓| | | | | | | | | | | | | | | 
+Leveling Delay| | | | | | | |✓| |✓| | | | | | | | | | | | | 
 Leveling Delay Units| | | | | | | |✓| | | | | | | | | | | | | | | 
 Linked Fields| | | | | | | |✓| | | | | | | | | | | | | | | 
 Notes| | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
