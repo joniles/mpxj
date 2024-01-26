@@ -178,11 +178,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                   }
 
                   cal.setUniqueID(calendarID);
-
-                  if (fixedData2 != null)
-                  {
-                     cal.setGUID(MPPUtility.getGUID(fixedData2, 0));
-                  }
+                  cal.setGUID(MPPUtility.getGUID(fixedData2, 0));
 
                   if (varData == null)
                   {
