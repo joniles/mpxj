@@ -1579,7 +1579,7 @@ public final class DatatypeConverter
 
       if (value != null)
       {
-         result = Duration.getInstance(value.intValue() / factor, TimeUnit.MINUTES);
+         result = Duration.getInstance(value.doubleValue() / factor, TimeUnit.MINUTES);
          if (targetTimeUnit != result.getUnits())
          {
             result = result.convertUnits(targetTimeUnit, properties);

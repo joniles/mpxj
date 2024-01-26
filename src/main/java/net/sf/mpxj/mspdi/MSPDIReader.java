@@ -1433,7 +1433,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //mpx.setUpdateNeeded();
          mpx.setWBS(xml.getWBS());
          mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getWork()));
-         mpx.setWorkVariance(Duration.getInstance(NumberHelper.getDouble(xml.getWorkVariance()) / 1000, TimeUnit.MINUTES));
+         mpx.setWorkVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getWorkVariance()));
 
          validateFinishDate(mpx);
 
