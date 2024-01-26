@@ -41,6 +41,7 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.WorkContour;
+import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
@@ -185,10 +186,10 @@ public class ResourceAssignmentFactory
             ResourceType resourceType = resource == null ? ResourceType.WORK : resource.getType();
             ProjectCalendar calendar = assignment.getEffectiveCalendar();
 
-            for (int index = 0; index < TIMEPHASED_BASELINE_WORK.length; index++)
+            for (int index = 0; index < AssignmentFieldLists.TIMEPHASED_BASELINE_WORK.length; index++)
             {
-               assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(calendar, assignment, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
-               assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(assignment, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
+               assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(calendar, assignment, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
+               assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(assignment, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
             }
 
             byte[] timephasedActualWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));
@@ -398,36 +399,5 @@ public class ResourceAssignmentFactory
       new MppBitFlag(AssignmentField.TEAM_STATUS_PENDING, 8, 0x02000000, Boolean.FALSE, Boolean.TRUE),
       new MppBitFlag(AssignmentField.RESPONSE_PENDING, 8, 0x01000000, Boolean.FALSE, Boolean.TRUE)
    };
-
-   private static final AssignmentField[] TIMEPHASED_BASELINE_WORK =
-   {
-      AssignmentField.TIMEPHASED_BASELINE_WORK,
-      AssignmentField.TIMEPHASED_BASELINE1_WORK,
-      AssignmentField.TIMEPHASED_BASELINE2_WORK,
-      AssignmentField.TIMEPHASED_BASELINE3_WORK,
-      AssignmentField.TIMEPHASED_BASELINE4_WORK,
-      AssignmentField.TIMEPHASED_BASELINE5_WORK,
-      AssignmentField.TIMEPHASED_BASELINE6_WORK,
-      AssignmentField.TIMEPHASED_BASELINE7_WORK,
-      AssignmentField.TIMEPHASED_BASELINE8_WORK,
-      AssignmentField.TIMEPHASED_BASELINE9_WORK,
-      AssignmentField.TIMEPHASED_BASELINE10_WORK
-   };
-
-   private static final AssignmentField[] TIMEPHASED_BASELINE_COST =
-   {
-      AssignmentField.TIMEPHASED_BASELINE_COST,
-      AssignmentField.TIMEPHASED_BASELINE1_COST,
-      AssignmentField.TIMEPHASED_BASELINE2_COST,
-      AssignmentField.TIMEPHASED_BASELINE3_COST,
-      AssignmentField.TIMEPHASED_BASELINE4_COST,
-      AssignmentField.TIMEPHASED_BASELINE5_COST,
-      AssignmentField.TIMEPHASED_BASELINE6_COST,
-      AssignmentField.TIMEPHASED_BASELINE7_COST,
-      AssignmentField.TIMEPHASED_BASELINE8_COST,
-      AssignmentField.TIMEPHASED_BASELINE9_COST,
-      AssignmentField.TIMEPHASED_BASELINE10_COST
-   };
-
    private static final Duration DEFAULT_NORMALIZER_WORK_PER_DAY = Duration.getInstance(480, TimeUnit.MINUTES);
 }
