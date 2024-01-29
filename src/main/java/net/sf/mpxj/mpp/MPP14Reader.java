@@ -1526,7 +1526,7 @@ final class MPP14Reader implements MPPVariantReader
       HyperlinkReader hyperlinkReader = new HyperlinkReader();
 
       //
-      // Select the correct meta data locations depending on
+      // Select the correct metadata locations depending on
       // which version of Microsoft project generated this file
       //
       MppBitFlag[] metaDataBitFlags;
