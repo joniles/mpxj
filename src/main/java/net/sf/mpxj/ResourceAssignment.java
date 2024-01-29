@@ -49,7 +49,7 @@ import net.sf.mpxj.common.NumberHelper;
 /**
  * This class represents a resource assignment record from an MPX file.
  */
-public final class ResourceAssignment extends AbstractFieldContainer<ResourceAssignment> implements ProjectEntityWithUniqueID
+public final class ResourceAssignment extends AbstractFieldContainer<ResourceAssignment> implements ProjectEntityWithUniqueID, TimePeriodEntity
 {
    /**
     * Constructor.

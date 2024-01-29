@@ -79,7 +79,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    {
       if (m_raw)
       {
-         m_normaliser.normalise(m_assignment, m_data);
+         m_normaliser.normalise(m_assignment.getEffectiveCalendar(), m_assignment, m_data);
          m_raw = false;
       }
       return m_data;
