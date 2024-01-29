@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -196,19 +197,27 @@ public class ResourceAssignmentFactory
             byte[] timephasedWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_WORK));
             byte[] timephasedActualOvertimeWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
 
-            List<TimephasedWork> timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualWorkData);
-            List<TimephasedWork> timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedWorkData, timephasedActualWork, resourceType);
-            List<TimephasedWork> timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData);
+            List<TimephasedWork> timephasedActualWork;
+            List<TimephasedWork> timephasedWork;
+            List<TimephasedWork> timephasedActualOvertimeWork;
 
             if (task.getDuration() == null || task.getDuration().getDuration() == 0)
             {
                // If we have a zero duration task, we'll set the assignment actual start and finish based on the task actual start and finish
+               timephasedActualWork = new ArrayList<>();
+               timephasedWork = new ArrayList<>();
+               timephasedActualOvertimeWork = new ArrayList<>();
+
                assignment.setActualStart(task.getActualStart() != null ? assignment.getStart() : null);
                assignment.setActualFinish(task.getActualFinish() != null ? assignment.getFinish() : null);
             }
             else
             {
                // We have a task with a duration, try to determine the assignment actual start and finish values
+               timephasedActualWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualWorkData);
+               timephasedWork = timephasedFactory.getPlannedWork(calendar, assignment, timephasedActualWork.isEmpty() ? assignment.getStart() : assignment.getResume(), timephasedWorkData, resourceType);
+               timephasedActualOvertimeWork = timephasedFactory.getCompleteWork(calendar, assignment, timephasedActualOvertimeWorkData);
+
                assignment.setActualFinish((task.getActualStart() != null && assignment.getRemainingWork().getDuration() == 0 && resource != null) ? assignment.getFinish() : null);
                assignment.setActualStart(assignment.getActualFinish() != null || !timephasedActualWork.isEmpty() ? assignment.getStart() : null);
             }

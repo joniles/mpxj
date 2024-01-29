@@ -32,6 +32,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.TimePeriodEntity;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;
@@ -58,10 +59,10 @@ final class TimephasedDataFactory
     * @param data completed work data block
     * @return list of TimephasedWork instances
     */
-   public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, ResourceAssignment resourceAssignment, byte[] data)
+   public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, TimePeriodEntity resourceAssignment, byte[] data)
    {
       List<TimephasedWork> list = new ArrayList<>();
-      if (calendar == null || data == null || data.length <= 26 || MPPUtility.getShort(data, 0) == 0 || resourceAssignment.getTask().getDuration() == null || resourceAssignment.getTask().getDuration().getDuration() == 0)
+      if (calendar == null || data == null || data.length <= 26 || MPPUtility.getShort(data, 0) == 0)
       {
          return list;
       }
@@ -158,15 +159,15 @@ final class TimephasedDataFactory
     *
     * @param calendar calendar on which date calculations are based
     * @param assignment resource assignment
+    * @param plannedWorkStart planned work start date
     * @param data planned work data block
-    * @param timephasedComplete list of complete work
     * @param resourceType resource type
     * @return list of TimephasedWork instances
     */
-   public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, ResourceAssignment assignment, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
+   public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, TimePeriodEntity assignment, LocalDateTime plannedWorkStart, byte[] data, ResourceType resourceType)
    {
       List<TimephasedWork> list = new ArrayList<>();
-      if (data == null || data.length == 0 || assignment.getTask().getDuration() == null || assignment.getTask().getDuration().getDuration() == 0)
+      if (data == null || data.length == 0)
       {
          return list;
       }
@@ -188,7 +189,7 @@ final class TimephasedDataFactory
                // MPPUtility.getDouble(data, 8);
 
                TimephasedWork work = new TimephasedWork();
-               work.setStart(timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume());
+               work.setStart(plannedWorkStart);
 
                work.setFinish(assignment.getFinish());
                work.setTotalAmount(totalWork);
@@ -198,7 +199,6 @@ final class TimephasedDataFactory
       }
       else
       {
-         LocalDateTime offset = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
          int index = 40;
          double previousCumulativeWork = 0;
          TimephasedWork previousAssignment = null;
@@ -213,11 +213,11 @@ final class TimephasedDataFactory
             LocalDateTime start;
             if (blockDuration.getDuration() == 0)
             {
-               start = offset;
+               start = plannedWorkStart;
             }
             else
             {
-               start = calendar.getNextWorkStart(calendar.getDate(offset, blockDuration));
+               start = calendar.getNextWorkStart(calendar.getDate(plannedWorkStart, blockDuration));
             }
 
             double currentCumulativeWork = MPPUtility.getDouble(data, index + 4);
@@ -242,7 +242,7 @@ final class TimephasedDataFactory
 
             if (previousAssignment != null)
             {
-               LocalDateTime finish = calendar.getDate(offset, blockDuration);
+               LocalDateTime finish = calendar.getDate(plannedWorkStart, blockDuration);
                previousAssignment.setFinish(finish);
                if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
                {
@@ -262,7 +262,7 @@ final class TimephasedDataFactory
             double time = MPPUtility.getInt(data, 24);
             time /= 80;
             Duration blockDuration = Duration.getInstance(time, TimeUnit.MINUTES);
-            LocalDateTime finish = calendar.getDate(offset, blockDuration);
+            LocalDateTime finish = calendar.getDate(plannedWorkStart, blockDuration);
             previousAssignment.setFinish(finish);
             if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
             {
