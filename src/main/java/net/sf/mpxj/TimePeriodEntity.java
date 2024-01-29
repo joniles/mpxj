@@ -1,8 +1,7 @@
 /*
- * file:       TimephasedNormaliser.java
+ * file:       TimePeriodEntity.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2009
- * date:       09/01/2009
+ * date:       2024-01-27
  */
 
 /*
@@ -21,27 +20,27 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-package net.sf.mpxj.common;
+package net.sf.mpxj;
 
-import java.util.List;
-
-import net.sf.mpxj.TimePeriodEntity;
-import net.sf.mpxj.ProjectCalendar;
+import java.time.LocalDateTime;
 
 /**
- * Classes implementing this interface are used to normalise timephased data.
- *
- * @param <T> timephased data type
+ * Classes implementing this interface represent a period of time
+ * between a start LocalDateTime and a finish LocalDateTime.
  */
-public interface TimephasedNormaliser<T>
+public interface TimePeriodEntity
 {
    /**
-    * This method converts the internal representation of timephased
-    * data used by MS Project into a standardised
-    * format to make it easy to work with.
+    * Start time, represented as a LocalDateTime instance.
     *
-    * @param parent parent entity
-    * @param list list of assignment data
+    * @return start time
     */
-   public void normalise(ProjectCalendar calendar, TimePeriodEntity parent, List<T> list);
+   public LocalDateTime getStart();
+
+   /**
+    * Finish time, represented as a LocalDateTime instance.
+    *
+    * @return finish time
+    */
+   public LocalDateTime getFinish();
 }

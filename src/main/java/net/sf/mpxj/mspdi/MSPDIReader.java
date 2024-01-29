@@ -1977,8 +1977,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             // TODO: this assumes that timephased data for all assignments of a task is the same
             if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
             {
-               workNormaliser.normalise(mpx, timephasedComplete);
-               workNormaliser.normalise(mpx, timephasedPlanned);
+               workNormaliser.normalise(calendar, mpx, timephasedComplete);
+               workNormaliser.normalise(calendar, mpx, timephasedPlanned);
                splitFactory.processSplitData(mpx, timephasedComplete, timephasedPlanned);
                raw = false;
             }
