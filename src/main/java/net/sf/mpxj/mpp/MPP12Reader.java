@@ -1530,8 +1530,6 @@ final class MPP12Reader implements MPPVariantReader
 
          resource.enableEvents();
 
-         resource.setGUID(MPPUtility.getGUID(data2, 0));
-
          hyperlinkReader.read(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));
 
          resource.setID(Integer.valueOf(MPPUtility.getInt(data, fieldMap.getFixedDataOffset(ResourceField.ID))));
