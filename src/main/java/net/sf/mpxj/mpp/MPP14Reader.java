@@ -1669,12 +1669,14 @@ final class MPP14Reader implements MPPVariantReader
          {
 
             TimephasedWorkContainer work = timephasedFactory.getBaselineWork(calendar, resource, baselineWorkNormaliser, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceFieldLists.TIMEPHASED_BASELINE_WORK[index])), true);
+            TimephasedCostContainer cost = timephasedFactory.getBaselineCost(calendar, resource, baselineCostNormaliser, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceFieldLists.TIMEPHASED_BASELINE_COST[index])), true);
+
             if (work != null)
             {
                System.out.println("Baseline " + index);
                work.getData().forEach(System.out::println);
+               cost.getData().forEach(System.out::println);
             }
-//            TimephasedCostContainer cost = timephasedFactory.getBaselineCost(calendar, resource, baselineCostNormaliser, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceFieldLists.TIMEPHASED_BASELINE_COST[index])), true);
          }
 
 //         byte[] timephasedActualWorkData = rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.TIMEPHASED_ACTUAL_WORK));
