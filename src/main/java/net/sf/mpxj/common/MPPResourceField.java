@@ -147,6 +147,8 @@ public final class MPPResourceField
       FIELD_ARRAY[63] = ResourceField.COST_RATE_C;
       FIELD_ARRAY[64] = ResourceField.COST_RATE_D;
       FIELD_ARRAY[65] = ResourceField.COST_RATE_E;
+      FIELD_ARRAY[68] = ResourceField.TIMEPHASED_BASELINE_WORK;
+      FIELD_ARRAY[69] = ResourceField.TIMEPHASED_BASELINE_COST;
       FIELD_ARRAY[70] = ResourceField.STANDARD_RATE_UNITS;
       FIELD_ARRAY[71] = ResourceField.OVERTIME_RATE_UNITS;
       FIELD_ARRAY[86] = ResourceField.INDICATORS;

@@ -37,11 +37,19 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeMap;
 
+import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.TimephasedCost;
+import net.sf.mpxj.TimephasedCostContainer;
+import net.sf.mpxj.TimephasedWork;
+import net.sf.mpxj.TimephasedWorkContainer;
+import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
+import net.sf.mpxj.common.ResourceFieldLists;
+import net.sf.mpxj.common.TimephasedNormaliser;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -1495,6 +1503,10 @@ final class MPP14Reader implements MPPVariantReader
       FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, FieldTypeClass.RESOURCE);
 
+      TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
+      TimephasedNormaliser<TimephasedWork> baselineWorkNormaliser = new MPPTimephasedBaselineWorkNormaliser();
+      TimephasedNormaliser<TimephasedCost> baselineCostNormaliser = new MPPTimephasedBaselineCostNormaliser();
+
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       VarMeta rscVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
       Var2Data rscVarData = new Var2Data(m_file, rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
@@ -1503,8 +1515,8 @@ final class MPP14Reader implements MPPVariantReader
       FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), rscFixedData, 50, 51);
       FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(rscDir, "Fixed2Data"));
 
-      //System.out.println(rscVarMeta);
-      //System.out.println(rscVarData);
+      System.out.println(rscVarMeta.toString(fieldMap));
+      System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
       //System.out.println(rscFixedData);
       //System.out.println(rscFixed2Meta);
@@ -1650,6 +1662,24 @@ final class MPP14Reader implements MPPVariantReader
                resource.setType(ResourceType.MATERIAL);
             }
          }
+
+         ProjectCalendar calendar = resource.getCalendar();
+         System.out.println(resource);
+         for (int index = 0; index < ResourceFieldLists.TIMEPHASED_BASELINE_WORK.length; index++)
+         {
+
+            TimephasedWorkContainer work = timephasedFactory.getBaselineWork(calendar, resource, baselineWorkNormaliser, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceFieldLists.TIMEPHASED_BASELINE_WORK[index])), true);
+            if (work != null)
+            {
+               System.out.println("Baseline " + index);
+               work.getData().forEach(System.out::println);
+            }
+//            TimephasedCostContainer cost = timephasedFactory.getBaselineCost(calendar, resource, baselineCostNormaliser, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceFieldLists.TIMEPHASED_BASELINE_COST[index])), true);
+         }
+
+//         byte[] timephasedActualWorkData = rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.TIMEPHASED_ACTUAL_WORK));
+//         byte[] timephasedWorkData = rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.TIMEPHASED_WORK));
+//         byte[] timephasedActualOvertimeWorkData = rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
 
          m_eventManager.fireResourceReadEvent(resource);
       }

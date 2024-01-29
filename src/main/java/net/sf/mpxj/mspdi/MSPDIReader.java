@@ -1983,8 +1983,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                raw = false;
             }
 
-            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(mpx, workNormaliser, timephasedComplete, raw);
-            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(mpx, workNormaliser, timephasedPlanned, raw);
+            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(calendar, mpx, workNormaliser, timephasedComplete, raw);
+            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(calendar, mpx, workNormaliser, timephasedPlanned, raw);
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
             mpx.setActualFinish(assignment.getActualFinish());
@@ -2053,7 +2053,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                List<TimephasedWork> timephasedData = readTimephasedWork(calendar, assignment, entry.getKey().intValue());
                if (!timephasedData.isEmpty())
                {
-                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(mpx, workNormaliser, timephasedData, true));
+                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(calendar, mpx, workNormaliser, timephasedData, true));
                }
             }
 
@@ -2063,7 +2063,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                List<TimephasedCost> timephasedData = readTimephasedCost(calendar, assignment, entry.getKey().intValue());
                if (!timephasedData.isEmpty())
                {
-                  entry.getValue().apply(mpx, new DefaultTimephasedCostContainer(mpx, costNormaliser, timephasedData, true));
+                  entry.getValue().apply(mpx, new DefaultTimephasedCostContainer(calendar, mpx, costNormaliser, timephasedData, true));
                }
             }
 

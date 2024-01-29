@@ -288,7 +288,7 @@ final class TimephasedDataFactory
     * @param raw flag indicating if this data is to be treated as raw
     * @return timephased work
     */
-   public TimephasedWorkContainer getBaselineWork(ProjectCalendar calendar, ResourceAssignment assignment, TimephasedNormaliser<TimephasedWork> normaliser, byte[] data, boolean raw)
+   public TimephasedWorkContainer getBaselineWork(ProjectCalendar calendar, TimePeriodEntity assignment, TimephasedNormaliser<TimephasedWork> normaliser, byte[] data, boolean raw)
    {
       if (data == null || data.length == 0)
       {
@@ -364,7 +364,7 @@ final class TimephasedDataFactory
 
       calculateAmountPerDay(calendar, list);
 
-      return new DefaultTimephasedWorkContainer(assignment, normaliser, list, true);
+      return new DefaultTimephasedWorkContainer(calendar, assignment, normaliser, list, true);
    }
 
    /**
@@ -378,7 +378,7 @@ final class TimephasedDataFactory
     * @param raw flag indicating if this data is to be treated as raw
     * @return timephased work
     */
-   public TimephasedCostContainer getBaselineCost(ResourceAssignment assignment, TimephasedNormaliser<TimephasedCost> normaliser, byte[] data, boolean raw)
+   public TimephasedCostContainer getBaselineCost(ProjectCalendar calendar, TimePeriodEntity assignment, TimephasedNormaliser<TimephasedCost> normaliser, byte[] data, boolean raw)
    {
       TimephasedCostContainer result = null;
       if (data == null || data.length == 0)
@@ -423,7 +423,7 @@ final class TimephasedDataFactory
 
       if (list != null)
       {
-         result = new DefaultTimephasedCostContainer(assignment, normaliser, list, raw);
+         result = new DefaultTimephasedCostContainer(calendar, assignment, normaliser, list, raw);
       }
 
       return result;
