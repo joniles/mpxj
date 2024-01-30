@@ -1816,12 +1816,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       Project.Assignments assignments = project.getAssignments();
       if (assignments != null)
       {
-         SplitTaskFactory splitFactory = new SplitTaskFactory();
          TimephasedNormaliser<TimephasedWork> workNormaliser = new MSPDITimephasedWorkNormaliser();
          TimephasedNormaliser<TimephasedCost> costNormaliser = new MPPTimephasedBaselineCostNormaliser();
          for (Project.Assignments.Assignment assignment : assignments.getAssignment())
          {
-            readAssignment(assignment, splitFactory, workNormaliser, costNormaliser);
+            readAssignment(assignment, workNormaliser, costNormaliser);
          }
       }
    }
@@ -1958,7 +1957,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * @param workNormaliser timephased resource assignment normaliser
     * @param costNormaliser timephased resource assignment normaliser
     */
-   private void readAssignment(Project.Assignments.Assignment assignment, SplitTaskFactory splitFactory, TimephasedNormaliser<TimephasedWork> workNormaliser, TimephasedNormaliser<TimephasedCost> costNormaliser)
+   private void readAssignment(Project.Assignments.Assignment assignment, TimephasedNormaliser<TimephasedWork> workNormaliser, TimephasedNormaliser<TimephasedCost> costNormaliser)
    {
       BigInteger taskUID = assignment.getTaskUID();
       BigInteger resourceUID = assignment.getResourceUID();
@@ -1979,7 +1978,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             {
                workNormaliser.normalise(calendar, mpx, timephasedComplete);
                workNormaliser.normalise(calendar, mpx, timephasedPlanned);
-               splitFactory.processSplitData(mpx, timephasedComplete, timephasedPlanned);
+               SplitTaskFactory.processSplitData(mpx, timephasedComplete, timephasedPlanned);
                raw = false;
             }
 

@@ -43,6 +43,14 @@ import net.sf.mpxj.TimephasedWork;
 public final class SplitTaskFactory
 {
    /**
+    * Private constructor - prevent instantiation.
+    */
+   private SplitTaskFactory()
+   {
+
+   }
+
+   /**
     * Process the timephased resource assignment data to work out the
     * split structure of the task.
     *
@@ -50,7 +58,7 @@ public final class SplitTaskFactory
     * @param timephasedComplete completed resource assignment work
     * @param timephasedPlanned planned resource assignment work
     */
-   public void processSplitData(ResourceAssignment assignment, List<TimephasedWork> timephasedComplete, List<TimephasedWork> timephasedPlanned)
+   public static void processSplitData(ResourceAssignment assignment, List<TimephasedWork> timephasedComplete, List<TimephasedWork> timephasedPlanned)
    {
       LocalDateTime splitsComplete = null;
       TimephasedWork lastComplete = null;
