@@ -1515,8 +1515,8 @@ final class MPP14Reader implements MPPVariantReader
       FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), rscFixedData, 50, 51);
       FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(rscDir, "Fixed2Data"));
 
-      System.out.println(rscVarMeta.toString(fieldMap));
-      System.out.println(rscVarData);
+      //System.out.println(rscVarMeta.toString(fieldMap));
+      //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
       //System.out.println(rscFixedData);
       //System.out.println(rscFixed2Meta);
@@ -1663,25 +1663,21 @@ final class MPP14Reader implements MPPVariantReader
             }
          }
 
-         ProjectCalendar calendar = resource.getCalendar();
-         System.out.println(resource);
-         for (int index = 0; index < ResourceFieldLists.TIMEPHASED_BASELINE_WORK.length; index++)
-         {
-
-            TimephasedWorkContainer work = timephasedFactory.getBaselineWork(calendar, resource, baselineWorkNormaliser, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceFieldLists.TIMEPHASED_BASELINE_WORK[index])), true);
-            TimephasedCostContainer cost = timephasedFactory.getBaselineCost(calendar, resource, baselineCostNormaliser, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceFieldLists.TIMEPHASED_BASELINE_COST[index])), true);
-
-            if (work != null)
-            {
-               System.out.println("Baseline " + index);
-               work.getData().forEach(System.out::println);
-               cost.getData().forEach(System.out::println);
-            }
-         }
-
-//         byte[] timephasedActualWorkData = rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.TIMEPHASED_ACTUAL_WORK));
-//         byte[] timephasedWorkData = rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.TIMEPHASED_WORK));
-//         byte[] timephasedActualOvertimeWorkData = rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.TIMEPHASED_ACTUAL_OVERTIME_WORK));
+//         ProjectCalendar calendar = resource.getCalendar();
+//         System.out.println(resource);
+//         for (int index = 0; index < ResourceFieldLists.TIMEPHASED_BASELINE_WORK.length; index++)
+//         {
+//
+//            TimephasedWorkContainer work = timephasedFactory.getBaselineWork(calendar, resource, baselineWorkNormaliser, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceFieldLists.TIMEPHASED_BASELINE_WORK[index])), true);
+//            TimephasedCostContainer cost = timephasedFactory.getBaselineCost(calendar, resource, baselineCostNormaliser, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceFieldLists.TIMEPHASED_BASELINE_COST[index])), true);
+//
+//            if (work != null)
+//            {
+//               System.out.println("Baseline " + index);
+//               work.getData().forEach(System.out::println);
+//               cost.getData().forEach(System.out::println);
+//            }
+//         }
 
          m_eventManager.fireResourceReadEvent(resource);
       }

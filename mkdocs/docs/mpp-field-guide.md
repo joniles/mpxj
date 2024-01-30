@@ -722,6 +722,8 @@ Timephased Baseline9 Cost| |✓| |✓
 Timephased Baseline9 Work| |✓| |✓
 Timephased Baseline10 Cost| | |✓|✓
 Timephased Baseline10 Work| | |✓|✓
+Timephased Baseline Cost| |✓|✓|✓
+Timephased Baseline Work| |✓|✓|✓
 
 ### Custom Fields
 Field|MPP8|MPP9|MPP12|MPP14
