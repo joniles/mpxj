@@ -71,7 +71,6 @@ public class ResourceAssignmentFactory
    {
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
-      SplitTaskFactory splitFactory = new SplitTaskFactory();
       TimephasedNormaliser<TimephasedWork> normaliser = new MPPTimephasedWorkNormaliser();
       TimephasedNormaliser<TimephasedWork> baselineWorkNormaliser = new MPPTimephasedBaselineWorkNormaliser();
       TimephasedNormaliser<TimephasedCost> baselineCostNormaliser = new MPPTimephasedBaselineCostNormaliser();
@@ -216,7 +215,7 @@ public class ResourceAssignmentFactory
             if (!task.getMilestone() && !processedSplits.contains(task))
             {
                processedSplits.add(task);
-               splitFactory.processSplitData(assignment, timephasedActualWork, timephasedWork);
+               SplitTaskFactory.processSplitData(assignment, timephasedActualWork, timephasedWork);
             }
 
             createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
