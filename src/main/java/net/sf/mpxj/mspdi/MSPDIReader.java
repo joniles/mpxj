@@ -1816,11 +1816,9 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       Project.Assignments assignments = project.getAssignments();
       if (assignments != null)
       {
-         TimephasedNormaliser<TimephasedWork> workNormaliser = new MSPDITimephasedWorkNormaliser();
-         TimephasedNormaliser<TimephasedCost> costNormaliser = new MPPTimephasedBaselineCostNormaliser();
          for (Project.Assignments.Assignment assignment : assignments.getAssignment())
          {
-            readAssignment(assignment, workNormaliser, costNormaliser);
+            readAssignment(assignment);
          }
       }
    }
@@ -1956,7 +1954,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * @param workNormaliser timephased resource assignment normaliser
     * @param costNormaliser timephased resource assignment normaliser
     */
-   private void readAssignment(Project.Assignments.Assignment assignment, TimephasedNormaliser<TimephasedWork> workNormaliser, TimephasedNormaliser<TimephasedCost> costNormaliser)
+   private void readAssignment(Project.Assignments.Assignment assignment)
    {
       BigInteger taskUID = assignment.getTaskUID();
       BigInteger resourceUID = assignment.getResourceUID();
@@ -1975,14 +1973,14 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             // TODO: this assumes that timephased data for all assignments of a task is the same
             if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
             {
-               workNormaliser.normalise(calendar, mpx, timephasedComplete);
-               workNormaliser.normalise(calendar, mpx, timephasedPlanned);
+               MSPDITimephasedWorkNormaliser.INSTANCE.normalise(calendar, mpx, timephasedComplete);
+               MSPDITimephasedWorkNormaliser.INSTANCE.normalise(calendar, mpx, timephasedPlanned);
                SplitTaskFactory.processSplitData(mpx, timephasedComplete, timephasedPlanned);
                raw = false;
             }
 
-            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(mpx, workNormaliser, timephasedComplete, raw);
-            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(mpx, workNormaliser, timephasedPlanned, raw);
+            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(mpx, MSPDITimephasedWorkNormaliser.INSTANCE, timephasedComplete, raw);
+            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(mpx, MSPDITimephasedWorkNormaliser.INSTANCE, timephasedPlanned, raw);
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
             mpx.setActualFinish(assignment.getActualFinish());
@@ -2051,7 +2049,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                List<TimephasedWork> timephasedData = readTimephasedWork(assignment, entry.getKey().intValue());
                if (!timephasedData.isEmpty())
                {
-                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(mpx, workNormaliser, timephasedData, true));
+                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(mpx, MSPDITimephasedWorkNormaliser.INSTANCE, timephasedData, true));
                }
             }
 
@@ -2061,7 +2059,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                List<TimephasedCost> timephasedData = readTimephasedCost(assignment, entry.getKey().intValue());
                if (!timephasedData.isEmpty())
                {
-                  entry.getValue().apply(mpx, new DefaultTimephasedCostContainer(mpx, costNormaliser, timephasedData, true));
+                  entry.getValue().apply(mpx, new DefaultTimephasedCostContainer(mpx, MPPTimephasedBaselineCostNormaliser.INSTANCE, timephasedData, true));
                }
             }
 

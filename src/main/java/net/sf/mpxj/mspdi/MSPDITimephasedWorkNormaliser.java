@@ -45,6 +45,13 @@ import net.sf.mpxj.common.NumberHelper;
  */
 public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormaliser
 {
+   /**
+    * Private constructor to prevent instantiation.
+    */
+   private MSPDITimephasedWorkNormaliser()
+   {
+
+   }
 
    /**
     * This method converts the internal representation of timephased
@@ -299,4 +306,6 @@ public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormali
          }
       }
    }
+
+   public static final MSPDITimephasedWorkNormaliser INSTANCE = new MSPDITimephasedWorkNormaliser();
 }
