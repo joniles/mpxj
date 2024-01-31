@@ -39,7 +39,6 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.AssignmentFieldLists;
@@ -47,7 +46,6 @@ import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.SplitTaskFactory;
-import net.sf.mpxj.common.TimephasedNormaliser;
 
 /**
  * Common implementation detail to extract resource assignment data from
@@ -73,9 +71,6 @@ public class ResourceAssignmentFactory
    {
       Set<Integer> set = assnVarMeta.getUniqueIdentifierSet();
       TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
-      TimephasedNormaliser<TimephasedWork> normaliser = new MPPTimephasedWorkNormaliser();
-      TimephasedNormaliser<TimephasedWork> baselineWorkNormaliser = new MPPTimephasedBaselineWorkNormaliser();
-      TimephasedNormaliser<TimephasedCost> baselineCostNormaliser = new MPPTimephasedBaselineCostNormaliser();
       HyperlinkReader hyperlinkReader = new HyperlinkReader();
 
       //      System.out.println(assnFixedMeta);
@@ -188,8 +183,8 @@ public class ResourceAssignmentFactory
 
             for (int index = 0; index < AssignmentFieldLists.TIMEPHASED_BASELINE_WORK.length; index++)
             {
-               assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(calendar, assignment, baselineWorkNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
-               assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(calendar, assignment, baselineCostNormaliser, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
+               assignment.setTimephasedBaselineWork(index, timephasedFactory.getBaselineWork(calendar, assignment, MPPTimephasedBaselineWorkNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.TIMEPHASED_BASELINE_WORK[index])), !useRawTimephasedData));
+               assignment.setTimephasedBaselineCost(index, timephasedFactory.getBaselineCost(calendar, assignment, MPPTimephasedBaselineCostNormaliser.INSTANCE, assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentFieldLists.TIMEPHASED_BASELINE_COST[index])), !useRawTimephasedData));
             }
 
             byte[] timephasedActualWorkData = assnVarData.getByteArray(varDataId, fieldMap.getVarDataKey(AssignmentField.TIMEPHASED_ACTUAL_WORK));
@@ -230,9 +225,9 @@ public class ResourceAssignmentFactory
 
             createTimephasedData(file, assignment, timephasedWork, timephasedActualWork);
 
-            assignment.setTimephasedWork(new DefaultTimephasedWorkContainer(calendar, assignment, normaliser, timephasedWork, !useRawTimephasedData));
-            assignment.setTimephasedActualWork(new DefaultTimephasedWorkContainer(calendar, assignment, normaliser, timephasedActualWork, !useRawTimephasedData));
-            assignment.setTimephasedActualOvertimeWork(new DefaultTimephasedWorkContainer(calendar, assignment, normaliser, timephasedActualOvertimeWork, !useRawTimephasedData));
+            assignment.setTimephasedWork(new DefaultTimephasedWorkContainer(calendar, assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedWork, !useRawTimephasedData));
+            assignment.setTimephasedActualWork(new DefaultTimephasedWorkContainer(calendar, assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedActualWork, !useRawTimephasedData));
+            assignment.setTimephasedActualOvertimeWork(new DefaultTimephasedWorkContainer(calendar, assignment, MPPTimephasedWorkNormaliser.INSTANCE, timephasedActualOvertimeWork, !useRawTimephasedData));
 
             if (timephasedWorkData != null)
             {

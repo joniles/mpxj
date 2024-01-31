@@ -40,6 +40,14 @@ import net.sf.mpxj.common.LocalDateTimeHelper;
 public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormaliser
 {
    /**
+    * Private constructor to prevent instantiation.
+    */
+   private MPPTimephasedWorkNormaliser()
+   {
+
+   }
+
+   /**
     * This method merges together timephased data for the same day.
     *
     * @param calendar current calendar
@@ -116,4 +124,6 @@ public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormal
       list.clear();
       list.addAll(result);
    }
+
+   public static final MPPTimephasedWorkNormaliser INSTANCE = new MPPTimephasedWorkNormaliser();
 }

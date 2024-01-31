@@ -37,19 +37,11 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeMap;
 
-import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.FieldTypeClass;
-import net.sf.mpxj.TimephasedCost;
-import net.sf.mpxj.TimephasedCostContainer;
-import net.sf.mpxj.TimephasedWork;
-import net.sf.mpxj.TimephasedWorkContainer;
-import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
-import net.sf.mpxj.common.ResourceFieldLists;
-import net.sf.mpxj.common.TimephasedNormaliser;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -1055,7 +1047,7 @@ final class MPP14Reader implements MPPVariantReader
          if (temp != null)
          {
             // Task with this id already exists... determine if this is the 'real' task by seeing
-            // if this task has some var data. This is sort of hokey, but it's the best method i have
+            // if this task has some var data. This is sort of hokey, but it's the best method I have
             // been able to see.
             if (!taskVarMeta.getUniqueIdentifierSet().contains(uniqueID))
             {
@@ -1504,8 +1496,6 @@ final class MPP14Reader implements MPPVariantReader
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, FieldTypeClass.RESOURCE);
 
       TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
-      TimephasedNormaliser<TimephasedWork> baselineWorkNormaliser = new MPPTimephasedBaselineWorkNormaliser();
-      TimephasedNormaliser<TimephasedCost> baselineCostNormaliser = new MPPTimephasedBaselineCostNormaliser();
 
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       VarMeta rscVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
@@ -2012,7 +2002,7 @@ final class MPP14Reader implements MPPVariantReader
    private Map<Integer, Integer> m_parentTasks;
 
    // Signals the end of the list of subproject task unique ids
-   //private static final int SUBPROJECT_LISTEND = 0x00000303;
+   //private static final int SUBPROJECT_LIST_END = 0x00000303;
 
    // Signals that the previous value was for the subproject task unique id
    private static final int SUBPROJECT_TASKUNIQUEID0 = 0x00000000;
