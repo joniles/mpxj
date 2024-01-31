@@ -46,6 +46,14 @@ import net.sf.mpxj.common.TimephasedNormaliser;
 public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser<TimephasedCost>
 {
    /**
+    * Private constructor to prevent instantiation.
+    */
+   private MPPTimephasedBaselineCostNormaliser()
+   {
+
+   }
+
+   /**
     * This method converts the internal representation of timephased
     * data used by MS Project into a standardised
     * format to make it easy to work with.
@@ -289,15 +297,5 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
       list.addAll(result);
    }
 
-   /*
-   private void dumpList(List<TimephasedCost> list)
-   {
-      System.out.println();
-      for (TimephasedCost assignment : list)
-      {
-         System.out.println(assignment);
-      }
-   }
-   */
-
+   public static final MPPTimephasedBaselineCostNormaliser INSTANCE = new MPPTimephasedBaselineCostNormaliser();
 }
