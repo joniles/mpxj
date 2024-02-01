@@ -251,10 +251,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
          m_activityCodeValues.put(uuid, activityCodeValue);
       }
 
-      if (!m_useActivityCodesForTaskHierarchy)
-      {
-         m_projectFile.getActivityCodes().add(activityCode);
-      }
+      m_projectFile.getActivityCodes().add(activityCode);
    }
 
    /**
@@ -605,10 +602,9 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       else
       {
          task = m_projectFile.addTask();
-
-         // Activity codes
-         populateActivityCodes(task, getActivityCodes(activity));
       }
+
+      populateActivityCodes(task, getActivityCodes(activity));
 
       task.setActivityID(activity.getId());
       task.setActivityType(ACTIVITY_TYPE_MAP.get(activity.getType()));

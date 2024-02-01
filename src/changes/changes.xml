@@ -10,6 +10,7 @@
 			<action dev="joniles" type="update">Ensure Start Variance and Finish Variance are read from and written to MSPDI files in the correct format.</action>
 			<action dev="joniles" type="update">Improve accuracy of large Work Variance values read from MSPDI files.</action>
 			<action dev="joniles" type="update">Add support for the Calendar GUID attriute, which is read from MPP and MSPDI files, and written to MSPDI files.</action>
+			<action dev="joniles" type="update">Ensure Activity Codes are available when reading Phoenix PPX files even if they are also being used to construct the task hierarchy.</action>
 		</release>
 		<release date="2024-01-22" version="12.6.0">
 			<action dev="joniles" type="update">Updated PMXML schema to version 23.12.</action>
