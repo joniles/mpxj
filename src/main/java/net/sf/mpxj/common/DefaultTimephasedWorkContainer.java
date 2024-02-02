@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimePeriodEntity;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.TimephasedWorkContainer;
@@ -40,17 +39,17 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    /**
     * Constructor.
     *
-    * @param assignment resource assignment to which the timephased data relates
+    * @param parent entity to which the timephased data relates
     * @param normaliser normaliser used to process this data
     * @param data timephased data
     * @param raw flag indicating if this data is raw
     */
-   public DefaultTimephasedWorkContainer(ProjectCalendar calendar, TimePeriodEntity assignment, TimephasedNormaliser<TimephasedWork> normaliser, List<TimephasedWork> data, boolean raw)
+   public DefaultTimephasedWorkContainer(ProjectCalendar calendar, TimePeriodEntity parent, TimephasedNormaliser<TimephasedWork> normaliser, List<TimephasedWork> data, boolean raw)
    {
       m_calendar = calendar;
       m_data = data;
       m_raw = raw;
-      m_assignment = assignment;
+      m_parent = parent;
       m_normaliser = normaliser;
    }
 
@@ -66,7 +65,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    {
       m_data = new ArrayList<>();
       m_raw = source.m_raw;
-      m_assignment = source.m_assignment;
+      m_parent = source.m_parent;
       m_normaliser = source.m_normaliser;
 
       for (TimephasedWork sourceItem : source.m_data)
@@ -82,7 +81,7 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    {
       if (m_raw)
       {
-         m_normaliser.normalise(m_calendar, m_assignment, m_data);
+         m_normaliser.normalise(m_calendar, m_parent, m_data);
          m_raw = false;
       }
       return m_data;
@@ -107,5 +106,5 @@ public class DefaultTimephasedWorkContainer implements TimephasedWorkContainer
    private final List<TimephasedWork> m_data;
    private boolean m_raw;
    private final TimephasedNormaliser<TimephasedWork> m_normaliser;
-   private final TimePeriodEntity m_assignment;
+   private final TimePeriodEntity m_parent;
 }
