@@ -26,7 +26,6 @@ package net.sf.mpxj.common;
 import java.util.List;
 
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimePeriodEntity;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;
@@ -39,17 +38,17 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
    /**
     * Constructor.
     *
-    * @param assignment resource assignment to which the timephased data relates
+    * @param parent entity to which the timephased data relates
     * @param normaliser normaliser used to process this data
     * @param data timephased data
     * @param raw flag indicating if this data is raw
     */
-   public DefaultTimephasedCostContainer(ProjectCalendar calendar, TimePeriodEntity assignment, TimephasedNormaliser<TimephasedCost> normaliser, List<TimephasedCost> data, boolean raw)
+   public DefaultTimephasedCostContainer(ProjectCalendar calendar, TimePeriodEntity parent, TimephasedNormaliser<TimephasedCost> normaliser, List<TimephasedCost> data, boolean raw)
    {
       m_calendar = calendar;
       m_data = data;
       m_raw = raw;
-      m_assignment = assignment;
+      m_parent = parent;
       m_normaliser = normaliser;
    }
 
@@ -60,7 +59,7 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
    {
       if (m_raw)
       {
-         m_normaliser.normalise(m_calendar, m_assignment, m_data);
+         m_normaliser.normalise(m_calendar, m_parent, m_data);
          m_raw = false;
       }
       return m_data;
@@ -80,5 +79,5 @@ public class DefaultTimephasedCostContainer implements TimephasedCostContainer
    private final List<TimephasedCost> m_data;
    private boolean m_raw;
    private final TimephasedNormaliser<TimephasedCost> m_normaliser;
-   private final TimePeriodEntity m_assignment;
+   private final TimePeriodEntity m_parent;
 }
