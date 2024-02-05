@@ -421,6 +421,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
 
       m_projectFile.setDefaultCalendar(defaultCalendar);
+      m_baselineCalendar = m_projectFile.getBaselineCalendar();
    }
 
    /**
@@ -446,7 +447,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             cal.setParent(baseCal);
          }
       }
-
    }
 
    /**
@@ -2048,7 +2048,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                List<TimephasedWork> timephasedData = readTimephasedWork(assignment, entry.getKey().intValue());
                if (!timephasedData.isEmpty())
                {
-                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(m_projectFile.getBaselineCalendar(), mpx, NewWorkNormaliser.INSTANCE, timephasedData, true));
+                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(m_baselineCalendar, mpx, NewWorkNormaliser.INSTANCE, timephasedData, true));
                }
             }
 
@@ -2293,6 +2293,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private Map<UUID, FieldType> m_lookupTableMap;
    private Map<FieldType, Map<BigInteger, CustomFieldValueItem>> m_customFieldValueItems;
    private Map<Task, Project> m_externalProjects;
+   private ProjectCalendar m_baselineCalendar;
 
    private static final RecurrenceType[] RECURRENCE_TYPES =
    {
