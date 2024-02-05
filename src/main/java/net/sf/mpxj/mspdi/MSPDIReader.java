@@ -104,7 +104,6 @@ import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.SplitTaskFactory;
-import net.sf.mpxj.common.TimephasedNormaliser;
 import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mspdi.schema.Project;
@@ -1951,8 +1950,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * This method extracts data for a single assignment from an MSPDI file.
     *
     * @param assignment Assignment data
-    * @param workNormaliser timephased resource assignment normaliser
-    * @param costNormaliser timephased resource assignment normaliser
     */
    private void readAssignment(Project.Assignments.Assignment assignment)
    {
