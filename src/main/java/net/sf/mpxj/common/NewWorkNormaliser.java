@@ -92,7 +92,7 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
       for (TimephasedWork item : list)
       {
          LocalDateTime nextWorkStart = calendar.getNextWorkStart(item.getStart());
-         if (item.getStart().isEqual(nextWorkStart))
+         if (item.getStart().isEqual(nextWorkStart) || nextWorkStart.isAfter(item.getFinish()))
          {
             continue;
          }
@@ -110,7 +110,7 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
       for (TimephasedWork item : list)
       {
          LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(item.getFinish());
-         if (item.getStart().isEqual(previousWorkFinish))
+         if (item.getStart().isEqual(previousWorkFinish) || item.getStart().isAfter(previousWorkFinish))
          {
             continue;
          }
