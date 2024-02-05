@@ -1,4 +1,5 @@
 package net.sf.mpxj.common;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import net.sf.mpxj.Duration;
@@ -13,6 +14,22 @@ import net.sf.mpxj.TimephasedWork;
 public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
 {
    @Override public void normalise(ProjectCalendar calendar, TimePeriodEntity parent, List<TimephasedWork> list)
+   {
+      if (list == null)
+      {
+         return;
+      }
+
+      if (list.size() > 1)
+      {
+         mergeDays(calendar, list);
+      }
+
+      normaliseStarts(calendar, list);
+      normaliseFinishes(calendar, list);
+   }
+
+   private void mergeDays(ProjectCalendar calendar, List<TimephasedWork> list)
    {
       int index = 0;
       boolean lastItemIsStandard = false;
@@ -66,6 +83,42 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
          {
             index++;
             lastItemIsStandard = false;
+         }
+      }
+   }
+
+   private void normaliseStarts(ProjectCalendar calendar, List<TimephasedWork> list)
+   {
+      for (TimephasedWork item : list)
+      {
+         LocalDateTime nextWorkStart = calendar.getNextWorkStart(item.getStart());
+         if (item.getStart().isEqual(nextWorkStart))
+         {
+            continue;
+         }
+
+         Duration calendarWork = calendar.getWork(nextWorkStart, item.getFinish(), item.getTotalAmount().getUnits());
+         if (calendarWork.getDuration() == item.getTotalAmount().getDuration())
+         {
+            item.setStart(nextWorkStart);
+         }
+      }
+   }
+
+   private void normaliseFinishes(ProjectCalendar calendar, List<TimephasedWork> list)
+   {
+      for (TimephasedWork item : list)
+      {
+         LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(item.getFinish());
+         if (item.getStart().isEqual(previousWorkFinish))
+         {
+            continue;
+         }
+
+         Duration calendarWork = calendar.getWork(item.getStart(), previousWorkFinish, item.getTotalAmount().getUnits());
+         if (calendarWork.getDuration() == item.getTotalAmount().getDuration())
+         {
+            item.setFinish(previousWorkFinish);
          }
       }
    }
