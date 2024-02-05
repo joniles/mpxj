@@ -8,9 +8,6 @@ import net.sf.mpxj.TimePeriodEntity;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 
-//
-// TODO: why are the units changing? Consider logic for tidying up start/end dates - next work start etc
-//
 public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
 {
    @Override public void normalise(ProjectCalendar calendar, TimePeriodEntity parent, List<TimephasedWork> list)
