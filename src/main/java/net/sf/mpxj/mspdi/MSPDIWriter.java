@@ -28,6 +28,7 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -61,6 +62,7 @@ import net.sf.mpxj.DataType;
 import net.sf.mpxj.LocalDateTimeRange;
 import java.time.DayOfWeek;
 
+import net.sf.mpxj.TimephasedItem;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
@@ -2513,9 +2515,48 @@ public final class MSPDIWriter extends AbstractProjectWriter
          xml.setFinish(mpx.getFinish());
          xml.setType(BigInteger.valueOf(type));
          xml.setUID(assignmentID);
-         xml.setUnit(DatatypeConverter.printDurationTimeUnits(mpx.getTotalAmount(), false));
+         xml.setUnit(timephasedDataPeriodUnit(mpx));
          xml.setValue(DatatypeConverter.printDuration(this, mpx.getTotalAmount()));
       }
+   }
+
+   /**
+    * The unit attribute of a timephased item appears to relate to the duration of the period covered
+    * by the item, not the amount of work in that period.
+    *
+    * @param item timephased item
+    * @return units for the timephased item
+    */
+   private BigInteger timephasedDataPeriodUnit(TimephasedItem<?> item)
+   {
+      long itemDuration = item.getStart().until(item.getFinish(), ChronoUnit.DAYS);
+      if (itemDuration >= 364)
+      {
+         return TIMEPHASED_DATA_PERIOD_YEARS;
+      }
+
+      if (itemDuration >= 28)
+      {
+         return TIMEPHASED_DATA_PERIOD_MONTHS;
+      }
+
+      if (itemDuration >= 7)
+      {
+         return TIMEPHASED_DATA_PERIOD_WEEKS;
+      }
+
+      if (itemDuration >= 1)
+      {
+         return TIMEPHASED_DATA_PERIOD_DAYS;
+      }
+
+      itemDuration = item.getStart().until(item.getFinish(), ChronoUnit.MINUTES);
+      if (itemDuration >= 60)
+      {
+         return TIMEPHASED_DATA_PERIOD_HOURS;
+      }
+
+      return TIMEPHASED_DATA_PERIOD_MINUTES;
    }
 
    private void writeTimephasedCostData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedCost> data, int type)
@@ -2536,7 +2577,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          xml.setFinish(mpx.getFinish());
          xml.setType(BigInteger.valueOf(type));
          xml.setUID(assignmentID);
-         xml.setUnit(BigInteger.valueOf(2));
+         xml.setUnit(timephasedDataPeriodUnit(mpx));
          xml.setValue(value == null ? null : value.toString());
       }
    }
@@ -2784,4 +2825,11 @@ public final class MSPDIWriter extends AbstractProjectWriter
    };
 
    private static final Set<String> TIME_UNIT_NAMES = new HashSet<>(Arrays.stream(TimeUnit.values()).map(u -> u.getName()).collect(Collectors.toList()));
+
+   private static final BigInteger TIMEPHASED_DATA_PERIOD_YEARS =  BigInteger.valueOf(8);
+   private static final BigInteger TIMEPHASED_DATA_PERIOD_MONTHS =  BigInteger.valueOf(5);
+   private static final BigInteger TIMEPHASED_DATA_PERIOD_WEEKS =  BigInteger.valueOf(3);
+   private static final BigInteger TIMEPHASED_DATA_PERIOD_DAYS =  BigInteger.valueOf(2);
+   private static final BigInteger TIMEPHASED_DATA_PERIOD_HOURS =  BigInteger.valueOf(1);
+   private static final BigInteger TIMEPHASED_DATA_PERIOD_MINUTES =  BigInteger.valueOf(0);
 }
