@@ -58,6 +58,7 @@ import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.NewCostNormaliser;
 import net.sf.mpxj.common.NewWorkNormaliser;
 import net.sf.mpxj.common.NullNormaliser;
 import net.sf.mpxj.mpp.MPPTimephasedBaselineCostNormaliser;
@@ -2059,6 +2060,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                if (!timephasedData.isEmpty())
                {
                   entry.getValue().apply(mpx, new DefaultTimephasedCostContainer(calendar, mpx, MPPTimephasedBaselineCostNormaliser.INSTANCE, timephasedData, true));
+                  //entry.getValue().apply(mpx, new DefaultTimephasedCostContainer(m_baselineCalendar, mpx, NewCostNormaliser.INSTANCE, timephasedData, true));
                }
             }
 

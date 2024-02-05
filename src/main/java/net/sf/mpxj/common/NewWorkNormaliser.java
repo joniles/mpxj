@@ -10,6 +10,10 @@ import net.sf.mpxj.TimephasedWork;
 
 public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
 {
+   private NewWorkNormaliser()
+   {
+
+   }
    @Override public void normalise(ProjectCalendar calendar, TimePeriodEntity parent, List<TimephasedWork> list)
    {
       if (list == null)
@@ -94,11 +98,15 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
             continue;
          }
 
-         Duration calendarWork = calendar.getWork(nextWorkStart, item.getFinish(), item.getTotalAmount().getUnits());
-         if (calendarWork.getDuration() == item.getTotalAmount().getDuration())
+         if (item.getStart().isEqual(calendar.getPreviousWorkFinish(item.getStart())))
          {
             item.setStart(nextWorkStart);
          }
+//         Duration calendarWork = calendar.getWork(nextWorkStart, item.getFinish(), item.getTotalAmount().getUnits());
+//         if (calendarWork.getDuration() == item.getTotalAmount().getDuration())
+//         {
+//            item.setStart(nextWorkStart);
+//         }
       }
    }
 
@@ -112,11 +120,16 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
             continue;
          }
 
-         Duration calendarWork = calendar.getWork(item.getStart(), previousWorkFinish, item.getTotalAmount().getUnits());
-         if (calendarWork.getDuration() == item.getTotalAmount().getDuration())
+         if (item.getFinish().isEqual(calendar.getNextWorkStart(item.getFinish())))
          {
             item.setFinish(previousWorkFinish);
          }
+
+//         Duration calendarWork = calendar.getWork(item.getStart(), previousWorkFinish, item.getTotalAmount().getUnits());
+//         if (calendarWork.getDuration() == item.getTotalAmount().getDuration())
+//         {
+//            item.setFinish(previousWorkFinish);
+//         }
       }
    }
 
