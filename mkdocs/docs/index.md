@@ -99,4 +99,5 @@ This library includes functionality provided by:
 
 This library has been built with the assistance of:
 
-* [JProfiler](https://www.ej-technologies.com/products/jprofiler/overview.html) Java Profiler
+* [JProfiler](https://www.ej-technologies.com/products/jprofiler/overview.html)
+* [Araxis Merge](https://www.araxis.com/merge/)

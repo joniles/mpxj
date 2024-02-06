@@ -5,7 +5,7 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="12.6.1">
+		<release date="unreleased" version="12.7.0">
 			<action dev="joniles" type="update">Added support for reading and writing the project property Baseline Calendar Name to and from MPP and MSPDI files.</action>
 			<action dev="joniles" type="update">Ensure Start Variance and Finish Variance are read from and written to MSPDI files in the correct format.</action>
 			<action dev="joniles" type="update">Improve accuracy of large Work Variance values read from MSPDI files.</action>
@@ -14,6 +14,7 @@
 			<action dev="joniles" type="update">Ensure Activity Codes Values are populated when reading Phoenix PPX files. (Contributed by Rohit Sinha)</action>
 			<action dev="joniles" type="update">When writing an MSPDI file, derive the TimephasedData Unit attribute from the duration of the timephased data item.</action>
 			<action dev="joniles" type="update">Fixed an issue with the `ProjectCalendar.getPreviousWorkFinish` method when called with a time which was already at the end of a period of work.</action>
+			<action dev="joniles" type="update">Ensure that the `proj_node_flag` is set for the root WBS node when writing XER files.</action>
 		</release>
 		<release date="2024-01-22" version="12.6.0">
 			<action dev="joniles" type="update">Updated PMXML schema to version 23.12.</action>
