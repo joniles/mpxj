@@ -13,6 +13,7 @@
 			<action dev="joniles" type="update">Ensure Activity Codes are available when reading Phoenix PPX files even if they are also being used to construct the task hierarchy.</action>
 			<action dev="joniles" type="update">Ensure Activity Codes Values are populated when reading Phoenix PPX files. (Contributed by Rohit Sinha)</action>
 			<action dev="joniles" type="update">When writing an MSPDI file, derive the TimephasedData Unit attribute from the duration of the timephased data item.</action>
+			<action dev="joniles" type="update">Fixed an issue with the `ProjectCalendar.getPreviousWorkFinish` method when called with a time which was already at the end of a period of work.</action>
 		</release>
 		<release date="2024-01-22" version="12.6.0">
 			<action dev="joniles" type="update">Updated PMXML schema to version 23.12.</action>
