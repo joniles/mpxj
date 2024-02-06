@@ -1200,7 +1200,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("obs_id", t -> "");
       WBS_COLUMNS.put("seq_num", t -> getSequenceNumber(t));
       WBS_COLUMNS.put("est_wt", t -> Integer.valueOf(1));
-      WBS_COLUMNS.put("proj_node_flag", t -> Boolean.FALSE);
+      WBS_COLUMNS.put("proj_node_flag", t -> t.getParentTask() == null);
       WBS_COLUMNS.put("sum_data_flag", t -> Boolean.TRUE);
       WBS_COLUMNS.put("status_code", t -> "WS_Open");
       WBS_COLUMNS.put("wbs_short_name", t -> TaskHelper.getWbsCode(t));
