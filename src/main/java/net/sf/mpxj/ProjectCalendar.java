@@ -995,12 +995,13 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       if (ranges != null)
       {
          //
-         // Do we have a start time today?
+         // Do we have a finish time today?
          //
          LocalTime calTime = LocalTimeHelper.getLocalTime(date);
          LocalTime finishTime = null;
-         for (LocalTimeRange range : ranges)
+         for (int index=ranges.size(); index-- > 0;)
          {
+            LocalTimeRange range = ranges.get(index);
             if ((range.getEnd() == LocalTime.MIDNIGHT && calTime == LocalTime.MIDNIGHT) || !calTime.isBefore(range.getEnd()))
             {
                finishTime = range.getEnd();
