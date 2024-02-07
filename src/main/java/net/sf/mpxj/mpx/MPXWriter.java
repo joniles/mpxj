@@ -104,7 +104,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_calendarNameMap = new HashMap<>();
       m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile, MAPPING_TARGET_CUSTOM_FIELDS);
       projectFile.getUserDefinedFields().stream().sorted(Comparator.comparing(UserDefinedField::getUniqueID)).forEach(m_userDefinedFieldMap::generateMapping);
-      m_resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
+      m_resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(Resource::getCalendarUniqueID));
       m_taskMapper = new MicrosoftProjectUniqueIDMapper(m_projectFile.getTasks());
       m_resourceMapper = new MicrosoftProjectUniqueIDMapper(m_projectFile.getResources());
       m_calendarMapper = new MicrosoftProjectUniqueIDMapper(m_projectFile.getCalendars());
