@@ -43,7 +43,7 @@ import net.sf.mpxj.common.TimephasedNormaliser;
 /**
  * Common implementation detail for normalisation.
  */
-public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser<TimephasedCost>
+public final class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser<TimephasedCost>
 {
    /**
     * Private constructor to prevent instantiation.

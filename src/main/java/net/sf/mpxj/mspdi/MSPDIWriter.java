@@ -2826,10 +2826,10 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private static final Set<String> TIME_UNIT_NAMES = new HashSet<>(Arrays.stream(TimeUnit.values()).map(u -> u.getName()).collect(Collectors.toList()));
 
-   private static final BigInteger TIMEPHASED_DATA_PERIOD_YEARS =  BigInteger.valueOf(8);
-   private static final BigInteger TIMEPHASED_DATA_PERIOD_MONTHS =  BigInteger.valueOf(5);
-   private static final BigInteger TIMEPHASED_DATA_PERIOD_WEEKS =  BigInteger.valueOf(3);
-   private static final BigInteger TIMEPHASED_DATA_PERIOD_DAYS =  BigInteger.valueOf(2);
-   private static final BigInteger TIMEPHASED_DATA_PERIOD_HOURS =  BigInteger.valueOf(1);
-   private static final BigInteger TIMEPHASED_DATA_PERIOD_MINUTES =  BigInteger.valueOf(0);
+   private static final BigInteger TIMEPHASED_DATA_PERIOD_YEARS = BigInteger.valueOf(8);
+   private static final BigInteger TIMEPHASED_DATA_PERIOD_MONTHS = BigInteger.valueOf(5);
+   private static final BigInteger TIMEPHASED_DATA_PERIOD_WEEKS = BigInteger.valueOf(3);
+   private static final BigInteger TIMEPHASED_DATA_PERIOD_DAYS = BigInteger.valueOf(2);
+   private static final BigInteger TIMEPHASED_DATA_PERIOD_HOURS = BigInteger.valueOf(1);
+   private static final BigInteger TIMEPHASED_DATA_PERIOD_MINUTES = BigInteger.valueOf(0);
 }

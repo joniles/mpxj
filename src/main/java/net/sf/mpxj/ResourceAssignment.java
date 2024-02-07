@@ -354,7 +354,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return start date
     */
-   public LocalDateTime getStart()
+   @Override public LocalDateTime getStart()
    {
       return (LocalDateTime) get(AssignmentField.START);
    }
@@ -374,7 +374,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return finish date
     */
-   public LocalDateTime getFinish()
+   @Override public LocalDateTime getFinish()
    {
       return (LocalDateTime) get(AssignmentField.FINISH);
    }

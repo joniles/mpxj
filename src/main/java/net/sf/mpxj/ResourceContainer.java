@@ -108,8 +108,8 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
       if (size() > 1)
       {
          m_projectFile.getChildResources().clear();
-         this.stream().forEach(r -> r.getChildResources().clear());
-         this.stream().forEach(r -> {
+         this.forEach(r -> r.getChildResources().clear());
+         this.forEach(r -> {
             Resource parent = r.getParentResource();
             if (parent == null)
             {

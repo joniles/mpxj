@@ -1504,7 +1504,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       //
       // Resource calendar post processing
       //
-      Map<Integer, List<Resource>> resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
+      Map<Integer, List<Resource>> resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(Resource::getCalendarUniqueID));
       for (Resource resource : m_projectFile.getResources())
       {
          ProjectCalendar calendar = resource.getCalendar();
