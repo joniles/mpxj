@@ -1391,7 +1391,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeRoleRates()
    {
-      m_projectFile.getResources().stream().filter(r -> r.getRole()).forEach(this::writeRoleRates);
+      m_projectFile.getResources().stream().filter(Resource::getRole).forEach(this::writeRoleRates);
    }
 
    /**

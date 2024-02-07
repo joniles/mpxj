@@ -37,7 +37,7 @@ import net.sf.mpxj.common.LocalDateTimeHelper;
 /**
  * Normalise timephased data from an MPP file.
  */
-public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormaliser
+public final class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormaliser
 {
    /**
     * Private constructor to prevent instantiation.
