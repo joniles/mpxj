@@ -40,6 +40,7 @@ public interface TimephasedNormaliser<T>
     * data used by MS Project into a standardised
     * format to make it easy to work with.
     *
+    * @param calendar calendar context for normalisation
     * @param parent parent entity
     * @param list list of assignment data
     */

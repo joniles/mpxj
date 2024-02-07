@@ -43,7 +43,7 @@ import net.sf.mpxj.common.NumberHelper;
 /**
  * Normalise timephased data from an MSPDI file.
  */
-public class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormaliser
+public final class MSPDITimephasedWorkNormaliser extends AbstractTimephasedWorkNormaliser
 {
    /**
     * Private constructor to prevent instantiation.

@@ -3483,7 +3483,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public String getBaselineCalendarName()
    {
-      return (String)get(ProjectField.BASELINE_CALENDAR_NAME);
+      return (String) get(ProjectField.BASELINE_CALENDAR_NAME);
    }
 
    /**

@@ -999,7 +999,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          LocalTime calTime = LocalTimeHelper.getLocalTime(date);
          LocalTime finishTime = null;
-         for (int index=ranges.size(); index-- > 0;)
+         for (int index = ranges.size(); index-- > 0;)
          {
             LocalTimeRange range = ranges.get(index);
             if ((range.getEnd() == LocalTime.MIDNIGHT && calTime == LocalTime.MIDNIGHT) || !calTime.isBefore(range.getEnd()))
