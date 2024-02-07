@@ -1,6 +1,17 @@
 # Changelog
 
-## 12.6.1 (unreleased)
+## 12.7.1 (unreleased)
+
+## 12.7.0 (2024-02-07)
+* Added support for reading and writing the project property Baseline Calendar Name to and from MPP and MSPDI files.
+* Ensure Start Variance and Finish Variance are read from and written to MSPDI files in the correct format.
+* Improve accuracy of large Work Variance values read from MSPDI files.
+* Add support for the Calendar GUID attribute, which is read from MPP and MSPDI files, and written to MSPDI files.
+* Ensure Activity Codes are available when reading Phoenix PPX files even if they are also being used to construct the task hierarchy.
+* Ensure Activity Codes Values are populated when reading Phoenix PPX files. (Contributed by Rohit Sinha)
+* When writing an MSPDI file, derive the TimephasedData Unit attribute from the duration of the timephased data item.
+* Fixed an issue with the `ProjectCalendar.getPreviousWorkFinish` method when called with a time which was already at the end of a period of work.
+* Ensure that the `proj_node_flag` is set for the root WBS node when writing XER files.
 
 ## 12.6.0 (2024-01-22)
 * Updated PMXML schema to version 23.12.

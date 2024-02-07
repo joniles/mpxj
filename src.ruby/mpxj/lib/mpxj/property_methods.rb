@@ -200,6 +200,13 @@ module MPXJ
       get_date_value(attribute_values['baseline9_date'])
     end
 
+    # Retrieve the Baseline Calendar Name value
+    #
+    # @return Baseline Calendar Name value
+    def baseline_calendar_name
+      attribute_values['baseline_calendar_name']
+    end
+
     # Retrieve the Baseline Cost value
     #
     # @return Baseline Cost value
@@ -1223,6 +1230,7 @@ module MPXJ
       'baseline7_date' => :date,
       'baseline8_date' => :date,
       'baseline9_date' => :date,
+      'baseline_calendar_name' => :string,
       'baseline_cost' => :currency,
       'baseline_date' => :date,
       'baseline_duration' => :duration,

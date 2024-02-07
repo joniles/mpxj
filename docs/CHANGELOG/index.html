@@ -291,9 +291,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1261-unreleased" class="md-nav__link">
+  <a href="#1271-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      12.6.1 (unreleased)
+      12.7.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1270-2024-02-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.7.0 (2024-02-07)
     </span>
   </a>
   
@@ -3665,9 +3674,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1261-unreleased" class="md-nav__link">
+  <a href="#1271-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      12.6.1 (unreleased)
+      12.7.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1270-2024-02-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.7.0 (2024-02-07)
     </span>
   </a>
   
@@ -5777,7 +5795,19 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1261-unreleased">12.6.1 (unreleased)</h2>
+<h2 id="1271-unreleased">12.7.1 (unreleased)</h2>
+<h2 id="1270-2024-02-07">12.7.0 (2024-02-07)</h2>
+<ul>
+<li>Added support for reading and writing the project property Baseline Calendar Name to and from MPP and MSPDI files.</li>
+<li>Ensure Start Variance and Finish Variance are read from and written to MSPDI files in the correct format.</li>
+<li>Improve accuracy of large Work Variance values read from MSPDI files.</li>
+<li>Add support for the Calendar GUID attribute, which is read from MPP and MSPDI files, and written to MSPDI files.</li>
+<li>Ensure Activity Codes are available when reading Phoenix PPX files even if they are also being used to construct the task hierarchy.</li>
+<li>Ensure Activity Codes Values are populated when reading Phoenix PPX files. (Contributed by Rohit Sinha)</li>
+<li>When writing an MSPDI file, derive the TimephasedData Unit attribute from the duration of the timephased data item.</li>
+<li>Fixed an issue with the <code>ProjectCalendar.getPreviousWorkFinish</code> method when called with a time which was already at the end of a period of work.</li>
+<li>Ensure that the <code>proj_node_flag</code> is set for the root WBS node when writing XER files.</li>
+</ul>
 <h2 id="1260-2024-01-22">12.6.0 (2024-01-22)</h2>
 <ul>
 <li>Updated PMXML schema to version 23.12.</li>
