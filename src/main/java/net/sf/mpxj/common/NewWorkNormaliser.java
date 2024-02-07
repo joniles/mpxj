@@ -21,6 +21,10 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
          return;
       }
 
+      System.out.println("Initial Items");
+      list.forEach(System.out::println);
+      System.out.println();
+
       if (list.size() > 1)
       {
          mergeDays(calendar, list);
@@ -38,26 +42,32 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
       while (index < list.size())
       {
          TimephasedWork item = list.get(index);
+         System.out.println("Processing: " + item);
+
          Duration itemWork = item.getTotalAmount() == null ? Duration.getInstance(0, TimeUnit.HOURS) : item.getTotalAmount();
          Duration calendarWork = calendar.getWork(item.getStart(), item.getFinish(), itemWork.getUnits());
          if (itemWork.equals(calendarWork))
          {
+            System.out.println("Item work equals calendar work");
             if (itemWork.getDuration() == 0.0)
             {
                // We have a zero duration item which agrees with the calendar,
                // so we can remove it as it provides no useful information.
                list.remove(index);
+               System.out.println("Removing: item and calendar have zero work: " + item);
             }
             else
             {
                if (lastItemIsStandard)
                {
                   TimephasedWork lastItem = list.get(index-1);
+                  System.out.println("Last item is standard: " + lastItem);
                   Duration lastItemWork = lastItem.getTotalAmount() == null ? Duration.getInstance(0, TimeUnit.HOURS) : lastItem.getTotalAmount().convertUnits(itemWork.getUnits(), calendar);
                   double combinedWork = itemWork.getDuration() + lastItemWork.getDuration();
                   Duration combinedCalendarWork = calendar.getWork(lastItem.getStart(), item.getFinish(), itemWork.getUnits());
                   if (combinedCalendarWork.getDuration() == combinedWork)
                   {
+                     System.out.println("Combining: " + lastItem + " and " + item);
                      lastItem.setFinish(item.getFinish());
                      lastItem.setTotalAmount(Duration.getInstance(combinedWork, itemWork.getUnits()));
                      lastItemIsStandard = true;
@@ -69,10 +79,12 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
                      // standard, so we leave it in the list and move forward.
                      index++;
                      lastItemIsStandard = true;
+                     System.out.println("Leaving unchanged: " + item);
                   }
                }
                else
                {
+                  System.out.println("Last item is not standard, leaving unchanged: " + item);
                   // We can't merge with the previous item, but this item is
                   // standard, so we leave it in the list and move forward.
                   index++;
@@ -82,6 +94,7 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
          }
          else
          {
+            System.out.println("Item work is not equal to calendar work, leaving unchanged " + item);
             index++;
             lastItemIsStandard = false;
          }
@@ -98,15 +111,15 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
             continue;
          }
 
-         if (item.getStart().isEqual(calendar.getPreviousWorkFinish(item.getStart())))
-         {
-            item.setStart(nextWorkStart);
-         }
-//         Duration calendarWork = calendar.getWork(nextWorkStart, item.getFinish(), item.getTotalAmount().getUnits());
-//         if (calendarWork.getDuration() == item.getTotalAmount().getDuration())
+//         if (item.getStart().isEqual(calendar.getPreviousWorkFinish(item.getStart())))
 //         {
 //            item.setStart(nextWorkStart);
 //         }
+         Duration calendarWork = calendar.getWork(nextWorkStart, item.getFinish(), item.getTotalAmount().getUnits());
+         if (calendarWork.getDuration() == item.getTotalAmount().getDuration())
+         {
+            item.setStart(nextWorkStart);
+         }
       }
    }
 
@@ -120,16 +133,16 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
             continue;
          }
 
-         if (item.getFinish().isEqual(calendar.getNextWorkStart(item.getFinish())))
-         {
-            item.setFinish(previousWorkFinish);
-         }
-
-//         Duration calendarWork = calendar.getWork(item.getStart(), previousWorkFinish, item.getTotalAmount().getUnits());
-//         if (calendarWork.getDuration() == item.getTotalAmount().getDuration())
+//         if (item.getFinish().isEqual(calendar.getNextWorkStart(item.getFinish())))
 //         {
 //            item.setFinish(previousWorkFinish);
 //         }
+
+         Duration calendarWork = calendar.getWork(item.getStart(), previousWorkFinish, item.getTotalAmount().getUnits());
+         if (calendarWork.getDuration() == item.getTotalAmount().getDuration())
+         {
+            item.setFinish(previousWorkFinish);
+         }
       }
    }
 

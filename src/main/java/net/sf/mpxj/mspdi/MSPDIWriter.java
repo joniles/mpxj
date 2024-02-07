@@ -2216,6 +2216,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       // Write the baselines
       for (int index = 0; index < ASSIGNMENT_TIMEPHASED_BASELINE_WORK_TYPES.length; index++)
       {
+         System.out.println("BASELINE " + index);
          writeTimephasedWorkData(assignmentID, list, splitDays(calendar, mpx.getTimephasedBaselineWork(index), null, null), ASSIGNMENT_TIMEPHASED_BASELINE_WORK_TYPES[index]);
       }
 

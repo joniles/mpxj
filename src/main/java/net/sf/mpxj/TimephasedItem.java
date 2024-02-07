@@ -134,7 +134,7 @@ public abstract class TimephasedItem<T>
 
    @Override public String toString()
    {
-      return "[TimephasedItem start=" + m_start + " totalAmount=" + m_totalAmount + " finish=" + m_finish + " amountPerDay=" + m_amountPerDay + " modified=" + m_modified + "]";
+      return "[TimephasedItem start=" + m_start + " finish=" + m_finish + " totalAmount=" + m_totalAmount + "]";
    }
 
    @SuppressWarnings("unchecked") @Override public boolean equals(Object o)
