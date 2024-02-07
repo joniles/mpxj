@@ -25,8 +25,15 @@ package net.sf.mpxj.explorer;
 
 import java.awt.EventQueue;
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
+import java.util.Arrays;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -49,10 +56,18 @@ import net.sf.mpxj.reader.UniversalProjectReader;
  */
 public class ProjectExplorer
 {
+   private static final int MAX_RECENT_FILES = 5;
+   private static final String RECENT_FILES = "RECENT_FILES";
+
    protected JFrame m_frame;
    private boolean m_openAll;
    private boolean m_expandSubprojects;
    private boolean m_removeExternalTasks = true;
+   private final JMenuItem m_saveMenu = new JMenuItem("Save As...");
+   private final JMenuItem m_cleanMenu = new JMenuItem("Clean...");
+   private final JMenu m_recentFilesMenu = new JMenu("Open Recent");
+   private final JTabbedPane m_tabbedPane = new JTabbedPane(SwingConstants.TOP);
+   private final Deque<String> m_recentFiles = new ArrayDeque<>();
 
    /**
     * Launch the application.
@@ -136,13 +151,15 @@ public class ProjectExplorer
       JMenuItem mntmOpen = new JMenuItem("Open...");
       mnFile.add(mntmOpen);
 
-      final JMenuItem mntmSave = new JMenuItem("Save As...");
-      mntmSave.setEnabled(false);
-      mnFile.add(mntmSave);
+      mnFile.add(m_recentFilesMenu);
 
-      final JMenuItem mntmClean = new JMenuItem("Clean...");
-      mntmClean.setEnabled(false);
-      mnFile.add(mntmClean);
+      m_saveMenu.setEnabled(false);
+      mnFile.add(m_saveMenu);
+
+      m_cleanMenu.setEnabled(false);
+      mnFile.add(m_cleanMenu);
+
+      mnFile.addSeparator();
 
       final JMenuItem mntmOpenAll = new JCheckBoxMenuItem("Open All");
       mnFile.add(mntmOpenAll);
@@ -171,12 +188,12 @@ public class ProjectExplorer
       //
       // Save
       //
-      mntmSave.addActionListener(e -> fileSaverController.openFileSaver());
+      m_saveMenu.addActionListener(e -> fileSaverController.openFileSaver());
 
       //
       // Clean
       //
-      mntmClean.addActionListener(e -> fileCleanerController.openFileCleaner());
+      m_cleanMenu.addActionListener(e -> fileCleanerController.openFileCleaner());
 
       //
       // Open All
@@ -196,73 +213,204 @@ public class ProjectExplorer
       //
       mntmRemoveExternalTasks.addActionListener(e -> m_removeExternalTasks = !m_removeExternalTasks);
 
-      final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
-      m_frame.getContentPane().add(tabbedPane);
+      m_frame.getContentPane().add(m_tabbedPane);
 
       PropertyAdapter<FileChooserModel> openAdapter = new PropertyAdapter<>(fileChooserModel, "file", true);
-      openAdapter.addValueChangeListener(evt -> {
-         try
-         {
-            File file = fileChooserModel.getFile();
-            ProjectFile projectFile = new UniversalProjectReader().read(file);
-            if (projectFile == null)
-            {
-               JOptionPane.showMessageDialog(m_frame, "Unsupported file type");
-               return;
-            }
-
-            expandSubprojects(file, projectFile);
-            tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile));
-            mntmSave.setEnabled(true);
-            mntmClean.setEnabled(true);
-         }
-
-         catch (MPXJException ex)
-         {
-            throw new IllegalArgumentException("Failed to read file", ex);
-         }
-      });
+      openAdapter.addValueChangeListener(evt -> openFile(fileChooserModel.getFile()));
 
       PropertyAdapter<FileChooserModel> openAllAdapter = new PropertyAdapter<>(openAllFileChooserModel, "file", true);
-      openAllAdapter.addValueChangeListener(evt -> {
-         try
-         {
-            File file = openAllFileChooserModel.getFile();
-            List<ProjectFile> projectFiles = new UniversalProjectReader().readAll(file);
-            if (projectFiles.isEmpty())
-            {
-               JOptionPane.showMessageDialog(m_frame, "Unsupported file type");
-               return;
-            }
-
-            int index = 1;
-            for (ProjectFile projectFile : projectFiles)
-            {
-               String name = projectFiles.size() == 1 ? file.getName() : file.getName() + " (" + (index++) + ")";
-               expandSubprojects(file, projectFile);
-               tabbedPane.add(name, new ProjectFilePanel(file, projectFile));
-            }
-            mntmSave.setEnabled(true);
-            mntmClean.setEnabled(true);
-         }
-
-         catch (MPXJException ex)
-         {
-            throw new IllegalArgumentException("Failed to read file", ex);
-         }
-      });
+      openAllAdapter.addValueChangeListener(evt -> openAll(openAllFileChooserModel.getFile()));
 
       PropertyAdapter<FileSaverModel> saveAdapter = new PropertyAdapter<>(fileSaverModel, "file", true);
       saveAdapter.addValueChangeListener(evt -> {
-         ProjectFilePanel panel = (ProjectFilePanel) tabbedPane.getSelectedComponent();
+         ProjectFilePanel panel = (ProjectFilePanel) m_tabbedPane.getSelectedComponent();
          panel.saveFile(fileSaverModel.getFile(), fileSaverModel.getType());
       });
 
       PropertyAdapter<FileCleanerModel> cleanAdapter = new PropertyAdapter<>(fileCleanerModel, "file", true);
       cleanAdapter.addValueChangeListener(evt -> {
-         ProjectFilePanel panel = (ProjectFilePanel) tabbedPane.getSelectedComponent();
+         ProjectFilePanel panel = (ProjectFilePanel) m_tabbedPane.getSelectedComponent();
          panel.cleanFile(fileCleanerModel.getFile());
       });
+
+      m_frame.addWindowListener(new WindowListener()
+      {
+         @Override public void windowOpened(WindowEvent e)
+         {
+
+         }
+
+         @Override public void windowClosing(WindowEvent e)
+         {
+            saveRecentFiles();
+         }
+
+         @Override public void windowClosed(WindowEvent e)
+         {
+
+         }
+
+         @Override public void windowIconified(WindowEvent e)
+         {
+
+         }
+
+         @Override public void windowDeiconified(WindowEvent e)
+         {
+
+         }
+
+         @Override public void windowActivated(WindowEvent e)
+         {
+
+         }
+
+         @Override public void windowDeactivated(WindowEvent e)
+         {
+
+         }
+      });
+
+      loadRecentFiles();
+   }
+
+   private void openFile(File file)
+   {
+      try
+      {
+         ProjectFile projectFile = new UniversalProjectReader().read(file);
+         if (projectFile == null)
+         {
+            JOptionPane.showMessageDialog(m_frame, "Unsupported file type");
+            return;
+         }
+
+         expandSubprojects(file, projectFile);
+         m_tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile));
+         m_saveMenu.setEnabled(true);
+         m_cleanMenu.setEnabled(true);
+         updateRecentFiles(file);
+      }
+
+      catch (MPXJException ex)
+      {
+         throw new IllegalArgumentException("Failed to read file", ex);
+      }
+   }
+
+   private void openAll(File file)
+   {
+      try
+      {
+         List<ProjectFile> projectFiles = new UniversalProjectReader().readAll(file);
+         if (projectFiles.isEmpty())
+         {
+            JOptionPane.showMessageDialog(m_frame, "Unsupported file type");
+            return;
+         }
+
+         int index = 1;
+         for (ProjectFile projectFile : projectFiles)
+         {
+            String name = projectFiles.size() == 1 ? file.getName() : file.getName() + " (" + (index++) + ")";
+            expandSubprojects(file, projectFile);
+            m_tabbedPane.add(name, new ProjectFilePanel(file, projectFile));
+         }
+         m_saveMenu.setEnabled(true);
+         m_cleanMenu.setEnabled(true);
+         updateRecentFiles(file);
+      }
+
+      catch (MPXJException ex)
+      {
+         throw new IllegalArgumentException("Failed to read file", ex);
+      }
+   }
+
+   private void loadRecentFiles()
+   {
+      Preferences prefs = Preferences.userNodeForPackage(this.getClass());
+      m_recentFiles.clear();
+      String recentFilesString = prefs.get(RECENT_FILES, "");
+      if (!recentFilesString.isEmpty())
+      {
+         m_recentFiles.addAll(Arrays.asList(recentFilesString.split("\\|")));
+      }
+      updateRecentFilesMenu();
+   }
+
+   private void saveRecentFiles()
+   {
+      try
+      {
+         Preferences prefs = Preferences.userNodeForPackage(this.getClass());
+         prefs.put(RECENT_FILES, String.join("|", m_recentFiles));
+         prefs.flush();
+      }
+      catch (BackingStoreException e)
+      {
+         throw new RuntimeException(e);
+      }
+   }
+
+   private void updateRecentFiles(File file)
+   {
+      String path = file.getAbsolutePath();
+      if (m_recentFiles.isEmpty())
+      {
+         m_recentFiles.add(path);
+      }
+      else
+      {
+         if (!m_recentFiles.peekFirst().equals(path))
+         {
+            m_recentFiles.remove(path);
+            m_recentFiles.addFirst(path);
+            if (m_recentFiles.size() > MAX_RECENT_FILES)
+            {
+               m_recentFiles.removeLast();
+            }
+         }
+      }
+
+      updateRecentFilesMenu();
+   }
+
+   private void updateRecentFilesMenu()
+   {
+      m_recentFilesMenu.removeAll();
+      for (String path : m_recentFiles)
+      {
+         JMenuItem item = new JMenuItem(path);
+         item.addActionListener(l -> openRecentFile(path));
+         m_recentFilesMenu.add(item);
+      }
+
+      if (!m_recentFiles.isEmpty())
+      {
+         m_recentFilesMenu.addSeparator();
+         JMenuItem clearFiles = new JMenuItem("Clear Recent Files");
+         m_recentFilesMenu.add(clearFiles);
+         clearFiles.addActionListener(l -> {
+            m_recentFiles.clear();
+            updateRecentFilesMenu();
+         });
+      }
+
+      m_recentFilesMenu.setEnabled(!m_recentFiles.isEmpty());
+   }
+
+   private void openRecentFile(String path)
+   {
+      File file = new File(path);
+      if (m_openAll)
+      {
+         openAll(file);
+      }
+      else
+      {
+         openFile(file);
+      }
    }
 
    /**
