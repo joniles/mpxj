@@ -28,6 +28,11 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
       if (list.size() > 1)
       {
          mergeDays(calendar, list);
+
+         System.out.println();
+         System.out.println("Merged Items");
+         list.forEach(System.out::println);
+         System.out.println();
       }
 
       normaliseStarts(calendar, list);
@@ -103,23 +108,44 @@ public class NewWorkNormaliser implements TimephasedNormaliser<TimephasedWork>
 
    private void normaliseStarts(ProjectCalendar calendar, List<TimephasedWork> list)
    {
+      System.out.println("Normalising Starts");
       for (TimephasedWork item : list)
       {
+         System.out.println("Item: " + item);
+
          LocalDateTime nextWorkStart = calendar.getNextWorkStart(item.getStart());
          if (item.getStart().isEqual(nextWorkStart) || nextWorkStart.isAfter(item.getFinish()))
          {
+            if (item.getStart().isEqual(nextWorkStart))
+            {
+               System.out.println("Item alreday at next work start");
+            }
+            else
+            {
+               System.out.println("Next work strat after item finish");
+            }
             continue;
          }
 
-//         if (item.getStart().isEqual(calendar.getPreviousWorkFinish(item.getStart())))
-//         {
-//            item.setStart(nextWorkStart);
-//         }
-         Duration calendarWork = calendar.getWork(nextWorkStart, item.getFinish(), item.getTotalAmount().getUnits());
-         if (calendarWork.getDuration() == item.getTotalAmount().getDuration())
+
+         LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(item.getStart());
+         System.out.println("Item Start: " + item.getStart() + " prev work finish: " + previousWorkFinish + " next work start:" + nextWorkStart);
+         if (item.getStart().isEqual(previousWorkFinish))
          {
+            System.out.println("Updating");
             item.setStart(nextWorkStart);
          }
+//         Duration calendarWork = calendar.getWork(nextWorkStart, item.getFinish(), item.getTotalAmount().getUnits());
+//         System.out.println("Item Work:" + item.getTotalAmount() + " Calendar Work: " + calendarWork);
+//         if (calendarWork.getDuration() == item.getTotalAmount().getDuration())
+//         {
+//            System.out.println("Work matches, updating start");
+//            item.setStart(nextWorkStart);
+//         }
+//         else
+//         {
+//            System.out.println("Work does not match");
+//         }
       }
    }
 
