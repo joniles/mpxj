@@ -5,11 +5,13 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="12.7.0">
+		<release date="unreleased" version="12.7.1">
+		</release>
+		<release date="2024-02-07" version="12.7.0">
 			<action dev="joniles" type="update">Added support for reading and writing the project property Baseline Calendar Name to and from MPP and MSPDI files.</action>
 			<action dev="joniles" type="update">Ensure Start Variance and Finish Variance are read from and written to MSPDI files in the correct format.</action>
 			<action dev="joniles" type="update">Improve accuracy of large Work Variance values read from MSPDI files.</action>
-			<action dev="joniles" type="update">Add support for the Calendar GUID attriute, which is read from MPP and MSPDI files, and written to MSPDI files.</action>
+			<action dev="joniles" type="update">Add support for the Calendar GUID attribute, which is read from MPP and MSPDI files, and written to MSPDI files.</action>
 			<action dev="joniles" type="update">Ensure Activity Codes are available when reading Phoenix PPX files even if they are also being used to construct the task hierarchy.</action>
 			<action dev="joniles" type="update">Ensure Activity Codes Values are populated when reading Phoenix PPX files. (Contributed by Rohit Sinha)</action>
 			<action dev="joniles" type="update">When writing an MSPDI file, derive the TimephasedData Unit attribute from the duration of the timephased data item.</action>
