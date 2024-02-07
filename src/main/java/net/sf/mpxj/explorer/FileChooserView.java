@@ -66,10 +66,12 @@ public class FileChooserView
    {
       if (m_model.getShowDialog())
       {
+         m_fileChooser.setCurrentDirectory(m_model.getCurrentDirectory());
          if (m_fileChooser.showOpenDialog(m_parent) == JFileChooser.APPROVE_OPTION)
          {
             m_model.setFile(m_fileChooser.getSelectedFile());
          }
+         m_model.setCurrentDirectory(m_fileChooser.getCurrentDirectory());
          m_model.setShowDialog(false);
       }
    }

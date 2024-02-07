@@ -36,6 +36,7 @@ public class FileChooserModel
    private boolean m_showDialog;
    private File m_file;
    private String[] m_extensions;
+   private File m_currentDirectory;
 
    /**
     * Retrieves the show dialog flag.
@@ -95,6 +96,26 @@ public class FileChooserModel
    public void setExtensions(String... extensions)
    {
       m_changeSupport.firePropertyChange("extensions", m_extensions, m_extensions = extensions);
+   }
+
+   /**
+    * Retrieves the current directory to open in the chooser.
+    *
+    * @return current directory
+    */
+   public File getCurrentDirectory()
+   {
+      return m_currentDirectory;
+   }
+
+   /**
+    * Sets the current directory to open in the chooser.
+    *
+    * @param value current directory
+    */
+   public void setCurrentDirectory(File value)
+   {
+      m_currentDirectory = value;
    }
 
    /**
