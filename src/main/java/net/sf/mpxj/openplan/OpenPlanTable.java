@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.TimeUnit;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
@@ -81,7 +84,7 @@ class OpenPlanTable
       return result;
    }
 
-   private Object convertType(String name, byte[] bytes)
+   private Object convertType(String name, byte[] bytes) throws IOException
    {
       if (bytes == null || bytes.length == 0)
       {
@@ -113,11 +116,55 @@ class OpenPlanTable
             return Boolean.valueOf(value.charAt(0) == 'T');
          }
 
+         case DURATION:
+         {
+            return parseDuration(value);
+         }
+
          default:
          {
             return value;
          }
       }
+   }
+
+   private Object parseDuration(String value)
+   {
+      if (value.equals("0"))
+      {
+         return Duration.getInstance(0, TimeUnit.HOURS);
+      }
+
+      Matcher match = DURATION_REGEX.matcher(value);
+      if (!match.matches())
+      {
+         return value;
+      }
+
+      int duration = Integer.parseInt(match.group(1));
+      TimeUnit unit;
+
+      switch (match.group(2).charAt(0))
+      {
+         case 'h':
+         {
+            unit = TimeUnit.HOURS;
+            break;
+         }
+
+         case 'd':
+         {
+            unit = TimeUnit.DAYS;
+            break;
+         }
+
+         default:
+         {
+            return value;
+         }
+      }
+
+      return Duration.getInstance(duration, unit);
    }
 
    private final InputStream m_is;
@@ -128,10 +175,7 @@ class OpenPlanTable
    private static final Map<String, DataType> TYPE_MAP = new HashMap<>();
    static
    {
-      TYPE_MAP.put("ACT_ID", DataType.STRING);
       TYPE_MAP.put("ACT_PROBABILITY", DataType.NUMERIC);
-      TYPE_MAP.put("ACT_TYPE", DataType.STRING);
-      TYPE_MAP.put("ACT_UID", DataType.BINARY);
       TYPE_MAP.put("ACTIVEINDEX", DataType.NUMERIC);
       TYPE_MAP.put("ACWP_LAB", DataType.NUMERIC);
       TYPE_MAP.put("ACWP_MAT", DataType.NUMERIC);
@@ -157,22 +201,9 @@ class OpenPlanTable
       TYPE_MAP.put("BCWS_SUB", DataType.NUMERIC);
       TYPE_MAP.put("BFDATE", DataType.DATE);
       TYPE_MAP.put("BSDATE", DataType.DATE);
-      TYPE_MAP.put("C1", DataType.BINARY);
-      TYPE_MAP.put("C2", DataType.BINARY);
-      TYPE_MAP.put("CLH_ID", DataType.STRING);
-      TYPE_MAP.put("CLH_UID", DataType.BINARY);
-      TYPE_MAP.put("COMP_RS_C", DataType.STRING);
-      TYPE_MAP.put("COMPSTAT", DataType.STRING);
-      TYPE_MAP.put("CRITICAL", DataType.STRING);
       TYPE_MAP.put("CRITINDEX", DataType.NUMERIC);
-      TYPE_MAP.put("DELAYRES_ID", DataType.BINARY);
-      TYPE_MAP.put("DELAYRES_UID", DataType.BINARY);
-      TYPE_MAP.put("DESCRIPTION", DataType.STRING);
       TYPE_MAP.put("DHIGH", DataType.DURATION);
-      TYPE_MAP.put("DIR_ID", DataType.STRING);
-      TYPE_MAP.put("DIR_UID", DataType.BINARY);
       TYPE_MAP.put("DLOW", DataType.DURATION);
-      TYPE_MAP.put("DSHAPE", DataType.STRING);
       TYPE_MAP.put("EFDATE", DataType.DATE);
       TYPE_MAP.put("ESDATE", DataType.DATE);
       TYPE_MAP.put("ETC_LAB", DataType.NUMERIC);
@@ -180,38 +211,27 @@ class OpenPlanTable
       TYPE_MAP.put("ETC_ODC", DataType.NUMERIC);
       TYPE_MAP.put("ETC_QTY", DataType.NUMERIC);
       TYPE_MAP.put("ETC_SUB", DataType.NUMERIC);
-      TYPE_MAP.put("EVT", DataType.STRING);
       TYPE_MAP.put("FEDATE", DataType.DATE);
       TYPE_MAP.put("FINFREEFLT", DataType.DURATION);
       TYPE_MAP.put("FINTOTFLT", DataType.DURATION);
       TYPE_MAP.put("FREEFLOAT", DataType.DURATION);
       TYPE_MAP.put("LASTUPDATE", DataType.DATE);
       TYPE_MAP.put("LFDATE", DataType.DATE);
-      TYPE_MAP.put("LOGICFLAG", DataType.STRING);
       TYPE_MAP.put("LSDATE", DataType.DATE);
-      TYPE_MAP.put("MAXDUR", DataType.BINARY);
-      TYPE_MAP.put("MAXSPLITS", DataType.BINARY);
       TYPE_MAP.put("MEAN_EF", DataType.DATE);
       TYPE_MAP.put("MEAN_ES", DataType.DATE);
       TYPE_MAP.put("MEAN_FF", DataType.DURATION);
       TYPE_MAP.put("MEAN_LF", DataType.DATE);
       TYPE_MAP.put("MEAN_LS", DataType.DATE);
       TYPE_MAP.put("MEAN_TF", DataType.DURATION);
-      TYPE_MAP.put("MINSPLITD", DataType.BINARY);
-      TYPE_MAP.put("MSPUNIQUEID", DataType.BINARY);
       TYPE_MAP.put("OPKEY", DataType.BOOLEAN);
       TYPE_MAP.put("ORIG_DUR", DataType.DURATION);
       TYPE_MAP.put("OUTOFSEQ", DataType.BOOLEAN);
       TYPE_MAP.put("PPC", DataType.NUMERIC);
-      TYPE_MAP.put("PRIORITY", DataType.BINARY);
-      TYPE_MAP.put("PROGTYPE", DataType.BINARY);
-      TYPE_MAP.put("PROGVALUE", DataType.BINARY);
-      TYPE_MAP.put("PWAGUID", DataType.BINARY);
       TYPE_MAP.put("REM_DUR", DataType.DURATION);
       TYPE_MAP.put("RES_DATE", DataType.DATE);
       TYPE_MAP.put("RS_FLOAT", DataType.DURATION);
       TYPE_MAP.put("RS_SUPRESS", DataType.BOOLEAN);
-      TYPE_MAP.put("RSCLASS", DataType.BINARY);
       TYPE_MAP.put("SCHED_DUR", DataType.DURATION);
       TYPE_MAP.put("SDEV_EF", DataType.DURATION);
       TYPE_MAP.put("SDEV_ES", DataType.DURATION);
@@ -219,28 +239,11 @@ class OpenPlanTable
       TYPE_MAP.put("SDEV_LF", DataType.DURATION);
       TYPE_MAP.put("SDEV_LS", DataType.DURATION);
       TYPE_MAP.put("SDEV_TF", DataType.DURATION);
-      TYPE_MAP.put("SEP_ASG", DataType.BINARY);
       TYPE_MAP.put("SEQUENCE", DataType.INTEGER);
       TYPE_MAP.put("SFDATE", DataType.DATE);
-      TYPE_MAP.put("SOURCE_BASELINE", DataType.STRING);
       TYPE_MAP.put("SSDATE", DataType.DATE);
       TYPE_MAP.put("SSINDEX", DataType.NUMERIC);
-      TYPE_MAP.put("STARTPC", DataType.BINARY);
-      TYPE_MAP.put("TARGFTYPE", DataType.BINARY);
-      TYPE_MAP.put("TARGSTYPE", DataType.BINARY);
-      TYPE_MAP.put("TFDATE", DataType.BINARY);
       TYPE_MAP.put("TOTALFLOAT", DataType.DURATION);
-      TYPE_MAP.put("TSDATE", DataType.BINARY);
-      TYPE_MAP.put("USER_CHR01", DataType.STRING);
-      TYPE_MAP.put("USER_CHR02", DataType.STRING);
-      TYPE_MAP.put("USER_CHR03", DataType.STRING);
-      TYPE_MAP.put("USER_CHR04", DataType.STRING);
-      TYPE_MAP.put("USER_CHR05", DataType.STRING);
-      TYPE_MAP.put("USER_CHR06", DataType.STRING);
-      TYPE_MAP.put("USER_CHR07", DataType.STRING);
-      TYPE_MAP.put("USER_CHR08", DataType.STRING);
-      TYPE_MAP.put("USER_CHR09", DataType.STRING);
-      TYPE_MAP.put("USER_CHR10", DataType.STRING);
       TYPE_MAP.put("USER_DTE01", DataType.DATE);
       TYPE_MAP.put("USER_DTE02", DataType.DATE);
       TYPE_MAP.put("USER_DTE03", DataType.DATE);
@@ -261,7 +264,5 @@ class OpenPlanTable
       TYPE_MAP.put("USER_NUM08", DataType.NUMERIC);
       TYPE_MAP.put("USER_NUM09", DataType.NUMERIC);
       TYPE_MAP.put("USER_NUM10", DataType.NUMERIC);
-      TYPE_MAP.put("USR_ID", DataType.STRING);
-      TYPE_MAP.put("XFDATE", DataType.BINARY);
    }
 }

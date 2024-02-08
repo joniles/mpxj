@@ -36,7 +36,10 @@ public class ReaderTest
       DirectoryEntry prjDir = (DirectoryEntry) root.getEntry(prjName);
 //      prjDir.getEntryNames().stream().forEach(System.out::println);
 
-      List<Row> rows = new OpenPlanTable(prjDir, "ACT").read();
+      List<Row> rows = new OpenPlanTable(prjDir, "PRJ").read();
       rows.forEach(System.out::println);
+
+//      List<Row> rows = new OpenPlanTable(prjDir, "ACT").read();
+//      rows.forEach(System.out::println);
    }
 }
