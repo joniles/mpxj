@@ -28,7 +28,6 @@ class ResourceReader
          resource.setName(row.getString("DESCRIPTION"));
          resource.setResourceID(row.getString("RES_ID"));
          resource.setType("Equip-hr".equals(row.getString("UNIT")) ? ResourceType.MATERIAL : ResourceType.WORK); // TODO review
-         resource.setCost();
          map.put(resource.getResourceID(), resource);
       }
 
