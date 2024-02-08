@@ -41,8 +41,7 @@ class OpenPlanTable
 
       for (int index = 0; index < columnCount; index++)
       {
-         byte[] nameBytes = getBytes();
-         columns[index] = new String(nameBytes);
+         columns[index] = getString();
       }
 
       int rowCount = getInt();
@@ -54,9 +53,8 @@ class OpenPlanTable
 
          for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
          {
-            byte[] bytes = getBytes();
             String columnName = columns[columnIndex];
-            Object value = convertType(columnName, bytes);
+            Object value = convertType(columnName, getString());
             if (value != null)
             {
                map.put(columnName, value);
@@ -99,17 +97,23 @@ class OpenPlanTable
       }
    }
 
-   private byte[] getBytes()
+   private String getString()
    {
       try
       {
          int length = getByte();
+         if (length == 0)
+         {
+            return null;
+         }
+
          byte[] bytes = new byte[length];
          if (m_is.read(bytes) != length)
          {
             throw new OpenPlanException("Failed to read expected number of bytes");
          }
-         return bytes;
+
+         return new String(bytes);
       }
 
       catch (IOException ex)
@@ -118,15 +122,13 @@ class OpenPlanTable
       }
    }
 
-   private Object convertType(String name, byte[] bytes)
+   private Object convertType(String name, String value)
    {
-      if (bytes == null || bytes.length == 0)
+      if (value == null)
       {
          return null;
       }
-
-      String value = new String(bytes);
-
+      
       switch(TYPE_MAP.getOrDefault(name, DataType.BINARY))
       {
          case NUMERIC:
