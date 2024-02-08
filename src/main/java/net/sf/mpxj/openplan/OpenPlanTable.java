@@ -21,12 +21,19 @@ import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
 class OpenPlanTable
 {
-   public OpenPlanTable(DirectoryEntry dir, String tableName) throws IOException
+   public OpenPlanTable(DirectoryEntry dir, String tableName)
    {
-      m_is = new DocumentInputStream((DocumentEntry) dir.getEntry(tableName));
+      try
+      {
+         m_is = new DocumentInputStream((DocumentEntry) dir.getEntry(tableName));
+      }
+      catch (IOException e)
+      {
+         throw new OpenPlanException(e);
+      }
    }
 
-   public List<Row> read() throws IOException
+   public List<Row> read()
    {
       int magic = getInt();
       int columnCount = getInt();
@@ -34,13 +41,7 @@ class OpenPlanTable
 
       for (int index = 0; index < columnCount; index++)
       {
-         int length = m_is.read();
-         byte[] nameBytes = new byte[length];
-         if (m_is.read(nameBytes) != length)
-         {
-            throw new IOException("Failed to read expected number of bytes");
-         }
-
+         byte[] nameBytes = getBytes();
          columns[index] = new String(nameBytes);
       }
 
@@ -51,17 +52,11 @@ class OpenPlanTable
       {
          Map<String, Object> map = new HashMap<>();
 
-         for (int columnIndex=0; columnIndex < columnCount; columnIndex++)
+         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
          {
-            int byteCount = m_is.read();
-            byte[] bytes = new byte[byteCount];
-            if (m_is.read(bytes) != byteCount)
-            {
-               throw new IOException("Failed to read expected number of bytes");
-            }
-
+            byte[] bytes = getBytes();
             String columnName = columns[columnIndex];
-            Object value =  convertType(columnName, bytes);
+            Object value = convertType(columnName, bytes);
             if (value != null)
             {
                map.put(columnName, value);
@@ -74,17 +69,56 @@ class OpenPlanTable
       return rows;
    }
 
-   private int getInt() throws IOException
+   private int getInt()
    {
-      int result = 0;
-      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
+      try
       {
-         result |= ((m_is.read() & 0xff)) << shiftBy;
+         int result = 0;
+         for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
+         {
+            result |= ((m_is.read() & 0xff)) << shiftBy;
+         }
+         return result;
       }
-      return result;
+      catch (IOException ex)
+      {
+         throw new OpenPlanException(ex);
+      }
    }
 
-   private Object convertType(String name, byte[] bytes) throws IOException
+
+   private int getByte()
+   {
+      try
+      {
+         return m_is.read();
+      }
+      catch (IOException ex)
+      {
+         throw new OpenPlanException(ex);
+      }
+   }
+
+   private byte[] getBytes()
+   {
+      try
+      {
+         int length = getByte();
+         byte[] bytes = new byte[length];
+         if (m_is.read(bytes) != length)
+         {
+            throw new OpenPlanException("Failed to read expected number of bytes");
+         }
+         return bytes;
+      }
+
+      catch (IOException ex)
+      {
+         throw new OpenPlanException(ex);
+      }
+   }
+
+   private Object convertType(String name, byte[] bytes)
    {
       if (bytes == null || bytes.length == 0)
       {
@@ -264,5 +298,20 @@ class OpenPlanTable
       TYPE_MAP.put("USER_NUM08", DataType.NUMERIC);
       TYPE_MAP.put("USER_NUM09", DataType.NUMERIC);
       TYPE_MAP.put("USER_NUM10", DataType.NUMERIC);
+
+      TYPE_MAP.put("MNPERDAY", DataType.INTEGER);
+      TYPE_MAP.put("TOTACT", DataType.INTEGER);
+      TYPE_MAP.put("TARGCOST", DataType.NUMERIC);
+      TYPE_MAP.put("MNPERWK", DataType.INTEGER);
+      TYPE_MAP.put("TOTRELSHP", DataType.INTEGER);
+      TYPE_MAP.put("TOTRESO", DataType.INTEGER);
+      TYPE_MAP.put("REFDATE", DataType.DATE);
+      TYPE_MAP.put("MNPERMON", DataType.INTEGER);
+
+      TYPE_MAP.put("RSDATE", DataType.DATE);
+      TYPE_MAP.put("RFDATE", DataType.DATE);
+      TYPE_MAP.put("RES_ESC", DataType.NUMERIC);
+      TYPE_MAP.put("RES_USED", DataType.NUMERIC);
+      TYPE_MAP.put("RES_CST", DataType.NUMERIC);
    }
 }
