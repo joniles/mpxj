@@ -35,6 +35,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.ChildResourceContainer;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
@@ -240,9 +241,9 @@ public class ProjectTreeController
     * @param parentNode parent tree node
     * @param file resource container
     */
-   private void addResources(MpxjTreeNode parentNode, ProjectFile file)
+   private void addResources(MpxjTreeNode parentNode, ChildResourceContainer file)
    {
-      for (Resource resource : file.getResources())
+      for (Resource resource : file.getChildResources())
       {
          final Resource r = resource;
          MpxjTreeNode childNode = new MpxjTreeNode(resource)
@@ -253,6 +254,7 @@ public class ProjectTreeController
             }
          };
          parentNode.add(childNode);
+         addResources(childNode, resource);
       }
    }
 

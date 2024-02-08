@@ -34,12 +34,11 @@ class ResourceReader
       for (Resource resource : map.values())
       {
          Resource parentResource = map.get(getParentResourceID(resource.getResourceID()));
-         if (parentResource != null)
-         {
-            parentResource.addChildResource(resource);
-         }
+         resource.setParentResource(parentResource);
       }
 
+      m_file.getResources().updateStructure();
+/*
       System.out.println("RES");
       new TableReader(dir, "RES").read().forEach(System.out::println);
 
@@ -66,6 +65,7 @@ class ResourceReader
 
       System.out.println("AVL");
       new TableReader(dir, "AVL").read().forEach(System.out::println);
+ */
    }
 
    private String getParentResourceID(String resourceID)
