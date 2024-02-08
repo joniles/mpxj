@@ -7,6 +7,7 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Set;
 
 public class ReaderTest
@@ -23,8 +24,8 @@ public class ReaderTest
       DirectoryEntry root = fs.getRoot();
       Set<String> entryNames = root.getEntryNames();
 
-      entryNames.forEach(System.out::println);
-      System.out.println();
+//      entryNames.forEach(System.out::println);
+//      System.out.println();
 
       String prjName = entryNames.stream().filter(s -> s.toUpperCase().endsWith("_PRJ")).findFirst().orElse(null);
       if (prjName == null)
@@ -33,62 +34,9 @@ public class ReaderTest
       }
 
       DirectoryEntry prjDir = (DirectoryEntry) root.getEntry(prjName);
-      prjDir.getEntryNames().stream().forEach(System.out::println);
+//      prjDir.getEntryNames().stream().forEach(System.out::println);
 
-      readTable(new DocumentInputStream((DocumentEntry) prjDir.getEntry("ACT")));
-
+      List<Row> rows = new OpenPlanTable(prjDir, "ACT").read();
+      rows.forEach(System.out::println);
    }
-
-   private void readTable(InputStream is) throws IOException
-   {
-      int magic = getInt(is);
-      int columnCount = getInt(is);
-      String[] columns = new String[columnCount];
-      for (int index = 0; index < columnCount; index++)
-      {
-         int length = is.read();
-         byte[] nameBytes = new byte[length];
-         is.read(nameBytes);
-         String name = new String(nameBytes);
-         columns[index] = name;
-         System.out.println(name);
-      }
-
-      int rowCount = getInt(is);
-      System.out.println(rowCount);
-
-      for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
-      {
-         System.out.println("ROW " + rowIndex);
-         for (int columnIndex=0; columnIndex < columnCount; columnIndex++)
-         {
-            int byteCount = is.read();
-            byte[] bytes = new byte[byteCount];
-            is.read(bytes);
-            System.out.println(columns[columnIndex] + "\t"+ ByteArrayHelper.hexdump(bytes, true));
-         }
-         System.out.println();
-      }
-   }
-
-   private int getShort(InputStream is) throws IOException
-   {
-      int result = 0;
-      for (int shiftBy = 0; shiftBy < 16; shiftBy += 8)
-      {
-         result |= ((is.read() & 0xff)) << shiftBy;
-      }
-      return result;
-   }
-
-   private int getInt(InputStream is) throws IOException
-   {
-      int result = 0;
-      for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
-      {
-         result |= ((is.read() & 0xff)) << shiftBy;
-      }
-      return result;
-   }
-
 }

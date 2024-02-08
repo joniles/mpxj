@@ -51,7 +51,7 @@ public class ByteArray
 
    @Override public String toString()
    {
-      return ByteArrayHelper.hexdump(m_data, false);
+      return ByteArrayHelper.hexdump(m_data, true);
    }
 
    private final byte[] m_data;
