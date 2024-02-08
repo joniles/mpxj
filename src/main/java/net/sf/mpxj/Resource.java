@@ -1553,7 +1553,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    public void setParentResource(Resource resource)
    {
-      setParentResourceUniqueID(resource.getUniqueID());
+      setParentResourceUniqueID(resource == null ? null : resource.getUniqueID());
    }
 
    /**

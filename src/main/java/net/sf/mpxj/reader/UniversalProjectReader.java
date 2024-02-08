@@ -39,6 +39,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import net.sf.mpxj.common.ConnectionHelper;
+import net.sf.mpxj.openplan.OpenPlanReader;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 import com.healthmarketscience.jackcess.Database;
@@ -454,6 +455,13 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       try
       {
+         if (fs.getRoot().getEntryNames().contains("SourceInfo"))
+         {
+            OpenPlanReader reader = new OpenPlanReader();
+            addListenersToReader(reader);
+            return Collections.singletonList(reader.read(fs));
+         }
+
          String fileFormat = MPPReader.getFileFormat(fs);
          if (fileFormat == null || !fileFormat.startsWith("MSProject"))
          {

@@ -1,16 +1,14 @@
 package net.sf.mpxj.openplan;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -38,6 +36,12 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
 
    @Override public ProjectFile read(File file) throws MPXJException
    {
+      List<ProjectFile> projects = readAll(file);
+      return projects.isEmpty() ? null : projects.get(0);
+   }
+
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   {
       POIFSFileSystem fs = null;
 
       try
@@ -47,7 +51,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
          // instance directly for reduced memory consumption and the ability
          // to open larger MPP files.
          fs = new POIFSFileSystem(file);
-         return read(fs);
+         return readAll(fs);
       }
 
       catch (IOException ex)
@@ -61,41 +65,17 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
       }
    }
 
-
-   /**
-    * Alternative entry point allowing an MPP file to be read from
-    * a user-supplied POI file stream.
-    *
-    * @param fs POI file stream
-    * @return ProjectFile instance
-    */
    public ProjectFile read(POIFSFileSystem fs) throws MPXJException
+   {
+      List<ProjectFile> projects = readAll(fs);
+      return projects.isEmpty() ? null : projects.get(0);
+   }
+
+   public List<ProjectFile> readAll(POIFSFileSystem fs) throws MPXJException
    {
       try
       {
-         m_file = new ProjectFile();
-         ProjectConfig config = m_file.getProjectConfig();
-
-         config.setAutoWBS(false);
-
-         addListenersToProject(m_file);
-
-         //
-         // Open the file system and retrieve the root directory
-         //
-         processProjects(fs.getRoot());
-
-
-
-         //
-         // Add some analytics
-         //
-         ProjectProperties projectProperties = m_file.getProjectProperties();
-         projectProperties.setFileApplication("Deltek OpenPlan");
-         projectProperties.setFileType("BK3");
-         m_file.readComplete();
-
-         return m_file;
+         return processProjects(fs.getRoot());
       }
 
       catch (OpenPlanException ex)
@@ -104,35 +84,14 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
       }
    }
 
-   private void processProjects(DirectoryEntry root)
+   private List<ProjectFile> processProjects(DirectoryEntry root)
    {
-      root.getEntryNames().stream().filter(s -> s.toUpperCase().endsWith("_PRJ")).forEach(s -> processProject(root, s));
+      return root.getEntryNames().stream().filter(s -> s.toUpperCase().endsWith("_PRJ")).map(s -> processProject(root, s)).collect(Collectors.toList());
    }
 
-   private void processProject(DirectoryEntry parent, String name)
+   private ProjectFile processProject(DirectoryEntry root, String name)
    {
-      DirectoryEntry dir = getDirectoryEntry(parent, name);
-      List<Row> rows = new OpenPlanTable(dir, "PRJ").read();
-      if (rows.size() != 1)
-      {
-         throw new OpenPlanException("Expecting 1 project row, found " + rows.size());
-      }
-
-      Row row = rows.get(0);
-      System.out.println(row);
-   }
-
-   private DirectoryEntry getDirectoryEntry(DirectoryEntry root, String name)
-   {
-      try
-      {
-         return (DirectoryEntry) root.getEntry(name);
-      }
-
-      catch (FileNotFoundException e)
-      {
-         throw new OpenPlanException(e);
-      }
+      return new ProjectReader(root).read(name);
    }
 
    private ProjectFile m_file;

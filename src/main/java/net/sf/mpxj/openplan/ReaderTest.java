@@ -1,14 +1,8 @@
 package net.sf.mpxj.openplan;
-import net.sf.mpxj.common.ByteArrayHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
-import java.util.Set;
 
 public class ReaderTest
 {
@@ -73,7 +67,7 @@ public class ReaderTest
 //            List<Row> rows = new OpenPlanTable(resDir, "RDS").read();
 //            rows.forEach(System.out::println);
 
-            List<Row> rows = new OpenPlanTable(resDir, "RES").read();
+            List<Row> rows = new TableReader(resDir, "RES").read();
       rows.forEach(System.out::println);
 
 //      List<Row> rows = new OpenPlanTable(resDir, "RSL").read();

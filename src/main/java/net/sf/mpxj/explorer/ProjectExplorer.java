@@ -490,6 +490,7 @@ public class ProjectExplorer
 
    private static final String[] READ_EXTENSIONS =
    {
+      "bk3",
       "cdpx",
       "cdpz",
       "exe",

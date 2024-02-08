@@ -1,7 +1,5 @@
 package net.sf.mpxj.openplan;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -16,21 +14,12 @@ import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-class OpenPlanTable
+class TableReader extends AbstractReader
 {
-   public OpenPlanTable(DirectoryEntry dir, String tableName)
+   public TableReader(DirectoryEntry dir, String tableName)
    {
-      try
-      {
-         m_is = new DocumentInputStream((DocumentEntry) dir.getEntry(tableName));
-      }
-      catch (IOException e)
-      {
-         throw new OpenPlanException(e);
-      }
+      super(dir, tableName);
    }
 
    public List<Row> read()
@@ -67,60 +56,6 @@ class OpenPlanTable
       return rows;
    }
 
-   private int getInt()
-   {
-      try
-      {
-         int result = 0;
-         for (int shiftBy = 0; shiftBy < 32; shiftBy += 8)
-         {
-            result |= ((m_is.read() & 0xff)) << shiftBy;
-         }
-         return result;
-      }
-      catch (IOException ex)
-      {
-         throw new OpenPlanException(ex);
-      }
-   }
-
-
-   private int getByte()
-   {
-      try
-      {
-         return m_is.read();
-      }
-      catch (IOException ex)
-      {
-         throw new OpenPlanException(ex);
-      }
-   }
-
-   private String getString()
-   {
-      try
-      {
-         int length = getByte();
-         if (length == 0)
-         {
-            return null;
-         }
-
-         byte[] bytes = new byte[length];
-         if (m_is.read(bytes) != length)
-         {
-            throw new OpenPlanException("Failed to read expected number of bytes");
-         }
-
-         return new String(bytes);
-      }
-
-      catch (IOException ex)
-      {
-         throw new OpenPlanException(ex);
-      }
-   }
 
    private Object convertType(String name, String value)
    {
@@ -128,7 +63,7 @@ class OpenPlanTable
       {
          return null;
       }
-      
+
       switch(TYPE_MAP.getOrDefault(name, DataType.BINARY))
       {
          case NUMERIC:
@@ -203,7 +138,6 @@ class OpenPlanTable
       return Duration.getInstance(duration, unit);
    }
 
-   private final InputStream m_is;
 
    private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("yyyyMMddHHmm").toFormatter();
 
@@ -315,5 +249,22 @@ class OpenPlanTable
       TYPE_MAP.put("RES_ESC", DataType.NUMERIC);
       TYPE_MAP.put("RES_USED", DataType.NUMERIC);
       TYPE_MAP.put("RES_CST", DataType.NUMERIC);
+
+      TYPE_MAP.put("STARTDATE", DataType.DATE);
+      TYPE_MAP.put("STATDATE", DataType.DATE);
+
+      TYPE_MAP.put("ROLLCOST", DataType.BOOLEAN);
+      TYPE_MAP.put("CLC_PROG", DataType.BOOLEAN);
+      TYPE_MAP.put("EFF_FACTOR", DataType.NUMERIC);
+      TYPE_MAP.put("UNIT_COST", DataType.NUMERIC);
+      TYPE_MAP.put("CLC_COST", DataType.BOOLEAN);
+      TYPE_MAP.put("RES_CLASS", DataType.BOOLEAN);
+      TYPE_MAP.put("POSITION_NUM", DataType.INTEGER);
+      TYPE_MAP.put("NO_LIST", DataType.BOOLEAN);
+      TYPE_MAP.put("SUPPRESS", DataType.BOOLEAN);
+      TYPE_MAP.put("ROLLUP", DataType.BOOLEAN);
+      TYPE_MAP.put("THRESHOLD", DataType.NUMERIC);
+
+      TYPE_MAP.put("RSLDATE", DataType.DATE);
    }
 }
