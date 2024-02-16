@@ -18,7 +18,6 @@ class ResourceReader
 
    public void read(String name)
    {
-      System.out.println("Reading resources from " + name);
       DirectoryEntry dir = getDirectoryEntry(m_root, name);
       Map<String, Resource> map = new HashMap<>();
 
@@ -27,6 +26,7 @@ class ResourceReader
          Resource resource = m_file.addResource();
          resource.setName(row.getString("DESCRIPTION"));
          resource.setResourceID(row.getString("RES_ID"));
+         resource.setGUID(row.getUuid("RES_UID"));
          resource.setType("Equip-hr".equals(row.getString("UNIT")) ? ResourceType.MATERIAL : ResourceType.WORK); // TODO review
          map.put(resource.getResourceID(), resource);
       }

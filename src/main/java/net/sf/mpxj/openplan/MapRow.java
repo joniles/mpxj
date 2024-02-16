@@ -1,6 +1,7 @@
 package net.sf.mpxj.openplan;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 class MapRow implements Row
@@ -41,5 +42,10 @@ class MapRow implements Row
    @Override public Boolean getBoolean(String name)
    {
       return (Boolean)m_map.get(name);
+   }
+
+   @Override public UUID getUuid(String name)
+   {
+      return (UUID)m_map.get(name);
    }
 }

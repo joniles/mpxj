@@ -1,6 +1,7 @@
 package net.sf.mpxj.openplan;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 interface Row
 {
@@ -13,4 +14,6 @@ interface Row
    public Integer getInteger(String name);
 
    public Boolean getBoolean(String name);
+
+   public UUID getUuid(String name);
 }

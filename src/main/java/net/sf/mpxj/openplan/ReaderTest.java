@@ -3,18 +3,20 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class ReaderTest
 {
    public static void main(String[] argv) throws Exception
    {
-      ReaderTest test = new ReaderTest();
-      test.read(argv[0]);
+      //ReaderTest test = new ReaderTest();
+      //test.read(argv[0]);
 
-//      OpenPlanReader reader = new OpenPlanReader();
-//      reader.read(argv[0]);
+      OpenPlanReader reader = new OpenPlanReader();
+      reader.read(argv[0]);
    }
 
    private void read(String file) throws Exception
@@ -109,20 +111,24 @@ public class ReaderTest
       {
          System.out.println(value +"\t" + UuidHelper.parse(value+"  "));
       }
+
+      m_uidNames.forEach(System.out::println);
    }
 
 
    private void collectUids(List<Row> rows)
    {
-      rows.forEach(r -> ((MapRow)r).m_map.entrySet().stream().filter(e -> e.getKey().endsWith("_UID")).forEach(e -> collectUids((String)e.getValue())));
+      rows.forEach(r -> ((MapRow)r).m_map.entrySet().stream().filter(e -> e.getKey().endsWith("_UID")).forEach(e -> collectUids(e.getKey(), (String)e.getValue())));
    }
 
-   private void collectUids(String value)
+   private void collectUids(String name, String value)
    {
+      m_uidNames.add(name);
       m_uids.add(value);
    }
 
 
 
    private final List<String> m_uids = new ArrayList<>();
+   private final Set<String> m_uidNames = new HashSet<>();
 }

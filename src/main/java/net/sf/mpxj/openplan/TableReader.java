@@ -92,6 +92,11 @@ class TableReader extends AbstractReader
             return parseDuration(value);
          }
 
+         case GUID:
+         {
+            return UuidHelper.parse(value);
+         }
+
          default:
          {
             return value;
@@ -266,5 +271,26 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("THRESHOLD", DataType.NUMERIC);
 
       TYPE_MAP.put("RSLDATE", DataType.DATE);
+
+      TYPE_MAP.put("RSL_UID", DataType.GUID);
+      TYPE_MAP.put("CLH_UID", DataType.GUID);
+      TYPE_MAP.put("ALT_RES_UID", DataType.GUID);
+      TYPE_MAP.put("PRED_ACT_UID", DataType.GUID);
+      TYPE_MAP.put("PALLOC_UID", DataType.GUID);
+      TYPE_MAP.put("SUCC_ACT_UID", DataType.GUID);
+      TYPE_MAP.put("ASG_UID", DataType.GUID);
+      TYPE_MAP.put("RES_UID", DataType.GUID);
+      TYPE_MAP.put("DELAYRES_UID", DataType.GUID);
+      TYPE_MAP.put("SUBPRJ_UID", DataType.GUID);
+      TYPE_MAP.put("RES_SKL_UID", DataType.GUID);
+      TYPE_MAP.put("CLD_UID", DataType.GUID);
+      TYPE_MAP.put("COD_UID", DataType.GUID);
+      TYPE_MAP.put("REL_UID", DataType.GUID);
+      TYPE_MAP.put("RDS_UID", DataType.GUID);
+      TYPE_MAP.put("USE_UID", DataType.GUID);
+      TYPE_MAP.put("ACT_UID", DataType.GUID);
+      TYPE_MAP.put("DIR_UID", DataType.GUID);
+      TYPE_MAP.put("SCA_UID", DataType.GUID);
+      TYPE_MAP.put("AVL_UID", DataType.GUID);
    }
 }

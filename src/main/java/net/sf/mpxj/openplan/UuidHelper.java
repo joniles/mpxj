@@ -1,3 +1,8 @@
+/*
+ * Code in this class derived from
+ * https://github.com/jakartaee/jaxb-api/blob/master/api/src/main/java/jakarta/xml/bind/DatatypeConverterImpl.java
+ * Original copyright notice appears below.
+ */
 
 /*
  * Copyright (c) 2007, 2023 Oracle and/or its affiliates. All rights reserved.
