@@ -15,7 +15,8 @@ class MapRow implements Row
       return "[MapRow\n"+ m_map.entrySet().stream().map(e -> "\t" + e.getKey() + "\t" + e.getValue() + " ("+e.getValue().getClass().getSimpleName()+")").collect(Collectors.joining("\n")) + "\n]";
    }
 
-   private final Map<String, Object> m_map;
+   // TODO change!
+   public final Map<String, Object> m_map;
 
    @Override public String getString(String name)
    {
