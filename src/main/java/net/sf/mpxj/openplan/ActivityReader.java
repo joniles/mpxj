@@ -1,5 +1,6 @@
 package net.sf.mpxj.openplan;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ class ActivityReader
    {
       Map<String, Task> map = new HashMap<>();
       List<Row> rows = new TableReader(m_root, "ACT").read();
-      HierarchyHelper.sortHierarchy(rows, r -> r.getString("ACT_ID"), r -> getParentActivityID(r.getString("ACT_ID")), (o1, o2) -> o1.getString("ACT_ID").compareTo(o2.getString("ACT_ID")));
+      HierarchyHelper.sortHierarchy(rows, r -> r.getString("ACT_ID"), r -> getParentActivityID(r.getString("ACT_ID")), Comparator.comparing(o -> o.getString("ACT_ID")));
 
       for (Row row : new TableReader(m_root, "ACT").read())
       {
