@@ -48,6 +48,7 @@ import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
+import net.sf.mpxj.RelationshipLagCalendar;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
@@ -179,6 +180,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
       mpxjProperties.setStatusDate(storepoint.getDataDate());
       mpxjProperties.setStartDate(storepoint.getStart());
+      mpxjProperties.setRelationshipLagCalendar(LAG_CALENDAR_MAP.getOrDefault(storepoint.getLagCalendar(), mpxjProperties.getRelationshipLagCalendar()));
    }
 
    /**
@@ -1125,5 +1127,14 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       NON_WORKING_DAY_MAP.put("weekly", Phoenix5Reader::addWeeklyRecurringException);
       NON_WORKING_DAY_MAP.put("monthly", Phoenix5Reader::addMonthlyRecurringException);
       NON_WORKING_DAY_MAP.put("yearly", Phoenix5Reader::addYearlyRecurringException);
+   }
+
+   private static final Map<String, RelationshipLagCalendar> LAG_CALENDAR_MAP = new HashMap<>();
+   static
+   {
+      LAG_CALENDAR_MAP.put("successor", RelationshipLagCalendar.SUCCESSOR);
+      LAG_CALENDAR_MAP.put("predecessor", RelationshipLagCalendar.PREDECESSOR);
+      LAG_CALENDAR_MAP.put("default", RelationshipLagCalendar.PROJECT_DEFAULT);
+      LAG_CALENDAR_MAP.put("calendar_days", RelationshipLagCalendar.TWENTY_FOUR_HOUR);
    }
 }
