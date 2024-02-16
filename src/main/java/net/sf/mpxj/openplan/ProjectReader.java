@@ -58,8 +58,12 @@ class ProjectReader
       props.setFinishDate(row.getDate("SFDATE"));
 
       DependenciesReader dependencies = new DependenciesReader(dir).read();
+
       ResourceReader resourceReader = new ResourceReader(m_root, m_file);
       dependencies.getResources().forEach(r -> resourceReader.read(r));
+
+      ActivityReader activityReader = new ActivityReader(dir, m_file);
+      activityReader.read("ACT");
 
       m_file.readComplete();
 

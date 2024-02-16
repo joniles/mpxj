@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.Duration;
+
 class MapRow implements Row
 {
    public MapRow(Map<String, Object> map)
@@ -47,5 +49,10 @@ class MapRow implements Row
    @Override public UUID getUuid(String name)
    {
       return (UUID)m_map.get(name);
+   }
+
+   @Override public Duration getDuration(String name)
+   {
+      return (Duration)m_map.get(name);
    }
 }

@@ -3,6 +3,8 @@ package net.sf.mpxj.openplan;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import net.sf.mpxj.Duration;
+
 interface Row
 {
    public String getString(String name);
@@ -16,4 +18,5 @@ interface Row
    public Boolean getBoolean(String name);
 
    public UUID getUuid(String name);
+   public Duration getDuration(String name);
 }

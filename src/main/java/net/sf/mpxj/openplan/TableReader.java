@@ -108,7 +108,8 @@ class TableReader extends AbstractReader
    {
       if (value.equals("0"))
       {
-         return Duration.getInstance(0, TimeUnit.HOURS);
+         //return Duration.getInstance(0, TimeUnit.HOURS);
+         return null; // is this correct?
       }
 
       Matcher match = DURATION_REGEX.matcher(value);
@@ -292,5 +293,7 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("DIR_UID", DataType.GUID);
       TYPE_MAP.put("SCA_UID", DataType.GUID);
       TYPE_MAP.put("AVL_UID", DataType.GUID);
+
+      TYPE_MAP.put("CRITICAL", DataType.INTEGER);
    }
 }

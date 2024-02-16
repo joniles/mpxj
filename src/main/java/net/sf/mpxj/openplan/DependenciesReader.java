@@ -22,10 +22,18 @@ public class DependenciesReader extends AbstractReader
          String name = getString();
          String type = getString();
          getByte();
+
+         String path = name + "_" + type;
+
+//         if (!path.endsWith("_VUE"))
+//         {
+//            System.out.println(path);
+//         }
+
          Test x = TYPE_MAP.get(type);
          if (x != null)
          {
-            x.add(this, name + "_" + type);
+            x.add(this, path);
          }
       }
 
