@@ -1,11 +1,14 @@
 package net.sf.mpxj.openplan;
 import java.io.FileNotFoundException;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.common.HierarchyHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 class ResourceReader
@@ -21,23 +24,31 @@ class ResourceReader
       DirectoryEntry dir = getDirectoryEntry(m_root, name);
       Map<String, Resource> map = new HashMap<>();
 
+      List<Row> rows = new TableReader(dir, "RES").read();
+      HierarchyHelper.sortHierarchy(rows, r -> r.getString("RES_ID"), r -> getParentResourceID(r.getString("RES_ID")), Comparator.comparing(o -> o.getString("RES_ID")));
+
       for (Row row : new TableReader(dir, "RES").read())
       {
-         Resource resource = m_file.addResource();
+         String resourceID = row.getString("RES_ID");
+         Resource parentResource = map.get(getParentResourceID(resourceID));
+         Resource resource;
+
+         if (parentResource == null)
+         {
+            resource = m_file.addResource();
+         }
+         else
+         {
+            resource = parentResource.addResource();
+         }
+
          resource.setName(row.getString("DESCRIPTION"));
-         resource.setResourceID(row.getString("RES_ID"));
+         resource.setResourceID(resourceID);
          resource.setGUID(row.getUuid("RES_UID"));
          resource.setType("Equip-hr".equals(row.getString("UNIT")) ? ResourceType.MATERIAL : ResourceType.WORK); // TODO review
          map.put(resource.getResourceID(), resource);
       }
 
-      for (Resource resource : map.values())
-      {
-         Resource parentResource = map.get(getParentResourceID(resource.getResourceID()));
-         resource.setParentResource(parentResource);
-      }
-
-      m_file.getResources().updateStructure();
 /*
       System.out.println("RES");
       new TableReader(dir, "RES").read().forEach(System.out::println);
