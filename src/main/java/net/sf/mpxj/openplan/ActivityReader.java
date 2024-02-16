@@ -1,10 +1,12 @@
 package net.sf.mpxj.openplan;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.common.HierarchyHelper;
 import net.sf.mpxj.common.NumberHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
@@ -19,10 +21,23 @@ class ActivityReader
    public void read(String name)
    {
       Map<String, Task> map = new HashMap<>();
+      List<Row> rows = new TableReader(m_root, "ACT").read();
+      HierarchyHelper.sortHierarchy(rows, r -> r.getString("ACT_ID"), r -> getParentActivityID(r.getString("ACT_ID")), (o1, o2) -> o1.getString("ACT_ID").compareTo(o2.getString("ACT_ID")));
 
       for (Row row : new TableReader(m_root, "ACT").read())
       {
-         Task task = m_file.addTask();
+         Task task;
+         String activityID = row.getString("ACT_ID");
+
+         Task parentTask = map.get(getParentActivityID(activityID));
+         if (parentTask == null)
+         {
+            task = m_file.addTask();
+         }
+         else
+         {
+            task = parentTask.addTask();
+         }
 
          // USER_NUM10	0.0 (Double)
          // DSHAPE	  (String)
@@ -107,7 +122,7 @@ class ActivityReader
          // OPKEY	false (Boolean)
          // EVT	C (String)
          // FINTOTFLT	0.0h (Duration)
-         task.setActivityID(row.getString("ACT_ID"));
+         task.setActivityID(activityID);
          // MEAN_FF	0.0h (Duration)
          // MAXSPLITS	0 (String)
          // BCWP_LAB	0.0 (Double)
@@ -139,27 +154,8 @@ class ActivityReader
 
          map.put(task.getActivityID(), task);
       }
-
-      //
-      // Create hierarchical structure
-      //
-      m_file.getChildTasks().clear();
-      for (Task task : map.values())
-      {
-         String parentActivityID = getParentActivityID(task.getActivityID());
-         Task parentTask = map.get(parentActivityID);
-         if (parentTask == null)
-         {
-            m_file.getChildTasks().add(task);
-         }
-         else
-         {
-            parentTask.addChildTask(task);
-         }
-      }
-
-      updateStructure();
    }
+
 
    private String getParentActivityID(String activityID)
    {
@@ -169,41 +165,6 @@ class ActivityReader
          return null;
       }
       return activityID.substring(0,index);
-   }
-
-   /**
-    * Iterates through the tasks setting the correct
-    * outline level and ID values.
-    */
-   private void updateStructure()
-   {
-      int id = 1;
-      Integer outlineLevel = Integer.valueOf(1);
-      for (Task task : m_file.getChildTasks())
-      {
-         id = updateStructure(id, task, outlineLevel);
-      }
-   }
-
-   /**
-    * Iterates through the tasks setting the correct
-    * outline level and ID values.
-    *
-    * @param id current ID value
-    * @param task current task
-    * @param outlineLevel current outline level
-    * @return next ID value
-    */
-   private int updateStructure(int id, Task task, Integer outlineLevel)
-   {
-      task.setID(Integer.valueOf(id++));
-      task.setOutlineLevel(outlineLevel);
-      outlineLevel = Integer.valueOf(outlineLevel.intValue() + 1);
-      for (Task childTask : task.getChildTasks())
-      {
-         id = updateStructure(id, childTask, outlineLevel);
-      }
-      return id;
    }
 
    private final ProjectFile m_file;

@@ -3,6 +3,7 @@ package net.sf.mpxj.openplan;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -17,8 +18,7 @@ class ProjectReader
 
    public ProjectFile read(String name)
    {
-//      ProjectConfig config = projectFile.getProjectConfig();
-//
+//     ProjectConfig config = m_file.getProjectConfig();
 //      config.setAutoTaskID(false);
 //      config.setAutoTaskUniqueID(false);
 //      config.setAutoResourceID(false);
