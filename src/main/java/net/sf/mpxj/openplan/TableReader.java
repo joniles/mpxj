@@ -295,5 +295,7 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("AVL_UID", DataType.GUID);
 
       TYPE_MAP.put("CRITICAL", DataType.INTEGER);
+
+      TYPE_MAP.put("REL_LAG", DataType.DURATION);
    }
 }

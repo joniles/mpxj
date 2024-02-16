@@ -65,6 +65,9 @@ class ProjectReader
       ActivityReader activityReader = new ActivityReader(dir, m_file);
       activityReader.read("ACT");
 
+      RelationReader relationReader = new RelationReader(dir, m_file);
+      relationReader.read("REL");
+
       m_file.readComplete();
 
       return m_file;

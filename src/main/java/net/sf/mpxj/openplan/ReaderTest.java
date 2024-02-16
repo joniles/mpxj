@@ -12,11 +12,11 @@ public class ReaderTest
 {
    public static void main(String[] argv) throws Exception
    {
-//      ReaderTest test = new ReaderTest();
-//      test.read(argv[0]);
+      ReaderTest test = new ReaderTest();
+      test.read(argv[0]);
 
-      OpenPlanReader reader = new OpenPlanReader();
-      reader.read(argv[0]);
+//      OpenPlanReader reader = new OpenPlanReader();
+//      reader.read(argv[0]);
    }
 
    private void read(String file) throws Exception

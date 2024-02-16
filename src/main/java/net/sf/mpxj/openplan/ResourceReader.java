@@ -27,7 +27,7 @@ class ResourceReader
       List<Row> rows = new TableReader(dir, "RES").read();
       HierarchyHelper.sortHierarchy(rows, r -> r.getString("RES_ID"), r -> getParentResourceID(r.getString("RES_ID")), Comparator.comparing(o -> o.getString("RES_ID")));
 
-      for (Row row : new TableReader(dir, "RES").read())
+      for (Row row : rows)
       {
          String resourceID = row.getString("RES_ID");
          Resource parentResource = map.get(getParentResourceID(resourceID));

@@ -25,7 +25,7 @@ class ActivityReader
       List<Row> rows = new TableReader(m_root, "ACT").read();
       HierarchyHelper.sortHierarchy(rows, r -> r.getString("ACT_ID"), r -> getParentActivityID(r.getString("ACT_ID")), Comparator.comparing(o -> o.getString("ACT_ID")));
 
-      for (Row row : new TableReader(m_root, "ACT").read())
+      for (Row row : rows)
       {
          Task task;
          String activityID = row.getString("ACT_ID");
