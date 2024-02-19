@@ -153,6 +153,13 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
       return predecessorRelation;
    }
 
+   /**
+    * Add a predecessor relationship using the Relation instance created by the
+    * supplied relation.Builder.
+    *
+    * @param builder Relation.Builder instance
+    * @return Relation instance
+    */
    public Relation addPredecessor(Relation.Builder builder)
    {
       //
