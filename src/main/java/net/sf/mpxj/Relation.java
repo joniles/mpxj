@@ -41,18 +41,8 @@ public final class Relation implements ProjectEntityWithUniqueID
    {
       m_sourceTask = sourceTask;
       m_targetTask = targetTask;
-      m_type = type;
-      m_lag = lag;
-
-      if (m_type == null)
-      {
-         m_type = RelationType.FINISH_START;
-      }
-
-      if (m_lag == null)
-      {
-         m_lag = DEFAULT_LAG;
-      }
+      m_type = type == null ? RelationType.FINISH_START : type;
+      m_lag = lag == null ? Duration.getInstance(0, TimeUnit.DAYS) : lag;
 
       ProjectFile project = sourceTask.getParentFile();
       ProjectConfig projectConfig = project.getProjectConfig();
@@ -62,6 +52,11 @@ public final class Relation implements ProjectEntityWithUniqueID
       }
    }
 
+   /**
+    * Constructor.
+    *
+    * @param builder Builder instance
+    */
    private Relation(Builder builder)
    {
       m_sourceTask = builder.m_sourceTask;
@@ -69,17 +64,22 @@ public final class Relation implements ProjectEntityWithUniqueID
       m_type = builder.m_type == null ? RelationType.FINISH_START : builder.m_type;
       m_lag = builder.m_lag == null ? Duration.getInstance(0, TimeUnit.DAYS) : builder.m_lag;
 
-      // TODO - are these mutually exclusive - check!
-      if (builder.m_uniqueID != null)
+      Integer uniqueID = builder.m_uniqueID;
+
+      if (uniqueID == null)
       {
-         setUniqueID(builder.m_uniqueID);
+         ProjectFile project = m_sourceTask.getParentFile();
+         ProjectConfig projectConfig = project.getProjectConfig();
+         if (projectConfig.getAutoRelationUniqueID())
+         {
+            uniqueID = project.getUniqueIdObjectSequence(Relation.class).getNext();
+         }
       }
 
-      ProjectFile project = m_sourceTask.getParentFile();
-      ProjectConfig projectConfig = project.getProjectConfig();
-      if (projectConfig.getAutoRelationUniqueID())
+      if (uniqueID != null)
       {
-         setUniqueID(project.getUniqueIdObjectSequence(Relation.class).getNext());
+         m_sourceTask.getParentFile().getRelations().updateUniqueID(this, m_uniqueID, uniqueID);
+         m_uniqueID = uniqueID;
       }
    }
 
@@ -91,7 +91,7 @@ public final class Relation implements ProjectEntityWithUniqueID
     */
    public RelationType getType()
    {
-      return (m_type);
+      return m_type;
    }
 
    /**
@@ -102,7 +102,7 @@ public final class Relation implements ProjectEntityWithUniqueID
     */
    public Duration getLag()
    {
-      return (m_lag);
+      return m_lag;
    }
 
    /**
@@ -139,8 +139,9 @@ public final class Relation implements ProjectEntityWithUniqueID
     * Set the Unique ID of this Relation.
     *
     * @param uniqueID unique ID
+    * @deprecated use Relation.Builder
     */
-   @Override public void setUniqueID(Integer uniqueID)
+   @Deprecated @Override public void setUniqueID(Integer uniqueID)
    {
       m_sourceTask.getParentFile().getRelations().updateUniqueID(this, m_uniqueID, uniqueID);
       m_uniqueID = uniqueID;
@@ -166,18 +167,24 @@ public final class Relation implements ProjectEntityWithUniqueID
    /**
     * Type of relationship.
     */
-   private RelationType m_type;
+   private final RelationType m_type;
 
    /**
     * Lag between the two tasks.
     */
-   private Duration m_lag;
+   private final Duration m_lag;
 
    /**
     * Relation builder.
     */
    public static class Builder
    {
+      /**
+       * Create and populate a Builder instance from an existing Relation instance.
+       *
+       * @param relation existing Relation instance
+       * @return new Builder instance
+       */
       public static Builder from(Relation relation)
       {
          return new Builder()
@@ -188,37 +195,71 @@ public final class Relation implements ProjectEntityWithUniqueID
             .uniqueID(relation.m_uniqueID);
       }
 
+      /**
+       * Add the unique ID.
+       *
+       * @param value unique ID
+       * @return builder
+       */
       public Builder uniqueID(Integer value)
       {
          m_uniqueID = value;
          return this;
       }
 
-
+      /**
+       * Add the source task.
+       *
+       * @param value source task
+       * @return builder
+       */
       public Builder sourceTask(Task value)
       {
          m_sourceTask = value;
          return this;
       }
 
+      /**
+       * Add the target task.
+       *
+       * @param value target task
+       * @return builder
+       */
       public Builder targetTask(Task value)
       {
          m_targetTask = value;
          return this;
       }
 
+      /**
+       * Add the type.
+       *
+       * @param value type
+       * @return builder
+       */
       public Builder type(RelationType value)
       {
          m_type = value;
          return this;
       }
 
+      /**
+       * Add the lag.
+       *
+       * @param value lag
+       * @return builder
+       */
       public Builder lag(Duration value)
       {
          m_lag = value;
          return this;
       }
 
+      /**
+       * Build a Relation instance.
+       *
+       * @return Relation instance
+       */
       public Relation build()
       {
          return new Relation(this);
@@ -228,8 +269,6 @@ public final class Relation implements ProjectEntityWithUniqueID
        Task m_sourceTask;
        Task m_targetTask;
        RelationType m_type  = RelationType.FINISH_START;
-       Duration m_lag = DEFAULT_LAG;
+       Duration m_lag = Duration.getInstance(0, TimeUnit.DAYS);
    }
-
-   private static final Duration DEFAULT_LAG = Duration.getInstance(0, TimeUnit.DAYS);
 }
