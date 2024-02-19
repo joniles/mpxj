@@ -44,6 +44,7 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
@@ -260,14 +261,16 @@ public final class SageReader extends AbstractProjectStreamReader
          return;
       }
 
-      RelationType type = parseRelationType(columns, 2);
-      Duration lag = parseDuration(columns, 3);
       // columns[4] - job
       // columns[5] - predecessor name
       // columns[6] - unknown
       // columns[7] - unknown
 
-      task.addPredecessor(predecessor, type, lag);
+      task.addPredecessor(new Relation.Builder()
+         .targetTask(predecessor)
+         .type(parseRelationType(columns, 2))
+         .lag(parseDuration(columns, 3))
+      );
    }
 
    /**

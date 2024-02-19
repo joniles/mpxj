@@ -50,10 +50,31 @@ public final class Relation implements ProjectEntityWithUniqueID
 
       if (m_lag == null)
       {
-         m_lag = Duration.getInstance(0, TimeUnit.DAYS);
+         m_lag = DEFAULT_LAG;
       }
 
       ProjectFile project = sourceTask.getParentFile();
+      ProjectConfig projectConfig = project.getProjectConfig();
+      if (projectConfig.getAutoRelationUniqueID())
+      {
+         setUniqueID(project.getUniqueIdObjectSequence(Relation.class).getNext());
+      }
+   }
+
+   private Relation(Builder builder)
+   {
+      m_sourceTask = builder.m_sourceTask;
+      m_targetTask = builder.m_targetTask;
+      m_type = builder.m_type == null ? RelationType.FINISH_START : builder.m_type;
+      m_lag = builder.m_lag == null ? Duration.getInstance(0, TimeUnit.DAYS) : builder.m_lag;
+
+      // TODO - are these mutually exclusive - check!
+      if (builder.m_uniqueID != null)
+      {
+         setUniqueID(builder.m_uniqueID);
+      }
+
+      ProjectFile project = m_sourceTask.getParentFile();
       ProjectConfig projectConfig = project.getProjectConfig();
       if (projectConfig.getAutoRelationUniqueID())
       {
@@ -150,4 +171,64 @@ public final class Relation implements ProjectEntityWithUniqueID
     * Lag between the two tasks.
     */
    private Duration m_lag;
+
+   /**
+    * Relation builder.
+    */
+   public static class Builder
+   {
+      public static Builder from(Relation relation)
+      {
+         return new Builder()
+            .targetTask(relation.m_targetTask)
+            .sourceTask(relation.m_sourceTask)
+            .type(relation.m_type)
+            .lag(relation.m_lag)
+            .uniqueID(relation.m_uniqueID);
+      }
+
+      public Builder uniqueID(Integer value)
+      {
+         m_uniqueID = value;
+         return this;
+      }
+
+
+      public Builder sourceTask(Task value)
+      {
+         m_sourceTask = value;
+         return this;
+      }
+
+      public Builder targetTask(Task value)
+      {
+         m_targetTask = value;
+         return this;
+      }
+
+      public Builder type(RelationType value)
+      {
+         m_type = value;
+         return this;
+      }
+
+      public Builder lag(Duration value)
+      {
+         m_lag = value;
+         return this;
+      }
+
+      public Relation build()
+      {
+         return new Relation(this);
+      }
+
+      Integer m_uniqueID;
+       Task m_sourceTask;
+       Task m_targetTask;
+       RelationType m_type  = RelationType.FINISH_START;
+       Duration m_lag = DEFAULT_LAG;
+   }
+
+   private static final Duration DEFAULT_LAG = Duration.getInstance(0, TimeUnit.DAYS);
 }

@@ -1759,7 +1759,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          }
       }
 
-      Relation relation = currTask.addPredecessor(prevTask, type, lagDuration);
+      Relation relation = currTask.addPredecessor(new Relation.Builder()
+         .targetTask(prevTask)
+         .type(type)
+         .lag(lagDuration)
+      );
+
       m_eventManager.fireRelationReadEvent(relation);
    }
 

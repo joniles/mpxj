@@ -49,7 +49,7 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.RelationType;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
@@ -513,10 +513,11 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          return;
       }
 
-      Duration lag = DatatypeConverter.getDuration(data, 6);
-      RelationType type = DatatypeConverter.getRelationType(data, 2);
-
-      successor.addPredecessor(task, type, lag);
+      successor.addPredecessor(new Relation.Builder()
+         .targetTask(task)
+         .type(DatatypeConverter.getRelationType(data, 2))
+         .lag(DatatypeConverter.getDuration(data, 6))
+      );
    }
 
    /**
