@@ -8,7 +8,8 @@
 		<release date="unreleased" version="12.7.1">
 			<action dev="joniles" type="update">Implemented the `Relation.Builder` class.</action>
 			<action dev="joniles" type="update">Marked the `Relation(Task,Task,RelationType,Duration)` constructor as deprecated, use the `Relation.Builder` class instead.</action>
-			<action dev="joniles" type="update">Marked the `RelationContainer.addPredecessor(Task,Task,RelationType,Duration)` methid as deprecated, use the `RelationContainer.addPredecessor(Relation.Builder)` method instead.</action>
+			<action dev="joniles" type="update">Marked the `RelationContainer.addPredecessor(Task,Task,RelationType,Duration)` method as deprecated, use the `RelationContainer.addPredecessor(Relation.Builder)` method instead.</action>
+			<action dev="joniles" type="update">Marked the `Task.addPredecessor(Task,RelationType,Duration)` method as deprecated, use the `Task.addPredecessor(Relation.Builder)` method instead.</action>
 		</release>
 		<release date="2024-02-07" version="12.7.0">
 			<action dev="joniles" type="update">Added support for reading and writing the project property Baseline Calendar Name to and from MPP and MSPDI files.</action>
