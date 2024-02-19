@@ -1022,7 +1022,11 @@ public final class MPXReader extends AbstractProjectStreamReader
       // is present. We'll ignore this as the schedule is otherwise valid.
       if (targetTask != null)
       {
-         Relation relation = sourceTask.addPredecessor(targetTask, type, lag);
+         Relation relation = sourceTask.addPredecessor(new Relation.Builder()
+            .targetTask(targetTask)
+            .type(type)
+            .lag(lag)
+         );
          m_eventManager.fireRelationReadEvent(relation);
       }
    }

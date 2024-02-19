@@ -1365,9 +1365,11 @@ public final class JsonWriter extends AbstractProjectWriter
          for (Relation relation : list)
          {
             m_writer.writeStartObject(null);
+            writeIntegerField("unique_id", relation.getUniqueID());
             writeIntegerField("task_unique_id", relation.getTargetTask().getUniqueID());
             writeDurationField(m_projectFile.getProjectProperties(), "lag", relation.getLag());
             writeStringField("type", relation.getType());
+            writeStringField("notes", relation.getNotes());
             m_writer.writeEndObject();
          }
          m_writer.writeEndList();

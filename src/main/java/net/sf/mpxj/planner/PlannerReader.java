@@ -527,12 +527,11 @@ public final class PlannerReader extends AbstractProjectStreamReader
             Task predecessorTask = m_projectFile.getTaskByUniqueID(predecessorID);
             if (predecessorTask != null)
             {
-               Duration lag = getLagDuration(predecessor.getLag());
-               if (lag == null)
-               {
-                  lag = Duration.getInstance(0, TimeUnit.HOURS);
-               }
-               Relation relation = mpxjTask.addPredecessor(predecessorTask, RELATIONSHIP_TYPES.get(predecessor.getType()), lag);
+               Relation relation = mpxjTask.addPredecessor(new Relation.Builder()
+                  .targetTask(predecessorTask)
+                  .type(RELATIONSHIP_TYPES.get(predecessor.getType()))
+                  .lag(getLagDuration(predecessor.getLag()))
+               );
                m_eventManager.fireRelationReadEvent(relation);
             }
          }

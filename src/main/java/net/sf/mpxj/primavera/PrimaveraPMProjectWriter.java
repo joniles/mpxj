@@ -1202,6 +1202,7 @@ final class PrimaveraPMProjectWriter
          xml.setPredecessorProjectObjectId(m_projectObjectID);
          xml.setSuccessorProjectObjectId(m_projectObjectID);
          xml.setType(RelationTypeHelper.getXmlFromInstance(mpxj.getType()));
+         xml.setComments(mpxj.getNotes());
       }
    }
 

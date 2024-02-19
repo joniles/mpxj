@@ -49,6 +49,7 @@ import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RelationshipLagCalendar;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
@@ -66,7 +67,6 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
@@ -876,9 +876,11 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       Task successor = m_activityMap.get(relation.getSuccessor());
       if (predecessor != null && successor != null)
       {
-         Duration lag = relation.getLag();
-         RelationType type = relation.getType();
-         successor.addPredecessor(predecessor, type, lag);
+         successor.addPredecessor(new Relation.Builder()
+            .targetTask(predecessor)
+            .type(relation.getType())
+            .lag(relation.getLag())
+         );
       }
    }
 
