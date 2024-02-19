@@ -1123,8 +1123,12 @@ final class AstaReader
                }
             }
 
-            Relation relation = endTask.addPredecessor(startTask, type, lag);
-            relation.setUniqueID(row.getInteger("LINKID"));
+            Relation relation = endTask.addPredecessor(new Relation.Builder()
+               .targetTask(startTask)
+               .type(type)
+               .lag(lag)
+               .uniqueID(row.getInteger("LINKID"))
+            );
 
             // resolve indeterminate constraint for successor tasks
             if (m_deferredConstraintType.contains(endTask.getUniqueID()))

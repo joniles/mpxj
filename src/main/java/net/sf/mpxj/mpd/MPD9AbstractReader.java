@@ -1470,11 +1470,12 @@ abstract class MPD9AbstractReader
       Task successorTask = m_project.getTaskByUniqueID(row.getInteger("LINK_SUCC_UID"));
       if (predecessorTask != null && successorTask != null)
       {
-         RelationType type = RelationType.getInstance(row.getInt("LINK_TYPE"));
-         TimeUnit durationUnits = MPDUtility.getDurationTimeUnits(row.getInt("LINK_LAG_FMT"));
-         Duration duration = MPDUtility.getDuration(row.getDouble("LINK_LAG").doubleValue(), durationUnits);
-         Relation relation = successorTask.addPredecessor(predecessorTask, type, duration);
-         relation.setUniqueID(row.getInteger("LINK_UID"));
+         Relation relation = successorTask.addPredecessor(new Relation.Builder()
+            .targetTask(predecessorTask)
+            .type(RelationType.getInstance(row.getInt("LINK_TYPE")))
+            .lag(MPDUtility.getDuration(row.getDouble("LINK_LAG").doubleValue(), MPDUtility.getDurationTimeUnits(row.getInt("LINK_LAG_FMT"))))
+            .uniqueID(row.getInteger("LINK_UID"))
+         );
          m_eventManager.fireRelationReadEvent(relation);
       }
    }

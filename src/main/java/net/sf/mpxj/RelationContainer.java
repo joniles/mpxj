@@ -87,7 +87,7 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
     */
    public List<Relation> getSuccessors(Task task)
    {
-      return getRawSuccessors(task).stream().map(r -> new Relation(r.getTargetTask(), r.getSourceTask(), r.getType(), r.getLag())).collect(Collectors.toList());
+      return getRawSuccessors(task).stream().map(r -> Relation.Builder.from(r).sourceTask(r.getTargetTask()).targetTask(r.getSourceTask()).build()).collect(Collectors.toList());
    }
 
    /**
@@ -111,8 +111,9 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
     * @param type relationship type
     * @param lag relationship lag
     * @return new Relation instance
+    * @deprecated use addPredecessor(Relation.Builder)
     */
-   public Relation addPredecessor(Task sourceTask, Task targetTask, RelationType type, Duration lag)
+   @Deprecated  public Relation addPredecessor(Task sourceTask, Task targetTask, RelationType type, Duration lag)
    {
       //
       // Ensure that we have a valid lag duration
@@ -147,6 +148,45 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
       // If necessary, create a new predecessor relationship
       //
       Relation predecessorRelation = new Relation(sourceTask, targetTask, type, lag);
+      add(predecessorRelation);
+
+      return predecessorRelation;
+   }
+
+   /**
+    * Add a predecessor relationship using the Relation instance created by the
+    * supplied relation.Builder.
+    *
+    * @param builder Relation.Builder instance
+    * @return Relation instance
+    */
+   public Relation addPredecessor(Relation.Builder builder)
+   {
+      //
+      // Retrieve the list of predecessors
+      //
+      List<Relation> predecessorList = m_predecessors.getOrDefault(builder.m_sourceTask, EMPTY_LIST);
+
+      //
+      // Ensure that there is only one predecessor relationship between
+      // these two tasks.
+      //
+      for (Relation relation : predecessorList)
+      {
+         if (relation.getTargetTask() == builder.m_targetTask)
+         {
+            if (relation.getType() == builder.m_type && relation.getLag().compareTo(builder.m_lag) == 0)
+            {
+               return relation;
+            }
+            break;
+         }
+      }
+
+      //
+      // If necessary, create a new predecessor relationship
+      //
+      Relation predecessorRelation = builder.build();
       add(predecessorRelation);
 
       return predecessorRelation;

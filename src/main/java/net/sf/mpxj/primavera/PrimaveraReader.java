@@ -719,6 +719,17 @@ final class PrimaveraReader
    }
 
    /**
+    * Return null if string is empty, otherwise return string.
+    *
+    * @param text string
+    * @return null if empty, otherwise string
+    */
+   private String nullIfEmpty(String text)
+   {
+      return text == null || text.isEmpty() ? null : text;
+   }
+
+   /**
     * Process resource rates.
     *
     * @param rows resource rate data
@@ -1680,11 +1691,18 @@ final class PrimaveraReader
 
          RelationType type = RelationTypeHelper.getInstanceFromXer(row.getString("pred_type"));
          Duration lag = row.getDuration("lag_hr_cnt");
+         String comments = nullIfEmpty(row.getString("comments"));
 
          if (successorTask != null && predecessorTask != null)
          {
-            Relation relation = successorTask.addPredecessor(predecessorTask, type, lag);
-            relation.setUniqueID(uniqueID);
+            Relation relation = successorTask.addPredecessor(new Relation.Builder()
+               .targetTask(predecessorTask)
+               .type(type)
+               .lag(lag)
+               .uniqueID(uniqueID)
+               .notes(comments)
+            );
+
             m_eventManager.fireRelationReadEvent(relation);
          }
          else
@@ -1692,14 +1710,14 @@ final class PrimaveraReader
             // If we're missing the predecessor or successor we assume they are external relations
             if (successorTask != null && predecessorTask == null)
             {
-               ExternalRelation relation = new ExternalRelation(uniqueID, predecessorID, successorTask, type, lag, true);
+               ExternalRelation relation = new ExternalRelation(uniqueID, predecessorID, successorTask, type, lag, true, comments);
                m_externalRelations.add(relation);
             }
             else
             {
                if (successorTask == null && predecessorTask != null)
                {
-                  ExternalRelation relation = new ExternalRelation(uniqueID, successorID, predecessorTask, type, lag, false);
+                  ExternalRelation relation = new ExternalRelation(uniqueID, successorID, predecessorTask, type, lag, false, comments);
                   m_externalRelations.add(relation);
                }
             }
