@@ -43,6 +43,7 @@ public final class Relation implements ProjectEntityWithUniqueID
       m_targetTask = targetTask;
       m_type = type == null ? RelationType.FINISH_START : type;
       m_lag = lag == null ? Duration.getInstance(0, TimeUnit.DAYS) : lag;
+      m_notes = null;
 
       ProjectFile project = sourceTask.getParentFile();
       ProjectConfig projectConfig = project.getProjectConfig();
@@ -63,6 +64,7 @@ public final class Relation implements ProjectEntityWithUniqueID
       m_targetTask = builder.m_targetTask;
       m_type = builder.m_type == null ? RelationType.FINISH_START : builder.m_type;
       m_lag = builder.m_lag == null ? Duration.getInstance(0, TimeUnit.DAYS) : builder.m_lag;
+      m_notes = builder.m_notes;
 
       Integer uniqueID = builder.m_uniqueID;
 
@@ -147,6 +149,16 @@ public final class Relation implements ProjectEntityWithUniqueID
       m_uniqueID = uniqueID;
    }
 
+   /**
+    * Retrieve the notes association with this relationship.
+    *
+    * @return notes
+    */
+   public String getNotes()
+   {
+      return m_notes;
+   }
+
    @Override public String toString()
    {
       return ("[Relation lag: " + m_lag + " type: " + m_type + " " + m_targetTask + " -> " + m_sourceTask + "]");
@@ -173,6 +185,8 @@ public final class Relation implements ProjectEntityWithUniqueID
     * Lag between the two tasks.
     */
    private final Duration m_lag;
+
+   private final String m_notes;
 
    /**
     * Relation builder.
@@ -256,6 +270,18 @@ public final class Relation implements ProjectEntityWithUniqueID
       }
 
       /**
+       * Add notes.
+       *
+       * @param value notes
+       * @return builder
+       */
+      public Builder notes(String value)
+      {
+         m_notes = value;
+         return this;
+      }
+
+      /**
        * Build a Relation instance.
        *
        * @return Relation instance
@@ -270,5 +296,6 @@ public final class Relation implements ProjectEntityWithUniqueID
        Task m_targetTask;
        RelationType m_type  = RelationType.FINISH_START;
        Duration m_lag = Duration.getInstance(0, TimeUnit.DAYS);
+       String m_notes;
    }
 }

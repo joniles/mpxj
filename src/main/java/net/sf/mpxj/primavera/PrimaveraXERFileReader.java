@@ -190,6 +190,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
                         .type(externalRelation.getType())
                         .lag(externalRelation.getLag())
                         .uniqueID(externalRelation.getUniqueID())
+                        .notes(externalRelation.getNotes())
                      );
                      break;
                   }
