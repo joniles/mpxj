@@ -461,10 +461,23 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param type relation type
     * @param lag relation lag
     * @return relationship
+    * @deprecated use addPredecessor(Relation.Builder)
     */
-   public Relation addPredecessor(Task targetTask, RelationType type, Duration lag)
+   @Deprecated public Relation addPredecessor(Task targetTask, RelationType type, Duration lag)
    {
       return getParentFile().getRelations().addPredecessor(this, targetTask, type, lag);
+   }
+
+   /**
+    * This method allows a predecessor relationship to be added to this
+    * task instance.
+    *
+    * @param builder Relation.Builder instance
+    * @return Relation instance
+    */
+   public Relation addPredecessor(Relation.Builder builder)
+   {
+      return getParentFile().getRelations().addPredecessor(builder.sourceTask(this));
    }
 
    /**

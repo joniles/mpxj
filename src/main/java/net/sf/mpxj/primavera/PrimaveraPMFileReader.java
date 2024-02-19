@@ -294,8 +294,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                   predecessor = externalRelation.getTargetTask();
                }
 
-               Relation relation = successor.addPredecessor(predecessor, externalRelation.getType(), externalRelation.getLag());
-               relation.setUniqueID(externalRelation.getUniqueID());
+               Relation relation = successor.addPredecessor(new Relation.Builder()
+                  .targetTask(predecessor)
+                  .type(externalRelation.getType())
+                  .lag(externalRelation.getLag())
+                  .uniqueID(externalRelation.getUniqueID())
+               );
             }
          }
       }
@@ -1740,8 +1744,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          if (successorTask != null && predecessorTask != null)
          {
-            Relation relation = successorTask.addPredecessor(predecessorTask, type, lag);
-            relation.setUniqueID(row.getObjectId());
+            Relation relation = successorTask.addPredecessor(new Relation.Builder()
+               .targetTask(predecessorTask)
+               .type(type)
+               .lag(lag)
+               .uniqueID(row.getObjectId())
+            );
             m_eventManager.fireRelationReadEvent(relation);
          }
          else

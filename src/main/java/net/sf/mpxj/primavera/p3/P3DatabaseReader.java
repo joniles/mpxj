@@ -36,7 +36,6 @@ import java.util.Properties;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
@@ -46,7 +45,6 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
@@ -464,10 +462,12 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          Task successor = m_activityMap.get(row.getString("SUCCESSOR_ACTIVITY_ID"));
          if (predecessor != null && successor != null)
          {
-            Duration lag = row.getDuration("LAG_VALUE");
-            RelationType type = row.getRelationType("LAG_TYPE");
+            Relation relation = successor.addPredecessor(new Relation.Builder()
+               .targetTask(predecessor)
+               .type(row.getRelationType("LAG_TYPE"))
+               .lag(row.getDuration("LAG_VALUE"))
+            );
 
-            Relation relation = successor.addPredecessor(predecessor, type, lag);
             m_eventManager.fireRelationReadEvent(relation);
          }
       }

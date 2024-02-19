@@ -423,7 +423,11 @@ public final class SynchroReader extends AbstractProjectStreamReader
       Task predecessor = m_taskMap.get(row.getUUID("PREDECESSOR_UUID"));
       if (predecessor != null)
       {
-         Relation relation = task.addPredecessor(predecessor, row.getRelationType("RELATION_TYPE"), row.getDuration("LAG"));
+         Relation relation = task.addPredecessor(new Relation.Builder()
+            .targetTask(predecessor)
+            .type(row.getRelationType("RELATION_TYPE"))
+            .lag(row.getDuration("LAG"))
+         );
          m_eventManager.fireRelationReadEvent(relation);
       }
    }

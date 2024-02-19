@@ -49,7 +49,7 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.ConstraintType;
 import java.time.DayOfWeek;
-import net.sf.mpxj.Duration;
+
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
@@ -807,11 +807,12 @@ final class MPP8Reader implements MPPVariantReader
                   Task task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
                   if (task1 != null && task2 != null)
                   {
-                     RelationType type = RelationType.getInstance(MPPUtility.getShort(data, 20));
-                     TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 22));
-                     Duration lag = MPPUtility.getDuration(MPPUtility.getInt(data, 24), durationUnits);
-                     Relation relation = task2.addPredecessor(task1, type, lag);
-                     relation.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, 0)));
+                     Relation relation = task2.addPredecessor(new Relation.Builder()
+                        .targetTask(task1)
+                        .type(RelationType.getInstance(MPPUtility.getShort(data, 20)))
+                        .lag(MPPUtility.getDuration(MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 22))))
+                        .uniqueID(Integer.valueOf(MPPUtility.getInt(data, 0)))
+                     );
                      m_eventManager.fireRelationReadEvent(relation);
                   }
                }
