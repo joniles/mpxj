@@ -35,8 +35,9 @@ public final class Relation implements ProjectEntityWithUniqueID
     * @param targetTask target task instance
     * @param type relation type
     * @param lag relation lag
+    * @deprecated use Relation.Builder
     */
-   public Relation(Task sourceTask, Task targetTask, RelationType type, Duration lag)
+   @Deprecated public Relation(Task sourceTask, Task targetTask, RelationType type, Duration lag)
    {
       m_sourceTask = sourceTask;
       m_targetTask = targetTask;

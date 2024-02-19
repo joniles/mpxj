@@ -87,7 +87,7 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
     */
    public List<Relation> getSuccessors(Task task)
    {
-      return getRawSuccessors(task).stream().map(r -> new Relation(r.getTargetTask(), r.getSourceTask(), r.getType(), r.getLag())).collect(Collectors.toList());
+      return getRawSuccessors(task).stream().map(r -> Relation.Builder.from(r).sourceTask(r.getTargetTask()).targetTask(r.getSourceTask()).build()).collect(Collectors.toList());
    }
 
    /**
