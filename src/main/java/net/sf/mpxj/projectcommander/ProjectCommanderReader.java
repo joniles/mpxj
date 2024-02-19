@@ -508,7 +508,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       int successorTaskUniqueID = DatatypeConverter.getShort(data, 0);
       Task successor = m_projectFile.getTaskByUniqueID(Integer.valueOf(successorTaskUniqueID));
 
-      if (successor == null || task.isSucessor(successor) || task.isPredecessor(successor) || data.length == 14)
+      if (successor == null || successor.isPredecessor(task) || task.isPredecessor(successor) || data.length == 14)
       {
          return;
       }
