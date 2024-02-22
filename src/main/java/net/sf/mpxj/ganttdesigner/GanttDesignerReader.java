@@ -232,7 +232,11 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
             for (String predecessor : predecessors.split(";"))
             {
                Task predecessorTask = m_projectFile.getTaskByID(Integer.valueOf(predecessor));
-               Relation relation = task.addPredecessor(predecessorTask, RelationType.FINISH_START, ganttTask.getL());
+               Relation relation = task.addPredecessor(new Relation.Builder()
+                  .targetTask(predecessorTask)
+                  .type(RelationType.FINISH_START)
+                  .lag(ganttTask.getL())
+               );
                m_eventManager.fireRelationReadEvent(relation);
             }
          }

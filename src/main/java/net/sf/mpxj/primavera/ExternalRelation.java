@@ -42,12 +42,27 @@ public final class ExternalRelation
     * @param type relation type
     * @param lag relation lag
     * @param predecessor true if this is a predecessor of the current task
-    * @deprecated use the constructor which requires te unique ID
+    * @deprecated use the constructor which requires the unique ID and notes
     */
    @Deprecated public ExternalRelation(Integer sourceUniqueID, Task targetTask, RelationType type, Duration lag, boolean predecessor)
    {
       // TODO: make uniqueID immutable once this method is removed
       this(null, sourceUniqueID, targetTask, type, lag, predecessor);
+   }
+
+   /**
+    * Default constructor.
+    *
+    * @param sourceUniqueID source task unique ID
+    * @param targetTask target task instance
+    * @param type relation type
+    * @param lag relation lag
+    * @param predecessor true if this is a predecessor of the current task
+    * @deprecated use the constructor which requires notes
+    */
+   @Deprecated public ExternalRelation(Integer uniqueID, Integer sourceUniqueID, Task targetTask, RelationType type, Duration lag, boolean predecessor)
+   {
+      this(uniqueID, sourceUniqueID, targetTask, type, lag, predecessor, null);
    }
 
    /**
@@ -59,8 +74,9 @@ public final class ExternalRelation
     * @param type relation type
     * @param lag relation lag
     * @param predecessor true if this is a predecessor of the current task
+    * @param notes comments on this relationship
     */
-   public ExternalRelation(Integer uniqueID, Integer sourceUniqueID, Task targetTask, RelationType type, Duration lag, boolean predecessor)
+   public ExternalRelation(Integer uniqueID, Integer sourceUniqueID, Task targetTask, RelationType type, Duration lag, boolean predecessor, String notes)
    {
       m_uniqueID = uniqueID;
       m_externalTaskUniqueID = sourceUniqueID;
@@ -85,6 +101,7 @@ public final class ExternalRelation
       }
 
       m_predecessor = predecessor;
+      m_notes = notes;
    }
 
    /**
@@ -95,7 +112,7 @@ public final class ExternalRelation
     */
    public RelationType getType()
    {
-      return (m_type);
+      return m_type;
    }
 
    /**
@@ -106,7 +123,7 @@ public final class ExternalRelation
     */
    public Duration getLag()
    {
-      return (m_lag);
+      return m_lag;
    }
 
    /**
@@ -159,9 +176,19 @@ public final class ExternalRelation
       return m_predecessor;
    }
 
+   /**
+    * Retrieve notes relating to this external relationship.
+    *
+    * @return notes
+    */
+   public String getNotes()
+   {
+      return m_notes;
+   }
+
    @Override public String toString()
    {
-      return ("[ExternalPredecessor " + m_externalTaskUniqueID + " -> " + m_targetTask + "]");
+      return "[ExternalPredecessor " + m_externalTaskUniqueID + " -> " + m_targetTask + "]";
    }
 
    private Integer m_uniqueID;
@@ -190,4 +217,6 @@ public final class ExternalRelation
     * True if the external activity is a predecessor.
     */
    private final boolean m_predecessor;
+
+   private final String m_notes;
 }

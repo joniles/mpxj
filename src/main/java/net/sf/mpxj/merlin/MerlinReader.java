@@ -72,7 +72,6 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
@@ -560,10 +559,12 @@ public final class MerlinReader extends AbstractProjectFileReader
       {
          Task nextTask = m_project.getTaskByUniqueID(row.getInteger("ZNEXTACTIVITY_"));
          Task prevTask = m_project.getTaskByUniqueID(row.getInteger("ZPREVIOUSACTIVITY_"));
-         Duration lag = row.getDuration("ZLAG_");
-         RelationType type = row.getRelationType("ZTYPE");
-         Relation relation = nextTask.addPredecessor(prevTask, type, lag);
-         relation.setUniqueID(row.getInteger("Z_PK"));
+         Relation relation = nextTask.addPredecessor(new Relation.Builder()
+            .targetTask(prevTask)
+            .type(row.getRelationType("ZTYPE"))
+            .lag(row.getDuration("ZLAG_"))
+            .uniqueID(row.getInteger("Z_PK"))
+         );
       }
    }
 
