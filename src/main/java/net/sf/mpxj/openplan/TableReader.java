@@ -123,15 +123,33 @@ class TableReader extends AbstractReader
 
       switch (match.group(2).charAt(0))
       {
-         case 'h':
+         case 'm':
          {
-            unit = TimeUnit.HOURS;
+            unit = TimeUnit.MONTHS;
+            break;
+         }
+
+         case 'w':
+         {
+            unit = TimeUnit.WEEKS;
             break;
          }
 
          case 'd':
          {
             unit = TimeUnit.DAYS;
+            break;
+         }
+
+         case 'h':
+         {
+            unit = TimeUnit.HOURS;
+            break;
+         }
+
+         case 't':
+         {
+            unit = TimeUnit.MINUTES;
             break;
          }
 
@@ -202,7 +220,7 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("MEAN_TF", DataType.DURATION);
       TYPE_MAP.put("OPKEY", DataType.BOOLEAN);
       TYPE_MAP.put("ORIG_DUR", DataType.DURATION);
-      TYPE_MAP.put("OUTOFSEQ", DataType.BOOLEAN);
+      // TYPE_MAP.put("OUTOFSEQ", DataType.INTEGER); different type in Project and Activity - both Boolean maybe?
       TYPE_MAP.put("PPC", DataType.NUMERIC);
       TYPE_MAP.put("REM_DUR", DataType.DURATION);
       TYPE_MAP.put("RES_DATE", DataType.DATE);
@@ -297,5 +315,52 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("CRITICAL", DataType.INTEGER);
 
       TYPE_MAP.put("REL_LAG", DataType.DURATION);
+
+      TYPE_MAP.put("AUTOANAL", DataType.INTEGER);
+      TYPE_MAP.put("AUTOPROGACT", DataType.INTEGER);
+      TYPE_MAP.put("AUTOPROGBASE", DataType.INTEGER);
+      TYPE_MAP.put("AUTOPROGCFB", DataType.INTEGER);
+      TYPE_MAP.put("AUTOPROGPPC", DataType.INTEGER);
+      TYPE_MAP.put("AUTOPROGPSB", DataType.INTEGER);
+      TYPE_MAP.put("AUTOPROGRES", DataType.INTEGER);
+      TYPE_MAP.put("AUTOPROGTYPE", DataType.INTEGER);
+      TYPE_MAP.put("CALACTCST", DataType.INTEGER);
+      TYPE_MAP.put("CALBUDCST", DataType.INTEGER);
+      TYPE_MAP.put("CALCCOSTBASE", DataType.INTEGER);
+      TYPE_MAP.put("CALCSTESC", DataType.INTEGER);
+      TYPE_MAP.put("CALEVCST", DataType.INTEGER);
+      TYPE_MAP.put("CALREMCST", DataType.INTEGER);
+      TYPE_MAP.put("CST_ROLLUP", DataType.INTEGER);
+      TYPE_MAP.put("DEFACTDUR", DataType.INTEGER);
+      TYPE_MAP.put("DEFENDHR", DataType.INTEGER);
+      TYPE_MAP.put("DEFENDMN", DataType.INTEGER);
+      TYPE_MAP.put("DEFSTARTHR", DataType.INTEGER);
+      TYPE_MAP.put("DEFSTARTMN", DataType.INTEGER);
+      TYPE_MAP.put("HARDZERO", DataType.INTEGER);
+      TYPE_MAP.put("MINCALCDU", DataType.INTEGER);
+      TYPE_MAP.put("MULTIEND", DataType.INTEGER);
+      TYPE_MAP.put("NRISKSIMULS", DataType.INTEGER);
+      TYPE_MAP.put("PCOMPLETE", DataType.INTEGER);
+      TYPE_MAP.put("PRJ_FLAG", DataType.INTEGER);
+      TYPE_MAP.put("PROGPRIO", DataType.INTEGER);
+      TYPE_MAP.put("RISKSEED", DataType.INTEGER);
+      TYPE_MAP.put("RSK_CALSD", DataType.INTEGER);
+      TYPE_MAP.put("RS_ACTDATE", DataType.INTEGER);
+      TYPE_MAP.put("RS_ALTPRTY", DataType.INTEGER);
+      TYPE_MAP.put("RS_CONUSE", DataType.INTEGER);
+      TYPE_MAP.put("RS_OVLLATE", DataType.INTEGER);
+      TYPE_MAP.put("RS_PRIORTY", DataType.INTEGER);
+      TYPE_MAP.put("RS_REPROF", DataType.INTEGER);
+      TYPE_MAP.put("RS_SUMDATE", DataType.INTEGER);
+      TYPE_MAP.put("RS_SUMMARY", DataType.INTEGER);
+      TYPE_MAP.put("SCHMETHOD", DataType.INTEGER);
+      TYPE_MAP.put("SMOOTHING", DataType.INTEGER);
+      TYPE_MAP.put("STARTPC", DataType.INTEGER);
+      TYPE_MAP.put("TA_BEFORE_RK", DataType.INTEGER);
+      TYPE_MAP.put("TA_SUBEND", DataType.INTEGER);
+      TYPE_MAP.put("TA_SUMMARY", DataType.INTEGER);
+      TYPE_MAP.put("TIMEUNIT", DataType.INTEGER);
+      TYPE_MAP.put("TOTACTCOM", DataType.INTEGER);
+      TYPE_MAP.put("TOTACTPRG", DataType.INTEGER);
    }
 }

@@ -14,6 +14,24 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
+/*
+   ACT - Activity
+   ASG - Resource Assignment
+   BSA - Baseline Activity
+   BSU - Baseline Usage
+   CST - Resource Cost
+   PRJ - Project (OPP_PRJ)
+   REL - Relationship
+   RSK - Risk Detail
+   SUB - Subproject
+   USE - Resource Usage
+   AVL - Resource Availability
+   PSU - Project Summary
+   RES - Resource
+   RSL - Resource Escalation
+   CDR - Code Data
+*/
+
 public final class OpenPlanReader extends AbstractProjectStreamReader
 {
    @Override public ProjectFile read(InputStream is) throws MPXJException
