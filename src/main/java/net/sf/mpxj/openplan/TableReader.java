@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
@@ -97,6 +98,11 @@ class TableReader extends AbstractReader
             return UuidHelper.parse(value);
          }
 
+         case RESOURCE_TYPE:
+         {
+            return parseResourceType(value);
+         }
+
          default:
          {
             return value;
@@ -162,6 +168,33 @@ class TableReader extends AbstractReader
       return Duration.getInstance(duration, unit);
    }
 
+
+   private ResourceType parseResourceType(String value)
+   {
+      if (value.isEmpty())
+      {
+         return null;
+      }
+
+      switch(value.charAt(0))
+      {
+         case 'N':
+         {
+            return ResourceType.MATERIAL;
+         }
+
+         case 'C':
+         {
+            return ResourceType.COST;
+         }
+
+         case 'L':
+         default:
+         {
+            return ResourceType.WORK;
+         }
+      }
+   }
 
    private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("yyyyMMddHHmm").toFormatter();
 
@@ -282,7 +315,6 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("EFF_FACTOR", DataType.NUMERIC);
       TYPE_MAP.put("UNIT_COST", DataType.NUMERIC);
       TYPE_MAP.put("CLC_COST", DataType.BOOLEAN);
-      TYPE_MAP.put("RES_CLASS", DataType.BOOLEAN);
       TYPE_MAP.put("POSITION_NUM", DataType.INTEGER);
       TYPE_MAP.put("NO_LIST", DataType.BOOLEAN);
       TYPE_MAP.put("SUPPRESS", DataType.BOOLEAN);
@@ -362,5 +394,7 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("TIMEUNIT", DataType.INTEGER);
       TYPE_MAP.put("TOTACTCOM", DataType.INTEGER);
       TYPE_MAP.put("TOTACTPRG", DataType.INTEGER);
+      TYPE_MAP.put("MSPUNIQUEID", DataType.INTEGER);
+      TYPE_MAP.put("RES_CLASS", DataType.RESOURCE_TYPE);
    }
 }

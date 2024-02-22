@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ResourceType;
 
 interface Row
 {
@@ -19,4 +20,5 @@ interface Row
 
    public UUID getUuid(String name);
    public Duration getDuration(String name);
+   public ResourceType getResourceType(String name);
 }

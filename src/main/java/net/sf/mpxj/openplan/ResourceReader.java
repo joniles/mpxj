@@ -7,7 +7,7 @@ import java.util.Map;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
-import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.HierarchyHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
@@ -26,6 +26,7 @@ class ResourceReader
 
       List<Row> rows = new TableReader(dir, "RES").read();
       HierarchyHelper.sortHierarchy(rows, r -> r.getString("RES_ID"), r -> getParentResourceID(r.getString("RES_ID")), Comparator.comparing(o -> o.getString("RES_ID")));
+      UnitOfMeasureContainer uom = m_file.getUnitsOfMeasure();
 
       for (Row row : rows)
       {
@@ -42,10 +43,41 @@ class ResourceReader
             resource = parentResource.addResource();
          }
 
+
+         // CLC_COST: Cost Based on Progress Quantity
+         // CLC_PROG: Progress Based on Activity Progress
+         // DESCRIPTION: Resource Description
          resource.setName(row.getString("DESCRIPTION"));
+         // DIR_ID: Resource Directory Name
+         // DIR_UID: Resource Directory Unique ID
+         // EFF_FACTOR: Effort Factor
+         // EMAIL: Email Address
+         resource.setEmailAddress(row.getString("EMAIL"));
+         // EMP_ID: Employee ID
+         // LASTUPDATE: Last Update
+         // MSPUNIQUEID: Imported MS Project Unique ID
+         // NO_LIST: Suppress In Lists
+         // PALLOC_UID: Project Allocation Unique ID
+         // POSITION_NUM: Child Position
+         // RES_CLASS: Resource Category (L: Labor, N: Material, C: Other Direct Cost: S: Subcontract)
+         resource.setType(row.getResourceType("RES_CLASS"));
+         // RES_ID: Resource ID
          resource.setResourceID(resourceID);
+         // RES_TYPE: Resource Type (null: Normal, C: Consumable, D: Perishable, P: Resource Pool, S: Skill)
+         // RES_UID: Resource Unique Identifier
          resource.setGUID(row.getUuid("RES_UID"));
-         resource.setType("Equip-hr".equals(row.getString("UNIT")) ? ResourceType.MATERIAL : ResourceType.WORK); // TODO review
+         // ROLLCOST: Rollup for Cost Flag
+         // ROLLUP: Rollup for Scheduling Flag
+         // SEQUENCE: Update Count
+         // SUPPRESS: Suppress Resource Scheduling Flag
+         // THRESHOLD: Resource Threshold
+         // UNIT: Resource Units
+         resource.setUnitOfMeasure(uom.getOrCreateByAbbreviation(row.getString("UNIT")));
+         // UNIT_COST: Unit Cost
+         // USER_NUM01
+         // USER_NUM02
+         // USR_ID: Last Update User
+
          map.put(resource.getResourceID(), resource);
       }
 

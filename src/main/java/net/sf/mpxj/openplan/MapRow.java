@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ResourceType;
 
 class MapRow implements Row
 {
@@ -55,5 +56,10 @@ class MapRow implements Row
    @Override public Duration getDuration(String name)
    {
       return (Duration)m_map.get(name);
+   }
+
+   @Override public ResourceType getResourceType(String name)
+   {
+      return (ResourceType)m_map.get(name);
    }
 }
