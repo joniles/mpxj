@@ -44,7 +44,8 @@ class TableReader extends AbstractReader
          for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
          {
             String columnName = columns[columnIndex];
-            Object value = convertType(columnName, getString());
+            String stringValue = getString();
+            Object value = convertType(columnName, stringValue);
             if (value != null)
             {
                map.put(columnName, value);
@@ -396,5 +397,6 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("TOTACTPRG", DataType.INTEGER);
       TYPE_MAP.put("MSPUNIQUEID", DataType.INTEGER);
       TYPE_MAP.put("RES_CLASS", DataType.RESOURCE_TYPE);
+      TYPE_MAP.put("RES_LEVEL", DataType.NUMERIC);
    }
 }

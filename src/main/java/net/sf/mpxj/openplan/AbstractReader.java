@@ -37,6 +37,23 @@ abstract class AbstractReader
       }
    }
 
+   protected int getShort()
+   {
+      try
+      {
+         int result = 0;
+         for (int shiftBy = 0; shiftBy < 16; shiftBy += 8)
+         {
+            result |= ((m_is.read() & 0xff)) << shiftBy;
+         }
+         return result;
+      }
+      catch (IOException ex)
+      {
+         throw new OpenPlanException(ex);
+      }
+   }
+
 
    protected int getByte()
    {
@@ -58,6 +75,11 @@ abstract class AbstractReader
          if (length == 0)
          {
             return null;
+         }
+
+         if (length == 255)
+         {
+            length = getShort();
          }
 
          byte[] bytes = new byte[length];

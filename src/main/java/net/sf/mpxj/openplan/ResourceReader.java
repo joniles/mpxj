@@ -1,10 +1,12 @@
 package net.sf.mpxj.openplan;
 import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.UnitOfMeasureContainer;
@@ -54,7 +56,7 @@ class ResourceReader
          // EMAIL: Email Address
          resource.setEmailAddress(row.getString("EMAIL"));
          // EMP_ID: Employee ID
-         // LASTUPDATE: Last Update
+         // LASTUPDATE: Last Update Date
          // MSPUNIQUEID: Imported MS Project Unique ID
          // NO_LIST: Suppress In Lists
          // PALLOC_UID: Project Allocation Unique ID
@@ -81,34 +83,71 @@ class ResourceReader
          map.put(resource.getResourceID(), resource);
       }
 
-/*
-      System.out.println("RES");
-      new TableReader(dir, "RES").read().forEach(System.out::println);
+      readAvailability(dir, map);
 
+/*
+      // Resource Structure
       System.out.println("RDS");
       new TableReader(dir, "RDS").read().forEach(System.out::println);
 
+      // Resource Cost Escalation
       System.out.println("RSL");
       new TableReader(dir, "RSL").read().forEach(System.out::println);
 
+      // Skill Assignment
       System.out.println("SKL");
       new TableReader(dir, "SKL").read().forEach(System.out::println);
 
-      System.out.println("SCA");
-      new TableReader(dir, "SCA").read().forEach(System.out::println);
-
+      // Explorer Folders
       System.out.println("EXF");
       new TableReader(dir, "EXF").read().forEach(System.out::println);
 
+      // Project Summary Usage
       System.out.println("PSU");
       new TableReader(dir, "PSU").read().forEach(System.out::println);
 
+      // Explorer Folder Items
       System.out.println("EXI");
       new TableReader(dir, "EXI").read().forEach(System.out::println);
 
-      System.out.println("AVL");
-      new TableReader(dir, "AVL").read().forEach(System.out::println);
- */
+      // Code Structure Association
+      // Not populated for any resources in the sample data
+      System.out.println("SCA");
+      new TableReader(dir, "SCA").read().forEach(System.out::println);
+*/
+   }
+
+   private void readAvailability(DirectoryEntry dir, Map<String, Resource> map)
+   {
+      List<Row> rows = new TableReader(dir, "AVL").read();
+      for(Row row : rows)
+      {
+         Resource resource = map.get(row.getString("RES_ID"));
+         if (resource == null)
+         {
+            return;
+         }
+
+         // AVL_UID: Availability Unique ID
+         // CLH_ID: Resource Calendar Name for Resource Usage
+         // CLH_UID: Resource Calendar Unique ID for Resource Usage
+         // DIR_ID: Resource Directory Name
+         // DIR_UID: Resource Directory Unique ID
+         // LASTUPDATE: Last Update Date
+         // PALLOC_UID: Project Allocation Unique ID
+         // RES_ID: Resource ID
+         // RES_LEVEL: Quantity Available This Period
+         Double units = row.getDouble("RES_LEVEL");
+         // RES_UID: Resource Unique ID
+         // RFDATE: Period Finish Date
+         LocalDateTime finish = row.getDate("RFDATE");
+         // RSDATE: Period Start Date
+         LocalDateTime start = row.getDate("RSDATE");
+         // SEQUENCE: Update Count
+         // USR_ID: Last Update User
+
+         resource.getAvailability().add(new Availability(start, finish, units));
+      }
    }
 
    private String getParentResourceID(String resourceID)
