@@ -205,6 +205,9 @@ class ProjectReader
 
       DependenciesReader dependencies = new DependenciesReader(dir).read();
 
+      CalendarReader calendarReader = new CalendarReader(m_root, m_file);
+      dependencies.getCalendars().forEach(r -> calendarReader.read(r));
+
       ResourceReader resourceReader = new ResourceReader(m_root, m_file);
       dependencies.getResources().forEach(r -> resourceReader.read(r));
 

@@ -1,6 +1,7 @@
 package net.sf.mpxj.openplan;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
@@ -82,6 +83,11 @@ class TableReader extends AbstractReader
          {
             // TODO: could improve optional section parsing
             return LocalDateTime.parse(value.substring(0,12), DATE_FORMAT);
+         }
+
+         case TIME:
+         {
+            return LocalTime.parse(value, TIME_FORMAT);
          }
 
          case BOOLEAN:
@@ -198,6 +204,8 @@ class TableReader extends AbstractReader
    }
 
    private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("yyyyMMddHHmm").toFormatter();
+
+   private static final DateTimeFormatter TIME_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("HH:mm").toFormatter();
 
    private static final Pattern DURATION_REGEX = Pattern.compile("(\\d+)([dh])");
    private static final Map<String, DataType> TYPE_MAP = new HashMap<>();
@@ -400,7 +408,9 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("RES_LEVEL", DataType.NUMERIC);
       TYPE_MAP.put("MINSPLITD", DataType.DURATION);
       TYPE_MAP.put("SEP_ASG", DataType.BOOLEAN);
-
+      TYPE_MAP.put("OPSTART", DataType.TIME);
+      TYPE_MAP.put("OPFINISH", DataType.TIME);
+      TYPE_MAP.put("OPWORK", DataType.BOOLEAN);
 
    }
 }

@@ -1,5 +1,6 @@
 package net.sf.mpxj.openplan;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.UUID;
@@ -31,6 +32,10 @@ class MapRow implements Row
    @Override public LocalDateTime getDate(String name)
    {
       return (LocalDateTime) m_map.get(name);
+   }
+   @Override public LocalTime getTime(String name)
+   {
+      return (LocalTime) m_map.get(name);
    }
 
    @Override public Double getDouble(String name)
