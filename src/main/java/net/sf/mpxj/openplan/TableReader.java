@@ -398,5 +398,9 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("MSPUNIQUEID", DataType.INTEGER);
       TYPE_MAP.put("RES_CLASS", DataType.RESOURCE_TYPE);
       TYPE_MAP.put("RES_LEVEL", DataType.NUMERIC);
+      TYPE_MAP.put("MINSPLITD", DataType.DURATION);
+      TYPE_MAP.put("SEP_ASG", DataType.BOOLEAN);
+
+
    }
 }

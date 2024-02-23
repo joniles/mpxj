@@ -40,119 +40,120 @@ class ActivityReader
             task = parentTask.addTask();
          }
 
-         // USER_NUM10	0.0 (Double)
-         // DSHAPE	  (String)
-         task.setPlannedDuration(row.getDuration("ORIG_DUR"));
-         // MSPUNIQUEID	0 (String)
-         // USR_ID	SYSADMIN (String)
-         // BCWP_MAT	0.0 (Double)
-         // STARTPC	0 (String)
-         // DHIGH	601.0d (Duration)
-         // ETC_QTY	7858.0 (Double)
-         // ACWP_MAT	0.0 (Double)
-         // COMPSTAT	0 (String)
-         // BAC_ODC	0.0 (Double)
-         // FINFREEFLT	0.0h (Duration)
-         // DIR_ID	CLEAN (String)
-         task.setFinish(row.getDate("SFDATE"));
-         // SFDATE	2022-03-08T16:00 (LocalDateTime)
-         // MINSPLITD	0 (String)
-         // SSINDEX	99.97 (Double)
-         // SEP_ASG	F (String)
-         // OUTOFSEQ	false (Boolean)
-         // CRITINDEX	100.0 (Double)
-         // ACWP_SUB	0.0 (Double)
-         // BCWS_ODC	0.0 (Double)
-         task.setBaselineStart(row.getDate("BSDATE"));
-         task.setEarlyStart(row.getDate("ESDATE"));
-         // DIR_UID	d8acbddc-030d-4ca7-4cdc-38c8c7df9300 (UUID)
-         // BCWS_SUB	0.0 (Double)
-         // ACWP_ODC	0.0 (Double)
-         // MAXDUR	0 (String)
-         // PPC	0.0 (Double)
-         // BAC_MAT	148800.0 (Double)
-         // C1	IGOQ-];BZ@&_R4X*VOPZZ# (String)
-         // C2	C&!Z&B0@P1&H$MO#)$\^~( (String)
-         // DLOW	451.0d (Duration)
-         task.setName(row.getString("DESCRIPTION"));
-         // BCWS_MAT	0.0 (Double)
-         task.setStart(row.getDate("SSDATE"));
-         // RS_FLOAT	0.0h (Duration)
-         // ACTIVEINDEX	100.0 (Double)
-         // BCWP_SUB	0.0 (Double)
-         // ETC_LAB	440321.0 (Double)
-         // BAC_SUB	0.0 (Double)
-         task.setBaselineFinish(row.getDate("BFDATE"));
-         // PROGTYPE	  (String)
-         // BCWP_ODC	0.0 (Double)
-         task.setGUID(row.getUuid("ACT_UID"));
-         task.setEarlyFinish(row.getDate("EFDATE"));
-         task.setRemainingDuration(row.getDuration("REM_DUR"));
-         // COMP_RS_C	  (String)
-         // ETC_ODC	0.0 (Double)
-         task.setLateFinish(row.getDate("LFDATE"));
-         // MEAN_LF	2022-03-07T16:00 (LocalDateTime)
-         // RSCLASS	  (String)
-         // RS_SUPRESS	false (Boolean)
-         // SDEV_LS	6.0h (Duration)
-         // BCWS_LAB	0.0 (Double)
-         // PRIORITY	0 (String)
-         // LASTUPDATE	2002-06-25T08:11 (LocalDateTime)
-         // ETC_SUB	0.0 (Double)
-         // BAC_QTY	7858.0 (Double)
-         // DCMA_12_TF_Testing	0 (String)
-         // MEAN_TF	0.0h (Duration)
-         // SDEV_EF	6.0d (Duration)
-         task.setCritical(Boolean.valueOf(NumberHelper.getInt(row.getInteger("CRITICAL")) == 0));
-         // CRITICAL	2 (String)
-         // LOGICFLAG	SF (String)
-         // ACWP_QTY	0.0 (Double)
-         // PROGVALUE	0 (String)
-         task.setTotalSlack(row.getDuration("TOTALFLOAT"));
-         // TOTALFLOAT	0.0h (Duration)
-         // TARGSTYPE	  (String)
-         // DELAYRES_UID	00000000-0000-0000-0000-000000000000 (UUID)
-         // SDEV_TF	0.0h (Duration)
-         // BAC_LAB	440321.0 (Double)
-         task.setDuration(row.getDuration("SCHED_DUR"));
-         // FEDATE	2020-01-02T08:00 (LocalDateTime)
-         // ETC_MAT	148800.0 (Double)
-         // SDEV_LF	6.0d (Duration)
-         // BCWS_QTY	0.0 (Double)
-         // ACT_TYPE	P (String)
-         // OPKEY	false (Boolean)
-         // EVT	C (String)
-         // FINTOTFLT	0.0h (Duration)
-         task.setActivityID(activityID);
-         // MEAN_FF	0.0h (Duration)
-         // MAXSPLITS	0 (String)
-         // BCWP_LAB	0.0 (Double)
-         task.setLateStart(row.getDate("LSDATE"));
-         // SEQUENCE	3 (Integer)
-         // TARGFTYPE	  (String)
-         // ACT_PROBABILITY	100.0 (Double)
-         // ACWP_LAB	0.0 (Double)
-         // MEAN_ES	2020-01-02T08:00 (LocalDateTime)
-         // USER_NUM01	0.0 (Double)
-         // CLH_UID	f312fdc3-9044-2cef-5709-e22ba6eb8500 (UUID)
-         // USER_NUM03	0.0 (Double)
-         // USER_NUM02	0.0 (Double)
-         // USER_NUM05	0.0 (Double)
-         // USER_NUM04	0.0 (Double)
-         // SDEV_ES	0.0h (Duration)
-         // USER_NUM07	0.0 (Double)
-         // BCWP_QTY	0.0 (Double)
-         // USER_NUM06	0.0 (Double)
-         // USER_NUM09	0.0 (Double)
-         // USER_NUM08	0.0 (Double)
-         // MEAN_EF	2022-03-07T16:00 (LocalDateTime)
-         task.setFreeSlack(row.getDuration("FREEFLOAT"));
-         // SOURCE_BASELINE	PMB (String)
-         // MEAN_LS	2020-01-02T13:00 (LocalDateTime)
-         // CLH_ID	1 (String)
-         // SDEV_FF	0.0h (Duration)
-         // DCMA_12_TF_Current	0 (String)
 
+         // OPP_ACT and OPP_ACR in the same table in the file?
+         //
+         // ACTIVEINDEX: Probability of Being Active
+         // ACT_ID: Activity ID
+         task.setActivityID(activityID);
+         // ACT_PROBABILITY: Probability of Occurrence
+         // ACT_TYPE: Activity Type (L: ALAP, N: ASAP, D: Discontinuous, R: Effort Driven, E: External Subproject, F: Finish Milestone, H:Hammock, P: Subproject, S: Start Milestone, Z: Foreign Project, Y: Foreign Subproject, G:Foreign Activity)
+         // ACT_UID: Activity Unique ID
+         task.setGUID(row.getUuid("ACT_UID"));
+         // ACWP_LAB: ACWP Labor
+         // ACWP_MAT: ACWP Material
+         // ACWP_ODC: ACWP Other Direct Cost
+         // ACWP_QTY: ACWP Labor Units
+         // ACWP_SUB: ACWP Subcontract
+         // BAC_LAB: Budget At Completion Labor
+         // BAC_MAT: Budget At Completion Material
+         // BAC_ODC: Budget At Completion Other Direct Cost
+         // BAC_QTY: Budget At Completion  Labor Units
+         // BAC_SUB: Budget At Completion Subcontractor
+         // BCWP_LAB: BCWP Labor
+         // BCWP_MAT: BCWP Material
+         // BCWP_ODC: BCWP Other Direct Cost
+         // BCWP_QTY: BCWP Labor Units
+         // BCWP_SUB: BCWP Subcontractor
+         // BCWS_LAB: BCWS Labor
+         // BCWS_MAT: BCWS Material
+         // BCWS_ODC: BCWS Other Direct Cost
+         // BCWS_QTY: BCWS Labor Units
+         // BCWS_SUB: BCWS Subcontractor
+         // BFDATE:  Baseline Finish Date
+         task.setBaselineFinish(row.getDate("BFDATE"));
+         // BSDATE: Baseline Start Date
+         task.setBaselineStart(row.getDate("BSDATE"));
+         // CLH_ID: Calendar Name
+         // CLH_UID: Calendar Unique ID
+         // COMPSTAT: Computed Status (0: Planned, 1: In Progress, 2: Complete)
+         // COMP_RS_C: Result of Schedule Actions (null: Normal, P: Splittable, T: Stretchable, R: Reprofilable, I: Immediate)
+         // CRITICAL: Critical (0: Not Critical, 1: Critical, 2: Most Critical, 3: Controlling Critical)
+         task.setCritical(Boolean.valueOf(NumberHelper.getInt(row.getInteger("CRITICAL")) == 0));
+         // CRITINDEX: Probability of Being Critical
+         // DELAYRES_UID: Delaying Resource Unique ID
+         // DESCRIPTION: Description
+         task.setName(row.getString("DESCRIPTION"));
+         // DHIGH: Pessimistic Duration
+         // DIR_ID: Project Object Directory Name
+         // DIR_UID: Project Object Directory UID
+         // DLOW: Optimistic Duration
+         // DSHAPE: Duration Distribution Type (null: None, U: Uniform, N: Normal, B: Beta, and T: Triangular)
+         // EFDATE: Early Finish Date
+         task.setEarlyFinish(row.getDate("EFDATE"));
+         // ESDATE: Early Start Date
+         task.setEarlyStart(row.getDate("ESDATE"));
+         // ETC_LAB: Estimate to Complete Labor
+         // ETC_MAT: Estimate to Complete Material
+         // ETC_ODC: Estimate to Complete Other Direct Cost
+         // ETC_QTY: Estimate to Complete Labor Units
+         // ETC_SUB: Estimate to Complete Subcontractors
+         // EVT: Earned Value Technique (A: Level of Effort, C: Percent Complete, E: 50-50, F: 0-100, G: 100-0, H: user defined percentage, K: Planning package, L: resource % complete, s: Steps)
+         // FEDATE: Earliest Feasible Start
+         // FINTOTFLT: Finish Total Float
+         // FREEFLOAT: Free Float
+         task.setFreeSlack(row.getDuration("FREEFLOAT"));
+         // LASTUPDATE: Last Update Date
+         // LFDATE: Late Finish Date
+         task.setLateFinish(row.getDate("LFDATE"));
+         // LOGICFLAG: Activity Logic Flag (S: Start Activity, null: None, F: End Activity, SF: Start and Finish Activity, I: Isolated)
+         // LSDATE: Late Start Date
+         task.setLateStart(row.getDate("LSDATE"));
+         // MAXDUR: Maximum Duration for Resource Scheduling
+         // MAXSPLITS: Maximum Splits for Resource Scheduling
+         // MEAN_EF: Mean Early Finish Date
+         // MEAN_ES: Mean Early Start Date
+         // MEAN_LF: Mean late Finish Date
+         // MEAN_LS: Mean Late Start Date
+         // MEAN_TF: Mean Total Float
+         // MINSPLITD: Minimum Split Length
+         // MSPUNIQUEID: Imported MS Project Unique ID
+         // OPKEY: Key Activity
+         // ORIG_DUR: Original Duration
+         task.setPlannedDuration(row.getDuration("ORIG_DUR"));
+         // OUTOFSEQ: Progressed Out of Sequence Flag
+         // PPC: Physical Percent Complete
+         // PRIORITY: Priority
+         // PROGTYPE: Progress Type (null: Planned, R: Remaining Duration, P: Percent Complete, E: Elapsed Duration, C: Complete)
+         // PROGVALUE: Progress Value
+         // REM_DUR: Remaining Duration
+         task.setRemainingDuration(row.getDuration("REM_DUR"));
+         // RES_DATE: First Usage Date
+         // RSCLASS: Resource Scheduling Options (null: Normal, P: Splittable, T: Stretchable, R: Reprofilable, I: Immediate)
+         // RS_FLOAT: Scheduled Float
+         // RS_SUPRESS: Suppress Requirements During Resource Scheduling
+         // SCHED_DUR: Scheduled Duration
+         task.setDuration(row.getDuration("SCHED_DUR"));
+         // SDEV_EF: Early Finish Standard Deviation
+         // SDEV_ES: Early Start Standard Deviation
+         // SDEV_LF: Late Finish Standard Deviation
+         // SDEV_LS: Late Start Standard Deviation
+         // SDEV_TF: Total Float Standard Deviation
+         // SEP_ASG: Separate Assignments
+         // SEQUENCE: Update Count
+         // SFDATE: Scheduled Finish Date
+         task.setFinish(row.getDate("SFDATE"));
+         // SOURCE_BASELINE: Source Baseline Name
+         // SSDATE: Schedule Start Date
+         task.setStart(row.getDate("SSDATE"));
+         // SSINDEX: Sensitivity Index
+         // STARTPC: User Defined EVT Split %
+         // TARGFTYPE: Target Finish Type (null: None, NE: Not Earlier Than, NL: Not Later Than, ON: On Target, FX: Fixed Target)
+         // TARGSTYPE: Target Start Type  (null: None, NE: Not Earlier Than, NL: Not Later Than, ON: On Target, FX: Fixed Target)
+         // TOTALFLOAT: Total Float
+         task.setTotalSlack(row.getDuration("TOTALFLOAT"));
+         // USR_ID: Last Update User
+         
          map.put(task.getActivityID(), task);
       }
    }
