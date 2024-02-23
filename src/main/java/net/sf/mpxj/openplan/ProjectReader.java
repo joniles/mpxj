@@ -19,6 +19,23 @@ class ProjectReader
 
    public ProjectFile read(String name)
    {
+      /*
+         Project Directory Contents
+
+         EXF - Explorer Folders
+         SCA - Code Structure Associations
+         USE - Resource Usage
+         UVA - User Validation Associations
+         SUB - Sub Project Summary Information
+         STP - Activity Steps
+         PRJ - Project
+         RSK - Risk Key Activities
+         REL - Activity Relationships
+         IRL - Inter Project Relationships
+         EXI - Explorer Items
+         ACT - Activity Details
+       */
+
 //     ProjectConfig config = m_file.getProjectConfig();
 //      config.setAutoTaskID(false);
 //      config.setAutoTaskUniqueID(false);

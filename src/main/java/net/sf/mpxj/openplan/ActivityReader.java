@@ -153,7 +153,7 @@ class ActivityReader
          // TOTALFLOAT: Total Float
          task.setTotalSlack(row.getDuration("TOTALFLOAT"));
          // USR_ID: Last Update User
-         
+
          map.put(task.getActivityID(), task);
       }
    }
