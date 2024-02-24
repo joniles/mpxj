@@ -17,6 +17,8 @@ import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.RecurrenceType;
+import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.common.HierarchyHelper;
@@ -36,7 +38,7 @@ class CalendarReader
          CLD - Calendar Directory Record (just one row?)
          CLR - Calendar Detail
          CLH - Calendar Header
-         ACL
+         ACL - Access Control
        */
 
       DirectoryEntry dir = getDirectoryEntry(m_root, name);
@@ -88,6 +90,17 @@ class CalendarReader
       rows = new TableReader(dir, "CLR").read();
       for (Row row : rows)
       {
+         // CLH_ID: Calendar Header ID
+         // CLH_UID: Calendar Header Unique ID
+         // CLR_UID: Calendar Detail Unique ID
+         // DATESPEC: Day Name, Month and Day, or Date
+         // DIR_ID: Project Object Directory Name
+         // DIR_UID: Project Object Directory UID
+         // OPFINISH: Finish Time
+         // OPSTART: Start Time
+         // OPWORK: Working Flag
+         // SEQUENCE: Update Count
+
          ProjectCalendar calendar = map.get(row.getString("CLH_ID"));
          if (calendar == null)
          {
@@ -105,16 +118,10 @@ class CalendarReader
             readExceptionDate(calendar, row);
          }
 
-         // CLH_ID: Calendar Header ID
-         // CLH_UID: Calendar Header Unique ID
-         // CLR_UID: Calendar Detail Unique ID
-         // DATESPEC: Day Name, Month and Day, or Date
-         // DIR_ID: Project Object Directory Name
-         // DIR_UID: Project Object Directory UID
-         // OPFINISH: Finish Time
-         // OPSTART: Start Time
-         // OPWORK: Working Flag
-         // SEQUENCE: Update Count
+         if (isDayAndMonth(row))
+         {
+            readDayAndMonth(calendar, row);
+         }
       }
    }
 
@@ -139,14 +146,66 @@ class CalendarReader
    {
       LocalDate date = LocalDate.parse(row.getString("DATESPEC"), DATE_FORMAT);
 
-      // TODO: handle multiple rows when adding hours
-      ProjectCalendarException exception = calendar.addCalendarException(date);
+      ProjectCalendarException exception = null;
+      List<ProjectCalendarException> exceptions = calendar.getCalendarExceptions();
 
+      // TODO: replace with a more efficient search!
+      for (ProjectCalendarException ex : exceptions)
+      {
+         // We know that the exception records only cover one day
+         // not a range of days, so we'll just compare the from date.
+         if (ex.getFromDate().equals(date))
+         {
+            exception = ex;
+            break;
+         }
+
+         // We know the list is sorted, so bail out if we have passed the
+         // date we are interested in.
+         if (date.isBefore(ex.getFromDate()))
+         {
+            break;
+         }
+      }
+
+      // Create an exception if this is a new date
+      if (exception == null)
+      {
+         exception = calendar.addCalendarException(date);
+      }
+
+      // We're done if this is a non-working period
       if (!row.getBoolean("OPWORK").booleanValue())
       {
          return;
       }
 
+      // Add the time range
+      exception.add(new LocalTimeRange(row.getTime("OPSTART"), row.getTime("OPFINISH")));
+   }
+
+   private void readDayAndMonth(ProjectCalendar calendar, Row row)
+   {
+      String dateSpec = row.getString("DATESPEC");
+      Integer day = Integer.valueOf(dateSpec.substring(dateSpec.length()-2));
+      Integer month = Integer.valueOf(dateSpec.substring(0, dateSpec.length()-2));
+
+      // TODO: add start and end
+      
+      RecurringData recurrence = new RecurringData();
+      recurrence.setRecurrenceType(RecurrenceType.YEARLY);
+      recurrence.setDayNumber(day);
+      recurrence.setMonthNumber(month);
+
+      ProjectCalendarException exception = calendar.addCalendarException(recurrence);
+
+      // We're done if this is a non-working period
+      if (!row.getBoolean("OPWORK").booleanValue())
+      {
+         return;
+      }
+
+      // Add the time range
       exception.add(new LocalTimeRange(row.getTime("OPSTART"), row.getTime("OPFINISH")));
    }
 
@@ -173,6 +232,13 @@ class CalendarReader
    {
       String dateSpec = row.getString("DATESPEC");
       return dateSpec.length() == 8 && dateSpec.chars().allMatch(c -> Character.isDigit(c));
+   }
+
+   public boolean isDayAndMonth(Row row)
+   {
+      String dateSpec = row.getString("DATESPEC");
+      return dateSpec.length() >= 3 && dateSpec.length() <= 4 && dateSpec.chars().allMatch(c -> Character.isDigit(c));
+
    }
 
    private String getParentID(String id)
