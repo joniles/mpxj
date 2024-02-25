@@ -190,9 +190,9 @@ class CalendarReader
       Integer day = Integer.valueOf(dateSpec.substring(dateSpec.length()-2));
       Integer month = Integer.valueOf(dateSpec.substring(0, dateSpec.length()-2));
 
-      // TODO: add start and end
-      
       RecurringData recurrence = new RecurringData();
+      recurrence.setStartDate(m_file.getProjectProperties().getStartDate().toLocalDate());
+      recurrence.setFinishDate(m_file.getProjectProperties().getFinishDate().toLocalDate());
       recurrence.setRecurrenceType(RecurrenceType.YEARLY);
       recurrence.setDayNumber(day);
       recurrence.setMonthNumber(month);
