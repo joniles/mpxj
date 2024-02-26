@@ -37,6 +37,10 @@ class CodeDirectoryReader extends DirectoryReader
       }
 
       Row codeRow = codeRows.get(0);
+      if (codeRows.size() != 1)
+      {
+         throw new OpenPlanException("Expecting 1 code row, found " + codeRows.size());
+      }
 
       List<Row> valueRows = new TableReader(dir, "CDR").read();
 

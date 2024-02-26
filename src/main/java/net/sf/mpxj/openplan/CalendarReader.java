@@ -46,14 +46,13 @@ class CalendarReader extends DirectoryReader
       //
       // Read headers
       //
-      Map<String, ProjectCalendar> map = new HashMap<>();
       List<Row> rows = new TableReader(dir, "CLH").read();
       HierarchyHelper.sortHierarchy(rows, r -> r.getString("CLH_ID"), r -> getParentID(r.getString("CLH_ID")), Comparator.comparing(o -> o.getString("CLH_ID")));
 
       for (Row row : rows)
       {
          ProjectCalendar calendar = m_file.addCalendar();
-         ProjectCalendar parentCalendar = map.get(getParentID(row.getString("CLH_ID")));
+         ProjectCalendar parentCalendar = m_map.get(getParentID(row.getString("CLH_ID")));
          if (parentCalendar != null)
          {
             calendar.setParent(parentCalendar);
@@ -81,7 +80,7 @@ class CalendarReader extends DirectoryReader
          // Default all days to non-working
          Arrays.stream(DayOfWeek.values()).forEach(d -> calendar.setCalendarDayType(d, DayType.NON_WORKING));
 
-         map.put(row.getString("CLH_ID"), calendar);
+         m_map.put(row.getString("CLH_ID"), calendar);
       }
 
       //
@@ -101,7 +100,7 @@ class CalendarReader extends DirectoryReader
          // OPWORK: Working Flag
          // SEQUENCE: Update Count
 
-         ProjectCalendar calendar = map.get(row.getString("CLH_ID"));
+         ProjectCalendar calendar = m_map.get(row.getString("CLH_ID"));
          if (calendar == null)
          {
             continue;
@@ -123,6 +122,11 @@ class CalendarReader extends DirectoryReader
             readDayAndMonth(calendar, row);
          }
       }
+   }
+
+   public Map<String, ProjectCalendar> getMap()
+   {
+      return m_map;
    }
 
    private void readDayOfWeek(ProjectCalendar calendar, Row row)
@@ -239,6 +243,8 @@ class CalendarReader extends DirectoryReader
 
    private final ProjectFile m_file;
    private final DirectoryEntry m_root;
+
+   private final Map<String, ProjectCalendar> m_map = new HashMap<>();
 
    private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("yyyyMMdd").toFormatter();
 

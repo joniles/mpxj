@@ -1,5 +1,6 @@
 package net.sf.mpxj.openplan;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +44,7 @@ class ActivityReader
 
 
          // OPP_ACT and OPP_ACR in the same table in the file?
-         //
+
          // ACTIVEINDEX: Probability of Being Active
          // ACT_ID: Activity ID
          task.setActivityID(activityID);
@@ -56,6 +57,7 @@ class ActivityReader
          // ACWP_ODC: ACWP Other Direct Cost
          // ACWP_QTY: ACWP Labor Units
          // ACWP_SUB: ACWP Subcontract
+         task.setACWP(sum(row,"ACWP_LAB", "ACWP_MAT", "ACWP_ODC", "ACWP_SUB"));
          // BAC_LAB: Budget At Completion Labor
          // BAC_MAT: Budget At Completion Material
          // BAC_ODC: Budget At Completion Other Direct Cost
@@ -66,11 +68,13 @@ class ActivityReader
          // BCWP_ODC: BCWP Other Direct Cost
          // BCWP_QTY: BCWP Labor Units
          // BCWP_SUB: BCWP Subcontractor
+         task.setBCWP(sum(row,"BCWP_LAB", "BCWP_MAT", "BCWP_ODC", "BCWP_SUB"));
          // BCWS_LAB: BCWS Labor
          // BCWS_MAT: BCWS Material
          // BCWS_ODC: BCWS Other Direct Cost
          // BCWS_QTY: BCWS Labor Units
          // BCWS_SUB: BCWS Subcontractor
+         task.setBCWP(sum(row,"BCWS_LAB", "BCWS_MAT", "BCWS_ODC", "BCWS_SUB"));
          // BFDATE:  Baseline Finish Date
          task.setBaselineFinish(row.getDate("BFDATE"));
          // BSDATE: Baseline Start Date
@@ -169,6 +173,10 @@ class ActivityReader
       }
    }
 
+   private Double sum(Row row, String... keys)
+   {
+      return Double.valueOf(Arrays.stream(keys).map(k -> row.getDouble(k)).filter(v -> v != null).mapToDouble(v -> v.doubleValue()).sum());
+   }
 
    private String getParentActivityID(String activityID)
    {

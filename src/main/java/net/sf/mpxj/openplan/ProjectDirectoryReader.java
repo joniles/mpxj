@@ -3,6 +3,7 @@ package net.sf.mpxj.openplan;
 import java.time.LocalTime;
 import java.util.List;
 
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -34,20 +35,6 @@ class ProjectDirectoryReader extends DirectoryReader
          ACT - Activity Details
        */
 
-//     ProjectConfig config = m_file.getProjectConfig();
-//      config.setAutoTaskID(false);
-//      config.setAutoTaskUniqueID(false);
-//      config.setAutoResourceID(false);
-//      config.setAutoResourceUniqueID(false);
-//      config.setAutoOutlineLevel(false);
-//      config.setAutoOutlineNumber(false);
-//      config.setAutoWBS(false);
-//      config.setAutoCalendarUniqueID(false);
-//      config.setAutoAssignmentUniqueID(false);
-//      config.setAutoRelationUniqueID(false);
-//
-//      addListenersToProject(projectFile);
-
       DirectoryEntry dir = getDirectoryEntry(m_root, name);
       List<Row> rows = new TableReader(dir, "PRJ").read();
       if (rows.size() != 1)
@@ -56,7 +43,7 @@ class ProjectDirectoryReader extends DirectoryReader
       }
 
       Row row = rows.get(0);
-//      System.out.println(row);
+
 
       ProjectProperties props = m_file.getProjectProperties();
       props.setFileApplication("Deltek OpenPlan");
@@ -211,6 +198,16 @@ class ProjectDirectoryReader extends DirectoryReader
 
       CalendarReader calendarReader = new CalendarReader(m_root, m_file);
       dependencies.getCalendars().forEach(r -> calendarReader.read(r));
+
+      ProjectCalendar defaultCalendar = calendarReader.getMap().get("< Default >");
+      if (defaultCalendar != null)
+      {
+         m_file.setDefaultCalendar(defaultCalendar);
+      }
+      else
+      {
+         m_file.addDefaultBaseCalendar();
+      }
 
       ResourceDirectoryReader resourceReader = new ResourceDirectoryReader(m_root, m_file);
       dependencies.getResources().forEach(r -> resourceReader.read(r));

@@ -6,7 +6,6 @@ import java.util.Map;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 class ActivityCodeReader
