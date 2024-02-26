@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.HierarchyHelper;
@@ -21,7 +22,7 @@ class ActivityReader
       m_file = file;
    }
 
-   public void read(Map<String, Map<String,ActivityCodeValue>> codeMap)
+   public void read(Map<String, Map<String,ActivityCodeValue>> codeMap, Map<String, ProjectCalendar> calendarMap)
    {
       Map<String, Task> map = new HashMap<>();
       List<Row> rows = new TableReader(m_root, "ACT").read();
@@ -63,6 +64,7 @@ class ActivityReader
          // BAC_ODC: Budget At Completion Other Direct Cost
          // BAC_QTY: Budget At Completion  Labor Units
          // BAC_SUB: Budget At Completion Subcontractor
+         task.setBaselineCost(sum(row, "BAC_LAB", "BAC_MAT", "BAC_ODC", "BAC_SUB"));
          // BCWP_LAB: BCWP Labor
          // BCWP_MAT: BCWP Material
          // BCWP_ODC: BCWP Other Direct Cost
@@ -74,12 +76,13 @@ class ActivityReader
          // BCWS_ODC: BCWS Other Direct Cost
          // BCWS_QTY: BCWS Labor Units
          // BCWS_SUB: BCWS Subcontractor
-         task.setBCWP(sum(row,"BCWS_LAB", "BCWS_MAT", "BCWS_ODC", "BCWS_SUB"));
+         task.setBCWS(sum(row,"BCWS_LAB", "BCWS_MAT", "BCWS_ODC", "BCWS_SUB"));
          // BFDATE:  Baseline Finish Date
          task.setBaselineFinish(row.getDate("BFDATE"));
          // BSDATE: Baseline Start Date
          task.setBaselineStart(row.getDate("BSDATE"));
          // CLH_ID: Calendar Name
+         task.setCalendar(calendarMap.get(row.getString("CLH_ID")));
          // CLH_UID: Calendar Unique ID
          // COMPSTAT: Computed Status (0: Planned, 1: In Progress, 2: Complete)
          // COMP_RS_C: Result of Schedule Actions (null: Normal, P: Splittable, T: Stretchable, R: Reprofilable, I: Immediate)
@@ -103,6 +106,7 @@ class ActivityReader
          // ETC_ODC: Estimate to Complete Other Direct Cost
          // ETC_QTY: Estimate to Complete Labor Units
          // ETC_SUB: Estimate to Complete Subcontractors
+         task.setCost(sum(row, "ETC_LAB", "ETC_MAT", "ETC_ODC", "ETC_SUB"));
          // EVT: Earned Value Technique (A: Level of Effort, C: Percent Complete, E: 50-50, F: 0-100, G: 100-0, H: user defined percentage, K: Planning package, L: resource % complete, s: Steps)
          // FEDATE: Earliest Feasible Start
          // FINTOTFLT: Finish Total Float
