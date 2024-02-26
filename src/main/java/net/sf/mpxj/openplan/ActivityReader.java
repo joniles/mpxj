@@ -22,7 +22,7 @@ class ActivityReader
    public void read(String name)
    {
       Map<String, Task> map = new HashMap<>();
-      List<Row> rows = new TableReader(m_root, "ACT").read();
+      List<Row> rows = new TableReader(m_root, name).read();
       HierarchyHelper.sortHierarchy(rows, r -> r.getString("ACT_ID"), r -> getParentActivityID(r.getString("ACT_ID")), Comparator.comparing(o -> o.getString("ACT_ID")));
 
       for (Row row : rows)

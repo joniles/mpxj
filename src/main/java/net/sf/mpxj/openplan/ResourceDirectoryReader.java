@@ -1,5 +1,4 @@
 package net.sf.mpxj.openplan;
-import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -13,9 +12,9 @@ import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.HierarchyHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
-class ResourceReader
+class ResourceDirectoryReader extends DirectoryReader
 {
-   public ResourceReader(DirectoryEntry root, ProjectFile file)
+   public ResourceDirectoryReader(DirectoryEntry root, ProjectFile file)
    {
       m_root = root;
       m_file = file;
@@ -158,20 +157,6 @@ class ResourceReader
          return null;
       }
       return resourceID.substring(0,index);
-   }
-
-   // TODO: helper class
-   private DirectoryEntry getDirectoryEntry(DirectoryEntry root, String name)
-   {
-      try
-      {
-         return (DirectoryEntry) root.getEntry(name);
-      }
-
-      catch (FileNotFoundException e)
-      {
-         throw new OpenPlanException(e);
-      }
    }
 
    private final ProjectFile m_file;

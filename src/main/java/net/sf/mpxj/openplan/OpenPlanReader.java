@@ -109,7 +109,7 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
 
    private ProjectFile processProject(DirectoryEntry root, String name)
    {
-      return new ProjectReader(root).read(name);
+      return new ProjectDirectoryReader(root).read(name);
    }
 
    private ProjectFile m_file;

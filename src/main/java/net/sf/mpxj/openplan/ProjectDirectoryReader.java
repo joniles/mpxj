@@ -1,17 +1,15 @@
 package net.sf.mpxj.openplan;
 
-import java.io.FileNotFoundException;
 import java.time.LocalTime;
 import java.util.List;
 
-import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
-class ProjectReader
+class ProjectDirectoryReader extends DirectoryReader
 {
-   public ProjectReader(DirectoryEntry root)
+   public ProjectDirectoryReader(DirectoryEntry root)
    {
       m_root = root;
       m_file = new ProjectFile();
@@ -205,10 +203,16 @@ class ProjectReader
 
       DependenciesReader dependencies = new DependenciesReader(dir).read();
 
+      CodeDirectoryReader codeReader = new CodeDirectoryReader(m_root, m_file);
+      dependencies.getCodes().forEach(r -> codeReader.read(r));
+
+      ActivityCodeReader activityCodeReader = new ActivityCodeReader(dir, m_file);
+      activityCodeReader.read(codeReader.getCodes());
+
       CalendarReader calendarReader = new CalendarReader(m_root, m_file);
       dependencies.getCalendars().forEach(r -> calendarReader.read(r));
 
-      ResourceReader resourceReader = new ResourceReader(m_root, m_file);
+      ResourceDirectoryReader resourceReader = new ResourceDirectoryReader(m_root, m_file);
       dependencies.getResources().forEach(r -> resourceReader.read(r));
 
       ActivityReader activityReader = new ActivityReader(dir, m_file);
@@ -223,19 +227,6 @@ class ProjectReader
       m_file.readComplete();
 
       return m_file;
-   }
-
-   private DirectoryEntry getDirectoryEntry(DirectoryEntry root, String name)
-   {
-      try
-      {
-         return (DirectoryEntry) root.getEntry(name);
-      }
-
-      catch (FileNotFoundException e)
-      {
-         throw new OpenPlanException(e);
-      }
    }
 
    private final DirectoryEntry m_root;
