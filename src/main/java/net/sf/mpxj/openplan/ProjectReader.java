@@ -217,6 +217,9 @@ class ProjectReader
       RelationReader relationReader = new RelationReader(dir, m_file);
       relationReader.read("REL");
 
+      AssignmentReader assignmentReader = new AssignmentReader(dir, m_file);
+      assignmentReader.read("ASG");
+
       m_file.readComplete();
 
       return m_file;

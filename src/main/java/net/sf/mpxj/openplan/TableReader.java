@@ -411,6 +411,10 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("OPSTART", DataType.TIME);
       TYPE_MAP.put("OPFINISH", DataType.TIME);
       TYPE_MAP.put("OPWORK", DataType.BOOLEAN);
-
+      TYPE_MAP.put("REL_FF", DataType.DURATION);
+      TYPE_MAP.put("REL_TF", DataType.DURATION);
+      TYPE_MAP.put("REL_PROBABILITY", DataType.NUMERIC);
+      TYPE_MAP.put("RES_OFFSET", DataType.DURATION);
+      TYPE_MAP.put("RES_PERIOD", DataType.DURATION);
    }
 }
