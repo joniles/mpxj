@@ -216,13 +216,13 @@ class ProjectDirectoryReader extends DirectoryReader
       dependencies.getResources().forEach(r -> resourceReader.read(r));
 
       ActivityReader activityReader = new ActivityReader(dir, m_file);
-      activityReader.read("ACT");
+      activityReader.read();
 
       RelationReader relationReader = new RelationReader(dir, m_file);
-      relationReader.read("REL");
+      relationReader.read();
 
       AssignmentReader assignmentReader = new AssignmentReader(dir, m_file);
-      assignmentReader.read("ASG");
+      assignmentReader.read();
 
       m_file.readComplete();
 

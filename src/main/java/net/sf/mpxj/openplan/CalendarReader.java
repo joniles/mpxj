@@ -24,7 +24,7 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.common.HierarchyHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
-class CalendarReader
+class CalendarReader extends DirectoryReader
 {
    public CalendarReader(DirectoryEntry root, ProjectFile file)
    {
@@ -207,20 +207,6 @@ class CalendarReader
 
       // Add the time range
       exception.add(new LocalTimeRange(row.getTime("OPSTART"), row.getTime("OPFINISH")));
-   }
-
-   // TODO: helper class
-   private DirectoryEntry getDirectoryEntry(DirectoryEntry root, String name)
-   {
-      try
-      {
-         return (DirectoryEntry) root.getEntry(name);
-      }
-
-      catch (FileNotFoundException e)
-      {
-         throw new OpenPlanException(e);
-      }
    }
 
    private boolean isDayOfWeek(Row row)

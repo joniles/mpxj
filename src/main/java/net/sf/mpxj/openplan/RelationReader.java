@@ -18,11 +18,11 @@ class RelationReader
       m_file = file;
    }
 
-   public void read(String name)
+   public void read()
    {
       Map<UUID, Task> map = m_file.getTasks().stream().collect(Collectors.toMap(t -> t.getGUID(), t -> t));
 
-      for (Row row : new TableReader(m_root, name).read())
+      for (Row row : new TableReader(m_root, "REL").read())
       {
          // CLH_UID: Calendar Header Unique ID
          // DIR_ID: Project Object Directory Name
