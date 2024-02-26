@@ -136,7 +136,11 @@ class ResourceDirectoryReader extends DirectoryReader
          // PALLOC_UID: Project Allocation Unique ID
          // RES_ID: Resource ID
          // RES_LEVEL: Quantity Available This Period
-         Double units = row.getDouble("RES_LEVEL");
+
+         // Not sure the units values makes sense
+         //Double units = row.getDouble("RES_LEVEL") * 100.0;
+         Double units = Double.valueOf(100.0);
+
          // RES_UID: Resource Unique ID
          // RFDATE: Period Finish Date
          LocalDateTime finish = row.getDate("RFDATE");

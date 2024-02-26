@@ -219,7 +219,7 @@ class ProjectDirectoryReader extends DirectoryReader
       relationReader.read();
 
       AssignmentReader assignmentReader = new AssignmentReader(dir, m_file);
-      //assignmentReader.read();
+      assignmentReader.read();
 
       m_file.readComplete();
 

@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.ActivityType;
+import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.common.HierarchyHelper;
 import net.sf.mpxj.common.NumberHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
@@ -162,6 +165,11 @@ class ActivityReader
          // TOTALFLOAT: Total Float
          task.setTotalSlack(row.getDuration("TOTALFLOAT"));
          // USR_ID: Last Update User
+
+         // Align with sample XER
+         //task.setType(TaskType.FIXED_DURATION);
+         task.setActivityType(ActivityType.TASK_DEPENDENT);
+         task.setPriority(Priority.getInstance(Priority.MEDIUM));
 
          for (Map.Entry<String, Map<String, ActivityCodeValue>> entry : codeMap.entrySet())
          {

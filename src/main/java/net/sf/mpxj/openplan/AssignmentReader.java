@@ -4,10 +4,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 
+import net.sf.mpxj.TimeUnit;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 class AssignmentReader
@@ -38,7 +41,7 @@ class AssignmentReader
             continue;
          }
 
-         task.addResourceAssignment(resource);
+         ResourceAssignment assignment = task.addResourceAssignment(resource);
 
          // ACT_ID: Activity ID
          // ACT_UID: Activity Unique ID
@@ -55,6 +58,10 @@ class AssignmentReader
          // REMAINING: Remaining Requirement
          // RES_ID: Resource ID
          // RES_LEVEL: Assignment Units
+
+         // Not sure the units values makes sense
+         //assignment.setUnits(row.getDouble("RES_LEVEL") * 100.0);
+
          // RES_OFFSET: Duration between activity start and actual resource start
          // RES_PERIOD: Assignment duration
          // RES_SKL_UID: Resource Skill Unique ID
@@ -62,6 +69,28 @@ class AssignmentReader
          // SEQUENCE: Update Count
          // SUPPRESS: Suppress Resource Requirement when Scheduling
          // USR_ID: Last Update User
+
+         // The following is completely made up...
+         // but it gets us to the point that we get something
+         // approximately correct looking at the schedule in MS Project.
+         // Need to understand resource units and assignment units as the values don't make sense in isolation.
+
+         // Looks like RES_LEVEL is the number of units per day
+         // Remaining = task.getDuration() * res_level
+         
+         Duration taskWork = assignment.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
+         assignment.setWork(taskWork);
+         assignment.setRemainingWork(taskWork);
+
+         Duration totalWork = task.getWork();
+         if (totalWork == null)
+         {
+            totalWork = Duration.getInstance(0, TimeUnit.HOURS);
+         }
+
+         totalWork = Duration.getInstance(totalWork.getDuration() + taskWork.getDuration(), TimeUnit.HOURS);
+         task.setWork(totalWork);
+         task.setRemainingWork(totalWork);
       }
    }
 
