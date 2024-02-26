@@ -300,7 +300,6 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("USER_NUM08", DataType.NUMERIC);
       TYPE_MAP.put("USER_NUM09", DataType.NUMERIC);
       TYPE_MAP.put("USER_NUM10", DataType.NUMERIC);
-
       TYPE_MAP.put("MNPERDAY", DataType.INTEGER);
       TYPE_MAP.put("TOTACT", DataType.INTEGER);
       TYPE_MAP.put("TARGCOST", DataType.NUMERIC);
@@ -309,16 +308,13 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("TOTRESO", DataType.INTEGER);
       TYPE_MAP.put("REFDATE", DataType.DATE);
       TYPE_MAP.put("MNPERMON", DataType.INTEGER);
-
       TYPE_MAP.put("RSDATE", DataType.DATE);
       TYPE_MAP.put("RFDATE", DataType.DATE);
       TYPE_MAP.put("RES_ESC", DataType.NUMERIC);
       TYPE_MAP.put("RES_USED", DataType.NUMERIC);
       TYPE_MAP.put("RES_CST", DataType.NUMERIC);
-
       TYPE_MAP.put("STARTDATE", DataType.DATE);
       TYPE_MAP.put("STATDATE", DataType.DATE);
-
       TYPE_MAP.put("ROLLCOST", DataType.BOOLEAN);
       TYPE_MAP.put("CLC_PROG", DataType.BOOLEAN);
       TYPE_MAP.put("EFF_FACTOR", DataType.NUMERIC);
@@ -329,9 +325,7 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("SUPPRESS", DataType.BOOLEAN);
       TYPE_MAP.put("ROLLUP", DataType.BOOLEAN);
       TYPE_MAP.put("THRESHOLD", DataType.NUMERIC);
-
       TYPE_MAP.put("RSLDATE", DataType.DATE);
-
       TYPE_MAP.put("RSL_UID", DataType.GUID);
       TYPE_MAP.put("CLH_UID", DataType.GUID);
       TYPE_MAP.put("ALT_RES_UID", DataType.GUID);
@@ -352,11 +346,8 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("DIR_UID", DataType.GUID);
       TYPE_MAP.put("SCA_UID", DataType.GUID);
       TYPE_MAP.put("AVL_UID", DataType.GUID);
-
       TYPE_MAP.put("CRITICAL", DataType.INTEGER);
-
       TYPE_MAP.put("REL_LAG", DataType.DURATION);
-
       TYPE_MAP.put("AUTOANAL", DataType.INTEGER);
       TYPE_MAP.put("AUTOPROGACT", DataType.INTEGER);
       TYPE_MAP.put("AUTOPROGBASE", DataType.INTEGER);
