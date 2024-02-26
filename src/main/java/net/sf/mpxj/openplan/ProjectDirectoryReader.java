@@ -216,7 +216,7 @@ class ProjectDirectoryReader extends DirectoryReader
       dependencies.getResources().forEach(r -> resourceReader.read(r));
 
       ActivityReader activityReader = new ActivityReader(dir, m_file);
-      activityReader.read();
+      activityReader.read(activityCodeReader.getCodeMap());
 
       RelationReader relationReader = new RelationReader(dir, m_file);
       relationReader.read();

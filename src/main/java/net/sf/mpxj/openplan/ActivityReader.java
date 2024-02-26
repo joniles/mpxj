@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.HierarchyHelper;
@@ -19,7 +20,7 @@ class ActivityReader
       m_file = file;
    }
 
-   public void read()
+   public void read(Map<String, Map<String,ActivityCodeValue>> codeMap)
    {
       Map<String, Task> map = new HashMap<>();
       List<Row> rows = new TableReader(m_root, "ACT").read();
@@ -153,6 +154,16 @@ class ActivityReader
          // TOTALFLOAT: Total Float
          task.setTotalSlack(row.getDuration("TOTALFLOAT"));
          // USR_ID: Last Update User
+
+         for (Map.Entry<String, Map<String, ActivityCodeValue>> entry : codeMap.entrySet())
+         {
+            String columnValue = row.getString(entry.getKey());
+            ActivityCodeValue acv = entry.getValue().get(columnValue);
+            if (acv != null)
+            {
+               task.addActivityCode(acv);
+            }
+         }
 
          map.put(task.getActivityID(), task);
       }

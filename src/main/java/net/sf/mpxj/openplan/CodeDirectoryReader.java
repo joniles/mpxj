@@ -44,7 +44,7 @@ class CodeDirectoryReader extends DirectoryReader
          codeRow.getString("DIR_ID"),
          codeRow.getString("PROMPT_TEXT"),
          codeRow.getString("DESCRIPTION"),
-         valueRows.stream().map(r -> new CodeValue(r.getString("CDR_ID"), r.getString("DESCRIPTION"))).collect(Collectors.toList()))
+         valueRows.stream().map(r -> new CodeValue(r.getString("CDR_ID"), r.getString("CDR_UID"), r.getString("DESCRIPTION"))).collect(Collectors.toList()))
       );
    }
 

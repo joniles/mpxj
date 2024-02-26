@@ -1,10 +1,12 @@
 package net.sf.mpxj.openplan;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Task;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 class ActivityCodeReader
@@ -32,22 +34,34 @@ class ActivityCodeReader
          }
 
          ActivityCode ac = new ActivityCode.Builder(m_file).name(code.getPromptText()).build();
+         Map<String, ActivityCodeValue> valueMap = new HashMap<>();
+
          int sequence = 1;
          for (CodeValue value : code.getValues())
          {
-            ac.getValues().add(new ActivityCodeValue.Builder(m_file)
+            ActivityCodeValue acv = new ActivityCodeValue.Builder(m_file)
                .type(ac)
                .name(value.getID())
                .description(value.getDescription())
                .sequenceNumber(Integer.valueOf(sequence++))
-               .build()
-            );
+               .build();
+
+            ac.getValues().add(acv);
+            valueMap.put(value.getUniqueID(), acv);
          }
+
+         m_codeMap.put(row.getString("SCA_ID"), valueMap);
 
          m_file.getActivityCodes().add(ac);
       }
    }
 
+   public Map<String, Map<String, ActivityCodeValue>> getCodeMap()
+   {
+      return m_codeMap;
+   }
+
    private final ProjectFile m_file;
    private final DirectoryEntry m_root;
+   private final Map<String, Map<String, ActivityCodeValue>> m_codeMap = new HashMap<>();
 }
