@@ -58,6 +58,7 @@ class ActivityCodeReader
     */
    public void read(Map<String, Code> map)
    {
+      int codeSequence = 1;
       List<Row> rows = new TableReader(m_root, "SCA").read();
       for (Row row : rows)
       {
@@ -72,13 +73,13 @@ class ActivityCodeReader
             continue;
          }
 
-         ActivityCode ac = new ActivityCode.Builder(m_file).name(code.getPromptText()).build();
+         ActivityCode ac = new ActivityCode.Builder(m_file).name(code.getPromptText()).sequenceNumber(Integer.valueOf(codeSequence++)).build();
          Map<String, ActivityCodeValue> valueMap = new HashMap<>();
 
-         int sequence = 1;
+         int valueSequence = 1;
          for (CodeValue value : code.getValues())
          {
-            ActivityCodeValue acv = new ActivityCodeValue.Builder(m_file).type(ac).name(value.getID()).description(value.getDescription()).sequenceNumber(Integer.valueOf(sequence++)).build();
+            ActivityCodeValue acv = new ActivityCodeValue.Builder(m_file).type(ac).name(value.getID()).description(value.getDescription()).sequenceNumber(Integer.valueOf(valueSequence++)).build();
 
             ac.getValues().add(acv);
             valueMap.put(value.getUniqueID(), acv);
