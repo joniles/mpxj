@@ -64,6 +64,7 @@ nav:
     - 'SDEF files': 'howto-read-sdef.md'
     - 'Schedule Grid files': 'howto-read-schedule-grid.md'
     - 'Project Commander files': 'howto-read-projectcommander.md'
+    - 'Deltek Open Plan BK3 files': 'howto-read-openplan.md'
   - 'How to Write...':
     - 'MPX files': 'howto-write-mpx.md'
     - 'MSPDI files': 'howto-write-mspdi.md'

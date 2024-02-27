@@ -95,4 +95,8 @@ specification for the file format can be found
 from Sage 100 Contractor. MPXJ can read schedule grid files.
 
 * **PROJECT COMMANDER:** Project Commander files are the native file format used
-by the Project Commander application. Project Commander writes PC files which MPXJ can read.
+by the Project Commander application. Project Commander writes PC files which
+MPXJ can read.
+
+* **DELTEK OPEN PLAN:** Open Plan allows export of schedules to BK3 files,
+which MPXJ can read.
