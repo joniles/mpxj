@@ -408,5 +408,6 @@ class TableReader extends AbstractReader
       TYPE_MAP.put("RES_OFFSET", DataType.DURATION);
       TYPE_MAP.put("RES_PERIOD", DataType.DURATION);
       TYPE_MAP.put("REMAINING", DataType.NUMERIC);
+      TYPE_MAP.put("COMPSTAT", DataType.INTEGER);
    }
 }

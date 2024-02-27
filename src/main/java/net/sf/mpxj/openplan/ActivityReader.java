@@ -1,5 +1,6 @@
 package net.sf.mpxj.openplan;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -7,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
+import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -61,6 +64,10 @@ class ActivityReader
          // ACWP_QTY: ACWP Labor Units
          // ACWP_SUB: ACWP Subcontract
          task.setACWP(sum(row,"ACWP_LAB", "ACWP_MAT", "ACWP_ODC", "ACWP_SUB"));
+         // AFDATE: Actual Finish Date
+         task.setActualFinish(row.getDate("AFDATE"));
+         // ASDATE: Actual Start Date
+         task.setActualStart(row.getDate("ASDATE"));
          // BAC_LAB: Budget At Completion Labor
          // BAC_MAT: Budget At Completion Material
          // BAC_ODC: Budget At Completion Other Direct Cost
@@ -153,10 +160,10 @@ class ActivityReader
          // SEP_ASG: Separate Assignments
          // SEQUENCE: Update Count
          // SFDATE: Scheduled Finish Date
-         task.setFinish(row.getDate("SFDATE"));
+         task.setPlannedFinish(row.getDate("SFDATE"));
          // SOURCE_BASELINE: Source Baseline Name
          // SSDATE: Schedule Start Date
-         task.setStart(row.getDate("SSDATE"));
+         task.setPlannedStart(row.getDate("SSDATE"));
          // SSINDEX: Sensitivity Index
          // STARTPC: User Defined EVT Split %
          // TARGFTYPE: Target Finish Type (null: None, NE: Not Earlier Than, NL: Not Later Than, ON: On Target, FX: Fixed Target)
@@ -164,6 +171,15 @@ class ActivityReader
          // TOTALFLOAT: Total Float
          task.setTotalSlack(row.getDuration("TOTALFLOAT"));
          // USR_ID: Last Update User
+
+         // FRom: https://help.deltek.com/product/acumentouchstone/8.2/ga/Open%20Plan%20BK3%20Calculated%20Fields.html
+         task.setConstraintType(getConstraintType(row));
+         task.setConstraintDate(getConstraintDate(task, row));
+         task.setSecondaryConstraintType(getSecondaryConstraintType(task, row));
+         task.setSecondaryConstraintDate(getSecondaryConstraintDate(task, row));
+         task.setActivityStatus(getActivityStatus(row));
+         task.setStart(task.getActualStart() == null ? task.getEarlyStart() : task.getActualStart());
+         task.setFinish(task.getActualFinish() == null ? task.getEarlyFinish() : task.getActualFinish());
 
          // Align with sample XER
          //task.setType(TaskType.FIXED_DURATION);
@@ -184,6 +200,79 @@ class ActivityReader
       }
    }
 
+   private ConstraintType getConstraintType(Row row)
+   {
+      if ("L".equals(row.getString("ACT_TYPE")))
+      {
+         return ConstraintType.AS_LATE_AS_POSSIBLE;
+      }
+
+      String targetStartType = row.getString("TARGSTYPE");
+      return targetStartType == null ? TARGET_FINISH_TYPE_MAP.get(row.getString("TARGFTYPE")) : TARGET_START_MAP.get(targetStartType);
+   }
+
+   private LocalDateTime getConstraintDate(Task task, Row row)
+   {
+      ConstraintType type = task.getConstraintType();
+      if (type == null)
+      {
+         return null;
+      }
+
+      switch(task.getConstraintType())
+      {
+         case START_NO_EARLIER_THAN:
+         case START_NO_LATER_THAN:
+         case MUST_START_ON:
+         {
+            return row.getDate("TSDATE");
+         }
+
+         case FINISH_NO_LATER_THAN:
+         case FINISH_NO_EARLIER_THAN:
+         case MUST_FINISH_ON:
+         {
+            return row.getDate("TFDATE");
+         }
+      }
+
+      return null;
+   }
+
+   private LocalDateTime getSecondaryConstraintDate(Task task, Row row)
+   {
+      return task.getSecondaryConstraintType() == null ? null : row.getDate("TFDATE");
+   }
+
+
+   private ConstraintType getSecondaryConstraintType(Task task, Row row)
+   {
+      ConstraintType primaryConstraintType = task.getConstraintType();
+
+      if (primaryConstraintType == ConstraintType.START_NO_EARLIER_THAN || primaryConstraintType == ConstraintType.START_NO_LATER_THAN || primaryConstraintType == ConstraintType.MUST_START_ON)
+      {
+         return TARGET_FINISH_TYPE_MAP.get(row.getString("TARGFTYPE"));
+      }
+
+      return null;
+   }
+
+
+   private ActivityStatus getActivityStatus(Row row)
+   {
+      switch (row.getInteger("COMPSTAT").intValue())
+      {
+         case 2:
+            return ActivityStatus.COMPLETED;
+
+         case 1:
+            return ActivityStatus.IN_PROGRESS;
+
+         default:
+            return null;
+      }
+   }
+
    private Double sum(Row row, String... keys)
    {
       return Double.valueOf(Arrays.stream(keys).map(k -> row.getDouble(k)).filter(v -> v != null).mapToDouble(v -> v.doubleValue()).sum());
@@ -201,4 +290,23 @@ class ActivityReader
 
    private final ProjectFile m_file;
    private final DirectoryEntry m_root;
+
+
+   private static final Map<String, ConstraintType> TARGET_FINISH_TYPE_MAP = new HashMap<>();
+   static
+   {
+      TARGET_FINISH_TYPE_MAP.put("NE", ConstraintType.FINISH_NO_EARLIER_THAN); // Finish On Or After
+      TARGET_FINISH_TYPE_MAP.put("NL", ConstraintType.FINISH_NO_LATER_THAN); // Finish On Or Before
+      TARGET_FINISH_TYPE_MAP.put("ON", ConstraintType.MUST_FINISH_ON); // Must Finish On
+      TARGET_FINISH_TYPE_MAP.put("FX", ConstraintType.MUST_FINISH_ON); // Mandatory Finish
+   }
+
+   private static final Map<String, ConstraintType> TARGET_START_MAP = new HashMap<>();
+   static
+   {
+      TARGET_START_MAP.put("NE", ConstraintType.START_NO_EARLIER_THAN); // Start On Or After
+      TARGET_START_MAP.put("NL", ConstraintType.START_NO_LATER_THAN); // Start On Or Before
+      TARGET_START_MAP.put("ON", ConstraintType.MUST_START_ON); // Must Start On
+      TARGET_START_MAP.put("FX", ConstraintType.MUST_START_ON); // Mandatory Start
+   }
 }
