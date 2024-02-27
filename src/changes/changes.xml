@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.8.0">
+			<action dev="joniles" type="update">Add experimental support for reading Deltek Open Plan BK3 files.</action>
 			<action dev="joniles" type="update">Implemented the `Relation.Builder` class.</action>
 			<action dev="joniles" type="update">Marked the `Relation(Task,Task,RelationType,Duration)` constructor as deprecated, use the `Relation.Builder` class instead.</action>
 			<action dev="joniles" type="update">Marked the `RelationContainer.addPredecessor(Task,Task,RelationType,Duration)` method as deprecated, use the `RelationContainer.addPredecessor(Relation.Builder)` method instead.</action>
