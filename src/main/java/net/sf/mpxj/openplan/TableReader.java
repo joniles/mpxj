@@ -28,6 +28,11 @@ class TableReader extends AbstractReader
    public List<Row> read()
    {
       int magic = getInt();
+      if (magic != 550)
+      {
+         throw new OpenPlanException("Unexpected magic number: " + magic);
+      }
+
       int columnCount = getInt();
       String[] columns = new String[columnCount];
 
