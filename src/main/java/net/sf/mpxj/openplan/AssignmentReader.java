@@ -58,10 +58,6 @@ class AssignmentReader
          // REMAINING: Remaining Requirement
          // RES_ID: Resource ID
          // RES_LEVEL: Assignment Units
-
-         // Not sure the units values makes sense
-         //assignment.setUnits(row.getDouble("RES_LEVEL") * 100.0);
-
          // RES_OFFSET: Duration between activity start and actual resource start
          // RES_PERIOD: Assignment duration
          // RES_SKL_UID: Resource Skill Unique ID
@@ -70,18 +66,23 @@ class AssignmentReader
          // SUPPRESS: Suppress Resource Requirement when Scheduling
          // USR_ID: Last Update User
 
-         // The following is completely made up...
-         // but it gets us to the point that we get something
-         // approximately correct looking at the schedule in MS Project.
-         // Need to understand resource units and assignment units as the values don't make sense in isolation.
+         // Best guess: RES_LEVEL represents hours per day worked by the resource
+         Double resLevel = row.getDouble("RES_LEVEL");
+         // So the units is RES_LEVEL divided by  the number of hours per day (from which calendar? we'll use a constant for now)
+         double units = resLevel.doubleValue() / 8.0; // hours per day
+         assignment.setUnits(units * 100.0);
 
-         // Looks like RES_LEVEL is the number of units per day
-         // Remaining = task.getDuration() * res_level
-         
+         // What's the maximum possible work for the task, give its duration
          Duration taskWork = assignment.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
-         assignment.setWork(taskWork);
-         assignment.setRemainingWork(taskWork);
+         // Multiply by our units figure to get the actual assignment work
+         Duration assignmentWork = Duration.getInstance(taskWork.getDuration() * units, TimeUnit.HOURS);
+         assignment.setWork(assignmentWork);
 
+         // In theory, REMAINING contains the amount of remaining work for the assignment?
+         // Haven't been able to verify behaviour with test data, so we'll leave everything with 0% progress.
+         assignment.setRemainingWork(assignmentWork);
+
+         // Roll up to the parent task
          Duration totalWork = task.getWork();
          if (totalWork == null)
          {
