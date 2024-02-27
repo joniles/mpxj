@@ -1,3 +1,4 @@
+
 package net.sf.mpxj.openplan;
 
 import java.time.DayOfWeek;
@@ -188,8 +189,8 @@ class CalendarReader extends DirectoryReader
    private void readDayAndMonth(ProjectCalendar calendar, Row row)
    {
       String dateSpec = row.getString("DATESPEC");
-      Integer day = Integer.valueOf(dateSpec.substring(dateSpec.length()-2));
-      Integer month = Integer.valueOf(dateSpec.substring(0, dateSpec.length()-2));
+      Integer day = Integer.valueOf(dateSpec.substring(dateSpec.length() - 2));
+      Integer month = Integer.valueOf(dateSpec.substring(0, dateSpec.length() - 2));
 
       RecurringData recurrence = new RecurringData();
       recurrence.setStartDate(m_file.getProjectProperties().getStartDate().toLocalDate());
@@ -235,7 +236,7 @@ class CalendarReader extends DirectoryReader
       {
          return null;
       }
-      return id.substring(0,index);
+      return id.substring(0, index);
    }
 
    private final ProjectFile m_file;

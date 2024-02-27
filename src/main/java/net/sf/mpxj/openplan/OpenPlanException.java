@@ -1,3 +1,4 @@
+
 package net.sf.mpxj.openplan;
 class OpenPlanException extends RuntimeException
 {

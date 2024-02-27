@@ -1,4 +1,6 @@
+
 package net.sf.mpxj.openplan;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +21,7 @@ class ActivityCodeReader
    public void read(Map<String, Code> map)
    {
       List<Row> rows = new TableReader(m_root, "SCA").read();
-      for (Row row: rows)
+      for (Row row : rows)
       {
          if (!"ACT".equals(row.getString("TABLE_TYPE")))
          {
@@ -38,12 +40,7 @@ class ActivityCodeReader
          int sequence = 1;
          for (CodeValue value : code.getValues())
          {
-            ActivityCodeValue acv = new ActivityCodeValue.Builder(m_file)
-               .type(ac)
-               .name(value.getID())
-               .description(value.getDescription())
-               .sequenceNumber(Integer.valueOf(sequence++))
-               .build();
+            ActivityCodeValue acv = new ActivityCodeValue.Builder(m_file).type(ac).name(value.getID()).description(value.getDescription()).sequenceNumber(Integer.valueOf(sequence++)).build();
 
             ac.getValues().add(acv);
             valueMap.put(value.getUniqueID(), acv);

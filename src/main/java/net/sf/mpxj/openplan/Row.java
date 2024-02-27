@@ -1,3 +1,4 @@
+
 package net.sf.mpxj.openplan;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,8 @@ interface Row
    public Boolean getBoolean(String name);
 
    public UUID getUuid(String name);
+
    public Duration getDuration(String name);
+
    public ResourceType getResourceType(String name);
 }

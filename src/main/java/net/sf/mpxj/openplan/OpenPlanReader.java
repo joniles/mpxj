@@ -1,3 +1,4 @@
+
 package net.sf.mpxj.openplan;
 
 import java.io.File;
@@ -111,6 +112,4 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
    {
       return new ProjectDirectoryReader(root).read(name);
    }
-
-   private ProjectFile m_file;
 }

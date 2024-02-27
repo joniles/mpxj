@@ -26,7 +26,8 @@ final class UuidHelper
 
    }
 
-   public static String print(UUID value) {
+   public static String print(UUID value)
+   {
       byte[] data = new byte[16];
       long lsb = value.getLeastSignificantBits();
       long msb = value.getMostSignificantBits();
@@ -55,7 +56,8 @@ final class UuidHelper
       int ptr = 0;
 
       int i;
-      for(i = 0; remaining >= 3; i += 3) {
+      for (i = 0; remaining >= 3; i += 3)
+      {
          buf[ptr++] = encode(data[i] >> 2);
          buf[ptr++] = encode((data[i] & 3) << 4 | data[i + 1] >> 4 & 15);
          buf[ptr++] = encode((data[i + 1] & 15) << 2 | data[i + 2] >> 6 & 3);
@@ -63,7 +65,8 @@ final class UuidHelper
          remaining -= 3;
       }
 
-      if (remaining == 1) {
+      if (remaining == 1)
+      {
          buf[ptr++] = encode(data[i] >> 2);
          buf[ptr++] = encode((data[i] & 3) << 4);
          buf[ptr++] = PADDING;
@@ -83,28 +86,34 @@ final class UuidHelper
       return new String(buf);
    }
 
-   public static UUID parse(String text) {
+   public static UUID parse(String text)
+   {
       byte[] data = new byte[16];
       int o = 0;
       int len = text.length();
       byte[] quadruplet = new byte[4];
       int q = 0;
 
-      for(int i = 0; i < len; ++i) {
+      for (int i = 0; i < len; ++i)
+      {
          char ch = text.charAt(i);
          byte v = DECODE_MAP[ch];
-         if (v != -1) {
+         if (v != -1)
+         {
             quadruplet[q++] = v;
          }
 
-         if (q == 4) {
-            data[o++] = (byte)(quadruplet[0] << 2 | quadruplet[1] >> 4);
-            if (quadruplet[2] != PADDING_VALUE) {
-               data[o++] = (byte)(quadruplet[1] << 4 | quadruplet[2] >> 2);
+         if (q == 4)
+         {
+            data[o++] = (byte) (quadruplet[0] << 2 | quadruplet[1] >> 4);
+            if (quadruplet[2] != PADDING_VALUE)
+            {
+               data[o++] = (byte) (quadruplet[1] << 4 | quadruplet[2] >> 2);
             }
 
-            if (quadruplet[3] != PADDING_VALUE) {
-               data[o++] = (byte)(quadruplet[2] << 6 | quadruplet[3]);
+            if (quadruplet[3] != PADDING_VALUE)
+            {
+               data[o++] = (byte) (quadruplet[2] << 6 | quadruplet[3]);
             }
 
             q = 0;
@@ -130,14 +139,16 @@ final class UuidHelper
 
    }
 
-   private static char encode(int i) {
+   private static char encode(int i)
+   {
       return ENCODE_MAP[i & 63];
    }
 
    private static final char PADDING = ' ';
    private static final int PADDING_VALUE = 127;
 
-   private static final char[] ENCODE_MAP = new char[] {
+   private static final char[] ENCODE_MAP = new char[]
+   {
       '0',
       '1',
       '2',
@@ -207,8 +218,8 @@ final class UuidHelper
    private static final byte[] DECODE_MAP = new byte[255];
    static
    {
-      Arrays.fill(DECODE_MAP, (byte)-1);
-      for(byte loop = 0; loop < ENCODE_MAP.length; loop++)
+      Arrays.fill(DECODE_MAP, (byte) -1);
+      for (byte loop = 0; loop < ENCODE_MAP.length; loop++)
       {
          DECODE_MAP[ENCODE_MAP[loop]] = loop;
       }

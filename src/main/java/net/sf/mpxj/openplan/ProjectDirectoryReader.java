@@ -1,3 +1,4 @@
+
 package net.sf.mpxj.openplan;
 
 import java.time.LocalTime;
@@ -43,7 +44,6 @@ class ProjectDirectoryReader extends DirectoryReader
       }
 
       Row row = rows.get(0);
-
 
       ProjectProperties props = m_file.getProjectProperties();
       props.setFileApplication("Deltek OpenPlan");
@@ -98,10 +98,10 @@ class ProjectDirectoryReader extends DirectoryReader
       // DEFDURUNIT: Default Duration Unit
       // DEFENDHR: Default Finish Hour
       // DEFENDMN: Default Finish Minute
-      props.setDefaultEndTime(LocalTime.of(row.getInteger("DEFENDHR"), row.getInteger("DEFENDMN"))); // TODO: handle null
+      props.setDefaultEndTime(LocalTime.of(row.getInteger("DEFENDHR").intValue(), row.getInteger("DEFENDMN").intValue())); // TODO: handle null
       // DEFSTARTHR: Default Start Hour
       // DEFSTARTMN: Default Start Minute
-      props.setDefaultStartTime(LocalTime.of(row.getInteger("DEFSTARTHR"), row.getInteger("DEFSTARTMN"))); // TODO: handle null
+      props.setDefaultStartTime(LocalTime.of(row.getInteger("DEFSTARTHR").intValue(), row.getInteger("DEFSTARTMN").intValue())); // TODO: handle null
       // DESCRIPTION: Project Name
       props.setName(row.getString("DESCRIPTION"));
       // DFORMAT: Project Date Format
@@ -187,10 +187,9 @@ class ProjectDirectoryReader extends DirectoryReader
       // TSTYPE: Target Start Type
       // USR_ID
 
-
       DependenciesReader dependencies = new DependenciesReader(dir).read();
 
-      CodeDirectoryReader codeReader = new CodeDirectoryReader(m_root, m_file);
+      CodeDirectoryReader codeReader = new CodeDirectoryReader(m_root);
       dependencies.getCodes().forEach(r -> codeReader.read(r));
 
       ActivityCodeReader activityCodeReader = new ActivityCodeReader(dir, m_file);

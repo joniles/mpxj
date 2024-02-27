@@ -1,4 +1,6 @@
+
 package net.sf.mpxj.openplan;
+
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -44,7 +46,6 @@ class ResourceDirectoryReader extends DirectoryReader
             resource = parentResource.addResource();
          }
 
-
          // CLC_COST: Cost Based on Progress Quantity
          // CLC_PROG: Progress Based on Activity Progress
          // DESCRIPTION: Resource Description
@@ -84,7 +85,7 @@ class ResourceDirectoryReader extends DirectoryReader
 
       readAvailability(dir, map);
 
-/*
+      /*
       // Resource Structure
       System.out.println("RDS");
       new TableReader(dir, "RDS").read().forEach(System.out::println);
@@ -113,13 +114,13 @@ class ResourceDirectoryReader extends DirectoryReader
       // Not populated for any resources in the sample data
       System.out.println("SCA");
       new TableReader(dir, "SCA").read().forEach(System.out::println);
-*/
+      */
    }
 
    private void readAvailability(DirectoryEntry dir, Map<String, Resource> map)
    {
       List<Row> rows = new TableReader(dir, "AVL").read();
-      for(Row row : rows)
+      for (Row row : rows)
       {
          Resource resource = map.get(row.getString("RES_ID"));
          if (resource == null)
@@ -137,7 +138,7 @@ class ResourceDirectoryReader extends DirectoryReader
          // RES_ID: Resource ID
          // RES_LEVEL: Quantity Available This Period
          // Not sure about this - this may be the number of hours per day?
-         Double units = (row.getDouble("RES_LEVEL").doubleValue() / 8.0)  * 100.0;
+         Double units = Double.valueOf((row.getDouble("RES_LEVEL").doubleValue() / 8.0) * 100.0);
          // RES_UID: Resource Unique ID
          // RFDATE: Period Finish Date
          LocalDateTime finish = row.getDate("RFDATE");
@@ -157,7 +158,7 @@ class ResourceDirectoryReader extends DirectoryReader
       {
          return null;
       }
-      return resourceID.substring(0,index);
+      return resourceID.substring(0, index);
    }
 
    private final ProjectFile m_file;

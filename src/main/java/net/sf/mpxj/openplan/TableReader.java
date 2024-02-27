@@ -1,3 +1,4 @@
+
 package net.sf.mpxj.openplan;
 
 import java.time.LocalDateTime;
@@ -59,7 +60,6 @@ class TableReader extends AbstractReader
       return rows;
    }
 
-
    private Object convertType(String name, String value)
    {
       if (value == null)
@@ -67,7 +67,7 @@ class TableReader extends AbstractReader
          return null;
       }
 
-      switch(TYPE_MAP.getOrDefault(name, DataType.BINARY))
+      switch (TYPE_MAP.getOrDefault(name, DataType.BINARY))
       {
          case NUMERIC:
          {
@@ -82,7 +82,7 @@ class TableReader extends AbstractReader
          case DATE:
          {
             // TODO: could improve optional section parsing
-            return LocalDateTime.parse(value.substring(0,12), DATE_FORMAT);
+            return LocalDateTime.parse(value.substring(0, 12), DATE_FORMAT);
          }
 
          case TIME:
@@ -175,7 +175,6 @@ class TableReader extends AbstractReader
       return Duration.getInstance(duration, unit);
    }
 
-
    private ResourceType parseResourceType(String value)
    {
       if (value.isEmpty())
@@ -183,7 +182,7 @@ class TableReader extends AbstractReader
          return null;
       }
 
-      switch(value.charAt(0))
+      switch (value.charAt(0))
       {
          case 'N':
          {

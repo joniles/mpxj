@@ -1,3 +1,4 @@
+
 package net.sf.mpxj.openplan;
 
 import java.time.LocalDateTime;
@@ -27,7 +28,7 @@ class ActivityReader
       m_file = file;
    }
 
-   public void read(Map<String, Map<String,ActivityCodeValue>> codeMap, Map<String, ProjectCalendar> calendarMap)
+   public void read(Map<String, Map<String, ActivityCodeValue>> codeMap, Map<String, ProjectCalendar> calendarMap)
    {
       Map<String, Task> map = new HashMap<>();
       List<Row> rows = new TableReader(m_root, "ACT").read();
@@ -48,7 +49,6 @@ class ActivityReader
             task = parentTask.addTask();
          }
 
-
          // OPP_ACT and OPP_ACR in the same table in the file?
 
          // ACTIVEINDEX: Probability of Being Active
@@ -63,7 +63,7 @@ class ActivityReader
          // ACWP_ODC: ACWP Other Direct Cost
          // ACWP_QTY: ACWP Labor Units
          // ACWP_SUB: ACWP Subcontract
-         task.setACWP(sum(row,"ACWP_LAB", "ACWP_MAT", "ACWP_ODC", "ACWP_SUB"));
+         task.setACWP(sum(row, "ACWP_LAB", "ACWP_MAT", "ACWP_ODC", "ACWP_SUB"));
          // AFDATE: Actual Finish Date
          task.setActualFinish(row.getDate("AFDATE"));
          // ASDATE: Actual Start Date
@@ -79,13 +79,13 @@ class ActivityReader
          // BCWP_ODC: BCWP Other Direct Cost
          // BCWP_QTY: BCWP Labor Units
          // BCWP_SUB: BCWP Subcontractor
-         task.setBCWP(sum(row,"BCWP_LAB", "BCWP_MAT", "BCWP_ODC", "BCWP_SUB"));
+         task.setBCWP(sum(row, "BCWP_LAB", "BCWP_MAT", "BCWP_ODC", "BCWP_SUB"));
          // BCWS_LAB: BCWS Labor
          // BCWS_MAT: BCWS Material
          // BCWS_ODC: BCWS Other Direct Cost
          // BCWS_QTY: BCWS Labor Units
          // BCWS_SUB: BCWS Subcontractor
-         task.setBCWS(sum(row,"BCWS_LAB", "BCWS_MAT", "BCWS_ODC", "BCWS_SUB"));
+         task.setBCWS(sum(row, "BCWS_LAB", "BCWS_MAT", "BCWS_ODC", "BCWS_SUB"));
          // BFDATE:  Baseline Finish Date
          task.setBaselineFinish(row.getDate("BFDATE"));
          // BSDATE: Baseline Start Date
@@ -96,7 +96,7 @@ class ActivityReader
          // COMPSTAT: Computed Status (0: Planned, 1: In Progress, 2: Complete)
          // COMP_RS_C: Result of Schedule Actions (null: Normal, P: Splittable, T: Stretchable, R: Reprofilable, I: Immediate)
          // CRITICAL: Critical (0: Not Critical, 1: Critical, 2: Most Critical, 3: Controlling Critical)
-         task.setCritical(Boolean.valueOf(NumberHelper.getInt(row.getInteger("CRITICAL")) == 0));
+         task.setCritical(NumberHelper.getInt(row.getInteger("CRITICAL")) == 0);
          // CRITINDEX: Probability of Being Critical
          // DELAYRES_UID: Delaying Resource Unique ID
          // DESCRIPTION: Description
@@ -219,31 +219,27 @@ class ActivityReader
          return null;
       }
 
-      switch(task.getConstraintType())
+      switch (task.getConstraintType())
       {
          case START_NO_EARLIER_THAN:
          case START_NO_LATER_THAN:
          case MUST_START_ON:
-         {
             return row.getDate("TSDATE");
-         }
 
          case FINISH_NO_LATER_THAN:
          case FINISH_NO_EARLIER_THAN:
          case MUST_FINISH_ON:
-         {
             return row.getDate("TFDATE");
-         }
+         
+         default:
+            return null;
       }
-
-      return null;
    }
 
    private LocalDateTime getSecondaryConstraintDate(Task task, Row row)
    {
       return task.getSecondaryConstraintType() == null ? null : row.getDate("TFDATE");
    }
-
 
    private ConstraintType getSecondaryConstraintType(Task task, Row row)
    {
@@ -256,7 +252,6 @@ class ActivityReader
 
       return null;
    }
-
 
    private ActivityStatus getActivityStatus(Row row)
    {
@@ -285,12 +280,11 @@ class ActivityReader
       {
          return null;
       }
-      return activityID.substring(0,index);
+      return activityID.substring(0, index);
    }
 
    private final ProjectFile m_file;
    private final DirectoryEntry m_root;
-
 
    private static final Map<String, ConstraintType> TARGET_FINISH_TYPE_MAP = new HashMap<>();
    static

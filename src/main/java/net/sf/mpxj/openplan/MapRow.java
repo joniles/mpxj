@@ -1,4 +1,6 @@
+
 package net.sf.mpxj.openplan;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Comparator;
@@ -18,7 +20,7 @@ class MapRow implements Row
 
    @Override public String toString()
    {
-      return "[MapRow\n"+ m_map.entrySet().stream().sorted(Comparator.comparing(Map.Entry::getKey)).map(e -> "\t" + e.getKey() + "\t" + e.getValue() + " ("+e.getValue().getClass().getSimpleName()+")").collect(Collectors.joining("\n")) + "\n]";
+      return "[MapRow\n" + m_map.entrySet().stream().sorted(Comparator.comparing(Map.Entry::getKey)).map(e -> "\t" + e.getKey() + "\t" + e.getValue() + " (" + e.getValue().getClass().getSimpleName() + ")").collect(Collectors.joining("\n")) + "\n]";
    }
 
    // TODO change!
@@ -26,13 +28,14 @@ class MapRow implements Row
 
    @Override public String getString(String name)
    {
-      return (String)m_map.get(name);
+      return (String) m_map.get(name);
    }
 
    @Override public LocalDateTime getDate(String name)
    {
       return (LocalDateTime) m_map.get(name);
    }
+
    @Override public LocalTime getTime(String name)
    {
       return (LocalTime) m_map.get(name);
@@ -40,31 +43,31 @@ class MapRow implements Row
 
    @Override public Double getDouble(String name)
    {
-      return (Double)m_map.get(name);
+      return (Double) m_map.get(name);
    }
 
    @Override public Integer getInteger(String name)
    {
-      return (Integer)m_map.get(name);
+      return (Integer) m_map.get(name);
    }
 
    @Override public Boolean getBoolean(String name)
    {
-      return (Boolean)m_map.get(name);
+      return (Boolean) m_map.get(name);
    }
 
    @Override public UUID getUuid(String name)
    {
-      return (UUID)m_map.get(name);
+      return (UUID) m_map.get(name);
    }
 
    @Override public Duration getDuration(String name)
    {
-      return (Duration)m_map.get(name);
+      return (Duration) m_map.get(name);
    }
 
    @Override public ResourceType getResourceType(String name)
    {
-      return (ResourceType)m_map.get(name);
+      return (ResourceType) m_map.get(name);
    }
 }

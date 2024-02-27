@@ -1,3 +1,4 @@
+
 package net.sf.mpxj.openplan;
 
 import java.util.Map;
@@ -70,7 +71,7 @@ class AssignmentReader
          Double resLevel = row.getDouble("RES_LEVEL");
          // So the units is RES_LEVEL divided by  the number of hours per day (from which calendar? we'll use a constant for now)
          double units = resLevel.doubleValue() / 8.0; // hours per day
-         assignment.setUnits(units * 100.0);
+         assignment.setUnits(Double.valueOf(units * 100.0));
 
          // What's the maximum possible work for the task, give its duration
          Duration taskWork = assignment.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);

@@ -1,4 +1,6 @@
+
 package net.sf.mpxj.openplan;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -44,10 +46,7 @@ class RelationReader
          Task successor = map.get(row.getUuid("SUCC_ACT_UID"));
          if (predecessor != null && successor != null)
          {
-            successor.addPredecessor(new Relation.Builder()
-               .targetTask(predecessor)
-               .type(TYPE_MAP.getOrDefault(row.getString("REL_TYPE"), RelationType.FINISH_START))
-               .lag(row.getDuration("REL_LAG")));
+            successor.addPredecessor(new Relation.Builder().targetTask(predecessor).type(TYPE_MAP.getOrDefault(row.getString("REL_TYPE"), RelationType.FINISH_START)).lag(row.getDuration("REL_LAG")));
          }
       }
    }

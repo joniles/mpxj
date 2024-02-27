@@ -1,4 +1,6 @@
+
 package net.sf.mpxj.openplan;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -53,7 +55,6 @@ abstract class AbstractReader
          throw new OpenPlanException(ex);
       }
    }
-
 
    protected int getByte()
    {
