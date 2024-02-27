@@ -39,13 +39,27 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
+/**
+ * Reads a table of data held in a BK3 file.
+ */
 class TableReader extends AbstractReader
 {
+   /**
+    * Constructor.
+    *
+    * @param dir parent directory
+    * @param tableName table file name
+    */
    public TableReader(DirectoryEntry dir, String tableName)
    {
       super(dir, tableName);
    }
 
+   /**
+    * Rda table data as a list of Row instance.
+    *
+    * @return table data
+    */
    public List<Row> read()
    {
       int magic = getInt();
@@ -86,6 +100,13 @@ class TableReader extends AbstractReader
       return rows;
    }
 
+   /**
+    * Convert a string value into a specific type.
+    *
+    * @param name column name
+    * @param value column value
+    * @return typed column value
+    */
    private Object convertType(String name, String value)
    {
       if (value == null)
@@ -143,6 +164,12 @@ class TableReader extends AbstractReader
       }
    }
 
+   /**
+    * Parse a duration value.
+    *
+    * @param value string representation of a duration
+    * @return duration value
+    */
    private Object parseDuration(String value)
    {
       if (value.equals("0"))
@@ -201,6 +228,12 @@ class TableReader extends AbstractReader
       return Duration.getInstance(duration, unit);
    }
 
+   /**
+    * Parse a resource type.
+    *
+    * @param value string representation of a resource type
+    * @return ResourceType instance
+    */
    private ResourceType parseResourceType(String value)
    {
       if (value.isEmpty())

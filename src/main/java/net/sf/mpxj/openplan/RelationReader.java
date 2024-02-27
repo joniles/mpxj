@@ -33,14 +33,26 @@ import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
+/**
+ * Read activity relationships.
+ */
 class RelationReader
 {
+   /**
+    * Constructor.
+    *
+    * @param root parent directory
+    * @param file projcet file
+    */
    public RelationReader(DirectoryEntry root, ProjectFile file)
    {
       m_root = root;
       m_file = file;
    }
 
+   /**
+    * Read activity relations.
+    */
    public void read()
    {
       Map<UUID, Task> map = m_file.getTasks().stream().collect(Collectors.toMap(t -> t.getGUID(), t -> t));

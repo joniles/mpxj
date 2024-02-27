@@ -35,14 +35,28 @@ import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.HierarchyHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
+/**
+ * Populate a project with resources.
+ */
 class ResourceDirectoryReader extends DirectoryReader
 {
+   /**
+    * Constructor.
+    *
+    * @param root parent directory
+    * @param file project file
+    */
    public ResourceDirectoryReader(DirectoryEntry root, ProjectFile file)
    {
       m_root = root;
       m_file = file;
    }
 
+   /**
+    * Read resources from the named directory.
+    *
+    * @param name resource directory
+    */
    public void read(String name)
    {
       DirectoryEntry dir = getDirectoryEntry(m_root, name);
@@ -138,6 +152,12 @@ class ResourceDirectoryReader extends DirectoryReader
       */
    }
 
+   /**
+    * Read resource availability.
+    *
+    * @param dir parent directory
+    * @param map resource to to Resource instance map
+    */
    private void readAvailability(DirectoryEntry dir, Map<String, Resource> map)
    {
       List<Row> rows = new TableReader(dir, "AVL").read();

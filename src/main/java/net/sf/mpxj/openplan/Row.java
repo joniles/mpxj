@@ -29,23 +29,80 @@ import java.util.UUID;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ResourceType;
 
+/**
+ * Represents a row read from a table in a BK3 file.
+ */
 interface Row
 {
+   /**
+    * Retrieve a string.
+    *
+    * @param name column name
+    * @return string value
+    */
    public String getString(String name);
 
+   /**
+    * Retrieve a date.
+    *
+    * @param name column name
+    * @return date value
+    */
    public LocalDateTime getDate(String name);
 
+   /**
+    * Retrieve a time.
+    *
+    * @param name column name
+    * @return time value
+    */
    public LocalTime getTime(String name);
 
+   /**
+    * Retrieve a double.
+    *
+    * @param name column name
+    * @return double value
+    */
    public Double getDouble(String name);
 
+   /**
+    * Retrieve an integer.
+    *
+    * @param name column name
+    * @return integer value
+    */
    public Integer getInteger(String name);
 
+   /**
+    * Retrieve a Boolean.
+    *
+    * @param name column name
+    * @return Boolean value
+    */
    public Boolean getBoolean(String name);
 
+   /**
+    * Retrieve a UUID.
+    *
+    * @param name column name
+    * @return UUID value
+    */
    public UUID getUuid(String name);
 
+   /**
+    * Retrieve a duration.
+    *
+    * @param name column name
+    * @return duration value
+    */
    public Duration getDuration(String name);
 
+   /**
+    * Retrieve a resource type.
+    *
+    * @param name column name
+    * @return resource type value
+    */
    public ResourceType getResourceType(String name);
 }

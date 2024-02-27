@@ -30,14 +30,28 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
+/**
+ * Read project properties from a project directory.
+ */
 class ProjectDirectoryReader extends DirectoryReader
 {
+   /**
+    * Constructor.
+    *
+    * @param root parent directory
+    */
    public ProjectDirectoryReader(DirectoryEntry root)
    {
       m_root = root;
       m_file = new ProjectFile();
    }
 
+   /**
+    * Read project properties from the name directory.
+    *
+    * @param name project directory name
+    * @return ProjectFile instance
+    */
    public ProjectFile read(String name)
    {
       /*
@@ -67,8 +81,53 @@ class ProjectDirectoryReader extends DirectoryReader
          throw new OpenPlanException("Expecting 1 project row, found " + rows.size());
       }
 
-      Row row = rows.get(0);
+      readProjectProperties(rows.get(0));
 
+      DependenciesReader dependencies = new DependenciesReader(dir).read();
+
+      CodeDirectoryReader codeReader = new CodeDirectoryReader(m_root);
+      dependencies.getCodes().forEach(r -> codeReader.read(r));
+
+      ActivityCodeReader activityCodeReader = new ActivityCodeReader(dir, m_file);
+      activityCodeReader.read(codeReader.getCodes());
+
+      CalendarDirectoryReader calendarReader = new CalendarDirectoryReader(m_root, m_file);
+      dependencies.getCalendars().forEach(r -> calendarReader.read(r));
+
+      ProjectCalendar defaultCalendar = calendarReader.getMap().get("< Default >");
+      if (defaultCalendar != null)
+      {
+         m_file.setDefaultCalendar(defaultCalendar);
+      }
+      else
+      {
+         m_file.addDefaultBaseCalendar();
+      }
+
+      ResourceDirectoryReader resourceReader = new ResourceDirectoryReader(m_root, m_file);
+      dependencies.getResources().forEach(r -> resourceReader.read(r));
+
+      ActivityReader activityReader = new ActivityReader(dir, m_file);
+      activityReader.read(activityCodeReader.getCodeMap(), calendarReader.getMap());
+
+      RelationReader relationReader = new RelationReader(dir, m_file);
+      relationReader.read();
+
+      AssignmentReader assignmentReader = new AssignmentReader(dir, m_file);
+      assignmentReader.read();
+
+      m_file.readComplete();
+
+      return m_file;
+   }
+
+   /**
+    * Read project properties.
+    *
+    * @param row project data
+    */
+   private void readProjectProperties(Row row)
+   {
       ProjectProperties props = m_file.getProjectProperties();
       props.setFileApplication("Deltek OpenPlan");
       props.setFileType("BK3");
@@ -210,43 +269,6 @@ class ProjectDirectoryReader extends DirectoryReader
       // TOTRESO: Number of Resource Assignments
       // TSTYPE: Target Start Type
       // USR_ID
-
-      DependenciesReader dependencies = new DependenciesReader(dir).read();
-
-      CodeDirectoryReader codeReader = new CodeDirectoryReader(m_root);
-      dependencies.getCodes().forEach(r -> codeReader.read(r));
-
-      ActivityCodeReader activityCodeReader = new ActivityCodeReader(dir, m_file);
-      activityCodeReader.read(codeReader.getCodes());
-
-      CalendarDirectoryReader calendarReader = new CalendarDirectoryReader(m_root, m_file);
-      dependencies.getCalendars().forEach(r -> calendarReader.read(r));
-
-      ProjectCalendar defaultCalendar = calendarReader.getMap().get("< Default >");
-      if (defaultCalendar != null)
-      {
-         m_file.setDefaultCalendar(defaultCalendar);
-      }
-      else
-      {
-         m_file.addDefaultBaseCalendar();
-      }
-
-      ResourceDirectoryReader resourceReader = new ResourceDirectoryReader(m_root, m_file);
-      dependencies.getResources().forEach(r -> resourceReader.read(r));
-
-      ActivityReader activityReader = new ActivityReader(dir, m_file);
-      activityReader.read(activityCodeReader.getCodeMap(), calendarReader.getMap());
-
-      RelationReader relationReader = new RelationReader(dir, m_file);
-      relationReader.read();
-
-      AssignmentReader assignmentReader = new AssignmentReader(dir, m_file);
-      assignmentReader.read();
-
-      m_file.readComplete();
-
-      return m_file;
    }
 
    private final DirectoryEntry m_root;

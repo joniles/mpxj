@@ -41,13 +41,32 @@ package net.sf.mpxj.openplan;
 import java.util.Arrays;
 import java.util.UUID;
 
+/**
+ * Helper class for working with UUIDs as stored in BK3 files.
+ * Note that Open Plan stores UUIDs using a modified Base 64
+ * format, whose alphabet is case-insensitive (i.e. includes no lowercase letters)
+ * but as a consequence includes symbols.
+ * Note that I have not obtained any sample data which allows me to compare
+ * the actual UUID value with the encoded value, therefore the actual mapping
+ * of bytes to the alphabet, and the byte order in the Base 64 representation are
+ * unknown at present.
+ */
 final class UuidHelper
 {
+   /**
+    * Private constructor to prevent instantiation.
+    */
    private UuidHelper()
    {
 
    }
 
+   /**
+    * Generate the string representation of a UUID value.
+    *
+    * @param value UUID instance
+    * @return string representation
+    */
    public static String print(UUID value)
    {
       byte[] data = new byte[16];
@@ -108,6 +127,12 @@ final class UuidHelper
       return new String(buf);
    }
 
+   /**
+    * Parse a string representation of a UUID value.
+    *
+    * @param text string representation of a UUID value.
+    * @return UUID instance
+    */
    public static UUID parse(String text)
    {
       byte[] data = new byte[16];

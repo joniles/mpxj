@@ -43,7 +43,7 @@ import net.sf.mpxj.common.HierarchyHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 /**
- * Populate the parent project with calendars
+ * Populate the project with calendars
  * and create a map of calendar IDs to ProjectCalendar instances.
  */
 class CalendarDirectoryReader extends DirectoryReader
