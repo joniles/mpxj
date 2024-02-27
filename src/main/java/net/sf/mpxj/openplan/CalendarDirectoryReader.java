@@ -273,6 +273,7 @@ class CalendarDirectoryReader extends DirectoryReader
    /**
     * Return true if the DATESPEC represents a day of the week.
     *
+    * @param row calendar data
     * @return true if DATESPEC is a day of the week
     */
    private boolean isDayOfWeek(Row row)
@@ -283,6 +284,7 @@ class CalendarDirectoryReader extends DirectoryReader
    /**
     * Return true if the DATESPEC represents a date.
     *
+    * @param row calendar data
     * @return true if DATESPEC is a date
     */
    private boolean isDate(Row row)
@@ -294,6 +296,7 @@ class CalendarDirectoryReader extends DirectoryReader
    /**
     * Return true if the DATESPEC represents a day and month.
     *
+    * @param row calendar data
     * @return true if DATESPEC is a day and month
     */
    public boolean isDayAndMonth(Row row)
