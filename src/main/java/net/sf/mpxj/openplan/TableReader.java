@@ -22,6 +22,7 @@
 
 package net.sf.mpxj.openplan;
 
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -37,6 +38,7 @@ import net.sf.mpxj.DataType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.DebugLogPrintWriter;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
 /**
@@ -53,6 +55,7 @@ class TableReader extends AbstractReader
    public TableReader(DirectoryEntry dir, String tableName)
    {
       super(dir, tableName);
+      m_name = tableName;
    }
 
    /**
@@ -97,7 +100,7 @@ class TableReader extends AbstractReader
          rows.add(new MapRow(map));
       }
 
-      return rows;
+      return log(rows);
    }
 
    /**
@@ -260,6 +263,30 @@ class TableReader extends AbstractReader
          }
       }
    }
+
+   /**
+    * Dump table contents to the MPXJ debug log file if configured.
+    *
+    * @param rows table rows
+    * @return list of rows to allow method chaining
+    */
+   private List<Row> log(List<Row> rows)
+   {
+      PrintWriter pw = DebugLogPrintWriter.getInstance(true);
+      if (pw == null)
+      {
+         return rows;
+      }
+
+      pw.println("TABLE: " + m_name);
+      rows.forEach(r -> pw.println(r));
+      pw.println();
+      pw.flush();
+      pw.close();
+      return rows;
+   }
+
+   private final String m_name;
 
    private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder().parseLenient().appendPattern("yyyyMMddHHmm").toFormatter();
 

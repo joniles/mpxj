@@ -152,5 +152,6 @@ abstract class AbstractReader
       }
    }
 
+
    private final InputStream m_is;
 }
