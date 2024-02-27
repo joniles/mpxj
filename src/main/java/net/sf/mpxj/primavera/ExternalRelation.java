@@ -53,6 +53,7 @@ public final class ExternalRelation
    /**
     * Default constructor.
     *
+    * @param uniqueID unique ID
     * @param sourceUniqueID source task unique ID
     * @param targetTask target task instance
     * @param type relation type

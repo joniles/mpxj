@@ -1123,7 +1123,7 @@ final class AstaReader
                }
             }
 
-            Relation relation = endTask.addPredecessor(new Relation.Builder()
+            endTask.addPredecessor(new Relation.Builder()
                .targetTask(startTask)
                .type(type)
                .lag(lag)

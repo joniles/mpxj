@@ -559,7 +559,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       {
          Task nextTask = m_project.getTaskByUniqueID(row.getInteger("ZNEXTACTIVITY_"));
          Task prevTask = m_project.getTaskByUniqueID(row.getInteger("ZPREVIOUSACTIVITY_"));
-         Relation relation = nextTask.addPredecessor(new Relation.Builder()
+         nextTask.addPredecessor(new Relation.Builder()
             .targetTask(prevTask)
             .type(row.getRelationType("ZTYPE"))
             .lag(row.getDuration("ZLAG_"))

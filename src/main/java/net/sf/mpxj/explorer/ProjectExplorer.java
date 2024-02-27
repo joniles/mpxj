@@ -239,7 +239,7 @@ public class ProjectExplorer
       {
          @Override public void windowOpened(WindowEvent e)
          {
-
+            // Unused
          }
 
          @Override public void windowClosing(WindowEvent e)
@@ -249,27 +249,27 @@ public class ProjectExplorer
 
          @Override public void windowClosed(WindowEvent e)
          {
-
+            // Unused
          }
 
          @Override public void windowIconified(WindowEvent e)
          {
-
+            // Unused
          }
 
          @Override public void windowDeiconified(WindowEvent e)
          {
-
+            // Unused
          }
 
          @Override public void windowActivated(WindowEvent e)
          {
-
+            // Unused
          }
 
          @Override public void windowDeactivated(WindowEvent e)
          {
-
+            // Unused
          }
       });
 

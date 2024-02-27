@@ -2593,7 +2593,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
    /**
     * Format a material label to meet MS Project's requirements.
     *
-    * @param text material label
+    * @param resource resource
     * @return material label acceptable to MS Project
     */
    private String formatMaterialLabel(Resource resource)

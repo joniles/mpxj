@@ -294,7 +294,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                   predecessor = externalRelation.getTargetTask();
                }
 
-               Relation relation = successor.addPredecessor(new Relation.Builder()
+               successor.addPredecessor(new Relation.Builder()
                   .targetTask(predecessor)
                   .type(externalRelation.getType())
                   .lag(externalRelation.getLag())
