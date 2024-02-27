@@ -1,5 +1,5 @@
 /*
- * file:       DirectoryReader.java
+ * file:       OpenPlanHierarchyHelper.java
  * author:     Jon Iles
  * date:       2024-02-27
  */
@@ -22,32 +22,24 @@
 
 package net.sf.mpxj.openplan;
 
-import java.io.FileNotFoundException;
-
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-
 /**
- * Base class for directory reader classes.
+ * Implements common methods to work with hierarchical identifiers.
  */
-abstract class DirectoryReader
+class OpenPlanHierarchyHelper
 {
    /**
-    * Retriueve a named directory entry.
+    * Extract the parent ID from a hierarchical identifier.
     *
-    * @param root parent directory
-    * @param name directory name
-    * @return DirectoryEntry instance
+    * @param id hierarchical identifier
+    * @return parent ID, or null
     */
-   protected DirectoryEntry getDirectoryEntry(DirectoryEntry root, String name)
+   public static String getParentID(String id)
    {
-      try
+      int index = id.lastIndexOf('.');
+      if (index == -1)
       {
-         return (DirectoryEntry) root.getEntry(name);
+         return null;
       }
-
-      catch (FileNotFoundException e)
-      {
-         throw new OpenPlanException(e);
-      }
+      return id.substring(0, index);
    }
 }

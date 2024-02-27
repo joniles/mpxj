@@ -29,20 +29,35 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
+/**
+ * Base class for working with data stored within a BK3 file.
+ */
 abstract class AbstractReader
 {
+   /**
+    * Constructor.
+    *
+    * @param dir parent directory
+    * @param name file name
+    */
    public AbstractReader(DirectoryEntry dir, String name)
    {
       try
       {
          m_is = new DocumentInputStream((DocumentEntry) dir.getEntry(name));
       }
+
       catch (IOException e)
       {
          throw new OpenPlanException(e);
       }
    }
 
+   /**
+    * Read a 4 byte int.
+    *
+    * @return in value
+    */
    protected int getInt()
    {
       try
@@ -54,12 +69,18 @@ abstract class AbstractReader
          }
          return result;
       }
+
       catch (IOException ex)
       {
          throw new OpenPlanException(ex);
       }
    }
 
+   /**
+    * Read a 2 byte int.
+    *
+    * @return in value
+    */
    protected int getShort()
    {
       try
@@ -71,24 +92,36 @@ abstract class AbstractReader
          }
          return result;
       }
+
       catch (IOException ex)
       {
          throw new OpenPlanException(ex);
       }
    }
 
+   /**
+    * Read a single byte.
+    *
+    * @return byte value
+    */
    protected int getByte()
    {
       try
       {
          return m_is.read();
       }
+
       catch (IOException ex)
       {
          throw new OpenPlanException(ex);
       }
    }
 
+   /**
+    * Read a string.
+    *
+    * @return string value
+    */
    protected String getString()
    {
       try

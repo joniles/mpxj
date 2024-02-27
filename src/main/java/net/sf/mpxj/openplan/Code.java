@@ -24,8 +24,19 @@ package net.sf.mpxj.openplan;
 
 import java.util.List;
 
+/**
+ * Represents a code with a fixed set of values.
+ */
 class Code
 {
+   /**
+    * Constructor.
+    *
+    * @param id code ID
+    * @param promptText prompt text
+    * @param description description
+    * @param values code values
+    */
    public Code(String id, String promptText, String description, List<CodeValue> values)
    {
       m_id = id;
@@ -34,21 +45,41 @@ class Code
       m_values = values;
    }
 
+   /**
+    * Rerieve the code ID.
+    *
+    * @return code ID
+    */
    public String getID()
    {
       return m_id;
    }
 
+   /**
+    * Retrieve the prompt text.
+    *
+    * @return prompt text
+    */
    public String getPromptText()
    {
       return m_promptText;
    }
 
+   /**
+    * Retrieve the description.
+    *
+    * @return description
+    */
    public String getDescription()
    {
       return m_description;
    }
 
+   /**
+    * Retrieve the code's values.
+    *
+    * @return code values
+    */
    public List<CodeValue> getValues()
    {
       return m_values;

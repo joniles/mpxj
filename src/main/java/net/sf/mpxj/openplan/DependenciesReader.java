@@ -29,13 +29,28 @@ import java.util.Map;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
+/**
+ * Read a dependencies table and extract any
+ * calendars, resources and code definitions listed.
+ */
 public class DependenciesReader extends AbstractReader
 {
+   /**
+    * Constructor.
+    *
+    * @param dir parent directory
+    */
    public DependenciesReader(DirectoryEntry dir)
    {
       super(dir, "Dependencies");
    }
 
+   /**
+    * Read the dependencies and extract details of any calendar,
+    * resource and code directories listed as dependencies.
+    *
+    * @return self
+    */
    public DependenciesReader read()
    {
       int count = getInt();
@@ -52,7 +67,7 @@ public class DependenciesReader extends AbstractReader
          //            System.out.println(path);
          //         }
 
-         Test x = TYPE_MAP.get(type);
+         StoreDirectoryName x = TYPE_MAP.get(type);
          if (x != null)
          {
             x.add(this, path);
@@ -62,16 +77,31 @@ public class DependenciesReader extends AbstractReader
       return this;
    }
 
+   /**
+    * Retrieve code directory names.
+    *
+    * @return code directory names
+    */
    public List<String> getCodes()
    {
       return m_codes;
    }
 
+   /**
+    * Retrieve resource directory names.
+    *
+    * @return resource directory names
+    */
    public List<String> getResources()
    {
       return m_resources;
    }
 
+   /**
+    * Retrieve calendar directory names.
+    *
+    * @return calendar directory names
+    */
    public List<String> getCalendars()
    {
       return m_calendars;
@@ -81,12 +111,12 @@ public class DependenciesReader extends AbstractReader
    private final List<String> m_resources = new ArrayList<>();
    private final List<String> m_codes = new ArrayList<>();
 
-   private interface Test
+   private interface StoreDirectoryName
    {
-      public void add(DependenciesReader reader, String name);
+      void add(DependenciesReader reader, String name);
    }
 
-   private static final Map<String, Test> TYPE_MAP = new HashMap<>();
+   private static final Map<String, StoreDirectoryName> TYPE_MAP = new HashMap<>();
    static
    {
       TYPE_MAP.put("CLD", (d, c) -> d.m_calendars.add(c));

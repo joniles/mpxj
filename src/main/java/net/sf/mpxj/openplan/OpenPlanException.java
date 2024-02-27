@@ -21,13 +21,27 @@
  */
 
 package net.sf.mpxj.openplan;
+
+/**
+ * Internal exception thrown by OpenPlanReader code.
+ */
 class OpenPlanException extends RuntimeException
 {
+   /**
+    * Constructor.
+    *
+    * @param cause cause exception
+    */
    public OpenPlanException(Exception cause)
    {
       super(cause);
    }
 
+   /**
+    * Constructor.
+    *
+    * @param message cause message
+    */
    public OpenPlanException(String message)
    {
       super(message);

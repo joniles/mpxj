@@ -29,13 +29,27 @@ import java.util.stream.Collectors;
 
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
+/**
+ * Read a set of code definitions from a code directory
+ * and create a map between the code ID and its definition.
+ */
 class CodeDirectoryReader extends DirectoryReader
 {
+   /**
+    * Constructor.
+    *
+    * @param root parent directory
+    */
    public CodeDirectoryReader(DirectoryEntry root)
    {
       m_root = root;
    }
 
+   /**
+    * Retrieve the code definitions from the named directory.
+    *
+    * @param name code directory name
+    */
    public void read(String name)
    {
       /*
@@ -43,7 +57,7 @@ class CodeDirectoryReader extends DirectoryReader
          CDR - Code Rows
          EXF - Explorer Folders
          EXI - Explorer Items
-         ACL = Acess Control
+         ACL = Access Control
          Dependencies
          Key
        */
@@ -66,6 +80,11 @@ class CodeDirectoryReader extends DirectoryReader
       m_map.put(codeRow.getString("DIR_ID"), new Code(codeRow.getString("DIR_ID"), codeRow.getString("PROMPT_TEXT"), codeRow.getString("DESCRIPTION"), valueRows.stream().map(r -> new CodeValue(r.getString("CDR_ID"), r.getString("CDR_UID"), r.getString("DESCRIPTION"))).collect(Collectors.toList())));
    }
 
+   /**
+    * Retrieve the mapping between a code ID and its definition.
+    *
+    * @return code map
+    */
    public Map<String, Code> getCodes()
    {
       return m_map;

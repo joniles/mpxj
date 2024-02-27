@@ -36,24 +36,10 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
-/*
-   ACT - Activity
-   ASG - Resource Assignment
-   BSA - Baseline Activity
-   BSU - Baseline Usage
-   CST - Resource Cost
-   PRJ - Project (OPP_PRJ)
-   REL - Relationship
-   RSK - Risk Detail
-   SUB - Subproject
-   USE - Resource Usage
-   AVL - Resource Availability
-   PSU - Project Summary
-   RES - Resource
-   RSL - Resource Escalation
-   CDR - Code Data
-*/
 
+/**
+ * Reads schedule data from a Deltek Open Plan BK3 file.
+ */
 public final class OpenPlanReader extends AbstractProjectStreamReader
 {
    @Override public ProjectFile read(InputStream is) throws MPXJException
@@ -105,12 +91,24 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
       }
    }
 
+   /**
+    * Read a single project from the BK3 file represented by the POIFSFileSystem instance.
+    *
+    * @param fs POIFSFileSystem instance
+    * @return ProjectFile instance or null
+    */
    public ProjectFile read(POIFSFileSystem fs) throws MPXJException
    {
       List<ProjectFile> projects = readAll(fs);
       return projects.isEmpty() ? null : projects.get(0);
    }
 
+   /**
+    * Read all projects from the BK3 file represented by the POIFSFileSystem instance.
+    *
+    * @param fs POIFSFileSystem instance
+    * @return list of ProjectFile instances
+    */
    public List<ProjectFile> readAll(POIFSFileSystem fs) throws MPXJException
    {
       try
@@ -124,11 +122,24 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
       }
    }
 
+   /**
+    * Read a schedules from each of the PRJ directories present in the file.
+    *
+    * @param root root directory
+    * @return list of ProjectFile instances
+    */
    private List<ProjectFile> processProjects(DirectoryEntry root)
    {
       return root.getEntryNames().stream().filter(s -> s.toUpperCase().endsWith("_PRJ")).map(s -> processProject(root, s)).collect(Collectors.toList());
    }
 
+   /**
+    * Read a single schedule from a PRJ directory.
+    *
+    * @param root root directory
+    * @param name PRJ directory name
+    * @return ProjectFile instance
+    */
    private ProjectFile processProject(DirectoryEntry root, String name)
    {
       return new ProjectDirectoryReader(root).read(name);

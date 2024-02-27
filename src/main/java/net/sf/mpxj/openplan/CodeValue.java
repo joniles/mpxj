@@ -21,8 +21,19 @@
  */
 
 package net.sf.mpxj.openplan;
+
+/**
+ * Represents a code value.
+ */
 public class CodeValue
 {
+   /**
+    * Code value, part of a code definition.
+    *
+    * @param id value ID
+    * @param uniqueID value unique ID
+    * @param description value description
+    */
    public CodeValue(String id, String uniqueID, String description)
    {
       m_id = id;
@@ -30,16 +41,31 @@ public class CodeValue
       m_description = description;
    }
 
+   /**
+    * Retrieve the value ID.
+    *
+    * @return value ID
+    */
    public String getID()
    {
       return m_id;
    }
 
+   /**
+    * Retrieve the value unique ID.
+    *
+    * @return unique ID
+    */
    public String getUniqueID()
    {
       return m_uniqueID;
    }
 
+   /**
+    * Retrieve the value description.
+    *
+    * @return value description
+    */
    public String getDescription()
    {
       return m_description;

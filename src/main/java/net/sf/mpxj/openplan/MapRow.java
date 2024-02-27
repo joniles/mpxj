@@ -32,6 +32,9 @@ import java.util.stream.Collectors;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ResourceType;
 
+/**
+ * Implementation of the Row interface using a Map for storage.
+ */
 class MapRow implements Row
 {
    public MapRow(Map<String, Object> map)

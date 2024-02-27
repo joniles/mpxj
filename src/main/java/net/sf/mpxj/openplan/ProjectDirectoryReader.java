@@ -43,18 +43,21 @@ class ProjectDirectoryReader extends DirectoryReader
       /*
          Project Directory Contents
 
-         EXF - Explorer Folders
-         SCA - Code Structure Associations
+         ACT - Activity
+         ASG - Resource Assignment
+         BSA - Baseline Activity
+         BSU - Baseline Usage
+         CST - Resource Cost
+         PRJ - Project (OPP_PRJ)
+         REL - Relationship
+         RSK - Risk Detail
+         SUB - Subproject
          USE - Resource Usage
-         UVA - User Validation Associations
-         SUB - Sub Project Summary Information
-         STP - Activity Steps
-         PRJ - Project
-         RSK - Risk Key Activities
-         REL - Activity Relationships
-         IRL - Inter Project Relationships
-         EXI - Explorer Items
-         ACT - Activity Details
+         AVL - Resource Availability
+         PSU - Project Summary
+         RES - Resource
+         RSL - Resource Escalation
+         CDR - Code Data
        */
 
       DirectoryEntry dir = getDirectoryEntry(m_root, name);
@@ -216,7 +219,7 @@ class ProjectDirectoryReader extends DirectoryReader
       ActivityCodeReader activityCodeReader = new ActivityCodeReader(dir, m_file);
       activityCodeReader.read(codeReader.getCodes());
 
-      CalendarReader calendarReader = new CalendarReader(m_root, m_file);
+      CalendarDirectoryReader calendarReader = new CalendarDirectoryReader(m_root, m_file);
       dependencies.getCalendars().forEach(r -> calendarReader.read(r));
 
       ProjectCalendar defaultCalendar = calendarReader.getMap().get("< Default >");

@@ -49,13 +49,13 @@ class ResourceDirectoryReader extends DirectoryReader
       Map<String, Resource> map = new HashMap<>();
 
       List<Row> rows = new TableReader(dir, "RES").read();
-      HierarchyHelper.sortHierarchy(rows, r -> r.getString("RES_ID"), r -> getParentResourceID(r.getString("RES_ID")), Comparator.comparing(o -> o.getString("RES_ID")));
+      HierarchyHelper.sortHierarchy(rows, r -> r.getString("RES_ID"), r -> OpenPlanHierarchyHelper.getParentID(r.getString("RES_ID")), Comparator.comparing(o -> o.getString("RES_ID")));
       UnitOfMeasureContainer uom = m_file.getUnitsOfMeasure();
 
       for (Row row : rows)
       {
          String resourceID = row.getString("RES_ID");
-         Resource parentResource = map.get(getParentResourceID(resourceID));
+         Resource parentResource = map.get(OpenPlanHierarchyHelper.getParentID(resourceID));
          Resource resource;
 
          if (parentResource == null)
@@ -170,16 +170,6 @@ class ResourceDirectoryReader extends DirectoryReader
 
          resource.getAvailability().add(new Availability(start, finish, units));
       }
-   }
-
-   private String getParentResourceID(String resourceID)
-   {
-      int index = resourceID.lastIndexOf('.');
-      if (index == -1)
-      {
-         return null;
-      }
-      return resourceID.substring(0, index);
    }
 
    private final ProjectFile m_file;

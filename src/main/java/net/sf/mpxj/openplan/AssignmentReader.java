@@ -35,15 +35,27 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
+/**
+ * Populate the parent project with resource assignments.
+ */
 class AssignmentReader
 {
 
+   /**
+    * Constructor.
+    *
+    * @param root parent directory
+    * @param file project file
+    */
    public AssignmentReader(DirectoryEntry root, ProjectFile file)
    {
       m_root = root;
       m_file = file;
    }
 
+   /**
+    * Read assignments and populate the parent project.
+    */
    public void read()
    {
       Map<UUID, Task> taskMap = m_file.getTasks().stream().collect(Collectors.toMap(t -> t.getGUID(), t -> t));

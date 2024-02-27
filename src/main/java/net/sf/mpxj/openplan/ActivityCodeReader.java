@@ -31,14 +31,31 @@ import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.ProjectFile;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
+/**
+ * Given a map of codes, determine which of these are mapped to activities, populate
+ * the ProjectFile with the activity code definitions, and finally populate a map between the
+ * column name the code value will appear in, and the code value definitions.
+ */
 class ActivityCodeReader
 {
+   /**
+    * Constructor.
+    *
+    * @param root parent directory
+    * @param file project file
+    */
    public ActivityCodeReader(DirectoryEntry root, ProjectFile file)
    {
       m_root = root;
       m_file = file;
    }
 
+   /**
+    * Determine which codes are mapped as activity codes
+    * and add them to the parent project.
+    *
+    * @param map code definitions
+    */
    public void read(Map<String, Code> map)
    {
       List<Row> rows = new TableReader(m_root, "SCA").read();
@@ -73,6 +90,12 @@ class ActivityCodeReader
       }
    }
 
+   /**
+    * Retrieve a mapping between column names, code value unique IDs,
+    * and ActivityCodeValue instances.
+    *
+    * @return column to activity code value map
+    */
    public Map<String, Map<String, ActivityCodeValue>> getCodeMap()
    {
       return m_codeMap;

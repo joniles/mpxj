@@ -1,5 +1,5 @@
 /*
- * file:       CalendarReader.java
+ * file:       CalendarDirectoryReader.java
  * author:     Jon Iles
  * date:       2024-02-27
  */
@@ -42,14 +42,30 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.common.HierarchyHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
-class CalendarReader extends DirectoryReader
+/**
+ * Populate the parent project with calendars
+ * and create a map of calendar IDs to ProjectCalendar instances.
+ */
+class CalendarDirectoryReader extends DirectoryReader
 {
-   public CalendarReader(DirectoryEntry root, ProjectFile file)
+   /**
+    * Constructor.
+    *
+    * @param root parent directory
+    * @param file parent project
+    */
+   public CalendarDirectoryReader(DirectoryEntry root, ProjectFile file)
    {
       m_root = root;
       m_file = file;
    }
 
+   /**
+    * REad the calandrs from the named directory and populate the
+    * parent project.
+    *
+    * @param name calendar directory name
+    */
    public void read(String name)
    {
       /*
@@ -65,12 +81,12 @@ class CalendarReader extends DirectoryReader
       // Read headers
       //
       List<Row> rows = new TableReader(dir, "CLH").read();
-      HierarchyHelper.sortHierarchy(rows, r -> r.getString("CLH_ID"), r -> getParentID(r.getString("CLH_ID")), Comparator.comparing(o -> o.getString("CLH_ID")));
+      HierarchyHelper.sortHierarchy(rows, r -> r.getString("CLH_ID"), r -> OpenPlanHierarchyHelper.getParentID(r.getString("CLH_ID")), Comparator.comparing(o -> o.getString("CLH_ID")));
 
       for (Row row : rows)
       {
          ProjectCalendar calendar = m_file.addCalendar();
-         ProjectCalendar parentCalendar = m_map.get(getParentID(row.getString("CLH_ID")));
+         ProjectCalendar parentCalendar = m_map.get(OpenPlanHierarchyHelper.getParentID(row.getString("CLH_ID")));
          if (parentCalendar != null)
          {
             calendar.setParent(parentCalendar);
@@ -142,11 +158,22 @@ class CalendarReader extends DirectoryReader
       }
    }
 
+   /**
+    * Retrieve a map of calendar ID s to ProjectCalendar instances.
+    *
+    * @return calendar map
+    */
    public Map<String, ProjectCalendar> getMap()
    {
       return m_map;
    }
 
+   /**
+    * Read a day of week specification for a calendar.
+    *
+    * @param calendar parent calendar
+    * @param row calendar data
+    */
    private void readDayOfWeek(ProjectCalendar calendar, Row row)
    {
       if (!row.getBoolean("OPWORK").booleanValue())
@@ -164,6 +191,12 @@ class CalendarReader extends DirectoryReader
       hours.add(new LocalTimeRange(row.getTime("OPSTART"), row.getTime("OPFINISH")));
    }
 
+   /**
+    * Read a single exception date specification for a calendar.
+    *
+    * @param calendar parent calendar
+    * @param row calendar data
+    */
    private void readExceptionDate(ProjectCalendar calendar, Row row)
    {
       LocalDate date = LocalDate.parse(row.getString("DATESPEC"), DATE_FORMAT);
@@ -206,6 +239,12 @@ class CalendarReader extends DirectoryReader
       exception.add(new LocalTimeRange(row.getTime("OPSTART"), row.getTime("OPFINISH")));
    }
 
+   /**
+    * Read an annually recurring exception.
+    *
+    * @param calendar parent calendar
+    * @param row calendar data
+    */
    private void readDayAndMonth(ProjectCalendar calendar, Row row)
    {
       String dateSpec = row.getString("DATESPEC");
@@ -231,32 +270,36 @@ class CalendarReader extends DirectoryReader
       exception.add(new LocalTimeRange(row.getTime("OPSTART"), row.getTime("OPFINISH")));
    }
 
+   /**
+    * Return true if the DATESPEC represents a day of the week.
+    *
+    * @return true if DATESPEC is a day of the week
+    */
    private boolean isDayOfWeek(Row row)
    {
       return DAY_OF_WEEK_MAP.containsKey(row.getString("DATESPEC"));
    }
 
+   /**
+    * Return true if the DATESPEC represents a date.
+    *
+    * @return true if DATESPEC is a date
+    */
    private boolean isDate(Row row)
    {
       String dateSpec = row.getString("DATESPEC");
       return dateSpec.length() == 8 && dateSpec.chars().allMatch(c -> Character.isDigit(c));
    }
 
+   /**
+    * Return true if the DATESPEC represents a day and month.
+    *
+    * @return true if DATESPEC is a day and month
+    */
    public boolean isDayAndMonth(Row row)
    {
       String dateSpec = row.getString("DATESPEC");
       return dateSpec.length() >= 3 && dateSpec.length() <= 4 && dateSpec.chars().allMatch(c -> Character.isDigit(c));
-
-   }
-
-   private String getParentID(String id)
-   {
-      int index = id.lastIndexOf('.');
-      if (index == -1)
-      {
-         return null;
-      }
-      return id.substring(0, index);
    }
 
    private final ProjectFile m_file;

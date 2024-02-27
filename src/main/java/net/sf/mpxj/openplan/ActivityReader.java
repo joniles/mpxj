@@ -41,26 +41,41 @@ import net.sf.mpxj.common.HierarchyHelper;
 import net.sf.mpxj.common.NumberHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 
+/**
+ * Populate the parent project with activities.
+ */
 class ActivityReader
 {
+   /**
+    * Constructor.
+    *
+    * @param root parent directory
+    * @param file project file
+    */
    public ActivityReader(DirectoryEntry root, ProjectFile file)
    {
       m_root = root;
       m_file = file;
    }
 
+   /**
+    * Add activities to the project file.
+    *
+    * @param codeMap column names to ActivityCodeValue map
+    * @param calendarMap calendar ID to ProjectCalendar map.
+    */
    public void read(Map<String, Map<String, ActivityCodeValue>> codeMap, Map<String, ProjectCalendar> calendarMap)
    {
       Map<String, Task> map = new HashMap<>();
       List<Row> rows = new TableReader(m_root, "ACT").read();
-      HierarchyHelper.sortHierarchy(rows, r -> r.getString("ACT_ID"), r -> getParentActivityID(r.getString("ACT_ID")), Comparator.comparing(o -> o.getString("ACT_ID")));
+      HierarchyHelper.sortHierarchy(rows, r -> r.getString("ACT_ID"), r -> OpenPlanHierarchyHelper.getParentID(r.getString("ACT_ID")), Comparator.comparing(o -> o.getString("ACT_ID")));
 
       for (Row row : rows)
       {
          Task task;
          String activityID = row.getString("ACT_ID");
 
-         Task parentTask = map.get(getParentActivityID(activityID));
+         Task parentTask = map.get(OpenPlanHierarchyHelper.getParentID(activityID));
          if (parentTask == null)
          {
             task = m_file.addTask();
@@ -193,7 +208,7 @@ class ActivityReader
          task.setTotalSlack(row.getDuration("TOTALFLOAT"));
          // USR_ID: Last Update User
 
-         // FRom: https://help.deltek.com/product/acumentouchstone/8.2/ga/Open%20Plan%20BK3%20Calculated%20Fields.html
+         // From: https://help.deltek.com/product/acumentouchstone/8.2/ga/Open%20Plan%20BK3%20Calculated%20Fields.html
          task.setConstraintType(getConstraintType(row));
          task.setConstraintDate(getConstraintDate(task, row));
          task.setSecondaryConstraintType(getSecondaryConstraintType(task, row));
@@ -221,6 +236,12 @@ class ActivityReader
       }
    }
 
+   /**
+    * Determine the constraint type.
+    *
+    * @param row activity data
+    * @return constraint type
+    */
    private ConstraintType getConstraintType(Row row)
    {
       if ("L".equals(row.getString("ACT_TYPE")))
@@ -232,6 +253,13 @@ class ActivityReader
       return targetStartType == null ? TARGET_FINISH_TYPE_MAP.get(row.getString("TARGFTYPE")) : TARGET_START_MAP.get(targetStartType);
    }
 
+   /**
+    * Determine the constraint date.
+    *
+    * @param task parent task
+    * @param row activity data
+    * @return constraint date
+    */
    private LocalDateTime getConstraintDate(Task task, Row row)
    {
       ConstraintType type = task.getConstraintType();
@@ -257,11 +285,13 @@ class ActivityReader
       }
    }
 
-   private LocalDateTime getSecondaryConstraintDate(Task task, Row row)
-   {
-      return task.getSecondaryConstraintType() == null ? null : row.getDate("TFDATE");
-   }
-
+   /**
+    * Determine the secondary constraint type.
+    *
+    * @param task parent task
+    * @param row activity data
+    * @return secondary constraint type
+    */
    private ConstraintType getSecondaryConstraintType(Task task, Row row)
    {
       ConstraintType primaryConstraintType = task.getConstraintType();
@@ -274,6 +304,24 @@ class ActivityReader
       return null;
    }
 
+   /**
+    * Determine the secondary constraint date.
+    *
+    * @param task parent task
+    * @param row activity data
+    * @return secondary constraint date
+    */
+   private LocalDateTime getSecondaryConstraintDate(Task task, Row row)
+   {
+      return task.getSecondaryConstraintType() == null ? null : row.getDate("TFDATE");
+   }
+
+   /**
+    * Determine the activity status.
+    *
+    * @param row activity data
+    * @return activity status
+    */
    private ActivityStatus getActivityStatus(Row row)
    {
       switch (row.getInteger("COMPSTAT").intValue())
@@ -289,19 +337,16 @@ class ActivityReader
       }
    }
 
+   /**
+    * Generate a sum of the values in the named columns.
+    *
+    * @param row activity data
+    * @param keys column names
+    * @return sum of values
+    */
    private Double sum(Row row, String... keys)
    {
       return Double.valueOf(Arrays.stream(keys).map(k -> row.getDouble(k)).filter(v -> v != null).mapToDouble(v -> v.doubleValue()).sum());
-   }
-
-   private String getParentActivityID(String activityID)
-   {
-      int index = activityID.lastIndexOf('.');
-      if (index == -1)
-      {
-         return null;
-      }
-      return activityID.substring(0, index);
    }
 
    private final ProjectFile m_file;
