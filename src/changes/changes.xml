@@ -12,6 +12,7 @@
 			<action dev="joniles" type="update">Marked the `Task.addPredecessor(Task,RelationType,Duration)` method as deprecated, use the `Task.addPredecessor(Relation.Builder)` method instead.</action>
 			<action dev="joniles" type="update">Add a notes attribute to the `Relation` class and ensure that it is read from and written to P6 schedules.</action>
 			<action dev="joniles" type="update">Read the Relationship Lag Calendar setting from Phoenix 5 files. (Contributed by Rohit Sinha)</action>
+			<action dev="joniles" type="update">Don't write a material lable to an MSPDI file for a resource which isn't a material.</action>
 		</release>
 		<release date="2024-02-07" version="12.7.0">
 			<action dev="joniles" type="update">Added support for reading and writing the project property Baseline Calendar Name to and from MPP and MSPDI files.</action>

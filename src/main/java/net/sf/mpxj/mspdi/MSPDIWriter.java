@@ -1075,7 +1075,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setIsGeneric(Boolean.valueOf(mpx.getGeneric()));
       xml.setIsInactive(Boolean.valueOf(!mpx.getActive()));
       xml.setIsNull(Boolean.valueOf(mpx.getNull()));
-      xml.setMaterialLabel(formatMaterialLabel(mpx.getMaterialLabel()));
+      xml.setMaterialLabel(formatMaterialLabel(mpx));
       xml.setMaxUnits(DatatypeConverter.printUnits(mpx.getMaxUnits()));
       xml.setName(StringHelper.stripControlCharacters(mpx.getName()));
       xml.setNotes(nullIfEmpty(mpx.getNotes()));
@@ -2596,8 +2596,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param text material label
     * @return material label acceptable to MS Project
     */
-   private String formatMaterialLabel(String text)
+   private String formatMaterialLabel(Resource resource)
    {
+      if (resource.getType() != ResourceType.MATERIAL)
+      {
+         return null;
+      }
+
+      String text = resource.getMaterialLabel();
       if (text == null || text.isEmpty())
       {
          return text;
