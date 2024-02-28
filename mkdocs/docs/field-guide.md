@@ -797,6 +797,28 @@ Baseline Budget Cost| | | | | | | |✓| | | | | | | | | | | |�
 Baseline Budget Work| | | | | | | |✓| | | | | | | | | | | | | | | 
 Baseline Cost| | | | | | | |✓|✓|✓| | | | | | | | | | | | | 
 Baseline Work| | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
+Timephased Baseline1 Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline1 Work| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline2 Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline2 Work| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline3 Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline3 Work| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline4 Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline4 Work| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline5 Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline5 Work| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline6 Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline6 Work| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline7 Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline7 Work| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline8 Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline8 Work| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline9 Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline9 Work| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline10 Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline10 Work| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline Cost| | | | | | | |✓| | | | | | | | | | | | | | | 
+Timephased Baseline Work| | | | | | | |✓| | | | | | | | | | | | | | | 
 
 ### Custom Fields
 Field|Asta (PP)|ConceptDraw PROJECT (CDP)|FastTrack (FTS)|GanttDesigner (GNT)|GanttProject (GAN)|Merlin (SQLITE)|Microsoft (MPD)|Microsoft (MPP)|Microsoft (MPX)|Microsoft (MSPDI)|P3 (BTRIEVE)|Phoenix (PPX)|Planner (XML)|Primavera (PMXML)|Primavera (SQLITE)|Primavera (XER)|Project Commander (PC)|ProjectLibre (POD)|SDEF (SDEF)|Sage (SCHEDULE_GRID)|SureTrak (STW)|Synchro (SP)|TurboProject (PEP)

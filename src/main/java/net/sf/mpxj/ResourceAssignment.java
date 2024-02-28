@@ -808,7 +808,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       //just return an empty list if there is no timephased work passed in
       if (standardWorkList == null)
       {
-         return new DefaultTimephasedCostContainer(this, null, Collections.emptyList(), false);
+         return new DefaultTimephasedCostContainer(getEffectiveCalendar(), this, null, Collections.emptyList(), false);
       }
 
       List<TimephasedCost> result = new ArrayList<>();
@@ -892,7 +892,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
       }
 
-      return new DefaultTimephasedCostContainer(this, null, result, false);
+      return new DefaultTimephasedCostContainer(getEffectiveCalendar(), this, null, result, false);
    }
 
    /**
@@ -1010,7 +1010,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
             }
       }
 
-      return new DefaultTimephasedCostContainer(this, null, result, false);
+      return new DefaultTimephasedCostContainer(getEffectiveCalendar(), this, null, result, false);
    }
 
    /**
@@ -1048,7 +1048,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
             }
       }
 
-      return new DefaultTimephasedCostContainer(this, null, result, false);
+      return new DefaultTimephasedCostContainer(getEffectiveCalendar(), this, null, result, false);
    }
 
    /**

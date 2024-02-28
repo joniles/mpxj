@@ -1121,7 +1121,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       writeAvailability(xml, mpx);
 
-      return (xml);
+      writeResourceTimephasedData(xml, mpx);
+
+      return xml;
    }
 
    /**
@@ -2196,7 +2198,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          return;
       }
 
-      ProjectCalendar calendar = getCalendar(mpx);
+      ProjectCalendar calendar = mpx.getEffectiveCalendar();
       List<TimephasedWork> complete = mpx.getTimephasedActualWork();
       List<TimephasedWork> planned = mpx.getTimephasedWork();
       List<TimephasedWork> completeOvertime = mpx.getTimephasedActualOvertimeWork();
@@ -2207,19 +2209,49 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
       BigInteger assignmentID = xml.getUID();
       List<TimephasedDataType> list = xml.getTimephasedData();
-      writeAssignmentTimephasedWorkData(assignmentID, list, complete, 2);
-      writeAssignmentTimephasedWorkData(assignmentID, list, planned, 1);
-      writeAssignmentTimephasedWorkData(assignmentID, list, completeOvertime, 3);
+      writeTimephasedWorkData(assignmentID, list, complete, 2);
+      writeTimephasedWorkData(assignmentID, list, planned, 1);
+      writeTimephasedWorkData(assignmentID, list, completeOvertime, 3);
 
       // Write the baselines
-      for (int index = 0; index < TIMEPHASED_BASELINE_WORK_TYPES.length; index++)
+      for (int index = 0; index < ASSIGNMENT_TIMEPHASED_BASELINE_WORK_TYPES.length; index++)
       {
-         writeAssignmentTimephasedWorkData(assignmentID, list, splitDays(calendar, mpx.getTimephasedBaselineWork(index), null, null), TIMEPHASED_BASELINE_WORK_TYPES[index]);
+         System.out.println("BASELINE " + index);
+         writeTimephasedWorkData(assignmentID, list, splitDays(calendar, mpx.getTimephasedBaselineWork(index), null, null), ASSIGNMENT_TIMEPHASED_BASELINE_WORK_TYPES[index]);
       }
 
-      for (int index = 0; index < TIMEPHASED_BASELINE_COST_TYPES.length; index++)
+      for (int index = 0; index < ASSIGNMENT_TIMEPHASED_BASELINE_COST_TYPES.length; index++)
       {
-         writeAssignmentTimephasedCostData(assignmentID, list, splitDays(calendar, mpx.getTimephasedBaselineCost(index)), TIMEPHASED_BASELINE_COST_TYPES[index]);
+         writeTimephasedCostData(assignmentID, list, splitDays(calendar, mpx.getTimephasedBaselineCost(index)), ASSIGNMENT_TIMEPHASED_BASELINE_COST_TYPES[index]);
+      }
+   }
+
+   /**
+    * Writes the timephased data for a resource.
+    *
+    * @param mpx MPXJ resource
+    * @param xml MSPDI resource
+    */
+   private void writeResourceTimephasedData(Project.Resources.Resource xml, Resource mpx)
+   {
+      if (!m_writeTimephasedData)
+      {
+         return;
+      }
+
+      ProjectCalendar calendar = mpx.getCalendar();
+
+      BigInteger resourceID = NumberHelper.getBigInteger(xml.getUID());
+      List<TimephasedDataType> list = xml.getTimephasedData();
+
+      for (int index = 0; index < RESOURCE_TIMEPHASED_BASELINE_WORK_TYPES.length; index++)
+      {
+         writeTimephasedWorkData(resourceID, list, splitDays(calendar, mpx.getTimephasedBaselineWork(index), null, null), ASSIGNMENT_TIMEPHASED_BASELINE_WORK_TYPES[index]);
+      }
+
+      for (int index = 0; index < RESOURCE_TIMEPHASED_BASELINE_COST_TYPES.length; index++)
+      {
+         writeTimephasedCostData(resourceID, list, splitDays(calendar, mpx.getTimephasedBaselineCost(index)), ASSIGNMENT_TIMEPHASED_BASELINE_COST_TYPES[index]);
       }
    }
 
@@ -2253,17 +2285,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       return splitDays(calendar, planned, null, lastComplete);
-   }
-
-   /**
-    * Determine the calendar to use when working with timephased resource assignment data.
-    *
-    * @param assignment resource assignment
-    * @return calendar to use
-    */
-   private ProjectCalendar getCalendar(ResourceAssignment assignment)
-   {
-      return assignment.getEffectiveCalendar();
    }
 
    /**
@@ -2479,7 +2500,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     * @param data input list of timephased data
     * @param type list type (planned or completed)
     */
-   private void writeAssignmentTimephasedWorkData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedWork> data, int type)
+   private void writeTimephasedWorkData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedWork> data, int type)
    {
       if (data == null)
       {
@@ -2539,7 +2560,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       return TIMEPHASED_DATA_PERIOD_MINUTES;
    }
 
-   private void writeAssignmentTimephasedCostData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedCost> data, int type)
+   private void writeTimephasedCostData(BigInteger assignmentID, List<TimephasedDataType> list, List<TimephasedCost> data, int type)
    {
       if (data == null)
       {
@@ -2750,7 +2771,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       MAPPING_TARGET_CUSTOM_FIELDS.addAll(Arrays.asList(AssignmentFieldLists.CUSTOM_DURATION));
    }
 
-   private static final int[] TIMEPHASED_BASELINE_WORK_TYPES =
+   private static final int[] ASSIGNMENT_TIMEPHASED_BASELINE_WORK_TYPES =
    {
       4,
       16,
@@ -2765,7 +2786,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       70
    };
 
-   private static final int[] TIMEPHASED_BASELINE_COST_TYPES =
+   private static final int[] ASSIGNMENT_TIMEPHASED_BASELINE_COST_TYPES =
    {
       5,
       17,
@@ -2778,6 +2799,36 @@ public final class MSPDIWriter extends AbstractProjectWriter
       59,
       65,
       71,
+   };
+
+   private static final int[] RESOURCE_TIMEPHASED_BASELINE_WORK_TYPES =
+   {
+      7,
+      20,
+      26,
+      32,
+      38,
+      44,
+      50,
+      56,
+      62,
+      68,
+      74
+   };
+
+   private static final int[] RESOURCE_TIMEPHASED_BASELINE_COST_TYPES =
+   {
+      8,
+      21,
+      27,
+      33,
+      39,
+      45,
+      51,
+      57,
+      63,
+      69,
+      75
    };
 
    private static final Set<String> TIME_UNIT_NAMES = new HashSet<>(Arrays.stream(TimeUnit.values()).map(u -> u.getName()).collect(Collectors.toList()));

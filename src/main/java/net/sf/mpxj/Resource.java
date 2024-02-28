@@ -45,7 +45,7 @@ import net.sf.mpxj.common.ResourceFieldLists;
 /**
  * This class represents a resource used in a project.
  */
-public final class Resource extends AbstractFieldContainer<Resource> implements Comparable<Resource>, ProjectEntityWithID, ChildResourceContainer
+public final class Resource extends AbstractFieldContainer<Resource> implements Comparable<Resource>, ProjectEntityWithID, ChildResourceContainer, TimePeriodEntity
 {
    /**
     * Default constructor.
@@ -2626,6 +2626,54 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Set timephased baseline work. Note that index 0 represents "Baseline",
+    * index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param data timephased data
+    */
+   public void setTimephasedBaselineWork(int index, TimephasedWorkContainer data)
+   {
+      m_timephasedBaselineWork[index] = data;
+   }
+
+   /**
+    * Set timephased baseline cost. Note that index 0 represents "Baseline",
+    * index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @param data timephased data
+    */
+   public void setTimephasedBaselineCost(int index, TimephasedCostContainer data)
+   {
+      m_timephasedBaselineCost[index] = data;
+   }
+
+   /**
+    * Retrieve timephased baseline work. Note that index 0 represents "Baseline",
+    * index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @return timephased work, or null if no baseline is present
+    */
+   public List<TimephasedWork> getTimephasedBaselineWork(int index)
+   {
+      return m_timephasedBaselineWork[index] == null ? null : m_timephasedBaselineWork[index].getData();
+   }
+
+   /**
+    * Retrieve timephased baseline cost. Note that index 0 represents "Baseline",
+    * index 1 represents "Baseline1" and so on.
+    *
+    * @param index baseline index
+    * @return timephased work, or null if no baseline is present
+    */
+   public List<TimephasedCost> getTimephasedBaselineCost(int index)
+   {
+      return m_timephasedBaselineCost[index] == null ? null : m_timephasedBaselineCost[index].getData();
+   }
+
+   /**
     * Maps a field index to a ResourceField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
@@ -2902,6 +2950,9 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
 
    private final CostRateTable[] m_costRateTables;
    private final AvailabilityTable m_availability = new AvailabilityTable();
+
+   private final TimephasedWorkContainer[] m_timephasedBaselineWork = new TimephasedWorkContainer[11];
+   private final TimephasedCostContainer[] m_timephasedBaselineCost = new TimephasedCostContainer[11];
 
    private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(ResourceField.STANDARD_RATE, ResourceField.OVERTIME_RATE, ResourceField.COST_PER_USE, ResourceField.START, ResourceField.FINISH, ResourceField.MAX_UNITS, ResourceField.AVAILABLE_FROM, ResourceField.AVAILABLE_TO));
 

@@ -1047,7 +1047,7 @@ final class MPP14Reader implements MPPVariantReader
          if (temp != null)
          {
             // Task with this id already exists... determine if this is the 'real' task by seeing
-            // if this task has some var data. This is sort of hokey, but it's the best method i have
+            // if this task has some var data. This is sort of hokey, but it's the best method I have
             // been able to see.
             if (!taskVarMeta.getUniqueIdentifierSet().contains(uniqueID))
             {
@@ -1495,6 +1495,8 @@ final class MPP14Reader implements MPPVariantReader
       FieldMap enterpriseCustomFieldMap = new FieldMap14(m_file);
       enterpriseCustomFieldMap.createEnterpriseCustomFieldMap(m_projectProps, FieldTypeClass.RESOURCE);
 
+      TimephasedDataFactory timephasedFactory = new TimephasedDataFactory();
+
       DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
       VarMeta rscVarMeta = new VarMeta12(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("VarMeta"))));
       Var2Data rscVarData = new Var2Data(m_file, rscVarMeta, new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Var2Data"))));
@@ -1503,7 +1505,7 @@ final class MPP14Reader implements MPPVariantReader
       FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), rscFixedData, 50, 51);
       FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(rscDir, "Fixed2Data"));
 
-      //System.out.println(rscVarMeta);
+      //System.out.println(rscVarMeta.toString(fieldMap));
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
       //System.out.println(rscFixedData);
@@ -1526,7 +1528,7 @@ final class MPP14Reader implements MPPVariantReader
       HyperlinkReader hyperlinkReader = new HyperlinkReader();
 
       //
-      // Select the correct meta data locations depending on
+      // Select the correct metadata locations depending on
       // which version of Microsoft project generated this file
       //
       MppBitFlag[] metaDataBitFlags;
@@ -1650,6 +1652,22 @@ final class MPP14Reader implements MPPVariantReader
                resource.setType(ResourceType.MATERIAL);
             }
          }
+
+//         ProjectCalendar calendar = resource.getCalendar();
+//         System.out.println(resource);
+//         for (int index = 0; index < ResourceFieldLists.TIMEPHASED_BASELINE_WORK.length; index++)
+//         {
+//
+//            TimephasedWorkContainer work = timephasedFactory.getBaselineWork(calendar, resource, baselineWorkNormaliser, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceFieldLists.TIMEPHASED_BASELINE_WORK[index])), true);
+//            TimephasedCostContainer cost = timephasedFactory.getBaselineCost(calendar, resource, baselineCostNormaliser, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceFieldLists.TIMEPHASED_BASELINE_COST[index])), true);
+//
+//            if (work != null)
+//            {
+//               System.out.println("Baseline " + index);
+//               work.getData().forEach(System.out::println);
+//               cost.getData().forEach(System.out::println);
+//            }
+//         }
 
          m_eventManager.fireResourceReadEvent(resource);
       }
@@ -1984,7 +2002,7 @@ final class MPP14Reader implements MPPVariantReader
    private Map<Integer, Integer> m_parentTasks;
 
    // Signals the end of the list of subproject task unique ids
-   //private static final int SUBPROJECT_LISTEND = 0x00000303;
+   //private static final int SUBPROJECT_LIST_END = 0x00000303;
 
    // Signals that the previous value was for the subproject task unique id
    private static final int SUBPROJECT_TASKUNIQUEID0 = 0x00000000;

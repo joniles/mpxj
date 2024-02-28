@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
@@ -244,7 +245,7 @@ final class MPP12Reader implements MPPVariantReader
    }
 
    /**
-    * Read sub project data from the file, and add it to a hash map
+    * Read subproject data from the file, and add it to a hash map
     * indexed by task ID.
     *
     * Project stores all subprojects that have ever been inserted into this project
@@ -1463,17 +1464,19 @@ final class MPP12Reader implements MPPVariantReader
       FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(rscDir, "FixedData"));
       FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), 49);
       FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(rscDir, "Fixed2Data"));
-      Props12 props = new Props12(m_inputStreamFactory.getInstance(rscDir, "Props"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
       //System.out.println(rscFixedData);
       //System.out.println(rscFixed2Meta);
       //System.out.println(rscFixed2Data);
-      //System.out.println(props);
 
       // Process aliases
-      new CustomFieldReader12(m_file, props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
+      if (rscDir.hasEntry("Props"))
+      {
+         Props12 props = new Props12(m_inputStreamFactory.getInstance(rscDir, "Props"));
+         new CustomFieldReader12(m_file, props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
+      }
 
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
@@ -1482,6 +1485,20 @@ final class MPP12Reader implements MPPVariantReader
       byte[] metaData;
       Resource resource;
       HyperlinkReader hyperlinkReader = new HyperlinkReader();
+
+      //
+      // Select the correct metadata locations depending on
+      // which version of Microsoft project generated this file
+      //
+      MppBitFlag[] metaDataBitFlags;
+      MppBitFlag[] metaData2BitFlags;
+      int resourceTypeOffset;
+      int resourceTypeMask;
+
+      resourceTypeOffset = 9;
+      resourceTypeMask = 0x02;
+      metaDataBitFlags = RESOURCE_META_DATA_BIT_FLAGS;
+      metaData2BitFlags = RESOURCE_META_DATA2_BIT_FLAGS;
 
       for (Integer id : uniqueid)
       {
@@ -1502,6 +1519,7 @@ final class MPP12Reader implements MPPVariantReader
          resource = m_file.addResource();
 
          resource.disableEvents();
+
          fieldMap.populateContainer(FieldTypeClass.RESOURCE, resource, id, new byte[][]
          {
             data,
@@ -1512,13 +1530,9 @@ final class MPP12Reader implements MPPVariantReader
 
          resource.enableEvents();
 
-         resource.setBudget((metaData2[8] & 0x20) != 0);
-
-         resource.setGUID(MPPUtility.getGUID(data2, 0));
-
          hyperlinkReader.read(resource, rscVarData.getByteArray(id, fieldMap.getVarDataKey(ResourceField.HYPERLINK_DATA)));
 
-         resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
+         resource.setID(Integer.valueOf(MPPUtility.getInt(data, fieldMap.getFixedDataOffset(ResourceField.ID))));
 
          resource.setOutlineCode(1, getCustomFieldOutlineCodeValue(rscVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE1_INDEX)));
          resource.setOutlineCode(2, getCustomFieldOutlineCodeValue(rscVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE2_INDEX)));
@@ -1531,29 +1545,11 @@ final class MPP12Reader implements MPPVariantReader
          resource.setOutlineCode(9, getCustomFieldOutlineCodeValue(rscVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE9_INDEX)));
          resource.setOutlineCode(10, getCustomFieldOutlineCodeValue(rscVarData, m_outlineCodeVarData, id, fieldMap.getVarDataKey(ResourceField.OUTLINE_CODE10_INDEX)));
 
-         resource.setUniqueID(id);
-
          metaData = rscFixedMeta.getByteArrayValue(offset.intValue());
-         resource.setFlag(1, (metaData[28] & 0x40) != 0);
-         resource.setFlag(2, (metaData[28] & 0x80) != 0);
-         resource.setFlag(3, (metaData[29] & 0x01) != 0);
-         resource.setFlag(4, (metaData[29] & 0x02) != 0);
-         resource.setFlag(5, (metaData[29] & 0x04) != 0);
-         resource.setFlag(6, (metaData[29] & 0x08) != 0);
-         resource.setFlag(7, (metaData[29] & 0x10) != 0);
-         resource.setFlag(8, (metaData[29] & 0x20) != 0);
-         resource.setFlag(9, (metaData[29] & 0x40) != 0);
-         resource.setFlag(10, (metaData[28] & 0x20) != 0);
-         resource.setFlag(11, (metaData[29] & 0x80) != 0);
-         resource.setFlag(12, (metaData[30] & 0x01) != 0);
-         resource.setFlag(13, (metaData[30] & 0x02) != 0);
-         resource.setFlag(14, (metaData[30] & 0x04) != 0);
-         resource.setFlag(15, (metaData[30] & 0x08) != 0);
-         resource.setFlag(16, (metaData[30] & 0x10) != 0);
-         resource.setFlag(17, (metaData[30] & 0x20) != 0);
-         resource.setFlag(18, (metaData[30] & 0x40) != 0);
-         resource.setFlag(19, (metaData[30] & 0x80) != 0);
-         resource.setFlag(20, (metaData[31] & 0x01) != 0);
+         readBitFields(metaDataBitFlags, resource, metaData);
+         readBitFields(metaData2BitFlags, resource, metaData2);
+
+         resource.setUniqueID(id);
 
          //
          // Configure the resource calendar
@@ -1590,7 +1586,7 @@ final class MPP12Reader implements MPPVariantReader
          //
          // Process resource type
          //
-         if ((metaData[9] & 0x02) != 0)
+         if ((metaData[resourceTypeOffset] & resourceTypeMask) != 0)
          {
             resource.setType(ResourceType.WORK);
          }
@@ -1881,6 +1877,22 @@ final class MPP12Reader implements MPPVariantReader
       return result;
    }
 
+   /**
+    * Iterate through a set of bit field flags and set the value for each one
+    * in the supplied container.
+    *
+    * @param flags bit field flags
+    * @param container field container
+    * @param data source data
+    */
+   private void readBitFields(MppBitFlag[] flags, FieldContainer container, byte[] data)
+   {
+      for (MppBitFlag flag : flags)
+      {
+         flag.setValue(container, data);
+      }
+   }
+
    private MPPReader m_reader;
    private ProjectFile m_file;
    private EventManager m_eventManager;
@@ -1946,4 +1958,33 @@ final class MPP12Reader implements MPPVariantReader
     */
    private static final Integer RESOURCE_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
    private static final Integer TASK_FIELD_NAME_ALIASES = Integer.valueOf(71303169);
+
+   private static final MppBitFlag[] RESOURCE_META_DATA2_BIT_FLAGS =
+   {
+      new MppBitFlag(ResourceField.BUDGET, 8, 0x20, Boolean.FALSE, Boolean.TRUE),
+   };
+
+   private static final MppBitFlag[] RESOURCE_META_DATA_BIT_FLAGS =
+   {
+      new MppBitFlag(ResourceField.FLAG10, 28, 0x0000020, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG1, 28, 0x0000040, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG2, 28, 0x0000080, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG3, 28, 0x0000100, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG4, 28, 0x0000200, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG5, 28, 0x0000400, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG6, 28, 0x0000800, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG7, 28, 0x0001000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG8, 28, 0x0002000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG9, 28, 0x0004000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG11, 28, 0x0008000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG12, 28, 0x0010000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG13, 28, 0x0020000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG14, 28, 0x0040000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG15, 28, 0x0080000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG16, 28, 0x0100000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG17, 28, 0x0200000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG18, 28, 0x0400000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG19, 28, 0x0800000, Boolean.FALSE, Boolean.TRUE),
+      new MppBitFlag(ResourceField.FLAG20, 28, 0x1000000, Boolean.FALSE, Boolean.TRUE)
+   };
 }

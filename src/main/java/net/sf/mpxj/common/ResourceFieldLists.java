@@ -458,6 +458,36 @@ public final class ResourceFieldLists
       ResourceField.BASELINE10_BUDGET_WORK
    };
 
+   public static final ResourceField[] TIMEPHASED_BASELINE_WORK =
+   {
+      ResourceField.TIMEPHASED_BASELINE_WORK,
+      ResourceField.TIMEPHASED_BASELINE1_WORK,
+      ResourceField.TIMEPHASED_BASELINE2_WORK,
+      ResourceField.TIMEPHASED_BASELINE3_WORK,
+      ResourceField.TIMEPHASED_BASELINE4_WORK,
+      ResourceField.TIMEPHASED_BASELINE5_WORK,
+      ResourceField.TIMEPHASED_BASELINE6_WORK,
+      ResourceField.TIMEPHASED_BASELINE7_WORK,
+      ResourceField.TIMEPHASED_BASELINE8_WORK,
+      ResourceField.TIMEPHASED_BASELINE9_WORK,
+      ResourceField.TIMEPHASED_BASELINE10_WORK
+   };
+
+   public static final ResourceField[] TIMEPHASED_BASELINE_COST =
+   {
+      ResourceField.TIMEPHASED_BASELINE_COST,
+      ResourceField.TIMEPHASED_BASELINE1_COST,
+      ResourceField.TIMEPHASED_BASELINE2_COST,
+      ResourceField.TIMEPHASED_BASELINE3_COST,
+      ResourceField.TIMEPHASED_BASELINE4_COST,
+      ResourceField.TIMEPHASED_BASELINE5_COST,
+      ResourceField.TIMEPHASED_BASELINE6_COST,
+      ResourceField.TIMEPHASED_BASELINE7_COST,
+      ResourceField.TIMEPHASED_BASELINE8_COST,
+      ResourceField.TIMEPHASED_BASELINE9_COST,
+      ResourceField.TIMEPHASED_BASELINE10_COST
+   };
+
    public static final List<ResourceField> CUSTOM_FIELDS = new ArrayList<>();
    static
    {
