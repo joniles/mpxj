@@ -1076,10 +1076,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public boolean isWorkingDate(LocalDate date)
    {
-      //return isWorkingDate(date, date.getDayOfWeek());
-
-      ProjectCalendarHours ranges = getRanges(date);
-      return !ranges.isEmpty();
+      return !getRanges(date).isEmpty();
    }
 
    /**
