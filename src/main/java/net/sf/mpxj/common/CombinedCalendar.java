@@ -50,18 +50,14 @@ public class CombinedCalendar extends ProjectCalendar
       m_calendar2 = calendar2;
    }
 
-   @Override protected ProjectCalendarHours getRanges(LocalDate date, DayOfWeek day)
+   @Override protected ProjectCalendarHours getRanges(LocalDate date)
    {
-      ProjectCalendarHours hours1 = date == null ? m_calendar1.getHours(day) : m_calendar1.getHours(date);
-      ProjectCalendarHours hours2 = date == null ? m_calendar2.getHours(day) : m_calendar2.getHours(date);
-      return getRanges(hours1, hours2);
+      return getRanges(m_calendar1.getHours(date), m_calendar2.getHours(date));
    }
 
    @Override protected ProjectCalendarHours getRanges(DayOfWeek day)
    {
-      ProjectCalendarHours hours1 = m_calendar1.getHours(day);
-      ProjectCalendarHours hours2 = m_calendar2.getHours(day);
-      return getRanges(hours1, hours2);
+      return getRanges(m_calendar1.getHours(day), m_calendar2.getHours(day));
    }
 
    private ProjectCalendarHours getRanges(ProjectCalendarHours hours1, ProjectCalendarHours hours2)
