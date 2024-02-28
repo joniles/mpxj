@@ -1373,8 +1373,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public Duration getWork(DayOfWeek day, TimeUnit format)
    {
-      ProjectCalendarHours ranges = getRanges(null, day);
-      return convertFormat(getTotalTime(ranges), format);
+      return convertFormat(getTotalTime(getRanges(day)), format);
    }
 
    /**
@@ -1847,6 +1846,32 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
       return ranges;
    }
+
+
+   protected ProjectCalendarHours getRanges(DayOfWeek day)
+   {
+      // Use the day type to retrieve the ranges
+      switch (getCalendarDayType(day))
+      {
+         case NON_WORKING:
+         {
+            return EMPTY_DATE_RANGES;
+         }
+
+         case WORKING:
+         {
+            return getCalendarHours(day);
+         }
+
+         case DEFAULT:
+         {
+            return m_parent == null ? EMPTY_DATE_RANGES : m_parent.getHours(day);
+         }
+      }
+
+      return EMPTY_DATE_RANGES;
+   }
+
 
    /**
     * Ensure exceptions are sorted.
