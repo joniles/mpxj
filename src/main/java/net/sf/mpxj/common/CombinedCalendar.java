@@ -25,7 +25,6 @@ package net.sf.mpxj.common;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Calendar;
 
 import java.time.DayOfWeek;
 import net.sf.mpxj.ProjectCalendar;
@@ -51,7 +50,7 @@ public class CombinedCalendar extends ProjectCalendar
       m_calendar2 = calendar2;
    }
 
-   @Override protected ProjectCalendarHours getRanges(LocalDate date, Calendar cal, DayOfWeek day)
+   @Override protected ProjectCalendarHours getRanges(LocalDate date, DayOfWeek day)
    {
       ProjectCalendarHours result = new ProjectCalendarHours();
       ProjectCalendarHours hours1 = date == null ? m_calendar1.getHours(day) : m_calendar1.getHours(date);
