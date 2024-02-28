@@ -1383,8 +1383,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public Duration getWork(LocalDate date, TimeUnit format)
    {
-      ProjectCalendarHours ranges = getRanges(date);
-      return convertFormat(getTotalTime(ranges), format);
+      return convertFormat(getTotalTime(getRanges(date)), format);
    }
 
    /**
