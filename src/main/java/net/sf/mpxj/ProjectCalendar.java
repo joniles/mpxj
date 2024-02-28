@@ -781,7 +781,17 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          // working hours remain
          //
          LocalDateTime currentDate = cal;
-         LocalDateTime currentDateStart = LocalDateTimeHelper.getDayStartDate(currentDate);
+         LocalDateTime currentDateStart;
+
+         if (currentDate.toLocalTime() == LocalTime.MIDNIGHT)
+         {
+            currentDateStart = LocalDateTimeHelper.getDayStartDate(currentDate.minusDays(1));
+         }
+         else
+         {
+            currentDateStart = LocalDateTimeHelper.getDayStartDate(currentDate);
+         }
+
          long currentDateWorkingMilliseconds = Math.round(getWork(currentDateStart, currentDate, TimeUnit.MINUTES).getDuration() * 60000.0);
 
          //
@@ -795,19 +805,21 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             remainingMilliseconds -= currentDateWorkingMilliseconds;
 
             //
-            // Move the calendar forward to the next working day
+            // Move the calendar back to the previous working day
             //
             DayOfWeek day;
             int nonWorkingDayCount = 0;
             do
             {
                cal = cal.minusDays(1);
+
+
                day = cal.getDayOfWeek();
                ++nonWorkingDayCount;
                if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
                {
                   cal = startDate;
-                  cal = cal.plusDays(1);
+                  cal = cal.minusDays(1);
                   remainingMilliseconds = 0;
                   break;
                }
@@ -817,7 +829,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             //
             // Retrieve the finish time for this day
             //
-            cal = LocalTimeHelper.setTime(cal, getFinishTime(LocalDateHelper.getLocalDate(cal)));
+            cal = LocalTimeHelper.setEndTime(cal, getFinishTime(LocalDateHelper.getLocalDate(cal)));
          }
          else
          {
@@ -825,6 +837,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             {
                remainingMilliseconds = 0;
                cal = LocalTimeHelper.setTime(cal, getStartTime(cal.toLocalDate()));
+               if (startDate.toLocalTime() == LocalTime.MIDNIGHT)
+               {
+                  cal = cal.minusDays(1);
+               }
             }
             else
             {
@@ -856,7 +872,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                      continue;
                   }
 
-                  if (currentDateEndTime.isBefore(rangeStart))
+                  if (currentDateEndTime != LocalTime.MIDNIGHT && currentDateEndTime.isBefore(rangeStart))
                   {
                      continue;
                   }
@@ -865,7 +881,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   // Move the end of the range if our current end is
                   // before the range end
                   //
-                  if (lastRange && rangeEnd.isAfter(currentDateEndTime))
+                  if (lastRange && (rangeEnd == LocalTime.MIDNIGHT || rangeEnd.isAfter(currentDateEndTime)))
                   {
                      rangeEnd = currentDateEndTime;
                   }
@@ -892,6 +908,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                }
 
                cal = LocalTimeHelper.setEndTime(cal, startTime);
+               if (currentDateEndTime == LocalTime.MIDNIGHT || startDate.toLocalTime() == LocalTime.MIDNIGHT)
+               {
+                  cal = cal.minusDays(1);
+               }
             }
          }
       }
