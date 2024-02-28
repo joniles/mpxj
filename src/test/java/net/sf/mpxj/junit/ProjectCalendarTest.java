@@ -863,7 +863,6 @@ public class ProjectCalendarTest
       // 2 full working days
       result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-40, TimeUnit.HOURS));
       assertEquals(LocalDateTime.of(2024, 2, 27, 0, 0), result);
-
    }
 
 
