@@ -762,158 +762,135 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       return cal;
    }
 
-   private LocalDateTime getDateFromNegativeDuration(LocalDateTime startDate, Duration duration)
+   private LocalDateTime getDateFromNegativeDuration(LocalDateTime endDate, Duration duration)
    {
       ProjectProperties properties = getParentFile().getProjectProperties();
       long remainingMilliseconds = -Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
 
-      LocalDateTime cal = startDate;
+      // Set the initial day start and end dates
+      LocalDateTime currentDayStart;
+      LocalDateTime currentDayEnd = endDate;
+
+      if (currentDayEnd.toLocalTime() == LocalTime.MIDNIGHT)
+      {
+         currentDayStart = LocalDateTimeHelper.getDayStartDate(currentDayEnd.minusDays(1));
+      }
+      else
+      {
+         currentDayStart = LocalDateTimeHelper.getDayStartDate(currentDayEnd);
+      }
 
       while (remainingMilliseconds > 0)
       {
-         //
-         // Get the current date and time and determine how many
-         // working hours remain
-         //
-         LocalDateTime currentDate = cal;
-         LocalDateTime currentDateStart;
+         long currentDayWorkingMilliseconds = Math.round(getWork(currentDayStart, currentDayEnd, TimeUnit.MINUTES).getDuration() * 60000.0);
 
-         if (currentDate.toLocalTime() == LocalTime.MIDNIGHT)
+         //
+         // We have exactly the time we need
+         //
+         if (remainingMilliseconds == currentDayWorkingMilliseconds)
          {
-            currentDateStart = LocalDateTimeHelper.getDayStartDate(currentDate.minusDays(1));
-         }
-         else
-         {
-            currentDateStart = LocalDateTimeHelper.getDayStartDate(currentDate);
+            currentDayStart = getNextWorkStart(currentDayStart);
+            break;
          }
 
-         long currentDateWorkingMilliseconds = Math.round(getWork(currentDateStart, currentDate, TimeUnit.MINUTES).getDuration() * 60000.0);
-
-         //
-         // We have more than enough hours left
-         //
-         if (remainingMilliseconds > currentDateWorkingMilliseconds)
+         if (remainingMilliseconds > currentDayWorkingMilliseconds)
          {
             //
             // Deduct this day's hours from our total
             //
-            remainingMilliseconds -= currentDateWorkingMilliseconds;
+            remainingMilliseconds -= currentDayWorkingMilliseconds;
 
             //
             // Move the calendar back to the previous working day
             //
             int nonWorkingDayCount = 0;
+            LocalDateTime currentDay = currentDayStart;
             do
             {
-               cal = cal.minusDays(1);
+               currentDay = currentDay.minusDays(1);
                ++nonWorkingDayCount;
                if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
                {
-                  cal = startDate;
-                  cal = cal.minusDays(1);
+                  currentDay = currentDayStart.minusDays(1);
                   remainingMilliseconds = 0;
                   break;
                }
             }
-            while (!isWorkingDate(LocalDateHelper.getLocalDate(cal)));
+            while (!isWorkingDate(LocalDateHelper.getLocalDate(currentDay)));
 
-            //
-            // Retrieve the finish time for this day
-            //
-            cal = LocalTimeHelper.setEndTime(cal, getFinishTime(LocalDateHelper.getLocalDate(cal)));
+            currentDayStart = currentDay;
+            currentDayEnd = LocalTimeHelper.setEndTime(currentDayStart, getFinishTime(LocalDateHelper.getLocalDate(currentDayStart)));
          }
          else
          {
-            if (remainingMilliseconds == currentDateWorkingMilliseconds)
+            //
+            // We have fewer hours to allocate than there are working hours
+            // in this day. We need to calculate the time of day at which
+            // our work starts.
+            //
+            List<LocalTimeRange> ranges = new ArrayList<>(getRanges(LocalDateHelper.getLocalDate(currentDayStart)));
+            Collections.reverse(ranges);
+
+            //
+            // Now we have the range of working hours for this day,
+            // step through it to work out the end point
+            //
+            LocalTime currentDayEndTime = LocalTimeHelper.getLocalTime(currentDayEnd);
+            boolean lastRange = true;
+            for (LocalTimeRange range : ranges)
             {
-               remainingMilliseconds = 0;
-               cal = LocalTimeHelper.setTime(cal, getStartTime(cal.toLocalDate()));
-               if (startDate.toLocalTime() == LocalTime.MIDNIGHT)
+               //
+               // Skip this range if our end time is before the range start
+               //
+               LocalTime rangeStart = range.getStart();
+               LocalTime rangeEnd = range.getEnd();
+
+               if (rangeStart == null || rangeEnd == null)
                {
-                  cal = cal.minusDays(1);
-               }
-            }
-            else
-            {
-               //
-               // We have fewer hours to allocate than there are working hours
-               // in this day. We need to calculate the time of day at which
-               // our work starts.
-               //
-               List<LocalTimeRange> ranges = new ArrayList<>(getRanges(LocalDateHelper.getLocalDate(cal)));
-               Collections.reverse(ranges);
-
-               //
-               // Now we have the range of working hours for this day,
-               // step through it to work out the end point
-               //
-               LocalTime startTime = null;
-               LocalTime currentDateEndTime = LocalTimeHelper.getLocalTime(currentDate);
-               boolean lastRange = true;
-               for (LocalTimeRange range : ranges)
-               {
-                  //
-                  // Skip this range if our end time is before the range start
-                  //
-                  LocalTime rangeStart = range.getStart();
-                  LocalTime rangeEnd = range.getEnd();
-
-                  if (rangeStart == null || rangeEnd == null)
-                  {
-                     continue;
-                  }
-
-                  if (currentDateEndTime != LocalTime.MIDNIGHT && currentDateEndTime.isBefore(rangeStart))
-                  {
-                     continue;
-                  }
-
-                  //
-                  // Move the end of the range if our current end is
-                  // before the range end
-                  //
-                  if (lastRange && (rangeEnd == LocalTime.MIDNIGHT || rangeEnd.isAfter(currentDateEndTime)))
-                  {
-                     rangeEnd = currentDateEndTime;
-                  }
-                  lastRange = false;
-
-                  long rangeMilliseconds = LocalTimeHelper.getMillisecondsInRange(rangeStart, rangeEnd);
-                  if (remainingMilliseconds > rangeMilliseconds)
-                  {
-                     remainingMilliseconds -= rangeMilliseconds;
-                  }
-                  else
-                  {
-                     if (remainingMilliseconds == rangeMilliseconds)
-                     {
-                        startTime = rangeStart;
-                     }
-                     else
-                     {
-                        startTime = rangeEnd.minus(remainingMilliseconds, ChronoUnit.MILLIS);
-                     }
-                     remainingMilliseconds = 0;
-                     break;
-                  }
+                  continue;
                }
 
-               cal = LocalTimeHelper.setEndTime(cal, startTime);
-               if (currentDateEndTime == LocalTime.MIDNIGHT || startDate.toLocalTime() == LocalTime.MIDNIGHT)
+               if (currentDayEndTime != LocalTime.MIDNIGHT && currentDayEndTime.isBefore(rangeStart))
                {
-                  cal = cal.minusDays(1);
+                  continue;
+               }
+
+               //
+               // Move the end of the range if our current end is
+               // before the range end
+               //
+               if (lastRange && (rangeEnd == LocalTime.MIDNIGHT || rangeEnd.isAfter(currentDayEndTime)))
+               {
+                  rangeEnd = currentDayEndTime;
+               }
+               lastRange = false;
+
+               long rangeMilliseconds = LocalTimeHelper.getMillisecondsInRange(rangeStart, rangeEnd);
+               if (remainingMilliseconds > rangeMilliseconds)
+               {
+                  remainingMilliseconds -= rangeMilliseconds;
+               }
+               else
+               {
+                  if (remainingMilliseconds != rangeMilliseconds)
+                  {
+                     rangeStart = rangeEnd.minus(remainingMilliseconds, ChronoUnit.MILLIS);
+                  }
+                  currentDayStart = LocalTimeHelper.setTime(currentDayStart, rangeStart);
+                  remainingMilliseconds = 0;
+                  break;
                }
             }
          }
       }
 
       // Truncate to remove milliseconds
-      if (cal.getNano() != 0)
+      if (currentDayStart.getNano() != 0)
       {
-         cal = LocalDateTime.of(cal.toLocalDate(), LocalTime.of(cal.getHour(), cal.getMinute(), cal.getSecond()));
+         currentDayStart = LocalDateTime.of(currentDayStart.toLocalDate(), LocalTime.of(currentDayStart.getHour(), currentDayStart.getMinute(), currentDayStart.getSecond()));
       }
 
-      return cal;
+      return currentDayStart;
    }
 
    /**
