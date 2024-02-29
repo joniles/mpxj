@@ -30,6 +30,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import net.sf.mpxj.DayType;
@@ -863,6 +864,44 @@ public class ProjectCalendarTest
       // 2 full working days
       result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-40, TimeUnit.HOURS));
       assertEquals(LocalDateTime.of(2024, 2, 27, 0, 0), result);
+   }
+
+   @Test public void test247()
+   {
+      ProjectFile file = new ProjectFile();
+      ProjectCalendar calendar = new ProjectCalendar(file);
+
+      List<LocalTimeRange> ranges = Collections.singletonList(new LocalTimeRange(LocalTime.of(0, 0), LocalTime.of(0, 0)));
+
+      Arrays.stream(DayOfWeek.values()).forEach(d -> calendar.setCalendarDayType(d, DayType.WORKING));
+
+      calendar.addCalendarHours(DayOfWeek.MONDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.TUESDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.WEDNESDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.THURSDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.FRIDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.SATURDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.SUNDAY).addAll(ranges);
+
+      // Within range
+      LocalDateTime result = calendar.getDate(LocalDateTime.of(2024, 2, 28, 4, 0), Duration.getInstance(-2, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 2, 0), result);
+
+      // From end of range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-2, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 22, 0), result);
+
+      // All range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-24, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 0, 0), result);
+
+      // Across days
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 8, 0), Duration.getInstance(-24, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 8, 0), result);
+
+      // Across days
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 4, 0), Duration.getInstance(-8, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 20, 0), result);
    }
 
 
