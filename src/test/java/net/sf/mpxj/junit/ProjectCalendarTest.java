@@ -25,10 +25,15 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
@@ -791,6 +796,114 @@ public class ProjectCalendarTest
       startDate = cal.getDate(endDate, duration);
       assertEquals(LocalDateTime.of(2003, 10, 10, 8, 0), startDate);
    }
+
+   @Test public void testMidnightNegativeDuration()
+   {
+      ProjectFile file = new ProjectFile();
+      ProjectCalendar calendar = new ProjectCalendar(file);
+
+      List<LocalTimeRange> ranges = Arrays.asList(
+         new LocalTimeRange(LocalTime.of(0, 0), LocalTime.of(4, 30)),
+         new LocalTimeRange(LocalTime.of(8, 30), LocalTime.of(0, 0))
+      );
+
+      Arrays.stream(DayOfWeek.values()).forEach(d -> calendar.setCalendarDayType(d, DayType.WORKING));
+
+      calendar.addCalendarHours(DayOfWeek.MONDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.TUESDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.WEDNESDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.THURSDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.FRIDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.SATURDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.SUNDAY).addAll(ranges);
+
+      // Within first range
+      LocalDateTime result = calendar.getDate(LocalDateTime.of(2024, 2, 28, 4, 0), Duration.getInstance(-2, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 2, 0), result);
+
+      // From end of first range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 28, 4, 30), Duration.getInstance(-2, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 2, 30), result);
+
+      // All of second range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 28, 4, 30), Duration.getInstance(-4.5, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 0, 0), result);
+
+      // From end of second range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-1, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 23, 0), result);
+
+      // All of the second range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-15.5, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 8, 30), result);
+
+      // Overlap both ranges
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 28, 23, 0), Duration.getInstance(-15, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 4, 0), result);
+
+      // All of both ranges
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-20, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 0, 0), result);
+
+      // Overlap across midnight
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 4, 0), Duration.getInstance(-6, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 22, 0), result);
+
+      // Overlap across midnight from non-working time
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 5, 0), Duration.getInstance(-6, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 22, 30), result);
+
+      // 1 full working day, from end of day
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-20, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 0, 0), result);
+
+      // 1 full working day with offset
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 1, 0), Duration.getInstance(-20, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 1, 0), result);
+
+      // 2 full working days
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-40, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 27, 0, 0), result);
+   }
+
+   @Test public void test247()
+   {
+      ProjectFile file = new ProjectFile();
+      ProjectCalendar calendar = new ProjectCalendar(file);
+
+      List<LocalTimeRange> ranges = Collections.singletonList(new LocalTimeRange(LocalTime.of(0, 0), LocalTime.of(0, 0)));
+
+      Arrays.stream(DayOfWeek.values()).forEach(d -> calendar.setCalendarDayType(d, DayType.WORKING));
+
+      calendar.addCalendarHours(DayOfWeek.MONDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.TUESDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.WEDNESDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.THURSDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.FRIDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.SATURDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.SUNDAY).addAll(ranges);
+
+      // Within range
+      LocalDateTime result = calendar.getDate(LocalDateTime.of(2024, 2, 28, 4, 0), Duration.getInstance(-2, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 2, 0), result);
+
+      // From end of range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-2, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 22, 0), result);
+
+      // All range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-24, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 0, 0), result);
+
+      // Across days
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 8, 0), Duration.getInstance(-24, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 8, 0), result);
+
+      // Across days
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 4, 0), Duration.getInstance(-8, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 20, 0), result);
+   }
+
 
    /**
     * Simple tests to exercise the ProjectCalendar.getStartTime method.
