@@ -1501,7 +1501,10 @@ public final class DatatypeConverter
       BigDecimal result = null;
       if (duration != null && duration.getDuration() != 0)
       {
-         result = BigDecimal.valueOf(printDurationFractionsOfMinutes(duration, 1000));
+         // Although these values are represented as 1000th of a minute,
+         // MS Project writes the values rounded to the nearest minute.
+         // We replicate that behaviour here.
+         result = BigDecimal.valueOf(Math.round(printDurationFractionsOfMinutes(duration, 1000) / 1000.0) * 1000.0);
       }
       return result;
    }
