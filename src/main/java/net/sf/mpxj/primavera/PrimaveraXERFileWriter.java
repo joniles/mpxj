@@ -1245,10 +1245,11 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("total_float_hr_cnt", t -> t.getActivityStatus() == ActivityStatus.COMPLETED ? null : t.getTotalSlack());
       ACTIVITY_COLUMNS.put("free_float_hr_cnt", t -> t.getActivityStatus() == ActivityStatus.COMPLETED ? null : t.getFreeSlack());
       ACTIVITY_COLUMNS.put("remain_drtn_hr_cnt", t -> t.getRemainingDuration());
-      ACTIVITY_COLUMNS.put("act_work_qty", t -> t.getActualWork());
-      ACTIVITY_COLUMNS.put("remain_work_qty", t -> t.getRemainingWork());
-      ACTIVITY_COLUMNS.put("target_work_qty", t -> t.getPlannedWork() == null ? Duration.getInstance(0, TimeUnit.HOURS) : t.getPlannedWork());
+      ACTIVITY_COLUMNS.put("act_work_qty", t -> WorkHelper.getActualWorkLabor(t));
+      ACTIVITY_COLUMNS.put("remain_work_qty", t -> WorkHelper.getRemainingWorkLabor(t));
+      ACTIVITY_COLUMNS.put("target_work_qty", t -> WorkHelper.getPlannedWorkLabor(t));
       ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", t -> t.getPlannedDuration() == null ? Duration.getInstance(0, TimeUnit.HOURS) : t.getPlannedDuration());
+      // TODO
       ACTIVITY_COLUMNS.put("target_equip_qty", t -> Integer.valueOf(0));
       ACTIVITY_COLUMNS.put("act_equip_qty", t -> Integer.valueOf(0));
       ACTIVITY_COLUMNS.put("remain_equip_qty", t -> Integer.valueOf(0));

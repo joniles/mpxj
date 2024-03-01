@@ -1141,7 +1141,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("acct_seq_num", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("act_cost", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("act_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("act_equip_qty", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("act_equip_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("act_ot_cost", XerFieldType.CURRENCY);
       FIELD_TYPE_MAP.put("act_ot_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("act_reg_cost", XerFieldType.CURRENCY);
@@ -1238,7 +1238,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("rem_late_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("remain_cost", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("remain_drtn_hr_cnt", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("remain_equip_qty", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("remain_equip_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("remain_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("remain_work_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("restart_date", XerFieldType.DATE);
@@ -1257,6 +1257,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("target_cost", XerFieldType.CURRENCY);
       FIELD_TYPE_MAP.put("target_drtn_hr_cnt", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_end_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("target_equip_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_lag_drtn_hr_cnt", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_qty_per_hr", XerFieldType.DOUBLE);
