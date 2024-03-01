@@ -5347,6 +5347,67 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       set(TaskField.EXPECTED_FINISH, value);
    }
 
+
+   public void setActualWorkLabor(Duration val)
+   {
+      set(TaskField.ACTUAL_WORK_LABOR, val);
+   }
+
+   public Duration getActualWorkLabor()
+   {
+      return (Duration)get(TaskField.ACTUAL_WORK_LABOR);
+   }
+
+   public void setActualWorkNonlabor(Duration val)
+   {
+      set(TaskField.ACTUAL_WORK_NONLABOR, val);
+   }
+
+   public Duration getActualWorkNonlabor()
+   {
+      return (Duration)get(TaskField.ACTUAL_WORK_NONLABOR);
+   }
+
+   public void setPlannedWorkLabor(Duration val)
+   {
+      set(TaskField.PLANNED_WORK_LABOR, val);
+   }
+
+   public Duration getPlannedWorkLabor()
+   {
+      return (Duration)get(TaskField.PLANNED_WORK_LABOR);
+   }
+
+   public void setPlannedWorkNonlabor(Duration val)
+   {
+      set(TaskField.PLANNED_WORK_NONLABOR, val);
+   }
+
+   public Duration getPlannedWorkNonlabor()
+   {
+      return (Duration)get(TaskField.PLANNED_WORK_NONLABOR);
+   }
+
+   public void setRemainingWorkLabor(Duration val)
+   {
+      set(TaskField.REMAINING_WORK_LABOR, val);
+   }
+
+   public Duration getRemainingWorkLabor()
+   {
+      return (Duration)get(TaskField.REMAINING_WORK_LABOR);
+   }
+
+   public void setRemainingWorkNonlabor(Duration val)
+   {
+      set(TaskField.REMAINING_WORK_NONLABOR, val);
+   }
+
+   public Duration getRemainingWorkNonlabor()
+   {
+      return (Duration)get(TaskField.REMAINING_WORK_NONLABOR);
+   }
+
    /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar

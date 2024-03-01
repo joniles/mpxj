@@ -2310,6 +2310,12 @@ final class PrimaveraReader
       map.put(TaskField.GUID, "guid");
       map.put(TaskField.NAME, "task_name");
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
+      map.put(TaskField.ACTUAL_WORK_LABOR, "act_work_qty");
+      map.put(TaskField.ACTUAL_WORK_NONLABOR, "act_equip_qty");
+      map.put(TaskField.REMAINING_WORK_LABOR, "remain_work_qty");
+      map.put(TaskField.REMAINING_WORK_NONLABOR, "remain_equip_qty");
+      map.put(TaskField.PLANNED_WORK_LABOR, "target_work_qty");
+      map.put(TaskField.PLANNED_WORK_NONLABOR, "target_equip_qty");
       map.put(TaskField.PLANNED_DURATION, "target_drtn_hr_cnt");
       map.put(TaskField.CONSTRAINT_DATE, "cstr_date");
       map.put(TaskField.ACTUAL_START, "act_start_date");

@@ -1049,6 +1049,12 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT_GUID.getValue()] = "Subproject GUID";
       TASK_COLUMNS_ARRAY[TaskField.BAR_NAME.getValue()] = "Bar Name";
       TASK_COLUMNS_ARRAY[TaskField.EXPECTED_FINISH.getValue()] = "Expected Finish";
+      TASK_COLUMNS_ARRAY[TaskField.ACTUAL_WORK_LABOR.getValue()] = "Actual Work (Labor)";
+      TASK_COLUMNS_ARRAY[TaskField.ACTUAL_WORK_NONLABOR.getValue()] = "Actual Work (Nonlabor)";
+      TASK_COLUMNS_ARRAY[TaskField.PLANNED_WORK_LABOR.getValue()] = "Planned Work (Labor)";
+      TASK_COLUMNS_ARRAY[TaskField.PLANNED_WORK_NONLABOR.getValue()] = "Planned Work (Nonlabor)";
+      TASK_COLUMNS_ARRAY[TaskField.REMAINING_WORK_LABOR.getValue()] = "Remaining Work (Labor)";
+      TASK_COLUMNS_ARRAY[TaskField.REMAINING_WORK_NONLABOR.getValue()] = "Remaining Work (Nonlabor)";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";

@@ -1284,6 +1284,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setPhysicalPercentComplete(reversePercentage(row.getPhysicalPercentComplete()));
          task.setPercentageWorkComplete(reversePercentage(row.getUnitsPercentComplete()));
 
+         task.setActualWorkLabor(getDuration(row.getActualLaborUnits()));
+         task.setActualWorkNonlabor(getDuration(row.getActualNonLaborUnits()));
+         task.setPlannedWorkLabor(getDuration(row.getPlannedLaborUnits()));
+         task.setPlannedWorkNonlabor(getDuration(row.getPlannedNonLaborUnits()));
+         task.setRemainingWorkLabor(getDuration(row.getRemainingLaborUnits()));
+         task.setRemainingWorkNonlabor(getDuration(row.getRemainingNonLaborUnits()));
+
          task.setActualWork(addDurations(row.getActualLaborUnits(), row.getActualNonLaborUnits()));
          task.setPlannedWork(addDurations(row.getPlannedLaborUnits(), row.getPlannedNonLaborUnits()));
          task.setRemainingWork(addDurations(row.getRemainingLaborUnits(), row.getRemainingNonLaborUnits()));
@@ -2219,14 +2226,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private Duration getDuration(Double duration)
    {
-      Duration result = null;
-
-      if (duration != null)
+      if (duration == null)
       {
-         result = Duration.getInstance(NumberHelper.getDouble(duration), TimeUnit.HOURS);
+         return null;
       }
 
-      return result;
+      return Duration.getInstance(NumberHelper.getDouble(duration), TimeUnit.HOURS);
    }
 
    /**
