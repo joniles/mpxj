@@ -30,6 +30,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
 import java.util.HashMap;
@@ -1044,6 +1045,11 @@ final class PrimaveraReader
 
          processFields(m_taskFields, row, task);
 
+         task.setActualWork(addDurations(row.getDuration("act_work_qty"), row.getDuration("act_equip_qty")));
+         task.setPlannedWork(addDurations(row.getDuration("target_work_qty"), row.getDuration("target_equip_qty")));
+         task.setRemainingWork(addDurations(row.getDuration("remain_work_qty"), row.getDuration("remain_equip_qty")));
+         task.setWork(addDurations(task.getActualWork(), task.getRemainingWork()));
+
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
          task.setActivityStatus(ActivityStatusHelper.getInstanceFromXer(row.getString("status_code")));
          task.setActivityType(ActivityTypeHelper.getInstanceFromXer(row.getString("task_type")));
@@ -1078,8 +1084,6 @@ final class PrimaveraReader
 
          populateField(task, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START);
          populateField(task, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH, TaskField.PLANNED_FINISH);
-         Duration work = Duration.add(task.getActualWork(), task.getRemainingWork(), task.getEffectiveCalendar());
-         task.setWork(work);
 
          // Calculate actual duration
          LocalDateTime actualStart = task.getActualStart();
@@ -2220,6 +2224,11 @@ final class PrimaveraReader
       return NumberHelper.getDouble(result);
    }
 
+   private Duration addDurations(Duration... values)
+   {
+      return Duration.getInstance(Arrays.stream(values).filter(d -> d != null).mapToDouble(d -> d.getDuration()).sum(), TimeUnit.HOURS);
+   }
+
    /**
     * Retrieve the default mapping between MPXJ resource fields and Primavera resource field names.
     *
@@ -2301,9 +2310,6 @@ final class PrimaveraReader
       map.put(TaskField.GUID, "guid");
       map.put(TaskField.NAME, "task_name");
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
-      map.put(TaskField.ACTUAL_WORK, "act_work_qty");
-      map.put(TaskField.REMAINING_WORK, "remain_work_qty");
-      map.put(TaskField.PLANNED_WORK, "target_work_qty");
       map.put(TaskField.PLANNED_DURATION, "target_drtn_hr_cnt");
       map.put(TaskField.CONSTRAINT_DATE, "cstr_date");
       map.put(TaskField.ACTUAL_START, "act_start_date");
