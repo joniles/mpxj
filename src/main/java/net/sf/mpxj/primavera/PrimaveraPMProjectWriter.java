@@ -1030,6 +1030,8 @@ final class PrimaveraPMProjectWriter
       xml.setActualStartDate(mpxj.getActualStart());
       xml.setActualDuration(getDurationInHours(mpxj.getActualDuration()));
       xml.setActualFinishDate(mpxj.getActualFinish());
+      xml.setActualLaborUnits(getDurationInHours(WorkHelper.getActualWorkLabor(mpxj)));
+      xml.setActualNonLaborUnits(getDurationInHours(WorkHelper.zeroIfNull(mpxj.getActualWorkNonlabor())));
       xml.setAtCompletionDuration(getDurationInHours(mpxj.getDuration()));
       xml.setCalendarObjectId(effectiveCalendar == null ? null : effectiveCalendar.getUniqueID());
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
@@ -1049,6 +1051,8 @@ final class PrimaveraPMProjectWriter
       xml.setPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(mpxj.getPercentCompleteType()));
       xml.setPercentComplete(getPercentComplete(mpxj));
       xml.setPhysicalPercentComplete(getPercentage(mpxj.getPhysicalPercentComplete()));
+      xml.setPlannedLaborUnits(getDurationInHours(WorkHelper.getPlannedWorkLabor(mpxj)));
+      xml.setPlannedNonLaborUnits(getDurationInHours(WorkHelper.zeroIfNull(mpxj.getPlannedWorkNonlabor())));
       xml.setPrimaryConstraintType(ConstraintTypeHelper.getXmlFromInstance(mpxj.getConstraintType()));
       xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
       xml.setPrimaryResourceObjectId(mpxj.getPrimaryResourceID());
@@ -1062,9 +1066,9 @@ final class PrimaveraPMProjectWriter
       xml.setRemainingLateFinishDate(mpxj.getRemainingLateFinish());
       xml.setRemainingLateStartDate(mpxj.getRemainingLateStart());
       xml.setRemainingLaborCost(NumberHelper.DOUBLE_ZERO);
-      xml.setRemainingLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborCost(NumberHelper.DOUBLE_ZERO);
-      xml.setRemainingNonLaborUnits(NumberHelper.DOUBLE_ZERO);
+      xml.setRemainingLaborUnits(getDurationInHours(WorkHelper.getRemainingWorkLabor(mpxj)));
+      xml.setRemainingNonLaborUnits(getDurationInHours(WorkHelper.zeroIfNull(mpxj.getRemainingWorkNonlabor())));
 
       // Trying to ensure data from other scheduling applications makes sense in P6.
       // We won't populate the resume date unless we have a suspend date,
