@@ -30,7 +30,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 
 import java.util.HashMap;
@@ -1292,10 +1291,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setRemainingWorkLabor(getDuration(row.getRemainingLaborUnits()));
          task.setRemainingWorkNonlabor(getDuration(row.getRemainingNonLaborUnits()));
 
-         task.setActualWork(addDurations(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
-         task.setPlannedWork(addDurations(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
-         task.setRemainingWork(addDurations(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
-         task.setWork(addDurations(task.getActualWork(), task.getRemainingWork()));
+         task.setActualWork(addDurations(row.getActualLaborUnits(), row.getActualNonLaborUnits()));
+         task.setPlannedWork(addDurations(row.getPlannedLaborUnits(), row.getPlannedNonLaborUnits()));
+         task.setRemainingWork(addDurations(row.getRemainingLaborUnits(), row.getRemainingNonLaborUnits()));
+         task.setWork(addDurations(row.getAtCompletionLaborUnits(), row.getAtCompletionNonLaborUnits()));
 
          task.setPlannedDuration(getDuration(row.getPlannedDuration()));
          task.setActualDuration(getDuration(row.getActualDuration()));
@@ -1459,9 +1458,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-   private Duration addDurations(Duration... values)
+   private Duration addDurations(Number... values)
    {
-      return Duration.getInstance(Arrays.stream(values).filter(d -> d != null).mapToDouble(d -> d.getDuration()).sum(), TimeUnit.HOURS);
+      return getDuration(NumberHelper.sumAsDouble(values));
    }
 
    /**

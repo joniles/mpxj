@@ -1045,9 +1045,9 @@ final class PrimaveraReader
 
          processFields(m_taskFields, row, task);
 
-         task.setActualWork(addDurations(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
-         task.setPlannedWork(addDurations(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
-         task.setRemainingWork(addDurations(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
+         task.setActualWork(addDurations(row.getDuration("act_work_qty"), row.getDuration("act_equip_qty")));
+         task.setPlannedWork(addDurations(row.getDuration("target_work_qty"), row.getDuration("target_equip_qty")));
+         task.setRemainingWork(addDurations(row.getDuration("remain_work_qty"), row.getDuration("remain_equip_qty")));
          task.setWork(addDurations(task.getActualWork(), task.getRemainingWork()));
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
