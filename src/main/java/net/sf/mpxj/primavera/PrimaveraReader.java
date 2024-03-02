@@ -1045,10 +1045,10 @@ final class PrimaveraReader
 
          processFields(m_taskFields, row, task);
 
-         task.setActualWork(addDurations(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
-         task.setPlannedWork(addDurations(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
-         task.setRemainingWork(addDurations(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
-         task.setWork(addDurations(task.getActualWork(), task.getRemainingWork()));
+         task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
+         task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
+         task.setRemainingWork(WorkHelper.addWork(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
+         task.setWork(WorkHelper.addWork(task.getActualWork(), task.getRemainingWork()));
 
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
          task.setActivityStatus(ActivityStatusHelper.getInstanceFromXer(row.getString("status_code")));
@@ -2222,11 +2222,6 @@ final class PrimaveraReader
       }
 
       return NumberHelper.getDouble(result);
-   }
-
-   private Duration addDurations(Duration... values)
-   {
-      return Duration.getInstance(Arrays.stream(values).filter(d -> d != null).mapToDouble(d -> d.getDuration()).sum(), TimeUnit.HOURS);
    }
 
    /**

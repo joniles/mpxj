@@ -1292,10 +1292,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setRemainingWorkLabor(getDuration(row.getRemainingLaborUnits()));
          task.setRemainingWorkNonlabor(getDuration(row.getRemainingNonLaborUnits()));
 
-         task.setActualWork(addDurations(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
-         task.setPlannedWork(addDurations(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
-         task.setRemainingWork(addDurations(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
-         task.setWork(addDurations(task.getActualWork(), task.getRemainingWork()));
+         task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
+         task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
+         task.setRemainingWork(WorkHelper.addWork(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
+         task.setWork(WorkHelper.addWork(task.getActualWork(), task.getRemainingWork()));
 
          task.setPlannedDuration(getDuration(row.getPlannedDuration()));
          task.setActualDuration(getDuration(row.getActualDuration()));
@@ -1457,11 +1457,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setActivityID(wbs);
          populateWBS(wbs, task);
       }
-   }
-
-   private Duration addDurations(Duration... values)
-   {
-      return Duration.getInstance(Arrays.stream(values).filter(d -> d != null).mapToDouble(d -> d.getDuration()).sum(), TimeUnit.HOURS);
    }
 
    /**
