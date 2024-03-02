@@ -30,6 +30,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
 import java.util.HashMap;
@@ -1044,6 +1045,11 @@ final class PrimaveraReader
 
          processFields(m_taskFields, row, task);
 
+         task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
+         task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
+         task.setRemainingWork(WorkHelper.addWork(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
+         task.setWork(WorkHelper.addWork(task.getActualWork(), task.getRemainingWork()));
+
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
          task.setActivityStatus(ActivityStatusHelper.getInstanceFromXer(row.getString("status_code")));
          task.setActivityType(ActivityTypeHelper.getInstanceFromXer(row.getString("task_type")));
@@ -1078,8 +1084,6 @@ final class PrimaveraReader
 
          populateField(task, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START);
          populateField(task, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH, TaskField.PLANNED_FINISH);
-         Duration work = Duration.add(task.getActualWork(), task.getRemainingWork(), task.getEffectiveCalendar());
-         task.setWork(work);
 
          // Calculate actual duration
          LocalDateTime actualStart = task.getActualStart();
@@ -2301,9 +2305,12 @@ final class PrimaveraReader
       map.put(TaskField.GUID, "guid");
       map.put(TaskField.NAME, "task_name");
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
-      map.put(TaskField.ACTUAL_WORK, "act_work_qty");
-      map.put(TaskField.REMAINING_WORK, "remain_work_qty");
-      map.put(TaskField.PLANNED_WORK, "target_work_qty");
+      map.put(TaskField.ACTUAL_WORK_LABOR, "act_work_qty");
+      map.put(TaskField.ACTUAL_WORK_NONLABOR, "act_equip_qty");
+      map.put(TaskField.REMAINING_WORK_LABOR, "remain_work_qty");
+      map.put(TaskField.REMAINING_WORK_NONLABOR, "remain_equip_qty");
+      map.put(TaskField.PLANNED_WORK_LABOR, "target_work_qty");
+      map.put(TaskField.PLANNED_WORK_NONLABOR, "target_equip_qty");
       map.put(TaskField.PLANNED_DURATION, "target_drtn_hr_cnt");
       map.put(TaskField.CONSTRAINT_DATE, "cstr_date");
       map.put(TaskField.ACTUAL_START, "act_start_date");

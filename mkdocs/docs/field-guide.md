@@ -196,6 +196,8 @@ Actual Overtime Cost| | | | | | | |✓|✓| |✓| | | | | | | | 
 Actual Overtime Work| | | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Actual Start|✓| | |✓| | | |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| | |✓| |✓|✓| 
 Actual Work| | | | | | | |✓|✓|✓|✓| | |✓|✓|✓|✓| | | | | | | 
+Actual Work (Labor)| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
+Actual Work (Nonlabor)| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Actual Work Protected| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Bar Name|✓| | | | | | | | | | | | | | | | | | | | | | | 
 Bid Item| | | | | | | | | | | | | | | | | | | |✓| | | | 
@@ -277,6 +279,8 @@ Planned Duration| | |✓| | | | | | | | | | | |✓|✓|✓| | | 
 Planned Finish| | |✓| | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Planned Start| | |✓| | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Planned Work| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
+Planned Work (Labor)| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
+Planned Work (Nonlabor)| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Preleveled Finish| | | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Preleveled Start| | | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Primary Resource Unique ID| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
@@ -295,6 +299,8 @@ Remaining Late Start| | | | | | | | | | | | | | |✓|✓|✓| | 
 Remaining Overtime Cost| | | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Remaining Overtime Work| | | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Remaining Work| | |✓| | | | |✓|✓|✓|✓| | |✓|✓|✓|✓| | | | | | | 
+Remaining Work (Labor)| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
+Remaining Work (Nonlabor)| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Resource Names| | | |✓| | | | | |✓| | | | | | | | | | | | | | 
 Responsibility Code| | | | | | | | | | | | | | | | | | | |✓| | | | 
 Resume|✓| | | | | | |✓|✓|✓|✓| | | |✓| |✓| | | | | | | 

@@ -1284,10 +1284,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setPhysicalPercentComplete(reversePercentage(row.getPhysicalPercentComplete()));
          task.setPercentageWorkComplete(reversePercentage(row.getUnitsPercentComplete()));
 
-         task.setActualWork(addDurations(row.getActualLaborUnits(), row.getActualNonLaborUnits()));
-         task.setPlannedWork(addDurations(row.getPlannedLaborUnits(), row.getPlannedNonLaborUnits()));
-         task.setRemainingWork(addDurations(row.getRemainingLaborUnits(), row.getRemainingNonLaborUnits()));
-         task.setWork(addDurations(row.getAtCompletionLaborUnits(), row.getAtCompletionNonLaborUnits()));
+         task.setActualWorkLabor(getDuration(row.getActualLaborUnits()));
+         task.setActualWorkNonlabor(getDuration(row.getActualNonLaborUnits()));
+         task.setPlannedWorkLabor(getDuration(row.getPlannedLaborUnits()));
+         task.setPlannedWorkNonlabor(getDuration(row.getPlannedNonLaborUnits()));
+         task.setRemainingWorkLabor(getDuration(row.getRemainingLaborUnits()));
+         task.setRemainingWorkNonlabor(getDuration(row.getRemainingNonLaborUnits()));
+
+         task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
+         task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
+         task.setRemainingWork(WorkHelper.addWork(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
+         task.setWork(WorkHelper.addWork(task.getActualWork(), task.getRemainingWork()));
 
          task.setPlannedDuration(getDuration(row.getPlannedDuration()));
          task.setActualDuration(getDuration(row.getActualDuration()));
@@ -1449,11 +1456,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setActivityID(wbs);
          populateWBS(wbs, task);
       }
-   }
-
-   private Duration addDurations(Number... values)
-   {
-      return getDuration(NumberHelper.sumAsDouble(values));
    }
 
    /**
@@ -2219,14 +2221,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private Duration getDuration(Double duration)
    {
-      Duration result = null;
-
-      if (duration != null)
+      if (duration == null)
       {
-         result = Duration.getInstance(NumberHelper.getDouble(duration), TimeUnit.HOURS);
+         return null;
       }
 
-      return result;
+      return Duration.getInstance(NumberHelper.getDouble(duration), TimeUnit.HOURS);
    }
 
    /**

@@ -5348,6 +5348,126 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Set the labor component of the task's Actual Work.
+    *
+    * @param value work value
+    */
+   public void setActualWorkLabor(Duration value)
+   {
+      set(TaskField.ACTUAL_WORK_LABOR, value);
+   }
+
+   /**
+    * Retrieve the labor component of the task's Actual Work.
+    *
+    * @return work value
+    */
+   public Duration getActualWorkLabor()
+   {
+      return (Duration)get(TaskField.ACTUAL_WORK_LABOR);
+   }
+
+   /**
+    * Set the nonlabor component of the task's Actual Work.
+    *
+    * @param value work value
+    */
+   public void setActualWorkNonlabor(Duration value)
+   {
+      set(TaskField.ACTUAL_WORK_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the nonlabor component of the task's Actual Work.
+    *
+    * @return work value
+    */
+   public Duration getActualWorkNonlabor()
+   {
+      return (Duration)get(TaskField.ACTUAL_WORK_NONLABOR);
+   }
+
+   /**
+    * Set the labor component of the task's Planned Work.
+    *
+    * @param value work value
+    */
+   public void setPlannedWorkLabor(Duration value)
+   {
+      set(TaskField.PLANNED_WORK_LABOR, value);
+   }
+
+   /**
+    * Retrieve the labor component of the task's Planned Work.
+    *
+    * @return work value
+    */
+   public Duration getPlannedWorkLabor()
+   {
+      return (Duration)get(TaskField.PLANNED_WORK_LABOR);
+   }
+
+   /**
+    * Set the nonlabor component of the task's Planned Work.
+    *
+    * @param value work value
+    */
+   public void setPlannedWorkNonlabor(Duration value)
+   {
+      set(TaskField.PLANNED_WORK_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the nonlabor component of the task's Planned Work.
+    *
+    * @return work value
+    */
+   public Duration getPlannedWorkNonlabor()
+   {
+      return (Duration)get(TaskField.PLANNED_WORK_NONLABOR);
+   }
+
+   /**
+    * Set the labor component of the task's Remaining Work.
+    *
+    * @param value work value
+    */
+   public void setRemainingWorkLabor(Duration value)
+   {
+      set(TaskField.REMAINING_WORK_LABOR, value);
+   }
+
+   /**
+    * Retrieve the labor component of the task's Remaining Work.
+    *
+    * @return work value
+    */
+   public Duration getRemainingWorkLabor()
+   {
+      return (Duration)get(TaskField.REMAINING_WORK_LABOR);
+   }
+
+   /**
+    * Set the nonlabor component of the task's Remaining Work.
+    *
+    * @param value work value
+    */
+   public void setRemainingWorkNonlabor(Duration value)
+   {
+      set(TaskField.REMAINING_WORK_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the nonlabor component of the task's Remaining Work.
+    *
+    * @return work value
+    */
+   public Duration getRemainingWorkNonlabor()
+   {
+      return (Duration)get(TaskField.REMAINING_WORK_NONLABOR);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.
