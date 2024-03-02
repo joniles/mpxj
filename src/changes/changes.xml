@@ -15,6 +15,8 @@
 			<action dev="joniles" type="update">Read the Relationship Lag Calendar setting from Phoenix 5 files. (Contributed by Rohit Sinha)</action>
 			<action dev="joniles" type="update">Don't write a material label to an MSPDI file for a resource which isn't a material.</action>
 			<action dev="joniles" type="update">Update representation of Work Variance when writing MSPDI files to more closely match output from Microsoft Project.</action>
+			<action dev="joniles" type="update">Updated to ensure that when schedules are read from XER files or P6 databases, labor and nonlabor work amounts are combined for the Actual, Remaining and Planned work attributes. This is now consistent with the existing behavior when reading PMXML files.</action>
+			<action dev="joniles" type="update">Added support for new Task attributes Actual Work Labor, Actual Work Nonlabor, Remaining Work Labor, Remaining Work Nonlabor, Planned Work Labor, Planned Work Nonlabor, when reading and writing P6 schedules.</action>
 		</release>
 		<release date="2024-02-07" version="12.7.0">
 			<action dev="joniles" type="update">Added support for reading and writing the project property Baseline Calendar Name to and from MPP and MSPDI files.</action>
