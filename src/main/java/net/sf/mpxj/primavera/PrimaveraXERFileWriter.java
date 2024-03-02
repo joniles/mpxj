@@ -1249,10 +1249,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("remain_work_qty", t -> WorkHelper.getRemainingWorkLabor(t));
       ACTIVITY_COLUMNS.put("target_work_qty", t -> WorkHelper.getPlannedWorkLabor(t));
       ACTIVITY_COLUMNS.put("target_drtn_hr_cnt", t -> t.getPlannedDuration() == null ? Duration.getInstance(0, TimeUnit.HOURS) : t.getPlannedDuration());
-      // TODO
-      ACTIVITY_COLUMNS.put("target_equip_qty", t -> Integer.valueOf(0));
-      ACTIVITY_COLUMNS.put("act_equip_qty", t -> Integer.valueOf(0));
-      ACTIVITY_COLUMNS.put("remain_equip_qty", t -> Integer.valueOf(0));
+      ACTIVITY_COLUMNS.put("target_equip_qty", t -> WorkHelper.zeroIfNull(t.getPlannedWorkNonlabor()));
+      ACTIVITY_COLUMNS.put("act_equip_qty", t -> WorkHelper.zeroIfNull(t.getActualWorkNonlabor()));
+      ACTIVITY_COLUMNS.put("remain_equip_qty", t -> WorkHelper.zeroIfNull(t.getRemainingWorkNonlabor()));
       ACTIVITY_COLUMNS.put("cstr_date", t -> t.getConstraintDate());
       ACTIVITY_COLUMNS.put("act_start_date", t -> t.getActualStart());
       ACTIVITY_COLUMNS.put("act_end_date", t -> t.getActualFinish());
