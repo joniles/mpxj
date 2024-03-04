@@ -419,7 +419,7 @@ public class CustomerDataTest
    }
 
    /**
-    * Validate that all of the files in the list can be read by MPXJ.
+    * Validate that all files in the list can be read by MPXJ.
     *
     * @param files file list
     */
@@ -451,6 +451,8 @@ public class CustomerDataTest
 
             for (ProjectFile project : projects)
             {
+               // Apply a suffix to the second and subsequent schedules form a file
+               // "ep" = embedded project, just added to the suffix to make it easier to pattern match
                String fullBaselineName = baselineIndex == 0 ? baselineName : baselineName + ".ep" + baselineIndex;
                if (!executeTests(name, fullBaselineName, project))
                {
@@ -478,6 +480,14 @@ public class CustomerDataTest
       assertEquals("Failed to read " + failures + " files", 0, failures);
    }
 
+   /**
+    * Execute tests for an schedule file.
+    *
+    * @param fileName parent filename
+    * @param baselineName baseline name
+    * @param projectFile project file
+    * @return true if successful
+    */
    private boolean executeTests(String fileName, String baselineName, ProjectFile projectFile) throws Exception
    {
       if (!testHierarchy(projectFile))
