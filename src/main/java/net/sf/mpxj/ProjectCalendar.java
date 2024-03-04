@@ -1852,7 +1852,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       return EMPTY_DATE_RANGES;
    }
 
-
    /**
     * Ensure exceptions are sorted.
     */

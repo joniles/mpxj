@@ -279,7 +279,7 @@ class ActivityReader
          case FINISH_NO_EARLIER_THAN:
          case MUST_FINISH_ON:
             return row.getDate("TFDATE");
-         
+
          default:
             return null;
       }

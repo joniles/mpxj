@@ -35,7 +35,6 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
-
 /**
  * Reads schedule data from a Deltek Open Plan BK3 file.
  */
