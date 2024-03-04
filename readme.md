@@ -38,7 +38,8 @@ if you'd like to see your name and logo here!
 MPXJ can read file formats including MPX, MPP, MSPDI, MPD, Planner, Primavera P6
 PMXML and XER, Primavera P3, SureTrak, Asta Powerproject, Asta Easyplan,
 Phoenix, Fasttrack, GanttProject, TurboProject, ConceptDraw PROJECT, Synchro,
-Gantt Designer, SDEF, Sage 100 Contractor Schedule Grid and Project Commander.
+Gantt Designer, SDEF, Sage 100 Contractor Schedule Grid, Project Commander and
+Deltek Open Plan BK3.
 
 MPXJ can also write schedule data as MPX, MSPDI, PMXML, XER, Planner and SDEF
 files.
