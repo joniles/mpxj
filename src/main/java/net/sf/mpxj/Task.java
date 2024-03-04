@@ -5364,7 +5364,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Duration getActualWorkLabor()
    {
-      return (Duration)get(TaskField.ACTUAL_WORK_LABOR);
+      return (Duration) get(TaskField.ACTUAL_WORK_LABOR);
    }
 
    /**
@@ -5384,7 +5384,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Duration getActualWorkNonlabor()
    {
-      return (Duration)get(TaskField.ACTUAL_WORK_NONLABOR);
+      return (Duration) get(TaskField.ACTUAL_WORK_NONLABOR);
    }
 
    /**
@@ -5404,7 +5404,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Duration getPlannedWorkLabor()
    {
-      return (Duration)get(TaskField.PLANNED_WORK_LABOR);
+      return (Duration) get(TaskField.PLANNED_WORK_LABOR);
    }
 
    /**
@@ -5424,7 +5424,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Duration getPlannedWorkNonlabor()
    {
-      return (Duration)get(TaskField.PLANNED_WORK_NONLABOR);
+      return (Duration) get(TaskField.PLANNED_WORK_NONLABOR);
    }
 
    /**
@@ -5444,7 +5444,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Duration getRemainingWorkLabor()
    {
-      return (Duration)get(TaskField.REMAINING_WORK_LABOR);
+      return (Duration) get(TaskField.REMAINING_WORK_LABOR);
    }
 
    /**
@@ -5464,7 +5464,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Duration getRemainingWorkNonlabor()
    {
-      return (Duration)get(TaskField.REMAINING_WORK_NONLABOR);
+      return (Duration) get(TaskField.REMAINING_WORK_NONLABOR);
    }
 
    /**

@@ -292,10 +292,10 @@ public final class Relation implements ProjectEntityWithUniqueID
       }
 
       Integer m_uniqueID;
-       Task m_sourceTask;
-       Task m_targetTask;
-       RelationType m_type  = RelationType.FINISH_START;
-       Duration m_lag = Duration.getInstance(0, TimeUnit.DAYS);
-       String m_notes;
+      Task m_sourceTask;
+      Task m_targetTask;
+      RelationType m_type = RelationType.FINISH_START;
+      Duration m_lag = Duration.getInstance(0, TimeUnit.DAYS);
+      String m_notes;
    }
 }

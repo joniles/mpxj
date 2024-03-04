@@ -910,7 +910,6 @@ public class ProjectCalendarTest
       assertEquals(LocalDateTime.of(2024, 2, 28, 20, 0), result);
    }
 
-
    /**
     * Simple tests to exercise the ProjectCalendar.getStartTime method.
     */

@@ -113,7 +113,7 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
     * @return new Relation instance
     * @deprecated use addPredecessor(Relation.Builder)
     */
-   @Deprecated  public Relation addPredecessor(Task sourceTask, Task targetTask, RelationType type, Duration lag)
+   @Deprecated public Relation addPredecessor(Task sourceTask, Task targetTask, RelationType type, Duration lag)
    {
       //
       // Ensure that we have a valid lag duration
