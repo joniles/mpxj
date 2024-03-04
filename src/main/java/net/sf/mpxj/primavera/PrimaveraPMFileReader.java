@@ -1420,6 +1420,18 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          populateUserDefinedFieldValues(task, row.getUDF());
          readActivityCodes(task, row.getCode());
 
+         if (task.getMilestone())
+         {
+            if ("Start Milestone".equals(row.getType()))
+            {
+               task.setFinish(task.getStart());
+            }
+            else
+            {
+               task.setStart(task.getFinish());
+            }
+         }
+
          if (forceCriticalToFalse)
          {
             task.setCritical(false);
