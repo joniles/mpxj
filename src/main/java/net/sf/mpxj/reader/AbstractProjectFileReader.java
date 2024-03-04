@@ -26,6 +26,7 @@ package net.sf.mpxj.reader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 
 import net.sf.mpxj.MPXJException;
@@ -97,5 +98,10 @@ public abstract class AbstractProjectFileReader extends AbstractProjectReader
       {
          FileHelper.deleteQuietly(tempFile);
       }
+   }
+
+   @Override public List<ProjectFile> readAll(File file) throws MPXJException
+   {
+      return Collections.singletonList(read(file));
    }
 }

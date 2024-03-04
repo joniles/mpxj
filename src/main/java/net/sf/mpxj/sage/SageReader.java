@@ -95,11 +95,6 @@ public final class SageReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * Set a flag to determine if datatype parse errors can be ignored.
     * Defaults to true.

@@ -106,11 +106,6 @@ public final class MerlinReader extends AbstractProjectFileReader
       return readFile(databaseFile);
    }
 
-   @Override public List<ProjectFile> readAll(File file) throws MPXJException
-   {
-      return Collections.singletonList(read(file));
-   }
-
    /**
     * By the time we reach this method, we should be looking at the SQLite
     * database file itself.

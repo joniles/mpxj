@@ -26,6 +26,8 @@ package net.sf.mpxj.reader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 
 import net.sf.mpxj.MPXJException;
@@ -100,5 +102,10 @@ public abstract class AbstractProjectStreamReader extends AbstractProjectReader
       {
          AutoCloseableHelper.closeQuietly(fis);
       }
+   }
+
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      return Collections.singletonList(read(inputStream));
    }
 }
