@@ -104,6 +104,14 @@ public abstract class AbstractProjectStreamReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Default implementation of readAll. Reads a single project,
+    * if successful, returns a list with a single entry. if unsuccessful,
+    * returns an empty list.
+    *
+    * @param inputStream InputStream instance
+    * @return list of projects
+    */
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       ProjectFile file = read(inputStream);
