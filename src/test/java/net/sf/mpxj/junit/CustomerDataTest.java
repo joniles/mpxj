@@ -451,7 +451,7 @@ public class CustomerDataTest
 
             for (ProjectFile project : projects)
             {
-               String fullBaselineName = baselineIndex == 0 ? baselineName + "." + baselineIndex : baselineName;
+               String fullBaselineName = baselineIndex == 0 ? baselineName : baselineName + ".ep" + baselineIndex;
                if (!executeTests(name, fullBaselineName, project))
                {
                   ++failures;

@@ -254,7 +254,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
          Set<Integer> ids = listProjects().keySet();
          for (Integer id : ids)
          {
-            m_projectID = id;
+            setProjectID(id);
             result.add(read());
          }
          return result;
