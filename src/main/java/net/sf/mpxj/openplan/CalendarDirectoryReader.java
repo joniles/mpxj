@@ -61,7 +61,7 @@ class CalendarDirectoryReader extends DirectoryReader
    }
 
    /**
-    * REad the calandrs from the named directory and populate the
+    * Read the calendars from the named directory and populate the
     * parent project.
     *
     * @param name calendar directory name
@@ -290,7 +290,24 @@ class CalendarDirectoryReader extends DirectoryReader
    private boolean isDate(Row row)
    {
       String dateSpec = row.getString("DATESPEC");
-      return dateSpec.length() == 8 && dateSpec.chars().allMatch(c -> Character.isDigit(c));
+
+      // IKVM doesn't like the chars() method
+      //return dateSpec.length() == 8 && dateSpec.chars().allMatch(c -> Character.isDigit(c));
+
+      if (dateSpec.length() != 8)
+      {
+         return false;
+      }
+
+      for (char c : dateSpec.toCharArray())
+      {
+         if (!Character.isDigit(c))
+         {
+            return false;
+         }
+      }
+
+      return true;
    }
 
    /**
@@ -302,7 +319,24 @@ class CalendarDirectoryReader extends DirectoryReader
    public boolean isDayAndMonth(Row row)
    {
       String dateSpec = row.getString("DATESPEC");
-      return dateSpec.length() >= 3 && dateSpec.length() <= 4 && dateSpec.chars().allMatch(c -> Character.isDigit(c));
+
+      // IKVM doesn't like the chars() method
+      //return dateSpec.length() >= 3 && dateSpec.length() <= 4 && dateSpec.chars().allMatch(c -> Character.isDigit(c));
+
+      if (dateSpec.length() < 3 ||  dateSpec.length() > 4)
+      {
+         return false;
+      }
+
+      for (char c : dateSpec.toCharArray())
+      {
+         if (!Character.isDigit(c))
+         {
+            return false;
+         }
+      }
+
+      return true;
    }
 
    private final ProjectFile m_file;
