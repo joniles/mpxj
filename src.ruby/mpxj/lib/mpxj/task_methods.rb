@@ -102,6 +102,20 @@ module MPXJ
       get_duration_value(attribute_values['actual_work'])
     end
 
+    # Retrieve the Actual Work (Labor) value
+    #
+    # @return Actual Work (Labor) value
+    def actual_work_labor
+      get_duration_value(attribute_values['actual_work_labor'])
+    end
+
+    # Retrieve the Actual Work (Nonlabor) value
+    #
+    # @return Actual Work (Nonlabor) value
+    def actual_work_nonlabor
+      get_duration_value(attribute_values['actual_work_nonlabor'])
+    end
+
     # Retrieve the Actual Work Protected value
     #
     # @return Actual Work Protected value
@@ -5639,6 +5653,20 @@ module MPXJ
       get_duration_value(attribute_values['planned_work'])
     end
 
+    # Retrieve the Planned Work (Labor) value
+    #
+    # @return Planned Work (Labor) value
+    def planned_work_labor
+      get_duration_value(attribute_values['planned_work_labor'])
+    end
+
+    # Retrieve the Planned Work (Nonlabor) value
+    #
+    # @return Planned Work (Nonlabor) value
+    def planned_work_nonlabor
+      get_duration_value(attribute_values['planned_work_nonlabor'])
+    end
+
     # Retrieve the Predecessors value
     #
     # @return Predecessors value
@@ -5777,6 +5805,20 @@ module MPXJ
     # @return Remaining Work value
     def remaining_work
       get_duration_value(attribute_values['remaining_work'])
+    end
+
+    # Retrieve the Remaining Work (Labor) value
+    #
+    # @return Remaining Work (Labor) value
+    def remaining_work_labor
+      get_duration_value(attribute_values['remaining_work_labor'])
+    end
+
+    # Retrieve the Remaining Work (Nonlabor) value
+    #
+    # @return Remaining Work (Nonlabor) value
+    def remaining_work_nonlabor
+      get_duration_value(attribute_values['remaining_work_nonlabor'])
     end
 
     # Retrieve the Request/Demand value
@@ -6851,6 +6893,8 @@ module MPXJ
       'actual_overtime_work_protected' => :work,
       'actual_start' => :date,
       'actual_work' => :work,
+      'actual_work_labor' => :duration,
+      'actual_work_nonlabor' => :duration,
       'actual_work_protected' => :work,
       'acwp' => :currency,
       'assignment' => :boolean,
@@ -7642,6 +7686,8 @@ module MPXJ
       'planned_finish' => :date,
       'planned_start' => :date,
       'planned_work' => :work,
+      'planned_work_labor' => :duration,
+      'planned_work_nonlabor' => :duration,
       'predecessors' => :relation_list,
       'preleveled_finish' => :date,
       'preleveled_start' => :date,
@@ -7662,6 +7708,8 @@ module MPXJ
       'remaining_overtime_cost' => :currency,
       'remaining_overtime_work' => :work,
       'remaining_work' => :work,
+      'remaining_work_labor' => :duration,
+      'remaining_work_nonlabor' => :duration,
       'request_demand' => :string,
       'resource_enterprise_multi_value_code20' => :string,
       'resource_enterprise_multi_value_code21' => :string,

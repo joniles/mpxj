@@ -1,6 +1,21 @@
 # Changelog
 
-## 12.7.1 (unreleased)
+## 12.8.1 (unreleased)
+
+## 12.8.0 (2024-03-04)
+* Add experimental support for reading Deltek Open Plan BK3 files.
+* Implemented the `Relation.Builder` class.
+* Marked the `Relation(Task,Task,RelationType,Duration)` constructor as deprecated, use the `Relation.Builder` class instead.
+* Marked the `RelationContainer.addPredecessor(Task,Task,RelationType,Duration)` method as deprecated, use the `RelationContainer.addPredecessor(Relation.Builder)` method instead.
+* Marked the `Task.addPredecessor(Task,RelationType,Duration)` method as deprecated, use the `Task.addPredecessor(Relation.Builder)` method instead.
+* Add a notes attribute to the `Relation` class and ensure that it is read from and written to P6 schedules.
+* Read the Relationship Lag Calendar setting from Phoenix 5 files. (Contributed by Rohit Sinha)
+* Don't write a material label to an MSPDI file for a resource which isn't a material.
+* Update representation of Work Variance when writing MSPDI files to more closely match output from Microsoft Project.
+* Updated to ensure that when schedules are read from XER files or P6 databases, labor and nonlabor work amounts are combined for the Actual, Remaining and Planned work attributes. This is now consistent with the existing behavior when reading PMXML files.
+* Added support for new Task attributes Actual Work Labor, Actual Work Nonlabor, Remaining Work Labor, Remaining Work Nonlabor, Planned Work Labor, Planned Work Nonlabor, when reading and writing P6 schedules.
+* Update default `readAll` method on reader classes to ensure that if the reader is unable to read any schedule data, an empty list is returned rather than a list containing `null`.
+* Ensure that Task Start and Finish dates are both the same when reading milestones from PMXML files, and that the correct date is used depending on whether we have a Start Milestone or a Finish Milestone.
 
 ## 12.7.0 (2024-02-07)
 * Added support for reading and writing the project property Baseline Calendar Name to and from MPP and MSPDI files.
