@@ -99,11 +99,6 @@ public final class SDEFReader extends AbstractProjectStreamReader
       return project;
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * Set a flag to determine if datatype parse errors can be ignored.
     * Defaults to true.

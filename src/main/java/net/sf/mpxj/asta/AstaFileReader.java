@@ -72,10 +72,5 @@ public final class AstaFileReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    private static final String SQLITE_TEXT = "SQLite format";
 }

@@ -94,11 +94,6 @@ public final class FastTrackReader extends AbstractProjectFileReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(File file) throws MPXJException
-   {
-      return Collections.singletonList(read(file));
-   }
-
    /**
     * Read FTS file data from the configured source and return a populated ProjectFile instance.
     *

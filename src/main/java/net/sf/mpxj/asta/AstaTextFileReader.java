@@ -77,11 +77,6 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * Tokenizes the input file and extracts the required data.
     *

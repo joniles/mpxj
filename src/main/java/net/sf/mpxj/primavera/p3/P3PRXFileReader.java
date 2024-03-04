@@ -85,11 +85,6 @@ public final class P3PRXFileReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * Extracts the data for a single file from the input stream and writes
     * it to a target directory.

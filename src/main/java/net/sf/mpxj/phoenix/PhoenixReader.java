@@ -98,11 +98,6 @@ public final class PhoenixReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    private boolean m_useActivityCodesForTaskHierarchy = true;
 
    private static final int BUFFER_SIZE = 512;

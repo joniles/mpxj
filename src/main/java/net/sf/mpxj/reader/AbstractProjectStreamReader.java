@@ -26,6 +26,8 @@ package net.sf.mpxj.reader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 
 import net.sf.mpxj.MPXJException;
@@ -100,5 +102,19 @@ public abstract class AbstractProjectStreamReader extends AbstractProjectReader
       {
          AutoCloseableHelper.closeQuietly(fis);
       }
+   }
+
+   /**
+    * Default implementation of readAll. Reads a single project,
+    * if successful, returns a list with a single entry. If unsuccessful,
+    * returns an empty list.
+    *
+    * @param inputStream InputStream instance
+    * @return list of projects
+    */
+   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   {
+      ProjectFile file = read(inputStream);
+      return file == null ? Collections.emptyList() : Collections.singletonList(file);
    }
 }

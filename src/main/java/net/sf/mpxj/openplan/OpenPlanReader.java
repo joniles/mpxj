@@ -55,11 +55,6 @@ public final class OpenPlanReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    @Override public ProjectFile read(File file) throws MPXJException
    {
       List<ProjectFile> projects = readAll(file);
