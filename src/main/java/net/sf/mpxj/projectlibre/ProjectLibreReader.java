@@ -70,10 +70,5 @@ public class ProjectLibreReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    private final MSPDIReader m_reader = new MSPDIReader();
 }

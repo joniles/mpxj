@@ -125,11 +125,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * Extracts project properties from a ConceptDraw PROJECT file.
     *

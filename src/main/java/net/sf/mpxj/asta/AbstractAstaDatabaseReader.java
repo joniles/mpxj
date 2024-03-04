@@ -41,7 +41,7 @@ import net.sf.mpxj.reader.AbstractProjectFileReader;
  * This class provides a generic front end to read project data from
  * a database.
  */
-abstract class AbstractDatabaseReader extends AbstractProjectFileReader
+abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
 {
    /**
     * Populates a Map instance representing the IDs and names of
@@ -254,7 +254,7 @@ abstract class AbstractDatabaseReader extends AbstractProjectFileReader
          Set<Integer> ids = listProjects().keySet();
          for (Integer id : ids)
          {
-            m_projectID = id;
+            setProjectID(id);
             result.add(read());
          }
          return result;

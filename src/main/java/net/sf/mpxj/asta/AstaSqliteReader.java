@@ -70,11 +70,6 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(File file) throws MPXJException
-   {
-      return Collections.singletonList(read(file));
-   }
-
    /**
     * Read a project from the current data source.
     *

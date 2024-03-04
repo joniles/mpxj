@@ -108,11 +108,6 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * Reads a PEP file from the input stream.
     *
