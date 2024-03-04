@@ -83,6 +83,7 @@ public class CustomerDataTest
       m_universalReader = new UniversalProjectReader();
       m_mpxReader = new MPXReader();
       m_xerReader = new PrimaveraXERFileReader();
+      m_xerReader.setLinkCrossProjectRelations(true);
    }
 
    /**
@@ -435,38 +436,27 @@ public class CustomerDataTest
             continue;
          }
 
-         ProjectFile mpxj;
-         //System.out.println(name);
-
          try
          {
-            mpxj = testReader(name, file);
-            if (mpxj == null)
+            List<ProjectFile> projects = testReader(name, file);
+            if (projects.isEmpty())
             {
                System.err.println("Failed to read " + name);
                ++failures;
                continue;
             }
 
-            if (!testHierarchy(mpxj))
-            {
-               System.err.println("Failed to validate hierarchy " + name);
-               ++failures;
-               continue;
-            }
+            String baselineName = file.getPath().substring(sourceDirNameLength);
+            int baselineIndex = 0;
 
-            if (!testBaseline(file.getPath().substring(sourceDirNameLength), mpxj, m_baselineDirectory))
+            for (ProjectFile project : projects)
             {
-               System.err.println("Failed to validate baseline " + name);
-               ++failures;
-               continue;
-            }
-
-            //testWriters(mpxj);
-
-            if (useFieldReporter())
-            {
-               FIELD_REPORTER.process(mpxj);
+               String fullBaselineName = baselineIndex == 0 ? baselineName + "." + baselineIndex : baselineName;
+               if (!executeTests(name, fullBaselineName, project))
+               {
+                  ++failures;
+               }
+               ++baselineIndex;
             }
          }
 
@@ -488,6 +478,28 @@ public class CustomerDataTest
       assertEquals("Failed to read " + failures + " files", 0, failures);
    }
 
+   private boolean executeTests(String fileName, String baselineName, ProjectFile projectFile) throws Exception
+   {
+      if (!testHierarchy(projectFile))
+      {
+         System.err.println("Failed to validate hierarchy " + fileName);
+         return false;
+      }
+
+      if (!testBaseline(baselineName, projectFile, m_baselineDirectory))
+      {
+         System.err.println("Failed to validate baseline " + fileName);
+         return false;
+      }
+
+      if (useFieldReporter())
+      {
+         FIELD_REPORTER.process(projectFile);
+      }
+
+      return true;
+   }
+
    /**
     * Ensure that we can read the file.
     *
@@ -495,9 +507,9 @@ public class CustomerDataTest
     * @param file File instance
     * @return ProjectFile instance
     */
-   private ProjectFile testReader(String name, File file) throws Exception
+   private List<ProjectFile> testReader(String name, File file) throws Exception
    {
-      ProjectFile mpxj;
+      List<ProjectFile> projects;
 
       if (name.endsWith(".MPX"))
       {
@@ -513,26 +525,18 @@ public class CustomerDataTest
             m_mpxReader.setLocale(new Locale("sv"));
          }
 
-         mpxj = m_mpxReader.read(file);
+         projects = m_mpxReader.readAll(file);
       }
       else
       {
-         mpxj = m_universalReader.read(file);
-         if (name.endsWith(".MPP"))
+         projects = m_universalReader.readAll(file);
+         if (name.endsWith(".MPP") && projects.size() == 1)
          {
-            validateMpp(file.getCanonicalPath(), mpxj);
-         }
-
-         // If we have an XER file, exercise the "readAll" functionality too.
-         // For now, ignore files with non-standard encodings.
-         if (name.endsWith(".XER") && !name.endsWith(".ENCODING.XER"))
-         {
-            m_xerReader.setLinkCrossProjectRelations(true);
-            m_xerReader.readAll(Files.newInputStream(file.toPath()));
+            validateMpp(file.getCanonicalPath(), projects.get(0));
          }
       }
 
-      return mpxj;
+      return projects;
    }
 
    /**
