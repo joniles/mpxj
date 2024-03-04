@@ -1420,6 +1420,26 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          populateUserDefinedFieldValues(task, row.getUDF());
          readActivityCodes(task, row.getCode());
 
+         // For P6 the start date is the relevant date for a Start Milestone, and the
+         // Finish Date is the relevant date for a Finish Milestone. Typically, this
+         // is irrelevant as both the Start and Finish dates are the same. In some
+         // PMXML files this is not the case, which causes problems for applications
+         // which assume that the Start and Finish dates are the same for a milestone
+         // and only read one of them.
+         // The code below ensures that the correct date is used, and both Start
+         // and Finish Date attributes are populated with that date.
+         if (task.getMilestone())
+         {
+            if ("Start Milestone".equals(row.getType()))
+            {
+               task.setFinish(task.getStart());
+            }
+            else
+            {
+               task.setStart(task.getFinish());
+            }
+         }
+
          if (forceCriticalToFalse)
          {
             task.setCritical(false);
