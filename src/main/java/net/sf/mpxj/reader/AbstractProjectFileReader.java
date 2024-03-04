@@ -102,7 +102,7 @@ public abstract class AbstractProjectFileReader extends AbstractProjectReader
 
    /**
     * Default implementation of readAll. Reads a single project,
-    * if successful, returns a list with a single entry. if unsuccessful,
+    * if successful, returns a list with a single entry. If unsuccessful,
     * returns an empty list.
     *
     * @param file File instance
