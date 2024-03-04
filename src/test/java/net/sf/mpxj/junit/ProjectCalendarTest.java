@@ -797,6 +797,9 @@ public class ProjectCalendarTest
       assertEquals(LocalDateTime.of(2003, 10, 10, 8, 0), startDate);
    }
 
+   /**
+    * Simple tests to exercise the ProjectCalendar.getDate method with a negative duration including midnight.
+    */
    @Test public void testMidnightNegativeDuration()
    {
       ProjectFile file = new ProjectFile();
@@ -866,6 +869,9 @@ public class ProjectCalendarTest
       assertEquals(LocalDateTime.of(2024, 2, 27, 0, 0), result);
    }
 
+   /**
+    * Simple tests to exercise the ProjectCalendar.getDate method with a negative duration using a 24x7 calendar.
+    */
    @Test public void test247()
    {
       ProjectFile file = new ProjectFile();

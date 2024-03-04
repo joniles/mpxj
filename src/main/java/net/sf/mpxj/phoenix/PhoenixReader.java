@@ -25,8 +25,6 @@ package net.sf.mpxj.phoenix;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
