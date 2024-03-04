@@ -102,6 +102,7 @@ public abstract class AbstractProjectFileReader extends AbstractProjectReader
 
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      return Collections.singletonList(read(file));
+      ProjectFile projectFile = read(file);
+      return projectFile == null ? Collections.emptyList() : Collections.singletonList(projectFile);
    }
 }
