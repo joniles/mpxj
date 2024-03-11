@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.8.1">
+			<action dev="joniles" type="update">Improve reading resource assignments from certain FastTrack FTS files.</action>
 		</release>
 		<release date="2024-03-04" version="12.8.0">
 			<action dev="joniles" type="update">Add experimental support for reading Deltek Open Plan BK3 files.</action>
