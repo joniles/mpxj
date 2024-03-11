@@ -1,6 +1,9 @@
 # Changelog
 
-## 12.8.1 (unreleased)
+## 12.8.2 (unreleased)
+
+## 12.8.1 (2024-03-11)
+* Improve reading resource assignments from certain FastTrack FTS files.
 
 ## 12.8.0 (2024-03-04)
 * Add experimental support for reading Deltek Open Plan BK3 files.
