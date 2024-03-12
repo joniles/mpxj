@@ -940,7 +940,7 @@ public class MppTaskTest
       listPreds = task4.getPredecessors();
       assertTrue(listPreds.isEmpty());
 
-      task4.addPredecessor(Relation.Builder.from(relation));
+      task4.addPredecessor(new Relation.Builder().from(relation));
       task4.addPredecessor(new Relation.Builder().targetTask(task2));
       assertEquals(2, task4.getPredecessors().size());
 

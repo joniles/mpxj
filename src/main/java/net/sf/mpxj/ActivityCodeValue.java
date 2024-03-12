@@ -199,6 +199,24 @@ public class ActivityCodeValue
       }
 
       /**
+       * Initialise the builder from an existing ActivityCodeValue instance.
+       *
+       * @param value ActivityCodeValue instance
+       * @return builder
+       */
+      public Builder from(ActivityCodeValue value)
+      {
+         m_type = value.m_type;
+         m_uniqueID = value.m_uniqueID;
+         m_sequenceNumber = value.m_sequenceNumber;
+         m_name = value.m_name;
+         m_description = value.m_description;
+         m_color = value.m_color;
+         m_parent = value.m_parent;
+         return this;
+      }
+
+      /**
        * Add parent activity code.
        *
        * @param value activity code

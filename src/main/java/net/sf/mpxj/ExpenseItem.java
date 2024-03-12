@@ -538,6 +538,36 @@ public final class ExpenseItem
       }
 
       /**
+       * Initialise the builder from an existing ExpenseItem instance.
+       *
+       * @param value ExpenseItem instance
+       * @return builder
+       */
+      public Builder from(ExpenseItem value)
+      {
+         m_uniqueID = value.m_uniqueID;
+         m_name = value.m_name;
+         m_account = value.m_account;
+         m_category = value.m_category;
+         m_description = value.m_description;
+         m_documentNumber = value.m_documentNumber;
+         m_vendor = value.m_vendor;
+         m_atCompletionCost = value.m_atCompletionCost;
+         m_atCompletionUnits = value.m_atCompletionUnits;
+         m_actualCost = value.m_actualCost;
+         m_actualUnits = value.m_actualUnits;
+         m_pricePerUnit = value.m_pricePerUnit;
+         m_remainingCost = value.m_remainingCost;
+         m_remainingUnits = value.m_remainingUnits;
+         m_plannedCost = value.m_plannedCost;
+         m_plannedUnits = value.m_plannedUnits;
+         m_accrueType = value.m_accrueType;
+         m_autoComputeActuals = value.m_autoComputeActuals;
+         m_unitOfMeasure = value.m_unitOfMeasure;
+         return this;
+      }
+
+      /**
        * Add the unique ID.
        *
        * @param value unique ID

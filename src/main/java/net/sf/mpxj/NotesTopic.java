@@ -153,6 +153,24 @@ public class NotesTopic implements ProjectEntityWithUniqueID
       }
 
       /**
+       * Initialise the builder from an existing NotesTopic instance.
+       *
+       * @param value NotesTopic instance
+       * @return builder
+       */
+      public Builder from(NotesTopic value)
+      {
+         m_uniqueID = value.m_uniqueID;
+         m_sequenceNumber = value.m_sequenceNumber;
+         m_name = value.m_name;
+         m_availableForEPS = value.m_availableForEPS;
+         m_availableForProject = value.m_availableForProject;
+         m_availableForWBS = value.m_availableForWBS;
+         m_availableForActivity = value.m_availableForActivity;
+         return this;
+      }
+
+      /**
        * Add the unique ID.
        *
        * @param value unique ID

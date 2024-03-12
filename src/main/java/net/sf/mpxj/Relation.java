@@ -193,20 +193,15 @@ public final class Relation implements ProjectEntityWithUniqueID
     */
    public static class Builder
    {
-      /**
-       * Create and populate a Builder instance from an existing Relation instance.
-       *
-       * @param relation existing Relation instance
-       * @return new Builder instance
-       */
-      public static Builder from(Relation relation)
+      public Builder from(Relation value)
       {
-         return new Builder()
-            .targetTask(relation.m_targetTask)
-            .sourceTask(relation.m_sourceTask)
-            .type(relation.m_type)
-            .lag(relation.m_lag)
-            .uniqueID(relation.m_uniqueID);
+         m_uniqueID = value.m_uniqueID;
+         m_sourceTask = value.m_sourceTask;
+         m_targetTask = value.m_targetTask;
+         m_type = value.m_type;
+         m_lag = value.m_lag;
+         m_notes = value.m_notes;
+         return this;
       }
 
       /**

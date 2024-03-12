@@ -170,6 +170,23 @@ public class CostAccount implements ProjectEntityWithUniqueID
       }
 
       /**
+       * Initialise the builder from an existing CostAccount instance.
+       *
+       * @param value CostAccount instance
+       * @return builder
+       */
+      public Builder from(CostAccount value)
+      {
+         m_uniqueID = value.m_uniqueID;
+         m_id = value.m_id;
+         m_name = value.m_name;
+         m_description = value.m_description;
+         m_sequenceNumber = value.m_sequenceNumber;
+         m_parent = value.m_parent;
+         return this;
+      }
+
+      /**
        * Add unique ID.
        *
        * @param value unique ID

@@ -242,6 +242,31 @@ public final class Location implements ProjectEntityWithUniqueID
       }
 
       /**
+       * Initialise the builder from an existing Location instance.
+       *
+       * @param value Location instance
+       * @return builder
+       */
+      Builder from(Location value)
+      {
+         m_addressLine1 = value.m_addressLine1;
+         m_addressLine2 = value.m_addressLine2;
+         m_addressLine3 = value.m_addressLine3;
+         m_city= value.m_city;
+         m_country = value.m_country;
+         m_countryCode = value.m_countryCode;
+         m_latitude = value.m_latitude;
+         m_longitude = value.m_longitude;
+         m_municipality = value.m_municipality;
+         m_name = value.m_name;
+         m_uniqueID = value.m_uniqueID;
+         m_postalCode = value.m_postalCode;
+         m_state = value.m_state;
+         m_stateCode = value.m_stateCode;
+         return this;
+      }
+
+      /**
        * Add an address line.
        *
        * @param value address line
