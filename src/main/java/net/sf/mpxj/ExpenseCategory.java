@@ -110,6 +110,20 @@ public class ExpenseCategory implements ProjectEntityWithUniqueID
       }
 
       /**
+       * Initialise the builder from an existing ExpenseCategory instance.
+       *
+       * @param value ExpenseCategory instance
+       * @return builder
+       */
+      public Builder from(ExpenseCategory value)
+      {
+         m_uniqueID = value.m_uniqueID;
+         m_name= value.m_name;
+         m_sequenceNumber = value.m_sequenceNumber;
+         return this;
+      }
+
+      /**
        * Add the unique ID.
        *
        * @param value unique ID value

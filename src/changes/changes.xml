@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.8.2">
+			<action dev="joniles" type="update">Add `from` method to all `Builder` classes to allow initialisation from existing objects.</action>
 		</release>
 		<release date="2024-03-11" version="12.8.1">
 			<action dev="joniles" type="update">Improve reading resource assignments from certain FastTrack FTS files.</action>

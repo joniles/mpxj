@@ -223,6 +223,25 @@ public class ActivityCode
       }
 
       /**
+       * Initialise the builder from an existing ActivityCode instance.
+       *
+       * @param value ActivityCode instance
+       * @return builder
+       */
+      public Builder from(ActivityCode value)
+      {
+         m_uniqueID = value.m_uniqueID;
+         m_scope = value.m_scope;
+         m_scopeEpsUniqueID = value.m_scopeEpsUniqueID;
+         m_scopeProjectUniqueID = value.m_scopeProjectUniqueID;
+         m_sequenceNumber = value.m_sequenceNumber;
+         m_name = value.m_name;
+         m_secure = value.m_secure;
+         m_maxLength = value.m_maxLength;
+         return this;
+      }
+
+      /**
        * Add unique ID.
        *
        * @param value unique ID

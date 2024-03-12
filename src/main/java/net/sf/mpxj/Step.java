@@ -248,6 +248,23 @@ public class Step
       }
 
       /**
+       * Initialise the builder from an existing Step instance.
+       *
+       * @param value Step instance
+       * @return builder
+       */
+      public Builder from(Step value)
+      {
+         m_uniqueID = value.m_uniqueID;
+         m_name = value.m_name;
+         m_percentComplete = value.m_percentComplete;
+         m_sequenceNumber = value.m_sequenceNumber;
+         m_weight = value.m_weight;
+         m_description = value.m_description;
+         return this;
+      }
+
+      /**
        * Add the unique ID.
        *
        * @param value unique ID

@@ -855,13 +855,13 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       for (Relation originalRelation : successors)
       {
          relations.remove(originalRelation);
-         originalRelation.getSourceTask().addPredecessor(Relation.Builder.from(originalRelation).targetTask(originalTask));
+         originalRelation.getSourceTask().addPredecessor(new Relation.Builder().from(originalRelation).targetTask(originalTask));
       }
 
       for (Relation originalRelation : predecessors)
       {
          relations.remove(originalRelation);
-         originalTask.addPredecessor(Relation.Builder.from(originalRelation));
+         originalTask.addPredecessor(new Relation.Builder().from(originalRelation));
       }
    }
 

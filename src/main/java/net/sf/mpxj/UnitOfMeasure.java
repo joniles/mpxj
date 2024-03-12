@@ -111,6 +111,21 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
       }
 
       /**
+       * Initialise the builder from an existing UnitOfMeasure instance.
+       *
+       * @param value UnitOfMeasure instance
+       * @return builder
+       */
+      public Builder from(UnitOfMeasure value)
+      {
+         m_uniqueID = value.m_uniqueID;
+         m_name = value.m_name;
+         m_abbreviation = value.m_abbreviation;
+         m_sequenceNumber = value.m_sequenceNumber;
+         return this;
+      }
+
+      /**
        * Add the unique ID.
        *
        * @param uniqueID unique ID
