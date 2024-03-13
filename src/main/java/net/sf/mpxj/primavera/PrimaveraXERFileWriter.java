@@ -1364,7 +1364,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       COST_ACCOUNT_COLUMNS.put("acct_seq_num", c -> c.getSequenceNumber());
       COST_ACCOUNT_COLUMNS.put("acct_name", c -> c.getID());
       COST_ACCOUNT_COLUMNS.put("acct_short_name", c -> StringHelper.stripControlCharacters(c.getName()));
-      COST_ACCOUNT_COLUMNS.put("acct_descr", c -> c.getDescription());
+      COST_ACCOUNT_COLUMNS.put("acct_descr", c -> c.getNotesObject());
    }
 
    private static final Map<String, ExportFunction<ExpenseCategory>> EXPENSE_CATEGORY_COLUMNS = new LinkedHashMap<>();

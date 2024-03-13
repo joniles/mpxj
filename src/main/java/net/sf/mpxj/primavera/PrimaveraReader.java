@@ -261,7 +261,7 @@ final class PrimaveraReader
             .uniqueID(row.getInteger("acct_id"))
             .id(row.getString("acct_short_name"))
             .name(row.getString("acct_name"))
-            .description(row.getString("acct_descr"))
+            .notes(getNotes(row.getString("acct_descr")))
             .sequenceNumber(row.getInteger("acct_seq_num"))
             .parent(container.getByUniqueID(row.getInteger("parent_acct_id")))
             .build()));

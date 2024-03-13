@@ -794,7 +794,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             .uniqueID(c.getObjectId())
             .id(c.getId())
             .name(c.getName())
-            .description(c.getDescription())
+            .notes(getNotes(c.getDescription()))
             .sequenceNumber(c.getSequenceNumber())
             .parent(container.getByUniqueID(c.getParentObjectId()))
             .build()));
