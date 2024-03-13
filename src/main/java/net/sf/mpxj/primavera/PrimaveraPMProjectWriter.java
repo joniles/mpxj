@@ -421,7 +421,7 @@ final class PrimaveraPMProjectWriter
       cat.setObjectId(account.getUniqueID());
       cat.setId(account.getID());
       cat.setName(account.getName());
-      cat.setDescription(account.getDescription());
+      cat.setDescription(getNotes(account.getNotesObject()));
       cat.setSequenceNumber(account.getSequenceNumber());
       cat.setParentObjectId(account.getParentUniqueID());
       costAccounts.add(cat);
