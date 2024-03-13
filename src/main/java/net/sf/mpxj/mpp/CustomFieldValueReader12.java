@@ -71,7 +71,7 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
          byte[] b = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
          if (b != null)
          {
-            item.setParent(Integer.valueOf(MPPUtility.getShort(b, 8)));
+            item.setParentUniqueID(Integer.valueOf(MPPUtility.getShort(b, 8)));
          }
 
          byte[] b2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);

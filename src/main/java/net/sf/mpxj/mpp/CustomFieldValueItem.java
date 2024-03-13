@@ -117,20 +117,42 @@ public final class CustomFieldValueItem
     * Set the parent ID.
     *
     * @param id parent ID
+    * @deprecated use setParentUniqueID
     */
-   public void setParent(Integer id)
+   @Deprecated public void setParent(Integer id)
    {
-      m_parentId = id;
+      m_parentUniqueID = id;
    }
 
    /**
     * Retrieve the parent ID.
     *
     * @return parent IDs
+    * @deprecated use getParentUniqueID
     */
-   public Integer getParent()
+   @Deprecated public Integer getParent()
    {
-      return m_parentId;
+      return m_parentUniqueID;
+   }
+
+   /**
+    * Set the parent unique ID.
+    *
+    * @param id parent ID
+    */
+   public void setParentUniqueID(Integer id)
+   {
+      m_parentUniqueID = id;
+   }
+
+   /**
+    * Retrieve the parent unique ID.
+    *
+    * @return parent IDs
+    */
+   public Integer getParentUniqueID()
+   {
+      return m_parentUniqueID;
    }
 
    /**
@@ -195,7 +217,7 @@ public final class CustomFieldValueItem
 
    @Override public String toString()
    {
-      return String.format("[CustomFieldValueItem uniqueID=%d guid=%s parentId=%d value=%s description=%s]", m_uniqueID, m_guid, m_parentId, m_value, m_description);
+      return String.format("[CustomFieldValueItem uniqueID=%d guid=%s parentId=%d value=%s description=%s]", m_uniqueID, m_guid, m_parentUniqueID, m_value, m_description);
    }
 
    private final Integer m_uniqueID;
@@ -203,7 +225,7 @@ public final class CustomFieldValueItem
    private Object m_value;
    private String m_description;
    private byte[] m_unknown;
-   private Integer m_parentId;
+   private Integer m_parentUniqueID;
    private CustomFieldValueDataType m_type;
    private boolean m_collapsed;
 }

@@ -531,7 +531,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       value.setDescription(item.getDescription());
       value.setFieldGUID(item.getGUID());
       value.setIsCollapsed(Boolean.valueOf(item.getCollapsed()));
-      value.setParentValueID(NumberHelper.getBigInteger(item.getParent()));
+      value.setParentValueID(NumberHelper.getBigInteger(item.getParentUniqueID()));
       value.setType(BigInteger.valueOf(type.getValue()));
       value.setValueID(NumberHelper.getBigInteger(item.getUniqueID()));
       value.setValue(DatatypeConverter.printOutlineCodeValue(item.getValue(), type.getDataType()));
