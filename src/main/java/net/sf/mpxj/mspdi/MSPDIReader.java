@@ -1610,7 +1610,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       {
          result = item.getValue().toString();
 
-         Integer parentID = item.getParent();
+         Integer parentID = item.getParentUniqueID();
          if (parentID != null)
          {
             String parentResult = getOutlineCodeValue(mpxFieldID, BigInteger.valueOf(parentID.longValue()));
@@ -1909,7 +1909,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             item.setDescription(value.getDescription());
             item.setGUID(value.getFieldGUID());
             item.setCollapsed(BooleanHelper.getBoolean(value.isIsCollapsed()));
-            item.setParent(NumberHelper.getInteger(value.getParentValueID()));
+            item.setParentUniqueID(NumberHelper.getInteger(value.getParentValueID()));
             item.setType(CustomFieldValueDataType.getInstance(NumberHelper.getInt(value.getType())));
             item.setValue(DatatypeConverter.parseOutlineCodeValue(value.getValue(), field.getFieldType().getDataType()));
             table.add(item);

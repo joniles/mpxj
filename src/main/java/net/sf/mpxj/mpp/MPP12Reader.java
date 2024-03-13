@@ -1831,7 +1831,7 @@ final class MPP12Reader implements MPPVariantReader
                result = (String) value;
             }
 
-            String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());
+            String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParentUniqueID());
             if (result != null && result2 != null && !result2.isEmpty())
             {
                result = result2 + "." + result;
@@ -1868,9 +1868,9 @@ final class MPP12Reader implements MPPVariantReader
             result = (String) value;
          }
 
-         if (result != null && !NumberHelper.equals(id, item.getParent()))
+         if (result != null && !NumberHelper.equals(id, item.getParentUniqueID()))
          {
-            String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParent());
+            String result2 = getCustomFieldOutlineCodeValue(varData, outlineCodeVarData, item.getParentUniqueID());
             if (result2 != null && !result2.isEmpty())
             {
                result = result2 + "." + result;
