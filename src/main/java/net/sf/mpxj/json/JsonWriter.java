@@ -46,6 +46,7 @@ import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.GraphicalIndicator;
 import net.sf.mpxj.GraphicalIndicatorCriteria;
@@ -361,7 +362,7 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeNameValuePair("field_alias", field.getAlias());
       writeGraphicalIndicator(field.getGraphicalIndicator());
       writeLookupTable(field);
-
+      writeCustomFieldValueMasks(field);
       m_writer.writeEndObject();
    }
 
@@ -482,6 +483,31 @@ public final class JsonWriter extends AbstractProjectWriter
       {
          m_writer.writeStartObject(null);
          writeGenericCriteriaAttributes(criteria);
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write the value masks for a custom field.
+    *
+    * @param field custom field
+    */
+   private void writeCustomFieldValueMasks(CustomField field) throws IOException
+   {
+      if (field.getMasks().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("masks");
+      for (CustomFieldValueMask mask : field.getMasks())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("length", mask.getLength());
+         writeIntegerField("level", mask.getLevel());
+         writeStringField("separator", mask.getSeparator());
+         writeStringField("type", mask.getType().name());
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
