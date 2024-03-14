@@ -45,6 +45,11 @@ import net.sf.mpxj.Availability;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueMask;
+import net.sf.mpxj.GenericCriteria;
+import net.sf.mpxj.GraphicalIndicator;
+import net.sf.mpxj.GraphicalIndicatorCriteria;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ExpenseItem;
@@ -92,6 +97,7 @@ import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mpp.GanttBarStyle;
 import net.sf.mpxj.mpp.GanttBarStyleException;
 import net.sf.mpxj.mpp.GanttChartView;
@@ -338,22 +344,173 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCustomField(CustomField field) throws IOException
    {
-      if (field.getAlias() != null)
+      if (field.getAlias() == null)
+      {
+         return;
+      }
+
+      m_writer.writeStartObject(null);
+
+      Integer uniqueID = field.getUniqueID();
+      if (uniqueID.intValue() != FieldTypeHelper.getFieldID(field.getFieldType()))
+      {
+         // Only write this attribute is we have a non-default value
+         m_writer.writeNameValuePair("unique_id", field.getUniqueID().intValue());
+      }
+
+      writeFieldType("", field.getFieldType());
+      m_writer.writeNameValuePair("field_alias", field.getAlias());
+      writeGraphicalIndicator(field.getGraphicalIndicator());
+      writeLookupTable(field);
+      writeCustomFieldValueMasks(field);
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Writes a lookup table for a custom field.
+    *
+    * @param field custom field
+    */
+   private void writeLookupTable(CustomField field) throws IOException
+   {
+      CustomFieldLookupTable table = field.getLookupTable();
+      if (table.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartObject("lookup_table");
+      writeStringField("guid", table.getGUID());
+      writeBooleanField("enterprise", table.getEnterprise());
+      writeBooleanField("show_indent", table.getShowIndent());
+      writeBooleanField("resource_substitution_enabled", table.getResourceSubstitutionEnabled());
+      writeBooleanField("leaf_only", table.getLeafOnly());
+      writeBooleanField("all_levels_required", table.getAllLevelsRequired());
+      writeBooleanField("only_table_values_allowed", table.getOnlyTableValuesAllowed());
+      m_writer.writeStartList("values");
+      for(CustomFieldValueItem item : table)
+      {
+         writeCustomFieldValueItem(item);
+      }
+      m_writer.writeEndList();
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Writes a single value from a lookup table.
+    *
+    * @param item lookup table value.
+    */
+   private void writeCustomFieldValueItem(CustomFieldValueItem item) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeIntegerField("unique_id", item.getUniqueID());
+      writeStringField("guid", item.getGUID());
+      writeStringField("value", item.getValue());
+      writeStringField("description", item.getDescription());
+      writeIntegerField("parent_unique_id", item.getParentUniqueID());
+      writeStringField("type", item.getType() == null ? null : item.getType().name());
+      writeBooleanField("collapsed", item.getCollapsed());
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Writes a graphical indicator definition.
+    *
+    * @param indicator graphical indicator.
+    */
+   private void writeGraphicalIndicator(GraphicalIndicator indicator) throws IOException
+   {
+      if (!indicator.getDisplayGraphicalIndicators())
+      {
+         return;
+      }
+
+      m_writer.writeStartObject("graphical_indicator");
+      writeBooleanField("summary_rows_inherit_from_non_summary_rows", indicator.getSummaryRowsInheritFromNonSummaryRows());
+      writeBooleanField("project_summary_inherits_from_summary_rows", indicator.getProjectSummaryInheritsFromSummaryRows());
+      writeBooleanField("show_data_values_in_tooltips", indicator.getShowDataValuesInToolTips());
+      writeGraphicalIndicatorCriteria("project_summary_criteria", indicator.getProjectSummaryCriteria());
+      writeGraphicalIndicatorCriteria("summary_row_criteria", indicator.getSummaryRowCriteria());
+      writeGraphicalIndicatorCriteria("non_sumary_row_criteria", indicator.getNonSummaryRowCriteria());
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Writes the graphical indicator criteria.
+    *
+    * @param name criteria name
+    * @param list list of criteria items
+    */
+   private void writeGraphicalIndicatorCriteria(String name, List<GraphicalIndicatorCriteria> list) throws IOException
+   {
+      if (list.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList(name);
+      for(GraphicalIndicatorCriteria criteria : list)
       {
          m_writer.writeStartObject(null);
-
-         Integer uniqueID = field.getUniqueID();
-         if (uniqueID.intValue() != FieldTypeHelper.getFieldID(field.getFieldType()))
-         {
-            // Only write this attribute is we have a non-default value
-            m_writer.writeNameValuePair("unique_id", field.getUniqueID().intValue());
-         }
-
-         writeFieldType("", field.getFieldType());
-         m_writer.writeNameValuePair("field_alias", field.getAlias());
-
+         writeIntegerField("indicator", criteria.getIndicator());
+         writeGenericCriteriaAttributes(criteria);
          m_writer.writeEndObject();
       }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write generic criteria attributes.
+    *
+    * @param criteria criteria item
+    */
+   private void writeGenericCriteriaAttributes(GenericCriteria criteria) throws IOException
+   {
+      writeStringField("left_value", criteria.getLeftValue().name());
+      writeStringField("operator", criteria.getOperator().name());
+      writeStringField("right_value_1", criteria.getValue(0));
+      writeStringField("right_value_2", criteria.getValue(1));
+
+      List<GenericCriteria> list = criteria.getCriteriaList();
+      if (list.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("criteria_list");
+      for (GenericCriteria child : list)
+      {
+         m_writer.writeStartObject(null);
+         writeGenericCriteriaAttributes(criteria);
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write the value masks for a custom field.
+    *
+    * @param field custom field
+    */
+   private void writeCustomFieldValueMasks(CustomField field) throws IOException
+   {
+      if (field.getMasks().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("masks");
+      for (CustomFieldValueMask mask : field.getMasks())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("length", mask.getLength());
+         writeIntegerField("level", mask.getLevel());
+         writeStringField("separator", mask.getSeparator());
+         writeStringField("type", mask.getType().name());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
    }
 
    /**
