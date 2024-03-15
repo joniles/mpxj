@@ -25,8 +25,6 @@ package net.sf.mpxj.explorer;
 
 import java.awt.EventQueue;
 import java.awt.GridLayout;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -235,44 +233,6 @@ public class ProjectExplorer
          panel.cleanFile(fileCleanerModel.getFile());
       });
 
-      m_frame.addWindowListener(new WindowListener()
-      {
-         @Override public void windowOpened(WindowEvent e)
-         {
-            // Unused
-         }
-
-         @Override public void windowClosing(WindowEvent e)
-         {
-            saveRecents();
-         }
-
-         @Override public void windowClosed(WindowEvent e)
-         {
-            // Unused
-         }
-
-         @Override public void windowIconified(WindowEvent e)
-         {
-            // Unused
-         }
-
-         @Override public void windowDeiconified(WindowEvent e)
-         {
-            // Unused
-         }
-
-         @Override public void windowActivated(WindowEvent e)
-         {
-            // Unused
-         }
-
-         @Override public void windowDeactivated(WindowEvent e)
-         {
-            // Unused
-         }
-      });
-
       loadRecents();
    }
 
@@ -280,6 +240,8 @@ public class ProjectExplorer
    {
       try
       {
+         updateAndSaveRecents(file);
+
          ProjectFile projectFile = new UniversalProjectReader().read(file);
          if (projectFile == null)
          {
@@ -291,7 +253,6 @@ public class ProjectExplorer
          m_tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile));
          m_saveMenu.setEnabled(true);
          m_cleanMenu.setEnabled(true);
-         updateRecents(file);
       }
 
       catch (MPXJException ex)
@@ -304,6 +265,8 @@ public class ProjectExplorer
    {
       try
       {
+         updateAndSaveRecents(file);
+
          List<ProjectFile> projectFiles = new UniversalProjectReader().readAll(file);
          if (projectFiles.isEmpty())
          {
@@ -320,7 +283,6 @@ public class ProjectExplorer
          }
          m_saveMenu.setEnabled(true);
          m_cleanMenu.setEnabled(true);
-         updateRecents(file);
       }
 
       catch (MPXJException ex)
@@ -366,11 +328,12 @@ public class ProjectExplorer
       }
    }
 
-   private void updateRecents(File file)
+   private void updateAndSaveRecents(File file)
    {
       updateRecents(file.getAbsolutePath(), m_recentFiles);
       updateRecents(file.getParentFile().getAbsolutePath(), m_recentFolders);
       updateRecentsMenu();
+      saveRecents();
    }
 
    private void updateRecents(String name, Deque<String> recents)
