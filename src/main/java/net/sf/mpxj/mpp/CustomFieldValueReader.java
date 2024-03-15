@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.sf.mpxj.CustomFieldContainer;
+import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
@@ -37,7 +38,7 @@ import net.sf.mpxj.common.ByteArrayHelper;
 /**
  * Common implementation detail shared by custom field value readers.
  */
-public abstract class CustomFieldValueReader
+abstract class CustomFieldValueReader
 {
    /**
     * Constructor.
@@ -60,9 +61,49 @@ public abstract class CustomFieldValueReader
    }
 
    /**
-    * Method implemented by subclasses to read custom field values.
+    * Read custom field lookup values, register them by their unique ID and GUID, and add
+    * them to their parent lookup table.
     */
-   public abstract void process();
+   public void process()
+   {
+      Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
+
+      for (int loop = 0; loop < uniqueid.length; loop++)
+      {
+         byte[] fixedData2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
+         if (fixedData2 == null)
+         {
+            continue;
+         }
+
+         Integer id = uniqueid[loop];
+         CustomFieldValueItem item = new CustomFieldValueItem(id);
+         byte[] value = m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE);
+         item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
+         item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
+
+         byte[] fixedData = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
+         if (fixedData != null)
+         {
+            item.setParentUniqueID(Integer.valueOf(MPPUtility.getShort(fixedData, m_parentOffset)));
+         }
+
+         item.setGUID(MPPUtility.getGUID(fixedData2, 0));
+         UUID lookupTableGuid = MPPUtility.getGUID(fixedData2, m_fieldOffset);
+         item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(fixedData2, m_typeOffset)));
+         item.setValue(getTypedValue(item.getType(), value));
+
+         m_container.registerValue(item);
+         FieldType field = m_lookupTableMap.get(lookupTableGuid);
+         if (field != null)
+         {
+            CustomFieldLookupTable table = m_container.getOrCreate(field).getLookupTable();
+            table.add(item);
+            // It's like this to avoid creating empty lookup tables. Need to refactor!
+            table.setGUID(lookupTableGuid);
+         }
+      }
+   }
 
    /**
     * Convert raw value as read from the MPP file into a Java type.
@@ -128,7 +169,7 @@ public abstract class CustomFieldValueReader
 
    /**
     * Try to convert a byte array into a string. In the event of a
-    * failure, fall back to dumping the byte array contents as
+    * failure, fall back to dumping the byte array contents
     * as string of hex bytes.
     *
     * @param value byte array
@@ -163,6 +204,11 @@ public abstract class CustomFieldValueReader
    protected final Var2Data m_outlineCodeVarData;
    protected final FixedData m_outlineCodeFixedData;
    protected final FixedData m_outlineCodeFixedData2;
+
+   protected int m_parentOffset;
+   protected int m_typeOffset;
+   protected int m_fieldOffset;
+
 
    public static final Integer VALUE_LIST_VALUE = Integer.valueOf(22);
    public static final Integer VALUE_LIST_DESCRIPTION = Integer.valueOf(8);

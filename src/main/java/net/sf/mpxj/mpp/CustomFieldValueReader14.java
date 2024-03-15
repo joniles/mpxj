@@ -26,8 +26,6 @@ package net.sf.mpxj.mpp;
 import java.util.Map;
 import java.util.UUID;
 
-import net.sf.mpxj.CustomFieldLookupTable;
-import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.NumberHelper;
@@ -35,7 +33,7 @@ import net.sf.mpxj.common.NumberHelper;
 /**
  * MPP14 custom field value reader.
  */
-public class CustomFieldValueReader14 extends CustomFieldValueReader
+class CustomFieldValueReader14 extends CustomFieldValueReader
 {
    /**
     * Constructor.
@@ -49,63 +47,18 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
    public CustomFieldValueReader14(ProjectFile file, Map<UUID, FieldType> lookupTableMap, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2)
    {
       super(file, lookupTableMap, outlineCodeVarMeta, outlineCodeVarData, outlineCodeFixedData, outlineCodeFixedData2);
-   }
-
-   @Override public void process()
-   {
-      int parentOffset;
-      int typeOffset;
-      int fieldOffset;
 
       if (NumberHelper.getInt(m_properties.getApplicationVersion()) > ApplicationVersion.PROJECT_2010)
       {
-         typeOffset = 16;
-         fieldOffset = 18;
-         parentOffset = 10;
+         m_typeOffset = 16;
+         m_fieldOffset = 18;
+         m_parentOffset = 10;
       }
       else
       {
-         fieldOffset = 16;
-         typeOffset = 32;
-         parentOffset = 8;
-      }
-
-      Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
-
-      for (int loop = 0; loop < uniqueid.length; loop++)
-      {
-         byte[] fixedData2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
-         if (fixedData2 == null)
-         {
-            continue;
-         }
-
-         Integer id = uniqueid[loop];
-         CustomFieldValueItem item = new CustomFieldValueItem(id);
-         byte[] value = m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE);
-         item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
-         item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
-
-         byte[] fixedData = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
-         if (fixedData != null)
-         {
-            item.setParentUniqueID(Integer.valueOf(MPPUtility.getShort(fixedData, parentOffset)));
-         }
-
-         item.setGUID(MPPUtility.getGUID(fixedData2, 0));
-         UUID lookupTableGuid = MPPUtility.getGUID(fixedData2, fieldOffset);
-         item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(fixedData2, typeOffset)));
-         item.setValue(getTypedValue(item.getType(), value));
-
-         m_container.registerValue(item);
-         FieldType field = m_lookupTableMap.get(lookupTableGuid);
-         if (field != null)
-         {
-            CustomFieldLookupTable table = m_container.getOrCreate(field).getLookupTable();
-            table.add(item);
-            // It's like this to avoid creating empty lookup tables. Need to refactor!
-            table.setGUID(lookupTableGuid);
-         }
+         m_fieldOffset = 16;
+         m_typeOffset = 32;
+         m_parentOffset = 8;
       }
    }
 }

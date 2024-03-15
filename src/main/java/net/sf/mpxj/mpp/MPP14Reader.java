@@ -231,6 +231,12 @@ final class MPP14Reader implements MPPVariantReader
       reader.process();
    }
 
+   /**
+    * Add entries to a map of lookup table UUIDs to FieldTpe instances.
+    *
+    * @param map map to populate
+    * @param dir parent dir of Props
+    */
    private void populateLookupTableMap(Map<UUID, FieldType> map, DirectoryEntry dir) throws IOException
    {
       if (!dir.hasEntry("Props"))

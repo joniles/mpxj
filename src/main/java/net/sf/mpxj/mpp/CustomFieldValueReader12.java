@@ -26,15 +26,13 @@ package net.sf.mpxj.mpp;
 import java.util.Map;
 import java.util.UUID;
 
-import net.sf.mpxj.CustomFieldLookupTable;
-import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
 
 /**
  * MPP12 custom field value reader.
  */
-public class CustomFieldValueReader12 extends CustomFieldValueReader
+class CustomFieldValueReader12 extends CustomFieldValueReader
 {
    /**
     * Constructor.
@@ -48,50 +46,9 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
    public CustomFieldValueReader12(ProjectFile file, Map<UUID, FieldType> lookupTableMap, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2)
    {
       super(file, lookupTableMap, outlineCodeVarMeta, outlineCodeVarData, outlineCodeFixedData, outlineCodeFixedData2);
-   }
 
-   @Override public void process()
-   {
-      int parentOffset = 8;
-      int typeOffset = 48;
-      int fieldOffset = 32;
-
-      Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
-
-      for (int loop = 0; loop < uniqueid.length; loop++)
-      {
-         byte[] fixedData2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
-         if (fixedData2 == null)
-         {
-            continue;
-         }
-
-         Integer id = uniqueid[loop];
-         CustomFieldValueItem item = new CustomFieldValueItem(id);
-         byte[] value = m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE);
-         item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
-         item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
-
-         byte[] fixedData = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
-         if (fixedData != null)
-         {
-            item.setParentUniqueID(Integer.valueOf(MPPUtility.getShort(fixedData, parentOffset)));
-         }
-
-         item.setGUID(MPPUtility.getGUID(fixedData2, 0));
-         UUID lookupTableGuid = MPPUtility.getGUID(fixedData2, fieldOffset);
-         item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(fixedData2, typeOffset)));
-         item.setValue(getTypedValue(item.getType(), value));
-
-         m_container.registerValue(item);
-         FieldType field = m_lookupTableMap.get(lookupTableGuid);
-         if (field != null)
-         {
-            CustomFieldLookupTable table = m_container.getOrCreate(field).getLookupTable();
-            table.add(item);
-            // It's like this to avoid creating empty lookup tables. Need to refactor!
-            table.setGUID(lookupTableGuid);
-         }
-      }
+      m_parentOffset = 8;
+      m_typeOffset = 48;
+      m_fieldOffset = 32;
    }
 }
