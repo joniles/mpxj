@@ -52,12 +52,21 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
 
    @Override public void process()
    {
+      int parentOffset = 8;
+      int typeOffset = 48;
+      int fieldOffset = 32;
+
       Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
 
       for (int loop = 0; loop < uniqueid.length; loop++)
       {
-         Integer id = uniqueid[loop];
+         byte[] fixedData2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
+         if (fixedData2 == null)
+         {
+            continue;
+         }
 
+         Integer id = uniqueid[loop];
          CustomFieldValueItem item = new CustomFieldValueItem(id);
          byte[] value = m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE);
          item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
@@ -66,13 +75,12 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
          byte[] fixedData = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
          if (fixedData != null)
          {
-            item.setParentUniqueID(Integer.valueOf(MPPUtility.getShort(fixedData, 8)));
+            item.setParentUniqueID(Integer.valueOf(MPPUtility.getShort(fixedData, parentOffset)));
          }
 
-         byte[] fixedData2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
          item.setGUID(MPPUtility.getGUID(fixedData2, 0));
-         UUID lookupTableGuid = MPPUtility.getGUID(fixedData2, 32);
-         item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(fixedData2, 48)));
+         UUID lookupTableGuid = MPPUtility.getGUID(fixedData2, fieldOffset);
+         item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(fixedData2, typeOffset)));
          item.setValue(getTypedValue(item.getType(), value));
 
          m_container.registerValue(item);

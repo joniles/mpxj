@@ -53,7 +53,6 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
 
    @Override public void process()
    {
-      Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
       int parentOffset;
       int typeOffset;
       int fieldOffset;
@@ -71,10 +70,17 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
          parentOffset = 8;
       }
 
+      Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
+
       for (int loop = 0; loop < uniqueid.length; loop++)
       {
-         Integer id = uniqueid[loop];
+         byte[] fixedData2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
+         if (fixedData2 == null)
+         {
+            continue;
+         }
 
+         Integer id = uniqueid[loop];
          CustomFieldValueItem item = new CustomFieldValueItem(id);
          byte[] value = m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE);
          item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
@@ -86,23 +92,19 @@ public class CustomFieldValueReader14 extends CustomFieldValueReader
             item.setParentUniqueID(Integer.valueOf(MPPUtility.getShort(fixedData, parentOffset)));
          }
 
-         byte[] fixedData2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
-         if (fixedData2 != null)
-         {
-            item.setGUID(MPPUtility.getGUID(fixedData2, 0));
-            UUID lookupTableGuid = MPPUtility.getGUID(fixedData2, fieldOffset);
-            item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(fixedData2, typeOffset)));
-            item.setValue(getTypedValue(item.getType(), value));
+         item.setGUID(MPPUtility.getGUID(fixedData2, 0));
+         UUID lookupTableGuid = MPPUtility.getGUID(fixedData2, fieldOffset);
+         item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(fixedData2, typeOffset)));
+         item.setValue(getTypedValue(item.getType(), value));
 
-            m_container.registerValue(item);
-            FieldType field = m_lookupTableMap.get(lookupTableGuid);
-            if (field != null)
-            {
-               CustomFieldLookupTable table = m_container.getOrCreate(field).getLookupTable();
-               table.add(item);
-               // It's like this to avoid creating empty lookup tables. Need to refactor!
-               table.setGUID(lookupTableGuid);
-            }
+         m_container.registerValue(item);
+         FieldType field = m_lookupTableMap.get(lookupTableGuid);
+         if (field != null)
+         {
+            CustomFieldLookupTable table = m_container.getOrCreate(field).getLookupTable();
+            table.add(item);
+            // It's like this to avoid creating empty lookup tables. Need to refactor!
+            table.setGUID(lookupTableGuid);
          }
       }
    }
