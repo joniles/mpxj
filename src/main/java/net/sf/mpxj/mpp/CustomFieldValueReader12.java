@@ -23,7 +23,6 @@
 
 package net.sf.mpxj.mpp;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -31,7 +30,6 @@ import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.CustomFieldValueDataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.common.FieldTypeHelper;
 
 /**
  * MPP12 custom field value reader.
@@ -46,18 +44,15 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
     * @param outlineCodeVarData raw mpp data
     * @param outlineCodeFixedData raw mpp data
     * @param outlineCodeFixedData2 raw mpp data
-    * @param taskProps raw mpp data
     */
-   public CustomFieldValueReader12(ProjectFile file, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2, Props taskProps)
+   public CustomFieldValueReader12(ProjectFile file, Map<UUID, FieldType> lookupTableMap, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2)
    {
-      super(file, outlineCodeVarMeta, outlineCodeVarData, outlineCodeFixedData, outlineCodeFixedData2, taskProps);
+      super(file, lookupTableMap, outlineCodeVarMeta, outlineCodeVarData, outlineCodeFixedData, outlineCodeFixedData2);
    }
 
    @Override public void process()
    {
       Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
-
-      Map<UUID, FieldType> map = populateCustomFieldMap();
 
       for (int loop = 0; loop < uniqueid.length; loop++)
       {
@@ -68,20 +63,20 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
          item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
          item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
 
-         byte[] b = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
-         if (b != null)
+         byte[] fixedData = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
+         if (fixedData != null)
          {
-            item.setParentUniqueID(Integer.valueOf(MPPUtility.getShort(b, 8)));
+            item.setParentUniqueID(Integer.valueOf(MPPUtility.getShort(fixedData, 8)));
          }
 
-         byte[] b2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
-         item.setGUID(MPPUtility.getGUID(b2, 0));
-         UUID lookupTableGuid = MPPUtility.getGUID(b2, 32);
-         item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(b2, 48)));
+         byte[] fixedData2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
+         item.setGUID(MPPUtility.getGUID(fixedData2, 0));
+         UUID lookupTableGuid = MPPUtility.getGUID(fixedData2, 32);
+         item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(fixedData2, 48)));
          item.setValue(getTypedValue(item.getType(), value));
 
          m_container.registerValue(item);
-         FieldType field = map.get(lookupTableGuid);
+         FieldType field = m_lookupTableMap.get(lookupTableGuid);
          if (field != null)
          {
             CustomFieldLookupTable table = m_container.getOrCreate(field).getLookupTable();
@@ -90,47 +85,5 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
             table.setGUID(lookupTableGuid);
          }
       }
-   }
-
-   /**
-    * Generate a map of UUID values to field types.
-    *
-    * @return UUID field value map
-    */
-   private Map<UUID, FieldType> populateCustomFieldMap()
-   {
-      Map<UUID, FieldType> map = new HashMap<>();
-      byte[] data = m_taskProps.getByteArray(Props.CUSTOM_FIELDS);
-      if (data != null)
-      {
-         int length = MPPUtility.getInt(data, 0);
-         int index = length + 36;
-
-         // 4 byte record count
-         int recordCount = MPPUtility.getInt(data, index);
-         index += 4;
-
-         // 8 bytes per record
-         index += (8 * recordCount);
-
-         while (index + 176 <= data.length)
-         {
-            int blockLength = MPPUtility.getInt(data, index);
-            if (blockLength <= 0 || index + blockLength > data.length)
-            {
-               break;
-            }
-
-            int customFieldID = MPPUtility.getInt(data, index + 4);
-            FieldType field = FieldTypeHelper.getInstance(m_file, customFieldID);
-            UUID lookupTableGuid = MPPUtility.getGUID(data, index + 160);
-            if (lookupTableGuid != null)
-            {
-               map.put(lookupTableGuid, field);
-            }
-            index += blockLength;
-         }
-      }
-      return map;
    }
 }

@@ -23,8 +23,12 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.Map;
+import java.util.UUID;
+
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.CustomFieldValueDataType;
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.TimeUnit;
@@ -43,18 +47,16 @@ public abstract class CustomFieldValueReader
     * @param outlineCodeVarData raw mpp data
     * @param outlineCodeFixedData raw mpp data
     * @param outlineCodeFixedData2 raw mpp data
-    * @param taskProps raw mpp data
     */
-   public CustomFieldValueReader(ProjectFile file, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2, Props taskProps)
+   public CustomFieldValueReader(ProjectFile file, Map<UUID, FieldType> lookupTableMap, VarMeta outlineCodeVarMeta, Var2Data outlineCodeVarData, FixedData outlineCodeFixedData, FixedData outlineCodeFixedData2)
    {
-      m_file = file;
+      m_lookupTableMap = lookupTableMap;
       m_properties = file.getProjectProperties();
       m_container = file.getCustomFields();
       m_outlineCodeVarMeta = outlineCodeVarMeta;
       m_outlineCodeVarData = outlineCodeVarData;
       m_outlineCodeFixedData = outlineCodeFixedData;
       m_outlineCodeFixedData2 = outlineCodeFixedData2;
-      m_taskProps = taskProps;
    }
 
    /**
@@ -154,14 +156,13 @@ public abstract class CustomFieldValueReader
       return result;
    }
 
-   protected final ProjectFile m_file;
+   protected final Map<UUID, FieldType> m_lookupTableMap;
    protected final ProjectProperties m_properties;
    protected final CustomFieldContainer m_container;
    protected final VarMeta m_outlineCodeVarMeta;
    protected final Var2Data m_outlineCodeVarData;
    protected final FixedData m_outlineCodeFixedData;
    protected final FixedData m_outlineCodeFixedData2;
-   protected final Props m_taskProps;
 
    public static final Integer VALUE_LIST_VALUE = Integer.valueOf(22);
    public static final Integer VALUE_LIST_DESCRIPTION = Integer.valueOf(8);
