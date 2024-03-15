@@ -33,8 +33,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.UUID;
 
+import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
+import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.MicrosoftProjectConstants;
@@ -204,24 +207,60 @@ final class MPP12Reader implements MPPVariantReader
     */
    private void processCustomValueLists() throws IOException
    {
-      processCustomValueLists((DirectoryEntry) m_projectDir.getEntry("TBkndTask"));
-      processCustomValueLists((DirectoryEntry) m_projectDir.getEntry("TBkndRsc"));
+      Map<UUID, FieldType> lookupTableMap = new HashMap<>();
+      populateLookupTableMap(lookupTableMap, (DirectoryEntry) m_projectDir.getEntry("TBkndTask"));
+      populateLookupTableMap(lookupTableMap, (DirectoryEntry) m_projectDir.getEntry("TBkndRsc"));
+
+      CustomFieldValueReader12 reader = new CustomFieldValueReader12(m_file, lookupTableMap, m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2);
+      reader.process();
    }
 
    /**
-    * This method extracts and collates the value list information
-    * for custom column value lists for a specific entity.
+    * Add entries to a map of lookup table UUIDs to FieldTpe instances.
     *
-    * @param dir entity directory
+    * @param map map to populate
+    * @param dir parent dir of Props
     */
-   private void processCustomValueLists(DirectoryEntry dir) throws IOException
+   private void populateLookupTableMap(Map<UUID, FieldType> map, DirectoryEntry dir) throws IOException
    {
-      if (dir.hasEntry("Props"))
+      if (!dir.hasEntry("Props"))
       {
-         Props taskProps = new Props12(m_inputStreamFactory.getInstance(dir, "Props"));
+         return;
+      }
 
-         CustomFieldValueReader12 reader = new CustomFieldValueReader12(m_file, m_outlineCodeVarMeta, m_outlineCodeVarData, m_outlineCodeFixedData, m_outlineCodeFixedData2, taskProps);
-         reader.process();
+      Props props = new Props14(m_file, m_inputStreamFactory.getInstance(dir, "Props"));
+      byte[] data = props.getByteArray(Props.CUSTOM_FIELDS);
+      if (data == null)
+      {
+         return;
+      }
+
+      int length = MPPUtility.getInt(data, 0);
+      int index = length + 36;
+
+      // 4 byte record count
+      int recordCount = MPPUtility.getInt(data, index);
+      index += 4;
+
+      // 8 bytes per record
+      index += (8 * recordCount);
+
+      while (index + 176 <= data.length)
+      {
+         int blockLength = MPPUtility.getInt(data, index);
+         if (blockLength <= 0 || index + blockLength > data.length)
+         {
+            break;
+         }
+
+         int customFieldID = MPPUtility.getInt(data, index + 4);
+         FieldType field = FieldTypeHelper.getInstance(m_file, customFieldID);
+         UUID lookupTableGuid = MPPUtility.getGUID(data, index + 160);
+         if (lookupTableGuid != null)
+         {
+            map.put(lookupTableGuid, field);
+         }
+         index += blockLength;
       }
    }
 
