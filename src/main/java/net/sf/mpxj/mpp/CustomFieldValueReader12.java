@@ -124,7 +124,10 @@ public class CustomFieldValueReader12 extends CustomFieldValueReader
             int customFieldID = MPPUtility.getInt(data, index + 4);
             FieldType field = FieldTypeHelper.getInstance(m_file, customFieldID);
             UUID lookupTableGuid = MPPUtility.getGUID(data, index + 160);
-            map.put(lookupTableGuid, field);
+            if (lookupTableGuid != null)
+            {
+               map.put(lookupTableGuid, field);
+            }
             index += blockLength;
          }
       }
