@@ -1320,6 +1320,19 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setRemainingEarlyFinish(row.getRemainingEarlyFinishDate());
          task.setRemainingLateStart(row.getRemainingLateStartDate());
          task.setRemainingLateFinish(row.getRemainingLateFinishDate());
+
+         // My understanding is that the Early/Late Start/Finish dates in P6 are
+         // equivalent to the Remaining Early/Late Start/Finish dates.
+         // The only difference is that the Early/Late Start/Finish dates will be populated
+         // in P6 for completed activities/milestones, but the Remaining Early/Late Start/Finish dates will not.
+         // Unfortunately P6 does not populate any of these attributes in PMXML files for completed activities/milestones
+         // so without running the CPM calculation ourselves we can't at present replicate
+         // the Early/Late Start/Finish dates visible in P6 for completed activities/milestones.
+         task.setEarlyStart(row.getRemainingEarlyStartDate());
+         task.setEarlyFinish(row.getRemainingEarlyFinishDate());
+         task.setLateStart(row.getRemainingLateStartDate());
+         task.setLateFinish(row.getRemainingLateFinishDate());
+
          task.setPriority(PriorityHelper.getInstanceFromXml(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
          task.setActivityID(row.getId());
@@ -1398,24 +1411,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
 
          //
-         // This is an approximation. If the critical flag is being determined by total
-         // then we need ES, EF, LS and LF set... but we only have the RES, REF, RLS and RLF
-         // attributes. We'll use these values to set ES, EF, LS and LF temporarily, and
-         // ensure that the critical flag is calculated, then we'll reset these values
-         // back to null. This will also have the side effect of calculating the float/slack values.
-         // Ideally we need to correctly calculate ES, EF, LS and LF for ourselves using CPM.
+         // Force calculation of the critical flag
          //
-         task.disableEvents();
-         task.setEarlyStart(task.getRemainingEarlyStart());
-         task.setEarlyFinish(task.getRemainingEarlyFinish());
-         task.setLateStart(task.getRemainingLateStart());
-         task.setLateFinish(task.getRemainingLateFinish());
          task.getCritical();
-         task.setEarlyStart(null);
-         task.setEarlyFinish(null);
-         task.setLateStart(null);
-         task.setLateFinish(null);
-         task.enableEvents();
 
          populateUserDefinedFieldValues(task, row.getUDF());
          readActivityCodes(task, row.getCode());
