@@ -52,7 +52,6 @@ import net.sf.mpxj.asta.AstaSqliteReader;
 import net.sf.mpxj.asta.AstaTextFileReader;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import net.sf.mpxj.common.CharsetHelper;
-import net.sf.mpxj.common.CloseIgnoringInputStream;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.SQLite;
@@ -166,14 +165,14 @@ public final class UniversalProjectReader extends AbstractProjectReader
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
       m_readAll = false;
-      List<ProjectFile> projects = readInternal(null, inputStream);
+      List<ProjectFile> projects = readInternal(inputStream);
       return projects.isEmpty() ? null : projects.get(0);
    }
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       m_readAll = true;
-      return readInternal(null, inputStream);
+      return readInternal(inputStream);
    }
 
    /**
@@ -184,11 +183,10 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * otherwise be possible using an input stream. This also avoids a hard
     * limit imposed by POI when reading certain very large files.
     *
-    * @param file optional File instance
     * @param inputStream input stream to read from
     * @return list of schedules
     */
-   private List<ProjectFile> readInternal(File file, InputStream inputStream) throws MPXJException
+   private List<ProjectFile> readInternal(InputStream inputStream) throws MPXJException
    {
       try
       {
@@ -236,7 +234,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, OLE_COMPOUND_DOC_FINGERPRINT))
          {
-            return handleOleCompoundDocument(file, bis);
+            return handleOleCompoundDocument(bis);
          }
 
          if (matchesFingerprint(buffer, MSPDI_FINGERPRINT_1) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_2) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_3))
@@ -415,26 +413,18 @@ public final class UniversalProjectReader extends AbstractProjectReader
    /**
     * We have an OLE compound document... but is it an MPP file?
     *
-    * @param file File object
     * @param stream file input stream
     * @return ProjectFile instance
     */
-   private List<ProjectFile> handleOleCompoundDocument(File file, InputStream stream) throws Exception
+   private List<ProjectFile> handleOleCompoundDocument(InputStream stream) throws Exception
    {
       POIFSFileSystem fs;
-      boolean closeFile = false;
+      File file;
 
       try
       {
-         if (file == null)
-         {
-            fs = new POIFSFileSystem(new CloseIgnoringInputStream(stream));
-         }
-         else
-         {
-            fs = new POIFSFileSystem(file);
-            closeFile = true;
-         }
+         file = InputStreamHelper.writeStreamToTempFile(stream, ".dat");
+         fs = new POIFSFileSystem(file);
       }
 
       catch (Exception ex)
@@ -465,10 +455,8 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       finally
       {
-         if (closeFile)
-         {
-            AutoCloseableHelper.closeQuietly(fs);
-         }
+         AutoCloseableHelper.closeQuietly(fs);
+         FileHelper.deleteQuietly(file);
       }
    }
 
@@ -601,7 +589,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       try
       {
          fis = new FileInputStream(file);
-         List<ProjectFile> projectFiles = readInternal(file, fis);
+         List<ProjectFile> projectFiles = readInternal(fis);
          fis.close();
          return projectFiles;
       }
@@ -761,7 +749,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       reader.m_skipBytes = length;
       reader.m_charset = charset;
       reader.m_readAll = m_readAll;
-      return reader.readInternal(null, stream);
+      return reader.readInternal(stream);
    }
 
    /**
