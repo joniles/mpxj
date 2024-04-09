@@ -30,9 +30,11 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.sql.Connection;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -132,15 +134,37 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    @Override public ProjectFile read(File file) throws MPXJException
    {
-      m_readAll = false;
-      List<ProjectFile> projects = readInternal(file);
-      return projects.isEmpty() ? null : projects.get(0);
+      try
+      {
+         m_readAll = false;
+         List<ProjectFile> projects = readInternal(file);
+         return projects.isEmpty() ? null : projects.get(0);
+      }
+
+      finally
+      {
+         while (!m_cleanup.isEmpty())
+         {
+            m_cleanup.pop().run();
+         }
+      }
    }
 
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      m_readAll = true;
-      return readInternal(file);
+      try
+      {
+         m_readAll = true;
+         return readInternal(file);
+      }
+
+      finally
+      {
+         while (!m_cleanup.isEmpty())
+         {
+            m_cleanup.pop().run();
+         }
+      }
    }
 
    private List<ProjectFile> readInternal(File file) throws MPXJException
@@ -162,6 +186,16 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
       }
+   }
+
+   @Override public ProjectFile read(InputStream inputStream) throws MPXJException
+   {
+      try
+      {
+         m_readAll = false;
+         List<ProjectFile> projects = readInternal(inputStream);
+         return projects.isEmpty() ? null : projects.get(0);
+      }
 
       finally
       {
@@ -172,17 +206,21 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
-   @Override public ProjectFile read(InputStream inputStream) throws MPXJException
-   {
-      m_readAll = false;
-      List<ProjectFile> projects = readInternal(inputStream);
-      return projects.isEmpty() ? null : projects.get(0);
-   }
-
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      m_readAll = true;
-      return readInternal(inputStream);
+      try
+      {
+         m_readAll = true;
+         return readInternal(inputStream);
+      }
+
+      finally
+      {
+         while (!m_cleanup.isEmpty())
+         {
+            m_cleanup.pop().run();
+         }
+      }
    }
 
    /**
@@ -363,14 +401,6 @@ public final class UniversalProjectReader extends AbstractProjectReader
       catch (Exception ex)
       {
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
-      }
-
-      finally
-      {
-         while (!m_cleanup.isEmpty())
-         {
-            m_cleanup.pop().run();
-         }
       }
    }
 
@@ -672,6 +702,13 @@ public final class UniversalProjectReader extends AbstractProjectReader
                reader.m_properties = m_properties;
                reader.m_readAll = m_readAll;
                List<ProjectFile> result = reader.readInternal(file);
+
+               // TODO - better to create a private clenaup method and push that as a runnable on to the stack
+               while(!reader.m_cleanup.isEmpty())
+               {
+                  m_cleanup.push(reader.m_cleanup.removeLast());
+               }
+
                if (!result.isEmpty())
                {
                   return result;
@@ -725,11 +762,24 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private List<ProjectFile> handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
    {
       UniversalProjectReader reader = new UniversalProjectReader();
-      reader.m_properties = m_properties;
-      reader.m_skipBytes = length;
-      reader.m_charset = charset;
-      reader.m_readAll = m_readAll;
-      return reader.readInternal(stream);
+
+      try
+      {
+         reader.m_properties = m_properties;
+         reader.m_skipBytes = length;
+         reader.m_charset = charset;
+         reader.m_readAll = m_readAll;
+         return reader.readInternal(stream);
+      }
+
+      finally
+      {
+         // TODO - better to create a private clenaup method and push that as a runnable on to the stack
+         while (!reader.m_cleanup.isEmpty())
+         {
+            m_cleanup.push(reader.m_cleanup.removeLast());
+         }
+      }
    }
 
    /**
@@ -810,7 +860,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private int m_skipBytes;
    private Charset m_charset;
    private boolean m_readAll;
-   private final Stack<Runnable> m_cleanup = new Stack();
+   private final Deque<Runnable> m_cleanup = new ArrayDeque<>();
 
    private static final int BUFFER_SIZE = 512;
 
