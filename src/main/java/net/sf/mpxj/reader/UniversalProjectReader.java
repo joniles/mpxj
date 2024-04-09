@@ -166,24 +166,13 @@ public final class UniversalProjectReader extends AbstractProjectReader
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
       m_readAll = false;
-      List<ProjectFile> projects = readInternal(inputStream);
+      List<ProjectFile> projects = readInternal(null, inputStream);
       return projects.isEmpty() ? null : projects.get(0);
    }
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
       m_readAll = true;
-      return readInternal(inputStream);
-   }
-
-   /**
-    * Internal implementation of the read method using an InputStream.
-    *
-    * @param inputStream input stream to read from
-    * @return list of schedules
-    */
-   private List<ProjectFile> readInternal(InputStream inputStream) throws MPXJException
-   {
       return readInternal(null, inputStream);
    }
 
@@ -712,22 +701,12 @@ public final class UniversalProjectReader extends AbstractProjectReader
             else
             {
                UniversalProjectReader reader = new UniversalProjectReader();
-               reader.setProperties(m_properties);
-               if (m_readAll)
+               reader.m_properties = m_properties;
+               reader.m_readAll = m_readAll;
+               List<ProjectFile> result = reader.readInternal(file);
+               if (!result.isEmpty())
                {
-                  List<ProjectFile> result = reader.readAll(file);
-                  if (!result.isEmpty())
-                  {
-                     return result;
-                  }
-               }
-               else
-               {
-                  ProjectFile result = reader.read(file);
-                  if (result != null)
-                  {
-                     return Collections.singletonList(result);
-                  }
+                  return result;
                }
             }
          }
@@ -778,10 +757,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private List<ProjectFile> handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
    {
       UniversalProjectReader reader = new UniversalProjectReader();
-      reader.setProperties(m_properties);
+      reader.m_properties = m_properties;
       reader.m_skipBytes = length;
       reader.m_charset = charset;
-      return m_readAll ? reader.readAll(stream) : Collections.singletonList(reader.read(stream));
+      reader.m_readAll = m_readAll;
+      return reader.readInternal(null, stream);
    }
 
    /**
