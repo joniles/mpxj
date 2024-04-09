@@ -36,6 +36,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Stack;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import net.sf.mpxj.common.ConnectionHelper;
@@ -159,6 +161,14 @@ public final class UniversalProjectReader extends AbstractProjectReader
       catch (Exception ex)
       {
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
+      }
+
+      finally
+      {
+         while (!m_cleanup.isEmpty())
+         {
+            m_cleanup.pop().run();
+         }
       }
    }
 
@@ -354,6 +364,14 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
       }
+
+      finally
+      {
+         while (!m_cleanup.isEmpty())
+         {
+            m_cleanup.pop().run();
+         }
+      }
    }
 
    /**
@@ -424,7 +442,10 @@ public final class UniversalProjectReader extends AbstractProjectReader
       try
       {
          file = InputStreamHelper.writeStreamToTempFile(stream, ".dat");
+         m_cleanup.push(() -> FileHelper.deleteQuietly(file));
+
          fs = new POIFSFileSystem(file);
+         m_cleanup.push(() -> AutoCloseableHelper.closeQuietly(fs));
       }
 
       catch (Exception ex)
@@ -432,32 +453,23 @@ public final class UniversalProjectReader extends AbstractProjectReader
          return Collections.emptyList();
       }
 
-      try
+      if (fs.getRoot().getEntryNames().contains("SourceInfo"))
       {
-         if (fs.getRoot().getEntryNames().contains("SourceInfo"))
-         {
-            OpenPlanReader reader = new OpenPlanReader();
-            addListenersToReader(reader);
-            return Collections.singletonList(reader.read(fs));
-         }
-
-         String fileFormat = MPPReader.getFileFormat(fs);
-         if (fileFormat == null || !fileFormat.startsWith("MSProject"))
-         {
-            return Collections.emptyList();
-         }
-
-         MPPReader reader = new MPPReader();
+         OpenPlanReader reader = new OpenPlanReader();
          addListenersToReader(reader);
-         reader.setProperties(m_properties);
          return Collections.singletonList(reader.read(fs));
       }
 
-      finally
+      String fileFormat = MPPReader.getFileFormat(fs);
+      if (fileFormat == null || !fileFormat.startsWith("MSProject"))
       {
-         AutoCloseableHelper.closeQuietly(fs);
-         FileHelper.deleteQuietly(file);
+         return Collections.emptyList();
       }
+
+      MPPReader reader = new MPPReader();
+      addListenersToReader(reader);
+      reader.setProperties(m_properties);
+      return Collections.singletonList(reader.read(fs));
    }
 
    /**
@@ -489,28 +501,21 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private List<ProjectFile> handleMDBFile(InputStream stream) throws Exception
    {
       File file = InputStreamHelper.writeStreamToTempFile(stream, ".mdb");
+      m_cleanup.push(() -> FileHelper.deleteQuietly(file));
 
-      try
+      Set<String> tableNames = populateMdbTableNames(file);
+
+      if (tableNames.contains("MSP_PROJECTS"))
       {
-         Set<String> tableNames = populateMdbTableNames(file);
-
-         if (tableNames.contains("MSP_PROJECTS"))
-         {
-            return readProjectFile(new MPDFileReader(), file);
-         }
-
-         if (tableNames.contains("EXCEPTIONN"))
-         {
-            return readProjectFile(new AstaMdbReader(), file);
-         }
-
-         return Collections.emptyList();
+         return readProjectFile(new MPDFileReader(), file);
       }
 
-      finally
+      if (tableNames.contains("EXCEPTIONN"))
       {
-         FileHelper.deleteQuietly(file);
+         return readProjectFile(new AstaMdbReader(), file);
       }
+
+      return Collections.emptyList();
    }
 
    /**
@@ -524,33 +529,26 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private List<ProjectFile> handleSQLiteFile(InputStream stream) throws Exception
    {
       File file = InputStreamHelper.writeStreamToTempFile(stream, ".sqlite");
+      m_cleanup.push(() -> FileHelper.deleteQuietly(file));
 
-      try
+      Set<String> tableNames = populateSqliteTableNames(file);
+
+      if (tableNames.contains("EXCEPTIONN"))
       {
-         Set<String> tableNames = populateSqliteTableNames(file);
-
-         if (tableNames.contains("EXCEPTIONN"))
-         {
-            return readProjectFile(new AstaSqliteReader(), file);
-         }
-
-         if (tableNames.contains("PROJWBS"))
-         {
-            return readProjectFile(new PrimaveraDatabaseFileReader(), file);
-         }
-
-         if (tableNames.contains("ZSCHEDULEITEM"))
-         {
-            return readProjectFile(new MerlinReader(), file);
-         }
-
-         return Collections.emptyList();
+         return readProjectFile(new AstaSqliteReader(), file);
       }
 
-      finally
+      if (tableNames.contains("PROJWBS"))
       {
-         FileHelper.deleteQuietly(file);
+         return readProjectFile(new PrimaveraDatabaseFileReader(), file);
       }
+
+      if (tableNames.contains("ZSCHEDULEITEM"))
+      {
+         return readProjectFile(new MerlinReader(), file);
+      }
+
+      return Collections.emptyList();
    }
 
    /**
@@ -562,18 +560,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    private List<ProjectFile> handleZipFile(InputStream stream) throws Exception
    {
-      File dir = null;
-
-      try
-      {
-         dir = InputStreamHelper.writeZipStreamToTempDir(stream);
-         return handleDirectory(dir);
-      }
-
-      finally
-      {
-         FileHelper.deleteQuietly(dir);
-      }
+      File dir = InputStreamHelper.writeZipStreamToTempDir(stream);
+      m_cleanup.push(() -> FileHelper.deleteQuietly(dir));
+      return handleDirectory(dir);
    }
 
    /**
@@ -584,20 +573,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
     */
    private List<ProjectFile> handleFile(File file) throws Exception
    {
-      FileInputStream fis = null;
-
-      try
-      {
-         fis = new FileInputStream(file);
-         List<ProjectFile> projectFiles = readInternal(fis);
-         fis.close();
-         return projectFiles;
-      }
-
-      finally
-      {
-         AutoCloseableHelper.closeQuietly(fis);
-      }
+      FileInputStream fis = new FileInputStream(file);
+      m_cleanup.push(() -> AutoCloseableHelper.closeQuietly(fis));
+      List<ProjectFile> projectFiles = readInternal(fis);
+      fis.close();
+      return projectFiles;
    }
 
    /**
@@ -762,8 +742,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private List<ProjectFile> handleDosExeFile(InputStream stream) throws Exception
    {
       File file = InputStreamHelper.writeStreamToTempFile(stream, ".tmp");
-      InputStream is = null;
+      m_cleanup.push(() -> FileHelper.deleteQuietly(file));
 
+      InputStream is = null;
       try
       {
          is = Files.newInputStream(file.toPath());
@@ -806,7 +787,6 @@ public final class UniversalProjectReader extends AbstractProjectReader
       finally
       {
          AutoCloseableHelper.closeQuietly(is);
-         FileHelper.deleteQuietly(file);
       }
    }
 
@@ -830,6 +810,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private int m_skipBytes;
    private Charset m_charset;
    private boolean m_readAll;
+   private final Stack<Runnable> m_cleanup = new Stack();
 
    private static final int BUFFER_SIZE = 512;
 
