@@ -371,6 +371,7 @@
 
 		<replace dir="${ikvm.src.dir}" token="public interface " value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}                       public interface ">
 			<include name="**/*.java" />
+			<exclude name="**/UniversalProjectReader.java" />
 		</replace>
 
 		<replace dir="${ikvm.src.dir}" token="class ProjectEntity" value="import cli.System.Runtime.InteropServices.*;${line.separator}@ClassInterfaceAttribute.Annotation(ClassInterfaceType.__Enum.AutoDual)${line.separator}public class ProjectEntity">
