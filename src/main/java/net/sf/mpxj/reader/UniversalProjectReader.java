@@ -89,16 +89,16 @@ import net.sf.mpxj.turboproject.TurboProjectReader;
  */
 public final class UniversalProjectReader extends AbstractProjectReader
 {
-   public interface ProxyReader
+   public interface ProjectReaderProxy
    {
       public ProjectFile read()  throws MPXJException;
 
       public List<ProjectFile> readAll()  throws MPXJException;
    }
-
-   private class StreamReader implements ProxyReader
+   
+   private static class StreamReaderProxy implements ProjectReaderProxy
    {
-      public StreamReader(ProjectReader reader, InputStream stream)
+      public StreamReaderProxy(ProjectReader reader, InputStream stream)
       {
          m_reader = reader;
          m_stream = stream;
@@ -106,17 +106,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       @Override public ProjectFile read() throws MPXJException
       {
-         addListenersToReader(m_reader);
-         m_reader.setCharset(m_charset);
-         m_reader.setProperties(m_properties);
          return m_reader.read(m_stream);
       }
 
       @Override public List<ProjectFile> readAll() throws MPXJException
       {
-         addListenersToReader(m_reader);
-         m_reader.setCharset(m_charset);
-         m_reader.setProperties(m_properties);
          return m_reader.readAll(m_stream);
       }
 
@@ -124,9 +118,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
       private final InputStream m_stream;
    }
 
-   private class FileReader implements ProxyReader
+   private static class FileReaderProxy implements ProjectReaderProxy
    {
-      public FileReader(ProjectReader reader, File file)
+      public FileReaderProxy(ProjectReader reader, File file)
       {
          m_reader = reader;
          m_file = file;
@@ -134,17 +128,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       @Override public ProjectFile read() throws MPXJException
       {
-         addListenersToReader(m_reader);
-         m_reader.setCharset(m_charset);
-         m_reader.setProperties(m_properties);
          return m_reader.read(m_file);
       }
 
       @Override public List<ProjectFile> readAll() throws MPXJException
       {
-         addListenersToReader(m_reader);
-         m_reader.setCharset(m_charset);
-         m_reader.setProperties(m_properties);
          return m_reader.readAll(m_file);
       }
 
@@ -152,9 +140,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
       private final File m_file;
    }
 
-   private abstract class GenericReader<R extends ProjectReader, T> implements ProxyReader
+   private static abstract class GenericReaderProxy<R extends ProjectReader, T> implements ProjectReaderProxy
    {
-      public GenericReader(R reader, T source)
+      public GenericReaderProxy(R reader, T source)
       {
          m_reader = reader;
          m_source = source;
@@ -256,7 +244,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
-   private ProxyReader readInternal(File file) throws MPXJException
+   private ProjectReaderProxy readInternal(File file) throws MPXJException
    {
       try
       {
@@ -280,7 +268,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param inputStream input stream to read from
     * @return list of schedules
     */
-   private ProxyReader readInternal(InputStream inputStream) throws MPXJException
+   private ProjectReaderProxy readInternal(InputStream inputStream) throws MPXJException
    {
       try
       {
@@ -333,32 +321,32 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, MSPDI_FINGERPRINT_1) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_2) || matchesFingerprint(buffer, MSPDI_FINGERPRINT_3))
          {
-            return new StreamReader(new MSPDIReader(), bis);
+            return new StreamReaderProxy(configure(new MSPDIReader()), bis);
          }
 
          if (matchesFingerprint(buffer, PP_FINGERPRINT))
          {
-            return new StreamReader(new AstaTextFileReader(), bis);
+            return new StreamReaderProxy(configure(new AstaTextFileReader()), bis);
          }
 
          if (matchesFingerprint(buffer, MPX_FINGERPRINT))
          {
-            return new StreamReader(new MPXReader(), bis);
+            return new StreamReaderProxy(configure(new MPXReader()), bis);
          }
 
          if (matchesFingerprint(buffer, XER_FINGERPRINT))
          {
-            return new StreamReader(new PrimaveraXERFileReader(), bis);
+            return new StreamReaderProxy(configure(new PrimaveraXERFileReader()), bis);
          }
 
          if (matchesFingerprint(buffer, PLANNER_FINGERPRINT))
          {
-            return new StreamReader(new PlannerReader(), bis);
+            return new StreamReaderProxy(configure(new PlannerReader()), bis);
          }
 
          if (matchesFingerprint(buffer, PMXML_FINGERPRINT))
          {
-            return new StreamReader(new PrimaveraPMFileReader(), bis);
+            return new StreamReaderProxy(configure(new PrimaveraPMFileReader()), bis);
          }
 
          if (matchesFingerprint(buffer, MDB_FINGERPRINT))
@@ -378,32 +366,32 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, PHOENIX_FINGERPRINT))
          {
-            return new StreamReader(new PhoenixReader(), new PhoenixInputStream(bis));
+            return new StreamReaderProxy(configure(new PhoenixReader()), new PhoenixInputStream(bis));
          }
 
          if (matchesFingerprint(buffer, PHOENIX_XML_FINGERPRINT1) || matchesFingerprint(buffer, PHOENIX_XML_FINGERPRINT2))
          {
-            return new StreamReader(new PhoenixReader(), bis);
+            return new StreamReaderProxy(configure(new PhoenixReader()), bis);
          }
 
          if (matchesFingerprint(buffer, FASTTRACK_FINGERPRINT))
          {
-            return new StreamReader(new FastTrackReader(), bis);
+            return new StreamReaderProxy(configure(new FastTrackReader()), bis);
          }
 
          if (matchesFingerprint(buffer, PROJECTLIBRE_FINGERPRINT))
          {
-            return new StreamReader(new ProjectLibreReader(), bis);
+            return new StreamReaderProxy(configure(new ProjectLibreReader()), bis);
          }
 
          if (matchesFingerprint(buffer, GANTTPROJECT_FINGERPRINT))
          {
-            return new StreamReader(new GanttProjectReader(), bis);
+            return new StreamReaderProxy(configure(new GanttProjectReader()), bis);
          }
 
          if (matchesFingerprint(buffer, TURBOPROJECT_FINGERPRINT))
          {
-            return new StreamReader(new TurboProjectReader(), bis);
+            return new StreamReaderProxy(configure(new TurboProjectReader()), bis);
          }
 
          if (matchesFingerprint(buffer, DOS_EXE_FINGERPRINT))
@@ -413,32 +401,32 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          if (matchesFingerprint(buffer, CONCEPT_DRAW_FINGERPRINT))
          {
-            return new StreamReader(new ConceptDrawProjectReader(), bis);
+            return new StreamReaderProxy(configure(new ConceptDrawProjectReader()), bis);
          }
 
          if (matchesFingerprint(buffer, SYNCHRO_FINGERPRINT))
          {
-            return new StreamReader(new SynchroReader(), bis);
+            return new StreamReaderProxy(configure(new SynchroReader()), bis);
          }
 
          if (matchesFingerprint(buffer, GANTT_DESIGNER_FINGERPRINT))
          {
-            return new StreamReader(new GanttDesignerReader(), bis);
+            return new StreamReaderProxy(configure(new GanttDesignerReader()), bis);
          }
 
          if (matchesFingerprint(buffer, SDEF_FINGERPRINT))
          {
-            return new StreamReader(new SDEFReader(), bis);
+            return new StreamReaderProxy(configure(new SDEFReader()), bis);
          }
 
          if (matchesFingerprint(buffer, SCHEDULE_GRID_FINGERPRINT))
          {
-            return new StreamReader(new SageReader(), bis);
+            return new StreamReaderProxy(configure(new SageReader()), bis);
          }
 
          if (matchesFingerprint(buffer, PROJECT_COMMANDER_FINGERPRINT_1) || matchesFingerprint(buffer, PROJECT_COMMANDER_FINGERPRINT_2))
          {
-            return new StreamReader(new ProjectCommanderReader(), bis);
+            return new StreamReaderProxy(configure(new ProjectCommanderReader()), bis);
          }
 
          return null;
@@ -480,7 +468,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream file input stream
     * @return ProjectFile instance
     */
-   private ProxyReader handleOleCompoundDocument(InputStream stream) throws Exception
+   private ProjectReaderProxy handleOleCompoundDocument(InputStream stream) throws Exception
    {
       POIFSFileSystem fs;
       File file;
@@ -501,17 +489,15 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       if (fs.getRoot().getEntryNames().contains("SourceInfo"))
       {
-         return new GenericReader<OpenPlanReader, POIFSFileSystem>(new OpenPlanReader(), fs)
+         return new GenericReaderProxy<OpenPlanReader, POIFSFileSystem>(configure(new OpenPlanReader()), fs)
          {
             @Override public ProjectFile read() throws MPXJException
             {
-               addListenersToReader(m_reader);
                return m_reader.read(m_source);
             }
 
             @Override public List<ProjectFile> readAll() throws MPXJException
             {
-               addListenersToReader(m_reader);
                return Collections.singletonList(m_reader.read(m_source));
             }
          };
@@ -523,18 +509,14 @@ public final class UniversalProjectReader extends AbstractProjectReader
          return null;
       }
 
-      return new GenericReader<MPPReader, POIFSFileSystem>(new MPPReader(), fs)
+      return new GenericReaderProxy<MPPReader, POIFSFileSystem>(configure(new MPPReader()), fs)
       {
          @Override public ProjectFile read() throws MPXJException
          {
-            addListenersToReader(m_reader);
-            m_reader.setProperties(m_properties);
             return m_reader.read(m_source);
          }
          @Override public List<ProjectFile> readAll() throws MPXJException
          {
-            addListenersToReader(m_reader);
-            m_reader.setProperties(m_properties);
             return Collections.singletonList(m_reader.read(m_source));
          }
       };
@@ -546,7 +528,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream file input stream
     * @return ProjectFile instance
     */
-   private ProxyReader handleBinaryPropertyList(InputStream stream)
+   private ProjectReaderProxy handleBinaryPropertyList(InputStream stream)
    {
       // This is an unusual case. I have seen an instance where an MSPDI file was downloaded
       // as a web archive, which is a binary property list containing the file data.
@@ -566,7 +548,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream schedule data
     * @return ProjectFile instance
     */
-   private ProxyReader handleMDBFile(InputStream stream) throws Exception
+   private ProjectReaderProxy handleMDBFile(InputStream stream) throws Exception
    {
       File file = InputStreamHelper.writeStreamToTempFile(stream, ".mdb");
       m_cleanup.push(() -> FileHelper.deleteQuietly(file));
@@ -575,12 +557,12 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       if (tableNames.contains("MSP_PROJECTS"))
       {
-         return new FileReader(new MPDFileReader(), file);
+         return new FileReaderProxy(configure(new MPDFileReader()), file);
       }
 
       if (tableNames.contains("EXCEPTIONN"))
       {
-         return new FileReader(new AstaMdbReader(), file);
+         return new FileReaderProxy(configure(new AstaMdbReader()), file);
       }
 
       return null;
@@ -594,7 +576,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream schedule data
     * @return ProjectFile instance
     */
-   private ProxyReader handleSQLiteFile(InputStream stream) throws Exception
+   private ProjectReaderProxy handleSQLiteFile(InputStream stream) throws Exception
    {
       File file = InputStreamHelper.writeStreamToTempFile(stream, ".sqlite");
       m_cleanup.push(() -> FileHelper.deleteQuietly(file));
@@ -603,17 +585,17 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       if (tableNames.contains("EXCEPTIONN"))
       {
-         return new FileReader(new AstaSqliteReader(), file);
+         return new FileReaderProxy(configure(new AstaSqliteReader()), file);
       }
 
       if (tableNames.contains("PROJWBS"))
       {
-         return new FileReader(new PrimaveraDatabaseFileReader(), file);
+         return new FileReaderProxy(configure(new PrimaveraDatabaseFileReader()), file);
       }
 
       if (tableNames.contains("ZSCHEDULEITEM"))
       {
-         return new FileReader(new MerlinReader(), file);
+         return new FileReaderProxy(configure(new MerlinReader()), file);
       }
 
       return null;
@@ -626,7 +608,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream schedule data
     * @return ProjectFile instance
     */
-   private ProxyReader handleZipFile(InputStream stream) throws Exception
+   private ProjectReaderProxy handleZipFile(InputStream stream) throws Exception
    {
       File dir = InputStreamHelper.writeZipStreamToTempDir(stream);
       m_cleanup.push(() -> FileHelper.deleteQuietly(dir));
@@ -639,7 +621,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param file File instance
     * @return ProjectFile instance
     */
-   private ProxyReader handleFile(File file) throws Exception
+   private ProjectReaderProxy handleFile(File file) throws Exception
    {
       FileInputStream fis = new FileInputStream(file);
       m_cleanup.push(() -> AutoCloseableHelper.closeQuietly(fis));
@@ -654,9 +636,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param directory directory to process
     * @return ProjectFile instance if we can process anything, or null
     */
-   private ProxyReader handleDirectory(File directory) throws Exception
+   private ProjectReaderProxy handleDirectory(File directory) throws Exception
    {
-      ProxyReader result = handleDatabaseInDirectory(directory);
+      ProjectReaderProxy result = handleDatabaseInDirectory(directory);
       if (result != null)
       {
          return result;
@@ -671,7 +653,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param directory directory to process
     * @return ProjectFile instance if we can process anything, or null
     */
-   private ProxyReader handleDatabaseInDirectory(File directory) throws Exception
+   private ProjectReaderProxy handleDatabaseInDirectory(File directory) throws Exception
    {
       byte[] buffer = new byte[BUFFER_SIZE];
       File[] files = directory.listFiles();
@@ -718,7 +700,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param directory directory to process
     * @return ProjectFile instance if we can process anything, or null
     */
-   private ProxyReader handleFileInDirectory(File directory) throws Exception
+   private ProjectReaderProxy handleFileInDirectory(File directory) throws Exception
    {
       List<File> directories = new ArrayList<>();
       File[] files = directory.listFiles();
@@ -737,7 +719,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
                UniversalProjectReader reader = new UniversalProjectReader();
                m_cleanup.push(() -> reader.cleanup());
                reader.m_properties = m_properties;
-               ProxyReader result = reader.readInternal(file);
+               ProjectReaderProxy result = reader.readInternal(file);
                if (result != null)
                {
                   return result;
@@ -748,7 +730,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
          // Haven't found a file we can read? Try the directories.
          for (File file : directories)
          {
-            ProxyReader result = handleDirectory(file);
+            ProjectReaderProxy result = handleDirectory(file);
             if (result != null)
             {
                return result;
@@ -764,9 +746,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param directory directory to process
     * @return ProjectFile instance if we can process anything, or null
     */
-   private ProxyReader handleP3BtrieveDatabase(File directory) throws Exception
+   private ProjectReaderProxy handleP3BtrieveDatabase(File directory) throws Exception
    {
-      return new GenericReader<P3DatabaseReader, File>(new P3DatabaseReader(), directory)
+      return new GenericReaderProxy<P3DatabaseReader, File>(configure(new P3DatabaseReader()), directory)
       {
          @Override public ProjectFile read() throws MPXJException
          {
@@ -782,8 +764,6 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          @Override public List<ProjectFile> readAll() throws MPXJException
          {
-            addListenersToReader(m_reader);
-            m_reader.setProperties(m_properties);
             return m_reader.readAll(m_source);
          }
       };
@@ -795,9 +775,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param directory directory to process
     * @return ProjectFile instance if we can process anything, or null
     */
-   private ProxyReader handleSureTrakDatabase(File directory) throws Exception
+   private ProjectReaderProxy handleSureTrakDatabase(File directory) throws Exception
    {
-      return new GenericReader<SureTrakDatabaseReader, File>(new SureTrakDatabaseReader(), directory)
+      return new GenericReaderProxy<SureTrakDatabaseReader, File>(configure(new SureTrakDatabaseReader()), directory)
       {
          @Override public ProjectFile read() throws MPXJException
          {
@@ -828,7 +808,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param charset charset indicated by byte order mark
     * @return ProjectFile instance
     */
-   private ProxyReader handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
+   private ProjectReaderProxy handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
    {
       UniversalProjectReader reader = new UniversalProjectReader();
       m_cleanup.push(() -> reader.cleanup());
@@ -845,7 +825,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param stream schedule data
     * @return ProjectFile instance
     */
-   private ProxyReader handleDosExeFile(InputStream stream) throws Exception
+   private ProjectReaderProxy handleDosExeFile(InputStream stream) throws Exception
    {
       File file = InputStreamHelper.writeStreamToTempFile(stream, ".tmp");
       m_cleanup.push(() -> FileHelper.deleteQuietly(file));
@@ -870,7 +850,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
                {
                   is.close();
                   is = null;
-                  return new FileReader(new P3PRXFileReader(), file);
+                  return new FileReaderProxy(configure(new P3PRXFileReader()), file);
                }
             }
 
@@ -883,7 +863,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
                {
                   is.close();
                   is = null;
-                  return new FileReader(new SureTrakSTXFileReader(), file);
+                  return new FileReaderProxy(configure(new SureTrakSTXFileReader()), file);
                }
             }
          }
@@ -910,6 +890,14 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          return ConnectionHelper.getTableNames(connection);
       }
+   }
+
+   private <T extends ProjectReader> T configure(T reader)
+   {
+      reader.setCharset(m_charset);
+      reader.setProperties(m_properties);
+      addListenersToReader(reader);
+      return reader;
    }
 
    private void cleanup()
