@@ -30,16 +30,13 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.sql.Connection;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Stack;
-import java.util.function.Function;
 import java.util.regex.Pattern;
 
 import net.sf.mpxj.common.ConnectionHelper;
@@ -143,10 +140,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       finally
       {
-         while (!m_cleanup.isEmpty())
-         {
-            m_cleanup.pop().run();
-         }
+         cleanup();
       }
    }
 
@@ -160,10 +154,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       finally
       {
-         while (!m_cleanup.isEmpty())
-         {
-            m_cleanup.pop().run();
-         }
+         cleanup();
       }
    }
 
@@ -199,10 +190,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       finally
       {
-         while (!m_cleanup.isEmpty())
-         {
-            m_cleanup.pop().run();
-         }
+         cleanup();
       }
    }
 
@@ -216,10 +204,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       finally
       {
-         while (!m_cleanup.isEmpty())
-         {
-            m_cleanup.pop().run();
-         }
+         cleanup();
       }
    }
 
@@ -699,16 +684,10 @@ public final class UniversalProjectReader extends AbstractProjectReader
             else
             {
                UniversalProjectReader reader = new UniversalProjectReader();
+               m_cleanup.push(() -> reader.cleanup());
                reader.m_properties = m_properties;
                reader.m_readAll = m_readAll;
                List<ProjectFile> result = reader.readInternal(file);
-
-               // TODO - better to create a private clenaup method and push that as a runnable on to the stack
-               while(!reader.m_cleanup.isEmpty())
-               {
-                  m_cleanup.push(reader.m_cleanup.removeLast());
-               }
-
                if (!result.isEmpty())
                {
                   return result;
@@ -762,24 +741,12 @@ public final class UniversalProjectReader extends AbstractProjectReader
    private List<ProjectFile> handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
    {
       UniversalProjectReader reader = new UniversalProjectReader();
-
-      try
-      {
-         reader.m_properties = m_properties;
-         reader.m_skipBytes = length;
-         reader.m_charset = charset;
-         reader.m_readAll = m_readAll;
-         return reader.readInternal(stream);
-      }
-
-      finally
-      {
-         // TODO - better to create a private clenaup method and push that as a runnable on to the stack
-         while (!reader.m_cleanup.isEmpty())
-         {
-            m_cleanup.push(reader.m_cleanup.removeLast());
-         }
-      }
+      m_cleanup.push(() -> reader.cleanup());
+      reader.m_properties = m_properties;
+      reader.m_skipBytes = length;
+      reader.m_charset = charset;
+      reader.m_readAll = m_readAll;
+      return reader.readInternal(stream);
    }
 
    /**
@@ -856,11 +823,19 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
+   private void cleanup()
+   {
+      while (!m_cleanup.isEmpty())
+      {
+         m_cleanup.pop().run();
+      }
+   }
+
    private Properties m_properties;
    private int m_skipBytes;
    private Charset m_charset;
    private boolean m_readAll;
-   private final Deque<Runnable> m_cleanup = new ArrayDeque<>();
+   private final Stack<Runnable> m_cleanup = new Stack<>();
 
    private static final int BUFFER_SIZE = 512;
 
