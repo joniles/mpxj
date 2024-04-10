@@ -91,6 +91,8 @@ public final class UniversalProjectReader extends AbstractProjectReader
 {
    public interface ProjectReaderProxy
    {
+      public ProjectReader getProjectReader();
+
       public ProjectFile read()  throws MPXJException;
 
       public List<ProjectFile> readAll()  throws MPXJException;
@@ -102,6 +104,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          m_reader = reader;
          m_stream = stream;
+      }
+
+      public ProjectReader getProjectReader()
+      {
+         return m_reader;
       }
 
       @Override public ProjectFile read() throws MPXJException
@@ -126,6 +133,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
          m_file = file;
       }
 
+      public ProjectReader getProjectReader()
+      {
+         return m_reader;
+      }
+
       @Override public ProjectFile read() throws MPXJException
       {
          return m_reader.read(m_file);
@@ -146,6 +158,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          m_reader = reader;
          m_source = source;
+      }
+
+      @Override public R getProjectReader()
+      {
+         return m_reader;
       }
 
       protected final R m_reader;
@@ -196,7 +213,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       try
       {
-         return readInternal(file).read();
+         return getProjectReaderProxy(file).read();
       }
 
       finally
@@ -209,7 +226,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       try
       {
-         return readInternal(file).readAll();
+         return getProjectReaderProxy(file).readAll();
       }
 
       finally
@@ -222,7 +239,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       try
       {
-         return readInternal(inputStream).read();
+         return getProjectReaderProxy(inputStream).read();
       }
 
       finally
@@ -235,7 +252,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       try
       {
-         return readInternal(inputStream).readAll();
+         return getProjectReaderProxy(inputStream).readAll();
       }
 
       finally
@@ -244,7 +261,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
-   private ProjectReaderProxy readInternal(File file) throws MPXJException
+   public ProjectReaderProxy getProjectReaderProxy(File file) throws MPXJException
    {
       try
       {
@@ -256,19 +273,8 @@ public final class UniversalProjectReader extends AbstractProjectReader
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
       }
    }
-
-   /**
-    * Internal implementation of the read method. This primarily works with the
-    * supplied InputStream instance however if the stream is from a file,
-    * we'll pass a File instance too. This allows us to read MPP files
-    * using a more memory-efficient approach based on the File than would
-    * otherwise be possible using an input stream. This also avoids a hard
-    * limit imposed by POI when reading certain very large files.
-    *
-    * @param inputStream input stream to read from
-    * @return list of schedules
-    */
-   private ProjectReaderProxy readInternal(InputStream inputStream) throws MPXJException
+   
+   public ProjectReaderProxy getProjectReaderProxy(InputStream inputStream) throws MPXJException
    {
       try
       {
@@ -475,6 +481,8 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
       try
       {
+         // Reading from a File instance is more memory efficient than using an InputStream.
+         // This also avoids a hard limit imposed by POI when reading certain very large files.
          file = InputStreamHelper.writeStreamToTempFile(stream, ".dat");
          m_cleanup.push(() -> FileHelper.deleteQuietly(file));
 
@@ -625,7 +633,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       FileInputStream fis = new FileInputStream(file);
       m_cleanup.push(() -> AutoCloseableHelper.closeQuietly(fis));
-      return readInternal(fis);
+      return getProjectReaderProxy(fis);
    }
 
    /**
@@ -719,7 +727,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
                UniversalProjectReader reader = new UniversalProjectReader();
                m_cleanup.push(() -> reader.cleanup());
                reader.m_properties = m_properties;
-               ProjectReaderProxy result = reader.readInternal(file);
+               ProjectReaderProxy result = reader.getProjectReaderProxy(file);
                if (result != null)
                {
                   return result;
@@ -746,7 +754,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param directory directory to process
     * @return ProjectFile instance if we can process anything, or null
     */
-   private ProjectReaderProxy handleP3BtrieveDatabase(File directory) throws Exception
+   private ProjectReaderProxy handleP3BtrieveDatabase(File directory)
    {
       return new GenericReaderProxy<P3DatabaseReader, File>(configure(new P3DatabaseReader()), directory)
       {
@@ -775,7 +783,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param directory directory to process
     * @return ProjectFile instance if we can process anything, or null
     */
-   private ProjectReaderProxy handleSureTrakDatabase(File directory) throws Exception
+   private ProjectReaderProxy handleSureTrakDatabase(File directory)
    {
       return new GenericReaderProxy<SureTrakDatabaseReader, File>(configure(new SureTrakDatabaseReader()), directory)
       {
@@ -815,7 +823,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       reader.m_properties = m_properties;
       reader.m_skipBytes = length;
       reader.m_charset = charset;
-      return reader.readInternal(stream);
+      return reader.getProjectReaderProxy(stream);
    }
 
    /**
