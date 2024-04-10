@@ -89,7 +89,7 @@ import net.sf.mpxj.turboproject.TurboProjectReader;
  */
 public final class UniversalProjectReader extends AbstractProjectReader
 {
-   public interface ProjectReaderProxy
+   public interface ProjectReaderProxy extends AutoCloseable
    {
       public ProjectReader getProjectReader();
 
@@ -98,7 +98,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       public List<ProjectFile> readAll()  throws MPXJException;
    }
    
-   private static class StreamReaderProxy implements ProjectReaderProxy
+   private class StreamReaderProxy implements ProjectReaderProxy
    {
       public StreamReaderProxy(ProjectReader reader, InputStream stream)
       {
@@ -106,7 +106,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
          m_stream = stream;
       }
 
-      public ProjectReader getProjectReader()
+      @Override public ProjectReader getProjectReader()
       {
          return m_reader;
       }
@@ -121,11 +121,16 @@ public final class UniversalProjectReader extends AbstractProjectReader
          return m_reader.readAll(m_stream);
       }
 
+      @Override public void close()
+      {
+         cleanup();
+      }
+
       private final ProjectReader m_reader;
       private final InputStream m_stream;
    }
 
-   private static class FileReaderProxy implements ProjectReaderProxy
+   private class FileReaderProxy implements ProjectReaderProxy
    {
       public FileReaderProxy(ProjectReader reader, File file)
       {
@@ -148,11 +153,16 @@ public final class UniversalProjectReader extends AbstractProjectReader
          return m_reader.readAll(m_file);
       }
 
+      @Override public void close()
+      {
+         cleanup();
+      }
+
       private final ProjectReader m_reader;
       private final File m_file;
    }
 
-   private static abstract class GenericReaderProxy<R extends ProjectReader, T> implements ProjectReaderProxy
+   private abstract class GenericReaderProxy<R extends ProjectReader, T> implements ProjectReaderProxy
    {
       public GenericReaderProxy(R reader, T source)
       {
@@ -163,6 +173,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
       @Override public R getProjectReader()
       {
          return m_reader;
+      }
+
+      @Override public void close()
+      {
+         cleanup();
       }
 
       protected final R m_reader;
@@ -211,53 +226,53 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    @Override public ProjectFile read(File file) throws MPXJException
    {
-      try
+      try (ProjectReaderProxy reader = getProjectReaderProxy(file))
       {
-         return getProjectReaderProxy(file).read();
+         return reader.read();
       }
 
-      finally
+      catch (Exception ex)
       {
-         cleanup();
+         throw new RuntimeException(ex);
       }
    }
 
    @Override public List<ProjectFile> readAll(File file) throws MPXJException
    {
-      try
+      try (ProjectReaderProxy reader = getProjectReaderProxy(file))
       {
-         return getProjectReaderProxy(file).readAll();
+         return reader.readAll();
       }
 
-      finally
+      catch (Exception ex)
       {
-         cleanup();
+         throw new RuntimeException(ex);
       }
    }
 
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
    {
-      try
+      try (ProjectReaderProxy reader = getProjectReaderProxy(inputStream))
       {
-         return getProjectReaderProxy(inputStream).read();
+         return reader.read();
       }
 
-      finally
+      catch (Exception ex)
       {
-         cleanup();
+         throw new RuntimeException(ex);
       }
    }
 
    @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
    {
-      try
+      try (ProjectReaderProxy reader = getProjectReaderProxy(inputStream))
       {
-         return getProjectReaderProxy(inputStream).readAll();
+         return reader.readAll();
       }
 
-      finally
+      catch (Exception ex)
       {
-         cleanup();
+         throw new RuntimeException(ex);
       }
    }
 
@@ -273,7 +288,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
       }
    }
-   
+
    public ProjectReaderProxy getProjectReaderProxy(InputStream inputStream) throws MPXJException
    {
       try
