@@ -83,21 +83,63 @@ import net.sf.mpxj.synchro.SynchroReader;
 import net.sf.mpxj.turboproject.TurboProjectReader;
 
 /**
- * This class implements a universal project reader: given a file or a stream this reader
- * will sample the content and determine the type of file it has been given. It will then
- * instantiate the correct reader for that file type and proceed to read the file.
+ * This class implements a universal project reader: given a file or a stream
+ * this reader will sample the content and determine the type of file it has
+ * been given. It will then instantiate the correct reader for that file type
+ * and proceed to read the file.
  */
 public final class UniversalProjectReader extends AbstractProjectReader
 {
+   /**
+    * The classes implementing this interface provide access to an instance of
+    * the {@code ProjectReader} class (via the {@code getProjectReader} method)
+    * which is the class that {@code UniversalProjectReader} has determined
+    * should be used to read the file or stream you have passed it. You can use
+    * the {@code ProjectReader} instance to take decisions in your own code
+    * based on the type of file represented by the reader, or you can customize
+    * the behaviour of the reader by setting its properties before reading a
+    * schedule.
+    * <p>
+    * Once you have obtained an instance of the {@code ProjectReaderProxy}
+    * class, you can call the {@code read} or {@code readAll} methods to read
+    * the schedule data. Note that you must use these methods to read the
+    * schedule data from the supplied file or stream rather than calling the
+    * read methods on the {@code ProjectReader} instance as the
+    * {@code UniversalProjectReader} has pre-processed the data you
+    * supplied to locate the schedule.
+    * <p>
+    * Note: you must release the resources held by instances of this class by
+    * arranging to call the {@code close} method. To assist with this, this
+    * interface extends {@code AutoCloseable}.
+    */
    public interface ProjectReaderProxy extends AutoCloseable
    {
+      /**
+       * Retrieve the {@code ProjectReader} instance which will e used to read
+       * the supplied file or stream
+       *
+       * @return {@code ProjectReader} instance
+       */
       public ProjectReader getProjectReader();
 
+      /**
+       * Read a single {@code ProjectFile} instance from the supplied file or stream.
+       *
+       * @return {@code ProjectFile} instance or {@code null}
+       */
       public ProjectFile read()  throws MPXJException;
 
+      /**
+       * Read a list of {@code ProjectFile} instances from the supplied file or stream.
+       *
+       * @return {@code ProjectFile} instance or an empty list
+       */
       public List<ProjectFile> readAll()  throws MPXJException;
    }
-   
+
+   /**
+    * Internal {@code ProjectReaderProxy} implementation for streams.
+    */
    private class StreamReaderProxy implements ProjectReaderProxy
    {
       public StreamReaderProxy(ProjectReader reader, InputStream stream)
@@ -130,6 +172,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
       private final InputStream m_stream;
    }
 
+   /**
+    * Internal {@code ProjectReaderProxy} implementation for files.
+    */
    private class FileReaderProxy implements ProjectReaderProxy
    {
       public FileReaderProxy(ProjectReader reader, File file)
@@ -162,6 +207,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
       private final File m_file;
    }
 
+   /**
+    * Internal extensible {@code ProjectReaderProxy} implementation.
+    */
    private abstract class GenericReaderProxy<R extends ProjectReader, T> implements ProjectReaderProxy
    {
       public GenericReaderProxy(R reader, T source)
@@ -276,6 +324,14 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Retrieve a {@code ProjectReaderProxy} instance which provides access to
+    * the {@code ProjectReader} required to read a schedule from the supplied
+    * {@code File instance}.
+    *
+    * @param file file containing schedule data
+    * @return {@code ProjectReaderProxy} instance or null if no suitable reader can be found
+    */
    public ProjectReaderProxy getProjectReaderProxy(File file) throws MPXJException
    {
       try
@@ -289,6 +345,14 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Retrieve a {@code ProjectReaderProxy} instance which provides access to
+    * the {@code ProjectReader} required to read a schedule from the supplied
+    * {@code InputStream instance}.
+    *
+    * @param inputStream stream containing schedule data
+    * @return {@code ProjectReaderProxy} instance or null if no suitable reader can be found
+    */
    public ProjectReaderProxy getProjectReaderProxy(InputStream inputStream) throws MPXJException
    {
       try
