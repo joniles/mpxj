@@ -92,6 +92,22 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Retrieve the Charset used to read the file.
+    *
+    * @return Charset instance
+    */
+   private Charset getCharset()
+   {
+      Charset result = m_charset;
+      if (result == null)
+      {
+         // We default to CP1252 as this seems to be the most common encoding
+         result = m_encoding == null ? CharsetHelper.CP1252 : Charset.forName(m_encoding);
+      }
+      return result;
+   }
+
+   /**
     * Retrieve a flag indicating if, when using `realAll` to retrieve all
     * projects from a file, cross project relations should be linked together.
     *
@@ -314,22 +330,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       {
          throw new MPXJException(MPXJException.READ_ERROR + " (failed at line " + line + ")", ex);
       }
-   }
-
-   /**
-    * Retrieve the Charset used to read the file.
-    *
-    * @return Charset instance
-    */
-   private Charset getCharset()
-   {
-      Charset result = m_charset;
-      if (result == null)
-      {
-         // We default to CP1252 as this seems to be the most common encoding
-         result = m_encoding == null ? CharsetHelper.CP1252 : Charset.forName(m_encoding);
-      }
-      return result;
    }
 
    /**

@@ -121,6 +121,8 @@ public interface ProjectReader
     * If this is applicable, this method can be called to set the encoding to
     * use when reading a file.
     *
+    * TODO: deprecate this - just provide this method on the readers which support it
+    *
     * @param charset encoding to use when reading a file
     */
    public void setCharset(Charset charset);
