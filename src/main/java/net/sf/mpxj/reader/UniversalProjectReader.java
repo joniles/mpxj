@@ -115,8 +115,8 @@ public final class UniversalProjectReader extends AbstractProjectReader
    public interface ProjectReaderProxy extends AutoCloseable
    {
       /**
-       * Retrieve the {@code ProjectReader} instance which will e used to read
-       * the supplied file or stream
+       * Retrieve the {@code ProjectReader} instance which will be used to read
+       * the supplied file or stream.
        *
        * @return {@code ProjectReader} instance
        */
@@ -183,7 +183,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
          m_file = file;
       }
 
-      public ProjectReader getProjectReader()
+      @Override public ProjectReader getProjectReader()
       {
          return m_reader;
       }
@@ -209,6 +209,9 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    /**
     * Internal extensible {@code ProjectReaderProxy} implementation.
+    * 
+    * @param <R> reader class instance
+    * @param <T> data source
     */
    private abstract class GenericReaderProxy<R extends ProjectReader, T> implements ProjectReaderProxy
    {
@@ -279,6 +282,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
          return reader.read();
       }
 
+      catch (MPXJException ex)
+      {
+         throw ex;
+      }
+      
       catch (Exception ex)
       {
          throw new RuntimeException(ex);
@@ -290,6 +298,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
       try (ProjectReaderProxy reader = getProjectReaderProxy(file))
       {
          return reader.readAll();
+      }
+
+      catch (MPXJException ex)
+      {
+         throw ex;
       }
 
       catch (Exception ex)
@@ -305,6 +318,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
          return reader.read();
       }
 
+      catch (MPXJException ex)
+      {
+         throw ex;
+      }
+
       catch (Exception ex)
       {
          throw new RuntimeException(ex);
@@ -316,6 +334,11 @@ public final class UniversalProjectReader extends AbstractProjectReader
       try (ProjectReaderProxy reader = getProjectReaderProxy(inputStream))
       {
          return reader.readAll();
+      }
+
+      catch (MPXJException ex)
+      {
+         throw ex;
       }
 
       catch (Exception ex)
