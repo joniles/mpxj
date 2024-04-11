@@ -928,7 +928,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param charset charset indicated by byte order mark
     * @return ProjectFile instance
     */
-   @SuppressWarnings( "deprecation" ) private ProjectReaderProxy handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
+   private ProjectReaderProxy handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
    {
       UniversalProjectReader reader = new UniversalProjectReader();
       m_cleanup.push(() -> reader.cleanup());

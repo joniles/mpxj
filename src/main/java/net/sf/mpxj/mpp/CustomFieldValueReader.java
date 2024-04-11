@@ -44,6 +44,7 @@ abstract class CustomFieldValueReader
     * Constructor.
     *
     * @param file project file
+    * @param lookupTableMap map of GUIDs to lookup tables
     * @param outlineCodeVarMeta raw mpp data
     * @param outlineCodeVarData raw mpp data
     * @param outlineCodeFixedData raw mpp data

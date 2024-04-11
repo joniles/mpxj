@@ -1171,7 +1171,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    private void readAvailabilityTable(Resource resource, Project.Resources.Resource xml)
    {
       AvailabilityPeriods periods = xml.getAvailabilityPeriods();
-      if (periods == null || periods.getAvailabilityPeriod() == null || periods.getAvailabilityPeriod().isEmpty())
+      if (periods == null || periods.getAvailabilityPeriod().isEmpty())
       {
          LocalDateTime availableFrom = xml.getAvailableFrom();
          LocalDateTime availableTo = xml.getAvailableTo();

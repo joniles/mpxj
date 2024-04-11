@@ -193,6 +193,12 @@ public final class Relation implements ProjectEntityWithUniqueID
     */
    public static class Builder
    {
+      /**
+       * Create a builder from a Relation instance.
+       * 
+       * @param value relation instance
+       * @return Builder instance
+       */
       public Builder from(Relation value)
       {
          m_uniqueID = value.m_uniqueID;

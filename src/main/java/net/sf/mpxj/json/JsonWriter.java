@@ -381,12 +381,12 @@ public final class JsonWriter extends AbstractProjectWriter
 
       m_writer.writeStartObject("lookup_table");
       writeStringField("guid", table.getGUID());
-      writeBooleanField("enterprise", table.getEnterprise());
-      writeBooleanField("show_indent", table.getShowIndent());
-      writeBooleanField("resource_substitution_enabled", table.getResourceSubstitutionEnabled());
-      writeBooleanField("leaf_only", table.getLeafOnly());
-      writeBooleanField("all_levels_required", table.getAllLevelsRequired());
-      writeBooleanField("only_table_values_allowed", table.getOnlyTableValuesAllowed());
+      writeBooleanField("enterprise", Boolean.valueOf(table.getEnterprise()));
+      writeBooleanField("show_indent", Boolean.valueOf(table.getShowIndent()));
+      writeBooleanField("resource_substitution_enabled", Boolean.valueOf(table.getResourceSubstitutionEnabled()));
+      writeBooleanField("leaf_only", Boolean.valueOf(table.getLeafOnly()));
+      writeBooleanField("all_levels_required", Boolean.valueOf(table.getAllLevelsRequired()));
+      writeBooleanField("only_table_values_allowed", Boolean.valueOf(table.getOnlyTableValuesAllowed()));
       m_writer.writeStartList("values");
       for(CustomFieldValueItem item : table)
       {
@@ -410,7 +410,7 @@ public final class JsonWriter extends AbstractProjectWriter
       writeStringField("description", item.getDescription());
       writeIntegerField("parent_unique_id", item.getParentUniqueID());
       writeStringField("type", item.getType() == null ? null : item.getType().name());
-      writeBooleanField("collapsed", item.getCollapsed());
+      writeBooleanField("collapsed", Boolean.valueOf(item.getCollapsed()));
       m_writer.writeEndObject();
    }
 
@@ -427,9 +427,9 @@ public final class JsonWriter extends AbstractProjectWriter
       }
 
       m_writer.writeStartObject("graphical_indicator");
-      writeBooleanField("summary_rows_inherit_from_non_summary_rows", indicator.getSummaryRowsInheritFromNonSummaryRows());
-      writeBooleanField("project_summary_inherits_from_summary_rows", indicator.getProjectSummaryInheritsFromSummaryRows());
-      writeBooleanField("show_data_values_in_tooltips", indicator.getShowDataValuesInToolTips());
+      writeBooleanField("summary_rows_inherit_from_non_summary_rows", Boolean.valueOf(indicator.getSummaryRowsInheritFromNonSummaryRows()));
+      writeBooleanField("project_summary_inherits_from_summary_rows", Boolean.valueOf(indicator.getProjectSummaryInheritsFromSummaryRows()));
+      writeBooleanField("show_data_values_in_tooltips", Boolean.valueOf(indicator.getShowDataValuesInToolTips()));
       writeGraphicalIndicatorCriteria("project_summary_criteria", indicator.getProjectSummaryCriteria());
       writeGraphicalIndicatorCriteria("summary_row_criteria", indicator.getSummaryRowCriteria());
       writeGraphicalIndicatorCriteria("non_sumary_row_criteria", indicator.getNonSummaryRowCriteria());
@@ -453,7 +453,7 @@ public final class JsonWriter extends AbstractProjectWriter
       for(GraphicalIndicatorCriteria criteria : list)
       {
          m_writer.writeStartObject(null);
-         writeIntegerField("indicator", criteria.getIndicator());
+         writeIntegerField("indicator", Integer.valueOf(criteria.getIndicator()));
          writeGenericCriteriaAttributes(criteria);
          m_writer.writeEndObject();
       }
@@ -504,8 +504,8 @@ public final class JsonWriter extends AbstractProjectWriter
       for (CustomFieldValueMask mask : field.getMasks())
       {
          m_writer.writeStartObject(null);
-         writeIntegerField("length", mask.getLength());
-         writeIntegerField("level", mask.getLevel());
+         writeIntegerField("length", Integer.valueOf(mask.getLength()));
+         writeIntegerField("level", Integer.valueOf(mask.getLevel()));
          writeStringField("separator", mask.getSeparator());
          writeStringField("type", mask.getType().name());
          m_writer.writeEndObject();
