@@ -259,7 +259,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param props properties to set
     * @return current UniversalProjectReader instance to allow method chaining
     */
-   @Override public ProjectReader setProperties(Properties props)
+   @Deprecated @Override public ProjectReader setProperties(Properties props)
    {
       m_properties = props;
       return this;
@@ -903,8 +903,6 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
          @Override public List<ProjectFile> readAll() throws MPXJException
          {
-            addListenersToReader(m_reader);
-            m_reader.setProperties(m_properties);
             return m_reader.readAll(m_source);
          }
       };
@@ -918,7 +916,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
     * @param charset charset indicated by byte order mark
     * @return ProjectFile instance
     */
-   private ProjectReaderProxy handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
+   @SuppressWarnings( "deprecation" ) private ProjectReaderProxy handleByteOrderMark(InputStream stream, int length, Charset charset) throws Exception
    {
       UniversalProjectReader reader = new UniversalProjectReader();
       m_cleanup.push(() -> reader.cleanup());
@@ -1002,7 +1000,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
-   private <T extends ProjectReader> T configure(T reader)
+   @SuppressWarnings( "deprecation" ) private <T extends ProjectReader> T configure(T reader)
    {
       reader.setCharset(m_charset);
       reader.setProperties(m_properties);

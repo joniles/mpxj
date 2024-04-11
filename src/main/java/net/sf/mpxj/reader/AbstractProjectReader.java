@@ -38,7 +38,7 @@ import net.sf.mpxj.listener.ProjectListener;
  */
 public abstract class AbstractProjectReader implements ProjectReader
 {
-   @Override public ProjectReader setProperties(Properties props)
+   @Deprecated @Override public ProjectReader setProperties(Properties props)
    {
       if (props == null)
       {

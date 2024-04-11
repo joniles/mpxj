@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.8.2">
+			<action dev="joniles" type="update">Updated `UniversalProjectReader` to allow access to the instance of the reader class which will be used to read a schedule, prior to the schedule being read. This will allow the reader to be configured, or schedule to be ignored without reading its content.</action>
 			<action dev="joniles" type="update">Add `from` method to all `Builder` classes to allow initialisation from existing objects.</action>
 			<action dev="joniles" type="update">The `CostAccount.Builder` class now provides two `notes` methods to allow formatted or unformatted notes to be added to cost accounts.</action>
 			<action dev="joniles" type="update">The `CostAccount` method `getDescription()` has been marked as deprecated. Use the `getNotes()` or `getNotesObject()` method instead.</action>
