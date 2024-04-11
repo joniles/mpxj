@@ -482,7 +482,7 @@ public final class JsonWriter extends AbstractProjectWriter
       for (GenericCriteria child : list)
       {
          m_writer.writeStartObject(null);
-         writeGenericCriteriaAttributes(criteria);
+         writeGenericCriteriaAttributes(child);
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
