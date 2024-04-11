@@ -50,10 +50,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
     */
    @Override public void setCharset(Charset charset)
    {
-      if (charset != null)
-      {
-         m_charset = charset;
-      }
+      m_charset = charset;
    }
 
    /**
@@ -63,7 +60,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
     */
    public Charset getCharset()
    {
-      return m_charset;
+      return m_charset == null ? StandardCharsets.US_ASCII : m_charset;
    }
 
    @Override public ProjectFile read(InputStream inputStream) throws MPXJException
@@ -76,7 +73,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
 
       addListenersToProject(project);
 
-      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, m_charset));
+      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, getCharset()));
 
       try
       {
@@ -158,7 +155,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
       return true;
    }
 
-   private Charset m_charset = StandardCharsets.US_ASCII;
+   private Charset m_charset;
    private boolean m_ignoreErrors = true;
 
    private static final Map<String, Class<? extends SDEFRecord>> RECORD_MAP = new HashMap<>();

@@ -81,8 +81,9 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
     * @param directory directory containing a P3 database
     * @param properties optional properties to pass to reader's setProperties method
     * @return ProjectFile instance
+    * @deprecated use setProjectNameAndRead(File) method instead
     */
-   public static final ProjectFile setProjectNameAndRead(File directory, Properties properties) throws MPXJException
+   @Deprecated public static final ProjectFile setProjectNameAndRead(File directory, Properties properties) throws MPXJException
    {
       List<String> projects = listProjectNames(directory);
 
