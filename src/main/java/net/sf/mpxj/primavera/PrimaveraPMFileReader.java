@@ -315,7 +315,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
       else
       {
-         if (apibo.getProjectList() != null && apibo.getProjectList().getProject().stream().anyMatch(p -> p.getBaselineProject() != null && !p.getBaselineProject().isEmpty()))
+         if (apibo.getProjectList() != null && apibo.getProjectList().getProject().stream().anyMatch(p -> !p.getBaselineProject().isEmpty()))
          {
             // We have baselines in the project list
             populateBaselinesbyProjectList(apibo, projects);
