@@ -59,7 +59,6 @@ import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
-import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.sdef.SDEFWriter;
 import net.sf.mpxj.writer.ProjectWriter;
@@ -82,8 +81,6 @@ public class CustomerDataTest
 
       m_universalReader = new UniversalProjectReader();
       m_mpxReader = new MPXReader();
-      m_xerReader = new PrimaveraXERFileReader();
-      m_xerReader.setLinkCrossProjectRelations(true);
    }
 
    /**
@@ -732,7 +729,6 @@ public class CustomerDataTest
 
    private final UniversalProjectReader m_universalReader;
    private final MPXReader m_mpxReader;
-   private final PrimaveraXERFileReader m_xerReader;
    private static File DIFF_BASELINE_DIR;
    private static File DIFF_TEST_DIR;
 

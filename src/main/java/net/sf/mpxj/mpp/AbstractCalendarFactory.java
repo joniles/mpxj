@@ -90,12 +90,11 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       //      System.out.println(calFixedMeta);
       //      System.out.println(calFixedData);
 
-      FixedMeta calFixed2Meta = null;
       FixedData calFixed2Data = null;
 
       if (calDir.hasEntry("Fixed2Meta"))
       {
-         calFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("Fixed2Meta"))), 9);
+         FixedMeta calFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("Fixed2Meta"))), 9);
          calFixed2Data = new FixedData(calFixed2Meta, inputStreamFactory.getInstance(calDir, "Fixed2Data"), 48);
       }
 

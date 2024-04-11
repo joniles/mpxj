@@ -31,13 +31,13 @@ import java.io.InputStream;
  */
 public final class FixedLengthInputStream extends FilterInputStream
 {
-
    /** Remaining bytes available. */
    private long m_remaining;
 
    /**
     * Create a new input stream with a fixed number of bytes available from
     * the underlying stream.
+    *
     * @param in the input stream to wrap
     * @param length fixed number of bytes available through this stream
     */
@@ -50,6 +50,7 @@ public final class FixedLengthInputStream extends FilterInputStream
    /**
     * Closing will only skip to the end of this fixed length input stream and
     * not call the parent's close method.
+    *
     * @throws IOException if an I/O error occurs while closing stream
     */
    @Override public void close() throws IOException
@@ -57,11 +58,11 @@ public final class FixedLengthInputStream extends FilterInputStream
       long skippedLast;
       if (m_remaining > 0)
       {
-         skippedLast = skip(m_remaining);
-         while (m_remaining > 0 && skippedLast > 0)
+         do
          {
             skippedLast = skip(m_remaining);
          }
+         while (m_remaining > 0 && skippedLast > 0);
       }
    }
 

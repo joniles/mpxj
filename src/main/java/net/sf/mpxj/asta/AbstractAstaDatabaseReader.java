@@ -221,8 +221,7 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
     */
    public void setProjectID(int projectID)
    {
-      m_projectID = Integer.valueOf(projectID);
-      m_projectKey = Collections.singletonMap("PROJID", m_projectID);
+      m_projectKey = Collections.singletonMap("PROJID", Integer.valueOf(projectID));
    }
 
    @Override public ProjectFile read(File file) throws MPXJException
@@ -385,6 +384,5 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
    }
 
    private AstaReader m_reader;
-   private Integer m_projectID;
    private Map<String, Integer> m_projectKey;
 }

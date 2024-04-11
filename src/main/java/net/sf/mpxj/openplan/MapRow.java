@@ -24,7 +24,6 @@ package net.sf.mpxj.openplan;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Comparator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -44,7 +43,7 @@ class MapRow implements Row
 
    @Override public String toString()
    {
-      return "[MapRow\n" + m_map.entrySet().stream().sorted(Comparator.comparing(Map.Entry::getKey)).map(e -> "\t" + e.getKey() + "\t" + e.getValue() + " (" + e.getValue().getClass().getSimpleName() + ")").collect(Collectors.joining("\n")) + "\n]";
+      return "[MapRow\n" + m_map.entrySet().stream().sorted(Map.Entry.comparingByKey()).map(e -> "\t" + e.getKey() + "\t" + e.getValue() + " (" + e.getValue().getClass().getSimpleName() + ")").collect(Collectors.joining("\n")) + "\n]";
    }
 
    // TODO change!

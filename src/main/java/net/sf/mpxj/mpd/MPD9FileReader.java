@@ -65,11 +65,11 @@ final class MPD9FileReader extends MPD9AbstractReader
          Cursor cursor = CursorBuilder.createCursor(table);
          if (cursor.findFirstRow(keys))
          {
-            result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
-            while (cursor.findNextRow(keys))
+            do
             {
                result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
             }
+            while (cursor.findNextRow(keys));
          }
 
          return result;

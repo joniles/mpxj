@@ -84,16 +84,9 @@ public final class MPPTimephasedBaselineCostNormaliser implements TimephasedNorm
    private void splitDays(ProjectCalendar calendar, List<TimephasedCost> list)
    {
       List<TimephasedCost> result = new ArrayList<>();
-      boolean remainderInserted = false;
 
       for (TimephasedCost item : list)
       {
-         if (remainderInserted)
-         {
-            item.setStart(item.getStart().plusDays(1));
-            remainderInserted = false;
-         }
-
          while (item != null)
          {
             LocalDateTime startDay = LocalDateTimeHelper.getDayStartDate(item.getStart());
@@ -250,7 +243,7 @@ public final class MPPTimephasedBaselineCostNormaliser implements TimephasedNorm
     *
     * @param list assignment data
     */
-   protected void mergeSameCost(List<TimephasedCost> list)
+   private void mergeSameCost(List<TimephasedCost> list)
    {
       List<TimephasedCost> result = new ArrayList<>();
 

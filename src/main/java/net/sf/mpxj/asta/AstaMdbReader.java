@@ -66,11 +66,11 @@ public final class AstaMdbReader extends AbstractAstaDatabaseReader
             Cursor cursor = CursorBuilder.createCursor(table);
             if (cursor.findFirstRow(keys))
             {
-               result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
-               while (cursor.findNextRow(keys))
+               do
                {
                   result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
                }
+               while (cursor.findNextRow(keys));
             }
          }
 
