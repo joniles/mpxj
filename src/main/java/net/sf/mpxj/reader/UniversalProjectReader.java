@@ -349,6 +349,18 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    /**
     * Retrieve a {@code ProjectReaderProxy} instance which provides access to
+    * the {@code ProjectReader} required to read a schedule from the named file.
+    *
+    * @param fileName name of file containing schedule data
+    * @return {@code ProjectReaderProxy} instance or null if no suitable reader can be found
+    */
+   public ProjectReaderProxy getProjectReaderProxy(String fileName) throws MPXJException
+   {
+      return getProjectReaderProxy(new File(fileName));
+   }
+
+   /**
+    * Retrieve a {@code ProjectReaderProxy} instance which provides access to
     * the {@code ProjectReader} required to read a schedule from the supplied
     * {@code File instance}.
     *
