@@ -14,6 +14,7 @@
 			<action dev="joniles" type="update">The `CustomFieldValueItem` methods `getParent` and `setParent` have been marked as deprecated. Use the `getParentUniqueID` and `setParentUniqueID` methods instead.</action>
 			<action dev="joniles" type="update">JSON output from MPXJ now includes more detail for custom field definitions read from MPP files.</action>
 			<action dev="joniles" type="update">When reading a PMXML file, populate the Early/Late Start/Finish date attributes from the Remaining Early/Late Start/Finish date attributes.</action>
+			<action dev="joniles" type="update">Fix an issue reading WBS ID for P3 and SureTrak schedules.</action>
 		</release>
 		<release date="2024-03-11" version="12.8.1">
 			<action dev="joniles" type="update">Improve reading resource assignments from certain FastTrack FTS files.</action>
