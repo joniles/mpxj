@@ -324,7 +324,7 @@ class CalendarDirectoryReader extends DirectoryReader
       // IKVM doesn't like the chars() method
       //return dateSpec.length() >= 3 && dateSpec.length() <= 4 && dateSpec.chars().allMatch(c -> Character.isDigit(c));
 
-      if (dateSpec.length() < 3 ||  dateSpec.length() > 4)
+      if (dateSpec.length() < 3 || dateSpec.length() > 4)
       {
          return false;
       }

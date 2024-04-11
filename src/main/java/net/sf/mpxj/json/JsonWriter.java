@@ -388,7 +388,7 @@ public final class JsonWriter extends AbstractProjectWriter
       writeBooleanField("all_levels_required", Boolean.valueOf(table.getAllLevelsRequired()));
       writeBooleanField("only_table_values_allowed", Boolean.valueOf(table.getOnlyTableValuesAllowed()));
       m_writer.writeStartList("values");
-      for(CustomFieldValueItem item : table)
+      for (CustomFieldValueItem item : table)
       {
          writeCustomFieldValueItem(item);
       }
@@ -450,7 +450,7 @@ public final class JsonWriter extends AbstractProjectWriter
       }
 
       m_writer.writeStartList(name);
-      for(GraphicalIndicatorCriteria criteria : list)
+      for (GraphicalIndicatorCriteria criteria : list)
       {
          m_writer.writeStartObject(null);
          writeIntegerField("indicator", Integer.valueOf(criteria.getIndicator()));

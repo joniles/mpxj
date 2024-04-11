@@ -210,7 +210,6 @@ abstract class CustomFieldValueReader
    protected int m_typeOffset;
    protected int m_fieldOffset;
 
-
    public static final Integer VALUE_LIST_VALUE = Integer.valueOf(22);
    public static final Integer VALUE_LIST_DESCRIPTION = Integer.valueOf(8);
    public static final Integer VALUE_LIST_UNKNOWN = Integer.valueOf(23);

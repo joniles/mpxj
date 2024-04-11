@@ -118,7 +118,7 @@ public class ExpenseCategory implements ProjectEntityWithUniqueID
       public Builder from(ExpenseCategory value)
       {
          m_uniqueID = value.m_uniqueID;
-         m_name= value.m_name;
+         m_name = value.m_name;
          m_sequenceNumber = value.m_sequenceNumber;
          return this;
       }

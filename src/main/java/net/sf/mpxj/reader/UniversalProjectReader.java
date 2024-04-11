@@ -127,14 +127,14 @@ public final class UniversalProjectReader extends AbstractProjectReader
        *
        * @return {@code ProjectFile} instance or {@code null}
        */
-      public ProjectFile read()  throws MPXJException;
+      public ProjectFile read() throws MPXJException;
 
       /**
        * Read a list of {@code ProjectFile} instances from the supplied file or stream.
        *
        * @return {@code ProjectFile} instance or an empty list
        */
-      public List<ProjectFile> readAll()  throws MPXJException;
+      public List<ProjectFile> readAll() throws MPXJException;
    }
 
    /**
@@ -209,7 +209,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    /**
     * Internal extensible {@code ProjectReaderProxy} implementation.
-    * 
+    *
     * @param <R> reader class instance
     * @param <T> data source
     */
@@ -286,7 +286,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       {
          throw ex;
       }
-      
+
       catch (Exception ex)
       {
          throw new RuntimeException(ex);
@@ -371,7 +371,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       try
       {
-         return file.isDirectory() ? handleDirectory(file) :  handleFile(file);
+         return file.isDirectory() ? handleDirectory(file) : handleFile(file);
       }
 
       catch (Exception ex)
@@ -637,6 +637,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
          {
             return m_reader.read(m_source);
          }
+
          @Override public List<ProjectFile> readAll() throws MPXJException
          {
             return Collections.singletonList(m_reader.read(m_source));
@@ -1012,7 +1013,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
-   @SuppressWarnings( "deprecation" ) private <T extends ProjectReader> T configure(T reader)
+   @SuppressWarnings("deprecation") private <T extends ProjectReader> T configure(T reader)
    {
       reader.setCharset(m_charset);
       reader.setProperties(m_properties);

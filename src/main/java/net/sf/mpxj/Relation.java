@@ -195,7 +195,7 @@ public final class Relation implements ProjectEntityWithUniqueID
    {
       /**
        * Create a builder from a Relation instance.
-       * 
+       *
        * @param value relation instance
        * @return Builder instance
        */

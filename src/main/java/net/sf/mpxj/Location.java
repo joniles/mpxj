@@ -252,7 +252,7 @@ public final class Location implements ProjectEntityWithUniqueID
          m_addressLine1 = value.m_addressLine1;
          m_addressLine2 = value.m_addressLine2;
          m_addressLine3 = value.m_addressLine3;
-         m_city= value.m_city;
+         m_city = value.m_city;
          m_country = value.m_country;
          m_countryCode = value.m_countryCode;
          m_latitude = value.m_latitude;
