@@ -50,7 +50,7 @@ class RelationTypeColumn extends AbstractShortColumn
       {
          type = TYPES[result];
       }
-      
+
       if (type == null)
       {
          type = RelationType.FINISH_START;

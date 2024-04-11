@@ -513,18 +513,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    private Duration getWork(Task task)
    {
       Duration result = task.getWork();
-
-      if (result != null && result.getDuration() != 0)
-      {
-         return result;
-      }
-
-      if (result == null || result.getDuration() == 0)
-      {
-         return task.getDuration();
-      }
-
-      return result;
+      return result != null && result.getDuration() != 0 ? result : task.getDuration();
    }
 
    /**
