@@ -105,6 +105,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
     */
    public void updateStructure()
    {
+      // TODO: deprecate - change method visibility
       if (size() > 1)
       {
          m_projectFile.getChildResources().clear();

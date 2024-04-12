@@ -551,7 +551,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
             }
          }
       }
-      m_projectFile.getTasks().updateStructure();
+      m_projectFile.updateStructure();
    }
 
    /**
