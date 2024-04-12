@@ -291,9 +291,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1282-unreleased" class="md-nav__link">
+  <a href="#1291-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      12.8.2 (unreleased)
+      12.9.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1290-2024-04-11" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.9.0 (2024-04-11)
     </span>
   </a>
   
@@ -3533,6 +3542,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../howto-use-universal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Universal Project Reader
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3713,9 +3743,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1282-unreleased" class="md-nav__link">
+  <a href="#1291-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      12.8.2 (unreleased)
+      12.9.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1290-2024-04-11" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.9.0 (2024-04-11)
     </span>
   </a>
   
@@ -5852,7 +5891,19 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1282-unreleased">12.8.2 (unreleased)</h2>
+<h2 id="1291-unreleased">12.9.1 (unreleased)</h2>
+<h2 id="1290-2024-04-11">12.9.0 (2024-04-11)</h2>
+<ul>
+<li>Updated <code>UniversalProjectReader</code> to add <code>getProjectReaderProxy</code> methods to allow access to the instance of the reader class which will be used to read a schedule, prior to the schedule being read. This will allow the reader to be configured, or schedule to be ignored without reading its content.</li>
+<li>Deprecated the <code>ProjectReader.setProperties</code> method. This method was originally implemented to allow settings to be passed to reader classes when using <code>UniversalProjectReader</code>. You can now use <code>UniversalProjectReader.getProjectReaderProxy</code> to achieve this.</li>
+<li>Add <code>from</code> method to all <code>Builder</code> classes to allow initialisation from existing objects.</li>
+<li>The <code>CostAccount.Builder</code> class now provides two <code>notes</code> methods to allow formatted or unformatted notes to be added to cost accounts.</li>
+<li>The <code>CostAccount</code> method <code>getDescription()</code> has been marked as deprecated. Use the <code>getNotes()</code> or <code>getNotesObject()</code> method instead.</li>
+<li>The <code>CustomFieldValueItem</code> methods <code>getParent</code> and <code>setParent</code> have been marked as deprecated. Use the <code>getParentUniqueID</code> and <code>setParentUniqueID</code> methods instead.</li>
+<li>JSON output from MPXJ now includes more detail for custom field definitions read from MPP files.</li>
+<li>When reading a PMXML file, populate the Early/Late Start/Finish date attributes from the Remaining Early/Late Start/Finish date attributes.</li>
+<li>Fix an issue reading WBS ID for P3 and SureTrak schedules.</li>
+</ul>
 <h2 id="1281-2024-03-11">12.8.1 (2024-03-11)</h2>
 <ul>
 <li>Improve reading resource assignments from certain FastTrack FTS files.</li>

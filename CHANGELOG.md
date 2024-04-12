@@ -1,6 +1,17 @@
 # Changelog
 
-## 12.8.2 (unreleased)
+## 12.9.1 (unreleased)
+
+## 12.9.0 (2024-04-11)
+* Updated `UniversalProjectReader` to add `getProjectReaderProxy` methods to allow access to the instance of the reader class which will be used to read a schedule, prior to the schedule being read. This will allow the reader to be configured, or schedule to be ignored without reading its content.
+* Deprecated the `ProjectReader.setProperties` method. This method was originally implemented to allow settings to be passed to reader classes when using `UniversalProjectReader`. You can now use `UniversalProjectReader.getProjectReaderProxy` to achieve this.
+* Add `from` method to all `Builder` classes to allow initialisation from existing objects.
+* The `CostAccount.Builder` class now provides two `notes` methods to allow formatted or unformatted notes to be added to cost accounts.
+* The `CostAccount` method `getDescription()` has been marked as deprecated. Use the `getNotes()` or `getNotesObject()` method instead.
+* The `CustomFieldValueItem` methods `getParent` and `setParent` have been marked as deprecated. Use the `getParentUniqueID` and `setParentUniqueID` methods instead.
+* JSON output from MPXJ now includes more detail for custom field definitions read from MPP files.
+* When reading a PMXML file, populate the Early/Late Start/Finish date attributes from the Remaining Early/Late Start/Finish date attributes.
+* Fix an issue reading WBS ID for P3 and SureTrak schedules.
 
 ## 12.8.1 (2024-03-11)
 * Improve reading resource assignments from certain FastTrack FTS files.
