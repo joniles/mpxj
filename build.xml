@@ -16,7 +16,7 @@
 		<property name="ikvm.net45.dir" value="${basedir}/../mpxj-legacy-ikvm/ikvm-8.1.5717.0" />
 		<property name="ikvmc.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmc.exe" />
 		<property name="ikvmstub.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmstub.exe" />
-		<property name="tlbexp.net45.cmd" value="${basedir}/../NETFX 4.5.1 Tools/tlbexp.exe" />
+		<property name="tlbexp.net45.cmd" value="C:/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/tlbexp.exe" />
 		<property name="ikvm.nca31.dir" value="${basedir}/../mpxj-legacy-ikvm/ikvm-netcoreapp3.1" />
 		<property name="ikvmc.nca31.cmd" value="${ikvm.nca31.dir}/ikvmc.exe" />
 		<property name="ikvmstub.nca31.cmd" value="${ikvm.nca31.dir}/ikvmstub.exe" />
