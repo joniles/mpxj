@@ -13,11 +13,11 @@
 		<property name="ruby.cmd" value="bundle.bat"/>
 		<property name="python.cmd" value="py.exe" />
 		<property name="nuget.cmd" value="nuget.exe" />
-		<property name="ikvm.net45.dir" value="${basedir}/../ikvm-8.1.5717.0" />
+		<property name="ikvm.net45.dir" value="${basedir}/../mpxj-legacy-ikvm/ikvm-8.1.5717.0" />
 		<property name="ikvmc.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmc.exe" />
 		<property name="ikvmstub.net45.cmd" value="${ikvm.net45.dir}/bin/ikvmstub.exe" />
 		<property name="tlbexp.net45.cmd" value="${basedir}/../NETFX 4.5.1 Tools/tlbexp.exe" />
-		<property name="ikvm.nca31.dir" value="${basedir}/../ikvm-netcoreapp3.1" />
+		<property name="ikvm.nca31.dir" value="${basedir}/../mpxj-legacy-ikvm/ikvm-netcoreapp3.1" />
 		<property name="ikvmc.nca31.cmd" value="${ikvm.nca31.dir}/ikvmc.exe" />
 		<property name="ikvmstub.nca31.cmd" value="${ikvm.nca31.dir}/ikvmstub.exe" />
 		<property name="xjc.cmd" value="${basedir}/../jaxb-ri-2.3.3/bin/xjc.bat" />
