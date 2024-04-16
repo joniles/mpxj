@@ -157,6 +157,9 @@
 		<copy todir="${basedir}/src.ruby/mpxj/legal">
 			<fileset dir="${basedir}/legal" includes="*" />
 		</copy>
+		<exec executable="${ruby.cmd}" dir="${basedir}/src.ruby/mpxj" failonerror="true">
+			<arg line="install" />
+		</exec>
 	</target>
 
 	<target name="gem-test" depends="gem-setup" description="Run ruby gem tests">
