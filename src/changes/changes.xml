@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.9.1">
+			<action dev="joniles" type="update">Ensure `UniversalProjectReader` handles unknown file types correctly without raising an exception.</action>
 		</release>
 		<release date="2024-04-11" version="12.9.0">
 			<action dev="joniles" type="update">Updated `UniversalProjectReader` to add `getProjectReaderProxy` methods to allow access to the instance of the reader class which will be used to read a schedule, prior to the schedule being read. This will allow the reader to be configured, or schedule to be ignored without reading its content.</action>

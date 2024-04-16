@@ -279,7 +279,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       try (ProjectReaderProxy reader = getProjectReaderProxy(file))
       {
-         return reader.read();
+         return reader == null ? null : reader.read();
       }
 
       catch (MPXJException ex)
@@ -297,7 +297,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       try (ProjectReaderProxy reader = getProjectReaderProxy(file))
       {
-         return reader.readAll();
+         return reader == null ? Collections.emptyList() : reader.readAll();
       }
 
       catch (MPXJException ex)
@@ -315,7 +315,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       try (ProjectReaderProxy reader = getProjectReaderProxy(inputStream))
       {
-         return reader.read();
+         return reader == null ? null : reader.read();
       }
 
       catch (MPXJException ex)
@@ -333,7 +333,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       try (ProjectReaderProxy reader = getProjectReaderProxy(inputStream))
       {
-         return reader.readAll();
+         return reader == null ? Collections.emptyList() : reader.readAll();
       }
 
       catch (MPXJException ex)
