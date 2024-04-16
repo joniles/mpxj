@@ -7,7 +7,7 @@ libraries and configuration settings, to the point it wasn't clear what the
 bare minimum to create a release actually was.
 
 To address this, I've created the batch file you'll find in this directory. It
-is intended to be run as an administrator on a clean Window 10 install.
+is intended to be run as an administrator on a clean Windows 10 install.
 Assuming all goes well, the script will download and install all of the
 prerequisites for building an MPXJ release. When the script finishes you will
 be prompted to add entries to the path, to make `ant`, `mvn` and `nuget`
