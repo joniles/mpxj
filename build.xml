@@ -72,6 +72,8 @@
 		<property name="commons-logging.classpath" refid="commons-logging.path" />
 		<property name="jackcess.classpath" refid="jackcess.path" />
 		<property name="junit.classpath" refid="junit.path" />
+
+		<mkdir dir="${lib.dir}" />
 	</target>
 
 	<target name="update-version-numbers" depends="init" description="Ensure that version numbers in the code are up-to-date">
