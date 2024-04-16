@@ -1178,6 +1178,7 @@ final class PrimaveraPMProjectWriter
       xml.setCostAccountObjectId(mpxj.getCostAccountUniqueID());
       xml.setRemainingStartDate(mpxj.getRemainingEarlyStart());
       xml.setRemainingFinishDate(mpxj.getRemainingEarlyFinish());
+      xml.setResourceType(ResourceTypeHelper.getXmlFromInstance(mpxj.getResource().getType()));
 
       PmxmlUnitsHelper unitsHelper = new PmxmlUnitsHelper(mpxj);
       xml.setPlannedUnits(unitsHelper.getPlannedUnits());
