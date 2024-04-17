@@ -1,6 +1,10 @@
 # Changelog
 
-## 12.9.1 (unreleased)
+## 12.9.2 (unreleased)
+
+## 12.9.1 (2024-04-17)
+* Fix an issue where `UniversalProjectReader` would raise an exception when handling an unknown file type.
+* Ensure that resource type is included as part of the resource assignment data when writing PMXML files.
 
 ## 12.9.0 (2024-04-11)
 * Updated `UniversalProjectReader` to add `getProjectReaderProxy` methods to allow access to the instance of the reader class which will be used to read a schedule, prior to the schedule being read. This will allow the reader to be configured, or schedule to be ignored without reading its content.
