@@ -114,14 +114,16 @@ echo Add the following entries to the PATH
 echo    %%ANT_HOME%%\bin
 echo    %%MAVEN_HOME%%\bin
 echo    %%NUGET_HOME%%
+echo To configure GitHub access, run:
+echo    gh auth login
 echo To enable deploys, add the following environment variables
 echo    NUGET_API_KEY (NuGet API key)
-echo    TWINE_USERNAME (PyPi API Key)
+echo    TWINE_USERNAME (__token__)
+echo    TWINE_PASSWORD (PyPi API Key)
 echo    GEM_HOST_API_KEY (Rubygems API key)
-echo To configure GitHub access, run:
-echo    gh auth
 echo To enable Maven deploys
-echo    import gpg keys
+echo    create gpg key and publish to server
+echo    configure ossrh credentials in .m2\settings.xml
 
 pause
 
