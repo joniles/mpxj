@@ -63,7 +63,7 @@ start /wait NDP452-KB2901951-x86-x64-DevPack.exe /q /norestart
 rem
 rem IKVM versions
 rem
-curl -o mpxj-legacy-ikvm.zip https://codeload.github.com/joniles/mpxj-legacy-ikvm/zip/refs/heads/master
+curl -L -o mpxj-legacy-ikvm.zip https://github.com/joniles/mpxj-legacy-ikvm/archive/refs/heads/master.zip
 tar -xf mpxj-legacy-ikvm.zip
 ren mpxj-legacy-ikvm-master mpxj-legacy-ikvm
 
