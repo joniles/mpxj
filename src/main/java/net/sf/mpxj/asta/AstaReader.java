@@ -670,7 +670,10 @@ final class AstaReader
       Integer calendarID = row.getInteger("_CALENDAU");
       if (calendarID == null)
       {
-         calendarID = row.getInteger("_COMMON_CALENDAR");
+         if (!row.getChildRows().isEmpty())
+         {
+            calendarID = row.getChildRows().get(0).getInteger("CALENDAU");
+         }
       }
 
       String name = row.getString("NAMH");
