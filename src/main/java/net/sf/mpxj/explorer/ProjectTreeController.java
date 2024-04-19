@@ -266,7 +266,7 @@ public class ProjectTreeController
     */
    private void addCalendars(MpxjTreeNode parentNode, ProjectFile file)
    {
-      addCalendars(parentNode, file.getCalendars().getBaseCalendars());
+      addCalendars(parentNode, file.getCalendars().stream().filter(c -> c.getParent() == null).collect(Collectors.toList()));
    }
 
    private void addCalendars(MpxjTreeNode parentNode, List<ProjectCalendar> calendars)
