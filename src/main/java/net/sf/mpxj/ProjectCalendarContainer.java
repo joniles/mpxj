@@ -24,6 +24,9 @@
 package net.sf.mpxj;
 
 import java.time.DayOfWeek;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.common.NumberHelper;
 
@@ -161,5 +164,15 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
       }
 
       return (calendar);
+   }
+
+   /**
+    * Retrieve the list of calendars which are not derived from any other calendar.
+    *
+    * @return base calendars
+    */
+   public List<ProjectCalendar> getBaseCalendars()
+   {
+      return Collections.unmodifiableList(stream().filter(c -> c.getParent() == null).collect(Collectors.toList()));
    }
 }

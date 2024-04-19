@@ -38,6 +38,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.HierarchyHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResultSetHelper;
 import net.sf.mpxj.common.SQLite;
@@ -147,6 +148,7 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       Map<Integer, List<Row>> timeEntryMap = createTimeEntryMap(rows);
 
       rows = getRows("select id as calendarid, name as namk, * from calendar where projid=? order by id", m_projectID);
+      rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("CALENDARID"), r -> r.getInteger("CALENDAR"));
       for (Row row : rows)
       {
          m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionTypeMap);
