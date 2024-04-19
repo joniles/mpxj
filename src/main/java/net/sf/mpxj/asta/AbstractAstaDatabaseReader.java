@@ -35,6 +35,7 @@ import java.util.Set;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.common.HierarchyHelper;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
 
 /**
@@ -146,28 +147,12 @@ abstract class AbstractAstaDatabaseReader extends AbstractProjectFileReader
       rows = sortRows(getRows("time_entry", Collections.emptyMap()), "TIME_ENTRYID", "ORDF");
       Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
 
-      rows = sortRows(getRows("calendar", m_projectKey), "CALENDARID");
+      rows = getRows("calendar", m_projectKey);
+      rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("CALENDARID"), r -> r.getInteger("CALENDAR"));
       for (Row row : rows)
       {
          m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionMap);
       }
-
-      //
-      // In theory the code below can be used to establish parent-child relationships between
-      // calendars, however the resulting calendars aren't assigned to tasks and resources correctly, so
-      // I've left this out for the moment.
-      //
-      /*
-            for (Row row : rows)
-            {
-               ProjectCalendar child = m_reader.getProject().getCalendarByUniqueID(row.getInteger("CALENDARID"));
-               ProjectCalendar parent = m_reader.getProject().getCalendarByUniqueID(row.getInteger("CALENDAR"));
-               if (child != null && parent != null)
-               {
-                  child.setParent(parent);
-               }
-            }
-      */
    }
 
    /**

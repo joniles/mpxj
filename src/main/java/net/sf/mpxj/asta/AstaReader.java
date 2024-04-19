@@ -1738,6 +1738,8 @@ final class AstaReader
          }
       }
 
+      calendar.setParent(m_project.getCalendarByUniqueID(calendarRow.getInteger("CALENDAR")));
+
       m_eventManager.fireCalendarReadEvent(calendar);
    }
 

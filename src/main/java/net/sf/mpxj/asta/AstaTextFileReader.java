@@ -37,6 +37,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.HierarchyHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
@@ -245,7 +246,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
 
       rows = getTable("CALENDAR");
-      rows.sort(CALENDAR_COMPARATOR);
+      rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("CALENDARID"), r -> r.getInteger("CALENDAR"));
       for (Row row : rows)
       {
          m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionMap);
