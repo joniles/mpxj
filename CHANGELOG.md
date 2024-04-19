@@ -1,6 +1,11 @@
 # Changelog
 
-## 12.9.2 (unreleased)
+## 12.9.3 (unreleased)
+
+## 12.9.2 (2024-04-19)
+* Ensure calendars in Asta schedules have the correct name.
+* Improve assignment of calendars to summary tasks when reading Asta schedules.
+* Preserve calendar hierarchy when reading Asta schedules.
 
 ## 12.9.1 (2024-04-17)
 * Fix an issue where `UniversalProjectReader` would raise an exception when handling an unknown file type.

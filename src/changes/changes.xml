@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="12.9.2">
+		<release date="unreleased" version="12.9.3">
+		</release>
+		<release date="2024-04-19" version="12.9.2">
 			<action dev="joniles" type="update">Ensure calendars in Asta schedules have the correct name.</action>
 			<action dev="joniles" type="update">Improve assignment of calendars to summary tasks when reading Asta schedules.</action>
 			<action dev="joniles" type="update">Preserve calendar hierarchy when reading Asta schedules.</action>
