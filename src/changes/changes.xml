@@ -6,6 +6,8 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.9.2">
+			<action dev="joniles" type="update">Ensure calendars in Asta schedules have the correct name.</action>
+			<action dev="joniles" type="update">Improve assignment of calendars to summary tasks when reading Asta schedules.</action>
 		</release>
 		<release date="2024-04-17" version="12.9.1">
 			<action dev="joniles" type="update">Fix an issue where `UniversalProjectReader` would raise an exception when handling an unknown file type.</action>
