@@ -1653,6 +1653,7 @@ final class AstaReader
       ProjectCalendar calendar = m_project.addCalendar();
       Integer dominantWorkPatternID = calendarRow.getInteger("DOMINANT_WORK_PATTERN");
       calendar.setUniqueID(calendarRow.getInteger("CALENDARID"));
+      calendar.setName(calendarRow.getString("NAMK"));
 
       boolean defaultWeekSet = workPatternMap.get(dominantWorkPatternID) != null;
       if (defaultWeekSet)
@@ -1687,8 +1688,6 @@ final class AstaReader
                processWorkPattern(week, workPatternID, workPatternMap, timeEntryMap, exceptionTypeMap);
             }
          }
-
-         calendar.setName(calendarRow.getString("NAMK"));
       }
 
       //
@@ -1751,45 +1750,53 @@ final class AstaReader
    private void processWorkPattern(ProjectCalendarDays week, Integer workPatternID, Map<Integer, Row> workPatternMap, Map<Integer, List<Row>> timeEntryMap, Map<Integer, DayType> exceptionTypeMap)
    {
       Row workPatternRow = workPatternMap.get(workPatternID);
-      if (workPatternRow != null)
+      if (workPatternRow == null)
+      {
+         return;
+      }
+
+      // Don't apply the name to the top level calendar
+      if (!(week instanceof ProjectCalendar))
       {
          week.setName(workPatternRow.getString("NAMN"));
+      }
 
-         List<Row> timeEntryRows = timeEntryMap.get(workPatternID);
-         if (timeEntryRows != null)
+      List<Row> timeEntryRows = timeEntryMap.get(workPatternID);
+      if (timeEntryRows == null)
+      {
+         return;
+      }
+
+      DayOfWeek currentDay = DayOfWeek.SATURDAY;
+      Arrays.stream(DayOfWeek.values()).forEach(d -> week.setCalendarDayType(d, DayType.NON_WORKING));
+      ProjectCalendarHours hours = null;
+
+      for (Row row : timeEntryRows)
+      {
+         LocalTime startTime = LocalTimeHelper.getLocalTime(row.getDate("START_TIME"));
+         LocalTime endTime = LocalTimeHelper.getLocalTime(row.getDate("END_TIME"));
+
+         if (startTime == null)
          {
-            DayOfWeek currentDay = DayOfWeek.SATURDAY;
-            Arrays.stream(DayOfWeek.values()).forEach(d -> week.setCalendarDayType(d, DayType.NON_WORKING));
-            ProjectCalendarHours hours = null;
+            startTime = LocalTime.MIDNIGHT;
+         }
 
-            for (Row row : timeEntryRows)
-            {
-               LocalTime startTime = LocalTimeHelper.getLocalTime(row.getDate("START_TIME"));
-               LocalTime endTime = LocalTimeHelper.getLocalTime(row.getDate("END_TIME"));
+         if (endTime == null)
+         {
+            endTime = LocalTime.MIDNIGHT;
+         }
 
-               if (startTime == null)
-               {
-                  startTime = LocalTime.MIDNIGHT;
-               }
+         if (startTime == LocalTime.MIDNIGHT)
+         {
+            currentDay = currentDay.plus(1);
+            hours = week.addCalendarHours(currentDay);
+         }
 
-               if (endTime == null)
-               {
-                  endTime = LocalTime.MIDNIGHT;
-               }
-
-               if (startTime == LocalTime.MIDNIGHT)
-               {
-                  currentDay = currentDay.plus(1);
-                  hours = week.addCalendarHours(currentDay);
-               }
-
-               DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
-               if (hours != null && type == DayType.WORKING)
-               {
-                  hours.add(new LocalTimeRange(startTime, endTime));
-                  week.setCalendarDayType(currentDay, DayType.WORKING);
-               }
-            }
+         DayType type = exceptionTypeMap.get(row.getInteger("EXCEPTIOP"));
+         if (hours != null && type == DayType.WORKING)
+         {
+            hours.add(new LocalTimeRange(startTime, endTime));
+            week.setCalendarDayType(currentDay, DayType.WORKING);
          }
       }
    }
