@@ -92,7 +92,7 @@ is an open source general purpose planning tool. GanttProject stores projects
 as GAN files, which can be read by MPXJ.
 
 * **TURBOPROJECT:** [TurboProject](https://www.turbocad.com/turboproject/turboproject.html)
-is general purpose planning tool. TurboProject store projects asPEP files,
+is general purpose planning tool. TurboProject store projects as PEP files,
 which can be read by MPXJ.
 
 * **CONECPTDRAW PROJECT:** [ConceptDraw PROJECT](https://www.conceptdraw.com/products/project-management-software)
@@ -101,7 +101,9 @@ CDPTZ files which MPXJ can read.
 
 * **SYNCHRO SCHEDULER:** Synchro Scheduler is general purpose planning tool
 from [Bentley Systems](https://www.bentley.com/).
-Synchro Scheduler stores projects as SP files, which can be read by MPXJ.
+Synchro Scheduler stores projects as SP files. MPXJ can read SP files written
+by Synchro Scheduler version 6 and onwards, although SP files written by earlier
+versions may be supported.
 
 * **GANTT DESIGNER:** Gantt Designer is a simple Gantt chart drawing tool. Gantt
 Designer stores projects as GNT files, which can be read using MPXJ.
@@ -120,7 +122,9 @@ schedule grid files, which can be read by MPXJ.
 
 * **PROJECT COMMANDER:** [Project Commander](http://projectcommander.co.uk/pmschome/homepage.html)
 is a general purpose project planning application. Project Commander stores
-projects as PC files, which can be read by MPXJ.
+projects as PC files. PC files written by Project Commander version 7 and
+onwards can be read by MPXJ, although PC files written by earlier versions may
+be supported.
 
 * **DELTEK OPEN PLAN:** [Deltek Open Plan](https://www.deltek.com/en/project-and-portfolio-management/open-plan)
 Deltek Open Plan is an enterprise project management application offering
