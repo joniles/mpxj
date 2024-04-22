@@ -1580,28 +1580,33 @@
 <ul>
 <li>
 <p><strong>MPX:</strong> The MPX file format can be read by versions of Microsoft
-Project up to and including Microsoft Project 2010, and written by versions up
-to Microsoft Project 98. MPXJ allows MPX files to be created, read and
-written. See <a href="https://support.microsoft.com/en-gb/help/270139">this Microsoft support
-article</a> for a definition of
-the file format.</p>
+Project up to and including Microsoft Project 2010, and written by versions of
+Microsoft Project up to Microsoft Project 98. Applications other than Microsoft
+Project also commonly write MPX files as a way of sharing project data. MPXJ
+can read and write MPX files.
+See <a href="https://support.microsoft.com/en-gb/help/270139">this Microsoft support article</a>
+for a definition of the file format.</p>
 </li>
 <li>
-<p><strong>MPP:</strong> The MPP file format is Microsoft's proprietary way of storing
-project data. MPXJ supports read only access to MPP files produced by
-Microsoft Project 98, Microsoft Project 2000, Microsoft  Project 2002,
-Microsoft Project 2003, Microsoft Project 2007, Microsoft Project 2010,
-Microsoft Project 2013, Microsoft Project 2016, and Microsoft Project 2019.
-MPP template files, with the suffix MPT are also supported.</p>
+<p><strong>MPP:</strong> Microsoft Project by default stores projects as MPP files.
+MPXJ supports read only access to MPP files produced by Microsoft
+Project from Microsoft Project 98 onwards (Microsoft Project 98, Microsoft
+Project 2000, Microsoft  Project 2002, Microsoft Project 2003, Microsoft
+Project 2007, Microsoft Project 2010, Microsoft Project 2013, Microsoft Project
+2016, and Microsoft Project 2019). MPP template files, with the suffix MPT can
+also be read by MPXJ.</p>
 </li>
 <li>
 <p><strong>MSPDI:</strong> The MSPDI file format is Microsoft's XML file format for
-storing project data. Versions of Microsoft Project from 2002 onwards can read
-and write MSPDI files.  MPXJ allows MSPDI files to be created, read, and
-written. The MSDPI file format has remained broadly unchanged since it was
-introduced, although several versions of Microsoft Project have tweaked the
-file format slightly, and have their own updated documentation. Documentation is
-<a href="https://docs.microsoft.com/en-us/office-project/xml-data-interchange/project-xml-data-interchange-schema-reference">available online here</a>.
+sharing project data. Versions of Microsoft Project from 2002 onwards can read
+and write MSPDI files.  Applications other than Microsoft Project also
+commonly write MSPDI files as a way of sharing project data. 
+MPXJ can read and write MSPDI files.
+The MSDPI file format has remained
+broadly unchanged since it was introduced, although several versions of
+Microsoft Project have tweaked the file format slightly, and have their own
+updated documentation.
+Documentation is <a href="https://docs.microsoft.com/en-us/office-project/xml-data-interchange/project-xml-data-interchange-schema-reference">available online here</a>.
 Documentation for the Project 2003 MSPDI file format can be downloaded as
 part of the <a href="https://www.microsoft.com/en-us/download/details.aspx?id=101">Office 2003 XML Reference Schemas</a> package.
 Documentation for the Project 2007 MSPDI file format can be downloaded as part
@@ -1612,92 +1617,114 @@ Documentation for the Project 2013 MSPDI file format can be downloaded as part
 of the <a href="https://www.microsoft.com/en-us/download/details.aspx?id=30435">Project 2013 SDK</a>.</p>
 </li>
 <li>
-<p><strong>MPD:</strong> The MPD file format is an Access database used to
-store one or more projects. The database schema used in these databases is 
-also close to that used by Microsoft Project Server. MPXJ can read projects
-stored in an MPD file using a JDBC connection. It is possible that MPXJ could 
-also read the same data from a Microsoft Project Server database using the
-same approach, but this is not something I've tested.</p>
+<p><strong>MPD:</strong> The Microsoft Project MPD file format is a Microsoft Access database
+used to store one or more projects. Versions of
+Microsoft Project from Microsoft Project 98 to Microsoft Project 2003 can write
+MPD files. Later versions of Microsoft Project can read MPD files but can't
+write them. MPXJ can read MPD files natively, without using a JDBC driver, or
+via a JDBC connection. MPXJ supports reading MPD files written by versions of
+Microsoft Project 2000 onwards.</p>
 </li>
 <li>
-<p><strong>PLANNER:</strong> Planner is an Open Source project management tool which uses
-an XML file format to store project data. MPXJ can read and write the Planner
-file format.</p>
+<p><strong>PLANNER:</strong> <a href="https://wiki.gnome.org/Apps/Planner">Gnome Planner</a>
+is a cross-platform Open Source project management tool which uses an XML file
+format to store project data. MPXJ can read and write Planner files.</p>
 </li>
 <li>
-<p><strong>PRIMAVERA P6:</strong> Primavera P6 is an industry-leading tool favoured
-by users with complex planning requirements. It can export project data in the
-form of XER or PMXML files, both of which MPXJ can read. It is also possible
-for MPXJ to connect directly to the P6 database via JDBC to read project data.
-MPXJ can also write PMXML and XER files  to allow data to be exported in a form
-which can be consumed by P6. The PMXML schema forms part of the P6 distribution
-media, which can be downloaded from the Oracle e-Delivery site.</p>
+<p><strong>PRIMAVERA P6:</strong> <a href="https://www.oracle.com/uk/construction-engineering/primavera-p6/">Primavera P6</a>
+is an industry-leading tool favoured by users with complex planning
+requirements. It can export project data in the form of XER or PMXML files,
+both of which MPXJ can read and write. It is also possible for MPXJ to connect
+directly to a P6 database via JDBC to read project data, or if a standalone
+SQLite P6 database is being used, MPXJ can read projects from this natively
+without using JDBC. The PMXML schema forms part of the P6 distribution media,
+which can be downloaded from the
+<a href="https://edelivery.oracle.com/">Oracle Software Delivery Cloud</a>.</p>
 </li>
 <li>
 <p><strong>PRIMAVERA P3:</strong> Primavera P3 (Primavera Project Planner) is the forerunner
-of P6. It holds projects in Btrieve database files which MPXJ can read from a
-directory or from a zip archive. MPXJ can also read P3 data from PRX backup
-files.</p>
+of P6. It stores each project as a directory containing Btrieve database files
+which MPXJ can read from the directory itself or from a zip archive of the
+directory. MPXJ can also read P3 data from PRX backup files.</p>
 </li>
 <li>
-<p><strong>PRIMAVERA SURETRAK:</strong> SureTrak holds projects in Btrieve database files which
-MPXJ can read from a directory or from a zip archive. MPXJ can also read
+<p><strong>PRIMAVERA SURETRAK:</strong> Primavera SureTrak is an early iteration of the
+application which eventually became Primavera P6. SureTrak stores each project
+as a directory containing Btrieve database files which MPXJ can read from the
+directory itself or from a zip archive of the directory. MPXJ can also read
 SureTrak data from STX backup files.</p>
 </li>
 <li>
-<p><strong>POWERPROJECT:</strong> Asta Powerproject is a planning tool used in a number of
-industries,  particularly construction. Powerproject can save data to PP files
-or to MDB database files,  and MPXJ can read both of these formats.</p>
+<p><strong>POWERPROJECT:</strong> <a href="https://elecosoft.com/products/asta/asta-powerproject/">Asta Powerproject</a>
+is a planning tool used in a number of industries, particularly construction.
+Powerproject saves data to PP files. MPXJ can read PP files produced by
+Powerproject version 8 onwards (although earlier versions may also be
+supported). Powerproject can also write one or more projects to MDB
+(Microsoft Access) database files which MPXJ can read natively without a JDBC
+driver, or via a JDBC connection.</p>
 </li>
 <li>
-<p><strong>PHOENIX:</strong> Phoenix Project Manager is an easy-to-use critical path method
-scheduling tool aimed primarily at the construction industry. Phoenix writes
-PPX files which MPXJ can read. </p>
+<p><strong>PHOENIX:</strong> <a href="https://www.phoenixcpm.com/">Phoenix Project Manager</a>
+is an easy-to-use critical path method scheduling tool aimed primarily at the
+construction industry. Phoenix stores projects as XML files with the file
+extension PPX. MPXJ can read PPX files written by Phoenix from version 4
+onwards.</p>
 </li>
 <li>
-<p><strong>FASTTRACK:</strong> Fasttrack Schedule is general purpose planning tool. FastTrack
-writes FTS files which MPXJ can read.</p>
+<p><strong>FASTTRACK:</strong> <a href="https://www.aecsoftware.com/">Fasttrack Schedule</a>
+is general purpose planning tool. FastTrack stores projects as FTX files. MPXJ
+can read FTX files written by Fasttrack version 10 onwards, although FTX files
+written by earlier versions may be supported.</p>
 </li>
 <li>
-<p><strong>GANTTPROJECT:</strong> GanttProject is an open source general purpose planning tool.
-GanttProject writes GAN files which MPXJ can read.</p>
+<p><strong>GANTTPROJECT:</strong> <a href="https://github.com/bardsoftware/ganttproject/releases">GanttProject</a>
+is an open source general purpose planning tool. GanttProject stores projects
+as GAN files, which can be read by MPXJ.</p>
 </li>
 <li>
-<p><strong>TURBOPROJECT:</strong> TurboProject is general purpose planning tool. TurboProject
-writes PEP files which MPXJ can read.</p>
+<p><strong>TURBOPROJECT:</strong> <a href="https://www.turbocad.com/turboproject/turboproject.html">TurboProject</a>
+is general purpose planning tool. TurboProject store projects asPEP files,
+which can be read by MPXJ.</p>
 </li>
 <li>
-<p><strong>CONECPTDRAW PROJECT:</strong> ConceptDraw PROJECT is general purpose planning tool.
-ConceptDraw PROJECT writes CDPX, CDPZ and CDPTZ files which MPXJ can read.</p>
+<p><strong>CONECPTDRAW PROJECT:</strong> <a href="https://www.conceptdraw.com/products/project-management-software">ConceptDraw PROJECT</a>
+is general purpose planning tool. ConceptDraw PROJECT writes CDPX, CDPZ and
+CDPTZ files which MPXJ can read.</p>
 </li>
 <li>
-<p><strong>SYNCHRO SCHEDULER:</strong> Synchro Scheduler is general purpose planning tool.
-Synchro Scheduler writes SP files which MPXJ can read.</p>
+<p><strong>SYNCHRO SCHEDULER:</strong> Synchro Scheduler is general purpose planning tool
+from <a href="https://www.bentley.com/">Bentley Systems</a>.
+Synchro Scheduler stores projects as SP files, which can be read by MPXJ.</p>
 </li>
 <li>
 <p><strong>GANTT DESIGNER:</strong> Gantt Designer is a simple Gantt chart drawing tool. Gantt
-Designer writes GNT files which MPXJ can read.</p>
+Designer stores projects as GNT files, which can be read using MPXJ.</p>
 </li>
 <li>
-<p><strong>SDEF:</strong> SDEF is the Standard Data Exchange Format, as defined by the USACE
-(United States Army Corps of Engineers). SDEF is a fixed column format text
-file, used to import a project schedule up into the QCS (Quality Control
-System) software from USACE. MPXJ can read and write SDEF files. The
-specification for the file format can be found
-<a href="https://www.publications.usace.army.mil/Portals/76/Publications/EngineerRegulations/ER_1-1-11.pdf">here</a>.</p>
+<p><strong>SDEF:</strong> SDEF is the <a href="https://www.publications.usace.army.mil/Portals/76/Publications/EngineerRegulations/ER_1-1-11.pdf">Standard Data Exchange Format</a>,
+as defined by the United States Army Corps of Engineers (USACE). SDEF is a fixed
+column format text file, used to export a project schedule to the QCS
+(Quality Control System) software from USACE. MPXJ can read and write SDEF
+files.</p>
 </li>
 <li>
-<p><strong>SCHEDULE_GRID:</strong> Schedule grid files are produced when a schedule is exported
-from Sage 100 Contractor. MPXJ can read schedule grid files.</p>
+<p><strong>SCHEDULE_GRID:</strong> <a href="https://www.sage.com/en-us/products/sage-100-contractor/">Sage 100 Contractor</a>
+is an application for small to medium sized companies in the construction
+industry, providing accounting, and estimating and project management
+functionality. Project plans managed in Sage 100 Contractor can be exported as
+schedule grid files, which can be read by MPXJ.</p>
 </li>
 <li>
-<p><strong>PROJECT COMMANDER:</strong> Project Commander files are the native file format used
-by the Project Commander application. Project Commander writes PC files which
-MPXJ can read.</p>
+<p><strong>PROJECT COMMANDER:</strong> <a href="http://projectcommander.co.uk/pmschome/homepage.html">Project Commander</a>
+is a general purpose project planning application. Project Commander stores
+projects as PC files, which can be read by MPXJ.</p>
 </li>
 <li>
-<p><strong>DELTEK OPEN PLAN:</strong> Open Plan allows export of schedules to BK3 files,
-which MPXJ can read.</p>
+<p><strong>DELTEK OPEN PLAN:</strong> <a href="https://www.deltek.com/en/project-and-portfolio-management/open-plan">Deltek Open Plan</a>
+Deltek Open Plan is an enterprise project management application offering
+resource management, critical path analysis, and customizable reporting.
+Projects managed in Open Plan can be exported to BK3 files, which can be read
+by MPXJ.</p>
 </li>
 </ul>
 
