@@ -92,11 +92,11 @@ your project file and include the following lines:
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="IKVM.Maven.Sdk" Version="1.6.8" />
+  <PackageReference Include="IKVM.Maven.Sdk" Version="1.6.9" />
 </ItemGroup>
 
 <ItemGroup>
-    <MavenReference Include="net.sf.mpxj:mpxj" Version="12.8.0"/>
+    <MavenReference Include="net.sf.mpxj:mpxj" Version="12.9.2"/>
 </ItemGroup>
 ```
 
