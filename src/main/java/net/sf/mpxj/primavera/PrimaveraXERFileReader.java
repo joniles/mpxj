@@ -1093,7 +1093,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private String m_defaultCurrencyName;
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
-   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("yyyy-M-dd[ HH:mm[:ss]]");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("yyyy-M-dd[ HH[:][.]mm[[:][.]ss]]");
    private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
    private final Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
