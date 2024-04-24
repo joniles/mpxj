@@ -1,6 +1,9 @@
 # Changelog
 
-## 12.9.3 (unreleased)
+## 12.9.4 (unreleased)
+
+## 12.9.3 (2024-04-24)
+* Improve handling of non-standard timestamp formats in XER files.
 
 ## 12.9.2 (2024-04-19)
 * Ensure calendars in Asta schedules have the correct name.

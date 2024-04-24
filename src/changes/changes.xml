@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="12.9.3">
+		<release date="unreleased" version="12.9.4">
+		</release>
+		<release date="2024-04-24" version="12.9.3">
 			<action dev="joniles" type="update">Improve handling of non-standard timestamp formats in XER files.</action>
 		</release>
 		<release date="2024-04-19" version="12.9.2">
