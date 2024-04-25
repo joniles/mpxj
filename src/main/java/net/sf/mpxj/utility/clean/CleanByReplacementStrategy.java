@@ -98,7 +98,12 @@ public class CleanByReplacementStrategy implements CleanStrategy
    {
       Integer key = Integer.valueOf(word.length());
       List<String> words = m_dictionary.get(key);
-      if ((words == null) || (words.size() == 1 && words.get(0).equalsIgnoreCase(word)))
+      if (words == null)
+      {
+         return generateRandomWord(word);
+      }
+
+      if (words.size() == 1 && words.get(0).equalsIgnoreCase(word))
       {
          return generateRandomWord(word);
       }
