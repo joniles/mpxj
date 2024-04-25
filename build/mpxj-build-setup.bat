@@ -28,6 +28,13 @@ set MAVEN_HOME=%INSTALL_DIR%\apache-maven-%MAVEN_VERSION%
 setx MAVEN_HOME %MAVEN_HOME%
 
 rem
+rem JAXB
+rem
+curl -O https://repo1.maven.org/maven2/com/sun/xml/bind/jaxb-ri/3.0.2/jaxb-ri-3.0.2.zip
+tar xf jaxb-ri-3.0.2.zip
+ren jaxb-ri jaxb-ri-3.0.2
+
+rem
 rem Eclipse
 rem
 curl -L -o eclipse.zip "https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2024-03/R/eclipse-jee-2024-03-R-win32-x86_64.zip&mirror_id=1"

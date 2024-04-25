@@ -20,7 +20,7 @@
 		<property name="ikvm.nca31.dir" value="${basedir}/../mpxj-legacy-ikvm/ikvm-netcoreapp3.1" />
 		<property name="ikvmc.nca31.cmd" value="${ikvm.nca31.dir}/ikvmc.exe" />
 		<property name="ikvmstub.nca31.cmd" value="${ikvm.nca31.dir}/ikvmstub.exe" />
-		<property name="xjc.cmd" value="${basedir}/../jaxb-ri-2.3.3/bin/xjc.bat" />
+		<property name="xjc.cmd" value="${basedir}/../jaxb-ri-3.0.2/bin/xjc.bat" />
 
 		<!-- Common properties -->
 		<property name="dist.dir" value="${basedir}/dist" />
