@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for RoleType complex type.
@@ -73,350 +71,351 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RoleType", propOrder = {
-    "calculateCostFromUnits",
-    "createDate",
-    "createUser",
-    "id",
-    "lastUpdateDate",
-    "lastUpdateUser",
-    "name",
-    "objectId",
-    "parentObjectId",
-    "responsibilities",
-    "sequenceNumber",
-    "projectRoleSpread"
-})
-public class RoleType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "RoleType", propOrder =
+{
+   "calculateCostFromUnits",
+   "createDate",
+   "createUser",
+   "id",
+   "lastUpdateDate",
+   "lastUpdateUser",
+   "name",
+   "objectId",
+   "parentObjectId",
+   "responsibilities",
+   "sequenceNumber",
+   "projectRoleSpread"
+}) public class RoleType
+{
 
-    @XmlElement(name = "CalculateCostFromUnits", type = String.class)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean calculateCostFromUnits;
-    @XmlElement(name = "CreateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime createDate;
-    @XmlElement(name = "CreateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String createUser;
-    @XmlElement(name = "Id")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String id;
-    @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime lastUpdateDate;
-    @XmlElement(name = "LastUpdateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String lastUpdateUser;
-    @XmlElement(name = "Name")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String name;
-    @XmlElement(name = "ObjectId")
-    protected Integer objectId;
-    @XmlElement(name = "ParentObjectId", nillable = true)
-    protected Integer parentObjectId;
-    @XmlElement(name = "Responsibilities")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String responsibilities;
-    @XmlElement(name = "SequenceNumber")
-    protected Integer sequenceNumber;
-    @XmlElement(name = "ProjectRoleSpread")
-    protected List<ProjectRoleSpreadType> projectRoleSpread;
+   @XmlElement(name = "CalculateCostFromUnits", type = String.class) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean calculateCostFromUnits;
+   @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;
+   @XmlElement(name = "CreateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String createUser;
+   @XmlElement(name = "Id") @XmlJavaTypeAdapter(Adapter1.class) protected String id;
+   @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime lastUpdateDate;
+   @XmlElement(name = "LastUpdateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String lastUpdateUser;
+   @XmlElement(name = "Name") @XmlJavaTypeAdapter(Adapter1.class) protected String name;
+   @XmlElement(name = "ObjectId") protected Integer objectId;
+   @XmlElement(name = "ParentObjectId", nillable = true) protected Integer parentObjectId;
+   @XmlElement(name = "Responsibilities") @XmlJavaTypeAdapter(Adapter1.class) protected String responsibilities;
+   @XmlElement(name = "SequenceNumber") protected Integer sequenceNumber;
+   @XmlElement(name = "ProjectRoleSpread") protected List<ProjectRoleSpreadType> projectRoleSpread;
 
-    /**
-     * Gets the value of the calculateCostFromUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isCalculateCostFromUnits() {
-        return calculateCostFromUnits;
-    }
+   /**
+    * Gets the value of the calculateCostFromUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isCalculateCostFromUnits()
+   {
+      return calculateCostFromUnits;
+   }
 
-    /**
-     * Sets the value of the calculateCostFromUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCalculateCostFromUnits(Boolean value) {
-        this.calculateCostFromUnits = value;
-    }
+   /**
+    * Sets the value of the calculateCostFromUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCalculateCostFromUnits(Boolean value)
+   {
+      this.calculateCostFromUnits = value;
+   }
 
-    /**
-     * Gets the value of the createDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
+   /**
+    * Gets the value of the createDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getCreateDate()
+   {
+      return createDate;
+   }
 
-    /**
-     * Sets the value of the createDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateDate(LocalDateTime value) {
-        this.createDate = value;
-    }
+   /**
+    * Sets the value of the createDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateDate(LocalDateTime value)
+   {
+      this.createDate = value;
+   }
 
-    /**
-     * Gets the value of the createUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCreateUser() {
-        return createUser;
-    }
+   /**
+    * Gets the value of the createUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCreateUser()
+   {
+      return createUser;
+   }
 
-    /**
-     * Sets the value of the createUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateUser(String value) {
-        this.createUser = value;
-    }
+   /**
+    * Sets the value of the createUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateUser(String value)
+   {
+      this.createUser = value;
+   }
 
-    /**
-     * Gets the value of the id property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getId() {
-        return id;
-    }
+   /**
+    * Gets the value of the id property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getId()
+   {
+      return id;
+   }
 
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
+   /**
+    * Sets the value of the id property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setId(String value)
+   {
+      this.id = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
+   /**
+    * Gets the value of the lastUpdateDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getLastUpdateDate()
+   {
+      return lastUpdateDate;
+   }
 
-    /**
-     * Sets the value of the lastUpdateDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateDate(LocalDateTime value) {
-        this.lastUpdateDate = value;
-    }
+   /**
+    * Sets the value of the lastUpdateDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateDate(LocalDateTime value)
+   {
+      this.lastUpdateDate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getLastUpdateUser() {
-        return lastUpdateUser;
-    }
+   /**
+    * Gets the value of the lastUpdateUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getLastUpdateUser()
+   {
+      return lastUpdateUser;
+   }
 
-    /**
-     * Sets the value of the lastUpdateUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateUser(String value) {
-        this.lastUpdateUser = value;
-    }
+   /**
+    * Sets the value of the lastUpdateUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateUser(String value)
+   {
+      this.lastUpdateUser = value;
+   }
 
-    /**
-     * Gets the value of the name property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getName() {
-        return name;
-    }
+   /**
+    * Gets the value of the name property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getName()
+   {
+      return name;
+   }
 
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+   /**
+    * Sets the value of the name property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setName(String value)
+   {
+      this.name = value;
+   }
 
-    /**
-     * Gets the value of the objectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getObjectId() {
-        return objectId;
-    }
+   /**
+    * Gets the value of the objectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getObjectId()
+   {
+      return objectId;
+   }
 
-    /**
-     * Sets the value of the objectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setObjectId(Integer value) {
-        this.objectId = value;
-    }
+   /**
+    * Sets the value of the objectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setObjectId(Integer value)
+   {
+      this.objectId = value;
+   }
 
-    /**
-     * Gets the value of the parentObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getParentObjectId() {
-        return parentObjectId;
-    }
+   /**
+    * Gets the value of the parentObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getParentObjectId()
+   {
+      return parentObjectId;
+   }
 
-    /**
-     * Sets the value of the parentObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setParentObjectId(Integer value) {
-        this.parentObjectId = value;
-    }
+   /**
+    * Sets the value of the parentObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setParentObjectId(Integer value)
+   {
+      this.parentObjectId = value;
+   }
 
-    /**
-     * Gets the value of the responsibilities property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResponsibilities() {
-        return responsibilities;
-    }
+   /**
+    * Gets the value of the responsibilities property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResponsibilities()
+   {
+      return responsibilities;
+   }
 
-    /**
-     * Sets the value of the responsibilities property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResponsibilities(String value) {
-        this.responsibilities = value;
-    }
+   /**
+    * Sets the value of the responsibilities property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResponsibilities(String value)
+   {
+      this.responsibilities = value;
+   }
 
-    /**
-     * Gets the value of the sequenceNumber property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
+   /**
+    * Gets the value of the sequenceNumber property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getSequenceNumber()
+   {
+      return sequenceNumber;
+   }
 
-    /**
-     * Sets the value of the sequenceNumber property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setSequenceNumber(Integer value) {
-        this.sequenceNumber = value;
-    }
+   /**
+    * Sets the value of the sequenceNumber property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setSequenceNumber(Integer value)
+   {
+      this.sequenceNumber = value;
+   }
 
-    /**
-     * Gets the value of the projectRoleSpread property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectRoleSpread property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectRoleSpread().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectRoleSpreadType }
-     *
-     *
-     */
-    public List<ProjectRoleSpreadType> getProjectRoleSpread() {
-        if (projectRoleSpread == null) {
-            projectRoleSpread = new ArrayList<>();
-        }
-        return this.projectRoleSpread;
-    }
+   /**
+    * Gets the value of the projectRoleSpread property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectRoleSpread property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectRoleSpread().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectRoleSpreadType }
+    *
+    *
+    */
+   public List<ProjectRoleSpreadType> getProjectRoleSpread()
+   {
+      if (projectRoleSpread == null)
+      {
+         projectRoleSpread = new ArrayList<>();
+      }
+      return this.projectRoleSpread;
+   }
 
 }

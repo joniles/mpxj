@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:38 AM BST
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -37,69 +35,71 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "dayTypes",
-    "calendar"
-})
-@XmlRootElement(name = "calendars")
-public class Calendars {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
+{
+   "dayTypes",
+   "calendar"
+}) @XmlRootElement(name = "calendars") public class Calendars
+{
 
-    @XmlElement(name = "day-types", required = true)
-    protected DayTypes dayTypes;
-    protected List<Calendar> calendar;
+   @XmlElement(name = "day-types", required = true) protected DayTypes dayTypes;
+   protected List<Calendar> calendar;
 
-    /**
-     * Gets the value of the dayTypes property.
-     *
-     * @return
-     *     possible object is
-     *     {@link DayTypes }
-     *
-     */
-    public DayTypes getDayTypes() {
-        return dayTypes;
-    }
+   /**
+    * Gets the value of the dayTypes property.
+    *
+    * @return
+    *     possible object is
+    *     {@link DayTypes }
+    *
+    */
+   public DayTypes getDayTypes()
+   {
+      return dayTypes;
+   }
 
-    /**
-     * Sets the value of the dayTypes property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link DayTypes }
-     *
-     */
-    public void setDayTypes(DayTypes value) {
-        this.dayTypes = value;
-    }
+   /**
+    * Sets the value of the dayTypes property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link DayTypes }
+    *
+    */
+   public void setDayTypes(DayTypes value)
+   {
+      this.dayTypes = value;
+   }
 
-    /**
-     * Gets the value of the calendar property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the calendar property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCalendar().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Calendar }
-     *
-     *
-     */
-    public List<Calendar> getCalendar() {
-        if (calendar == null) {
-            calendar = new ArrayList<>();
-        }
-        return this.calendar;
-    }
+   /**
+    * Gets the value of the calendar property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the calendar property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getCalendar().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link Calendar }
+    *
+    *
+    */
+   public List<Calendar> getCalendar()
+   {
+      if (calendar == null)
+      {
+         calendar = new ArrayList<>();
+      }
+      return this.calendar;
+   }
 
 }

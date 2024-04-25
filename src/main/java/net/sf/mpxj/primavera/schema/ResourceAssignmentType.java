@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for ResourceAssignmentType complex type.
@@ -341,3282 +339,3235 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ResourceAssignmentType", propOrder = {
-    "activityActualFinish",
-    "activityId",
-    "activityName",
-    "activityObjectId",
-    "activityType",
-    "actualCost",
-    "actualCurve",
-    "actualDuration",
-    "actualFinishDate",
-    "actualOvertimeCost",
-    "actualOvertimeUnits",
-    "actualRegularCost",
-    "actualRegularUnits",
-    "actualStartDate",
-    "actualThisPeriodCost",
-    "actualThisPeriodUnits",
-    "actualUnits",
-    "assignmentPercentComplete",
-    "atCompletionCost",
-    "atCompletionDuration",
-    "atCompletionUnits",
-    "autoComputeActuals",
-    "budgetAtCompletionCosts",
-    "budgetAtCompletionUnits",
-    "cbsCode",
-    "cbsId",
-    "calendarName",
-    "calendarObjectId",
-    "costAccountId",
-    "costAccountName",
-    "costAccountObjectId",
-    "costPerQuantity",
-    "createDate",
-    "createUser",
-    "drivingActivityDatesFlag",
-    "durationPercentComplete",
-    "estimateToCompletionCosts",
-    "estimateToCompletionUnits",
-    "financialPeriodTmplId",
-    "finishDate",
-    "guid",
-    "hasFutureBucketData",
-    "isActive",
-    "isActivityFlagged",
-    "isBaseline",
-    "isCostUnitsLinked",
-    "isOvertimeAllowed",
-    "isPrimaryResource",
-    "isTemplate",
-    "lastUpdateDate",
-    "lastUpdateUser",
-    "objectId",
-    "overtimeFactor",
-    "pendingActualOvertimeUnits",
-    "pendingActualRegularUnits",
-    "pendingPercentComplete",
-    "pendingRemainingUnits",
-    "percentComplete",
-    "percentCompleteType",
-    "plannedCost",
-    "plannedCurve",
-    "plannedDuration",
-    "plannedFinishDate",
-    "plannedLag",
-    "plannedStartDate",
-    "plannedUnits",
-    "plannedUnitsPerTime",
-    "pricePerUnit",
-    "priorActualOvertimeUnits",
-    "priorActualRegularUnits",
-    "proficiency",
-    "projectFlag",
-    "projectId",
-    "projectName",
-    "projectObjectId",
-    "projectProjectFlag",
-    "rateSource",
-    "rateType",
-    "remainingCost",
-    "remainingCurve",
-    "remainingDuration",
-    "remainingFinishDate",
-    "remainingLag",
-    "remainingLateFinishDate",
-    "remainingLateStartDate",
-    "remainingStartDate",
-    "remainingUnits",
-    "remainingUnitsPerTime",
-    "resourceCalendarName",
-    "resourceCurveName",
-    "resourceCurveObjectId",
-    "resourceId",
-    "resourceName",
-    "resourceObjectId",
-    "resourceType",
-    "reviewRequired",
-    "roleId",
-    "roleName",
-    "roleObjectId",
-    "roleShortName",
-    "staffedRemainingCost",
-    "staffedRemainingUnits",
-    "startDate",
-    "statusCode",
-    "totalPastPeriodCost",
-    "totalPastPeriodUnits",
-    "unitsPercentComplete",
-    "unreadCommentCount",
-    "unstaffedRemainingCost",
-    "unstaffedRemainingUnits",
-    "wbsNamePath",
-    "wbsObjectId",
-    "udf",
-    "spread",
-    "resourceRequest"
-})
-public class ResourceAssignmentType {
-
-    @XmlElement(name = "ActivityActualFinish", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime activityActualFinish;
-    @XmlElement(name = "ActivityId")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String activityId;
-    @XmlElement(name = "ActivityName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String activityName;
-    @XmlElement(name = "ActivityObjectId")
-    protected Integer activityObjectId;
-    @XmlElement(name = "ActivityType")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String activityType;
-    @XmlElement(name = "ActualCost", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double actualCost;
-    @XmlElement(name = "ActualCurve")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String actualCurve;
-    @XmlElement(name = "ActualDuration", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double actualDuration;
-    @XmlElement(name = "ActualFinishDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime actualFinishDate;
-    @XmlElement(name = "ActualOvertimeCost", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double actualOvertimeCost;
-    @XmlElement(name = "ActualOvertimeUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double actualOvertimeUnits;
-    @XmlElement(name = "ActualRegularCost", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double actualRegularCost;
-    @XmlElement(name = "ActualRegularUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double actualRegularUnits;
-    @XmlElement(name = "ActualStartDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime actualStartDate;
-    @XmlElement(name = "ActualThisPeriodCost", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double actualThisPeriodCost;
-    @XmlElement(name = "ActualThisPeriodUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double actualThisPeriodUnits;
-    @XmlElement(name = "ActualUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double actualUnits;
-    @XmlElement(name = "AssignmentPercentComplete", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double assignmentPercentComplete;
-    @XmlElement(name = "AtCompletionCost", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double atCompletionCost;
-    @XmlElement(name = "AtCompletionDuration", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double atCompletionDuration;
-    @XmlElement(name = "AtCompletionUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double atCompletionUnits;
-    @XmlElement(name = "AutoComputeActuals", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean autoComputeActuals;
-    @XmlElement(name = "BudgetAtCompletionCosts", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double budgetAtCompletionCosts;
-    @XmlElement(name = "BudgetAtCompletionUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double budgetAtCompletionUnits;
-    @XmlElement(name = "CBSCode")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String cbsCode;
-    @XmlElement(name = "CBSId", nillable = true)
-    protected Integer cbsId;
-    @XmlElement(name = "CalendarName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String calendarName;
-    @XmlElement(name = "CalendarObjectId", nillable = true)
-    protected Integer calendarObjectId;
-    @XmlElement(name = "CostAccountId")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String costAccountId;
-    @XmlElement(name = "CostAccountName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String costAccountName;
-    @XmlElement(name = "CostAccountObjectId", nillable = true)
-    protected Integer costAccountObjectId;
-    @XmlElement(name = "CostPerQuantity", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double costPerQuantity;
-    @XmlElement(name = "CreateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime createDate;
-    @XmlElement(name = "CreateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String createUser;
-    @XmlElement(name = "DrivingActivityDatesFlag", type = String.class)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean drivingActivityDatesFlag;
-    @XmlElement(name = "DurationPercentComplete", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    protected Double durationPercentComplete;
-    @XmlElement(name = "EstimateToCompletionCosts", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double estimateToCompletionCosts;
-    @XmlElement(name = "EstimateToCompletionUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double estimateToCompletionUnits;
-    @XmlElement(name = "FinancialPeriodTmplId")
-    protected Integer financialPeriodTmplId;
-    @XmlElement(name = "FinishDate", type = String.class)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime finishDate;
-    @XmlElement(name = "GUID")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String guid;
-    @XmlElement(name = "HasFutureBucketData", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean hasFutureBucketData;
-    @XmlElement(name = "IsActive", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isActive;
-    @XmlElement(name = "IsActivityFlagged", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isActivityFlagged;
-    @XmlElement(name = "IsBaseline", type = String.class)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isBaseline;
-    @XmlElement(name = "IsCostUnitsLinked", type = String.class)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isCostUnitsLinked;
-    @XmlElement(name = "IsOvertimeAllowed", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isOvertimeAllowed;
-    @XmlElement(name = "IsPrimaryResource", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isPrimaryResource;
-    @XmlElement(name = "IsTemplate", type = String.class)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isTemplate;
-    @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime lastUpdateDate;
-    @XmlElement(name = "LastUpdateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String lastUpdateUser;
-    @XmlElement(name = "ObjectId")
-    protected Integer objectId;
-    @XmlElement(name = "OvertimeFactor", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    protected Double overtimeFactor;
-    @XmlElement(name = "PendingActualOvertimeUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double pendingActualOvertimeUnits;
-    @XmlElement(name = "PendingActualRegularUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double pendingActualRegularUnits;
-    @XmlElement(name = "PendingPercentComplete", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double pendingPercentComplete;
-    @XmlElement(name = "PendingRemainingUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double pendingRemainingUnits;
-    @XmlElement(name = "PercentComplete", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double percentComplete;
-    @XmlElement(name = "PercentCompleteType")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String percentCompleteType;
-    @XmlElement(name = "PlannedCost", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double plannedCost;
-    @XmlElement(name = "PlannedCurve")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String plannedCurve;
-    @XmlElement(name = "PlannedDuration", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    protected Double plannedDuration;
-    @XmlElement(name = "PlannedFinishDate", type = String.class)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime plannedFinishDate;
-    @XmlElement(name = "PlannedLag", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    protected Double plannedLag;
-    @XmlElement(name = "PlannedStartDate", type = String.class)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime plannedStartDate;
-    @XmlElement(name = "PlannedUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double plannedUnits;
-    @XmlElement(name = "PlannedUnitsPerTime", type = String.class)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double plannedUnitsPerTime;
-    @XmlElement(name = "PricePerUnit", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    protected Double pricePerUnit;
-    @XmlElement(name = "PriorActualOvertimeUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double priorActualOvertimeUnits;
-    @XmlElement(name = "PriorActualRegularUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double priorActualRegularUnits;
-    @XmlElement(name = "Proficiency")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String proficiency;
-    @XmlElement(name = "ProjectFlag")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String projectFlag;
-    @XmlElement(name = "ProjectId")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String projectId;
-    @XmlElement(name = "ProjectName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String projectName;
-    @XmlElement(name = "ProjectObjectId")
-    protected Integer projectObjectId;
-    @XmlElement(name = "ProjectProjectFlag")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String projectProjectFlag;
-    @XmlElement(name = "RateSource")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String rateSource;
-    @XmlElement(name = "RateType")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String rateType;
-    @XmlElement(name = "RemainingCost", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double remainingCost;
-    @XmlElement(name = "RemainingCurve")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String remainingCurve;
-    @XmlElement(name = "RemainingDuration", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    protected Double remainingDuration;
-    @XmlElement(name = "RemainingFinishDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime remainingFinishDate;
-    @XmlElement(name = "RemainingLag", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    protected Double remainingLag;
-    @XmlElement(name = "RemainingLateFinishDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime remainingLateFinishDate;
-    @XmlElement(name = "RemainingLateStartDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime remainingLateStartDate;
-    @XmlElement(name = "RemainingStartDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime remainingStartDate;
-    @XmlElement(name = "RemainingUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double remainingUnits;
-    @XmlElement(name = "RemainingUnitsPerTime", type = String.class)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double remainingUnitsPerTime;
-    @XmlElement(name = "ResourceCalendarName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceCalendarName;
-    @XmlElement(name = "ResourceCurveName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceCurveName;
-    @XmlElement(name = "ResourceCurveObjectId", nillable = true)
-    protected Integer resourceCurveObjectId;
-    @XmlElement(name = "ResourceId")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceId;
-    @XmlElement(name = "ResourceName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceName;
-    @XmlElement(name = "ResourceObjectId", nillable = true)
-    protected Integer resourceObjectId;
-    @XmlElement(name = "ResourceType")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceType;
-    @XmlElement(name = "ReviewRequired", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean reviewRequired;
-    @XmlElement(name = "RoleId")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String roleId;
-    @XmlElement(name = "RoleName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String roleName;
-    @XmlElement(name = "RoleObjectId", nillable = true)
-    protected Integer roleObjectId;
-    @XmlElement(name = "RoleShortName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String roleShortName;
-    @XmlElement(name = "StaffedRemainingCost", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double staffedRemainingCost;
-    @XmlElement(name = "StaffedRemainingUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double staffedRemainingUnits;
-    @XmlElement(name = "StartDate", type = String.class)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime startDate;
-    @XmlElement(name = "StatusCode")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String statusCode;
-    @XmlElement(name = "TotalPastPeriodCost", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double totalPastPeriodCost;
-    @XmlElement(name = "TotalPastPeriodUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double totalPastPeriodUnits;
-    @XmlElement(name = "UnitsPercentComplete", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double unitsPercentComplete;
-    @XmlElement(name = "UnreadCommentCount", nillable = true)
-    protected Integer unreadCommentCount;
-    @XmlElement(name = "UnstaffedRemainingCost", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double unstaffedRemainingCost;
-    @XmlElement(name = "UnstaffedRemainingUnits", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double unstaffedRemainingUnits;
-    @XmlElement(name = "WBSNamePath")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String wbsNamePath;
-    @XmlElement(name = "WBSObjectId", nillable = true)
-    protected Integer wbsObjectId;
-    @XmlElement(name = "UDF")
-    protected List<UDFAssignmentType> udf;
-    @XmlElement(name = "Spread")
-    protected ResourceAssignmentSpreadType spread;
-    @XmlElement(name = "ResourceRequest", nillable = true)
-    protected ResourceRequestType resourceRequest;
-
-    /**
-     * Gets the value of the activityActualFinish property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getActivityActualFinish() {
-        return activityActualFinish;
-    }
-
-    /**
-     * Sets the value of the activityActualFinish property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActivityActualFinish(LocalDateTime value) {
-        this.activityActualFinish = value;
-    }
-
-    /**
-     * Gets the value of the activityId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getActivityId() {
-        return activityId;
-    }
-
-    /**
-     * Sets the value of the activityId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActivityId(String value) {
-        this.activityId = value;
-    }
-
-    /**
-     * Gets the value of the activityName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getActivityName() {
-        return activityName;
-    }
-
-    /**
-     * Sets the value of the activityName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActivityName(String value) {
-        this.activityName = value;
-    }
-
-    /**
-     * Gets the value of the activityObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getActivityObjectId() {
-        return activityObjectId;
-    }
-
-    /**
-     * Sets the value of the activityObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setActivityObjectId(Integer value) {
-        this.activityObjectId = value;
-    }
-
-    /**
-     * Gets the value of the activityType property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getActivityType() {
-        return activityType;
-    }
-
-    /**
-     * Sets the value of the activityType property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActivityType(String value) {
-        this.activityType = value;
-    }
-
-    /**
-     * Gets the value of the actualCost property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getActualCost() {
-        return actualCost;
-    }
-
-    /**
-     * Sets the value of the actualCost property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActualCost(Double value) {
-        this.actualCost = value;
-    }
-
-    /**
-     * Gets the value of the actualCurve property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getActualCurve() {
-        return actualCurve;
-    }
-
-    /**
-     * Sets the value of the actualCurve property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActualCurve(String value) {
-        this.actualCurve = value;
-    }
-
-    /**
-     * Gets the value of the actualDuration property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getActualDuration() {
-        return actualDuration;
-    }
-
-    /**
-     * Sets the value of the actualDuration property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActualDuration(Double value) {
-        this.actualDuration = value;
-    }
-
-    /**
-     * Gets the value of the actualFinishDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getActualFinishDate() {
-        return actualFinishDate;
-    }
-
-    /**
-     * Sets the value of the actualFinishDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActualFinishDate(LocalDateTime value) {
-        this.actualFinishDate = value;
-    }
-
-    /**
-     * Gets the value of the actualOvertimeCost property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getActualOvertimeCost() {
-        return actualOvertimeCost;
-    }
-
-    /**
-     * Sets the value of the actualOvertimeCost property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActualOvertimeCost(Double value) {
-        this.actualOvertimeCost = value;
-    }
-
-    /**
-     * Gets the value of the actualOvertimeUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getActualOvertimeUnits() {
-        return actualOvertimeUnits;
-    }
-
-    /**
-     * Sets the value of the actualOvertimeUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActualOvertimeUnits(Double value) {
-        this.actualOvertimeUnits = value;
-    }
-
-    /**
-     * Gets the value of the actualRegularCost property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getActualRegularCost() {
-        return actualRegularCost;
-    }
-
-    /**
-     * Sets the value of the actualRegularCost property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActualRegularCost(Double value) {
-        this.actualRegularCost = value;
-    }
-
-    /**
-     * Gets the value of the actualRegularUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getActualRegularUnits() {
-        return actualRegularUnits;
-    }
-
-    /**
-     * Sets the value of the actualRegularUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActualRegularUnits(Double value) {
-        this.actualRegularUnits = value;
-    }
-
-    /**
-     * Gets the value of the actualStartDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getActualStartDate() {
-        return actualStartDate;
-    }
-
-    /**
-     * Sets the value of the actualStartDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActualStartDate(LocalDateTime value) {
-        this.actualStartDate = value;
-    }
-
-    /**
-     * Gets the value of the actualThisPeriodCost property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getActualThisPeriodCost() {
-        return actualThisPeriodCost;
-    }
-
-    /**
-     * Sets the value of the actualThisPeriodCost property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActualThisPeriodCost(Double value) {
-        this.actualThisPeriodCost = value;
-    }
-
-    /**
-     * Gets the value of the actualThisPeriodUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getActualThisPeriodUnits() {
-        return actualThisPeriodUnits;
-    }
-
-    /**
-     * Sets the value of the actualThisPeriodUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActualThisPeriodUnits(Double value) {
-        this.actualThisPeriodUnits = value;
-    }
-
-    /**
-     * Gets the value of the actualUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getActualUnits() {
-        return actualUnits;
-    }
-
-    /**
-     * Sets the value of the actualUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setActualUnits(Double value) {
-        this.actualUnits = value;
-    }
-
-    /**
-     * Gets the value of the assignmentPercentComplete property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getAssignmentPercentComplete() {
-        return assignmentPercentComplete;
-    }
-
-    /**
-     * Sets the value of the assignmentPercentComplete property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAssignmentPercentComplete(Double value) {
-        this.assignmentPercentComplete = value;
-    }
-
-    /**
-     * Gets the value of the atCompletionCost property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getAtCompletionCost() {
-        return atCompletionCost;
-    }
-
-    /**
-     * Sets the value of the atCompletionCost property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAtCompletionCost(Double value) {
-        this.atCompletionCost = value;
-    }
-
-    /**
-     * Gets the value of the atCompletionDuration property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getAtCompletionDuration() {
-        return atCompletionDuration;
-    }
-
-    /**
-     * Sets the value of the atCompletionDuration property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAtCompletionDuration(Double value) {
-        this.atCompletionDuration = value;
-    }
-
-    /**
-     * Gets the value of the atCompletionUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getAtCompletionUnits() {
-        return atCompletionUnits;
-    }
-
-    /**
-     * Sets the value of the atCompletionUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAtCompletionUnits(Double value) {
-        this.atCompletionUnits = value;
-    }
-
-    /**
-     * Gets the value of the autoComputeActuals property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isAutoComputeActuals() {
-        return autoComputeActuals;
-    }
-
-    /**
-     * Sets the value of the autoComputeActuals property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAutoComputeActuals(Boolean value) {
-        this.autoComputeActuals = value;
-    }
-
-    /**
-     * Gets the value of the budgetAtCompletionCosts property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getBudgetAtCompletionCosts() {
-        return budgetAtCompletionCosts;
-    }
-
-    /**
-     * Sets the value of the budgetAtCompletionCosts property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setBudgetAtCompletionCosts(Double value) {
-        this.budgetAtCompletionCosts = value;
-    }
-
-    /**
-     * Gets the value of the budgetAtCompletionUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getBudgetAtCompletionUnits() {
-        return budgetAtCompletionUnits;
-    }
-
-    /**
-     * Sets the value of the budgetAtCompletionUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setBudgetAtCompletionUnits(Double value) {
-        this.budgetAtCompletionUnits = value;
-    }
-
-    /**
-     * Gets the value of the cbsCode property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCBSCode() {
-        return cbsCode;
-    }
-
-    /**
-     * Sets the value of the cbsCode property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCBSCode(String value) {
-        this.cbsCode = value;
-    }
-
-    /**
-     * Gets the value of the cbsId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getCBSId() {
-        return cbsId;
-    }
-
-    /**
-     * Sets the value of the cbsId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setCBSId(Integer value) {
-        this.cbsId = value;
-    }
-
-    /**
-     * Gets the value of the calendarName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCalendarName() {
-        return calendarName;
-    }
-
-    /**
-     * Sets the value of the calendarName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCalendarName(String value) {
-        this.calendarName = value;
-    }
-
-    /**
-     * Gets the value of the calendarObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getCalendarObjectId() {
-        return calendarObjectId;
-    }
-
-    /**
-     * Sets the value of the calendarObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setCalendarObjectId(Integer value) {
-        this.calendarObjectId = value;
-    }
-
-    /**
-     * Gets the value of the costAccountId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCostAccountId() {
-        return costAccountId;
-    }
-
-    /**
-     * Sets the value of the costAccountId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCostAccountId(String value) {
-        this.costAccountId = value;
-    }
-
-    /**
-     * Gets the value of the costAccountName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCostAccountName() {
-        return costAccountName;
-    }
-
-    /**
-     * Sets the value of the costAccountName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCostAccountName(String value) {
-        this.costAccountName = value;
-    }
-
-    /**
-     * Gets the value of the costAccountObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getCostAccountObjectId() {
-        return costAccountObjectId;
-    }
-
-    /**
-     * Sets the value of the costAccountObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setCostAccountObjectId(Integer value) {
-        this.costAccountObjectId = value;
-    }
-
-    /**
-     * Gets the value of the costPerQuantity property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getCostPerQuantity() {
-        return costPerQuantity;
-    }
-
-    /**
-     * Sets the value of the costPerQuantity property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCostPerQuantity(Double value) {
-        this.costPerQuantity = value;
-    }
-
-    /**
-     * Gets the value of the createDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    /**
-     * Sets the value of the createDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateDate(LocalDateTime value) {
-        this.createDate = value;
-    }
-
-    /**
-     * Gets the value of the createUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCreateUser() {
-        return createUser;
-    }
-
-    /**
-     * Sets the value of the createUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateUser(String value) {
-        this.createUser = value;
-    }
-
-    /**
-     * Gets the value of the drivingActivityDatesFlag property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isDrivingActivityDatesFlag() {
-        return drivingActivityDatesFlag;
-    }
-
-    /**
-     * Sets the value of the drivingActivityDatesFlag property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setDrivingActivityDatesFlag(Boolean value) {
-        this.drivingActivityDatesFlag = value;
-    }
-
-    /**
-     * Gets the value of the durationPercentComplete property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getDurationPercentComplete() {
-        return durationPercentComplete;
-    }
-
-    /**
-     * Sets the value of the durationPercentComplete property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setDurationPercentComplete(Double value) {
-        this.durationPercentComplete = value;
-    }
-
-    /**
-     * Gets the value of the estimateToCompletionCosts property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getEstimateToCompletionCosts() {
-        return estimateToCompletionCosts;
-    }
-
-    /**
-     * Sets the value of the estimateToCompletionCosts property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setEstimateToCompletionCosts(Double value) {
-        this.estimateToCompletionCosts = value;
-    }
-
-    /**
-     * Gets the value of the estimateToCompletionUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getEstimateToCompletionUnits() {
-        return estimateToCompletionUnits;
-    }
-
-    /**
-     * Sets the value of the estimateToCompletionUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setEstimateToCompletionUnits(Double value) {
-        this.estimateToCompletionUnits = value;
-    }
-
-    /**
-     * Gets the value of the financialPeriodTmplId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getFinancialPeriodTmplId() {
-        return financialPeriodTmplId;
-    }
-
-    /**
-     * Sets the value of the financialPeriodTmplId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setFinancialPeriodTmplId(Integer value) {
-        this.financialPeriodTmplId = value;
-    }
-
-    /**
-     * Gets the value of the finishDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getFinishDate() {
-        return finishDate;
-    }
-
-    /**
-     * Sets the value of the finishDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setFinishDate(LocalDateTime value) {
-        this.finishDate = value;
-    }
-
-    /**
-     * Gets the value of the guid property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getGUID() {
-        return guid;
-    }
-
-    /**
-     * Sets the value of the guid property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setGUID(String value) {
-        this.guid = value;
-    }
-
-    /**
-     * Gets the value of the hasFutureBucketData property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isHasFutureBucketData() {
-        return hasFutureBucketData;
-    }
-
-    /**
-     * Sets the value of the hasFutureBucketData property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setHasFutureBucketData(Boolean value) {
-        this.hasFutureBucketData = value;
-    }
-
-    /**
-     * Gets the value of the isActive property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsActive() {
-        return isActive;
-    }
-
-    /**
-     * Sets the value of the isActive property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsActive(Boolean value) {
-        this.isActive = value;
-    }
-
-    /**
-     * Gets the value of the isActivityFlagged property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsActivityFlagged() {
-        return isActivityFlagged;
-    }
-
-    /**
-     * Sets the value of the isActivityFlagged property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsActivityFlagged(Boolean value) {
-        this.isActivityFlagged = value;
-    }
-
-    /**
-     * Gets the value of the isBaseline property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsBaseline() {
-        return isBaseline;
-    }
-
-    /**
-     * Sets the value of the isBaseline property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsBaseline(Boolean value) {
-        this.isBaseline = value;
-    }
-
-    /**
-     * Gets the value of the isCostUnitsLinked property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsCostUnitsLinked() {
-        return isCostUnitsLinked;
-    }
-
-    /**
-     * Sets the value of the isCostUnitsLinked property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsCostUnitsLinked(Boolean value) {
-        this.isCostUnitsLinked = value;
-    }
-
-    /**
-     * Gets the value of the isOvertimeAllowed property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsOvertimeAllowed() {
-        return isOvertimeAllowed;
-    }
-
-    /**
-     * Sets the value of the isOvertimeAllowed property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsOvertimeAllowed(Boolean value) {
-        this.isOvertimeAllowed = value;
-    }
-
-    /**
-     * Gets the value of the isPrimaryResource property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsPrimaryResource() {
-        return isPrimaryResource;
-    }
-
-    /**
-     * Sets the value of the isPrimaryResource property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsPrimaryResource(Boolean value) {
-        this.isPrimaryResource = value;
-    }
-
-    /**
-     * Gets the value of the isTemplate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsTemplate() {
-        return isTemplate;
-    }
-
-    /**
-     * Sets the value of the isTemplate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsTemplate(Boolean value) {
-        this.isTemplate = value;
-    }
-
-    /**
-     * Gets the value of the lastUpdateDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
-
-    /**
-     * Sets the value of the lastUpdateDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateDate(LocalDateTime value) {
-        this.lastUpdateDate = value;
-    }
-
-    /**
-     * Gets the value of the lastUpdateUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getLastUpdateUser() {
-        return lastUpdateUser;
-    }
-
-    /**
-     * Sets the value of the lastUpdateUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateUser(String value) {
-        this.lastUpdateUser = value;
-    }
-
-    /**
-     * Gets the value of the objectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getObjectId() {
-        return objectId;
-    }
-
-    /**
-     * Sets the value of the objectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setObjectId(Integer value) {
-        this.objectId = value;
-    }
-
-    /**
-     * Gets the value of the overtimeFactor property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getOvertimeFactor() {
-        return overtimeFactor;
-    }
-
-    /**
-     * Sets the value of the overtimeFactor property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setOvertimeFactor(Double value) {
-        this.overtimeFactor = value;
-    }
-
-    /**
-     * Gets the value of the pendingActualOvertimeUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPendingActualOvertimeUnits() {
-        return pendingActualOvertimeUnits;
-    }
-
-    /**
-     * Sets the value of the pendingActualOvertimeUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPendingActualOvertimeUnits(Double value) {
-        this.pendingActualOvertimeUnits = value;
-    }
-
-    /**
-     * Gets the value of the pendingActualRegularUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPendingActualRegularUnits() {
-        return pendingActualRegularUnits;
-    }
-
-    /**
-     * Sets the value of the pendingActualRegularUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPendingActualRegularUnits(Double value) {
-        this.pendingActualRegularUnits = value;
-    }
-
-    /**
-     * Gets the value of the pendingPercentComplete property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPendingPercentComplete() {
-        return pendingPercentComplete;
-    }
-
-    /**
-     * Sets the value of the pendingPercentComplete property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPendingPercentComplete(Double value) {
-        this.pendingPercentComplete = value;
-    }
-
-    /**
-     * Gets the value of the pendingRemainingUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPendingRemainingUnits() {
-        return pendingRemainingUnits;
-    }
-
-    /**
-     * Sets the value of the pendingRemainingUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPendingRemainingUnits(Double value) {
-        this.pendingRemainingUnits = value;
-    }
-
-    /**
-     * Gets the value of the percentComplete property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPercentComplete() {
-        return percentComplete;
-    }
-
-    /**
-     * Sets the value of the percentComplete property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPercentComplete(Double value) {
-        this.percentComplete = value;
-    }
-
-    /**
-     * Gets the value of the percentCompleteType property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getPercentCompleteType() {
-        return percentCompleteType;
-    }
-
-    /**
-     * Sets the value of the percentCompleteType property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPercentCompleteType(String value) {
-        this.percentCompleteType = value;
-    }
-
-    /**
-     * Gets the value of the plannedCost property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPlannedCost() {
-        return plannedCost;
-    }
-
-    /**
-     * Sets the value of the plannedCost property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPlannedCost(Double value) {
-        this.plannedCost = value;
-    }
-
-    /**
-     * Gets the value of the plannedCurve property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getPlannedCurve() {
-        return plannedCurve;
-    }
-
-    /**
-     * Sets the value of the plannedCurve property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPlannedCurve(String value) {
-        this.plannedCurve = value;
-    }
-
-    /**
-     * Gets the value of the plannedDuration property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPlannedDuration() {
-        return plannedDuration;
-    }
-
-    /**
-     * Sets the value of the plannedDuration property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPlannedDuration(Double value) {
-        this.plannedDuration = value;
-    }
-
-    /**
-     * Gets the value of the plannedFinishDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getPlannedFinishDate() {
-        return plannedFinishDate;
-    }
-
-    /**
-     * Sets the value of the plannedFinishDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPlannedFinishDate(LocalDateTime value) {
-        this.plannedFinishDate = value;
-    }
-
-    /**
-     * Gets the value of the plannedLag property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPlannedLag() {
-        return plannedLag;
-    }
-
-    /**
-     * Sets the value of the plannedLag property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPlannedLag(Double value) {
-        this.plannedLag = value;
-    }
-
-    /**
-     * Gets the value of the plannedStartDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getPlannedStartDate() {
-        return plannedStartDate;
-    }
-
-    /**
-     * Sets the value of the plannedStartDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPlannedStartDate(LocalDateTime value) {
-        this.plannedStartDate = value;
-    }
-
-    /**
-     * Gets the value of the plannedUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPlannedUnits() {
-        return plannedUnits;
-    }
-
-    /**
-     * Sets the value of the plannedUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPlannedUnits(Double value) {
-        this.plannedUnits = value;
-    }
-
-    /**
-     * Gets the value of the plannedUnitsPerTime property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPlannedUnitsPerTime() {
-        return plannedUnitsPerTime;
-    }
-
-    /**
-     * Sets the value of the plannedUnitsPerTime property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPlannedUnitsPerTime(Double value) {
-        this.plannedUnitsPerTime = value;
-    }
-
-    /**
-     * Gets the value of the pricePerUnit property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPricePerUnit() {
-        return pricePerUnit;
-    }
-
-    /**
-     * Sets the value of the pricePerUnit property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPricePerUnit(Double value) {
-        this.pricePerUnit = value;
-    }
-
-    /**
-     * Gets the value of the priorActualOvertimeUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPriorActualOvertimeUnits() {
-        return priorActualOvertimeUnits;
-    }
-
-    /**
-     * Sets the value of the priorActualOvertimeUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPriorActualOvertimeUnits(Double value) {
-        this.priorActualOvertimeUnits = value;
-    }
-
-    /**
-     * Gets the value of the priorActualRegularUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPriorActualRegularUnits() {
-        return priorActualRegularUnits;
-    }
-
-    /**
-     * Sets the value of the priorActualRegularUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPriorActualRegularUnits(Double value) {
-        this.priorActualRegularUnits = value;
-    }
-
-    /**
-     * Gets the value of the proficiency property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getProficiency() {
-        return proficiency;
-    }
-
-    /**
-     * Sets the value of the proficiency property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setProficiency(String value) {
-        this.proficiency = value;
-    }
-
-    /**
-     * Gets the value of the projectFlag property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getProjectFlag() {
-        return projectFlag;
-    }
-
-    /**
-     * Sets the value of the projectFlag property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setProjectFlag(String value) {
-        this.projectFlag = value;
-    }
-
-    /**
-     * Gets the value of the projectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getProjectId() {
-        return projectId;
-    }
-
-    /**
-     * Sets the value of the projectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setProjectId(String value) {
-        this.projectId = value;
-    }
-
-    /**
-     * Gets the value of the projectName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getProjectName() {
-        return projectName;
-    }
-
-    /**
-     * Sets the value of the projectName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setProjectName(String value) {
-        this.projectName = value;
-    }
-
-    /**
-     * Gets the value of the projectObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getProjectObjectId() {
-        return projectObjectId;
-    }
-
-    /**
-     * Sets the value of the projectObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setProjectObjectId(Integer value) {
-        this.projectObjectId = value;
-    }
-
-    /**
-     * Gets the value of the projectProjectFlag property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getProjectProjectFlag() {
-        return projectProjectFlag;
-    }
-
-    /**
-     * Sets the value of the projectProjectFlag property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setProjectProjectFlag(String value) {
-        this.projectProjectFlag = value;
-    }
-
-    /**
-     * Gets the value of the rateSource property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getRateSource() {
-        return rateSource;
-    }
-
-    /**
-     * Sets the value of the rateSource property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRateSource(String value) {
-        this.rateSource = value;
-    }
-
-    /**
-     * Gets the value of the rateType property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getRateType() {
-        return rateType;
-    }
-
-    /**
-     * Sets the value of the rateType property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRateType(String value) {
-        this.rateType = value;
-    }
-
-    /**
-     * Gets the value of the remainingCost property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getRemainingCost() {
-        return remainingCost;
-    }
-
-    /**
-     * Sets the value of the remainingCost property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRemainingCost(Double value) {
-        this.remainingCost = value;
-    }
-
-    /**
-     * Gets the value of the remainingCurve property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getRemainingCurve() {
-        return remainingCurve;
-    }
-
-    /**
-     * Sets the value of the remainingCurve property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRemainingCurve(String value) {
-        this.remainingCurve = value;
-    }
-
-    /**
-     * Gets the value of the remainingDuration property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getRemainingDuration() {
-        return remainingDuration;
-    }
-
-    /**
-     * Sets the value of the remainingDuration property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRemainingDuration(Double value) {
-        this.remainingDuration = value;
-    }
-
-    /**
-     * Gets the value of the remainingFinishDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getRemainingFinishDate() {
-        return remainingFinishDate;
-    }
-
-    /**
-     * Sets the value of the remainingFinishDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRemainingFinishDate(LocalDateTime value) {
-        this.remainingFinishDate = value;
-    }
-
-    /**
-     * Gets the value of the remainingLag property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getRemainingLag() {
-        return remainingLag;
-    }
-
-    /**
-     * Sets the value of the remainingLag property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRemainingLag(Double value) {
-        this.remainingLag = value;
-    }
-
-    /**
-     * Gets the value of the remainingLateFinishDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getRemainingLateFinishDate() {
-        return remainingLateFinishDate;
-    }
-
-    /**
-     * Sets the value of the remainingLateFinishDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRemainingLateFinishDate(LocalDateTime value) {
-        this.remainingLateFinishDate = value;
-    }
-
-    /**
-     * Gets the value of the remainingLateStartDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getRemainingLateStartDate() {
-        return remainingLateStartDate;
-    }
-
-    /**
-     * Sets the value of the remainingLateStartDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRemainingLateStartDate(LocalDateTime value) {
-        this.remainingLateStartDate = value;
-    }
-
-    /**
-     * Gets the value of the remainingStartDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getRemainingStartDate() {
-        return remainingStartDate;
-    }
-
-    /**
-     * Sets the value of the remainingStartDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRemainingStartDate(LocalDateTime value) {
-        this.remainingStartDate = value;
-    }
-
-    /**
-     * Gets the value of the remainingUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getRemainingUnits() {
-        return remainingUnits;
-    }
-
-    /**
-     * Sets the value of the remainingUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRemainingUnits(Double value) {
-        this.remainingUnits = value;
-    }
-
-    /**
-     * Gets the value of the remainingUnitsPerTime property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getRemainingUnitsPerTime() {
-        return remainingUnitsPerTime;
-    }
-
-    /**
-     * Sets the value of the remainingUnitsPerTime property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRemainingUnitsPerTime(Double value) {
-        this.remainingUnitsPerTime = value;
-    }
-
-    /**
-     * Gets the value of the resourceCalendarName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceCalendarName() {
-        return resourceCalendarName;
-    }
-
-    /**
-     * Sets the value of the resourceCalendarName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceCalendarName(String value) {
-        this.resourceCalendarName = value;
-    }
-
-    /**
-     * Gets the value of the resourceCurveName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceCurveName() {
-        return resourceCurveName;
-    }
-
-    /**
-     * Sets the value of the resourceCurveName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceCurveName(String value) {
-        this.resourceCurveName = value;
-    }
-
-    /**
-     * Gets the value of the resourceCurveObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getResourceCurveObjectId() {
-        return resourceCurveObjectId;
-    }
-
-    /**
-     * Sets the value of the resourceCurveObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setResourceCurveObjectId(Integer value) {
-        this.resourceCurveObjectId = value;
-    }
-
-    /**
-     * Gets the value of the resourceId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceId() {
-        return resourceId;
-    }
-
-    /**
-     * Sets the value of the resourceId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceId(String value) {
-        this.resourceId = value;
-    }
-
-    /**
-     * Gets the value of the resourceName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceName() {
-        return resourceName;
-    }
-
-    /**
-     * Sets the value of the resourceName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceName(String value) {
-        this.resourceName = value;
-    }
-
-    /**
-     * Gets the value of the resourceObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getResourceObjectId() {
-        return resourceObjectId;
-    }
-
-    /**
-     * Sets the value of the resourceObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setResourceObjectId(Integer value) {
-        this.resourceObjectId = value;
-    }
-
-    /**
-     * Gets the value of the resourceType property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    /**
-     * Sets the value of the resourceType property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceType(String value) {
-        this.resourceType = value;
-    }
-
-    /**
-     * Gets the value of the reviewRequired property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isReviewRequired() {
-        return reviewRequired;
-    }
-
-    /**
-     * Sets the value of the reviewRequired property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setReviewRequired(Boolean value) {
-        this.reviewRequired = value;
-    }
-
-    /**
-     * Gets the value of the roleId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getRoleId() {
-        return roleId;
-    }
-
-    /**
-     * Sets the value of the roleId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRoleId(String value) {
-        this.roleId = value;
-    }
-
-    /**
-     * Gets the value of the roleName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getRoleName() {
-        return roleName;
-    }
-
-    /**
-     * Sets the value of the roleName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRoleName(String value) {
-        this.roleName = value;
-    }
-
-    /**
-     * Gets the value of the roleObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getRoleObjectId() {
-        return roleObjectId;
-    }
-
-    /**
-     * Sets the value of the roleObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setRoleObjectId(Integer value) {
-        this.roleObjectId = value;
-    }
-
-    /**
-     * Gets the value of the roleShortName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getRoleShortName() {
-        return roleShortName;
-    }
-
-    /**
-     * Sets the value of the roleShortName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRoleShortName(String value) {
-        this.roleShortName = value;
-    }
-
-    /**
-     * Gets the value of the staffedRemainingCost property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getStaffedRemainingCost() {
-        return staffedRemainingCost;
-    }
-
-    /**
-     * Sets the value of the staffedRemainingCost property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setStaffedRemainingCost(Double value) {
-        this.staffedRemainingCost = value;
-    }
-
-    /**
-     * Gets the value of the staffedRemainingUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getStaffedRemainingUnits() {
-        return staffedRemainingUnits;
-    }
-
-    /**
-     * Sets the value of the staffedRemainingUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setStaffedRemainingUnits(Double value) {
-        this.staffedRemainingUnits = value;
-    }
-
-    /**
-     * Gets the value of the startDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
-
-    /**
-     * Sets the value of the startDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setStartDate(LocalDateTime value) {
-        this.startDate = value;
-    }
-
-    /**
-     * Gets the value of the statusCode property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getStatusCode() {
-        return statusCode;
-    }
-
-    /**
-     * Sets the value of the statusCode property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setStatusCode(String value) {
-        this.statusCode = value;
-    }
-
-    /**
-     * Gets the value of the totalPastPeriodCost property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getTotalPastPeriodCost() {
-        return totalPastPeriodCost;
-    }
-
-    /**
-     * Sets the value of the totalPastPeriodCost property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setTotalPastPeriodCost(Double value) {
-        this.totalPastPeriodCost = value;
-    }
-
-    /**
-     * Gets the value of the totalPastPeriodUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getTotalPastPeriodUnits() {
-        return totalPastPeriodUnits;
-    }
-
-    /**
-     * Sets the value of the totalPastPeriodUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setTotalPastPeriodUnits(Double value) {
-        this.totalPastPeriodUnits = value;
-    }
-
-    /**
-     * Gets the value of the unitsPercentComplete property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getUnitsPercentComplete() {
-        return unitsPercentComplete;
-    }
-
-    /**
-     * Sets the value of the unitsPercentComplete property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setUnitsPercentComplete(Double value) {
-        this.unitsPercentComplete = value;
-    }
-
-    /**
-     * Gets the value of the unreadCommentCount property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getUnreadCommentCount() {
-        return unreadCommentCount;
-    }
-
-    /**
-     * Sets the value of the unreadCommentCount property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setUnreadCommentCount(Integer value) {
-        this.unreadCommentCount = value;
-    }
-
-    /**
-     * Gets the value of the unstaffedRemainingCost property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getUnstaffedRemainingCost() {
-        return unstaffedRemainingCost;
-    }
-
-    /**
-     * Sets the value of the unstaffedRemainingCost property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setUnstaffedRemainingCost(Double value) {
-        this.unstaffedRemainingCost = value;
-    }
-
-    /**
-     * Gets the value of the unstaffedRemainingUnits property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getUnstaffedRemainingUnits() {
-        return unstaffedRemainingUnits;
-    }
-
-    /**
-     * Sets the value of the unstaffedRemainingUnits property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setUnstaffedRemainingUnits(Double value) {
-        this.unstaffedRemainingUnits = value;
-    }
-
-    /**
-     * Gets the value of the wbsNamePath property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getWBSNamePath() {
-        return wbsNamePath;
-    }
-
-    /**
-     * Sets the value of the wbsNamePath property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setWBSNamePath(String value) {
-        this.wbsNamePath = value;
-    }
-
-    /**
-     * Gets the value of the wbsObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getWBSObjectId() {
-        return wbsObjectId;
-    }
-
-    /**
-     * Sets the value of the wbsObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setWBSObjectId(Integer value) {
-        this.wbsObjectId = value;
-    }
-
-    /**
-     * Gets the value of the udf property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the udf property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUDF().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UDFAssignmentType }
-     *
-     *
-     */
-    public List<UDFAssignmentType> getUDF() {
-        if (udf == null) {
-            udf = new ArrayList<>();
-        }
-        return this.udf;
-    }
-
-    /**
-     * Gets the value of the spread property.
-     *
-     * @return
-     *     possible object is
-     *     {@link ResourceAssignmentSpreadType }
-     *
-     */
-    public ResourceAssignmentSpreadType getSpread() {
-        return spread;
-    }
-
-    /**
-     * Sets the value of the spread property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link ResourceAssignmentSpreadType }
-     *
-     */
-    public void setSpread(ResourceAssignmentSpreadType value) {
-        this.spread = value;
-    }
-
-    /**
-     * Gets the value of the resourceRequest property.
-     *
-     * @return
-     *     possible object is
-     *     {@link ResourceRequestType }
-     *
-     */
-    public ResourceRequestType getResourceRequest() {
-        return resourceRequest;
-    }
-
-    /**
-     * Sets the value of the resourceRequest property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link ResourceRequestType }
-     *
-     */
-    public void setResourceRequest(ResourceRequestType value) {
-        this.resourceRequest = value;
-    }
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ResourceAssignmentType", propOrder =
+{
+   "activityActualFinish",
+   "activityId",
+   "activityName",
+   "activityObjectId",
+   "activityType",
+   "actualCost",
+   "actualCurve",
+   "actualDuration",
+   "actualFinishDate",
+   "actualOvertimeCost",
+   "actualOvertimeUnits",
+   "actualRegularCost",
+   "actualRegularUnits",
+   "actualStartDate",
+   "actualThisPeriodCost",
+   "actualThisPeriodUnits",
+   "actualUnits",
+   "assignmentPercentComplete",
+   "atCompletionCost",
+   "atCompletionDuration",
+   "atCompletionUnits",
+   "autoComputeActuals",
+   "budgetAtCompletionCosts",
+   "budgetAtCompletionUnits",
+   "cbsCode",
+   "cbsId",
+   "calendarName",
+   "calendarObjectId",
+   "costAccountId",
+   "costAccountName",
+   "costAccountObjectId",
+   "costPerQuantity",
+   "createDate",
+   "createUser",
+   "drivingActivityDatesFlag",
+   "durationPercentComplete",
+   "estimateToCompletionCosts",
+   "estimateToCompletionUnits",
+   "financialPeriodTmplId",
+   "finishDate",
+   "guid",
+   "hasFutureBucketData",
+   "isActive",
+   "isActivityFlagged",
+   "isBaseline",
+   "isCostUnitsLinked",
+   "isOvertimeAllowed",
+   "isPrimaryResource",
+   "isTemplate",
+   "lastUpdateDate",
+   "lastUpdateUser",
+   "objectId",
+   "overtimeFactor",
+   "pendingActualOvertimeUnits",
+   "pendingActualRegularUnits",
+   "pendingPercentComplete",
+   "pendingRemainingUnits",
+   "percentComplete",
+   "percentCompleteType",
+   "plannedCost",
+   "plannedCurve",
+   "plannedDuration",
+   "plannedFinishDate",
+   "plannedLag",
+   "plannedStartDate",
+   "plannedUnits",
+   "plannedUnitsPerTime",
+   "pricePerUnit",
+   "priorActualOvertimeUnits",
+   "priorActualRegularUnits",
+   "proficiency",
+   "projectFlag",
+   "projectId",
+   "projectName",
+   "projectObjectId",
+   "projectProjectFlag",
+   "rateSource",
+   "rateType",
+   "remainingCost",
+   "remainingCurve",
+   "remainingDuration",
+   "remainingFinishDate",
+   "remainingLag",
+   "remainingLateFinishDate",
+   "remainingLateStartDate",
+   "remainingStartDate",
+   "remainingUnits",
+   "remainingUnitsPerTime",
+   "resourceCalendarName",
+   "resourceCurveName",
+   "resourceCurveObjectId",
+   "resourceId",
+   "resourceName",
+   "resourceObjectId",
+   "resourceType",
+   "reviewRequired",
+   "roleId",
+   "roleName",
+   "roleObjectId",
+   "roleShortName",
+   "staffedRemainingCost",
+   "staffedRemainingUnits",
+   "startDate",
+   "statusCode",
+   "totalPastPeriodCost",
+   "totalPastPeriodUnits",
+   "unitsPercentComplete",
+   "unreadCommentCount",
+   "unstaffedRemainingCost",
+   "unstaffedRemainingUnits",
+   "wbsNamePath",
+   "wbsObjectId",
+   "udf",
+   "spread",
+   "resourceRequest"
+}) public class ResourceAssignmentType
+{
+
+   @XmlElement(name = "ActivityActualFinish", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime activityActualFinish;
+   @XmlElement(name = "ActivityId") @XmlJavaTypeAdapter(Adapter1.class) protected String activityId;
+   @XmlElement(name = "ActivityName") @XmlJavaTypeAdapter(Adapter1.class) protected String activityName;
+   @XmlElement(name = "ActivityObjectId") protected Integer activityObjectId;
+   @XmlElement(name = "ActivityType") @XmlJavaTypeAdapter(Adapter1.class) protected String activityType;
+   @XmlElement(name = "ActualCost", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double actualCost;
+   @XmlElement(name = "ActualCurve") @XmlJavaTypeAdapter(Adapter1.class) protected String actualCurve;
+   @XmlElement(name = "ActualDuration", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double actualDuration;
+   @XmlElement(name = "ActualFinishDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime actualFinishDate;
+   @XmlElement(name = "ActualOvertimeCost", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double actualOvertimeCost;
+   @XmlElement(name = "ActualOvertimeUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double actualOvertimeUnits;
+   @XmlElement(name = "ActualRegularCost", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double actualRegularCost;
+   @XmlElement(name = "ActualRegularUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double actualRegularUnits;
+   @XmlElement(name = "ActualStartDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime actualStartDate;
+   @XmlElement(name = "ActualThisPeriodCost", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double actualThisPeriodCost;
+   @XmlElement(name = "ActualThisPeriodUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double actualThisPeriodUnits;
+   @XmlElement(name = "ActualUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double actualUnits;
+   @XmlElement(name = "AssignmentPercentComplete", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double assignmentPercentComplete;
+   @XmlElement(name = "AtCompletionCost", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double atCompletionCost;
+   @XmlElement(name = "AtCompletionDuration", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double atCompletionDuration;
+   @XmlElement(name = "AtCompletionUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double atCompletionUnits;
+   @XmlElement(name = "AutoComputeActuals", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean autoComputeActuals;
+   @XmlElement(name = "BudgetAtCompletionCosts", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double budgetAtCompletionCosts;
+   @XmlElement(name = "BudgetAtCompletionUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double budgetAtCompletionUnits;
+   @XmlElement(name = "CBSCode") @XmlJavaTypeAdapter(Adapter1.class) protected String cbsCode;
+   @XmlElement(name = "CBSId", nillable = true) protected Integer cbsId;
+   @XmlElement(name = "CalendarName") @XmlJavaTypeAdapter(Adapter1.class) protected String calendarName;
+   @XmlElement(name = "CalendarObjectId", nillable = true) protected Integer calendarObjectId;
+   @XmlElement(name = "CostAccountId") @XmlJavaTypeAdapter(Adapter1.class) protected String costAccountId;
+   @XmlElement(name = "CostAccountName") @XmlJavaTypeAdapter(Adapter1.class) protected String costAccountName;
+   @XmlElement(name = "CostAccountObjectId", nillable = true) protected Integer costAccountObjectId;
+   @XmlElement(name = "CostPerQuantity", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double costPerQuantity;
+   @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;
+   @XmlElement(name = "CreateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String createUser;
+   @XmlElement(name = "DrivingActivityDatesFlag", type = String.class) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean drivingActivityDatesFlag;
+   @XmlElement(name = "DurationPercentComplete", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) protected Double durationPercentComplete;
+   @XmlElement(name = "EstimateToCompletionCosts", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double estimateToCompletionCosts;
+   @XmlElement(name = "EstimateToCompletionUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double estimateToCompletionUnits;
+   @XmlElement(name = "FinancialPeriodTmplId") protected Integer financialPeriodTmplId;
+   @XmlElement(name = "FinishDate", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime finishDate;
+   @XmlElement(name = "GUID") @XmlJavaTypeAdapter(Adapter1.class) protected String guid;
+   @XmlElement(name = "HasFutureBucketData", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean hasFutureBucketData;
+   @XmlElement(name = "IsActive", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isActive;
+   @XmlElement(name = "IsActivityFlagged", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isActivityFlagged;
+   @XmlElement(name = "IsBaseline", type = String.class) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isBaseline;
+   @XmlElement(name = "IsCostUnitsLinked", type = String.class) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isCostUnitsLinked;
+   @XmlElement(name = "IsOvertimeAllowed", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isOvertimeAllowed;
+   @XmlElement(name = "IsPrimaryResource", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isPrimaryResource;
+   @XmlElement(name = "IsTemplate", type = String.class) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isTemplate;
+   @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime lastUpdateDate;
+   @XmlElement(name = "LastUpdateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String lastUpdateUser;
+   @XmlElement(name = "ObjectId") protected Integer objectId;
+   @XmlElement(name = "OvertimeFactor", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) protected Double overtimeFactor;
+   @XmlElement(name = "PendingActualOvertimeUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double pendingActualOvertimeUnits;
+   @XmlElement(name = "PendingActualRegularUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double pendingActualRegularUnits;
+   @XmlElement(name = "PendingPercentComplete", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double pendingPercentComplete;
+   @XmlElement(name = "PendingRemainingUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double pendingRemainingUnits;
+   @XmlElement(name = "PercentComplete", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double percentComplete;
+   @XmlElement(name = "PercentCompleteType") @XmlJavaTypeAdapter(Adapter1.class) protected String percentCompleteType;
+   @XmlElement(name = "PlannedCost", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double plannedCost;
+   @XmlElement(name = "PlannedCurve") @XmlJavaTypeAdapter(Adapter1.class) protected String plannedCurve;
+   @XmlElement(name = "PlannedDuration", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) protected Double plannedDuration;
+   @XmlElement(name = "PlannedFinishDate", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime plannedFinishDate;
+   @XmlElement(name = "PlannedLag", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) protected Double plannedLag;
+   @XmlElement(name = "PlannedStartDate", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime plannedStartDate;
+   @XmlElement(name = "PlannedUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double plannedUnits;
+   @XmlElement(name = "PlannedUnitsPerTime", type = String.class) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double plannedUnitsPerTime;
+   @XmlElement(name = "PricePerUnit", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) protected Double pricePerUnit;
+   @XmlElement(name = "PriorActualOvertimeUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double priorActualOvertimeUnits;
+   @XmlElement(name = "PriorActualRegularUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double priorActualRegularUnits;
+   @XmlElement(name = "Proficiency") @XmlJavaTypeAdapter(Adapter1.class) protected String proficiency;
+   @XmlElement(name = "ProjectFlag") @XmlJavaTypeAdapter(Adapter1.class) protected String projectFlag;
+   @XmlElement(name = "ProjectId") @XmlJavaTypeAdapter(Adapter1.class) protected String projectId;
+   @XmlElement(name = "ProjectName") @XmlJavaTypeAdapter(Adapter1.class) protected String projectName;
+   @XmlElement(name = "ProjectObjectId") protected Integer projectObjectId;
+   @XmlElement(name = "ProjectProjectFlag") @XmlJavaTypeAdapter(Adapter1.class) protected String projectProjectFlag;
+   @XmlElement(name = "RateSource") @XmlJavaTypeAdapter(Adapter1.class) protected String rateSource;
+   @XmlElement(name = "RateType") @XmlJavaTypeAdapter(Adapter1.class) protected String rateType;
+   @XmlElement(name = "RemainingCost", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double remainingCost;
+   @XmlElement(name = "RemainingCurve") @XmlJavaTypeAdapter(Adapter1.class) protected String remainingCurve;
+   @XmlElement(name = "RemainingDuration", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) protected Double remainingDuration;
+   @XmlElement(name = "RemainingFinishDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime remainingFinishDate;
+   @XmlElement(name = "RemainingLag", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) protected Double remainingLag;
+   @XmlElement(name = "RemainingLateFinishDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime remainingLateFinishDate;
+   @XmlElement(name = "RemainingLateStartDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime remainingLateStartDate;
+   @XmlElement(name = "RemainingStartDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime remainingStartDate;
+   @XmlElement(name = "RemainingUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double remainingUnits;
+   @XmlElement(name = "RemainingUnitsPerTime", type = String.class) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double remainingUnitsPerTime;
+   @XmlElement(name = "ResourceCalendarName") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceCalendarName;
+   @XmlElement(name = "ResourceCurveName") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceCurveName;
+   @XmlElement(name = "ResourceCurveObjectId", nillable = true) protected Integer resourceCurveObjectId;
+   @XmlElement(name = "ResourceId") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceId;
+   @XmlElement(name = "ResourceName") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceName;
+   @XmlElement(name = "ResourceObjectId", nillable = true) protected Integer resourceObjectId;
+   @XmlElement(name = "ResourceType") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceType;
+   @XmlElement(name = "ReviewRequired", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean reviewRequired;
+   @XmlElement(name = "RoleId") @XmlJavaTypeAdapter(Adapter1.class) protected String roleId;
+   @XmlElement(name = "RoleName") @XmlJavaTypeAdapter(Adapter1.class) protected String roleName;
+   @XmlElement(name = "RoleObjectId", nillable = true) protected Integer roleObjectId;
+   @XmlElement(name = "RoleShortName") @XmlJavaTypeAdapter(Adapter1.class) protected String roleShortName;
+   @XmlElement(name = "StaffedRemainingCost", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double staffedRemainingCost;
+   @XmlElement(name = "StaffedRemainingUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double staffedRemainingUnits;
+   @XmlElement(name = "StartDate", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime startDate;
+   @XmlElement(name = "StatusCode") @XmlJavaTypeAdapter(Adapter1.class) protected String statusCode;
+   @XmlElement(name = "TotalPastPeriodCost", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double totalPastPeriodCost;
+   @XmlElement(name = "TotalPastPeriodUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double totalPastPeriodUnits;
+   @XmlElement(name = "UnitsPercentComplete", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double unitsPercentComplete;
+   @XmlElement(name = "UnreadCommentCount", nillable = true) protected Integer unreadCommentCount;
+   @XmlElement(name = "UnstaffedRemainingCost", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double unstaffedRemainingCost;
+   @XmlElement(name = "UnstaffedRemainingUnits", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double unstaffedRemainingUnits;
+   @XmlElement(name = "WBSNamePath") @XmlJavaTypeAdapter(Adapter1.class) protected String wbsNamePath;
+   @XmlElement(name = "WBSObjectId", nillable = true) protected Integer wbsObjectId;
+   @XmlElement(name = "UDF") protected List<UDFAssignmentType> udf;
+   @XmlElement(name = "Spread") protected ResourceAssignmentSpreadType spread;
+   @XmlElement(name = "ResourceRequest", nillable = true) protected ResourceRequestType resourceRequest;
+
+   /**
+    * Gets the value of the activityActualFinish property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getActivityActualFinish()
+   {
+      return activityActualFinish;
+   }
+
+   /**
+    * Sets the value of the activityActualFinish property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActivityActualFinish(LocalDateTime value)
+   {
+      this.activityActualFinish = value;
+   }
+
+   /**
+    * Gets the value of the activityId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getActivityId()
+   {
+      return activityId;
+   }
+
+   /**
+    * Sets the value of the activityId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActivityId(String value)
+   {
+      this.activityId = value;
+   }
+
+   /**
+    * Gets the value of the activityName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getActivityName()
+   {
+      return activityName;
+   }
+
+   /**
+    * Sets the value of the activityName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActivityName(String value)
+   {
+      this.activityName = value;
+   }
+
+   /**
+    * Gets the value of the activityObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getActivityObjectId()
+   {
+      return activityObjectId;
+   }
+
+   /**
+    * Sets the value of the activityObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setActivityObjectId(Integer value)
+   {
+      this.activityObjectId = value;
+   }
+
+   /**
+    * Gets the value of the activityType property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getActivityType()
+   {
+      return activityType;
+   }
+
+   /**
+    * Sets the value of the activityType property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActivityType(String value)
+   {
+      this.activityType = value;
+   }
+
+   /**
+    * Gets the value of the actualCost property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getActualCost()
+   {
+      return actualCost;
+   }
+
+   /**
+    * Sets the value of the actualCost property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActualCost(Double value)
+   {
+      this.actualCost = value;
+   }
+
+   /**
+    * Gets the value of the actualCurve property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getActualCurve()
+   {
+      return actualCurve;
+   }
+
+   /**
+    * Sets the value of the actualCurve property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActualCurve(String value)
+   {
+      this.actualCurve = value;
+   }
+
+   /**
+    * Gets the value of the actualDuration property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getActualDuration()
+   {
+      return actualDuration;
+   }
+
+   /**
+    * Sets the value of the actualDuration property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActualDuration(Double value)
+   {
+      this.actualDuration = value;
+   }
+
+   /**
+    * Gets the value of the actualFinishDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getActualFinishDate()
+   {
+      return actualFinishDate;
+   }
+
+   /**
+    * Sets the value of the actualFinishDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActualFinishDate(LocalDateTime value)
+   {
+      this.actualFinishDate = value;
+   }
+
+   /**
+    * Gets the value of the actualOvertimeCost property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getActualOvertimeCost()
+   {
+      return actualOvertimeCost;
+   }
+
+   /**
+    * Sets the value of the actualOvertimeCost property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActualOvertimeCost(Double value)
+   {
+      this.actualOvertimeCost = value;
+   }
+
+   /**
+    * Gets the value of the actualOvertimeUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getActualOvertimeUnits()
+   {
+      return actualOvertimeUnits;
+   }
+
+   /**
+    * Sets the value of the actualOvertimeUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActualOvertimeUnits(Double value)
+   {
+      this.actualOvertimeUnits = value;
+   }
+
+   /**
+    * Gets the value of the actualRegularCost property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getActualRegularCost()
+   {
+      return actualRegularCost;
+   }
+
+   /**
+    * Sets the value of the actualRegularCost property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActualRegularCost(Double value)
+   {
+      this.actualRegularCost = value;
+   }
+
+   /**
+    * Gets the value of the actualRegularUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getActualRegularUnits()
+   {
+      return actualRegularUnits;
+   }
+
+   /**
+    * Sets the value of the actualRegularUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActualRegularUnits(Double value)
+   {
+      this.actualRegularUnits = value;
+   }
+
+   /**
+    * Gets the value of the actualStartDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getActualStartDate()
+   {
+      return actualStartDate;
+   }
+
+   /**
+    * Sets the value of the actualStartDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActualStartDate(LocalDateTime value)
+   {
+      this.actualStartDate = value;
+   }
+
+   /**
+    * Gets the value of the actualThisPeriodCost property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getActualThisPeriodCost()
+   {
+      return actualThisPeriodCost;
+   }
+
+   /**
+    * Sets the value of the actualThisPeriodCost property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActualThisPeriodCost(Double value)
+   {
+      this.actualThisPeriodCost = value;
+   }
+
+   /**
+    * Gets the value of the actualThisPeriodUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getActualThisPeriodUnits()
+   {
+      return actualThisPeriodUnits;
+   }
+
+   /**
+    * Sets the value of the actualThisPeriodUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActualThisPeriodUnits(Double value)
+   {
+      this.actualThisPeriodUnits = value;
+   }
+
+   /**
+    * Gets the value of the actualUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getActualUnits()
+   {
+      return actualUnits;
+   }
+
+   /**
+    * Sets the value of the actualUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setActualUnits(Double value)
+   {
+      this.actualUnits = value;
+   }
+
+   /**
+    * Gets the value of the assignmentPercentComplete property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getAssignmentPercentComplete()
+   {
+      return assignmentPercentComplete;
+   }
+
+   /**
+    * Sets the value of the assignmentPercentComplete property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAssignmentPercentComplete(Double value)
+   {
+      this.assignmentPercentComplete = value;
+   }
+
+   /**
+    * Gets the value of the atCompletionCost property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getAtCompletionCost()
+   {
+      return atCompletionCost;
+   }
+
+   /**
+    * Sets the value of the atCompletionCost property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAtCompletionCost(Double value)
+   {
+      this.atCompletionCost = value;
+   }
+
+   /**
+    * Gets the value of the atCompletionDuration property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getAtCompletionDuration()
+   {
+      return atCompletionDuration;
+   }
+
+   /**
+    * Sets the value of the atCompletionDuration property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAtCompletionDuration(Double value)
+   {
+      this.atCompletionDuration = value;
+   }
+
+   /**
+    * Gets the value of the atCompletionUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getAtCompletionUnits()
+   {
+      return atCompletionUnits;
+   }
+
+   /**
+    * Sets the value of the atCompletionUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAtCompletionUnits(Double value)
+   {
+      this.atCompletionUnits = value;
+   }
+
+   /**
+    * Gets the value of the autoComputeActuals property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isAutoComputeActuals()
+   {
+      return autoComputeActuals;
+   }
+
+   /**
+    * Sets the value of the autoComputeActuals property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAutoComputeActuals(Boolean value)
+   {
+      this.autoComputeActuals = value;
+   }
+
+   /**
+    * Gets the value of the budgetAtCompletionCosts property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getBudgetAtCompletionCosts()
+   {
+      return budgetAtCompletionCosts;
+   }
+
+   /**
+    * Sets the value of the budgetAtCompletionCosts property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setBudgetAtCompletionCosts(Double value)
+   {
+      this.budgetAtCompletionCosts = value;
+   }
+
+   /**
+    * Gets the value of the budgetAtCompletionUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getBudgetAtCompletionUnits()
+   {
+      return budgetAtCompletionUnits;
+   }
+
+   /**
+    * Sets the value of the budgetAtCompletionUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setBudgetAtCompletionUnits(Double value)
+   {
+      this.budgetAtCompletionUnits = value;
+   }
+
+   /**
+    * Gets the value of the cbsCode property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCBSCode()
+   {
+      return cbsCode;
+   }
+
+   /**
+    * Sets the value of the cbsCode property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCBSCode(String value)
+   {
+      this.cbsCode = value;
+   }
+
+   /**
+    * Gets the value of the cbsId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getCBSId()
+   {
+      return cbsId;
+   }
+
+   /**
+    * Sets the value of the cbsId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setCBSId(Integer value)
+   {
+      this.cbsId = value;
+   }
+
+   /**
+    * Gets the value of the calendarName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCalendarName()
+   {
+      return calendarName;
+   }
+
+   /**
+    * Sets the value of the calendarName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCalendarName(String value)
+   {
+      this.calendarName = value;
+   }
+
+   /**
+    * Gets the value of the calendarObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getCalendarObjectId()
+   {
+      return calendarObjectId;
+   }
+
+   /**
+    * Sets the value of the calendarObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setCalendarObjectId(Integer value)
+   {
+      this.calendarObjectId = value;
+   }
+
+   /**
+    * Gets the value of the costAccountId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCostAccountId()
+   {
+      return costAccountId;
+   }
+
+   /**
+    * Sets the value of the costAccountId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCostAccountId(String value)
+   {
+      this.costAccountId = value;
+   }
+
+   /**
+    * Gets the value of the costAccountName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCostAccountName()
+   {
+      return costAccountName;
+   }
+
+   /**
+    * Sets the value of the costAccountName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCostAccountName(String value)
+   {
+      this.costAccountName = value;
+   }
+
+   /**
+    * Gets the value of the costAccountObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getCostAccountObjectId()
+   {
+      return costAccountObjectId;
+   }
+
+   /**
+    * Sets the value of the costAccountObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setCostAccountObjectId(Integer value)
+   {
+      this.costAccountObjectId = value;
+   }
+
+   /**
+    * Gets the value of the costPerQuantity property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getCostPerQuantity()
+   {
+      return costPerQuantity;
+   }
+
+   /**
+    * Sets the value of the costPerQuantity property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCostPerQuantity(Double value)
+   {
+      this.costPerQuantity = value;
+   }
+
+   /**
+    * Gets the value of the createDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getCreateDate()
+   {
+      return createDate;
+   }
+
+   /**
+    * Sets the value of the createDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateDate(LocalDateTime value)
+   {
+      this.createDate = value;
+   }
+
+   /**
+    * Gets the value of the createUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCreateUser()
+   {
+      return createUser;
+   }
+
+   /**
+    * Sets the value of the createUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateUser(String value)
+   {
+      this.createUser = value;
+   }
+
+   /**
+    * Gets the value of the drivingActivityDatesFlag property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isDrivingActivityDatesFlag()
+   {
+      return drivingActivityDatesFlag;
+   }
+
+   /**
+    * Sets the value of the drivingActivityDatesFlag property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setDrivingActivityDatesFlag(Boolean value)
+   {
+      this.drivingActivityDatesFlag = value;
+   }
+
+   /**
+    * Gets the value of the durationPercentComplete property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getDurationPercentComplete()
+   {
+      return durationPercentComplete;
+   }
+
+   /**
+    * Sets the value of the durationPercentComplete property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setDurationPercentComplete(Double value)
+   {
+      this.durationPercentComplete = value;
+   }
+
+   /**
+    * Gets the value of the estimateToCompletionCosts property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getEstimateToCompletionCosts()
+   {
+      return estimateToCompletionCosts;
+   }
+
+   /**
+    * Sets the value of the estimateToCompletionCosts property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setEstimateToCompletionCosts(Double value)
+   {
+      this.estimateToCompletionCosts = value;
+   }
+
+   /**
+    * Gets the value of the estimateToCompletionUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getEstimateToCompletionUnits()
+   {
+      return estimateToCompletionUnits;
+   }
+
+   /**
+    * Sets the value of the estimateToCompletionUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setEstimateToCompletionUnits(Double value)
+   {
+      this.estimateToCompletionUnits = value;
+   }
+
+   /**
+    * Gets the value of the financialPeriodTmplId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getFinancialPeriodTmplId()
+   {
+      return financialPeriodTmplId;
+   }
+
+   /**
+    * Sets the value of the financialPeriodTmplId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setFinancialPeriodTmplId(Integer value)
+   {
+      this.financialPeriodTmplId = value;
+   }
+
+   /**
+    * Gets the value of the finishDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getFinishDate()
+   {
+      return finishDate;
+   }
+
+   /**
+    * Sets the value of the finishDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setFinishDate(LocalDateTime value)
+   {
+      this.finishDate = value;
+   }
+
+   /**
+    * Gets the value of the guid property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getGUID()
+   {
+      return guid;
+   }
+
+   /**
+    * Sets the value of the guid property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setGUID(String value)
+   {
+      this.guid = value;
+   }
+
+   /**
+    * Gets the value of the hasFutureBucketData property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isHasFutureBucketData()
+   {
+      return hasFutureBucketData;
+   }
+
+   /**
+    * Sets the value of the hasFutureBucketData property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setHasFutureBucketData(Boolean value)
+   {
+      this.hasFutureBucketData = value;
+   }
+
+   /**
+    * Gets the value of the isActive property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsActive()
+   {
+      return isActive;
+   }
+
+   /**
+    * Sets the value of the isActive property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsActive(Boolean value)
+   {
+      this.isActive = value;
+   }
+
+   /**
+    * Gets the value of the isActivityFlagged property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsActivityFlagged()
+   {
+      return isActivityFlagged;
+   }
+
+   /**
+    * Sets the value of the isActivityFlagged property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsActivityFlagged(Boolean value)
+   {
+      this.isActivityFlagged = value;
+   }
+
+   /**
+    * Gets the value of the isBaseline property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsBaseline()
+   {
+      return isBaseline;
+   }
+
+   /**
+    * Sets the value of the isBaseline property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsBaseline(Boolean value)
+   {
+      this.isBaseline = value;
+   }
+
+   /**
+    * Gets the value of the isCostUnitsLinked property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsCostUnitsLinked()
+   {
+      return isCostUnitsLinked;
+   }
+
+   /**
+    * Sets the value of the isCostUnitsLinked property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsCostUnitsLinked(Boolean value)
+   {
+      this.isCostUnitsLinked = value;
+   }
+
+   /**
+    * Gets the value of the isOvertimeAllowed property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsOvertimeAllowed()
+   {
+      return isOvertimeAllowed;
+   }
+
+   /**
+    * Sets the value of the isOvertimeAllowed property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsOvertimeAllowed(Boolean value)
+   {
+      this.isOvertimeAllowed = value;
+   }
+
+   /**
+    * Gets the value of the isPrimaryResource property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsPrimaryResource()
+   {
+      return isPrimaryResource;
+   }
+
+   /**
+    * Sets the value of the isPrimaryResource property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsPrimaryResource(Boolean value)
+   {
+      this.isPrimaryResource = value;
+   }
+
+   /**
+    * Gets the value of the isTemplate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsTemplate()
+   {
+      return isTemplate;
+   }
+
+   /**
+    * Sets the value of the isTemplate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsTemplate(Boolean value)
+   {
+      this.isTemplate = value;
+   }
+
+   /**
+    * Gets the value of the lastUpdateDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getLastUpdateDate()
+   {
+      return lastUpdateDate;
+   }
+
+   /**
+    * Sets the value of the lastUpdateDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateDate(LocalDateTime value)
+   {
+      this.lastUpdateDate = value;
+   }
+
+   /**
+    * Gets the value of the lastUpdateUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getLastUpdateUser()
+   {
+      return lastUpdateUser;
+   }
+
+   /**
+    * Sets the value of the lastUpdateUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateUser(String value)
+   {
+      this.lastUpdateUser = value;
+   }
+
+   /**
+    * Gets the value of the objectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getObjectId()
+   {
+      return objectId;
+   }
+
+   /**
+    * Sets the value of the objectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setObjectId(Integer value)
+   {
+      this.objectId = value;
+   }
+
+   /**
+    * Gets the value of the overtimeFactor property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getOvertimeFactor()
+   {
+      return overtimeFactor;
+   }
+
+   /**
+    * Sets the value of the overtimeFactor property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setOvertimeFactor(Double value)
+   {
+      this.overtimeFactor = value;
+   }
+
+   /**
+    * Gets the value of the pendingActualOvertimeUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPendingActualOvertimeUnits()
+   {
+      return pendingActualOvertimeUnits;
+   }
+
+   /**
+    * Sets the value of the pendingActualOvertimeUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPendingActualOvertimeUnits(Double value)
+   {
+      this.pendingActualOvertimeUnits = value;
+   }
+
+   /**
+    * Gets the value of the pendingActualRegularUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPendingActualRegularUnits()
+   {
+      return pendingActualRegularUnits;
+   }
+
+   /**
+    * Sets the value of the pendingActualRegularUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPendingActualRegularUnits(Double value)
+   {
+      this.pendingActualRegularUnits = value;
+   }
+
+   /**
+    * Gets the value of the pendingPercentComplete property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPendingPercentComplete()
+   {
+      return pendingPercentComplete;
+   }
+
+   /**
+    * Sets the value of the pendingPercentComplete property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPendingPercentComplete(Double value)
+   {
+      this.pendingPercentComplete = value;
+   }
+
+   /**
+    * Gets the value of the pendingRemainingUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPendingRemainingUnits()
+   {
+      return pendingRemainingUnits;
+   }
+
+   /**
+    * Sets the value of the pendingRemainingUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPendingRemainingUnits(Double value)
+   {
+      this.pendingRemainingUnits = value;
+   }
+
+   /**
+    * Gets the value of the percentComplete property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPercentComplete()
+   {
+      return percentComplete;
+   }
+
+   /**
+    * Sets the value of the percentComplete property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPercentComplete(Double value)
+   {
+      this.percentComplete = value;
+   }
+
+   /**
+    * Gets the value of the percentCompleteType property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getPercentCompleteType()
+   {
+      return percentCompleteType;
+   }
+
+   /**
+    * Sets the value of the percentCompleteType property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPercentCompleteType(String value)
+   {
+      this.percentCompleteType = value;
+   }
+
+   /**
+    * Gets the value of the plannedCost property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPlannedCost()
+   {
+      return plannedCost;
+   }
+
+   /**
+    * Sets the value of the plannedCost property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPlannedCost(Double value)
+   {
+      this.plannedCost = value;
+   }
+
+   /**
+    * Gets the value of the plannedCurve property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getPlannedCurve()
+   {
+      return plannedCurve;
+   }
+
+   /**
+    * Sets the value of the plannedCurve property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPlannedCurve(String value)
+   {
+      this.plannedCurve = value;
+   }
+
+   /**
+    * Gets the value of the plannedDuration property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPlannedDuration()
+   {
+      return plannedDuration;
+   }
+
+   /**
+    * Sets the value of the plannedDuration property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPlannedDuration(Double value)
+   {
+      this.plannedDuration = value;
+   }
+
+   /**
+    * Gets the value of the plannedFinishDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getPlannedFinishDate()
+   {
+      return plannedFinishDate;
+   }
+
+   /**
+    * Sets the value of the plannedFinishDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPlannedFinishDate(LocalDateTime value)
+   {
+      this.plannedFinishDate = value;
+   }
+
+   /**
+    * Gets the value of the plannedLag property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPlannedLag()
+   {
+      return plannedLag;
+   }
+
+   /**
+    * Sets the value of the plannedLag property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPlannedLag(Double value)
+   {
+      this.plannedLag = value;
+   }
+
+   /**
+    * Gets the value of the plannedStartDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getPlannedStartDate()
+   {
+      return plannedStartDate;
+   }
+
+   /**
+    * Sets the value of the plannedStartDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPlannedStartDate(LocalDateTime value)
+   {
+      this.plannedStartDate = value;
+   }
+
+   /**
+    * Gets the value of the plannedUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPlannedUnits()
+   {
+      return plannedUnits;
+   }
+
+   /**
+    * Sets the value of the plannedUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPlannedUnits(Double value)
+   {
+      this.plannedUnits = value;
+   }
+
+   /**
+    * Gets the value of the plannedUnitsPerTime property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPlannedUnitsPerTime()
+   {
+      return plannedUnitsPerTime;
+   }
+
+   /**
+    * Sets the value of the plannedUnitsPerTime property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPlannedUnitsPerTime(Double value)
+   {
+      this.plannedUnitsPerTime = value;
+   }
+
+   /**
+    * Gets the value of the pricePerUnit property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPricePerUnit()
+   {
+      return pricePerUnit;
+   }
+
+   /**
+    * Sets the value of the pricePerUnit property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPricePerUnit(Double value)
+   {
+      this.pricePerUnit = value;
+   }
+
+   /**
+    * Gets the value of the priorActualOvertimeUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPriorActualOvertimeUnits()
+   {
+      return priorActualOvertimeUnits;
+   }
+
+   /**
+    * Sets the value of the priorActualOvertimeUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPriorActualOvertimeUnits(Double value)
+   {
+      this.priorActualOvertimeUnits = value;
+   }
+
+   /**
+    * Gets the value of the priorActualRegularUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPriorActualRegularUnits()
+   {
+      return priorActualRegularUnits;
+   }
+
+   /**
+    * Sets the value of the priorActualRegularUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPriorActualRegularUnits(Double value)
+   {
+      this.priorActualRegularUnits = value;
+   }
+
+   /**
+    * Gets the value of the proficiency property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getProficiency()
+   {
+      return proficiency;
+   }
+
+   /**
+    * Sets the value of the proficiency property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setProficiency(String value)
+   {
+      this.proficiency = value;
+   }
+
+   /**
+    * Gets the value of the projectFlag property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getProjectFlag()
+   {
+      return projectFlag;
+   }
+
+   /**
+    * Sets the value of the projectFlag property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setProjectFlag(String value)
+   {
+      this.projectFlag = value;
+   }
+
+   /**
+    * Gets the value of the projectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getProjectId()
+   {
+      return projectId;
+   }
+
+   /**
+    * Sets the value of the projectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setProjectId(String value)
+   {
+      this.projectId = value;
+   }
+
+   /**
+    * Gets the value of the projectName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getProjectName()
+   {
+      return projectName;
+   }
+
+   /**
+    * Sets the value of the projectName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setProjectName(String value)
+   {
+      this.projectName = value;
+   }
+
+   /**
+    * Gets the value of the projectObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getProjectObjectId()
+   {
+      return projectObjectId;
+   }
+
+   /**
+    * Sets the value of the projectObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setProjectObjectId(Integer value)
+   {
+      this.projectObjectId = value;
+   }
+
+   /**
+    * Gets the value of the projectProjectFlag property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getProjectProjectFlag()
+   {
+      return projectProjectFlag;
+   }
+
+   /**
+    * Sets the value of the projectProjectFlag property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setProjectProjectFlag(String value)
+   {
+      this.projectProjectFlag = value;
+   }
+
+   /**
+    * Gets the value of the rateSource property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getRateSource()
+   {
+      return rateSource;
+   }
+
+   /**
+    * Sets the value of the rateSource property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRateSource(String value)
+   {
+      this.rateSource = value;
+   }
+
+   /**
+    * Gets the value of the rateType property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getRateType()
+   {
+      return rateType;
+   }
+
+   /**
+    * Sets the value of the rateType property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRateType(String value)
+   {
+      this.rateType = value;
+   }
+
+   /**
+    * Gets the value of the remainingCost property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getRemainingCost()
+   {
+      return remainingCost;
+   }
+
+   /**
+    * Sets the value of the remainingCost property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRemainingCost(Double value)
+   {
+      this.remainingCost = value;
+   }
+
+   /**
+    * Gets the value of the remainingCurve property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getRemainingCurve()
+   {
+      return remainingCurve;
+   }
+
+   /**
+    * Sets the value of the remainingCurve property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRemainingCurve(String value)
+   {
+      this.remainingCurve = value;
+   }
+
+   /**
+    * Gets the value of the remainingDuration property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getRemainingDuration()
+   {
+      return remainingDuration;
+   }
+
+   /**
+    * Sets the value of the remainingDuration property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRemainingDuration(Double value)
+   {
+      this.remainingDuration = value;
+   }
+
+   /**
+    * Gets the value of the remainingFinishDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getRemainingFinishDate()
+   {
+      return remainingFinishDate;
+   }
+
+   /**
+    * Sets the value of the remainingFinishDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRemainingFinishDate(LocalDateTime value)
+   {
+      this.remainingFinishDate = value;
+   }
+
+   /**
+    * Gets the value of the remainingLag property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getRemainingLag()
+   {
+      return remainingLag;
+   }
+
+   /**
+    * Sets the value of the remainingLag property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRemainingLag(Double value)
+   {
+      this.remainingLag = value;
+   }
+
+   /**
+    * Gets the value of the remainingLateFinishDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getRemainingLateFinishDate()
+   {
+      return remainingLateFinishDate;
+   }
+
+   /**
+    * Sets the value of the remainingLateFinishDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRemainingLateFinishDate(LocalDateTime value)
+   {
+      this.remainingLateFinishDate = value;
+   }
+
+   /**
+    * Gets the value of the remainingLateStartDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getRemainingLateStartDate()
+   {
+      return remainingLateStartDate;
+   }
+
+   /**
+    * Sets the value of the remainingLateStartDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRemainingLateStartDate(LocalDateTime value)
+   {
+      this.remainingLateStartDate = value;
+   }
+
+   /**
+    * Gets the value of the remainingStartDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getRemainingStartDate()
+   {
+      return remainingStartDate;
+   }
+
+   /**
+    * Sets the value of the remainingStartDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRemainingStartDate(LocalDateTime value)
+   {
+      this.remainingStartDate = value;
+   }
+
+   /**
+    * Gets the value of the remainingUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getRemainingUnits()
+   {
+      return remainingUnits;
+   }
+
+   /**
+    * Sets the value of the remainingUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRemainingUnits(Double value)
+   {
+      this.remainingUnits = value;
+   }
+
+   /**
+    * Gets the value of the remainingUnitsPerTime property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getRemainingUnitsPerTime()
+   {
+      return remainingUnitsPerTime;
+   }
+
+   /**
+    * Sets the value of the remainingUnitsPerTime property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRemainingUnitsPerTime(Double value)
+   {
+      this.remainingUnitsPerTime = value;
+   }
+
+   /**
+    * Gets the value of the resourceCalendarName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceCalendarName()
+   {
+      return resourceCalendarName;
+   }
+
+   /**
+    * Sets the value of the resourceCalendarName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceCalendarName(String value)
+   {
+      this.resourceCalendarName = value;
+   }
+
+   /**
+    * Gets the value of the resourceCurveName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceCurveName()
+   {
+      return resourceCurveName;
+   }
+
+   /**
+    * Sets the value of the resourceCurveName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceCurveName(String value)
+   {
+      this.resourceCurveName = value;
+   }
+
+   /**
+    * Gets the value of the resourceCurveObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getResourceCurveObjectId()
+   {
+      return resourceCurveObjectId;
+   }
+
+   /**
+    * Sets the value of the resourceCurveObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setResourceCurveObjectId(Integer value)
+   {
+      this.resourceCurveObjectId = value;
+   }
+
+   /**
+    * Gets the value of the resourceId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceId()
+   {
+      return resourceId;
+   }
+
+   /**
+    * Sets the value of the resourceId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceId(String value)
+   {
+      this.resourceId = value;
+   }
+
+   /**
+    * Gets the value of the resourceName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceName()
+   {
+      return resourceName;
+   }
+
+   /**
+    * Sets the value of the resourceName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceName(String value)
+   {
+      this.resourceName = value;
+   }
+
+   /**
+    * Gets the value of the resourceObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getResourceObjectId()
+   {
+      return resourceObjectId;
+   }
+
+   /**
+    * Sets the value of the resourceObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setResourceObjectId(Integer value)
+   {
+      this.resourceObjectId = value;
+   }
+
+   /**
+    * Gets the value of the resourceType property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceType()
+   {
+      return resourceType;
+   }
+
+   /**
+    * Sets the value of the resourceType property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceType(String value)
+   {
+      this.resourceType = value;
+   }
+
+   /**
+    * Gets the value of the reviewRequired property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isReviewRequired()
+   {
+      return reviewRequired;
+   }
+
+   /**
+    * Sets the value of the reviewRequired property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setReviewRequired(Boolean value)
+   {
+      this.reviewRequired = value;
+   }
+
+   /**
+    * Gets the value of the roleId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getRoleId()
+   {
+      return roleId;
+   }
+
+   /**
+    * Sets the value of the roleId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRoleId(String value)
+   {
+      this.roleId = value;
+   }
+
+   /**
+    * Gets the value of the roleName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getRoleName()
+   {
+      return roleName;
+   }
+
+   /**
+    * Sets the value of the roleName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRoleName(String value)
+   {
+      this.roleName = value;
+   }
+
+   /**
+    * Gets the value of the roleObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getRoleObjectId()
+   {
+      return roleObjectId;
+   }
+
+   /**
+    * Sets the value of the roleObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setRoleObjectId(Integer value)
+   {
+      this.roleObjectId = value;
+   }
+
+   /**
+    * Gets the value of the roleShortName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getRoleShortName()
+   {
+      return roleShortName;
+   }
+
+   /**
+    * Sets the value of the roleShortName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRoleShortName(String value)
+   {
+      this.roleShortName = value;
+   }
+
+   /**
+    * Gets the value of the staffedRemainingCost property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getStaffedRemainingCost()
+   {
+      return staffedRemainingCost;
+   }
+
+   /**
+    * Sets the value of the staffedRemainingCost property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setStaffedRemainingCost(Double value)
+   {
+      this.staffedRemainingCost = value;
+   }
+
+   /**
+    * Gets the value of the staffedRemainingUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getStaffedRemainingUnits()
+   {
+      return staffedRemainingUnits;
+   }
+
+   /**
+    * Sets the value of the staffedRemainingUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setStaffedRemainingUnits(Double value)
+   {
+      this.staffedRemainingUnits = value;
+   }
+
+   /**
+    * Gets the value of the startDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getStartDate()
+   {
+      return startDate;
+   }
+
+   /**
+    * Sets the value of the startDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setStartDate(LocalDateTime value)
+   {
+      this.startDate = value;
+   }
+
+   /**
+    * Gets the value of the statusCode property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getStatusCode()
+   {
+      return statusCode;
+   }
+
+   /**
+    * Sets the value of the statusCode property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setStatusCode(String value)
+   {
+      this.statusCode = value;
+   }
+
+   /**
+    * Gets the value of the totalPastPeriodCost property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getTotalPastPeriodCost()
+   {
+      return totalPastPeriodCost;
+   }
+
+   /**
+    * Sets the value of the totalPastPeriodCost property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setTotalPastPeriodCost(Double value)
+   {
+      this.totalPastPeriodCost = value;
+   }
+
+   /**
+    * Gets the value of the totalPastPeriodUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getTotalPastPeriodUnits()
+   {
+      return totalPastPeriodUnits;
+   }
+
+   /**
+    * Sets the value of the totalPastPeriodUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setTotalPastPeriodUnits(Double value)
+   {
+      this.totalPastPeriodUnits = value;
+   }
+
+   /**
+    * Gets the value of the unitsPercentComplete property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getUnitsPercentComplete()
+   {
+      return unitsPercentComplete;
+   }
+
+   /**
+    * Sets the value of the unitsPercentComplete property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setUnitsPercentComplete(Double value)
+   {
+      this.unitsPercentComplete = value;
+   }
+
+   /**
+    * Gets the value of the unreadCommentCount property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getUnreadCommentCount()
+   {
+      return unreadCommentCount;
+   }
+
+   /**
+    * Sets the value of the unreadCommentCount property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setUnreadCommentCount(Integer value)
+   {
+      this.unreadCommentCount = value;
+   }
+
+   /**
+    * Gets the value of the unstaffedRemainingCost property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getUnstaffedRemainingCost()
+   {
+      return unstaffedRemainingCost;
+   }
+
+   /**
+    * Sets the value of the unstaffedRemainingCost property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setUnstaffedRemainingCost(Double value)
+   {
+      this.unstaffedRemainingCost = value;
+   }
+
+   /**
+    * Gets the value of the unstaffedRemainingUnits property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getUnstaffedRemainingUnits()
+   {
+      return unstaffedRemainingUnits;
+   }
+
+   /**
+    * Sets the value of the unstaffedRemainingUnits property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setUnstaffedRemainingUnits(Double value)
+   {
+      this.unstaffedRemainingUnits = value;
+   }
+
+   /**
+    * Gets the value of the wbsNamePath property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getWBSNamePath()
+   {
+      return wbsNamePath;
+   }
+
+   /**
+    * Sets the value of the wbsNamePath property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setWBSNamePath(String value)
+   {
+      this.wbsNamePath = value;
+   }
+
+   /**
+    * Gets the value of the wbsObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getWBSObjectId()
+   {
+      return wbsObjectId;
+   }
+
+   /**
+    * Sets the value of the wbsObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setWBSObjectId(Integer value)
+   {
+      this.wbsObjectId = value;
+   }
+
+   /**
+    * Gets the value of the udf property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the udf property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUDF().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UDFAssignmentType }
+    *
+    *
+    */
+   public List<UDFAssignmentType> getUDF()
+   {
+      if (udf == null)
+      {
+         udf = new ArrayList<>();
+      }
+      return this.udf;
+   }
+
+   /**
+    * Gets the value of the spread property.
+    *
+    * @return
+    *     possible object is
+    *     {@link ResourceAssignmentSpreadType }
+    *
+    */
+   public ResourceAssignmentSpreadType getSpread()
+   {
+      return spread;
+   }
+
+   /**
+    * Sets the value of the spread property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link ResourceAssignmentSpreadType }
+    *
+    */
+   public void setSpread(ResourceAssignmentSpreadType value)
+   {
+      this.spread = value;
+   }
+
+   /**
+    * Gets the value of the resourceRequest property.
+    *
+    * @return
+    *     possible object is
+    *     {@link ResourceRequestType }
+    *
+    */
+   public ResourceRequestType getResourceRequest()
+   {
+      return resourceRequest;
+   }
+
+   /**
+    * Sets the value of the resourceRequest property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link ResourceRequestType }
+    *
+    */
+   public void setResourceRequest(ResourceRequestType value)
+   {
+      this.resourceRequest = value;
+   }
 
 }

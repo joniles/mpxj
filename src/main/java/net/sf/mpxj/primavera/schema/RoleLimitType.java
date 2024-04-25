@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for RoleLimitType complex type.
@@ -61,235 +59,234 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RoleLimitType", propOrder = {
-    "createDate",
-    "createUser",
-    "effectiveDate",
-    "lastUpdateDate",
-    "lastUpdateUser",
-    "maxUnitsPerTime",
-    "objectId",
-    "roleObjectId"
-})
-public class RoleLimitType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "RoleLimitType", propOrder =
+{
+   "createDate",
+   "createUser",
+   "effectiveDate",
+   "lastUpdateDate",
+   "lastUpdateUser",
+   "maxUnitsPerTime",
+   "objectId",
+   "roleObjectId"
+}) public class RoleLimitType
+{
 
-    @XmlElement(name = "CreateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime createDate;
-    @XmlElement(name = "CreateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String createUser;
-    @XmlElement(name = "EffectiveDate", type = String.class)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime effectiveDate;
-    @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime lastUpdateDate;
-    @XmlElement(name = "LastUpdateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String lastUpdateUser;
-    @XmlElement(name = "MaxUnitsPerTime", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    protected Double maxUnitsPerTime;
-    @XmlElement(name = "ObjectId")
-    protected Integer objectId;
-    @XmlElement(name = "RoleObjectId")
-    protected Integer roleObjectId;
+   @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;
+   @XmlElement(name = "CreateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String createUser;
+   @XmlElement(name = "EffectiveDate", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime effectiveDate;
+   @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime lastUpdateDate;
+   @XmlElement(name = "LastUpdateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String lastUpdateUser;
+   @XmlElement(name = "MaxUnitsPerTime", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) protected Double maxUnitsPerTime;
+   @XmlElement(name = "ObjectId") protected Integer objectId;
+   @XmlElement(name = "RoleObjectId") protected Integer roleObjectId;
 
-    /**
-     * Gets the value of the createDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
+   /**
+    * Gets the value of the createDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getCreateDate()
+   {
+      return createDate;
+   }
 
-    /**
-     * Sets the value of the createDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateDate(LocalDateTime value) {
-        this.createDate = value;
-    }
+   /**
+    * Sets the value of the createDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateDate(LocalDateTime value)
+   {
+      this.createDate = value;
+   }
 
-    /**
-     * Gets the value of the createUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCreateUser() {
-        return createUser;
-    }
+   /**
+    * Gets the value of the createUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCreateUser()
+   {
+      return createUser;
+   }
 
-    /**
-     * Sets the value of the createUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateUser(String value) {
-        this.createUser = value;
-    }
+   /**
+    * Sets the value of the createUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateUser(String value)
+   {
+      this.createUser = value;
+   }
 
-    /**
-     * Gets the value of the effectiveDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getEffectiveDate() {
-        return effectiveDate;
-    }
+   /**
+    * Gets the value of the effectiveDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getEffectiveDate()
+   {
+      return effectiveDate;
+   }
 
-    /**
-     * Sets the value of the effectiveDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setEffectiveDate(LocalDateTime value) {
-        this.effectiveDate = value;
-    }
+   /**
+    * Sets the value of the effectiveDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setEffectiveDate(LocalDateTime value)
+   {
+      this.effectiveDate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
+   /**
+    * Gets the value of the lastUpdateDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getLastUpdateDate()
+   {
+      return lastUpdateDate;
+   }
 
-    /**
-     * Sets the value of the lastUpdateDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateDate(LocalDateTime value) {
-        this.lastUpdateDate = value;
-    }
+   /**
+    * Sets the value of the lastUpdateDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateDate(LocalDateTime value)
+   {
+      this.lastUpdateDate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getLastUpdateUser() {
-        return lastUpdateUser;
-    }
+   /**
+    * Gets the value of the lastUpdateUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getLastUpdateUser()
+   {
+      return lastUpdateUser;
+   }
 
-    /**
-     * Sets the value of the lastUpdateUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateUser(String value) {
-        this.lastUpdateUser = value;
-    }
+   /**
+    * Sets the value of the lastUpdateUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateUser(String value)
+   {
+      this.lastUpdateUser = value;
+   }
 
-    /**
-     * Gets the value of the maxUnitsPerTime property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getMaxUnitsPerTime() {
-        return maxUnitsPerTime;
-    }
+   /**
+    * Gets the value of the maxUnitsPerTime property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getMaxUnitsPerTime()
+   {
+      return maxUnitsPerTime;
+   }
 
-    /**
-     * Sets the value of the maxUnitsPerTime property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setMaxUnitsPerTime(Double value) {
-        this.maxUnitsPerTime = value;
-    }
+   /**
+    * Sets the value of the maxUnitsPerTime property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setMaxUnitsPerTime(Double value)
+   {
+      this.maxUnitsPerTime = value;
+   }
 
-    /**
-     * Gets the value of the objectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getObjectId() {
-        return objectId;
-    }
+   /**
+    * Gets the value of the objectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getObjectId()
+   {
+      return objectId;
+   }
 
-    /**
-     * Sets the value of the objectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setObjectId(Integer value) {
-        this.objectId = value;
-    }
+   /**
+    * Sets the value of the objectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setObjectId(Integer value)
+   {
+      this.objectId = value;
+   }
 
-    /**
-     * Gets the value of the roleObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getRoleObjectId() {
-        return roleObjectId;
-    }
+   /**
+    * Gets the value of the roleObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getRoleObjectId()
+   {
+      return roleObjectId;
+   }
 
-    /**
-     * Sets the value of the roleObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setRoleObjectId(Integer value) {
-        this.roleObjectId = value;
-    }
+   /**
+    * Sets the value of the roleObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setRoleObjectId(Integer value)
+   {
+      this.roleObjectId = value;
+   }
 
 }

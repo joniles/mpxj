@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:47 AM BST
 //
 
-
 package net.sf.mpxj.ganttproject.schema;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for resource complex type.
@@ -42,198 +40,206 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "resource", propOrder = {
-    "rate",
-    "customProperty"
-})
-public class Resource {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "resource", propOrder =
+{
+   "rate",
+   "customProperty"
+}) public class Resource
+{
 
-    protected Rate rate;
-    @XmlElement(name = "custom-property")
-    protected List<CustomResourceProperty> customProperty;
-    @XmlAttribute(name = "id")
-    protected Integer id;
-    @XmlAttribute(name = "name")
-    protected String name;
-    @XmlAttribute(name = "function")
-    protected String function;
-    @XmlAttribute(name = "contacts")
-    protected String contacts;
-    @XmlAttribute(name = "phone")
-    protected String phone;
+   protected Rate rate;
+   @XmlElement(name = "custom-property") protected List<CustomResourceProperty> customProperty;
+   @XmlAttribute(name = "id") protected Integer id;
+   @XmlAttribute(name = "name") protected String name;
+   @XmlAttribute(name = "function") protected String function;
+   @XmlAttribute(name = "contacts") protected String contacts;
+   @XmlAttribute(name = "phone") protected String phone;
 
-    /**
-     * Gets the value of the rate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Rate }
-     *
-     */
-    public Rate getRate() {
-        return rate;
-    }
+   /**
+    * Gets the value of the rate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Rate }
+    *
+    */
+   public Rate getRate()
+   {
+      return rate;
+   }
 
-    /**
-     * Sets the value of the rate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Rate }
-     *
-     */
-    public void setRate(Rate value) {
-        this.rate = value;
-    }
+   /**
+    * Sets the value of the rate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Rate }
+    *
+    */
+   public void setRate(Rate value)
+   {
+      this.rate = value;
+   }
 
-    /**
-     * Gets the value of the customProperty property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the customProperty property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCustomProperty().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CustomResourceProperty }
-     *
-     *
-     */
-    public List<CustomResourceProperty> getCustomProperty() {
-        if (customProperty == null) {
-            customProperty = new ArrayList<>();
-        }
-        return this.customProperty;
-    }
+   /**
+    * Gets the value of the customProperty property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the customProperty property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getCustomProperty().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link CustomResourceProperty }
+    *
+    *
+    */
+   public List<CustomResourceProperty> getCustomProperty()
+   {
+      if (customProperty == null)
+      {
+         customProperty = new ArrayList<>();
+      }
+      return this.customProperty;
+   }
 
-    /**
-     * Gets the value of the id property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getId() {
-        return id;
-    }
+   /**
+    * Gets the value of the id property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getId()
+   {
+      return id;
+   }
 
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setId(Integer value) {
-        this.id = value;
-    }
+   /**
+    * Sets the value of the id property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setId(Integer value)
+   {
+      this.id = value;
+   }
 
-    /**
-     * Gets the value of the name property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getName() {
-        return name;
-    }
+   /**
+    * Gets the value of the name property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getName()
+   {
+      return name;
+   }
 
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+   /**
+    * Sets the value of the name property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setName(String value)
+   {
+      this.name = value;
+   }
 
-    /**
-     * Gets the value of the function property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getFunction() {
-        return function;
-    }
+   /**
+    * Gets the value of the function property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getFunction()
+   {
+      return function;
+   }
 
-    /**
-     * Sets the value of the function property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setFunction(String value) {
-        this.function = value;
-    }
+   /**
+    * Sets the value of the function property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setFunction(String value)
+   {
+      this.function = value;
+   }
 
-    /**
-     * Gets the value of the contacts property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getContacts() {
-        return contacts;
-    }
+   /**
+    * Gets the value of the contacts property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getContacts()
+   {
+      return contacts;
+   }
 
-    /**
-     * Sets the value of the contacts property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setContacts(String value) {
-        this.contacts = value;
-    }
+   /**
+    * Sets the value of the contacts property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setContacts(String value)
+   {
+      this.contacts = value;
+   }
 
-    /**
-     * Gets the value of the phone property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getPhone() {
-        return phone;
-    }
+   /**
+    * Gets the value of the phone property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getPhone()
+   {
+      return phone;
+   }
 
-    /**
-     * Sets the value of the phone property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPhone(String value) {
-        this.phone = value;
-    }
+   /**
+    * Sets the value of the phone property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPhone(String value)
+   {
+      this.phone = value;
+   }
 
 }

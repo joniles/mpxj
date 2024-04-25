@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:37 AM BST
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import java.time.LocalDateTime;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter4
-    extends XmlAdapter<String, LocalDateTime>
+public class Adapter4 extends XmlAdapter<String, LocalDateTime>
 {
 
+   @Override public LocalDateTime unmarshal(String value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseDateTime(value));
+   }
 
-    @Override
-   public LocalDateTime unmarshal(String value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.parseDateTime(value));
-    }
-
-    @Override
-   public String marshal(LocalDateTime value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.printDateTime(value));
-    }
+   @Override public String marshal(LocalDateTime value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printDateTime(value));
+   }
 
 }

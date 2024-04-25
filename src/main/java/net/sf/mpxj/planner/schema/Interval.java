@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:38 AM BST
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -14,7 +13,6 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -34,64 +32,62 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "interval")
-public class Interval {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") @XmlRootElement(name = "interval") public class Interval
+{
 
-    @XmlAttribute(name = "start", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String start;
-    @XmlAttribute(name = "end", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String end;
+   @XmlAttribute(name = "start", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String start;
+   @XmlAttribute(name = "end", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String end;
 
-    /**
-     * Gets the value of the start property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getStart() {
-        return start;
-    }
+   /**
+    * Gets the value of the start property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getStart()
+   {
+      return start;
+   }
 
-    /**
-     * Sets the value of the start property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setStart(String value) {
-        this.start = value;
-    }
+   /**
+    * Sets the value of the start property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setStart(String value)
+   {
+      this.start = value;
+   }
 
-    /**
-     * Gets the value of the end property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getEnd() {
-        return end;
-    }
+   /**
+    * Gets the value of the end property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getEnd()
+   {
+      return end;
+   }
 
-    /**
-     * Sets the value of the end property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setEnd(String value) {
-        this.end = value;
-    }
+   /**
+    * Sets the value of the end property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setEnd(String value)
+   {
+      this.end = value;
+   }
 
 }

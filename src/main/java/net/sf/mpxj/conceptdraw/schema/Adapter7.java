@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:49 AM BST
 //
 
-
 package net.sf.mpxj.conceptdraw.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.Priority;
 
-public class Adapter7
-    extends XmlAdapter<String, Priority>
+public class Adapter7 extends XmlAdapter<String, Priority>
 {
 
+   @Override public Priority unmarshal(String value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.parsePriority(value));
+   }
 
-    @Override
-   public Priority unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parsePriority(value));
-    }
-
-    @Override
-   public String marshal(Priority value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printPriority(value));
-    }
+   @Override public String marshal(Priority value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.printPriority(value));
+   }
 
 }

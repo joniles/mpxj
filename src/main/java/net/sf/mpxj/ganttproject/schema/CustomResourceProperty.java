@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:47 AM BST
 //
 
-
 package net.sf.mpxj.ganttproject.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -13,7 +12,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.XmlValue;
-
 
 /**
  * <p>Java class for custom-resource-property complex type.
@@ -33,89 +31,92 @@ import jakarta.xml.bind.annotation.XmlValue;
  *
  *
  */
-@SuppressWarnings("all")  @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "custom-resource-property", propOrder = {
-    "value"
-})
-public class CustomResourceProperty {
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "custom-resource-property", propOrder =
+{
+   "value"
+}) public class CustomResourceProperty
+{
 
-    @XmlValue
-    protected String value;
-    @XmlAttribute(name = "definition-id")
-    protected String definitionId;
-    @XmlAttribute(name = "value")
-    protected String valueAttribute;
+   @XmlValue protected String value;
+   @XmlAttribute(name = "definition-id") protected String definitionId;
+   @XmlAttribute(name = "value") protected String valueAttribute;
 
-    /**
-     * Gets the value of the value property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getValue() {
-        return value;
-    }
+   /**
+    * Gets the value of the value property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getValue()
+   {
+      return value;
+   }
 
-    /**
-     * Sets the value of the value property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
+   /**
+    * Sets the value of the value property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setValue(String value)
+   {
+      this.value = value;
+   }
 
-    /**
-     * Gets the value of the definitionId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getDefinitionId() {
-        return definitionId;
-    }
+   /**
+    * Gets the value of the definitionId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getDefinitionId()
+   {
+      return definitionId;
+   }
 
-    /**
-     * Sets the value of the definitionId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setDefinitionId(String value) {
-        this.definitionId = value;
-    }
+   /**
+    * Sets the value of the definitionId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setDefinitionId(String value)
+   {
+      this.definitionId = value;
+   }
 
-    /**
-     * Gets the value of the valueAttribute property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getValueAttribute() {
-        return valueAttribute;
-    }
+   /**
+    * Gets the value of the valueAttribute property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getValueAttribute()
+   {
+      return valueAttribute;
+   }
 
-    /**
-     * Sets the value of the valueAttribute property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setValueAttribute(String value) {
-        this.valueAttribute = value;
-    }
+   /**
+    * Sets the value of the valueAttribute property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setValueAttribute(String value)
+   {
+      this.valueAttribute = value;
+   }
 
 }

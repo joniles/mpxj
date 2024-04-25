@@ -5,24 +5,21 @@
 // Generated on: 2024.04.25 at 10:03:38 AM BST
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter1
-    extends XmlAdapter<String, String>
+public class Adapter1 extends XmlAdapter<String, String>
 {
 
+   @Override public String unmarshal(String value)
+   {
+      return (net.sf.mpxj.planner.DatatypeConverter.parseString(value));
+   }
 
-    @Override
-   public String unmarshal(String value) {
-        return (net.sf.mpxj.planner.DatatypeConverter.parseString(value));
-    }
-
-    @Override
-   public String marshal(String value) {
-        return (net.sf.mpxj.planner.DatatypeConverter.printString(value));
-    }
+   @Override public String marshal(String value)
+   {
+      return (net.sf.mpxj.planner.DatatypeConverter.printString(value));
+   }
 
 }

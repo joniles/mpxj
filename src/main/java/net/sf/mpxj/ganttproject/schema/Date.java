@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:47 AM BST
 //
 
-
 package net.sf.mpxj.ganttproject.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -13,7 +12,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.XmlValue;
-
 
 /**
  * <p>Java class for date complex type.
@@ -35,141 +33,146 @@ import jakarta.xml.bind.annotation.XmlValue;
  *
  *
  */
-@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "date", propOrder = {
-    "value"
-})
-public class Date {
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "date", propOrder =
+{
+   "value"
+}) public class Date
+{
 
-    @XmlValue
-    protected String value;
-    @XmlAttribute(name = "year")
-    protected String year;
-    @XmlAttribute(name = "month")
-    protected Integer month;
-    @XmlAttribute(name = "date")
-    protected Integer date;
-    @XmlAttribute(name = "type")
-    protected String type;
+   @XmlValue protected String value;
+   @XmlAttribute(name = "year") protected String year;
+   @XmlAttribute(name = "month") protected Integer month;
+   @XmlAttribute(name = "date") protected Integer date;
+   @XmlAttribute(name = "type") protected String type;
 
-    /**
-     * Gets the value of the value property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getValue() {
-        return value;
-    }
+   /**
+    * Gets the value of the value property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getValue()
+   {
+      return value;
+   }
 
-    /**
-     * Sets the value of the value property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
+   /**
+    * Sets the value of the value property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setValue(String value)
+   {
+      this.value = value;
+   }
 
-    /**
-     * Gets the value of the year property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getYear() {
-        return year;
-    }
+   /**
+    * Gets the value of the year property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getYear()
+   {
+      return year;
+   }
 
-    /**
-     * Sets the value of the year property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setYear(String value) {
-        this.year = value;
-    }
+   /**
+    * Sets the value of the year property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setYear(String value)
+   {
+      this.year = value;
+   }
 
-    /**
-     * Gets the value of the month property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getMonth() {
-        return month;
-    }
+   /**
+    * Gets the value of the month property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getMonth()
+   {
+      return month;
+   }
 
-    /**
-     * Sets the value of the month property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setMonth(Integer value) {
-        this.month = value;
-    }
+   /**
+    * Sets the value of the month property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setMonth(Integer value)
+   {
+      this.month = value;
+   }
 
-    /**
-     * Gets the value of the date property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getDate() {
-        return date;
-    }
+   /**
+    * Gets the value of the date property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getDate()
+   {
+      return date;
+   }
 
-    /**
-     * Sets the value of the date property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setDate(Integer value) {
-        this.date = value;
-    }
+   /**
+    * Sets the value of the date property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setDate(Integer value)
+   {
+      this.date = value;
+   }
 
-    /**
-     * Gets the value of the type property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getType() {
-        return type;
-    }
+   /**
+    * Gets the value of the type property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getType()
+   {
+      return type;
+   }
 
-    /**
-     * Sets the value of the type property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setType(String value) {
-        this.type = value;
-    }
+   /**
+    * Sets the value of the type property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setType(String value)
+   {
+      this.type = value;
+   }
 
 }

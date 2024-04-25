@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:44 AM BST
 //
 
-
 package net.sf.mpxj.phoenix.schema.phoenix4;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.TimeUnit;
 
-public class Adapter6
-    extends XmlAdapter<String, TimeUnit>
+public class Adapter6 extends XmlAdapter<String, TimeUnit>
 {
 
+   @Override public TimeUnit unmarshal(String value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.parseTimeUnits(value));
+   }
 
-    @Override
-   public TimeUnit unmarshal(String value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.parseTimeUnits(value));
-    }
-
-    @Override
-   public String marshal(TimeUnit value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.printTimeUnits(value));
-    }
+   @Override public String marshal(TimeUnit value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.printTimeUnits(value));
+   }
 
 }

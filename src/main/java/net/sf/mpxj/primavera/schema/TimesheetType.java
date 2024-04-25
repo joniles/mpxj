@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for TimesheetType complex type.
@@ -91,409 +89,407 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TimesheetType", propOrder = {
-    "createDate",
-    "createUser",
-    "isDaily",
-    "lastReceivedDate",
-    "lastUpdateDate",
-    "lastUpdateUser",
-    "notes",
-    "resourceId",
-    "resourceName",
-    "resourceObjectId",
-    "status",
-    "statusDate",
-    "timesheetPeriodObjectId",
-    "resourceHour"
-})
-public class TimesheetType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "TimesheetType", propOrder =
+{
+   "createDate",
+   "createUser",
+   "isDaily",
+   "lastReceivedDate",
+   "lastUpdateDate",
+   "lastUpdateUser",
+   "notes",
+   "resourceId",
+   "resourceName",
+   "resourceObjectId",
+   "status",
+   "statusDate",
+   "timesheetPeriodObjectId",
+   "resourceHour"
+}) public class TimesheetType
+{
 
-    @XmlElement(name = "CreateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime createDate;
-    @XmlElement(name = "CreateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String createUser;
-    @XmlElement(name = "IsDaily", type = String.class)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isDaily;
-    @XmlElement(name = "LastReceivedDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime lastReceivedDate;
-    @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime lastUpdateDate;
-    @XmlElement(name = "LastUpdateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String lastUpdateUser;
-    @XmlElement(name = "Notes")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String notes;
-    @XmlElement(name = "ResourceId")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceId;
-    @XmlElement(name = "ResourceName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceName;
-    @XmlElement(name = "ResourceObjectId")
-    protected Integer resourceObjectId;
-    @XmlElement(name = "Status")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String status;
-    @XmlElement(name = "StatusDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime statusDate;
-    @XmlElement(name = "TimesheetPeriodObjectId")
-    protected Integer timesheetPeriodObjectId;
-    @XmlElement(name = "ResourceHour")
-    protected List<ResourceHourType> resourceHour;
+   @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;
+   @XmlElement(name = "CreateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String createUser;
+   @XmlElement(name = "IsDaily", type = String.class) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isDaily;
+   @XmlElement(name = "LastReceivedDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime lastReceivedDate;
+   @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime lastUpdateDate;
+   @XmlElement(name = "LastUpdateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String lastUpdateUser;
+   @XmlElement(name = "Notes") @XmlJavaTypeAdapter(Adapter1.class) protected String notes;
+   @XmlElement(name = "ResourceId") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceId;
+   @XmlElement(name = "ResourceName") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceName;
+   @XmlElement(name = "ResourceObjectId") protected Integer resourceObjectId;
+   @XmlElement(name = "Status") @XmlJavaTypeAdapter(Adapter1.class) protected String status;
+   @XmlElement(name = "StatusDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime statusDate;
+   @XmlElement(name = "TimesheetPeriodObjectId") protected Integer timesheetPeriodObjectId;
+   @XmlElement(name = "ResourceHour") protected List<ResourceHourType> resourceHour;
 
-    /**
-     * Gets the value of the createDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
+   /**
+    * Gets the value of the createDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getCreateDate()
+   {
+      return createDate;
+   }
 
-    /**
-     * Sets the value of the createDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateDate(LocalDateTime value) {
-        this.createDate = value;
-    }
+   /**
+    * Sets the value of the createDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateDate(LocalDateTime value)
+   {
+      this.createDate = value;
+   }
 
-    /**
-     * Gets the value of the createUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCreateUser() {
-        return createUser;
-    }
+   /**
+    * Gets the value of the createUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCreateUser()
+   {
+      return createUser;
+   }
 
-    /**
-     * Sets the value of the createUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateUser(String value) {
-        this.createUser = value;
-    }
+   /**
+    * Sets the value of the createUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateUser(String value)
+   {
+      this.createUser = value;
+   }
 
-    /**
-     * Gets the value of the isDaily property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsDaily() {
-        return isDaily;
-    }
+   /**
+    * Gets the value of the isDaily property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsDaily()
+   {
+      return isDaily;
+   }
 
-    /**
-     * Sets the value of the isDaily property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsDaily(Boolean value) {
-        this.isDaily = value;
-    }
+   /**
+    * Sets the value of the isDaily property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsDaily(Boolean value)
+   {
+      this.isDaily = value;
+   }
 
-    /**
-     * Gets the value of the lastReceivedDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getLastReceivedDate() {
-        return lastReceivedDate;
-    }
+   /**
+    * Gets the value of the lastReceivedDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getLastReceivedDate()
+   {
+      return lastReceivedDate;
+   }
 
-    /**
-     * Sets the value of the lastReceivedDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastReceivedDate(LocalDateTime value) {
-        this.lastReceivedDate = value;
-    }
+   /**
+    * Sets the value of the lastReceivedDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastReceivedDate(LocalDateTime value)
+   {
+      this.lastReceivedDate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
+   /**
+    * Gets the value of the lastUpdateDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getLastUpdateDate()
+   {
+      return lastUpdateDate;
+   }
 
-    /**
-     * Sets the value of the lastUpdateDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateDate(LocalDateTime value) {
-        this.lastUpdateDate = value;
-    }
+   /**
+    * Sets the value of the lastUpdateDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateDate(LocalDateTime value)
+   {
+      this.lastUpdateDate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getLastUpdateUser() {
-        return lastUpdateUser;
-    }
+   /**
+    * Gets the value of the lastUpdateUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getLastUpdateUser()
+   {
+      return lastUpdateUser;
+   }
 
-    /**
-     * Sets the value of the lastUpdateUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateUser(String value) {
-        this.lastUpdateUser = value;
-    }
+   /**
+    * Sets the value of the lastUpdateUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateUser(String value)
+   {
+      this.lastUpdateUser = value;
+   }
 
-    /**
-     * Gets the value of the notes property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getNotes() {
-        return notes;
-    }
+   /**
+    * Gets the value of the notes property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getNotes()
+   {
+      return notes;
+   }
 
-    /**
-     * Sets the value of the notes property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setNotes(String value) {
-        this.notes = value;
-    }
+   /**
+    * Sets the value of the notes property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setNotes(String value)
+   {
+      this.notes = value;
+   }
 
-    /**
-     * Gets the value of the resourceId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceId() {
-        return resourceId;
-    }
+   /**
+    * Gets the value of the resourceId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceId()
+   {
+      return resourceId;
+   }
 
-    /**
-     * Sets the value of the resourceId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceId(String value) {
-        this.resourceId = value;
-    }
+   /**
+    * Sets the value of the resourceId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceId(String value)
+   {
+      this.resourceId = value;
+   }
 
-    /**
-     * Gets the value of the resourceName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceName() {
-        return resourceName;
-    }
+   /**
+    * Gets the value of the resourceName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceName()
+   {
+      return resourceName;
+   }
 
-    /**
-     * Sets the value of the resourceName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceName(String value) {
-        this.resourceName = value;
-    }
+   /**
+    * Sets the value of the resourceName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceName(String value)
+   {
+      this.resourceName = value;
+   }
 
-    /**
-     * Gets the value of the resourceObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getResourceObjectId() {
-        return resourceObjectId;
-    }
+   /**
+    * Gets the value of the resourceObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getResourceObjectId()
+   {
+      return resourceObjectId;
+   }
 
-    /**
-     * Sets the value of the resourceObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setResourceObjectId(Integer value) {
-        this.resourceObjectId = value;
-    }
+   /**
+    * Sets the value of the resourceObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setResourceObjectId(Integer value)
+   {
+      this.resourceObjectId = value;
+   }
 
-    /**
-     * Gets the value of the status property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getStatus() {
-        return status;
-    }
+   /**
+    * Gets the value of the status property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getStatus()
+   {
+      return status;
+   }
 
-    /**
-     * Sets the value of the status property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setStatus(String value) {
-        this.status = value;
-    }
+   /**
+    * Sets the value of the status property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setStatus(String value)
+   {
+      this.status = value;
+   }
 
-    /**
-     * Gets the value of the statusDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getStatusDate() {
-        return statusDate;
-    }
+   /**
+    * Gets the value of the statusDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getStatusDate()
+   {
+      return statusDate;
+   }
 
-    /**
-     * Sets the value of the statusDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setStatusDate(LocalDateTime value) {
-        this.statusDate = value;
-    }
+   /**
+    * Sets the value of the statusDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setStatusDate(LocalDateTime value)
+   {
+      this.statusDate = value;
+   }
 
-    /**
-     * Gets the value of the timesheetPeriodObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getTimesheetPeriodObjectId() {
-        return timesheetPeriodObjectId;
-    }
+   /**
+    * Gets the value of the timesheetPeriodObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getTimesheetPeriodObjectId()
+   {
+      return timesheetPeriodObjectId;
+   }
 
-    /**
-     * Sets the value of the timesheetPeriodObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setTimesheetPeriodObjectId(Integer value) {
-        this.timesheetPeriodObjectId = value;
-    }
+   /**
+    * Sets the value of the timesheetPeriodObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setTimesheetPeriodObjectId(Integer value)
+   {
+      this.timesheetPeriodObjectId = value;
+   }
 
-    /**
-     * Gets the value of the resourceHour property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceHour property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceHour().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceHourType }
-     *
-     *
-     */
-    public List<ResourceHourType> getResourceHour() {
-        if (resourceHour == null) {
-            resourceHour = new ArrayList<>();
-        }
-        return this.resourceHour;
-    }
+   /**
+    * Gets the value of the resourceHour property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceHour property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceHour().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceHourType }
+    *
+    *
+    */
+   public List<ResourceHourType> getResourceHour()
+   {
+      if (resourceHour == null)
+      {
+         resourceHour = new ArrayList<>();
+      }
+      return this.resourceHour;
+   }
 
 }

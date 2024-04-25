@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for RiskMatrixThresholdType complex type.
@@ -67,234 +65,234 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RiskMatrixThresholdType", propOrder = {
-    "createDate",
-    "createUser",
-    "lastUpdateDate",
-    "lastUpdateUser",
-    "riskMatrixName",
-    "riskMatrixObjectId",
-    "riskThresholdName",
-    "riskThresholdObjectId"
-})
-public class RiskMatrixThresholdType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "RiskMatrixThresholdType", propOrder =
+{
+   "createDate",
+   "createUser",
+   "lastUpdateDate",
+   "lastUpdateUser",
+   "riskMatrixName",
+   "riskMatrixObjectId",
+   "riskThresholdName",
+   "riskThresholdObjectId"
+}) public class RiskMatrixThresholdType
+{
 
-    @XmlElement(name = "CreateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime createDate;
-    @XmlElement(name = "CreateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String createUser;
-    @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime lastUpdateDate;
-    @XmlElement(name = "LastUpdateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String lastUpdateUser;
-    @XmlElement(name = "RiskMatrixName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String riskMatrixName;
-    @XmlElement(name = "RiskMatrixObjectId")
-    protected Integer riskMatrixObjectId;
-    @XmlElement(name = "RiskThresholdName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String riskThresholdName;
-    @XmlElement(name = "RiskThresholdObjectId")
-    protected Integer riskThresholdObjectId;
+   @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;
+   @XmlElement(name = "CreateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String createUser;
+   @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime lastUpdateDate;
+   @XmlElement(name = "LastUpdateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String lastUpdateUser;
+   @XmlElement(name = "RiskMatrixName") @XmlJavaTypeAdapter(Adapter1.class) protected String riskMatrixName;
+   @XmlElement(name = "RiskMatrixObjectId") protected Integer riskMatrixObjectId;
+   @XmlElement(name = "RiskThresholdName") @XmlJavaTypeAdapter(Adapter1.class) protected String riskThresholdName;
+   @XmlElement(name = "RiskThresholdObjectId") protected Integer riskThresholdObjectId;
 
-    /**
-     * Gets the value of the createDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
+   /**
+    * Gets the value of the createDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getCreateDate()
+   {
+      return createDate;
+   }
 
-    /**
-     * Sets the value of the createDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateDate(LocalDateTime value) {
-        this.createDate = value;
-    }
+   /**
+    * Sets the value of the createDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateDate(LocalDateTime value)
+   {
+      this.createDate = value;
+   }
 
-    /**
-     * Gets the value of the createUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCreateUser() {
-        return createUser;
-    }
+   /**
+    * Gets the value of the createUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCreateUser()
+   {
+      return createUser;
+   }
 
-    /**
-     * Sets the value of the createUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateUser(String value) {
-        this.createUser = value;
-    }
+   /**
+    * Sets the value of the createUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateUser(String value)
+   {
+      this.createUser = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
+   /**
+    * Gets the value of the lastUpdateDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getLastUpdateDate()
+   {
+      return lastUpdateDate;
+   }
 
-    /**
-     * Sets the value of the lastUpdateDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateDate(LocalDateTime value) {
-        this.lastUpdateDate = value;
-    }
+   /**
+    * Sets the value of the lastUpdateDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateDate(LocalDateTime value)
+   {
+      this.lastUpdateDate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getLastUpdateUser() {
-        return lastUpdateUser;
-    }
+   /**
+    * Gets the value of the lastUpdateUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getLastUpdateUser()
+   {
+      return lastUpdateUser;
+   }
 
-    /**
-     * Sets the value of the lastUpdateUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateUser(String value) {
-        this.lastUpdateUser = value;
-    }
+   /**
+    * Sets the value of the lastUpdateUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateUser(String value)
+   {
+      this.lastUpdateUser = value;
+   }
 
-    /**
-     * Gets the value of the riskMatrixName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getRiskMatrixName() {
-        return riskMatrixName;
-    }
+   /**
+    * Gets the value of the riskMatrixName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getRiskMatrixName()
+   {
+      return riskMatrixName;
+   }
 
-    /**
-     * Sets the value of the riskMatrixName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRiskMatrixName(String value) {
-        this.riskMatrixName = value;
-    }
+   /**
+    * Sets the value of the riskMatrixName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRiskMatrixName(String value)
+   {
+      this.riskMatrixName = value;
+   }
 
-    /**
-     * Gets the value of the riskMatrixObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getRiskMatrixObjectId() {
-        return riskMatrixObjectId;
-    }
+   /**
+    * Gets the value of the riskMatrixObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getRiskMatrixObjectId()
+   {
+      return riskMatrixObjectId;
+   }
 
-    /**
-     * Sets the value of the riskMatrixObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setRiskMatrixObjectId(Integer value) {
-        this.riskMatrixObjectId = value;
-    }
+   /**
+    * Sets the value of the riskMatrixObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setRiskMatrixObjectId(Integer value)
+   {
+      this.riskMatrixObjectId = value;
+   }
 
-    /**
-     * Gets the value of the riskThresholdName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getRiskThresholdName() {
-        return riskThresholdName;
-    }
+   /**
+    * Gets the value of the riskThresholdName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getRiskThresholdName()
+   {
+      return riskThresholdName;
+   }
 
-    /**
-     * Sets the value of the riskThresholdName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRiskThresholdName(String value) {
-        this.riskThresholdName = value;
-    }
+   /**
+    * Sets the value of the riskThresholdName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRiskThresholdName(String value)
+   {
+      this.riskThresholdName = value;
+   }
 
-    /**
-     * Gets the value of the riskThresholdObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getRiskThresholdObjectId() {
-        return riskThresholdObjectId;
-    }
+   /**
+    * Gets the value of the riskThresholdObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getRiskThresholdObjectId()
+   {
+      return riskThresholdObjectId;
+   }
 
-    /**
-     * Sets the value of the riskThresholdObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setRiskThresholdObjectId(Integer value) {
-        this.riskThresholdObjectId = value;
-    }
+   /**
+    * Sets the value of the riskThresholdObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setRiskThresholdObjectId(Integer value)
+   {
+      this.riskThresholdObjectId = value;
+   }
 
 }

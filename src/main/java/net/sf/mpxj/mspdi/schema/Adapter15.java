@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:37 AM BST
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import java.util.UUID;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter15
-    extends XmlAdapter<String, UUID>
+public class Adapter15 extends XmlAdapter<String, UUID>
 {
 
+   @Override public UUID unmarshal(String value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseUUID(value));
+   }
 
-    @Override
-   public UUID unmarshal(String value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.parseUUID(value));
-    }
-
-    @Override
-   public String marshal(UUID value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.printUUID(value));
-    }
+   @Override public String marshal(UUID value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printUUID(value));
+   }
 
 }

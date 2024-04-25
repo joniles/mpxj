@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:47 AM BST
 //
 
-
 package net.sf.mpxj.ganttproject.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -13,7 +12,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.XmlValue;
-
 
 /**
  * <p>Java class for rate complex type.
@@ -33,89 +31,92 @@ import jakarta.xml.bind.annotation.XmlValue;
  *
  *
  */
-@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "rate", propOrder = {
-    "value"
-})
-public class Rate {
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "rate", propOrder =
+{
+   "value"
+}) public class Rate
+{
 
-    @XmlValue
-    protected String value;
-    @XmlAttribute(name = "name")
-    protected String name;
-    @XmlAttribute(name = "value")
-    protected Float valueAttribute;
+   @XmlValue protected String value;
+   @XmlAttribute(name = "name") protected String name;
+   @XmlAttribute(name = "value") protected Float valueAttribute;
 
-    /**
-     * Gets the value of the value property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getValue() {
-        return value;
-    }
+   /**
+    * Gets the value of the value property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getValue()
+   {
+      return value;
+   }
 
-    /**
-     * Sets the value of the value property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
+   /**
+    * Sets the value of the value property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setValue(String value)
+   {
+      this.value = value;
+   }
 
-    /**
-     * Gets the value of the name property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getName() {
-        return name;
-    }
+   /**
+    * Gets the value of the name property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getName()
+   {
+      return name;
+   }
 
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+   /**
+    * Sets the value of the name property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setName(String value)
+   {
+      this.name = value;
+   }
 
-    /**
-     * Gets the value of the valueAttribute property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Float }
-     *
-     */
-    public Float getValueAttribute() {
-        return valueAttribute;
-    }
+   /**
+    * Gets the value of the valueAttribute property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Float }
+    *
+    */
+   public Float getValueAttribute()
+   {
+      return valueAttribute;
+   }
 
-    /**
-     * Sets the value of the valueAttribute property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Float }
-     *
-     */
-    public void setValueAttribute(Float value) {
-        this.valueAttribute = value;
-    }
+   /**
+    * Sets the value of the valueAttribute property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Float }
+    *
+    */
+   public void setValueAttribute(Float value)
+   {
+      this.valueAttribute = value;
+   }
 
 }

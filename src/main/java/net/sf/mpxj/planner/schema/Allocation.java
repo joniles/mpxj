@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:38 AM BST
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -14,7 +13,6 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -35,91 +33,89 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "allocation")
-public class Allocation {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") @XmlRootElement(name = "allocation") public class Allocation
+{
 
-    @XmlAttribute(name = "task-id", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String taskId;
-    @XmlAttribute(name = "resource-id", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceId;
-    @XmlAttribute(name = "units")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String units;
+   @XmlAttribute(name = "task-id", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String taskId;
+   @XmlAttribute(name = "resource-id", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String resourceId;
+   @XmlAttribute(name = "units") @XmlJavaTypeAdapter(Adapter1.class) protected String units;
 
-    /**
-     * Gets the value of the taskId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getTaskId() {
-        return taskId;
-    }
+   /**
+    * Gets the value of the taskId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getTaskId()
+   {
+      return taskId;
+   }
 
-    /**
-     * Sets the value of the taskId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setTaskId(String value) {
-        this.taskId = value;
-    }
+   /**
+    * Sets the value of the taskId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setTaskId(String value)
+   {
+      this.taskId = value;
+   }
 
-    /**
-     * Gets the value of the resourceId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceId() {
-        return resourceId;
-    }
+   /**
+    * Gets the value of the resourceId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceId()
+   {
+      return resourceId;
+   }
 
-    /**
-     * Sets the value of the resourceId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceId(String value) {
-        this.resourceId = value;
-    }
+   /**
+    * Sets the value of the resourceId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceId(String value)
+   {
+      this.resourceId = value;
+   }
 
-    /**
-     * Gets the value of the units property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getUnits() {
-        return units;
-    }
+   /**
+    * Gets the value of the units property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getUnits()
+   {
+      return units;
+   }
 
-    /**
-     * Sets the value of the units property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setUnits(String value) {
-        this.units = value;
-    }
+   /**
+    * Sets the value of the units property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setUnits(String value)
+   {
+      this.units = value;
+   }
 
 }

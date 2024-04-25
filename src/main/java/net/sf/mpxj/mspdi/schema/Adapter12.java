@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:37 AM BST
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.WorkContour;
 
-public class Adapter12
-    extends XmlAdapter<String, WorkContour>
+public class Adapter12 extends XmlAdapter<String, WorkContour>
 {
 
+   @Override public WorkContour unmarshal(String value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseWorkContour(value));
+   }
 
-    @Override
-   public WorkContour unmarshal(String value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.parseWorkContour(value));
-    }
-
-    @Override
-   public String marshal(WorkContour value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.printWorkContour(value));
-    }
+   @Override public String marshal(WorkContour value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printWorkContour(value));
+   }
 
 }

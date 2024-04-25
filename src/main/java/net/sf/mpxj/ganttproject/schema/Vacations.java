@@ -5,14 +5,12 @@
 // Generated on: 2024.04.25 at 10:03:47 AM BST
 //
 
-
 package net.sf.mpxj.ganttproject.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for vacations complex type.
@@ -33,37 +31,38 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "vacations", propOrder = {
-    "vacation"
-})
-public class Vacations {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "vacations", propOrder =
+{
+   "vacation"
+}) public class Vacations
+{
 
-    @XmlElement(required = true)
-    protected Vacation vacation;
+   @XmlElement(required = true) protected Vacation vacation;
 
-    /**
-     * Gets the value of the vacation property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Vacation }
-     *
-     */
-    public Vacation getVacation() {
-        return vacation;
-    }
+   /**
+    * Gets the value of the vacation property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Vacation }
+    *
+    */
+   public Vacation getVacation()
+   {
+      return vacation;
+   }
 
-    /**
-     * Sets the value of the vacation property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Vacation }
-     *
-     */
-    public void setVacation(Vacation value) {
-        this.vacation = value;
-    }
+   /**
+    * Sets the value of the vacation property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Vacation }
+    *
+    */
+   public void setVacation(Vacation value)
+   {
+      this.vacation = value;
+   }
 
 }

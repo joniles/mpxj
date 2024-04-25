@@ -5,14 +5,12 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for CodeAssignmentType complex type.
@@ -34,48 +32,50 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CodeAssignmentType", propOrder = {
-    "typeObjectId",
-    "valueObjectId"
-})
-public class CodeAssignmentType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "CodeAssignmentType", propOrder =
+{
+   "typeObjectId",
+   "valueObjectId"
+}) public class CodeAssignmentType
+{
 
-    @XmlElement(name = "TypeObjectId")
-    protected int typeObjectId;
-    @XmlElement(name = "ValueObjectId")
-    protected int valueObjectId;
+   @XmlElement(name = "TypeObjectId") protected int typeObjectId;
+   @XmlElement(name = "ValueObjectId") protected int valueObjectId;
 
-    /**
-     * Gets the value of the typeObjectId property.
-     *
-     */
-    public int getTypeObjectId() {
-        return typeObjectId;
-    }
+   /**
+    * Gets the value of the typeObjectId property.
+    *
+    */
+   public int getTypeObjectId()
+   {
+      return typeObjectId;
+   }
 
-    /**
-     * Sets the value of the typeObjectId property.
-     *
-     */
-    public void setTypeObjectId(int value) {
-        this.typeObjectId = value;
-    }
+   /**
+    * Sets the value of the typeObjectId property.
+    *
+    */
+   public void setTypeObjectId(int value)
+   {
+      this.typeObjectId = value;
+   }
 
-    /**
-     * Gets the value of the valueObjectId property.
-     *
-     */
-    public int getValueObjectId() {
-        return valueObjectId;
-    }
+   /**
+    * Gets the value of the valueObjectId property.
+    *
+    */
+   public int getValueObjectId()
+   {
+      return valueObjectId;
+   }
 
-    /**
-     * Sets the value of the valueObjectId property.
-     *
-     */
-    public void setValueObjectId(int value) {
-        this.valueObjectId = value;
-    }
+   /**
+    * Sets the value of the valueObjectId property.
+    *
+    */
+   public void setValueObjectId(int value)
+   {
+      this.valueObjectId = value;
+   }
 
 }

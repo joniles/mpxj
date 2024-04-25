@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:37 AM BST
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.WorkGroup;
 
-public class Adapter17
-    extends XmlAdapter<String, WorkGroup>
+public class Adapter17 extends XmlAdapter<String, WorkGroup>
 {
 
+   @Override public WorkGroup unmarshal(String value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseWorkGroup(value));
+   }
 
-    @Override
-   public WorkGroup unmarshal(String value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.parseWorkGroup(value));
-    }
-
-    @Override
-   public String marshal(WorkGroup value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.printWorkGroup(value));
-    }
+   @Override public String marshal(WorkGroup value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printWorkGroup(value));
+   }
 
 }

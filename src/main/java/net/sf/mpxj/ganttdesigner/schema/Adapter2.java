@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:50 AM BST
 //
 
-
 package net.sf.mpxj.ganttdesigner.schema;
 
 import java.time.LocalDate;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter2
-    extends XmlAdapter<String, LocalDate>
+public class Adapter2 extends XmlAdapter<String, LocalDate>
 {
 
+   @Override public LocalDate unmarshal(String value)
+   {
+      return (net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDate(value));
+   }
 
-    @Override
-   public LocalDate unmarshal(String value) {
-        return (net.sf.mpxj.ganttdesigner.DatatypeConverter.parseDate(value));
-    }
-
-    @Override
-   public String marshal(LocalDate value) {
-        return (net.sf.mpxj.ganttdesigner.DatatypeConverter.printDate(value));
-    }
+   @Override public String marshal(LocalDate value)
+   {
+      return (net.sf.mpxj.ganttdesigner.DatatypeConverter.printDate(value));
+   }
 
 }

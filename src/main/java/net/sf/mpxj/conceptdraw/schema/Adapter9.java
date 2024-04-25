@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:49 AM BST
 //
 
-
 package net.sf.mpxj.conceptdraw.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.RelationType;
 
-public class Adapter9
-    extends XmlAdapter<String, RelationType>
+public class Adapter9 extends XmlAdapter<String, RelationType>
 {
 
+   @Override public RelationType unmarshal(String value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseRelationType(value));
+   }
 
-    @Override
-   public RelationType unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseRelationType(value));
-    }
-
-    @Override
-   public String marshal(RelationType value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printRelationType(value));
-    }
+   @Override public String marshal(RelationType value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.printRelationType(value));
+   }
 
 }

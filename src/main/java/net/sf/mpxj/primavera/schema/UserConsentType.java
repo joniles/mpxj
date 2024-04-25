@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for UserConsentType complex type.
@@ -39,120 +37,122 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "UserConsentType", propOrder = {
-    "consentAcceptanceDate",
-    "consentAcceptanceStatus",
-    "consentType",
-    "userId"
-})
-public class UserConsentType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "UserConsentType", propOrder =
+{
+   "consentAcceptanceDate",
+   "consentAcceptanceStatus",
+   "consentType",
+   "userId"
+}) public class UserConsentType
+{
 
-    @XmlElement(name = "ConsentAcceptanceDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime consentAcceptanceDate;
-    @XmlElement(name = "ConsentAcceptanceStatus", nillable = true)
-    protected Integer consentAcceptanceStatus;
-    @XmlElement(name = "ConsentType", nillable = true)
-    protected Integer consentType;
-    @XmlElement(name = "UserId")
-    protected Integer userId;
+   @XmlElement(name = "ConsentAcceptanceDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime consentAcceptanceDate;
+   @XmlElement(name = "ConsentAcceptanceStatus", nillable = true) protected Integer consentAcceptanceStatus;
+   @XmlElement(name = "ConsentType", nillable = true) protected Integer consentType;
+   @XmlElement(name = "UserId") protected Integer userId;
 
-    /**
-     * Gets the value of the consentAcceptanceDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getConsentAcceptanceDate() {
-        return consentAcceptanceDate;
-    }
+   /**
+    * Gets the value of the consentAcceptanceDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getConsentAcceptanceDate()
+   {
+      return consentAcceptanceDate;
+   }
 
-    /**
-     * Sets the value of the consentAcceptanceDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setConsentAcceptanceDate(LocalDateTime value) {
-        this.consentAcceptanceDate = value;
-    }
+   /**
+    * Sets the value of the consentAcceptanceDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setConsentAcceptanceDate(LocalDateTime value)
+   {
+      this.consentAcceptanceDate = value;
+   }
 
-    /**
-     * Gets the value of the consentAcceptanceStatus property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getConsentAcceptanceStatus() {
-        return consentAcceptanceStatus;
-    }
+   /**
+    * Gets the value of the consentAcceptanceStatus property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getConsentAcceptanceStatus()
+   {
+      return consentAcceptanceStatus;
+   }
 
-    /**
-     * Sets the value of the consentAcceptanceStatus property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setConsentAcceptanceStatus(Integer value) {
-        this.consentAcceptanceStatus = value;
-    }
+   /**
+    * Sets the value of the consentAcceptanceStatus property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setConsentAcceptanceStatus(Integer value)
+   {
+      this.consentAcceptanceStatus = value;
+   }
 
-    /**
-     * Gets the value of the consentType property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getConsentType() {
-        return consentType;
-    }
+   /**
+    * Gets the value of the consentType property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getConsentType()
+   {
+      return consentType;
+   }
 
-    /**
-     * Sets the value of the consentType property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setConsentType(Integer value) {
-        this.consentType = value;
-    }
+   /**
+    * Sets the value of the consentType property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setConsentType(Integer value)
+   {
+      this.consentType = value;
+   }
 
-    /**
-     * Gets the value of the userId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getUserId() {
-        return userId;
-    }
+   /**
+    * Gets the value of the userId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getUserId()
+   {
+      return userId;
+   }
 
-    /**
-     * Sets the value of the userId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setUserId(Integer value) {
-        this.userId = value;
-    }
+   /**
+    * Sets the value of the userId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setUserId(Integer value)
+   {
+      this.userId = value;
+   }
 
 }

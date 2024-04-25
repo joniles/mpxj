@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:37 AM BST
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.BookingType;
 
-public class Adapter20
-    extends XmlAdapter<String, BookingType>
+public class Adapter20 extends XmlAdapter<String, BookingType>
 {
 
+   @Override public BookingType unmarshal(String value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseBookingType(value));
+   }
 
-    @Override
-   public BookingType unmarshal(String value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.parseBookingType(value));
-    }
-
-    @Override
-   public String marshal(BookingType value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.printBookingType(value));
-    }
+   @Override public String marshal(BookingType value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printBookingType(value));
+   }
 
 }

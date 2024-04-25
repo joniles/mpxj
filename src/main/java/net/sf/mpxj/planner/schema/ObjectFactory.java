@@ -5,11 +5,9 @@
 // Generated on: 2024.04.25 at 10:03:38 AM BST
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import jakarta.xml.bind.annotation.XmlRegistry;
-
 
 /**
  * This object contains factory methods for each
@@ -25,231 +23,258 @@ import jakarta.xml.bind.annotation.XmlRegistry;
  * provided in this class.
  *
  */
-@XmlRegistry
-public class ObjectFactory {
+@XmlRegistry public class ObjectFactory
+{
 
+   /**
+    * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: net.sf.mpxj.planner.schema
+    *
+    */
+   public ObjectFactory()
+   {
+   }
 
-    /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: net.sf.mpxj.planner.schema
-     *
-     */
-    public ObjectFactory() {
-    }
+   /**
+    * Create an instance of {@link Project }
+    *
+    */
+   public Project createProject()
+   {
+      return new Project();
+   }
 
-    /**
-     * Create an instance of {@link Project }
-     *
-     */
-    public Project createProject() {
-        return new Project();
-    }
+   /**
+    * Create an instance of {@link Properties }
+    *
+    */
+   public Properties createProperties()
+   {
+      return new Properties();
+   }
 
-    /**
-     * Create an instance of {@link Properties }
-     *
-     */
-    public Properties createProperties() {
-        return new Properties();
-    }
+   /**
+    * Create an instance of {@link Property }
+    *
+    */
+   public Property createProperty()
+   {
+      return new Property();
+   }
 
-    /**
-     * Create an instance of {@link Property }
-     *
-     */
-    public Property createProperty() {
-        return new Property();
-    }
+   /**
+    * Create an instance of {@link ListItem }
+    *
+    */
+   public ListItem createListItem()
+   {
+      return new ListItem();
+   }
 
-    /**
-     * Create an instance of {@link ListItem }
-     *
-     */
-    public ListItem createListItem() {
-        return new ListItem();
-    }
+   /**
+    * Create an instance of {@link Phases }
+    *
+    */
+   public Phases createPhases()
+   {
+      return new Phases();
+   }
 
-    /**
-     * Create an instance of {@link Phases }
-     *
-     */
-    public Phases createPhases() {
-        return new Phases();
-    }
+   /**
+    * Create an instance of {@link Phase }
+    *
+    */
+   public Phase createPhase()
+   {
+      return new Phase();
+   }
 
-    /**
-     * Create an instance of {@link Phase }
-     *
-     */
-    public Phase createPhase() {
-        return new Phase();
-    }
+   /**
+    * Create an instance of {@link Calendars }
+    *
+    */
+   public Calendars createCalendars()
+   {
+      return new Calendars();
+   }
 
-    /**
-     * Create an instance of {@link Calendars }
-     *
-     */
-    public Calendars createCalendars() {
-        return new Calendars();
-    }
+   /**
+    * Create an instance of {@link DayTypes }
+    *
+    */
+   public DayTypes createDayTypes()
+   {
+      return new DayTypes();
+   }
 
-    /**
-     * Create an instance of {@link DayTypes }
-     *
-     */
-    public DayTypes createDayTypes() {
-        return new DayTypes();
-    }
+   /**
+    * Create an instance of {@link DayType }
+    *
+    */
+   public DayType createDayType()
+   {
+      return new DayType();
+   }
 
-    /**
-     * Create an instance of {@link DayType }
-     *
-     */
-    public DayType createDayType() {
-        return new DayType();
-    }
+   /**
+    * Create an instance of {@link Interval }
+    *
+    */
+   public Interval createInterval()
+   {
+      return new Interval();
+   }
 
-    /**
-     * Create an instance of {@link Interval }
-     *
-     */
-    public Interval createInterval() {
-        return new Interval();
-    }
+   /**
+    * Create an instance of {@link Calendar }
+    *
+    */
+   public Calendar createCalendar()
+   {
+      return new Calendar();
+   }
 
-    /**
-     * Create an instance of {@link Calendar }
-     *
-     */
-    public Calendar createCalendar() {
-        return new Calendar();
-    }
+   /**
+    * Create an instance of {@link DefaultWeek }
+    *
+    */
+   public DefaultWeek createDefaultWeek()
+   {
+      return new DefaultWeek();
+   }
 
-    /**
-     * Create an instance of {@link DefaultWeek }
-     *
-     */
-    public DefaultWeek createDefaultWeek() {
-        return new DefaultWeek();
-    }
+   /**
+    * Create an instance of {@link OverriddenDayTypes }
+    *
+    */
+   public OverriddenDayTypes createOverriddenDayTypes()
+   {
+      return new OverriddenDayTypes();
+   }
 
-    /**
-     * Create an instance of {@link OverriddenDayTypes }
-     *
-     */
-    public OverriddenDayTypes createOverriddenDayTypes() {
-        return new OverriddenDayTypes();
-    }
+   /**
+    * Create an instance of {@link OverriddenDayType }
+    *
+    */
+   public OverriddenDayType createOverriddenDayType()
+   {
+      return new OverriddenDayType();
+   }
 
-    /**
-     * Create an instance of {@link OverriddenDayType }
-     *
-     */
-    public OverriddenDayType createOverriddenDayType() {
-        return new OverriddenDayType();
-    }
+   /**
+    * Create an instance of {@link Days }
+    *
+    */
+   public Days createDays()
+   {
+      return new Days();
+   }
 
-    /**
-     * Create an instance of {@link Days }
-     *
-     */
-    public Days createDays() {
-        return new Days();
-    }
+   /**
+    * Create an instance of {@link Day }
+    *
+    */
+   public Day createDay()
+   {
+      return new Day();
+   }
 
-    /**
-     * Create an instance of {@link Day }
-     *
-     */
-    public Day createDay() {
-        return new Day();
-    }
+   /**
+    * Create an instance of {@link Tasks }
+    *
+    */
+   public Tasks createTasks()
+   {
+      return new Tasks();
+   }
 
-    /**
-     * Create an instance of {@link Tasks }
-     *
-     */
-    public Tasks createTasks() {
-        return new Tasks();
-    }
+   /**
+    * Create an instance of {@link Task }
+    *
+    */
+   public Task createTask()
+   {
+      return new Task();
+   }
 
-    /**
-     * Create an instance of {@link Task }
-     *
-     */
-    public Task createTask() {
-        return new Task();
-    }
+   /**
+    * Create an instance of {@link Constraint }
+    *
+    */
+   public Constraint createConstraint()
+   {
+      return new Constraint();
+   }
 
-    /**
-     * Create an instance of {@link Constraint }
-     *
-     */
-    public Constraint createConstraint() {
-        return new Constraint();
-    }
+   /**
+    * Create an instance of {@link Predecessors }
+    *
+    */
+   public Predecessors createPredecessors()
+   {
+      return new Predecessors();
+   }
 
-    /**
-     * Create an instance of {@link Predecessors }
-     *
-     */
-    public Predecessors createPredecessors() {
-        return new Predecessors();
-    }
+   /**
+    * Create an instance of {@link Predecessor }
+    *
+    */
+   public Predecessor createPredecessor()
+   {
+      return new Predecessor();
+   }
 
-    /**
-     * Create an instance of {@link Predecessor }
-     *
-     */
-    public Predecessor createPredecessor() {
-        return new Predecessor();
-    }
+   /**
+    * Create an instance of {@link ResourceGroups }
+    *
+    */
+   public ResourceGroups createResourceGroups()
+   {
+      return new ResourceGroups();
+   }
 
-    /**
-     * Create an instance of {@link ResourceGroups }
-     *
-     */
-    public ResourceGroups createResourceGroups() {
-        return new ResourceGroups();
-    }
+   /**
+    * Create an instance of {@link Group }
+    *
+    */
+   public Group createGroup()
+   {
+      return new Group();
+   }
 
-    /**
-     * Create an instance of {@link Group }
-     *
-     */
-    public Group createGroup() {
-        return new Group();
-    }
+   /**
+    * Create an instance of {@link Resources }
+    *
+    */
+   public Resources createResources()
+   {
+      return new Resources();
+   }
 
-    /**
-     * Create an instance of {@link Resources }
-     *
-     */
-    public Resources createResources() {
-        return new Resources();
-    }
+   /**
+    * Create an instance of {@link Resource }
+    *
+    */
+   public Resource createResource()
+   {
+      return new Resource();
+   }
 
-    /**
-     * Create an instance of {@link Resource }
-     *
-     */
-    public Resource createResource() {
-        return new Resource();
-    }
+   /**
+    * Create an instance of {@link Allocations }
+    *
+    */
+   public Allocations createAllocations()
+   {
+      return new Allocations();
+   }
 
-    /**
-     * Create an instance of {@link Allocations }
-     *
-     */
-    public Allocations createAllocations() {
-        return new Allocations();
-    }
-
-    /**
-     * Create an instance of {@link Allocation }
-     *
-     */
-    public Allocation createAllocation() {
-        return new Allocation();
-    }
+   /**
+    * Create an instance of {@link Allocation }
+    *
+    */
+   public Allocation createAllocation()
+   {
+      return new Allocation();
+   }
 
 }

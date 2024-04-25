@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:49 AM BST
 //
 
-
 package net.sf.mpxj.conceptdraw.schema;
 
 import java.time.DayOfWeek;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter14
-    extends XmlAdapter<String, DayOfWeek>
+public class Adapter14 extends XmlAdapter<String, DayOfWeek>
 {
 
+   @Override public DayOfWeek unmarshal(String value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDay(value));
+   }
 
-    @Override
-   public DayOfWeek unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDay(value));
-    }
-
-    @Override
-   public String marshal(DayOfWeek value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDay(value));
-    }
+   @Override public String marshal(DayOfWeek value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDay(value));
+   }
 
 }

@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:38 AM BST
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -40,123 +38,124 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "interval"
-})
-@XmlRootElement(name = "day")
-public class Day {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
+{
+   "interval"
+}) @XmlRootElement(name = "day") public class Day
+{
 
-    protected List<Interval> interval;
-    @XmlAttribute(name = "date", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String date;
-    @XmlAttribute(name = "type", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String type;
-    @XmlAttribute(name = "id")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String id;
+   protected List<Interval> interval;
+   @XmlAttribute(name = "date", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String date;
+   @XmlAttribute(name = "type", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String type;
+   @XmlAttribute(name = "id") @XmlJavaTypeAdapter(Adapter1.class) protected String id;
 
-    /**
-     * Gets the value of the interval property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the interval property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getInterval().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Interval }
-     *
-     *
-     */
-    public List<Interval> getInterval() {
-        if (interval == null) {
-            interval = new ArrayList<>();
-        }
-        return this.interval;
-    }
+   /**
+    * Gets the value of the interval property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the interval property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getInterval().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link Interval }
+    *
+    *
+    */
+   public List<Interval> getInterval()
+   {
+      if (interval == null)
+      {
+         interval = new ArrayList<>();
+      }
+      return this.interval;
+   }
 
-    /**
-     * Gets the value of the date property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getDate() {
-        return date;
-    }
+   /**
+    * Gets the value of the date property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getDate()
+   {
+      return date;
+   }
 
-    /**
-     * Sets the value of the date property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setDate(String value) {
-        this.date = value;
-    }
+   /**
+    * Sets the value of the date property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setDate(String value)
+   {
+      this.date = value;
+   }
 
-    /**
-     * Gets the value of the type property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getType() {
-        return type;
-    }
+   /**
+    * Gets the value of the type property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getType()
+   {
+      return type;
+   }
 
-    /**
-     * Sets the value of the type property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setType(String value) {
-        this.type = value;
-    }
+   /**
+    * Sets the value of the type property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setType(String value)
+   {
+      this.type = value;
+   }
 
-    /**
-     * Gets the value of the id property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getId() {
-        return id;
-    }
+   /**
+    * Gets the value of the id property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getId()
+   {
+      return id;
+   }
 
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
+   /**
+    * Sets the value of the id property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setId(String value)
+   {
+      this.id = value;
+   }
 
 }

@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:47 AM BST
 //
 
-
 package net.sf.mpxj.ganttproject.schema;
 
 import java.time.LocalDateTime;
@@ -17,7 +16,6 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for task complex type.
@@ -54,419 +52,433 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "task", propOrder = {
-    "depend",
-    "customproperty",
-    "task"
-})
-public class Task {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "task", propOrder =
+{
+   "depend",
+   "customproperty",
+   "task"
+}) public class Task
+{
 
-    protected List<Depend> depend;
-    protected List<CustomTaskProperty> customproperty;
-    protected List<Task> task;
-    @XmlAttribute(name = "id")
-    protected Integer id;
-    @XmlAttribute(name = "name")
-    protected String name;
-    @XmlAttribute(name = "color")
-    protected String color;
-    @XmlAttribute(name = "meeting")
-    protected String meeting;
-    @XmlAttribute(name = "start")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    @XmlSchemaType(name = "date")
-    protected LocalDateTime start;
-    @XmlAttribute(name = "duration")
-    protected Integer duration;
-    @XmlAttribute(name = "complete")
-    protected Integer complete;
-    @XmlAttribute(name = "expand")
-    protected String expand;
-    @XmlAttribute(name = "thirdDate")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    @XmlSchemaType(name = "date")
-    protected LocalDateTime thirdDate;
-    @XmlAttribute(name = "thirdDate-constraint")
-    protected Integer thirdDateConstraint;
-    @XmlAttribute(name = "priority")
-    protected Integer priority;
-    @XmlAttribute(name = "webLink")
-    protected String webLink;
+   protected List<Depend> depend;
+   protected List<CustomTaskProperty> customproperty;
+   protected List<Task> task;
+   @XmlAttribute(name = "id") protected Integer id;
+   @XmlAttribute(name = "name") protected String name;
+   @XmlAttribute(name = "color") protected String color;
+   @XmlAttribute(name = "meeting") protected String meeting;
+   @XmlAttribute(name = "start") @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "date") protected LocalDateTime start;
+   @XmlAttribute(name = "duration") protected Integer duration;
+   @XmlAttribute(name = "complete") protected Integer complete;
+   @XmlAttribute(name = "expand") protected String expand;
+   @XmlAttribute(name = "thirdDate") @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "date") protected LocalDateTime thirdDate;
+   @XmlAttribute(name = "thirdDate-constraint") protected Integer thirdDateConstraint;
+   @XmlAttribute(name = "priority") protected Integer priority;
+   @XmlAttribute(name = "webLink") protected String webLink;
 
-    /**
-     * Gets the value of the depend property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the depend property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getDepend().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Depend }
-     *
-     *
-     */
-    public List<Depend> getDepend() {
-        if (depend == null) {
-            depend = new ArrayList<>();
-        }
-        return this.depend;
-    }
+   /**
+    * Gets the value of the depend property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the depend property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getDepend().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link Depend }
+    *
+    *
+    */
+   public List<Depend> getDepend()
+   {
+      if (depend == null)
+      {
+         depend = new ArrayList<>();
+      }
+      return this.depend;
+   }
 
-    /**
-     * Gets the value of the customproperty property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the customproperty property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCustomproperty().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CustomTaskProperty }
-     *
-     *
-     */
-    public List<CustomTaskProperty> getCustomproperty() {
-        if (customproperty == null) {
-            customproperty = new ArrayList<>();
-        }
-        return this.customproperty;
-    }
+   /**
+    * Gets the value of the customproperty property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the customproperty property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getCustomproperty().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link CustomTaskProperty }
+    *
+    *
+    */
+   public List<CustomTaskProperty> getCustomproperty()
+   {
+      if (customproperty == null)
+      {
+         customproperty = new ArrayList<>();
+      }
+      return this.customproperty;
+   }
 
-    /**
-     * Gets the value of the task property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the task property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTask().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Task }
-     *
-     *
-     */
-    public List<Task> getTask() {
-        if (task == null) {
-            task = new ArrayList<>();
-        }
-        return this.task;
-    }
+   /**
+    * Gets the value of the task property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the task property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getTask().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link Task }
+    *
+    *
+    */
+   public List<Task> getTask()
+   {
+      if (task == null)
+      {
+         task = new ArrayList<>();
+      }
+      return this.task;
+   }
 
-    /**
-     * Gets the value of the id property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getId() {
-        return id;
-    }
+   /**
+    * Gets the value of the id property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getId()
+   {
+      return id;
+   }
 
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setId(Integer value) {
-        this.id = value;
-    }
+   /**
+    * Sets the value of the id property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setId(Integer value)
+   {
+      this.id = value;
+   }
 
-    /**
-     * Gets the value of the name property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getName() {
-        return name;
-    }
+   /**
+    * Gets the value of the name property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getName()
+   {
+      return name;
+   }
 
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+   /**
+    * Sets the value of the name property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setName(String value)
+   {
+      this.name = value;
+   }
 
-    /**
-     * Gets the value of the color property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getColor() {
-        return color;
-    }
+   /**
+    * Gets the value of the color property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getColor()
+   {
+      return color;
+   }
 
-    /**
-     * Sets the value of the color property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setColor(String value) {
-        this.color = value;
-    }
+   /**
+    * Sets the value of the color property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setColor(String value)
+   {
+      this.color = value;
+   }
 
-    /**
-     * Gets the value of the meeting property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getMeeting() {
-        return meeting;
-    }
+   /**
+    * Gets the value of the meeting property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getMeeting()
+   {
+      return meeting;
+   }
 
-    /**
-     * Sets the value of the meeting property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setMeeting(String value) {
-        this.meeting = value;
-    }
+   /**
+    * Sets the value of the meeting property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setMeeting(String value)
+   {
+      this.meeting = value;
+   }
 
-    /**
-     * Gets the value of the start property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getStart() {
-        return start;
-    }
+   /**
+    * Gets the value of the start property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getStart()
+   {
+      return start;
+   }
 
-    /**
-     * Sets the value of the start property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setStart(LocalDateTime value) {
-        this.start = value;
-    }
+   /**
+    * Sets the value of the start property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setStart(LocalDateTime value)
+   {
+      this.start = value;
+   }
 
-    /**
-     * Gets the value of the duration property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getDuration() {
-        return duration;
-    }
+   /**
+    * Gets the value of the duration property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getDuration()
+   {
+      return duration;
+   }
 
-    /**
-     * Sets the value of the duration property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setDuration(Integer value) {
-        this.duration = value;
-    }
+   /**
+    * Sets the value of the duration property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setDuration(Integer value)
+   {
+      this.duration = value;
+   }
 
-    /**
-     * Gets the value of the complete property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getComplete() {
-        return complete;
-    }
+   /**
+    * Gets the value of the complete property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getComplete()
+   {
+      return complete;
+   }
 
-    /**
-     * Sets the value of the complete property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setComplete(Integer value) {
-        this.complete = value;
-    }
+   /**
+    * Sets the value of the complete property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setComplete(Integer value)
+   {
+      this.complete = value;
+   }
 
-    /**
-     * Gets the value of the expand property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getExpand() {
-        return expand;
-    }
+   /**
+    * Gets the value of the expand property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getExpand()
+   {
+      return expand;
+   }
 
-    /**
-     * Sets the value of the expand property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setExpand(String value) {
-        this.expand = value;
-    }
+   /**
+    * Sets the value of the expand property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setExpand(String value)
+   {
+      this.expand = value;
+   }
 
-    /**
-     * Gets the value of the thirdDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getThirdDate() {
-        return thirdDate;
-    }
+   /**
+    * Gets the value of the thirdDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getThirdDate()
+   {
+      return thirdDate;
+   }
 
-    /**
-     * Sets the value of the thirdDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setThirdDate(LocalDateTime value) {
-        this.thirdDate = value;
-    }
+   /**
+    * Sets the value of the thirdDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setThirdDate(LocalDateTime value)
+   {
+      this.thirdDate = value;
+   }
 
-    /**
-     * Gets the value of the thirdDateConstraint property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getThirdDateConstraint() {
-        return thirdDateConstraint;
-    }
+   /**
+    * Gets the value of the thirdDateConstraint property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getThirdDateConstraint()
+   {
+      return thirdDateConstraint;
+   }
 
-    /**
-     * Sets the value of the thirdDateConstraint property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setThirdDateConstraint(Integer value) {
-        this.thirdDateConstraint = value;
-    }
+   /**
+    * Sets the value of the thirdDateConstraint property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setThirdDateConstraint(Integer value)
+   {
+      this.thirdDateConstraint = value;
+   }
 
-    /**
-     * Gets the value of the priority property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getPriority() {
-        return priority;
-    }
+   /**
+    * Gets the value of the priority property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getPriority()
+   {
+      return priority;
+   }
 
-    /**
-     * Sets the value of the priority property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setPriority(Integer value) {
-        this.priority = value;
-    }
+   /**
+    * Sets the value of the priority property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setPriority(Integer value)
+   {
+      this.priority = value;
+   }
 
-    /**
-     * Gets the value of the webLink property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getWebLink() {
-        return webLink;
-    }
+   /**
+    * Gets the value of the webLink property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getWebLink()
+   {
+      return webLink;
+   }
 
-    /**
-     * Sets the value of the webLink property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setWebLink(String value) {
-        this.webLink = value;
-    }
+   /**
+    * Sets the value of the webLink property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setWebLink(String value)
+   {
+      this.webLink = value;
+   }
 
 }

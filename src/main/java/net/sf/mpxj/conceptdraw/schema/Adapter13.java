@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:49 AM BST
 //
 
-
 package net.sf.mpxj.conceptdraw.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.ResourceType;
 
-public class Adapter13
-    extends XmlAdapter<String, ResourceType>
+public class Adapter13 extends XmlAdapter<String, ResourceType>
 {
 
+   @Override public ResourceType unmarshal(String value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseResourceType(value));
+   }
 
-    @Override
-   public ResourceType unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseResourceType(value));
-    }
-
-    @Override
-   public String marshal(ResourceType value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printResourceType(value));
-    }
+   @Override public String marshal(ResourceType value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.printResourceType(value));
+   }
 
 }

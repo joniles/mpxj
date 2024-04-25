@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for ProjectFundingType complex type.
@@ -72,377 +70,374 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ProjectFundingType", propOrder = {
-    "amount",
-    "createDate",
-    "createUser",
-    "fundShare",
-    "fundingSourceName",
-    "fundingSourceObjectId",
-    "isBaseline",
-    "isTemplate",
-    "lastUpdateDate",
-    "lastUpdateUser",
-    "objectId",
-    "projectId",
-    "projectObjectId"
-})
-public class ProjectFundingType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ProjectFundingType", propOrder =
+{
+   "amount",
+   "createDate",
+   "createUser",
+   "fundShare",
+   "fundingSourceName",
+   "fundingSourceObjectId",
+   "isBaseline",
+   "isTemplate",
+   "lastUpdateDate",
+   "lastUpdateUser",
+   "objectId",
+   "projectId",
+   "projectObjectId"
+}) public class ProjectFundingType
+{
 
-    @XmlElement(name = "Amount", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double amount;
-    @XmlElement(name = "CreateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime createDate;
-    @XmlElement(name = "CreateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String createUser;
-    @XmlElement(name = "FundShare", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double fundShare;
-    @XmlElement(name = "FundingSourceName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String fundingSourceName;
-    @XmlElement(name = "FundingSourceObjectId")
-    protected Integer fundingSourceObjectId;
-    @XmlElement(name = "IsBaseline", type = String.class)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isBaseline;
-    @XmlElement(name = "IsTemplate", type = String.class)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isTemplate;
-    @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime lastUpdateDate;
-    @XmlElement(name = "LastUpdateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String lastUpdateUser;
-    @XmlElement(name = "ObjectId")
-    protected Integer objectId;
-    @XmlElement(name = "ProjectId")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String projectId;
-    @XmlElement(name = "ProjectObjectId")
-    protected Integer projectObjectId;
+   @XmlElement(name = "Amount", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double amount;
+   @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;
+   @XmlElement(name = "CreateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String createUser;
+   @XmlElement(name = "FundShare", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double fundShare;
+   @XmlElement(name = "FundingSourceName") @XmlJavaTypeAdapter(Adapter1.class) protected String fundingSourceName;
+   @XmlElement(name = "FundingSourceObjectId") protected Integer fundingSourceObjectId;
+   @XmlElement(name = "IsBaseline", type = String.class) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isBaseline;
+   @XmlElement(name = "IsTemplate", type = String.class) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isTemplate;
+   @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime lastUpdateDate;
+   @XmlElement(name = "LastUpdateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String lastUpdateUser;
+   @XmlElement(name = "ObjectId") protected Integer objectId;
+   @XmlElement(name = "ProjectId") @XmlJavaTypeAdapter(Adapter1.class) protected String projectId;
+   @XmlElement(name = "ProjectObjectId") protected Integer projectObjectId;
 
-    /**
-     * Gets the value of the amount property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getAmount() {
-        return amount;
-    }
+   /**
+    * Gets the value of the amount property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getAmount()
+   {
+      return amount;
+   }
 
-    /**
-     * Sets the value of the amount property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAmount(Double value) {
-        this.amount = value;
-    }
+   /**
+    * Sets the value of the amount property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAmount(Double value)
+   {
+      this.amount = value;
+   }
 
-    /**
-     * Gets the value of the createDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
+   /**
+    * Gets the value of the createDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getCreateDate()
+   {
+      return createDate;
+   }
 
-    /**
-     * Sets the value of the createDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateDate(LocalDateTime value) {
-        this.createDate = value;
-    }
+   /**
+    * Sets the value of the createDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateDate(LocalDateTime value)
+   {
+      this.createDate = value;
+   }
 
-    /**
-     * Gets the value of the createUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCreateUser() {
-        return createUser;
-    }
+   /**
+    * Gets the value of the createUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCreateUser()
+   {
+      return createUser;
+   }
 
-    /**
-     * Sets the value of the createUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateUser(String value) {
-        this.createUser = value;
-    }
+   /**
+    * Sets the value of the createUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateUser(String value)
+   {
+      this.createUser = value;
+   }
 
-    /**
-     * Gets the value of the fundShare property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getFundShare() {
-        return fundShare;
-    }
+   /**
+    * Gets the value of the fundShare property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getFundShare()
+   {
+      return fundShare;
+   }
 
-    /**
-     * Sets the value of the fundShare property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setFundShare(Double value) {
-        this.fundShare = value;
-    }
+   /**
+    * Sets the value of the fundShare property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setFundShare(Double value)
+   {
+      this.fundShare = value;
+   }
 
-    /**
-     * Gets the value of the fundingSourceName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getFundingSourceName() {
-        return fundingSourceName;
-    }
+   /**
+    * Gets the value of the fundingSourceName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getFundingSourceName()
+   {
+      return fundingSourceName;
+   }
 
-    /**
-     * Sets the value of the fundingSourceName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setFundingSourceName(String value) {
-        this.fundingSourceName = value;
-    }
+   /**
+    * Sets the value of the fundingSourceName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setFundingSourceName(String value)
+   {
+      this.fundingSourceName = value;
+   }
 
-    /**
-     * Gets the value of the fundingSourceObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getFundingSourceObjectId() {
-        return fundingSourceObjectId;
-    }
+   /**
+    * Gets the value of the fundingSourceObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getFundingSourceObjectId()
+   {
+      return fundingSourceObjectId;
+   }
 
-    /**
-     * Sets the value of the fundingSourceObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setFundingSourceObjectId(Integer value) {
-        this.fundingSourceObjectId = value;
-    }
+   /**
+    * Sets the value of the fundingSourceObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setFundingSourceObjectId(Integer value)
+   {
+      this.fundingSourceObjectId = value;
+   }
 
-    /**
-     * Gets the value of the isBaseline property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsBaseline() {
-        return isBaseline;
-    }
+   /**
+    * Gets the value of the isBaseline property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsBaseline()
+   {
+      return isBaseline;
+   }
 
-    /**
-     * Sets the value of the isBaseline property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsBaseline(Boolean value) {
-        this.isBaseline = value;
-    }
+   /**
+    * Sets the value of the isBaseline property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsBaseline(Boolean value)
+   {
+      this.isBaseline = value;
+   }
 
-    /**
-     * Gets the value of the isTemplate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsTemplate() {
-        return isTemplate;
-    }
+   /**
+    * Gets the value of the isTemplate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsTemplate()
+   {
+      return isTemplate;
+   }
 
-    /**
-     * Sets the value of the isTemplate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsTemplate(Boolean value) {
-        this.isTemplate = value;
-    }
+   /**
+    * Sets the value of the isTemplate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsTemplate(Boolean value)
+   {
+      this.isTemplate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
+   /**
+    * Gets the value of the lastUpdateDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getLastUpdateDate()
+   {
+      return lastUpdateDate;
+   }
 
-    /**
-     * Sets the value of the lastUpdateDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateDate(LocalDateTime value) {
-        this.lastUpdateDate = value;
-    }
+   /**
+    * Sets the value of the lastUpdateDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateDate(LocalDateTime value)
+   {
+      this.lastUpdateDate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getLastUpdateUser() {
-        return lastUpdateUser;
-    }
+   /**
+    * Gets the value of the lastUpdateUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getLastUpdateUser()
+   {
+      return lastUpdateUser;
+   }
 
-    /**
-     * Sets the value of the lastUpdateUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateUser(String value) {
-        this.lastUpdateUser = value;
-    }
+   /**
+    * Sets the value of the lastUpdateUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateUser(String value)
+   {
+      this.lastUpdateUser = value;
+   }
 
-    /**
-     * Gets the value of the objectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getObjectId() {
-        return objectId;
-    }
+   /**
+    * Gets the value of the objectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getObjectId()
+   {
+      return objectId;
+   }
 
-    /**
-     * Sets the value of the objectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setObjectId(Integer value) {
-        this.objectId = value;
-    }
+   /**
+    * Sets the value of the objectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setObjectId(Integer value)
+   {
+      this.objectId = value;
+   }
 
-    /**
-     * Gets the value of the projectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getProjectId() {
-        return projectId;
-    }
+   /**
+    * Gets the value of the projectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getProjectId()
+   {
+      return projectId;
+   }
 
-    /**
-     * Sets the value of the projectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setProjectId(String value) {
-        this.projectId = value;
-    }
+   /**
+    * Sets the value of the projectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setProjectId(String value)
+   {
+      this.projectId = value;
+   }
 
-    /**
-     * Gets the value of the projectObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getProjectObjectId() {
-        return projectObjectId;
-    }
+   /**
+    * Gets the value of the projectObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getProjectObjectId()
+   {
+      return projectObjectId;
+   }
 
-    /**
-     * Sets the value of the projectObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setProjectObjectId(Integer value) {
-        this.projectObjectId = value;
-    }
+   /**
+    * Sets the value of the projectObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setProjectObjectId(Integer value)
+   {
+      this.projectObjectId = value;
+   }
 
 }

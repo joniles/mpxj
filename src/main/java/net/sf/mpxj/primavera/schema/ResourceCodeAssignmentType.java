@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for ResourceCodeAssignmentType complex type.
@@ -89,345 +87,346 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ResourceCodeAssignmentType", propOrder = {
-    "createDate",
-    "createUser",
-    "lastUpdateDate",
-    "lastUpdateUser",
-    "resourceCodeDescription",
-    "resourceCodeObjectId",
-    "resourceCodeTypeName",
-    "resourceCodeTypeObjectId",
-    "resourceCodeValue",
-    "resourceId",
-    "resourceName",
-    "resourceObjectId"
-})
-public class ResourceCodeAssignmentType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ResourceCodeAssignmentType", propOrder =
+{
+   "createDate",
+   "createUser",
+   "lastUpdateDate",
+   "lastUpdateUser",
+   "resourceCodeDescription",
+   "resourceCodeObjectId",
+   "resourceCodeTypeName",
+   "resourceCodeTypeObjectId",
+   "resourceCodeValue",
+   "resourceId",
+   "resourceName",
+   "resourceObjectId"
+}) public class ResourceCodeAssignmentType
+{
 
-    @XmlElement(name = "CreateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime createDate;
-    @XmlElement(name = "CreateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String createUser;
-    @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime lastUpdateDate;
-    @XmlElement(name = "LastUpdateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String lastUpdateUser;
-    @XmlElement(name = "ResourceCodeDescription")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceCodeDescription;
-    @XmlElement(name = "ResourceCodeObjectId")
-    protected Integer resourceCodeObjectId;
-    @XmlElement(name = "ResourceCodeTypeName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceCodeTypeName;
-    @XmlElement(name = "ResourceCodeTypeObjectId")
-    protected Integer resourceCodeTypeObjectId;
-    @XmlElement(name = "ResourceCodeValue")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceCodeValue;
-    @XmlElement(name = "ResourceId")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceId;
-    @XmlElement(name = "ResourceName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceName;
-    @XmlElement(name = "ResourceObjectId")
-    protected Integer resourceObjectId;
+   @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;
+   @XmlElement(name = "CreateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String createUser;
+   @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime lastUpdateDate;
+   @XmlElement(name = "LastUpdateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String lastUpdateUser;
+   @XmlElement(name = "ResourceCodeDescription") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceCodeDescription;
+   @XmlElement(name = "ResourceCodeObjectId") protected Integer resourceCodeObjectId;
+   @XmlElement(name = "ResourceCodeTypeName") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceCodeTypeName;
+   @XmlElement(name = "ResourceCodeTypeObjectId") protected Integer resourceCodeTypeObjectId;
+   @XmlElement(name = "ResourceCodeValue") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceCodeValue;
+   @XmlElement(name = "ResourceId") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceId;
+   @XmlElement(name = "ResourceName") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceName;
+   @XmlElement(name = "ResourceObjectId") protected Integer resourceObjectId;
 
-    /**
-     * Gets the value of the createDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
+   /**
+    * Gets the value of the createDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getCreateDate()
+   {
+      return createDate;
+   }
 
-    /**
-     * Sets the value of the createDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateDate(LocalDateTime value) {
-        this.createDate = value;
-    }
+   /**
+    * Sets the value of the createDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateDate(LocalDateTime value)
+   {
+      this.createDate = value;
+   }
 
-    /**
-     * Gets the value of the createUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCreateUser() {
-        return createUser;
-    }
+   /**
+    * Gets the value of the createUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCreateUser()
+   {
+      return createUser;
+   }
 
-    /**
-     * Sets the value of the createUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateUser(String value) {
-        this.createUser = value;
-    }
+   /**
+    * Sets the value of the createUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateUser(String value)
+   {
+      this.createUser = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
+   /**
+    * Gets the value of the lastUpdateDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getLastUpdateDate()
+   {
+      return lastUpdateDate;
+   }
 
-    /**
-     * Sets the value of the lastUpdateDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateDate(LocalDateTime value) {
-        this.lastUpdateDate = value;
-    }
+   /**
+    * Sets the value of the lastUpdateDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateDate(LocalDateTime value)
+   {
+      this.lastUpdateDate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getLastUpdateUser() {
-        return lastUpdateUser;
-    }
+   /**
+    * Gets the value of the lastUpdateUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getLastUpdateUser()
+   {
+      return lastUpdateUser;
+   }
 
-    /**
-     * Sets the value of the lastUpdateUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateUser(String value) {
-        this.lastUpdateUser = value;
-    }
+   /**
+    * Sets the value of the lastUpdateUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateUser(String value)
+   {
+      this.lastUpdateUser = value;
+   }
 
-    /**
-     * Gets the value of the resourceCodeDescription property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceCodeDescription() {
-        return resourceCodeDescription;
-    }
+   /**
+    * Gets the value of the resourceCodeDescription property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceCodeDescription()
+   {
+      return resourceCodeDescription;
+   }
 
-    /**
-     * Sets the value of the resourceCodeDescription property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceCodeDescription(String value) {
-        this.resourceCodeDescription = value;
-    }
+   /**
+    * Sets the value of the resourceCodeDescription property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceCodeDescription(String value)
+   {
+      this.resourceCodeDescription = value;
+   }
 
-    /**
-     * Gets the value of the resourceCodeObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getResourceCodeObjectId() {
-        return resourceCodeObjectId;
-    }
+   /**
+    * Gets the value of the resourceCodeObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getResourceCodeObjectId()
+   {
+      return resourceCodeObjectId;
+   }
 
-    /**
-     * Sets the value of the resourceCodeObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setResourceCodeObjectId(Integer value) {
-        this.resourceCodeObjectId = value;
-    }
+   /**
+    * Sets the value of the resourceCodeObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setResourceCodeObjectId(Integer value)
+   {
+      this.resourceCodeObjectId = value;
+   }
 
-    /**
-     * Gets the value of the resourceCodeTypeName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceCodeTypeName() {
-        return resourceCodeTypeName;
-    }
+   /**
+    * Gets the value of the resourceCodeTypeName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceCodeTypeName()
+   {
+      return resourceCodeTypeName;
+   }
 
-    /**
-     * Sets the value of the resourceCodeTypeName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceCodeTypeName(String value) {
-        this.resourceCodeTypeName = value;
-    }
+   /**
+    * Sets the value of the resourceCodeTypeName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceCodeTypeName(String value)
+   {
+      this.resourceCodeTypeName = value;
+   }
 
-    /**
-     * Gets the value of the resourceCodeTypeObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getResourceCodeTypeObjectId() {
-        return resourceCodeTypeObjectId;
-    }
+   /**
+    * Gets the value of the resourceCodeTypeObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getResourceCodeTypeObjectId()
+   {
+      return resourceCodeTypeObjectId;
+   }
 
-    /**
-     * Sets the value of the resourceCodeTypeObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setResourceCodeTypeObjectId(Integer value) {
-        this.resourceCodeTypeObjectId = value;
-    }
+   /**
+    * Sets the value of the resourceCodeTypeObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setResourceCodeTypeObjectId(Integer value)
+   {
+      this.resourceCodeTypeObjectId = value;
+   }
 
-    /**
-     * Gets the value of the resourceCodeValue property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceCodeValue() {
-        return resourceCodeValue;
-    }
+   /**
+    * Gets the value of the resourceCodeValue property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceCodeValue()
+   {
+      return resourceCodeValue;
+   }
 
-    /**
-     * Sets the value of the resourceCodeValue property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceCodeValue(String value) {
-        this.resourceCodeValue = value;
-    }
+   /**
+    * Sets the value of the resourceCodeValue property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceCodeValue(String value)
+   {
+      this.resourceCodeValue = value;
+   }
 
-    /**
-     * Gets the value of the resourceId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceId() {
-        return resourceId;
-    }
+   /**
+    * Gets the value of the resourceId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceId()
+   {
+      return resourceId;
+   }
 
-    /**
-     * Sets the value of the resourceId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceId(String value) {
-        this.resourceId = value;
-    }
+   /**
+    * Sets the value of the resourceId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceId(String value)
+   {
+      this.resourceId = value;
+   }
 
-    /**
-     * Gets the value of the resourceName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceName() {
-        return resourceName;
-    }
+   /**
+    * Gets the value of the resourceName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceName()
+   {
+      return resourceName;
+   }
 
-    /**
-     * Sets the value of the resourceName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceName(String value) {
-        this.resourceName = value;
-    }
+   /**
+    * Sets the value of the resourceName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceName(String value)
+   {
+      this.resourceName = value;
+   }
 
-    /**
-     * Gets the value of the resourceObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getResourceObjectId() {
-        return resourceObjectId;
-    }
+   /**
+    * Gets the value of the resourceObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getResourceObjectId()
+   {
+      return resourceObjectId;
+   }
 
-    /**
-     * Sets the value of the resourceObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setResourceObjectId(Integer value) {
-        this.resourceObjectId = value;
-    }
+   /**
+    * Sets the value of the resourceObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setResourceObjectId(Integer value)
+   {
+      this.resourceObjectId = value;
+   }
 
 }

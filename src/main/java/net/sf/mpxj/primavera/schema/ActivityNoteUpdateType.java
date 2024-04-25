@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for ActivityNoteUpdateType complex type.
@@ -41,175 +39,178 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ActivityNoteUpdateType", propOrder = {
-    "activityNoteObjectId",
-    "activityObjectId",
-    "changeSetObjectId",
-    "date",
-    "note",
-    "requestUserObjectId"
-})
-public class ActivityNoteUpdateType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "ActivityNoteUpdateType", propOrder =
+{
+   "activityNoteObjectId",
+   "activityObjectId",
+   "changeSetObjectId",
+   "date",
+   "note",
+   "requestUserObjectId"
+}) public class ActivityNoteUpdateType
+{
 
-    @XmlElement(name = "ActivityNoteObjectId")
-    protected Integer activityNoteObjectId;
-    @XmlElement(name = "ActivityObjectId")
-    protected Integer activityObjectId;
-    @XmlElement(name = "ChangeSetObjectId")
-    protected Integer changeSetObjectId;
-    @XmlElement(name = "Date", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime date;
-    @XmlElement(name = "Note")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String note;
-    @XmlElement(name = "RequestUserObjectId", nillable = true)
-    protected Integer requestUserObjectId;
+   @XmlElement(name = "ActivityNoteObjectId") protected Integer activityNoteObjectId;
+   @XmlElement(name = "ActivityObjectId") protected Integer activityObjectId;
+   @XmlElement(name = "ChangeSetObjectId") protected Integer changeSetObjectId;
+   @XmlElement(name = "Date", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime date;
+   @XmlElement(name = "Note") @XmlJavaTypeAdapter(Adapter1.class) protected String note;
+   @XmlElement(name = "RequestUserObjectId", nillable = true) protected Integer requestUserObjectId;
 
-    /**
-     * Gets the value of the activityNoteObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getActivityNoteObjectId() {
-        return activityNoteObjectId;
-    }
+   /**
+    * Gets the value of the activityNoteObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getActivityNoteObjectId()
+   {
+      return activityNoteObjectId;
+   }
 
-    /**
-     * Sets the value of the activityNoteObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setActivityNoteObjectId(Integer value) {
-        this.activityNoteObjectId = value;
-    }
+   /**
+    * Sets the value of the activityNoteObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setActivityNoteObjectId(Integer value)
+   {
+      this.activityNoteObjectId = value;
+   }
 
-    /**
-     * Gets the value of the activityObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getActivityObjectId() {
-        return activityObjectId;
-    }
+   /**
+    * Gets the value of the activityObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getActivityObjectId()
+   {
+      return activityObjectId;
+   }
 
-    /**
-     * Sets the value of the activityObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setActivityObjectId(Integer value) {
-        this.activityObjectId = value;
-    }
+   /**
+    * Sets the value of the activityObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setActivityObjectId(Integer value)
+   {
+      this.activityObjectId = value;
+   }
 
-    /**
-     * Gets the value of the changeSetObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getChangeSetObjectId() {
-        return changeSetObjectId;
-    }
+   /**
+    * Gets the value of the changeSetObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getChangeSetObjectId()
+   {
+      return changeSetObjectId;
+   }
 
-    /**
-     * Sets the value of the changeSetObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setChangeSetObjectId(Integer value) {
-        this.changeSetObjectId = value;
-    }
+   /**
+    * Sets the value of the changeSetObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setChangeSetObjectId(Integer value)
+   {
+      this.changeSetObjectId = value;
+   }
 
-    /**
-     * Gets the value of the date property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getDate() {
-        return date;
-    }
+   /**
+    * Gets the value of the date property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getDate()
+   {
+      return date;
+   }
 
-    /**
-     * Sets the value of the date property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setDate(LocalDateTime value) {
-        this.date = value;
-    }
+   /**
+    * Sets the value of the date property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setDate(LocalDateTime value)
+   {
+      this.date = value;
+   }
 
-    /**
-     * Gets the value of the note property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getNote() {
-        return note;
-    }
+   /**
+    * Gets the value of the note property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getNote()
+   {
+      return note;
+   }
 
-    /**
-     * Sets the value of the note property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setNote(String value) {
-        this.note = value;
-    }
+   /**
+    * Sets the value of the note property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setNote(String value)
+   {
+      this.note = value;
+   }
 
-    /**
-     * Gets the value of the requestUserObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getRequestUserObjectId() {
-        return requestUserObjectId;
-    }
+   /**
+    * Gets the value of the requestUserObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getRequestUserObjectId()
+   {
+      return requestUserObjectId;
+   }
 
-    /**
-     * Sets the value of the requestUserObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setRequestUserObjectId(Integer value) {
-        this.requestUserObjectId = value;
-    }
+   /**
+    * Sets the value of the requestUserObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setRequestUserObjectId(Integer value)
+   {
+      this.requestUserObjectId = value;
+   }
 
 }

@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:49 AM BST
 //
 
-
 package net.sf.mpxj.conceptdraw.schema;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -36,43 +34,43 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "hyperlink"
-})
-@XmlRootElement(name = "Hyperlinks")
-public class Hyperlinks {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
+{
+   "hyperlink"
+}) @XmlRootElement(name = "Hyperlinks") public class Hyperlinks
+{
 
-    @XmlElement(name = "Hyperlink")
-    protected List<Object> hyperlink;
+   @XmlElement(name = "Hyperlink") protected List<Object> hyperlink;
 
-    /**
-     * Gets the value of the hyperlink property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the hyperlink property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getHyperlink().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Object }
-     *
-     *
-     */
-    public List<Object> getHyperlink() {
-        if (hyperlink == null) {
-            hyperlink = new ArrayList<>();
-        }
-        return this.hyperlink;
-    }
+   /**
+    * Gets the value of the hyperlink property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the hyperlink property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getHyperlink().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link Object }
+    *
+    *
+    */
+   public List<Object> getHyperlink()
+   {
+      if (hyperlink == null)
+      {
+         hyperlink = new ArrayList<>();
+      }
+      return this.hyperlink;
+   }
 
 }

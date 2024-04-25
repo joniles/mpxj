@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:47 AM BST
 //
 
-
 package net.sf.mpxj.ganttproject.schema;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for tasks complex type.
@@ -38,94 +36,98 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tasks", propOrder = {
-    "taskproperties",
-    "task"
-})
-public class Tasks {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "tasks", propOrder =
+{
+   "taskproperties",
+   "task"
+}) public class Tasks
+{
 
-    @XmlElement(required = true)
-    protected Taskproperties taskproperties;
-    protected List<Task> task;
-    @XmlAttribute(name = "empty-milestones")
-    protected String emptyMilestones;
+   @XmlElement(required = true) protected Taskproperties taskproperties;
+   protected List<Task> task;
+   @XmlAttribute(name = "empty-milestones") protected String emptyMilestones;
 
-    /**
-     * Gets the value of the taskproperties property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Taskproperties }
-     *
-     */
-    public Taskproperties getTaskproperties() {
-        return taskproperties;
-    }
+   /**
+    * Gets the value of the taskproperties property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Taskproperties }
+    *
+    */
+   public Taskproperties getTaskproperties()
+   {
+      return taskproperties;
+   }
 
-    /**
-     * Sets the value of the taskproperties property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Taskproperties }
-     *
-     */
-    public void setTaskproperties(Taskproperties value) {
-        this.taskproperties = value;
-    }
+   /**
+    * Sets the value of the taskproperties property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Taskproperties }
+    *
+    */
+   public void setTaskproperties(Taskproperties value)
+   {
+      this.taskproperties = value;
+   }
 
-    /**
-     * Gets the value of the task property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the task property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTask().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Task }
-     *
-     *
-     */
-    public List<Task> getTask() {
-        if (task == null) {
-            task = new ArrayList<>();
-        }
-        return this.task;
-    }
+   /**
+    * Gets the value of the task property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the task property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getTask().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link Task }
+    *
+    *
+    */
+   public List<Task> getTask()
+   {
+      if (task == null)
+      {
+         task = new ArrayList<>();
+      }
+      return this.task;
+   }
 
-    /**
-     * Gets the value of the emptyMilestones property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getEmptyMilestones() {
-        return emptyMilestones;
-    }
+   /**
+    * Gets the value of the emptyMilestones property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getEmptyMilestones()
+   {
+      return emptyMilestones;
+   }
 
-    /**
-     * Sets the value of the emptyMilestones property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setEmptyMilestones(String value) {
-        this.emptyMilestones = value;
-    }
+   /**
+    * Sets the value of the emptyMilestones property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setEmptyMilestones(String value)
+   {
+      this.emptyMilestones = value;
+   }
 
 }

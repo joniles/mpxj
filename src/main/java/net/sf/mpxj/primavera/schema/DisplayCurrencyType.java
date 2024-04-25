@@ -5,14 +5,12 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for DisplayCurrencyType complex type.
@@ -33,37 +31,38 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DisplayCurrencyType", propOrder = {
-    "currency"
-})
-public class DisplayCurrencyType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "DisplayCurrencyType", propOrder =
+{
+   "currency"
+}) public class DisplayCurrencyType
+{
 
-    @XmlElement(name = "Currency", required = true)
-    protected CurrencyType currency;
+   @XmlElement(name = "Currency", required = true) protected CurrencyType currency;
 
-    /**
-     * Gets the value of the currency property.
-     *
-     * @return
-     *     possible object is
-     *     {@link CurrencyType }
-     *
-     */
-    public CurrencyType getCurrency() {
-        return currency;
-    }
+   /**
+    * Gets the value of the currency property.
+    *
+    * @return
+    *     possible object is
+    *     {@link CurrencyType }
+    *
+    */
+   public CurrencyType getCurrency()
+   {
+      return currency;
+   }
 
-    /**
-     * Sets the value of the currency property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link CurrencyType }
-     *
-     */
-    public void setCurrency(CurrencyType value) {
-        this.currency = value;
-    }
+   /**
+    * Sets the value of the currency property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link CurrencyType }
+    *
+    */
+   public void setCurrency(CurrencyType value)
+   {
+      this.currency = value;
+   }
 
 }

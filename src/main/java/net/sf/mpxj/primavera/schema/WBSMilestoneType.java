@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for WBSMilestoneType complex type.
@@ -87,460 +85,458 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WBSMilestoneType", propOrder = {
-    "createDate",
-    "createUser",
-    "isBaseline",
-    "isCompleted",
-    "isTemplate",
-    "lastUpdateDate",
-    "lastUpdateUser",
-    "name",
-    "objectId",
-    "projectId",
-    "projectObjectId",
-    "sequenceNumber",
-    "wbsCode",
-    "wbsName",
-    "wbsObjectId",
-    "weight"
-})
-public class WBSMilestoneType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "WBSMilestoneType", propOrder =
+{
+   "createDate",
+   "createUser",
+   "isBaseline",
+   "isCompleted",
+   "isTemplate",
+   "lastUpdateDate",
+   "lastUpdateUser",
+   "name",
+   "objectId",
+   "projectId",
+   "projectObjectId",
+   "sequenceNumber",
+   "wbsCode",
+   "wbsName",
+   "wbsObjectId",
+   "weight"
+}) public class WBSMilestoneType
+{
 
-    @XmlElement(name = "CreateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime createDate;
-    @XmlElement(name = "CreateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String createUser;
-    @XmlElement(name = "IsBaseline", type = String.class)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isBaseline;
-    @XmlElement(name = "IsCompleted", type = String.class)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isCompleted;
-    @XmlElement(name = "IsTemplate", type = String.class)
-    @XmlJavaTypeAdapter(Adapter2 .class)
-    @XmlSchemaType(name = "boolean")
-    protected Boolean isTemplate;
-    @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime lastUpdateDate;
-    @XmlElement(name = "LastUpdateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String lastUpdateUser;
-    @XmlElement(name = "Name")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String name;
-    @XmlElement(name = "ObjectId")
-    protected Integer objectId;
-    @XmlElement(name = "ProjectId")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String projectId;
-    @XmlElement(name = "ProjectObjectId")
-    protected Integer projectObjectId;
-    @XmlElement(name = "SequenceNumber")
-    protected Integer sequenceNumber;
-    @XmlElement(name = "WBSCode")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String wbsCode;
-    @XmlElement(name = "WBSName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String wbsName;
-    @XmlElement(name = "WBSObjectId", nillable = true)
-    protected Integer wbsObjectId;
-    @XmlElement(name = "Weight", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double weight;
+   @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;
+   @XmlElement(name = "CreateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String createUser;
+   @XmlElement(name = "IsBaseline", type = String.class) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isBaseline;
+   @XmlElement(name = "IsCompleted", type = String.class) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isCompleted;
+   @XmlElement(name = "IsTemplate", type = String.class) @XmlJavaTypeAdapter(Adapter2.class) @XmlSchemaType(name = "boolean") protected Boolean isTemplate;
+   @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime lastUpdateDate;
+   @XmlElement(name = "LastUpdateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String lastUpdateUser;
+   @XmlElement(name = "Name") @XmlJavaTypeAdapter(Adapter1.class) protected String name;
+   @XmlElement(name = "ObjectId") protected Integer objectId;
+   @XmlElement(name = "ProjectId") @XmlJavaTypeAdapter(Adapter1.class) protected String projectId;
+   @XmlElement(name = "ProjectObjectId") protected Integer projectObjectId;
+   @XmlElement(name = "SequenceNumber") protected Integer sequenceNumber;
+   @XmlElement(name = "WBSCode") @XmlJavaTypeAdapter(Adapter1.class) protected String wbsCode;
+   @XmlElement(name = "WBSName") @XmlJavaTypeAdapter(Adapter1.class) protected String wbsName;
+   @XmlElement(name = "WBSObjectId", nillable = true) protected Integer wbsObjectId;
+   @XmlElement(name = "Weight", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double weight;
 
-    /**
-     * Gets the value of the createDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
+   /**
+    * Gets the value of the createDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getCreateDate()
+   {
+      return createDate;
+   }
 
-    /**
-     * Sets the value of the createDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateDate(LocalDateTime value) {
-        this.createDate = value;
-    }
+   /**
+    * Sets the value of the createDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateDate(LocalDateTime value)
+   {
+      this.createDate = value;
+   }
 
-    /**
-     * Gets the value of the createUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCreateUser() {
-        return createUser;
-    }
+   /**
+    * Gets the value of the createUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCreateUser()
+   {
+      return createUser;
+   }
 
-    /**
-     * Sets the value of the createUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateUser(String value) {
-        this.createUser = value;
-    }
+   /**
+    * Sets the value of the createUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateUser(String value)
+   {
+      this.createUser = value;
+   }
 
-    /**
-     * Gets the value of the isBaseline property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsBaseline() {
-        return isBaseline;
-    }
+   /**
+    * Gets the value of the isBaseline property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsBaseline()
+   {
+      return isBaseline;
+   }
 
-    /**
-     * Sets the value of the isBaseline property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsBaseline(Boolean value) {
-        this.isBaseline = value;
-    }
+   /**
+    * Sets the value of the isBaseline property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsBaseline(Boolean value)
+   {
+      this.isBaseline = value;
+   }
 
-    /**
-     * Gets the value of the isCompleted property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsCompleted() {
-        return isCompleted;
-    }
+   /**
+    * Gets the value of the isCompleted property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsCompleted()
+   {
+      return isCompleted;
+   }
 
-    /**
-     * Sets the value of the isCompleted property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsCompleted(Boolean value) {
-        this.isCompleted = value;
-    }
+   /**
+    * Sets the value of the isCompleted property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsCompleted(Boolean value)
+   {
+      this.isCompleted = value;
+   }
 
-    /**
-     * Gets the value of the isTemplate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Boolean isIsTemplate() {
-        return isTemplate;
-    }
+   /**
+    * Gets the value of the isTemplate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Boolean isIsTemplate()
+   {
+      return isTemplate;
+   }
 
-    /**
-     * Sets the value of the isTemplate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIsTemplate(Boolean value) {
-        this.isTemplate = value;
-    }
+   /**
+    * Sets the value of the isTemplate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIsTemplate(Boolean value)
+   {
+      this.isTemplate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
+   /**
+    * Gets the value of the lastUpdateDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getLastUpdateDate()
+   {
+      return lastUpdateDate;
+   }
 
-    /**
-     * Sets the value of the lastUpdateDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateDate(LocalDateTime value) {
-        this.lastUpdateDate = value;
-    }
+   /**
+    * Sets the value of the lastUpdateDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateDate(LocalDateTime value)
+   {
+      this.lastUpdateDate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getLastUpdateUser() {
-        return lastUpdateUser;
-    }
+   /**
+    * Gets the value of the lastUpdateUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getLastUpdateUser()
+   {
+      return lastUpdateUser;
+   }
 
-    /**
-     * Sets the value of the lastUpdateUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateUser(String value) {
-        this.lastUpdateUser = value;
-    }
+   /**
+    * Sets the value of the lastUpdateUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateUser(String value)
+   {
+      this.lastUpdateUser = value;
+   }
 
-    /**
-     * Gets the value of the name property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getName() {
-        return name;
-    }
+   /**
+    * Gets the value of the name property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getName()
+   {
+      return name;
+   }
 
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+   /**
+    * Sets the value of the name property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setName(String value)
+   {
+      this.name = value;
+   }
 
-    /**
-     * Gets the value of the objectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getObjectId() {
-        return objectId;
-    }
+   /**
+    * Gets the value of the objectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getObjectId()
+   {
+      return objectId;
+   }
 
-    /**
-     * Sets the value of the objectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setObjectId(Integer value) {
-        this.objectId = value;
-    }
+   /**
+    * Sets the value of the objectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setObjectId(Integer value)
+   {
+      this.objectId = value;
+   }
 
-    /**
-     * Gets the value of the projectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getProjectId() {
-        return projectId;
-    }
+   /**
+    * Gets the value of the projectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getProjectId()
+   {
+      return projectId;
+   }
 
-    /**
-     * Sets the value of the projectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setProjectId(String value) {
-        this.projectId = value;
-    }
+   /**
+    * Sets the value of the projectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setProjectId(String value)
+   {
+      this.projectId = value;
+   }
 
-    /**
-     * Gets the value of the projectObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getProjectObjectId() {
-        return projectObjectId;
-    }
+   /**
+    * Gets the value of the projectObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getProjectObjectId()
+   {
+      return projectObjectId;
+   }
 
-    /**
-     * Sets the value of the projectObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setProjectObjectId(Integer value) {
-        this.projectObjectId = value;
-    }
+   /**
+    * Sets the value of the projectObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setProjectObjectId(Integer value)
+   {
+      this.projectObjectId = value;
+   }
 
-    /**
-     * Gets the value of the sequenceNumber property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
+   /**
+    * Gets the value of the sequenceNumber property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getSequenceNumber()
+   {
+      return sequenceNumber;
+   }
 
-    /**
-     * Sets the value of the sequenceNumber property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setSequenceNumber(Integer value) {
-        this.sequenceNumber = value;
-    }
+   /**
+    * Sets the value of the sequenceNumber property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setSequenceNumber(Integer value)
+   {
+      this.sequenceNumber = value;
+   }
 
-    /**
-     * Gets the value of the wbsCode property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getWBSCode() {
-        return wbsCode;
-    }
+   /**
+    * Gets the value of the wbsCode property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getWBSCode()
+   {
+      return wbsCode;
+   }
 
-    /**
-     * Sets the value of the wbsCode property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setWBSCode(String value) {
-        this.wbsCode = value;
-    }
+   /**
+    * Sets the value of the wbsCode property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setWBSCode(String value)
+   {
+      this.wbsCode = value;
+   }
 
-    /**
-     * Gets the value of the wbsName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getWBSName() {
-        return wbsName;
-    }
+   /**
+    * Gets the value of the wbsName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getWBSName()
+   {
+      return wbsName;
+   }
 
-    /**
-     * Sets the value of the wbsName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setWBSName(String value) {
-        this.wbsName = value;
-    }
+   /**
+    * Sets the value of the wbsName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setWBSName(String value)
+   {
+      this.wbsName = value;
+   }
 
-    /**
-     * Gets the value of the wbsObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getWBSObjectId() {
-        return wbsObjectId;
-    }
+   /**
+    * Gets the value of the wbsObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getWBSObjectId()
+   {
+      return wbsObjectId;
+   }
 
-    /**
-     * Sets the value of the wbsObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setWBSObjectId(Integer value) {
-        this.wbsObjectId = value;
-    }
+   /**
+    * Sets the value of the wbsObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setWBSObjectId(Integer value)
+   {
+      this.wbsObjectId = value;
+   }
 
-    /**
-     * Gets the value of the weight property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getWeight() {
-        return weight;
-    }
+   /**
+    * Gets the value of the weight property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getWeight()
+   {
+      return weight;
+   }
 
-    /**
-     * Sets the value of the weight property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setWeight(Double value) {
-        this.weight = value;
-    }
+   /**
+    * Sets the value of the weight property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setWeight(Double value)
+   {
+      this.weight = value;
+   }
 
 }

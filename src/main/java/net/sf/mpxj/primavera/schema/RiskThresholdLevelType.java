@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for RiskThresholdLevelType complex type.
@@ -120,486 +118,486 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RiskThresholdLevelType", propOrder = {
-    "code",
-    "color",
-    "costRange",
-    "createDate",
-    "createUser",
-    "lastUpdateDate",
-    "lastUpdateUser",
-    "level",
-    "name",
-    "objectId",
-    "probabilityRange",
-    "range",
-    "riskThresholdName",
-    "riskThresholdObjectId",
-    "scheduleRange",
-    "thresholdType",
-    "toleranceRange"
-})
-public class RiskThresholdLevelType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "RiskThresholdLevelType", propOrder =
+{
+   "code",
+   "color",
+   "costRange",
+   "createDate",
+   "createUser",
+   "lastUpdateDate",
+   "lastUpdateUser",
+   "level",
+   "name",
+   "objectId",
+   "probabilityRange",
+   "range",
+   "riskThresholdName",
+   "riskThresholdObjectId",
+   "scheduleRange",
+   "thresholdType",
+   "toleranceRange"
+}) public class RiskThresholdLevelType
+{
 
-    @XmlElement(name = "Code")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String code;
-    @XmlElement(name = "Color", nillable = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String color;
-    @XmlElement(name = "CostRange", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double costRange;
-    @XmlElement(name = "CreateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime createDate;
-    @XmlElement(name = "CreateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String createUser;
-    @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime lastUpdateDate;
-    @XmlElement(name = "LastUpdateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String lastUpdateUser;
-    @XmlElement(name = "Level", nillable = true)
-    protected Integer level;
-    @XmlElement(name = "Name")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String name;
-    @XmlElement(name = "ObjectId")
-    protected Integer objectId;
-    @XmlElement(name = "ProbabilityRange", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    protected Double probabilityRange;
-    @XmlElement(name = "Range")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String range;
-    @XmlElement(name = "RiskThresholdName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String riskThresholdName;
-    @XmlElement(name = "RiskThresholdObjectId")
-    protected Integer riskThresholdObjectId;
-    @XmlElement(name = "ScheduleRange", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double scheduleRange;
-    @XmlElement(name = "ThresholdType")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String thresholdType;
-    @XmlElement(name = "ToleranceRange", nillable = true)
-    protected Integer toleranceRange;
+   @XmlElement(name = "Code") @XmlJavaTypeAdapter(Adapter1.class) protected String code;
+   @XmlElement(name = "Color", nillable = true) @XmlJavaTypeAdapter(Adapter1.class) protected String color;
+   @XmlElement(name = "CostRange", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double costRange;
+   @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;
+   @XmlElement(name = "CreateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String createUser;
+   @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime lastUpdateDate;
+   @XmlElement(name = "LastUpdateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String lastUpdateUser;
+   @XmlElement(name = "Level", nillable = true) protected Integer level;
+   @XmlElement(name = "Name") @XmlJavaTypeAdapter(Adapter1.class) protected String name;
+   @XmlElement(name = "ObjectId") protected Integer objectId;
+   @XmlElement(name = "ProbabilityRange", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) protected Double probabilityRange;
+   @XmlElement(name = "Range") @XmlJavaTypeAdapter(Adapter1.class) protected String range;
+   @XmlElement(name = "RiskThresholdName") @XmlJavaTypeAdapter(Adapter1.class) protected String riskThresholdName;
+   @XmlElement(name = "RiskThresholdObjectId") protected Integer riskThresholdObjectId;
+   @XmlElement(name = "ScheduleRange", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double scheduleRange;
+   @XmlElement(name = "ThresholdType") @XmlJavaTypeAdapter(Adapter1.class) protected String thresholdType;
+   @XmlElement(name = "ToleranceRange", nillable = true) protected Integer toleranceRange;
 
-    /**
-     * Gets the value of the code property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCode() {
-        return code;
-    }
+   /**
+    * Gets the value of the code property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCode()
+   {
+      return code;
+   }
 
-    /**
-     * Sets the value of the code property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCode(String value) {
-        this.code = value;
-    }
+   /**
+    * Sets the value of the code property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCode(String value)
+   {
+      this.code = value;
+   }
 
-    /**
-     * Gets the value of the color property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getColor() {
-        return color;
-    }
+   /**
+    * Gets the value of the color property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getColor()
+   {
+      return color;
+   }
 
-    /**
-     * Sets the value of the color property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setColor(String value) {
-        this.color = value;
-    }
+   /**
+    * Sets the value of the color property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setColor(String value)
+   {
+      this.color = value;
+   }
 
-    /**
-     * Gets the value of the costRange property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getCostRange() {
-        return costRange;
-    }
+   /**
+    * Gets the value of the costRange property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getCostRange()
+   {
+      return costRange;
+   }
 
-    /**
-     * Sets the value of the costRange property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCostRange(Double value) {
-        this.costRange = value;
-    }
+   /**
+    * Sets the value of the costRange property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCostRange(Double value)
+   {
+      this.costRange = value;
+   }
 
-    /**
-     * Gets the value of the createDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
+   /**
+    * Gets the value of the createDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getCreateDate()
+   {
+      return createDate;
+   }
 
-    /**
-     * Sets the value of the createDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateDate(LocalDateTime value) {
-        this.createDate = value;
-    }
+   /**
+    * Sets the value of the createDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateDate(LocalDateTime value)
+   {
+      this.createDate = value;
+   }
 
-    /**
-     * Gets the value of the createUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCreateUser() {
-        return createUser;
-    }
+   /**
+    * Gets the value of the createUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCreateUser()
+   {
+      return createUser;
+   }
 
-    /**
-     * Sets the value of the createUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateUser(String value) {
-        this.createUser = value;
-    }
+   /**
+    * Sets the value of the createUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateUser(String value)
+   {
+      this.createUser = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
+   /**
+    * Gets the value of the lastUpdateDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getLastUpdateDate()
+   {
+      return lastUpdateDate;
+   }
 
-    /**
-     * Sets the value of the lastUpdateDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateDate(LocalDateTime value) {
-        this.lastUpdateDate = value;
-    }
+   /**
+    * Sets the value of the lastUpdateDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateDate(LocalDateTime value)
+   {
+      this.lastUpdateDate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getLastUpdateUser() {
-        return lastUpdateUser;
-    }
+   /**
+    * Gets the value of the lastUpdateUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getLastUpdateUser()
+   {
+      return lastUpdateUser;
+   }
 
-    /**
-     * Sets the value of the lastUpdateUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateUser(String value) {
-        this.lastUpdateUser = value;
-    }
+   /**
+    * Sets the value of the lastUpdateUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateUser(String value)
+   {
+      this.lastUpdateUser = value;
+   }
 
-    /**
-     * Gets the value of the level property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getLevel() {
-        return level;
-    }
+   /**
+    * Gets the value of the level property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getLevel()
+   {
+      return level;
+   }
 
-    /**
-     * Sets the value of the level property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setLevel(Integer value) {
-        this.level = value;
-    }
+   /**
+    * Sets the value of the level property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setLevel(Integer value)
+   {
+      this.level = value;
+   }
 
-    /**
-     * Gets the value of the name property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getName() {
-        return name;
-    }
+   /**
+    * Gets the value of the name property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getName()
+   {
+      return name;
+   }
 
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+   /**
+    * Sets the value of the name property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setName(String value)
+   {
+      this.name = value;
+   }
 
-    /**
-     * Gets the value of the objectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getObjectId() {
-        return objectId;
-    }
+   /**
+    * Gets the value of the objectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getObjectId()
+   {
+      return objectId;
+   }
 
-    /**
-     * Sets the value of the objectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setObjectId(Integer value) {
-        this.objectId = value;
-    }
+   /**
+    * Sets the value of the objectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setObjectId(Integer value)
+   {
+      this.objectId = value;
+   }
 
-    /**
-     * Gets the value of the probabilityRange property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getProbabilityRange() {
-        return probabilityRange;
-    }
+   /**
+    * Gets the value of the probabilityRange property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getProbabilityRange()
+   {
+      return probabilityRange;
+   }
 
-    /**
-     * Sets the value of the probabilityRange property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setProbabilityRange(Double value) {
-        this.probabilityRange = value;
-    }
+   /**
+    * Sets the value of the probabilityRange property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setProbabilityRange(Double value)
+   {
+      this.probabilityRange = value;
+   }
 
-    /**
-     * Gets the value of the range property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getRange() {
-        return range;
-    }
+   /**
+    * Gets the value of the range property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getRange()
+   {
+      return range;
+   }
 
-    /**
-     * Sets the value of the range property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRange(String value) {
-        this.range = value;
-    }
+   /**
+    * Sets the value of the range property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRange(String value)
+   {
+      this.range = value;
+   }
 
-    /**
-     * Gets the value of the riskThresholdName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getRiskThresholdName() {
-        return riskThresholdName;
-    }
+   /**
+    * Gets the value of the riskThresholdName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getRiskThresholdName()
+   {
+      return riskThresholdName;
+   }
 
-    /**
-     * Sets the value of the riskThresholdName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setRiskThresholdName(String value) {
-        this.riskThresholdName = value;
-    }
+   /**
+    * Sets the value of the riskThresholdName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setRiskThresholdName(String value)
+   {
+      this.riskThresholdName = value;
+   }
 
-    /**
-     * Gets the value of the riskThresholdObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getRiskThresholdObjectId() {
-        return riskThresholdObjectId;
-    }
+   /**
+    * Gets the value of the riskThresholdObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getRiskThresholdObjectId()
+   {
+      return riskThresholdObjectId;
+   }
 
-    /**
-     * Sets the value of the riskThresholdObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setRiskThresholdObjectId(Integer value) {
-        this.riskThresholdObjectId = value;
-    }
+   /**
+    * Sets the value of the riskThresholdObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setRiskThresholdObjectId(Integer value)
+   {
+      this.riskThresholdObjectId = value;
+   }
 
-    /**
-     * Gets the value of the scheduleRange property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getScheduleRange() {
-        return scheduleRange;
-    }
+   /**
+    * Gets the value of the scheduleRange property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getScheduleRange()
+   {
+      return scheduleRange;
+   }
 
-    /**
-     * Sets the value of the scheduleRange property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setScheduleRange(Double value) {
-        this.scheduleRange = value;
-    }
+   /**
+    * Sets the value of the scheduleRange property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setScheduleRange(Double value)
+   {
+      this.scheduleRange = value;
+   }
 
-    /**
-     * Gets the value of the thresholdType property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getThresholdType() {
-        return thresholdType;
-    }
+   /**
+    * Gets the value of the thresholdType property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getThresholdType()
+   {
+      return thresholdType;
+   }
 
-    /**
-     * Sets the value of the thresholdType property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setThresholdType(String value) {
-        this.thresholdType = value;
-    }
+   /**
+    * Sets the value of the thresholdType property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setThresholdType(String value)
+   {
+      this.thresholdType = value;
+   }
 
-    /**
-     * Gets the value of the toleranceRange property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getToleranceRange() {
-        return toleranceRange;
-    }
+   /**
+    * Gets the value of the toleranceRange property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getToleranceRange()
+   {
+      return toleranceRange;
+   }
 
-    /**
-     * Sets the value of the toleranceRange property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setToleranceRange(Integer value) {
-        this.toleranceRange = value;
-    }
+   /**
+    * Sets the value of the toleranceRange property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setToleranceRange(Integer value)
+   {
+      this.toleranceRange = value;
+   }
 
 }

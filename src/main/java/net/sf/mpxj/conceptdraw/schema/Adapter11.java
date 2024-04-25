@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:49 AM BST
 //
 
-
 package net.sf.mpxj.conceptdraw.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.TaskType;
 
-public class Adapter11
-    extends XmlAdapter<String, TaskType>
+public class Adapter11 extends XmlAdapter<String, TaskType>
 {
 
+   @Override public TaskType unmarshal(String value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseTaskType(value));
+   }
 
-    @Override
-   public TaskType unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseTaskType(value));
-    }
-
-    @Override
-   public String marshal(TaskType value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printTaskType(value));
-    }
+   @Override public String marshal(TaskType value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.printTaskType(value));
+   }
 
 }

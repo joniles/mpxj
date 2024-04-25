@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:47 AM BST
 //
 
-
 package net.sf.mpxj.ganttproject.schema;
 
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for view complex type.
@@ -37,93 +35,97 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "view", propOrder = {
-    "field"
-})
-public class View {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "view", propOrder =
+{
+   "field"
+}) public class View
+{
 
-    protected List<Field> field;
-    @XmlAttribute(name = "zooming-state")
-    protected String zoomingState;
-    @XmlAttribute(name = "id")
-    protected String id;
+   protected List<Field> field;
+   @XmlAttribute(name = "zooming-state") protected String zoomingState;
+   @XmlAttribute(name = "id") protected String id;
 
-    /**
-     * Gets the value of the field property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the field property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getField().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Field }
-     *
-     *
-     */
-    public List<Field> getField() {
-        if (field == null) {
-            field = new ArrayList<>();
-        }
-        return this.field;
-    }
+   /**
+    * Gets the value of the field property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the field property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getField().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link Field }
+    *
+    *
+    */
+   public List<Field> getField()
+   {
+      if (field == null)
+      {
+         field = new ArrayList<>();
+      }
+      return this.field;
+   }
 
-    /**
-     * Gets the value of the zoomingState property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getZoomingState() {
-        return zoomingState;
-    }
+   /**
+    * Gets the value of the zoomingState property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getZoomingState()
+   {
+      return zoomingState;
+   }
 
-    /**
-     * Sets the value of the zoomingState property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setZoomingState(String value) {
-        this.zoomingState = value;
-    }
+   /**
+    * Sets the value of the zoomingState property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setZoomingState(String value)
+   {
+      this.zoomingState = value;
+   }
 
-    /**
-     * Gets the value of the id property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getId() {
-        return id;
-    }
+   /**
+    * Gets the value of the id property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getId()
+   {
+      return id;
+   }
 
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
+   /**
+    * Sets the value of the id property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setId(String value)
+   {
+      this.id = value;
+   }
 
 }

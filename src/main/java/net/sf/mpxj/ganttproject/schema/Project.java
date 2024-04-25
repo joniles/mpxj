@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:47 AM BST
 //
 
-
 package net.sf.mpxj.ganttproject.schema;
 
 import java.time.LocalDateTime;
@@ -19,7 +18,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -57,499 +55,515 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "description",
-    "view",
-    "calendars",
-    "tasks",
-    "resources",
-    "allocations",
-    "vacations",
-    "previous",
-    "roles"
-})
-@XmlRootElement(name = "project")
-public class Project {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
+{
+   "description",
+   "view",
+   "calendars",
+   "tasks",
+   "resources",
+   "allocations",
+   "vacations",
+   "previous",
+   "roles"
+}) @XmlRootElement(name = "project") public class Project
+{
 
-    @XmlElement(required = true)
-    protected String description;
-    protected List<View> view;
-    @XmlElement(required = true)
-    protected Calendars calendars;
-    @XmlElement(required = true)
-    protected Tasks tasks;
-    @XmlElement(required = true)
-    protected Resources resources;
-    @XmlElement(required = true)
-    protected Allocations allocations;
-    @XmlElement(required = true)
-    protected Vacations vacations;
-    @XmlElement(required = true)
-    protected String previous;
-    protected List<Roles> roles;
-    @XmlAttribute(name = "name")
-    protected String name;
-    @XmlAttribute(name = "company")
-    protected String company;
-    @XmlAttribute(name = "webLink")
-    @XmlSchemaType(name = "anyURI")
-    protected String webLink;
-    @XmlAttribute(name = "view-date")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    @XmlSchemaType(name = "date")
-    protected LocalDateTime viewDate;
-    @XmlAttribute(name = "view-index")
-    protected Integer viewIndex;
-    @XmlAttribute(name = "gantt-divider-location")
-    protected Integer ganttDividerLocation;
-    @XmlAttribute(name = "resource-divider-location")
-    protected Integer resourceDividerLocation;
-    @XmlAttribute(name = "version")
-    protected String version;
-    @XmlAttribute(name = "locale")
-    protected String locale;
+   @XmlElement(required = true) protected String description;
+   protected List<View> view;
+   @XmlElement(required = true) protected Calendars calendars;
+   @XmlElement(required = true) protected Tasks tasks;
+   @XmlElement(required = true) protected Resources resources;
+   @XmlElement(required = true) protected Allocations allocations;
+   @XmlElement(required = true) protected Vacations vacations;
+   @XmlElement(required = true) protected String previous;
+   protected List<Roles> roles;
+   @XmlAttribute(name = "name") protected String name;
+   @XmlAttribute(name = "company") protected String company;
+   @XmlAttribute(name = "webLink") @XmlSchemaType(name = "anyURI") protected String webLink;
+   @XmlAttribute(name = "view-date") @XmlJavaTypeAdapter(Adapter1.class) @XmlSchemaType(name = "date") protected LocalDateTime viewDate;
+   @XmlAttribute(name = "view-index") protected Integer viewIndex;
+   @XmlAttribute(name = "gantt-divider-location") protected Integer ganttDividerLocation;
+   @XmlAttribute(name = "resource-divider-location") protected Integer resourceDividerLocation;
+   @XmlAttribute(name = "version") protected String version;
+   @XmlAttribute(name = "locale") protected String locale;
 
-    /**
-     * Gets the value of the description property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getDescription() {
-        return description;
-    }
+   /**
+    * Gets the value of the description property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getDescription()
+   {
+      return description;
+   }
 
-    /**
-     * Sets the value of the description property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setDescription(String value) {
-        this.description = value;
-    }
+   /**
+    * Sets the value of the description property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setDescription(String value)
+   {
+      this.description = value;
+   }
 
-    /**
-     * Gets the value of the view property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the view property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getView().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link View }
-     *
-     *
-     */
-    public List<View> getView() {
-        if (view == null) {
-            view = new ArrayList<>();
-        }
-        return this.view;
-    }
+   /**
+    * Gets the value of the view property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the view property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getView().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link View }
+    *
+    *
+    */
+   public List<View> getView()
+   {
+      if (view == null)
+      {
+         view = new ArrayList<>();
+      }
+      return this.view;
+   }
 
-    /**
-     * Gets the value of the calendars property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Calendars }
-     *
-     */
-    public Calendars getCalendars() {
-        return calendars;
-    }
+   /**
+    * Gets the value of the calendars property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Calendars }
+    *
+    */
+   public Calendars getCalendars()
+   {
+      return calendars;
+   }
 
-    /**
-     * Sets the value of the calendars property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Calendars }
-     *
-     */
-    public void setCalendars(Calendars value) {
-        this.calendars = value;
-    }
+   /**
+    * Sets the value of the calendars property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Calendars }
+    *
+    */
+   public void setCalendars(Calendars value)
+   {
+      this.calendars = value;
+   }
 
-    /**
-     * Gets the value of the tasks property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Tasks }
-     *
-     */
-    public Tasks getTasks() {
-        return tasks;
-    }
+   /**
+    * Gets the value of the tasks property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Tasks }
+    *
+    */
+   public Tasks getTasks()
+   {
+      return tasks;
+   }
 
-    /**
-     * Sets the value of the tasks property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Tasks }
-     *
-     */
-    public void setTasks(Tasks value) {
-        this.tasks = value;
-    }
+   /**
+    * Sets the value of the tasks property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Tasks }
+    *
+    */
+   public void setTasks(Tasks value)
+   {
+      this.tasks = value;
+   }
 
-    /**
-     * Gets the value of the resources property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Resources }
-     *
-     */
-    public Resources getResources() {
-        return resources;
-    }
+   /**
+    * Gets the value of the resources property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Resources }
+    *
+    */
+   public Resources getResources()
+   {
+      return resources;
+   }
 
-    /**
-     * Sets the value of the resources property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Resources }
-     *
-     */
-    public void setResources(Resources value) {
-        this.resources = value;
-    }
+   /**
+    * Sets the value of the resources property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Resources }
+    *
+    */
+   public void setResources(Resources value)
+   {
+      this.resources = value;
+   }
 
-    /**
-     * Gets the value of the allocations property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Allocations }
-     *
-     */
-    public Allocations getAllocations() {
-        return allocations;
-    }
+   /**
+    * Gets the value of the allocations property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Allocations }
+    *
+    */
+   public Allocations getAllocations()
+   {
+      return allocations;
+   }
 
-    /**
-     * Sets the value of the allocations property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Allocations }
-     *
-     */
-    public void setAllocations(Allocations value) {
-        this.allocations = value;
-    }
+   /**
+    * Sets the value of the allocations property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Allocations }
+    *
+    */
+   public void setAllocations(Allocations value)
+   {
+      this.allocations = value;
+   }
 
-    /**
-     * Gets the value of the vacations property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Vacations }
-     *
-     */
-    public Vacations getVacations() {
-        return vacations;
-    }
+   /**
+    * Gets the value of the vacations property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Vacations }
+    *
+    */
+   public Vacations getVacations()
+   {
+      return vacations;
+   }
 
-    /**
-     * Sets the value of the vacations property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Vacations }
-     *
-     */
-    public void setVacations(Vacations value) {
-        this.vacations = value;
-    }
+   /**
+    * Sets the value of the vacations property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Vacations }
+    *
+    */
+   public void setVacations(Vacations value)
+   {
+      this.vacations = value;
+   }
 
-    /**
-     * Gets the value of the previous property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getPrevious() {
-        return previous;
-    }
+   /**
+    * Gets the value of the previous property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getPrevious()
+   {
+      return previous;
+   }
 
-    /**
-     * Sets the value of the previous property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPrevious(String value) {
-        this.previous = value;
-    }
+   /**
+    * Sets the value of the previous property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPrevious(String value)
+   {
+      this.previous = value;
+   }
 
-    /**
-     * Gets the value of the roles property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the roles property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRoles().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Roles }
-     *
-     *
-     */
-    public List<Roles> getRoles() {
-        if (roles == null) {
-            roles = new ArrayList<>();
-        }
-        return this.roles;
-    }
+   /**
+    * Gets the value of the roles property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the roles property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRoles().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link Roles }
+    *
+    *
+    */
+   public List<Roles> getRoles()
+   {
+      if (roles == null)
+      {
+         roles = new ArrayList<>();
+      }
+      return this.roles;
+   }
 
-    /**
-     * Gets the value of the name property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getName() {
-        return name;
-    }
+   /**
+    * Gets the value of the name property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getName()
+   {
+      return name;
+   }
 
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+   /**
+    * Sets the value of the name property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setName(String value)
+   {
+      this.name = value;
+   }
 
-    /**
-     * Gets the value of the company property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCompany() {
-        return company;
-    }
+   /**
+    * Gets the value of the company property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCompany()
+   {
+      return company;
+   }
 
-    /**
-     * Sets the value of the company property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCompany(String value) {
-        this.company = value;
-    }
+   /**
+    * Sets the value of the company property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCompany(String value)
+   {
+      this.company = value;
+   }
 
-    /**
-     * Gets the value of the webLink property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getWebLink() {
-        return webLink;
-    }
+   /**
+    * Gets the value of the webLink property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getWebLink()
+   {
+      return webLink;
+   }
 
-    /**
-     * Sets the value of the webLink property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setWebLink(String value) {
-        this.webLink = value;
-    }
+   /**
+    * Sets the value of the webLink property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setWebLink(String value)
+   {
+      this.webLink = value;
+   }
 
-    /**
-     * Gets the value of the viewDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getViewDate() {
-        return viewDate;
-    }
+   /**
+    * Gets the value of the viewDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getViewDate()
+   {
+      return viewDate;
+   }
 
-    /**
-     * Sets the value of the viewDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setViewDate(LocalDateTime value) {
-        this.viewDate = value;
-    }
+   /**
+    * Sets the value of the viewDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setViewDate(LocalDateTime value)
+   {
+      this.viewDate = value;
+   }
 
-    /**
-     * Gets the value of the viewIndex property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getViewIndex() {
-        return viewIndex;
-    }
+   /**
+    * Gets the value of the viewIndex property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getViewIndex()
+   {
+      return viewIndex;
+   }
 
-    /**
-     * Sets the value of the viewIndex property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setViewIndex(Integer value) {
-        this.viewIndex = value;
-    }
+   /**
+    * Sets the value of the viewIndex property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setViewIndex(Integer value)
+   {
+      this.viewIndex = value;
+   }
 
-    /**
-     * Gets the value of the ganttDividerLocation property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getGanttDividerLocation() {
-        return ganttDividerLocation;
-    }
+   /**
+    * Gets the value of the ganttDividerLocation property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getGanttDividerLocation()
+   {
+      return ganttDividerLocation;
+   }
 
-    /**
-     * Sets the value of the ganttDividerLocation property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setGanttDividerLocation(Integer value) {
-        this.ganttDividerLocation = value;
-    }
+   /**
+    * Sets the value of the ganttDividerLocation property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setGanttDividerLocation(Integer value)
+   {
+      this.ganttDividerLocation = value;
+   }
 
-    /**
-     * Gets the value of the resourceDividerLocation property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getResourceDividerLocation() {
-        return resourceDividerLocation;
-    }
+   /**
+    * Gets the value of the resourceDividerLocation property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getResourceDividerLocation()
+   {
+      return resourceDividerLocation;
+   }
 
-    /**
-     * Sets the value of the resourceDividerLocation property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setResourceDividerLocation(Integer value) {
-        this.resourceDividerLocation = value;
-    }
+   /**
+    * Sets the value of the resourceDividerLocation property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setResourceDividerLocation(Integer value)
+   {
+      this.resourceDividerLocation = value;
+   }
 
-    /**
-     * Gets the value of the version property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getVersion() {
-        return version;
-    }
+   /**
+    * Gets the value of the version property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getVersion()
+   {
+      return version;
+   }
 
-    /**
-     * Sets the value of the version property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setVersion(String value) {
-        this.version = value;
-    }
+   /**
+    * Sets the value of the version property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setVersion(String value)
+   {
+      this.version = value;
+   }
 
-    /**
-     * Gets the value of the locale property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getLocale() {
-        return locale;
-    }
+   /**
+    * Gets the value of the locale property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getLocale()
+   {
+      return locale;
+   }
 
-    /**
-     * Sets the value of the locale property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLocale(String value) {
-        this.locale = value;
-    }
+   /**
+    * Sets the value of the locale property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLocale(String value)
+   {
+      this.locale = value;
+   }
 
 }

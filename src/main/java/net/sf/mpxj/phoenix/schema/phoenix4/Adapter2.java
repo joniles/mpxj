@@ -5,24 +5,21 @@
 // Generated on: 2024.04.25 at 10:03:44 AM BST
 //
 
-
 package net.sf.mpxj.phoenix.schema.phoenix4;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter2
-    extends XmlAdapter<String, Integer>
+public class Adapter2 extends XmlAdapter<String, Integer>
 {
 
+   @Override public Integer unmarshal(String value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.parseInteger(value));
+   }
 
-    @Override
-   public Integer unmarshal(String value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.parseInteger(value));
-    }
-
-    @Override
-   public String marshal(Integer value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.printInteger(value));
-    }
+   @Override public String marshal(Integer value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.printInteger(value));
+   }
 
 }

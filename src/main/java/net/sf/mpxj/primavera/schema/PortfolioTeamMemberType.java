@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -13,7 +12,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for PortfolioTeamMemberType complex type.
@@ -48,85 +46,86 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PortfolioTeamMemberType", propOrder = {
-    "id",
-    "name",
-    "objectId"
-})
-public class PortfolioTeamMemberType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "PortfolioTeamMemberType", propOrder =
+{
+   "id",
+   "name",
+   "objectId"
+}) public class PortfolioTeamMemberType
+{
 
-    @XmlElement(name = "Id", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String id;
-    @XmlElement(name = "Name", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String name;
-    @XmlElement(name = "ObjectId")
-    protected int objectId;
+   @XmlElement(name = "Id", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String id;
+   @XmlElement(name = "Name", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String name;
+   @XmlElement(name = "ObjectId") protected int objectId;
 
-    /**
-     * Gets the value of the id property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getId() {
-        return id;
-    }
+   /**
+    * Gets the value of the id property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getId()
+   {
+      return id;
+   }
 
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
+   /**
+    * Sets the value of the id property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setId(String value)
+   {
+      this.id = value;
+   }
 
-    /**
-     * Gets the value of the name property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getName() {
-        return name;
-    }
+   /**
+    * Gets the value of the name property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getName()
+   {
+      return name;
+   }
 
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+   /**
+    * Sets the value of the name property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setName(String value)
+   {
+      this.name = value;
+   }
 
-    /**
-     * Gets the value of the objectId property.
-     *
-     */
-    public int getObjectId() {
-        return objectId;
-    }
+   /**
+    * Gets the value of the objectId property.
+    *
+    */
+   public int getObjectId()
+   {
+      return objectId;
+   }
 
-    /**
-     * Sets the value of the objectId property.
-     *
-     */
-    public void setObjectId(int value) {
-        this.objectId = value;
-    }
+   /**
+    * Sets the value of the objectId property.
+    *
+    */
+   public void setObjectId(int value)
+   {
+      this.objectId = value;
+   }
 
 }

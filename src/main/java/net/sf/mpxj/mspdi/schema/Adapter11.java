@@ -5,24 +5,21 @@
 // Generated on: 2024.04.25 at 10:03:37 AM BST
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter11
-    extends XmlAdapter<String, Number>
+public class Adapter11 extends XmlAdapter<String, Number>
 {
 
+   @Override public Number unmarshal(String value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parsePercentComplete(value));
+   }
 
-    @Override
-   public Number unmarshal(String value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.parsePercentComplete(value));
-    }
-
-    @Override
-   public String marshal(Number value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.printPercentComplete(value));
-    }
+   @Override public String marshal(Number value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printPercentComplete(value));
+   }
 
 }

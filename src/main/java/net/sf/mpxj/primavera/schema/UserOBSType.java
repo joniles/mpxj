@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for UserOBSType complex type.
@@ -75,289 +73,290 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "UserOBSType", propOrder = {
-    "createDate",
-    "createUser",
-    "lastUpdateDate",
-    "lastUpdateUser",
-    "obsName",
-    "obsObjectId",
-    "profileName",
-    "projectProfileObjectId",
-    "userName",
-    "userObjectId"
-})
-public class UserOBSType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "UserOBSType", propOrder =
+{
+   "createDate",
+   "createUser",
+   "lastUpdateDate",
+   "lastUpdateUser",
+   "obsName",
+   "obsObjectId",
+   "profileName",
+   "projectProfileObjectId",
+   "userName",
+   "userObjectId"
+}) public class UserOBSType
+{
 
-    @XmlElement(name = "CreateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime createDate;
-    @XmlElement(name = "CreateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String createUser;
-    @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime lastUpdateDate;
-    @XmlElement(name = "LastUpdateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String lastUpdateUser;
-    @XmlElement(name = "OBSName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String obsName;
-    @XmlElement(name = "OBSObjectId")
-    protected Integer obsObjectId;
-    @XmlElement(name = "ProfileName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String profileName;
-    @XmlElement(name = "ProjectProfileObjectId")
-    protected Integer projectProfileObjectId;
-    @XmlElement(name = "UserName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String userName;
-    @XmlElement(name = "UserObjectId")
-    protected Integer userObjectId;
+   @XmlElement(name = "CreateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime createDate;
+   @XmlElement(name = "CreateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String createUser;
+   @XmlElement(name = "LastUpdateDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime lastUpdateDate;
+   @XmlElement(name = "LastUpdateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String lastUpdateUser;
+   @XmlElement(name = "OBSName") @XmlJavaTypeAdapter(Adapter1.class) protected String obsName;
+   @XmlElement(name = "OBSObjectId") protected Integer obsObjectId;
+   @XmlElement(name = "ProfileName") @XmlJavaTypeAdapter(Adapter1.class) protected String profileName;
+   @XmlElement(name = "ProjectProfileObjectId") protected Integer projectProfileObjectId;
+   @XmlElement(name = "UserName") @XmlJavaTypeAdapter(Adapter1.class) protected String userName;
+   @XmlElement(name = "UserObjectId") protected Integer userObjectId;
 
-    /**
-     * Gets the value of the createDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
+   /**
+    * Gets the value of the createDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getCreateDate()
+   {
+      return createDate;
+   }
 
-    /**
-     * Sets the value of the createDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateDate(LocalDateTime value) {
-        this.createDate = value;
-    }
+   /**
+    * Sets the value of the createDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateDate(LocalDateTime value)
+   {
+      this.createDate = value;
+   }
 
-    /**
-     * Gets the value of the createUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCreateUser() {
-        return createUser;
-    }
+   /**
+    * Gets the value of the createUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCreateUser()
+   {
+      return createUser;
+   }
 
-    /**
-     * Sets the value of the createUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCreateUser(String value) {
-        this.createUser = value;
-    }
+   /**
+    * Sets the value of the createUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCreateUser(String value)
+   {
+      this.createUser = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
+   /**
+    * Gets the value of the lastUpdateDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getLastUpdateDate()
+   {
+      return lastUpdateDate;
+   }
 
-    /**
-     * Sets the value of the lastUpdateDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateDate(LocalDateTime value) {
-        this.lastUpdateDate = value;
-    }
+   /**
+    * Sets the value of the lastUpdateDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateDate(LocalDateTime value)
+   {
+      this.lastUpdateDate = value;
+   }
 
-    /**
-     * Gets the value of the lastUpdateUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getLastUpdateUser() {
-        return lastUpdateUser;
-    }
+   /**
+    * Gets the value of the lastUpdateUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getLastUpdateUser()
+   {
+      return lastUpdateUser;
+   }
 
-    /**
-     * Sets the value of the lastUpdateUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLastUpdateUser(String value) {
-        this.lastUpdateUser = value;
-    }
+   /**
+    * Sets the value of the lastUpdateUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLastUpdateUser(String value)
+   {
+      this.lastUpdateUser = value;
+   }
 
-    /**
-     * Gets the value of the obsName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getOBSName() {
-        return obsName;
-    }
+   /**
+    * Gets the value of the obsName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getOBSName()
+   {
+      return obsName;
+   }
 
-    /**
-     * Sets the value of the obsName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setOBSName(String value) {
-        this.obsName = value;
-    }
+   /**
+    * Sets the value of the obsName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setOBSName(String value)
+   {
+      this.obsName = value;
+   }
 
-    /**
-     * Gets the value of the obsObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getOBSObjectId() {
-        return obsObjectId;
-    }
+   /**
+    * Gets the value of the obsObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getOBSObjectId()
+   {
+      return obsObjectId;
+   }
 
-    /**
-     * Sets the value of the obsObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setOBSObjectId(Integer value) {
-        this.obsObjectId = value;
-    }
+   /**
+    * Sets the value of the obsObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setOBSObjectId(Integer value)
+   {
+      this.obsObjectId = value;
+   }
 
-    /**
-     * Gets the value of the profileName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getProfileName() {
-        return profileName;
-    }
+   /**
+    * Gets the value of the profileName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getProfileName()
+   {
+      return profileName;
+   }
 
-    /**
-     * Sets the value of the profileName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setProfileName(String value) {
-        this.profileName = value;
-    }
+   /**
+    * Sets the value of the profileName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setProfileName(String value)
+   {
+      this.profileName = value;
+   }
 
-    /**
-     * Gets the value of the projectProfileObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getProjectProfileObjectId() {
-        return projectProfileObjectId;
-    }
+   /**
+    * Gets the value of the projectProfileObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getProjectProfileObjectId()
+   {
+      return projectProfileObjectId;
+   }
 
-    /**
-     * Sets the value of the projectProfileObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setProjectProfileObjectId(Integer value) {
-        this.projectProfileObjectId = value;
-    }
+   /**
+    * Sets the value of the projectProfileObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setProjectProfileObjectId(Integer value)
+   {
+      this.projectProfileObjectId = value;
+   }
 
-    /**
-     * Gets the value of the userName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getUserName() {
-        return userName;
-    }
+   /**
+    * Gets the value of the userName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getUserName()
+   {
+      return userName;
+   }
 
-    /**
-     * Sets the value of the userName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setUserName(String value) {
-        this.userName = value;
-    }
+   /**
+    * Sets the value of the userName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setUserName(String value)
+   {
+      this.userName = value;
+   }
 
-    /**
-     * Gets the value of the userObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getUserObjectId() {
-        return userObjectId;
-    }
+   /**
+    * Gets the value of the userObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getUserObjectId()
+   {
+      return userObjectId;
+   }
 
-    /**
-     * Sets the value of the userObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setUserObjectId(Integer value) {
-        this.userObjectId = value;
-    }
+   /**
+    * Sets the value of the userObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setUserObjectId(Integer value)
+   {
+      this.userObjectId = value;
+   }
 
 }

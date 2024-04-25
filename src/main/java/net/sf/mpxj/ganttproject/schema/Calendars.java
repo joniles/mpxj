@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:47 AM BST
 //
 
-
 package net.sf.mpxj.ganttproject.schema;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for calendars complex type.
@@ -38,94 +36,98 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "calendars", propOrder = {
-    "dayTypes",
-    "date"
-})
-public class Calendars {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "calendars", propOrder =
+{
+   "dayTypes",
+   "date"
+}) public class Calendars
+{
 
-    @XmlElement(name = "day-types", required = true)
-    protected DayTypes dayTypes;
-    protected List<Date> date;
-    @XmlAttribute(name = "base-id")
-    protected String baseId;
+   @XmlElement(name = "day-types", required = true) protected DayTypes dayTypes;
+   protected List<Date> date;
+   @XmlAttribute(name = "base-id") protected String baseId;
 
-    /**
-     * Gets the value of the dayTypes property.
-     *
-     * @return
-     *     possible object is
-     *     {@link DayTypes }
-     *
-     */
-    public DayTypes getDayTypes() {
-        return dayTypes;
-    }
+   /**
+    * Gets the value of the dayTypes property.
+    *
+    * @return
+    *     possible object is
+    *     {@link DayTypes }
+    *
+    */
+   public DayTypes getDayTypes()
+   {
+      return dayTypes;
+   }
 
-    /**
-     * Sets the value of the dayTypes property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link DayTypes }
-     *
-     */
-    public void setDayTypes(DayTypes value) {
-        this.dayTypes = value;
-    }
+   /**
+    * Sets the value of the dayTypes property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link DayTypes }
+    *
+    */
+   public void setDayTypes(DayTypes value)
+   {
+      this.dayTypes = value;
+   }
 
-    /**
-     * Gets the value of the date property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the date property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getDate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Date }
-     *
-     *
-     */
-    public List<Date> getDate() {
-        if (date == null) {
-            date = new ArrayList<>();
-        }
-        return this.date;
-    }
+   /**
+    * Gets the value of the date property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the date property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getDate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link Date }
+    *
+    *
+    */
+   public List<Date> getDate()
+   {
+      if (date == null)
+      {
+         date = new ArrayList<>();
+      }
+      return this.date;
+   }
 
-    /**
-     * Gets the value of the baseId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getBaseId() {
-        return baseId;
-    }
+   /**
+    * Gets the value of the baseId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getBaseId()
+   {
+      return baseId;
+   }
 
-    /**
-     * Sets the value of the baseId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setBaseId(String value) {
-        this.baseId = value;
-    }
+   /**
+    * Sets the value of the baseId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setBaseId(String value)
+   {
+      this.baseId = value;
+   }
 
 }

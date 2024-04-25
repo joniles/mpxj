@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:49 AM BST
 //
 
-
 package net.sf.mpxj.conceptdraw.schema;
 
 import java.time.LocalTime;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter3
-    extends XmlAdapter<String, LocalTime>
+public class Adapter3 extends XmlAdapter<String, LocalTime>
 {
 
+   @Override public LocalTime unmarshal(String value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseTime(value));
+   }
 
-    @Override
-   public LocalTime unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseTime(value));
-    }
-
-    @Override
-   public String marshal(LocalTime value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printTime(value));
-    }
+   @Override public String marshal(LocalTime value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.printTime(value));
+   }
 
 }

@@ -5,24 +5,21 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter3
-    extends XmlAdapter<String, Double>
+public class Adapter3 extends XmlAdapter<String, Double>
 {
 
+   @Override public Double unmarshal(String value)
+   {
+      return (net.sf.mpxj.primavera.DatatypeConverter.parseDouble(value));
+   }
 
-    @Override
-   public Double unmarshal(String value) {
-        return (net.sf.mpxj.primavera.DatatypeConverter.parseDouble(value));
-    }
-
-    @Override
-   public String marshal(Double value) {
-        return (net.sf.mpxj.primavera.DatatypeConverter.printDouble(value));
-    }
+   @Override public String marshal(Double value)
+   {
+      return (net.sf.mpxj.primavera.DatatypeConverter.printDouble(value));
+   }
 
 }

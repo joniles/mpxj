@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for AutovueAttrType complex type.
@@ -72,206 +70,206 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AutovueAttrType", propOrder = {
-    "avCreateUser",
-    "avPropertyExternalDocKey",
-    "avPropertyId",
-    "avPropertyLastUpdated",
-    "avPropertyName",
-    "avPropertyType",
-    "documentExternalKey"
-})
-public class AutovueAttrType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "AutovueAttrType", propOrder =
+{
+   "avCreateUser",
+   "avPropertyExternalDocKey",
+   "avPropertyId",
+   "avPropertyLastUpdated",
+   "avPropertyName",
+   "avPropertyType",
+   "documentExternalKey"
+}) public class AutovueAttrType
+{
 
-    @XmlElement(name = "AVCreateUser")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String avCreateUser;
-    @XmlElement(name = "AVPropertyExternalDocKey")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String avPropertyExternalDocKey;
-    @XmlElement(name = "AVPropertyId", nillable = true)
-    protected Integer avPropertyId;
-    @XmlElement(name = "AVPropertyLastUpdated", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime avPropertyLastUpdated;
-    @XmlElement(name = "AVPropertyName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String avPropertyName;
-    @XmlElement(name = "AVPropertyType")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String avPropertyType;
-    @XmlElement(name = "DocumentExternalKey")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String documentExternalKey;
+   @XmlElement(name = "AVCreateUser") @XmlJavaTypeAdapter(Adapter1.class) protected String avCreateUser;
+   @XmlElement(name = "AVPropertyExternalDocKey") @XmlJavaTypeAdapter(Adapter1.class) protected String avPropertyExternalDocKey;
+   @XmlElement(name = "AVPropertyId", nillable = true) protected Integer avPropertyId;
+   @XmlElement(name = "AVPropertyLastUpdated", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime avPropertyLastUpdated;
+   @XmlElement(name = "AVPropertyName") @XmlJavaTypeAdapter(Adapter1.class) protected String avPropertyName;
+   @XmlElement(name = "AVPropertyType") @XmlJavaTypeAdapter(Adapter1.class) protected String avPropertyType;
+   @XmlElement(name = "DocumentExternalKey") @XmlJavaTypeAdapter(Adapter1.class) protected String documentExternalKey;
 
-    /**
-     * Gets the value of the avCreateUser property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getAVCreateUser() {
-        return avCreateUser;
-    }
+   /**
+    * Gets the value of the avCreateUser property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getAVCreateUser()
+   {
+      return avCreateUser;
+   }
 
-    /**
-     * Sets the value of the avCreateUser property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAVCreateUser(String value) {
-        this.avCreateUser = value;
-    }
+   /**
+    * Sets the value of the avCreateUser property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAVCreateUser(String value)
+   {
+      this.avCreateUser = value;
+   }
 
-    /**
-     * Gets the value of the avPropertyExternalDocKey property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getAVPropertyExternalDocKey() {
-        return avPropertyExternalDocKey;
-    }
+   /**
+    * Gets the value of the avPropertyExternalDocKey property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getAVPropertyExternalDocKey()
+   {
+      return avPropertyExternalDocKey;
+   }
 
-    /**
-     * Sets the value of the avPropertyExternalDocKey property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAVPropertyExternalDocKey(String value) {
-        this.avPropertyExternalDocKey = value;
-    }
+   /**
+    * Sets the value of the avPropertyExternalDocKey property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAVPropertyExternalDocKey(String value)
+   {
+      this.avPropertyExternalDocKey = value;
+   }
 
-    /**
-     * Gets the value of the avPropertyId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getAVPropertyId() {
-        return avPropertyId;
-    }
+   /**
+    * Gets the value of the avPropertyId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getAVPropertyId()
+   {
+      return avPropertyId;
+   }
 
-    /**
-     * Sets the value of the avPropertyId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setAVPropertyId(Integer value) {
-        this.avPropertyId = value;
-    }
+   /**
+    * Sets the value of the avPropertyId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setAVPropertyId(Integer value)
+   {
+      this.avPropertyId = value;
+   }
 
-    /**
-     * Gets the value of the avPropertyLastUpdated property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getAVPropertyLastUpdated() {
-        return avPropertyLastUpdated;
-    }
+   /**
+    * Gets the value of the avPropertyLastUpdated property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getAVPropertyLastUpdated()
+   {
+      return avPropertyLastUpdated;
+   }
 
-    /**
-     * Sets the value of the avPropertyLastUpdated property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAVPropertyLastUpdated(LocalDateTime value) {
-        this.avPropertyLastUpdated = value;
-    }
+   /**
+    * Sets the value of the avPropertyLastUpdated property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAVPropertyLastUpdated(LocalDateTime value)
+   {
+      this.avPropertyLastUpdated = value;
+   }
 
-    /**
-     * Gets the value of the avPropertyName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getAVPropertyName() {
-        return avPropertyName;
-    }
+   /**
+    * Gets the value of the avPropertyName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getAVPropertyName()
+   {
+      return avPropertyName;
+   }
 
-    /**
-     * Sets the value of the avPropertyName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAVPropertyName(String value) {
-        this.avPropertyName = value;
-    }
+   /**
+    * Sets the value of the avPropertyName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAVPropertyName(String value)
+   {
+      this.avPropertyName = value;
+   }
 
-    /**
-     * Gets the value of the avPropertyType property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getAVPropertyType() {
-        return avPropertyType;
-    }
+   /**
+    * Gets the value of the avPropertyType property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getAVPropertyType()
+   {
+      return avPropertyType;
+   }
 
-    /**
-     * Sets the value of the avPropertyType property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAVPropertyType(String value) {
-        this.avPropertyType = value;
-    }
+   /**
+    * Sets the value of the avPropertyType property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAVPropertyType(String value)
+   {
+      this.avPropertyType = value;
+   }
 
-    /**
-     * Gets the value of the documentExternalKey property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getDocumentExternalKey() {
-        return documentExternalKey;
-    }
+   /**
+    * Gets the value of the documentExternalKey property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getDocumentExternalKey()
+   {
+      return documentExternalKey;
+   }
 
-    /**
-     * Sets the value of the documentExternalKey property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setDocumentExternalKey(String value) {
-        this.documentExternalKey = value;
-    }
+   /**
+    * Sets the value of the documentExternalKey property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setDocumentExternalKey(String value)
+   {
+      this.documentExternalKey = value;
+   }
 
 }

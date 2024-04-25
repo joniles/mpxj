@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:47 AM BST
 //
 
-
 package net.sf.mpxj.ganttproject.schema;
 
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for resources complex type.
@@ -36,73 +34,76 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "resources", propOrder = {
-    "customPropertyDefinition",
-    "resource"
-})
-public class Resources {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "resources", propOrder =
+{
+   "customPropertyDefinition",
+   "resource"
+}) public class Resources
+{
 
-    @XmlElement(name = "custom-property-definition")
-    protected List<CustomPropertyDefinition> customPropertyDefinition;
-    protected List<Resource> resource;
+   @XmlElement(name = "custom-property-definition") protected List<CustomPropertyDefinition> customPropertyDefinition;
+   protected List<Resource> resource;
 
-    /**
-     * Gets the value of the customPropertyDefinition property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the customPropertyDefinition property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCustomPropertyDefinition().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CustomPropertyDefinition }
-     *
-     *
-     */
-    public List<CustomPropertyDefinition> getCustomPropertyDefinition() {
-        if (customPropertyDefinition == null) {
-            customPropertyDefinition = new ArrayList<>();
-        }
-        return this.customPropertyDefinition;
-    }
+   /**
+    * Gets the value of the customPropertyDefinition property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the customPropertyDefinition property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getCustomPropertyDefinition().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link CustomPropertyDefinition }
+    *
+    *
+    */
+   public List<CustomPropertyDefinition> getCustomPropertyDefinition()
+   {
+      if (customPropertyDefinition == null)
+      {
+         customPropertyDefinition = new ArrayList<>();
+      }
+      return this.customPropertyDefinition;
+   }
 
-    /**
-     * Gets the value of the resource property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resource property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResource().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Resource }
-     *
-     *
-     */
-    public List<Resource> getResource() {
-        if (resource == null) {
-            resource = new ArrayList<>();
-        }
-        return this.resource;
-    }
+   /**
+    * Gets the value of the resource property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resource property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResource().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link Resource }
+    *
+    *
+    */
+   public List<Resource> getResource()
+   {
+      if (resource == null)
+      {
+         resource = new ArrayList<>();
+      }
+      return this.resource;
+   }
 
 }

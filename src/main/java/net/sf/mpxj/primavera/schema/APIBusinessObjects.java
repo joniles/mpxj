@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -176,4477 +174,4615 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "checkuid",
-    "projectList",
-    "displayCurrency",
-    "projectResourceCategory",
-    "unitOfMeasure",
-    "costAccount",
-    "currency",
-    "udfType",
-    "location",
-    "udfCode",
-    "expenseCategory",
-    "notebookTopic",
-    "wbsCategory",
-    "fundingSource",
-    "thresholdParameter",
-    "obs",
-    "shiftPeriod",
-    "shift",
-    "calendar",
-    "projectCodeType",
-    "projectCode",
-    "resourceCodeType",
-    "resourceCode",
-    "roleCodeType",
-    "roleCode",
-    "resourceCurve",
-    "role",
-    "roleRate",
-    "roleRateNew",
-    "roleLimit",
-    "resource",
-    "resourceRate",
-    "activityCodeType",
-    "activityCode",
-    "resourceAssignmentCodeType",
-    "resourceAssignmentCode",
-    "financialPeriod",
-    "resourceRole",
-    "eps",
-    "documentCategory",
-    "documentStatusCode",
-    "riskCategory",
-    "riskThreshold",
-    "riskThresholdLevel",
-    "riskMatrix",
-    "riskMatrixScore",
-    "riskMatrixThreshold",
-    "activity",
-    "activityCodeAssignment",
-    "activityCodeUpdate",
-    "activityComment",
-    "activityExpense",
-    "activityFilter",
-    "activityNote",
-    "activityNoteUpdate",
-    "activityOwner",
-    "activityPeriodActual",
-    "activityRisk",
-    "activityStep",
-    "activityStepCreate",
-    "activityStepDelete",
-    "activityStepTemplate",
-    "activityStepTemplateItem",
-    "activityStepUpdate",
-    "activityUpdate",
-    "alert",
-    "autovueAttr",
-    "baselineType",
-    "cbs",
-    "cbsDurationSummary",
-    "changeSet",
-    "document",
-    "epsBudgetChangeLog",
-    "epsFunding",
-    "epsNote",
-    "epsSpendingPlan",
-    "financialPeriodTemplate",
-    "gatewayDeployment",
-    "globalPreferences",
-    "globalProfile",
-    "globalReplace",
-    "importOptionsTemplate",
-    "issueHistory",
-    "jobService",
-    "leanTask",
-    "mspTemplate",
-    "overheadCode",
-    "profile",
-    "project",
-    "baselineProject",
-    "projectBudgetChangeLog",
-    "projectCodeAssignment",
-    "projectDeployment",
-    "projectDocument",
-    "projectFunding",
-    "projectIssue",
-    "projectNote",
-    "projectPortfolio",
-    "projectProfile",
-    "projectResource",
-    "projectResourceQuantity",
-    "projectSpendingPlan",
-    "projectThreshold",
-    "relationship",
-    "resourceAccess",
-    "resourceAssignment",
-    "resourceAssignmentCodeAssignment",
-    "resourceAssignmentCreate",
-    "resourceAssignmentPeriodActual",
-    "resourceAssignmentUpdate",
-    "resourceCodeAssignment",
-    "resourceHour",
-    "resourceLocation",
-    "resourceTeam",
-    "risk",
-    "riskImpact",
-    "riskResponseAction",
-    "riskResponseActionImpact",
-    "riskResponsePlan",
-    "roleCodeAssignment",
-    "roleTeam",
-    "scheduleCheckOption",
-    "scheduleOptions",
-    "stepUserDefinedValueUpdate",
-    "timesheet",
-    "timesheetAudit",
-    "timesheetDelegate",
-    "timesheetPeriod",
-    "udfValue",
-    "updateBaselineOption",
-    "user",
-    "userConsent",
-    "userDefinedValueUpdate",
-    "userFieldTitle",
-    "userInterfaceView",
-    "userLicense",
-    "userOBS",
-    "wbs",
-    "wbsMilestone",
-    "wbsReviewers"
-})
-@XmlRootElement(name = "APIBusinessObjects")
-public class APIBusinessObjects {
-
-    @XmlElement(name = "CHECKUID")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String checkuid;
-    @XmlElement(name = "ProjectList")
-    protected ProjectListType projectList;
-    @XmlElement(name = "DisplayCurrency")
-    protected DisplayCurrencyType displayCurrency;
-    @XmlElement(name = "ProjectResourceCategory")
-    protected List<ProjectResourceCategoryType> projectResourceCategory;
-    @XmlElement(name = "UnitOfMeasure")
-    protected List<UnitOfMeasureType> unitOfMeasure;
-    @XmlElement(name = "CostAccount")
-    protected List<CostAccountType> costAccount;
-    @XmlElement(name = "Currency")
-    protected List<CurrencyType> currency;
-    @XmlElement(name = "UDFType")
-    protected List<UDFTypeType> udfType;
-    @XmlElement(name = "Location")
-    protected List<LocationType> location;
-    @XmlElement(name = "UDFCode")
-    protected List<UDFCodeType> udfCode;
-    @XmlElement(name = "ExpenseCategory")
-    protected List<ExpenseCategoryType> expenseCategory;
-    @XmlElement(name = "NotebookTopic")
-    protected List<NotebookTopicType> notebookTopic;
-    @XmlElement(name = "WBSCategory")
-    protected List<WBSCategoryType> wbsCategory;
-    @XmlElement(name = "FundingSource")
-    protected List<FundingSourceType> fundingSource;
-    @XmlElement(name = "ThresholdParameter")
-    protected List<ThresholdParameterType> thresholdParameter;
-    @XmlElement(name = "OBS")
-    protected List<OBSType> obs;
-    @XmlElement(name = "ShiftPeriod")
-    protected List<ShiftPeriodType> shiftPeriod;
-    @XmlElement(name = "Shift")
-    protected List<ShiftType> shift;
-    @XmlElement(name = "Calendar")
-    protected List<CalendarType> calendar;
-    @XmlElement(name = "ProjectCodeType")
-    protected List<ProjectCodeTypeType> projectCodeType;
-    @XmlElement(name = "ProjectCode")
-    protected List<ProjectCodeType> projectCode;
-    @XmlElement(name = "ResourceCodeType")
-    protected List<ResourceCodeTypeType> resourceCodeType;
-    @XmlElement(name = "ResourceCode")
-    protected List<ResourceCodeType> resourceCode;
-    @XmlElement(name = "RoleCodeType")
-    protected List<RoleCodeTypeType> roleCodeType;
-    @XmlElement(name = "RoleCode")
-    protected List<RoleCodeType> roleCode;
-    @XmlElement(name = "ResourceCurve")
-    protected List<ResourceCurveType> resourceCurve;
-    @XmlElement(name = "Role")
-    protected List<RoleType> role;
-    @XmlElement(name = "RoleRate")
-    protected List<RoleRateType> roleRate;
-    @XmlElement(name = "RoleRateNew")
-    protected List<RoleRateType> roleRateNew;
-    @XmlElement(name = "RoleLimit")
-    protected List<RoleLimitType> roleLimit;
-    @XmlElement(name = "Resource")
-    protected List<ResourceType> resource;
-    @XmlElement(name = "ResourceRate")
-    protected List<ResourceRateType> resourceRate;
-    @XmlElement(name = "ActivityCodeType")
-    protected List<ActivityCodeTypeType> activityCodeType;
-    @XmlElement(name = "ActivityCode")
-    protected List<ActivityCodeType> activityCode;
-    @XmlElement(name = "ResourceAssignmentCodeType")
-    protected List<ResourceAssignmentCodeTypeType> resourceAssignmentCodeType;
-    @XmlElement(name = "ResourceAssignmentCode")
-    protected List<ResourceAssignmentCodeType> resourceAssignmentCode;
-    @XmlElement(name = "FinancialPeriod")
-    protected List<FinancialPeriodType> financialPeriod;
-    @XmlElement(name = "ResourceRole")
-    protected List<ResourceRoleType> resourceRole;
-    @XmlElement(name = "EPS")
-    protected List<EPSType> eps;
-    @XmlElement(name = "DocumentCategory")
-    protected List<DocumentCategoryType> documentCategory;
-    @XmlElement(name = "DocumentStatusCode")
-    protected List<DocumentStatusCodeType> documentStatusCode;
-    @XmlElement(name = "RiskCategory")
-    protected List<RiskCategoryType> riskCategory;
-    @XmlElement(name = "RiskThreshold")
-    protected List<RiskThresholdType> riskThreshold;
-    @XmlElement(name = "RiskThresholdLevel")
-    protected List<RiskThresholdLevelType> riskThresholdLevel;
-    @XmlElement(name = "RiskMatrix")
-    protected List<RiskMatrixType> riskMatrix;
-    @XmlElement(name = "RiskMatrixScore")
-    protected List<RiskMatrixScoreType> riskMatrixScore;
-    @XmlElement(name = "RiskMatrixThreshold")
-    protected List<RiskMatrixThresholdType> riskMatrixThreshold;
-    @XmlElement(name = "Activity")
-    protected List<ActivityType> activity;
-    @XmlElement(name = "ActivityCodeAssignment")
-    protected List<ActivityCodeAssignmentType> activityCodeAssignment;
-    @XmlElement(name = "ActivityCodeUpdate")
-    protected List<ActivityCodeUpdateType> activityCodeUpdate;
-    @XmlElement(name = "ActivityComment")
-    protected List<ActivityCommentType> activityComment;
-    @XmlElement(name = "ActivityExpense")
-    protected List<ActivityExpenseType> activityExpense;
-    @XmlElement(name = "ActivityFilter")
-    protected List<ActivityFilterType> activityFilter;
-    @XmlElement(name = "ActivityNote")
-    protected List<ActivityNoteType> activityNote;
-    @XmlElement(name = "ActivityNoteUpdate")
-    protected List<ActivityNoteUpdateType> activityNoteUpdate;
-    @XmlElement(name = "ActivityOwner")
-    protected List<ActivityOwnerType> activityOwner;
-    @XmlElement(name = "ActivityPeriodActual")
-    protected List<ActivityPeriodActualType> activityPeriodActual;
-    @XmlElement(name = "ActivityRisk")
-    protected List<ActivityRiskType> activityRisk;
-    @XmlElement(name = "ActivityStep")
-    protected List<ActivityStepType> activityStep;
-    @XmlElement(name = "ActivityStepCreate")
-    protected List<ActivityStepCreateType> activityStepCreate;
-    @XmlElement(name = "ActivityStepDelete")
-    protected List<ActivityStepDeleteType> activityStepDelete;
-    @XmlElement(name = "ActivityStepTemplate")
-    protected List<ActivityStepTemplateType> activityStepTemplate;
-    @XmlElement(name = "ActivityStepTemplateItem")
-    protected List<ActivityStepTemplateItemType> activityStepTemplateItem;
-    @XmlElement(name = "ActivityStepUpdate")
-    protected List<ActivityStepUpdateType> activityStepUpdate;
-    @XmlElement(name = "ActivityUpdate")
-    protected List<ActivityUpdateType> activityUpdate;
-    @XmlElement(name = "Alert")
-    protected List<AlertType> alert;
-    @XmlElement(name = "AutovueAttr")
-    protected List<AutovueAttrType> autovueAttr;
-    @XmlElement(name = "BaselineType")
-    protected List<BaselineTypeType> baselineType;
-    @XmlElement(name = "CBS")
-    protected List<CBSType> cbs;
-    @XmlElement(name = "CBSDurationSummary")
-    protected List<CBSDurationSummaryType> cbsDurationSummary;
-    @XmlElement(name = "ChangeSet")
-    protected List<ChangeSetType> changeSet;
-    @XmlElement(name = "Document")
-    protected List<DocumentType> document;
-    @XmlElement(name = "EPSBudgetChangeLog")
-    protected List<EPSBudgetChangeLogType> epsBudgetChangeLog;
-    @XmlElement(name = "EPSFunding")
-    protected List<EPSFundingType> epsFunding;
-    @XmlElement(name = "EPSNote")
-    protected List<EPSNoteType> epsNote;
-    @XmlElement(name = "EPSSpendingPlan")
-    protected List<EPSSpendingPlanType> epsSpendingPlan;
-    @XmlElement(name = "FinancialPeriodTemplate")
-    protected List<FinancialPeriodTemplateType> financialPeriodTemplate;
-    @XmlElement(name = "GatewayDeployment")
-    protected List<GatewayDeploymentType> gatewayDeployment;
-    @XmlElement(name = "GlobalPreferences")
-    protected List<GlobalPreferencesType> globalPreferences;
-    @XmlElement(name = "GlobalProfile")
-    protected List<GlobalProfileType> globalProfile;
-    @XmlElement(name = "GlobalReplace")
-    protected List<GlobalReplaceType> globalReplace;
-    @XmlElement(name = "ImportOptionsTemplate")
-    protected List<ImportOptionsTemplateType> importOptionsTemplate;
-    @XmlElement(name = "IssueHistory")
-    protected List<IssueHistoryType> issueHistory;
-    @XmlElement(name = "JobService")
-    protected List<JobServiceType> jobService;
-    @XmlElement(name = "LeanTask")
-    protected List<LeanTaskType> leanTask;
-    @XmlElement(name = "MSPTemplate")
-    protected List<MSPTemplateType> mspTemplate;
-    @XmlElement(name = "OverheadCode")
-    protected List<OverheadCodeType> overheadCode;
-    @XmlElement(name = "Profile")
-    protected List<ProfileType> profile;
-    @XmlElement(name = "Project")
-    protected List<ProjectType> project;
-    @XmlElement(name = "BaselineProject")
-    protected List<BaselineProjectType> baselineProject;
-    @XmlElement(name = "ProjectBudgetChangeLog")
-    protected List<ProjectBudgetChangeLogType> projectBudgetChangeLog;
-    @XmlElement(name = "ProjectCodeAssignment")
-    protected List<ProjectCodeAssignmentType> projectCodeAssignment;
-    @XmlElement(name = "ProjectDeployment")
-    protected List<ProjectDeploymentType> projectDeployment;
-    @XmlElement(name = "ProjectDocument")
-    protected List<ProjectDocumentType> projectDocument;
-    @XmlElement(name = "ProjectFunding")
-    protected List<ProjectFundingType> projectFunding;
-    @XmlElement(name = "ProjectIssue")
-    protected List<ProjectIssueType> projectIssue;
-    @XmlElement(name = "ProjectNote")
-    protected List<ProjectNoteType> projectNote;
-    @XmlElement(name = "ProjectPortfolio")
-    protected List<ProjectPortfolioType> projectPortfolio;
-    @XmlElement(name = "ProjectProfile")
-    protected List<ProjectProfileType> projectProfile;
-    @XmlElement(name = "ProjectResource")
-    protected List<ProjectResourceType> projectResource;
-    @XmlElement(name = "ProjectResourceQuantity")
-    protected List<ProjectResourceQuantityType> projectResourceQuantity;
-    @XmlElement(name = "ProjectSpendingPlan")
-    protected List<ProjectSpendingPlanType> projectSpendingPlan;
-    @XmlElement(name = "ProjectThreshold")
-    protected List<ProjectThresholdType> projectThreshold;
-    @XmlElement(name = "Relationship")
-    protected List<RelationshipType> relationship;
-    @XmlElement(name = "ResourceAccess")
-    protected List<ResourceAccessType> resourceAccess;
-    @XmlElement(name = "ResourceAssignment")
-    protected List<ResourceAssignmentType> resourceAssignment;
-    @XmlElement(name = "ResourceAssignmentCodeAssignment")
-    protected List<ResourceAssignmentCodeAssignmentType> resourceAssignmentCodeAssignment;
-    @XmlElement(name = "ResourceAssignmentCreate")
-    protected List<ResourceAssignmentCreateType> resourceAssignmentCreate;
-    @XmlElement(name = "ResourceAssignmentPeriodActual")
-    protected List<ResourceAssignmentPeriodActualType> resourceAssignmentPeriodActual;
-    @XmlElement(name = "ResourceAssignmentUpdate")
-    protected List<ResourceAssignmentUpdateType> resourceAssignmentUpdate;
-    @XmlElement(name = "ResourceCodeAssignment")
-    protected List<ResourceCodeAssignmentType> resourceCodeAssignment;
-    @XmlElement(name = "ResourceHour")
-    protected List<ResourceHourType> resourceHour;
-    @XmlElement(name = "ResourceLocation")
-    protected List<ResourceLocationType> resourceLocation;
-    @XmlElement(name = "ResourceTeam")
-    protected List<ResourceTeamType> resourceTeam;
-    @XmlElement(name = "Risk")
-    protected List<RiskType> risk;
-    @XmlElement(name = "RiskImpact")
-    protected List<RiskImpactType> riskImpact;
-    @XmlElement(name = "RiskResponseAction")
-    protected List<RiskResponseActionType> riskResponseAction;
-    @XmlElement(name = "RiskResponseActionImpact")
-    protected List<RiskResponseActionImpactType> riskResponseActionImpact;
-    @XmlElement(name = "RiskResponsePlan")
-    protected List<RiskResponsePlanType> riskResponsePlan;
-    @XmlElement(name = "RoleCodeAssignment")
-    protected List<RoleCodeAssignmentType> roleCodeAssignment;
-    @XmlElement(name = "RoleTeam")
-    protected List<RoleTeamType> roleTeam;
-    @XmlElement(name = "ScheduleCheckOption")
-    protected List<ScheduleCheckOptionType> scheduleCheckOption;
-    @XmlElement(name = "ScheduleOptions")
-    protected List<ScheduleOptionsType> scheduleOptions;
-    @XmlElement(name = "StepUserDefinedValueUpdate")
-    protected List<StepUserDefinedValueUpdateType> stepUserDefinedValueUpdate;
-    @XmlElement(name = "Timesheet")
-    protected List<TimesheetType> timesheet;
-    @XmlElement(name = "TimesheetAudit")
-    protected List<TimesheetAuditType> timesheetAudit;
-    @XmlElement(name = "TimesheetDelegate")
-    protected List<TimesheetDelegateType> timesheetDelegate;
-    @XmlElement(name = "TimesheetPeriod")
-    protected List<TimesheetPeriodType> timesheetPeriod;
-    @XmlElement(name = "UDFValue")
-    protected List<UDFValueType> udfValue;
-    @XmlElement(name = "UpdateBaselineOption")
-    protected List<UpdateBaselineOptionType> updateBaselineOption;
-    @XmlElement(name = "User")
-    protected List<UserType> user;
-    @XmlElement(name = "UserConsent")
-    protected List<UserConsentType> userConsent;
-    @XmlElement(name = "UserDefinedValueUpdate")
-    protected List<UserDefinedValueUpdateType> userDefinedValueUpdate;
-    @XmlElement(name = "UserFieldTitle")
-    protected List<UserFieldTitleType> userFieldTitle;
-    @XmlElement(name = "UserInterfaceView")
-    protected List<UserInterfaceViewType> userInterfaceView;
-    @XmlElement(name = "UserLicense")
-    protected List<UserLicenseType> userLicense;
-    @XmlElement(name = "UserOBS")
-    protected List<UserOBSType> userOBS;
-    @XmlElement(name = "WBS")
-    protected List<WBSType> wbs;
-    @XmlElement(name = "WBSMilestone")
-    protected List<WBSMilestoneType> wbsMilestone;
-    @XmlElement(name = "WbsReviewers")
-    protected List<WbsReviewersType> wbsReviewers;
-
-    /**
-     * Gets the value of the checkuid property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getCHECKUID() {
-        return checkuid;
-    }
-
-    /**
-     * Sets the value of the checkuid property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCHECKUID(String value) {
-        this.checkuid = value;
-    }
-
-    /**
-     * Gets the value of the projectList property.
-     *
-     * @return
-     *     possible object is
-     *     {@link ProjectListType }
-     *
-     */
-    public ProjectListType getProjectList() {
-        return projectList;
-    }
-
-    /**
-     * Sets the value of the projectList property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link ProjectListType }
-     *
-     */
-    public void setProjectList(ProjectListType value) {
-        this.projectList = value;
-    }
-
-    /**
-     * Gets the value of the displayCurrency property.
-     *
-     * @return
-     *     possible object is
-     *     {@link DisplayCurrencyType }
-     *
-     */
-    public DisplayCurrencyType getDisplayCurrency() {
-        return displayCurrency;
-    }
-
-    /**
-     * Sets the value of the displayCurrency property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link DisplayCurrencyType }
-     *
-     */
-    public void setDisplayCurrency(DisplayCurrencyType value) {
-        this.displayCurrency = value;
-    }
-
-    /**
-     * Gets the value of the projectResourceCategory property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectResourceCategory property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectResourceCategory().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectResourceCategoryType }
-     *
-     *
-     */
-    public List<ProjectResourceCategoryType> getProjectResourceCategory() {
-        if (projectResourceCategory == null) {
-            projectResourceCategory = new ArrayList<>();
-        }
-        return this.projectResourceCategory;
-    }
-
-    /**
-     * Gets the value of the unitOfMeasure property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the unitOfMeasure property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUnitOfMeasure().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UnitOfMeasureType }
-     *
-     *
-     */
-    public List<UnitOfMeasureType> getUnitOfMeasure() {
-        if (unitOfMeasure == null) {
-            unitOfMeasure = new ArrayList<>();
-        }
-        return this.unitOfMeasure;
-    }
-
-    /**
-     * Gets the value of the costAccount property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the costAccount property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCostAccount().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CostAccountType }
-     *
-     *
-     */
-    public List<CostAccountType> getCostAccount() {
-        if (costAccount == null) {
-            costAccount = new ArrayList<>();
-        }
-        return this.costAccount;
-    }
-
-    /**
-     * Gets the value of the currency property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the currency property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCurrency().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CurrencyType }
-     *
-     *
-     */
-    public List<CurrencyType> getCurrency() {
-        if (currency == null) {
-            currency = new ArrayList<>();
-        }
-        return this.currency;
-    }
-
-    /**
-     * Gets the value of the udfType property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the udfType property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUDFType().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UDFTypeType }
-     *
-     *
-     */
-    public List<UDFTypeType> getUDFType() {
-        if (udfType == null) {
-            udfType = new ArrayList<>();
-        }
-        return this.udfType;
-    }
-
-    /**
-     * Gets the value of the location property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the location property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getLocation().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link LocationType }
-     *
-     *
-     */
-    public List<LocationType> getLocation() {
-        if (location == null) {
-            location = new ArrayList<>();
-        }
-        return this.location;
-    }
-
-    /**
-     * Gets the value of the udfCode property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the udfCode property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUDFCode().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UDFCodeType }
-     *
-     *
-     */
-    public List<UDFCodeType> getUDFCode() {
-        if (udfCode == null) {
-            udfCode = new ArrayList<>();
-        }
-        return this.udfCode;
-    }
-
-    /**
-     * Gets the value of the expenseCategory property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the expenseCategory property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getExpenseCategory().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ExpenseCategoryType }
-     *
-     *
-     */
-    public List<ExpenseCategoryType> getExpenseCategory() {
-        if (expenseCategory == null) {
-            expenseCategory = new ArrayList<>();
-        }
-        return this.expenseCategory;
-    }
-
-    /**
-     * Gets the value of the notebookTopic property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the notebookTopic property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getNotebookTopic().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link NotebookTopicType }
-     *
-     *
-     */
-    public List<NotebookTopicType> getNotebookTopic() {
-        if (notebookTopic == null) {
-            notebookTopic = new ArrayList<>();
-        }
-        return this.notebookTopic;
-    }
-
-    /**
-     * Gets the value of the wbsCategory property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the wbsCategory property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getWBSCategory().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link WBSCategoryType }
-     *
-     *
-     */
-    public List<WBSCategoryType> getWBSCategory() {
-        if (wbsCategory == null) {
-            wbsCategory = new ArrayList<>();
-        }
-        return this.wbsCategory;
-    }
-
-    /**
-     * Gets the value of the fundingSource property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the fundingSource property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getFundingSource().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link FundingSourceType }
-     *
-     *
-     */
-    public List<FundingSourceType> getFundingSource() {
-        if (fundingSource == null) {
-            fundingSource = new ArrayList<>();
-        }
-        return this.fundingSource;
-    }
-
-    /**
-     * Gets the value of the thresholdParameter property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the thresholdParameter property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getThresholdParameter().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ThresholdParameterType }
-     *
-     *
-     */
-    public List<ThresholdParameterType> getThresholdParameter() {
-        if (thresholdParameter == null) {
-            thresholdParameter = new ArrayList<>();
-        }
-        return this.thresholdParameter;
-    }
-
-    /**
-     * Gets the value of the obs property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the obs property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getOBS().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link OBSType }
-     *
-     *
-     */
-    public List<OBSType> getOBS() {
-        if (obs == null) {
-            obs = new ArrayList<>();
-        }
-        return this.obs;
-    }
-
-    /**
-     * Gets the value of the shiftPeriod property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the shiftPeriod property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getShiftPeriod().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ShiftPeriodType }
-     *
-     *
-     */
-    public List<ShiftPeriodType> getShiftPeriod() {
-        if (shiftPeriod == null) {
-            shiftPeriod = new ArrayList<>();
-        }
-        return this.shiftPeriod;
-    }
-
-    /**
-     * Gets the value of the shift property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the shift property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getShift().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ShiftType }
-     *
-     *
-     */
-    public List<ShiftType> getShift() {
-        if (shift == null) {
-            shift = new ArrayList<>();
-        }
-        return this.shift;
-    }
-
-    /**
-     * Gets the value of the calendar property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the calendar property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCalendar().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CalendarType }
-     *
-     *
-     */
-    public List<CalendarType> getCalendar() {
-        if (calendar == null) {
-            calendar = new ArrayList<>();
-        }
-        return this.calendar;
-    }
-
-    /**
-     * Gets the value of the projectCodeType property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectCodeType property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectCodeType().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectCodeTypeType }
-     *
-     *
-     */
-    public List<ProjectCodeTypeType> getProjectCodeType() {
-        if (projectCodeType == null) {
-            projectCodeType = new ArrayList<>();
-        }
-        return this.projectCodeType;
-    }
-
-    /**
-     * Gets the value of the projectCode property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectCode property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectCode().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectCodeType }
-     *
-     *
-     */
-    public List<ProjectCodeType> getProjectCode() {
-        if (projectCode == null) {
-            projectCode = new ArrayList<>();
-        }
-        return this.projectCode;
-    }
-
-    /**
-     * Gets the value of the resourceCodeType property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceCodeType property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceCodeType().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceCodeTypeType }
-     *
-     *
-     */
-    public List<ResourceCodeTypeType> getResourceCodeType() {
-        if (resourceCodeType == null) {
-            resourceCodeType = new ArrayList<>();
-        }
-        return this.resourceCodeType;
-    }
-
-    /**
-     * Gets the value of the resourceCode property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceCode property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceCode().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceCodeType }
-     *
-     *
-     */
-    public List<ResourceCodeType> getResourceCode() {
-        if (resourceCode == null) {
-            resourceCode = new ArrayList<>();
-        }
-        return this.resourceCode;
-    }
-
-    /**
-     * Gets the value of the roleCodeType property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the roleCodeType property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRoleCodeType().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RoleCodeTypeType }
-     *
-     *
-     */
-    public List<RoleCodeTypeType> getRoleCodeType() {
-        if (roleCodeType == null) {
-            roleCodeType = new ArrayList<>();
-        }
-        return this.roleCodeType;
-    }
-
-    /**
-     * Gets the value of the roleCode property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the roleCode property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRoleCode().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RoleCodeType }
-     *
-     *
-     */
-    public List<RoleCodeType> getRoleCode() {
-        if (roleCode == null) {
-            roleCode = new ArrayList<>();
-        }
-        return this.roleCode;
-    }
-
-    /**
-     * Gets the value of the resourceCurve property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceCurve property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceCurve().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceCurveType }
-     *
-     *
-     */
-    public List<ResourceCurveType> getResourceCurve() {
-        if (resourceCurve == null) {
-            resourceCurve = new ArrayList<>();
-        }
-        return this.resourceCurve;
-    }
-
-    /**
-     * Gets the value of the role property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the role property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRole().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RoleType }
-     *
-     *
-     */
-    public List<RoleType> getRole() {
-        if (role == null) {
-            role = new ArrayList<>();
-        }
-        return this.role;
-    }
-
-    /**
-     * Gets the value of the roleRate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the roleRate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRoleRate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RoleRateType }
-     *
-     *
-     */
-    public List<RoleRateType> getRoleRate() {
-        if (roleRate == null) {
-            roleRate = new ArrayList<>();
-        }
-        return this.roleRate;
-    }
-
-    /**
-     * Gets the value of the roleRateNew property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the roleRateNew property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRoleRateNew().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RoleRateType }
-     *
-     *
-     */
-    public List<RoleRateType> getRoleRateNew() {
-        if (roleRateNew == null) {
-            roleRateNew = new ArrayList<>();
-        }
-        return this.roleRateNew;
-    }
-
-    /**
-     * Gets the value of the roleLimit property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the roleLimit property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRoleLimit().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RoleLimitType }
-     *
-     *
-     */
-    public List<RoleLimitType> getRoleLimit() {
-        if (roleLimit == null) {
-            roleLimit = new ArrayList<>();
-        }
-        return this.roleLimit;
-    }
-
-    /**
-     * Gets the value of the resource property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resource property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResource().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceType }
-     *
-     *
-     */
-    public List<ResourceType> getResource() {
-        if (resource == null) {
-            resource = new ArrayList<>();
-        }
-        return this.resource;
-    }
-
-    /**
-     * Gets the value of the resourceRate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceRate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceRate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceRateType }
-     *
-     *
-     */
-    public List<ResourceRateType> getResourceRate() {
-        if (resourceRate == null) {
-            resourceRate = new ArrayList<>();
-        }
-        return this.resourceRate;
-    }
-
-    /**
-     * Gets the value of the activityCodeType property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityCodeType property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityCodeType().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityCodeTypeType }
-     *
-     *
-     */
-    public List<ActivityCodeTypeType> getActivityCodeType() {
-        if (activityCodeType == null) {
-            activityCodeType = new ArrayList<>();
-        }
-        return this.activityCodeType;
-    }
-
-    /**
-     * Gets the value of the activityCode property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityCode property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityCode().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityCodeType }
-     *
-     *
-     */
-    public List<ActivityCodeType> getActivityCode() {
-        if (activityCode == null) {
-            activityCode = new ArrayList<>();
-        }
-        return this.activityCode;
-    }
-
-    /**
-     * Gets the value of the resourceAssignmentCodeType property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentCodeType property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceAssignmentCodeType().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceAssignmentCodeTypeType }
-     *
-     *
-     */
-    public List<ResourceAssignmentCodeTypeType> getResourceAssignmentCodeType() {
-        if (resourceAssignmentCodeType == null) {
-            resourceAssignmentCodeType = new ArrayList<>();
-        }
-        return this.resourceAssignmentCodeType;
-    }
-
-    /**
-     * Gets the value of the resourceAssignmentCode property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentCode property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceAssignmentCode().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceAssignmentCodeType }
-     *
-     *
-     */
-    public List<ResourceAssignmentCodeType> getResourceAssignmentCode() {
-        if (resourceAssignmentCode == null) {
-            resourceAssignmentCode = new ArrayList<>();
-        }
-        return this.resourceAssignmentCode;
-    }
-
-    /**
-     * Gets the value of the financialPeriod property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the financialPeriod property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getFinancialPeriod().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link FinancialPeriodType }
-     *
-     *
-     */
-    public List<FinancialPeriodType> getFinancialPeriod() {
-        if (financialPeriod == null) {
-            financialPeriod = new ArrayList<>();
-        }
-        return this.financialPeriod;
-    }
-
-    /**
-     * Gets the value of the resourceRole property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceRole property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceRole().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceRoleType }
-     *
-     *
-     */
-    public List<ResourceRoleType> getResourceRole() {
-        if (resourceRole == null) {
-            resourceRole = new ArrayList<>();
-        }
-        return this.resourceRole;
-    }
-
-    /**
-     * Gets the value of the eps property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the eps property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getEPS().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link EPSType }
-     *
-     *
-     */
-    public List<EPSType> getEPS() {
-        if (eps == null) {
-            eps = new ArrayList<>();
-        }
-        return this.eps;
-    }
-
-    /**
-     * Gets the value of the documentCategory property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the documentCategory property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getDocumentCategory().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link DocumentCategoryType }
-     *
-     *
-     */
-    public List<DocumentCategoryType> getDocumentCategory() {
-        if (documentCategory == null) {
-            documentCategory = new ArrayList<>();
-        }
-        return this.documentCategory;
-    }
-
-    /**
-     * Gets the value of the documentStatusCode property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the documentStatusCode property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getDocumentStatusCode().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link DocumentStatusCodeType }
-     *
-     *
-     */
-    public List<DocumentStatusCodeType> getDocumentStatusCode() {
-        if (documentStatusCode == null) {
-            documentStatusCode = new ArrayList<>();
-        }
-        return this.documentStatusCode;
-    }
-
-    /**
-     * Gets the value of the riskCategory property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the riskCategory property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRiskCategory().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RiskCategoryType }
-     *
-     *
-     */
-    public List<RiskCategoryType> getRiskCategory() {
-        if (riskCategory == null) {
-            riskCategory = new ArrayList<>();
-        }
-        return this.riskCategory;
-    }
-
-    /**
-     * Gets the value of the riskThreshold property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the riskThreshold property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRiskThreshold().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RiskThresholdType }
-     *
-     *
-     */
-    public List<RiskThresholdType> getRiskThreshold() {
-        if (riskThreshold == null) {
-            riskThreshold = new ArrayList<>();
-        }
-        return this.riskThreshold;
-    }
-
-    /**
-     * Gets the value of the riskThresholdLevel property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the riskThresholdLevel property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRiskThresholdLevel().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RiskThresholdLevelType }
-     *
-     *
-     */
-    public List<RiskThresholdLevelType> getRiskThresholdLevel() {
-        if (riskThresholdLevel == null) {
-            riskThresholdLevel = new ArrayList<>();
-        }
-        return this.riskThresholdLevel;
-    }
-
-    /**
-     * Gets the value of the riskMatrix property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the riskMatrix property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRiskMatrix().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RiskMatrixType }
-     *
-     *
-     */
-    public List<RiskMatrixType> getRiskMatrix() {
-        if (riskMatrix == null) {
-            riskMatrix = new ArrayList<>();
-        }
-        return this.riskMatrix;
-    }
-
-    /**
-     * Gets the value of the riskMatrixScore property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the riskMatrixScore property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRiskMatrixScore().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RiskMatrixScoreType }
-     *
-     *
-     */
-    public List<RiskMatrixScoreType> getRiskMatrixScore() {
-        if (riskMatrixScore == null) {
-            riskMatrixScore = new ArrayList<>();
-        }
-        return this.riskMatrixScore;
-    }
-
-    /**
-     * Gets the value of the riskMatrixThreshold property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the riskMatrixThreshold property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRiskMatrixThreshold().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RiskMatrixThresholdType }
-     *
-     *
-     */
-    public List<RiskMatrixThresholdType> getRiskMatrixThreshold() {
-        if (riskMatrixThreshold == null) {
-            riskMatrixThreshold = new ArrayList<>();
-        }
-        return this.riskMatrixThreshold;
-    }
-
-    /**
-     * Gets the value of the activity property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activity property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivity().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityType }
-     *
-     *
-     */
-    public List<ActivityType> getActivity() {
-        if (activity == null) {
-            activity = new ArrayList<>();
-        }
-        return this.activity;
-    }
-
-    /**
-     * Gets the value of the activityCodeAssignment property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityCodeAssignment property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityCodeAssignment().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityCodeAssignmentType }
-     *
-     *
-     */
-    public List<ActivityCodeAssignmentType> getActivityCodeAssignment() {
-        if (activityCodeAssignment == null) {
-            activityCodeAssignment = new ArrayList<>();
-        }
-        return this.activityCodeAssignment;
-    }
-
-    /**
-     * Gets the value of the activityCodeUpdate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityCodeUpdate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityCodeUpdate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityCodeUpdateType }
-     *
-     *
-     */
-    public List<ActivityCodeUpdateType> getActivityCodeUpdate() {
-        if (activityCodeUpdate == null) {
-            activityCodeUpdate = new ArrayList<>();
-        }
-        return this.activityCodeUpdate;
-    }
-
-    /**
-     * Gets the value of the activityComment property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityComment property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityComment().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityCommentType }
-     *
-     *
-     */
-    public List<ActivityCommentType> getActivityComment() {
-        if (activityComment == null) {
-            activityComment = new ArrayList<>();
-        }
-        return this.activityComment;
-    }
-
-    /**
-     * Gets the value of the activityExpense property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityExpense property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityExpense().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityExpenseType }
-     *
-     *
-     */
-    public List<ActivityExpenseType> getActivityExpense() {
-        if (activityExpense == null) {
-            activityExpense = new ArrayList<>();
-        }
-        return this.activityExpense;
-    }
-
-    /**
-     * Gets the value of the activityFilter property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityFilter property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityFilter().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityFilterType }
-     *
-     *
-     */
-    public List<ActivityFilterType> getActivityFilter() {
-        if (activityFilter == null) {
-            activityFilter = new ArrayList<>();
-        }
-        return this.activityFilter;
-    }
-
-    /**
-     * Gets the value of the activityNote property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityNote property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityNote().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityNoteType }
-     *
-     *
-     */
-    public List<ActivityNoteType> getActivityNote() {
-        if (activityNote == null) {
-            activityNote = new ArrayList<>();
-        }
-        return this.activityNote;
-    }
-
-    /**
-     * Gets the value of the activityNoteUpdate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityNoteUpdate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityNoteUpdate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityNoteUpdateType }
-     *
-     *
-     */
-    public List<ActivityNoteUpdateType> getActivityNoteUpdate() {
-        if (activityNoteUpdate == null) {
-            activityNoteUpdate = new ArrayList<>();
-        }
-        return this.activityNoteUpdate;
-    }
-
-    /**
-     * Gets the value of the activityOwner property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityOwner property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityOwner().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityOwnerType }
-     *
-     *
-     */
-    public List<ActivityOwnerType> getActivityOwner() {
-        if (activityOwner == null) {
-            activityOwner = new ArrayList<>();
-        }
-        return this.activityOwner;
-    }
-
-    /**
-     * Gets the value of the activityPeriodActual property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityPeriodActual property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityPeriodActual().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityPeriodActualType }
-     *
-     *
-     */
-    public List<ActivityPeriodActualType> getActivityPeriodActual() {
-        if (activityPeriodActual == null) {
-            activityPeriodActual = new ArrayList<>();
-        }
-        return this.activityPeriodActual;
-    }
-
-    /**
-     * Gets the value of the activityRisk property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityRisk property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityRisk().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityRiskType }
-     *
-     *
-     */
-    public List<ActivityRiskType> getActivityRisk() {
-        if (activityRisk == null) {
-            activityRisk = new ArrayList<>();
-        }
-        return this.activityRisk;
-    }
-
-    /**
-     * Gets the value of the activityStep property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityStep property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityStep().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityStepType }
-     *
-     *
-     */
-    public List<ActivityStepType> getActivityStep() {
-        if (activityStep == null) {
-            activityStep = new ArrayList<>();
-        }
-        return this.activityStep;
-    }
-
-    /**
-     * Gets the value of the activityStepCreate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityStepCreate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityStepCreate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityStepCreateType }
-     *
-     *
-     */
-    public List<ActivityStepCreateType> getActivityStepCreate() {
-        if (activityStepCreate == null) {
-            activityStepCreate = new ArrayList<>();
-        }
-        return this.activityStepCreate;
-    }
-
-    /**
-     * Gets the value of the activityStepDelete property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityStepDelete property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityStepDelete().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityStepDeleteType }
-     *
-     *
-     */
-    public List<ActivityStepDeleteType> getActivityStepDelete() {
-        if (activityStepDelete == null) {
-            activityStepDelete = new ArrayList<>();
-        }
-        return this.activityStepDelete;
-    }
-
-    /**
-     * Gets the value of the activityStepTemplate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityStepTemplate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityStepTemplate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityStepTemplateType }
-     *
-     *
-     */
-    public List<ActivityStepTemplateType> getActivityStepTemplate() {
-        if (activityStepTemplate == null) {
-            activityStepTemplate = new ArrayList<>();
-        }
-        return this.activityStepTemplate;
-    }
-
-    /**
-     * Gets the value of the activityStepTemplateItem property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityStepTemplateItem property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityStepTemplateItem().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityStepTemplateItemType }
-     *
-     *
-     */
-    public List<ActivityStepTemplateItemType> getActivityStepTemplateItem() {
-        if (activityStepTemplateItem == null) {
-            activityStepTemplateItem = new ArrayList<>();
-        }
-        return this.activityStepTemplateItem;
-    }
-
-    /**
-     * Gets the value of the activityStepUpdate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityStepUpdate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityStepUpdate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityStepUpdateType }
-     *
-     *
-     */
-    public List<ActivityStepUpdateType> getActivityStepUpdate() {
-        if (activityStepUpdate == null) {
-            activityStepUpdate = new ArrayList<>();
-        }
-        return this.activityStepUpdate;
-    }
-
-    /**
-     * Gets the value of the activityUpdate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the activityUpdate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActivityUpdate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ActivityUpdateType }
-     *
-     *
-     */
-    public List<ActivityUpdateType> getActivityUpdate() {
-        if (activityUpdate == null) {
-            activityUpdate = new ArrayList<>();
-        }
-        return this.activityUpdate;
-    }
-
-    /**
-     * Gets the value of the alert property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the alert property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAlert().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link AlertType }
-     *
-     *
-     */
-    public List<AlertType> getAlert() {
-        if (alert == null) {
-            alert = new ArrayList<>();
-        }
-        return this.alert;
-    }
-
-    /**
-     * Gets the value of the autovueAttr property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the autovueAttr property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAutovueAttr().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link AutovueAttrType }
-     *
-     *
-     */
-    public List<AutovueAttrType> getAutovueAttr() {
-        if (autovueAttr == null) {
-            autovueAttr = new ArrayList<>();
-        }
-        return this.autovueAttr;
-    }
-
-    /**
-     * Gets the value of the baselineType property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the baselineType property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getBaselineType().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link BaselineTypeType }
-     *
-     *
-     */
-    public List<BaselineTypeType> getBaselineType() {
-        if (baselineType == null) {
-            baselineType = new ArrayList<>();
-        }
-        return this.baselineType;
-    }
-
-    /**
-     * Gets the value of the cbs property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the cbs property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCBS().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CBSType }
-     *
-     *
-     */
-    public List<CBSType> getCBS() {
-        if (cbs == null) {
-            cbs = new ArrayList<>();
-        }
-        return this.cbs;
-    }
-
-    /**
-     * Gets the value of the cbsDurationSummary property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the cbsDurationSummary property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCBSDurationSummary().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CBSDurationSummaryType }
-     *
-     *
-     */
-    public List<CBSDurationSummaryType> getCBSDurationSummary() {
-        if (cbsDurationSummary == null) {
-            cbsDurationSummary = new ArrayList<>();
-        }
-        return this.cbsDurationSummary;
-    }
-
-    /**
-     * Gets the value of the changeSet property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the changeSet property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getChangeSet().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ChangeSetType }
-     *
-     *
-     */
-    public List<ChangeSetType> getChangeSet() {
-        if (changeSet == null) {
-            changeSet = new ArrayList<>();
-        }
-        return this.changeSet;
-    }
-
-    /**
-     * Gets the value of the document property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the document property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getDocument().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link DocumentType }
-     *
-     *
-     */
-    public List<DocumentType> getDocument() {
-        if (document == null) {
-            document = new ArrayList<>();
-        }
-        return this.document;
-    }
-
-    /**
-     * Gets the value of the epsBudgetChangeLog property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the epsBudgetChangeLog property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getEPSBudgetChangeLog().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link EPSBudgetChangeLogType }
-     *
-     *
-     */
-    public List<EPSBudgetChangeLogType> getEPSBudgetChangeLog() {
-        if (epsBudgetChangeLog == null) {
-            epsBudgetChangeLog = new ArrayList<>();
-        }
-        return this.epsBudgetChangeLog;
-    }
-
-    /**
-     * Gets the value of the epsFunding property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the epsFunding property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getEPSFunding().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link EPSFundingType }
-     *
-     *
-     */
-    public List<EPSFundingType> getEPSFunding() {
-        if (epsFunding == null) {
-            epsFunding = new ArrayList<>();
-        }
-        return this.epsFunding;
-    }
-
-    /**
-     * Gets the value of the epsNote property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the epsNote property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getEPSNote().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link EPSNoteType }
-     *
-     *
-     */
-    public List<EPSNoteType> getEPSNote() {
-        if (epsNote == null) {
-            epsNote = new ArrayList<>();
-        }
-        return this.epsNote;
-    }
-
-    /**
-     * Gets the value of the epsSpendingPlan property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the epsSpendingPlan property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getEPSSpendingPlan().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link EPSSpendingPlanType }
-     *
-     *
-     */
-    public List<EPSSpendingPlanType> getEPSSpendingPlan() {
-        if (epsSpendingPlan == null) {
-            epsSpendingPlan = new ArrayList<>();
-        }
-        return this.epsSpendingPlan;
-    }
-
-    /**
-     * Gets the value of the financialPeriodTemplate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the financialPeriodTemplate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getFinancialPeriodTemplate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link FinancialPeriodTemplateType }
-     *
-     *
-     */
-    public List<FinancialPeriodTemplateType> getFinancialPeriodTemplate() {
-        if (financialPeriodTemplate == null) {
-            financialPeriodTemplate = new ArrayList<>();
-        }
-        return this.financialPeriodTemplate;
-    }
-
-    /**
-     * Gets the value of the gatewayDeployment property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the gatewayDeployment property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getGatewayDeployment().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link GatewayDeploymentType }
-     *
-     *
-     */
-    public List<GatewayDeploymentType> getGatewayDeployment() {
-        if (gatewayDeployment == null) {
-            gatewayDeployment = new ArrayList<>();
-        }
-        return this.gatewayDeployment;
-    }
-
-    /**
-     * Gets the value of the globalPreferences property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the globalPreferences property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getGlobalPreferences().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link GlobalPreferencesType }
-     *
-     *
-     */
-    public List<GlobalPreferencesType> getGlobalPreferences() {
-        if (globalPreferences == null) {
-            globalPreferences = new ArrayList<>();
-        }
-        return this.globalPreferences;
-    }
-
-    /**
-     * Gets the value of the globalProfile property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the globalProfile property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getGlobalProfile().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link GlobalProfileType }
-     *
-     *
-     */
-    public List<GlobalProfileType> getGlobalProfile() {
-        if (globalProfile == null) {
-            globalProfile = new ArrayList<>();
-        }
-        return this.globalProfile;
-    }
-
-    /**
-     * Gets the value of the globalReplace property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the globalReplace property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getGlobalReplace().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link GlobalReplaceType }
-     *
-     *
-     */
-    public List<GlobalReplaceType> getGlobalReplace() {
-        if (globalReplace == null) {
-            globalReplace = new ArrayList<>();
-        }
-        return this.globalReplace;
-    }
-
-    /**
-     * Gets the value of the importOptionsTemplate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the importOptionsTemplate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getImportOptionsTemplate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ImportOptionsTemplateType }
-     *
-     *
-     */
-    public List<ImportOptionsTemplateType> getImportOptionsTemplate() {
-        if (importOptionsTemplate == null) {
-            importOptionsTemplate = new ArrayList<>();
-        }
-        return this.importOptionsTemplate;
-    }
-
-    /**
-     * Gets the value of the issueHistory property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the issueHistory property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getIssueHistory().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link IssueHistoryType }
-     *
-     *
-     */
-    public List<IssueHistoryType> getIssueHistory() {
-        if (issueHistory == null) {
-            issueHistory = new ArrayList<>();
-        }
-        return this.issueHistory;
-    }
-
-    /**
-     * Gets the value of the jobService property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the jobService property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getJobService().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link JobServiceType }
-     *
-     *
-     */
-    public List<JobServiceType> getJobService() {
-        if (jobService == null) {
-            jobService = new ArrayList<>();
-        }
-        return this.jobService;
-    }
-
-    /**
-     * Gets the value of the leanTask property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the leanTask property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getLeanTask().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link LeanTaskType }
-     *
-     *
-     */
-    public List<LeanTaskType> getLeanTask() {
-        if (leanTask == null) {
-            leanTask = new ArrayList<>();
-        }
-        return this.leanTask;
-    }
-
-    /**
-     * Gets the value of the mspTemplate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the mspTemplate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getMSPTemplate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link MSPTemplateType }
-     *
-     *
-     */
-    public List<MSPTemplateType> getMSPTemplate() {
-        if (mspTemplate == null) {
-            mspTemplate = new ArrayList<>();
-        }
-        return this.mspTemplate;
-    }
-
-    /**
-     * Gets the value of the overheadCode property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the overheadCode property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getOverheadCode().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link OverheadCodeType }
-     *
-     *
-     */
-    public List<OverheadCodeType> getOverheadCode() {
-        if (overheadCode == null) {
-            overheadCode = new ArrayList<>();
-        }
-        return this.overheadCode;
-    }
-
-    /**
-     * Gets the value of the profile property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the profile property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProfile().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProfileType }
-     *
-     *
-     */
-    public List<ProfileType> getProfile() {
-        if (profile == null) {
-            profile = new ArrayList<>();
-        }
-        return this.profile;
-    }
-
-    /**
-     * Gets the value of the project property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the project property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProject().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectType }
-     *
-     *
-     */
-    public List<ProjectType> getProject() {
-        if (project == null) {
-            project = new ArrayList<>();
-        }
-        return this.project;
-    }
-
-    /**
-     * Gets the value of the baselineProject property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the baselineProject property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getBaselineProject().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link BaselineProjectType }
-     *
-     *
-     */
-    public List<BaselineProjectType> getBaselineProject() {
-        if (baselineProject == null) {
-            baselineProject = new ArrayList<>();
-        }
-        return this.baselineProject;
-    }
-
-    /**
-     * Gets the value of the projectBudgetChangeLog property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectBudgetChangeLog property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectBudgetChangeLog().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectBudgetChangeLogType }
-     *
-     *
-     */
-    public List<ProjectBudgetChangeLogType> getProjectBudgetChangeLog() {
-        if (projectBudgetChangeLog == null) {
-            projectBudgetChangeLog = new ArrayList<>();
-        }
-        return this.projectBudgetChangeLog;
-    }
-
-    /**
-     * Gets the value of the projectCodeAssignment property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectCodeAssignment property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectCodeAssignment().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectCodeAssignmentType }
-     *
-     *
-     */
-    public List<ProjectCodeAssignmentType> getProjectCodeAssignment() {
-        if (projectCodeAssignment == null) {
-            projectCodeAssignment = new ArrayList<>();
-        }
-        return this.projectCodeAssignment;
-    }
-
-    /**
-     * Gets the value of the projectDeployment property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectDeployment property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectDeployment().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectDeploymentType }
-     *
-     *
-     */
-    public List<ProjectDeploymentType> getProjectDeployment() {
-        if (projectDeployment == null) {
-            projectDeployment = new ArrayList<>();
-        }
-        return this.projectDeployment;
-    }
-
-    /**
-     * Gets the value of the projectDocument property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectDocument property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectDocument().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectDocumentType }
-     *
-     *
-     */
-    public List<ProjectDocumentType> getProjectDocument() {
-        if (projectDocument == null) {
-            projectDocument = new ArrayList<>();
-        }
-        return this.projectDocument;
-    }
-
-    /**
-     * Gets the value of the projectFunding property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectFunding property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectFunding().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectFundingType }
-     *
-     *
-     */
-    public List<ProjectFundingType> getProjectFunding() {
-        if (projectFunding == null) {
-            projectFunding = new ArrayList<>();
-        }
-        return this.projectFunding;
-    }
-
-    /**
-     * Gets the value of the projectIssue property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectIssue property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectIssue().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectIssueType }
-     *
-     *
-     */
-    public List<ProjectIssueType> getProjectIssue() {
-        if (projectIssue == null) {
-            projectIssue = new ArrayList<>();
-        }
-        return this.projectIssue;
-    }
-
-    /**
-     * Gets the value of the projectNote property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectNote property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectNote().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectNoteType }
-     *
-     *
-     */
-    public List<ProjectNoteType> getProjectNote() {
-        if (projectNote == null) {
-            projectNote = new ArrayList<>();
-        }
-        return this.projectNote;
-    }
-
-    /**
-     * Gets the value of the projectPortfolio property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectPortfolio property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectPortfolio().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectPortfolioType }
-     *
-     *
-     */
-    public List<ProjectPortfolioType> getProjectPortfolio() {
-        if (projectPortfolio == null) {
-            projectPortfolio = new ArrayList<>();
-        }
-        return this.projectPortfolio;
-    }
-
-    /**
-     * Gets the value of the projectProfile property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectProfile property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectProfile().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectProfileType }
-     *
-     *
-     */
-    public List<ProjectProfileType> getProjectProfile() {
-        if (projectProfile == null) {
-            projectProfile = new ArrayList<>();
-        }
-        return this.projectProfile;
-    }
-
-    /**
-     * Gets the value of the projectResource property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectResource property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectResource().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectResourceType }
-     *
-     *
-     */
-    public List<ProjectResourceType> getProjectResource() {
-        if (projectResource == null) {
-            projectResource = new ArrayList<>();
-        }
-        return this.projectResource;
-    }
-
-    /**
-     * Gets the value of the projectResourceQuantity property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectResourceQuantity property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectResourceQuantity().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectResourceQuantityType }
-     *
-     *
-     */
-    public List<ProjectResourceQuantityType> getProjectResourceQuantity() {
-        if (projectResourceQuantity == null) {
-            projectResourceQuantity = new ArrayList<>();
-        }
-        return this.projectResourceQuantity;
-    }
-
-    /**
-     * Gets the value of the projectSpendingPlan property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectSpendingPlan property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectSpendingPlan().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectSpendingPlanType }
-     *
-     *
-     */
-    public List<ProjectSpendingPlanType> getProjectSpendingPlan() {
-        if (projectSpendingPlan == null) {
-            projectSpendingPlan = new ArrayList<>();
-        }
-        return this.projectSpendingPlan;
-    }
-
-    /**
-     * Gets the value of the projectThreshold property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the projectThreshold property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProjectThreshold().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProjectThresholdType }
-     *
-     *
-     */
-    public List<ProjectThresholdType> getProjectThreshold() {
-        if (projectThreshold == null) {
-            projectThreshold = new ArrayList<>();
-        }
-        return this.projectThreshold;
-    }
-
-    /**
-     * Gets the value of the relationship property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the relationship property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRelationship().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RelationshipType }
-     *
-     *
-     */
-    public List<RelationshipType> getRelationship() {
-        if (relationship == null) {
-            relationship = new ArrayList<>();
-        }
-        return this.relationship;
-    }
-
-    /**
-     * Gets the value of the resourceAccess property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceAccess property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceAccess().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceAccessType }
-     *
-     *
-     */
-    public List<ResourceAccessType> getResourceAccess() {
-        if (resourceAccess == null) {
-            resourceAccess = new ArrayList<>();
-        }
-        return this.resourceAccess;
-    }
-
-    /**
-     * Gets the value of the resourceAssignment property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceAssignment property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceAssignment().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceAssignmentType }
-     *
-     *
-     */
-    public List<ResourceAssignmentType> getResourceAssignment() {
-        if (resourceAssignment == null) {
-            resourceAssignment = new ArrayList<>();
-        }
-        return this.resourceAssignment;
-    }
-
-    /**
-     * Gets the value of the resourceAssignmentCodeAssignment property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentCodeAssignment property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceAssignmentCodeAssignment().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceAssignmentCodeAssignmentType }
-     *
-     *
-     */
-    public List<ResourceAssignmentCodeAssignmentType> getResourceAssignmentCodeAssignment() {
-        if (resourceAssignmentCodeAssignment == null) {
-            resourceAssignmentCodeAssignment = new ArrayList<>();
-        }
-        return this.resourceAssignmentCodeAssignment;
-    }
-
-    /**
-     * Gets the value of the resourceAssignmentCreate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentCreate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceAssignmentCreate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceAssignmentCreateType }
-     *
-     *
-     */
-    public List<ResourceAssignmentCreateType> getResourceAssignmentCreate() {
-        if (resourceAssignmentCreate == null) {
-            resourceAssignmentCreate = new ArrayList<>();
-        }
-        return this.resourceAssignmentCreate;
-    }
-
-    /**
-     * Gets the value of the resourceAssignmentPeriodActual property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentPeriodActual property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceAssignmentPeriodActual().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceAssignmentPeriodActualType }
-     *
-     *
-     */
-    public List<ResourceAssignmentPeriodActualType> getResourceAssignmentPeriodActual() {
-        if (resourceAssignmentPeriodActual == null) {
-            resourceAssignmentPeriodActual = new ArrayList<>();
-        }
-        return this.resourceAssignmentPeriodActual;
-    }
-
-    /**
-     * Gets the value of the resourceAssignmentUpdate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentUpdate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceAssignmentUpdate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceAssignmentUpdateType }
-     *
-     *
-     */
-    public List<ResourceAssignmentUpdateType> getResourceAssignmentUpdate() {
-        if (resourceAssignmentUpdate == null) {
-            resourceAssignmentUpdate = new ArrayList<>();
-        }
-        return this.resourceAssignmentUpdate;
-    }
-
-    /**
-     * Gets the value of the resourceCodeAssignment property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceCodeAssignment property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceCodeAssignment().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceCodeAssignmentType }
-     *
-     *
-     */
-    public List<ResourceCodeAssignmentType> getResourceCodeAssignment() {
-        if (resourceCodeAssignment == null) {
-            resourceCodeAssignment = new ArrayList<>();
-        }
-        return this.resourceCodeAssignment;
-    }
-
-    /**
-     * Gets the value of the resourceHour property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceHour property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceHour().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceHourType }
-     *
-     *
-     */
-    public List<ResourceHourType> getResourceHour() {
-        if (resourceHour == null) {
-            resourceHour = new ArrayList<>();
-        }
-        return this.resourceHour;
-    }
-
-    /**
-     * Gets the value of the resourceLocation property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceLocation property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceLocation().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceLocationType }
-     *
-     *
-     */
-    public List<ResourceLocationType> getResourceLocation() {
-        if (resourceLocation == null) {
-            resourceLocation = new ArrayList<>();
-        }
-        return this.resourceLocation;
-    }
-
-    /**
-     * Gets the value of the resourceTeam property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the resourceTeam property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResourceTeam().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceTeamType }
-     *
-     *
-     */
-    public List<ResourceTeamType> getResourceTeam() {
-        if (resourceTeam == null) {
-            resourceTeam = new ArrayList<>();
-        }
-        return this.resourceTeam;
-    }
-
-    /**
-     * Gets the value of the risk property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the risk property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRisk().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RiskType }
-     *
-     *
-     */
-    public List<RiskType> getRisk() {
-        if (risk == null) {
-            risk = new ArrayList<>();
-        }
-        return this.risk;
-    }
-
-    /**
-     * Gets the value of the riskImpact property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the riskImpact property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRiskImpact().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RiskImpactType }
-     *
-     *
-     */
-    public List<RiskImpactType> getRiskImpact() {
-        if (riskImpact == null) {
-            riskImpact = new ArrayList<>();
-        }
-        return this.riskImpact;
-    }
-
-    /**
-     * Gets the value of the riskResponseAction property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the riskResponseAction property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRiskResponseAction().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RiskResponseActionType }
-     *
-     *
-     */
-    public List<RiskResponseActionType> getRiskResponseAction() {
-        if (riskResponseAction == null) {
-            riskResponseAction = new ArrayList<>();
-        }
-        return this.riskResponseAction;
-    }
-
-    /**
-     * Gets the value of the riskResponseActionImpact property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the riskResponseActionImpact property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRiskResponseActionImpact().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RiskResponseActionImpactType }
-     *
-     *
-     */
-    public List<RiskResponseActionImpactType> getRiskResponseActionImpact() {
-        if (riskResponseActionImpact == null) {
-            riskResponseActionImpact = new ArrayList<>();
-        }
-        return this.riskResponseActionImpact;
-    }
-
-    /**
-     * Gets the value of the riskResponsePlan property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the riskResponsePlan property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRiskResponsePlan().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RiskResponsePlanType }
-     *
-     *
-     */
-    public List<RiskResponsePlanType> getRiskResponsePlan() {
-        if (riskResponsePlan == null) {
-            riskResponsePlan = new ArrayList<>();
-        }
-        return this.riskResponsePlan;
-    }
-
-    /**
-     * Gets the value of the roleCodeAssignment property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the roleCodeAssignment property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRoleCodeAssignment().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RoleCodeAssignmentType }
-     *
-     *
-     */
-    public List<RoleCodeAssignmentType> getRoleCodeAssignment() {
-        if (roleCodeAssignment == null) {
-            roleCodeAssignment = new ArrayList<>();
-        }
-        return this.roleCodeAssignment;
-    }
-
-    /**
-     * Gets the value of the roleTeam property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the roleTeam property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRoleTeam().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RoleTeamType }
-     *
-     *
-     */
-    public List<RoleTeamType> getRoleTeam() {
-        if (roleTeam == null) {
-            roleTeam = new ArrayList<>();
-        }
-        return this.roleTeam;
-    }
-
-    /**
-     * Gets the value of the scheduleCheckOption property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the scheduleCheckOption property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getScheduleCheckOption().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ScheduleCheckOptionType }
-     *
-     *
-     */
-    public List<ScheduleCheckOptionType> getScheduleCheckOption() {
-        if (scheduleCheckOption == null) {
-            scheduleCheckOption = new ArrayList<>();
-        }
-        return this.scheduleCheckOption;
-    }
-
-    /**
-     * Gets the value of the scheduleOptions property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the scheduleOptions property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getScheduleOptions().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ScheduleOptionsType }
-     *
-     *
-     */
-    public List<ScheduleOptionsType> getScheduleOptions() {
-        if (scheduleOptions == null) {
-            scheduleOptions = new ArrayList<>();
-        }
-        return this.scheduleOptions;
-    }
-
-    /**
-     * Gets the value of the stepUserDefinedValueUpdate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the stepUserDefinedValueUpdate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getStepUserDefinedValueUpdate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link StepUserDefinedValueUpdateType }
-     *
-     *
-     */
-    public List<StepUserDefinedValueUpdateType> getStepUserDefinedValueUpdate() {
-        if (stepUserDefinedValueUpdate == null) {
-            stepUserDefinedValueUpdate = new ArrayList<>();
-        }
-        return this.stepUserDefinedValueUpdate;
-    }
-
-    /**
-     * Gets the value of the timesheet property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the timesheet property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTimesheet().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link TimesheetType }
-     *
-     *
-     */
-    public List<TimesheetType> getTimesheet() {
-        if (timesheet == null) {
-            timesheet = new ArrayList<>();
-        }
-        return this.timesheet;
-    }
-
-    /**
-     * Gets the value of the timesheetAudit property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the timesheetAudit property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTimesheetAudit().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link TimesheetAuditType }
-     *
-     *
-     */
-    public List<TimesheetAuditType> getTimesheetAudit() {
-        if (timesheetAudit == null) {
-            timesheetAudit = new ArrayList<>();
-        }
-        return this.timesheetAudit;
-    }
-
-    /**
-     * Gets the value of the timesheetDelegate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the timesheetDelegate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTimesheetDelegate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link TimesheetDelegateType }
-     *
-     *
-     */
-    public List<TimesheetDelegateType> getTimesheetDelegate() {
-        if (timesheetDelegate == null) {
-            timesheetDelegate = new ArrayList<>();
-        }
-        return this.timesheetDelegate;
-    }
-
-    /**
-     * Gets the value of the timesheetPeriod property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the timesheetPeriod property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTimesheetPeriod().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link TimesheetPeriodType }
-     *
-     *
-     */
-    public List<TimesheetPeriodType> getTimesheetPeriod() {
-        if (timesheetPeriod == null) {
-            timesheetPeriod = new ArrayList<>();
-        }
-        return this.timesheetPeriod;
-    }
-
-    /**
-     * Gets the value of the udfValue property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the udfValue property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUDFValue().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UDFValueType }
-     *
-     *
-     */
-    public List<UDFValueType> getUDFValue() {
-        if (udfValue == null) {
-            udfValue = new ArrayList<>();
-        }
-        return this.udfValue;
-    }
-
-    /**
-     * Gets the value of the updateBaselineOption property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the updateBaselineOption property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUpdateBaselineOption().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UpdateBaselineOptionType }
-     *
-     *
-     */
-    public List<UpdateBaselineOptionType> getUpdateBaselineOption() {
-        if (updateBaselineOption == null) {
-            updateBaselineOption = new ArrayList<>();
-        }
-        return this.updateBaselineOption;
-    }
-
-    /**
-     * Gets the value of the user property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the user property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUser().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UserType }
-     *
-     *
-     */
-    public List<UserType> getUser() {
-        if (user == null) {
-            user = new ArrayList<>();
-        }
-        return this.user;
-    }
-
-    /**
-     * Gets the value of the userConsent property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the userConsent property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUserConsent().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UserConsentType }
-     *
-     *
-     */
-    public List<UserConsentType> getUserConsent() {
-        if (userConsent == null) {
-            userConsent = new ArrayList<>();
-        }
-        return this.userConsent;
-    }
-
-    /**
-     * Gets the value of the userDefinedValueUpdate property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the userDefinedValueUpdate property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUserDefinedValueUpdate().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UserDefinedValueUpdateType }
-     *
-     *
-     */
-    public List<UserDefinedValueUpdateType> getUserDefinedValueUpdate() {
-        if (userDefinedValueUpdate == null) {
-            userDefinedValueUpdate = new ArrayList<>();
-        }
-        return this.userDefinedValueUpdate;
-    }
-
-    /**
-     * Gets the value of the userFieldTitle property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the userFieldTitle property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUserFieldTitle().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UserFieldTitleType }
-     *
-     *
-     */
-    public List<UserFieldTitleType> getUserFieldTitle() {
-        if (userFieldTitle == null) {
-            userFieldTitle = new ArrayList<>();
-        }
-        return this.userFieldTitle;
-    }
-
-    /**
-     * Gets the value of the userInterfaceView property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the userInterfaceView property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUserInterfaceView().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UserInterfaceViewType }
-     *
-     *
-     */
-    public List<UserInterfaceViewType> getUserInterfaceView() {
-        if (userInterfaceView == null) {
-            userInterfaceView = new ArrayList<>();
-        }
-        return this.userInterfaceView;
-    }
-
-    /**
-     * Gets the value of the userLicense property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the userLicense property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUserLicense().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UserLicenseType }
-     *
-     *
-     */
-    public List<UserLicenseType> getUserLicense() {
-        if (userLicense == null) {
-            userLicense = new ArrayList<>();
-        }
-        return this.userLicense;
-    }
-
-    /**
-     * Gets the value of the userOBS property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the userOBS property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getUserOBS().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link UserOBSType }
-     *
-     *
-     */
-    public List<UserOBSType> getUserOBS() {
-        if (userOBS == null) {
-            userOBS = new ArrayList<>();
-        }
-        return this.userOBS;
-    }
-
-    /**
-     * Gets the value of the wbs property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the wbs property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getWBS().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link WBSType }
-     *
-     *
-     */
-    public List<WBSType> getWBS() {
-        if (wbs == null) {
-            wbs = new ArrayList<>();
-        }
-        return this.wbs;
-    }
-
-    /**
-     * Gets the value of the wbsMilestone property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the wbsMilestone property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getWBSMilestone().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link WBSMilestoneType }
-     *
-     *
-     */
-    public List<WBSMilestoneType> getWBSMilestone() {
-        if (wbsMilestone == null) {
-            wbsMilestone = new ArrayList<>();
-        }
-        return this.wbsMilestone;
-    }
-
-    /**
-     * Gets the value of the wbsReviewers property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the Jakarta XML Binding object.
-     * This is why there is not a <CODE>set</CODE> method for the wbsReviewers property.
-     *
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getWbsReviewers().add(newItem);
-     * </pre>
-     *
-     *
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link WbsReviewersType }
-     *
-     *
-     */
-    public List<WbsReviewersType> getWbsReviewers() {
-        if (wbsReviewers == null) {
-            wbsReviewers = new ArrayList<>();
-        }
-        return this.wbsReviewers;
-    }
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
+{
+   "checkuid",
+   "projectList",
+   "displayCurrency",
+   "projectResourceCategory",
+   "unitOfMeasure",
+   "costAccount",
+   "currency",
+   "udfType",
+   "location",
+   "udfCode",
+   "expenseCategory",
+   "notebookTopic",
+   "wbsCategory",
+   "fundingSource",
+   "thresholdParameter",
+   "obs",
+   "shiftPeriod",
+   "shift",
+   "calendar",
+   "projectCodeType",
+   "projectCode",
+   "resourceCodeType",
+   "resourceCode",
+   "roleCodeType",
+   "roleCode",
+   "resourceCurve",
+   "role",
+   "roleRate",
+   "roleRateNew",
+   "roleLimit",
+   "resource",
+   "resourceRate",
+   "activityCodeType",
+   "activityCode",
+   "resourceAssignmentCodeType",
+   "resourceAssignmentCode",
+   "financialPeriod",
+   "resourceRole",
+   "eps",
+   "documentCategory",
+   "documentStatusCode",
+   "riskCategory",
+   "riskThreshold",
+   "riskThresholdLevel",
+   "riskMatrix",
+   "riskMatrixScore",
+   "riskMatrixThreshold",
+   "activity",
+   "activityCodeAssignment",
+   "activityCodeUpdate",
+   "activityComment",
+   "activityExpense",
+   "activityFilter",
+   "activityNote",
+   "activityNoteUpdate",
+   "activityOwner",
+   "activityPeriodActual",
+   "activityRisk",
+   "activityStep",
+   "activityStepCreate",
+   "activityStepDelete",
+   "activityStepTemplate",
+   "activityStepTemplateItem",
+   "activityStepUpdate",
+   "activityUpdate",
+   "alert",
+   "autovueAttr",
+   "baselineType",
+   "cbs",
+   "cbsDurationSummary",
+   "changeSet",
+   "document",
+   "epsBudgetChangeLog",
+   "epsFunding",
+   "epsNote",
+   "epsSpendingPlan",
+   "financialPeriodTemplate",
+   "gatewayDeployment",
+   "globalPreferences",
+   "globalProfile",
+   "globalReplace",
+   "importOptionsTemplate",
+   "issueHistory",
+   "jobService",
+   "leanTask",
+   "mspTemplate",
+   "overheadCode",
+   "profile",
+   "project",
+   "baselineProject",
+   "projectBudgetChangeLog",
+   "projectCodeAssignment",
+   "projectDeployment",
+   "projectDocument",
+   "projectFunding",
+   "projectIssue",
+   "projectNote",
+   "projectPortfolio",
+   "projectProfile",
+   "projectResource",
+   "projectResourceQuantity",
+   "projectSpendingPlan",
+   "projectThreshold",
+   "relationship",
+   "resourceAccess",
+   "resourceAssignment",
+   "resourceAssignmentCodeAssignment",
+   "resourceAssignmentCreate",
+   "resourceAssignmentPeriodActual",
+   "resourceAssignmentUpdate",
+   "resourceCodeAssignment",
+   "resourceHour",
+   "resourceLocation",
+   "resourceTeam",
+   "risk",
+   "riskImpact",
+   "riskResponseAction",
+   "riskResponseActionImpact",
+   "riskResponsePlan",
+   "roleCodeAssignment",
+   "roleTeam",
+   "scheduleCheckOption",
+   "scheduleOptions",
+   "stepUserDefinedValueUpdate",
+   "timesheet",
+   "timesheetAudit",
+   "timesheetDelegate",
+   "timesheetPeriod",
+   "udfValue",
+   "updateBaselineOption",
+   "user",
+   "userConsent",
+   "userDefinedValueUpdate",
+   "userFieldTitle",
+   "userInterfaceView",
+   "userLicense",
+   "userOBS",
+   "wbs",
+   "wbsMilestone",
+   "wbsReviewers"
+}) @XmlRootElement(name = "APIBusinessObjects") public class APIBusinessObjects
+{
+
+   @XmlElement(name = "CHECKUID") @XmlJavaTypeAdapter(Adapter1.class) protected String checkuid;
+   @XmlElement(name = "ProjectList") protected ProjectListType projectList;
+   @XmlElement(name = "DisplayCurrency") protected DisplayCurrencyType displayCurrency;
+   @XmlElement(name = "ProjectResourceCategory") protected List<ProjectResourceCategoryType> projectResourceCategory;
+   @XmlElement(name = "UnitOfMeasure") protected List<UnitOfMeasureType> unitOfMeasure;
+   @XmlElement(name = "CostAccount") protected List<CostAccountType> costAccount;
+   @XmlElement(name = "Currency") protected List<CurrencyType> currency;
+   @XmlElement(name = "UDFType") protected List<UDFTypeType> udfType;
+   @XmlElement(name = "Location") protected List<LocationType> location;
+   @XmlElement(name = "UDFCode") protected List<UDFCodeType> udfCode;
+   @XmlElement(name = "ExpenseCategory") protected List<ExpenseCategoryType> expenseCategory;
+   @XmlElement(name = "NotebookTopic") protected List<NotebookTopicType> notebookTopic;
+   @XmlElement(name = "WBSCategory") protected List<WBSCategoryType> wbsCategory;
+   @XmlElement(name = "FundingSource") protected List<FundingSourceType> fundingSource;
+   @XmlElement(name = "ThresholdParameter") protected List<ThresholdParameterType> thresholdParameter;
+   @XmlElement(name = "OBS") protected List<OBSType> obs;
+   @XmlElement(name = "ShiftPeriod") protected List<ShiftPeriodType> shiftPeriod;
+   @XmlElement(name = "Shift") protected List<ShiftType> shift;
+   @XmlElement(name = "Calendar") protected List<CalendarType> calendar;
+   @XmlElement(name = "ProjectCodeType") protected List<ProjectCodeTypeType> projectCodeType;
+   @XmlElement(name = "ProjectCode") protected List<ProjectCodeType> projectCode;
+   @XmlElement(name = "ResourceCodeType") protected List<ResourceCodeTypeType> resourceCodeType;
+   @XmlElement(name = "ResourceCode") protected List<ResourceCodeType> resourceCode;
+   @XmlElement(name = "RoleCodeType") protected List<RoleCodeTypeType> roleCodeType;
+   @XmlElement(name = "RoleCode") protected List<RoleCodeType> roleCode;
+   @XmlElement(name = "ResourceCurve") protected List<ResourceCurveType> resourceCurve;
+   @XmlElement(name = "Role") protected List<RoleType> role;
+   @XmlElement(name = "RoleRate") protected List<RoleRateType> roleRate;
+   @XmlElement(name = "RoleRateNew") protected List<RoleRateType> roleRateNew;
+   @XmlElement(name = "RoleLimit") protected List<RoleLimitType> roleLimit;
+   @XmlElement(name = "Resource") protected List<ResourceType> resource;
+   @XmlElement(name = "ResourceRate") protected List<ResourceRateType> resourceRate;
+   @XmlElement(name = "ActivityCodeType") protected List<ActivityCodeTypeType> activityCodeType;
+   @XmlElement(name = "ActivityCode") protected List<ActivityCodeType> activityCode;
+   @XmlElement(name = "ResourceAssignmentCodeType") protected List<ResourceAssignmentCodeTypeType> resourceAssignmentCodeType;
+   @XmlElement(name = "ResourceAssignmentCode") protected List<ResourceAssignmentCodeType> resourceAssignmentCode;
+   @XmlElement(name = "FinancialPeriod") protected List<FinancialPeriodType> financialPeriod;
+   @XmlElement(name = "ResourceRole") protected List<ResourceRoleType> resourceRole;
+   @XmlElement(name = "EPS") protected List<EPSType> eps;
+   @XmlElement(name = "DocumentCategory") protected List<DocumentCategoryType> documentCategory;
+   @XmlElement(name = "DocumentStatusCode") protected List<DocumentStatusCodeType> documentStatusCode;
+   @XmlElement(name = "RiskCategory") protected List<RiskCategoryType> riskCategory;
+   @XmlElement(name = "RiskThreshold") protected List<RiskThresholdType> riskThreshold;
+   @XmlElement(name = "RiskThresholdLevel") protected List<RiskThresholdLevelType> riskThresholdLevel;
+   @XmlElement(name = "RiskMatrix") protected List<RiskMatrixType> riskMatrix;
+   @XmlElement(name = "RiskMatrixScore") protected List<RiskMatrixScoreType> riskMatrixScore;
+   @XmlElement(name = "RiskMatrixThreshold") protected List<RiskMatrixThresholdType> riskMatrixThreshold;
+   @XmlElement(name = "Activity") protected List<ActivityType> activity;
+   @XmlElement(name = "ActivityCodeAssignment") protected List<ActivityCodeAssignmentType> activityCodeAssignment;
+   @XmlElement(name = "ActivityCodeUpdate") protected List<ActivityCodeUpdateType> activityCodeUpdate;
+   @XmlElement(name = "ActivityComment") protected List<ActivityCommentType> activityComment;
+   @XmlElement(name = "ActivityExpense") protected List<ActivityExpenseType> activityExpense;
+   @XmlElement(name = "ActivityFilter") protected List<ActivityFilterType> activityFilter;
+   @XmlElement(name = "ActivityNote") protected List<ActivityNoteType> activityNote;
+   @XmlElement(name = "ActivityNoteUpdate") protected List<ActivityNoteUpdateType> activityNoteUpdate;
+   @XmlElement(name = "ActivityOwner") protected List<ActivityOwnerType> activityOwner;
+   @XmlElement(name = "ActivityPeriodActual") protected List<ActivityPeriodActualType> activityPeriodActual;
+   @XmlElement(name = "ActivityRisk") protected List<ActivityRiskType> activityRisk;
+   @XmlElement(name = "ActivityStep") protected List<ActivityStepType> activityStep;
+   @XmlElement(name = "ActivityStepCreate") protected List<ActivityStepCreateType> activityStepCreate;
+   @XmlElement(name = "ActivityStepDelete") protected List<ActivityStepDeleteType> activityStepDelete;
+   @XmlElement(name = "ActivityStepTemplate") protected List<ActivityStepTemplateType> activityStepTemplate;
+   @XmlElement(name = "ActivityStepTemplateItem") protected List<ActivityStepTemplateItemType> activityStepTemplateItem;
+   @XmlElement(name = "ActivityStepUpdate") protected List<ActivityStepUpdateType> activityStepUpdate;
+   @XmlElement(name = "ActivityUpdate") protected List<ActivityUpdateType> activityUpdate;
+   @XmlElement(name = "Alert") protected List<AlertType> alert;
+   @XmlElement(name = "AutovueAttr") protected List<AutovueAttrType> autovueAttr;
+   @XmlElement(name = "BaselineType") protected List<BaselineTypeType> baselineType;
+   @XmlElement(name = "CBS") protected List<CBSType> cbs;
+   @XmlElement(name = "CBSDurationSummary") protected List<CBSDurationSummaryType> cbsDurationSummary;
+   @XmlElement(name = "ChangeSet") protected List<ChangeSetType> changeSet;
+   @XmlElement(name = "Document") protected List<DocumentType> document;
+   @XmlElement(name = "EPSBudgetChangeLog") protected List<EPSBudgetChangeLogType> epsBudgetChangeLog;
+   @XmlElement(name = "EPSFunding") protected List<EPSFundingType> epsFunding;
+   @XmlElement(name = "EPSNote") protected List<EPSNoteType> epsNote;
+   @XmlElement(name = "EPSSpendingPlan") protected List<EPSSpendingPlanType> epsSpendingPlan;
+   @XmlElement(name = "FinancialPeriodTemplate") protected List<FinancialPeriodTemplateType> financialPeriodTemplate;
+   @XmlElement(name = "GatewayDeployment") protected List<GatewayDeploymentType> gatewayDeployment;
+   @XmlElement(name = "GlobalPreferences") protected List<GlobalPreferencesType> globalPreferences;
+   @XmlElement(name = "GlobalProfile") protected List<GlobalProfileType> globalProfile;
+   @XmlElement(name = "GlobalReplace") protected List<GlobalReplaceType> globalReplace;
+   @XmlElement(name = "ImportOptionsTemplate") protected List<ImportOptionsTemplateType> importOptionsTemplate;
+   @XmlElement(name = "IssueHistory") protected List<IssueHistoryType> issueHistory;
+   @XmlElement(name = "JobService") protected List<JobServiceType> jobService;
+   @XmlElement(name = "LeanTask") protected List<LeanTaskType> leanTask;
+   @XmlElement(name = "MSPTemplate") protected List<MSPTemplateType> mspTemplate;
+   @XmlElement(name = "OverheadCode") protected List<OverheadCodeType> overheadCode;
+   @XmlElement(name = "Profile") protected List<ProfileType> profile;
+   @XmlElement(name = "Project") protected List<ProjectType> project;
+   @XmlElement(name = "BaselineProject") protected List<BaselineProjectType> baselineProject;
+   @XmlElement(name = "ProjectBudgetChangeLog") protected List<ProjectBudgetChangeLogType> projectBudgetChangeLog;
+   @XmlElement(name = "ProjectCodeAssignment") protected List<ProjectCodeAssignmentType> projectCodeAssignment;
+   @XmlElement(name = "ProjectDeployment") protected List<ProjectDeploymentType> projectDeployment;
+   @XmlElement(name = "ProjectDocument") protected List<ProjectDocumentType> projectDocument;
+   @XmlElement(name = "ProjectFunding") protected List<ProjectFundingType> projectFunding;
+   @XmlElement(name = "ProjectIssue") protected List<ProjectIssueType> projectIssue;
+   @XmlElement(name = "ProjectNote") protected List<ProjectNoteType> projectNote;
+   @XmlElement(name = "ProjectPortfolio") protected List<ProjectPortfolioType> projectPortfolio;
+   @XmlElement(name = "ProjectProfile") protected List<ProjectProfileType> projectProfile;
+   @XmlElement(name = "ProjectResource") protected List<ProjectResourceType> projectResource;
+   @XmlElement(name = "ProjectResourceQuantity") protected List<ProjectResourceQuantityType> projectResourceQuantity;
+   @XmlElement(name = "ProjectSpendingPlan") protected List<ProjectSpendingPlanType> projectSpendingPlan;
+   @XmlElement(name = "ProjectThreshold") protected List<ProjectThresholdType> projectThreshold;
+   @XmlElement(name = "Relationship") protected List<RelationshipType> relationship;
+   @XmlElement(name = "ResourceAccess") protected List<ResourceAccessType> resourceAccess;
+   @XmlElement(name = "ResourceAssignment") protected List<ResourceAssignmentType> resourceAssignment;
+   @XmlElement(name = "ResourceAssignmentCodeAssignment") protected List<ResourceAssignmentCodeAssignmentType> resourceAssignmentCodeAssignment;
+   @XmlElement(name = "ResourceAssignmentCreate") protected List<ResourceAssignmentCreateType> resourceAssignmentCreate;
+   @XmlElement(name = "ResourceAssignmentPeriodActual") protected List<ResourceAssignmentPeriodActualType> resourceAssignmentPeriodActual;
+   @XmlElement(name = "ResourceAssignmentUpdate") protected List<ResourceAssignmentUpdateType> resourceAssignmentUpdate;
+   @XmlElement(name = "ResourceCodeAssignment") protected List<ResourceCodeAssignmentType> resourceCodeAssignment;
+   @XmlElement(name = "ResourceHour") protected List<ResourceHourType> resourceHour;
+   @XmlElement(name = "ResourceLocation") protected List<ResourceLocationType> resourceLocation;
+   @XmlElement(name = "ResourceTeam") protected List<ResourceTeamType> resourceTeam;
+   @XmlElement(name = "Risk") protected List<RiskType> risk;
+   @XmlElement(name = "RiskImpact") protected List<RiskImpactType> riskImpact;
+   @XmlElement(name = "RiskResponseAction") protected List<RiskResponseActionType> riskResponseAction;
+   @XmlElement(name = "RiskResponseActionImpact") protected List<RiskResponseActionImpactType> riskResponseActionImpact;
+   @XmlElement(name = "RiskResponsePlan") protected List<RiskResponsePlanType> riskResponsePlan;
+   @XmlElement(name = "RoleCodeAssignment") protected List<RoleCodeAssignmentType> roleCodeAssignment;
+   @XmlElement(name = "RoleTeam") protected List<RoleTeamType> roleTeam;
+   @XmlElement(name = "ScheduleCheckOption") protected List<ScheduleCheckOptionType> scheduleCheckOption;
+   @XmlElement(name = "ScheduleOptions") protected List<ScheduleOptionsType> scheduleOptions;
+   @XmlElement(name = "StepUserDefinedValueUpdate") protected List<StepUserDefinedValueUpdateType> stepUserDefinedValueUpdate;
+   @XmlElement(name = "Timesheet") protected List<TimesheetType> timesheet;
+   @XmlElement(name = "TimesheetAudit") protected List<TimesheetAuditType> timesheetAudit;
+   @XmlElement(name = "TimesheetDelegate") protected List<TimesheetDelegateType> timesheetDelegate;
+   @XmlElement(name = "TimesheetPeriod") protected List<TimesheetPeriodType> timesheetPeriod;
+   @XmlElement(name = "UDFValue") protected List<UDFValueType> udfValue;
+   @XmlElement(name = "UpdateBaselineOption") protected List<UpdateBaselineOptionType> updateBaselineOption;
+   @XmlElement(name = "User") protected List<UserType> user;
+   @XmlElement(name = "UserConsent") protected List<UserConsentType> userConsent;
+   @XmlElement(name = "UserDefinedValueUpdate") protected List<UserDefinedValueUpdateType> userDefinedValueUpdate;
+   @XmlElement(name = "UserFieldTitle") protected List<UserFieldTitleType> userFieldTitle;
+   @XmlElement(name = "UserInterfaceView") protected List<UserInterfaceViewType> userInterfaceView;
+   @XmlElement(name = "UserLicense") protected List<UserLicenseType> userLicense;
+   @XmlElement(name = "UserOBS") protected List<UserOBSType> userOBS;
+   @XmlElement(name = "WBS") protected List<WBSType> wbs;
+   @XmlElement(name = "WBSMilestone") protected List<WBSMilestoneType> wbsMilestone;
+   @XmlElement(name = "WbsReviewers") protected List<WbsReviewersType> wbsReviewers;
+
+   /**
+    * Gets the value of the checkuid property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getCHECKUID()
+   {
+      return checkuid;
+   }
+
+   /**
+    * Sets the value of the checkuid property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCHECKUID(String value)
+   {
+      this.checkuid = value;
+   }
+
+   /**
+    * Gets the value of the projectList property.
+    *
+    * @return
+    *     possible object is
+    *     {@link ProjectListType }
+    *
+    */
+   public ProjectListType getProjectList()
+   {
+      return projectList;
+   }
+
+   /**
+    * Sets the value of the projectList property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link ProjectListType }
+    *
+    */
+   public void setProjectList(ProjectListType value)
+   {
+      this.projectList = value;
+   }
+
+   /**
+    * Gets the value of the displayCurrency property.
+    *
+    * @return
+    *     possible object is
+    *     {@link DisplayCurrencyType }
+    *
+    */
+   public DisplayCurrencyType getDisplayCurrency()
+   {
+      return displayCurrency;
+   }
+
+   /**
+    * Sets the value of the displayCurrency property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link DisplayCurrencyType }
+    *
+    */
+   public void setDisplayCurrency(DisplayCurrencyType value)
+   {
+      this.displayCurrency = value;
+   }
+
+   /**
+    * Gets the value of the projectResourceCategory property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectResourceCategory property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectResourceCategory().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectResourceCategoryType }
+    *
+    *
+    */
+   public List<ProjectResourceCategoryType> getProjectResourceCategory()
+   {
+      if (projectResourceCategory == null)
+      {
+         projectResourceCategory = new ArrayList<>();
+      }
+      return this.projectResourceCategory;
+   }
+
+   /**
+    * Gets the value of the unitOfMeasure property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the unitOfMeasure property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUnitOfMeasure().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UnitOfMeasureType }
+    *
+    *
+    */
+   public List<UnitOfMeasureType> getUnitOfMeasure()
+   {
+      if (unitOfMeasure == null)
+      {
+         unitOfMeasure = new ArrayList<>();
+      }
+      return this.unitOfMeasure;
+   }
+
+   /**
+    * Gets the value of the costAccount property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the costAccount property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getCostAccount().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link CostAccountType }
+    *
+    *
+    */
+   public List<CostAccountType> getCostAccount()
+   {
+      if (costAccount == null)
+      {
+         costAccount = new ArrayList<>();
+      }
+      return this.costAccount;
+   }
+
+   /**
+    * Gets the value of the currency property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the currency property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getCurrency().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link CurrencyType }
+    *
+    *
+    */
+   public List<CurrencyType> getCurrency()
+   {
+      if (currency == null)
+      {
+         currency = new ArrayList<>();
+      }
+      return this.currency;
+   }
+
+   /**
+    * Gets the value of the udfType property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the udfType property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUDFType().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UDFTypeType }
+    *
+    *
+    */
+   public List<UDFTypeType> getUDFType()
+   {
+      if (udfType == null)
+      {
+         udfType = new ArrayList<>();
+      }
+      return this.udfType;
+   }
+
+   /**
+    * Gets the value of the location property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the location property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getLocation().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link LocationType }
+    *
+    *
+    */
+   public List<LocationType> getLocation()
+   {
+      if (location == null)
+      {
+         location = new ArrayList<>();
+      }
+      return this.location;
+   }
+
+   /**
+    * Gets the value of the udfCode property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the udfCode property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUDFCode().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UDFCodeType }
+    *
+    *
+    */
+   public List<UDFCodeType> getUDFCode()
+   {
+      if (udfCode == null)
+      {
+         udfCode = new ArrayList<>();
+      }
+      return this.udfCode;
+   }
+
+   /**
+    * Gets the value of the expenseCategory property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the expenseCategory property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getExpenseCategory().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ExpenseCategoryType }
+    *
+    *
+    */
+   public List<ExpenseCategoryType> getExpenseCategory()
+   {
+      if (expenseCategory == null)
+      {
+         expenseCategory = new ArrayList<>();
+      }
+      return this.expenseCategory;
+   }
+
+   /**
+    * Gets the value of the notebookTopic property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the notebookTopic property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getNotebookTopic().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link NotebookTopicType }
+    *
+    *
+    */
+   public List<NotebookTopicType> getNotebookTopic()
+   {
+      if (notebookTopic == null)
+      {
+         notebookTopic = new ArrayList<>();
+      }
+      return this.notebookTopic;
+   }
+
+   /**
+    * Gets the value of the wbsCategory property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the wbsCategory property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getWBSCategory().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link WBSCategoryType }
+    *
+    *
+    */
+   public List<WBSCategoryType> getWBSCategory()
+   {
+      if (wbsCategory == null)
+      {
+         wbsCategory = new ArrayList<>();
+      }
+      return this.wbsCategory;
+   }
+
+   /**
+    * Gets the value of the fundingSource property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the fundingSource property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getFundingSource().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link FundingSourceType }
+    *
+    *
+    */
+   public List<FundingSourceType> getFundingSource()
+   {
+      if (fundingSource == null)
+      {
+         fundingSource = new ArrayList<>();
+      }
+      return this.fundingSource;
+   }
+
+   /**
+    * Gets the value of the thresholdParameter property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the thresholdParameter property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getThresholdParameter().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ThresholdParameterType }
+    *
+    *
+    */
+   public List<ThresholdParameterType> getThresholdParameter()
+   {
+      if (thresholdParameter == null)
+      {
+         thresholdParameter = new ArrayList<>();
+      }
+      return this.thresholdParameter;
+   }
+
+   /**
+    * Gets the value of the obs property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the obs property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getOBS().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link OBSType }
+    *
+    *
+    */
+   public List<OBSType> getOBS()
+   {
+      if (obs == null)
+      {
+         obs = new ArrayList<>();
+      }
+      return this.obs;
+   }
+
+   /**
+    * Gets the value of the shiftPeriod property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the shiftPeriod property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getShiftPeriod().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ShiftPeriodType }
+    *
+    *
+    */
+   public List<ShiftPeriodType> getShiftPeriod()
+   {
+      if (shiftPeriod == null)
+      {
+         shiftPeriod = new ArrayList<>();
+      }
+      return this.shiftPeriod;
+   }
+
+   /**
+    * Gets the value of the shift property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the shift property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getShift().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ShiftType }
+    *
+    *
+    */
+   public List<ShiftType> getShift()
+   {
+      if (shift == null)
+      {
+         shift = new ArrayList<>();
+      }
+      return this.shift;
+   }
+
+   /**
+    * Gets the value of the calendar property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the calendar property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getCalendar().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link CalendarType }
+    *
+    *
+    */
+   public List<CalendarType> getCalendar()
+   {
+      if (calendar == null)
+      {
+         calendar = new ArrayList<>();
+      }
+      return this.calendar;
+   }
+
+   /**
+    * Gets the value of the projectCodeType property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectCodeType property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectCodeType().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectCodeTypeType }
+    *
+    *
+    */
+   public List<ProjectCodeTypeType> getProjectCodeType()
+   {
+      if (projectCodeType == null)
+      {
+         projectCodeType = new ArrayList<>();
+      }
+      return this.projectCodeType;
+   }
+
+   /**
+    * Gets the value of the projectCode property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectCode property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectCode().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectCodeType }
+    *
+    *
+    */
+   public List<ProjectCodeType> getProjectCode()
+   {
+      if (projectCode == null)
+      {
+         projectCode = new ArrayList<>();
+      }
+      return this.projectCode;
+   }
+
+   /**
+    * Gets the value of the resourceCodeType property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceCodeType property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceCodeType().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceCodeTypeType }
+    *
+    *
+    */
+   public List<ResourceCodeTypeType> getResourceCodeType()
+   {
+      if (resourceCodeType == null)
+      {
+         resourceCodeType = new ArrayList<>();
+      }
+      return this.resourceCodeType;
+   }
+
+   /**
+    * Gets the value of the resourceCode property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceCode property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceCode().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceCodeType }
+    *
+    *
+    */
+   public List<ResourceCodeType> getResourceCode()
+   {
+      if (resourceCode == null)
+      {
+         resourceCode = new ArrayList<>();
+      }
+      return this.resourceCode;
+   }
+
+   /**
+    * Gets the value of the roleCodeType property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the roleCodeType property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRoleCodeType().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RoleCodeTypeType }
+    *
+    *
+    */
+   public List<RoleCodeTypeType> getRoleCodeType()
+   {
+      if (roleCodeType == null)
+      {
+         roleCodeType = new ArrayList<>();
+      }
+      return this.roleCodeType;
+   }
+
+   /**
+    * Gets the value of the roleCode property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the roleCode property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRoleCode().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RoleCodeType }
+    *
+    *
+    */
+   public List<RoleCodeType> getRoleCode()
+   {
+      if (roleCode == null)
+      {
+         roleCode = new ArrayList<>();
+      }
+      return this.roleCode;
+   }
+
+   /**
+    * Gets the value of the resourceCurve property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceCurve property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceCurve().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceCurveType }
+    *
+    *
+    */
+   public List<ResourceCurveType> getResourceCurve()
+   {
+      if (resourceCurve == null)
+      {
+         resourceCurve = new ArrayList<>();
+      }
+      return this.resourceCurve;
+   }
+
+   /**
+    * Gets the value of the role property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the role property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRole().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RoleType }
+    *
+    *
+    */
+   public List<RoleType> getRole()
+   {
+      if (role == null)
+      {
+         role = new ArrayList<>();
+      }
+      return this.role;
+   }
+
+   /**
+    * Gets the value of the roleRate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the roleRate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRoleRate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RoleRateType }
+    *
+    *
+    */
+   public List<RoleRateType> getRoleRate()
+   {
+      if (roleRate == null)
+      {
+         roleRate = new ArrayList<>();
+      }
+      return this.roleRate;
+   }
+
+   /**
+    * Gets the value of the roleRateNew property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the roleRateNew property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRoleRateNew().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RoleRateType }
+    *
+    *
+    */
+   public List<RoleRateType> getRoleRateNew()
+   {
+      if (roleRateNew == null)
+      {
+         roleRateNew = new ArrayList<>();
+      }
+      return this.roleRateNew;
+   }
+
+   /**
+    * Gets the value of the roleLimit property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the roleLimit property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRoleLimit().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RoleLimitType }
+    *
+    *
+    */
+   public List<RoleLimitType> getRoleLimit()
+   {
+      if (roleLimit == null)
+      {
+         roleLimit = new ArrayList<>();
+      }
+      return this.roleLimit;
+   }
+
+   /**
+    * Gets the value of the resource property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resource property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResource().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceType }
+    *
+    *
+    */
+   public List<ResourceType> getResource()
+   {
+      if (resource == null)
+      {
+         resource = new ArrayList<>();
+      }
+      return this.resource;
+   }
+
+   /**
+    * Gets the value of the resourceRate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceRate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceRate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceRateType }
+    *
+    *
+    */
+   public List<ResourceRateType> getResourceRate()
+   {
+      if (resourceRate == null)
+      {
+         resourceRate = new ArrayList<>();
+      }
+      return this.resourceRate;
+   }
+
+   /**
+    * Gets the value of the activityCodeType property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityCodeType property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityCodeType().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityCodeTypeType }
+    *
+    *
+    */
+   public List<ActivityCodeTypeType> getActivityCodeType()
+   {
+      if (activityCodeType == null)
+      {
+         activityCodeType = new ArrayList<>();
+      }
+      return this.activityCodeType;
+   }
+
+   /**
+    * Gets the value of the activityCode property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityCode property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityCode().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityCodeType }
+    *
+    *
+    */
+   public List<ActivityCodeType> getActivityCode()
+   {
+      if (activityCode == null)
+      {
+         activityCode = new ArrayList<>();
+      }
+      return this.activityCode;
+   }
+
+   /**
+    * Gets the value of the resourceAssignmentCodeType property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentCodeType property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceAssignmentCodeType().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceAssignmentCodeTypeType }
+    *
+    *
+    */
+   public List<ResourceAssignmentCodeTypeType> getResourceAssignmentCodeType()
+   {
+      if (resourceAssignmentCodeType == null)
+      {
+         resourceAssignmentCodeType = new ArrayList<>();
+      }
+      return this.resourceAssignmentCodeType;
+   }
+
+   /**
+    * Gets the value of the resourceAssignmentCode property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentCode property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceAssignmentCode().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceAssignmentCodeType }
+    *
+    *
+    */
+   public List<ResourceAssignmentCodeType> getResourceAssignmentCode()
+   {
+      if (resourceAssignmentCode == null)
+      {
+         resourceAssignmentCode = new ArrayList<>();
+      }
+      return this.resourceAssignmentCode;
+   }
+
+   /**
+    * Gets the value of the financialPeriod property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the financialPeriod property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getFinancialPeriod().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link FinancialPeriodType }
+    *
+    *
+    */
+   public List<FinancialPeriodType> getFinancialPeriod()
+   {
+      if (financialPeriod == null)
+      {
+         financialPeriod = new ArrayList<>();
+      }
+      return this.financialPeriod;
+   }
+
+   /**
+    * Gets the value of the resourceRole property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceRole property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceRole().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceRoleType }
+    *
+    *
+    */
+   public List<ResourceRoleType> getResourceRole()
+   {
+      if (resourceRole == null)
+      {
+         resourceRole = new ArrayList<>();
+      }
+      return this.resourceRole;
+   }
+
+   /**
+    * Gets the value of the eps property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the eps property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getEPS().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link EPSType }
+    *
+    *
+    */
+   public List<EPSType> getEPS()
+   {
+      if (eps == null)
+      {
+         eps = new ArrayList<>();
+      }
+      return this.eps;
+   }
+
+   /**
+    * Gets the value of the documentCategory property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the documentCategory property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getDocumentCategory().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link DocumentCategoryType }
+    *
+    *
+    */
+   public List<DocumentCategoryType> getDocumentCategory()
+   {
+      if (documentCategory == null)
+      {
+         documentCategory = new ArrayList<>();
+      }
+      return this.documentCategory;
+   }
+
+   /**
+    * Gets the value of the documentStatusCode property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the documentStatusCode property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getDocumentStatusCode().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link DocumentStatusCodeType }
+    *
+    *
+    */
+   public List<DocumentStatusCodeType> getDocumentStatusCode()
+   {
+      if (documentStatusCode == null)
+      {
+         documentStatusCode = new ArrayList<>();
+      }
+      return this.documentStatusCode;
+   }
+
+   /**
+    * Gets the value of the riskCategory property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the riskCategory property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRiskCategory().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RiskCategoryType }
+    *
+    *
+    */
+   public List<RiskCategoryType> getRiskCategory()
+   {
+      if (riskCategory == null)
+      {
+         riskCategory = new ArrayList<>();
+      }
+      return this.riskCategory;
+   }
+
+   /**
+    * Gets the value of the riskThreshold property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the riskThreshold property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRiskThreshold().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RiskThresholdType }
+    *
+    *
+    */
+   public List<RiskThresholdType> getRiskThreshold()
+   {
+      if (riskThreshold == null)
+      {
+         riskThreshold = new ArrayList<>();
+      }
+      return this.riskThreshold;
+   }
+
+   /**
+    * Gets the value of the riskThresholdLevel property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the riskThresholdLevel property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRiskThresholdLevel().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RiskThresholdLevelType }
+    *
+    *
+    */
+   public List<RiskThresholdLevelType> getRiskThresholdLevel()
+   {
+      if (riskThresholdLevel == null)
+      {
+         riskThresholdLevel = new ArrayList<>();
+      }
+      return this.riskThresholdLevel;
+   }
+
+   /**
+    * Gets the value of the riskMatrix property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the riskMatrix property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRiskMatrix().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RiskMatrixType }
+    *
+    *
+    */
+   public List<RiskMatrixType> getRiskMatrix()
+   {
+      if (riskMatrix == null)
+      {
+         riskMatrix = new ArrayList<>();
+      }
+      return this.riskMatrix;
+   }
+
+   /**
+    * Gets the value of the riskMatrixScore property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the riskMatrixScore property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRiskMatrixScore().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RiskMatrixScoreType }
+    *
+    *
+    */
+   public List<RiskMatrixScoreType> getRiskMatrixScore()
+   {
+      if (riskMatrixScore == null)
+      {
+         riskMatrixScore = new ArrayList<>();
+      }
+      return this.riskMatrixScore;
+   }
+
+   /**
+    * Gets the value of the riskMatrixThreshold property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the riskMatrixThreshold property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRiskMatrixThreshold().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RiskMatrixThresholdType }
+    *
+    *
+    */
+   public List<RiskMatrixThresholdType> getRiskMatrixThreshold()
+   {
+      if (riskMatrixThreshold == null)
+      {
+         riskMatrixThreshold = new ArrayList<>();
+      }
+      return this.riskMatrixThreshold;
+   }
+
+   /**
+    * Gets the value of the activity property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activity property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivity().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityType }
+    *
+    *
+    */
+   public List<ActivityType> getActivity()
+   {
+      if (activity == null)
+      {
+         activity = new ArrayList<>();
+      }
+      return this.activity;
+   }
+
+   /**
+    * Gets the value of the activityCodeAssignment property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityCodeAssignment property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityCodeAssignment().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityCodeAssignmentType }
+    *
+    *
+    */
+   public List<ActivityCodeAssignmentType> getActivityCodeAssignment()
+   {
+      if (activityCodeAssignment == null)
+      {
+         activityCodeAssignment = new ArrayList<>();
+      }
+      return this.activityCodeAssignment;
+   }
+
+   /**
+    * Gets the value of the activityCodeUpdate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityCodeUpdate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityCodeUpdate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityCodeUpdateType }
+    *
+    *
+    */
+   public List<ActivityCodeUpdateType> getActivityCodeUpdate()
+   {
+      if (activityCodeUpdate == null)
+      {
+         activityCodeUpdate = new ArrayList<>();
+      }
+      return this.activityCodeUpdate;
+   }
+
+   /**
+    * Gets the value of the activityComment property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityComment property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityComment().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityCommentType }
+    *
+    *
+    */
+   public List<ActivityCommentType> getActivityComment()
+   {
+      if (activityComment == null)
+      {
+         activityComment = new ArrayList<>();
+      }
+      return this.activityComment;
+   }
+
+   /**
+    * Gets the value of the activityExpense property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityExpense property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityExpense().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityExpenseType }
+    *
+    *
+    */
+   public List<ActivityExpenseType> getActivityExpense()
+   {
+      if (activityExpense == null)
+      {
+         activityExpense = new ArrayList<>();
+      }
+      return this.activityExpense;
+   }
+
+   /**
+    * Gets the value of the activityFilter property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityFilter property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityFilter().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityFilterType }
+    *
+    *
+    */
+   public List<ActivityFilterType> getActivityFilter()
+   {
+      if (activityFilter == null)
+      {
+         activityFilter = new ArrayList<>();
+      }
+      return this.activityFilter;
+   }
+
+   /**
+    * Gets the value of the activityNote property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityNote property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityNote().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityNoteType }
+    *
+    *
+    */
+   public List<ActivityNoteType> getActivityNote()
+   {
+      if (activityNote == null)
+      {
+         activityNote = new ArrayList<>();
+      }
+      return this.activityNote;
+   }
+
+   /**
+    * Gets the value of the activityNoteUpdate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityNoteUpdate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityNoteUpdate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityNoteUpdateType }
+    *
+    *
+    */
+   public List<ActivityNoteUpdateType> getActivityNoteUpdate()
+   {
+      if (activityNoteUpdate == null)
+      {
+         activityNoteUpdate = new ArrayList<>();
+      }
+      return this.activityNoteUpdate;
+   }
+
+   /**
+    * Gets the value of the activityOwner property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityOwner property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityOwner().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityOwnerType }
+    *
+    *
+    */
+   public List<ActivityOwnerType> getActivityOwner()
+   {
+      if (activityOwner == null)
+      {
+         activityOwner = new ArrayList<>();
+      }
+      return this.activityOwner;
+   }
+
+   /**
+    * Gets the value of the activityPeriodActual property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityPeriodActual property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityPeriodActual().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityPeriodActualType }
+    *
+    *
+    */
+   public List<ActivityPeriodActualType> getActivityPeriodActual()
+   {
+      if (activityPeriodActual == null)
+      {
+         activityPeriodActual = new ArrayList<>();
+      }
+      return this.activityPeriodActual;
+   }
+
+   /**
+    * Gets the value of the activityRisk property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityRisk property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityRisk().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityRiskType }
+    *
+    *
+    */
+   public List<ActivityRiskType> getActivityRisk()
+   {
+      if (activityRisk == null)
+      {
+         activityRisk = new ArrayList<>();
+      }
+      return this.activityRisk;
+   }
+
+   /**
+    * Gets the value of the activityStep property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityStep property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityStep().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityStepType }
+    *
+    *
+    */
+   public List<ActivityStepType> getActivityStep()
+   {
+      if (activityStep == null)
+      {
+         activityStep = new ArrayList<>();
+      }
+      return this.activityStep;
+   }
+
+   /**
+    * Gets the value of the activityStepCreate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityStepCreate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityStepCreate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityStepCreateType }
+    *
+    *
+    */
+   public List<ActivityStepCreateType> getActivityStepCreate()
+   {
+      if (activityStepCreate == null)
+      {
+         activityStepCreate = new ArrayList<>();
+      }
+      return this.activityStepCreate;
+   }
+
+   /**
+    * Gets the value of the activityStepDelete property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityStepDelete property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityStepDelete().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityStepDeleteType }
+    *
+    *
+    */
+   public List<ActivityStepDeleteType> getActivityStepDelete()
+   {
+      if (activityStepDelete == null)
+      {
+         activityStepDelete = new ArrayList<>();
+      }
+      return this.activityStepDelete;
+   }
+
+   /**
+    * Gets the value of the activityStepTemplate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityStepTemplate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityStepTemplate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityStepTemplateType }
+    *
+    *
+    */
+   public List<ActivityStepTemplateType> getActivityStepTemplate()
+   {
+      if (activityStepTemplate == null)
+      {
+         activityStepTemplate = new ArrayList<>();
+      }
+      return this.activityStepTemplate;
+   }
+
+   /**
+    * Gets the value of the activityStepTemplateItem property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityStepTemplateItem property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityStepTemplateItem().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityStepTemplateItemType }
+    *
+    *
+    */
+   public List<ActivityStepTemplateItemType> getActivityStepTemplateItem()
+   {
+      if (activityStepTemplateItem == null)
+      {
+         activityStepTemplateItem = new ArrayList<>();
+      }
+      return this.activityStepTemplateItem;
+   }
+
+   /**
+    * Gets the value of the activityStepUpdate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityStepUpdate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityStepUpdate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityStepUpdateType }
+    *
+    *
+    */
+   public List<ActivityStepUpdateType> getActivityStepUpdate()
+   {
+      if (activityStepUpdate == null)
+      {
+         activityStepUpdate = new ArrayList<>();
+      }
+      return this.activityStepUpdate;
+   }
+
+   /**
+    * Gets the value of the activityUpdate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the activityUpdate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getActivityUpdate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ActivityUpdateType }
+    *
+    *
+    */
+   public List<ActivityUpdateType> getActivityUpdate()
+   {
+      if (activityUpdate == null)
+      {
+         activityUpdate = new ArrayList<>();
+      }
+      return this.activityUpdate;
+   }
+
+   /**
+    * Gets the value of the alert property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the alert property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getAlert().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link AlertType }
+    *
+    *
+    */
+   public List<AlertType> getAlert()
+   {
+      if (alert == null)
+      {
+         alert = new ArrayList<>();
+      }
+      return this.alert;
+   }
+
+   /**
+    * Gets the value of the autovueAttr property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the autovueAttr property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getAutovueAttr().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link AutovueAttrType }
+    *
+    *
+    */
+   public List<AutovueAttrType> getAutovueAttr()
+   {
+      if (autovueAttr == null)
+      {
+         autovueAttr = new ArrayList<>();
+      }
+      return this.autovueAttr;
+   }
+
+   /**
+    * Gets the value of the baselineType property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the baselineType property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getBaselineType().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link BaselineTypeType }
+    *
+    *
+    */
+   public List<BaselineTypeType> getBaselineType()
+   {
+      if (baselineType == null)
+      {
+         baselineType = new ArrayList<>();
+      }
+      return this.baselineType;
+   }
+
+   /**
+    * Gets the value of the cbs property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the cbs property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getCBS().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link CBSType }
+    *
+    *
+    */
+   public List<CBSType> getCBS()
+   {
+      if (cbs == null)
+      {
+         cbs = new ArrayList<>();
+      }
+      return this.cbs;
+   }
+
+   /**
+    * Gets the value of the cbsDurationSummary property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the cbsDurationSummary property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getCBSDurationSummary().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link CBSDurationSummaryType }
+    *
+    *
+    */
+   public List<CBSDurationSummaryType> getCBSDurationSummary()
+   {
+      if (cbsDurationSummary == null)
+      {
+         cbsDurationSummary = new ArrayList<>();
+      }
+      return this.cbsDurationSummary;
+   }
+
+   /**
+    * Gets the value of the changeSet property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the changeSet property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getChangeSet().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ChangeSetType }
+    *
+    *
+    */
+   public List<ChangeSetType> getChangeSet()
+   {
+      if (changeSet == null)
+      {
+         changeSet = new ArrayList<>();
+      }
+      return this.changeSet;
+   }
+
+   /**
+    * Gets the value of the document property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the document property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getDocument().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link DocumentType }
+    *
+    *
+    */
+   public List<DocumentType> getDocument()
+   {
+      if (document == null)
+      {
+         document = new ArrayList<>();
+      }
+      return this.document;
+   }
+
+   /**
+    * Gets the value of the epsBudgetChangeLog property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the epsBudgetChangeLog property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getEPSBudgetChangeLog().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link EPSBudgetChangeLogType }
+    *
+    *
+    */
+   public List<EPSBudgetChangeLogType> getEPSBudgetChangeLog()
+   {
+      if (epsBudgetChangeLog == null)
+      {
+         epsBudgetChangeLog = new ArrayList<>();
+      }
+      return this.epsBudgetChangeLog;
+   }
+
+   /**
+    * Gets the value of the epsFunding property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the epsFunding property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getEPSFunding().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link EPSFundingType }
+    *
+    *
+    */
+   public List<EPSFundingType> getEPSFunding()
+   {
+      if (epsFunding == null)
+      {
+         epsFunding = new ArrayList<>();
+      }
+      return this.epsFunding;
+   }
+
+   /**
+    * Gets the value of the epsNote property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the epsNote property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getEPSNote().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link EPSNoteType }
+    *
+    *
+    */
+   public List<EPSNoteType> getEPSNote()
+   {
+      if (epsNote == null)
+      {
+         epsNote = new ArrayList<>();
+      }
+      return this.epsNote;
+   }
+
+   /**
+    * Gets the value of the epsSpendingPlan property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the epsSpendingPlan property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getEPSSpendingPlan().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link EPSSpendingPlanType }
+    *
+    *
+    */
+   public List<EPSSpendingPlanType> getEPSSpendingPlan()
+   {
+      if (epsSpendingPlan == null)
+      {
+         epsSpendingPlan = new ArrayList<>();
+      }
+      return this.epsSpendingPlan;
+   }
+
+   /**
+    * Gets the value of the financialPeriodTemplate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the financialPeriodTemplate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getFinancialPeriodTemplate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link FinancialPeriodTemplateType }
+    *
+    *
+    */
+   public List<FinancialPeriodTemplateType> getFinancialPeriodTemplate()
+   {
+      if (financialPeriodTemplate == null)
+      {
+         financialPeriodTemplate = new ArrayList<>();
+      }
+      return this.financialPeriodTemplate;
+   }
+
+   /**
+    * Gets the value of the gatewayDeployment property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the gatewayDeployment property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getGatewayDeployment().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link GatewayDeploymentType }
+    *
+    *
+    */
+   public List<GatewayDeploymentType> getGatewayDeployment()
+   {
+      if (gatewayDeployment == null)
+      {
+         gatewayDeployment = new ArrayList<>();
+      }
+      return this.gatewayDeployment;
+   }
+
+   /**
+    * Gets the value of the globalPreferences property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the globalPreferences property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getGlobalPreferences().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link GlobalPreferencesType }
+    *
+    *
+    */
+   public List<GlobalPreferencesType> getGlobalPreferences()
+   {
+      if (globalPreferences == null)
+      {
+         globalPreferences = new ArrayList<>();
+      }
+      return this.globalPreferences;
+   }
+
+   /**
+    * Gets the value of the globalProfile property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the globalProfile property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getGlobalProfile().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link GlobalProfileType }
+    *
+    *
+    */
+   public List<GlobalProfileType> getGlobalProfile()
+   {
+      if (globalProfile == null)
+      {
+         globalProfile = new ArrayList<>();
+      }
+      return this.globalProfile;
+   }
+
+   /**
+    * Gets the value of the globalReplace property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the globalReplace property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getGlobalReplace().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link GlobalReplaceType }
+    *
+    *
+    */
+   public List<GlobalReplaceType> getGlobalReplace()
+   {
+      if (globalReplace == null)
+      {
+         globalReplace = new ArrayList<>();
+      }
+      return this.globalReplace;
+   }
+
+   /**
+    * Gets the value of the importOptionsTemplate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the importOptionsTemplate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getImportOptionsTemplate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ImportOptionsTemplateType }
+    *
+    *
+    */
+   public List<ImportOptionsTemplateType> getImportOptionsTemplate()
+   {
+      if (importOptionsTemplate == null)
+      {
+         importOptionsTemplate = new ArrayList<>();
+      }
+      return this.importOptionsTemplate;
+   }
+
+   /**
+    * Gets the value of the issueHistory property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the issueHistory property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getIssueHistory().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link IssueHistoryType }
+    *
+    *
+    */
+   public List<IssueHistoryType> getIssueHistory()
+   {
+      if (issueHistory == null)
+      {
+         issueHistory = new ArrayList<>();
+      }
+      return this.issueHistory;
+   }
+
+   /**
+    * Gets the value of the jobService property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the jobService property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getJobService().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link JobServiceType }
+    *
+    *
+    */
+   public List<JobServiceType> getJobService()
+   {
+      if (jobService == null)
+      {
+         jobService = new ArrayList<>();
+      }
+      return this.jobService;
+   }
+
+   /**
+    * Gets the value of the leanTask property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the leanTask property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getLeanTask().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link LeanTaskType }
+    *
+    *
+    */
+   public List<LeanTaskType> getLeanTask()
+   {
+      if (leanTask == null)
+      {
+         leanTask = new ArrayList<>();
+      }
+      return this.leanTask;
+   }
+
+   /**
+    * Gets the value of the mspTemplate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the mspTemplate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getMSPTemplate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link MSPTemplateType }
+    *
+    *
+    */
+   public List<MSPTemplateType> getMSPTemplate()
+   {
+      if (mspTemplate == null)
+      {
+         mspTemplate = new ArrayList<>();
+      }
+      return this.mspTemplate;
+   }
+
+   /**
+    * Gets the value of the overheadCode property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the overheadCode property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getOverheadCode().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link OverheadCodeType }
+    *
+    *
+    */
+   public List<OverheadCodeType> getOverheadCode()
+   {
+      if (overheadCode == null)
+      {
+         overheadCode = new ArrayList<>();
+      }
+      return this.overheadCode;
+   }
+
+   /**
+    * Gets the value of the profile property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the profile property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProfile().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProfileType }
+    *
+    *
+    */
+   public List<ProfileType> getProfile()
+   {
+      if (profile == null)
+      {
+         profile = new ArrayList<>();
+      }
+      return this.profile;
+   }
+
+   /**
+    * Gets the value of the project property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the project property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProject().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectType }
+    *
+    *
+    */
+   public List<ProjectType> getProject()
+   {
+      if (project == null)
+      {
+         project = new ArrayList<>();
+      }
+      return this.project;
+   }
+
+   /**
+    * Gets the value of the baselineProject property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the baselineProject property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getBaselineProject().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link BaselineProjectType }
+    *
+    *
+    */
+   public List<BaselineProjectType> getBaselineProject()
+   {
+      if (baselineProject == null)
+      {
+         baselineProject = new ArrayList<>();
+      }
+      return this.baselineProject;
+   }
+
+   /**
+    * Gets the value of the projectBudgetChangeLog property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectBudgetChangeLog property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectBudgetChangeLog().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectBudgetChangeLogType }
+    *
+    *
+    */
+   public List<ProjectBudgetChangeLogType> getProjectBudgetChangeLog()
+   {
+      if (projectBudgetChangeLog == null)
+      {
+         projectBudgetChangeLog = new ArrayList<>();
+      }
+      return this.projectBudgetChangeLog;
+   }
+
+   /**
+    * Gets the value of the projectCodeAssignment property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectCodeAssignment property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectCodeAssignment().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectCodeAssignmentType }
+    *
+    *
+    */
+   public List<ProjectCodeAssignmentType> getProjectCodeAssignment()
+   {
+      if (projectCodeAssignment == null)
+      {
+         projectCodeAssignment = new ArrayList<>();
+      }
+      return this.projectCodeAssignment;
+   }
+
+   /**
+    * Gets the value of the projectDeployment property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectDeployment property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectDeployment().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectDeploymentType }
+    *
+    *
+    */
+   public List<ProjectDeploymentType> getProjectDeployment()
+   {
+      if (projectDeployment == null)
+      {
+         projectDeployment = new ArrayList<>();
+      }
+      return this.projectDeployment;
+   }
+
+   /**
+    * Gets the value of the projectDocument property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectDocument property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectDocument().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectDocumentType }
+    *
+    *
+    */
+   public List<ProjectDocumentType> getProjectDocument()
+   {
+      if (projectDocument == null)
+      {
+         projectDocument = new ArrayList<>();
+      }
+      return this.projectDocument;
+   }
+
+   /**
+    * Gets the value of the projectFunding property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectFunding property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectFunding().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectFundingType }
+    *
+    *
+    */
+   public List<ProjectFundingType> getProjectFunding()
+   {
+      if (projectFunding == null)
+      {
+         projectFunding = new ArrayList<>();
+      }
+      return this.projectFunding;
+   }
+
+   /**
+    * Gets the value of the projectIssue property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectIssue property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectIssue().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectIssueType }
+    *
+    *
+    */
+   public List<ProjectIssueType> getProjectIssue()
+   {
+      if (projectIssue == null)
+      {
+         projectIssue = new ArrayList<>();
+      }
+      return this.projectIssue;
+   }
+
+   /**
+    * Gets the value of the projectNote property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectNote property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectNote().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectNoteType }
+    *
+    *
+    */
+   public List<ProjectNoteType> getProjectNote()
+   {
+      if (projectNote == null)
+      {
+         projectNote = new ArrayList<>();
+      }
+      return this.projectNote;
+   }
+
+   /**
+    * Gets the value of the projectPortfolio property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectPortfolio property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectPortfolio().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectPortfolioType }
+    *
+    *
+    */
+   public List<ProjectPortfolioType> getProjectPortfolio()
+   {
+      if (projectPortfolio == null)
+      {
+         projectPortfolio = new ArrayList<>();
+      }
+      return this.projectPortfolio;
+   }
+
+   /**
+    * Gets the value of the projectProfile property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectProfile property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectProfile().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectProfileType }
+    *
+    *
+    */
+   public List<ProjectProfileType> getProjectProfile()
+   {
+      if (projectProfile == null)
+      {
+         projectProfile = new ArrayList<>();
+      }
+      return this.projectProfile;
+   }
+
+   /**
+    * Gets the value of the projectResource property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectResource property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectResource().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectResourceType }
+    *
+    *
+    */
+   public List<ProjectResourceType> getProjectResource()
+   {
+      if (projectResource == null)
+      {
+         projectResource = new ArrayList<>();
+      }
+      return this.projectResource;
+   }
+
+   /**
+    * Gets the value of the projectResourceQuantity property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectResourceQuantity property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectResourceQuantity().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectResourceQuantityType }
+    *
+    *
+    */
+   public List<ProjectResourceQuantityType> getProjectResourceQuantity()
+   {
+      if (projectResourceQuantity == null)
+      {
+         projectResourceQuantity = new ArrayList<>();
+      }
+      return this.projectResourceQuantity;
+   }
+
+   /**
+    * Gets the value of the projectSpendingPlan property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectSpendingPlan property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectSpendingPlan().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectSpendingPlanType }
+    *
+    *
+    */
+   public List<ProjectSpendingPlanType> getProjectSpendingPlan()
+   {
+      if (projectSpendingPlan == null)
+      {
+         projectSpendingPlan = new ArrayList<>();
+      }
+      return this.projectSpendingPlan;
+   }
+
+   /**
+    * Gets the value of the projectThreshold property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the projectThreshold property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getProjectThreshold().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ProjectThresholdType }
+    *
+    *
+    */
+   public List<ProjectThresholdType> getProjectThreshold()
+   {
+      if (projectThreshold == null)
+      {
+         projectThreshold = new ArrayList<>();
+      }
+      return this.projectThreshold;
+   }
+
+   /**
+    * Gets the value of the relationship property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the relationship property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRelationship().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RelationshipType }
+    *
+    *
+    */
+   public List<RelationshipType> getRelationship()
+   {
+      if (relationship == null)
+      {
+         relationship = new ArrayList<>();
+      }
+      return this.relationship;
+   }
+
+   /**
+    * Gets the value of the resourceAccess property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceAccess property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceAccess().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceAccessType }
+    *
+    *
+    */
+   public List<ResourceAccessType> getResourceAccess()
+   {
+      if (resourceAccess == null)
+      {
+         resourceAccess = new ArrayList<>();
+      }
+      return this.resourceAccess;
+   }
+
+   /**
+    * Gets the value of the resourceAssignment property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceAssignment property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceAssignment().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceAssignmentType }
+    *
+    *
+    */
+   public List<ResourceAssignmentType> getResourceAssignment()
+   {
+      if (resourceAssignment == null)
+      {
+         resourceAssignment = new ArrayList<>();
+      }
+      return this.resourceAssignment;
+   }
+
+   /**
+    * Gets the value of the resourceAssignmentCodeAssignment property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentCodeAssignment property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceAssignmentCodeAssignment().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceAssignmentCodeAssignmentType }
+    *
+    *
+    */
+   public List<ResourceAssignmentCodeAssignmentType> getResourceAssignmentCodeAssignment()
+   {
+      if (resourceAssignmentCodeAssignment == null)
+      {
+         resourceAssignmentCodeAssignment = new ArrayList<>();
+      }
+      return this.resourceAssignmentCodeAssignment;
+   }
+
+   /**
+    * Gets the value of the resourceAssignmentCreate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentCreate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceAssignmentCreate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceAssignmentCreateType }
+    *
+    *
+    */
+   public List<ResourceAssignmentCreateType> getResourceAssignmentCreate()
+   {
+      if (resourceAssignmentCreate == null)
+      {
+         resourceAssignmentCreate = new ArrayList<>();
+      }
+      return this.resourceAssignmentCreate;
+   }
+
+   /**
+    * Gets the value of the resourceAssignmentPeriodActual property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentPeriodActual property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceAssignmentPeriodActual().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceAssignmentPeriodActualType }
+    *
+    *
+    */
+   public List<ResourceAssignmentPeriodActualType> getResourceAssignmentPeriodActual()
+   {
+      if (resourceAssignmentPeriodActual == null)
+      {
+         resourceAssignmentPeriodActual = new ArrayList<>();
+      }
+      return this.resourceAssignmentPeriodActual;
+   }
+
+   /**
+    * Gets the value of the resourceAssignmentUpdate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceAssignmentUpdate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceAssignmentUpdate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceAssignmentUpdateType }
+    *
+    *
+    */
+   public List<ResourceAssignmentUpdateType> getResourceAssignmentUpdate()
+   {
+      if (resourceAssignmentUpdate == null)
+      {
+         resourceAssignmentUpdate = new ArrayList<>();
+      }
+      return this.resourceAssignmentUpdate;
+   }
+
+   /**
+    * Gets the value of the resourceCodeAssignment property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceCodeAssignment property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceCodeAssignment().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceCodeAssignmentType }
+    *
+    *
+    */
+   public List<ResourceCodeAssignmentType> getResourceCodeAssignment()
+   {
+      if (resourceCodeAssignment == null)
+      {
+         resourceCodeAssignment = new ArrayList<>();
+      }
+      return this.resourceCodeAssignment;
+   }
+
+   /**
+    * Gets the value of the resourceHour property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceHour property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceHour().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceHourType }
+    *
+    *
+    */
+   public List<ResourceHourType> getResourceHour()
+   {
+      if (resourceHour == null)
+      {
+         resourceHour = new ArrayList<>();
+      }
+      return this.resourceHour;
+   }
+
+   /**
+    * Gets the value of the resourceLocation property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceLocation property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceLocation().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceLocationType }
+    *
+    *
+    */
+   public List<ResourceLocationType> getResourceLocation()
+   {
+      if (resourceLocation == null)
+      {
+         resourceLocation = new ArrayList<>();
+      }
+      return this.resourceLocation;
+   }
+
+   /**
+    * Gets the value of the resourceTeam property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the resourceTeam property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getResourceTeam().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ResourceTeamType }
+    *
+    *
+    */
+   public List<ResourceTeamType> getResourceTeam()
+   {
+      if (resourceTeam == null)
+      {
+         resourceTeam = new ArrayList<>();
+      }
+      return this.resourceTeam;
+   }
+
+   /**
+    * Gets the value of the risk property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the risk property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRisk().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RiskType }
+    *
+    *
+    */
+   public List<RiskType> getRisk()
+   {
+      if (risk == null)
+      {
+         risk = new ArrayList<>();
+      }
+      return this.risk;
+   }
+
+   /**
+    * Gets the value of the riskImpact property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the riskImpact property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRiskImpact().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RiskImpactType }
+    *
+    *
+    */
+   public List<RiskImpactType> getRiskImpact()
+   {
+      if (riskImpact == null)
+      {
+         riskImpact = new ArrayList<>();
+      }
+      return this.riskImpact;
+   }
+
+   /**
+    * Gets the value of the riskResponseAction property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the riskResponseAction property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRiskResponseAction().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RiskResponseActionType }
+    *
+    *
+    */
+   public List<RiskResponseActionType> getRiskResponseAction()
+   {
+      if (riskResponseAction == null)
+      {
+         riskResponseAction = new ArrayList<>();
+      }
+      return this.riskResponseAction;
+   }
+
+   /**
+    * Gets the value of the riskResponseActionImpact property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the riskResponseActionImpact property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRiskResponseActionImpact().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RiskResponseActionImpactType }
+    *
+    *
+    */
+   public List<RiskResponseActionImpactType> getRiskResponseActionImpact()
+   {
+      if (riskResponseActionImpact == null)
+      {
+         riskResponseActionImpact = new ArrayList<>();
+      }
+      return this.riskResponseActionImpact;
+   }
+
+   /**
+    * Gets the value of the riskResponsePlan property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the riskResponsePlan property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRiskResponsePlan().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RiskResponsePlanType }
+    *
+    *
+    */
+   public List<RiskResponsePlanType> getRiskResponsePlan()
+   {
+      if (riskResponsePlan == null)
+      {
+         riskResponsePlan = new ArrayList<>();
+      }
+      return this.riskResponsePlan;
+   }
+
+   /**
+    * Gets the value of the roleCodeAssignment property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the roleCodeAssignment property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRoleCodeAssignment().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RoleCodeAssignmentType }
+    *
+    *
+    */
+   public List<RoleCodeAssignmentType> getRoleCodeAssignment()
+   {
+      if (roleCodeAssignment == null)
+      {
+         roleCodeAssignment = new ArrayList<>();
+      }
+      return this.roleCodeAssignment;
+   }
+
+   /**
+    * Gets the value of the roleTeam property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the roleTeam property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getRoleTeam().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link RoleTeamType }
+    *
+    *
+    */
+   public List<RoleTeamType> getRoleTeam()
+   {
+      if (roleTeam == null)
+      {
+         roleTeam = new ArrayList<>();
+      }
+      return this.roleTeam;
+   }
+
+   /**
+    * Gets the value of the scheduleCheckOption property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the scheduleCheckOption property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getScheduleCheckOption().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ScheduleCheckOptionType }
+    *
+    *
+    */
+   public List<ScheduleCheckOptionType> getScheduleCheckOption()
+   {
+      if (scheduleCheckOption == null)
+      {
+         scheduleCheckOption = new ArrayList<>();
+      }
+      return this.scheduleCheckOption;
+   }
+
+   /**
+    * Gets the value of the scheduleOptions property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the scheduleOptions property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getScheduleOptions().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link ScheduleOptionsType }
+    *
+    *
+    */
+   public List<ScheduleOptionsType> getScheduleOptions()
+   {
+      if (scheduleOptions == null)
+      {
+         scheduleOptions = new ArrayList<>();
+      }
+      return this.scheduleOptions;
+   }
+
+   /**
+    * Gets the value of the stepUserDefinedValueUpdate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the stepUserDefinedValueUpdate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getStepUserDefinedValueUpdate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link StepUserDefinedValueUpdateType }
+    *
+    *
+    */
+   public List<StepUserDefinedValueUpdateType> getStepUserDefinedValueUpdate()
+   {
+      if (stepUserDefinedValueUpdate == null)
+      {
+         stepUserDefinedValueUpdate = new ArrayList<>();
+      }
+      return this.stepUserDefinedValueUpdate;
+   }
+
+   /**
+    * Gets the value of the timesheet property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the timesheet property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getTimesheet().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link TimesheetType }
+    *
+    *
+    */
+   public List<TimesheetType> getTimesheet()
+   {
+      if (timesheet == null)
+      {
+         timesheet = new ArrayList<>();
+      }
+      return this.timesheet;
+   }
+
+   /**
+    * Gets the value of the timesheetAudit property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the timesheetAudit property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getTimesheetAudit().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link TimesheetAuditType }
+    *
+    *
+    */
+   public List<TimesheetAuditType> getTimesheetAudit()
+   {
+      if (timesheetAudit == null)
+      {
+         timesheetAudit = new ArrayList<>();
+      }
+      return this.timesheetAudit;
+   }
+
+   /**
+    * Gets the value of the timesheetDelegate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the timesheetDelegate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getTimesheetDelegate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link TimesheetDelegateType }
+    *
+    *
+    */
+   public List<TimesheetDelegateType> getTimesheetDelegate()
+   {
+      if (timesheetDelegate == null)
+      {
+         timesheetDelegate = new ArrayList<>();
+      }
+      return this.timesheetDelegate;
+   }
+
+   /**
+    * Gets the value of the timesheetPeriod property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the timesheetPeriod property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getTimesheetPeriod().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link TimesheetPeriodType }
+    *
+    *
+    */
+   public List<TimesheetPeriodType> getTimesheetPeriod()
+   {
+      if (timesheetPeriod == null)
+      {
+         timesheetPeriod = new ArrayList<>();
+      }
+      return this.timesheetPeriod;
+   }
+
+   /**
+    * Gets the value of the udfValue property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the udfValue property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUDFValue().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UDFValueType }
+    *
+    *
+    */
+   public List<UDFValueType> getUDFValue()
+   {
+      if (udfValue == null)
+      {
+         udfValue = new ArrayList<>();
+      }
+      return this.udfValue;
+   }
+
+   /**
+    * Gets the value of the updateBaselineOption property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the updateBaselineOption property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUpdateBaselineOption().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UpdateBaselineOptionType }
+    *
+    *
+    */
+   public List<UpdateBaselineOptionType> getUpdateBaselineOption()
+   {
+      if (updateBaselineOption == null)
+      {
+         updateBaselineOption = new ArrayList<>();
+      }
+      return this.updateBaselineOption;
+   }
+
+   /**
+    * Gets the value of the user property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the user property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUser().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UserType }
+    *
+    *
+    */
+   public List<UserType> getUser()
+   {
+      if (user == null)
+      {
+         user = new ArrayList<>();
+      }
+      return this.user;
+   }
+
+   /**
+    * Gets the value of the userConsent property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the userConsent property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUserConsent().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UserConsentType }
+    *
+    *
+    */
+   public List<UserConsentType> getUserConsent()
+   {
+      if (userConsent == null)
+      {
+         userConsent = new ArrayList<>();
+      }
+      return this.userConsent;
+   }
+
+   /**
+    * Gets the value of the userDefinedValueUpdate property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the userDefinedValueUpdate property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUserDefinedValueUpdate().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UserDefinedValueUpdateType }
+    *
+    *
+    */
+   public List<UserDefinedValueUpdateType> getUserDefinedValueUpdate()
+   {
+      if (userDefinedValueUpdate == null)
+      {
+         userDefinedValueUpdate = new ArrayList<>();
+      }
+      return this.userDefinedValueUpdate;
+   }
+
+   /**
+    * Gets the value of the userFieldTitle property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the userFieldTitle property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUserFieldTitle().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UserFieldTitleType }
+    *
+    *
+    */
+   public List<UserFieldTitleType> getUserFieldTitle()
+   {
+      if (userFieldTitle == null)
+      {
+         userFieldTitle = new ArrayList<>();
+      }
+      return this.userFieldTitle;
+   }
+
+   /**
+    * Gets the value of the userInterfaceView property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the userInterfaceView property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUserInterfaceView().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UserInterfaceViewType }
+    *
+    *
+    */
+   public List<UserInterfaceViewType> getUserInterfaceView()
+   {
+      if (userInterfaceView == null)
+      {
+         userInterfaceView = new ArrayList<>();
+      }
+      return this.userInterfaceView;
+   }
+
+   /**
+    * Gets the value of the userLicense property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the userLicense property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUserLicense().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UserLicenseType }
+    *
+    *
+    */
+   public List<UserLicenseType> getUserLicense()
+   {
+      if (userLicense == null)
+      {
+         userLicense = new ArrayList<>();
+      }
+      return this.userLicense;
+   }
+
+   /**
+    * Gets the value of the userOBS property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the userOBS property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getUserOBS().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link UserOBSType }
+    *
+    *
+    */
+   public List<UserOBSType> getUserOBS()
+   {
+      if (userOBS == null)
+      {
+         userOBS = new ArrayList<>();
+      }
+      return this.userOBS;
+   }
+
+   /**
+    * Gets the value of the wbs property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the wbs property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getWBS().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link WBSType }
+    *
+    *
+    */
+   public List<WBSType> getWBS()
+   {
+      if (wbs == null)
+      {
+         wbs = new ArrayList<>();
+      }
+      return this.wbs;
+   }
+
+   /**
+    * Gets the value of the wbsMilestone property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the wbsMilestone property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getWBSMilestone().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link WBSMilestoneType }
+    *
+    *
+    */
+   public List<WBSMilestoneType> getWBSMilestone()
+   {
+      if (wbsMilestone == null)
+      {
+         wbsMilestone = new ArrayList<>();
+      }
+      return this.wbsMilestone;
+   }
+
+   /**
+    * Gets the value of the wbsReviewers property.
+    *
+    * <p>
+    * This accessor method returns a reference to the live list,
+    * not a snapshot. Therefore any modification you make to the
+    * returned list will be present inside the Jakarta XML Binding object.
+    * This is why there is not a <CODE>set</CODE> method for the wbsReviewers property.
+    *
+    * <p>
+    * For example, to add a new item, do as follows:
+    * <pre>
+    *    getWbsReviewers().add(newItem);
+    * </pre>
+    *
+    *
+    * <p>
+    * Objects of the following type(s) are allowed in the list
+    * {@link WbsReviewersType }
+    *
+    *
+    */
+   public List<WbsReviewersType> getWbsReviewers()
+   {
+      if (wbsReviewers == null)
+      {
+         wbsReviewers = new ArrayList<>();
+      }
+      return this.wbsReviewers;
+   }
 
 }

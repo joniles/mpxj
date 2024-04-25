@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:49 AM BST
 //
 
-
 package net.sf.mpxj.conceptdraw.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -13,7 +12,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -44,103 +42,106 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "id",
-    "isFilterInverted",
-    "showHighlightFilteredTasks",
-    "showPhasesOfFilteredTasks"
-})
-@XmlRootElement(name = "ActiveFilter")
-public class ActiveFilter {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "", propOrder =
+{
+   "id",
+   "isFilterInverted",
+   "showHighlightFilteredTasks",
+   "showPhasesOfFilteredTasks"
+}) @XmlRootElement(name = "ActiveFilter") public class ActiveFilter
+{
 
-    @XmlElement(name = "ID", required = true)
-    protected String id;
-    @XmlElement(name = "IsFilterInverted")
-    protected boolean isFilterInverted;
-    @XmlElement(name = "ShowHighlightFilteredTasks", required = true)
-    protected String showHighlightFilteredTasks;
-    @XmlElement(name = "ShowPhasesOfFilteredTasks")
-    protected boolean showPhasesOfFilteredTasks;
+   @XmlElement(name = "ID", required = true) protected String id;
+   @XmlElement(name = "IsFilterInverted") protected boolean isFilterInverted;
+   @XmlElement(name = "ShowHighlightFilteredTasks", required = true) protected String showHighlightFilteredTasks;
+   @XmlElement(name = "ShowPhasesOfFilteredTasks") protected boolean showPhasesOfFilteredTasks;
 
-    /**
-     * Gets the value of the id property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getID() {
-        return id;
-    }
+   /**
+    * Gets the value of the id property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getID()
+   {
+      return id;
+   }
 
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setID(String value) {
-        this.id = value;
-    }
+   /**
+    * Sets the value of the id property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setID(String value)
+   {
+      this.id = value;
+   }
 
-    /**
-     * Gets the value of the isFilterInverted property.
-     *
-     */
-    public boolean isIsFilterInverted() {
-        return isFilterInverted;
-    }
+   /**
+    * Gets the value of the isFilterInverted property.
+    *
+    */
+   public boolean isIsFilterInverted()
+   {
+      return isFilterInverted;
+   }
 
-    /**
-     * Sets the value of the isFilterInverted property.
-     *
-     */
-    public void setIsFilterInverted(boolean value) {
-        this.isFilterInverted = value;
-    }
+   /**
+    * Sets the value of the isFilterInverted property.
+    *
+    */
+   public void setIsFilterInverted(boolean value)
+   {
+      this.isFilterInverted = value;
+   }
 
-    /**
-     * Gets the value of the showHighlightFilteredTasks property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getShowHighlightFilteredTasks() {
-        return showHighlightFilteredTasks;
-    }
+   /**
+    * Gets the value of the showHighlightFilteredTasks property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getShowHighlightFilteredTasks()
+   {
+      return showHighlightFilteredTasks;
+   }
 
-    /**
-     * Sets the value of the showHighlightFilteredTasks property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setShowHighlightFilteredTasks(String value) {
-        this.showHighlightFilteredTasks = value;
-    }
+   /**
+    * Sets the value of the showHighlightFilteredTasks property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setShowHighlightFilteredTasks(String value)
+   {
+      this.showHighlightFilteredTasks = value;
+   }
 
-    /**
-     * Gets the value of the showPhasesOfFilteredTasks property.
-     *
-     */
-    public boolean isShowPhasesOfFilteredTasks() {
-        return showPhasesOfFilteredTasks;
-    }
+   /**
+    * Gets the value of the showPhasesOfFilteredTasks property.
+    *
+    */
+   public boolean isShowPhasesOfFilteredTasks()
+   {
+      return showPhasesOfFilteredTasks;
+   }
 
-    /**
-     * Sets the value of the showPhasesOfFilteredTasks property.
-     *
-     */
-    public void setShowPhasesOfFilteredTasks(boolean value) {
-        this.showPhasesOfFilteredTasks = value;
-    }
+   /**
+    * Sets the value of the showPhasesOfFilteredTasks property.
+    *
+    */
+   public void setShowPhasesOfFilteredTasks(boolean value)
+   {
+      this.showPhasesOfFilteredTasks = value;
+   }
 
 }

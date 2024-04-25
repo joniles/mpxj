@@ -5,24 +5,21 @@
 // Generated on: 2024.04.25 at 10:03:50 AM BST
 //
 
-
 package net.sf.mpxj.ganttdesigner.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter4
-    extends XmlAdapter<String, Double>
+public class Adapter4 extends XmlAdapter<String, Double>
 {
 
+   @Override public Double unmarshal(String value)
+   {
+      return (net.sf.mpxj.ganttdesigner.DatatypeConverter.parsePercent(value));
+   }
 
-    @Override
-   public Double unmarshal(String value) {
-        return (net.sf.mpxj.ganttdesigner.DatatypeConverter.parsePercent(value));
-    }
-
-    @Override
-   public String marshal(Double value) {
-        return (net.sf.mpxj.ganttdesigner.DatatypeConverter.printPercent(value));
-    }
+   @Override public String marshal(Double value)
+   {
+      return (net.sf.mpxj.ganttdesigner.DatatypeConverter.printPercent(value));
+   }
 
 }

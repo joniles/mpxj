@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:38 AM BST
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -14,7 +13,6 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -33,37 +31,35 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "list-item")
-public class ListItem {
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") @XmlRootElement(name = "list-item") public class ListItem
+{
 
-    @XmlAttribute(name = "value", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String value;
+   @XmlAttribute(name = "value", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String value;
 
-    /**
-     * Gets the value of the value property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getValue() {
-        return value;
-    }
+   /**
+    * Gets the value of the value property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getValue()
+   {
+      return value;
+   }
 
-    /**
-     * Sets the value of the value property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
+   /**
+    * Sets the value of the value property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setValue(String value)
+   {
+      this.value = value;
+   }
 
 }

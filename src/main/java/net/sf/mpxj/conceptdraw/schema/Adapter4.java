@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:49 AM BST
 //
 
-
 package net.sf.mpxj.conceptdraw.schema;
 
 import java.time.LocalDate;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
-public class Adapter4
-    extends XmlAdapter<String, LocalDate>
+public class Adapter4 extends XmlAdapter<String, LocalDate>
 {
 
+   @Override public LocalDate unmarshal(String value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDate(value));
+   }
 
-    @Override
-   public LocalDate unmarshal(String value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.parseDate(value));
-    }
-
-    @Override
-   public String marshal(LocalDate value) {
-        return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDate(value));
-    }
+   @Override public String marshal(LocalDate value)
+   {
+      return (net.sf.mpxj.conceptdraw.DatatypeConverter.printDate(value));
+   }
 
 }

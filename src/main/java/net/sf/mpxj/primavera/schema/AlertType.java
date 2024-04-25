@@ -5,13 +5,11 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlType;
-
 
 /**
  * <p>Java class for AlertType complex type.
@@ -31,9 +29,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  *
  */
-@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AlertType")
-public class AlertType {
-
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "AlertType") public class AlertType
+{
 
 }

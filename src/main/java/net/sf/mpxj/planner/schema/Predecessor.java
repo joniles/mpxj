@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:38 AM BST
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -46,122 +44,123 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "predecessor")
-public class Predecessor {
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") @XmlRootElement(name = "predecessor") public class Predecessor
+{
 
-    @XmlAttribute(name = "id", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String id;
-    @XmlAttribute(name = "predecessor-id", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String predecessorId;
-    @XmlAttribute(name = "type")
-    @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
-    protected String type;
-    @XmlAttribute(name = "lag")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String lag;
+   @XmlAttribute(name = "id", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String id;
+   @XmlAttribute(name = "predecessor-id", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String predecessorId;
+   @XmlAttribute(name = "type") @XmlJavaTypeAdapter(CollapsedStringAdapter.class) protected String type;
+   @XmlAttribute(name = "lag") @XmlJavaTypeAdapter(Adapter1.class) protected String lag;
 
-    /**
-     * Gets the value of the id property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getId() {
-        return id;
-    }
+   /**
+    * Gets the value of the id property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getId()
+   {
+      return id;
+   }
 
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
+   /**
+    * Sets the value of the id property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setId(String value)
+   {
+      this.id = value;
+   }
 
-    /**
-     * Gets the value of the predecessorId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getPredecessorId() {
-        return predecessorId;
-    }
+   /**
+    * Gets the value of the predecessorId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getPredecessorId()
+   {
+      return predecessorId;
+   }
 
-    /**
-     * Sets the value of the predecessorId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPredecessorId(String value) {
-        this.predecessorId = value;
-    }
+   /**
+    * Sets the value of the predecessorId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPredecessorId(String value)
+   {
+      this.predecessorId = value;
+   }
 
-    /**
-     * Gets the value of the type property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getType() {
-        if (type == null) {
-            return "FS";
-        } else {
-            return type;
-        }
-    }
+   /**
+    * Gets the value of the type property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getType()
+   {
+      if (type == null)
+      {
+         return "FS";
+      }
+      else
+      {
+         return type;
+      }
+   }
 
-    /**
-     * Sets the value of the type property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setType(String value) {
-        this.type = value;
-    }
+   /**
+    * Sets the value of the type property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setType(String value)
+   {
+      this.type = value;
+   }
 
-    /**
-     * Gets the value of the lag property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getLag() {
-        return lag;
-    }
+   /**
+    * Gets the value of the lag property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getLag()
+   {
+      return lag;
+   }
 
-    /**
-     * Sets the value of the lag property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setLag(String value) {
-        this.lag = value;
-    }
+   /**
+    * Sets the value of the lag property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setLag(String value)
+   {
+      this.lag = value;
+   }
 
 }

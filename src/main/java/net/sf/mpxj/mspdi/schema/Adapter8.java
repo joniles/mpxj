@@ -5,25 +5,22 @@
 // Generated on: 2024.04.25 at 10:03:37 AM BST
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.TaskType;
 
-public class Adapter8
-    extends XmlAdapter<String, TaskType>
+public class Adapter8 extends XmlAdapter<String, TaskType>
 {
 
+   @Override public TaskType unmarshal(String value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.parseTaskType(value));
+   }
 
-    @Override
-   public TaskType unmarshal(String value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.parseTaskType(value));
-    }
-
-    @Override
-   public String marshal(TaskType value) {
-        return (net.sf.mpxj.mspdi.DatatypeConverter.printTaskType(value));
-    }
+   @Override public String marshal(TaskType value)
+   {
+      return (net.sf.mpxj.mspdi.DatatypeConverter.printTaskType(value));
+   }
 
 }

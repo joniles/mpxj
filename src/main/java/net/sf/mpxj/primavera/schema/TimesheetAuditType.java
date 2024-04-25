@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for TimesheetAuditType complex type.
@@ -101,660 +99,654 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TimesheetAuditType", propOrder = {
-    "approverUserName",
-    "approverUserObjectId",
-    "auditDate",
-    "objectId",
-    "overheadHours",
-    "overheadOvertimeHours",
-    "pendingOverheadHours",
-    "pendingOverheadOvertimeHours",
-    "pendingProjectHours",
-    "pendingProjectOvertimeHours",
-    "projectHours",
-    "projectId",
-    "projectObjectId",
-    "projectOvertimeHours",
-    "resourceId",
-    "resourceName",
-    "resourceObjectId",
-    "timesheetActivityStatus",
-    "timesheetApprovingAs",
-    "timesheetPeriodEndDate",
-    "timesheetPeriodObjectId",
-    "timesheetPeriodStartDate",
-    "timesheetStatus"
-})
-public class TimesheetAuditType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "TimesheetAuditType", propOrder =
+{
+   "approverUserName",
+   "approverUserObjectId",
+   "auditDate",
+   "objectId",
+   "overheadHours",
+   "overheadOvertimeHours",
+   "pendingOverheadHours",
+   "pendingOverheadOvertimeHours",
+   "pendingProjectHours",
+   "pendingProjectOvertimeHours",
+   "projectHours",
+   "projectId",
+   "projectObjectId",
+   "projectOvertimeHours",
+   "resourceId",
+   "resourceName",
+   "resourceObjectId",
+   "timesheetActivityStatus",
+   "timesheetApprovingAs",
+   "timesheetPeriodEndDate",
+   "timesheetPeriodObjectId",
+   "timesheetPeriodStartDate",
+   "timesheetStatus"
+}) public class TimesheetAuditType
+{
 
-    @XmlElement(name = "ApproverUserName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String approverUserName;
-    @XmlElement(name = "ApproverUserObjectId", nillable = true)
-    protected Integer approverUserObjectId;
-    @XmlElement(name = "AuditDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime auditDate;
-    @XmlElement(name = "ObjectId")
-    protected Integer objectId;
-    @XmlElement(name = "OverheadHours", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double overheadHours;
-    @XmlElement(name = "OverheadOvertimeHours", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double overheadOvertimeHours;
-    @XmlElement(name = "PendingOverheadHours", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double pendingOverheadHours;
-    @XmlElement(name = "PendingOverheadOvertimeHours", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double pendingOverheadOvertimeHours;
-    @XmlElement(name = "PendingProjectHours", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double pendingProjectHours;
-    @XmlElement(name = "PendingProjectOvertimeHours", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double pendingProjectOvertimeHours;
-    @XmlElement(name = "ProjectHours", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double projectHours;
-    @XmlElement(name = "ProjectId")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String projectId;
-    @XmlElement(name = "ProjectObjectId", nillable = true)
-    protected Integer projectObjectId;
-    @XmlElement(name = "ProjectOvertimeHours", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double projectOvertimeHours;
-    @XmlElement(name = "ResourceId")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceId;
-    @XmlElement(name = "ResourceName")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String resourceName;
-    @XmlElement(name = "ResourceObjectId", nillable = true)
-    protected Integer resourceObjectId;
-    @XmlElement(name = "TimesheetActivityStatus")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String timesheetActivityStatus;
-    @XmlElement(name = "TimesheetApprovingAs")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String timesheetApprovingAs;
-    @XmlElement(name = "TimesheetPeriodEndDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime timesheetPeriodEndDate;
-    @XmlElement(name = "TimesheetPeriodObjectId", nillable = true)
-    protected Integer timesheetPeriodObjectId;
-    @XmlElement(name = "TimesheetPeriodStartDate", type = String.class, nillable = true)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime timesheetPeriodStartDate;
-    @XmlElement(name = "TimesheetStatus")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String timesheetStatus;
+   @XmlElement(name = "ApproverUserName") @XmlJavaTypeAdapter(Adapter1.class) protected String approverUserName;
+   @XmlElement(name = "ApproverUserObjectId", nillable = true) protected Integer approverUserObjectId;
+   @XmlElement(name = "AuditDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime auditDate;
+   @XmlElement(name = "ObjectId") protected Integer objectId;
+   @XmlElement(name = "OverheadHours", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double overheadHours;
+   @XmlElement(name = "OverheadOvertimeHours", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double overheadOvertimeHours;
+   @XmlElement(name = "PendingOverheadHours", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double pendingOverheadHours;
+   @XmlElement(name = "PendingOverheadOvertimeHours", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double pendingOverheadOvertimeHours;
+   @XmlElement(name = "PendingProjectHours", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double pendingProjectHours;
+   @XmlElement(name = "PendingProjectOvertimeHours", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double pendingProjectOvertimeHours;
+   @XmlElement(name = "ProjectHours", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double projectHours;
+   @XmlElement(name = "ProjectId") @XmlJavaTypeAdapter(Adapter1.class) protected String projectId;
+   @XmlElement(name = "ProjectObjectId", nillable = true) protected Integer projectObjectId;
+   @XmlElement(name = "ProjectOvertimeHours", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double projectOvertimeHours;
+   @XmlElement(name = "ResourceId") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceId;
+   @XmlElement(name = "ResourceName") @XmlJavaTypeAdapter(Adapter1.class) protected String resourceName;
+   @XmlElement(name = "ResourceObjectId", nillable = true) protected Integer resourceObjectId;
+   @XmlElement(name = "TimesheetActivityStatus") @XmlJavaTypeAdapter(Adapter1.class) protected String timesheetActivityStatus;
+   @XmlElement(name = "TimesheetApprovingAs") @XmlJavaTypeAdapter(Adapter1.class) protected String timesheetApprovingAs;
+   @XmlElement(name = "TimesheetPeriodEndDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime timesheetPeriodEndDate;
+   @XmlElement(name = "TimesheetPeriodObjectId", nillable = true) protected Integer timesheetPeriodObjectId;
+   @XmlElement(name = "TimesheetPeriodStartDate", type = String.class, nillable = true) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime timesheetPeriodStartDate;
+   @XmlElement(name = "TimesheetStatus") @XmlJavaTypeAdapter(Adapter1.class) protected String timesheetStatus;
 
-    /**
-     * Gets the value of the approverUserName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getApproverUserName() {
-        return approverUserName;
-    }
+   /**
+    * Gets the value of the approverUserName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getApproverUserName()
+   {
+      return approverUserName;
+   }
 
-    /**
-     * Sets the value of the approverUserName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setApproverUserName(String value) {
-        this.approverUserName = value;
-    }
+   /**
+    * Sets the value of the approverUserName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setApproverUserName(String value)
+   {
+      this.approverUserName = value;
+   }
 
-    /**
-     * Gets the value of the approverUserObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getApproverUserObjectId() {
-        return approverUserObjectId;
-    }
+   /**
+    * Gets the value of the approverUserObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getApproverUserObjectId()
+   {
+      return approverUserObjectId;
+   }
 
-    /**
-     * Sets the value of the approverUserObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setApproverUserObjectId(Integer value) {
-        this.approverUserObjectId = value;
-    }
+   /**
+    * Sets the value of the approverUserObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setApproverUserObjectId(Integer value)
+   {
+      this.approverUserObjectId = value;
+   }
 
-    /**
-     * Gets the value of the auditDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getAuditDate() {
-        return auditDate;
-    }
+   /**
+    * Gets the value of the auditDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getAuditDate()
+   {
+      return auditDate;
+   }
 
-    /**
-     * Sets the value of the auditDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAuditDate(LocalDateTime value) {
-        this.auditDate = value;
-    }
+   /**
+    * Sets the value of the auditDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAuditDate(LocalDateTime value)
+   {
+      this.auditDate = value;
+   }
 
-    /**
-     * Gets the value of the objectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getObjectId() {
-        return objectId;
-    }
+   /**
+    * Gets the value of the objectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getObjectId()
+   {
+      return objectId;
+   }
 
-    /**
-     * Sets the value of the objectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setObjectId(Integer value) {
-        this.objectId = value;
-    }
+   /**
+    * Sets the value of the objectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setObjectId(Integer value)
+   {
+      this.objectId = value;
+   }
 
-    /**
-     * Gets the value of the overheadHours property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getOverheadHours() {
-        return overheadHours;
-    }
+   /**
+    * Gets the value of the overheadHours property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getOverheadHours()
+   {
+      return overheadHours;
+   }
 
-    /**
-     * Sets the value of the overheadHours property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setOverheadHours(Double value) {
-        this.overheadHours = value;
-    }
+   /**
+    * Sets the value of the overheadHours property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setOverheadHours(Double value)
+   {
+      this.overheadHours = value;
+   }
 
-    /**
-     * Gets the value of the overheadOvertimeHours property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getOverheadOvertimeHours() {
-        return overheadOvertimeHours;
-    }
+   /**
+    * Gets the value of the overheadOvertimeHours property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getOverheadOvertimeHours()
+   {
+      return overheadOvertimeHours;
+   }
 
-    /**
-     * Sets the value of the overheadOvertimeHours property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setOverheadOvertimeHours(Double value) {
-        this.overheadOvertimeHours = value;
-    }
+   /**
+    * Sets the value of the overheadOvertimeHours property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setOverheadOvertimeHours(Double value)
+   {
+      this.overheadOvertimeHours = value;
+   }
 
-    /**
-     * Gets the value of the pendingOverheadHours property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPendingOverheadHours() {
-        return pendingOverheadHours;
-    }
+   /**
+    * Gets the value of the pendingOverheadHours property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPendingOverheadHours()
+   {
+      return pendingOverheadHours;
+   }
 
-    /**
-     * Sets the value of the pendingOverheadHours property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPendingOverheadHours(Double value) {
-        this.pendingOverheadHours = value;
-    }
+   /**
+    * Sets the value of the pendingOverheadHours property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPendingOverheadHours(Double value)
+   {
+      this.pendingOverheadHours = value;
+   }
 
-    /**
-     * Gets the value of the pendingOverheadOvertimeHours property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPendingOverheadOvertimeHours() {
-        return pendingOverheadOvertimeHours;
-    }
+   /**
+    * Gets the value of the pendingOverheadOvertimeHours property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPendingOverheadOvertimeHours()
+   {
+      return pendingOverheadOvertimeHours;
+   }
 
-    /**
-     * Sets the value of the pendingOverheadOvertimeHours property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPendingOverheadOvertimeHours(Double value) {
-        this.pendingOverheadOvertimeHours = value;
-    }
+   /**
+    * Sets the value of the pendingOverheadOvertimeHours property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPendingOverheadOvertimeHours(Double value)
+   {
+      this.pendingOverheadOvertimeHours = value;
+   }
 
-    /**
-     * Gets the value of the pendingProjectHours property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPendingProjectHours() {
-        return pendingProjectHours;
-    }
+   /**
+    * Gets the value of the pendingProjectHours property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPendingProjectHours()
+   {
+      return pendingProjectHours;
+   }
 
-    /**
-     * Sets the value of the pendingProjectHours property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPendingProjectHours(Double value) {
-        this.pendingProjectHours = value;
-    }
+   /**
+    * Sets the value of the pendingProjectHours property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPendingProjectHours(Double value)
+   {
+      this.pendingProjectHours = value;
+   }
 
-    /**
-     * Gets the value of the pendingProjectOvertimeHours property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getPendingProjectOvertimeHours() {
-        return pendingProjectOvertimeHours;
-    }
+   /**
+    * Gets the value of the pendingProjectOvertimeHours property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getPendingProjectOvertimeHours()
+   {
+      return pendingProjectOvertimeHours;
+   }
 
-    /**
-     * Sets the value of the pendingProjectOvertimeHours property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setPendingProjectOvertimeHours(Double value) {
-        this.pendingProjectOvertimeHours = value;
-    }
+   /**
+    * Sets the value of the pendingProjectOvertimeHours property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setPendingProjectOvertimeHours(Double value)
+   {
+      this.pendingProjectOvertimeHours = value;
+   }
 
-    /**
-     * Gets the value of the projectHours property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getProjectHours() {
-        return projectHours;
-    }
+   /**
+    * Gets the value of the projectHours property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getProjectHours()
+   {
+      return projectHours;
+   }
 
-    /**
-     * Sets the value of the projectHours property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setProjectHours(Double value) {
-        this.projectHours = value;
-    }
+   /**
+    * Sets the value of the projectHours property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setProjectHours(Double value)
+   {
+      this.projectHours = value;
+   }
 
-    /**
-     * Gets the value of the projectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getProjectId() {
-        return projectId;
-    }
+   /**
+    * Gets the value of the projectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getProjectId()
+   {
+      return projectId;
+   }
 
-    /**
-     * Sets the value of the projectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setProjectId(String value) {
-        this.projectId = value;
-    }
+   /**
+    * Sets the value of the projectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setProjectId(String value)
+   {
+      this.projectId = value;
+   }
 
-    /**
-     * Gets the value of the projectObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getProjectObjectId() {
-        return projectObjectId;
-    }
+   /**
+    * Gets the value of the projectObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getProjectObjectId()
+   {
+      return projectObjectId;
+   }
 
-    /**
-     * Sets the value of the projectObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setProjectObjectId(Integer value) {
-        this.projectObjectId = value;
-    }
+   /**
+    * Sets the value of the projectObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setProjectObjectId(Integer value)
+   {
+      this.projectObjectId = value;
+   }
 
-    /**
-     * Gets the value of the projectOvertimeHours property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getProjectOvertimeHours() {
-        return projectOvertimeHours;
-    }
+   /**
+    * Gets the value of the projectOvertimeHours property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getProjectOvertimeHours()
+   {
+      return projectOvertimeHours;
+   }
 
-    /**
-     * Sets the value of the projectOvertimeHours property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setProjectOvertimeHours(Double value) {
-        this.projectOvertimeHours = value;
-    }
+   /**
+    * Sets the value of the projectOvertimeHours property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setProjectOvertimeHours(Double value)
+   {
+      this.projectOvertimeHours = value;
+   }
 
-    /**
-     * Gets the value of the resourceId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceId() {
-        return resourceId;
-    }
+   /**
+    * Gets the value of the resourceId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceId()
+   {
+      return resourceId;
+   }
 
-    /**
-     * Sets the value of the resourceId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceId(String value) {
-        this.resourceId = value;
-    }
+   /**
+    * Sets the value of the resourceId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceId(String value)
+   {
+      this.resourceId = value;
+   }
 
-    /**
-     * Gets the value of the resourceName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getResourceName() {
-        return resourceName;
-    }
+   /**
+    * Gets the value of the resourceName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getResourceName()
+   {
+      return resourceName;
+   }
 
-    /**
-     * Sets the value of the resourceName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setResourceName(String value) {
-        this.resourceName = value;
-    }
+   /**
+    * Sets the value of the resourceName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setResourceName(String value)
+   {
+      this.resourceName = value;
+   }
 
-    /**
-     * Gets the value of the resourceObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getResourceObjectId() {
-        return resourceObjectId;
-    }
+   /**
+    * Gets the value of the resourceObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getResourceObjectId()
+   {
+      return resourceObjectId;
+   }
 
-    /**
-     * Sets the value of the resourceObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setResourceObjectId(Integer value) {
-        this.resourceObjectId = value;
-    }
+   /**
+    * Sets the value of the resourceObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setResourceObjectId(Integer value)
+   {
+      this.resourceObjectId = value;
+   }
 
-    /**
-     * Gets the value of the timesheetActivityStatus property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getTimesheetActivityStatus() {
-        return timesheetActivityStatus;
-    }
+   /**
+    * Gets the value of the timesheetActivityStatus property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getTimesheetActivityStatus()
+   {
+      return timesheetActivityStatus;
+   }
 
-    /**
-     * Sets the value of the timesheetActivityStatus property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setTimesheetActivityStatus(String value) {
-        this.timesheetActivityStatus = value;
-    }
+   /**
+    * Sets the value of the timesheetActivityStatus property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setTimesheetActivityStatus(String value)
+   {
+      this.timesheetActivityStatus = value;
+   }
 
-    /**
-     * Gets the value of the timesheetApprovingAs property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getTimesheetApprovingAs() {
-        return timesheetApprovingAs;
-    }
+   /**
+    * Gets the value of the timesheetApprovingAs property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getTimesheetApprovingAs()
+   {
+      return timesheetApprovingAs;
+   }
 
-    /**
-     * Sets the value of the timesheetApprovingAs property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setTimesheetApprovingAs(String value) {
-        this.timesheetApprovingAs = value;
-    }
+   /**
+    * Sets the value of the timesheetApprovingAs property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setTimesheetApprovingAs(String value)
+   {
+      this.timesheetApprovingAs = value;
+   }
 
-    /**
-     * Gets the value of the timesheetPeriodEndDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getTimesheetPeriodEndDate() {
-        return timesheetPeriodEndDate;
-    }
+   /**
+    * Gets the value of the timesheetPeriodEndDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getTimesheetPeriodEndDate()
+   {
+      return timesheetPeriodEndDate;
+   }
 
-    /**
-     * Sets the value of the timesheetPeriodEndDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setTimesheetPeriodEndDate(LocalDateTime value) {
-        this.timesheetPeriodEndDate = value;
-    }
+   /**
+    * Sets the value of the timesheetPeriodEndDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setTimesheetPeriodEndDate(LocalDateTime value)
+   {
+      this.timesheetPeriodEndDate = value;
+   }
 
-    /**
-     * Gets the value of the timesheetPeriodObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getTimesheetPeriodObjectId() {
-        return timesheetPeriodObjectId;
-    }
+   /**
+    * Gets the value of the timesheetPeriodObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getTimesheetPeriodObjectId()
+   {
+      return timesheetPeriodObjectId;
+   }
 
-    /**
-     * Sets the value of the timesheetPeriodObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setTimesheetPeriodObjectId(Integer value) {
-        this.timesheetPeriodObjectId = value;
-    }
+   /**
+    * Sets the value of the timesheetPeriodObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setTimesheetPeriodObjectId(Integer value)
+   {
+      this.timesheetPeriodObjectId = value;
+   }
 
-    /**
-     * Gets the value of the timesheetPeriodStartDate property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getTimesheetPeriodStartDate() {
-        return timesheetPeriodStartDate;
-    }
+   /**
+    * Gets the value of the timesheetPeriodStartDate property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getTimesheetPeriodStartDate()
+   {
+      return timesheetPeriodStartDate;
+   }
 
-    /**
-     * Sets the value of the timesheetPeriodStartDate property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setTimesheetPeriodStartDate(LocalDateTime value) {
-        this.timesheetPeriodStartDate = value;
-    }
+   /**
+    * Sets the value of the timesheetPeriodStartDate property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setTimesheetPeriodStartDate(LocalDateTime value)
+   {
+      this.timesheetPeriodStartDate = value;
+   }
 
-    /**
-     * Gets the value of the timesheetStatus property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getTimesheetStatus() {
-        return timesheetStatus;
-    }
+   /**
+    * Gets the value of the timesheetStatus property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getTimesheetStatus()
+   {
+      return timesheetStatus;
+   }
 
-    /**
-     * Sets the value of the timesheetStatus property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setTimesheetStatus(String value) {
-        this.timesheetStatus = value;
-    }
+   /**
+    * Sets the value of the timesheetStatus property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setTimesheetStatus(String value)
+   {
+      this.timesheetStatus = value;
+   }
 
 }

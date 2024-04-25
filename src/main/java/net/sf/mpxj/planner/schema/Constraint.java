@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:38 AM BST
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -14,7 +13,6 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -34,64 +32,62 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "constraint")
-public class Constraint {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") @XmlRootElement(name = "constraint") public class Constraint
+{
 
-    @XmlAttribute(name = "type", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String type;
-    @XmlAttribute(name = "time", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String time;
+   @XmlAttribute(name = "type", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String type;
+   @XmlAttribute(name = "time", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String time;
 
-    /**
-     * Gets the value of the type property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getType() {
-        return type;
-    }
+   /**
+    * Gets the value of the type property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getType()
+   {
+      return type;
+   }
 
-    /**
-     * Sets the value of the type property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setType(String value) {
-        this.type = value;
-    }
+   /**
+    * Sets the value of the type property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setType(String value)
+   {
+      this.type = value;
+   }
 
-    /**
-     * Gets the value of the time property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getTime() {
-        return time;
-    }
+   /**
+    * Gets the value of the time property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getTime()
+   {
+      return time;
+   }
 
-    /**
-     * Sets the value of the time property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setTime(String value) {
-        this.time = value;
-    }
+   /**
+    * Sets the value of the time property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setTime(String value)
+   {
+      this.time = value;
+   }
 
 }

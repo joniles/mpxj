@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:41 AM BST
 //
 
-
 package net.sf.mpxj.primavera.schema;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for UDFAssignmentType complex type.
@@ -54,255 +52,254 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "UDFAssignmentType", propOrder = {
-    "typeObjectId",
-    "codeObjectId",
-    "costValue",
-    "integerValue",
-    "indicatorValue",
-    "doubleValue",
-    "textValue",
-    "startDateValue",
-    "finishDateValue"
-})
-public class UDFAssignmentType {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "UDFAssignmentType", propOrder =
+{
+   "typeObjectId",
+   "codeObjectId",
+   "costValue",
+   "integerValue",
+   "indicatorValue",
+   "doubleValue",
+   "textValue",
+   "startDateValue",
+   "finishDateValue"
+}) public class UDFAssignmentType
+{
 
-    @XmlElement(name = "TypeObjectId")
-    protected int typeObjectId;
-    @XmlElement(name = "CodeObjectId")
-    protected Integer codeObjectId;
-    @XmlElement(name = "CostValue", type = String.class)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double costValue;
-    @XmlElement(name = "IntegerValue")
-    protected Integer integerValue;
-    @XmlElement(name = "IndicatorValue")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String indicatorValue;
-    @XmlElement(name = "DoubleValue", type = String.class)
-    @XmlJavaTypeAdapter(Adapter3 .class)
-    @XmlSchemaType(name = "double")
-    protected Double doubleValue;
-    @XmlElement(name = "TextValue")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String textValue;
-    @XmlElement(name = "StartDateValue", type = String.class)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime startDateValue;
-    @XmlElement(name = "FinishDateValue", type = String.class)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime finishDateValue;
+   @XmlElement(name = "TypeObjectId") protected int typeObjectId;
+   @XmlElement(name = "CodeObjectId") protected Integer codeObjectId;
+   @XmlElement(name = "CostValue", type = String.class) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double costValue;
+   @XmlElement(name = "IntegerValue") protected Integer integerValue;
+   @XmlElement(name = "IndicatorValue") @XmlJavaTypeAdapter(Adapter1.class) protected String indicatorValue;
+   @XmlElement(name = "DoubleValue", type = String.class) @XmlJavaTypeAdapter(Adapter3.class) @XmlSchemaType(name = "double") protected Double doubleValue;
+   @XmlElement(name = "TextValue") @XmlJavaTypeAdapter(Adapter1.class) protected String textValue;
+   @XmlElement(name = "StartDateValue", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime startDateValue;
+   @XmlElement(name = "FinishDateValue", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime finishDateValue;
 
-    /**
-     * Gets the value of the typeObjectId property.
-     *
-     */
-    public int getTypeObjectId() {
-        return typeObjectId;
-    }
+   /**
+    * Gets the value of the typeObjectId property.
+    *
+    */
+   public int getTypeObjectId()
+   {
+      return typeObjectId;
+   }
 
-    /**
-     * Sets the value of the typeObjectId property.
-     *
-     */
-    public void setTypeObjectId(int value) {
-        this.typeObjectId = value;
-    }
+   /**
+    * Sets the value of the typeObjectId property.
+    *
+    */
+   public void setTypeObjectId(int value)
+   {
+      this.typeObjectId = value;
+   }
 
-    /**
-     * Gets the value of the codeObjectId property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getCodeObjectId() {
-        return codeObjectId;
-    }
+   /**
+    * Gets the value of the codeObjectId property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getCodeObjectId()
+   {
+      return codeObjectId;
+   }
 
-    /**
-     * Sets the value of the codeObjectId property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setCodeObjectId(Integer value) {
-        this.codeObjectId = value;
-    }
+   /**
+    * Sets the value of the codeObjectId property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setCodeObjectId(Integer value)
+   {
+      this.codeObjectId = value;
+   }
 
-    /**
-     * Gets the value of the costValue property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getCostValue() {
-        return costValue;
-    }
+   /**
+    * Gets the value of the costValue property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getCostValue()
+   {
+      return costValue;
+   }
 
-    /**
-     * Sets the value of the costValue property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setCostValue(Double value) {
-        this.costValue = value;
-    }
+   /**
+    * Sets the value of the costValue property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setCostValue(Double value)
+   {
+      this.costValue = value;
+   }
 
-    /**
-     * Gets the value of the integerValue property.
-     *
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *
-     */
-    public Integer getIntegerValue() {
-        return integerValue;
-    }
+   /**
+    * Gets the value of the integerValue property.
+    *
+    * @return
+    *     possible object is
+    *     {@link Integer }
+    *
+    */
+   public Integer getIntegerValue()
+   {
+      return integerValue;
+   }
 
-    /**
-     * Sets the value of the integerValue property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *
-     */
-    public void setIntegerValue(Integer value) {
-        this.integerValue = value;
-    }
+   /**
+    * Sets the value of the integerValue property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link Integer }
+    *
+    */
+   public void setIntegerValue(Integer value)
+   {
+      this.integerValue = value;
+   }
 
-    /**
-     * Gets the value of the indicatorValue property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getIndicatorValue() {
-        return indicatorValue;
-    }
+   /**
+    * Gets the value of the indicatorValue property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getIndicatorValue()
+   {
+      return indicatorValue;
+   }
 
-    /**
-     * Sets the value of the indicatorValue property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setIndicatorValue(String value) {
-        this.indicatorValue = value;
-    }
+   /**
+    * Sets the value of the indicatorValue property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setIndicatorValue(String value)
+   {
+      this.indicatorValue = value;
+   }
 
-    /**
-     * Gets the value of the doubleValue property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public Double getDoubleValue() {
-        return doubleValue;
-    }
+   /**
+    * Gets the value of the doubleValue property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public Double getDoubleValue()
+   {
+      return doubleValue;
+   }
 
-    /**
-     * Sets the value of the doubleValue property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setDoubleValue(Double value) {
-        this.doubleValue = value;
-    }
+   /**
+    * Sets the value of the doubleValue property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setDoubleValue(Double value)
+   {
+      this.doubleValue = value;
+   }
 
-    /**
-     * Gets the value of the textValue property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getTextValue() {
-        return textValue;
-    }
+   /**
+    * Gets the value of the textValue property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getTextValue()
+   {
+      return textValue;
+   }
 
-    /**
-     * Sets the value of the textValue property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setTextValue(String value) {
-        this.textValue = value;
-    }
+   /**
+    * Sets the value of the textValue property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setTextValue(String value)
+   {
+      this.textValue = value;
+   }
 
-    /**
-     * Gets the value of the startDateValue property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getStartDateValue() {
-        return startDateValue;
-    }
+   /**
+    * Gets the value of the startDateValue property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getStartDateValue()
+   {
+      return startDateValue;
+   }
 
-    /**
-     * Sets the value of the startDateValue property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setStartDateValue(LocalDateTime value) {
-        this.startDateValue = value;
-    }
+   /**
+    * Sets the value of the startDateValue property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setStartDateValue(LocalDateTime value)
+   {
+      this.startDateValue = value;
+   }
 
-    /**
-     * Gets the value of the finishDateValue property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getFinishDateValue() {
-        return finishDateValue;
-    }
+   /**
+    * Gets the value of the finishDateValue property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getFinishDateValue()
+   {
+      return finishDateValue;
+   }
 
-    /**
-     * Sets the value of the finishDateValue property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setFinishDateValue(LocalDateTime value) {
-        this.finishDateValue = value;
-    }
+   /**
+    * Sets the value of the finishDateValue property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setFinishDateValue(LocalDateTime value)
+   {
+      this.finishDateValue = value;
+   }
 
 }

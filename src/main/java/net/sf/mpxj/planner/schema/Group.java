@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:38 AM BST
 //
 
-
 package net.sf.mpxj.planner.schema;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -14,7 +13,6 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * <p>Java class for anonymous complex type.
@@ -37,145 +35,143 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "group")
-public class Group {
+@XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "") @XmlRootElement(name = "group") public class Group
+{
 
-    @XmlAttribute(name = "id", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String id;
-    @XmlAttribute(name = "name", required = true)
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String name;
-    @XmlAttribute(name = "admin-name")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String adminName;
-    @XmlAttribute(name = "admin-email")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String adminEmail;
-    @XmlAttribute(name = "admin-phone")
-    @XmlJavaTypeAdapter(Adapter1 .class)
-    protected String adminPhone;
+   @XmlAttribute(name = "id", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String id;
+   @XmlAttribute(name = "name", required = true) @XmlJavaTypeAdapter(Adapter1.class) protected String name;
+   @XmlAttribute(name = "admin-name") @XmlJavaTypeAdapter(Adapter1.class) protected String adminName;
+   @XmlAttribute(name = "admin-email") @XmlJavaTypeAdapter(Adapter1.class) protected String adminEmail;
+   @XmlAttribute(name = "admin-phone") @XmlJavaTypeAdapter(Adapter1.class) protected String adminPhone;
 
-    /**
-     * Gets the value of the id property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getId() {
-        return id;
-    }
+   /**
+    * Gets the value of the id property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getId()
+   {
+      return id;
+   }
 
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
+   /**
+    * Sets the value of the id property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setId(String value)
+   {
+      this.id = value;
+   }
 
-    /**
-     * Gets the value of the name property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getName() {
-        return name;
-    }
+   /**
+    * Gets the value of the name property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getName()
+   {
+      return name;
+   }
 
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+   /**
+    * Sets the value of the name property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setName(String value)
+   {
+      this.name = value;
+   }
 
-    /**
-     * Gets the value of the adminName property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getAdminName() {
-        return adminName;
-    }
+   /**
+    * Gets the value of the adminName property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getAdminName()
+   {
+      return adminName;
+   }
 
-    /**
-     * Sets the value of the adminName property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAdminName(String value) {
-        this.adminName = value;
-    }
+   /**
+    * Sets the value of the adminName property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAdminName(String value)
+   {
+      this.adminName = value;
+   }
 
-    /**
-     * Gets the value of the adminEmail property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getAdminEmail() {
-        return adminEmail;
-    }
+   /**
+    * Gets the value of the adminEmail property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getAdminEmail()
+   {
+      return adminEmail;
+   }
 
-    /**
-     * Sets the value of the adminEmail property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAdminEmail(String value) {
-        this.adminEmail = value;
-    }
+   /**
+    * Sets the value of the adminEmail property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAdminEmail(String value)
+   {
+      this.adminEmail = value;
+   }
 
-    /**
-     * Gets the value of the adminPhone property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getAdminPhone() {
-        return adminPhone;
-    }
+   /**
+    * Gets the value of the adminPhone property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getAdminPhone()
+   {
+      return adminPhone;
+   }
 
-    /**
-     * Sets the value of the adminPhone property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setAdminPhone(String value) {
-        this.adminPhone = value;
-    }
+   /**
+    * Sets the value of the adminPhone property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setAdminPhone(String value)
+   {
+      this.adminPhone = value;
+   }
 
 }

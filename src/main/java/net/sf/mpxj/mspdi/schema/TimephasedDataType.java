@@ -5,7 +5,6 @@
 // Generated on: 2024.04.25 at 10:03:37 AM BST
 //
 
-
 package net.sf.mpxj.mspdi.schema;
 
 import java.math.BigInteger;
@@ -16,7 +15,6 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlSchemaType;
 import jakarta.xml.bind.annotation.XmlType;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 
 /**
  * The definition of the time phased data block.
@@ -132,176 +130,178 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  *
  */
-@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TimephasedDataType", propOrder = {
-    "type",
-    "uid",
-    "start",
-    "finish",
-    "unit",
-    "value"
-})
-public class TimephasedDataType {
+@SuppressWarnings("all") @XmlAccessorType(XmlAccessType.FIELD) @XmlType(name = "TimephasedDataType", propOrder =
+{
+   "type",
+   "uid",
+   "start",
+   "finish",
+   "unit",
+   "value"
+}) public class TimephasedDataType
+{
 
-    @XmlElement(name = "Type")
-    protected BigInteger type;
-    @XmlElement(name = "UID", required = true)
-    protected BigInteger uid;
-    @XmlElement(name = "Start", type = String.class)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime start;
-    @XmlElement(name = "Finish", type = String.class)
-    @XmlJavaTypeAdapter(Adapter4 .class)
-    @XmlSchemaType(name = "dateTime")
-    protected LocalDateTime finish;
-    @XmlElement(name = "Unit")
-    protected BigInteger unit;
-    @XmlElement(name = "Value")
-    protected String value;
+   @XmlElement(name = "Type") protected BigInteger type;
+   @XmlElement(name = "UID", required = true) protected BigInteger uid;
+   @XmlElement(name = "Start", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime start;
+   @XmlElement(name = "Finish", type = String.class) @XmlJavaTypeAdapter(Adapter4.class) @XmlSchemaType(name = "dateTime") protected LocalDateTime finish;
+   @XmlElement(name = "Unit") protected BigInteger unit;
+   @XmlElement(name = "Value") protected String value;
 
-    /**
-     * Gets the value of the type property.
-     *
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *
-     */
-    public BigInteger getType() {
-        return type;
-    }
+   /**
+    * Gets the value of the type property.
+    *
+    * @return
+    *     possible object is
+    *     {@link BigInteger }
+    *
+    */
+   public BigInteger getType()
+   {
+      return type;
+   }
 
-    /**
-     * Sets the value of the type property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *
-     */
-    public void setType(BigInteger value) {
-        this.type = value;
-    }
+   /**
+    * Sets the value of the type property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link BigInteger }
+    *
+    */
+   public void setType(BigInteger value)
+   {
+      this.type = value;
+   }
 
-    /**
-     * Gets the value of the uid property.
-     *
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *
-     */
-    public BigInteger getUID() {
-        return uid;
-    }
+   /**
+    * Gets the value of the uid property.
+    *
+    * @return
+    *     possible object is
+    *     {@link BigInteger }
+    *
+    */
+   public BigInteger getUID()
+   {
+      return uid;
+   }
 
-    /**
-     * Sets the value of the uid property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *
-     */
-    public void setUID(BigInteger value) {
-        this.uid = value;
-    }
+   /**
+    * Sets the value of the uid property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link BigInteger }
+    *
+    */
+   public void setUID(BigInteger value)
+   {
+      this.uid = value;
+   }
 
-    /**
-     * Gets the value of the start property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getStart() {
-        return start;
-    }
+   /**
+    * Gets the value of the start property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getStart()
+   {
+      return start;
+   }
 
-    /**
-     * Sets the value of the start property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setStart(LocalDateTime value) {
-        this.start = value;
-    }
+   /**
+    * Sets the value of the start property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setStart(LocalDateTime value)
+   {
+      this.start = value;
+   }
 
-    /**
-     * Gets the value of the finish property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public LocalDateTime getFinish() {
-        return finish;
-    }
+   /**
+    * Gets the value of the finish property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public LocalDateTime getFinish()
+   {
+      return finish;
+   }
 
-    /**
-     * Sets the value of the finish property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setFinish(LocalDateTime value) {
-        this.finish = value;
-    }
+   /**
+    * Sets the value of the finish property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setFinish(LocalDateTime value)
+   {
+      this.finish = value;
+   }
 
-    /**
-     * Gets the value of the unit property.
-     *
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *
-     */
-    public BigInteger getUnit() {
-        return unit;
-    }
+   /**
+    * Gets the value of the unit property.
+    *
+    * @return
+    *     possible object is
+    *     {@link BigInteger }
+    *
+    */
+   public BigInteger getUnit()
+   {
+      return unit;
+   }
 
-    /**
-     * Sets the value of the unit property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *
-     */
-    public void setUnit(BigInteger value) {
-        this.unit = value;
-    }
+   /**
+    * Sets the value of the unit property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link BigInteger }
+    *
+    */
+   public void setUnit(BigInteger value)
+   {
+      this.unit = value;
+   }
 
-    /**
-     * Gets the value of the value property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getValue() {
-        return value;
-    }
+   /**
+    * Gets the value of the value property.
+    *
+    * @return
+    *     possible object is
+    *     {@link String }
+    *
+    */
+   public String getValue()
+   {
+      return value;
+   }
 
-    /**
-     * Sets the value of the value property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
+   /**
+    * Sets the value of the value property.
+    *
+    * @param value
+    *     allowed object is
+    *     {@link String }
+    *
+    */
+   public void setValue(String value)
+   {
+      this.value = value;
+   }
 
 }
