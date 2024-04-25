@@ -153,7 +153,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       m_plannerProject.setManager(properties.getManager());
       m_plannerProject.setName(getString(properties.getName()));
       m_plannerProject.setProjectStart(projectStart);
-      m_plannerProject.setCalendar(getIntegerString(m_projectFile.getDefaultCalendar().getUniqueID()));
+      m_plannerProject.setCalendar(getIntegerString(m_projectFile.getProjectProperties().getDefaultCalendarUniqueID()));
       m_plannerProject.setMrprojectVersion("2");
    }
 
@@ -513,18 +513,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    private Duration getWork(Task task)
    {
       Duration result = task.getWork();
-
-      if (result != null && result.getDuration() != 0)
-      {
-         return result;
-      }
-
-      if (result == null || result.getDuration() == 0)
-      {
-         return task.getDuration();
-      }
-
-      return result;
+      return result != null && result.getDuration() != 0 ? result : task.getDuration();
    }
 
    /**

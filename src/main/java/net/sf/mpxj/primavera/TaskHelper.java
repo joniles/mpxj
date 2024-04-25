@@ -49,15 +49,16 @@ final class TaskHelper
       {
          String prefix = null;
          String projectID = task.getParentFile().getProjectProperties().getProjectID();
+         String separator = task.getParentFile().getProjectProperties().getWbsCodeSeparator();
          if (task.getParentTask() == null && projectID != null)
          {
-            prefix = projectID + PrimaveraReader.DEFAULT_WBS_SEPARATOR;
+            prefix = projectID + separator;
          }
          else
          {
             if (task.getParentTask() != null)
             {
-               prefix = task.getParentTask().getWBS() + PrimaveraReader.DEFAULT_WBS_SEPARATOR;
+               prefix = task.getParentTask().getWBS() + separator;
             }
          }
 

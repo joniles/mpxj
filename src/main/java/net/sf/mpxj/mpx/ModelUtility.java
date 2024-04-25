@@ -36,7 +36,7 @@ import net.sf.mpxj.Relation;
 final class ModelUtility
 {
    /**
-    * Determine if a fied is populated with a non-default value.
+    * Determine if a field is populated with a non-default value.
     *
     * @param field field type
     * @param value field value

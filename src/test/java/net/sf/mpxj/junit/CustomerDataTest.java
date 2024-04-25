@@ -58,7 +58,6 @@ import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
-import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.sdef.SDEFWriter;
 import net.sf.mpxj.writer.ProjectWriter;
@@ -81,7 +80,6 @@ public class CustomerDataTest
 
       m_universalReader = new UniversalProjectReader();
       m_mpxReader = new MPXReader();
-      m_xerReader = new PrimaveraXERFileReader();
    }
 
    /**
@@ -395,7 +393,7 @@ public class CustomerDataTest
    }
 
    /**
-    * Validate that all of the files in the list can be read by MPXJ.
+    * Validate that all files in the list can be read by MPXJ.
     *
     * @param files file list
     */
@@ -412,38 +410,29 @@ public class CustomerDataTest
             continue;
          }
 
-         ProjectFile mpxj;
-         //System.out.println(name);
-
          try
          {
-            mpxj = testReader(name, file);
-            if (mpxj == null)
+            List<ProjectFile> projects = testReader(name, file);
+            if (projects.isEmpty())
             {
                System.err.println("Failed to read " + name);
                ++failures;
                continue;
             }
 
-            if (!testHierarchy(mpxj))
-            {
-               System.err.println("Failed to validate hierarchy " + name);
-               ++failures;
-               continue;
-            }
+            String baselineName = file.getPath().substring(sourceDirNameLength);
+            int baselineIndex = 0;
 
-            if (!testBaseline(file.getPath().substring(sourceDirNameLength), mpxj, m_baselineDirectory))
+            for (ProjectFile project : projects)
             {
-               System.err.println("Failed to validate baseline " + name);
-               ++failures;
-               continue;
-            }
-
-            //testWriters(mpxj);
-
-            if (useFieldReporter())
-            {
-               FIELD_REPORTER.process(mpxj);
+               // Apply a suffix to the second and subsequent schedules form a file
+               // "ep" = embedded project, just added to the suffix to make it easier to pattern match
+               String fullBaselineName = baselineIndex == 0 ? baselineName : baselineName + ".ep" + baselineIndex;
+               if (!executeTests(name, fullBaselineName, project))
+               {
+                  ++failures;
+               }
+               ++baselineIndex;
             }
          }
 
@@ -466,15 +455,45 @@ public class CustomerDataTest
    }
 
    /**
+    * Execute tests for an schedule file.
+    *
+    * @param fileName parent filename
+    * @param baselineName baseline name
+    * @param projectFile project file
+    * @return true if successful
+    */
+   private boolean executeTests(String fileName, String baselineName, ProjectFile projectFile) throws Exception
+   {
+      if (!testHierarchy(projectFile))
+      {
+         System.err.println("Failed to validate hierarchy " + fileName);
+         return false;
+      }
+
+      if (!testBaseline(baselineName, projectFile, m_baselineDirectory))
+      {
+         System.err.println("Failed to validate baseline " + fileName);
+         return false;
+      }
+
+      if (useFieldReporter())
+      {
+         FIELD_REPORTER.process(projectFile);
+      }
+
+      return true;
+   }
+
+   /**
     * Ensure that we can read the file.
     *
     * @param name file name
     * @param file File instance
     * @return ProjectFile instance
     */
-   private ProjectFile testReader(String name, File file) throws Exception
+   private List<ProjectFile> testReader(String name, File file) throws Exception
    {
-      ProjectFile mpxj;
+      List<ProjectFile> projects;
 
       if (name.endsWith(".MPX"))
       {
@@ -490,26 +509,18 @@ public class CustomerDataTest
             m_mpxReader.setLocale(new Locale("sv"));
          }
 
-         mpxj = m_mpxReader.read(file);
+         projects = m_mpxReader.readAll(file);
       }
       else
       {
-         mpxj = m_universalReader.read(file);
-         if (name.endsWith(".MPP"))
+         projects = m_universalReader.readAll(file);
+         if (name.endsWith(".MPP") && projects.size() == 1)
          {
-            validateMpp(file.getCanonicalPath(), mpxj);
-         }
-
-         // If we have an XER file, exercise the "readAll" functionality too.
-         // For now, ignore files with non-standard encodings.
-         if (name.endsWith(".XER") && !name.endsWith(".ENCODING.XER"))
-         {
-            m_xerReader.setLinkCrossProjectRelations(true);
-            m_xerReader.readAll(Files.newInputStream(file.toPath()));
+            validateMpp(file.getCanonicalPath(), projects.get(0));
          }
       }
 
-      return mpxj;
+      return projects;
    }
 
    /**
@@ -567,12 +578,14 @@ public class CustomerDataTest
          ((MSPDIWriter) w).setSplitTimephasedAsDays(false);
       };
 
-      boolean mspdi = testBaseline(name, project, baselineDirectory, "mspdi", ".xml", MSPDIWriter.class, mspdiConfig);
+      // TODO: randomise order of execution
       boolean pmxml = testBaseline(name, project, baselineDirectory, "pmxml", ".xml", PrimaveraPMFileWriter.class, pmxmlConfig);
       boolean json = testBaseline(name, project, baselineDirectory, "json", ".json", JsonWriter.class, jsonConfig);
       boolean planner = testBaseline(name, project, baselineDirectory, "planner", ".xml", PlannerWriter.class, null);
       boolean sdef = testBaseline(name, project, baselineDirectory, "sdef", ".sdef", SDEFWriter.class, null);
       boolean xer = testBaseline(name, project, baselineDirectory, "xer", ".xer", PrimaveraXERFileWriter.class, null);
+      // TODO: fix in-place renumbering for MS Project
+      boolean mspdi = testBaseline(name, project, baselineDirectory, "mspdi", ".xml", MSPDIWriter.class, mspdiConfig);
       boolean mpx = testBaseline(name, project, baselineDirectory, "mpx", ".mpx", MPXWriter.class, mpxConfig);
 
       return mspdi && pmxml && json && planner && sdef && xer && mpx;
@@ -693,7 +706,6 @@ public class CustomerDataTest
 
    private final UniversalProjectReader m_universalReader;
    private final MPXReader m_mpxReader;
-   private final PrimaveraXERFileReader m_xerReader;
    private static File DIFF_BASELINE_DIR;
    private static File DIFF_TEST_DIR;
 

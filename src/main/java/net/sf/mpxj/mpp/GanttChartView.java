@@ -743,7 +743,7 @@ public abstract class GanttChartView extends GenericView
    }
 
    /**
-    * Retrieve any column font syles which the user has defined.
+    * Retrieve any column font styles which the user has defined.
     *
     * @return column font styles array
     */

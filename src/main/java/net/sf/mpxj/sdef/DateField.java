@@ -26,8 +26,8 @@ package net.sf.mpxj.sdef;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
+import java.util.Locale;
 
 import net.sf.mpxj.common.LocalDateHelper;
 
@@ -56,18 +56,10 @@ class DateField extends StringField
       }
       else
       {
-         try
-         {
-            result = LocalDate.parse(value, DATE_FORMAT).atStartOfDay();
-         }
-
-         catch (DateTimeParseException e)
-         {
-            result = null;
-         }
+         result = LocalDate.parse(value, DATE_FORMAT).atStartOfDay();
       }
       return result;
    }
 
-   private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("ddMMM").appendValueReduced(ChronoField.YEAR, 2, 2, LocalDateHelper.TWO_DIGIT_YEAR_BASE_DATE).toFormatter();
+   private static final DateTimeFormatter DATE_FORMAT = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("ddMMM").appendValueReduced(ChronoField.YEAR, 2, 2, LocalDateHelper.TWO_DIGIT_YEAR_BASE_DATE).toFormatter(Locale.ENGLISH);
 }

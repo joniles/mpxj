@@ -92,6 +92,22 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Retrieve the Charset used to read the file.
+    *
+    * @return Charset instance
+    */
+   private Charset getCharset()
+   {
+      Charset result = m_charset;
+      if (result == null)
+      {
+         // We default to CP1252 as this seems to be the most common encoding
+         result = m_encoding == null ? CharsetHelper.CP1252 : Charset.forName(m_encoding);
+      }
+      return result;
+   }
+
+   /**
     * Retrieve a flag indicating if, when using `realAll` to retrieve all
     * projects from a file, cross project relations should be linked together.
     *
@@ -163,7 +179,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
-            m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath);
+            m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
             ProjectFile project = readProject();
             externalRelations.addAll(m_reader.getExternalRelations());
 
@@ -185,8 +201,13 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
                   predecessorTask = proj.getTaskByUniqueID(externalRelation.externalTaskUniqueID());
                   if (predecessorTask != null)
                   {
-                     Relation relation = externalRelation.getTargetTask().addPredecessor(predecessorTask, externalRelation.getType(), externalRelation.getLag());
-                     relation.setUniqueID(externalRelation.getUniqueID());
+                     externalRelation.getTargetTask().addPredecessor(new Relation.Builder()
+                        .targetTask(predecessorTask)
+                        .type(externalRelation.getType())
+                        .lag(externalRelation.getLag())
+                        .uniqueID(externalRelation.getUniqueID())
+                        .notes(externalRelation.getNotes())
+                     );
                      break;
                   }
                }
@@ -220,6 +241,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
          addListenersToProject(project);
 
          processProjectID();
+         processUnitsOfMeasure();
          processUserDefinedFields();
          processLocations();
          processProjectProperties();
@@ -308,22 +330,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       {
          throw new MPXJException(MPXJException.READ_ERROR + " (failed at line " + line + ")", ex);
       }
-   }
-
-   /**
-    * Retrieve the Charset used to read the file.
-    *
-    * @return Charset instance
-    */
-   private Charset getCharset()
-   {
-      Charset result = m_charset;
-      if (result == null)
-      {
-         // We default to CP1252 as this seems to be the most common encoding
-         result = m_encoding == null ? CharsetHelper.CP1252 : Charset.forName(m_encoding);
-      }
-      return result;
    }
 
    /**
@@ -464,6 +470,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Process units of measure.
+    */
+   private void processUnitsOfMeasure()
+   {
+      m_reader.processUnitsOfMeasure(getRows("umeasure", null, null));
+   }
+
+   /**
     * Process notebook topics.
     */
    private void processNotebookTopics()
@@ -548,6 +562,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    {
       List<Row> rows = getRows("rolerate", null, null);
       m_reader.processRoleRates(rows);
+      m_reader.processRoleAvailability(rows);
    }
 
    /**
@@ -808,7 +823,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
 
                default:
                {
-                  objectValue = fieldValue;
+                  objectValue = unescapeQuotes(fieldValue);
                   break;
                }
             }
@@ -829,6 +844,27 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       {
          processCurrency(currentRow);
       }
+   }
+
+   /**
+    * Handle unescaping of double quotes.
+    *
+    * @param value string value
+    * @return string value with unescaped double quotes
+    */
+   private String unescapeQuotes(String value)
+   {
+      if (value == null || value.isEmpty())
+      {
+         return value;
+      }
+
+      if (!value.contains("\"\""))
+      {
+         return value;
+      }
+
+      return value.replace("\"\"", "\"");
    }
 
    /**
@@ -1012,23 +1048,25 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Returns true if errors during import are ignored.
+    * Set a flag to determine if datatype parse errors can be ignored.
+    * Defaults to true.
     *
-    * @return true if errors during import are ignored
-    */
-   public boolean getIgnoreErrors()
-   {
-      return m_ignoreErrors;
-   }
-
-   /**
-    * When set to true, errors during import are ignored.
-    *
-    * @param ignoreErrors set to true to ignore erros during import
+    * @param ignoreErrors pass true to ignore errors
     */
    public void setIgnoreErrors(boolean ignoreErrors)
    {
       m_ignoreErrors = ignoreErrors;
+   }
+
+   /**
+    * Retrieve the flag which determines if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @return true if datatype parse errors are ignored
+    */
+   public boolean getIgnoreErrors()
+   {
+      return m_ignoreErrors;
    }
 
    /**
@@ -1055,7 +1093,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
    private String m_defaultCurrencyName;
    private DecimalFormat m_numberFormat;
    private Row m_defaultCurrencyData;
-   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("yyyy-MM-dd[ HH:mm[:ss]]");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("yyyy-M-dd[ HH[:][.]mm[[:][.]ss]]");
    private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();
    private final Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
@@ -1103,7 +1141,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("acct_seq_num", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("act_cost", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("act_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("act_equip_qty", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("act_equip_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("act_ot_cost", XerFieldType.CURRENCY);
       FIELD_TYPE_MAP.put("act_ot_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("act_reg_cost", XerFieldType.CURRENCY);
@@ -1200,7 +1238,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("rem_late_end_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("remain_cost", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("remain_drtn_hr_cnt", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("remain_equip_qty", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("remain_equip_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("remain_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("remain_work_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("restart_date", XerFieldType.DATE);
@@ -1219,11 +1257,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("target_cost", XerFieldType.CURRENCY);
       FIELD_TYPE_MAP.put("target_drtn_hr_cnt", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_end_date", XerFieldType.DATE);
+      FIELD_TYPE_MAP.put("target_equip_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_lag_drtn_hr_cnt", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_qty", XerFieldType.DURATION);
       FIELD_TYPE_MAP.put("target_qty_per_hr", XerFieldType.DOUBLE);
       FIELD_TYPE_MAP.put("target_start_date", XerFieldType.DATE);
       FIELD_TYPE_MAP.put("target_work_qty", XerFieldType.DURATION);
+      FIELD_TYPE_MAP.put("task_code_base", XerFieldType.INTEGER);
+      FIELD_TYPE_MAP.put("task_code_step", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("task_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("task_pred_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("taskrsrc_id", XerFieldType.INTEGER);
@@ -1236,6 +1277,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       FIELD_TYPE_MAP.put("udf_type_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("udf_type_label", XerFieldType.STRING);
       FIELD_TYPE_MAP.put("udf_type_name", XerFieldType.STRING);
+      FIELD_TYPE_MAP.put("unit_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("wbs_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("wbs_memo_id", XerFieldType.INTEGER);
       FIELD_TYPE_MAP.put("week_hr_cnt", XerFieldType.DOUBLE);
@@ -1271,6 +1313,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
       REQUIRED_TABLES.add("rsrccurvdata");
       REQUIRED_TABLES.add("taskproc");
       REQUIRED_TABLES.add("location");
+      REQUIRED_TABLES.add("umeasure");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();

@@ -215,11 +215,18 @@ public final class DatatypeConverter
 
          catch (DateTimeParseException ex)
          {
-            // ignore exceptions
+            if (IGNORE_ERRORS.get().booleanValue())
+            {
+               PARENT_FILE.get().addIgnoredError(ex);
+            }
+            else
+            {
+               throw ex;
+            }
          }
       }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -1494,7 +1501,10 @@ public final class DatatypeConverter
       BigDecimal result = null;
       if (duration != null && duration.getDuration() != 0)
       {
-         result = BigDecimal.valueOf(printDurationFractionsOfMinutes(duration, 1000));
+         // Although these values are represented as 1000th of a minute,
+         // MS Project writes the values rounded to the nearest minute.
+         // We replicate that behaviour here.
+         result = BigDecimal.valueOf(Math.round(printDurationFractionsOfMinutes(duration, 1000) / 1000.0) * 1000.0);
       }
       return result;
    }
@@ -1554,7 +1564,7 @@ public final class DatatypeConverter
     */
    public static String printUUID(UUID guid)
    {
-      return guid == null ? null : guid.toString();
+      return guid == null ? null : guid.toString().toUpperCase();
    }
 
    /**
@@ -1572,7 +1582,7 @@ public final class DatatypeConverter
 
       if (value != null)
       {
-         result = Duration.getInstance(value.intValue() / factor, TimeUnit.MINUTES);
+         result = Duration.getInstance(value.doubleValue() / factor, TimeUnit.MINUTES);
          if (targetTimeUnit != result.getUnits())
          {
             result = result.convertUnits(targetTimeUnit, properties);
@@ -1996,15 +2006,16 @@ public final class DatatypeConverter
    }
 
    /**
-    * This method is called to set the parent file for the current
-    * write operation. This allows task and resource write events
-    * to be captured and passed to any file listeners.
+    * This method is called to set the parent file to provide context for
+    * parse and print operations.
     *
     * @param file parent file instance
+    * @param ignoreErrors ignore errors flag
     */
-   public static final void setParentFile(ProjectFile file)
+   public static final void setContext(ProjectFile file, boolean ignoreErrors)
    {
       PARENT_FILE.set(file);
+      IGNORE_ERRORS.set(Boolean.valueOf(ignoreErrors));
    }
 
    /**
@@ -2063,7 +2074,7 @@ public final class DatatypeConverter
    });
 
    private static final ThreadLocal<ProjectFile> PARENT_FILE = new ThreadLocal<>();
-
+   private static final ThreadLocal<Boolean> IGNORE_ERRORS = new ThreadLocal<>();
    private static final BigDecimal BIGDECIMAL_ZERO = BigDecimal.valueOf(0);
    private static final BigDecimal BIGDECIMAL_ONE = BigDecimal.valueOf(1);
 }

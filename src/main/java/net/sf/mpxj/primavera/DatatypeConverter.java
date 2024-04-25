@@ -293,7 +293,7 @@ public final class DatatypeConverter
    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
    private static final ThreadLocal<NumberFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> {
-      DecimalFormat format = new DecimalFormat("#.##");
+      DecimalFormat format = new DecimalFormat("#.###############");
       format.setGroupingUsed(false);
       return format;
    });

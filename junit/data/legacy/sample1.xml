@@ -56,6 +56,7 @@
             <UID>1</UID>
             <Name>Standard</Name>
             <IsBaseCalendar>1</IsBaseCalendar>
+            <IsBaselineCalendar>0</IsBaselineCalendar>
             <BaseCalendarUID>-1</BaseCalendarUID>
             <WeekDays>
                 <WeekDay>
@@ -142,6 +143,7 @@
             <UID>2</UID>
             <Name>Night Shift</Name>
             <IsBaseCalendar>1</IsBaseCalendar>
+            <IsBaselineCalendar>0</IsBaselineCalendar>
             <BaseCalendarUID>-1</BaseCalendarUID>
             <WeekDays>
                 <WeekDay>
@@ -250,12 +252,14 @@
             <UID>3</UID>
             <Name>First Resource</Name>
             <IsBaseCalendar>0</IsBaseCalendar>
+            <IsBaselineCalendar>0</IsBaselineCalendar>
             <BaseCalendarUID>1</BaseCalendarUID>
         </Calendar>
         <Calendar>
             <UID>4</UID>
             <Name>Second Resource</Name>
             <IsBaseCalendar>0</IsBaseCalendar>
+            <IsBaselineCalendar>0</IsBaselineCalendar>
             <BaseCalendarUID>2</BaseCalendarUID>
         </Calendar>
     </Calendars>
@@ -1377,7 +1381,7 @@
             <WorkGroup>0</WorkGroup>
             <MaxUnits>1</MaxUnits>
             <PeakUnits>1.5</PeakUnits>
-            <OverAllocated>0</OverAllocated>
+            <OverAllocated>1</OverAllocated>
             <Start>2003-01-07T08:00:00</Start>
             <Finish>2003-03-17T17:00:00</Finish>
             <CanLevel>0</CanLevel>
@@ -1416,7 +1420,6 @@ formatting.
             <IsEnterprise>0</IsEnterprise>
             <BookingType>0</BookingType>
             <IsBudget>0</IsBudget>
-            <AvailabilityPeriods/>
         </Resource>
         <Resource>
             <UID>2</UID>
@@ -1428,7 +1431,7 @@ formatting.
             <WorkGroup>0</WorkGroup>
             <MaxUnits>1</MaxUnits>
             <PeakUnits>1.75</PeakUnits>
-            <OverAllocated>0</OverAllocated>
+            <OverAllocated>1</OverAllocated>
             <Start>2003-01-07T23:00:00</Start>
             <Finish>2003-03-18T08:00:00</Finish>
             <CanLevel>0</CanLevel>
@@ -1453,7 +1456,6 @@ formatting.
             <IsEnterprise>0</IsEnterprise>
             <BookingType>0</BookingType>
             <IsBudget>0</IsBudget>
-            <AvailabilityPeriods/>
         </Resource>
     </Resources>
     <Assignments>

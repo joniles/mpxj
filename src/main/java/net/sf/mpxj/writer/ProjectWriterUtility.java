@@ -32,6 +32,7 @@ import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
+import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
 import net.sf.mpxj.sdef.SDEFWriter;
 
 /**
@@ -56,6 +57,7 @@ public final class ProjectWriterUtility
     */
    public static ProjectWriter getProjectWriter(String name) throws InstantiationException, IllegalAccessException
    {
+      // TODO: deprecate for next major release and simplify exceptions in method signature
       int index = name.lastIndexOf('.');
       if (index == -1)
       {
@@ -93,5 +95,6 @@ public final class ProjectWriterUtility
       WRITER_MAP.put("PLANNER", PlannerWriter.class);
       WRITER_MAP.put("JSON", JsonWriter.class);
       WRITER_MAP.put("SDEF", SDEFWriter.class);
+      WRITER_MAP.put("XER", PrimaveraXERFileWriter.class);
    }
 }

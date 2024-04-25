@@ -47,6 +47,9 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
+
+import net.sf.mpxj.ResourceField;
+import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
@@ -71,6 +74,7 @@ import net.sf.mpxj.TaskType;
 import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
+import net.sf.mpxj.common.MicrosoftProjectUniqueIDMapper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
 import net.sf.mpxj.mpp.UserDefinedFieldMap;
@@ -100,7 +104,10 @@ public final class MPXWriter extends AbstractProjectWriter
       m_calendarNameMap = new HashMap<>();
       m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile, MAPPING_TARGET_CUSTOM_FIELDS);
       projectFile.getUserDefinedFields().stream().sorted(Comparator.comparing(UserDefinedField::getUniqueID)).forEach(m_userDefinedFieldMap::generateMapping);
-      m_resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
+      m_resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(Resource::getCalendarUniqueID));
+      m_taskMapper = new MicrosoftProjectUniqueIDMapper(m_projectFile.getTasks());
+      m_resourceMapper = new MicrosoftProjectUniqueIDMapper(m_projectFile.getResources());
+      m_calendarMapper = new MicrosoftProjectUniqueIDMapper(m_projectFile.getCalendars());
 
       try
       {
@@ -120,6 +127,9 @@ public final class MPXWriter extends AbstractProjectWriter
          m_calendarNameMap = null;
          m_userDefinedFieldMap = null;
          m_resourceCalendarMap = null;
+         m_taskMapper = null;
+         m_resourceMapper = null;
+         m_calendarMapper = null;
       }
    }
 
@@ -128,8 +138,6 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private void write() throws IOException
    {
-      m_projectFile.validateUniqueIDsForMicrosoftProject();
-
       writeFileCreationRecord();
       writeProjectHeader(m_projectFile.getProjectProperties());
 
@@ -261,7 +269,7 @@ public final class MPXWriter extends AbstractProjectWriter
       }
 
       ProjectCalendar defaultCalendar = m_projectFile.getDefaultCalendar();
-      String defaultCalendarName = defaultCalendar == null ? null : m_calendarNameMap.get(defaultCalendar.getUniqueID());
+      String defaultCalendarName = defaultCalendar == null ? null : m_calendarNameMap.get(m_calendarMapper.getUniqueID(defaultCalendar));
 
       //
       // Project Header Record
@@ -361,7 +369,7 @@ public final class MPXWriter extends AbstractProjectWriter
     */
    private void writeCalendarDetail(int recordNumber, ProjectCalendar record) throws IOException
    {
-      String name = m_calendarNameMap.get(record.getParent() == null ? record.getUniqueID() : record.getParent().getUniqueID());
+      String name = m_calendarNameMap.get(record.getParent() == null ? m_calendarMapper.getUniqueID(record) : m_calendarMapper.getUniqueID(record.getParent()));
 
       m_buffer.setLength(0);
       m_buffer.append(recordNumber);
@@ -533,7 +541,7 @@ public final class MPXWriter extends AbstractProjectWriter
          }
 
          FieldType resourceField = m_userDefinedFieldMap.getSource(MPXResourceField.getMpxjField(mpxFieldType));
-         Object value = record.get(resourceField);
+         Object value = resourceField == ResourceField.UNIQUE_ID ? m_resourceMapper.getUniqueID(record) : record.get(resourceField);
          value = formatType(resourceField.getDataType(), value);
 
          m_buffer.append(m_delimiter);
@@ -576,7 +584,7 @@ public final class MPXWriter extends AbstractProjectWriter
       // 1. It is a derived calendar
       // 2. It's not the base calendar for any other derived calendars
       // 3. It is associated with exactly one resource
-      return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && m_resourceCalendarMap.computeIfAbsent(calendar.getUniqueID(), k -> Collections.emptyList()).size() == 1;
+      return calendar != null && calendar.isDerived() && calendar.getDerivedCalendars().isEmpty() && m_resourceCalendarMap.computeIfAbsent(m_calendarMapper.getUniqueID(calendar), k -> Collections.emptyList()).size() == 1;
    }
 
    /**
@@ -615,7 +623,7 @@ public final class MPXWriter extends AbstractProjectWriter
       }
 
       m_calendarNameSet.add(name);
-      m_calendarNameMap.put(calendar.getUniqueID(), name);
+      m_calendarNameMap.put(m_calendarMapper.getUniqueID(calendar), name);
 
       //
       // Flatten calendar if required
@@ -624,7 +632,7 @@ public final class MPXWriter extends AbstractProjectWriter
       if (calendar.isDerived())
       {
          result = ProjectCalendarHelper.createTemporaryFlattenedCalendar(calendar);
-         m_calendarNameMap.put(result.getUniqueID(), name);
+         m_calendarNameMap.put(m_calendarMapper.getUniqueID(result), name);
       }
       else
       {
@@ -734,7 +742,7 @@ public final class MPXWriter extends AbstractProjectWriter
          }
 
          FieldType taskField = m_userDefinedFieldMap.getSource(MPXTaskField.getMpxjField(field));
-         Object value = record.get(taskField);
+         Object value = taskField == TaskField.UNIQUE_ID ? m_taskMapper.getUniqueID(record) : record.get(taskField);
          value = formatType(taskField.getDataType(), value);
 
          m_buffer.append(m_delimiter);
@@ -898,7 +906,7 @@ public final class MPXWriter extends AbstractProjectWriter
       m_buffer.append(m_delimiter);
       m_buffer.append(format(formatDuration(record.getDelay())));
       m_buffer.append(m_delimiter);
-      m_buffer.append(record.getResource().getUniqueID());
+      m_buffer.append(m_resourceMapper.getUniqueID(record.getResource()));
       stripTrailingDelimiters(m_buffer);
       m_buffer.append(MPXConstants.EOL);
       m_writer.write(m_buffer.toString());
@@ -1607,6 +1615,10 @@ public final class MPXWriter extends AbstractProjectWriter
    private Map<Integer, String> m_calendarNameMap;
    private UserDefinedFieldMap m_userDefinedFieldMap;
    private Map<Integer, List<Resource>> m_resourceCalendarMap;
+
+   private MicrosoftProjectUniqueIDMapper m_taskMapper;
+   private MicrosoftProjectUniqueIDMapper m_resourceMapper;
+   private MicrosoftProjectUniqueIDMapper m_calendarMapper;
 
    private static final List<FieldType> MAPPING_TARGET_CUSTOM_FIELDS = new ArrayList<>();
    static

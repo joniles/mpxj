@@ -93,7 +93,7 @@ class DataLinkFactory
     */
    private void process(byte[] data, Map<String, DataLink> map) throws IOException
    {
-      Props props = new Props14(new ByteArrayInputStream(data));
+      Props props = new Props14(m_project, new ByteArrayInputStream(data));
       //System.out.println(props);
 
       String dataLinkID = props.getUnicodeString(PATH);

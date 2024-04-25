@@ -26,12 +26,14 @@ package net.sf.mpxj.mpp;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.common.DayOfWeekHelper;
@@ -47,7 +49,7 @@ import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.ConstraintType;
 import java.time.DayOfWeek;
-import net.sf.mpxj.Duration;
+
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Priority;
@@ -131,7 +133,7 @@ final class MPP8Reader implements MPPVariantReader
       m_calendarMap = new HashMap<>();
       m_projectDir = (DirectoryEntry) root.getEntry("   1");
       m_viewDir = (DirectoryEntry) root.getEntry("   2");
-      m_projectProps = new Props8(new DocumentInputStream(((DocumentEntry) m_projectDir.getEntry("Props"))));
+      m_projectProps = new Props8(m_file, new DocumentInputStream(((DocumentEntry) m_projectDir.getEntry("Props"))));
 
       m_file.getProjectProperties().setMppFileType(Integer.valueOf(8));
    }
@@ -167,7 +169,7 @@ final class MPP8Reader implements MPPVariantReader
    {
       if (m_viewDir.hasEntry("Props"))
       {
-         Props8 props = new Props8(new DocumentInputStream(((DocumentEntry) m_viewDir.getEntry("Props"))));
+         Props8 props = new Props8(m_file, new DocumentInputStream(((DocumentEntry) m_viewDir.getEntry("Props"))));
          ProjectProperties properties = m_file.getProjectProperties();
          properties.setShowProjectSummaryTask(props.getBoolean(Props.SHOW_PROJECT_SUMMARY_TASK));
       }
@@ -776,6 +778,7 @@ final class MPP8Reader implements MPPVariantReader
 
       catch (FileNotFoundException ex)
       {
+         m_file.addIgnoredError(ex);
          consDir = null;
       }
 
@@ -804,11 +807,12 @@ final class MPP8Reader implements MPPVariantReader
                   Task task2 = m_file.getTaskByUniqueID(Integer.valueOf(taskID2));
                   if (task1 != null && task2 != null)
                   {
-                     RelationType type = RelationType.getInstance(MPPUtility.getShort(data, 20));
-                     TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 22));
-                     Duration lag = MPPUtility.getDuration(MPPUtility.getInt(data, 24), durationUnits);
-                     Relation relation = task2.addPredecessor(task1, type, lag);
-                     relation.setUniqueID(Integer.valueOf(MPPUtility.getInt(data, 0)));
+                     Relation relation = task2.addPredecessor(new Relation.Builder()
+                        .targetTask(task1)
+                        .type(RelationType.getInstance(MPPUtility.getShort(data, 20)))
+                        .lag(MPPUtility.getDuration(MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 22))))
+                        .uniqueID(Integer.valueOf(MPPUtility.getInt(data, 0)))
+                     );
                      m_eventManager.fireRelationReadEvent(relation);
                   }
                }
@@ -884,8 +888,6 @@ final class MPP8Reader implements MPPVariantReader
          resource.setActualCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 114)) / 100));
          resource.setActualOvertimeCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 144)) / 100));
          resource.setActualWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 62)) / 100, TimeUnit.HOURS));
-         resource.setAvailableFrom(MPPUtility.getTimestamp(data, 28));
-         resource.setAvailableTo(MPPUtility.getTimestamp(data, 32));
          //resource.setBaseCalendar();
          resource.setBaselineCost(NumberHelper.getDouble(((double) MPPUtility.getLong6(data, 126)) / 100));
          resource.setBaselineWork(MPPUtility.getDuration(((double) MPPUtility.getLong6(data, 68)) / 100, TimeUnit.HOURS));
@@ -936,7 +938,6 @@ final class MPP8Reader implements MPPVariantReader
          resource.setID(Integer.valueOf(MPPUtility.getInt(data, 4)));
          resource.setInitials(rscVarData.getUnicodeString(getOffset(data, 160)));
          //resource.setLinkedFields(); // Calculated value
-         resource.setMaxUnits(NumberHelper.getDouble(((double) MPPUtility.getInt(data, 52)) / 100));
          resource.setName(rscVarData.getUnicodeString(getOffset(data, 156)));
          resource.setNumber(1, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER1)));
          resource.setNumber(2, NumberHelper.getDouble(rscExtData.getDouble(RESOURCE_NUMBER2)));
@@ -1033,6 +1034,12 @@ final class MPP8Reader implements MPPVariantReader
          CostRateTable costRateTable = new CostRateTable();
          costRateTable.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
          resource.setCostRateTable(0, costRateTable);
+
+         LocalDateTime availableFrom = MPPUtility.getTimestamp(data, 28);
+         LocalDateTime availableTo = MPPUtility.getTimestamp(data, 32);
+         availableFrom = availableFrom == null ? LocalDateTimeHelper.START_DATE_NA : availableFrom;
+         availableTo = availableTo == null ? LocalDateTimeHelper.END_DATE_NA : availableTo;
+         resource.getAvailability().add(new Availability(availableFrom, availableTo, NumberHelper.getDouble(((double) MPPUtility.getInt(data, 52)) / 100)));
 
          m_eventManager.fireResourceReadEvent(resource);
       }

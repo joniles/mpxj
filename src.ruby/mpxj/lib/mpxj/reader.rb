@@ -47,6 +47,7 @@ module MPXJ
     # @private
     def self.jvm_args
       args = []
+      args << "-Dlog4j2.loggerContextFactory=org.apache.logging.log4j.simple.SimpleLoggerContextFactory"
       args << "-Xmx#{@@max_memory_size}" if @@max_memory_size.present?
       args.join(' ')
     end

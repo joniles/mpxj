@@ -45,10 +45,11 @@ import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.ActivityCode;
-import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
+import net.sf.mpxj.RelationshipLagCalendar;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
@@ -66,7 +67,6 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
@@ -162,11 +162,6 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * This method extracts project properties from a Phoenix file.
     *
@@ -180,6 +175,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
       mpxjProperties.setStatusDate(storepoint.getDataDate());
       mpxjProperties.setStartDate(storepoint.getStart());
+      mpxjProperties.setRelationshipLagCalendar(LAG_CALENDAR_MAP.getOrDefault(storepoint.getLagCalendar(), mpxjProperties.getRelationshipLagCalendar()));
    }
 
    /**
@@ -231,23 +227,29 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
     */
    private void readActivityCode(Code code, Integer activityCodeSequence)
    {
-      ActivityCode activityCode = new ActivityCode(Integer.valueOf(++m_activityCodeUniqueID), ActivityCodeScope.GLOBAL, null, null, activityCodeSequence, code.getName(), false, null);
-
+      ActivityCode activityCode = new ActivityCode.Builder(m_projectFile)
+         .sequenceNumber(activityCodeSequence)
+         .name(code.getName())
+         .build();
       UUID codeUUID = getCodeUUID(code.getUuid(), code.getName());
+
       int activityCodeValueSequence = 0;
       for (Value typeValue : code.getValue())
       {
-         ActivityCodeValue activityCodeValue = activityCode.addValue(Integer.valueOf(++m_activityCodeValueUniqueID), Integer.valueOf(++activityCodeValueSequence), typeValue.getName(), typeValue.getName(), null);
+         ActivityCodeValue activityCodeValue = new ActivityCodeValue.Builder(m_projectFile)
+            .type(activityCode)
+            .sequenceNumber(Integer.valueOf(++activityCodeValueSequence))
+            .name(typeValue.getName())
+            .description(typeValue.getName())
+            .build();
+         activityCode.getValues().add(activityCodeValue);
 
          String name = typeValue.getName();
          UUID uuid = getValueUUID(codeUUID, typeValue.getUuid(), name);
          m_activityCodeValues.put(uuid, activityCodeValue);
       }
 
-      if (!m_useActivityCodesForTaskHierarchy)
-      {
-         m_projectFile.getActivityCodes().add(activityCode);
-      }
+      m_projectFile.getActivityCodes().add(activityCode);
    }
 
    /**
@@ -436,7 +438,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       // phoenixResource.getMaximum()
       mpxjResource.setName(phoenixResource.getName());
       mpxjResource.setType(phoenixResource.getType());
-      mpxjResource.setMaterialLabel(phoenixResource.getUnitslabel());
+      mpxjResource.setUnitOfMeasure(m_projectFile.getUnitsOfMeasure().getOrCreateByAbbreviation(phoenixResource.getUnitslabel()));
       //phoenixResource.getUnitsperbase()
       mpxjResource.setGUID(phoenixResource.getUuid());
 
@@ -598,10 +600,9 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       else
       {
          task = m_projectFile.addTask();
-
-         // Activity codes
-         populateActivityCodes(task, getActivityCodes(activity));
       }
+
+      populateActivityCodes(task, getActivityCodes(activity));
 
       task.setActivityID(activity.getId());
       task.setActivityType(ACTIVITY_TYPE_MAP.get(activity.getType()));
@@ -870,9 +871,11 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       Task successor = m_activityMap.get(relation.getSuccessor());
       if (predecessor != null && successor != null)
       {
-         Duration lag = relation.getLag();
-         RelationType type = relation.getType();
-         successor.addPredecessor(predecessor, type, lag);
+         successor.addPredecessor(new Relation.Builder()
+            .targetTask(predecessor)
+            .type(relation.getType())
+            .lag(relation.getLag())
+         );
       }
    }
 
@@ -1054,16 +1057,6 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    private final boolean m_useActivityCodesForTaskHierarchy;
 
    /**
-    * Counter used to populate the unique ID field of Activity Code.
-    */
-   private int m_activityCodeUniqueID;
-
-   /**
-    * Counter used to populate the unique ID field of Activity Code Value.
-    */
-   private int m_activityCodeValueUniqueID;
-
-   /**
     * Cached context to minimise construction cost.
     */
    private static JAXBContext CONTEXT;
@@ -1131,5 +1124,14 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       NON_WORKING_DAY_MAP.put("weekly", Phoenix5Reader::addWeeklyRecurringException);
       NON_WORKING_DAY_MAP.put("monthly", Phoenix5Reader::addMonthlyRecurringException);
       NON_WORKING_DAY_MAP.put("yearly", Phoenix5Reader::addYearlyRecurringException);
+   }
+
+   private static final Map<String, RelationshipLagCalendar> LAG_CALENDAR_MAP = new HashMap<>();
+   static
+   {
+      LAG_CALENDAR_MAP.put("successor", RelationshipLagCalendar.SUCCESSOR);
+      LAG_CALENDAR_MAP.put("predecessor", RelationshipLagCalendar.PREDECESSOR);
+      LAG_CALENDAR_MAP.put("default", RelationshipLagCalendar.PROJECT_DEFAULT);
+      LAG_CALENDAR_MAP.put("calendar_days", RelationshipLagCalendar.TWENTY_FOUR_HOUR);
    }
 }

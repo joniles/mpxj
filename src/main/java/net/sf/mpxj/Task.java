@@ -26,11 +26,10 @@ package net.sf.mpxj;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -63,7 +62,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
 
       if (config.getAutoTaskUniqueID())
       {
-         setUniqueID(file.getTasks().getNextUniqueID());
+         setUniqueID(file.getUniqueIdObjectSequence(Task.class).getNext());
       }
 
       if (config.getAutoTaskID())
@@ -462,96 +461,38 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param type relation type
     * @param lag relation lag
     * @return relationship
+    * @deprecated use addPredecessor(Relation.Builder)
     */
-   @SuppressWarnings("unchecked") public Relation addPredecessor(Task targetTask, RelationType type, Duration lag)
+   @Deprecated public Relation addPredecessor(Task targetTask, RelationType type, Duration lag)
    {
-      ProjectConfig projectConfig = getParentFile().getProjectConfig();
+      return getParentFile().getRelations().addPredecessor(this, targetTask, type, lag);
+   }
 
-      //
-      // Ensure that we have a valid lag duration
-      //
-      if (lag == null)
-      {
-         lag = Duration.getInstance(0, TimeUnit.DAYS);
-      }
+   /**
+    * This method allows a predecessor relationship to be added to this
+    * task instance.
+    *
+    * @param builder Relation.Builder instance
+    * @return Relation instance
+    */
+   public Relation addPredecessor(Relation.Builder builder)
+   {
+      return getParentFile().getRelations().addPredecessor(builder.sourceTask(this));
+   }
 
-      //
-      // Retrieve the list of predecessors
-      //
-      List<Relation> predecessorList = (List<Relation>) get(TaskField.PREDECESSORS);
-
-      //
-      // Ensure that there is only one predecessor relationship between
-      // these two tasks.
-      //
-      Relation predecessorRelation = null;
-      Iterator<Relation> iter = predecessorList.iterator();
-      while (iter.hasNext())
-      {
-         predecessorRelation = iter.next();
-         if (predecessorRelation.getTargetTask() == targetTask)
-         {
-            if (predecessorRelation.getType() != type || predecessorRelation.getLag().compareTo(lag) != 0)
-            {
-               predecessorRelation = null;
-            }
-            break;
-         }
-         predecessorRelation = null;
-      }
-
-      //
-      // If necessary, create a new predecessor relationship
-      //
-      if (predecessorRelation == null)
-      {
-         predecessorRelation = new Relation(this, targetTask, type, lag);
-         if (projectConfig.getAutoRelationUniqueID())
-         {
-            predecessorRelation.setUniqueID(Integer.valueOf(projectConfig.getNextRelationUniqueID()));
-         }
-         predecessorList.add(predecessorRelation);
-      }
-
-      //
-      // Retrieve the list of successors
-      //
-      List<Relation> successorList = (List<Relation>) targetTask.get(TaskField.SUCCESSORS);
-
-      //
-      // Ensure that there is only one successor relationship between
-      // these two tasks.
-      //
-      Relation successorRelation = null;
-      iter = successorList.iterator();
-      while (iter.hasNext())
-      {
-         successorRelation = iter.next();
-         if (successorRelation.getTargetTask() == this)
-         {
-            if (successorRelation.getType() != type || successorRelation.getLag().compareTo(lag) != 0)
-            {
-               successorRelation = null;
-            }
-            break;
-         }
-         successorRelation = null;
-      }
-
-      //
-      // If necessary, create a new successor relationship
-      //
-      if (successorRelation == null)
-      {
-         successorRelation = new Relation(targetTask, this, type, lag);
-         if (projectConfig.getAutoRelationUniqueID())
-         {
-            successorRelation.setUniqueID(Integer.valueOf(projectConfig.getNextRelationUniqueID()));
-         }
-         successorList.add(successorRelation);
-      }
-
-      return predecessorRelation;
+   /**
+    * This method allows a predecessor relationship to be removed from this
+    * task instance.  It will only delete relationships that exactly match the
+    * given targetTask, type and lag time.
+    *
+    * @param targetTask the predecessor task
+    * @param type relation type
+    * @param lag relation lag
+    * @return returns true if the relation is found and removed
+    */
+   public boolean removePredecessor(Task targetTask, RelationType type, Duration lag)
+   {
+      return getParentFile().getRelations().removePredecessor(this, targetTask, type, lag);
    }
 
    /**
@@ -2559,7 +2500,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * Contains the file name and path of the extrenal project linked
+    * Contains the file name and path of the external project linked
     * to this task.
     *
     * @return subproject file path
@@ -5407,6 +5348,126 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Set the labor component of the task's Actual Work.
+    *
+    * @param value work value
+    */
+   public void setActualWorkLabor(Duration value)
+   {
+      set(TaskField.ACTUAL_WORK_LABOR, value);
+   }
+
+   /**
+    * Retrieve the labor component of the task's Actual Work.
+    *
+    * @return work value
+    */
+   public Duration getActualWorkLabor()
+   {
+      return (Duration) get(TaskField.ACTUAL_WORK_LABOR);
+   }
+
+   /**
+    * Set the nonlabor component of the task's Actual Work.
+    *
+    * @param value work value
+    */
+   public void setActualWorkNonlabor(Duration value)
+   {
+      set(TaskField.ACTUAL_WORK_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the nonlabor component of the task's Actual Work.
+    *
+    * @return work value
+    */
+   public Duration getActualWorkNonlabor()
+   {
+      return (Duration) get(TaskField.ACTUAL_WORK_NONLABOR);
+   }
+
+   /**
+    * Set the labor component of the task's Planned Work.
+    *
+    * @param value work value
+    */
+   public void setPlannedWorkLabor(Duration value)
+   {
+      set(TaskField.PLANNED_WORK_LABOR, value);
+   }
+
+   /**
+    * Retrieve the labor component of the task's Planned Work.
+    *
+    * @return work value
+    */
+   public Duration getPlannedWorkLabor()
+   {
+      return (Duration) get(TaskField.PLANNED_WORK_LABOR);
+   }
+
+   /**
+    * Set the nonlabor component of the task's Planned Work.
+    *
+    * @param value work value
+    */
+   public void setPlannedWorkNonlabor(Duration value)
+   {
+      set(TaskField.PLANNED_WORK_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the nonlabor component of the task's Planned Work.
+    *
+    * @return work value
+    */
+   public Duration getPlannedWorkNonlabor()
+   {
+      return (Duration) get(TaskField.PLANNED_WORK_NONLABOR);
+   }
+
+   /**
+    * Set the labor component of the task's Remaining Work.
+    *
+    * @param value work value
+    */
+   public void setRemainingWorkLabor(Duration value)
+   {
+      set(TaskField.REMAINING_WORK_LABOR, value);
+   }
+
+   /**
+    * Retrieve the labor component of the task's Remaining Work.
+    *
+    * @return work value
+    */
+   public Duration getRemainingWorkLabor()
+   {
+      return (Duration) get(TaskField.REMAINING_WORK_LABOR);
+   }
+
+   /**
+    * Set the nonlabor component of the task's Remaining Work.
+    *
+    * @param value work value
+    */
+   public void setRemainingWorkNonlabor(Duration value)
+   {
+      set(TaskField.REMAINING_WORK_NONLABOR, value);
+   }
+
+   /**
+    * Retrieve the nonlabor component of the task's Remaining Work.
+    *
+    * @return work value
+    */
+   public Duration getRemainingWorkNonlabor()
+   {
+      return (Duration) get(TaskField.REMAINING_WORK_NONLABOR);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.
@@ -5421,90 +5482,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          result = getParentFile().getDefaultCalendar();
       }
       return result;
-   }
-
-   /**
-    * This method allows a predecessor relationship to be removed from this
-    * task instance.  It will only delete relationships that exactly match the
-    * given targetTask, type and lag time.
-    *
-    * @param targetTask the predecessor task
-    * @param type relation type
-    * @param lag relation lag
-    * @return returns true if the relation is found and removed
-    */
-   public boolean removePredecessor(Task targetTask, RelationType type, Duration lag)
-   {
-      boolean matchFound = false;
-
-      //
-      // Retrieve the list of predecessors
-      //
-      List<Relation> predecessorList = getPredecessors();
-      if (!predecessorList.isEmpty())
-      {
-         //
-         // Ensure that we have a valid lag duration
-         //
-         if (lag == null)
-         {
-            lag = Duration.getInstance(0, TimeUnit.DAYS);
-         }
-
-         //
-         // Ensure that there is a predecessor relationship between
-         // these two tasks, and remove it.
-         //
-         matchFound = removeRelation(predecessorList, targetTask, type, lag);
-
-         //
-         // If we have removed a predecessor, then we must remove the
-         // corresponding successor entry from the target task list
-         //
-         if (matchFound)
-         {
-            //
-            // Retrieve the list of successors
-            //
-            List<Relation> successorList = targetTask.getSuccessors();
-            if (!successorList.isEmpty())
-            {
-               //
-               // Ensure that there is a successor relationship between
-               // these two tasks, and remove it.
-               //
-               removeRelation(successorList, this, type, lag);
-            }
-         }
-      }
-
-      return matchFound;
-   }
-
-   /**
-    * Internal method used to locate and remove an item from a list Relations.
-    *
-    * @param relationList list of Relation instances
-    * @param targetTask target relationship task
-    * @param type target relationship type
-    * @param lag target relationship lag
-    * @return true if a relationship was removed
-    */
-   private boolean removeRelation(List<Relation> relationList, Task targetTask, RelationType type, Duration lag)
-   {
-      boolean matchFound = false;
-      for (Relation relation : relationList)
-      {
-         if (relation.getTargetTask() == targetTask)
-         {
-            if (relation.getType() == type && relation.getLag().compareTo(lag) == 0)
-            {
-               matchFound = relationList.remove(relation);
-               break;
-            }
-         }
-      }
-      return matchFound;
    }
 
    /**
@@ -5832,7 +5809,11 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
                double durationValue = (duration.getDuration() * percentComplete) / 100d;
                duration = Duration.getInstance(durationValue, duration.getUnits());
                ProjectCalendar calendar = getEffectiveCalendar();
-               value = calendar.getDate(actualStart, duration, getParentFile().getProjectConfig().getCompleteThroughIsNextWorkStart());
+               value = calendar.getDate(actualStart, duration);
+               if (getParentFile().getProjectConfig().getCompleteThroughIsNextWorkStart())
+               {
+                  value = calendar.getNextWorkStart(value);
+               }
             }
             break;
          }
@@ -5844,6 +5825,16 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private Boolean calculateExternalProject()
    {
       return Boolean.valueOf(getSubprojectFile() != null && !getExternalTask());
+   }
+
+   private List<Relation> calculatePredecessors()
+   {
+      return getParentFile().getRelations().getPredecessors(this);
+   }
+
+   private List<Relation> calculateSuccessors()
+   {
+      return getParentFile().getRelations().getSuccessors(this);
    }
 
    /**
@@ -5884,16 +5875,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    private TaskMode defaultTaskMode()
    {
       return TaskMode.AUTO_SCHEDULED;
-   }
-
-   /**
-    * Supply a default value for predecessor and successor lists.
-    *
-    * @return predecessor and successor list default value
-    */
-   private List<Relation> defaultRelationList()
-   {
-      return new ArrayList<>();
    }
 
    private List<ActivityCodeValue> defaultActivityCodesList()
@@ -5938,7 +5919,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    private RecurringTask m_recurringTask;
 
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Collections.singletonList(TaskField.PARENT_TASK_UNIQUE_ID));
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS));
 
    private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
@@ -5957,12 +5938,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.CRITICAL, Task::calculateCritical);
       CALCULATED_FIELD_MAP.put(TaskField.COMPLETE_THROUGH, Task::calculateCompleteThrough);
       CALCULATED_FIELD_MAP.put(TaskField.EXTERNAL_PROJECT, Task::calculateExternalProject);
+      CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::calculatePredecessors);
+      CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::calculateSuccessors);
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
       CALCULATED_FIELD_MAP.put(TaskField.TASK_MODE, Task::defaultTaskMode);
-      CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::defaultRelationList);
-      CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::defaultRelationList);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODES, Task::defaultActivityCodesList);
       CALCULATED_FIELD_MAP.put(TaskField.EXPENSE_ITEMS, Task::defaultExpenseItems);
       CALCULATED_FIELD_MAP.put(TaskField.STEPS, Task::defaultSteps);

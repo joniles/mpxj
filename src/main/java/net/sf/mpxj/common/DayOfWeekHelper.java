@@ -52,7 +52,7 @@ public final class DayOfWeekHelper
    }
 
    /**
-    * Retrieve the oridinal value for a DayOfWeek instance.
+    * Retrieve the ordinal value for a DayOfWeek instance.
     *
     * @param day DayOfWeek instance
     * @return ordinal value

@@ -26,7 +26,6 @@ package net.sf.mpxj.conceptdraw;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +53,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
@@ -126,11 +124,6 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * Extracts project properties from a ConceptDraw PROJECT file.
     *
@@ -144,8 +137,9 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       mpxjProps.setCurrencyDigits(props.getCurrencyDigits());
       mpxjProps.setCurrencySymbol(props.getCurrencySymbol());
       mpxjProps.setDaysPerMonth(props.getDaysPerMonth());
+      // getHoursPerDay() actually returns minutes per day
       mpxjProps.setMinutesPerDay(props.getHoursPerDay());
-      mpxjProps.setMinutesPerWeek(props.getHoursPerWeek());
+      mpxjProps.setMinutesPerWeek(Integer.valueOf(NumberHelper.getInt(props.getHoursPerWeek()) * 60));
 
       m_workHoursPerDay = mpxjProps.getMinutesPerDay().doubleValue() / 60.0;
    }
@@ -445,10 +439,13 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       Task destinationTask = m_taskIdMap.get(link.getDestinationTaskID());
       if (sourceTask != null && destinationTask != null)
       {
-         Duration lag = getDuration(link.getLagUnit(), link.getLag());
-         RelationType type = link.getType();
-         Relation relation = destinationTask.addPredecessor(sourceTask, type, lag);
-         relation.setUniqueID(link.getID());
+         Relation relation = destinationTask.addPredecessor(new Relation.Builder()
+            .targetTask(sourceTask)
+            .type(link.getType())
+            .lag(getDuration(link.getLagUnit(), link.getLag()))
+            .uniqueID(link.getID())
+         );
+
          m_eventManager.fireRelationReadEvent(relation);
       }
    }

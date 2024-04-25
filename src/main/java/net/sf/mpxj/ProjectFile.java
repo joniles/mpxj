@@ -28,12 +28,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ObjectSequence;
 
 /**
  * This class represents a project plan.
@@ -75,19 +79,11 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * held by MPXJ are within the range supported by MS Project.
     * If any of these values fall outside of this range, the unique IDs
     * of the relevant entities are renumbered.
+    * @deprecated no longer required as the MSPDI and MPX writers handle this dynamically without changing the original schedule
     */
-   public void validateUniqueIDsForMicrosoftProject()
+   @Deprecated public void validateUniqueIDsForMicrosoftProject()
    {
-      // The default calendar is a special case as we hold
-      // a reference to its ID in the project properties.
-      // We'll grab a copy of it here then set it again
-      // after we've renumbered, so the ID value is correct.
-      ProjectCalendar defaultCalendar = getDefaultCalendar();
-      m_tasks.validateUniqueIDsForMicrosoftProject();
-      m_resources.validateUniqueIDsForMicrosoftProject();
-      m_assignments.validateUniqueIDsForMicrosoftProject();
-      m_calendars.validateUniqueIDsForMicrosoftProject();
-      setDefaultCalendar(defaultCalendar);
+      // Deprecated
    }
 
    /**
@@ -225,6 +221,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    public ResourceAssignmentContainer getResourceAssignments()
    {
       return m_assignments;
+   }
+
+   /**
+    * Retrieves a list of all relations in this project.
+    *
+    * @return list of all relations
+    */
+   public RelationContainer getRelations()
+   {
+      return m_relations;
    }
 
    /**
@@ -563,6 +569,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * Retrieve the units of measure available for this schedule.
+    *
+    * @return units of measure
+    */
+   public UnitOfMeasureContainer getUnitsOfMeasure()
+   {
+      return m_unitsOfMeasure;
+   }
+
+   /**
     * Retrieves the default calendar for this project based on the calendar name
     * given in the project properties. If a calendar of this name cannot be found, then
     * the first calendar listed for the project will be returned. If the
@@ -590,6 +606,9 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
 
    /**
     * Retrieve the calendar used internally for timephased baseline calculation.
+    * All baseline timephased data is relative to this calendar.
+    * The calendar is created at the point the first baseline is taken and is
+    * a copy of the default calendar at that time.
     *
     * @return baseline calendar
     */
@@ -600,7 +619,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       // If this isn't present, fall back to using the default
       // project calendar.
       //
-      ProjectCalendar result = getCalendarByName("Used for Microsoft Project 98 Baseline Calendar");
+      ProjectCalendar result = getCalendarByName(m_properties.getBaselineCalendarName());
       if (result == null)
       {
          result = getDefaultCalendar();
@@ -688,19 +707,190 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * Calling this method will recursively expand any subprojects
     * in the current file and in turn any subprojects those files contain.
     * The tasks from the subprojects will be attached
-    * to the parent task in. Assuming all subproject
+    * to what was originally the subproject task. Assuming all subproject
     * files can be located and loaded correctly, this will present
     * a complete view of the project.
+    * <p/>
+    * Note that the current project and any subprojects are still independent
+    * projects, so while you can recursively descend through the hierarchy
+    * of tasks to visit all tasks from all files, the {@code ProjectFile.getTasks()}
+    * collection will still only contain the tasks from the original project,
+    * not  all the subprojects.
+    *
+    * @deprecated use the new version of this method which accepts a Boolean flag
     */
-   public void expandSubprojects()
+   @Deprecated public void expandSubprojects()
    {
-      for (Task task : getTasks())
+      getTasks().stream().map(Task::expandSubproject).filter(Objects::nonNull).forEach(ProjectFile::expandSubprojects);
+   }
+
+   /**
+    * Calling this method will recursively expand any subprojects
+    * in the current file and in turn any subprojects those files contain.
+    * The tasks from the subprojects will be attached
+    * to what was originally the subproject task. Assuming all subproject
+    * files can be located and loaded correctly, this will present
+    * a complete view of the project.
+    * <p/>
+    * Note that the current project and any subprojects are still independent
+    * projects, so while you can recursively descend through the hierarchy
+    * of tasks to visit all tasks from all files, the {@code ProjectFile.getTasks()}
+    * collection will still only contain the tasks from the original project,
+    * not  all the subprojects.
+    * <p/>
+    * Passing {@code true} for the {@code replaceExternalTasks} flag will
+    * replace any predecessor or successor relationships with external tasks
+    * with new relationships which link to the original tasks. For each
+    * external task where this is successful, the external task itself will
+    * be removed as it is just a placeholder and is no longer required.
+    *
+    * @param replaceExternalTasks flag indicating if external tasks should be replaced
+    */
+   public void expandSubprojects(boolean replaceExternalTasks)
+   {
+      getTasks().stream().map(Task::expandSubproject).filter(Objects::nonNull).forEach(ProjectFile::expandSubprojects);
+      if (replaceExternalTasks)
       {
-         ProjectFile file = task.expandSubproject();
-         if (file != null)
+         replaceExternalTasks();
+      }
+   }
+
+   /**
+    * Calling this method will replace any predecessors or successors which link to external tasks with new predecessors or successors
+    * which link to the correct tasks across projects. As the external task instance are just placeholders,
+    * these are now removed as they serve no further purpose.
+    */
+   private void replaceExternalTasks()
+   {
+      List<Task> externalTasks = new ArrayList<>();
+      findExternalTasks(getChildTasks(), externalTasks);
+      Set<Task> replacedTasks = externalTasks.stream().map(t -> replaceRelations(t)).filter(t -> t != null).collect(Collectors.toSet());
+      removeExternalTasks(getChildTasks(), replacedTasks);
+   }
+
+   /**
+    * Replaces any predecessor or successor relations for this external task.
+    *
+    * @param externalTask external task to replace
+    * @return the external task if relations successfully replaced, or null if not replaced
+    */
+   private Task replaceRelations(Task externalTask)
+   {
+      ProjectFile originalProjectFile = findProject(externalTask.getSubprojectFile());
+      if (originalProjectFile == null)
+      {
+         return null;
+      }
+
+      Task originalTask = findTask(originalProjectFile, externalTask);
+      if (originalTask == null)
+      {
+         return null;
+      }
+
+      replaceRelations(externalTask, originalTask);
+
+      return externalTask;
+   }
+
+   /**
+    * Given a project's filename, find the relevant ProjectFile instance.
+    *
+    * @param name project filename
+    * @return ProjectFile instance or null if the project can't be found
+    */
+   private ProjectFile findProject(String name)
+   {
+      if (name.equals(m_properties.getProjectFilePath()))
+      {
+         return this;
+      }
+      return m_externalProjects.read(name);
+   }
+
+   /**
+    * Find the original task in a ProjectFile instance which is represented by
+    * an external task.
+    *
+    * @param file project containing the original task
+    * @param externalTask external task representing the original task
+    * @return Task instance, or null if we can't find the original task
+    */
+   private Task findTask(ProjectFile file, Task externalTask)
+   {
+      Integer id = externalTask.getSubprojectTaskUniqueID();
+      if (id != null)
+      {
+         Task result = file.getTaskByUniqueID(id);
+         if (result != null)
          {
-            file.expandSubprojects();
+            return result;
          }
+      }
+
+      id = externalTask.getSubprojectTaskID();
+      if (id != null)
+      {
+         return file.getTaskByID(id);
+      }
+
+      return null;
+   }
+
+   /**
+    * Where we have predecessor or successor Relation instances which link to external tasks,
+    * replace these with new Relation instance which link to the original task.
+    *
+    * @param externalTask external Task instance
+    * @param originalTask original Task instance
+    */
+   private void replaceRelations(Task externalTask, Task originalTask)
+   {
+      RelationContainer relations = externalTask.getParentFile().getRelations();
+
+      // create copies to avoid concurrent modification
+      List<Relation> successors = new ArrayList<>(relations.getRawSuccessors(externalTask));
+      List<Relation> predecessors = new ArrayList<>(relations.getPredecessors(externalTask));
+
+      for (Relation originalRelation : successors)
+      {
+         relations.remove(originalRelation);
+         originalRelation.getSourceTask().addPredecessor(new Relation.Builder().from(originalRelation).targetTask(originalTask));
+      }
+
+      for (Relation originalRelation : predecessors)
+      {
+         relations.remove(originalRelation);
+         originalTask.addPredecessor(new Relation.Builder().from(originalRelation));
+      }
+   }
+
+   /**
+    * Recursively descend through the hierarchy of tasks to identify external tasks,
+    * and return them in the supplied list.
+    *
+    * @param tasks list of tasks to examine
+    * @param externalTasks list of external tasks
+    */
+   private void findExternalTasks(List<Task> tasks, List<Task> externalTasks)
+   {
+      externalTasks.addAll(tasks.stream().filter(t -> t.getExternalTask()).collect(Collectors.toList()));
+      tasks.forEach(t -> findExternalTasks(t.getChildTasks(), externalTasks));
+   }
+
+   /**
+    * This method recursively descends through the hierarchy of tasks
+    * to remove any external tasks which are no longer required.
+    *
+    * @param tasks list of tasks to examine
+    * @param replacedTasks set of external tasks to remove
+    */
+   private void removeExternalTasks(List<Task> tasks, Set<Task> replacedTasks)
+   {
+      tasks.removeIf(t -> replacedTasks.contains(t));
+      for (Task task : tasks)
+      {
+         removeExternalTasks(task.getChildTasks(), replacedTasks);
       }
    }
 
@@ -709,7 +899,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public void readComplete()
    {
-      updateUniqueIdCounters();
       fixUniqueIdClashes();
    }
 
@@ -717,13 +906,12 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * This method is called to ensure that after a project file has been
     * read, the cached unique ID values used to generate new unique IDs
     * start after the end of the existing set of unique IDs.
+    *
+    * @deprecated no longer required
     */
-   public void updateUniqueIdCounters()
+   @Deprecated public void updateUniqueIdCounters()
    {
-      getTasks().updateUniqueIdCounter();
-      getResources().updateUniqueIdCounter();
-      getCalendars().updateUniqueIdCounter();
-      getResourceAssignments().updateUniqueIdCounter();
+      // Deprecated
    }
 
    /**
@@ -736,6 +924,38 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       getResources().fixUniqueIdClashes();
       getCalendars().fixUniqueIdClashes();
       getResourceAssignments().fixUniqueIdClashes();
+      getRelations().fixUniqueIdClashes();
+   }
+
+   /**
+    * Retrieve the ObjectSequence instance used to generate Unique ID values for a given class.
+    *
+    * @param c target class
+    * @return ObjectSequence instance
+    */
+   public ObjectSequence getUniqueIdObjectSequence(Class<?> c)
+   {
+      return m_uniqueIdObjectSequences.computeIfAbsent(c, x -> new ObjectSequence(1));
+   }
+
+   /**
+    * Add an error which has been ignored while reading this schedule.
+    *
+    * @param ex ignored error
+    */
+   public void addIgnoredError(Exception ex)
+   {
+      m_ignoredErrors.add(ex);
+   }
+
+   /**
+    * Retrieve a list of errors ignored when reading this schedule.
+    *
+    * @return list of errors
+    */
+   public List<Exception> getIgnoredErrors()
+   {
+      return m_ignoredErrors;
    }
 
    void addExternalProject(String fileName, ProjectFile projectFile)
@@ -755,6 +975,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final List<Task> m_childTasks = new ArrayList<>();
    private final List<Resource> m_childResources = new ArrayList<>();
    private final ResourceAssignmentContainer m_assignments = new ResourceAssignmentContainer(this);
+   private final RelationContainer m_relations = new RelationContainer(this);
    private final ProjectCalendarContainer m_calendars = new ProjectCalendarContainer(this);
    private final TableContainer m_tables = new TableContainer();
    private final FilterContainer m_filters = new FilterContainer();
@@ -766,10 +987,13 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
    private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
-   private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer();
+   private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer(this);
    private final WorkContourContainer m_workContours = new WorkContourContainer(this);
    private final NotesTopicContainer m_notesTopics = new NotesTopicContainer(this);
    private final LocationContainer m_locations = new LocationContainer(this);
+   private final UnitOfMeasureContainer m_unitsOfMeasure = new UnitOfMeasureContainer(this);
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
+   private final List<Exception> m_ignoredErrors = new ArrayList<>();
+   private final Map<Class<?>, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 }

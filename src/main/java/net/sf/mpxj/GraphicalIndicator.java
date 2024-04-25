@@ -38,6 +38,16 @@ import net.sf.mpxj.common.NumberHelper;
 public class GraphicalIndicator
 {
    /**
+    * Constructor.
+    *
+    * @param fieldType field type
+    */
+   GraphicalIndicator(FieldType fieldType)
+   {
+      m_fieldType = fieldType;
+   }
+
+   /**
     * This method evaluates if a graphical indicator should
     * be displayed, given a set of Task or Resource data. The
     * method will return -1 if no indicator should be displayed.
@@ -121,16 +131,6 @@ public class GraphicalIndicator
       }
 
       return (result);
-   }
-
-   /**
-    * Sets the field type to which this indicator applies.
-    *
-    * @param fieldType field type
-    */
-   public void setFieldType(FieldType fieldType)
-   {
-      m_fieldType = fieldType;
    }
 
    /**
@@ -321,7 +321,7 @@ public class GraphicalIndicator
       return (os.toString());
    }
 
-   private FieldType m_fieldType;
+   private final FieldType m_fieldType;
    private boolean m_displayGraphicalIndicators;
    private boolean m_summaryRowsInheritFromNonSummaryRows;
    private boolean m_projectSummaryInheritsFromSummaryRows;

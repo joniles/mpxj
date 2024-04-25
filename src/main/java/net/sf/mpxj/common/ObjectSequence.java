@@ -42,10 +42,25 @@ public final class ObjectSequence
     * Reset the sequence to start after the current maximum value.
     *
     * @param currentMaxValue current maximum value
+    * @deprecated no longer used
     */
-   public void reset(int currentMaxValue)
+   @Deprecated public void reset(int currentMaxValue)
    {
       m_id = currentMaxValue + 1;
+   }
+
+   /**
+    * Sync the sequence with a value known to be in use.
+    * If necessary, update the sequence to follow on from this value.
+    *
+    * @param id value in use
+    */
+   public void sync(Integer id)
+   {
+      if (id != null && id.intValue() >= m_id)
+      {
+         m_id = id.intValue() + 1;
+      }
    }
 
    /**
@@ -56,6 +71,23 @@ public final class ObjectSequence
    public Integer getNext()
    {
       return Integer.valueOf(m_id++);
+   }
+
+   /**
+    * If the id is not null, sync the sequence with it.
+    * If the id is null, generate a new id.
+    *
+    * @param id id value
+    * @return id value
+    */
+   public Integer syncOrGetNext(Integer id)
+   {
+      if (id == null)
+      {
+         return getNext();
+      }
+      sync(id);
+      return id;
    }
 
    private int m_id;

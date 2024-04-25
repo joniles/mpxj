@@ -23,7 +23,7 @@
 package net.sf.mpxj;
 
 /**
- * Enum representing the different calculation types which can be uised to determine total slack.
+ * Enum representing the different calculation types which can be used to determine total slack.
  */
 public enum TotalSlackCalculationType
 {

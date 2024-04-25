@@ -99,6 +99,7 @@ public final class ProjectPropertiesReader
          ph.setDaysPerMonth(Integer.valueOf(props.getShort(Props.DAYS_PER_MONTH)));
          ph.setEditableActualCosts(props.getBoolean(Props.EDITABLE_ACTUAL_COSTS));
          ph.setHonorConstraints(!props.getBoolean(Props.HONOR_CONSTRAINTS));
+         ph.setBaselineCalendarName(props.getUnicodeString(Props.BASELINE_CALENDAR_NAME));
 
          PropertySet ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(SummaryInformation.DEFAULT_STREAM_NAME))));
          SummaryInformation summaryInformation = new SummaryInformation(ps);
@@ -128,6 +129,7 @@ public final class ProjectPropertiesReader
             // the corrupt data. We'll do the same here. I have raised a bug with POI
             // to see if they want to make the library more robust in the face of bad data.
             // https://bz.apache.org/bugzilla/show_bug.cgi?id=61550
+            file.addIgnoredError(ex);
             ps = null;
          }
 

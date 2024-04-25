@@ -32,8 +32,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Collections;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +42,7 @@ import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
@@ -94,9 +93,26 @@ public final class SageReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
+   /**
+    * Set a flag to determine if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @param ignoreErrors pass true to ignore errors
+    */
+   public void setIgnoreErrors(boolean ignoreErrors)
    {
-      return Collections.singletonList(read(inputStream));
+      m_ignoreErrors = ignoreErrors;
+   }
+
+   /**
+    * Retrieve the flag which determines if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @return true if datatype parse errors are ignored
+    */
+   public boolean getIgnoreErrors()
+   {
+      return m_ignoreErrors;
    }
 
    private void processCalendars()
@@ -238,14 +254,16 @@ public final class SageReader extends AbstractProjectStreamReader
          return;
       }
 
-      RelationType type = parseRelationType(columns, 2);
-      Duration lag = parseDuration(columns, 3);
       // columns[4] - job
       // columns[5] - predecessor name
       // columns[6] - unknown
       // columns[7] - unknown
 
-      task.addPredecessor(predecessor, type, lag);
+      task.addPredecessor(new Relation.Builder()
+         .targetTask(predecessor)
+         .type(parseRelationType(columns, 2))
+         .lag(parseDuration(columns, 3))
+      );
    }
 
    /**
@@ -304,9 +322,18 @@ public final class SageReader extends AbstractProjectStreamReader
          {
             result = LocalDate.parse(date, DATE_FORMAT).atStartOfDay();
          }
-         catch (DateTimeParseException e)
+
+         catch (DateTimeParseException ex)
          {
-            result = null;
+            if (m_ignoreErrors)
+            {
+               result = null;
+               m_projectFile.addIgnoredError(ex);
+            }
+            else
+            {
+               throw ex;
+            }
          }
       }
       return result;
@@ -374,6 +401,7 @@ public final class SageReader extends AbstractProjectStreamReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private Map<String, Task> m_taskMap;
+   private boolean m_ignoreErrors = true;
 
    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 

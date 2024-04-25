@@ -6,4 +6,4 @@ to these as time permits.
 For more pressing issues, commercial support is available via my
 company [Timephased](https://www.timephased.com/). I can also provide
 consultancy around the use of MPXJ and implementation services. Please
-[contact me directly](mailto:jon.iles@bcs.org.uk) for further details.
+[contact me directly](mailto:jon@timephased.com) for further details.

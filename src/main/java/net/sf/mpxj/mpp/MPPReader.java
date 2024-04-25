@@ -37,6 +37,8 @@ import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.UnitOfMeasure;
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.AutoCloseableHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
@@ -68,11 +70,6 @@ public final class MPPReader extends AbstractProjectStreamReader
       {
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
-   }
-
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
    }
 
    @Override public ProjectFile read(File file) throws MPXJException
@@ -196,12 +193,13 @@ public final class MPPReader extends AbstractProjectStreamReader
          //
          // Prune unused resource calendars
          //
-         Map<Integer, List<Resource>> resourceCalendarMap = projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
+         Map<Integer, List<Resource>> resourceCalendarMap = projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(Resource::getCalendarUniqueID));
          projectFile.getCalendars().removeIf(c -> c.isDerived() && !resourceCalendarMap.containsKey(c.getUniqueID()));
 
          //
-         // Resource calendar post processing
+         // Resource post-processing
          //
+         UnitOfMeasureContainer unitsOfMeasure = projectFile.getUnitsOfMeasure();
          for (Resource resource : projectFile.getResources())
          {
             ProjectCalendar calendar = resource.getCalendar();
@@ -224,6 +222,12 @@ public final class MPPReader extends AbstractProjectStreamReader
                   }
                   calendar.setName(name);
                }
+            }
+
+            UnitOfMeasure uom = unitsOfMeasure.getOrCreateByAbbreviation(resource.getMaterialLabel());
+            if (uom != null)
+            {
+               resource.setUnitOfMeasure(uom);
             }
          }
 
@@ -287,7 +291,7 @@ public final class MPPReader extends AbstractProjectStreamReader
    }
 
    /**
-    * If a baseline field is not populate, but the estimated version of that field is populated
+    * If a baseline field is not populated, but the estimated version of that field is populated
     * then we fall back on using the estimated field.
     *
     * @param task task to update

@@ -29,8 +29,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -137,11 +135,6 @@ public final class PlannerReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * This method extracts project properties from a Planner file.
     *
@@ -178,8 +171,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
       if (m_defaultCalendar == null)
       {
          m_defaultCalendar = m_projectFile.addDefaultBaseCalendar();
-         m_projectFile.getCalendars().updateUniqueIdCounter();
-         m_defaultCalendar.setUniqueID(m_projectFile.getCalendars().getNextUniqueID());
+         m_defaultCalendar.setUniqueID(m_projectFile.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
       }
 
       m_projectFile.getProjectProperties().setDefaultCalendar(m_defaultCalendar);
@@ -528,12 +520,11 @@ public final class PlannerReader extends AbstractProjectStreamReader
             Task predecessorTask = m_projectFile.getTaskByUniqueID(predecessorID);
             if (predecessorTask != null)
             {
-               Duration lag = getLagDuration(predecessor.getLag());
-               if (lag == null)
-               {
-                  lag = Duration.getInstance(0, TimeUnit.HOURS);
-               }
-               Relation relation = mpxjTask.addPredecessor(predecessorTask, RELATIONSHIP_TYPES.get(predecessor.getType()), lag);
+               Relation relation = mpxjTask.addPredecessor(new Relation.Builder()
+                  .targetTask(predecessorTask)
+                  .type(RELATIONSHIP_TYPES.get(predecessor.getType()))
+                  .lag(getLagDuration(predecessor.getLag()))
+               );
                m_eventManager.fireRelationReadEvent(relation);
             }
          }

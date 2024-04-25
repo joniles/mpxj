@@ -8,14 +8,12 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -41,6 +39,7 @@ public class ConstraintFactory
 
       catch (FileNotFoundException ex)
       {
+         file.addIgnoredError(ex);
          consDir = null;
       }
 
@@ -112,11 +111,12 @@ public class ConstraintFactory
             Task task2 = file.getTaskByUniqueID(Integer.valueOf(taskID2));
             if (task1 != null && task2 != null)
             {
-               RelationType type = RelationType.getInstance(MPPUtility.getShort(data, 12));
-               TimeUnit durationUnits = MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, durationUnitsOffset));
-               Duration lag = MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, durationOffset), durationUnits);
-               Relation relation = task2.addPredecessor(task1, type, lag);
-               relation.setUniqueID(Integer.valueOf(constraintID));
+               Relation relation = task2.addPredecessor(new Relation.Builder()
+                  .targetTask(task1)
+                  .type(RelationType.getInstance(MPPUtility.getShort(data, 12)))
+                  .lag(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, durationOffset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, durationUnitsOffset))))
+                  .uniqueID(Integer.valueOf(constraintID))
+               );
                eventManager.fireRelationReadEvent(relation);
             }
          }

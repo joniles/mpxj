@@ -24,8 +24,8 @@
 package net.sf.mpxj;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents an individual activity code value.
@@ -41,8 +41,9 @@ public class ActivityCodeValue
     * @param name value name
     * @param description value description
     * @param color value color
+    * @deprecated use builder
     */
-   public ActivityCodeValue(ActivityCode type, Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
+   @Deprecated public ActivityCodeValue(ActivityCode type, Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
    {
       m_type = type;
       m_uniqueID = uniqueID;
@@ -50,6 +51,22 @@ public class ActivityCodeValue
       m_name = name;
       m_description = description;
       m_color = color;
+   }
+
+   /**
+    * Constructor.
+    *
+    * @param builder builder
+    */
+   private ActivityCodeValue(Builder builder)
+   {
+      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(ActivityCodeValue.class).syncOrGetNext(builder.m_uniqueID);
+      m_type = builder.m_type;
+      m_sequenceNumber = builder.m_sequenceNumber;
+      m_name = builder.m_name;
+      m_description = builder.m_description;
+      m_color = builder.m_color;
+      m_parent = builder.m_parent;
    }
 
    /**
@@ -136,20 +153,11 @@ public class ActivityCodeValue
     * Set the parent ActivityCodeValue.
     *
     * @param parent parent ActivityCodeValue
+    * @deprecated use builder
     */
-   public void setParent(ActivityCodeValue parent)
+   @Deprecated public void setParent(ActivityCodeValue parent)
    {
-      if (m_parent != null)
-      {
-         m_parent.getChildValues().remove(this);
-      }
-
       m_parent = parent;
-
-      if (m_parent != null)
-      {
-         m_parent.getChildValues().add(this);
-      }
    }
 
    /**
@@ -159,7 +167,7 @@ public class ActivityCodeValue
     */
    public List<ActivityCodeValue> getChildValues()
    {
-      return m_childValues;
+      return m_type.getValues().stream().filter(a -> a.m_parent == this).collect(Collectors.toList());
    }
 
    @Override public String toString()
@@ -175,5 +183,140 @@ public class ActivityCodeValue
    private final Color m_color;
    private ActivityCodeValue m_parent;
 
-   private final List<ActivityCodeValue> m_childValues = new ArrayList<>();
+   /**
+    * ActivityCodeValue builder.
+    */
+   public static class Builder
+   {
+      /**
+       * Constructor.
+       *
+       * @param file parent project file
+       */
+      public Builder(ProjectFile file)
+      {
+         m_file = file;
+      }
+
+      /**
+       * Initialise the builder from an existing ActivityCodeValue instance.
+       *
+       * @param value ActivityCodeValue instance
+       * @return builder
+       */
+      public Builder from(ActivityCodeValue value)
+      {
+         m_type = value.m_type;
+         m_uniqueID = value.m_uniqueID;
+         m_sequenceNumber = value.m_sequenceNumber;
+         m_name = value.m_name;
+         m_description = value.m_description;
+         m_color = value.m_color;
+         m_parent = value.m_parent;
+         return this;
+      }
+
+      /**
+       * Add parent activity code.
+       *
+       * @param value activity code
+       * @return builder
+       */
+      public Builder type(ActivityCode value)
+      {
+         m_type = value;
+         return this;
+      }
+
+      /**
+       * Add unique ID.
+       *
+       * @param value unique ID
+       * @return builder
+       */
+      public Builder uniqueID(Integer value)
+      {
+         m_uniqueID = value;
+         return this;
+      }
+
+      /**
+       * Add sequence number.
+       *
+       * @param value sequence number
+       * @return builder
+       */
+      public Builder sequenceNumber(Integer value)
+      {
+         m_sequenceNumber = value;
+         return this;
+      }
+
+      /**
+       * Add name.
+       *
+       * @param value name
+       * @return builder
+       */
+      public Builder name(String value)
+      {
+         m_name = value;
+         return this;
+      }
+
+      /**
+       * Add description.
+       *
+       * @param value description
+       * @return builder
+       */
+      public Builder description(String value)
+      {
+         m_description = value;
+         return this;
+      }
+
+      /**
+       * Add color.
+       *
+       * @param value color
+       * @return builder
+       */
+      public Builder color(Color value)
+      {
+         m_color = value;
+         return this;
+      }
+
+      /**
+       * Add parent value.
+       *
+       * @param value parent value
+       * @return builder
+       */
+      public Builder parent(ActivityCodeValue value)
+      {
+         m_parent = value;
+         return this;
+      }
+
+      /**
+       * Build an ActivityCodeValue instance.
+       *
+       * @return ActivityCodeValue instance
+       */
+      public ActivityCodeValue build()
+      {
+         return new ActivityCodeValue(this);
+      }
+
+      private final ProjectFile m_file;
+      private ActivityCode m_type;
+      private Integer m_uniqueID;
+      private Integer m_sequenceNumber;
+      private String m_name;
+      private String m_description;
+      private Color m_color;
+      private ActivityCodeValue m_parent;
+   }
 }

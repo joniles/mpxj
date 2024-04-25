@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -151,7 +152,7 @@ public final class MPXReader extends AbstractProjectStreamReader
          //
          // Add the header record
          //
-         parseRecord(Integer.valueOf(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(m_locale, tk, m_formats));
+         parseRecord(Integer.valueOf(MPXConstants.FILE_CREATION_RECORD_NUMBER), new Record(m_projectFile, m_locale, tk, m_formats));
          ++line;
 
          //
@@ -170,7 +171,7 @@ public final class MPXReader extends AbstractProjectStreamReader
          //
          while (tk.getType() != Tokenizer.TT_EOF)
          {
-            Record record = new Record(m_locale, tk, m_formats);
+            Record record = new Record(m_projectFile, m_locale, tk, m_formats);
             Integer number = record.getRecordNumber();
 
             if (number != null)
@@ -216,11 +217,6 @@ public final class MPXReader extends AbstractProjectStreamReader
          m_formats = null;
          m_deferredRelationships = null;
       }
-   }
-
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -772,7 +768,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
             case MAX_UNITS:
             {
-               resource.set(resourceField, record.getUnits(i));
+               resource.getAvailability().add(new Availability(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, record.getUnits(i)));
                break;
             }
 
@@ -845,7 +841,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
       if (m_projectConfig.getAutoResourceUniqueID())
       {
-         resource.setUniqueID(m_projectFile.getResources().getNextUniqueID());
+         resource.setUniqueID(m_projectFile.getUniqueIdObjectSequence(Resource.class).getNext());
       }
 
       if (m_projectConfig.getAutoResourceID())
@@ -1021,7 +1017,11 @@ public final class MPXReader extends AbstractProjectStreamReader
       // is present. We'll ignore this as the schedule is otherwise valid.
       if (targetTask != null)
       {
-         Relation relation = sourceTask.addPredecessor(targetTask, type, lag);
+         Relation relation = sourceTask.addPredecessor(new Relation.Builder()
+            .targetTask(targetTask)
+            .type(type)
+            .lag(lag)
+         );
          m_eventManager.fireRelationReadEvent(relation);
       }
    }
@@ -1294,7 +1294,7 @@ public final class MPXReader extends AbstractProjectStreamReader
 
       if (m_projectConfig.getAutoTaskUniqueID())
       {
-         task.setUniqueID(m_projectFile.getTasks().getNextUniqueID());
+         task.setUniqueID(m_projectFile.getUniqueIdObjectSequence(Task.class).getNext());
       }
 
       if (task.getID() == null || m_projectConfig.getAutoTaskID())
@@ -1503,7 +1503,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       //
       // Resource calendar post processing
       //
-      Map<Integer, List<Resource>> resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(r -> r.getCalendarUniqueID()));
+      Map<Integer, List<Resource>> resourceCalendarMap = m_projectFile.getResources().stream().filter(r -> r.getCalendarUniqueID() != null).collect(Collectors.groupingBy(Resource::getCalendarUniqueID));
       for (Resource resource : m_projectFile.getResources())
       {
          ProjectCalendar calendar = resource.getCalendar();

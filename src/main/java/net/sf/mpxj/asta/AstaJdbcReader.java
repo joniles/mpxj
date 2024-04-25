@@ -45,7 +45,7 @@ import net.sf.mpxj.common.ResultSetHelper;
  * This class provides a generic front end to read project data from
  * a database.
  */
-public class AstaJdbcReader extends AbstractDatabaseReader
+public class AstaJdbcReader extends AbstractAstaDatabaseReader
 {
 
    /**
@@ -72,10 +72,13 @@ public class AstaJdbcReader extends AbstractDatabaseReader
 
    @Override protected List<Row> getRows(String table, Map<String, Integer> keys) throws AstaDatabaseException
    {
+      // Copy entries to a list to ensure order is consistent when iterating
+      List<Map.Entry<String, Integer>> keyList = new ArrayList<>(keys.entrySet());
+
       String sql = "select * from " + table;
       if (!keys.isEmpty())
       {
-         sql = sql + " where " + keys.entrySet().stream().map(e -> e.getKey() + "=?").collect(Collectors.joining(" and "));
+         sql = sql + " where " + keyList.stream().map(e -> e.getKey() + "=?").collect(Collectors.joining(" and "));
       }
 
       try
@@ -85,7 +88,7 @@ public class AstaJdbcReader extends AbstractDatabaseReader
          try (PreparedStatement ps = m_connection.prepareStatement(sql))
          {
             int index = 1;
-            for (Map.Entry<String, Integer> entry : keys.entrySet())
+            for (Map.Entry<String, Integer> entry : keyList)
             {
                ps.setInt(index++, NumberHelper.getInt(entry.getValue()));
             }

@@ -105,10 +105,27 @@ public final class TimephasedUtility
     * @param rangeUnits timescale units
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
+    * @deprecated use version of this method which takes a ProjectCalendar rather than a ProjectFile as its first argument
     */
-   public ArrayList<Duration> segmentBaselineWork(ProjectFile file, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
+   @Deprecated public ArrayList<Duration> segmentBaselineWork(ProjectFile file, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
    {
       return segmentWork(file.getBaselineCalendar(), work, rangeUnits, dateList);
+   }
+
+   /**
+    * This is the main entry point used to convert the internal representation
+    * of timephased baseline work into an external form which can
+    * be displayed to the user.
+    *
+    * @param calendar calendar to use for calculations
+    * @param work timephased resource assignment data
+    * @param rangeUnits timescale units
+    * @param dateList timescale date ranges
+    * @return list of durations, one per timescale date range
+    */
+   public ArrayList<Duration> segmentBaselineWork(ProjectCalendar calendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
+   {
+      return segmentWork(calendar, work, rangeUnits, dateList);
    }
 
    /**
@@ -170,10 +187,27 @@ public final class TimephasedUtility
     * @param rangeUnits timescale units
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
+    * @deprecated use version of this method which takes a ProjectCalendar rather than a ProjectFile as its first argument
     */
-   public ArrayList<Double> segmentBaselineCost(ProjectFile file, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
+   @Deprecated public ArrayList<Double> segmentBaselineCost(ProjectFile file, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
    {
       return segmentCost(file.getBaselineCalendar(), cost, rangeUnits, dateList);
+   }
+
+   /**
+    * This is the main entry point used to convert the internal representation
+    * of timephased baseline cost into an external form which can
+    * be displayed to the user.
+    *
+    * @param calendar calendar to use for calculations
+    * @param cost timephased resource assignment data
+    * @param rangeUnits timescale units
+    * @param dateList timescale date ranges
+    * @return list of durations, one per timescale date range
+    */
+   public ArrayList<Double> segmentBaselineCost(ProjectCalendar calendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
+   {
+      return segmentCost(calendar, cost, rangeUnits, dateList);
    }
 
    /**

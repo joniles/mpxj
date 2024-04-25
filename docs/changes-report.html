@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2023-08-23</li>
+        <li id="publishDate">Last Published: 2024-04-24</li>
           </ul>
         </div>
       </header>
@@ -68,8 +68,620 @@
 <h2><a name="MPXJ_Changes"></a>MPXJ Changes</h2><section>
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
-<h3 id="a12.1.2">Release 12.1.2 &#x2013; unreleased</h3>
+<h3 id="a12.9.4">Release 12.9.4 &#x2013; unreleased</h3>
 <p>No changes in this release.</p></section><section>
+<h3 id="a12.9.3">Release 12.9.3 &#x2013; 2024-04-24</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve handling of non-standard timestamp formats in XER files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.9.2">Release 12.9.2 &#x2013; 2024-04-19</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure calendars in Asta schedules have the correct name.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve assignment of calendars to summary tasks when reading Asta schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Preserve calendar hierarchy when reading Asta schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.9.1">Release 12.9.1 &#x2013; 2024-04-17</h3>
+<table border="0" class="table table-striped">
+<tr class="b">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Fix an issue where `UniversalProjectReader` would raise an exception when handling an unknown file type.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that resource type is included as part of the resource assignment data when writing PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.9.0">Release 12.9.0 &#x2013; 2024-04-11</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated `UniversalProjectReader` to add `getProjectReaderProxy` methods to allow access to the instance of the reader class which will be used to read a schedule, prior to the schedule being read. This will allow the reader to be configured, or schedule to be ignored without reading its content.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Deprecated the `ProjectReader.setProperties` method. This method was originally implemented to allow settings to be passed to reader classes when using `UniversalProjectReader`. You can now use `UniversalProjectReader.getProjectReaderProxy` to achieve this.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add `from` method to all `Builder` classes to allow initialisation from existing objects.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The `CostAccount.Builder` class now provides two `notes` methods to allow formatted or unformatted notes to be added to cost accounts.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The `CostAccount` method `getDescription()` has been marked as deprecated. Use the `getNotes()` or `getNotesObject()` method instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The `CustomFieldValueItem` methods `getParent` and `setParent` have been marked as deprecated. Use the `getParentUniqueID` and `setParentUniqueID` methods instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>JSON output from MPXJ now includes more detail for custom field definitions read from MPP files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>When reading a PMXML file, populate the Early/Late Start/Finish date attributes from the Remaining Early/Late Start/Finish date attributes.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Fix an issue reading WBS ID for P3 and SureTrak schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.8.1">Release 12.8.1 &#x2013; 2024-03-11</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve reading resource assignments from certain FastTrack FTS files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.8.0">Release 12.8.0 &#x2013; 2024-03-04</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add experimental support for reading Deltek Open Plan BK3 files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Implemented the `Relation.Builder` class.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `Relation(Task,Task,RelationType,Duration)` constructor as deprecated, use the `Relation.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `RelationContainer.addPredecessor(Task,Task,RelationType,Duration)` method as deprecated, use the `RelationContainer.addPredecessor(Relation.Builder)` method instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `Task.addPredecessor(Task,RelationType,Duration)` method as deprecated, use the `Task.addPredecessor(Relation.Builder)` method instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add a notes attribute to the `Relation` class and ensure that it is read from and written to P6 schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Read the Relationship Lag Calendar setting from Phoenix 5 files. (Contributed by Rohit Sinha)</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Don't write a material label to an MSPDI file for a resource which isn't a material.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Update representation of Work Variance when writing MSPDI files to more closely match output from Microsoft Project.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated to ensure that when schedules are read from XER files or P6 databases, labor and nonlabor work amounts are combined for the Actual, Remaining and Planned work attributes. This is now consistent with the existing behavior when reading PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added support for new Task attributes Actual Work Labor, Actual Work Nonlabor, Remaining Work Labor, Remaining Work Nonlabor, Planned Work Labor, Planned Work Nonlabor, when reading and writing P6 schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Update default `readAll` method on reader classes to ensure that if the reader is unable to read any schedule data, an empty list is returned rather than a list containing `null`.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that Task Start and Finish dates are both the same when reading milestones from PMXML files, and that the correct date is used depending on whether we have a Start Milestone or a Finish Milestone.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.7.0">Release 12.7.0 &#x2013; 2024-02-07</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added support for reading and writing the project property Baseline Calendar Name to and from MPP and MSPDI files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure Start Variance and Finish Variance are read from and written to MSPDI files in the correct format.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve accuracy of large Work Variance values read from MSPDI files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for the Calendar GUID attribute, which is read from MPP and MSPDI files, and written to MSPDI files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure Activity Codes are available when reading Phoenix PPX files even if they are also being used to construct the task hierarchy.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure Activity Codes Values are populated when reading Phoenix PPX files. (Contributed by Rohit Sinha)</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>When writing an MSPDI file, derive the TimephasedData Unit attribute from the duration of the timephased data item.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Fixed an issue with the `ProjectCalendar.getPreviousWorkFinish` method when called with a time which was already at the end of a period of work.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that the `proj_node_flag` is set for the root WBS node when writing XER files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.6.0">Release 12.6.0 &#x2013; 2024-01-22</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated PMXML schema to version 23.12.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that baselines in PMXML files written by Oracle Primavera Cloud are read.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Fix an issue reading certain XER files and P6 databases where activities lost the relationship with their parent WBS entry.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added `ResourceAssignment.getEffectiveCalendar` method.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Deprecated `ResourceAssignment.getCalendar` method, use `getEffectiveCalendar` method instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improved reading timephased baseline work from MPP files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added new versions of the `TimephasedUtility.segmentBaselineWork` and `segmentBaselineCost` methods which take a `ProjectCalendar` instance as the first argument rather than a `ProjectFile` instance.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Deprecated the `TimephasedUtility.segmentBaselineWork` and `segmentBaselineCost` methods which take a `ProjectFile` instance as the first argument.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added a new version of the `ProjectCalendar.getDate()` method which just takes a date and a duration as its arguments. This method handles both positive and negative durations.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the original version of the `ProjectCalendar.getDate()` method as deprecated. Use the new version instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve recognition of task splits when reading MPP and MSPDI files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.5.0">Release 12.5.0 &#x2013; 2023-12-18</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add support for the following Resource Assignment attributes: Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that the Resource Assignment attributes Remaining Early Start and Remaining Early Finish are read from and written to PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that the Resource Assignment attributes Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish are read from and written to XER files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve accuracy of reading and writing the `ProjectProperties` Relationship Lag Calendar attribute for PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>All P6 scheduling and leveling options which were previously made available via the `ProjectProperties` custom properties map are now deprecated. These properties now have individual getter and setter methods available on the `ProjectProperties` class. Note: this may be a breaking change if you were creating schedules from scratch, populating the custom properties map, then writing PMXML or XER files. In this case you will need to update your code, for all other use cases your code will continue to work unchanged until the next major version of MPXJ.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added support for reading and writing the `ProjectProperties` attributes Baseline Type Name, Baseline Type Unique ID, and Last Baseline Update Date for baseline projects in PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>When reading projects from PMXML files, if the creation date attribute is not present in the file fall back to populating the `ProjectProperties` creation date attribute with the PMXML date added attribute.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>When writing PMXML files, ensure the date added attribute for projects is populated with the creation date.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add the `CustomFieldContainer.remove` method to allow field configurations to be removed.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated the `UserDefinedFieldContainer.remove` method to ensure that any associated field configuration is removed from the `CustomFieldContainer`.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that Microsoft Project's &quot;unknown&quot; resource (with Unique ID zero) is not exported to XER files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that resource assignments which are not associated with an Activity or a Resource are not written to XER files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Durations are written to PMXML files in hours. We now round to 2 decimal places to allow minutes to be represented, and avoid unnecessary precision.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Currency amounts written to PMXML files are now rounded to 8 decimal places to more closely match the behavior of P6, and avoid unnecessary precision.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Decimal amounts other than currency and duration are written to PMXML files with 15 decimal places to more closely match the behavior of P6.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Fix an issue reading ConceptDraw calendars.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Fixed a misspelled field name in the JSON output (Contributed by Daniel Taylor).</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improved handling of the Resource Assignment Planned and Remaining Units and Units per Time attributes read from and written to P6 schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added support for the following project properties: Activity ID Prefix, Activity ID Suffix, Activity ID Increment and Activity ID Based On Selected Activity, and ensure these are read from and written to P6 schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.4.0">Release 12.4.0 &#x2013; 2023-11-23</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added support for the WBS Code Separator attribute to `ProjectProperties`.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Avoid creating duplicate `ActivityCodeValue` instances when reading Asta PP files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added a new version of the `ProjectFile.expandSubprojects` method which takes a `boolean` argument indicating if external tasks should be removed. Passing `true` to this method will recreate predecessor and successor relationships using the original tasks rather than the placeholder external tasks, and will remove the external tasks.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ProjectFile.expandSubprojects()` method as deprecated, use the new version which takes a `boolean` argument instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure the `ProjectProperties` name attribute is set correctly when reading XER files and P6 databases.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The `ProjectEntityContainer` method `renumberUniqueIDs` has been marked as deprecated.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The `ProjectEntityContainer` method `getNextUniqueID` has been marked as deprecated. Use `ProjectFile.getUniqueIdObjectSequence(class).getNext()` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The `ProjectEntityContainer` method `updateUniqueIdCounter` has been marked as deprecated as it is no longer required.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The `ProjectFile` method `updateUniqueIdCounters` has been marked as deprecated as it is no longer required.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The `ObjectSequence` method `reset` has been marked as deprecated as it is no longer required.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>When creating a `Location` instance using the `Builder` class, a Unique ID will be generated if one is not supplied.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The no-arg `Location.Builder` constructor has been marked a deprecated. Use the constructor which requires a `ProjectFile` instance instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Implemented the `ExpenseItem.Builder` class.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ExpenseItem(task)` constructor as deprecated, use the `ExpenseItem.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked all `ExpenseItem` setter methods a deprecated. The `ExpenseItem` class will be immutable in the next major release.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked no-arg `UnitOfMeasure.Builder()` constructor as deprecated, use the `UnitOfMeasure.Builder(ProjectFile)` constructor instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Implemented the `Step.Builder` class.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `Step(task)` constructor as deprecated, use the `Step.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked all `Step` setter methods a deprecated. The `Step` class will be immutable in the next major release.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `NotesTopic` constructor as deprecated, use the `NotesTopic.Builder(ProjectFile)` constructor instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Implemented the `ExpenseCategory.Builder` class.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ExpenseCategory` constructor as deprecated, use the `ExpenseCategory.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Implemented the `CostAccount.Builder` class.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `CostAccount` constructor as deprecated, use the `CostAccount.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Implemented the `ActivityCodeValue.Builder` class.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ActivityCodeValue` constructor as deprecated, use the `ActivityCodeValue.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ActivityCodeValue.setParent` method as deprecated, use the `ActivityCodeValue.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ActivityCode.addValue` method as deprecated, use the `ActivityCodeValue.Builder` class instead to create an `ActivityCodeValue` instance and add it directly to the list held by the parent `ActivityCode`.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Implemented the `ActivityCode.Builder` class.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `ActivityCode` constructor as deprecated, use the `ActivityCode.Builder` class instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Only predecessor `Relation` instances are now stored in `RelationContainer`, successors are generated dynamically. You will only notice a difference if you are iterating over the `RelationContainer` collection directly, in which case you will only see predecessors.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.3.0">Release 12.3.0 &#x2013; 2023-11-07</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Retrieve role availability data when reading a schedule from a P6 database.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Populate the project's Name and Title attributes when exporting an MSPDI file.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure the Project ID attribute is populated when writing an XER file.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Don't include null tasks (blank tasks) when writing an XER file.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Strip control characters from entity names written to MSPDI files and XER files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure resource material labels written to MSPDI files meet Microsoft Project's naming requirements.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure the activity code value Name attribute is populated when read from an Asta PP file.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Don't allow multiple values for an activity code when writing XER and PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>The MSPDI and MPX writers now dynamically renumber Unique ID values which are too large for Microsoft Project. The original schedule is no longer modified to achieve this.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.2.0">Release 12.2.0 &#x2013; 2023-10-12</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add the `UnitOfMeasure` class to represent the unit of measure for a material resource. The unit of measure corresponds to the current &quot;material label&quot; attribute of a resource. The `Resource.getMaterialLabel()` method will now retrieve the label from the `UnitOfMeasure` instance associated with the resource. The `Resource.setMaterialLabel()` method is now deprecated, the `Resource.setUnitOfMeasure()` or `Resource.setUnitOfMeasureUniqueID()` methods should be used instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Unit of measure for material resources are now read from and written to Primavera schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve task duration and percent completion calculation for Asta PP files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve date parsing when reading XER files written by older versions of P6.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the `setIgnoreErrors` method to the Primavera database reader class, and MSPDI, Schedule Grid, and SDEF file reader classes. The current default behavior of ignoring data type parse errors is unchanged. Calling `setIgnoreErrors(false)` on one of these reader classes will ensure that an exception is raised when a data type parse error is encountered.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the `ProjectFile.getIgnoredErrors()` method. The default behavior for MPXJ reader classes is to ignore data type parse errors. If any errors have been ignored when reading a schedule, details of these errors can be retrieved by calling the `ProjectFile.getIgnoredErrors()` method.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Handle duplicate relation unique IDs when reading schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Include resource availability table in JSON output.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Add the Resource field Default Units, and ensure this field is read and written for P6 Schedules.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated the Resource attribute Max Units to ensure that this is calculated from the resource's availability table. Note that the `Resource.getMaxUnits()` method will return the resource's Max Units attribute for the current date. To retrieve the Max Units for a different date, use the `AvailabilityTable.getEntryByDate()` method.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `Resource.setMaxUnits()` method as deprecated. The Max Units attribute is derived from the resource's availability table. Changes to Max Units should now be made by modifying the availability table.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated the Resource attribute Available From to ensure that this is calculated from the resource's availability table. Note that the `Resource.getAvailableFrom()` method will return the resource's Available From attribute for the current date. To retrieve the Available From attribute for a different date, use the `AvailabilityTable.availableFrom()` method.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `Resource.setAvailableFrom()` method as deprecated. The Available From attribute is derived from the resource's availability table. Changes to the Available From attribute  should now be made by modifying the availability table.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updated the Resource attribute Available To to ensure that this is calculated from the resource's availability table. Note that the `Resource.getAvailableTo()` method will return the resource's Available To attribute for the current date. To retrieve the Available To attribute for a different date, use the `AvailabilityTable.availableTo()` method.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `Resource.setAvailableTo()` method as deprecated. The Available To attribute is derived from the resource's availability table. Changes to the Available To attribute  should now be made by modifying the availability table.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.1.3">Release 12.1.3 &#x2013; 2023-09-25</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the Project Properties attribute Relationship Lag Calendar and implemented read and write support for this for P6 schedules. (Contributed by Rohit Sinha).</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve compatibility of PMXML files with P6 EPPM by moving the Schedule Options tag.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure Baseline Projects in PMXML files include Schedule Options and Location Object ID.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
+<h3 id="a12.1.2">Release 12.1.2 &#x2013; 2023-09-21</h3>
+<table border="0" class="table table-striped">
+<tr class="a">
+<th>Type</th>
+<th>Changes</th>
+<th>By</th></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Updates to improve compatibility with versions of Java after Java 8.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure timestamps with fractional sections are read correctly from Phoenix PPX files (Based on a contribution by Rohit Sinha).</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve handling of double quotes when reading and writing XER files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>To allow XER files written by MPXJ to be imported correctly by P6, ensure that they have a single top level WBS entry (Based on a contribution by Alex Matatov)</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that `ProjectProperties.getCustomProperties()` returns an empty Map rather than returning `null` if no custom properties have been configured.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure project calendars and project activity codes are nested within the project tag of PMXML files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a12.1.1">Release 12.1.1 &#x2013; 2023-08-23</h3>
 <table border="0" class="table table-striped">
 <tr class="b">
@@ -78,7 +690,7 @@
 <th>By</th></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on Mac OS.</td>
+<td>Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on macOS.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a12.1.0">Release 12.1.0 &#x2013; 2023-08-22</h3>
 <table border="0" class="table table-striped">
@@ -88,7 +700,7 @@
 <th>By</th></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Write schedule options to PMXML abd XER files.</td>
+<td>Write schedule options to PMXML and XER files.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -1816,7 +2428,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>When reading MPP files, treat UUID's which are all zeros as null.</td>
+<td>When reading MPP files, treat UUIDs which are all zeros as null.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -1896,7 +2508,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Fix an issue where non working days were not being treated correctly in date calculations if they happen to still have time ranges attached.</td>
+<td>Fix an issue where non-working days were not being treated correctly in date calculations if they happen to still have time ranges attached.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a9.3.0">Release 9.3.0 &#x2013; 2021-05-06</h3>
 <table border="0" class="table table-striped">
@@ -2254,7 +2866,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias &quot;Resource ID&quot; when reading PMXML and XER files, or from a P^ database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).</td>
+<td>Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias &quot;Resource ID&quot; when reading PMXML and XER files, or from a P6 database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -2292,7 +2904,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/add.gif" alt="Add" title="Add" /></td>
-<td>Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.</td>
+<td>Add START_ON, FINISH_ON constraint types. &#xa7; MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -2474,7 +3086,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Correctly handle XER files with multi-byte character encoding.</td>
+<td>Correctly handle XER files with multibyte character encoding.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -3510,7 +4122,7 @@
 <th>By</th></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Improve robustness when reading MPP files when using certain 64 bit Java runtimes.</td>
+<td>Improve robustness when reading MPP files when using certain 64-bit Java runtimes.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -6316,7 +6928,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/fix.gif" alt="Fix" title="Fix" /></td>
-<td>Fixed a long standing bug where the calendar records were being written into MPX files after they were referred to in the project summary record.</td>
+<td>Fixed a long-standing bug where the calendar records were being written into MPX files after they were referred to in the project summary record.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/fix.gif" alt="Fix" title="Fix" /></td>
@@ -6580,7 +7192,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/add.gif" alt="Add" title="Add" /></td>
-<td>Added support for sub project file information in MPP9 files.</td>
+<td>Added support for subproject file information in MPP9 files.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/fix.gif" alt="Fix" title="Fix" /></td>
@@ -6630,15 +7242,15 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Updated to implement support for reading and writing all of the basic Resource attributes found in MSPDI files.</td>
+<td>Updated to implement support for reading and writing all the basic Resource attributes found in MSPDI files.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Updated to implement support for reading and writing all of the basic Task attributes found in MSPDI files.</td>
+<td>Updated to implement support for reading and writing all the basic Task attributes found in MSPDI files.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Updated to implement support for reading and writing all of the basic Project Header attributes from MPP8 and MPP9 files.</td>
+<td>Updated to implement support for reading and writing all the basic Project Header attributes from MPP8 and MPP9 files.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/add.gif" alt="Add" title="Add" /></td>
@@ -6700,7 +7312,7 @@
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
-<td>Updated support for password protected files to allow write reserved files to be read.</td>
+<td>Updated support for password-protected files to allow write-reserved files to be read.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
 <tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
@@ -7303,7 +7915,7 @@
     <footer>
       <div class="container-fluid">
         <div class="row-fluid">
-            <p>&#169;      2000&#x2013;2023
+            <p>&#169;      2000&#x2013;2024
 <a href="http://mpxj.org">Packwood Software</a>
 </p>
         </div>

@@ -48,6 +48,8 @@ import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.UnitOfMeasure;
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Location;
 import net.sf.mpxj.LocationContainer;
@@ -56,10 +58,13 @@ import net.sf.mpxj.Step;
 import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.ColorHelper;
+import net.sf.mpxj.common.HierarchyHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
+import net.sf.mpxj.primavera.schema.ProjectListType;
+import net.sf.mpxj.primavera.schema.UnitOfMeasureType;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -259,7 +264,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       result.sort((o1, o2) -> Boolean.compare(o2.getProjectProperties().getExportFlag(), o1.getProjectProperties().getExportFlag()));
 
       linkCrossProjectRelations(result);
-      populateBaselines(result);
+      populateBaselines(apibo, result);
 
       m_externalRelations = null;
 
@@ -289,14 +294,36 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                   predecessor = externalRelation.getTargetTask();
                }
 
-               Relation relation = successor.addPredecessor(predecessor, externalRelation.getType(), externalRelation.getLag());
-               relation.setUniqueID(externalRelation.getUniqueID());
+               successor.addPredecessor(new Relation.Builder()
+                  .targetTask(predecessor)
+                  .type(externalRelation.getType())
+                  .lag(externalRelation.getLag())
+                  .uniqueID(externalRelation.getUniqueID())
+                  .notes(externalRelation.getNotes())
+               );
             }
          }
       }
    }
 
-   private void populateBaselines(List<ProjectFile> projects)
+   private void populateBaselines(APIBusinessObjects apibo, List<ProjectFile> projects)
+   {
+      if (projects.stream().anyMatch(p -> p.getProjectProperties().getBaselineProjectUniqueID() != null))
+      {
+         // We have baseline project unique ID values
+         populateBaselinesByUniqueID(projects);
+      }
+      else
+      {
+         if (apibo.getProjectList() != null && apibo.getProjectList().getProject().stream().anyMatch(p -> !p.getBaselineProject().isEmpty()))
+         {
+            // We have baselines in the project list
+            populateBaselinesbyProjectList(apibo, projects);
+         }
+      }
+   }
+
+   private void populateBaselinesByUniqueID(List<ProjectFile> projects)
    {
       Map<Integer, ProjectFile> map = projects.stream().collect(Collectors.toMap(p -> p.getProjectProperties().getUniqueID(), p -> p));
       for (ProjectFile project : projects)
@@ -305,6 +332,36 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (baseline != null)
          {
             project.setBaseline(baseline);
+         }
+      }
+   }
+
+   private void populateBaselinesbyProjectList(APIBusinessObjects apibo, List<ProjectFile> projects)
+   {
+      Map<Integer, ProjectFile> map = projects.stream().collect(Collectors.toMap(p -> p.getProjectProperties().getUniqueID(), p -> p));
+      for (ProjectListType.Project project : apibo.getProjectList().getProject())
+      {
+         List<ProjectListType.Project.BaselineProject> baselineProjects = project.getBaselineProject();
+         if (baselineProjects.isEmpty())
+         {
+            continue;
+         }
+
+         ProjectFile parentProject = map.get(Integer.valueOf(project.getObjectId()));
+         if (parentProject == null)
+         {
+            continue;
+         }
+
+         int baselineIndex = 0;
+         for (ProjectListType.Project.BaselineProject baseline : baselineProjects)
+         {
+            ProjectFile baselineProject = map.get(Integer.valueOf(baseline.getObjectId()));
+            if (baselineProject == null)
+            {
+               continue;
+            }
+            parentProject.setBaseline(baselineProject, baselineIndex++);
          }
       }
    }
@@ -431,6 +488,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
 
          processGlobalProperties(apibo);
+         processUnitsOfMeasure(apibo);
          processExpenseCategories(apibo);
          processCostAccounts(apibo);
          processNotebookTopics(apibo);
@@ -572,9 +630,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private void processProjectProperties(ProjectType project)
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
-
       properties.setBaselineProjectUniqueID(project.getCurrentBaselineProjectObjectId());
-      properties.setCreationDate(project.getCreateDate());
+      properties.setCreationDate(project.getCreateDate() == null ? project.getDateAdded() : project.getCreateDate());
       properties.setCriticalActivityType(CriticalActivityTypeHelper.getInstanceFromXml(project.getCriticalActivityPathType()));
       properties.setFinishDate(project.getFinishDate());
       properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
@@ -589,6 +646,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setMustFinishBy(project.getMustFinishByDate());
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
       properties.setLocationUniqueID(project.getLocationObjectId());
+      // NOTE: this also appears in the schedule options. We will override this with the schedule options value if both are present
+      properties.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXml(project.getRelationshipLagCalendar()));
+      properties.setWbsCodeSeparator(project.getWBSCodeSeparator());
+      properties.setActivityIdPrefix(project.getActivityIdPrefix());
+      properties.setActivityIdSuffix(project.getActivityIdSuffix());
+      properties.setActivityIdIncrement(project.getActivityIdIncrement());
+      properties.setActivityIdIncrementBasedOnSelectedActivity(BooleanHelper.getBoolean(project.isActivityIdBasedOnSelectedActivity()));
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 
@@ -600,7 +664,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
 
-      properties.setCreationDate(project.getCreateDate());
+      properties.setCreationDate(project.getCreateDate() == null ? project.getDateAdded() : project.getCreateDate());
       properties.setFinishDate(project.getFinishDate());
       properties.setGUID(DatatypeConverter.parseUUID(project.getGUID()));
       properties.setName(project.getName());
@@ -611,8 +675,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setExportFlag(false);
       properties.setMustFinishBy(project.getMustFinishByDate());
       properties.setCriticalSlackLimit(Duration.getInstance(NumberHelper.getDouble(project.getCriticalActivityFloatLimit()), TimeUnit.HOURS));
+      properties.setWbsCodeSeparator(project.getWBSCodeSeparator());
+      properties.setBaselineTypeName(project.getBaselineTypeName());
+      properties.setBaselineTypeUniqueID(project.getBaselineTypeObjectId());
+      properties.setLastBaselineUpdateDate(project.getLastBaselineUpdateDate());
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
+
+      processScheduleOptions(project.getScheduleOptions());
    }
 
    /**
@@ -633,7 +703,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       for (ActivityCodeTypeType type : types)
       {
-         ActivityCode code = new ActivityCode(type.getObjectId(), ActivityCodeScopeHelper.getInstanceFromXml(type.getScope()), type.getEPSObjectId(), type.getProjectObjectId(), type.getSequenceNumber(), type.getName(), BooleanHelper.getBoolean(type.isIsSecureCode()), type.getLength());
+         ActivityCode code = new ActivityCode.Builder(m_projectFile)
+            .uniqueID(type.getObjectId())
+            .scope(ActivityCodeScopeHelper.getInstanceFromXml(type.getScope()))
+            .scopeEpsUniqueID(type.getEPSObjectId())
+            .scopeProjectUniqueID(type.getProjectObjectId())
+            .sequenceNumber(type.getSequenceNumber())
+            .name(type.getName())
+            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
+            .maxLength(type.getLength())
+            .build();
          container.add(code);
          map.put(code.getUniqueID(), code);
       }
@@ -642,23 +721,23 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       typeValues.addAll(apibo.getActivityCode());
       typeValues.addAll(activityCodes);
 
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getObjectId(), v -> v.getParentObjectId());
       for (ActivityCodeType typeValue : typeValues)
       {
          ActivityCode code = map.get(typeValue.getCodeTypeObjectId());
          if (code != null)
          {
-            ActivityCodeValue value = code.addValue(typeValue.getObjectId(), typeValue.getSequenceNumber(), typeValue.getCodeValue(), typeValue.getDescription(), ColorHelper.parseHtmlColor(typeValue.getColor()));
+            ActivityCodeValue value = new ActivityCodeValue.Builder(m_projectFile)
+               .type(code)
+               .uniqueID(typeValue.getObjectId())
+               .sequenceNumber(typeValue.getSequenceNumber())
+               .name(typeValue.getCodeValue())
+               .description(typeValue.getDescription())
+               .color(ColorHelper.parseHtmlColor(typeValue.getColor()))
+               .parent(m_activityCodeMap.get(typeValue.getParentObjectId()))
+               .build();
+            code.getValues().add(value);
             m_activityCodeMap.put(value.getUniqueID(), value);
-         }
-      }
-
-      for (ActivityCodeType typeValue : typeValues)
-      {
-         ActivityCodeValue child = m_activityCodeMap.get(typeValue.getObjectId());
-         ActivityCodeValue parent = m_activityCodeMap.get(typeValue.getParentObjectId());
-         if (parent != null && child != null)
-         {
-            child.setParent(parent);
          }
       }
    }
@@ -672,7 +751,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       LocationContainer container = m_projectFile.getLocations();
       apibo.getLocation().forEach(c -> container.add(
-         new Location.Builder()
+         new Location.Builder(m_projectFile)
             .uniqueID(c.getObjectId())
             .name(c.getName())
             .addressLine1(c.getAddressLine1())
@@ -699,7 +778,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private void processExpenseCategories(APIBusinessObjects apibo)
    {
       ExpenseCategoryContainer container = m_projectFile.getExpenseCategories();
-      apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory(c.getObjectId(), c.getName(), c.getSequenceNumber())));
+      apibo.getExpenseCategory().forEach(c -> container.add(new ExpenseCategory.Builder(m_projectFile).uniqueID(c.getObjectId()).name(c.getName()).sequenceNumber(c.getSequenceNumber()).build()));
    }
 
    /**
@@ -710,8 +789,42 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private void processCostAccounts(APIBusinessObjects apibo)
    {
       CostAccountContainer container = m_projectFile.getCostAccounts();
-      apibo.getCostAccount().forEach(c -> container.add(new CostAccount(c.getObjectId(), c.getId(), c.getName(), c.getDescription(), c.getSequenceNumber())));
-      apibo.getCostAccount().forEach(c -> container.getByUniqueID(c.getObjectId()).setParent(container.getByUniqueID(c.getParentObjectId())));
+      HierarchyHelper.sortHierarchy(apibo.getCostAccount(), v -> v.getObjectId(), v -> v.getParentObjectId()).forEach(c -> container.add(
+         new CostAccount.Builder(m_projectFile)
+            .uniqueID(c.getObjectId())
+            .id(c.getId())
+            .name(c.getName())
+            .notes(getNotes(c.getDescription()))
+            .sequenceNumber(c.getSequenceNumber())
+            .parent(container.getByUniqueID(c.getParentObjectId()))
+            .build()));
+   }
+
+   /**
+    * Process units of measure.
+    *
+    * @param apibo top level object
+    */
+   private void processUnitsOfMeasure(APIBusinessObjects apibo)
+   {
+      UnitOfMeasureContainer container = m_projectFile.getUnitsOfMeasure();
+      apibo.getUnitOfMeasure().forEach(u -> container.add(processUnitOfMeasure(u)));
+   }
+
+   /**
+    * Create a unit of measure.
+    *
+    * @param u unit of measure data
+    * @return UnitOfMeasure instance
+    */
+   private UnitOfMeasure processUnitOfMeasure(UnitOfMeasureType u)
+   {
+      return new UnitOfMeasure.Builder(m_projectFile)
+         .uniqueID(u.getObjectId())
+         .abbreviation(u.getAbbreviation())
+         .name(u.getName())
+         .sequenceNumber(u.getSequenceNumber())
+         .build();
    }
 
    /**
@@ -726,30 +839,29 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(item.getActivityObjectId()));
          if (task != null)
          {
-            List<ExpenseItem> items = task.getExpenseItems();
-            ExpenseItem ei = new ExpenseItem(task);
-            items.add(ei);
+            ExpenseItem.Builder builder = new ExpenseItem.Builder(task)
+               .account(m_projectFile.getCostAccounts().getByUniqueID(item.getCostAccountObjectId()))
+               .accrueType(AccrueTypeHelper.getInstanceFromXml(item.getAccrualType()))
+               .actualCost(item.getActualCost())
+               .actualUnits(item.getActualUnits())
+               .atCompletionUnits(item.getAtCompletionUnits())
+               .autoComputeActuals(BooleanHelper.getBoolean(item.isAutoComputeActuals()))
+               .category(m_projectFile.getExpenseCategories().getByUniqueID(item.getExpenseCategoryObjectId()))
+               .description(item.getExpenseDescription())
+               .documentNumber(item.getDocumentNumber())
+               .name(item.getExpenseItem())
+               .plannedCost(item.getPlannedCost())
+               .plannedUnits(item.getPlannedUnits())
+               .pricePerUnit(item.getPricePerUnit())
+               .remainingCost(item.getRemainingCost())
+               .remainingUnits(item.getRemainingUnits())
+               .uniqueID(item.getObjectId())
+               .unitOfMeasure(item.getUnitOfMeasure())
+               .vendor(item.getVendor())
+               .atCompletionCost(NumberHelper.sumAsDouble(item.getActualCost(), item.getRemainingCost()));
 
-            ei.setAccount(m_projectFile.getCostAccounts().getByUniqueID(item.getCostAccountObjectId()));
-            ei.setAccrueType(AccrueTypeHelper.getInstanceFromXml(item.getAccrualType()));
-            ei.setActualCost(item.getActualCost());
-            ei.setActualUnits(item.getActualUnits());
-            ei.setAtCompletionUnits(item.getAtCompletionUnits());
-            ei.setAutoComputeActuals(BooleanHelper.getBoolean(item.isAutoComputeActuals()));
-            ei.setCategory(m_projectFile.getExpenseCategories().getByUniqueID(item.getExpenseCategoryObjectId()));
-            ei.setDescription(item.getExpenseDescription());
-            ei.setDocumentNumber(item.getDocumentNumber());
-            ei.setName(item.getExpenseItem());
-            ei.setPlannedCost(item.getPlannedCost());
-            ei.setPlannedUnits(item.getPlannedUnits());
-            ei.setPricePerUnit(item.getPricePerUnit());
-            ei.setRemainingCost(item.getRemainingCost());
-            ei.setRemainingUnits(item.getRemainingUnits());
-            ei.setUniqueID(item.getObjectId());
-            ei.setUnitOfMeasure(item.getUnitOfMeasure());
-            ei.setVendor(item.getVendor());
-
-            ei.setAtCompletionCost(NumberHelper.sumAsDouble(item.getActualCost(), item.getRemainingCost()));
+            ExpenseItem ei = builder.build();
+            task.getExpenseItems().add(ei);
 
             // Roll up to parent task
             task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), ei.getPlannedCost()));
@@ -813,7 +925,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Ensure that resource calendars we create later have valid unique IDs
       ProjectConfig config = m_projectFile.getProjectConfig();
       config.setAutoCalendarUniqueID(true);
-      m_projectFile.getResources().updateUniqueIdCounter();
    }
 
    /**
@@ -994,6 +1105,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             defaultUnitsPerTime = xml.getMaxUnitsPerTime();
          }
 
+         // Note: if default units per time is an empty field, this represents a value of zero in P6
+         defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
+
          resource.setUniqueID(xml.getObjectId());
          resource.setName(xml.getName());
          resource.setCode(xml.getEmployeeId());
@@ -1002,8 +1116,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setNotesObject(getNotes(xml.getResourceNotes()));
          resource.setCreationDate(xml.getCreateDate());
          resource.setType(ResourceTypeHelper.getInstanceFromXml(xml.getResourceType()));
-         // Note: a default units per time value of zero represents an empty field in P6
-         resource.setMaxUnits(defaultUnitsPerTime == null || defaultUnitsPerTime.doubleValue() == 0.0 ? null : NumberHelper.getDouble(defaultUnitsPerTime.doubleValue() * 100));
+         resource.setDefaultUnits(defaultUnitsPerTime);
          resource.setParentResourceUniqueID(xml.getParentObjectId());
          resource.setResourceID(xml.getId());
          resource.setCalendar(m_projectFile.getCalendars().getByUniqueID(xml.getCalendarObjectId()));
@@ -1011,6 +1124,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setSequenceNumber(xml.getSequenceNumber());
          resource.setActive(BooleanHelper.getBoolean(xml.isIsActive()));
          resource.setLocationUniqueID(xml.getLocationObjectId());
+         resource.setUnitOfMeasureUniqueID(xml.getUnitOfMeasureObjectId());
 
          populateUserDefinedFieldValues(resource, xml.getUDF());
 
@@ -1047,6 +1161,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       Notes notes = getHtmlNote(text);
       return notes == null || notes.isEmpty() ? null : notes;
+   }
+
+   /**
+    * Return null if string is empty, otherwise return string.
+    *
+    * @param text string
+    * @return null if empty, otherwise string
+    */
+   private String nullIfEmpty(String text)
+   {
+      return text == null || text.isEmpty() ? null : text;
    }
 
    /**
@@ -1159,10 +1284,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setPhysicalPercentComplete(reversePercentage(row.getPhysicalPercentComplete()));
          task.setPercentageWorkComplete(reversePercentage(row.getUnitsPercentComplete()));
 
-         task.setActualWork(addDurations(row.getActualLaborUnits(), row.getActualNonLaborUnits()));
-         task.setPlannedWork(addDurations(row.getPlannedLaborUnits(), row.getPlannedNonLaborUnits()));
-         task.setRemainingWork(addDurations(row.getRemainingLaborUnits(), row.getRemainingNonLaborUnits()));
-         task.setWork(addDurations(row.getAtCompletionLaborUnits(), row.getAtCompletionNonLaborUnits()));
+         task.setActualWorkLabor(getDuration(row.getActualLaborUnits()));
+         task.setActualWorkNonlabor(getDuration(row.getActualNonLaborUnits()));
+         task.setPlannedWorkLabor(getDuration(row.getPlannedLaborUnits()));
+         task.setPlannedWorkNonlabor(getDuration(row.getPlannedNonLaborUnits()));
+         task.setRemainingWorkLabor(getDuration(row.getRemainingLaborUnits()));
+         task.setRemainingWorkNonlabor(getDuration(row.getRemainingNonLaborUnits()));
+
+         task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
+         task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
+         task.setRemainingWork(WorkHelper.addWork(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
+         task.setWork(WorkHelper.addWork(task.getActualWork(), task.getRemainingWork()));
 
          task.setPlannedDuration(getDuration(row.getPlannedDuration()));
          task.setActualDuration(getDuration(row.getActualDuration()));
@@ -1188,6 +1320,19 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setRemainingEarlyFinish(row.getRemainingEarlyFinishDate());
          task.setRemainingLateStart(row.getRemainingLateStartDate());
          task.setRemainingLateFinish(row.getRemainingLateFinishDate());
+
+         // My understanding is that the Early/Late Start/Finish dates in P6 are
+         // equivalent to the Remaining Early/Late Start/Finish dates.
+         // The only difference is that the Early/Late Start/Finish dates will be populated
+         // in P6 for completed activities/milestones, but the Remaining Early/Late Start/Finish dates will not.
+         // Unfortunately P6 does not populate any of these attributes in PMXML files for completed activities/milestones
+         // so without running the CPM calculation ourselves we can't at present replicate
+         // the Early/Late Start/Finish dates visible in P6 for completed activities/milestones.
+         task.setEarlyStart(row.getRemainingEarlyStartDate());
+         task.setEarlyFinish(row.getRemainingEarlyFinishDate());
+         task.setLateStart(row.getRemainingLateStartDate());
+         task.setLateFinish(row.getRemainingLateFinishDate());
+
          task.setPriority(PriorityHelper.getInstanceFromXml(row.getLevelingPriority()));
          task.setCreateDate(row.getCreateDate());
          task.setActivityID(row.getId());
@@ -1249,7 +1394,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                // The task has started, let's calculate the finish date using the planned start and duration
                //
                ProjectCalendar calendar = task.getEffectiveCalendar();
-               LocalDateTime finish = calendar.getDate(task.getPlannedStart(), duration, false);
+               LocalDateTime finish = calendar.getDate(task.getPlannedStart(), duration);
 
                //
                // Deal with an oddity where the finish date shows up as the
@@ -1266,27 +1411,32 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          }
 
          //
-         // This is an approximation. If the critical flag is being determined by total
-         // then we need ES, EF, LS and LF set... but we only have the RES, REF, RLS and RLF
-         // attributes. We'll use these values to set ES, EF, LS and LF temporarily, and
-         // ensure that the critical flag is calculated, then we'll reset these values
-         // back to null. This will also have the side effect of calculating the float/slack values.
-         // Ideally we need to correctly calculate ES, EF, LS and LF for ourselves using CPM.
+         // Force calculation of the critical flag
          //
-         task.disableEvents();
-         task.setEarlyStart(task.getRemainingEarlyStart());
-         task.setEarlyFinish(task.getRemainingEarlyFinish());
-         task.setLateStart(task.getRemainingLateStart());
-         task.setLateFinish(task.getRemainingLateFinish());
          task.getCritical();
-         task.setEarlyStart(null);
-         task.setEarlyFinish(null);
-         task.setLateStart(null);
-         task.setLateFinish(null);
-         task.enableEvents();
 
          populateUserDefinedFieldValues(task, row.getUDF());
          readActivityCodes(task, row.getCode());
+
+         // For P6 the start date is the relevant date for a Start Milestone, and the
+         // Finish Date is the relevant date for a Finish Milestone. Typically, this
+         // is irrelevant as both the Start and Finish dates are the same. In some
+         // PMXML files this is not the case, which causes problems for applications
+         // which assume that the Start and Finish dates are the same for a milestone
+         // and only read one of them.
+         // The code below ensures that the correct date is used, and both Start
+         // and Finish Date attributes are populated with that date.
+         if (task.getMilestone())
+         {
+            if ("Start Milestone".equals(row.getType()))
+            {
+               task.setFinish(task.getStart());
+            }
+            else
+            {
+               task.setStart(task.getFinish());
+            }
+         }
 
          if (forceCriticalToFalse)
          {
@@ -1319,16 +1469,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (Task task : container.getChildTasks())
       {
-         String wbs = prefix.isEmpty() ? task.getWBS() : prefix + PrimaveraReader.DEFAULT_WBS_SEPARATOR + task.getWBS();
+         String wbs = prefix.isEmpty() ? task.getWBS() : prefix + m_projectFile.getProjectProperties().getWbsCodeSeparator() + task.getWBS();
          task.setWBS(wbs);
          task.setActivityID(wbs);
          populateWBS(wbs, task);
       }
-   }
-
-   private Duration addDurations(Number... values)
-   {
-      return getDuration(NumberHelper.sumAsDouble(values));
    }
 
    /**
@@ -1628,11 +1773,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          RelationType type = RelationTypeHelper.getInstanceFromXml(row.getType());
          Duration lag = getDuration(row.getLag());
+         String comments = nullIfEmpty(row.getComments());
 
          if (successorTask != null && predecessorTask != null)
          {
-            Relation relation = successorTask.addPredecessor(predecessorTask, type, lag);
-            relation.setUniqueID(row.getObjectId());
+            Relation relation = successorTask.addPredecessor(new Relation.Builder()
+               .targetTask(predecessorTask)
+               .type(type)
+               .lag(lag)
+               .uniqueID(row.getObjectId())
+               .notes(comments)
+            );
             m_eventManager.fireRelationReadEvent(relation);
          }
          else
@@ -1640,17 +1791,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             // If we're missing the predecessor or successor we assume they are external relations
             if (successorTask != null && predecessorTask == null)
             {
-               ExternalRelation relation = new ExternalRelation(predecessorID, successorTask, type, lag, true);
+               ExternalRelation relation = new ExternalRelation(row.getObjectId(), predecessorID, successorTask, type, lag, true, comments);
                m_externalRelations.add(relation);
-               relation.setUniqueID(row.getObjectId());
             }
             else
             {
                if (successorTask == null && predecessorTask != null)
                {
-                  ExternalRelation relation = new ExternalRelation(successorID, predecessorTask, type, lag, false);
+                  ExternalRelation relation = new ExternalRelation(row.getObjectId(), successorID, predecessorTask, type, lag, false, comments);
                   m_externalRelations.add(relation);
-                  relation.setUniqueID(row.getObjectId());
                }
             }
          }
@@ -1747,6 +1896,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setRateSource(RateSourceHelper.getInstanceFromXml(row.getRateSource()));
             assignment.setCalculateCostsFromUnits(BooleanHelper.getBoolean(row.isIsCostUnitsLinked()));
             assignment.setCostAccount(m_projectFile.getCostAccounts().getByUniqueID(row.getCostAccountObjectId()));
+            assignment.setRemainingEarlyStart(row.getRemainingStartDate());
+            assignment.setRemainingEarlyFinish(row.getRemainingFinishDate());
 
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
@@ -1754,7 +1905,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             // calculate work
             Duration remainingWork = assignment.getRemainingWork();
             Duration actualWork = assignment.getActualWork();
-            Duration totalWork = Duration.add(actualWork, remainingWork, task.getEffectiveCalendar());
+            Duration totalWork = Duration.add(actualWork, remainingWork, assignment.getEffectiveCalendar());
             assignment.setWork(totalWork);
 
             // calculate cost
@@ -1769,16 +1920,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), remainingCost));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), atCompletionCost));
 
-            double units;
             if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)
             {
-               units = (totalWork == null) ? 0 : totalWork.getDuration() * 100;
+               assignment.setUnits(row.getPlannedUnits());
             }
             else // RT_Labor & RT_Equip
             {
-               units = NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100;
+               assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100));
             }
-            assignment.setUnits(NumberHelper.getDouble(units));
 
             populateUserDefinedFieldValues(assignment, row.getUDF());
 
@@ -1977,14 +2126,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             continue;
          }
 
-         Step step = new Step(task);
+         Step step = new Step.Builder(task)
+            .name(activityStep.getName())
+            .sequenceNumber(activityStep.getSequenceNumber())
+            .uniqueID(activityStep.getObjectId())
+            .weight(activityStep.getWeight())
+            .percentComplete(Double.valueOf(NumberHelper.getDouble(activityStep.getPercentComplete()) * 100.0))
+            .description(getHtmlNote(activityStep.getDescription()))
+            .build();
+
          task.getSteps().add(step);
-         step.setName(activityStep.getName());
-         step.setSequenceNumber(activityStep.getSequenceNumber());
-         step.setUniqueID(activityStep.getObjectId());
-         step.setWeight(activityStep.getWeight());
-         step.setPercentComplete(Double.valueOf(NumberHelper.getDouble(activityStep.getPercentComplete()) * 100.0));
-         step.setDescriptionObject(getHtmlNote(activityStep.getDescription()));
       }
    }
 
@@ -2005,15 +2156,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private void processNotebookTopic(NotebookTopicType xml)
    {
-      Integer uniqueID = xml.getObjectId();
-      Integer sequenceNumber = xml.getSequenceNumber();
-      boolean epsFlag = BooleanHelper.getBoolean(xml.isAvailableForEPS());
-      boolean projectFlag = BooleanHelper.getBoolean(xml.isAvailableForProject());
-      boolean wbsFlag = BooleanHelper.getBoolean(xml.isAvailableForWBS());
-      boolean activityFlag = BooleanHelper.getBoolean(xml.isAvailableForActivity());
-      String name = xml.getName();
+      NotesTopic topic = new NotesTopic.Builder(m_projectFile)
+         .uniqueID(xml.getObjectId())
+         .sequenceNumber(xml.getSequenceNumber())
+         .availableForEPS(BooleanHelper.getBoolean(xml.isAvailableForEPS()))
+         .availableForProject(BooleanHelper.getBoolean(xml.isAvailableForProject()))
+         .availableForWBS(BooleanHelper.getBoolean(xml.isAvailableForWBS()))
+         .availableForActivity(BooleanHelper.getBoolean(xml.isAvailableForActivity()))
+         .name(xml.getName())
+         .build();
 
-      m_projectFile.getNotesTopics().add(new NotesTopic(uniqueID, sequenceNumber, name, epsFlag, projectFlag, wbsFlag, activityFlag));
+      m_projectFile.getNotesTopics().add(topic);
    }
 
    /**
@@ -2086,14 +2239,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private Duration getDuration(Double duration)
    {
-      Duration result = null;
-
-      if (duration != null)
+      if (duration == null)
       {
-         result = Duration.getInstance(NumberHelper.getDouble(duration), TimeUnit.HOURS);
+         return null;
       }
 
-      return result;
+      return Duration.getInstance(NumberHelper.getDouble(duration), TimeUnit.HOURS);
    }
 
    /**
@@ -2214,44 +2365,79 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
 
       ScheduleOptionsType options = list.get(0);
-      Map<String, Object> customProperties = new TreeMap<>();
 
-      // TODO: migrate schedule options to project properties and deprecate custom properties
+      // NOTE: custom properties are deprecated and will be removed at the next major release
+      Map<String, Object> customProperties = new TreeMap<>();
       ProjectProperties projectProperties = m_projectFile.getProjectProperties();
 
       //
       // Leveling Options
       //
+
       // Automatically level resources when scheduling
       customProperties.put("ConsiderAssignmentsInOtherProjects", options.isIncludeExternalResAss());
+      projectProperties.setConsiderAssignmentsInOtherProjects(BooleanHelper.getBoolean(options.isIncludeExternalResAss()));
+
       customProperties.put("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", options.getExternalProjectPriorityLimit());
+      projectProperties.setConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan(options.getExternalProjectPriorityLimit());
+
       customProperties.put("PreserveScheduledEarlyAndLateDates", options.isPreserveScheduledEarlyAndLateDates());
+      projectProperties.setPreserveScheduledEarlyAndLateDates(BooleanHelper.getBoolean(options.isPreserveScheduledEarlyAndLateDates()));
+
       // Recalculate assignment costs after leveling
       customProperties.put("LevelAllResources", options.isLevelAllResources());
+      projectProperties.setLevelAllResources(BooleanHelper.getBoolean(options.isLevelAllResources()));
+
       customProperties.put("LevelResourcesOnlyWithinActivityTotalFloat", options.isLevelWithinFloat());
+      projectProperties.setLevelResourcesOnlyWithinActivityTotalFloat(BooleanHelper.getBoolean(options.isLevelWithinFloat()));
+
       customProperties.put("PreserveMinimumFloatWhenLeveling", options.getMinFloatToPreserve());
+      projectProperties.setPreserveMinimumFloatWhenLeveling(options.getMinFloatToPreserve() == null ? null : Duration.getInstance(options.getMinFloatToPreserve().intValue(), TimeUnit.HOURS));
+
       customProperties.put("MaxPercentToOverallocateResources", options.getOverAllocationPercentage());
+      projectProperties.setMaxPercentToOverallocateResources(options.getOverAllocationPercentage());
+
       customProperties.put("LevelingPriorities", options.getPriorityList());
+      projectProperties.setLevelingPriorities(options.getPriorityList());
 
       //
       // Schedule
       //
-      // customProperties.put("SetDataDateAndPlannedStartToProjectForecastStart", Boolean.valueOf(row.getBoolean("sched_setplantoforecast")));
+      // Set Data Date and Planned Date to Project Forecast Start not in PMXML?
+      // Unsure how to enable forecasting in P6 to test this.
+      //projectProperties.setDataDateAndPlannedStartSetToProjectForecastStart();
 
       //
       // Schedule Options - General
       //
       customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", options.isIgnoreOtherProjectRelationships());
+      projectProperties.setIgnoreRelationshipsToAndFromOtherProjects(BooleanHelper.getBoolean(options.isIgnoreOtherProjectRelationships()));
+
       customProperties.put("MakeOpenEndedActivitiesCritical", options.isMakeOpenEndedActivitiesCritical());
+      projectProperties.setMakeOpenEndedActivitiesCritical(BooleanHelper.getBoolean(options.isMakeOpenEndedActivitiesCritical()));
+
       customProperties.put("UseExpectedFinishDates", options.isUseExpectedFinishDates());
+      projectProperties.setUseExpectedFinishDates(BooleanHelper.getBoolean(options.isUseExpectedFinishDates()));
+
       // Schedule automatically when a change affects dates - not in PMXML?
+
       // Level resources during scheduling - not in PMXML?
+
       customProperties.put("ComputeStartToStartLagFromEarlyStart", options.isStartToStartLagCalculationType());
+      projectProperties.setComputeStartToStartLagFromEarlyStart(BooleanHelper.getBoolean(options.isStartToStartLagCalculationType()));
+
       customProperties.put("WhenSchedulingProgressedActivitiesUse", options.getOutOfSequenceScheduleType());
+      projectProperties.setSchedulingProgressedActivities(SchedulingProgressedActivitiesHelper.getInstanceFromXml(options.getOutOfSequenceScheduleType()));
 
       // Define critical activities as
+
       customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", options.isCalculateFloatBasedOnFinishDate());
+      projectProperties.setCalculateFloatBasedOnFinishDateOfEachProject(BooleanHelper.getBoolean(options.isCalculateFloatBasedOnFinishDate()));
+
+      // NOTE: this also appears as a project attribute, this one takes precedence
       customProperties.put("CalendarForSchedulingRelationshipLag", options.getRelationshipLagCalendar());
+      projectProperties.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXml(options.getRelationshipLagCalendar()));
+
       customProperties.put("ComputeTotalFloatAs", options.getComputeTotalFloatType());
       projectProperties.setTotalSlackCalculationType(TotalSlackCalculationTypeHelper.getInstanceFromXml(options.getComputeTotalFloatType()));
 
@@ -2259,9 +2445,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Schedule Options - Advanced
       //
       customProperties.put("CalculateMultipleFloatPaths", options.isMultipleFloatPathsEnabled());
+      projectProperties.setCalculateMultipleFloatPaths(BooleanHelper.getBoolean(options.isMultipleFloatPathsEnabled()));
+
       customProperties.put("CalculateMultiplePathsUsingTotalFloat", options.isMultipleFloatPathsUseTotalFloat());
+      projectProperties.setCalculateMultipleFloatPathsUsingTotalFloat(BooleanHelper.getBoolean(options.isMultipleFloatPathsUseTotalFloat()));
+
       customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", options.getMultipleFloatPathsEndingActivityObjectId());
+      projectProperties.setDisplayMultipleFloatPathsEndingWithActivityUniqueID(options.getMultipleFloatPathsEndingActivityObjectId());
+
       customProperties.put("NumberofPathsToCalculate", options.getMaximumMultipleFloatPaths());
+      projectProperties.setMaximumNumberOfFloatPathsToCalculate(options.getMaximumMultipleFloatPaths());
 
       projectProperties.setCustomProperties(customProperties);
    }

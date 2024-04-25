@@ -149,6 +149,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setWeekStartDay(DEFAULT_WEEK_START_DAY);
       setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
       setTotalSlackCalculationType(TotalSlackCalculationType.SMALLEST_SLACK);
+      setRelationshipLagCalendar(RelationshipLagCalendar.PREDECESSOR);
    }
 
    /**
@@ -280,7 +281,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Flag representing whether or not to split in-progress tasks.
+    * Flag representing whether to split in-progress tasks.
     *
     * @return Boolean value
     */
@@ -290,7 +291,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Flag representing whether or not to split in-progress tasks.
+    * Flag representing whether to split in-progress tasks.
     *
     * @param flag boolean value
     */
@@ -1137,15 +1138,15 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    /**
     * Sets the position of the currency symbol.
     *
-    * @param posn currency symbol position.
+    * @param value currency symbol position.
     */
-   public void setSymbolPosition(CurrencySymbolPosition posn)
+   public void setSymbolPosition(CurrencySymbolPosition value)
    {
-      if (posn == null)
+      if (value == null)
       {
-         posn = DEFAULT_CURRENCY_SYMBOL_POSITION;
+         value = DEFAULT_CURRENCY_SYMBOL_POSITION;
       }
-      set(ProjectField.CURRENCY_SYMBOL_POSITION, posn);
+      set(ProjectField.CURRENCY_SYMBOL_POSITION, value);
    }
 
    /**
@@ -2580,7 +2581,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
    /**
     * This method retrieves a value representing the type of MPP file
-    * that has been read. Currently this method will return the value 8 for
+    * that has been read. Currently, this method will return the value 8 for
     * an MPP8 file (Project 98), 9 for an MPP9 file (Project 2000 and
     * Project 2002), 12 for an MPP12 file (Project 2003, Project 2007) and 14 for an
     * MPP14 file (Project 2010 and Project 2013).
@@ -2876,7 +2877,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Set the total slcak calculation type.
+    * Set the total slack calculation type.
     *
     * @param type total slack calculation type
     */
@@ -2896,11 +2897,611 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Maps a field index to a TaskField instance.
+    * Set the relationship lag calendar.
+    *
+    * @param calendar relationship lag calendar
+    */
+   public void setRelationshipLagCalendar(RelationshipLagCalendar calendar)
+   {
+      set(ProjectField.RELATIONSHIP_LAG_CALENDAR, calendar);
+   }
+
+   /**
+    * Retrieve the relationship lag calendar.
+    *
+    * @return relationship lag calendar
+    */
+   public RelationshipLagCalendar getRelationshipLagCalendar()
+   {
+      return (RelationshipLagCalendar) get(ProjectField.RELATIONSHIP_LAG_CALENDAR);
+   }
+
+   /**
+    * Retrieve the WBS Code separator character.
+    *
+    * @return WBS Code separator character
+    */
+   public String getWbsCodeSeparator()
+   {
+      return (String) get(ProjectField.WBS_CODE_SEPARATOR);
+   }
+
+   /**
+    * Set the WBS Code separator character.
+    *
+    * @param value WBS Code separator character
+    */
+   public void setWbsCodeSeparator(String value)
+   {
+      set(ProjectField.WBS_CODE_SEPARATOR, value);
+   }
+
+   /**
+    * Retrieve the consider assignments in other projects when leveling flag.
+    *
+    * @return consider assignments in other projects flag
+    */
+   public boolean getConsiderAssignmentsInOtherProjects()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS));
+   }
+
+   /**
+    * Set the consider assignments in other projects when leveling flag.
+    *
+    * @param value consider assignments in other projects fla
+    */
+   public void setConsiderAssignmentsInOtherProjects(boolean value)
+   {
+      set(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS, value);
+   }
+
+   /**
+    * Retrieve the priority of assignment in other projects to consider when leveling.
+    *
+    * @return assignment priority
+    */
+   public Integer getConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan()
+   {
+      return (Integer) get(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN);
+   }
+
+   /**
+    * Set the priority of assignment in other projects to consider when leveling.
+    *
+    * @param value assignment priority
+    */
+   public void setConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan(Integer value)
+   {
+      set(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN, value);
+   }
+
+   /**
+    * Retrieve the preserve scheduled early and late dates flag.
+    *
+    * @return preserve scheduled early and late dates flag
+    */
+   public boolean getPreserveScheduledEarlyAndLateDates()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES));
+   }
+
+   /**
+    * Set the preserve scheduled early and late dates flag.
+    *
+    * @param value preserve scheduled early and late dates flag
+    */
+   public void setPreserveScheduledEarlyAndLateDates(boolean value)
+   {
+      set(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES, value);
+   }
+
+   /**
+    * Retrieve the level all resources flag.
+    *
+    * @return level all resources flag
+    */
+   public boolean getLevelAllResources()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.LEVEL_ALL_RESOURCES));
+   }
+
+   /**
+    * Set the level all resources flag.
+    *
+    * @param value level all resources flag
+    */
+   public void setLevelAllResources(boolean value)
+   {
+      set(ProjectField.LEVEL_ALL_RESOURCES, value);
+   }
+
+   /**
+    * Retrieve the level resources only within activity total float flag.
+    *
+    * @return level resources only within activity total float flag
+    */
+   public boolean getLevelResourcesOnlyWithinActivityTotalFloat()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT));
+   }
+
+   /**
+    * Set the level resources only within activity total float flag.
+    *
+    * @param value level resources only within activity total float flag
+    */
+   public void setLevelResourcesOnlyWithinActivityTotalFloat(boolean value)
+   {
+      set(ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT, value);
+   }
+
+   /**
+    * Retrieve the preserve minimum float when leveling value.
+    *
+    * @return float to preserve when leveling
+    */
+   public Duration getPreserveMinimumFloatWhenLeveling()
+   {
+      return (Duration) get(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING);
+   }
+
+   /**
+    * Set the preserve minimum float when leveling value.
+    *
+    * @param value float to preserve when leveling
+    */
+   public void setPreserveMinimumFloatWhenLeveling(Duration value)
+   {
+      set(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING, value);
+   }
+
+   /**
+    * Retrieve the maximum percentage to overallocate resources.
+    *
+    * @return maximum percentage to overallocate resources
+    */
+   public Number getMaxPercentToOverallocateResources()
+   {
+      return (Number) get(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES);
+   }
+
+   /**
+    * Set the maximum percentage to overallocate resources.
+    *
+    * @param value maximum percentage to overallocate resources
+    */
+   public void setMaxPercentToOverallocateResources(Number value)
+   {
+      set(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES, value);
+   }
+
+   /**
+    * Retrieve the leveling priorities expression.
+    *
+    * @return leveling priorities expression
+    */
+   public String getLevelingPriorities()
+   {
+      return (String) get(ProjectField.LEVELING_PRIORITIES);
+   }
+
+   /**
+    * Set the leveling priorities expression.
+    *
+    * @param value leveling priorities expression
+    */
+   public void setLevelingPriorities(String value)
+   {
+      set(ProjectField.LEVELING_PRIORITIES, value);
+   }
+
+   /**
+    * Retrieve the data date and planned start set to project forecast start flag.
+    *
+    * @return data date and planned start set to project forecast start flag
+    */
+   public boolean getDataDateAndPlannedStartSetToProjectForecastStart()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START));
+   }
+
+   /**
+    * Set the data date and planned start set to project forecast start flag.
+    *
+    * @param value data date and planned start set to project forecast start flag
+    */
+   public void setDataDateAndPlannedStartSetToProjectForecastStart(boolean value)
+   {
+      set(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START, value);
+   }
+
+   /**
+    * Retrieve the ignore relationships to and from other projects flag.
+    *
+    * @return ignore relationships to and from other projects flag
+    */
+   public boolean getIgnoreRelationshipsToAndFromOtherProjects()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS));
+   }
+
+   /**
+    * Set the ignore relationships to and from other projects flag.
+    *
+    * @param value ignore relationships to and from other projects flag
+    */
+   public void setIgnoreRelationshipsToAndFromOtherProjects(boolean value)
+   {
+      set(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS, value);
+   }
+
+   /**
+    * Retrieve the mark open-ended activities as critical flag.
+    *
+    * @return mark open-ended activities as critical flag
+    */
+   public boolean getMakeOpenEndedActivitiesCritical()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL));
+   }
+
+   /**
+    * Set the mark open-ended activities as critical flag.
+    *
+    * @param value mark open-ended activities as critical flag
+    */
+   public void setMakeOpenEndedActivitiesCritical(boolean value)
+   {
+      set(ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL, value);
+   }
+
+   /**
+    * Retrieve the use expected finish dates flag.
+    *
+    * @return use expected finish dates flag
+    */
+   public boolean getUseExpectedFinishDates()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.USE_EXPECTED_FINISH_DATES));
+   }
+
+   /**
+    * Set the use expected finish dates flag.
+    *
+    * @param value use expected finish dates flag
+    */
+   public void setUseExpectedFinishDates(boolean value)
+   {
+      set(ProjectField.USE_EXPECTED_FINISH_DATES, value);
+   }
+
+   /**
+    * Retrieve the compute start to start lag from early start flag.
+    *
+    * @return start to start lag from early start flag
+    */
+   public boolean getComputeStartToStartLagFromEarlyStart()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START));
+   }
+
+   /**
+    * Set the compute start to start lag from early start flag.
+    *
+    * @param value compute start to start lag from early start flag
+    */
+   public void setComputeStartToStartLagFromEarlyStart(boolean value)
+   {
+      set(ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START, value);
+   }
+
+   /**
+    * Set the calculate float based on finish date of each project flag.
+    *
+    * @return calculate float based on finish date of each project flag
+    */
+   public boolean getCalculateFloatBasedOnFinishDateOfEachProject()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT));
+   }
+
+   /**
+    * Set the calculate float based on finish date of each project flag.
+    *
+    * @param value calculate float based on finish date of each project flag
+    */
+   public void setCalculateFloatBasedOnFinishDateOfEachProject(boolean value)
+   {
+      set(ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT, value);
+   }
+
+   /**
+    * Get the calculate multiple float paths flag.
+    *
+    * @return calculate multiple float paths flag
+    */
+   public boolean getCalculateMultipleFloatPaths()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS));
+   }
+
+   /**
+    * Set the calculate multiple float paths flag.
+    *
+    * @param value calculate multiple float paths flag
+    */
+   public void setCalculateMultipleFloatPaths(boolean value)
+   {
+      set(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS, value);
+   }
+
+   /**
+    * Retrieve the calculate multiple float paths using total float flag.
+    *
+    * @return calculate multiple float paths using total float flag
+    */
+   public boolean getCalculateMultipleFloatPathsUsingTotalFloat()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT));
+   }
+
+   /**
+    * Set the calculate multiple float paths using total float flag.
+    *
+    * @param value calculate multiple float paths using total float flag
+    */
+   public void setCalculateMultipleFloatPathsUsingTotalFloat(boolean value)
+   {
+      set(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT, value);
+   }
+
+   /**
+    * Retrieve the display multiple float paths ending with activity unique ID value.
+    *
+    * @return display multiple float paths ending with activity unique ID value
+    */
+   public Integer getDisplayMultipleFloatPathsEndingWithActivityUniqueID()
+   {
+      return (Integer) get(ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY_UNIQUE_ID);
+   }
+
+   /**
+    * Set the display multiple float paths ending with activity unique ID value.
+    *
+    * @param value display multiple float paths ending with activity unique ID value
+    */
+   public void setDisplayMultipleFloatPathsEndingWithActivityUniqueID(Integer value)
+   {
+      set(ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY_UNIQUE_ID, value);
+   }
+
+   /**
+    * Retrieve the limit number of paths to calculate flag.
+    *
+    * @return limit number of paths to calculate flag
+    */
+   public boolean getLimitNumberOfFloatPathsToCalculate()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE));
+   }
+
+   /**
+    * Set the limit number of paths to calculate flag.
+    *
+    * @param value limit number of paths to calculate flag
+    */
+   public void setLimitNumberOfFloatPathsToCalculate(boolean value)
+   {
+      set(ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, value);
+   }
+
+   /**
+    * Retrieve the maximum number of float paths to calculate.
+    *
+    * @return maximum number of float paths to calculate.
+    */
+   public Integer getMaximumNumberOfFloatPathsToCalculate()
+   {
+      return (Integer) get(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE);
+   }
+
+   /**
+    * Set the method used when scheduling progressed activities.
+    *
+    * @param value scheduling progressed activities method
+    */
+   public void setSchedulingProgressedActivities(SchedulingProgressedActivities value)
+   {
+      set(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES, value);
+   }
+
+   /**
+    * Retrieve the method used when scheduling progressed activities.
+    *
+    * @return maximum number of float paths to calculate.
+    */
+   public SchedulingProgressedActivities getSchedulingProgressedActivities()
+   {
+      return (SchedulingProgressedActivities) get(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES);
+   }
+
+   /**
+    * Set the maximum number of float paths to calculate.
+    *
+    * @param value maximum number of float paths to calculate
+    */
+   public void setMaximumNumberOfFloatPathsToCalculate(Integer value)
+   {
+      set(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, value);
+   }
+
+   /**
+    * Retrieve the name of the baseline type associated with this project.
+    *
+    * @return baseline type name
+    */
+   public String getBaselineTypeName()
+   {
+      return (String) get(ProjectField.BASELINE_TYPE_NAME);
+   }
+
+   /**
+    * Set the name of the baseline type associated with this project.
+    *
+    * @param value baseline type name
+    */
+   public void setBaselineTypeName(String value)
+   {
+      set(ProjectField.BASELINE_TYPE_NAME, value);
+   }
+
+   /**
+    * Retrieve the unique ID of the baseline type associated with this project.
+    *
+    * @return baseline type unique ID
+    */
+   public Integer getBaselineTypeUniqueID()
+   {
+      return (Integer) get(ProjectField.BASELINE_TYPE_UNIQUE_ID);
+   }
+
+   /**
+    * Set the unique ID of the baseline type associated with this project.
+    *
+    * @param value baseline type unique ID
+    */
+   public void setBaselineTypeUniqueID(Integer value)
+   {
+      set(ProjectField.BASELINE_TYPE_UNIQUE_ID, value);
+   }
+
+   /**
+    * Retrieve the last baseline update date.
+    *
+    * @return last baseline update date
+    */
+   public LocalDateTime getLastBaselineUpdateDate()
+   {
+      return (LocalDateTime) get(ProjectField.LAST_BASELINE_UPDATE_DATE);
+   }
+
+   /**
+    * Set the last baseline update date.
+    *
+    * @param value last baseline update date
+    */
+   public void setLastBaselineUpdateDate(LocalDateTime value)
+   {
+      set(ProjectField.LAST_BASELINE_UPDATE_DATE, value);
+   }
+
+   /**
+    * Retrieve the prefix used when creating an Activity ID.
+    *
+    * @return activity ID prefix
+    */
+   public String getActivityIdPrefix()
+   {
+      return (String) get(ProjectField.ACTIVITY_ID_PREFIX);
+   }
+
+   /**
+    * Set the prefix used when creating an Activity ID.
+    *
+    * @param value activity ID prefix
+    */
+   public void setActivityIdPrefix(String value)
+   {
+      set(ProjectField.ACTIVITY_ID_PREFIX, value);
+   }
+
+   /**
+    * Retrieve the suffix used when creating an Activity ID.
+    *
+    * @return activity ID suffix
+    */
+   public Integer getActivityIdSuffix()
+   {
+      return (Integer) get(ProjectField.ACTIVITY_ID_SUFFIX);
+   }
+
+   /**
+    * Set the suffix used when creating an Activity ID.
+    *
+    * @param value activity ID suffix
+    */
+   public void setActivityIdSuffix(Integer value)
+   {
+      set(ProjectField.ACTIVITY_ID_SUFFIX, value);
+   }
+
+   /**
+    * Retrieve the increment used when creating Activity ID values.
+    *
+    * @return activity ID increment
+    */
+   public Integer getActivityIdIncrement()
+   {
+      return (Integer) get(ProjectField.ACTIVITY_ID_INCREMENT);
+   }
+
+   /**
+    * Set the increment used when creating Activity ID values.
+    *
+    * @param value activity ID increment
+    */
+   public void setActivityIdIncrement(Integer value)
+   {
+      set(ProjectField.ACTIVITY_ID_INCREMENT, value);
+   }
+
+   /**
+    * Retrieve the "increment activity ID based on selected activity" flag.
+    *
+    * @return "increment activity ID based on selected activity" flag
+    */
+   public boolean getActivityIdIncrementBasedOnSelectedActivity()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY));
+   }
+
+   /**
+    * Set the "increment activity ID based on selected activity" flag.
+    *
+    * @param value "increment activity ID based on selected activity" flag
+    */
+   public void setActivityIdIncrementBasedOnSelectedActivity(boolean value)
+   {
+      set(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, value);
+   }
+
+   /**
+    * Set the baseline calendar name.
+    *
+    * @return baseline calendar name
+    */
+   public String getBaselineCalendarName()
+   {
+      return (String) get(ProjectField.BASELINE_CALENDAR_NAME);
+   }
+
+   /**
+    * Retrieve the baseline calendar name.
+    *
+    * @param value baseline calendar name
+    */
+   public void setBaselineCalendarName(String value)
+   {
+      set(ProjectField.BASELINE_CALENDAR_NAME, value);
+   }
+
+   /**
+    * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
     * @param index required field index
-    * @return TaskField instance
+    * @return ProjectField instance
     */
    private ProjectField selectField(ProjectField[] fields, int index)
    {
@@ -2957,16 +3558,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return getParentFile().getLatestFinishDate();
    }
 
-   private Integer calculateDaysPerMonth()
-   {
-      return DEFAULT_DAYS_PER_MONTH;
-   }
-
-   private Integer calculateMinutesPerDay()
-   {
-      return DEFAULT_MINUTES_PER_DAY;
-   }
-
    private Integer calculateMinutesPerWeek()
    {
       return Integer.valueOf(DEFAULT_DAYS_PER_WEEK * NumberHelper.getInt(getMinutesPerDay()));
@@ -2980,31 +3571,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    private Integer calculateMinutesPerYear()
    {
       return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
-   }
-
-   private Character calculateDateSeparator()
-   {
-      return Character.valueOf(DEFAULT_DATE_SEPARATOR);
-   }
-
-   private Character calculateTimeSeparator()
-   {
-      return Character.valueOf(DEFAULT_TIME_SEPARATOR);
-   }
-
-   private Character calculateDecimalSeparator()
-   {
-      return Character.valueOf(DEFAULT_DECIMAL_SEPARATOR);
-   }
-
-   private Character calculateThousandsSeparator()
-   {
-      return Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR);
-   }
-
-   private Character calculateMpxDelimiter()
-   {
-      return Character.valueOf(DEFAULT_MPX_DELIMITER);
    }
 
    /**
@@ -3117,20 +3683,54 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    private static final Integer DEFAULT_MINUTES_PER_WEEK = Integer.valueOf(2400);
 
+   private static final Integer DEFAULT_OTHER_PROJECT_ASSIGNMENT_PRIORITY = Integer.valueOf(5);
+
+   private static final Duration DEFAULT_MINIMUM_FLOAT = Duration.getInstance(1, TimeUnit.HOURS);
+
+   private static final Double DEFAULT_OVERALLOCATION = Double.valueOf(25.0);
+
+   private static final Integer DEFAULT_FLOAT_PATHS = Integer.valueOf(10);
+
    private static final Map<FieldType, Function<ProjectProperties, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
       CALCULATED_FIELD_MAP.put(ProjectField.START_DATE, ProjectProperties::calculateStartDate);
       CALCULATED_FIELD_MAP.put(ProjectField.FINISH_DATE, ProjectProperties::calculateFinishDate);
-      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, ProjectProperties::calculateDaysPerMonth);
-      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, ProjectProperties::calculateMinutesPerDay);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, ProjectProperties::calculateMinutesPerWeek);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, ProjectProperties::calculateMinutesPerMonth);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, ProjectProperties::calculateMinutesPerYear);
-      CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, ProjectProperties::calculateDateSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, ProjectProperties::calculateTimeSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, ProjectProperties::calculateThousandsSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, ProjectProperties::calculateDecimalSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, ProjectProperties::calculateMpxDelimiter);
+
+      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, p -> DEFAULT_DAYS_PER_MONTH);
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, p -> DEFAULT_MINUTES_PER_DAY);
+      CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, p -> Character.valueOf(DEFAULT_DATE_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, p -> Character.valueOf(DEFAULT_TIME_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, p -> Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, p -> Character.valueOf(DEFAULT_DECIMAL_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, p -> Character.valueOf(DEFAULT_MPX_DELIMITER));
+      CALCULATED_FIELD_MAP.put(ProjectField.CUSTOM_PROPERTIES, p -> new HashMap<String, Object>());
+      CALCULATED_FIELD_MAP.put(ProjectField.WBS_CODE_SEPARATOR, p -> ".");
+      CALCULATED_FIELD_MAP.put(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN, p -> DEFAULT_OTHER_PROJECT_ASSIGNMENT_PRIORITY);
+      CALCULATED_FIELD_MAP.put(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.LEVEL_ALL_RESOURCES, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING, p -> DEFAULT_MINIMUM_FLOAT);
+      CALCULATED_FIELD_MAP.put(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES, p -> DEFAULT_OVERALLOCATION);
+      CALCULATED_FIELD_MAP.put(ProjectField.LEVELING_PRIORITIES, p -> "(0||priority_type(sort_type|ASC)())");
+      CALCULATED_FIELD_MAP.put(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.USE_EXPECTED_FINISH_DATES, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> DEFAULT_FLOAT_PATHS);
+      CALCULATED_FIELD_MAP.put(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES, p -> SchedulingProgressedActivities.RETAINED_LOGIC);
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_PREFIX, p -> "A");
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_SUFFIX, p -> Integer.valueOf(1000));
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT, p -> Integer.valueOf(10));
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, p -> Boolean.TRUE);
    }
 }

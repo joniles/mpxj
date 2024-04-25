@@ -45,6 +45,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.Duration;
@@ -107,7 +108,7 @@ public final class SDEFWriter extends AbstractProjectWriter
 
       try
       {
-         List<ProjectCalendar> calendars = m_projectFile.getTasks().stream().map(Task::getEffectiveCalendar).distinct().map(ProjectCalendarHelper::createTemporaryFlattenedCalendar).collect(Collectors.toList());
+         List<ProjectCalendar> calendars = m_projectFile.getTasks().stream().map(Task::getEffectiveCalendar).filter(c -> c != null).distinct().map(ProjectCalendarHelper::createTemporaryFlattenedCalendar).collect(Collectors.toList());
 
          // Following USACE specification from 140.194.76.129/publications/eng-regs/ER_1-1-11/ER_1-1-11.pdf
          writeFileCreationRecord(); // VOLM
@@ -305,9 +306,11 @@ public final class SDEFWriter extends AbstractProjectWriter
             }
          }
 
+         ProjectCalendar effectiveCalendar = record.getEffectiveCalendar();
+
          m_buffer.append(formattedConstraintDate).append(" ");
          m_buffer.append(conType);
-         m_buffer.append(SDEFmethods.lset(record.getEffectiveCalendar().getUniqueID().toString(), 1)).append(" ");
+         m_buffer.append(SDEFmethods.lset(effectiveCalendar == null ? "" : effectiveCalendar.getUniqueID().toString(), 1)).append(" ");
          m_buffer.append(record.getHammockCode() ? "Y " : "  ");
          m_buffer.append(SDEFmethods.rset(formatNumber(record.getWorkersPerDay()), 3)).append(" ");
          m_buffer.append(SDEFmethods.lset(record.getResponsibilityCode(), 4)).append(" ");
@@ -581,7 +584,7 @@ public final class SDEFWriter extends AbstractProjectWriter
    private OutputStreamWriter m_writer;
    private StringBuilder m_buffer;
    private Charset m_charset = StandardCharsets.US_ASCII;
-   private final DateTimeFormatter m_formatter = DateTimeFormatter.ofPattern("ddMMMyy");
-   private final DateTimeFormatter m_localDateFormatter = DateTimeFormatter.ofPattern("ddMMMyy");
+   private final DateTimeFormatter m_formatter = DateTimeFormatter.ofPattern("ddMMMyy", Locale.ENGLISH);
+   private final DateTimeFormatter m_localDateFormatter = DateTimeFormatter.ofPattern("ddMMMyy", Locale.ENGLISH);
    private static final int MAX_EXCEPTIONS_PER_RECORD = 15;
 }

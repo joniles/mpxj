@@ -34,8 +34,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +45,12 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import net.sf.mpxj.Availability;
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.ResultSetHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -69,7 +70,6 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
@@ -102,11 +102,6 @@ public final class MerlinReader extends AbstractProjectFileReader
          databaseFile = file;
       }
       return readFile(databaseFile);
-   }
-
-   @Override public List<ProjectFile> readAll(File file) throws MPXJException
-   {
-      return Collections.singletonList(read(file));
    }
 
    /**
@@ -312,6 +307,8 @@ public final class MerlinReader extends AbstractProjectFileReader
    private void processResources() throws SQLException
    {
       List<Row> rows = getRows("select * from zresource where zproject=? order by zorderinproject", m_projectID);
+      UnitOfMeasureContainer uom = m_project.getUnitsOfMeasure();
+
       for (Row row : rows)
       {
          Resource resource = m_project.addResource();
@@ -321,11 +318,11 @@ public final class MerlinReader extends AbstractProjectFileReader
          resource.setName(row.getString("ZTITLE_"));
          resource.setGUID(row.getUUID("ZUNIQUEID"));
          resource.setType(row.getResourceType("ZTYPE"));
-         resource.setMaterialLabel(row.getString("ZMATERIALUNIT"));
+         resource.setUnitOfMeasure(uom.getOrCreateByAbbreviation(row.getString("ZMATERIALUNIT")));
 
          if (resource.getType() == ResourceType.WORK)
          {
-            resource.setMaxUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("ZAVAILABLEUNITS_")) * 100.0));
+            resource.getAvailability().add(new Availability(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, Double.valueOf(NumberHelper.getDouble(row.getDouble("ZAVAILABLEUNITS_")) * 100.0)));
          }
 
          Integer calendarID = row.getInteger("ZRESOURCECALENDAR");
@@ -555,10 +552,12 @@ public final class MerlinReader extends AbstractProjectFileReader
       {
          Task nextTask = m_project.getTaskByUniqueID(row.getInteger("ZNEXTACTIVITY_"));
          Task prevTask = m_project.getTaskByUniqueID(row.getInteger("ZPREVIOUSACTIVITY_"));
-         Duration lag = row.getDuration("ZLAG_");
-         RelationType type = row.getRelationType("ZTYPE");
-         Relation relation = nextTask.addPredecessor(prevTask, type, lag);
-         relation.setUniqueID(row.getInteger("Z_PK"));
+         nextTask.addPredecessor(new Relation.Builder()
+            .targetTask(prevTask)
+            .type(row.getRelationType("ZTYPE"))
+            .lag(row.getDuration("ZLAG_"))
+            .uniqueID(row.getInteger("Z_PK"))
+         );
       }
    }
 

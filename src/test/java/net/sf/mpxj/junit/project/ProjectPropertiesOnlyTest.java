@@ -64,7 +64,7 @@ public class ProjectPropertiesOnlyTest
    {
       MPPReader reader = new MPPReader();
       ProjectFile project = reader.read(file);
-      assertTrue(!project.getTasks().isEmpty());
+      assertFalse(project.getTasks().isEmpty());
       assertEquals("Project User", project.getProjectProperties().getAuthor());
 
       reader.setReadPropertiesOnly(true);

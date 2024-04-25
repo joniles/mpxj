@@ -99,7 +99,6 @@ public final class GraphicalIndicatorReader
       }
 
       GraphicalIndicator indicator = m_container.getOrCreate(type).getGraphicalIndicator();
-      indicator.setFieldType(type);
       indicator.setProjectSummaryInheritsFromSummaryRows((flags & 0x08) != 0);
       indicator.setSummaryRowsInheritFromNonSummaryRows((flags & 0x04) != 0);
       indicator.setDisplayGraphicalIndicators((flags & 0x02) != 0);

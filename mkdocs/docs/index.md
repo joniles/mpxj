@@ -10,18 +10,24 @@ features and concepts from other applications.
 ## Sponsors
 Work to build and maintain MPXJ is kindly supported by my sponsors:
 
-
 <p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
-<a href="https://steelray.com/"><img width="40%" alt="Steelray Logo" src="images/steelray.png"/></a>
-<img width="4%"/>
-<a href="https://www.vosesoftware.com/"><img width="40%" alt="Vose Logo" src="images/vose.png"/></a>
+<a href="https://steelray.com/"><img width="30%" alt="Steelray Logo" src="images/steelray.png"/></a>
+<img width="5%"/>
+<a href="https://www.vosesoftware.com/"><img width="30%" alt="Vose Logo" src="images/vose.png"/></a>
+<img width="5%"/>
+<a href="https://buildots.com/"><img width="25%" alt="Buildots Logo" src="images/buildots.png"/></a>
 </p>
 <p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
-<a href="https://www.bryntum.com/"><img width="40%" alt="Bryntum Logo" src="images/bryntum.png"/></a>
-<img width="4%"/>
-<a href="https://www.turbo-chart.com/"><img width="20%" alt="Turbo Chart Logo" src="images/turbo-chart.png"/></a>
-<img width="4%"/>
-<a href="https://www.rationalplan.com/"><img width="20%" alt="RationalPlan Logo" src="images/rationalplan.png"/></a>
+<a href="https://www.bryntum.com/"><img width="30%" alt="Bryntum Logo" src="images/bryntum.png"/></a>
+<img width="10%"/>
+<a href="https://www.turbo-chart.com/"><img width="15%" alt="Turbo Chart Logo" src="images/turbo-chart.png"/></a>
+<img width="10%"/>
+<a href="https://www.rationalplan.com/"><img width="15%" alt="RationalPlan Logo" src="images/rationalplan.png"/></a>
+</p>
+<p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
+<a href="https://corasystems.com/"><img width="22%" alt="Cora Systems Logo" src="images/cora.png"/></a>
+<img width="10%"/>
+<a href="https://www.alicetechnologies.com/"><img width="22%" alt="ALICE Technologies Logo" src="images/alice.png"/></a>
 </p>
 
 Head over to my [sponsors page](https://github.com/sponsors/joniles)
@@ -29,12 +35,14 @@ if you'd like to see your name and logo here!
 
 
 ## File Formats
-MPXJ can read file formats including MPX, MPP, MSPDI, MPD, Planner, Primavera
-P6, Primavera P3, SureTrak, Asta Powerproject, Asta Easyplan, Phoenix,
-Fasttrack, GanttProject, TurboProject, ConceptDraw PROJECT, Synchro, Gantt
-Designer, SDEF, Sage 100 Contractor Schedule Grid and Project Commander.
+MPXJ can read file formats including MPX, MPP, MSPDI, MPD, Planner, Primavera P6
+PMXML and XER, Primavera P3, SureTrak, Asta Powerproject, Asta Easyplan,
+Phoenix, Fasttrack, GanttProject, TurboProject, ConceptDraw PROJECT, Synchro,
+Gantt Designer, SDEF, Sage 100 Contractor Schedule Grid, Project Commander and
+Deltek Open Plan BK3.
 
-MPXJ can also write schedule data as MPX, MSPDI, PMXML, Planner and SDEF files.
+MPXJ can also write schedule data as MPX, MSPDI, PMXML, XER, Planner and SDEF
+files.
 
 More details of the supported file formats can be found
 [here](supported-formats.md).
@@ -83,7 +91,7 @@ licences for the third party libraries used by MPXJ.
 This library includes functionality provided by:
 
 * [POI](http://poi.apache.org/)
-* [IKVM.NET](http://www.ikvm.net/)
+* [IKVM](https://ikvm.org/)
 * [RTF Parser Kit](https://github.com/joniles/rtfparserkit)
 * [SQLITE-JDBC](https://github.com/xerial/sqlite-jdbc)
 * [ZLIB/CONTRIB](https://github.com/madler/zlib)
@@ -92,4 +100,5 @@ This library includes functionality provided by:
 
 This library has been built with the assistance of:
 
-* [JProfiler](https://www.ej-technologies.com/products/jprofiler/overview.html) Java Profiler
+* [JProfiler](https://www.ej-technologies.com/products/jprofiler/overview.html)
+* [Araxis Merge](https://www.araxis.com/merge/)

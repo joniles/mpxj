@@ -188,3 +188,24 @@ activityFieldMap.put(TaskField.NUMBER2, "rsrc_id");
 //
 activityFieldMap.put(TaskField.TEXT10, "an_example_field");
 ```
+
+### Ignore Errors
+By default MPXJ will ignore errors when parsing attributes from a Primavera
+database. This behavior is controlled using the `setIgnoreErrors` method. The
+example below illustrates how we can force the `PrimaveraDatabaseReader` to
+report errors encountered when reading from a Primavera database:
+
+```java
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.mspdi.MSPDIReader;
+
+// ...
+
+PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+
+reader.setIgnoreErrors(false);
+```
+
+Note that if errors are ignored when reading from a Primavera database, the
+ignored errors are available by using the `ProjectFile.getIgnoredErrors()`
+method.

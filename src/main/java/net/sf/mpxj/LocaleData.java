@@ -1049,6 +1049,12 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.SUBPROJECT_GUID.getValue()] = "Subproject GUID";
       TASK_COLUMNS_ARRAY[TaskField.BAR_NAME.getValue()] = "Bar Name";
       TASK_COLUMNS_ARRAY[TaskField.EXPECTED_FINISH.getValue()] = "Expected Finish";
+      TASK_COLUMNS_ARRAY[TaskField.ACTUAL_WORK_LABOR.getValue()] = "Actual Work (Labor)";
+      TASK_COLUMNS_ARRAY[TaskField.ACTUAL_WORK_NONLABOR.getValue()] = "Actual Work (Nonlabor)";
+      TASK_COLUMNS_ARRAY[TaskField.PLANNED_WORK_LABOR.getValue()] = "Planned Work (Labor)";
+      TASK_COLUMNS_ARRAY[TaskField.PLANNED_WORK_NONLABOR.getValue()] = "Planned Work (Nonlabor)";
+      TASK_COLUMNS_ARRAY[TaskField.REMAINING_WORK_LABOR.getValue()] = "Remaining Work (Labor)";
+      TASK_COLUMNS_ARRAY[TaskField.REMAINING_WORK_NONLABOR.getValue()] = "Remaining Work (Nonlabor)";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";
@@ -1603,6 +1609,8 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.CALCULATE_COSTS_FROM_UNITS.getValue()] = "Calculate Costs From Units";
       RESOURCE_COLUMNS_ARRAY[ResourceField.SEQUENCE_NUMBER.getValue()] = "Sequence Number";
       RESOURCE_COLUMNS_ARRAY[ResourceField.LOCATION_UNIQUE_ID.getValue()] = "Location Unique ID";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.UNIT_OF_MEASURE_UNIQUE_ID.getValue()] = "Unit of Measure Unique ID";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.DEFAULT_UNITS.getValue()] = "Default Units";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.START.getValue()] = "Start";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_UNITS.getValue()] = "Assignment Units";
@@ -1735,6 +1743,10 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RATE_SOURCE.getValue()] = "Rate Source";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.CALCULATE_COSTS_FROM_UNITS.getValue()] = "Calculate Costs From Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.COST_ACCOUNT_UNIQUE_ID.getValue()] = "Cost Account ID";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_EARLY_START.getValue()] = "Remaining Early Start";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_EARLY_FINISH.getValue()] = "Remaining Early Finish";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_LATE_START.getValue()] = "Remaining Late Start";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_LATE_FINISH.getValue()] = "Remaining Late Finish";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK.getValue()] = "Hyperlink";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_ADDRESS.getValue()] = "Hyperlink Address";
@@ -2251,6 +2263,36 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.LOCATION_UNIQUE_ID.getValue()] = "Location Unique ID";
       PROJECT_COLUMNS_ARRAY[ProjectField.RESOURCE_POOL_FILE.getValue()] = "Resource Pool File";
       PROJECT_COLUMNS_ARRAY[ProjectField.TOTAL_SLACK_CALCULATION_TYPE.getValue()] = "Total Slack Calculation Type";
+      PROJECT_COLUMNS_ARRAY[ProjectField.RELATIONSHIP_LAG_CALENDAR.getValue()] = "Relationship Lag Calendar";
+      PROJECT_COLUMNS_ARRAY[ProjectField.WBS_CODE_SEPARATOR.getValue()] = "WBS Code Separator";
+      PROJECT_COLUMNS_ARRAY[ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS.getValue()] = "Consider Assignments In Other Projects";
+      PROJECT_COLUMNS_ARRAY[ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN.getValue()] = "Consider Assignments In Other Project With Priority Equal or Higher Than";
+      PROJECT_COLUMNS_ARRAY[ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES.getValue()] = "Preserve Scheduled Early and Late Dates";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LEVEL_ALL_RESOURCES.getValue()] = "Level All Resources";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT.getValue()] = "Level Resources Only Within Activity Total Float";
+      PROJECT_COLUMNS_ARRAY[ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING.getValue()] = "Preserve Minimum Float When Leveling";
+      PROJECT_COLUMNS_ARRAY[ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES.getValue()] = "Maximum Percentage to Overallocate Resources";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LEVELING_PRIORITIES.getValue()] = "Leveling Priorities";
+      PROJECT_COLUMNS_ARRAY[ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START.getValue()] = "Date Date and Planned Start Set To Project Forecast Start";
+      PROJECT_COLUMNS_ARRAY[ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS.getValue()] = "Ignore Relationships To And From Other Projects";
+      PROJECT_COLUMNS_ARRAY[ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL.getValue()] = "Make Open Ended Activities Critical";
+      PROJECT_COLUMNS_ARRAY[ProjectField.USE_EXPECTED_FINISH_DATES.getValue()] = "Use Expected Finish Dates";
+      PROJECT_COLUMNS_ARRAY[ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START.getValue()] = "Compute Start to Start Lag From Early Start";
+      PROJECT_COLUMNS_ARRAY[ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT.getValue()] = "Calculate Float on Finish Date of Each Project";
+      PROJECT_COLUMNS_ARRAY[ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS.getValue()] = "Calculate Multiple Float Paths";
+      PROJECT_COLUMNS_ARRAY[ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT.getValue()] = "Calculate Multiple Paths Using Total Float";
+      PROJECT_COLUMNS_ARRAY[ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY_UNIQUE_ID.getValue()] = "Calculate Multiple Float Paths Ending With Activity Unique ID";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE.getValue()] = "Limit Number of Float Paths to Calculate";
+      PROJECT_COLUMNS_ARRAY[ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE.getValue()] = "Number of Float Paths to Calculate";
+      PROJECT_COLUMNS_ARRAY[ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES.getValue()] = "When Scheduling Progressed Activities Use";
+      PROJECT_COLUMNS_ARRAY[ProjectField.BASELINE_TYPE_NAME.getValue()] = "Baseline Type Name";
+      PROJECT_COLUMNS_ARRAY[ProjectField.BASELINE_TYPE_UNIQUE_ID.getValue()] = "Baseline Type Name";
+      PROJECT_COLUMNS_ARRAY[ProjectField.LAST_BASELINE_UPDATE_DATE.getValue()] = "Last Baseline Update Date";
+      PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_ID_PREFIX.getValue()] = "Activity ID Prefix";
+      PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_ID_SUFFIX.getValue()] = "Activity ID Suffix";
+      PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_ID_INCREMENT.getValue()] = "Activity ID Increment";
+      PROJECT_COLUMNS_ARRAY[ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY.getValue()] = "Activity ID Increment Based On Selected Activity";
+      PROJECT_COLUMNS_ARRAY[ProjectField.BASELINE_CALENDAR_NAME.getValue()] = "Baseline Calendar Name";
    }
 
    private static final Object[][] RESOURCES =

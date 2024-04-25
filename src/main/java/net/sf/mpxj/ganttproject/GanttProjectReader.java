@@ -30,7 +30,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -52,6 +51,9 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldType;
@@ -155,11 +157,6 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * This method extracts project properties from a GanttProject file.
     *
@@ -184,13 +181,10 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
 
       // Handle the variability we see in date value formats
       String shortPattern = DateTimeFormatterBuilder.getLocalizedDateTimePattern(FormatStyle.SHORT, null, IsoChronology.INSTANCE, Locale.forLanguageTag(locale));
-      if (shortPattern.contains("yyyy"))
+      Matcher matcher = YEAR_PATTERN.matcher(shortPattern);
+      if (matcher.matches())
       {
-         shortPattern = shortPattern.replace("yyyy", "[yyyy][yy]");
-      }
-      else
-      {
-         shortPattern = shortPattern.replace("yy", "[yyyy][yy]");
+         shortPattern = shortPattern.replace(matcher.group(1), "[yyyy][yy]");
       }
       m_localeDateFormat = DateTimeFormatter.ofPattern(shortPattern);
    }
@@ -652,7 +646,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       else
       {
          mpxjTask.setStart(gpTask.getStart());
-         mpxjTask.setFinish(m_mpxjCalendar.getDate(gpTask.getStart(), mpxjTask.getDuration(), false));
+         mpxjTask.setFinish(m_mpxjCalendar.getDate(gpTask.getStart(), mpxjTask.getDuration()));
       }
 
       mpxjTask.setConstraintDate(gpTask.getThirdDate());
@@ -732,8 +726,11 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          Task task2 = m_projectFile.getTaskByUniqueID(Integer.valueOf(NumberHelper.getInt(depend.getId()) + 1));
          if (task1 != null && task2 != null)
          {
-            Duration lag = Duration.getInstance(NumberHelper.getInt(depend.getDifference()), TimeUnit.DAYS);
-            Relation relation = task2.addPredecessor(task1, getRelationType(depend.getType()), lag);
+            Relation relation = task2.addPredecessor(new Relation.Builder()
+               .targetTask(task1)
+               .type(getRelationType(depend.getType()))
+               .lag(Duration.getInstance(NumberHelper.getInt(depend.getDifference()), TimeUnit.DAYS))
+            );
             m_eventManager.fireRelationReadEvent(relation);
          }
       }
@@ -838,6 +835,8 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
       DATA_TYPE_MAP.put("date", DataType.DATE);
       DATA_TYPE_MAP.put("boolean", DataType.BOOLEAN);
    }
+
+   private static final Pattern YEAR_PATTERN = Pattern.compile("[^y]*(y+)[^y]*");
 
    /**
     * Cached context to minimise construction cost.

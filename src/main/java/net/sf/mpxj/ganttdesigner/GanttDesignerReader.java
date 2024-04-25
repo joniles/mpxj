@@ -24,9 +24,7 @@
 package net.sf.mpxj.ganttdesigner;
 
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import jakarta.xml.bind.JAXBContext;
@@ -103,11 +101,6 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          m_eventManager = null;
          m_taskMap = null;
       }
-   }
-
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -208,7 +201,7 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
          //ganttTask.getU(); // Unknown
          //ganttTask.getVA(); // Valign
 
-         task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
+         task.setFinish(calendar.getDate(task.getStart(), task.getDuration()));
          m_taskMap.put(wbs, task);
 
          m_eventManager.fireTaskReadEvent(task);
@@ -232,7 +225,11 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
             for (String predecessor : predecessors.split(";"))
             {
                Task predecessorTask = m_projectFile.getTaskByID(Integer.valueOf(predecessor));
-               Relation relation = task.addPredecessor(predecessorTask, RelationType.FINISH_START, ganttTask.getL());
+               Relation relation = task.addPredecessor(new Relation.Builder()
+                  .targetTask(predecessorTask)
+                  .type(RelationType.FINISH_START)
+                  .lag(ganttTask.getL())
+               );
                m_eventManager.fireRelationReadEvent(relation);
             }
          }

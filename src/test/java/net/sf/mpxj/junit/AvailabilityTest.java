@@ -119,7 +119,7 @@ public class AvailabilityTest
       Resource resource = file.getResourceByID(Integer.valueOf(1));
       assertEquals("Resource One", resource.getName());
       AvailabilityTable table = resource.getAvailability();
-      assertEquals(0, table.size());
+      assertTrue(table.hasDefaultDateRange());
 
       //
       // Resource with populated availability table

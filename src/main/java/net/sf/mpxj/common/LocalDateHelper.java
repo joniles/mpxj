@@ -32,7 +32,7 @@ import java.time.LocalTime;
 public final class LocalDateHelper
 {
    /**
-    * Convert a LocalDate instance to a LOcalDateTime instance,
+    * Convert a LocalDate instance to a LocalDateTime instance,
     * handling null values.
     *
     * @param date LocalDate instance
@@ -49,7 +49,7 @@ public final class LocalDateHelper
    }
 
    /**
-    * Convert a LocaldateTime instance to a Localdate instance, handling null values.
+    * Convert a LocalDateTime instance to a Localdate instance, handling null values.
     *
     * @param date LocalDateTimeInstance
     * @return LocalDate instance or null

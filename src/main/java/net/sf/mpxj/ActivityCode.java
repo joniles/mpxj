@@ -45,8 +45,9 @@ public class ActivityCode
     * @param name activity code name
     * @param secure secure flag
     * @param maxLength max length
+    * @deprecated use builder
     */
-   public ActivityCode(Integer uniqueID, ActivityCodeScope scope, Integer scopeEpsUniqueID, Integer scopeProjectUniqueID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
+   @Deprecated public ActivityCode(Integer uniqueID, ActivityCodeScope scope, Integer scopeEpsUniqueID, Integer scopeProjectUniqueID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
    {
       m_uniqueID = uniqueID;
       m_scope = scope;
@@ -56,6 +57,23 @@ public class ActivityCode
       m_name = name;
       m_secure = secure;
       m_maxLength = maxLength;
+   }
+
+   /**
+    * Constructor.
+    *
+    * @param builder builder
+    */
+   private ActivityCode(Builder builder)
+   {
+      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(ActivityCode.class).syncOrGetNext(builder.m_uniqueID);
+      m_scope = builder.m_scope;
+      m_scopeEpsUniqueID = builder.m_scopeEpsUniqueID;
+      m_scopeProjectUniqueID = builder.m_scopeProjectUniqueID;
+      m_sequenceNumber = builder.m_sequenceNumber;
+      m_name = builder.m_name;
+      m_secure = builder.m_secure;
+      m_maxLength = builder.m_maxLength;
    }
 
    /**
@@ -147,8 +165,9 @@ public class ActivityCode
     * @param description value description
     * @param color value color
     * @return ActivityCodeValue instance
+    * @deprecated use ActivityCodeValue.Builder and pass result to addValue(ActivityCodeValue) method
     */
-   public ActivityCodeValue addValue(Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
+   @Deprecated public ActivityCodeValue addValue(Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
    {
       ActivityCodeValue value = new ActivityCodeValue(this, uniqueID, sequenceNumber, name, description, color);
       m_values.add(value);
@@ -187,4 +206,155 @@ public class ActivityCode
    private final boolean m_secure;
    private final Integer m_maxLength;
    private final List<ActivityCodeValue> m_values = new ArrayList<>();
+
+   /**
+    * ActivityCode builder.
+    */
+   public static class Builder
+   {
+      /**
+       * Constructor.
+       *
+       * @param file parent file
+       */
+      public Builder(ProjectFile file)
+      {
+         m_file = file;
+      }
+
+      /**
+       * Initialise the builder from an existing ActivityCode instance.
+       *
+       * @param value ActivityCode instance
+       * @return builder
+       */
+      public Builder from(ActivityCode value)
+      {
+         m_uniqueID = value.m_uniqueID;
+         m_scope = value.m_scope;
+         m_scopeEpsUniqueID = value.m_scopeEpsUniqueID;
+         m_scopeProjectUniqueID = value.m_scopeProjectUniqueID;
+         m_sequenceNumber = value.m_sequenceNumber;
+         m_name = value.m_name;
+         m_secure = value.m_secure;
+         m_maxLength = value.m_maxLength;
+         return this;
+      }
+
+      /**
+       * Add unique ID.
+       *
+       * @param value unique ID
+       * @return builder
+       */
+      public Builder uniqueID(Integer value)
+      {
+         m_uniqueID = value;
+         return this;
+      }
+
+      /**
+       * Add scope.
+       *
+       * @param value scope
+       * @return builder
+       */
+      public Builder scope(ActivityCodeScope value)
+      {
+         m_scope = value;
+         return this;
+      }
+
+      /**
+       * Add scope EPS ID.
+       *
+       * @param value scope EPS ID
+       * @return builder
+       */
+      public Builder scopeEpsUniqueID(Integer value)
+      {
+         m_scopeEpsUniqueID = value;
+         return this;
+      }
+
+      /**
+       * Add scope project ID.
+       *
+       * @param value scope project ID
+       * @return builder
+       */
+      public Builder scopeProjectUniqueID(Integer value)
+      {
+         m_scopeProjectUniqueID = value;
+         return this;
+      }
+
+      /**
+       * Add sequence number.
+       *
+       * @param value sequence number
+       * @return builder
+       */
+      public Builder sequenceNumber(Integer value)
+      {
+         m_sequenceNumber = value;
+         return this;
+      }
+
+      /**
+       * Add name.
+       *
+       * @param value name
+       * @return builder
+       */
+      public Builder name(String value)
+      {
+         m_name = value;
+         return this;
+      }
+
+      /**
+       * Add secure flag.
+       *
+       * @param value secure flag
+       * @return builder
+       */
+      public Builder secure(boolean value)
+      {
+         m_secure = value;
+         return this;
+      }
+
+      /**
+       * Add max length.
+       *
+       * @param value max length
+       * @return builder
+       */
+      public Builder maxLength(Integer value)
+      {
+         m_maxLength = value;
+         return this;
+      }
+
+      /**
+       * Build an ActivityCode instance.
+       *
+       * @return ActivityCode instance
+       */
+      public ActivityCode build()
+      {
+         return new ActivityCode(this);
+      }
+
+      private final ProjectFile m_file;
+      private Integer m_uniqueID;
+      private ActivityCodeScope m_scope = ActivityCodeScope.GLOBAL;
+      private Integer m_scopeEpsUniqueID;
+      private Integer m_scopeProjectUniqueID;
+      private Integer m_sequenceNumber;
+      private String m_name;
+      private boolean m_secure;
+      private Integer m_maxLength;
+   }
 }

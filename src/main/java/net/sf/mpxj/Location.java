@@ -35,6 +35,7 @@ public final class Location implements ProjectEntityWithUniqueID
     */
    private Location(Builder builder)
    {
+      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(Location.class).syncOrGetNext(builder.m_uniqueID);
       m_addressLine1 = builder.m_addressLine1;
       m_addressLine2 = builder.m_addressLine2;
       m_addressLine3 = builder.m_addressLine3;
@@ -45,7 +46,6 @@ public final class Location implements ProjectEntityWithUniqueID
       m_longitude = builder.m_longitude;
       m_municipality = builder.m_municipality;
       m_name = builder.m_name;
-      m_uniqueID = builder.m_uniqueID;
       m_postalCode = builder.m_postalCode;
       m_state = builder.m_state;
       m_stateCode = builder.m_stateCode;
@@ -221,6 +221,51 @@ public final class Location implements ProjectEntityWithUniqueID
     */
    public static class Builder
    {
+      /**
+       * Constructor.
+       *
+       * @deprecated use Builder(ProjectFile file)
+       */
+      @Deprecated public Builder()
+      {
+
+      }
+
+      /**
+       * Constructor.
+       *
+       * @param file parent project file.
+       */
+      public Builder(ProjectFile file)
+      {
+         m_file = file;
+      }
+
+      /**
+       * Initialise the builder from an existing Location instance.
+       *
+       * @param value Location instance
+       * @return builder
+       */
+      Builder from(Location value)
+      {
+         m_addressLine1 = value.m_addressLine1;
+         m_addressLine2 = value.m_addressLine2;
+         m_addressLine3 = value.m_addressLine3;
+         m_city = value.m_city;
+         m_country = value.m_country;
+         m_countryCode = value.m_countryCode;
+         m_latitude = value.m_latitude;
+         m_longitude = value.m_longitude;
+         m_municipality = value.m_municipality;
+         m_name = value.m_name;
+         m_uniqueID = value.m_uniqueID;
+         m_postalCode = value.m_postalCode;
+         m_state = value.m_state;
+         m_stateCode = value.m_stateCode;
+         return this;
+      }
+
       /**
        * Add an address line.
        *
@@ -399,6 +444,7 @@ public final class Location implements ProjectEntityWithUniqueID
          return new Location(this);
       }
 
+      private ProjectFile m_file;
       private String m_addressLine1;
       private String m_addressLine2;
       private String m_addressLine3;

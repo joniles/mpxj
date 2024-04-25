@@ -2,6 +2,9 @@
   <configuration default="false" name="MppExplorer" type="Application" factoryName="Application">
     <option name="ALTERNATIVE_JRE_PATH" value="BUNDLED" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <envs>
+      <env name="JAVA_TOOL_OPTIONS" value="" />
+    </envs>
     <option name="MAIN_CLASS_NAME" value="net.sf.mpxj.explorer.MppExplorer" />
     <module name="mpxj" />
     <extension name="coverage">

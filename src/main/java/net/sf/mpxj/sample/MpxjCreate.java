@@ -26,18 +26,21 @@ package net.sf.mpxj.sample;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.ProjectWriterUtility;
@@ -148,7 +151,7 @@ public class MpxjCreate
       // output file format when alternative separators and delimiters
       // are used.
       //
-      resource2.setMaxUnits(Double.valueOf(50.0));
+      resource2.getAvailability().add(new Availability(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, Double.valueOf(50.0)));
 
       //
       // Create a summary task
@@ -188,7 +191,7 @@ public class MpxjCreate
       //
       // Link these two tasks
       //
-      task3.addPredecessor(task2, RelationType.FINISH_START, null);
+      task3.addPredecessor(new Relation.Builder().targetTask(task2).type(RelationType.FINISH_START));
 
       //
       // Add a milestone
@@ -197,7 +200,7 @@ public class MpxjCreate
       milestone1.setName("Milestone");
       milestone1.setStart(LocalDateTime.of(2003, 1, 21, 0, 0));
       milestone1.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
-      milestone1.addPredecessor(task3, RelationType.FINISH_START, null);
+      milestone1.addPredecessor(new Relation.Builder().targetTask(task3).type(RelationType.FINISH_START));
 
       //
       // This final task has a percent complete value, but no

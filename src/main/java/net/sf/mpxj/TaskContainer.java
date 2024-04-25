@@ -149,6 +149,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
     */
    public void updateStructure()
    {
+      // TODO: deprecate - change method visibility
       if (size() > 1)
       {
          Collections.sort(this);

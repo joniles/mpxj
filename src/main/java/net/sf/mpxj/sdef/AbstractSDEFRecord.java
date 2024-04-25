@@ -27,6 +27,7 @@ import java.time.LocalDateTime;
 
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RelationType;
 
 /**
@@ -34,13 +35,31 @@ import net.sf.mpxj.RelationType;
  */
 abstract class AbstractSDEFRecord implements SDEFRecord
 {
-   @Override public void read(String line)
+   @Override public void read(ProjectFile file, String line, boolean ignoreErrors)
    {
       int index = 0;
       int offset = 5;
       for (SDEFField field : getFieldDefinitions())
       {
-         m_fields[index++] = field.read(line, offset);
+         Object value;
+         try
+         {
+            value = field.read(line, offset);
+         }
+
+         catch (Exception ex)
+         {
+            if (ignoreErrors)
+            {
+               file.addIgnoredError(ex);
+               value = null;
+            }
+            else
+            {
+               throw ex;
+            }
+         }
+         m_fields[index++] = value;
          offset += (field.getLength() + 1);
       }
    }

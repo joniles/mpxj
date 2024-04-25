@@ -2825,6 +2825,34 @@ module MPXJ
       get_float_value(attribute_values['remaining_cost'])
     end
 
+    # Retrieve the Remaining Early Finish value
+    #
+    # @return Remaining Early Finish value
+    def remaining_early_finish
+      get_date_value(attribute_values['remaining_early_finish'])
+    end
+
+    # Retrieve the Remaining Early Start value
+    #
+    # @return Remaining Early Start value
+    def remaining_early_start
+      get_date_value(attribute_values['remaining_early_start'])
+    end
+
+    # Retrieve the Remaining Late Finish value
+    #
+    # @return Remaining Late Finish value
+    def remaining_late_finish
+      get_date_value(attribute_values['remaining_late_finish'])
+    end
+
+    # Retrieve the Remaining Late Start value
+    #
+    # @return Remaining Late Start value
+    def remaining_late_start
+      get_date_value(attribute_values['remaining_late_start'])
+    end
+
     # Retrieve the Remaining Overtime Cost value
     #
     # @return Remaining Overtime Cost value
@@ -3901,6 +3929,10 @@ module MPXJ
       'rate_source' => :rate_source,
       'regular_work' => :work,
       'remaining_cost' => :currency,
+      'remaining_early_finish' => :date,
+      'remaining_early_start' => :date,
+      'remaining_late_finish' => :date,
+      'remaining_late_start' => :date,
       'remaining_overtime_cost' => :currency,
       'remaining_overtime_work' => :work,
       'remaining_work' => :work,

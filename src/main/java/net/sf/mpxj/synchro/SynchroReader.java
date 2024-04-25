@@ -28,8 +28,6 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -89,11 +87,6 @@ public final class SynchroReader extends AbstractProjectStreamReader
          m_predecessorMap = null;
          m_resourceMap = null;
       }
-   }
-
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -330,7 +323,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
             task.setStart(row.getDate("PLANNED_START"));
             if (task.getStart() != null && task.getDuration() != null)
             {
-               task.setFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getDuration(), false));
+               task.setFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getDuration()));
             }
             break;
          }
@@ -423,7 +416,11 @@ public final class SynchroReader extends AbstractProjectStreamReader
       Task predecessor = m_taskMap.get(row.getUUID("PREDECESSOR_UUID"));
       if (predecessor != null)
       {
-         Relation relation = task.addPredecessor(predecessor, row.getRelationType("RELATION_TYPE"), row.getDuration("LAG"));
+         Relation relation = task.addPredecessor(new Relation.Builder()
+            .targetTask(predecessor)
+            .type(row.getRelationType("RELATION_TYPE"))
+            .lag(row.getDuration("LAG"))
+         );
          m_eventManager.fireRelationReadEvent(relation);
       }
    }

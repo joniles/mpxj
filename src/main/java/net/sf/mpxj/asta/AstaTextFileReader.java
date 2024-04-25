@@ -37,6 +37,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.HierarchyHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
@@ -75,11 +76,6 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       {
          m_reader = null;
       }
-   }
-
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -197,12 +193,12 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
     */
    private void processFileType(String token) throws MPXJException
    {
-      String version = token.substring(2).split(" ")[0];
+      m_fileVersion = Integer.valueOf(token.substring(2).split(" ")[0]);
       //System.out.println(version);
-      Class<? extends AbstractFileFormat> fileFormatClass = FILE_VERSION_MAP.get(Integer.valueOf(version));
+      Class<? extends AbstractFileFormat> fileFormatClass = FILE_VERSION_MAP.get(m_fileVersion);
       if (fileFormatClass == null)
       {
-         throw new MPXJException("Unsupported PP file format version " + version);
+         throw new MPXJException("Unsupported PP file format version " + m_fileVersion);
       }
 
       try
@@ -225,7 +221,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       List<Row> rows = getTable("PROJECT_SUMMARY");
       if (!rows.isEmpty())
       {
-         m_reader.processProjectProperties(rows.get(0), null, null);
+         m_reader.processProjectProperties(m_fileVersion, rows.get(0), null, null);
       }
    }
 
@@ -250,17 +246,11 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
 
       rows = getTable("CALENDAR");
-      rows.sort(CALENDAR_COMPARATOR);
+      rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("CALENDARID"), r -> r.getInteger("CALENDAR"));
       for (Row row : rows)
       {
          m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionMap);
       }
-
-      //
-      // Update unique counters at this point as we will be generating
-      // resource calendars, and will need to auto generate IDs
-      //
-      m_reader.getProject().updateUniqueIdCounters();
    }
 
    /**
@@ -395,6 +385,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       return m_tables.getOrDefault(name, Collections.emptyList());
    }
 
+   private Integer m_fileVersion;
    private AstaReader m_reader;
    private Map<String, List<Row>> m_tables;
    private Map<Integer, TableDefinition> m_tableDefinitions;

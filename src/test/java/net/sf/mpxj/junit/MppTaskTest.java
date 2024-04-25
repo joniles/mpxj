@@ -750,8 +750,8 @@ public class MppTaskTest
       List<Resource> listAllResources = mpp.getResources();
       assertNotNull(listAllTasks);
       assertNotNull(listAllResources);
-      assertTrue(!listAllTasks.isEmpty());
-      assertTrue(!listAllResources.isEmpty());
+      assertFalse(listAllTasks.isEmpty());
+      assertFalse(listAllResources.isEmpty());
 
       Task baseTask, subtask1, subtask2, subtask3, subtask4, subtask5, completeTask, complexOutlineNumberTask, subtaskA, subtaskA1, subtaskA2, subtaskB, subtaskB1, subtaskB1a;
 
@@ -940,14 +940,14 @@ public class MppTaskTest
       listPreds = task4.getPredecessors();
       assertTrue(listPreds.isEmpty());
 
-      task4.addPredecessor(relation.getTargetTask(), relation.getType(), relation.getLag());
-      task4.addPredecessor(task2, RelationType.FINISH_START, Duration.getInstance(0, TimeUnit.DAYS));
+      task4.addPredecessor(new Relation.Builder().from(relation));
+      task4.addPredecessor(new Relation.Builder().targetTask(task2));
       assertEquals(2, task4.getPredecessors().size());
 
       removed = task4.removePredecessor(task2, RelationType.FINISH_FINISH, Duration.getInstance(0, TimeUnit.DAYS));
       assertFalse(removed);
 
-      task4.addPredecessor(task2, RelationType.FINISH_START, Duration.getInstance(0, TimeUnit.DAYS));
+      task4.addPredecessor(new Relation.Builder().targetTask(task2));
       assertEquals(2, task4.getPredecessors().size());
       removed = task4.removePredecessor(task2, RelationType.FINISH_START, Duration.getInstance(0, TimeUnit.DAYS));
       assertTrue(removed);

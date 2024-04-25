@@ -30,64 +30,68 @@ import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
- * Normalise timephased resource assignment data from an MPP file.
+ * Normalise timephased data from an MPP file.
  */
-public class MPPTimephasedBaselineWorkNormaliser extends MPPAbstractTimephasedWorkNormaliser
+public final class MPPTimephasedBaselineWorkNormaliser extends MPPAbstractTimephasedWorkNormaliser
 {
-   @Override protected ProjectCalendar getCalendar(ResourceAssignment assignment)
+   /**
+    * Private constructor to prevent instantiation.
+    */
+   private MPPTimephasedBaselineWorkNormaliser()
    {
-      return assignment.getParentFile().getBaselineCalendar();
+
    }
 
    /**
-    * This method merges together assignment data for the same day.
+    * This method merges together timephased data for the same day.
     *
     * @param calendar current calendar
-    * @param list assignment data
+    * @param list timephased data
     */
    @Override protected void mergeSameDay(ProjectCalendar calendar, List<TimephasedWork> list)
    {
       List<TimephasedWork> result = new ArrayList<>();
 
-      TimephasedWork previousAssignment = null;
-      for (TimephasedWork assignment : list)
+      TimephasedWork previousItem = null;
+      for (TimephasedWork item : list)
       {
-         if (previousAssignment != null)
+         if (previousItem != null)
          {
-            LocalDateTime previousAssignmentStart = previousAssignment.getStart();
-            LocalDateTime previousAssignmentStartDay = LocalDateTimeHelper.getDayStartDate(previousAssignmentStart);
-            LocalDateTime assignmentStart = assignment.getStart();
-            LocalDateTime assignmentStartDay = LocalDateTimeHelper.getDayStartDate(assignmentStart);
+            LocalDateTime previousItemStart = previousItem.getStart();
+            LocalDateTime previousItemStartDay = LocalDateTimeHelper.getDayStartDate(previousItemStart);
+            LocalDateTime itemStart = item.getStart();
+            LocalDateTime itemStartDay = LocalDateTimeHelper.getDayStartDate(itemStart);
 
-            if (previousAssignmentStartDay.equals(assignmentStartDay))
+            if (previousItemStartDay.equals(itemStartDay))
             {
                result.remove(result.size() - 1);
 
-               double work = previousAssignment.getTotalAmount().getDuration();
-               work += assignment.getTotalAmount().getDuration();
+               double work = previousItem.getTotalAmount().getDuration();
+               work += item.getTotalAmount().getDuration();
                Duration totalWork = Duration.getInstance(work, TimeUnit.MINUTES);
 
                TimephasedWork merged = new TimephasedWork();
-               merged.setStart(previousAssignment.getStart());
-               merged.setFinish(assignment.getFinish());
+               merged.setStart(previousItem.getStart());
+               merged.setFinish(item.getFinish());
                merged.setTotalAmount(totalWork);
-               assignment = merged;
+               item = merged;
             }
 
          }
-         assignment.setAmountPerDay(assignment.getTotalAmount());
-         result.add(assignment);
+         item.setAmountPerDay(item.getTotalAmount());
+         result.add(item);
 
-         previousAssignment = assignment;
+         previousItem = item;
       }
 
       list.clear();
       list.addAll(result);
    }
+
+   public static final MPPTimephasedBaselineWorkNormaliser INSTANCE = new MPPTimephasedBaselineWorkNormaliser();
 }

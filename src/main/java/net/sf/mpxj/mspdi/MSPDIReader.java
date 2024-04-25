@@ -104,7 +104,6 @@ import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.SplitTaskFactory;
-import net.sf.mpxj.common.TimephasedNormaliser;
 import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mspdi.schema.Project;
@@ -169,7 +168,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          }
 
          ProjectFile projectFile = new ProjectFile();
-         DatatypeConverter.setParentFile(projectFile);
+         DatatypeConverter.setContext(projectFile, m_ignoreErrors);
          @SuppressWarnings("unchecked")
          Project project = ((JAXBElement<Project>) UnmarshalHelper.unmarshal(CONTEXT, new InputSource(new InputStreamReader(stream, getCharset())), new NamespaceFilter(), !m_compatibleInput)).getValue();
 
@@ -284,11 +283,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * This method extracts project properties from an MSPDI file.
     *
@@ -304,6 +298,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       properties.setAuthor(project.getAuthor());
       properties.setAutoAddNewResourcesAndTasks(BooleanHelper.getBoolean(project.isAutoAddNewResourcesAndTasks()));
       properties.setAutolink(BooleanHelper.getBoolean(project.isAutolink()));
+      properties.setBaselineCalendarName(project.getBaselineCalendar());
       properties.setBaselineForEarnedValue(NumberHelper.getInteger(project.getBaselineForEarnedValue()));
       properties.setCategory(project.getCategory());
       properties.setCompany(project.getCompany());
@@ -458,6 +453,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    {
       ProjectCalendar bc = m_projectFile.addCalendar();
       bc.setUniqueID(NumberHelper.getInteger(calendar.getUID()));
+      bc.setGUID(calendar.getGUID());
       bc.setName(calendar.getName());
       BigInteger baseCalendarID = calendar.getBaseCalendarUID();
       if (baseCalendarID != null)
@@ -925,8 +921,6 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setActualOvertimeWorkProtected(DatatypeConverter.parseDuration(m_projectFile, null, xml.getActualOvertimeWorkProtected()));
       mpx.setActualWorkProtected(DatatypeConverter.parseDuration(m_projectFile, null, xml.getActualWorkProtected()));
       mpx.setACWP(DatatypeConverter.parseCurrency(xml.getACWP()));
-      mpx.setAvailableFrom(xml.getAvailableFrom());
-      mpx.setAvailableTo(xml.getAvailableTo());
       mpx.setBCWS(DatatypeConverter.parseCurrency(xml.getBCWS()));
       mpx.setBCWP(DatatypeConverter.parseCurrency(xml.getBCWP()));
       mpx.setBookingType(xml.getBookingType());
@@ -954,8 +948,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       mpx.setActive(!BooleanHelper.getBoolean(xml.isIsInactive()));
       mpx.setIsNull(BooleanHelper.getBoolean(xml.isIsNull()));
       //mpx.setLinkedFields();
-      mpx.setMaterialLabel(xml.getMaterialLabel());
-      mpx.setMaxUnits(DatatypeConverter.parseUnits(xml.getMaxUnits()));
+      mpx.setUnitOfMeasure(m_projectFile.getUnitsOfMeasure().getOrCreateByAbbreviation(xml.getMaterialLabel()));
       mpx.setName(xml.getName());
       if (xml.getNotes() != null && !xml.getNotes().isEmpty())
       {
@@ -994,15 +987,15 @@ public final class MSPDIReader extends AbstractProjectStreamReader
 
       mpx.setCalendar(calendarMap.get(xml.getCalendarUID()));
 
-      // ensure that we cache this value
-      mpx.setOverAllocated(BooleanHelper.getBoolean(xml.isOverAllocated()));
-
       Rate standardRate = DatatypeConverter.parseRate(xml.getStandardRate(), DatatypeConverter.parseTimeUnit(xml.getStandardRateFormat()));
       Rate overtimeRate = DatatypeConverter.parseRate(xml.getOvertimeRate(), DatatypeConverter.parseTimeUnit(xml.getOvertimeRateFormat()));
       Number costPerUse = DatatypeConverter.parseCurrency(xml.getCostPerUse());
       readCostRateTables(mpx, standardRate, overtimeRate, costPerUse, xml.getRates());
 
-      readAvailabilityTable(mpx, xml.getAvailabilityPeriods());
+      readAvailabilityTable(mpx, xml);
+
+      // ensure that we cache this value
+      mpx.setOverAllocated(BooleanHelper.getBoolean(xml.isOverAllocated()));
 
       m_eventManager.fireResourceReadEvent(mpx);
    }
@@ -1173,11 +1166,20 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * Reads the availability table from the file.
     *
     * @param resource MPXJ resource instance
-    * @param periods MSPDI availability periods
+    * @param xml MSPDI resource
     */
-   private void readAvailabilityTable(Resource resource, AvailabilityPeriods periods)
+   private void readAvailabilityTable(Resource resource, Project.Resources.Resource xml)
    {
-      if (periods != null)
+      AvailabilityPeriods periods = xml.getAvailabilityPeriods();
+      if (periods == null || periods.getAvailabilityPeriod().isEmpty())
+      {
+         LocalDateTime availableFrom = xml.getAvailableFrom();
+         LocalDateTime availableTo = xml.getAvailableTo();
+         availableFrom = availableFrom == null ? LocalDateTimeHelper.START_DATE_NA : availableFrom;
+         availableTo = availableTo == null ? LocalDateTimeHelper.END_DATE_NA : availableTo;
+         resource.getAvailability().add(new Availability(availableFrom, availableTo, DatatypeConverter.parseUnits(xml.getMaxUnits())));
+      }
+      else
       {
          AvailabilityTable table = resource.getAvailability();
          List<AvailabilityPeriod> list = periods.getAvailabilityPeriod();
@@ -1322,7 +1324,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //mpx.setFinish3();
          //mpx.setFinish4();
          //mpx.setFinish5();
-         mpx.setFinishVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getFinishVariance()));
+         mpx.setFinishVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(xml.getFinishVariance()));
          //mpx.setFixed();
          mpx.setFixedCost(DatatypeConverter.parseCurrency(xml.getFixedCost()));
          mpx.setFixedCostAccrual(xml.getFixedCostAccrual());
@@ -1405,7 +1407,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //mpx.setStart3();
          //mpx.setStart4();
          //mpx.setStart5();
-         mpx.setStartVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getStartVariance()));
+         mpx.setStartVariance(DatatypeConverter.parseDurationInTenthsOfMinutes(xml.getStartVariance()));
          mpx.setStop(xml.getStop());
          //mpx.setSuccessors();
          // Rely on the presence of child tasks to determine if this is a summary task rather than using this attribute
@@ -1426,7 +1428,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          //mpx.setUpdateNeeded();
          mpx.setWBS(xml.getWBS());
          mpx.setWork(DatatypeConverter.parseDuration(m_projectFile, durationFormat, xml.getWork()));
-         mpx.setWorkVariance(Duration.getInstance(NumberHelper.getDouble(xml.getWorkVariance()) / 1000, TimeUnit.MINUTES));
+         mpx.setWorkVariance(DatatypeConverter.parseDurationInThousanthsOfMinutes(xml.getWorkVariance()));
 
          validateFinishDate(mpx);
 
@@ -1515,7 +1517,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
                if (duration != null)
                {
                   ProjectCalendar calendar = task.getEffectiveCalendar();
-                  task.setFinish(calendar.getDate(startDate, duration, false));
+                  task.setFinish(calendar.getDate(startDate, duration));
                }
             }
          }
@@ -1608,7 +1610,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       {
          result = item.getValue().toString();
 
-         Integer parentID = item.getParent();
+         Integer parentID = item.getParentUniqueID();
          if (parentID != null)
          {
             String parentResult = getOutlineCodeValue(mpxFieldID, BigInteger.valueOf(parentID.longValue()));
@@ -1752,7 +1754,12 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          }
       }
 
-      Relation relation = currTask.addPredecessor(prevTask, type, lagDuration);
+      Relation relation = currTask.addPredecessor(new Relation.Builder()
+         .targetTask(prevTask)
+         .type(type)
+         .lag(lagDuration)
+      );
+
       m_eventManager.fireRelationReadEvent(relation);
    }
 
@@ -1808,12 +1815,9 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       Project.Assignments assignments = project.getAssignments();
       if (assignments != null)
       {
-         SplitTaskFactory splitFactory = new SplitTaskFactory();
-         TimephasedNormaliser<TimephasedWork> workNormaliser = new MSPDITimephasedWorkNormaliser();
-         TimephasedNormaliser<TimephasedCost> costNormaliser = new MPPTimephasedBaselineCostNormaliser();
          for (Project.Assignments.Assignment assignment : assignments.getAssignment())
          {
-            readAssignment(assignment, splitFactory, workNormaliser, costNormaliser);
+            readAssignment(assignment);
          }
       }
    }
@@ -1905,7 +1909,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             item.setDescription(value.getDescription());
             item.setGUID(value.getFieldGUID());
             item.setCollapsed(BooleanHelper.getBoolean(value.isIsCollapsed()));
-            item.setParent(NumberHelper.getInteger(value.getParentValueID()));
+            item.setParentUniqueID(NumberHelper.getInteger(value.getParentValueID()));
             item.setType(CustomFieldValueDataType.getInstance(NumberHelper.getInt(value.getType())));
             item.setValue(DatatypeConverter.parseOutlineCodeValue(value.getValue(), field.getFieldType().getDataType()));
             table.add(item);
@@ -1946,11 +1950,8 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     * This method extracts data for a single assignment from an MSPDI file.
     *
     * @param assignment Assignment data
-    * @param splitFactory split task handling
-    * @param workNormaliser timephased resource assignment normaliser
-    * @param costNormaliser timephased resource assignment normaliser
     */
-   private void readAssignment(Project.Assignments.Assignment assignment, SplitTaskFactory splitFactory, TimephasedNormaliser<TimephasedWork> workNormaliser, TimephasedNormaliser<TimephasedCost> costNormaliser)
+   private void readAssignment(Project.Assignments.Assignment assignment)
    {
       BigInteger taskUID = assignment.getTaskUID();
       BigInteger resourceUID = assignment.getResourceUID();
@@ -1959,34 +1960,24 @@ public final class MSPDIReader extends AbstractProjectStreamReader
          Task task = m_projectFile.getTaskByUniqueID(Integer.valueOf(taskUID.intValue()));
          if (task != null)
          {
-            Resource resource = m_projectFile.getResourceByUniqueID(Integer.valueOf(resourceUID.intValue()));
-            ProjectCalendar calendar = null;
-            if (resource != null)
-            {
-               calendar = resource.getCalendar();
-            }
+            ResourceAssignment mpx = task.addResourceAssignment(m_projectFile.getResourceByUniqueID(Integer.valueOf(resourceUID.intValue())));
+            ProjectCalendar calendar = mpx.getEffectiveCalendar();
 
-            if (calendar == null || task.getIgnoreResourceCalendar())
-            {
-               calendar = task.getEffectiveCalendar();
-            }
-
-            List<TimephasedWork> timephasedComplete = readTimephasedWork(calendar, assignment, 2);
-            List<TimephasedWork> timephasedPlanned = readTimephasedWork(calendar, assignment, 1);
+            List<TimephasedWork> timephasedComplete = readTimephasedWork(assignment, 2);
+            List<TimephasedWork> timephasedPlanned = readTimephasedWork(assignment, 1);
             boolean raw = true;
 
-            ResourceAssignment mpx = task.addResourceAssignment(resource);
-
+            // TODO: this assumes that timephased data for all assignments of a task is the same
             if (isSplit(calendar, timephasedComplete) || isSplit(calendar, timephasedPlanned))
             {
-               workNormaliser.normalise(mpx, timephasedComplete);
-               workNormaliser.normalise(mpx, timephasedPlanned);
-               splitFactory.processSplitData(task, timephasedComplete, timephasedPlanned);
+               MSPDITimephasedWorkNormaliser.INSTANCE.normalise(calendar, mpx, timephasedComplete);
+               MSPDITimephasedWorkNormaliser.INSTANCE.normalise(calendar, mpx, timephasedPlanned);
+               SplitTaskFactory.processSplitData(mpx, timephasedComplete, timephasedPlanned);
                raw = false;
             }
 
-            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(mpx, workNormaliser, timephasedComplete, raw);
-            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(mpx, workNormaliser, timephasedPlanned, raw);
+            DefaultTimephasedWorkContainer timephasedCompleteData = new DefaultTimephasedWorkContainer(mpx, MSPDITimephasedWorkNormaliser.INSTANCE, timephasedComplete, raw);
+            DefaultTimephasedWorkContainer timephasedPlannedData = new DefaultTimephasedWorkContainer(mpx, MSPDITimephasedWorkNormaliser.INSTANCE, timephasedPlanned, raw);
 
             mpx.setActualCost(DatatypeConverter.parseCurrency(assignment.getActualCost()));
             mpx.setActualFinish(assignment.getActualFinish());
@@ -2052,20 +2043,20 @@ public final class MSPDIReader extends AbstractProjectStreamReader
             // Process baseline timephased work
             for (Map.Entry<Integer, TimephasedWorkAssignmentFunction> entry : TIMEPHASED_BASELINE_WORK_MAP.entrySet())
             {
-               List<TimephasedWork> timephasedData = readTimephasedWork(calendar, assignment, entry.getKey().intValue());
+               List<TimephasedWork> timephasedData = readTimephasedWork(assignment, entry.getKey().intValue());
                if (!timephasedData.isEmpty())
                {
-                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(mpx, workNormaliser, timephasedData, true));
+                  entry.getValue().apply(mpx, new DefaultTimephasedWorkContainer(mpx, MSPDITimephasedWorkNormaliser.INSTANCE, timephasedData, true));
                }
             }
 
             // Process baseline timephased cost
             for (Map.Entry<Integer, TimephasedCostAssignmentFunction> entry : TIMEPHASED_BASELINE_COST_MAP.entrySet())
             {
-               List<TimephasedCost> timephasedData = readTimephasedCost(calendar, assignment, entry.getKey().intValue());
+               List<TimephasedCost> timephasedData = readTimephasedCost(assignment, entry.getKey().intValue());
                if (!timephasedData.isEmpty())
                {
-                  entry.getValue().apply(mpx, new DefaultTimephasedCostContainer(mpx, costNormaliser, timephasedData, true));
+                  entry.getValue().apply(mpx, new DefaultTimephasedCostContainer(mpx, MPPTimephasedBaselineCostNormaliser.INSTANCE, timephasedData, true));
                }
             }
 
@@ -2156,12 +2147,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    /**
     * Reads timephased work data.
     *
-    * @param calendar current calendar
     * @param assignment assignment data
     * @param type flag indicating the type of timephased data to read
     * @return list of TimephasedWork instances
     */
-   private List<TimephasedWork> readTimephasedWork(ProjectCalendar calendar, Project.Assignments.Assignment assignment, int type)
+   private List<TimephasedWork> readTimephasedWork(Project.Assignments.Assignment assignment, int type)
    {
       // Note that we exclude ranges which don't have a start and end date.
       // These seem to be generated by Synchro and have a zero duration.
@@ -2171,12 +2161,11 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    /**
     * Reads timephased cost data.
     *
-    * @param calendar current calendar
     * @param assignment assignment data
     * @param type flag indicating the type of timephased data to read
     * @return list of TimephasedCost instances
     */
-   private List<TimephasedCost> readTimephasedCost(ProjectCalendar calendar, Project.Assignments.Assignment assignment, int type)
+   private List<TimephasedCost> readTimephasedCost(Project.Assignments.Assignment assignment, int type)
    {
       // Note that we exclude ranges which don't have a start and end date.
       // These seem to be generated by Synchro and have a zero cost.
@@ -2236,7 +2225,29 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     */
    public boolean getMicrosoftProjectCompatibleInput()
    {
-      return (m_compatibleInput);
+      return m_compatibleInput;
+   }
+
+   /**
+    * Set a flag to determine if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @param ignoreErrors pass true to ignore errors
+    */
+   public void setIgnoreErrors(boolean ignoreErrors)
+   {
+      m_ignoreErrors = ignoreErrors;
+   }
+
+   /**
+    * Retrieve the flag which determines if datatype parse errors can be ignored.
+    * Defaults to true.
+    *
+    * @return true if datatype parse errors are ignored
+    */
+   public boolean getIgnoreErrors()
+   {
+      return m_ignoreErrors;
    }
 
    /**
@@ -2272,6 +2283,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
    }
 
    private boolean m_compatibleInput = true;
+   private boolean m_ignoreErrors = true;
    private String m_encoding;
    private Charset m_charset;
    private ProjectFile m_projectFile;

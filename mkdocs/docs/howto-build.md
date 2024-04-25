@@ -43,25 +43,14 @@ install your newly built version of MPXJ in a local Maven repository:
 mvn -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true install
 ```
 
-## Building the .NET DLLs
-Building the .NET versions of MPXJ uses an Ant script to first
-run Maven to create the Java version, then run IKVM to create a .Net Framework
-and a .Net Core version.
+## Building for .Net, Python and Ruby
+Aside from using Maven to build the MPXJ jar file, building the other release
+artifacts for MPXJ is a somewhat involved process. To assist with this I have
+created a script which will configure a freshly installed Windows 10 machine
+ready to be used to build all the components of an MPXJ release.
 
-* Download [.Net Framework version of IKVM](http://www.ikvm.net/)
-  and unzip the files into a convenient directory
-* Change directory to the MPXJ folder.
-* Edit the `build.xml` file and ensure that the property named `ikvm.net45.dir`
-  is set to point to the location where you have unzipped IKVM.
-
-You can now issue the following command:
-
-```
-ant archive
-```
-
-The Ant script will recognise that IKVM is present and build the .NET Framework 
-version of MPXJ, with the results found in the `src.net\lib\net45` folder.
+The script and its instructions can be found
+[here](https://github.com/joniles/mpxj/tree/master/build).
 
 ## Generating the JAXB code
 In order to read and write various XML file formats, MPXJ relies on code

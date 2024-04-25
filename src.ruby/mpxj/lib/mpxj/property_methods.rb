@@ -4,6 +4,34 @@ module MPXJ
       base.extend(PropertyClassMethods)
     end
 
+    # Retrieve the Activity ID Increment value
+    #
+    # @return Activity ID Increment value
+    def activity_id_increment
+      get_integer_value(attribute_values['activity_id_increment'])
+    end
+
+    # Retrieve the Activity ID Increment Based On Selected Activity value
+    #
+    # @return Activity ID Increment Based On Selected Activity value
+    def activity_id_increment_based_on_selected_activity
+      get_boolean_value(attribute_values['activity_id_increment_based_on_selected_activity'])
+    end
+
+    # Retrieve the Activity ID Prefix value
+    #
+    # @return Activity ID Prefix value
+    def activity_id_prefix
+      attribute_values['activity_id_prefix']
+    end
+
+    # Retrieve the Activity ID Suffix value
+    #
+    # @return Activity ID Suffix value
+    def activity_id_suffix
+      get_integer_value(attribute_values['activity_id_suffix'])
+    end
+
     # Retrieve the Actuals In Sync value
     #
     # @return Actuals In Sync value
@@ -172,6 +200,13 @@ module MPXJ
       get_date_value(attribute_values['baseline9_date'])
     end
 
+    # Retrieve the Baseline Calendar Name value
+    #
+    # @return Baseline Calendar Name value
+    def baseline_calendar_name
+      attribute_values['baseline_calendar_name']
+    end
+
     # Retrieve the Baseline Cost value
     #
     # @return Baseline Cost value
@@ -221,11 +256,46 @@ module MPXJ
       get_date_value(attribute_values['baseline_start'])
     end
 
+    # Retrieve the Baseline Type Name value
+    #
+    # @return Baseline Type Name value
+    def baseline_type_name
+      attribute_values['baseline_type_name']
+    end
+
+    # Retrieve the Baseline Type Name value
+    #
+    # @return Baseline Type Name value
+    def baseline_type_unique_id
+      get_integer_value(attribute_values['baseline_type_unique_id'])
+    end
+
     # Retrieve the Baseline Work value
     #
     # @return Baseline Work value
     def baseline_work
       get_duration_value(attribute_values['baseline_work'])
+    end
+
+    # Retrieve the Calculate Float on Finish Date of Each Project value
+    #
+    # @return Calculate Float on Finish Date of Each Project value
+    def calculate_float_based_on_finish_date_of_each_project
+      get_boolean_value(attribute_values['calculate_float_based_on_finish_date_of_each_project'])
+    end
+
+    # Retrieve the Calculate Multiple Float Paths value
+    #
+    # @return Calculate Multiple Float Paths value
+    def calculate_multiple_float_paths
+      get_boolean_value(attribute_values['calculate_multiple_float_paths'])
+    end
+
+    # Retrieve the Calculate Multiple Paths Using Total Float value
+    #
+    # @return Calculate Multiple Paths Using Total Float value
+    def calculate_multiple_float_paths_using_total_float
+      get_boolean_value(attribute_values['calculate_multiple_float_paths_using_total_float'])
     end
 
     # Retrieve the Category value
@@ -247,6 +317,27 @@ module MPXJ
     # @return Company value
     def company
       attribute_values['company']
+    end
+
+    # Retrieve the Compute Start to Start Lag From Early Start value
+    #
+    # @return Compute Start to Start Lag From Early Start value
+    def compute_start_to_start_lag_from_early_start
+      get_boolean_value(attribute_values['compute_start_to_start_lag_from_early_start'])
+    end
+
+    # Retrieve the Consider Assignments In Other Projects value
+    #
+    # @return Consider Assignments In Other Projects value
+    def consider_assignments_in_other_projects
+      get_boolean_value(attribute_values['consider_assignments_in_other_projects'])
+    end
+
+    # Retrieve the Consider Assignments In Other Project With Priority Equal or Higher Than value
+    #
+    # @return Consider Assignments In Other Project With Priority Equal or Higher Than value
+    def consider_assignments_in_other_projects_with_priority_equal_higher_than
+      get_integer_value(attribute_values['consider_assignments_in_other_projects_with_priority_equal_higher_than'])
     end
 
     # Retrieve the Content Status value
@@ -331,6 +422,13 @@ module MPXJ
     # @return Custom Properties value
     def custom_properties
       attribute_values['custom_properties']
+    end
+
+    # Retrieve the Date Date and Planned Start Set To Project Forecast Start value
+    #
+    # @return Date Date and Planned Start Set To Project Forecast Start value
+    def data_date_and_planned_start_set_to_project_forecast_start
+      get_boolean_value(attribute_values['data_date_and_planned_start_set_to_project_forecast_start'])
     end
 
     # Retrieve the Date Format value
@@ -443,6 +541,13 @@ module MPXJ
     # @return Default Work Units value
     def default_work_units
       attribute_values['default_work_units']
+    end
+
+    # Retrieve the Calculate Multiple Float Paths Ending With Activity Unique ID value
+    #
+    # @return Calculate Multiple Float Paths Ending With Activity Unique ID value
+    def display_multiple_float_paths_ending_with_activity_unique_id
+      get_integer_value(attribute_values['display_multiple_float_paths_ending_with_activity_unique_id'])
     end
 
     # Retrieve the Document Version value
@@ -564,6 +669,13 @@ module MPXJ
       attribute_values['hyperlink_base']
     end
 
+    # Retrieve the Ignore Relationships To And From Other Projects value
+    #
+    # @return Ignore Relationships To And From Other Projects value
+    def ignore_relationships_to_and_from_other_projects
+      get_boolean_value(attribute_values['ignore_relationships_to_and_from_other_projects'])
+    end
+
     # Retrieve the Inserted Projects Like Summary value
     #
     # @return Inserted Projects Like Summary value
@@ -599,11 +711,46 @@ module MPXJ
       attribute_values['last_author']
     end
 
+    # Retrieve the Last Baseline Update Date value
+    #
+    # @return Last Baseline Update Date value
+    def last_baseline_update_date
+      get_date_value(attribute_values['last_baseline_update_date'])
+    end
+
     # Retrieve the Last Saved value
     #
     # @return Last Saved value
     def last_saved
       get_date_value(attribute_values['last_saved'])
+    end
+
+    # Retrieve the Leveling Priorities value
+    #
+    # @return Leveling Priorities value
+    def leveling_priorities
+      attribute_values['leveling_priorities']
+    end
+
+    # Retrieve the Level All Resources value
+    #
+    # @return Level All Resources value
+    def level_all_resources
+      get_boolean_value(attribute_values['level_all_resources'])
+    end
+
+    # Retrieve the Level Resources Only Within Activity Total Float value
+    #
+    # @return Level Resources Only Within Activity Total Float value
+    def level_resources_only_within_activity_total_float
+      get_boolean_value(attribute_values['level_resources_only_within_activity_total_float'])
+    end
+
+    # Retrieve the Limit Number of Float Paths to Calculate value
+    #
+    # @return Limit Number of Float Paths to Calculate value
+    def limit_number_of_float_paths_to_calculate
+      get_boolean_value(attribute_values['limit_number_of_float_paths_to_calculate'])
     end
 
     # Retrieve the Location Unique ID value
@@ -613,11 +760,32 @@ module MPXJ
       get_integer_value(attribute_values['location_unique_id'])
     end
 
+    # Retrieve the Make Open Ended Activities Critical value
+    #
+    # @return Make Open Ended Activities Critical value
+    def make_open_ended_activities_critical
+      get_boolean_value(attribute_values['make_open_ended_activities_critical'])
+    end
+
     # Retrieve the Manager value
     #
     # @return Manager value
     def manager
       attribute_values['manager']
+    end
+
+    # Retrieve the Number of Float Paths to Calculate value
+    #
+    # @return Number of Float Paths to Calculate value
+    def maximum_number_of_float_paths_to_calculate
+      get_integer_value(attribute_values['maximum_number_of_float_paths_to_calculate'])
+    end
+
+    # Retrieve the Maximum Percentage to Overallocate Resources value
+    #
+    # @return Maximum Percentage to Overallocate Resources value
+    def max_percent_to_overallocate_resources
+      get_float_value(attribute_values['max_percent_to_overallocate_resources'])
     end
 
     # Retrieve the Microsoft Project Server URL value
@@ -795,6 +963,20 @@ module MPXJ
       attribute_values['presentation_format']
     end
 
+    # Retrieve the Preserve Minimum Float When Leveling value
+    #
+    # @return Preserve Minimum Float When Leveling value
+    def preserve_minimum_float_when_leveling
+      get_duration_value(attribute_values['preserve_minimum_float_when_leveling'])
+    end
+
+    # Retrieve the Preserve Scheduled Early and Late Dates value
+    #
+    # @return Preserve Scheduled Early and Late Dates value
+    def preserve_scheduled_early_and_late_dates
+      get_boolean_value(attribute_values['preserve_scheduled_early_and_late_dates'])
+    end
+
     # Retrieve the Project Externally Edited value
     #
     # @return Project Externally Edited value
@@ -821,6 +1003,13 @@ module MPXJ
     # @return Project Title value
     def project_title
       attribute_values['project_title']
+    end
+
+    # Retrieve the Relationship Lag Calendar value
+    #
+    # @return Relationship Lag Calendar value
+    def relationship_lag_calendar
+      attribute_values['relationship_lag_calendar']
     end
 
     # Retrieve the Remove File Properties value
@@ -856,6 +1045,13 @@ module MPXJ
     # @return Schedule From value
     def schedule_from
       attribute_values['schedule_from']
+    end
+
+    # Retrieve the When Scheduling Progressed Activities Use value
+    #
+    # @return When Scheduling Progressed Activities Use value
+    def scheduling_progressed_activities
+      attribute_values['scheduling_progressed_activities']
     end
 
     # Retrieve the Short Application Name value
@@ -970,6 +1166,20 @@ module MPXJ
       get_boolean_value(attribute_values['updating_task_status_updates_resource_status'])
     end
 
+    # Retrieve the Use Expected Finish Dates value
+    #
+    # @return Use Expected Finish Dates value
+    def use_expected_finish_dates
+      get_boolean_value(attribute_values['use_expected_finish_dates'])
+    end
+
+    # Retrieve the WBS Code Separator value
+    #
+    # @return WBS Code Separator value
+    def wbs_code_separator
+      attribute_values['wbs_code_separator']
+    end
+
     # Retrieve the Week Start Day value
     #
     # @return Week Start Day value
@@ -992,6 +1202,10 @@ module MPXJ
     end
 
     ATTRIBUTE_TYPES = {
+      'activity_id_increment' => :integer,
+      'activity_id_increment_based_on_selected_activity' => :boolean,
+      'activity_id_prefix' => :string,
+      'activity_id_suffix' => :integer,
       'actuals_in_sync' => :boolean,
       'actual_cost' => :currency,
       'actual_duration' => :duration,
@@ -1016,6 +1230,7 @@ module MPXJ
       'baseline7_date' => :date,
       'baseline8_date' => :date,
       'baseline9_date' => :date,
+      'baseline_calendar_name' => :string,
       'baseline_cost' => :currency,
       'baseline_date' => :date,
       'baseline_duration' => :duration,
@@ -1023,10 +1238,18 @@ module MPXJ
       'baseline_for_earned_value' => :integer,
       'baseline_project_unique_id' => :integer,
       'baseline_start' => :date,
+      'baseline_type_name' => :string,
+      'baseline_type_unique_id' => :integer,
       'baseline_work' => :work,
+      'calculate_float_based_on_finish_date_of_each_project' => :boolean,
+      'calculate_multiple_float_paths' => :boolean,
+      'calculate_multiple_float_paths_using_total_float' => :boolean,
       'category' => :string,
       'comments' => :string,
       'company' => :string,
+      'compute_start_to_start_lag_from_early_start' => :boolean,
+      'consider_assignments_in_other_projects' => :boolean,
+      'consider_assignments_in_other_projects_with_priority_equal_higher_than' => :integer,
       'content_status' => :string,
       'content_type' => :string,
       'cost' => :currency,
@@ -1039,6 +1262,7 @@ module MPXJ
       'currency_symbol_position' => :currency_symbol_position,
       'current_date' => :date,
       'custom_properties' => :map,
+      'data_date_and_planned_start_set_to_project_forecast_start' => :boolean,
       'date_format' => :project_date_format,
       'date_order' => :date_order,
       'date_separator' => :char,
@@ -1055,6 +1279,7 @@ module MPXJ
       'default_task_earned_value_method' => :earned_value_method,
       'default_task_type' => :task_type,
       'default_work_units' => :time_units,
+      'display_multiple_float_paths_ending_with_activity_unique_id' => :integer,
       'document_version' => :string,
       'duration' => :duration,
       'earned_value_method' => :earned_value_method,
@@ -1072,14 +1297,23 @@ module MPXJ
       'guid' => :guid,
       'honor_constraints' => :boolean,
       'hyperlink_base' => :string,
+      'ignore_relationships_to_and_from_other_projects' => :boolean,
       'inserted_projects_like_summary' => :boolean,
       'keywords' => :string,
       'language' => :string,
       'lastprinted' => :date,
       'last_author' => :string,
+      'last_baseline_update_date' => :date,
       'last_saved' => :date,
+      'leveling_priorities' => :string,
+      'level_all_resources' => :boolean,
+      'level_resources_only_within_activity_total_float' => :boolean,
+      'limit_number_of_float_paths_to_calculate' => :boolean,
       'location_unique_id' => :integer,
+      'make_open_ended_activities_critical' => :boolean,
       'manager' => :string,
+      'maximum_number_of_float_paths_to_calculate' => :integer,
+      'max_percent_to_overallocate_resources' => :numeric,
       'microsoft_project_server_url' => :boolean,
       'minutes_per_day' => :integer,
       'minutes_per_month' => :integer,
@@ -1105,15 +1339,19 @@ module MPXJ
       'planned_start' => :date,
       'pm_text' => :string,
       'presentation_format' => :string,
+      'preserve_minimum_float_when_leveling' => :duration,
+      'preserve_scheduled_early_and_late_dates' => :boolean,
       'project_externally_edited' => :boolean,
       'project_file_path' => :string,
       'project_id' => :string,
       'project_title' => :string,
+      'relationship_lag_calendar' => :relationship_lag_calendar,
       'remove_file_properties' => :boolean,
       'resource_pool_file' => :string,
       'revision' => :integer,
       'scheduled_finish' => :date,
       'schedule_from' => :schedule_from,
+      'scheduling_progressed_activities' => :scheduling_progressed_activities,
       'short_application_name' => :string,
       'show_project_summary_task' => :boolean,
       'split_in_progress_tasks' => :boolean,
@@ -1130,6 +1368,8 @@ module MPXJ
       'total_slack_calculation_type' => :total_slack_type,
       'unique_id' => :integer,
       'updating_task_status_updates_resource_status' => :boolean,
+      'use_expected_finish_dates' => :boolean,
+      'wbs_code_separator' => :string,
       'week_start_day' => :day,
       'work' => :work,
       'work2' => :numeric,

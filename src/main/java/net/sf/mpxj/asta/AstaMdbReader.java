@@ -39,7 +39,7 @@ import com.healthmarketscience.jackcess.Table;
  * This class provides a generic front end to read project data from
  * a database.
  */
-public final class AstaMdbReader extends AbstractDatabaseReader
+public final class AstaMdbReader extends AbstractAstaDatabaseReader
 {
    @Override protected List<Row> getRows(String tableName, Map<String, Integer> keys) throws AstaDatabaseException
    {
@@ -66,11 +66,11 @@ public final class AstaMdbReader extends AbstractDatabaseReader
             Cursor cursor = CursorBuilder.createCursor(table);
             if (cursor.findFirstRow(keys))
             {
-               result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
-               while (cursor.findNextRow(keys))
+               do
                {
                   result.add(new JackcessResultSetRow(cursor.getCurrentRow(), columns));
                }
+               while (cursor.findNextRow(keys));
             }
          }
 

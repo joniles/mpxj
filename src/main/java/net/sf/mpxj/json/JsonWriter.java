@@ -41,9 +41,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.CustomFieldLookupTable;
+import net.sf.mpxj.CustomFieldValueMask;
+import net.sf.mpxj.GenericCriteria;
+import net.sf.mpxj.GraphicalIndicator;
+import net.sf.mpxj.GraphicalIndicatorCriteria;
+import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ExpenseItem;
 import net.sf.mpxj.ProjectCalendarDays;
@@ -90,6 +97,7 @@ import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.mpp.CustomFieldValueItem;
 import net.sf.mpxj.mpp.GanttBarStyle;
 import net.sf.mpxj.mpp.GanttBarStyleException;
 import net.sf.mpxj.mpp.GanttChartView;
@@ -213,11 +221,12 @@ public final class JsonWriter extends AbstractProjectWriter
          m_writer.setPretty(m_pretty);
 
          m_writer.writeStartObject(null);
+         writeProperties();
          writeUserDefinedFields();
          writeCustomFields();
          writeWorkContours();
          writeActivityCodes();
-         writeProperties();
+         writeUnitsOfMeasure();
          writeCalendars();
          writeResources();
          writeTasks();
@@ -335,22 +344,173 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeCustomField(CustomField field) throws IOException
    {
-      if (field.getAlias() != null)
+      if (field.getAlias() == null)
+      {
+         return;
+      }
+
+      m_writer.writeStartObject(null);
+
+      Integer uniqueID = field.getUniqueID();
+      if (uniqueID.intValue() != FieldTypeHelper.getFieldID(field.getFieldType()))
+      {
+         // Only write this attribute is we have a non-default value
+         m_writer.writeNameValuePair("unique_id", field.getUniqueID().intValue());
+      }
+
+      writeFieldType("", field.getFieldType());
+      m_writer.writeNameValuePair("field_alias", field.getAlias());
+      writeGraphicalIndicator(field.getGraphicalIndicator());
+      writeLookupTable(field);
+      writeCustomFieldValueMasks(field);
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Writes a lookup table for a custom field.
+    *
+    * @param field custom field
+    */
+   private void writeLookupTable(CustomField field) throws IOException
+   {
+      CustomFieldLookupTable table = field.getLookupTable();
+      if (table.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartObject("lookup_table");
+      writeStringField("guid", table.getGUID());
+      writeBooleanField("enterprise", Boolean.valueOf(table.getEnterprise()));
+      writeBooleanField("show_indent", Boolean.valueOf(table.getShowIndent()));
+      writeBooleanField("resource_substitution_enabled", Boolean.valueOf(table.getResourceSubstitutionEnabled()));
+      writeBooleanField("leaf_only", Boolean.valueOf(table.getLeafOnly()));
+      writeBooleanField("all_levels_required", Boolean.valueOf(table.getAllLevelsRequired()));
+      writeBooleanField("only_table_values_allowed", Boolean.valueOf(table.getOnlyTableValuesAllowed()));
+      m_writer.writeStartList("values");
+      for (CustomFieldValueItem item : table)
+      {
+         writeCustomFieldValueItem(item);
+      }
+      m_writer.writeEndList();
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Writes a single value from a lookup table.
+    *
+    * @param item lookup table value.
+    */
+   private void writeCustomFieldValueItem(CustomFieldValueItem item) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeIntegerField("unique_id", item.getUniqueID());
+      writeStringField("guid", item.getGUID());
+      writeStringField("value", item.getValue());
+      writeStringField("description", item.getDescription());
+      writeIntegerField("parent_unique_id", item.getParentUniqueID());
+      writeStringField("type", item.getType() == null ? null : item.getType().name());
+      writeBooleanField("collapsed", Boolean.valueOf(item.getCollapsed()));
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Writes a graphical indicator definition.
+    *
+    * @param indicator graphical indicator.
+    */
+   private void writeGraphicalIndicator(GraphicalIndicator indicator) throws IOException
+   {
+      if (!indicator.getDisplayGraphicalIndicators())
+      {
+         return;
+      }
+
+      m_writer.writeStartObject("graphical_indicator");
+      writeBooleanField("summary_rows_inherit_from_non_summary_rows", Boolean.valueOf(indicator.getSummaryRowsInheritFromNonSummaryRows()));
+      writeBooleanField("project_summary_inherits_from_summary_rows", Boolean.valueOf(indicator.getProjectSummaryInheritsFromSummaryRows()));
+      writeBooleanField("show_data_values_in_tooltips", Boolean.valueOf(indicator.getShowDataValuesInToolTips()));
+      writeGraphicalIndicatorCriteria("project_summary_criteria", indicator.getProjectSummaryCriteria());
+      writeGraphicalIndicatorCriteria("summary_row_criteria", indicator.getSummaryRowCriteria());
+      writeGraphicalIndicatorCriteria("non_sumary_row_criteria", indicator.getNonSummaryRowCriteria());
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Writes the graphical indicator criteria.
+    *
+    * @param name criteria name
+    * @param list list of criteria items
+    */
+   private void writeGraphicalIndicatorCriteria(String name, List<GraphicalIndicatorCriteria> list) throws IOException
+   {
+      if (list.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList(name);
+      for (GraphicalIndicatorCriteria criteria : list)
       {
          m_writer.writeStartObject(null);
-
-         Integer uniqueID = field.getUniqueID();
-         if (uniqueID.intValue() != FieldTypeHelper.getFieldID(field.getFieldType()))
-         {
-            // Only write this attribute is we have a non-default value
-            m_writer.writeNameValuePair("unique_id", field.getUniqueID().intValue());
-         }
-
-         writeFieldType("", field.getFieldType());
-         m_writer.writeNameValuePair("field_alias", field.getAlias());
-
+         writeIntegerField("indicator", Integer.valueOf(criteria.getIndicator()));
+         writeGenericCriteriaAttributes(criteria);
          m_writer.writeEndObject();
       }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write generic criteria attributes.
+    *
+    * @param criteria criteria item
+    */
+   private void writeGenericCriteriaAttributes(GenericCriteria criteria) throws IOException
+   {
+      writeStringField("left_value", criteria.getLeftValue().name());
+      writeStringField("operator", criteria.getOperator().name());
+      writeStringField("right_value_1", criteria.getValue(0));
+      writeStringField("right_value_2", criteria.getValue(1));
+
+      List<GenericCriteria> list = criteria.getCriteriaList();
+      if (list.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("criteria_list");
+      for (GenericCriteria child : list)
+      {
+         m_writer.writeStartObject(null);
+         writeGenericCriteriaAttributes(child);
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write the value masks for a custom field.
+    *
+    * @param field custom field
+    */
+   private void writeCustomFieldValueMasks(CustomField field) throws IOException
+   {
+      if (field.getMasks().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("masks");
+      for (CustomFieldValueMask mask : field.getMasks())
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("length", Integer.valueOf(mask.getLength()));
+         writeIntegerField("level", Integer.valueOf(mask.getLevel()));
+         writeStringField("separator", mask.getSeparator());
+         writeStringField("type", mask.getType().name());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
    }
 
    /**
@@ -367,6 +527,39 @@ public final class JsonWriter extends AbstractProjectWriter
       writeStringField("data_type", field.getDataType().toString().toLowerCase());
       writeStringField("internal_name", field.name().toLowerCase());
       writeStringField("external_name", field.getName());
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Write units of measure.
+    */
+   private void writeUnitsOfMeasure() throws IOException
+   {
+      if (m_projectFile.getUnitsOfMeasure().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("units_of_measure");
+      for (UnitOfMeasure uom : m_projectFile.getUnitsOfMeasure())
+      {
+         writeUnitOfMeasure(uom);
+      }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write an individual unit of measure.
+    *
+    * @param uom unit of measure
+    */
+   private void writeUnitOfMeasure(UnitOfMeasure uom) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeMandatoryIntegerField("unique_id", uom.getUniqueID());
+      writeStringField("abbreviation", uom.getAbbreviation());
+      writeStringField("name", uom.getName());
+      writeMandatoryIntegerField("sequence_number", uom.getSequenceNumber());
       m_writer.writeEndObject();
    }
 
@@ -396,6 +589,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeFields(resource, ResourceField.values());
          writeFields(resource, m_projectFile.getUserDefinedFields().getResourceFields().toArray(new FieldType[0]));
          writeCostRateTables(resource);
+         writeAvailabilityTable(resource);
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
@@ -423,6 +617,7 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       m_writer.writeStartObject(null);
       writeMandatoryIntegerField("unique_id", calendar.getUniqueID());
+      writeStringField("guid", calendar.getGUID());
       writeMandatoryIntegerField("parent_unique_id", calendar.getParentUniqueID());
       writeStringField("name", calendar.getName());
       writeStringField("type", calendar.getType().toString());
@@ -677,6 +872,31 @@ public final class JsonWriter extends AbstractProjectWriter
          }
          m_writer.writeEndObject();
       }
+   }
+
+   /**
+    * Write the availability table for a resource.
+    *
+    * @param resource parent resource
+    */
+   private void writeAvailabilityTable(Resource resource) throws IOException
+   {
+      List<Availability> availability = resource.getAvailability();
+      if (availability.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("availability_table");
+      for (Availability entry : availability)
+      {
+         m_writer.writeStartObject(null);
+         writeTimestampField("start", entry.getRange().getStart());
+         writeTimestampField("end", entry.getRange().getEnd());
+         writeDoubleField("units", entry.getUnits());
+         m_writer.writeEndObject();
+      }
+      m_writer.writeEndList();
    }
 
    /**
@@ -987,6 +1207,8 @@ public final class JsonWriter extends AbstractProjectWriter
          double val = ((Number) value).doubleValue();
          if (val != 0)
          {
+            // Round to 4 decimal places
+            val = Math.round(val * 10000.0) / 10000.0;
             m_writer.writeNameValuePair(fieldName, val);
          }
       }
@@ -1175,6 +1397,11 @@ public final class JsonWriter extends AbstractProjectWriter
    {
       @SuppressWarnings("unchecked")
       Map<String, Object> map = (Map<String, Object>) value;
+      if (map.isEmpty())
+      {
+         return;
+      }
+
       m_writer.writeStartObject(fieldName);
       for (Map.Entry<String, Object> entry : map.entrySet())
       {
@@ -1232,7 +1459,7 @@ public final class JsonWriter extends AbstractProjectWriter
       if (!code.getValues().isEmpty())
       {
          m_writer.writeStartList("values");
-         for (ActivityCodeValue value : code.getValues())
+         for (ActivityCodeValue value : code.getValues().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).collect(Collectors.toList()))
          {
             writeActivityCodeValue(value);
          }
@@ -1252,7 +1479,7 @@ public final class JsonWriter extends AbstractProjectWriter
       writeMandatoryIntegerField("unique_id", value.getUniqueID());
       writeMandatoryIntegerField("sequence_number", value.getSequenceNumber());
       writeStringField("name", value.getName());
-      writeStringField("desription", value.getDescription());
+      writeStringField("description", value.getDescription());
       writeColorField("color", value.getColor());
       if (value.getParent() != null)
       {
@@ -1295,9 +1522,11 @@ public final class JsonWriter extends AbstractProjectWriter
          for (Relation relation : list)
          {
             m_writer.writeStartObject(null);
+            writeIntegerField("unique_id", relation.getUniqueID());
             writeIntegerField("task_unique_id", relation.getTargetTask().getUniqueID());
             writeDurationField(m_projectFile.getProjectProperties(), "lag", relation.getLag());
             writeStringField("type", relation.getType());
+            writeStringField("notes", relation.getNotes());
             m_writer.writeEndObject();
          }
          m_writer.writeEndList();

@@ -156,8 +156,8 @@ public final class LocalDateTimeHelper
    }
 
    /**
-    * Use the parseBest method of the formatter to retrieve a LOcaldateTimeinstance
-    * handling the case where the formatter returns a LOcalDate instance.
+    * Use the parseBest method of the formatter to retrieve a LocalDateTime instance
+    * handling the case where the formatter returns a LocalDate instance.
     *
     * @param format DateTimeFormatter instance
     * @param value value to parse

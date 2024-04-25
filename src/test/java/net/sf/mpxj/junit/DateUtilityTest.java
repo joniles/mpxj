@@ -25,7 +25,7 @@ public class DateUtilityTest
 
       assertTrue(LocalDateTimeHelper.compare(date1, date2) < 0);
       assertTrue(LocalDateTimeHelper.compare(date2, date1) > 0);
-      assertTrue(LocalDateTimeHelper.compare(date1, date1) == 0);
+      assertEquals(0, LocalDateTimeHelper.compare(date1, date1));
    }
 
    /**

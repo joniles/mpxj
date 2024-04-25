@@ -25,24 +25,24 @@ package net.sf.mpxj.common;
 
 import java.util.List;
 
-import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.TimePeriodEntity;
+import net.sf.mpxj.ProjectCalendar;
 
 /**
- * Classes implementing this interface are used to normalise timephased
- * resource assignment data.
+ * Classes implementing this interface are used to normalise timephased data.
  *
  * @param <T> timephased data type
  */
 public interface TimephasedNormaliser<T>
 {
-
    /**
     * This method converts the internal representation of timephased
-    * resource assignment data used by MS Project into a standardised
+    * data used by MS Project into a standardised
     * format to make it easy to work with.
     *
-    * @param assignment resource assignment
+    * @param calendar calendar context for normalisation
+    * @param parent parent entity
     * @param list list of assignment data
     */
-   public void normalise(ResourceAssignment assignment, List<T> list);
+   public void normalise(ProjectCalendar calendar, TimePeriodEntity parent, List<T> list);
 }

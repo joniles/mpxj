@@ -29,8 +29,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +47,7 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.RelationType;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
@@ -109,11 +107,6 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          m_extraBarCounts = null;
          m_data = null;
       }
-   }
-
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -390,7 +383,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
          task.setMilestone(true);
          LocalDateTime startDate = DatatypeConverter.getTimestamp(cBarData, 7);
          task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(LocalDateHelper.getLocalDate(startDate))));
-         task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
+         task.setFinish(calendar.getDate(task.getStart(), task.getDuration()));
       }
       else
       {
@@ -424,7 +417,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
             ProjectCalendar calendar = m_projectFile.getDefaultCalendar();
             LocalDateTime startDate = DatatypeConverter.getTimestamp(cBarData, 5);
             task.setStart(LocalTimeHelper.setTime(startDate, calendar.getStartTime(LocalDateHelper.getLocalDate(startDate))));
-            task.setFinish(calendar.getDate(task.getStart(), task.getDuration(), false));
+            task.setFinish(calendar.getDate(task.getStart(), task.getDuration()));
 
             if (resource != null)
             {
@@ -508,15 +501,16 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       int successorTaskUniqueID = DatatypeConverter.getShort(data, 0);
       Task successor = m_projectFile.getTaskByUniqueID(Integer.valueOf(successorTaskUniqueID));
 
-      if (successor == null || task.isSucessor(successor) || task.isPredecessor(successor) || data.length == 14)
+      if (successor == null || successor.isPredecessor(task) || task.isPredecessor(successor) || data.length == 14)
       {
          return;
       }
 
-      Duration lag = DatatypeConverter.getDuration(data, 6);
-      RelationType type = DatatypeConverter.getRelationType(data, 2);
-
-      successor.addPredecessor(task, type, lag);
+      successor.addPredecessor(new Relation.Builder()
+         .targetTask(task)
+         .type(DatatypeConverter.getRelationType(data, 2))
+         .lag(DatatypeConverter.getDuration(data, 6))
+      );
    }
 
    /**
@@ -557,7 +551,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
             }
          }
       }
-      m_projectFile.getTasks().updateStructure();
+      m_projectFile.updateStructure();
    }
 
    /**

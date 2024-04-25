@@ -28,6 +28,8 @@ import java.util.Collections;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
+import net.sf.mpxj.Resource;
+import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -39,12 +41,24 @@ final class AvailabilityFactory
    /**
     * Populates a resource availability table.
     *
-    * @param table resource availability table
+    * @param resource parent resource
     * @param data file data
     */
-   public void process(AvailabilityTable table, byte[] data)
+   public void process(Resource resource, byte[] data)
    {
-      if (data != null)
+      AvailabilityTable table = resource.getAvailability();
+      if (data == null)
+      {
+         // If we don't have an availability table, we'll construct one.
+         // Note the use of getCachedValue to ensure we use the values read from
+         // the file rather than attempting to calculate them.
+         LocalDateTime availableFrom = (LocalDateTime) resource.getCachedValue(ResourceField.AVAILABLE_FROM);
+         LocalDateTime availableTo = (LocalDateTime) resource.getCachedValue(ResourceField.AVAILABLE_TO);
+         availableFrom = availableFrom == null ? LocalDateTimeHelper.START_DATE_NA : availableFrom;
+         availableTo = availableTo == null ? LocalDateTimeHelper.END_DATE_NA : availableTo;
+         table.add(new Availability(availableFrom, availableTo, (Number) resource.getCachedValue(ResourceField.MAX_UNITS)));
+      }
+      else
       {
          int items = MPPUtility.getShort(data, 0);
          int offset = 12;
@@ -77,5 +91,4 @@ final class AvailabilityFactory
          Collections.sort(table);
       }
    }
-
 }

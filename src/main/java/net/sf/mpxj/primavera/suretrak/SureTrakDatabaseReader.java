@@ -50,7 +50,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
@@ -89,8 +88,9 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
     * @param directory directory containing a SureTrak database
     * @param properties optional properties to pass to reader's setProperties method
     * @return ProjectFile instance
+    * @deprecated use setProjectNameAndRead(File) method instead
     */
-   public static final ProjectFile setProjectNameAndRead(File directory, Properties properties) throws MPXJException
+   @Deprecated public static final ProjectFile setProjectNameAndRead(File directory, Properties properties) throws MPXJException
    {
       List<String> projects = listProjectNames(directory);
 
@@ -584,10 +584,11 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          Task successor = m_activityMap.get(row.getString("SUCCESSOR_ACTIVITY_ID"));
          if (predecessor != null && successor != null)
          {
-            Duration lag = row.getDuration("LAG");
-            RelationType type = row.getRelationType("TYPE");
-
-            Relation relation = successor.addPredecessor(predecessor, type, lag);
+            Relation relation = successor.addPredecessor(new Relation.Builder()
+               .targetTask(predecessor)
+               .type(row.getRelationType("TYPE"))
+               .lag(row.getDuration("LAG"))
+            );
             m_eventManager.fireRelationReadEvent(relation);
          }
       }

@@ -38,8 +38,12 @@ class AssignmentColumn2 extends AbstractColumn
    @Override protected int readData(byte[] buffer, int offset)
    {
       StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, offset, false);
-      m_data = data.getData();
+      m_options = data.getData();
       offset = data.getOffset();
+
+      offset += 32;
+      data = new StringsWithLengthBlock().read(buffer, offset, false);
+      m_data = data.getData();
 
       return offset;
    }

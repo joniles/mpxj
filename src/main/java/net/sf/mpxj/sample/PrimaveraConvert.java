@@ -35,10 +35,10 @@ import net.sf.mpxj.writer.ProjectWriterUtility;
 /**
  * This utility is design simply to illustrate the use of the
  * PrimaveraReader class. Example commend line:
- *
- * PrimaveraConvert "net.sourceforge.jtds.jdbc.Driver" "jdbc:jtds:sqlserver://localhost/PMDB;user=pmdb;password=pmdb" 1 "c:\temp\project1.xml"
- *
- * This assumes the use of the JTDS JDBC driver to access the PMDB database on
+ * <p/>
+ * {@code PrimaveraConvert "com.microsoft.sqlserver.jdbc.SQLServerDriver" "jdbc:sqlserver://localhost;database=PMDB;user=privuser;password=privuser" 1 "c:\temp\project1.xml"}
+ * <p/>
+ * This assumes the use of the Microsoft JDBC driver to access the PMDB database on
  * a local SQL Server instance. The project with ID=1 is exported to
  * an MSPDI file.
  */
@@ -84,10 +84,11 @@ public final class PrimaveraConvert
       Properties props = new Properties();
 
       //
-      // This is not a very robust way to detect that we're working with SQLlite...
-      // If you are trying to grab data from
-      // a standalone P6 using SQLite, the SQLite JDBC driver needs this property
-      // in order to correctly parse timestamps.
+      // This is not a very robust way to detect that we're working with SQLite...
+      // If you are trying to grab data from a standalone P6 using SQLite, the
+      // SQLite JDBC driver needs this property in order to correctly parse timestamps.
+      // A better approach is to use UniversalProjectReader or PrimaveraDatabaseFileReader
+      // rather than connecting to the database via JDBC.
       //
       if (driverClass.equals("org.sqlite.JDBC"))
       {

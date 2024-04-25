@@ -258,7 +258,7 @@ public class ProjectConfig
     */
    @Deprecated public int getNextTaskUniqueID()
    {
-      return m_parent.getTasks().getNextUniqueID().intValue();
+      return m_parent.getUniqueIdObjectSequence(Task.class).getNext().intValue();
    }
 
    /**
@@ -269,7 +269,7 @@ public class ProjectConfig
     */
    @Deprecated public int getNextCalendarUniqueID()
    {
-      return m_parent.getCalendars().getNextUniqueID().intValue();
+      return m_parent.getUniqueIdObjectSequence(ProjectCalendar.class).getNext().intValue();
    }
 
    /**
@@ -280,7 +280,7 @@ public class ProjectConfig
     */
    @Deprecated int getNextAssignmentUniqueID()
    {
-      return m_parent.getResourceAssignments().getNextUniqueID().intValue();
+      return m_parent.getUniqueIdObjectSequence(ResourceAssignment.class).getNext().intValue();
    }
 
    /**
@@ -302,7 +302,7 @@ public class ProjectConfig
     */
    @Deprecated public int getNextResourceUniqueID()
    {
-      return m_parent.getResources().getNextUniqueID().intValue();
+      return m_parent.getUniqueIdObjectSequence(Resource.class).getNext().intValue();
    }
 
    /**
@@ -320,10 +320,11 @@ public class ProjectConfig
     * This method is used to retrieve the next unique ID for a relation.
     *
     * @return next unique ID
+    * @deprecated  use ProjectFile.getRelations().getNextUniqueID()
     */
-   public int getNextRelationUniqueID()
+   @Deprecated public int getNextRelationUniqueID()
    {
-      return ++m_relationUniqueID;
+      return m_parent.getUniqueIdObjectSequence(Relation.class).getNext().intValue();
    }
 
    /**
@@ -359,7 +360,7 @@ public class ProjectConfig
     */
    @Deprecated public void updateUniqueCounters()
    {
-      m_parent.updateUniqueIdCounters();
+      // Deprecated
    }
 
    /**
@@ -369,7 +370,7 @@ public class ProjectConfig
     */
    @Deprecated public void updateTaskUniqueCounter()
    {
-      m_parent.getTasks().updateUniqueIdCounter();
+      // Deprecated
    }
 
    /**
@@ -379,7 +380,7 @@ public class ProjectConfig
     */
    @Deprecated public void updateResourceUniqueCounter()
    {
-      m_parent.getResources().updateUniqueIdCounter();
+      // Deprecated
    }
 
    /**
@@ -389,7 +390,7 @@ public class ProjectConfig
     */
    @Deprecated public void updateCalendarUniqueCounter()
    {
-      m_parent.getCalendars().updateUniqueIdCounter();
+      // Deprecated
    }
 
    /**
@@ -397,7 +398,7 @@ public class ProjectConfig
     */
    @Deprecated public void updateAssignmentUniqueCounter()
    {
-      m_parent.getResourceAssignments().updateUniqueIdCounter();
+      // Deprecated
    }
 
    /**
@@ -505,11 +506,6 @@ public class ProjectConfig
     * calculated on creation, or will be manually set.
     */
    private boolean m_autoRelationUniqueID = true;
-
-   /**
-    * Counter used to populate the unique ID field of a relation.
-    */
-   private int m_relationUniqueID;
 
    /**
     * Set to true provides compatibility with MS Project versions prior to 2007.

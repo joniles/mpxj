@@ -78,6 +78,16 @@ public class CustomFieldContainer implements Iterable<CustomField>
    }
 
    /**
+    * Remove a custom field.
+    *
+    * @param field field type to remove
+    */
+   public void remove(FieldType field)
+   {
+      m_configMap.remove(field);
+   }
+
+   /**
     * Retrieve a field type from a particular entity using its alias.
     *
     * @param typeClass the type of entity we are interested in
@@ -123,6 +133,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
     */
    public CustomFieldValueItem getCustomFieldValueItemByUniqueID(int uniqueID)
    {
+      // TODO: only used when reading MPP files - refactor?
       return m_valueMap.get(Integer.valueOf(uniqueID));
    }
 
@@ -134,6 +145,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
     */
    public CustomFieldValueItem getCustomFieldValueItemByGuid(UUID guid)
    {
+      // TODO: only used when reading MPP files - refactor?
       return m_guidMap.get(guid);
    }
 
@@ -144,6 +156,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
     */
    public void registerValue(CustomFieldValueItem item)
    {
+      // TODO: only used when reading MPP files - refactor?
       m_valueMap.put(item.getUniqueID(), item);
       if (item.getGUID() != null)
       {
@@ -158,6 +171,7 @@ public class CustomFieldContainer implements Iterable<CustomField>
     */
    public void deregisterValue(CustomFieldValueItem item)
    {
+      // TODO: only used when reading MPP files - refactor?
       m_valueMap.remove(item.getUniqueID());
       if (item.getGUID() != null)
       {
