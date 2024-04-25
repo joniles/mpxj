@@ -299,8 +299,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                   .type(externalRelation.getType())
                   .lag(externalRelation.getLag())
                   .uniqueID(externalRelation.getUniqueID())
-                  .notes(externalRelation.getNotes())
-               );
+                  .notes(externalRelation.getNotes()));
             }
          }
       }
@@ -765,9 +764,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             .postalCode(c.getPostalCode())
             .latitude(c.getLatitude())
             .longitude(c.getLongitude())
-            .build()
-         )
-      );
+            .build()));
    }
 
    /**
@@ -1782,8 +1779,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                .type(type)
                .lag(lag)
                .uniqueID(row.getObjectId())
-               .notes(comments)
-            );
+               .notes(comments));
             m_eventManager.fireRelationReadEvent(relation);
          }
          else

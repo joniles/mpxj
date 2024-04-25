@@ -934,10 +934,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static boolean locationIsCity(Location location)
    {
       return location.getCity() != null && !location.getCity().isEmpty() &&
-         location.getState() != null && !location.getState().isEmpty() &&
-         location.getStateCode() != null && !location.getStateCode().isEmpty() &&
-         location.getCountry() != null && !location.getCountry().isEmpty() &&
-         location.getCountryCode() != null && !location.getCountryCode().isEmpty();
+               location.getState() != null && !location.getState().isEmpty() &&
+               location.getStateCode() != null && !location.getStateCode().isEmpty() &&
+               location.getCountry() != null && !location.getCountry().isEmpty() &&
+               location.getCountryCode() != null && !location.getCountryCode().isEmpty();
    }
 
    private static Integer getProjectID(Integer id)

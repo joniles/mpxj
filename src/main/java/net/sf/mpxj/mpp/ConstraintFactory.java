@@ -115,8 +115,7 @@ public class ConstraintFactory
                   .targetTask(task1)
                   .type(RelationType.getInstance(MPPUtility.getShort(data, 12)))
                   .lag(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, durationOffset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, durationUnitsOffset))))
-                  .uniqueID(Integer.valueOf(constraintID))
-               );
+                  .uniqueID(Integer.valueOf(constraintID)));
                eventManager.fireRelationReadEvent(relation);
             }
          }

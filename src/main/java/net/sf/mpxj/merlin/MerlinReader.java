@@ -556,8 +556,7 @@ public final class MerlinReader extends AbstractProjectFileReader
             .targetTask(prevTask)
             .type(row.getRelationType("ZTYPE"))
             .lag(row.getDuration("ZLAG_"))
-            .uniqueID(row.getInteger("Z_PK"))
-         );
+            .uniqueID(row.getInteger("Z_PK")));
       }
    }
 

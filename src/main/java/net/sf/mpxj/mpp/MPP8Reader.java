@@ -811,8 +811,7 @@ final class MPP8Reader implements MPPVariantReader
                         .targetTask(task1)
                         .type(RelationType.getInstance(MPPUtility.getShort(data, 20)))
                         .lag(MPPUtility.getDuration(MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 22))))
-                        .uniqueID(Integer.valueOf(MPPUtility.getInt(data, 0)))
-                     );
+                        .uniqueID(Integer.valueOf(MPPUtility.getInt(data, 0))));
                      m_eventManager.fireRelationReadEvent(relation);
                   }
                }

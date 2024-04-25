@@ -1130,8 +1130,7 @@ final class AstaReader
                .targetTask(startTask)
                .type(type)
                .lag(lag)
-               .uniqueID(row.getInteger("LINKID"))
-            );
+               .uniqueID(row.getInteger("LINKID")));
 
             // resolve indeterminate constraint for successor tasks
             if (m_deferredConstraintType.contains(endTask.getUniqueID()))

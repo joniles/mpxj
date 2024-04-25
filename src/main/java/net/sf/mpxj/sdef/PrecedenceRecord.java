@@ -45,8 +45,7 @@ class PrecedenceRecord extends AbstractSDEFRecord
          Relation relation = currentTask.addPredecessor(new Relation.Builder()
             .targetTask(previousTask)
             .type(getRelationType(2))
-            .lag(getDuration(3))
-         );
+            .lag(getDuration(3)));
          context.getEventManager().fireRelationReadEvent(relation);
       }
    }

@@ -443,8 +443,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
             .targetTask(sourceTask)
             .type(link.getType())
             .lag(getDuration(link.getLagUnit(), link.getLag()))
-            .uniqueID(link.getID())
-         );
+            .uniqueID(link.getID()));
 
          m_eventManager.fireRelationReadEvent(relation);
       }

@@ -807,8 +807,7 @@ public class ProjectCalendarTest
 
       List<LocalTimeRange> ranges = Arrays.asList(
          new LocalTimeRange(LocalTime.of(0, 0), LocalTime.of(4, 30)),
-         new LocalTimeRange(LocalTime.of(8, 30), LocalTime.of(0, 0))
-      );
+         new LocalTimeRange(LocalTime.of(8, 30), LocalTime.of(0, 0)));
 
       Arrays.stream(DayOfWeek.values()).forEach(d -> calendar.setCalendarDayType(d, DayType.WORKING));
 
