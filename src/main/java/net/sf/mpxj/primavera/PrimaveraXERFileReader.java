@@ -854,12 +854,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     */
    private String unescapeQuotes(String value)
    {
-      if (value == null || value.isEmpty())
-      {
-         return value;
-      }
-
-      if (!value.contains("\"\""))
+      if (value == null || value.isEmpty() || !value.contains("\"\""))
       {
          return value;
       }

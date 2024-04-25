@@ -61,13 +61,8 @@ public final class MppXmlCompare
          m_currentEntity = xmlTask;
 
          // too much variability
-         if (NumberHelper.getInt(xmlTask.getUniqueID()) == 0)
-         {
-            continue;
-         }
-
          // tasks with null names not read?
-         if (xmlTask.getName() == null)
+         if ((NumberHelper.getInt(xmlTask.getUniqueID()) == 0) || (xmlTask.getName() == null))
          {
             continue;
          }
@@ -300,13 +295,8 @@ public final class MppXmlCompare
          m_currentEntity = xmlResource;
 
          // too much variability
-         if (NumberHelper.getInt(xmlResource.getUniqueID()) == 0)
-         {
-            continue;
-         }
-
          // tasks with null names not read?
-         if (xmlResource.getName() == null)
+         if ((NumberHelper.getInt(xmlResource.getUniqueID()) == 0) || (xmlResource.getName() == null))
          {
             continue;
          }
@@ -517,12 +507,7 @@ public final class MppXmlCompare
     */
    private void assertEquals(Object expected, Object actual) throws Exception
    {
-      if (expected == null && actual == null)
-      {
-         return;
-      }
-
-      if (expected != null && expected.equals(actual))
+      if ((expected == null && actual == null) || (expected != null && expected.equals(actual)))
       {
          return;
       }

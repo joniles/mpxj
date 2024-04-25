@@ -5710,12 +5710,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return startSlack;
       }
 
-      if (calculationType == TotalSlackCalculationType.FINISH_SLACK)
-      {
-         return finishSlack;
-      }
-
-      if (getActualStart() != null)
+      if ((calculationType == TotalSlackCalculationType.FINISH_SLACK) || (getActualStart() != null))
       {
          return finishSlack;
       }

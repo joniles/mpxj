@@ -942,12 +942,7 @@ final class MPP9Reader implements MPPVariantReader
             continue;
          }
 
-         if (data.length < fieldMap.getMaxFixedDataSize(0))
-         {
-            continue;
-         }
-
-         if (uniqueID.intValue() != 0 && !taskVarMeta.containsKey(uniqueID))
+         if ((data.length < fieldMap.getMaxFixedDataSize(0)) || (uniqueID.intValue() != 0 && !taskVarMeta.containsKey(uniqueID)))
          {
             continue;
          }

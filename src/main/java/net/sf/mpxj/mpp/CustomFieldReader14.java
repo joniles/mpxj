@@ -97,13 +97,8 @@ class CustomFieldReader14
          int unknownBlock1Size = MPPUtility.getInt(m_data, offset);
          offset += 4;
          offset += unknownBlock1Size;
-         if (offset > m_data.length)
-         {
-            return;
-         }
-
          // Unknown block 2: size, size count
-         if (offset + 4 > m_data.length)
+         if ((offset > m_data.length) || (offset + 4 > m_data.length))
          {
             return;
          }

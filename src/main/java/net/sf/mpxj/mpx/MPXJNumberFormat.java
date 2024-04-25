@@ -134,12 +134,7 @@ public final class MPXJNumberFormat extends DecimalFormat
          return true;
       }
 
-      if (!super.equals(obj))
-      {
-         return false;
-      }
-
-      if (getClass() != obj.getClass())
+      if (!super.equals(obj) || (getClass() != obj.getClass()))
       {
          return false;
       }

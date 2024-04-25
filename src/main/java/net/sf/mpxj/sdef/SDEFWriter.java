@@ -273,8 +273,8 @@ public final class SDEFWriter extends AbstractProjectWriter
             dd = dd.convertUnits(TimeUnit.DAYS, m_projectFile.getProjectProperties());
          }
          Double days = Double.valueOf(dd.getDuration() + 0.5); // Add 0.5 so half day rounds up upon truncation
-         Integer est = Integer.valueOf(days.intValue());
-         m_buffer.append(SDEFmethods.rset(est.toString(), 3)).append(" "); // task duration in days required by USACE
+         int est = days.intValue();
+         m_buffer.append(SDEFmethods.rset(Integer.toString(est), 3)).append(" "); // task duration in days required by USACE
 
          String conType;
          String formattedConstraintDate;
@@ -399,8 +399,8 @@ public final class SDEFWriter extends AbstractProjectWriter
                dd = Duration.convertUnits(duration, dd.getUnits(), TimeUnit.DAYS, m_projectFile.getProjectProperties());
             }
             Double days = Double.valueOf(dd.getDuration());
-            Integer est = Integer.valueOf(days.intValue());
-            m_buffer.append(SDEFmethods.rset(est.toString(), 4)); // task duration in days required by USACE
+            int est = days.intValue();
+            m_buffer.append(SDEFmethods.rset(Integer.toString(est), 4)); // task duration in days required by USACE
             m_buffer.append("\n");
             m_writer.write(m_buffer.toString());
          }

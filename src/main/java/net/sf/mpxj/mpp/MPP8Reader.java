@@ -846,28 +846,20 @@ final class MPP8Reader implements MPPVariantReader
          // Test for a valid unique id
          //
          id = MPPUtility.getInt(data, 0);
-         if (id < 1)
-         {
-            continue;
-         }
+         
 
          //
          // Blank rows can be present in MPP files. The following flag
          // appears to indicate that a row is blank, and should be
          // ignored.
          //
-         if ((data[8] & 0x01) != 0)
-         {
-            continue;
-         }
-
          //
          // Test to ensure this resource has not been deleted
          // This may be an array of bit flags, as per the task
          // record. I have yet to see data to support this, so
          // the simple non-zero test remains.
          //
-         if (MPPUtility.getShort(data, 164) != 0)
+         if ((id < 1) || ((data[8] & 0x01) != 0) || (MPPUtility.getShort(data, 164) != 0))
          {
             continue;
          }
