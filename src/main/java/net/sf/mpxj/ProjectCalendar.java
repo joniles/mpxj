@@ -836,7 +836,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                LocalTime rangeStart = range.getStart();
                LocalTime rangeEnd = range.getEnd();
 
-               if (rangeStart == null || rangeEnd == null || (currentDayEndTime != LocalTime.MIDNIGHT && currentDayEndTime.isBefore(rangeStart)))
+               if (rangeStart == null || rangeEnd == null)
+               {
+                  continue;
+               }
+
+               if (currentDayEndTime != LocalTime.MIDNIGHT && currentDayEndTime.isBefore(rangeStart))
                {
                   continue;
                }
