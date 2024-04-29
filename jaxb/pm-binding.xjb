@@ -1,9 +1,9 @@
 <jxb:bindings version="1.0" xmlns:jxb="http://java.sun.com/xml/ns/jaxb" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <!-- note that the schemaLocation will need to be changed to be correct for your system -->
-  <jxb:bindings node="/xsd:schema" schemaLocation="file:p6apibo.xsd">
+  <jxb:bindings node="/xsd:schema" schemaLocation="file:p6v2312-p6apibo-corrected.xsd">
     <jxb:globalBindings generateElementProperty="false">
-      <jxb:javaType name="java.util.Date" parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseDateTime" printMethod="net.sf.mpxj.primavera.DatatypeConverter.printDateTime" xmlType="xsd:dateTime"/>
-      <jxb:javaType name="java.util.Date" parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseTime" printMethod="net.sf.mpxj.primavera.DatatypeConverter.printTime" xmlType="xsd:time"/>
+      <jxb:javaType name="java.time.LocalDateTime" parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseDateTime" printMethod="net.sf.mpxj.primavera.DatatypeConverter.printDateTime" xmlType="xsd:dateTime"/>
+      <jxb:javaType name="java.time.LocalTime" parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseTime" printMethod="net.sf.mpxj.primavera.DatatypeConverter.printTime" xmlType="xsd:time"/>
       <jxb:javaType name="java.lang.Double" parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseDouble" printMethod="net.sf.mpxj.primavera.DatatypeConverter.printDouble" xmlType="xsd:double"/>
       <jxb:javaType name="java.lang.Boolean" parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseBoolean" printMethod="net.sf.mpxj.primavera.DatatypeConverter.printBoolean" xmlType="xsd:boolean"/>
       <jxb:javaType name="java.lang.String" parseMethod="net.sf.mpxj.primavera.DatatypeConverter.parseString" printMethod="net.sf.mpxj.primavera.DatatypeConverter.printString" xmlType="xsd:string"/>

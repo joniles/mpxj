@@ -32,8 +32,9 @@ A similar arrangement exists for the writer classes, although there is not a
  
 * `net.sf.mpxj.mpx.MPXWriter`: writes Microsoft MPX files
 * `net.sf.mpxj.mspdi.MSPDIWriter`: writes Microsoft MSPDI (XML) files
-* `net.sf.mpxj.primavera.PrimaveraPMFileWriter`: writes Primavera PMXML (XML) files
 * `net.sf.mpxj.planner.PlannerWriter`: writes Planner (XML) files
+* `net.sf.mpxj.sdef.SDEFWriter`: writes SDEF files
+* `net.sf.mpxj.primavera.PrimaveraPMFileWriter`: writes Primavera PMXML (XML) files
 * `net.sf.mpxj.json.JsonWriter`: writes JSON files (primarily used to support the Ruby version of MPXJ)
 
 All of these classes implement the ProjectWriter interface. If you know which 
@@ -284,7 +285,7 @@ the default values provided by Microsoft Project if it is a base calendar.
 If a particular day is defined as a working day, then the calendar will also
 contain a set of working hours for that day. The working hours for a day are
 defined by an instance of the ProjectCalendarHours class. This contains a 
-collection of DateRange instances which defined the start and end times
+collection of `LocalTimeRange` instances which defined the start and end times
 of each working period during the day.
 
 Alongside the flags which control whether a day is working or non-working,  and

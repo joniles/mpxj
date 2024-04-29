@@ -25,12 +25,12 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceAssignment;
@@ -109,13 +109,12 @@ public class TimephasedWorkCostSegmentTest
     *
     * @param file ProjectFile instance
     */
-   private void testSegments(ProjectFile file) throws Exception
+   private void testSegments(ProjectFile file)
    {
       //
       // Set the start date
       //
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-      Date startDate = df.parse("07/12/2011");
+      LocalDateTime startDate = LocalDateTime.of(2011, 12, 7, 0, 0);
 
       //
       // Test each task
@@ -730,12 +729,12 @@ public class TimephasedWorkCostSegmentTest
     * @param units units of duration for each segment
     * @param expected array of expected durations for each segment
     */
-   private void testBaselineWorkSegments(ProjectFile file, ResourceAssignment assignment, Date startDate, TimescaleUnits units, double[] expected)
+   private void testBaselineWorkSegments(ProjectFile file, ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected)
    {
-      ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       List<TimephasedWork> assignments = assignment.getTimephasedBaselineWork(0);
-      ArrayList<Duration> durationList = m_timephased.segmentBaselineWork(file, assignments, units, dateList);
+      ArrayList<Duration> durationList = m_timephased.segmentBaselineWork(assignment.getEffectiveCalendar(), assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)
@@ -753,12 +752,12 @@ public class TimephasedWorkCostSegmentTest
     * @param units units of duration for each segment
     * @param expected array of expected durations for each segment
     */
-   private void testBaselineCostSegments(ProjectFile file, ResourceAssignment assignment, Date startDate, TimescaleUnits units, double[] expected)
+   private void testBaselineCostSegments(ProjectFile file, ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected)
    {
-      ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
       List<TimephasedCost> assignments = assignment.getTimephasedBaselineCost(0);
-      ArrayList<Double> costList = m_timephased.segmentBaselineCost(file, assignments, units, dateList);
+      ArrayList<Double> costList = m_timephased.segmentBaselineCost(assignment.getEffectiveCalendar(), assignments, units, dateList);
       //dumpExpectedData(assignment, durationList);
       assertEquals(expected.length, costList.size());
       for (int loop = 0; loop < expected.length; loop++)
@@ -775,7 +774,7 @@ public class TimephasedWorkCostSegmentTest
     * @param units units of duration for each segment
     * @param expected array of expected durations for each segment
     */
-   private void testCostSegments(ResourceAssignment assignment, Date startDate, TimescaleUnits units, double[] expected)
+   private void testCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected)
    {
       testCostSegments(assignment, assignment.getTimephasedCost(), startDate, units, expected);
    }
@@ -788,7 +787,7 @@ public class TimephasedWorkCostSegmentTest
     * @param units units of duration for each segment
     * @param expected array of expected durations for each segment
     */
-   private void testActualCostSegments(ResourceAssignment assignment, Date startDate, TimescaleUnits units, double[] expected)
+   private void testActualCostSegments(ResourceAssignment assignment, LocalDateTime startDate, TimescaleUnits units, double[] expected)
    {
       testCostSegments(assignment, assignment.getTimephasedActualCost(), startDate, units, expected);
    }
@@ -802,11 +801,11 @@ public class TimephasedWorkCostSegmentTest
     * @param units units of duration for each segment
     * @param expected array of expected durations for each segment
     */
-   private void testCostSegments(ResourceAssignment assignment, List<TimephasedCost> assignments, Date startDate, TimescaleUnits units, double[] expected)
+   private void testCostSegments(ResourceAssignment assignment, List<TimephasedCost> assignments, LocalDateTime startDate, TimescaleUnits units, double[] expected)
    {
-      ArrayList<DateRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
+      ArrayList<LocalDateTimeRange> dateList = m_timescale.createTimescale(startDate, units, expected.length);
       //System.out.println(dateList);
-      ArrayList<Double> costList = m_timephased.segmentCost(assignment.getCalendar(), assignments, units, dateList);
+      ArrayList<Double> costList = m_timephased.segmentCost(assignment.getEffectiveCalendar(), assignments, units, dateList);
       //dumpExpectedData(assignment, costList);
       assertEquals(expected.length, costList.size());
       for (int loop = 0; loop < expected.length; loop++)
@@ -842,7 +841,7 @@ public class TimephasedWorkCostSegmentTest
          }
          System.out.println("}");
       }
-
+   
       private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Double> list)
       {
          //System.out.println(assignment);

@@ -59,30 +59,13 @@ abstract class VarDataFieldReader
       if (flag == VALUE_LIST_WITH_ID_MASK || flag == VALUE_LIST_WITHOUT_ID_MASK)
       {
          byte[] data = varData.getByteArray(id, type);
-
-         // 26 bytes in total: 2 byte mask, 4 byte unique ID, 16 byte GUID, 4 bytes unknown
-         int uniqueId = MPPUtility.getInt(data, 2);
-         UUID guid = MPPUtility.getGUID(data, 6);
-
-         CustomFieldValueItem item;
-         if (uniqueId == -1)
+         if (data.length == 4)
          {
-            item = m_customFields.getCustomFieldValueItemByGuid(guid);
+            result = MPPUtility.getDate(data, 2);
          }
          else
          {
-            item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
-         }
-
-         if (item == null)
-         {
-            // Fall back on the readValue method to make sense of the value.
-            //result = readValue(varData, id, type);
-            result = guid;
-         }
-         else
-         {
-            result = coerceValue(item.getValue());
+            result = getValueByID(data);
          }
       }
       else
@@ -91,6 +74,31 @@ abstract class VarDataFieldReader
       }
 
       return result;
+   }
+
+   /**
+    * Handle a block representing the value as an integer unique ID and a GUID.
+    *
+    * @param data block containing value
+    * @return item value
+    */
+   private Object getValueByID(byte[] data)
+   {
+      // 26 bytes in total: 2 byte mask, 4 byte unique ID, 16 byte GUID, 4 bytes unknown
+      int uniqueId = MPPUtility.getInt(data, 2);
+      UUID guid = MPPUtility.getGUID(data, 6);
+
+      CustomFieldValueItem item;
+      if (uniqueId == -1)
+      {
+         item = m_customFields.getCustomFieldValueItemByGuid(guid);
+      }
+      else
+      {
+         item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
+      }
+
+      return item == null ? guid : coerceValue(item.getValue());
    }
 
    /**

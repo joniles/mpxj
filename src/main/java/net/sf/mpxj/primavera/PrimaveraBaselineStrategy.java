@@ -28,13 +28,18 @@ import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 
 /**
- * Strategy used to assign baselines for Primavera schedules.
+ * Strategies used to assign baselines for Primavera schedules.
  */
-public class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
+public final class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
 {
+   private PrimaveraBaselineStrategy(TaskField[] sourceFields)
+   {
+      m_sourceFields = sourceFields;
+   }
+
    @Override protected TaskField[] getSourceFields()
    {
-      return SOURCE_FIELDS;
+      return m_sourceFields;
    }
 
    @Override protected Object getKeyForTask(Task task)
@@ -47,7 +52,9 @@ public class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
       return task.getSummary() ? activityID + " " + task.getOutlineLevel() : activityID;
    }
 
-   private static final TaskField[] SOURCE_FIELDS =
+   private final TaskField[] m_sourceFields;
+
+   public static final PrimaveraBaselineStrategy PLANNED_DATES = new PrimaveraBaselineStrategy(new TaskField[]
    {
       TaskField.PLANNED_COST,
       TaskField.PLANNED_DURATION,
@@ -56,5 +63,16 @@ public class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
       TaskField.FIXED_COST,
       TaskField.PLANNED_START,
       TaskField.PLANNED_WORK
-   };
+   });
+
+   public static final PrimaveraBaselineStrategy CURRENT_DATES = new PrimaveraBaselineStrategy(new TaskField[]
+   {
+      TaskField.COST,
+      TaskField.DURATION,
+      TaskField.FINISH,
+      TaskField.FIXED_COST_ACCRUAL,
+      TaskField.FIXED_COST,
+      TaskField.START,
+      TaskField.WORK
+   });
 }

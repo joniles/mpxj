@@ -91,7 +91,12 @@ public final class Duration implements Comparable<Duration>
     */
    public Duration convertUnits(TimeUnit type, TimeUnitDefaultsContainer defaults)
    {
-      return (convertUnits(m_duration, m_units, type, defaults));
+      if (type == m_units)
+      {
+         return this;
+      }
+
+      return convertUnits(m_duration, m_units, type, defaults);
    }
 
    /**
@@ -108,7 +113,7 @@ public final class Duration implements Comparable<Duration>
     */
    public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, TimeUnitDefaultsContainer defaults)
    {
-      return (convertUnits(duration, fromUnits, toUnits, defaults.getMinutesPerDay().doubleValue(), defaults.getMinutesPerWeek().doubleValue(), defaults.getDaysPerMonth().doubleValue()));
+      return convertUnits(duration, fromUnits, toUnits, defaults.getMinutesPerDay().doubleValue(), defaults.getMinutesPerWeek().doubleValue(), defaults.getDaysPerMonth().doubleValue());
    }
 
    /**
@@ -127,6 +132,11 @@ public final class Duration implements Comparable<Duration>
     */
    public static Duration convertUnits(double duration, TimeUnit fromUnits, TimeUnit toUnits, double minutesPerDay, double minutesPerWeek, double daysPerMonth)
    {
+      if (fromUnits == toUnits)
+      {
+         return Duration.getInstance(duration, fromUnits);
+      }
+
       switch (fromUnits)
       {
          case YEARS:

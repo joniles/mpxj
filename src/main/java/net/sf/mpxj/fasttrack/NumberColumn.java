@@ -28,13 +28,8 @@ import java.io.PrintWriter;
 /**
  * Column containing double values.
  */
-class NumberColumn extends AbstractColumn
+abstract class NumberColumn extends AbstractColumn
 {
-   @Override protected int postHeaderSkipBytes()
-   {
-      return 18;
-   }
-
    @Override protected int readData(byte[] buffer, int offset)
    {
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);

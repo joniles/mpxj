@@ -85,6 +85,7 @@ public abstract class FilterReader
          filter.setShowRelatedSummaryRows(MPPUtility.getByte(filterVarData, 4) != 0);
          filter.setCriteria(criteriaReader.process(file, filterVarData, 0, -1, prompts, null, criteriaType));
 
+         // TODO: the current logic to determine if a filter relates to tasks or resources only works if the filter has criteria
          filter.setIsTaskFilter(criteriaType[0]);
          filter.setIsResourceFilter(criteriaType[1]);
          filter.setPrompts(prompts);

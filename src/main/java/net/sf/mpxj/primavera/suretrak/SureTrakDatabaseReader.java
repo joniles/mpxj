@@ -25,18 +25,19 @@ package net.sf.mpxj.primavera.suretrak;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
@@ -49,15 +50,16 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AlphanumComparator;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.common.MapRow;
 import net.sf.mpxj.primavera.common.Table;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
@@ -86,8 +88,9 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
     * @param directory directory containing a SureTrak database
     * @param properties optional properties to pass to reader's setProperties method
     * @return ProjectFile instance
+    * @deprecated use setProjectNameAndRead(File) method instead
     */
-   public static final ProjectFile setProjectNameAndRead(File directory, Properties properties) throws MPXJException
+   @Deprecated public static final ProjectFile setProjectNameAndRead(File directory, Properties properties) throws MPXJException
    {
       List<String> projects = listProjectNames(directory);
 
@@ -192,6 +195,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          readTasks();
          readRelationships();
          readResourceAssignments();
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }
@@ -278,16 +282,16 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          };
 
          calendar.setName(row.getString("NAME"));
-         readHours(calendar, Day.SUNDAY, days[0]);
-         readHours(calendar, Day.MONDAY, days[1]);
-         readHours(calendar, Day.TUESDAY, days[2]);
-         readHours(calendar, Day.WEDNESDAY, days[3]);
-         readHours(calendar, Day.THURSDAY, days[4]);
-         readHours(calendar, Day.FRIDAY, days[5]);
-         readHours(calendar, Day.SATURDAY, days[6]);
+         readHours(calendar, DayOfWeek.SUNDAY, days[0]);
+         readHours(calendar, DayOfWeek.MONDAY, days[1]);
+         readHours(calendar, DayOfWeek.TUESDAY, days[2]);
+         readHours(calendar, DayOfWeek.WEDNESDAY, days[3]);
+         readHours(calendar, DayOfWeek.THURSDAY, days[4]);
+         readHours(calendar, DayOfWeek.FRIDAY, days[5]);
+         readHours(calendar, DayOfWeek.SATURDAY, days[6]);
 
          int workingDaysPerWeek = 0;
-         for (Day day : Day.values())
+         for (DayOfWeek day : DayOfWeek.values())
          {
             if (calendar.isWorkingDay(day))
             {
@@ -333,18 +337,11 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
     * @param day target day
     * @param hours working hours
     */
-   private void readHours(ProjectCalendar calendar, Day day, Integer hours)
+   private void readHours(ProjectCalendar calendar, DayOfWeek day, Integer hours)
    {
       int value = hours.intValue();
       int startHour = 0;
       ProjectCalendarHours calendarHours = calendar.addCalendarHours(day);
-
-      Calendar cal = DateHelper.popCalendar();
-      cal.set(Calendar.HOUR_OF_DAY, 0);
-      cal.set(Calendar.MINUTE, 0);
-      cal.set(Calendar.SECOND, 0);
-      cal.set(Calendar.MILLISECOND, 0);
-
       calendar.setWorkingDay(day, false);
 
       while (value != 0)
@@ -370,17 +367,10 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
             ++endHour;
          }
 
-         cal.set(Calendar.HOUR_OF_DAY, startHour);
-         Date startDate = cal.getTime();
-         cal.set(Calendar.HOUR_OF_DAY, endHour);
-         Date endDate = cal.getTime();
-
          calendar.setWorkingDay(day, true);
-         calendarHours.add(new DateRange(startDate, endDate));
+         calendarHours.add(new LocalTimeRange(LocalTime.of(startHour, 0), LocalTime.of(endHour == 24 ? 0 : endHour, 0)));
          startHour = endHour;
       }
-
-      DateHelper.pushCalendar(cal);
    }
 
    /**
@@ -421,7 +411,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          ProjectCalendar calendar = m_calendarMap.get(row.getInteger("CALENDAR_ID"));
          if (calendar != null)
          {
-            Date date = row.getDate("DATE");
+            LocalDate date = LocalDateHelper.getLocalDate(row.getDate("DATE"));
 
             if (row.getBoolean("ANNUAL"))
             {
@@ -594,10 +584,10 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          Task successor = m_activityMap.get(row.getString("SUCCESSOR_ACTIVITY_ID"));
          if (predecessor != null && successor != null)
          {
-            Duration lag = row.getDuration("LAG");
-            RelationType type = row.getRelationType("TYPE");
-
-            Relation relation = successor.addPredecessor(predecessor, type, lag);
+            Relation relation = successor.addPredecessor(new Relation.Builder()
+               .targetTask(predecessor)
+               .type(row.getRelationType("TYPE"))
+               .lag(row.getDuration("LAG")));
             m_eventManager.fireRelationReadEvent(relation);
          }
       }
@@ -641,27 +631,27 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date startDate = parentTask.getStart();
-         Date finishDate = parentTask.getFinish();
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime startDate = parentTask.getStart();
+         LocalDateTime finishDate = parentTask.getFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
 
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
 
-            startDate = DateHelper.min(startDate, task.getStart());
-            finishDate = DateHelper.max(finishDate, task.getFinish());
-            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
-            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
-            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
-            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
-            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
-            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+            startDate = LocalDateTimeHelper.min(startDate, task.getStart());
+            finishDate = LocalDateTimeHelper.max(finishDate, task.getFinish());
+            actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
 
             if (task.getActualFinish() != null)
             {

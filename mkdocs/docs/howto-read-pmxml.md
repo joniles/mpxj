@@ -108,3 +108,33 @@ reader.setLinkCrossProjectRelations(true);
 InputStream is = new FileInputStream("my-sample.xml");
 List<ProjectFile> files = reader.readAll(is);
 ```
+
+### Baselines
+Users can export PMXML files from P6 which contain the baseline project
+along with the main project being exported. When the `readAll` method
+is used to read a PMXML file, MPXJ will attempt to populate the baseline
+fields of the main project if it can locate the baseline project in
+the PMXML file.
+
+By default the "Planned Dates" strategy is used to populate baseline fields,
+which is the approach P6 uses when the "Earned Value Calculation" method is
+set to  "Budgeted values with planned dates".
+
+`PrimaveraPMFileReader` provides a method allowing the strategy to be changed,
+thus allowing you to select the "Current Dates" strategy, which is the approach
+used by P6 when the Earned Value Calculation method is set to "At Completion
+values with current dates" or "Budgeted values with current dates". The example
+below illustrates how this method is used:
+
+```java
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.PrimaveraBaselineStrategy;
+import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+
+// ...
+
+PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+reader.setBaselineStrategy(PrimaveraBaselineStrategy.CURRENT_DATES);
+InputStream is = new FileInputStream("my-sample.xml");
+List<ProjectFile> files = reader.readAll(is);
+```

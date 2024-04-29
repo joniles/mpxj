@@ -23,12 +23,17 @@
 
 package net.sf.mpxj.common;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.Duration;
+import net.sf.mpxj.LocalDateTimeRange;
+import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 
 /**
@@ -38,16 +43,24 @@ import net.sf.mpxj.TimephasedWork;
 public final class SplitTaskFactory
 {
    /**
+    * Private constructor - prevent instantiation.
+    */
+   private SplitTaskFactory()
+   {
+
+   }
+
+   /**
     * Process the timephased resource assignment data to work out the
     * split structure of the task.
     *
-    * @param task parent task
+    * @param assignment parent resource assignment
     * @param timephasedComplete completed resource assignment work
     * @param timephasedPlanned planned resource assignment work
     */
-   public void processSplitData(Task task, List<TimephasedWork> timephasedComplete, List<TimephasedWork> timephasedPlanned)
+   public static void processSplitData(ResourceAssignment assignment, List<TimephasedWork> timephasedComplete, List<TimephasedWork> timephasedPlanned)
    {
-      Date splitsComplete = null;
+      LocalDateTime splitsComplete = null;
       TimephasedWork lastComplete = null;
       TimephasedWork firstPlanned = null;
       if (!timephasedComplete.isEmpty())
@@ -61,63 +74,75 @@ public final class SplitTaskFactory
          firstPlanned = timephasedPlanned.get(0);
       }
 
-      List<DateRange> splits = new ArrayList<>();
+      List<LocalDateTimeRange> splits = new ArrayList<>();
       TimephasedWork lastAssignment = null;
-      DateRange lastRange = null;
-      for (TimephasedWork assignment : timephasedComplete)
+      LocalDateTimeRange lastRange = null;
+      for (TimephasedWork work : timephasedComplete)
       {
-         if (lastAssignment != null && lastRange != null && lastAssignment.getTotalAmount().getDuration() != 0 && assignment.getTotalAmount().getDuration() != 0)
+         if (lastAssignment != null && lastRange != null && lastAssignment.getTotalAmount().getDuration() != 0 && work.getTotalAmount().getDuration() != 0)
          {
             splits.remove(splits.size() - 1);
-            lastRange = new DateRange(lastRange.getStart(), assignment.getFinish());
+            lastRange = new LocalDateTimeRange(lastRange.getStart(), work.getFinish());
          }
          else
          {
-            lastRange = new DateRange(assignment.getStart(), assignment.getFinish());
+            lastRange = new LocalDateTimeRange(work.getStart(), work.getFinish());
          }
          splits.add(lastRange);
-         lastAssignment = assignment;
+         lastAssignment = work;
       }
 
       //
       // We may not have a split, we may just have a partially
       // complete split.
       //
-      Date splitStart = null;
+      LocalDateTime splitStart = null;
       if (lastComplete != null && firstPlanned != null && lastComplete.getTotalAmount().getDuration() != 0 && firstPlanned.getTotalAmount().getDuration() != 0)
       {
-         lastRange = splits.remove(splits.size() - 1);
-         splitStart = lastRange.getStart();
+         ProjectCalendar calendar = assignment.getEffectiveCalendar();
+         Duration work = calendar.getWork(lastComplete.getFinish(), firstPlanned.getStart(), TimeUnit.HOURS);
+         if (work.getDuration() == 0)
+         {
+            // No work between the last complete and the first planned: this is a partially complete split
+            lastRange = splits.remove(splits.size() - 1);
+            splitStart = lastRange.getStart();
+         }
+         else
+         {
+            // This is a complete split, followed by a planned split
+            splits.add(new LocalDateTimeRange(calendar.getNextWorkStart(lastComplete.getFinish()), calendar.getPreviousWorkFinish(firstPlanned.getStart())));
+         }
       }
 
       lastAssignment = null;
       lastRange = null;
-      for (TimephasedWork assignment : timephasedPlanned)
+      for (TimephasedWork work : timephasedPlanned)
       {
          if (splitStart == null)
          {
-            if (lastAssignment != null && lastRange != null && lastAssignment.getTotalAmount().getDuration() != 0 && assignment.getTotalAmount().getDuration() != 0)
+            if (lastAssignment != null && lastRange != null && lastAssignment.getTotalAmount().getDuration() != 0 && work.getTotalAmount().getDuration() != 0)
             {
                splits.remove(splits.size() - 1);
-               lastRange = new DateRange(lastRange.getStart(), assignment.getFinish());
+               lastRange = new LocalDateTimeRange(lastRange.getStart(), work.getFinish());
             }
             else
             {
-               lastRange = new DateRange(assignment.getStart(), assignment.getFinish());
+               lastRange = new LocalDateTimeRange(work.getStart(), work.getFinish());
             }
          }
          else
          {
-            lastRange = new DateRange(splitStart, assignment.getFinish());
+            lastRange = new LocalDateTimeRange(splitStart, work.getFinish());
          }
          splits.add(lastRange);
          splitStart = null;
-         lastAssignment = assignment;
+         lastAssignment = work;
       }
 
       //
       // We must have a minimum of 3 entries for this to be a valid split task
       //
+      Task task = assignment.getTask();
       if (splits.size() > 2)
       {
          task.setSplits(splits);

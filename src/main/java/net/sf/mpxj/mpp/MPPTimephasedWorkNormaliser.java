@@ -23,115 +23,107 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
-import net.sf.mpxj.common.CombinedCalendar;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 
 /**
- * Normalise timephased resource assignment data from an MPP file.
+ * Normalise timephased data from an MPP file.
  */
-public class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormaliser
+public final class MPPTimephasedWorkNormaliser extends MPPAbstractTimephasedWorkNormaliser
 {
-   @Override protected ProjectCalendar getCalendar(ResourceAssignment assignment)
+   /**
+    * Private constructor to prevent instantiation.
+    */
+   private MPPTimephasedWorkNormaliser()
    {
-      ProjectCalendar taskCalendar = assignment.getTask().getCalendar();
-      ProjectCalendar resourceCalendar = assignment.getResource() != null && assignment.getResource().getType() == ResourceType.WORK ? assignment.getCalendar() : null;
-      ProjectCalendar result;
-      if (taskCalendar != null && resourceCalendar != null)
-      {
-         result = new CombinedCalendar(taskCalendar, resourceCalendar);
-      }
-      else
-      {
-         result = resourceCalendar == null ? assignment.getTask().getEffectiveCalendar() : resourceCalendar;
-      }
-      return result;
+
    }
 
    /**
-    * This method merges together assignment data for the same day.
+    * This method merges together timephased data for the same day.
     *
     * @param calendar current calendar
-    * @param list assignment data
+    * @param list timephased data
     */
    @Override protected void mergeSameDay(ProjectCalendar calendar, List<TimephasedWork> list)
    {
       List<TimephasedWork> result = new ArrayList<>();
 
-      TimephasedWork previousAssignment = null;
-      for (TimephasedWork assignment : list)
+      TimephasedWork previousItem = null;
+      for (TimephasedWork item : list)
       {
-         if (previousAssignment != null)
+         if (previousItem != null)
          {
-            Date previousAssignmentStart = previousAssignment.getStart();
-            Date previousAssignmentStartDay = DateHelper.getDayStartDate(previousAssignmentStart);
-            Date assignmentStart = assignment.getStart();
-            Date assignmentStartDay = DateHelper.getDayStartDate(assignmentStart);
+            LocalDateTime previousItemStart = previousItem.getStart();
+            LocalDateTime previousItemStartDay = LocalDateTimeHelper.getDayStartDate(previousItemStart);
+            LocalDateTime itemStart = item.getStart();
+            LocalDateTime itemStartDay = LocalDateTimeHelper.getDayStartDate(itemStart);
 
-            if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
+            if (previousItemStartDay.equals(itemStartDay))
             {
-               Duration previousAssignmentWork = previousAssignment.getTotalAmount();
-               Duration assignmentWork = assignment.getTotalAmount();
+               Duration previousItemWork = previousItem.getTotalAmount();
+               Duration itemWork = item.getTotalAmount();
 
-               if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() == 0)
+               if (previousItemWork.getDuration() != 0 && itemWork.getDuration() == 0)
                {
                   continue;
                }
 
-               Date previousAssignmentFinish = previousAssignment.getFinish();
+               LocalDateTime previousItemFinish = previousItem.getFinish();
 
-               if (previousAssignmentFinish.getTime() == assignmentStart.getTime() || calendar.getNextWorkStart(previousAssignmentFinish).getTime() == assignmentStart.getTime())
+               if (previousItemFinish.equals(itemStart) || calendar.getNextWorkStart(previousItemFinish).equals(itemStart))
                {
                   result.remove(result.size() - 1);
 
-                  if (previousAssignmentWork.getDuration() != 0 && assignmentWork.getDuration() != 0)
+                  if (previousItemWork.getDuration() != 0 && itemWork.getDuration() != 0)
                   {
-                     double work = previousAssignment.getTotalAmount().getDuration();
-                     work += assignment.getTotalAmount().getDuration();
+                     double work = previousItem.getTotalAmount().getDuration();
+                     work += item.getTotalAmount().getDuration();
                      Duration totalWork = Duration.getInstance(work, TimeUnit.MINUTES);
 
                      TimephasedWork merged = new TimephasedWork();
-                     merged.setStart(previousAssignment.getStart());
-                     merged.setFinish(assignment.getFinish());
+                     merged.setStart(previousItem.getStart());
+                     merged.setFinish(item.getFinish());
                      merged.setTotalAmount(totalWork);
-                     assignment = merged;
+                     item = merged;
                   }
                   else
                   {
-                     if (assignmentWork.getDuration() == 0)
+                     if (itemWork.getDuration() == 0)
                      {
-                        assignment = previousAssignment;
+                        item = previousItem;
                      }
                   }
                }
             }
 
          }
-         assignment.setAmountPerDay(assignment.getTotalAmount());
-         result.add(assignment);
+         item.setAmountPerDay(item.getTotalAmount());
+         result.add(item);
 
-         Duration calendarWork = calendar.getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.MINUTES);
-         Duration assignmentWork = assignment.getTotalAmount();
-         if (calendarWork.getDuration() == 0 && assignmentWork.getDuration() == 0)
+         Duration calendarWork = calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.MINUTES);
+         Duration itemWork = item.getTotalAmount();
+         if (calendarWork.getDuration() == 0 && itemWork.getDuration() == 0)
          {
             result.remove(result.size() - 1);
          }
          else
          {
-            previousAssignment = assignment;
+            previousItem = item;
          }
       }
 
       list.clear();
       list.addAll(result);
    }
+
+   public static final MPPTimephasedWorkNormaliser INSTANCE = new MPPTimephasedWorkNormaliser();
 }

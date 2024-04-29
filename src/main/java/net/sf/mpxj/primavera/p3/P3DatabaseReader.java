@@ -25,9 +25,10 @@ package net.sf.mpxj.primavera.p3;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,6 @@ import java.util.Properties;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
@@ -45,14 +45,13 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectField;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.AlphanumComparator;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
 import net.sf.mpxj.primavera.common.MapRow;
 import net.sf.mpxj.primavera.common.Table;
@@ -82,8 +81,9 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
     * @param directory directory containing a P3 database
     * @param properties optional properties to pass to reader's setProperties method
     * @return ProjectFile instance
+    * @deprecated use setProjectNameAndRead(File) method instead
     */
-   public static final ProjectFile setProjectNameAndRead(File directory, Properties properties) throws MPXJException
+   @Deprecated public static final ProjectFile setProjectNameAndRead(File directory, Properties properties) throws MPXJException
    {
       List<String> projects = listProjectNames(directory);
 
@@ -184,6 +184,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          readTasks();
          readRelationships();
          readResourceAssignments();
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }
@@ -388,7 +389,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          int flag = row.getInteger("ACTUAL_START_OR_CONSTRAINT_FLAG").intValue();
          if (flag != 0)
          {
-            Date date = row.getDate("AS_OR_ED_CONSTRAINT");
+            LocalDateTime date = row.getDate("AS_OR_ED_CONSTRAINT");
             switch (flag)
             {
                case 1:
@@ -416,7 +417,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          flag = row.getInteger("ACTUAL_FINISH_OR_CONSTRAINT_FLAG").intValue();
          if (flag != 0)
          {
-            Date date = row.getDate("AF_OR_LD_CONSTRAINT");
+            LocalDateTime date = row.getDate("AF_OR_LD_CONSTRAINT");
             switch (flag)
             {
                case 2:
@@ -462,10 +463,11 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
          Task successor = m_activityMap.get(row.getString("SUCCESSOR_ACTIVITY_ID"));
          if (predecessor != null && successor != null)
          {
-            Duration lag = row.getDuration("LAG_VALUE");
-            RelationType type = row.getRelationType("LAG_TYPE");
+            Relation relation = successor.addPredecessor(new Relation.Builder()
+               .targetTask(predecessor)
+               .type(row.getRelationType("LAG_TYPE"))
+               .lag(row.getDuration("LAG_VALUE")));
 
-            Relation relation = successor.addPredecessor(predecessor, type, lag);
             m_eventManager.fireRelationReadEvent(relation);
          }
       }
@@ -509,27 +511,27 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date startDate = parentTask.getStart();
-         Date finishDate = parentTask.getFinish();
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime startDate = parentTask.getStart();
+         LocalDateTime finishDate = parentTask.getFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
 
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
 
-            startDate = DateHelper.min(startDate, task.getStart());
-            finishDate = DateHelper.max(finishDate, task.getFinish());
-            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
-            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
-            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
-            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
-            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
-            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
+            startDate = LocalDateTimeHelper.min(startDate, task.getStart());
+            finishDate = LocalDateTimeHelper.max(finishDate, task.getFinish());
+            actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
 
             if (task.getActualFinish() != null)
             {

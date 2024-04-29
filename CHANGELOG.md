@@ -1,6 +1,305 @@
 # Changelog
 
-## 11.1.1 (unreleased)
+## 12.9.4 (unreleased)
+
+## 12.9.3 (2024-04-24)
+* Improve handling of non-standard timestamp formats in XER files.
+
+## 12.9.2 (2024-04-19)
+* Ensure calendars in Asta schedules have the correct name.
+* Improve assignment of calendars to summary tasks when reading Asta schedules.
+* Preserve calendar hierarchy when reading Asta schedules.
+
+## 12.9.1 (2024-04-17)
+* Fix an issue where `UniversalProjectReader` would raise an exception when handling an unknown file type.
+* Ensure that resource type is included as part of the resource assignment data when writing PMXML files.
+
+## 12.9.0 (2024-04-11)
+* Updated `UniversalProjectReader` to add `getProjectReaderProxy` methods to allow access to the instance of the reader class which will be used to read a schedule, prior to the schedule being read. This will allow the reader to be configured, or schedule to be ignored without reading its content.
+* Deprecated the `ProjectReader.setProperties` method. This method was originally implemented to allow settings to be passed to reader classes when using `UniversalProjectReader`. You can now use `UniversalProjectReader.getProjectReaderProxy` to achieve this.
+* Add `from` method to all `Builder` classes to allow initialisation from existing objects.
+* The `CostAccount.Builder` class now provides two `notes` methods to allow formatted or unformatted notes to be added to cost accounts.
+* The `CostAccount` method `getDescription()` has been marked as deprecated. Use the `getNotes()` or `getNotesObject()` method instead.
+* The `CustomFieldValueItem` methods `getParent` and `setParent` have been marked as deprecated. Use the `getParentUniqueID` and `setParentUniqueID` methods instead.
+* JSON output from MPXJ now includes more detail for custom field definitions read from MPP files.
+* When reading a PMXML file, populate the Early/Late Start/Finish date attributes from the Remaining Early/Late Start/Finish date attributes.
+* Fix an issue reading WBS ID for P3 and SureTrak schedules.
+
+## 12.8.1 (2024-03-11)
+* Improve reading resource assignments from certain FastTrack FTS files.
+
+## 12.8.0 (2024-03-04)
+* Add experimental support for reading Deltek Open Plan BK3 files.
+* Implemented the `Relation.Builder` class.
+* Marked the `Relation(Task,Task,RelationType,Duration)` constructor as deprecated, use the `Relation.Builder` class instead.
+* Marked the `RelationContainer.addPredecessor(Task,Task,RelationType,Duration)` method as deprecated, use the `RelationContainer.addPredecessor(Relation.Builder)` method instead.
+* Marked the `Task.addPredecessor(Task,RelationType,Duration)` method as deprecated, use the `Task.addPredecessor(Relation.Builder)` method instead.
+* Add a notes attribute to the `Relation` class and ensure that it is read from and written to P6 schedules.
+* Read the Relationship Lag Calendar setting from Phoenix 5 files. (Contributed by Rohit Sinha)
+* Don't write a material label to an MSPDI file for a resource which isn't a material.
+* Update representation of Work Variance when writing MSPDI files to more closely match output from Microsoft Project.
+* Updated to ensure that when schedules are read from XER files or P6 databases, labor and nonlabor work amounts are combined for the Actual, Remaining and Planned work attributes. This is now consistent with the existing behavior when reading PMXML files.
+* Added support for new Task attributes Actual Work Labor, Actual Work Nonlabor, Remaining Work Labor, Remaining Work Nonlabor, Planned Work Labor, Planned Work Nonlabor, when reading and writing P6 schedules.
+* Update default `readAll` method on reader classes to ensure that if the reader is unable to read any schedule data, an empty list is returned rather than a list containing `null`.
+* Ensure that Task Start and Finish dates are both the same when reading milestones from PMXML files, and that the correct date is used depending on whether we have a Start Milestone or a Finish Milestone.
+
+## 12.7.0 (2024-02-07)
+* Added support for reading and writing the project property Baseline Calendar Name to and from MPP and MSPDI files.
+* Ensure Start Variance and Finish Variance are read from and written to MSPDI files in the correct format.
+* Improve accuracy of large Work Variance values read from MSPDI files.
+* Add support for the Calendar GUID attribute, which is read from MPP and MSPDI files, and written to MSPDI files.
+* Ensure Activity Codes are available when reading Phoenix PPX files even if they are also being used to construct the task hierarchy.
+* Ensure Activity Codes Values are populated when reading Phoenix PPX files. (Contributed by Rohit Sinha)
+* When writing an MSPDI file, derive the TimephasedData Unit attribute from the duration of the timephased data item.
+* Fixed an issue with the `ProjectCalendar.getPreviousWorkFinish` method when called with a time which was already at the end of a period of work.
+* Ensure that the `proj_node_flag` is set for the root WBS node when writing XER files.
+
+## 12.6.0 (2024-01-22)
+* Updated PMXML schema to version 23.12.
+* Ensure that baselines in PMXML files written by Oracle Primavera Cloud are read.
+* Fix an issue reading certain XER files and P6 databases where activities lost the relationship with their parent WBS entry.
+* Added `ResourceAssignment.getEffectiveCalendar` method.
+* Deprecated `ResourceAssignment.getCalendar` method, use `getEffectiveCalendar` method instead.
+* Improved reading timephased baseline work from MPP files.
+* Added new versions of the `TimephasedUtility.segmentBaselineWork` and `segmentBaselineCost` methods which take a `ProjectCalendar` instance as the first argument rather than a `ProjectFile` instance.
+* Deprecated the `TimephasedUtility.segmentBaselineWork` and `segmentBaselineCost` methods which take a `ProjectFile` instance as the first argument.
+* Added a new version of the `ProjectCalendar.getDate()` method which just takes a date and a duration as its arguments. This method handles both positive and negative durations.
+* Marked the original version of the `ProjectCalendar.getDate()` method as deprecated. Use the new version instead.
+* Improve recognition of task splits when reading MPP and MSPDI files.
+
+## 12.5.0 (2023-12-18)
+* Add support for the following Resource Assignment attributes: Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish.
+* Ensure that the Resource Assignment attributes Remaining Early Start and Remaining Early Finish are read from and written to PMXML files.
+* Ensure that the Resource Assignment attributes Remaining Early Start, Remaining Early Finish, Remaining Late Start, and Remaining Late Finish are read from and written to XER files.
+* Improve accuracy of reading and writing the `ProjectProperties` Relationship Lag Calendar attribute for PMXML files.
+* All P6 scheduling and leveling options which were previously made available via the `ProjectProperties` custom properties map are now deprecated. These properties now have individual getter and setter methods available on the `ProjectProperties` class. Note: this may be a breaking change if you were creating schedules from scratch, populating the custom properties map, then writing PMXML or XER files. In this case you will need to update your code, for all other use cases your code will continue to work unchanged until the next major version of MPXJ.
+* Added support for reading and writing the `ProjectProperties` attributes Baseline Type Name, Baseline Type Unique ID, and Last Baseline Update Date for baseline projects in PMXML files.
+* When reading projects from PMXML files, if the creation date attribute is not present in the file fall back to populating the `ProjectProperties` creation date attribute with the PMXML date added attribute.
+* When writing PMXML files, ensure the date added attribute for projects is populated with the creation date.
+* Add the `CustomFieldContainer.remove` method to allow field configurations to be removed.
+* Updated the `UserDefinedFieldContainer.remove` method to ensure that any associated field configuration is removed from the `CustomFieldContainer`.
+* Ensure that Microsoft Project's "unknown" resource (with Unique ID zero) is not exported to XER files.
+* Ensure that resource assignments which are not associated with an Activity or a Resource are not written to XER files.
+* Durations are written to PMXML files in hours. We now round to 2 decimal places to allow minutes to be represented, and avoid unnecessary precision.
+* Currency amounts written to PMXML files are now rounded to 8 decimal places to more closely match the behavior of P6, and avoid unnecessary precision.
+* Decimal amounts other than currency and duration are written to PMXML files with 15 decimal places to more closely match the behavior of P6.
+* Fix an issue reading ConceptDraw calendars.
+* Fixed a misspelled field name in the JSON output (Contributed by Daniel Taylor).
+* Improved handling of the Resource Assignment Planned and Remaining Units and Units per Time attributes read from and written to P6 schedules.
+* Added support for the following project properties: Activity ID Prefix, Activity ID Suffix, Activity ID Increment and Activity ID Based On Selected Activity, and ensure these are read from and written to P6 schedules.
+
+## 12.4.0 (2023-11-23)
+* Added support for the WBS Code Separator attribute to `ProjectProperties`.
+* Avoid creating duplicate `ActivityCodeValue` instances when reading Asta PP files.
+* Added a new version of the `ProjectFile.expandSubprojects` method which takes a `boolean` argument indicating if external tasks should be removed. Passing `true` to this method will recreate predecessor and successor relationships using the original tasks rather than the placeholder external tasks, and will remove the external tasks.
+* Marked the `ProjectFile.expandSubprojects()` method as deprecated, use the new version which takes a `boolean` argument instead.
+* Ensure the `ProjectProperties` name attribute is set correctly when reading XER files and P6 databases.
+* The `ProjectEntityContainer` method `renumberUniqueIDs` has been marked as deprecated.
+* The `ProjectEntityContainer` method `getNextUniqueID` has been marked as deprecated. Use `ProjectFile.getUniqueIdObjectSequence(class).getNext()` instead.
+* The `ProjectEntityContainer` method `updateUniqueIdCounter` has been marked as deprecated as it is no longer required.
+* The `ProjectFile` method `updateUniqueIdCounters` has been marked as deprecated as it is no longer required.
+* The `ObjectSequence` method `reset` has been marked as deprecated as it is no longer required.
+* When creating a `Location` instance using the `Builder` class, a Unique ID will be generated if one is not supplied.
+* The no-arg `Location.Builder` constructor has been marked a deprecated. Use the constructor which requires a `ProjectFile` instance instead.
+* Implemented the `ExpenseItem.Builder` class.
+* Marked the `ExpenseItem(task)` constructor as deprecated, use the `ExpenseItem.Builder` class instead.
+* Marked all `ExpenseItem` setter methods a deprecated. The `ExpenseItem` class will be immutable in the next major release.
+* Marked no-arg `UnitOfMeasure.Builder()` constructor as deprecated, use the `UnitOfMeasure.Builder(ProjectFile)` constructor instead.
+* Implemented the `Step.Builder` class.
+* Marked the `Step(task)` constructor as deprecated, use the `Step.Builder` class instead.
+* Marked all `Step` setter methods a deprecated. The `Step` class will be immutable in the next major release.
+* Marked the `NotesTopic` constructor as deprecated, use the `NotesTopic.Builder(ProjectFile)` constructor instead.
+* Implemented the `ExpenseCategory.Builder` class.
+* Marked the `ExpenseCategory` constructor as deprecated, use the `ExpenseCategory.Builder` class instead.
+* Implemented the `CostAccount.Builder` class.
+* Marked the `CostAccount` constructor as deprecated, use the `CostAccount.Builder` class instead.
+* Implemented the `ActivityCodeValue.Builder` class.
+* Marked the `ActivityCodeValue` constructor as deprecated, use the `ActivityCodeValue.Builder` class instead.
+* Marked the `ActivityCodeValue.setParent` method as deprecated, use the `ActivityCodeValue.Builder` class instead.
+* Marked the `ActivityCode.addValue` method as deprecated, use the `ActivityCodeValue.Builder` class instead to create an `ActivityCodeValue` instance and add it directly to the list held by the parent `ActivityCode`.
+* Implemented the `ActivityCode.Builder` class.
+* Marked the `ActivityCode` constructor as deprecated, use the `ActivityCode.Builder` class instead.
+* Only predecessor `Relation` instances are now stored in `RelationContainer`, successors are generated dynamically. You will only notice a difference if you are iterating over the `RelationContainer` collection directly, in which case you will only see predecessors.
+
+## 12.3.0 (2023-11-07)
+* Retrieve role availability data when reading a schedule from a P6 database.
+* Populate the project's Name and Title attributes when exporting an MSPDI file.
+* Ensure the Project ID attribute is populated when writing an XER file.
+* Don't include null tasks (blank tasks) when writing an XER file.
+* Strip control characters from entity names written to MSPDI files and XER files.
+* Ensure resource material labels written to MSPDI files meet Microsoft Project's naming requirements.
+* Ensure the activity code value Name attribute is populated when read from an Asta PP file.
+* Don't allow multiple values for an activity code when writing XER and PMXML files.
+* The MSPDI and MPX writers now dynamically renumber Unique ID values which are too large for Microsoft Project. The original schedule is no longer modified to achieve this.
+
+## 12.2.0 (2023-10-12)
+* Add the `UnitOfMeasure` class to represent the unit of measure for a material resource. The unit of measure corresponds to the current "material label" attribute of a resource. The `Resource.getMaterialLabel()` method will now retrieve the label from the `UnitOfMeasure` instance associated with the resource. The `Resource.setMaterialLabel()` method is now deprecated, the `Resource.setUnitOfMeasure()` or `Resource.setUnitOfMeasureUniqueID()` methods should be used instead.
+* Unit of measure for material resources are now read from and written to Primavera schedules.
+* Improve task duration and percent completion calculation for Asta PP files.
+* Improve date parsing when reading XER files written by older versions of P6.
+* Added the `setIgnoreErrors` method to the Primavera database reader class, and MSPDI, Schedule Grid, and SDEF file reader classes. The current default behavior of ignoring data type parse errors is unchanged. Calling `setIgnoreErrors(false)` on one of these reader classes will ensure that an exception is raised when a data type parse error is encountered.
+* Added the `ProjectFile.getIgnoredErrors()` method. The default behavior for MPXJ reader classes is to ignore data type parse errors. If any errors have been ignored when reading a schedule, details of these errors can be retrieved by calling the `ProjectFile.getIgnoredErrors()` method.
+* Handle duplicate relation unique IDs when reading schedules.
+* Include resource availability table in JSON output.
+* Add the Resource field Default Units, and ensure this field is read and written for P6 Schedules.
+* Updated the Resource attribute Max Units to ensure that this is calculated from the resource's availability table. Note that the `Resource.getMaxUnits()` method will return the resource's Max Units attribute for the current date. To retrieve the Max Units for a different date, use the `AvailabilityTable.getEntryByDate()` method.
+* Marked the `Resource.setMaxUnits()` method as deprecated. The Max Units attribute is derived from the resource's availability table. Changes to Max Units should now be made by modifying the availability table.
+* Updated the Resource attribute Available From to ensure that this is calculated from the resource's availability table. Note that the `Resource.getAvailableFrom()` method will return the resource's Available From attribute for the current date. To retrieve the Available From attribute for a different date, use the `AvailabilityTable.availableFrom()` method.
+* Marked the `Resource.setAvailableFrom()` method as deprecated. The Available From attribute is derived from the resource's availability table. Changes to the Available From attribute  should now be made by modifying the availability table.
+* Updated the Resource attribute Available To to ensure that this is calculated from the resource's availability table. Note that the `Resource.getAvailableTo()` method will return the resource's Available To attribute for the current date. To retrieve the Available To attribute for a different date, use the `AvailabilityTable.availableTo()` method.
+* Marked the `Resource.setAvailableTo()` method as deprecated. The Available To attribute is derived from the resource's availability table. Changes to the Available To attribute  should now be made by modifying the availability table.
+
+## 12.1.3 (2023-09-25)
+* Added the Project Properties attribute Relationship Lag Calendar and implemented read and write support for this for P6 schedules. (Contributed by Rohit Sinha).
+* Improve compatibility of PMXML files with P6 EPPM by moving the Schedule Options tag.
+* Ensure Baseline Projects in PMXML files include Schedule Options and Location Object ID.
+
+## 12.1.2 (2023-09-21)
+* Updates to improve compatibility with versions of Java after Java 8.
+* Ensure timestamps with fractional sections are read correctly from Phoenix PPX files (Based on a contribution by Rohit Sinha).
+* Improve handling of double quotes when reading and writing XER files.
+* To allow XER files written by MPXJ to be imported correctly by P6, ensure that they have a single top level WBS entry (Based on a contribution by Alex Matatov)
+* Ensure that `ProjectProperties.getCustomProperties()` returns an empty Map rather than returning `null` if no custom properties have been configured.
+* Ensure project calendars and project activity codes are nested within the project tag of PMXML files.
+
+## 12.1.1 (2023-08-23)
+* Fix an issue preventing native SQLite library from loading when using the .Net version of MPXJ on macOS.
+
+## 12.1.0 (2023-08-22)
+* Write schedule options to PMXML and XER files.
+* Fix an arithmetic error in RateHelper when converting a rate from minutes to hours.
+* Introduced new methods to RateHelper accepting a `TimeUnitDefaultsContainer` argument rather than a `ProjectFile` for greater flexibility. Marked methods taking a `ProjectFile` argument as deprecated.
+* Ensure Early Finish and Late Finish are populated for Asta milestones and tasks.
+* Don't attempt to calculate total slack if start slack or finish slack are missing.
+* Ensure completed tasks are not marked as critical.
+* Improve handling of non-standard Boolean values in MPX files.
+* Improve Total Slack calculation for P6 projects.
+* Handle finish milestones with `null` actual start date for actual duration calculation when reading PMXML files (Contributed by Andrew Marks).
+
+## 12.0.2 (2023-07-25)
+* Ensure that the Fixed Cost attribute is rolled up from activities to WBS entries when reading P6 schedules.
+
+## 12.0.1 (2023-07-21)
+* Improve resource hierarchy handling.
+* Improve handling of external tasks read from MSPDI files.
+* Improve handling of resource assignments read from Asta PP files containing multiple baselines.
+* Improve filtering to ignore hammock tasks in Asta PP files and ensure that non-hammock items are not incorrectly ignored.
+* Improve handling of bars without additional linked data read from Asta PP files.
+* Ensure that invalid duplicate Unique ID values encountered when reading schedule data are renumbered to maintain uniqueness.
+* Improve reading certain FastTrack FTS files.
+* Roll up the expense item at completion values read from P6 schedules to the task Fixed Cost attribute.
+
+## 12.0.0 (2023-06-29)
+* NOTE: this is a major version release, breaking changes have been made to the MPXJ API as documented below.
+* Timestamps, dates, and times are now represented by `java.time.LocalDateTime`, `java.time.LocalDate` and `java.time.LocalTime` respectively, rather than `java.util.Date` as they were originally.
+* For .Net users, new `ToDateTime` and `ToNullableDateTime` extension methods have been provided to convert `java.time.LocalDateTime`, `java.time.LocalDate`, `java.time.LocalTime` to `DateTime` instances.
+* For .Net users, new `ToJavaLocalDateTime`, `ToJavaLocalDate` and `ToJavaLocalTime` extension methods have been provided to convert `DateTime` instances to `java.time.LocalDateTime`, `java.time.LocalDate`, and `java.time.LocalTime`.
+* The class `net.sf.mpxj.Day` has been replaced by `java.time.DayOfWeek`.
+* All code previously marked as deprecated has been removed.
+* Added support for reading and writing the Activity attribute "Expected Finish" for P6 schedules.
+
+## 11.5.4 (2023-06-27)
+* Improve accuracy of dates read from Synchro, Suretrak and Turboproject files.
+* By default ignore errors in individual records read from XER files. This matches P6's behavior when importing XER files. Use the `PrimaveraXERFileReader.setIgnoreErrors` method to change the behavior.
+
+## 11.5.3 (2023-06-19)
+* When writing an XER file, provide the necessary default values to allow non-P6 schedules to be successfully imported into P6.
+* Ensure multi-day exceptions are written to XER files correctly.
+* Ensure GanttProject exception dates are read correctly.
+* More closely match the Planner predecessor lag calculation.
+* Ensure that `java.sql.Date` values are correctly formatted when writing XER files.
+* When reading from a P6 database, check to ensure the location table is present before attemting to read locations.
+
+## 11.5.2 (2023-06-08)
+* Improve accuracy of calendar data read from certain Powerproject schedules.
+* Improve handling of unusual XER files with calendar time ranges expressed in 12-hour format.
+* Correctly parse midnight represented as 24:00:00 from MSPDI files written by certain non-Microsoft Project applications.
+* For MSPDI files produced by applications other than Microsoft Project which have an incorrectly nested calendar hierarchy, avoid pruning derived calendars which are referenced elsewhere in the hierarchy.
+
+## 11.5.1 (2023-05-24)
+* Improve read performance when working with large schedules.
+* Improve read and write performance of code handling resource calendars.
+* Updated to use sqlite-jdbc 3.42.0.0
+
+## 11.5.0 (2023-05-19)
+* Added the ability to read Subproject data embedded in MSPDI files.
+* Added the ability to read timephased baseline work and cost from MSPDI files.
+* Added the ability to write timephased baseline work and cost to MSPDI files.
+* Improve accuracy of timephased baseline work read from MPP files.
+* Ensure that non-recurring calendar exceptions take precedence over recurring calendar exceptions.
+* Avoid creating duplicate calendar exceptions when reading Asta PP files.
+* Added the Bar Name attribute to Task, which is accessed using the `getBarName` and `setBarName` methods. This is populated with the name of the bar to which a task belongs when reading an Asta Powerproject schedule.
+* When reading schedules from XER files and P6 databases, ensure durations without a value are returned as `null` rather than as a zero duration.
+
+## 11.4.0 (2023-05-08)
+* Added the "Resource Pool File" attribute to ProjectProperties, which represents the full path of the resource pool used by an MPP file. This attribute is accessible via the `getResourcePoolFile` and `setResourcePoolFile` methods.
+* Added the `getResourcePoolObject` method to allow the resource pool file to be located and read
+* Added support for reading the task attribute Subproject GUID from MPP files. This attribute can be accessed via the `getSubprojectGUID` and `setSubprojectGUID` methods.
+* Added support for the task attribute "External Project". When this attribute is true it indicates that the task represents a subproject. The attribute is accessed via the `getExternalProject` and `setExternalProject` methods.
+* When reading an MSPDI file with external task predecessors, MPXJ now attempts to recreate the placeholder external tasks which would be present if the equivalent MPP file was read.
+* External task predecessors are now represented when writing an MSPDI file.
+* Added the Task method `getSubprojectObject` which allows the caller to retrieve a ProjectFile instance representing the external project linked to a task.
+* Added the Task method `expandSubproject`. For task which represent an external project, this method automatically loads the external project and attaches the tasks it contains as children of the current task. This is analogous to the behavior in Microsoft Project where a subproject is expanded to reveal the tasks it contains.
+* Added the ProjectFile method `expandSubprojects` which identifies any tasks in the project which represent an external project and expands them, linking the tasks from the external project as children of the task in the parent project. Note that the method works recursively so multiple levels of external tasks will be expanded.
+* Updated to ensure that the `internal_name` attribute of a `UserdefinedField` is generated if not present.
+* Updated to avoid an exception when reading notebook topics from PMXML files.
+* Marked the Task method `setSubprojectName` as deprecated. Use the `setSubProjectFile` method instead.
+* Marked the Task method `getSubprojectName` as deprecated. Use `getSubprojectFile` instead.
+* Marked the Task method `setExternalTaskProject` as deprecated. Use the `setSubprojectFile` method instead.
+* Marked the Task method `getExternalTaskProject` as deprecated. Use the `getSubprojectFile` method instead.
+* Marked the ProjectFile method `getSubProjects` as deprecated. Use the subproject attributes on individual tasks instead.
+* Marked the Task methods `getSubProject` and `setSubProject` as deprecated. Use the subproject attributes instead.
+
+## 11.3.2 (2023-04-29)
+* Improve default values provided for P6 calendars with missing data.
+* Implement both "planned dates" and "current dates" strategies for populating P6 baselines.
+* Ensure the Project GUID is read from MPP files.
+
+## 11.3.1 (2023-04-21)
+* Improve accuracy of resource assignment Actual Start and Actual Finish dates when reading MPP files.
+* Avoid generating timephased data for zero duration tasks.
+* Improve preservation of custom timephased data start and end times.
+
+## 11.3.0 (2023-04-12)
+* Implemented `PrimaveraXERFileWriter` to allow MPXJ to write XER files.
+* Updated the `ActivityCode` class to ensure that both the scope Project ID and EPS ID can be represented when reading a P6 schedule. (Potentially breaking change if you were using this class).
+* Ensure secondary constraint date and type are written to PMXML files.
+* Ensure leveling priority is written to PMXML files.
+* Ensure WBS UDF values are written to PMXML files.
+* Ensure integer UDF values are read correctly from XER files and P6 databases.
+* Add methods to allow the project's default calendar unique ID to be set and retrieved.
+* Add method to allow a calendar's parent calendar unique ID to be retrieved.
+* Add method to allow a task's parent task unique ID to be retrieved.
+* Add methods to allow a resource assignment's role unique ID to be set and retrieved.
+* Add methods to allow a resource assignment's cost account unique ID to be set and retrieved.
+* Add method to allow a cost account's parent unique ID to be retrieved.
+* Add method to allow an expense item's cost account unique ID to be retrieved.
+* Add method to allow an expense item's category unique ID to be retrieved.
+* Added `WorkContour.isDefault()` method to allow "built in" resource curves/work contours to be distinguished from user defined curves.
+* Updated to retrieve the project's start date from Phoenix PPX files (Contributed by Rohit Sinha).
+* Provide access to notebook topics from P6 schedules via the `ProjectFile.getNotesTopics()` method.
+* Capture unique ID of Activity and WBS notes from P6 schedules.
+* Improve the calculation used to determine At Completion Duration of activities when reading XER files and P6 databases.
+* Improve representation of certain duration values written to MSPDI files.
+* Improve accuracy of certain work calculations where the specified time period does not start with a working day.
+* Fix an issue which caused negative timephased work values to be generated when reading certain MPP files.
+* Fix an issue reading XER files where the `critical_drtn_hr_cnt` field is expressed a decimal rather than an integer.
+* Fix an issue populating the WBS attribute for activities read from certain XER files.
+
+## 11.2.0 (2023-03-13)
+* The project property Critical Slack Limit is now represented as a `Duration` rather than as an `Integer`. (Potentially breaking change if you were using this property directly).
+* `TaskType` is now a simple enum with all Microsoft Project specific functionality moved into `TaskTypeHelper`. (Potentially breaking change if you were using the `TaskType` methods `getInstance` or `getValue` in your code)
+* When reading the task type from P6 schedule the mapping to the MPXJ `TaskType` enum has been updated to more closely match P6. The main changes are that the P6 type "Fixed Units" now maps to `TaskType.FIXED_WORK` and the "Fixed Duration & Units" type now maps to a new enumeration value `TaskType.FIXED_DURATION_AND_UNITS`.
+* Added support for reading project calendar exceptions from Phoenix schedules (based on a contribution by Rohit Sinha).
+* The Resource attribute Active now defaults to true if the schedule being read doesn't support or contain a value for this attribute.
+* Add support for reading and writing the Resource's Active flag for P6 schedules.
+* Add support for reading and writing the Resource's Default Units/Time value for P6 schedules.
+* Add support for reading and writing the Project's Critical Slack Limit value for P6 schedules.
+* Fixed an issue reading certain types of Enterprise Custom Fields containing date values.
+* Ensure activity code value parent can be set to null.
+* Improved existing .Net extension methods and added support for more types.
+* Added NuGet package icon
+* Simplified  NuGet packaging
 
 ## 11.1.0 (2023-02-15)
 * Write activity code definitions and activity code assignments to PMXML files.
@@ -44,7 +343,7 @@
 ## 10.15.0 (2023-01-11)
 * Avoid writing invalid characters to PMXML, MSPDI and Planner XML files.
 * Improve handling of slack values for schedules which only contain a value for total slack.
-* Add support for reading constraint type and constraint date from Phoenix schedule (based on a contribution by Rohit Sinha).
+* Add support for reading constraint type and constraint date from Phoenix schedules (based on a contribution by Rohit Sinha).
 * Improve timephased data calculation when assignment has zero units.
 * Improve handling of very large duration values when reading and writing MSPDI files.
 * Ensure the Task attributes Active, Constraint Type, Task Mode, and Type always have a value.
@@ -325,7 +624,7 @@
 * When reading resource assignments from an MPP file, don't record Project's internal representation of a null resource ID (-65535), record the resource ID explicitly as null.
 * For MPX and Planner files, don't write resource assignments for the "null" resource.
 * Handle missing status date when reading P6 schedules from XER files or database.
-* When reading MPP files, treat UUID's which are all zeros as null.
+* When reading MPP files, treat UUIDs which are all zeros as null.
 * Deprecate the 10 Resource Outline Code get and set methods and replace with get and set methods which take an index argument.
 * Provide a helper method (PrimaveraHelper.baselineKey) to encapsulate key generation for setting Primavera baselines.
 
@@ -346,7 +645,7 @@
 * Preserve multiple assignments between an activity and a resource when reading P6 schedules.
 * Renamed WorkContour.isFlat to isContourFlat and WorkContour.isContoured to isContourManual.
 * Include an entry for 0% in the WorkContour curve definition.
-* Fix an issue where non working days were not being treated correctly in date calculations if they happen to still have time ranges attached.
+* Fix an issue where non-working days were not being treated correctly in date calculations if they happen to still have time ranges attached.
 
 ## 9.3.0 (2021-05-06)
 * Add support for reading roles from P6 databases, XER and PMXML files, and for writing roles to PMXML files. Roles are represented as resources. The new resource Boolean attribute "Role" is used to distinguish between Resource instances which represent resources and those which represent roles.
@@ -443,7 +742,7 @@
 * Updated PMXML schema to version 19.12.
 * Ensure that we always set the activity planned start and planned finish dates when writing a PMXML file.
 * Updated the getPopulatedFields methods to ignore fields with default values.
-* Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias "Resource ID" when reading PMXML and XER files, or from a P^ database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).
+* Made the Resource ID attribute available as a resource's TEXT1 custom field, with the alias "Resource ID" when reading PMXML and XER files, or from a P6 database. (Note that presently for XER files and P6 databases, the Resource ID value is also read into the initials attribute. This behaviour is deprecated and will be removed in the next major MPXJ release).
 * Populate the Resource ID with the value read from a P6 schedule when writing a PMXML file.
 * Ensure that the hours per day, week, month and year attributes are read from and written to PMXML files.
 * Fix an issue causing the hours per day calendar attribute to be read inaccurately from XER files and P6 databases.
@@ -453,7 +752,7 @@
 ## 8.3.3 (2020-11-24)
 * Added cost rate table support when reading from and writing to PMXML files.
 * Added a getPopulatedFields method to the TaskContainer, ResourceContainer and ResourceAssignmentContainer classes. This will retrieve the set of fields which are populated with a non-null value across the whole project for Tasks, Resources, and ResourceAssignments respectively. 
-* Add START_ON, FINISH_ON constraint types. Deprecate MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.
+* Add START_ON, FINISH_ON constraint types. § MANDATORY_START, MANDATORY_FINISH constraint types. MANDATORY_START/FINISH are now represented as MUST_START/FINISH_ON. This change allows users to distinguish between START/FINISH_ON and the MANDATORY_* constraints when reading P6 schedules.
 * Improve handling of cost rate tables and availability tables when writing to an MSPDI file.
 * Handle P6 databases and XER files with user defined fields of type FT_FLOAT.
 * Align invalid XER record behaviour with P6.
@@ -501,7 +800,7 @@
 * Correctly determine the constraint type for tasks with ALAP placement with or without predecessors when reading from Asta schedules (Contributed by Dave McKay)
 * Gracefully handle a missing table name when reading an XER file.
 * Gracefully handle an unexpected calendar data when reading an XER file.
-* Correctly handle XER files with multi-byte character encoding.
+* Correctly handle XER files with multibyte character encoding.
 * Import all schedule and leveling options from XER files.
 * Ensure project calendars are read from PMXML files.
 * Added readAll methods to PrimaveraPMFileReader to allow all projects contained in a PMXML file to be read in a single pass.
@@ -783,7 +1082,7 @@
 * Further improvements to task pruning for Asta PP files.
 
 ## 7.0.1 (2017-11-20)
-* Improve robustness when reading MPP files when using certain 64 bit Java runtimes.
+* Improve robustness when reading MPP files when using certain 64-bit Java runtimes.
 * Populate the project's comments property when reading an MSPDI file.
 * Ensure that tasks are not discarded when reading PP files from older Asta versions.
 * Fixed [Issue 319](https://sourceforge.net/p/mpxj/bugs/319): Wrong date ranges for split tasks
@@ -1526,7 +1825,7 @@
 * Updated to automatically generate WBS for tasks read from MPP files when no WBS information is present in the file.
 * Fixed a bug when reading MPP files where task finish dates appeared before the start date where a "start no later than" constraint was in use.
 * Fixed a bug which resulted in invalid MPX files being generated when a project either had no tasks, or it had no resources.
-* Fixed a long standing bug where the calendar records were being written into MPX files after they were referred to in the project summary record.
+* Fixed a long-standing bug where the calendar records were being written into MPX files after they were referred to in the project summary record.
 * Fixed a bug where WBS and Outline Levels were not being auto generated correctly when an MPP file contained a project summary task.
 * Fixed a bug where split tasks were not being reported correctly.
 
@@ -1593,7 +1892,7 @@
 * Updated MpqjQuery to parse MSPDI files as well as MPP and MPX files.
 * Added support for early start, early finish, late start, late finish to MPP files.
 * Updated MPP9 file support to handle start as late as possible constraints. 
-* Added support for sub project file information in MPP9 files.
+* Added support for subproject file information in MPP9 files.
 * Fixed a bug where occasionally a task in MPP9 files were not being read.
 * Fixed a NegativeArrayIndexException thrown when reading certain MPP8 files.
 * Reduced the memory used by MPXJ by anything up to 60%, particularly when reading large MPP files.
@@ -1606,9 +1905,9 @@
 ## 0.0.24 (2005-01-10)
 * Fixed a bug (again!) where deleted resource assignments in MPP9 files were still seen by MPXJ.
 * Updated to use class instances instead of primitives to represent some enumerated types.
-* Updated to implement support for reading and writing all of the basic Resource attributes found in MSPDI files.
-* Updated to implement support for reading and writing all of the basic Task attributes found in MSPDI files.
-* Updated to implement support for reading and writing all of the basic Project Header attributes from MPP8 and MPP9 files.
+* Updated to implement support for reading and writing all the basic Resource attributes found in MSPDI files.
+* Updated to implement support for reading and writing all the basic Task attributes found in MSPDI files.
+* Updated to implement support for reading and writing all the basic Project Header attributes from MPP8 and MPP9 files.
 * Made MSPDI file parsing more robust to allow it by default to cope with non-schema-compliant XML in the same manner as MS Project. Implemented a new compatibility flag to allow this behaviour to be disabled in favour of strict parsing.
 * Merged DateTimeSettings, CurrencySettings, and DefaultSettings into the ProjectHeader class. This change makes the project header data easier to use as it is in a single place. It also makes the entities used to describe a project consistent with the contents of the MPP and MSPDI file formats.
 
@@ -1624,7 +1923,7 @@
 * Fixed a bug where MPXFile attributes were not being correctly copied by the copy constructor.
 * Fixed a rounding error in MPXCalendar.getDaysInRange (contributed by Wade Golden)
 * Updated to make MPXJ more robust in the face of unexpected offsets in MPP8 file format.
-* Updated support for password protected files to allow write reserved files to be read.
+* Updated support for password-protected files to allow write-reserved files to be read.
 * Updated to use the latest version of JAXB, as shipped in Sun's Java Web Services Developer Pack (JWSDP) version  1.4.
 * Updated the distribution to include the redistributable files from the JWSDP JAXB implementation. Users will no longer need to download JWSDP separately in order to make use of MPXJ's MSPDI functionality.
 * Updated to prevent empty notes records being added to tasks and resources when reading an MSPDI file.

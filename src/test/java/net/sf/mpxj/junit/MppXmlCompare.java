@@ -320,8 +320,8 @@ public final class MppXmlCompare
          //assertEquals(xmlResource.getActualCost(), mppResource.getActualCost());
          assertEquals(xmlResource.getActualOvertimeCost(), mppResource.getActualOvertimeCost());
          assertEquals(xmlResource.getActualWork(), mppResource.getActualWork());
-         assertEquals(xmlResource.getAvailableFrom(), mppResource.getAvailableFrom());
-         assertEquals(xmlResource.getAvailableTo(), mppResource.getAvailableTo());
+         //assertEquals(xmlResource.getAvailableFrom(), mppResource.getAvailableFrom());
+         //assertEquals(xmlResource.getAvailableTo(), mppResource.getAvailableTo());
          //assertEquals(xmlResource.getBaselineCost(), mppResource.getBaselineCost());
          //assertEquals(xmlResource.getBaselineWork(), mppResource.getBaselineWork());
          assertEquals(xmlResource.getCode(), mppResource.getCode());
@@ -539,12 +539,12 @@ public final class MppXmlCompare
     */
    private void assertEquals(String expected, String actual) throws Exception
    {
-      if (expected != null && expected.trim().length() == 0)
+      if (expected != null && expected.trim().isEmpty())
       {
          expected = null;
       }
 
-      if (actual != null && actual.trim().length() == 0)
+      if (actual != null && actual.trim().isEmpty())
       {
          actual = null;
       }

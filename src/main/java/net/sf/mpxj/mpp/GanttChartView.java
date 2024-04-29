@@ -28,8 +28,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -742,7 +743,7 @@ public abstract class GanttChartView extends GenericView
    }
 
    /**
-    * Retrieve any column font syles which the user has defined.
+    * Retrieve any column font styles which the user has defined.
     *
     * @return column font styles array
     */
@@ -786,7 +787,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return progress lines begin at date
     */
-   public Date getProgressLinesBeginAtDate()
+   public LocalDateTime getProgressLinesBeginAtDate()
    {
       return (m_progressLinesBeginAtDate);
    }
@@ -888,7 +889,7 @@ public abstract class GanttChartView extends GenericView
     *
     * @return array of selected dates
     */
-   public Date[] getProgressLinesDisplaySelectedDates()
+   public LocalDateTime[] getProgressLinesDisplaySelectedDates()
    {
       return (m_progressLinesDisplaySelectedDates);
    }
@@ -1445,9 +1446,9 @@ public abstract class GanttChartView extends GenericView
    protected boolean m_progressLinesIntervalMonthlyFirstLast;
    protected int m_progressLinesIntervalMonthlyFirstLastMonthNumber;
    protected boolean m_progressLinesBeginAtProjectStart;
-   protected Date m_progressLinesBeginAtDate;
+   protected LocalDateTime m_progressLinesBeginAtDate;
    protected boolean m_progressLinesDisplaySelected;
-   protected Date[] m_progressLinesDisplaySelectedDates;
+   protected LocalDateTime[] m_progressLinesDisplaySelectedDates;
    protected boolean m_progressLinesActualPlan;
    protected int m_progressLinesDisplayType;
    protected boolean m_progressLinesShowDate;

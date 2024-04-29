@@ -23,7 +23,8 @@
 
 package net.sf.mpxj.sdef;
 
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -44,9 +45,9 @@ class CalendarRecord extends AbstractSDEFRecord
       calendar.setName(getString(2));
 
       String flags = getString(1);
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
-         boolean workingDay = flags.charAt(day.getValue() - 1) == 'Y';
+         boolean workingDay = flags.charAt(DayOfWeekHelper.getValue(day) - 1) == 'Y';
          calendar.setWorkingDay(day, workingDay);
          ProjectCalendarHours hours = calendar.addCalendarHours(day);
          if (workingDay)

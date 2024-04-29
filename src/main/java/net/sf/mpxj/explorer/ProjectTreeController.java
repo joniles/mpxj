@@ -24,8 +24,7 @@
 package net.sf.mpxj.explorer;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,6 +35,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.ChildResourceContainer;
 import net.sf.mpxj.ProjectCalendarDays;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeValue;
@@ -43,8 +43,7 @@ import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.DataLink;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.Filter;
 import net.sf.mpxj.Group;
@@ -53,10 +52,12 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectCalendarWeek;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Table;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.View;
 import net.sf.mpxj.json.JsonWriter;
@@ -64,6 +65,7 @@ import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.planner.PlannerWriter;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
+import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
 import net.sf.mpxj.sdef.SDEFWriter;
 import net.sf.mpxj.utility.ProjectCleanUtility;
 import net.sf.mpxj.writer.ProjectWriter;
@@ -82,15 +84,16 @@ public class ProjectTreeController
       WRITER_MAP.put("PLANNER", PlannerWriter.class);
       WRITER_MAP.put("JSON", JsonWriter.class);
       WRITER_MAP.put("SDEF", SDEFWriter.class);
+      WRITER_MAP.put("XER", PrimaveraXERFileWriter.class);
    }
 
-   final SimpleDateFormat m_timeFormat = new SimpleDateFormat("HH:mm");
-   final SimpleDateFormat m_dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+   final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HH:mm");
+   final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
    private static final Set<String> FILE_EXCLUDED_METHODS = excludedMethods("getAllResourceAssignments", "getAllResources", "getAllTasks", "getChildTasks", "getCalendars", "getCustomFields", "getEventManager", "getFilters", "getGroups", "getProjectProperties", "getProjectConfig", "getViews", "getTables");
    private static final Set<String> CALENDAR_EXCLUDED_METHODS = excludedMethods("getCalendarExceptions", "getExpandedCalendarExceptions", "getDerivedCalendars", "getHours", "getDays", "getParent", "getCalendar", "getWorkWeeks");
    private static final Set<String> CALENDAR_WEEK_EXCLUDED_METHODS = excludedMethods("getCalendar", "getDays", "getHours");
-   private static final Set<String> TASK_EXCLUDED_METHODS = excludedMethods("getChildTasks", "getEffectiveCalendar", "getParentTask", "getResourceAssignments");
+   private static final Set<String> TASK_EXCLUDED_METHODS = excludedMethods("getChildTasks", "getEffectiveCalendar", "getParentTask", "getResourceAssignments", "getSubprojectObject");
    private static final Set<String> CALENDAR_EXCEPTION_EXCLUDED_METHODS = excludedMethods("get", "getRange");
    private static final Set<String> TABLE_EXCLUDED_METHODS = excludedMethods("getColumns");
    private static final Set<String> ACTIVITY_CODE_EXCLUDED_METHODS = excludedMethods("getValues");
@@ -159,6 +162,10 @@ public class ProjectTreeController
       projectNode.add(assignmentsFolder);
       addAssignments(assignmentsFolder, m_projectFile);
 
+      MpxjTreeNode relationsFolder = new MpxjTreeNode("Predecessors");
+      projectNode.add(relationsFolder);
+      addRelations(relationsFolder, m_projectFile);
+
       MpxjTreeNode calendarsFolder = new MpxjTreeNode("Calendars");
       projectNode.add(calendarsFolder);
       addCalendars(calendarsFolder, m_projectFile);
@@ -220,7 +227,7 @@ public class ProjectTreeController
          {
             @Override public String toString()
             {
-               return t.getName();
+               return getTaskName(t);
             }
          };
          parentNode.add(childNode);
@@ -234,9 +241,9 @@ public class ProjectTreeController
     * @param parentNode parent tree node
     * @param file resource container
     */
-   private void addResources(MpxjTreeNode parentNode, ProjectFile file)
+   private void addResources(MpxjTreeNode parentNode, ChildResourceContainer file)
    {
-      for (Resource resource : file.getResources())
+      for (Resource resource : file.getChildResources())
       {
          final Resource r = resource;
          MpxjTreeNode childNode = new MpxjTreeNode(resource)
@@ -247,6 +254,7 @@ public class ProjectTreeController
             }
          };
          parentNode.add(childNode);
+         addResources(childNode, resource);
       }
    }
 
@@ -263,7 +271,7 @@ public class ProjectTreeController
 
    private void addCalendars(MpxjTreeNode parentNode, List<ProjectCalendar> calendars)
    {
-      calendars.stream().forEach(c -> addCalendar(parentNode, c));
+      calendars.forEach(c -> addCalendar(parentNode, c));
    }
 
    /**
@@ -286,7 +294,7 @@ public class ProjectTreeController
       MpxjTreeNode daysFolder = new MpxjTreeNode("Days");
       calendarNode.add(daysFolder);
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          addCalendarDay(daysFolder, calendar, day);
       }
@@ -341,7 +349,7 @@ public class ProjectTreeController
       MpxjTreeNode daysFolder = new MpxjTreeNode("Days");
       weekNode.add(daysFolder);
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          addCalendarDay(daysFolder, week, day);
       }
@@ -355,7 +363,7 @@ public class ProjectTreeController
     * @param calendar ProjectCalendar instance
     * @param day calendar day
     */
-   private void addCalendarDay(MpxjTreeNode parentNode, ProjectCalendarDays calendar, final Day day)
+   private void addCalendarDay(MpxjTreeNode parentNode, ProjectCalendarDays calendar, final DayOfWeek day)
    {
       MpxjTreeNode dayNode = new MpxjTreeNode(day)
       {
@@ -381,9 +389,9 @@ public class ProjectTreeController
          return;
       }
 
-      for (DateRange range : hours)
+      for (LocalTimeRange range : hours)
       {
-         final DateRange r = range;
+         final LocalTimeRange r = range;
          MpxjTreeNode rangeNode = new MpxjTreeNode(range)
          {
             @Override public String toString()
@@ -601,8 +609,29 @@ public class ProjectTreeController
                Resource resource = a.getResource();
                String resourceName = resource == null ? "(unknown resource)" : resource.getName();
                Task task = a.getTask();
-               String taskName = task == null ? "(unknown task)" : task.getName();
-               return resourceName + "->" + taskName;
+               return resourceName + "->" + getTaskName(task);
+            }
+         };
+         parentNode.add(childNode);
+      }
+   }
+
+   /**
+    * Add relations to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param file parent file
+    */
+   private void addRelations(MpxjTreeNode parentNode, ProjectFile file)
+   {
+      for (Relation relation : file.getRelations())
+      {
+         final Relation r = relation;
+         MpxjTreeNode childNode = new MpxjTreeNode(r)
+         {
+            @Override public String toString()
+            {
+               return getTaskName(r.getTargetTask()) + "->" + getTaskName(r.getSourceTask()) + " " + r.getType() + " " + r.getLag();
             }
          };
          parentNode.add(childNode);
@@ -666,27 +695,14 @@ public class ProjectTreeController
 
    private void addActivityCodeValues(MpxjTreeNode parentNode, ActivityCode code)
    {
-      List<ActivityCodeValue> values = new ArrayList<>(code.getValues());
-      values.sort((v1, v2) -> {
-         int id1 = v1.getParent() == null ? 0 : v1.getParent().getUniqueID().intValue();
-         int id2 = v2.getParent() == null ? 0 : v2.getParent().getUniqueID().intValue();
-         return id1 - id2;
-      });
+      code.getChildValues().forEach(v -> addActivityCodeValues(parentNode, v));
+   }
 
-      Map<ActivityCodeValue, MpxjTreeNode> nodes = new HashMap<>();
-      for (ActivityCodeValue value : values)
-      {
-         MpxjTreeNode node = new MpxjTreeNode(value, ACTIVITY_CODE_VALUE_EXCLUDED_METHODS);
-         nodes.put(value, node);
-         if (value.getParent() == null)
-         {
-            parentNode.add(node);
-         }
-         else
-         {
-            nodes.get(value.getParent()).add(node);
-         }
-      }
+   private void addActivityCodeValues(MpxjTreeNode parentNode, ActivityCodeValue value)
+   {
+      MpxjTreeNode node = new MpxjTreeNode(value, ACTIVITY_CODE_VALUE_EXCLUDED_METHODS);
+      parentNode.add(node);
+      value.getChildValues().forEach(v -> addActivityCodeValues(node, v));
    }
 
    /**
@@ -742,6 +758,25 @@ public class ProjectTreeController
       {
          throw new RuntimeException(ex);
       }
+   }
+
+   /**
+    * Retrieve the task name, decorated to indicate if it is an external task or project.
+    *
+    * @param task Task instance
+    * @return decorated task name
+    */
+   private String getTaskName(Task task)
+   {
+      if (task == null)
+      {
+         return "(unknown task)";
+      }
+
+      String externalTaskLabel = task.getExternalTask() ? " [EXTERNAL TASK]" : "";
+      String externalProjectLabel = task.getExternalProject() ? " [EXTERNAL PROJECT]" : "";
+
+      return task.getName() + externalTaskLabel + externalProjectLabel;
    }
 
    /**

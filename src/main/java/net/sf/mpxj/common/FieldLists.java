@@ -24,7 +24,9 @@
 package net.sf.mpxj.common;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,4 +38,6 @@ import net.sf.mpxj.FieldType;
 public final class FieldLists
 {
    public static final List<FieldType> CUSTOM_FIELDS = Stream.of(TaskFieldLists.CUSTOM_FIELDS, ResourceFieldLists.CUSTOM_FIELDS, AssignmentFieldLists.CUSTOM_FIELDS).flatMap(Collection::stream).collect(Collectors.toList());
+
+   public static final Set<FieldType> CUSTOM_FIELDS_SET = new HashSet<>(CUSTOM_FIELDS);
 }

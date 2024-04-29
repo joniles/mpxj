@@ -23,80 +23,13 @@
 
 package net.sf.mpxj;
 
-import net.sf.mpxj.common.EnumHelper;
-import net.sf.mpxj.common.NumberHelper;
-
 /**
- * Instances of this class represent enumerated task type values.
+ * Instances of this enum task type values.
  */
-public enum TaskType implements MpxjEnum
+public enum TaskType
 {
-   FIXED_UNITS(0),
-   FIXED_DURATION(1),
-   FIXED_WORK(2);
-
-   /**
-    * Private constructor.
-    *
-    * @param type int version of the enum
-    */
-   TaskType(int type)
-   {
-      m_value = type;
-   }
-
-   /**
-    * Retrieve an instance of the enum based on its int value.
-    *
-    * @param type int type
-    * @return enum instance
-    */
-   public static TaskType getInstance(int type)
-   {
-      if (type < 0 || type >= TYPE_VALUES.length)
-      {
-         type = FIXED_WORK.getValue();
-      }
-      return (TYPE_VALUES[type]);
-   }
-
-   /**
-    * Retrieve an instance of the enum based on its int value.
-    *
-    * @param type int type
-    * @return enum instance
-    */
-   public static TaskType getInstance(Number type)
-   {
-      int value;
-      if (type == null)
-      {
-         value = -1;
-      }
-      else
-      {
-         value = NumberHelper.getInt(type);
-      }
-      return (getInstance(value));
-   }
-
-   /**
-    * Accessor method used to retrieve the numeric representation of the enum.
-    *
-    * @return int representation of the enum
-    */
-   @Override public int getValue()
-   {
-      return (m_value);
-   }
-
-   /**
-    * Array mapping int types to enums.
-    */
-   private static final TaskType[] TYPE_VALUES = EnumHelper.createTypeArray(TaskType.class);
-
-   /**
-    * Internal representation of the enum int type.
-    */
-   private final int m_value;
+   FIXED_UNITS,
+   FIXED_DURATION,
+   FIXED_WORK,
+   FIXED_DURATION_AND_UNITS
 }

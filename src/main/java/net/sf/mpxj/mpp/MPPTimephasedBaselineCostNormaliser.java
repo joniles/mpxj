@@ -23,38 +23,50 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.TimePeriodEntity;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.TimephasedNormaliser;
 
 /**
  * Common implementation detail for normalisation.
  */
-public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser<TimephasedCost>
+public final class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser<TimephasedCost>
 {
    /**
+    * Private constructor to prevent instantiation.
+    */
+   private MPPTimephasedBaselineCostNormaliser()
+   {
+
+   }
+
+   /**
     * This method converts the internal representation of timephased
-    * resource assignment data used by MS Project into a standardised
+    * data used by MS Project into a standardised
     * format to make it easy to work with.
     *
-    * @param assignment current resource assignment
-    * @param list list of assignment data
+    * @param parent parent entity
+    * @param list list of timephased data
     */
-   @Override public void normalise(ResourceAssignment assignment, List<TimephasedCost> list)
+   @Override public void normalise(ProjectCalendar calendar, TimePeriodEntity parent, List<TimephasedCost> list)
    {
       if (!list.isEmpty())
       {
          //dumpList(list);
-         splitDays(getCalendar(assignment), list);
+         splitDays(calendar, list);
          //dumpList(list);
          mergeSameDay(list);
          //dumpList(list);
@@ -63,59 +75,47 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
       }
    }
 
-   protected ProjectCalendar getCalendar(ResourceAssignment assignment)
-   {
-      return assignment.getParentFile().getBaselineCalendar();
-   }
-
    /**
     * This method breaks down spans of time into individual days.
     *
     * @param calendar current project calendar
-    * @param list list of assignment data
+    * @param list list of timephased data
     */
    private void splitDays(ProjectCalendar calendar, List<TimephasedCost> list)
    {
       List<TimephasedCost> result = new ArrayList<>();
-      boolean remainderInserted = false;
 
-      for (TimephasedCost assignment : list)
+      for (TimephasedCost item : list)
       {
-         if (remainderInserted)
+         while (item != null)
          {
-            assignment.setStart(DateHelper.addDays(assignment.getStart(), 1));
-            remainderInserted = false;
-         }
-
-         while (assignment != null)
-         {
-            Date startDay = DateHelper.getDayStartDate(assignment.getStart());
-            Date finishDay = DateHelper.getDayStartDate(assignment.getFinish());
+            LocalDateTime startDay = LocalDateTimeHelper.getDayStartDate(item.getStart());
+            LocalDateTime finishDay = LocalDateTimeHelper.getDayStartDate(item.getFinish());
 
             // special case - when the finishday time is midnight, it's really the previous day...
-            if (assignment.getFinish().getTime() == finishDay.getTime())
+            if (item.getFinish().equals(finishDay))
             {
-               finishDay = DateHelper.addDays(finishDay, -1);
+               finishDay = finishDay.minusDays(1);
             }
 
-            if (startDay.getTime() == finishDay.getTime())
+            if (startDay.equals(finishDay))
             {
-               result.add(assignment);
+               result.add(item);
                break;
             }
 
-            TimephasedCost[] split = splitFirstDay(calendar, assignment);
+            TimephasedCost[] split = splitFirstDay(calendar, item);
             if (split[0] != null)
             {
                result.add(split[0]);
             }
 
-            if (assignment.equals(split[1]))
+            if (item.equals(split[1]))
             {
                break;
             }
 
-            assignment = split[1];
+            item = split[1];
          }
       }
 
@@ -127,36 +127,36 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
     * This method splits the first day off of a time span.
     *
     * @param calendar current calendar
-    * @param assignment timephased assignment span
-    * @return first day and remainder assignments
+    * @param item timephased item
+    * @return first day and remainder timephased items
     */
-   private TimephasedCost[] splitFirstDay(ProjectCalendar calendar, TimephasedCost assignment)
+   private TimephasedCost[] splitFirstDay(ProjectCalendar calendar, TimephasedCost item)
    {
       TimephasedCost[] result = new TimephasedCost[2];
 
       //
       // Retrieve data used to calculate the pro-rata work split
       //
-      Date assignmentStart = assignment.getStart();
-      Date assignmentFinish = assignment.getFinish();
-      Duration calendarWork = calendar.getWork(assignmentStart, assignmentFinish, TimeUnit.MINUTES);
+      LocalDateTime itemStart = item.getStart();
+      LocalDateTime itemFinish = item.getFinish();
+      Duration calendarWork = calendar.getWork(itemStart, itemFinish, TimeUnit.MINUTES);
 
       if (calendarWork.getDuration() != 0)
       {
          //
          // Split the first day
          //
-         Date splitFinish;
+         LocalDateTime splitFinish;
          double splitCost;
-         if (calendar.isWorkingDate(assignmentStart))
+         LocalDate itemStartAsLocalDate = LocalDateHelper.getLocalDate(itemStart);
+         if (calendar.isWorkingDate(itemStartAsLocalDate))
          {
-            Date splitFinishTime = calendar.getFinishTime(assignmentStart);
-            splitFinish = DateHelper.setTime(assignmentStart, splitFinishTime);
-            Duration calendarSplitWork = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES);
-            splitCost = (assignment.getTotalAmount().doubleValue() * calendarSplitWork.getDuration()) / calendarWork.getDuration();
+            splitFinish = LocalTimeHelper.setEndTime(itemStart, calendar.getFinishTime(itemStartAsLocalDate));
+            Duration calendarSplitWork = calendar.getWork(itemStart, splitFinish, TimeUnit.MINUTES);
+            splitCost = (item.getTotalAmount().doubleValue() * calendarSplitWork.getDuration()) / calendarWork.getDuration();
 
             TimephasedCost split = new TimephasedCost();
-            split.setStart(assignmentStart);
+            split.setStart(itemStart);
             split.setFinish(splitFinish);
             split.setTotalAmount(Double.valueOf(splitCost));
 
@@ -164,29 +164,29 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
          }
          else
          {
-            splitFinish = assignmentStart;
+            splitFinish = itemStart;
             splitCost = 0;
          }
 
          //
          // Split the remainder
          //
-         Date splitStart = calendar.getNextWorkStart(splitFinish);
-         splitFinish = assignmentFinish;
+         LocalDateTime splitStart = calendar.getNextWorkStart(splitFinish);
+         splitFinish = itemFinish;
          TimephasedCost split;
-         if (splitStart.getTime() > splitFinish.getTime())
+         if (splitStart.isAfter(splitFinish))
          {
             split = null;
          }
          else
          {
-            splitCost = assignment.getTotalAmount().doubleValue() - splitCost;
+            splitCost = item.getTotalAmount().doubleValue() - splitCost;
 
             split = new TimephasedCost();
             split.setStart(splitStart);
             split.setFinish(splitFinish);
             split.setTotalAmount(Double.valueOf(splitCost));
-            split.setAmountPerDay(assignment.getAmountPerDay());
+            split.setAmountPerDay(item.getAmountPerDay());
          }
 
          result[1] = split;
@@ -195,9 +195,9 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
    }
 
    /**
-    * This method merges together assignment data for the same day.
+    * This method merges together data for the same day.
     *
-    * @param list assignment data
+    * @param list timephased data
     */
    private void mergeSameDay(List<TimephasedCost> list)
    {
@@ -208,12 +208,12 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
       {
          if (previousAssignment != null)
          {
-            Date previousAssignmentStart = previousAssignment.getStart();
-            Date previousAssignmentStartDay = DateHelper.getDayStartDate(previousAssignmentStart);
-            Date assignmentStart = assignment.getStart();
-            Date assignmentStartDay = DateHelper.getDayStartDate(assignmentStart);
+            LocalDateTime previousAssignmentStart = previousAssignment.getStart();
+            LocalDateTime previousAssignmentStartDay = LocalDateTimeHelper.getDayStartDate(previousAssignmentStart);
+            LocalDateTime assignmentStart = assignment.getStart();
+            LocalDateTime assignmentStartDay = LocalDateTimeHelper.getDayStartDate(assignmentStart);
 
-            if (previousAssignmentStartDay.getTime() == assignmentStartDay.getTime())
+            if (previousAssignmentStartDay.equals(assignmentStartDay))
             {
                result.remove(result.size() - 1);
 
@@ -243,7 +243,7 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
     *
     * @param list assignment data
     */
-   protected void mergeSameCost(List<TimephasedCost> list)
+   private void mergeSameCost(List<TimephasedCost> list)
    {
       List<TimephasedCost> result = new ArrayList<>();
 
@@ -262,8 +262,8 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
 
             if (NumberHelper.equals(previousAssignmentCost.doubleValue(), assignmentCost.doubleValue(), 0.01))
             {
-               Date assignmentStart = previousAssignment.getStart();
-               Date assignmentFinish = assignment.getFinish();
+               LocalDateTime assignmentStart = previousAssignment.getStart();
+               LocalDateTime assignmentFinish = assignment.getFinish();
                double total = previousAssignment.getTotalAmount().doubleValue();
                total += assignmentCost.doubleValue();
 
@@ -290,15 +290,5 @@ public class MPPTimephasedBaselineCostNormaliser implements TimephasedNormaliser
       list.addAll(result);
    }
 
-   /*
-   private void dumpList(List<TimephasedCost> list)
-   {
-      System.out.println();
-      for (TimephasedCost assignment : list)
-      {
-         System.out.println(assignment);
-      }
-   }
-   */
-
+   public static final MPPTimephasedBaselineCostNormaliser INSTANCE = new MPPTimephasedBaselineCostNormaliser();
 }

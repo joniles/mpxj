@@ -25,8 +25,6 @@ package net.sf.mpxj.phoenix;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,11 +94,6 @@ public final class PhoenixReader extends AbstractProjectStreamReader
       {
          throw new MPXJException(MPXJException.INVALID_FILE, ex);
       }
-   }
-
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
    }
 
    private boolean m_useActivityCodesForTaskHierarchy = true;

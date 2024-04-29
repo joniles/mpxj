@@ -29,11 +29,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +45,12 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import net.sf.mpxj.Availability;
+import net.sf.mpxj.UnitOfMeasureContainer;
+import net.sf.mpxj.common.DayOfWeekHelper;
+import net.sf.mpxj.LocalTimeRange;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.ResultSetHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -52,8 +58,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
@@ -65,7 +70,6 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
@@ -73,7 +77,6 @@ import net.sf.mpxj.ScheduleFrom;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.AutoCloseableHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.SQLite;
 import net.sf.mpxj.reader.AbstractProjectFileReader;
@@ -99,11 +102,6 @@ public final class MerlinReader extends AbstractProjectFileReader
          databaseFile = file;
       }
       return readFile(databaseFile);
-   }
-
-   @Override public List<ProjectFile> readAll(File file) throws MPXJException
-   {
-      return Collections.singletonList(read(file));
    }
 
    /**
@@ -155,6 +153,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       config.setAutoCalendarUniqueID(false);
       config.setAutoTaskUniqueID(false);
       config.setAutoResourceUniqueID(false);
+      config.setAutoRelationUniqueID(false);
 
       m_project.getProjectProperties().setFileApplication("Merlin");
       m_project.getProjectProperties().setFileType("SQLITE");
@@ -168,6 +167,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       processTasks();
       processAssignments();
       processDependencies();
+      m_project.readComplete();
 
       return m_project;
    }
@@ -190,7 +190,7 @@ public final class MerlinReader extends AbstractProjectFileReader
    {
       ProjectProperties props = m_project.getProjectProperties();
       Row row = getRows("select * from zproject where z_pk=?", m_projectID).get(0);
-      props.setWeekStartDay(Day.getInstance(row.getInt("ZFIRSTDAYOFWEEK") + 1));
+      props.setWeekStartDay(DayOfWeekHelper.getInstance(row.getInt("ZFIRSTDAYOFWEEK") + 1));
       props.setScheduleFrom(row.getInt("ZSCHEDULINGDIRECTION") == 1 ? ScheduleFrom.START : ScheduleFrom.FINISH);
       props.setMinutesPerDay(Integer.valueOf(row.getInt("ZHOURSPERDAY") * 60));
       props.setDaysPerMonth(row.getInteger("ZDAYSPERMONTH"));
@@ -239,7 +239,7 @@ public final class MerlinReader extends AbstractProjectFileReader
    private void processDays(ProjectCalendar calendar) throws Exception
    {
       // Default all days to non-working
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          calendar.setWorkingDay(day, false);
          calendar.addCalendarHours(day);
@@ -248,7 +248,7 @@ public final class MerlinReader extends AbstractProjectFileReader
       List<Row> rows = getRows("select * from zcalendarrule where zcalendar1=? and z_ent=?", calendar.getUniqueID(), m_entityMap.get("CalendarWeekDayRule"));
       for (Row row : rows)
       {
-         Day day = row.getDay("ZWEEKDAY");
+         DayOfWeek day = row.getDay("ZWEEKDAY");
          String timeIntervals = row.getString("ZTIMEINTERVALS");
          ProjectCalendarHours hours = calendar.getCalendarHours(day);
 
@@ -264,15 +264,9 @@ public final class MerlinReader extends AbstractProjectFileReader
             for (int loop = 0; loop < nodes.getLength(); loop++)
             {
                NamedNodeMap attributes = nodes.item(loop).getAttributes();
-               Date startTime = m_calendarTimeFormat.parse(attributes.getNamedItem("startTime").getTextContent());
-               Date endTime = m_calendarTimeFormat.parse(attributes.getNamedItem("endTime").getTextContent());
-
-               if (startTime.getTime() >= endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
-               hours.add(new DateRange(startTime, endTime));
+               LocalTime startTime = LocalTime.parse(attributes.getNamedItem("startTime").getTextContent(), m_calendarTimeFormat);
+               LocalTime endTime = LocalTime.parse(attributes.getNamedItem("endTime").getTextContent(), m_calendarTimeFormat);
+               hours.add(new LocalTimeRange(startTime, endTime));
             }
          }
       }
@@ -288,8 +282,8 @@ public final class MerlinReader extends AbstractProjectFileReader
       List<Row> rows = getRows("select * from zcalendarrule where zcalendar=? and z_ent=?", calendar.getUniqueID(), m_entityMap.get("CalendarExceptionRule"));
       for (Row row : rows)
       {
-         Date startDay = row.getDate("ZSTARTDAY");
-         Date endDay = row.getDate("ZENDDAY");
+         LocalDate startDay = LocalDateHelper.getLocalDate(row.getDate("ZSTARTDAY"));
+         LocalDate endDay = LocalDateHelper.getLocalDate(row.getDate("ZENDDAY"));
          ProjectCalendarException exception = calendar.addCalendarException(startDay, endDay);
 
          String timeIntervals = row.getString("ZTIMEINTERVALS");
@@ -299,15 +293,9 @@ public final class MerlinReader extends AbstractProjectFileReader
             for (int loop = 0; loop < nodes.getLength(); loop++)
             {
                NamedNodeMap attributes = nodes.item(loop).getAttributes();
-               Date startTime = m_calendarTimeFormat.parse(attributes.getNamedItem("startTime").getTextContent());
-               Date endTime = m_calendarTimeFormat.parse(attributes.getNamedItem("endTime").getTextContent());
-
-               if (startTime.getTime() >= endTime.getTime())
-               {
-                  endTime = DateHelper.addDays(endTime, 1);
-               }
-
-               exception.add(new DateRange(startTime, endTime));
+               LocalTime startTime = LocalTime.parse(attributes.getNamedItem("startTime").getTextContent(), m_calendarTimeFormat);
+               LocalTime endTime = LocalTime.parse(attributes.getNamedItem("endTime").getTextContent(), m_calendarTimeFormat);
+               exception.add(new LocalTimeRange(startTime, endTime));
             }
          }
       }
@@ -319,6 +307,8 @@ public final class MerlinReader extends AbstractProjectFileReader
    private void processResources() throws SQLException
    {
       List<Row> rows = getRows("select * from zresource where zproject=? order by zorderinproject", m_projectID);
+      UnitOfMeasureContainer uom = m_project.getUnitsOfMeasure();
+
       for (Row row : rows)
       {
          Resource resource = m_project.addResource();
@@ -328,11 +318,11 @@ public final class MerlinReader extends AbstractProjectFileReader
          resource.setName(row.getString("ZTITLE_"));
          resource.setGUID(row.getUUID("ZUNIQUEID"));
          resource.setType(row.getResourceType("ZTYPE"));
-         resource.setMaterialLabel(row.getString("ZMATERIALUNIT"));
+         resource.setUnitOfMeasure(uom.getOrCreateByAbbreviation(row.getString("ZMATERIALUNIT")));
 
          if (resource.getType() == ResourceType.WORK)
          {
-            resource.setMaxUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("ZAVAILABLEUNITS_")) * 100.0));
+            resource.getAvailability().add(new Availability(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, Double.valueOf(NumberHelper.getDouble(row.getDouble("ZAVAILABLEUNITS_")) * 100.0)));
          }
 
          Integer calendarID = row.getInteger("ZRESOURCECALENDAR");
@@ -440,13 +430,13 @@ public final class MerlinReader extends AbstractProjectFileReader
     */
    private void populateConstraints(Row row, Task task)
    {
-      Date endDateMax = row.getTimestamp("ZGIVENENDDATEMAX_");
-      Date endDateMin = row.getTimestamp("ZGIVENENDDATEMIN_");
-      Date startDateMax = row.getTimestamp("ZGIVENSTARTDATEMAX_");
-      Date startDateMin = row.getTimestamp("ZGIVENSTARTDATEMIN_");
+      LocalDateTime endDateMax = row.getTimestamp("ZGIVENENDDATEMAX_");
+      LocalDateTime endDateMin = row.getTimestamp("ZGIVENENDDATEMIN_");
+      LocalDateTime startDateMax = row.getTimestamp("ZGIVENSTARTDATEMAX_");
+      LocalDateTime startDateMin = row.getTimestamp("ZGIVENSTARTDATEMIN_");
 
       ConstraintType constraintType = null;
-      Date constraintDate = null;
+      LocalDateTime constraintDate = null;
 
       if (endDateMax != null)
       {
@@ -562,10 +552,11 @@ public final class MerlinReader extends AbstractProjectFileReader
       {
          Task nextTask = m_project.getTaskByUniqueID(row.getInteger("ZNEXTACTIVITY_"));
          Task prevTask = m_project.getTaskByUniqueID(row.getInteger("ZPREVIOUSACTIVITY_"));
-         Duration lag = row.getDuration("ZLAG_");
-         RelationType type = row.getRelationType("ZTYPE");
-         Relation relation = nextTask.addPredecessor(prevTask, type, lag);
-         relation.setUniqueID(row.getInteger("Z_PK"));
+         nextTask.addPredecessor(new Relation.Builder()
+            .targetTask(prevTask)
+            .type(row.getRelationType("ZTYPE"))
+            .lag(row.getDuration("ZLAG_"))
+            .uniqueID(row.getInteger("Z_PK")));
       }
    }
 
@@ -618,7 +609,7 @@ public final class MerlinReader extends AbstractProjectFileReader
    private final Integer m_projectID = Integer.valueOf(1);
    private Connection m_connection;
    private DocumentBuilder m_documentBuilder;
-   private final DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm:ss");
+   private final DateTimeFormatter m_calendarTimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
    private XPathExpression m_dayTimeIntervals;
    private Map<String, Integer> m_entityMap;
 }

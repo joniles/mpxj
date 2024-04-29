@@ -47,9 +47,25 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
 
    @Override public void removed(Resource resource)
    {
-      m_uniqueIDMap.remove(resource.getUniqueID());
+      //
+      // Remove the resource from the file and its parent resource
+      //
+      super.removed(resource);
       m_idMap.remove(resource.getID());
 
+      Resource parentResource = resource.getParentResource();
+      if (parentResource != null)
+      {
+         parentResource.removeChildResource(resource);
+      }
+      else
+      {
+         m_projectFile.getChildResources().remove(resource);
+      }
+
+      //
+      // Remove all resource assignments
+      //
       Iterator<ResourceAssignment> iter = m_projectFile.getResourceAssignments().iterator();
       Integer resourceUniqueID = resource.getUniqueID();
       while (iter.hasNext())
@@ -78,7 +94,8 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
    {
       Resource resource = new Resource(m_projectFile);
       add(resource);
-      return (resource);
+      m_projectFile.getChildResources().add(resource);
+      return resource;
    }
 
    /**
@@ -88,11 +105,12 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
     */
    public void updateStructure()
    {
+      // TODO: deprecate - change method visibility
       if (size() > 1)
       {
          m_projectFile.getChildResources().clear();
-         this.stream().forEach(r -> r.getChildResources().clear());
-         this.stream().forEach(r -> {
+         this.forEach(r -> r.getChildResources().clear());
+         this.forEach(r -> {
             Resource parent = r.getParentResource();
             if (parent == null)
             {

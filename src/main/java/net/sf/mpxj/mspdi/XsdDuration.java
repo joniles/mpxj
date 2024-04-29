@@ -39,7 +39,7 @@ final class XsdDuration
     *
     * @param duration value formatted as an xsd:duration
     */
-   XsdDuration(String duration)
+   public XsdDuration(String duration)
    {
       if (duration != null)
       {
@@ -106,94 +106,110 @@ final class XsdDuration
     *
     * @param duration An MPX duration.
     */
-   XsdDuration(Duration duration)
+   public XsdDuration(Duration duration)
    {
-      if (duration != null)
+      if (duration == null)
       {
-         double amount = duration.getDuration();
+         return;
+      }
 
-         if (amount != 0)
+      double rawDuration = duration.getDuration();
+      if (rawDuration == 0)
+      {
+         return;
+      }
+
+      long time;
+
+      switch (duration.getUnits())
+      {
+         case MINUTES:
+         case ELAPSED_MINUTES:
          {
-            switch (duration.getUnits())
-            {
-               case MINUTES:
-               case ELAPSED_MINUTES:
-               {
-                  m_minutes = (long) amount;
-                  m_seconds = (amount * 60) - (m_minutes * 60);
-                  break;
-               }
+            time = Math.round(rawDuration * 60.0);
+            m_seconds = time % 60;
+            time /= 60;
+            m_minutes = time;
+            break;
+         }
 
-               case HOURS:
-               case ELAPSED_HOURS:
-               {
-                  m_hours = (long) amount;
-                  amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (long) amount;
-                  m_seconds = (amount * 60) - (m_minutes * 60);
-                  break;
-               }
+         case HOURS:
+         case ELAPSED_HOURS:
+         {
+            time = Math.round(rawDuration * 60.0 * 60.0);
+            m_seconds = time % 60;
+            time /= 60;
+            m_minutes = time % 60;
+            time /= 60;
+            m_hours = time;
+            break;
+         }
 
-               case DAYS:
-               case ELAPSED_DAYS:
-               {
-                  m_days = (long) amount;
-                  amount = (amount * 24) - (m_days * 24);
-                  m_hours = (long) amount;
-                  amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (long) amount;
-                  m_seconds = (amount * 60) - (m_minutes * 60);
-                  break;
-               }
+         case DAYS:
+         case ELAPSED_DAYS:
+         {
+            time = Math.round(rawDuration * 60.0 * 60.0 * 24.0);
+            m_seconds = time % 60;
+            time /= 60;
+            m_minutes = time % 60;
+            time /= 60;
+            m_hours = time % 24;
+            time /= 24;
+            m_days = time;
+            break;
+         }
 
-               case WEEKS:
-               case ELAPSED_WEEKS:
-               {
-                  amount *= 7;
-                  m_days = (long) amount;
-                  amount = (amount * 24) - (m_days * 24);
-                  m_hours = (long) amount;
-                  amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (long) amount;
-                  m_seconds = (amount * 60) - (m_minutes * 60);
-                  break;
-               }
+         case WEEKS:
+         case ELAPSED_WEEKS:
+         {
+            time = Math.round(rawDuration * 60.0 * 60.0 * 24.0 * 7.0);
+            m_seconds = time % 60;
+            time /= 60;
+            m_minutes = time % 60;
+            time /= 60;
+            m_hours = time % 24;
+            time /= 24;
+            m_days = time;
+            break;
+         }
 
-               case MONTHS:
-               case ELAPSED_MONTHS:
-               {
-                  m_months = (long) amount;
-                  amount = (amount * 28) - (m_months * 28);
-                  m_days = (long) amount;
-                  amount = (amount * 24) - (m_days * 24);
-                  m_hours = (long) amount;
-                  amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (long) amount;
-                  m_seconds = (amount * 60) - (m_minutes * 60);
-                  break;
-               }
+         case MONTHS:
+         case ELAPSED_MONTHS:
+         {
+            time = Math.round(rawDuration * 60.0 * 60.0 * 24.0 * 28.0);
+            m_seconds = time % 60;
+            time /= 60;
+            m_minutes = time % 60;
+            time /= 60;
+            m_hours = time % 24;
+            time /= 24;
+            m_days = time % 28;
+            time /= 28;
+            m_months = time;
+            break;
+         }
 
-               case YEARS:
-               case ELAPSED_YEARS:
-               {
-                  m_years = (long) amount;
-                  amount = (amount * 12) - (m_years * 12);
-                  m_months = (long) amount;
-                  amount = (amount * 28) - (m_months * 28);
-                  m_days = (long) amount;
-                  amount = (amount * 24) - (m_days * 24);
-                  m_hours = (long) amount;
-                  amount = (amount * 60) - (m_hours * 60);
-                  m_minutes = (long) amount;
-                  m_seconds = (amount * 60) - (m_minutes * 60);
-                  break;
-               }
+         case YEARS:
+         case ELAPSED_YEARS:
+         {
+            time = Math.round(rawDuration * 60.0 * 60.0 * 24.0 * 28.0 * 12.0);
+            m_seconds = time % 60;
+            time /= 60;
+            m_minutes = time % 60;
+            time /= 60;
+            m_hours = time % 24;
+            time /= 24;
+            m_days = time % 28;
+            time /= 28;
+            m_months = time % 12;
+            time /= 12;
+            m_years = time;
+            break;
+         }
 
-               default:
-               {
-                  break;
-               }
-            }
+         default:
+         {
+            break;
          }
       }
    }

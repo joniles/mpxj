@@ -3,7 +3,7 @@
                xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
   <!-- note that the schemaLocation will need to be changed to be correct for your system -->
-  <jxb:bindings schemaLocation="file:mspdi_pj15-correct.xsd" node="/xsd:schema">
+  <jxb:bindings schemaLocation="file:mspdi_pj15-corrected.xsd" node="/xsd:schema">
 
    <jxb:globalBindings>
       <!-- globally map float types to BigDecimal for consistency -->
@@ -11,13 +11,11 @@
                     xmlType="xsd:float"
                     parseMethod="javax.xml.bind.DatatypeConverter.parseDecimal"
                     printMethod="javax.xml.bind.DatatypeConverter.printDecimal"/>
-      <!-- globally map time types to Calendar to allow custom print and parse to be used -->
-      <jxb:javaType name="java.util.Date"
+      <jxb:javaType name="java.time.LocalTime"
                     xmlType="xsd:time"
                     parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseTime"
                     printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printTime"/>
-      <!-- globally map dateTime types to Calendar to allow custom print and parse to be used -->
-      <jxb:javaType name="java.util.Date"
+      <jxb:javaType name="java.time.LocalDateTime"
                     xmlType="xsd:dateTime"
                     parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseDateTime"
                     printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printDateTime"/>
@@ -35,7 +33,7 @@
    </jxb:globalBindings>
 
    <!-- Project.CurrencySymbolPosition -->
-   <jxb:bindings node="//xsd:element[@name='Project']//xsd:element[@name='CurrencySymbolPosition']">
+   <jxb:bindings node="//xsd:complexType[@name='Project']//xsd:element[@name='CurrencySymbolPosition']">
       <jxb:bindings node="./xsd:simpleType">
          <jxb:javaType name="net.sf.mpxj.CurrencySymbolPosition"
                        parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseCurrencySymbolPosition"
@@ -44,7 +42,7 @@
    </jxb:bindings>
 
    <!-- Project.DefaultFixedCostAccrual -->
-   <jxb:bindings node="//xsd:element[@name='Project']//xsd:element[@name='DefaultFixedCostAccrual']">
+   <jxb:bindings node="//xsd:complexType[@name='Project']//xsd:element[@name='DefaultFixedCostAccrual']">
       <jxb:bindings node="./xsd:simpleType">
          <jxb:javaType name="net.sf.mpxj.AccrueType"
                        parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseAccrueType"
@@ -53,7 +51,7 @@
    </jxb:bindings>
 
    <!-- Project.DefaultTaskType -->
-   <jxb:bindings node="//xsd:element[@name='Project']//xsd:element[@name='DefaultTaskType']">
+   <jxb:bindings node="//xsd:complexType[@name='Project']//xsd:element[@name='DefaultTaskType']">
       <jxb:bindings node="./xsd:simpleType">
          <jxb:javaType name="net.sf.mpxj.TaskType"
                        parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseTaskType"
@@ -190,7 +188,7 @@
    </jxb:bindings>
 
    <!-- Project.GUID -->
-   <jxb:bindings node="//xsd:element[@name='Project']/xsd:complexType/xsd:sequence/xsd:element[@name='GUID']">
+   <jxb:bindings node="//xsd:complexType[@name='Project']/xsd:sequence/xsd:element[@name='GUID']">
       <jxb:bindings node=".">
          <jxb:property>
             <jxb:baseType>
@@ -217,6 +215,19 @@
 
    <!-- OutlineCode FieldGUID -->
    <jxb:bindings node="//xsd:element[@name='OutlineCode']//xsd:element[@name='FieldGUID']">
+      <jxb:bindings node=".">
+         <jxb:property>
+            <jxb:baseType>
+               <jxb:javaType name="java.util.UUID"
+                             parseMethod="net.sf.mpxj.mspdi.DatatypeConverter.parseUUID"
+                             printMethod="net.sf.mpxj.mspdi.DatatypeConverter.printUUID"/>
+            </jxb:baseType>
+         </jxb:property>
+      </jxb:bindings>
+   </jxb:bindings>
+
+   <!-- Calendar GUID -->
+   <jxb:bindings node="//xsd:element[@name='Calendar']//xsd:element[@name='GUID']">
       <jxb:bindings node=".">
          <jxb:property>
             <jxb:baseType>

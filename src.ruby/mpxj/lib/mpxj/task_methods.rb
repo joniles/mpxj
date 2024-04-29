@@ -102,6 +102,20 @@ module MPXJ
       get_duration_value(attribute_values['actual_work'])
     end
 
+    # Retrieve the Actual Work (Labor) value
+    #
+    # @return Actual Work (Labor) value
+    def actual_work_labor
+      get_duration_value(attribute_values['actual_work_labor'])
+    end
+
+    # Retrieve the Actual Work (Nonlabor) value
+    #
+    # @return Actual Work (Nonlabor) value
+    def actual_work_nonlabor
+      get_duration_value(attribute_values['actual_work_nonlabor'])
+    end
+
     # Retrieve the Actual Work Protected value
     #
     # @return Actual Work Protected value
@@ -142,6 +156,13 @@ module MPXJ
     # @return Assignment Units value
     def assignment_units
       attribute_values['assignment_units']
+    end
+
+    # Retrieve the Bar Name value
+    #
+    # @return Bar Name value
+    def bar_name
+      attribute_values['bar_name']
     end
 
     # Retrieve the Baseline10 Budget Cost value
@@ -4603,6 +4624,20 @@ module MPXJ
       get_boolean_value(attribute_values['estimated'])
     end
 
+    # Retrieve the Expanded value
+    #
+    # @return Expanded value
+    def expanded
+      get_boolean_value(attribute_values['expanded'])
+    end
+
+    # Retrieve the Expected Finish value
+    #
+    # @return Expected Finish value
+    def expected_finish
+      get_date_value(attribute_values['expected_finish'])
+    end
+
     # Retrieve the Expense Items value
     #
     # @return Expense Items value
@@ -4622,6 +4657,13 @@ module MPXJ
     # @return External Late Finish value
     def external_late_finish
       get_date_value(attribute_values['external_late_finish'])
+    end
+
+    # Retrieve the External Project value
+    #
+    # @return External Project value
+    def external_project
+      get_boolean_value(attribute_values['external_project'])
     end
 
     # Retrieve the External Task value
@@ -5079,6 +5121,13 @@ module MPXJ
       get_boolean_value(attribute_values['linked_fields'])
     end
 
+    # Retrieve the Location Unique ID value
+    #
+    # @return Location Unique ID value
+    def location_unique_id
+      get_integer_value(attribute_values['location_unique_id'])
+    end
+
     # Retrieve the Longest Path value
     #
     # @return Longest Path value
@@ -5147,6 +5196,13 @@ module MPXJ
     # @return Notes value
     def notes
       attribute_values['notes']
+    end
+
+    # Retrieve the Null value
+    #
+    # @return Null value
+    def null
+      get_boolean_value(attribute_values['null'])
     end
 
     # Retrieve the Number1 value
@@ -5597,6 +5653,20 @@ module MPXJ
       get_duration_value(attribute_values['planned_work'])
     end
 
+    # Retrieve the Planned Work (Labor) value
+    #
+    # @return Planned Work (Labor) value
+    def planned_work_labor
+      get_duration_value(attribute_values['planned_work_labor'])
+    end
+
+    # Retrieve the Planned Work (Nonlabor) value
+    #
+    # @return Planned Work (Nonlabor) value
+    def planned_work_nonlabor
+      get_duration_value(attribute_values['planned_work_nonlabor'])
+    end
+
     # Retrieve the Predecessors value
     #
     # @return Predecessors value
@@ -5735,6 +5805,20 @@ module MPXJ
     # @return Remaining Work value
     def remaining_work
       get_duration_value(attribute_values['remaining_work'])
+    end
+
+    # Retrieve the Remaining Work (Labor) value
+    #
+    # @return Remaining Work (Labor) value
+    def remaining_work_labor
+      get_duration_value(attribute_values['remaining_work_labor'])
+    end
+
+    # Retrieve the Remaining Work (Nonlabor) value
+    #
+    # @return Remaining Work (Nonlabor) value
+    def remaining_work_nonlabor
+      get_duration_value(attribute_values['remaining_work_nonlabor'])
     end
 
     # Retrieve the Request/Demand value
@@ -6087,6 +6171,13 @@ module MPXJ
       get_date_value(attribute_values['resume_no_earlier_than'])
     end
 
+    # Retrieve the Resume Valid value
+    #
+    # @return Resume Valid value
+    def resume_valid
+      get_boolean_value(attribute_values['resume_valid'])
+    end
+
     # Retrieve the Rollup value
     #
     # @return Rollup value
@@ -6332,18 +6423,18 @@ module MPXJ
       get_float_value(attribute_values['stored_material'])
     end
 
-    # Retrieve the Subproject value
-    #
-    # @return Subproject value
-    def subproject
-      attribute_values['subproject']
-    end
-
     # Retrieve the Subproject File value
     #
     # @return Subproject File value
     def subproject_file
       attribute_values['subproject_file']
+    end
+
+    # Retrieve the Subproject GUID value
+    #
+    # @return Subproject GUID value
+    def subproject_guid
+      attribute_values['subproject_guid']
     end
 
     # Retrieve the Subproject Read Only value
@@ -6367,11 +6458,11 @@ module MPXJ
       get_integer_value(attribute_values['subproject_task_id'])
     end
 
-    # Retrieve the Subproject Unique Task ID value
+    # Retrieve the Subproject Task Unique ID value
     #
-    # @return Subproject Unique Task ID value
-    def subproject_unique_task_id
-      get_integer_value(attribute_values['subproject_unique_task_id'])
+    # @return Subproject Task Unique ID value
+    def subproject_task_unique_id
+      get_integer_value(attribute_values['subproject_task_unique_id'])
     end
 
     # Retrieve the Successors value
@@ -6802,12 +6893,15 @@ module MPXJ
       'actual_overtime_work_protected' => :work,
       'actual_start' => :date,
       'actual_work' => :work,
+      'actual_work_labor' => :duration,
+      'actual_work_nonlabor' => :duration,
       'actual_work_protected' => :work,
       'acwp' => :currency,
       'assignment' => :boolean,
       'assignment_delay' => :string,
       'assignment_owner' => :string,
       'assignment_units' => :string,
+      'bar_name' => :string,
       'baseline10_budget_cost' => :currency,
       'baseline10_budget_work' => :work,
       'baseline10_cost' => :currency,
@@ -7445,9 +7539,12 @@ module MPXJ
       'enterprise_text9' => :string,
       'error_message' => :string,
       'estimated' => :boolean,
+      'expanded' => :boolean,
+      'expected_finish' => :date,
       'expense_items' => :expense_item_list,
       'external_early_start' => :date,
       'external_late_finish' => :date,
+      'external_project' => :boolean,
       'external_task' => :boolean,
       'feature_of_work' => :string,
       'finish' => :date,
@@ -7513,6 +7610,7 @@ module MPXJ
       'leveling_delay_units' => :time_units,
       'level_assignments' => :boolean,
       'linked_fields' => :boolean,
+      'location_unique_id' => :integer,
       'longest_path' => :boolean,
       'mail' => :string,
       'manager' => :string,
@@ -7523,6 +7621,7 @@ module MPXJ
       'mod_or_claim_number' => :string,
       'name' => :string,
       'notes' => :notes,
+      'null' => :boolean,
       'number1' => :numeric,
       'number10' => :numeric,
       'number11' => :numeric,
@@ -7587,6 +7686,8 @@ module MPXJ
       'planned_finish' => :date,
       'planned_start' => :date,
       'planned_work' => :work,
+      'planned_work_labor' => :duration,
+      'planned_work_nonlabor' => :duration,
       'predecessors' => :relation_list,
       'preleveled_finish' => :date,
       'preleveled_start' => :date,
@@ -7607,6 +7708,8 @@ module MPXJ
       'remaining_overtime_cost' => :currency,
       'remaining_overtime_work' => :work,
       'remaining_work' => :work,
+      'remaining_work_labor' => :duration,
+      'remaining_work_nonlabor' => :duration,
       'request_demand' => :string,
       'resource_enterprise_multi_value_code20' => :string,
       'resource_enterprise_multi_value_code21' => :string,
@@ -7657,6 +7760,7 @@ module MPXJ
       'responsibility_code' => :string,
       'resume' => :date,
       'resume_no_earlier_than' => :date,
+      'resume_valid' => :boolean,
       'rollup' => :boolean,
       'scheduled_duration' => :duration,
       'scheduled_finish' => :date,
@@ -7692,12 +7796,12 @@ module MPXJ
       'steps' => :step_list,
       'stop' => :date,
       'stored_material' => :currency,
-      'subproject' => :subproject,
       'subproject_file' => :string,
+      'subproject_guid' => :guid,
       'subproject_read_only' => :boolean,
       'subproject_tasks_uniqueid_offset' => :integer,
       'subproject_task_id' => :integer,
-      'subproject_unique_task_id' => :integer,
+      'subproject_task_unique_id' => :integer,
       'successors' => :relation_list,
       'summary' => :boolean,
       'summary_progress' => :date,

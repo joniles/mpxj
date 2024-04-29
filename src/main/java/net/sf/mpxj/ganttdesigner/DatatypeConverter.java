@@ -23,12 +23,13 @@
 
 package net.sf.mpxj.ganttdesigner;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
 
@@ -43,18 +44,18 @@ public final class DatatypeConverter
     * @param value string representation
     * @return date value
     */
-   public static final Date parseTimestamp(String value)
+   public static final LocalDateTime parseTimestamp(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          try
          {
-            result = TIMESTAMP_FORMAT.get().parse(value);
+            result = LocalDateTime.parse(value, TIMESTAMP_FORMAT);
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
             // Ignore parse exception
          }
@@ -69,9 +70,9 @@ public final class DatatypeConverter
     * @param value time value
     * @return time value
     */
-   public static final String printTimestamp(Date value)
+   public static final String printTimestamp(LocalDateTime value)
    {
-      return (value == null ? null : TIMESTAMP_FORMAT.get().format(value));
+      return value == null ? null : TIMESTAMP_FORMAT.format(value);
    }
 
    /**
@@ -102,24 +103,24 @@ public final class DatatypeConverter
     * @param value string representation of a date
     * @return Date instance
     */
-   public static final Date parseDate(String value)
+   public static final LocalDate parseDate(String value)
    {
-      Date result = null;
+      LocalDate result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          try
          {
-            result = DATE_FORMAT.get().parse(value);
+            result = LocalDate.parse(value, DATE_FORMAT);
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
             // Ignore parse exception
          }
       }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -128,9 +129,9 @@ public final class DatatypeConverter
     * @param value Date instance
     * @return string representation of a date
     */
-   public static final String printDate(Date value)
+   public static final String printDate(LocalDate value)
    {
-      return (value == null ? null : DATE_FORMAT.get().format(value));
+      return (value == null ? null : DATE_FORMAT.format(value));
    }
 
    /**
@@ -161,9 +162,9 @@ public final class DatatypeConverter
     * @param value string representation of a day
     * @return Day instance
     */
-   public static final Day parseDay(String value)
+   public static final DayOfWeek parseDay(String value)
    {
-      return Day.getInstance(Integer.parseInt(value) + 1);
+      return DayOfWeekHelper.getInstance(Integer.parseInt(value) + 1);
    }
 
    /**
@@ -172,21 +173,12 @@ public final class DatatypeConverter
     * @param value Day instance
     * @return string representation of a day
     */
-   public static final String printDay(Day value)
+   public static final String printDay(DayOfWeek value)
    {
-      return Integer.toString(value.getValue() - 1);
+      return Integer.toString(DayOfWeekHelper.getValue(value) - 1);
    }
 
-   private static final ThreadLocal<DateFormat> TIMESTAMP_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      df.setLenient(false);
-      return df;
-   });
+   private static final DateTimeFormatter TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-      df.setLenient(false);
-      return df;
-   });
-
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 }

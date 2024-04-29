@@ -92,7 +92,7 @@ module MPXJ
     #
     # @return Assignment Delay value
     def assignment_delay
-      attribute_values['assignment_delay']
+      get_duration_value(attribute_values['assignment_delay'])
     end
 
     # Retrieve the Assignment Owner value
@@ -106,7 +106,7 @@ module MPXJ
     #
     # @return Assignment Units value
     def assignment_units
-      attribute_values['assignment_units']
+      get_float_value(attribute_values['assignment_units'])
     end
 
     # Retrieve the Availability Data value
@@ -813,7 +813,7 @@ module MPXJ
     #
     # @return Cost Rate Table value
     def cost_rate_table
-      attribute_values['cost_rate_table']
+      get_integer_value(attribute_values['cost_rate_table'])
     end
 
     # Retrieve the Cost Variance value
@@ -912,6 +912,13 @@ module MPXJ
     # @return Default Assignment Owner value
     def default_assignment_owner
       attribute_values['default_assignment_owner']
+    end
+
+    # Retrieve the Default Units value
+    #
+    # @return Default Units value
+    def default_units
+      get_float_value(attribute_values['default_units'])
     end
 
     # Retrieve the Description value
@@ -2248,14 +2255,14 @@ module MPXJ
     #
     # @return Enterprise Required Values value
     def enterprise_required_values
-      attribute_values['enterprise_required_values']
+      get_boolean_value(attribute_values['enterprise_required_values'])
     end
 
     # Retrieve the Enterprise Team Member value
     #
     # @return Enterprise Team Member value
     def enterprise_team_member
-      attribute_values['enterprise_team_member']
+      get_boolean_value(attribute_values['enterprise_team_member'])
     end
 
     # Retrieve the Enterprise Text1 value
@@ -2794,7 +2801,7 @@ module MPXJ
     #
     # @return Group By Summary value
     def group_by_summary
-      attribute_values['group_by_summary']
+      get_boolean_value(attribute_values['group_by_summary'])
     end
 
     # Retrieve the GUID value
@@ -2892,7 +2899,7 @@ module MPXJ
     #
     # @return Leveling Delay value
     def leveling_delay
-      attribute_values['leveling_delay']
+      get_duration_value(attribute_values['leveling_delay'])
     end
 
     # Retrieve the Linked Fields value
@@ -2900,6 +2907,13 @@ module MPXJ
     # @return Linked Fields value
     def linked_fields
       get_boolean_value(attribute_values['linked_fields'])
+    end
+
+    # Retrieve the Location Unique ID value
+    #
+    # @return Location Unique ID value
+    def location_unique_id
+      get_integer_value(attribute_values['location_unique_id'])
     end
 
     # Retrieve the Material Label value
@@ -3560,18 +3574,18 @@ module MPXJ
       attribute_values['task_summary_name']
     end
 
-    # Retrieve the TeamStatus Pending value
-    #
-    # @return TeamStatus Pending value
-    def teamstatus_pending
-      get_boolean_value(attribute_values['teamstatus_pending'])
-    end
-
     # Retrieve the Team Assignment Pool value
     #
     # @return Team Assignment Pool value
     def team_assignment_pool
       get_boolean_value(attribute_values['team_assignment_pool'])
+    end
+
+    # Retrieve the TeamStatus Pending value
+    #
+    # @return TeamStatus Pending value
+    def team_status_pending
+      get_boolean_value(attribute_values['team_status_pending'])
     end
 
     # Retrieve the Text1 value
@@ -3812,6 +3826,13 @@ module MPXJ
       attribute_values['unit']
     end
 
+    # Retrieve the Unit of Measure Unique ID value
+    #
+    # @return Unit of Measure Unique ID value
+    def unit_of_measure_unique_id
+      get_integer_value(attribute_values['unit_of_measure_unique_id'])
+    end
+
     # Retrieve the Update Needed value
     #
     # @return Update Needed value
@@ -3881,9 +3902,9 @@ module MPXJ
       'actual_work_protected' => :work,
       'acwp' => :currency,
       'assignment' => :boolean,
-      'assignment_delay' => :string,
+      'assignment_delay' => :delay,
       'assignment_owner' => :string,
-      'assignment_units' => :string,
+      'assignment_units' => :units,
       'availability_data' => :binary,
       'available_from' => :date,
       'available_to' => :date,
@@ -3984,7 +4005,7 @@ module MPXJ
       'cost_rate_c' => :binary,
       'cost_rate_d' => :binary,
       'cost_rate_e' => :binary,
-      'cost_rate_table' => :string,
+      'cost_rate_table' => :short,
       'cost_variance' => :currency,
       'created' => :date,
       'cv' => :currency,
@@ -3999,6 +4020,7 @@ module MPXJ
       'date8' => :date,
       'date9' => :date,
       'default_assignment_owner' => :string,
+      'default_units' => :units,
       'description' => :string,
       'duration1' => :duration,
       'duration10' => :duration,
@@ -4189,8 +4211,8 @@ module MPXJ
       'enterprise_outline_code8' => :string,
       'enterprise_outline_code9' => :string,
       'enterprise_rbs' => :string,
-      'enterprise_required_values' => :string,
-      'enterprise_team_member' => :string,
+      'enterprise_required_values' => :boolean,
+      'enterprise_team_member' => :boolean,
       'enterprise_text1' => :string,
       'enterprise_text10' => :string,
       'enterprise_text11' => :string,
@@ -4267,7 +4289,7 @@ module MPXJ
       'flag9' => :boolean,
       'generic' => :boolean,
       'group' => :string,
-      'group_by_summary' => :string,
+      'group_by_summary' => :boolean,
       'guid' => :guid,
       'hyperlink' => :string,
       'hyperlink_address' => :string,
@@ -4281,8 +4303,9 @@ module MPXJ
       'index' => :integer,
       'indicators' => :string,
       'initials' => :string,
-      'leveling_delay' => :string,
+      'leveling_delay' => :duration,
       'linked_fields' => :boolean,
+      'location_unique_id' => :integer,
       'material_label' => :string,
       'max_units' => :units,
       'modify_on_integrate' => :boolean,
@@ -4377,8 +4400,8 @@ module MPXJ
       'sv' => :currency,
       'task_outline_number' => :string,
       'task_summary_name' => :string,
-      'teamstatus_pending' => :boolean,
       'team_assignment_pool' => :boolean,
+      'team_status_pending' => :boolean,
       'text1' => :string,
       'text10' => :string,
       'text11' => :string,
@@ -4413,6 +4436,7 @@ module MPXJ
       'unavailable' => :string,
       'unique_id' => :integer,
       'unit' => :string,
+      'unit_of_measure_unique_id' => :integer,
       'update_needed' => :boolean,
       'vac' => :currency,
       'wbs' => :string,

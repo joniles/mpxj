@@ -23,38 +23,36 @@
 
 package net.sf.mpxj.primavera;
 
-import java.awt.Color;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.EnumSet;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
-import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
-import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+
+import net.sf.mpxj.UnitOfMeasure;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
 import net.sf.mpxj.ExpenseItem;
@@ -62,7 +60,9 @@ import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.HtmlNotes;
+import net.sf.mpxj.Location;
 import net.sf.mpxj.Notes;
+import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.ProjectCalendar;
@@ -70,9 +70,7 @@ import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
-import net.sf.mpxj.RateSource;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Step;
@@ -80,15 +78,17 @@ import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
-import net.sf.mpxj.common.FieldLists;
+import net.sf.mpxj.common.ColorHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
 import net.sf.mpxj.common.HtmlHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.common.ProjectCalendarHelper;
+import net.sf.mpxj.common.ObjectSequence;
 import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.primavera.schema.APIBusinessObjects;
 import net.sf.mpxj.primavera.schema.ActivityCodeType;
@@ -107,6 +107,7 @@ import net.sf.mpxj.primavera.schema.CodeAssignmentType;
 import net.sf.mpxj.primavera.schema.CostAccountType;
 import net.sf.mpxj.primavera.schema.CurrencyType;
 import net.sf.mpxj.primavera.schema.ExpenseCategoryType;
+import net.sf.mpxj.primavera.schema.LocationType;
 import net.sf.mpxj.primavera.schema.NotebookTopicType;
 import net.sf.mpxj.primavera.schema.ObjectFactory;
 import net.sf.mpxj.primavera.schema.ProjectNoteType;
@@ -119,8 +120,10 @@ import net.sf.mpxj.primavera.schema.ResourceRateType;
 import net.sf.mpxj.primavera.schema.ResourceType;
 import net.sf.mpxj.primavera.schema.RoleRateType;
 import net.sf.mpxj.primavera.schema.RoleType;
+import net.sf.mpxj.primavera.schema.ScheduleOptionsType;
 import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
+import net.sf.mpxj.primavera.schema.UnitOfMeasureType;
 import net.sf.mpxj.primavera.schema.WBSType;
 import net.sf.mpxj.primavera.schema.WorkTimeType;
 
@@ -149,10 +152,9 @@ final class PrimaveraPMProjectWriter
       try
       {
          m_factory = new ObjectFactory();
-         m_topics = new HashMap<>();
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
          m_wbsSequence = new ObjectSequence(0);
-         m_userDefinedFields = getUserDefinedFieldsSet();
+         m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_projectFile);
 
          if (baseline)
          {
@@ -170,6 +172,8 @@ final class PrimaveraPMProjectWriter
             m_udf = project.getUDF();
 
             writeProjectProperties(project);
+            writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
+            writeCalendars(project.getCalendar());
             writeTasks();
             writeAssignments();
             writeExpenseItems();
@@ -190,7 +194,11 @@ final class PrimaveraPMProjectWriter
             m_activityNotes = project.getActivityNote();
             m_udf = project.getUDF();
 
+            writeLocations();
             writeProjectProperties(project);
+            writeUnitsOfMeasure();
+            writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
+            writeCalendars(project.getCalendar());
             writeUDF();
             writeActivityCodes();
             writeCurrency();
@@ -216,13 +224,12 @@ final class PrimaveraPMProjectWriter
          m_factory = null;
          m_wbsSequence = null;
          m_userDefinedFields = null;
-         m_topics = null;
       }
    }
 
    private void writeUDF()
    {
-      m_udf.addAll(writeUserDefinedFieldAssignments(FieldTypeClass.PROJECT, m_projectFile.getProjectProperties()));
+      m_udf.addAll(writeUserDefinedFieldAssignments(FieldTypeClass.PROJECT, false, m_projectFile.getProjectProperties()));
    }
 
    /**
@@ -319,7 +326,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Add UDFType objects to a PM XML file.
+    * Add UDFType objects to a PMXML file.
     *
     * @author kmahan
     * @author lsong
@@ -342,8 +349,8 @@ final class PrimaveraPMProjectWriter
 
          UDFTypeType udf = m_factory.createUDFTypeType();
          udf.setObjectId(uniqueID);
-         udf.setDataType(inferUserFieldDataType(dataType));
-         udf.setSubjectArea(inferUserFieldSubjectArea(type));
+         udf.setDataType(UdfHelper.getXmlFromDataType(dataType));
+         udf.setSubjectArea(FieldTypeClassHelper.getXmlFromInstance(type));
          udf.setTitle(title);
          fields.add(udf);
       }
@@ -352,49 +359,28 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Infers the Primavera entity type based on the MPXJ field type.
-    *
-    * @author lsong
-    * @param fieldType MPXJ field type
-    * @return UDF subject area
+    * Write locations.
     */
-   private String inferUserFieldSubjectArea(FieldType fieldType)
+   private void writeLocations()
    {
-      String result = SUBJECT_AREA_MAP.get(fieldType.getFieldTypeClass());
-      if (result == null)
+      List<LocationType> locations = m_apibo.getLocation();
+      for (Location location : m_projectFile.getLocations())
       {
-         throw new RuntimeException("Unrecognized field type: " + fieldType);
-      }
-      return result;
-   }
-
-   /**
-    * Infers the Primavera user defined field data type from the MPXJ data type.
-    *
-    * @author kmahan
-    * @param dataType MPXJ data type
-    * @return string representation of data type
-    */
-   private String inferUserFieldDataType(DataType dataType)
-   {
-      switch (dataType)
-      {
-         case BINARY:
-         case STRING:
-         case DURATION:
-            return "Text";
-         case DATE:
-            return "Start Date";
-         case NUMERIC:
-            return "Double";
-         case BOOLEAN:
-         case INTEGER:
-         case SHORT:
-            return "Integer";
-         case CURRENCY:
-            return "Cost";
-         default:
-            throw new RuntimeException("Unconvertible data type: " + dataType);
+         LocationType lt = m_factory.createLocationType();
+         lt.setObjectId(location.getUniqueID());
+         lt.setName(location.getName());
+         lt.setAddressLine1(location.getAddressLine1());
+         lt.setAddressLine2(location.getAddressLine2());
+         lt.setCity(location.getCity());
+         lt.setCountry(location.getCountry());
+         lt.setCountryCode(location.getCountryCode());
+         lt.setMunicipality(location.getMunicipality());
+         lt.setPostalCode(location.getPostalCode());
+         lt.setState(location.getState());
+         lt.setStateCode(location.getStateCode());
+         lt.setLatitude(location.getLatitude());
+         lt.setLongitude(location.getLongitude());
+         locations.add(lt);
       }
    }
 
@@ -420,21 +406,41 @@ final class PrimaveraPMProjectWriter
    private void writeCostAccounts()
    {
       List<CostAccountType> costAccounts = m_apibo.getCostAccount();
-      for (CostAccount account : m_projectFile.getCostAccounts())
+      m_projectFile.getCostAccounts().stream().sorted(Comparator.comparing(CostAccount::getUniqueID)).forEach(c -> writeCostAccount(costAccounts, c));
+   }
+
+   /**
+    * Write a cost account.
+    *
+    * @param costAccounts cost accounts list
+    * @param account cost account
+    */
+   private void writeCostAccount(List<CostAccountType> costAccounts, CostAccount account)
+   {
+      CostAccountType cat = m_factory.createCostAccountType();
+      cat.setObjectId(account.getUniqueID());
+      cat.setId(account.getID());
+      cat.setName(account.getName());
+      cat.setDescription(getNotes(account.getNotesObject()));
+      cat.setSequenceNumber(account.getSequenceNumber());
+      cat.setParentObjectId(account.getParentUniqueID());
+      costAccounts.add(cat);
+   }
+
+   /**
+    * Write units of measure.
+    */
+   private void writeUnitsOfMeasure()
+   {
+      List<UnitOfMeasureType> units = m_apibo.getUnitOfMeasure();
+      for (UnitOfMeasure uom : m_projectFile.getUnitsOfMeasure())
       {
-         CostAccountType cat = m_factory.createCostAccountType();
-         cat.setObjectId(account.getUniqueID());
-         cat.setId(account.getID());
-         cat.setName(account.getName());
-         cat.setDescription(account.getDescription());
-         cat.setSequenceNumber(account.getSequenceNumber());
-
-         if (account.getParent() != null)
-         {
-            cat.setParentObjectId(account.getParent().getUniqueID());
-         }
-
-         costAccounts.add(cat);
+         UnitOfMeasureType unit = m_factory.createUnitOfMeasureType();
+         unit.setObjectId(uom.getUniqueID());
+         unit.setAbbreviation(uom.getAbbreviation());
+         unit.setName(uom.getName());
+         unit.setSequenceNumber(uom.getSequenceNumber());
+         units.add(unit);
       }
    }
 
@@ -488,28 +494,29 @@ final class PrimaveraPMProjectWriter
       //
       // P6 import may fail if planned start is not populated
       //
-      Date plannedStart = Optional.ofNullable(Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate)).orElseGet(mpxj::getCurrentDate);
+      LocalDateTime plannedStart = Optional.ofNullable(Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate)).orElseGet(mpxj::getCurrentDate);
 
-      project.setActivityDefaultActivityType("Task Dependent");
-      project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
-      project.setActivityDefaultDurationType("Fixed Duration and Units");
-      project.setActivityDefaultPercentCompleteType("Duration");
+      project.setActivityDefaultActivityType(ActivityTypeHelper.getXmlFromInstance(ActivityTypeHelper.NEW_ACTIVITY_DEFAULT_TYPE));
+      project.setActivityDefaultCalendarObjectId(mpxj.getDefaultCalendarUniqueID());
+      project.setActivityDefaultDurationType(TaskTypeHelper.getXmlFromInstance(TaskType.FIXED_DURATION_AND_UNITS));
+      project.setActivityDefaultPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(PercentCompleteType.DURATION));
       project.setActivityDefaultPricePerUnit(NumberHelper.DOUBLE_ZERO);
-      project.setActivityIdBasedOnSelectedActivity(Boolean.TRUE);
-      project.setActivityIdIncrement(Integer.valueOf(10));
-      project.setActivityIdPrefix("A");
-      project.setActivityIdSuffix(Integer.valueOf(1000));
+      project.setActivityIdBasedOnSelectedActivity(Boolean.valueOf(mpxj.getActivityIdIncrementBasedOnSelectedActivity()));
+      project.setActivityIdIncrement(mpxj.getActivityIdIncrement());
+      project.setActivityIdPrefix(mpxj.getActivityIdPrefix());
+      project.setActivityIdSuffix(mpxj.getActivityIdSuffix());
       project.setActivityPercentCompleteBasedOnActivitySteps(Boolean.FALSE);
       project.setAddActualToRemaining(Boolean.FALSE);
       project.setAllowNegativeActualUnitsFlag(Boolean.FALSE);
       project.setAssignmentDefaultDrivingFlag(Boolean.TRUE);
-      project.setAssignmentDefaultRateType("Price / Unit");
+      project.setAssignmentDefaultRateType(RateTypeHelper.getXmlFromInstance(Integer.valueOf(0)));
       project.setCheckOutStatus(Boolean.FALSE);
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
       project.setCreateDate(mpxj.getCreationDate());
-      project.setCriticalActivityFloatLimit(NumberHelper.DOUBLE_ZERO);
-      project.setCriticalActivityPathType(CRITICAL_ACTIVITY_MAP.get(mpxj.getCriticalActivityType()));
+      project.setCriticalActivityFloatLimit(Double.valueOf(mpxj.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, mpxj).getDuration()));
+      project.setCriticalActivityPathType(CriticalActivityTypeHelper.getXmlFromInstance(mpxj.getCriticalActivityType()));
       project.setCurrentBaselineProjectObjectId(mpxj.getBaselineProjectUniqueID());
+      project.setDateAdded(mpxj.getCreationDate());
       project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
       project.setDefaultPriceTimeUnits("Hour");
       project.setDiscountApplicationPeriod("Month");
@@ -532,6 +539,7 @@ final class PrimaveraPMProjectWriter
       project.setObjectId(m_projectObjectID);
       project.setPlannedStartDate(plannedStart);
       project.setPrimaryResourcesCanMarkActivitiesAsCompleted(Boolean.TRUE);
+      project.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getXmlFromInstance(mpxj.getRelationshipLagCalendar()));
       project.setResetPlannedToRemainingFlag(Boolean.FALSE);
       project.setResourceCanBeAssignedToSameActivityMoreThanOnce(Boolean.TRUE);
       project.setResourcesCanAssignThemselvesToActivities(Boolean.TRUE);
@@ -546,7 +554,10 @@ final class PrimaveraPMProjectWriter
       project.setSummarizeToWBSLevel(Integer.valueOf(2));
       project.setSummaryLevel("Assignment Level");
       project.setUseProjectBaselineForEarnedValue(Boolean.TRUE);
-      project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
+      project.setWBSCodeSeparator(mpxj.getWbsCodeSeparator());
+      project.setLocationObjectId(mpxj.getLocationUniqueID());
+
+      writeScheduleOptions(project.getScheduleOptions());
    }
 
    private void writeProjectProperties(BaselineProjectType project)
@@ -557,26 +568,27 @@ final class PrimaveraPMProjectWriter
       //
       // P6 import may fail if planned start is not populated
       //
-      Date plannedStart = Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate);
+      LocalDateTime plannedStart = Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStartDate);
 
-      project.setActivityDefaultActivityType("Task Dependent");
-      project.setActivityDefaultCalendarObjectId(getCalendarUniqueID(m_projectFile.getDefaultCalendar()));
-      project.setActivityDefaultDurationType("Fixed Duration and Units");
-      project.setActivityDefaultPercentCompleteType("Duration");
+      project.setActivityDefaultActivityType(ActivityTypeHelper.getXmlFromInstance(ActivityTypeHelper.NEW_ACTIVITY_DEFAULT_TYPE));
+      project.setActivityDefaultCalendarObjectId(mpxj.getDefaultCalendarUniqueID());
+      project.setActivityDefaultDurationType(TaskTypeHelper.getXmlFromInstance(TaskType.FIXED_DURATION_AND_UNITS));
+      project.setActivityDefaultPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(PercentCompleteType.DURATION));
       project.setActivityDefaultPricePerUnit(NumberHelper.DOUBLE_ZERO);
-      project.setActivityIdBasedOnSelectedActivity(Boolean.TRUE);
-      project.setActivityIdIncrement(Integer.valueOf(10));
-      project.setActivityIdPrefix("A");
-      project.setActivityIdSuffix(Integer.valueOf(1000));
+      project.setActivityIdBasedOnSelectedActivity(Boolean.valueOf(mpxj.getActivityIdIncrementBasedOnSelectedActivity()));
+      project.setActivityIdIncrement(mpxj.getActivityIdIncrement());
+      project.setActivityIdPrefix(mpxj.getActivityIdPrefix());
+      project.setActivityIdSuffix(mpxj.getActivityIdSuffix());
       project.setActivityPercentCompleteBasedOnActivitySteps(Boolean.FALSE);
       project.setAddActualToRemaining(Boolean.FALSE);
       project.setAssignmentDefaultDrivingFlag(Boolean.TRUE);
-      project.setAssignmentDefaultRateType("Price / Unit");
+      project.setAssignmentDefaultRateType(RateTypeHelper.getXmlFromInstance(Integer.valueOf(0)));
       project.setCheckOutStatus(Boolean.FALSE);
       project.setCostQuantityRecalculateFlag(Boolean.FALSE);
       project.setCreateDate(mpxj.getCreationDate());
-      project.setCriticalActivityFloatLimit(NumberHelper.DOUBLE_ZERO);
-      project.setCriticalActivityPathType("Critical Float");
+      project.setCriticalActivityFloatLimit(Double.valueOf(mpxj.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, mpxj).getDuration()));
+      project.setCriticalActivityPathType(CriticalActivityTypeHelper.getXmlFromInstance(mpxj.getCriticalActivityType()));
+      project.setDateAdded(mpxj.getCreationDate());
       project.setDataDate(m_projectFile.getProjectProperties().getStatusDate());
       project.setDefaultPriceTimeUnits("Hour");
       project.setDiscountApplicationPeriod("Month");
@@ -604,7 +616,71 @@ final class PrimaveraPMProjectWriter
       project.setStatus("Active");
       project.setStrategicPriority(Integer.valueOf(500));
       project.setSummarizeToWBSLevel(Integer.valueOf(2));
-      project.setWBSCodeSeparator(PrimaveraReader.DEFAULT_WBS_SEPARATOR);
+      project.setWBSCodeSeparator(mpxj.getWbsCodeSeparator());
+      project.setLocationObjectId(mpxj.getLocationUniqueID());
+      project.setBaselineTypeName(mpxj.getBaselineTypeName());
+      project.setBaselineTypeObjectId(mpxj.getBaselineProjectUniqueID());
+      project.setLastBaselineUpdateDate(mpxj.getLastBaselineUpdateDate());
+
+      writeScheduleOptions(project.getScheduleOptions());
+   }
+
+   private void writeScheduleOptions(List<ScheduleOptionsType> list)
+   {
+      ScheduleOptionsType options = m_factory.createScheduleOptionsType();
+      options.setProjectObjectId(m_projectObjectID);
+      list.add(options);
+      ProjectProperties projectProperties = m_projectFile.getProjectProperties();
+
+      //
+      // Leveling Options
+      //
+
+      // Automatically level resources when scheduling
+      options.setIncludeExternalResAss(Boolean.valueOf(projectProperties.getConsiderAssignmentsInOtherProjects()));
+      options.setExternalProjectPriorityLimit(projectProperties.getConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan());
+      options.setPreserveScheduledEarlyAndLateDates(Boolean.valueOf(projectProperties.getPreserveScheduledEarlyAndLateDates()));
+
+      // Recalculate assignment costs after leveling
+      options.setLevelAllResources(Boolean.valueOf(projectProperties.getLevelAllResources()));
+      options.setLevelWithinFloat(Boolean.valueOf(projectProperties.getLevelResourcesOnlyWithinActivityTotalFloat()));
+      options.setMinFloatToPreserve(Integer.valueOf((int) projectProperties.getPreserveMinimumFloatWhenLeveling().convertUnits(TimeUnit.HOURS, projectProperties).getDuration()));
+      options.setOverAllocationPercentage(getDouble(projectProperties.getMaxPercentToOverallocateResources()));
+      options.setPriorityList("(0||priority_type(sort_type|ASC)())"); // TODO: translation required
+
+      //
+      // Schedule
+      //
+      //customProperties.put("SetDataDateAndPlannedStartToProjectForecastStart", Boolean.valueOf(row.getBoolean("sched_setplantoforecast")));
+
+      //
+      // Schedule Options - General
+      //
+      options.setIgnoreOtherProjectRelationships(Boolean.valueOf(projectProperties.getIgnoreRelationshipsToAndFromOtherProjects()));
+      options.setMakeOpenEndedActivitiesCritical(Boolean.valueOf(projectProperties.getMakeOpenEndedActivitiesCritical()));
+      options.setUseExpectedFinishDates(Boolean.valueOf(projectProperties.getUseExpectedFinishDates()));
+
+      // Schedule automatically when a change affects dates - not in PMXML?
+
+      // Level resources during scheduling - not in PMXML?
+
+      options.setStartToStartLagCalculationType(Boolean.valueOf(projectProperties.getComputeStartToStartLagFromEarlyStart()));
+      options.setOutOfSequenceScheduleType(SchedulingProgressedActivitiesHelper.getXmlFromInstance(projectProperties.getSchedulingProgressedActivities()));
+
+      // Define critical activities as
+      options.setCalculateFloatBasedOnFinishDate(Boolean.valueOf(projectProperties.getCalculateFloatBasedOnFinishDateOfEachProject()));
+      options.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getXmlFromInstance(projectProperties.getRelationshipLagCalendar()));
+      options.setComputeTotalFloatType(TotalSlackCalculationTypeHelper.getXmlFromInstance(projectProperties.getTotalSlackCalculationType()));
+      options.setCriticalActivityFloatThreshold(Double.valueOf(projectProperties.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, projectProperties).getDuration()));
+      options.setCriticalActivityPathType(CriticalActivityTypeHelper.getXmlFromInstance(projectProperties.getCriticalActivityType()));
+
+      //
+      // Schedule Options - Advanced
+      //
+      options.setMultipleFloatPathsEnabled(Boolean.valueOf(projectProperties.getCalculateMultipleFloatPaths()));
+      options.setMultipleFloatPathsUseTotalFloat(Boolean.valueOf(projectProperties.getCalculateMultipleFloatPathsUsingTotalFloat()));
+      options.setMultipleFloatPathsEndingActivityObjectId(projectProperties.getDisplayMultipleFloatPathsEndingWithActivityUniqueID());
+      options.setMaximumMultipleFloatPaths(projectProperties.getMaximumNumberOfFloatPathsToCalculate());
    }
 
    private String getProjectID(ProjectProperties mpxj)
@@ -626,44 +702,35 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * This method writes calendar data to a PM XML file.
+    * This method writes calendar data to a PMXML file.
     */
    private void writeCalendars()
    {
-      for (ProjectCalendar calendar : m_projectFile.getCalendars())
-      {
-         writeCalendar(normalizeCalendar(calendar));
-      }
+      List<CalendarType> calendars = m_apibo.getCalendar();
+      m_projectFile.getCalendars().stream().filter(c -> c.getType() != net.sf.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
    }
 
    /**
-    * Tries to ensure that the calendar structure we write matches P6's expectations.
+    * This method writes project calendar data to a PMXML file.
     *
-    * @param calendar calendar to normalize
-    * @return normalized calendar
+    * @param calendars project calendar container
     */
-   private ProjectCalendar normalizeCalendar(ProjectCalendar calendar)
+   private void writeCalendars(List<CalendarType> calendars)
    {
-      ProjectCalendar result = calendar;
-      if (calendar.getType() == net.sf.mpxj.CalendarType.GLOBAL && calendar.isDerived())
-      {
-         // Global calendars in P6 are not derived from other calendars.
-         // If this calendar is marked as a global calendar, and it is
-         // derived then we'll flatten it.
-         result = ProjectCalendarHelper.createTemporaryFlattenedCalendar(calendar);
-      }
-      return result;
+      m_projectFile.getCalendars().stream().filter(c -> c.getType() == net.sf.mpxj.CalendarType.PROJECT).forEach(c -> writeCalendar(calendars, c));
    }
 
    /**
-    * This method writes data for an individual calendar to a PM XML file.
+    * This method writes data for an individual calendar to a PMXML file.
     *
-    * @param mpxj ProjectCalendar instance
+    * @param calendars calendars container
+    * @param calendar ProjectCalendar instance
     */
-   private void writeCalendar(ProjectCalendar mpxj)
+   private void writeCalendar(List<CalendarType> calendars, ProjectCalendar calendar)
    {
+      ProjectCalendar mpxj = ProjectCalendarHelper.normalizeCalendar(calendar);
       CalendarType xml = m_factory.createCalendarType();
-      m_apibo.getCalendar().add(xml);
+      calendars.add(xml);
 
       String name = mpxj.getName();
       if (name == null || name.isEmpty())
@@ -671,12 +738,17 @@ final class PrimaveraPMProjectWriter
          name = "(blank)";
       }
 
-      xml.setBaseCalendarObjectId(getCalendarUniqueID(mpxj.getParent()));
+      if (calendar.getType() == net.sf.mpxj.CalendarType.PROJECT)
+      {
+         xml.setProjectObjectId(m_projectObjectID);
+      }
+
+      xml.setBaseCalendarObjectId(mpxj.getParentUniqueID());
       xml.setIsDefault(Boolean.valueOf(mpxj == m_projectFile.getDefaultCalendar()));
       xml.setIsPersonal(Boolean.valueOf(mpxj.getPersonal()));
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setType(CALENDAR_TYPE_MAP.get(mpxj.getType()));
+      xml.setType(CalendarTypeHelper.getXmlFromInstance(mpxj.getType()));
 
       xml.setHoursPerDay(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerDay()) / 60.0));
       xml.setHoursPerWeek(Double.valueOf(NumberHelper.getDouble(mpxj.getMinutesPerWeek()) / 60.0));
@@ -686,14 +758,14 @@ final class PrimaveraPMProjectWriter
       StandardWorkWeek xmlStandardWorkWeek = m_factory.createCalendarTypeStandardWorkWeek();
       xml.setStandardWorkWeek(xmlStandardWorkWeek);
 
-      for (Day day : EnumSet.allOf(Day.class))
+      for (DayOfWeek day : DayOfWeekHelper.ORDERED_DAYS)
       {
          StandardWorkHours xmlHours = m_factory.createCalendarTypeStandardWorkWeekStandardWorkHours();
          xmlStandardWorkWeek.getStandardWorkHours().add(xmlHours);
          xmlHours.setDayOfWeek(getDayName(day));
 
          // Working days/hours are not inherited between calendars, just exceptions.
-         for (DateRange range : mpxj.getHours(day))
+         for (LocalTimeRange range : mpxj.getHours(day))
          {
             WorkTimeType xmlWorkTime = m_factory.createWorkTimeType();
             xmlHours.getWorkTime().add(xmlWorkTime);
@@ -706,29 +778,26 @@ final class PrimaveraPMProjectWriter
       HolidayOrExceptions xmlExceptions = m_factory.createCalendarTypeHolidayOrExceptions();
       xml.setHolidayOrExceptions(xmlExceptions);
 
-      List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxj);
+      List<ProjectCalendarException> expandedExceptions = net.sf.mpxj.common.ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxj);
       if (!expandedExceptions.isEmpty())
       {
-         Calendar calendar = DateHelper.popCalendar();
-         Set<Date> exceptionDates = new HashSet<>();
+         Set<LocalDate> exceptionDates = new HashSet<>();
 
          for (ProjectCalendarException mpxjException : expandedExceptions)
          {
-            calendar.setTime(mpxjException.getFromDate());
-            while (calendar.getTimeInMillis() < mpxjException.getToDate().getTime())
+            LocalDate date = mpxjException.getFromDate();
+            while (!date.isAfter(mpxjException.getToDate()))
             {
-               Date exceptionDate = calendar.getTime();
-
                // Prevent duplicate exception dates being written.
                // P6 will fail to import files with duplicate exceptions.
-               if (exceptionDates.add(exceptionDate))
+               if (exceptionDates.add(date))
                {
                   HolidayOrException xmlException = m_factory.createCalendarTypeHolidayOrExceptionsHolidayOrException();
                   xmlExceptions.getHolidayOrException().add(xmlException);
 
-                  xmlException.setDate(exceptionDate);
+                  xmlException.setDate(date.atStartOfDay());
 
-                  for (DateRange range : mpxjException)
+                  for (LocalTimeRange range : mpxjException)
                   {
                      WorkTimeType xmlHours = m_factory.createWorkTimeType();
                      xmlException.getWorkTime().add(xmlHours);
@@ -741,10 +810,9 @@ final class PrimaveraPMProjectWriter
                      }
                   }
                }
-               calendar.add(Calendar.DAY_OF_YEAR, 1);
+               date = date.plusDays(1);
             }
          }
-         DateHelper.pushCalendar(calendar);
       }
    }
 
@@ -753,7 +821,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeResources()
    {
-      m_projectFile.getResources().stream().filter(r -> !BooleanHelper.getBoolean(r.getRole()) && r.getUniqueID().intValue() != 0).forEach(this::writeResource);
+      m_projectFile.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).forEach(this::writeResource);
    }
 
    /**
@@ -772,24 +840,34 @@ final class PrimaveraPMProjectWriter
          name = "(blank)";
       }
 
+      // Note: a default units per time value of zero represents an empty field in P6
+      Double defaultUnitsPerTime = mpxj.getDefaultUnits() == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(mpxj.getDefaultUnits().doubleValue() / 100.0);
+
       xml.setAutoComputeActuals(Boolean.TRUE);
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
-      xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getCalendar()));
+      xml.setCalendarObjectId(mpxj.getCalendarUniqueID());
       xml.setCurrencyObjectId(DEFAULT_CURRENCY_ID);
-      xml.setDefaultUnitsPerTime(Double.valueOf(1.0));
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setEmployeeId(mpxj.getCode());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setId(getResourceID(mpxj));
-      xml.setIsActive(Boolean.TRUE);
-      xml.setMaxUnitsPerTime(getPercentage(mpxj.getMaxUnits()));
+      xml.setIsActive(Boolean.valueOf(mpxj.getActive()));
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
       xml.setParentObjectId(mpxj.getParentResourceUniqueID());
       xml.setResourceNotes(getNotes(mpxj.getNotesObject()));
-      xml.setResourceType(getResourceType(mpxj));
+      xml.setResourceType(ResourceTypeHelper.getXmlFromInstance(mpxj.getType()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
-      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.RESOURCE, mpxj));
+      xml.setLocationObjectId(mpxj.getLocationUniqueID());
+      xml.setUnitOfMeasureObjectId(mpxj.getUnitOfMeasureUniqueID());
+
+      // Write both attributes for backward compatibility,
+      // "DefaultUnitsPerTime" is the value read by recent versions of P6
+      // MaxUnitsPerTime is ignored
+      xml.setDefaultUnitsPerTime(defaultUnitsPerTime);
+      xml.setMaxUnitsPerTime(defaultUnitsPerTime);
+
+      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.RESOURCE, false, mpxj));
    }
 
    /**
@@ -797,7 +875,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeRoles()
    {
-      m_projectFile.getResources().stream().filter(r -> BooleanHelper.getBoolean(r.getRole()) && r.getUniqueID().intValue() != 0).forEach(this::writeRole);
+      m_projectFile.getResources().stream().filter(r -> r.getRole() && r.getUniqueID().intValue() != 0).forEach(this::writeRole);
    }
 
    /**
@@ -889,7 +967,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Writes a WBS entity to the PM XML file.
+    * Writes a WBS entity to the PMXML file.
     *
     * @param mpxj MPXJ Task entity
     * @param sequence number for this WBS entry
@@ -899,74 +977,30 @@ final class PrimaveraPMProjectWriter
       WBSType xml = m_factory.createWBSType();
       m_wbs.add(xml);
 
-      Task parentTask = mpxj.getParentTask();
-      Integer parentObjectID = parentTask == null ? null : parentTask.getUniqueID();
       String name = mpxj.getName();
       if (name == null || name.isEmpty())
       {
          name = "(blank)";
       }
 
-      xml.setCode(getWbsCode(mpxj));
+      xml.setCode(TaskHelper.getWbsCode(mpxj));
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setName(name);
 
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setParentObjectId(parentObjectID);
+      xml.setParentObjectId(mpxj.getParentTaskUniqueID());
       xml.setProjectObjectId(m_projectObjectID);
       xml.setSequenceNumber(sequence);
 
       xml.setStatus("Active");
 
-      // TODO: we don't currently write WBS UDF values as we don't distinguish between WBS and Activity UDFs
-      // xml.getUDF().addAll(writeUDFType(FieldTypeClass.TASK, mpxj));
+      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.TASK, true, mpxj));
+
       writeWbsNote(mpxj);
    }
 
    /**
-    * Retrieve the WBS code attribute.
-    *
-    * @param task Task instance
-    * @return WBS code attribute
-    */
-   private String getWbsCode(Task task)
-   {
-      // If we don't have a WBS code, use a default value
-      String code = task.getWBS();
-      if (code == null || code.length() == 0)
-      {
-         code = DEFAULT_WBS_CODE;
-      }
-      else
-      {
-         String prefix = null;
-
-         if (task.getParentTask() == null && m_projectFile.getProjectProperties().getProjectID() != null)
-         {
-            prefix = m_projectFile.getProjectProperties().getProjectID() + PrimaveraReader.DEFAULT_WBS_SEPARATOR;
-         }
-         else
-         {
-            if (task.getParentTask() != null)
-            {
-               prefix = task.getParentTask().getWBS() + PrimaveraReader.DEFAULT_WBS_SEPARATOR;
-            }
-         }
-
-         // If we have a parent task, and it looks like WBS contains the full path
-         // (including the parent's WBS), remove the parent's WBS. This matches
-         // how P6 exports this value. This test is brittle as it assumes
-         // the default WBS separator has been used.
-         if (prefix != null && code.startsWith(prefix))
-         {
-            code = code.substring(prefix.length());
-         }
-      }
-      return code;
-   }
-
-   /**
-    * Writes an activity to a PM XML file.
+    * Writes an activity to a PMXML file.
     *
     * @param mpxj MPXJ Task instance
     */
@@ -975,11 +1009,11 @@ final class PrimaveraPMProjectWriter
       ActivityType xml = m_factory.createActivityType();
       m_activities.add(xml);
 
-      Task parentTask = mpxj.getParentTask();
+      Integer parentTaskUniqueID = mpxj.getParentTaskUniqueID();
       Integer parentObjectID = null;
-      if (parentTask != null && parentTask.getUniqueID().intValue() != 0)
+      if (parentTaskUniqueID != null && parentTaskUniqueID.intValue() != 0)
       {
-         parentObjectID = parentTask.getUniqueID();
+         parentObjectID = parentTaskUniqueID;
       }
 
       String name = mpxj.getName();
@@ -989,44 +1023,52 @@ final class PrimaveraPMProjectWriter
       }
 
       // Not required, but keeps Asta import happy if we ensure that planned start and finish are populated.
-      Date plannedStart = mpxj.getPlannedStart() == null ? mpxj.getStart() : mpxj.getPlannedStart();
-      Date plannedFinish = mpxj.getPlannedFinish() == null ? mpxj.getFinish() : mpxj.getPlannedFinish();
+      LocalDateTime plannedStart = mpxj.getPlannedStart() == null ? mpxj.getStart() : mpxj.getPlannedStart();
+      LocalDateTime plannedFinish = mpxj.getPlannedFinish() == null ? mpxj.getFinish() : mpxj.getPlannedFinish();
+      ProjectCalendar effectiveCalendar = mpxj.getEffectiveCalendar();
 
       xml.setActualStartDate(mpxj.getActualStart());
-      xml.setActualDuration(getDuration(mpxj.getActualDuration()));
+      xml.setActualDuration(getDurationInHours(mpxj.getActualDuration()));
       xml.setActualFinishDate(mpxj.getActualFinish());
-      xml.setAtCompletionDuration(getDuration(mpxj.getDuration()));
-      xml.setCalendarObjectId(getCalendarUniqueID(mpxj.getEffectiveCalendar()));
+      xml.setActualLaborUnits(getDurationInHours(WorkHelper.getActualWorkLabor(mpxj)));
+      xml.setActualNonLaborUnits(getDurationInHours(WorkHelper.zeroIfNull(mpxj.getActualWorkNonlabor())));
+      xml.setAtCompletionDuration(getDurationInHours(mpxj.getDuration()));
+      xml.setCalendarObjectId(effectiveCalendar == null ? null : effectiveCalendar.getUniqueID());
       xml.setDurationPercentComplete(getPercentage(mpxj.getPercentageComplete()));
-      xml.setDurationType(DURATION_TYPE_MAP.get(mpxj.getType()));
+      xml.setDurationType(TaskTypeHelper.getXmlFromInstance(mpxj.getType()));
+      xml.setExpectedFinishDate(mpxj.getExpectedFinish());
       xml.setExternalEarlyStartDate(mpxj.getExternalEarlyStart());
       xml.setExternalLateFinishDate(mpxj.getExternalLateFinish());
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setId(mpxj.getActivityID() == null ? mpxj.getWBS() : mpxj.getActivityID());
       // Note that P6 doesn't write this attribute to PMXML, but appears to read it
-      xml.setIsLongestPath(BooleanHelper.getBoolean(mpxj.getLongestPath()) ? Boolean.TRUE : null);
+      xml.setIsLongestPath(mpxj.getLongestPath() ? Boolean.TRUE : null);
+      xml.setLevelingPriority(PriorityHelper.getXmlFromInstance(mpxj.getPriority()));
+      xml.setLocationObjectId(mpxj.getLocationUniqueID());
       xml.setName(name);
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setPercentCompleteType(getPercentCompleteType(mpxj.getPercentCompleteType()));
+      xml.setPercentCompleteType(PercentCompleteTypeHelper.getXmlFromInstance(mpxj.getPercentCompleteType()));
       xml.setPercentComplete(getPercentComplete(mpxj));
       xml.setPhysicalPercentComplete(getPercentage(mpxj.getPhysicalPercentComplete()));
-      xml.setPrimaryConstraintType(CONSTRAINT_TYPE_MAP.get(mpxj.getConstraintType()));
+      xml.setPlannedLaborUnits(getDurationInHours(WorkHelper.getPlannedWorkLabor(mpxj)));
+      xml.setPlannedNonLaborUnits(getDurationInHours(WorkHelper.zeroIfNull(mpxj.getPlannedWorkNonlabor())));
+      xml.setPrimaryConstraintType(ConstraintTypeHelper.getXmlFromInstance(mpxj.getConstraintType()));
       xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
       xml.setPrimaryResourceObjectId(mpxj.getPrimaryResourceID());
-      xml.setPlannedDuration(getDuration(mpxj.getPlannedDuration() == null ? mpxj.getDuration() : mpxj.getPlannedDuration()));
+      xml.setPlannedDuration(getDurationInHours(mpxj.getPlannedDuration() == null ? mpxj.getDuration() : mpxj.getPlannedDuration()));
       xml.setPlannedFinishDate(plannedFinish);
       xml.setPlannedStartDate(plannedStart);
       xml.setProjectObjectId(m_projectObjectID);
-      xml.setRemainingDuration(getDuration(mpxj.getRemainingDuration()));
+      xml.setRemainingDuration(getDurationInHours(mpxj.getRemainingDuration()));
       xml.setRemainingEarlyFinishDate(mpxj.getRemainingEarlyFinish());
       xml.setRemainingEarlyStartDate(mpxj.getRemainingEarlyStart());
       xml.setRemainingLateFinishDate(mpxj.getRemainingLateFinish());
       xml.setRemainingLateStartDate(mpxj.getRemainingLateStart());
       xml.setRemainingLaborCost(NumberHelper.DOUBLE_ZERO);
-      xml.setRemainingLaborUnits(NumberHelper.DOUBLE_ZERO);
       xml.setRemainingNonLaborCost(NumberHelper.DOUBLE_ZERO);
-      xml.setRemainingNonLaborUnits(NumberHelper.DOUBLE_ZERO);
+      xml.setRemainingLaborUnits(getDurationInHours(WorkHelper.getRemainingWorkLabor(mpxj)));
+      xml.setRemainingNonLaborUnits(getDurationInHours(WorkHelper.zeroIfNull(mpxj.getRemainingWorkNonlabor())));
 
       // Trying to ensure data from other scheduling applications makes sense in P6.
       // We won't populate the resume date unless we have a suspend date,
@@ -1036,13 +1078,15 @@ final class PrimaveraPMProjectWriter
          xml.setResumeDate(mpxj.getResume());
       }
 
+      xml.setSecondaryConstraintDate(mpxj.getSecondaryConstraintDate());
+      xml.setSecondaryConstraintType(ConstraintTypeHelper.getXmlFromInstance(mpxj.getSecondaryConstraintType()));
       xml.setStartDate(mpxj.getStart());
-      xml.setStatus(getActivityStatus(mpxj));
+      xml.setStatus(ActivityStatusHelper.getXmlFromInstance(ActivityStatusHelper.getActivityStatus(mpxj)));
       xml.setSuspendDate(mpxj.getSuspendDate());
-      xml.setType(getTaskType(mpxj));
+      xml.setType(ActivityTypeHelper.getXmlFromInstance(mpxj.getActivityType()));
       xml.setUnitsPercentComplete(getPercentage(mpxj.getPercentageWorkComplete()));
       xml.setWBSObjectId(parentObjectID);
-      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.TASK, mpxj));
+      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.TASK, false, mpxj));
 
       writeActivityNote(mpxj);
       writePredecessors(mpxj);
@@ -1050,20 +1094,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Attempts to locate the activity type value extracted from an existing P6 schedule.
-    * If present, we assume the value is valid.
-    * Returns "Resource Dependent" as the default value.
-    *
-    * @param task parent task
-    * @return activity type
-    */
-   private String getTaskType(Task task)
-   {
-      return task.getActivityType() == null ? "Resource Dependent" : ACTIVITY_TYPE_MAP.get(task.getActivityType());
-   }
-
-   /**
-    * Writes assignment data to a PM XML file.
+    * Writes assignment data to a PMXML file.
     */
    private void writeAssignments()
    {
@@ -1085,7 +1116,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Writes a resource assignment to a PM XML file.
+    * Writes a resource assignment to a PMXML file.
     *
     * @param mpxj MPXJ ResourceAssignment instance
     */
@@ -1095,77 +1126,69 @@ final class PrimaveraPMProjectWriter
       m_assignments.add(xml);
 
       Task task = mpxj.getTask();
-      Task parentTask = task.getParentTask();
-      Integer parentTaskUniqueID = parentTask == null ? null : parentTask.getUniqueID();
 
       //
       // P6 import may fail if planned start, planned finish, and actual overtime units are not populated
       //
-      Double actualOvertimeUnits = Optional.ofNullable(getDuration(mpxj.getActualOvertimeWork())).orElse(NumberHelper.DOUBLE_ZERO);
-      Date plannedStart = Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStart);
+      Double actualOvertimeUnits = Optional.ofNullable(getDurationInHours(mpxj.getActualOvertimeWork())).orElse(NumberHelper.DOUBLE_ZERO);
+      LocalDateTime plannedStart = Optional.ofNullable(mpxj.getPlannedStart()).orElseGet(mpxj::getStart);
       plannedStart = Optional.ofNullable(plannedStart).orElseGet(task::getStart);
       // If we can't find any finish date to use we'll fall back on using the start date which we'll assume is always populated
-      Date plannedFinish = Optional.ofNullable(mpxj.getPlannedFinish()).orElseGet(mpxj::getFinish);
+      LocalDateTime plannedFinish = Optional.ofNullable(mpxj.getPlannedFinish()).orElseGet(mpxj::getFinish);
       plannedFinish = Optional.ofNullable(plannedFinish).orElseGet(task::getFinish);
       plannedFinish = Optional.ofNullable(plannedFinish).orElse(plannedStart);
 
-      if (BooleanHelper.getBoolean(mpxj.getResource().getRole()))
+      if (mpxj.getResource().getRole())
       {
          xml.setRoleObjectId(mpxj.getResourceUniqueID());
       }
       else
       {
          xml.setResourceObjectId(mpxj.getResourceUniqueID());
-         xml.setRoleObjectId(mpxj.getRole() == null ? null : mpxj.getRole().getUniqueID());
+         xml.setRoleObjectId(mpxj.getRoleUniqueID());
       }
 
       xml.setActivityObjectId(mpxj.getTaskUniqueID());
-      xml.setActualCost(getDouble(mpxj.getActualCost()));
+      xml.setActualCost(getCurrency(mpxj.getActualCost()));
       xml.setActualFinishDate(mpxj.getActualFinish());
-      xml.setActualOvertimeCost(getDouble(mpxj.getActualOvertimeCost()));
+      xml.setActualOvertimeCost(getCurrency(mpxj.getActualOvertimeCost()));
       xml.setActualOvertimeUnits(actualOvertimeUnits);
-      xml.setActualRegularUnits(getDuration(mpxj.getActualWork()));
+      xml.setActualRegularUnits(getDurationInHours(mpxj.getActualWork()));
       xml.setActualStartDate(mpxj.getActualStart());
-      xml.setActualUnits(getDuration(mpxj.getActualWork()));
-      xml.setAtCompletionCost(NumberHelper.sumAsDouble(mpxj.getActualCost(), mpxj.getRemainingCost()));
-      xml.setAtCompletionUnits(getDuration(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), task.getEffectiveCalendar())));
-      xml.setResourceCurveObjectId(getWorkContourID(mpxj.getWorkContour()));
+      xml.setActualUnits(getDurationInHours(mpxj.getActualWork()));
+      xml.setAtCompletionCost(getCurrency(NumberHelper.sumAsDouble(mpxj.getActualCost(), mpxj.getRemainingCost())));
+      xml.setAtCompletionUnits(getDurationInHours(Duration.add(mpxj.getActualWork(), mpxj.getRemainingWork(), mpxj.getEffectiveCalendar())));
+      xml.setResourceCurveObjectId(CurveHelper.getCurveID(mpxj.getWorkContour()));
       xml.setFinishDate(mpxj.getFinish());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));
       xml.setIsCostUnitsLinked(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setObjectId(mpxj.getUniqueID());
-      xml.setPlannedCost(getDouble(mpxj.getPlannedCost()));
+      xml.setPlannedCost(getCurrency(mpxj.getPlannedCost()));
       xml.setPlannedFinishDate(plannedFinish);
       xml.setPlannedStartDate(plannedStart);
-      xml.setPlannedUnits(getDuration(mpxj.getPlannedWork()));
-      xml.setPlannedUnitsPerTime(getPercentage(mpxj.getUnits()));
       xml.setProjectObjectId(m_projectObjectID);
-      xml.setRateSource("Resource");
-      xml.setRemainingCost(getDouble(mpxj.getRemainingCost()));
-      xml.setRemainingDuration(getDuration(mpxj.getRemainingWork()));
-      xml.setRemainingUnits(getDuration(mpxj.getRemainingWork()));
-      xml.setRemainingUnitsPerTime(getPercentage(mpxj.getUnits()));
+      xml.setRemainingCost(getCurrency(mpxj.getRemainingCost()));
+      xml.setRemainingDuration(getDurationInHours(mpxj.getRemainingWork()));
       xml.setStartDate(mpxj.getStart());
-      xml.setWBSObjectId(parentTaskUniqueID);
-      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, mpxj));
-      xml.setRateType(getRateType(mpxj.getRateIndex()));
+      xml.setWBSObjectId(task.getParentTaskUniqueID());
+      xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, false, mpxj));
+      xml.setRateType(RateTypeHelper.getXmlFromInstance(mpxj.getRateIndex()));
       xml.setCostPerQuantity(writeRate(mpxj.getOverrideRate()));
-      xml.setRateSource(RATE_SOURCE_MAP.get(mpxj.getRateSource()));
-      xml.setCostAccountObjectId(mpxj.getCostAccount() == null ? null : mpxj.getCostAccount().getUniqueID());
-   }
+      xml.setRateSource(RateSourceHelper.getXmlFromInstance(mpxj.getRateSource()));
+      xml.setCostAccountObjectId(mpxj.getCostAccountUniqueID());
+      xml.setRemainingStartDate(mpxj.getRemainingEarlyStart());
+      xml.setRemainingFinishDate(mpxj.getRemainingEarlyFinish());
+      xml.setResourceType(ResourceTypeHelper.getXmlFromInstance(mpxj.getResource().getType()));
 
-   private Integer getWorkContourID(WorkContour contour)
-   {
-      if (contour == null || contour.isContourFlat() || contour.isContourManual())
-      {
-         return null;
-      }
-
-      return contour.getUniqueID();
+      PmxmlUnitsHelper unitsHelper = new PmxmlUnitsHelper(mpxj);
+      xml.setPlannedUnits(unitsHelper.getPlannedUnits());
+      xml.setPlannedUnitsPerTime(unitsHelper.getPlannedUnitsPerTime());
+      xml.setRemainingUnits(unitsHelper.getRemainingUnits());
+      xml.setRemainingUnitsPerTime(unitsHelper.getRemainingUnitsPerTime());
    }
 
    /**
-    * Writes task predecessor links to a PM XML file.
+    * Writes task predecessor links to a PMXML file.
     *
     * @param task MPXJ Task instance
     */
@@ -1177,13 +1200,14 @@ final class PrimaveraPMProjectWriter
          RelationshipType xml = m_factory.createRelationshipType();
          m_relationships.add(xml);
 
-         xml.setLag(getDuration(mpxj.getLag()));
-         xml.setObjectId(m_sequences.getRelationshipObjectID());
+         xml.setLag(getDurationInHours(mpxj.getLag()));
+         xml.setObjectId(mpxj.getUniqueID());
          xml.setPredecessorActivityObjectId(mpxj.getTargetTask().getUniqueID());
          xml.setSuccessorActivityObjectId(mpxj.getSourceTask().getUniqueID());
          xml.setPredecessorProjectObjectId(m_projectObjectID);
          xml.setSuccessorProjectObjectId(m_projectObjectID);
-         xml.setType(RELATION_TYPE_MAP.get(mpxj.getType()));
+         xml.setType(RelationTypeHelper.getXmlFromInstance(mpxj.getType()));
+         xml.setComments(mpxj.getNotes());
       }
    }
 
@@ -1214,8 +1238,6 @@ final class PrimaveraPMProjectWriter
       List<ExpenseItem> expenseItems = new ArrayList<>(items);
       expenseItems.sort((i1, i2) -> NumberHelper.compare(i1.getUniqueID(), i2.getUniqueID()));
 
-      Integer parentObjectID = task.getParentTask() == null ? null : task.getParentTask().getUniqueID();
-
       for (ExpenseItem item : expenseItems)
       {
          ActivityExpenseType expense = m_factory.createActivityExpenseType();
@@ -1226,32 +1248,22 @@ final class PrimaveraPMProjectWriter
          //
          Double pricePerUnit = Optional.ofNullable(item.getPricePerUnit()).orElse(NumberHelper.DOUBLE_ZERO);
 
-         expense.setAccrualType(ACCRUE_TYPE_MAP.get(item.getAccrueType()));
+         expense.setAccrualType(AccrueTypeHelper.getXmlFromInstance(item.getAccrueType()));
          //expense.setActivityId(value);
          //expense.setActivityName(value);
          expense.setActivityObjectId(task.getUniqueID());
-         expense.setActualCost(item.getActualCost());
+         expense.setActualCost(getCurrency(item.getActualCost()));
          expense.setActualUnits(item.getActualUnits());
-         //expense.setAtCompletionCost(item.getAtCompletionCost());
+         //expense.setAtCompletionCost(getCurrency(item.getAtCompletionCost()));
          //expense.setAtCompletionUnits(item.getAtCompletionUnits());
          expense.setAutoComputeActuals(Boolean.valueOf(item.getAutoComputeActuals()));
          //expense.setCBSCode(value);
          //expense.setCBSId(value);
-
-         if (item.getAccount() != null)
-         {
-            expense.setCostAccountObjectId(item.getAccount().getUniqueID());
-         }
-
+         expense.setCostAccountObjectId(item.getAccountUniqueID());
          //expense.setCreateDate(value);
          //expense.setCreateUser(value);
          expense.setDocumentNumber(item.getDocumentNumber());
-
-         if (item.getCategory() != null)
-         {
-            expense.setExpenseCategoryObjectId(item.getCategory().getUniqueID());
-         }
-
+         expense.setExpenseCategoryObjectId(item.getCategoryUniqueID());
          expense.setExpenseDescription(item.getDescription());
 
          expense.setExpenseItem(item.getName());
@@ -1261,16 +1273,16 @@ final class PrimaveraPMProjectWriter
          //expense.setLastUpdateDate(value);
          //expense.setLastUpdateUser(value);
          expense.setObjectId(item.getUniqueID());
-         expense.setPlannedCost(item.getPlannedCost());
+         expense.setPlannedCost(getCurrency(item.getPlannedCost()));
          expense.setPlannedUnits(item.getPlannedUnits());
          expense.setPricePerUnit(pricePerUnit);
          //expense.setProjectId(PROJECT_ID);
          expense.setProjectObjectId(m_projectObjectID);
-         expense.setRemainingCost(item.getRemainingCost());
+         expense.setRemainingCost(getCurrency(item.getRemainingCost()));
          expense.setRemainingUnits(item.getRemainingUnits());
          expense.setUnitOfMeasure(item.getUnitOfMeasure());
          expense.setVendor(item.getVendor());
-         expense.setWBSObjectId(parentObjectID);
+         expense.setWBSObjectId(task.getParentTaskUniqueID());
       }
    }
 
@@ -1321,7 +1333,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeResourceRates()
    {
-      m_projectFile.getResources().stream().filter(r -> !BooleanHelper.getBoolean(r.getRole()) && r.getUniqueID().intValue() != 0).forEach(this::writeResourceRates);
+      m_projectFile.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).forEach(this::writeResourceRates);
    }
 
    /**
@@ -1339,7 +1351,7 @@ final class PrimaveraPMProjectWriter
          if (costRateTableWriteRequired(entry))
          {
             Availability availability = availabilityTable.getEntryByDate(entry.getStartDate());
-            Double maxUnits = availability == null ? Double.valueOf(1) : Double.valueOf(availability.getUnits().doubleValue() / 100.0);
+            Double maxUnits = availability == null || availability.getUnits() == null ? Double.valueOf(1) : Double.valueOf(availability.getUnits().doubleValue() / 100.0);
 
             ResourceRateType rate = m_factory.createResourceRateType();
             m_apibo.getResourceRate().add(rate);
@@ -1377,7 +1389,7 @@ final class PrimaveraPMProjectWriter
          return null;
       }
 
-      return Double.valueOf(RateHelper.convertToHours(m_projectFile, rate));
+      return Double.valueOf(RateHelper.convertToHours(m_projectFile.getProjectProperties(), rate));
    }
 
    /**
@@ -1385,7 +1397,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeRoleRates()
    {
-      m_projectFile.getResources().stream().filter(r -> BooleanHelper.getBoolean(r.getRole())).forEach(this::writeRoleRates);
+      m_projectFile.getResources().stream().filter(Resource::getRole).forEach(this::writeRoleRates);
    }
 
    /**
@@ -1437,8 +1449,8 @@ final class PrimaveraPMProjectWriter
     */
    private boolean costRateTableWriteRequired(CostRateTableEntry entry)
    {
-      boolean fromDate = (DateHelper.compare(entry.getStartDate(), DateHelper.START_DATE_NA) > 0);
-      boolean toDate = (DateHelper.compare(entry.getEndDate(), DateHelper.END_DATE_NA) > 0);
+      boolean fromDate = (LocalDateTimeHelper.compare(entry.getStartDate(), LocalDateTimeHelper.START_DATE_NA) > 0);
+      boolean toDate = (LocalDateTimeHelper.compare(entry.getEndDate(), LocalDateTimeHelper.END_DATE_NA) > 0);
       boolean nonZeroRates = false;
       for (int rateIndex = 0; rateIndex < CostRateTableEntry.MAX_RATES; rateIndex++)
       {
@@ -1457,17 +1469,18 @@ final class PrimaveraPMProjectWriter
     */
    private void writeTopics()
    {
-      int sequenceNumber = 1;
-      for (Map.Entry<Integer, String> entry : m_topics.entrySet())
+      for (NotesTopic entry : m_projectFile.getNotesTopics())
       {
-         NotebookTopicType topic = m_factory.createNotebookTopicType();
-         m_apibo.getNotebookTopic().add(topic);
+         NotebookTopicType xml = m_factory.createNotebookTopicType();
+         m_apibo.getNotebookTopic().add(xml);
 
-         topic.setAvailableForActivity(Boolean.TRUE);
-         topic.setAvailableForWBS(Boolean.TRUE);
-         topic.setName(entry.getValue());
-         topic.setObjectId(entry.getKey());
-         topic.setSequenceNumber(Integer.valueOf(sequenceNumber++));
+         xml.setAvailableForEPS(Boolean.valueOf(entry.getAvailableForEPS()));
+         xml.setAvailableForProject(Boolean.valueOf(entry.getAvailableForProject()));
+         xml.setAvailableForActivity(Boolean.valueOf(entry.getAvailableForActivity()));
+         xml.setAvailableForWBS(Boolean.valueOf(entry.getAvailableForWBS()));
+         xml.setName(entry.getName());
+         xml.setObjectId(entry.getUniqueID());
+         xml.setSequenceNumber(entry.getSequenceNumber());
       }
    }
 
@@ -1504,9 +1517,8 @@ final class PrimaveraPMProjectWriter
       ProjectNoteType xml = m_factory.createProjectNoteType();
       m_projectNotes.add(xml);
 
-      m_topics.put(NOTEBOOK_TOPIC_OBJECT_ID, "Notes");
       xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
-      xml.setNotebookTopicObjectId(NOTEBOOK_TOPIC_OBJECT_ID);
+      xml.setNotebookTopicObjectId(m_projectFile.getNotesTopics().getDefaultTopic().getUniqueID());
       xml.setObjectId(m_sequences.getWbsNoteObjectID());
       xml.setProjectObjectId(m_projectObjectID);
       xml.setWBSObjectId(task.getUniqueID());
@@ -1527,10 +1539,9 @@ final class PrimaveraPMProjectWriter
          ProjectNoteType xml = m_factory.createProjectNoteType();
          m_projectNotes.add(xml);
 
-         m_topics.put(structuredNotes.getTopicID(), structuredNotes.getTopicName());
          xml.setNote(htmlNotes.getHtml());
          xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
-         xml.setObjectId(m_sequences.getWbsNoteObjectID());
+         xml.setObjectId(structuredNotes.getUniqueID());
          xml.setProjectObjectId(m_projectObjectID);
          xml.setWBSObjectId(task.getUniqueID());
       }
@@ -1569,9 +1580,8 @@ final class PrimaveraPMProjectWriter
       ActivityNoteType xml = m_factory.createActivityNoteType();
       m_activityNotes.add(xml);
 
-      m_topics.put(NOTEBOOK_TOPIC_OBJECT_ID, "Notes");
       xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
-      xml.setNotebookTopicObjectId(NOTEBOOK_TOPIC_OBJECT_ID);
+      xml.setNotebookTopicObjectId(m_projectFile.getNotesTopics().getDefaultTopic().getUniqueID());
       xml.setObjectId(m_sequences.getActivityNoteObjectID());
       xml.setProjectObjectId(m_projectObjectID);
       xml.setActivityObjectId(task.getUniqueID());
@@ -1592,10 +1602,9 @@ final class PrimaveraPMProjectWriter
          ActivityNoteType xml = m_factory.createActivityNoteType();
          m_activityNotes.add(xml);
 
-         m_topics.put(structuredNotes.getTopicID(), structuredNotes.getTopicName());
          xml.setNote(htmlNotes.getHtml());
          xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
-         xml.setObjectId(m_sequences.getActivityNoteObjectID());
+         xml.setObjectId(structuredNotes.getUniqueID());
          xml.setProjectObjectId(m_projectObjectID);
          xml.setActivityObjectId(task.getUniqueID());
       }
@@ -1618,35 +1627,50 @@ final class PrimaveraPMProjectWriter
     *
     * @author lsong
     * @param type parent entity type
+    * @param summaryTaskOnly true if we're writing assignments for WBS
     * @param mpxj parent entity
     * @return list of UDFAssignmentType instances
     */
-   private List<UDFAssignmentType> writeUserDefinedFieldAssignments(FieldTypeClass type, FieldContainer mpxj)
+   private List<UDFAssignmentType> writeUserDefinedFieldAssignments(FieldTypeClass type, boolean summaryTaskOnly, FieldContainer mpxj)
    {
       List<UDFAssignmentType> out = new ArrayList<>();
       CustomFieldContainer customFields = m_projectFile.getCustomFields();
 
       for (FieldType fieldType : m_userDefinedFields)
       {
-         if (type == fieldType.getFieldTypeClass())
+         if (type != fieldType.getFieldTypeClass())
          {
-            Object value = mpxj.getCachedValue(fieldType);
-            if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
+            continue;
+         }
+
+         // For the moment we're restricting writing WBS UDF assignments only to
+         // UserDefinedField instances with summaryTaskOnly set to true
+         // (which will typically be for values read from a P6 schedule originally)
+         // TODO: consider if we can map non task user defined fields from other schedules to WBS UDF
+         if (type == FieldTypeClass.TASK && summaryTaskOnly)
+         {
+            if (fieldType instanceof TaskField || (fieldType instanceof UserDefinedField && !((UserDefinedField) fieldType).getSummaryTaskOnly()))
             {
-               CustomField field = customFields.get(fieldType);
-               int uniqueID = field == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(field.getUniqueID());
-
-               DataType dataType = fieldType.getDataType();
-               if (dataType == DataType.CUSTOM)
-               {
-                  dataType = DataType.BINARY;
-               }
-
-               UDFAssignmentType udf = m_factory.createUDFAssignmentType();
-               udf.setTypeObjectId(uniqueID);
-               setUserFieldValue(udf, dataType, value);
-               out.add(udf);
+               continue;
             }
+         }
+
+         Object value = mpxj.getCachedValue(fieldType);
+         if (FieldTypeHelper.valueIsNotDefault(fieldType, value))
+         {
+            CustomField field = customFields.get(fieldType);
+            int uniqueID = field == null ? FieldTypeHelper.getFieldID(fieldType) : NumberHelper.getInt(field.getUniqueID());
+
+            DataType dataType = fieldType.getDataType();
+            if (dataType == DataType.CUSTOM)
+            {
+               dataType = DataType.BINARY;
+            }
+
+            UDFAssignmentType udf = m_factory.createUDFAssignmentType();
+            udf.setTypeObjectId(uniqueID);
+            setUserFieldValue(udf, dataType, value);
+            out.add(udf);
          }
       }
 
@@ -1656,24 +1680,39 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Write activity code definitions.
+    * Write Global and EPS activity code definitions.
     */
    private void writeActivityCodes()
    {
-      m_projectFile.getActivityCodes().stream().sorted(Comparator.comparing(ActivityCode::getSequenceNumber)).forEach(this::writeActivityCode);
+      List<ActivityCodeTypeType> codes = m_apibo.getActivityCodeType();
+      List<ActivityCodeType> values = m_apibo.getActivityCode();
+      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(ActivityCode::getSequenceNumber)).forEach(c -> writeActivityCode(codes, values, c));
+   }
+
+   /**
+    * Write Project activity code definitions.
+    *
+    * @param codes activity codes container
+    * @param values activity code values container
+    */
+   private void writeActivityCodes(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values)
+   {
+      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT).sorted(Comparator.comparing(ActivityCode::getSequenceNumber)).forEach(c -> writeActivityCode(codes, values, c));
    }
 
    /**
     * Write an activity code definition.
     *
+    * @param codes activity codes container
+    * @param values activity code values container
     * @param code activity code
     */
-   private void writeActivityCode(ActivityCode code)
+   private void writeActivityCode(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values, ActivityCode code)
    {
       ActivityCodeTypeType xml = m_factory.createActivityCodeTypeType();
-      m_apibo.getActivityCodeType().add(xml);
+      codes.add(xml);
       xml.setObjectId(code.getUniqueID());
-      xml.setScope(ACTIVITY_CODE_SCOPE_MAP.get(code.getScope()));
+      xml.setScope(ActivityCodeScopeHelper.getXmlFromInstance(code.getScope()));
       xml.setSequenceNumber(code.getSequenceNumber());
       xml.setName(code.getName());
       xml.setIsSecureCode(Boolean.valueOf(code.getSecure()));
@@ -1684,7 +1723,8 @@ final class PrimaveraPMProjectWriter
          xml.setProjectObjectId(m_projectObjectID);
       }
 
-      code.getChildValues().stream().sorted(Comparator.comparing(ActivityCodeValue::getSequenceNumber)).forEach(v -> writeActivityCodeValue(xml, null, v));
+      Comparator<ActivityCodeValue> comparator = Comparator.comparing(ActivityCodeValue::getSequenceNumber).thenComparing(ActivityCodeValue::getUniqueID);
+      code.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValue(xml, null, values, v, comparator));
    }
 
    /**
@@ -1692,12 +1732,14 @@ final class PrimaveraPMProjectWriter
     *
     * @param code parent activity code
     * @param parentValue parent value
+    * @param values value container
     * @param value value to write
+    * @param comparator sort order for values
     */
-   private void writeActivityCodeValue(ActivityCodeTypeType code, ActivityCodeType parentValue, ActivityCodeValue value)
+   private void writeActivityCodeValue(ActivityCodeTypeType code, ActivityCodeType parentValue, List<ActivityCodeType> values, ActivityCodeValue value, Comparator<ActivityCodeValue> comparator)
    {
       ActivityCodeType xml = m_factory.createActivityCodeType();
-      m_apibo.getActivityCode().add(xml);
+      values.add(xml);
       xml.setObjectId(value.getUniqueID());
       xml.setProjectObjectId(code.getProjectObjectId());
       xml.setCodeTypeObjectId(code.getObjectId());
@@ -1705,9 +1747,9 @@ final class PrimaveraPMProjectWriter
       xml.setSequenceNumber(value.getSequenceNumber());
       xml.setCodeValue(value.getName());
       xml.setDescription(value.getDescription());
-      xml.setColor(getColor(value.getColor()));
+      xml.setColor(ColorHelper.getHtmlColor(value.getColor()));
 
-      value.getChildValues().stream().sorted(Comparator.comparing(ActivityCodeValue::getSequenceNumber)).forEach(v -> writeActivityCodeValue(code, xml, v));
+      value.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValue(code, xml, values, v, comparator));
    }
 
    /**
@@ -1718,7 +1760,9 @@ final class PrimaveraPMProjectWriter
     */
    private void writeActivityCodeAssignments(Task task, ActivityType xml)
    {
-      task.getActivityCodes().forEach(v -> writeActivityCodeAssignment(xml, v));
+      Map<ActivityCode, ActivityCodeValue> map = new HashMap<>();
+      task.getActivityCodes().forEach(v -> map.put(v.getType(), v));
+      map.values().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeActivityCodeAssignment(xml, v));
    }
 
    /**
@@ -1733,23 +1777,6 @@ final class PrimaveraPMProjectWriter
       xml.getCode().add(assignment);
       assignment.setTypeObjectId(NumberHelper.getInt(value.getType().getUniqueID()));
       assignment.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
-   }
-
-   /**
-    * Convert a color to a string representation.
-    *
-    * @param color color to convert
-    * @return string representation
-    */
-   private String getColor(Color color)
-   {
-      if (color == null)
-      {
-         return null;
-      }
-
-      String result = "000000" + Integer.toHexString(color.getRGB()).toUpperCase();
-      return "#" + result.substring(result.length() - 6);
    }
 
    /**
@@ -1793,7 +1820,7 @@ final class PrimaveraPMProjectWriter
 
          case DATE:
          {
-            udf.setStartDateValue((Date) value);
+            udf.setStartDateValue((LocalDateTime) value);
             break;
          }
 
@@ -1833,7 +1860,7 @@ final class PrimaveraPMProjectWriter
     * @param duration Duration instance
     * @return formatted duration
     */
-   private Double getDuration(Duration duration)
+   private Double getDurationInHours(Duration duration)
    {
       Double result;
       if (duration == null)
@@ -1847,7 +1874,8 @@ final class PrimaveraPMProjectWriter
             duration = duration.convertUnits(TimeUnit.HOURS, m_projectFile.getProjectProperties());
          }
 
-         result = Double.valueOf(duration.getDuration());
+         // Round to 2 decimal places which still allows minute accuracy
+         result = Double.valueOf(Math.round(duration.getDuration() * 100.0) / 100.0);
       }
       return result;
    }
@@ -1858,48 +1886,9 @@ final class PrimaveraPMProjectWriter
     * @param day MPXJ Day instance
     * @return Primavera day instance
     */
-   private String getDayName(Day day)
+   private String getDayName(DayOfWeek day)
    {
-      return DAY_NAMES[day.getValue() - 1];
-   }
-
-   /**
-    * Formats a resource type.
-    *
-    * @param resource MPXJ resource
-    * @return Primavera resource type
-    */
-   private String getResourceType(Resource resource)
-   {
-      String result;
-      net.sf.mpxj.ResourceType type = resource.getType();
-      if (type == null)
-      {
-         type = net.sf.mpxj.ResourceType.WORK;
-      }
-
-      switch (type)
-      {
-         case MATERIAL:
-         {
-            result = "Material";
-            break;
-         }
-
-         case COST:
-         {
-            result = "Nonlabor";
-            break;
-         }
-
-         default:
-         {
-            result = "Labor";
-            break;
-         }
-      }
-
-      return result;
+      return DAY_NAMES[DayOfWeekHelper.getValue(day) - 1];
    }
 
    /**
@@ -1918,11 +1907,6 @@ final class PrimaveraPMProjectWriter
       }
 
       return result;
-   }
-
-   private String getPercentCompleteType(PercentCompleteType value)
-   {
-      return PERCENT_COMPLETE_TYPE.get(value == null ? PercentCompleteType.DURATION : value);
    }
 
    /**
@@ -1968,6 +1952,25 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
+    * Formats a currency value.
+    *
+    * @param number numeric value
+    * @return Double instance
+    */
+   private Double getCurrency(Number number)
+   {
+      Double result = null;
+
+      if (number != null)
+      {
+         // P6 appears to write currency with 8 decimal places, so we'll round match this
+         result = Double.valueOf(Math.round(number.doubleValue() * 100000000.0) / 100000000.0);
+      }
+
+      return result;
+   }
+
+   /**
     * Formats a double value.
     *
     * @param number numeric value
@@ -1993,62 +1996,9 @@ final class PrimaveraPMProjectWriter
     * @param date MPXJ end time
     * @return Primavera end time
     */
-   private Date getEndTime(Date date)
+   private LocalTime getEndTime(LocalTime date)
    {
-      return new Date(date.getTime() - 60000);
-   }
-
-   /**
-    * Retrieve a calendar unique ID.
-    *
-    * @param calendar ProjectCalendar instance
-    * @return calendar unique ID
-    */
-   private Integer getCalendarUniqueID(ProjectCalendar calendar)
-   {
-      return calendar == null ? null : calendar.getUniqueID();
-   }
-
-   /**
-    * Convert a rate index to a rate type.
-    *
-    * @param index rate index
-    * @return rate type
-    */
-   private String getRateType(Integer index)
-   {
-      if (index == null || index.intValue() < 0 || index.intValue() > RATE_TYPE_ARRAY.length)
-      {
-         return RATE_TYPE_ARRAY[0];
-      }
-      return RATE_TYPE_ARRAY[index.intValue()];
-   }
-
-   /**
-    * Retrieve an activity status.
-    *
-    * @param mpxj MPXJ Task instance
-    * @return activity status
-    */
-   private String getActivityStatus(Task mpxj)
-   {
-      String result;
-      if (mpxj.getActualStart() == null)
-      {
-         result = "Not Started";
-      }
-      else
-      {
-         if (mpxj.getActualFinish() == null)
-         {
-            result = "In Progress";
-         }
-         else
-         {
-            result = "Completed";
-         }
-      }
-      return result;
+      return date.minusMinutes(1);
    }
 
    /**
@@ -2067,23 +2017,6 @@ final class PrimaveraPMProjectWriter
       return result;
    }
 
-   private Set<FieldType> getUserDefinedFieldsSet()
-   {
-      // All custom fields with configuration
-      Set<FieldType> set = m_projectFile.getCustomFields().stream().map(CustomField::getFieldType).filter(Objects::nonNull).collect(Collectors.toSet());
-
-      // All user defined fields
-      set.addAll(m_projectFile.getUserDefinedFields());
-
-      // All custom fields with values
-      set.addAll(m_projectFile.getPopulatedFields().stream().filter(FieldLists.CUSTOM_FIELDS::contains).collect(Collectors.toSet()));
-
-      // Remove unknown fields
-      set.removeIf(f -> FieldTypeHelper.getFieldID(f) == -1);
-
-      return set;
-   }
-
    /**
     * Package-private accessor method used to retrieve the project file
     * currently being processed by this writer.
@@ -2095,10 +2028,8 @@ final class PrimaveraPMProjectWriter
       return m_projectFile;
    }
 
-   private static final Integer NOTEBOOK_TOPIC_OBJECT_ID = Integer.valueOf(1);
    private static final String DEFAULT_PROJECT_ID = "PROJECT";
    private static final String RESOURCE_ID_PREFIX = "RESOURCE-";
-   private static final String DEFAULT_WBS_CODE = "WBS";
    private static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);
 
    private static final String[] DAY_NAMES =
@@ -2111,118 +2042,6 @@ final class PrimaveraPMProjectWriter
       "Friday",
       "Saturday"
    };
-
-   private static final Map<RelationType, String> RELATION_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RELATION_TYPE_MAP.put(RelationType.FINISH_START, "Finish to Start");
-      RELATION_TYPE_MAP.put(RelationType.FINISH_FINISH, "Finish to Finish");
-      RELATION_TYPE_MAP.put(RelationType.START_START, "Start to Start");
-      RELATION_TYPE_MAP.put(RelationType.START_FINISH, "Start to Finish");
-   }
-
-   private static final Map<TaskType, String> DURATION_TYPE_MAP = new HashMap<>();
-   static
-   {
-      DURATION_TYPE_MAP.put(TaskType.FIXED_DURATION, "Fixed Duration and Units/Time");
-      DURATION_TYPE_MAP.put(TaskType.FIXED_UNITS, "Fixed Units");
-      DURATION_TYPE_MAP.put(TaskType.FIXED_WORK, "Fixed Duration and Units");
-   }
-
-   private static final Map<ConstraintType, String> CONSTRAINT_TYPE_MAP = new HashMap<>();
-   static
-   {
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_ON, "Start On");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_LATER_THAN, "Start On or Before");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.START_NO_EARLIER_THAN, "Start On or After");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_ON, "Finish On");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_LATER_THAN, "Finish On or Before");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.FINISH_NO_EARLIER_THAN, "Finish On or After");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.AS_LATE_AS_POSSIBLE, "As Late As Possible");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_START_ON, "Mandatory Start");
-      CONSTRAINT_TYPE_MAP.put(ConstraintType.MUST_FINISH_ON, "Mandatory Finish");
-   }
-
-   private static final Map<AccrueType, String> ACCRUE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      ACCRUE_TYPE_MAP.put(AccrueType.PRORATED, "Uniform Over Activity");
-      ACCRUE_TYPE_MAP.put(AccrueType.END, "End of Activity");
-      ACCRUE_TYPE_MAP.put(AccrueType.START, "Start of Activity");
-   }
-
-   private static final Map<PercentCompleteType, String> PERCENT_COMPLETE_TYPE = new HashMap<>();
-   static
-   {
-      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.PHYSICAL, "Physical");
-      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.DURATION, "Duration");
-      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.UNITS, "Units");
-      PERCENT_COMPLETE_TYPE.put(PercentCompleteType.SCOPE, "Scope");
-   }
-
-   private static final Map<net.sf.mpxj.ActivityType, String> ACTIVITY_TYPE_MAP = new HashMap<>();
-   static
-   {
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.TASK_DEPENDENT, "Task Dependent");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.RESOURCE_DEPENDENT, "Resource Dependent");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.LEVEL_OF_EFFORT, "Level of Effort");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.START_MILESTONE, "Start Milestone");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.FINISH_MILESTONE, "Finish Milestone");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.WBS_SUMMARY, "WBS Summary");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.START_FLAG, "Start Milestone");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.FINISH_FLAG, "Finish Milestone");
-      ACTIVITY_TYPE_MAP.put(net.sf.mpxj.ActivityType.HAMMOCK, "Resource Dependent");
-   }
-
-   private static final Map<CriticalActivityType, String> CRITICAL_ACTIVITY_MAP = new HashMap<>();
-   static
-   {
-      CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.TOTAL_FLOAT, "Critical Float");
-      CRITICAL_ACTIVITY_MAP.put(CriticalActivityType.LONGEST_PATH, "Longest Path");
-   }
-
-   private static final Map<net.sf.mpxj.CalendarType, String> CALENDAR_TYPE_MAP = new HashMap<>();
-   static
-   {
-      CALENDAR_TYPE_MAP.put(net.sf.mpxj.CalendarType.GLOBAL, "Global");
-      CALENDAR_TYPE_MAP.put(net.sf.mpxj.CalendarType.PROJECT, "Project");
-      CALENDAR_TYPE_MAP.put(net.sf.mpxj.CalendarType.RESOURCE, "Resource");
-   }
-
-   private static final String[] RATE_TYPE_ARRAY = new String[]
-   {
-      "Price / Unit",
-      "Price / Unit 2",
-      "Price / Unit 3",
-      "Price / Unit 4",
-      "Price / Unit 5"
-   };
-
-   private static final Map<RateSource, String> RATE_SOURCE_MAP = new HashMap<>();
-   static
-   {
-      RATE_SOURCE_MAP.put(RateSource.RESOURCE, "Resource");
-      RATE_SOURCE_MAP.put(RateSource.OVERRIDE, "Override");
-      RATE_SOURCE_MAP.put(RateSource.ROLE, "Role");
-   }
-
-   private static final Map<FieldTypeClass, String> SUBJECT_AREA_MAP = new HashMap<>();
-   static
-   {
-      SUBJECT_AREA_MAP.put(FieldTypeClass.TASK, "Activity");
-      SUBJECT_AREA_MAP.put(FieldTypeClass.RESOURCE, "Resource");
-      SUBJECT_AREA_MAP.put(FieldTypeClass.PROJECT, "Project");
-      SUBJECT_AREA_MAP.put(FieldTypeClass.ASSIGNMENT, "Resource Assignment");
-      SUBJECT_AREA_MAP.put(FieldTypeClass.CONSTRAINT, "Constraint");
-   }
-
-   private static final Map<ActivityCodeScope, String> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();
-   static
-   {
-      ACTIVITY_CODE_SCOPE_MAP.put(ActivityCodeScope.GLOBAL, "Global");
-      ACTIVITY_CODE_SCOPE_MAP.put(ActivityCodeScope.EPS, "EPS");
-      ACTIVITY_CODE_SCOPE_MAP.put(ActivityCodeScope.PROJECT, "Project");
-   }
 
    private final ProjectFile m_projectFile;
    private final APIBusinessObjects m_apibo;
@@ -2242,6 +2061,5 @@ final class PrimaveraPMProjectWriter
 
    private ObjectSequence m_wbsSequence;
    private Set<FieldType> m_userDefinedFields;
-   private Map<Integer, String> m_topics;
    private boolean m_activityTypePopulated;
 }

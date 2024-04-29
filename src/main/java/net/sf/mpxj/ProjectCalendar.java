@@ -25,17 +25,27 @@ package net.sf.mpxj;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Year;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.UUID;
 import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -53,11 +63,23 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public ProjectCalendar(ProjectFile file)
    {
-      m_projectFile = file;
+      this(file, false);
+   }
 
-      if (file.getProjectConfig().getAutoCalendarUniqueID())
+   /**
+    * Internal constructor to allow the temporary calendar flag to be set.
+    *
+    * @param file the parent file to which this record belongs.
+    * @param temporaryCalendar true if this is a temporary calendar
+    */
+   protected ProjectCalendar(ProjectFile file, boolean temporaryCalendar)
+   {
+      m_projectFile = file;
+      m_temporaryCalendar = temporaryCalendar;
+
+      if (!temporaryCalendar && file.getProjectConfig().getAutoCalendarUniqueID())
       {
-         setUniqueID(Integer.valueOf(file.getProjectConfig().getNextCalendarUniqueID()));
+         setUniqueID(file.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
       }
    }
 
@@ -304,7 +326,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date exception date
     * @return ProjectCalendarException instance
     */
-   public ProjectCalendarException addCalendarException(Date date)
+   public ProjectCalendarException addCalendarException(LocalDate date)
    {
       return addCalendarException(date, date, null);
    }
@@ -316,7 +338,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param toDate exception end date
     * @return ProjectCalendarException instance
     */
-   public ProjectCalendarException addCalendarException(Date fromDate, Date toDate)
+   public ProjectCalendarException addCalendarException(LocalDate fromDate, LocalDate toDate)
    {
       return addCalendarException(fromDate, toDate, null);
    }
@@ -340,7 +362,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param recurringData RecurringData instance used to define the exception occurrences
     * @return ProjectCalendarException instance
     */
-   private ProjectCalendarException addCalendarException(Date fromDate, Date toDate, RecurringData recurringData)
+   private ProjectCalendarException addCalendarException(LocalDate fromDate, LocalDate toDate, RecurringData recurringData)
    {
       ProjectCalendarException bce = new ProjectCalendarException(fromDate, toDate, recurringData);
       m_exceptions.add(bce);
@@ -405,7 +427,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param day day number
     * @return new ProjectCalendarHours instance
     */
-   @Override public ProjectCalendarHours addCalendarHours(Day day)
+   @Override public ProjectCalendarHours addCalendarHours(DayOfWeek day)
    {
       clearWorkingDateCache();
       return super.addCalendarHours(day);
@@ -416,7 +438,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     *
     * @param day target day
     */
-   @Override public void removeCalendarHours(Day day)
+   @Override public void removeCalendarHours(DayOfWeek day)
    {
       clearWorkingDateCache();
       super.removeCalendarHours(day);
@@ -434,7 +456,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       if (calendar != this)
       {
          m_parent = calendar;
-         Arrays.stream(Day.values()).filter(d -> getCalendarDayType(d) == null).forEach(d -> setCalendarDayType(d, DayType.DEFAULT));
+         Arrays.stream(DayOfWeek.values()).filter(d -> getCalendarDayType(d) == null).forEach(d -> setCalendarDayType(d, DayType.DEFAULT));
          clearWorkingDateCache();
       }
    }
@@ -451,6 +473,16 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    }
 
    /**
+    * Retrieve the parent calendar unique ID.
+    *
+    * @return parent calendar unique ID, or null if there is no parent calendar
+    */
+   public Integer getParentUniqueID()
+   {
+      return m_parent == null ? null : m_parent.getUniqueID();
+   }
+
+   /**
     * This method is provided to allow an absolute period of time
     * represented by start and end dates into a duration in working
     * days based on this calendar instance. This method takes account
@@ -460,25 +492,26 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param endDate end of the period
     * @return new Duration object
     */
-   public Duration getDuration(Date startDate, Date endDate)
+   public Duration getDuration(LocalDateTime startDate, LocalDateTime endDate)
    {
-      Calendar cal = DateHelper.popCalendar(startDate);
+      if (startDate == null || endDate == null)
+      {
+         return null;
+      }
+
       int days = getDaysInRange(startDate, endDate);
       int duration = 0;
-      Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
 
       while (days > 0)
       {
-         if (isWorkingDate(cal.getTime(), day))
+         if (isWorkingDate(LocalDateHelper.getLocalDate(startDate)))
          {
             ++duration;
          }
 
          --days;
-         day = day.getNextDay();
-         cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
+         startDate = startDate.plusDays(1);
       }
-      DateHelper.pushCalendar(cal);
 
       return (Duration.getInstance(duration, TimeUnit.DAYS));
    }
@@ -490,23 +523,28 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date Date instance
     * @return start time, or null for non-working day
     */
-   public Date getStartTime(Date date)
+   public LocalTime getStartTime(LocalDate date)
    {
-      Date result = m_startTimeCache.get(date);
-      if (result == null)
+      if (date == null)
       {
-         ProjectCalendarHours ranges = getRanges(date, null, null);
-         if (ranges == null)
-         {
-            result = getParentFile().getProjectProperties().getDefaultStartTime();
-         }
-         else
-         {
-            result = ranges.get(0).getStart();
-         }
-         result = DateHelper.getCanonicalTime(result);
-         m_startTimeCache.put(new Date(date.getTime()), result);
+         return null;
       }
+
+      LocalTime result = m_startTimeCache.get(date);
+      if (result != null)
+      {
+         return result;
+      }
+
+      ProjectCalendarHours ranges = getRanges(date);
+      if (ranges == null || ranges.isEmpty())
+      {
+         return null;
+      }
+
+      result = ranges.get(0).getStart();
+      m_startTimeCache.put(date, result);
+
       return result;
    }
 
@@ -517,30 +555,25 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date Date instance
     * @return finish time, or null for non-working day
     */
-   public Date getFinishTime(Date date)
+   public LocalTime getFinishTime(LocalDate date)
    {
-      Date result = null;
-
-      if (date != null)
+      if (date == null)
       {
-         ProjectCalendarHours ranges = getRanges(date, null, null);
-         if (ranges == null)
-         {
-            result = getParentFile().getProjectProperties().getDefaultEndTime();
-            result = DateHelper.getCanonicalTime(result);
-         }
-         else
-         {
-            DateRange range = ranges.get(ranges.size() - 1);
-            result = DateHelper.getCanonicalEndTime(range.getStart(), range.getEnd());
-         }
+         return null;
       }
-      return result;
+
+      ProjectCalendarHours ranges = getRanges(date);
+      if (ranges == null || ranges.isEmpty())
+      {
+         return null;
+      }
+
+      return ranges.get(ranges.size() - 1).getEnd();
    }
 
    /**
     * Given a start date and a duration, this method calculates the
-    * end date. It takes account of working hours in each day, non working
+    * end date. It takes account of working hours in each day, non-working
     * days and calendar exceptions. If the returnNextWorkStart parameter is
     * set to true, the method will return the start date and time of the next
     * working period if the end date is at the end of a working period.
@@ -549,119 +582,129 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param duration duration
     * @param returnNextWorkStart if set to true will return start of next working period
     * @return end date
+    * @deprecated use getDate method without the "returnNextWorkStart" boolean argument
     */
-   public Date getDate(Date startDate, Duration duration, boolean returnNextWorkStart)
+   @Deprecated public LocalDateTime getDate(LocalDateTime startDate, Duration duration, boolean returnNextWorkStart)
+   {
+      LocalDateTime cal = duration.getDuration() < 0 ? getDateFromNegativeDuration(startDate, duration) : getDateFromPositiveDuration(startDate, duration);
+      if (returnNextWorkStart)
+      {
+         cal = getNextWorkStart(cal);
+      }
+      return cal;
+   }
+
+   /**
+    * Given a date and a duration, this method calculates the resulting date when the duration is added.
+    * This method handles both positive and negative durations.
+    *
+    * @param date date
+    * @param duration duration
+    * @return date plus duration
+    */
+   public LocalDateTime getDate(LocalDateTime date, Duration duration)
+   {
+      return duration.getDuration() < 0 ? getDateFromNegativeDuration(date, duration) : getDateFromPositiveDuration(date, duration);
+   }
+
+   private LocalDateTime getDateFromPositiveDuration(LocalDateTime startDate, Duration duration)
    {
       ProjectProperties properties = getParentFile().getProjectProperties();
-      // Note: Using a double allows us to handle date values that are accurate up to seconds.
-      //       However, it also means we need to truncate the value to 2 decimals to make the
-      //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
-      //       that wreak havoc on the comparisons.
-      double remainingMinutes = NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
+      long remainingMilliseconds = Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
+      if (remainingMilliseconds == 0)
+      {
+         return startDate;
+      }
 
       //
       // Can we skip come computation by working forward from the
       // last call to this method?
       //
-      Date getDateLastStartDate = m_getDateLastStartDate;
-      double getDateLastRemainingMinutes = m_getDateLastRemainingMinutes;
+      LocalDateTime getDateLastStartDate = m_getDateLastStartDate;
+      long getDateLastRemainingMilliseconds = m_getDateLastRemainingMilliseconds;
 
       m_getDateLastStartDate = startDate;
-      m_getDateLastRemainingMinutes = remainingMinutes;
+      m_getDateLastRemainingMilliseconds = remainingMilliseconds;
 
-      if (m_getDateLastResult != null && DateHelper.compare(startDate, getDateLastStartDate) == 0 && remainingMinutes >= getDateLastRemainingMinutes)
+      if (m_getDateLastResult != null && LocalDateTimeHelper.compare(startDate, getDateLastStartDate) == 0 && remainingMilliseconds >= getDateLastRemainingMilliseconds)
       {
          startDate = m_getDateLastResult;
-         remainingMinutes = remainingMinutes - getDateLastRemainingMinutes;
+         remainingMilliseconds = remainingMilliseconds - getDateLastRemainingMilliseconds;
+         if (remainingMilliseconds == 0)
+         {
+            return startDate;
+         }
       }
 
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(startDate);
-      Calendar endCal = Calendar.getInstance();
+      LocalDateTime currentDayStart = startDate;
+      LocalDateTime currentDayEnd = LocalDateTimeHelper.getDayStartDate(currentDayStart).plusDays(1);
 
-      while (remainingMinutes > 0)
+      while (remainingMilliseconds > 0)
       {
-         //
-         // Get the current date and time and determine how many
-         // working hours remain
-         //
-         Date currentDate = cal.getTime();
-         endCal.setTime(currentDate);
-         endCal.add(Calendar.DAY_OF_YEAR, 1);
-         Date currentDateEnd = DateHelper.getDayStartDate(endCal.getTime());
-         double currentDateWorkingMinutes = getWork(currentDate, currentDateEnd, TimeUnit.MINUTES).getDuration();
+         long currentDateWorkingMilliseconds = Math.round(getWork(currentDayStart, currentDayEnd, TimeUnit.MINUTES).getDuration() * 60000.0);
+
+         if (remainingMilliseconds == currentDateWorkingMilliseconds)
+         {
+            currentDayEnd = LocalTimeHelper.setEndTime(currentDayStart, getFinishTime(currentDayStart.toLocalDate()));
+            break;
+         }
 
          //
          // We have more than enough hours left
          //
-         if (remainingMinutes > currentDateWorkingMinutes)
+         if (remainingMilliseconds > currentDateWorkingMilliseconds)
          {
             //
             // Deduct this day's hours from our total
             //
-            remainingMinutes = NumberHelper.round(remainingMinutes - currentDateWorkingMinutes, 2);
+            remainingMilliseconds -= currentDateWorkingMilliseconds;
 
             //
             // Move the calendar forward to the next working day
             //
-            Day day;
+            LocalDateTime currentDay = currentDayStart;
             int nonWorkingDayCount = 0;
             do
             {
-               cal.add(Calendar.DAY_OF_YEAR, 1);
-               day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+               currentDay = currentDay.plusDays(1);
                ++nonWorkingDayCount;
                if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
                {
-                  cal.setTime(startDate);
-                  cal.add(Calendar.DAY_OF_YEAR, 1);
-                  remainingMinutes = 0;
+                  currentDay = currentDayStart.plusDays(1);
+                  remainingMilliseconds = 0;
                   break;
                }
             }
-            while (!isWorkingDate(cal.getTime(), day));
+            while (!isWorkingDate(LocalDateHelper.getLocalDate(currentDay)));
 
-            //
-            // Retrieve the start time for this day
-            //
-            Date startTime = getStartTime(cal.getTime());
-            DateHelper.setTime(cal, startTime);
+            currentDayStart = LocalTimeHelper.setTime(currentDay, getStartTime(LocalDateHelper.getLocalDate(currentDay)));
+            currentDayEnd = LocalTimeHelper.setEndTime(currentDayStart, getFinishTime(LocalDateHelper.getLocalDate(currentDayStart)));
          }
          else
          {
             //
-            // We have less hours to allocate than there are working hours
+            // We have fewer hours to allocate than there are working hours
             // in this day. We need to calculate the time of day at which
             // our work ends.
             //
-            ProjectCalendarHours ranges = getRanges(cal.getTime(), cal, null);
+            ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(currentDayStart));
 
-            //
-            // Now we have the range of working hours for this day,
-            // step through it to work out the end point
-            //
-            Date endTime = null;
-            Date currentDateStartTime = DateHelper.getCanonicalTime(currentDate);
+            LocalTime currentDayStartTime = LocalTimeHelper.getLocalTime(currentDayStart);
             boolean firstRange = true;
-            for (DateRange range : ranges)
+            for (LocalTimeRange range : ranges)
             {
                //
                // Skip this range if its end is before our start time
                //
-               Date rangeStart = range.getStart();
-               Date rangeEnd = range.getEnd();
+               LocalTime rangeStart = range.getStart();
+               LocalTime rangeEnd = range.getEnd();
 
                if (rangeStart == null || rangeEnd == null)
                {
                   continue;
                }
 
-               Date rangeStartDay = DateHelper.getDayStartDate(rangeStart);
-               Date rangeEndDay = DateHelper.getDayStartDate(rangeEnd);
-               Date canonicalRangeStart = DateHelper.getCanonicalTime(rangeStart);
-               Date canonicalRangeEnd = DateHelper.getCanonicalEndTime(rangeStart, rangeEnd);
-
-               if (firstRange && canonicalRangeEnd.getTime() < currentDateStartTime.getTime())
+               if (firstRange && rangeEnd != LocalTime.MIDNIGHT && rangeEnd.isBefore(currentDayStartTime))
                {
                   continue;
                }
@@ -670,173 +713,135 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                // Move the start of the range if our current start is
                // past the range start
                //
-               if (firstRange && canonicalRangeStart.getTime() < currentDateStartTime.getTime())
+               if (firstRange && rangeStart.isBefore(currentDayStartTime))
                {
-                  canonicalRangeStart = currentDateStartTime;
+                  rangeStart = currentDayStartTime;
                }
                firstRange = false;
 
-               double rangeMinutes;
-
-               rangeMinutes = canonicalRangeEnd.getTime() - canonicalRangeStart.getTime();
-               rangeMinutes /= (1000 * 60);
-
-               if (remainingMinutes > rangeMinutes)
+               long rangeMilliseconds = LocalTimeHelper.getMillisecondsInRange(rangeStart, rangeEnd);
+               if (remainingMilliseconds > rangeMilliseconds)
                {
-                  remainingMinutes = NumberHelper.round(remainingMinutes - rangeMinutes, 2);
+                  remainingMilliseconds -= rangeMilliseconds;
                }
                else
                {
-                  if (Duration.durationValueEquals(remainingMinutes, rangeMinutes))
+                  if (remainingMilliseconds != rangeMilliseconds)
                   {
-                     endTime = canonicalRangeEnd;
-                     if (rangeStartDay.getTime() != rangeEndDay.getTime())
-                     {
-                        // The range ends the next day, so let's adjust our date accordingly.
-                        cal.add(Calendar.DAY_OF_YEAR, 1);
-                     }
+                     rangeEnd = rangeStart.plus(remainingMilliseconds, ChronoUnit.MILLIS);
                   }
-                  else
-                  {
-                     endTime = new Date((long) (canonicalRangeStart.getTime() + (remainingMinutes * (60 * 1000))));
-                     returnNextWorkStart = false;
-                  }
-                  remainingMinutes = 0;
+                  currentDayEnd = LocalTimeHelper.setTime(currentDayStart, rangeEnd);
+                  remainingMilliseconds = 0;
                   break;
                }
             }
-
-            DateHelper.setTime(cal, endTime);
          }
       }
 
-      m_getDateLastResult = cal.getTime();
-      if (returnNextWorkStart)
+      // Truncate to remove milliseconds
+      if (currentDayEnd.getNano() != 0)
       {
-         updateToNextWorkStart(cal);
+         currentDayEnd = LocalDateTime.of(currentDayEnd.toLocalDate(), LocalTime.of(currentDayEnd.getHour(), currentDayEnd.getMinute(), currentDayEnd.getSecond()));
       }
 
-      return cal.getTime();
+      m_getDateLastResult = currentDayEnd;
+
+      return currentDayEnd;
    }
 
-   /**
-    * Given a finish date and a duration, this method calculates backwards to the
-    * start date. It takes account of working hours in each day, non working
-    * days and calendar exceptions.
-    *
-    * @param finishDate finish date
-    * @param duration duration
-    * @return start date
-    */
-   public Date getStartDate(Date finishDate, Duration duration)
+   private LocalDateTime getDateFromNegativeDuration(LocalDateTime endDate, Duration duration)
    {
       ProjectProperties properties = getParentFile().getProjectProperties();
-
-      //
-      // We want to avoid the case where a calendar doesn't
-      // have enough working days defined to calculate]a start date. We will stop
-      // searching if we reach the project start date. If we don't have
-      // a project start date defined, we'll allow the search to go back one year.
-      //
-      Date projectStartDate = properties.getStartDate();
-      if (projectStartDate == null)
+      long remainingMilliseconds = -Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
+      if (remainingMilliseconds == 0)
       {
-         Calendar cal = DateHelper.popCalendar(new Date());
-         cal.add(Calendar.DAY_OF_YEAR, -365);
-         projectStartDate = cal.getTime();
-         DateHelper.pushCalendar(cal);
+         return endDate;
       }
-      long projectStart = projectStartDate.getTime();
 
-      // Note: Using a double allows us to handle date values that are accurate up to seconds.
-      //       However, it also means we need to truncate the value to 2 decimals to make the
-      //       comparisons work as sometimes the double ends up with some extra e.g. .0000000000003
-      //       that wreak havoc on the comparisons.
-      double remainingMinutes = NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2);
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(finishDate);
-      Calendar startCal = Calendar.getInstance();
+      // Set the initial day start and end dates
+      LocalDateTime currentDayStart;
+      LocalDateTime currentDayEnd = endDate;
 
-      while (remainingMinutes > 0)
+      if (currentDayEnd.toLocalTime() == LocalTime.MIDNIGHT)
       {
-         //
-         // Get the current date and time and determine how many
-         // working hours remain
-         //
-         Date currentDate = cal.getTime();
-         startCal.setTime(currentDate);
-         startCal.add(Calendar.DAY_OF_YEAR, -1);
-         Date currentDateEnd = DateHelper.getDayEndDate(startCal.getTime());
-         double currentDateWorkingMinutes = getWork(currentDateEnd, currentDate, TimeUnit.MINUTES).getDuration();
+         currentDayStart = LocalDateTimeHelper.getDayStartDate(currentDayEnd.minusDays(1));
+      }
+      else
+      {
+         currentDayStart = LocalDateTimeHelper.getDayStartDate(currentDayEnd);
+      }
+
+      while (remainingMilliseconds > 0)
+      {
+         long currentDayWorkingMilliseconds = Math.round(getWork(currentDayStart, currentDayEnd, TimeUnit.MINUTES).getDuration() * 60000.0);
 
          //
-         // We have more than enough hours left
+         // We have exactly the time we need
          //
-         if (remainingMinutes > currentDateWorkingMinutes)
+         if (remainingMilliseconds == currentDayWorkingMilliseconds)
+         {
+            currentDayStart = LocalTimeHelper.setTime(currentDayStart, getStartTime(currentDayStart.toLocalDate()));
+            break;
+         }
+
+         if (remainingMilliseconds > currentDayWorkingMilliseconds)
          {
             //
             // Deduct this day's hours from our total
             //
-            remainingMinutes = NumberHelper.round(remainingMinutes - currentDateWorkingMinutes, 2);
+            remainingMilliseconds -= currentDayWorkingMilliseconds;
 
             //
-            // Move the calendar backward to the previous working day
+            // Move the calendar back to the previous working day
             //
-            Day day;
+            int nonWorkingDayCount = 0;
+            LocalDateTime currentDay = currentDayStart;
             do
             {
-               // Protect against a calendar with all days non-working
-               if (cal.getTimeInMillis() < projectStart)
+               currentDay = currentDay.minusDays(1);
+               ++nonWorkingDayCount;
+               if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
                {
-                  return null;
+                  currentDay = currentDayStart.minusDays(1);
+                  remainingMilliseconds = 0;
+                  break;
                }
-
-               cal.add(Calendar.DAY_OF_YEAR, -1);
-               day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
             }
-            while (!isWorkingDate(cal.getTime(), day));
+            while (!isWorkingDate(LocalDateHelper.getLocalDate(currentDay)));
 
-            //
-            // Retrieve the finish time for this day
-            //
-            Date finishTime = getFinishTime(cal.getTime());
-            DateHelper.setTime(cal, finishTime);
+            currentDayStart = currentDay;
+            currentDayEnd = LocalTimeHelper.setEndTime(currentDayStart, getFinishTime(LocalDateHelper.getLocalDate(currentDayStart)));
          }
          else
          {
             //
-            // We have less hours to allocate than there are working hours
+            // We have fewer hours to allocate than there are working hours
             // in this day. We need to calculate the time of day at which
             // our work starts.
             //
-            ProjectCalendarHours ranges = getRanges(cal.getTime(), cal, null);
+            List<LocalTimeRange> ranges = new ArrayList<>(getRanges(LocalDateHelper.getLocalDate(currentDayStart)));
+            Collections.reverse(ranges);
 
             //
             // Now we have the range of working hours for this day,
-            // step through it to work out the start point
+            // step through it to work out the end point
             //
-            Date startTime = null;
-            Date currentDateFinishTime = DateHelper.getCanonicalTime(currentDate);
-            boolean firstRange = true;
-            // Traverse from end to start
-            for (int i = ranges.size() - 1; i >= 0; i--)
+            LocalTime currentDayEndTime = LocalTimeHelper.getLocalTime(currentDayEnd);
+            boolean lastRange = true;
+            for (LocalTimeRange range : ranges)
             {
-               DateRange range = ranges.get(i);
                //
-               // Skip this range if its start is after our end time
+               // Skip this range if our end time is before the range start
                //
-               Date rangeStart = range.getStart();
-               Date rangeEnd = range.getEnd();
+               LocalTime rangeStart = range.getStart();
+               LocalTime rangeEnd = range.getEnd();
 
                if (rangeStart == null || rangeEnd == null)
                {
                   continue;
                }
 
-               Date canonicalRangeStart = DateHelper.getCanonicalTime(rangeStart);
-               Date canonicalRangeEnd = DateHelper.getCanonicalEndTime(rangeStart, rangeEnd);
-
-               if (firstRange && canonicalRangeStart.getTime() > currentDateFinishTime.getTime())
+               if (currentDayEndTime != LocalTime.MIDNIGHT && currentDayEndTime.isBefore(rangeStart))
                {
                   continue;
                }
@@ -845,72 +850,71 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                // Move the end of the range if our current end is
                // before the range end
                //
-               if (firstRange && canonicalRangeEnd.getTime() > currentDateFinishTime.getTime())
+               if (lastRange && (rangeEnd == LocalTime.MIDNIGHT || rangeEnd.isAfter(currentDayEndTime)))
                {
-                  canonicalRangeEnd = currentDateFinishTime;
+                  rangeEnd = currentDayEndTime;
                }
-               firstRange = false;
+               lastRange = false;
 
-               double rangeMinutes;
-
-               rangeMinutes = canonicalRangeEnd.getTime() - canonicalRangeStart.getTime();
-               rangeMinutes /= (1000 * 60);
-
-               if (remainingMinutes > rangeMinutes)
+               long rangeMilliseconds = LocalTimeHelper.getMillisecondsInRange(rangeStart, rangeEnd);
+               if (remainingMilliseconds > rangeMilliseconds)
                {
-                  remainingMinutes = NumberHelper.round(remainingMinutes - rangeMinutes, 2);
+                  remainingMilliseconds -= rangeMilliseconds;
                }
                else
                {
-                  if (Duration.durationValueEquals(remainingMinutes, rangeMinutes))
+                  if (remainingMilliseconds != rangeMilliseconds)
                   {
-                     startTime = canonicalRangeStart;
+                     rangeStart = rangeEnd.minus(remainingMilliseconds, ChronoUnit.MILLIS);
                   }
-                  else
-                  {
-                     startTime = new Date((long) (canonicalRangeEnd.getTime() - (remainingMinutes * (60 * 1000))));
-                  }
-                  remainingMinutes = 0;
+                  currentDayStart = LocalTimeHelper.setTime(currentDayStart, rangeStart);
+                  remainingMilliseconds = 0;
                   break;
                }
             }
-
-            DateHelper.setTime(cal, startTime);
          }
       }
 
-      return cal.getTime();
+      // Truncate to remove milliseconds
+      if (currentDayStart.getNano() != 0)
+      {
+         currentDayStart = LocalDateTime.of(currentDayStart.toLocalDate(), LocalTime.of(currentDayStart.getHour(), currentDayStart.getMinute(), currentDayStart.getSecond()));
+      }
+
+      return currentDayStart;
    }
 
    /**
-    * This method finds the start of the next working period.
+    * Utility method to retrieve the next working date start time, given
+    * a date and time as a starting point.
     *
-    * @param cal current Calendar instance
+    * @param date date and time start point
+    * @return date and time of next work start
     */
-   private void updateToNextWorkStart(Calendar cal)
+   public LocalDateTime getNextWorkStart(LocalDateTime date)
    {
-      Date originalDate = cal.getTime();
+      LocalDateTime originalDate = date;
 
       //
       // Find the date ranges for the current day
       //
-      ProjectCalendarHours ranges = getRanges(originalDate, cal, null);
+      ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(originalDate));
 
       if (ranges != null)
       {
          //
          // Do we have a start time today?
          //
-         Date calTime = DateHelper.getCanonicalTime(cal.getTime());
-         Date startTime = null;
-         for (DateRange range : ranges)
+         LocalTime calTime = date.toLocalTime();
+         LocalTime startTime = null;
+         for (LocalTimeRange range : ranges)
          {
-            Date rangeStart = DateHelper.getCanonicalTime(range.getStart());
-            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStart(), range.getEnd());
+            LocalTime rangeStart = range.getStart();
+            LocalTime rangeEnd = range.getEnd();
 
-            if (calTime.getTime() < rangeEnd.getTime())
+            if (rangeEnd == LocalTime.MIDNIGHT || calTime.isBefore(rangeEnd))
             {
-               if (calTime.getTime() > rangeStart.getTime())
+               if (calTime.isAfter(rangeStart))
                {
                   startTime = calTime;
                }
@@ -928,54 +932,56 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          if (startTime == null)
          {
-            Day day;
             int nonWorkingDayCount = 0;
             do
             {
-               cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
-               day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+               date = date.plusDays(1);
                ++nonWorkingDayCount;
                if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
                {
-                  cal.setTime(originalDate);
+                  date = originalDate;
                   break;
                }
             }
-            while (!isWorkingDate(cal.getTime(), day));
+            while (!isWorkingDate(LocalDateHelper.getLocalDate(date)));
 
-            startTime = getStartTime(cal.getTime());
+            startTime = getStartTime(LocalDateHelper.getLocalDate(date));
          }
 
-         DateHelper.setTime(cal, startTime);
+         date = LocalTimeHelper.setTime(date, startTime);
       }
+
+      return date;
    }
 
    /**
-    * This method finds the finish of the previous working period.
+    * Utility method to retrieve the previous working date finish time, given
+    * a date and time as a starting point.
     *
-    * @param cal current Calendar instance
+    * @param date date and time start point
+    * @return date and time of previous work finish
     */
-   private void updateToPreviousWorkFinish(Calendar cal)
+   public LocalDateTime getPreviousWorkFinish(LocalDateTime date)
    {
-      Date originalDate = cal.getTime();
+      LocalDateTime originalDate = date;
 
       //
       // Find the date ranges for the current day
       //
-      ProjectCalendarHours ranges = getRanges(originalDate, cal, null);
+      ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(originalDate));
       if (ranges != null)
       {
          //
-         // Do we have a start time today?
+         // Do we have a finish time today?
          //
-         Date calTime = DateHelper.getCanonicalTime(cal.getTime());
-         Date finishTime = null;
-         for (DateRange range : ranges)
+         LocalTime calTime = LocalTimeHelper.getLocalTime(date);
+         LocalTime finishTime = null;
+         for (int index = ranges.size(); index-- > 0;)
          {
-            Date rangeEnd = DateHelper.getCanonicalEndTime(range.getStart(), range.getEnd());
-            if (calTime.getTime() >= rangeEnd.getTime())
+            LocalTimeRange range = ranges.get(index);
+            if ((range.getEnd() == LocalTime.MIDNIGHT && calTime == LocalTime.MIDNIGHT) || !calTime.isBefore(range.getEnd()))
             {
-               finishTime = rangeEnd;
+               finishTime = range.getEnd();
                break;
             }
          }
@@ -986,62 +992,32 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          //
          if (finishTime == null)
          {
-            Day day;
             int nonWorkingDayCount = 0;
             do
             {
-               cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) - 1);
-               day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
+               date = date.minusDays(1);
                ++nonWorkingDayCount;
                if (nonWorkingDayCount > MAX_NONWORKING_DAYS)
                {
-                  cal.setTime(originalDate);
+                  date = originalDate;
                   break;
                }
             }
-            while (!isWorkingDate(cal.getTime(), day));
+            while (!isWorkingDate(LocalDateHelper.getLocalDate(date)));
 
-            finishTime = getFinishTime(cal.getTime());
+            finishTime = getFinishTime(LocalDateHelper.getLocalDate(date));
          }
 
-         DateHelper.setTime(cal, finishTime);
+         date = LocalTimeHelper.setEndTime(date, finishTime);
       }
-   }
 
-   /**
-    * Utility method to retrieve the next working date start time, given
-    * a date and time as a starting point.
-    *
-    * @param date date and time start point
-    * @return date and time of next work start
-    */
-   public Date getNextWorkStart(Date date)
-   {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(date);
-      updateToNextWorkStart(cal);
-      return cal.getTime();
-   }
-
-   /**
-    * Utility method to retrieve the previous working date finish time, given
-    * a date and time as a starting point.
-    *
-    * @param date date and time start point
-    * @return date and time of previous work finish
-    */
-   public Date getPreviousWorkFinish(Date date)
-   {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(date);
-      updateToPreviousWorkFinish(cal);
-      return cal.getTime();
+      return date;
    }
 
    /**
     * Retrieve the day type. If this is a derived calendar and the day type is
     * DEFAULT, recurse through the calendar hierarchy to find the effective
-    * day type. Note that if teh calendar hierarchy has been incorrectly
+    * day type. Note that if the calendar hierarchy has been incorrectly
     * configured and that the base calendar defines the day as DEFAULT,
     * this implementation will assume Saturday and Sunday are non-working
     * days.
@@ -1049,14 +1025,14 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param day required day
     * @return day type
     */
-   public DayType getDayType(Day day)
+   public DayType getDayType(DayOfWeek day)
    {
       DayType result = getCalendarDayType(day);
       if (result == DayType.DEFAULT)
       {
          if (m_parent == null)
          {
-            result = (day == Day.SATURDAY || day == Day.SUNDAY) ? DayType.NON_WORKING : DayType.WORKING;
+            result = (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) ? DayType.NON_WORKING : DayType.WORKING;
          }
          else
          {
@@ -1072,7 +1048,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param day required day
     * @return true if this is a working day
     */
-   public boolean isWorkingDay(Day day)
+   public boolean isWorkingDay(DayOfWeek day)
    {
       return getDayType(day) == DayType.WORKING;
    }
@@ -1084,28 +1060,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date Date to be tested
     * @return boolean value
     */
-   public boolean isWorkingDate(Date date)
+   public boolean isWorkingDate(LocalDate date)
    {
-      Calendar cal = DateHelper.popCalendar(date);
-      Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-      DateHelper.pushCalendar(cal);
-      return isWorkingDate(date, day);
-   }
-
-   /**
-    * This private method allows the caller to determine if a given date is a
-    * working day. This method takes account of calendar exceptions. It assumes
-    * that the caller has already calculated the day of the week on which
-    * the given day falls.
-    *
-    * @param date Date to be tested
-    * @param day Day of the week for the date under test
-    * @return boolean flag
-    */
-   private boolean isWorkingDate(Date date, Day day)
-   {
-      ProjectCalendarHours ranges = getRanges(date, null, day);
-      return ranges.size() != 0;
+      return !getRanges(date).isEmpty();
    }
 
    /**
@@ -1119,32 +1076,29 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param endDate End date
     * @return number of days in the date range
     */
-   private int getDaysInRange(Date startDate, Date endDate)
+   private int getDaysInRange(LocalDateTime startDate, LocalDateTime endDate)
    {
       int result;
-      Calendar cal = DateHelper.popCalendar(endDate);
-      int endDateYear = cal.get(Calendar.YEAR);
-      int endDateDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
+      int endDateYear = endDate.getYear();
+      int endDateDayOfYear = endDate.getDayOfYear();
 
-      cal.setTime(startDate);
+      LocalDateTime cal = startDate;
 
-      if (endDateYear == cal.get(Calendar.YEAR))
+      if (endDateYear == cal.getYear())
       {
-         result = (endDateDayOfYear - cal.get(Calendar.DAY_OF_YEAR)) + 1;
+         result = (endDateDayOfYear - cal.getDayOfYear()) + 1;
       }
       else
       {
          result = 0;
          do
          {
-            result += (cal.getActualMaximum(Calendar.DAY_OF_YEAR) - cal.get(Calendar.DAY_OF_YEAR)) + 1;
-            cal.roll(Calendar.YEAR, 1);
-            cal.set(Calendar.DAY_OF_YEAR, 1);
+            result += (Year.of(cal.getYear()).length() - cal.getDayOfYear()) + 1;
+            cal = LocalDateTime.of(cal.getYear() + 1, 1, 1, 0, 0);
          }
-         while (cal.get(Calendar.YEAR) < endDateYear);
+         while (cal.getYear() < endDateYear);
          result += endDateDayOfYear;
       }
-      DateHelper.pushCalendar(cal);
 
       return result;
    }
@@ -1158,10 +1112,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param day Day instance
     * @return calendar hours
     */
-   public ProjectCalendarHours getHours(Day day)
+   public ProjectCalendarHours getHours(DayOfWeek day)
    {
       ProjectCalendarHours result = getCalendarHours(day);
-      if (result == null)
+      if (result == null && m_parent != null)
       {
          result = m_parent.getHours(day);
       }
@@ -1177,9 +1131,23 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date target date
     * @return working hours on the given date
     */
-   public ProjectCalendarHours getHours(Date date)
+   public ProjectCalendarHours getHours(LocalDate date)
    {
-      return getRanges(date, null, null);
+      return getRanges(date);
+   }
+
+   /**
+    * This method retrieves the calendar hours for the specified date.
+    * Note that if this is a derived calendar, then this method
+    * will refer to the base calendar where no hours are specified
+    * in the derived calendar.
+    *
+    * @param date target date
+    * @return working hours on the given date
+    */
+   public ProjectCalendarHours getHours(LocalDateTime date)
+   {
+      return getHours(LocalDateHelper.getLocalDate(date));
    }
 
    /**
@@ -1189,7 +1157,11 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    @Override public void setUniqueID(Integer uniqueID)
    {
-      getParentFile().getCalendars().clearUniqueIDMap();
+      // If we have a temporary calendar, we don't want to modify the unique ID map for calendars
+      if (!m_temporaryCalendar)
+      {
+         getParentFile().getCalendars().updateUniqueID(this, m_uniqueID, uniqueID);
+      }
       m_uniqueID = uniqueID;
    }
 
@@ -1201,6 +1173,26 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    @Override public Integer getUniqueID()
    {
       return m_uniqueID;
+   }
+
+   /**
+    * Retrieve the calendar's GUID.
+    *
+    * @return calendar GUID
+    */
+   public UUID getGUID()
+   {
+      return m_guid;
+   }
+
+   /**
+    * Set the calendar's GUID.
+    *
+    * @param value calendar GUID
+    */
+   public void setGUID(UUID value)
+   {
+      m_guid = value;
    }
 
    /**
@@ -1247,7 +1239,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date target date
     * @return calendar exception, or null if none match this date
     */
-   public ProjectCalendarException getException(Date date)
+   public ProjectCalendarException getException(LocalDate date)
    {
       if (date == null)
       {
@@ -1263,13 +1255,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       {
          int low = 0;
          int high = m_expandedExceptions.size() - 1;
-         long targetDate = date.getTime();
 
          while (low <= high)
          {
             int mid = (low + high) >>> 1;
             ProjectCalendarException midVal = m_expandedExceptions.get(mid);
-            int cmp = DateHelper.compare(midVal.getFromDate(), midVal.getToDate(), targetDate);
+            int cmp = LocalDateHelper.compare(midVal.getFromDate(), midVal.getToDate(), date);
 
             if (cmp > 0)
             {
@@ -1304,7 +1295,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param date target date
     * @return work week, or null if none match this date
     */
-   public ProjectCalendarWeek getWorkWeek(Date date)
+   public ProjectCalendarWeek getWorkWeek(LocalDate date)
    {
       if (date == null)
       {
@@ -1318,13 +1309,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
          int low = 0;
          int high = m_workWeeks.size() - 1;
-         long targetDate = date.getTime();
 
          while (low <= high)
          {
             int mid = (low + high) >>> 1;
             ProjectCalendarWeek midVal = m_workWeeks.get(mid);
-            int cmp = DateHelper.compare(midVal.getDateRange().getStart(), midVal.getDateRange().getEnd(), targetDate);
+            int cmp = LocalDateHelper.compare(midVal.getDateRange().getStart(), midVal.getDateRange().getEnd(), date);
 
             if (cmp > 0)
             {
@@ -1364,10 +1354,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param format required format
     * @return work duration
     */
-   public Duration getWork(Day day, TimeUnit format)
+   public Duration getWork(DayOfWeek day, TimeUnit format)
    {
-      ProjectCalendarHours ranges = getRanges(null, null, day);
-      return convertFormat(getTotalTime(ranges), format);
+      return convertFormat(getTotalTime(getRanges(day)), format);
    }
 
    /**
@@ -1378,10 +1367,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param format required format
     * @return work duration
     */
-   public Duration getWork(Date date, TimeUnit format)
+   public Duration getWork(LocalDate date, TimeUnit format)
    {
-      ProjectCalendarHours ranges = getRanges(date, null, null);
-      return convertFormat(getTotalTime(ranges), format);
+      return convertFormat(getTotalTime(getRanges(date)), format);
    }
 
    /**
@@ -1393,9 +1381,14 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param format required duration format
     * @return amount of work
     */
-   public Duration getWork(Date startDate, Date endDate, TimeUnit format)
+   public Duration getWork(LocalDateTime startDate, LocalDateTime endDate, TimeUnit format)
    {
-      DateRange range = new DateRange(startDate, endDate);
+      if (startDate == null || endDate == null)
+      {
+         return null;
+      }
+
+      LocalDateTimeRange range = new LocalDateTimeRange(startDate, endDate);
       Long cachedResult = m_workingDateCache.get(range);
       long totalTime = 0;
 
@@ -1407,61 +1400,62 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          // the order of the supplied date.
          //
          boolean invert = false;
-         if (startDate.getTime() > endDate.getTime())
+         if (startDate.isAfter(endDate))
          {
             invert = true;
-            Date temp = startDate;
+            LocalDateTime temp = startDate;
             startDate = endDate;
             endDate = temp;
          }
 
-         Date canonicalStartDate = DateHelper.getDayStartDate(startDate);
-         Date canonicalEndDate = DateHelper.getDayStartDate(endDate);
-
-         if (canonicalStartDate.getTime() == canonicalEndDate.getTime())
+         if (isSameDay(startDate, endDate))
          {
-            ProjectCalendarHours ranges = getRanges(startDate, null, null);
-            if (ranges.size() != 0)
+            ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(startDate));
+            if (!ranges.isEmpty())
             {
-               totalTime = getTotalTime(ranges, startDate, endDate);
+               totalTime = getTotalTime(ranges, LocalTimeHelper.getLocalTime(startDate), LocalTimeHelper.getLocalTime(endDate));
             }
          }
          else
          {
+            LocalDateTime canonicalEndDate = LocalDateTimeHelper.getDayStartDate(endDate);
+
             //
             // Find the first working day in the range
             //
-            Date currentDate = startDate;
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(startDate);
-            Day day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-            while (!isWorkingDate(currentDate, day) && currentDate.getTime() < canonicalEndDate.getTime())
+            LocalDateTime currentDate = startDate;
+            LocalDateTime cal = startDate;
+            while (!isWorkingDate(LocalDateHelper.getLocalDate(currentDate)) && currentDate.isBefore(canonicalEndDate))
             {
-               cal.add(Calendar.DAY_OF_YEAR, 1);
-               currentDate = cal.getTime();
-               day = day.getNextDay();
+               cal = cal.plusDays(1);
+               currentDate = cal;
             }
 
-            if (currentDate.getTime() < canonicalEndDate.getTime())
+            if (currentDate.isBefore(canonicalEndDate))
             {
+               // If the first working day is the same as the start date, we leave
+               // the date alone to preserve the start time. If we have moved past
+               // the start date to find the first working day, reset the time
+               // of day to ensure that we use all working hours on this day.
+               LocalTime targetTime = currentDate.equals(startDate) ? LocalTimeHelper.getLocalTime(currentDate) : LocalTime.of(0, 0);
+
                //
                // Calculate the amount of working time for this day
                //
-               totalTime += getTotalTime(getRanges(currentDate, null, day), currentDate, true);
+               totalTime += getTotalTime(getRanges(LocalDateHelper.getLocalDate(currentDate)), targetTime);
 
                //
                // Process each working day until we reach the last day
                //
                while (true)
                {
-                  cal.add(Calendar.DAY_OF_YEAR, 1);
-                  currentDate = cal.getTime();
-                  day = day.getNextDay();
+                  cal = cal.plusDays(1);
+                  currentDate = cal;
 
                   //
                   // We have reached the last day
                   //
-                  if (currentDate.getTime() >= canonicalEndDate.getTime())
+                  if (!currentDate.isBefore(canonicalEndDate))
                   {
                      break;
                   }
@@ -1469,8 +1463,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                   //
                   // Skip this day if it has no working time
                   //
-                  ProjectCalendarHours ranges = getRanges(currentDate, null, day);
-                  if (ranges.size() == 0)
+                  ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(currentDate));
+                  if (ranges.isEmpty())
                   {
                      continue;
                   }
@@ -1485,10 +1479,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             //
             // We are now at the last day
             //
-            ProjectCalendarHours ranges = getRanges(endDate, null, day);
-            if (ranges.size() != 0)
+            ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(endDate));
+            if (!ranges.isEmpty())
             {
-               totalTime += getTotalTime(ranges, DateHelper.getDayStartDate(endDate), endDate);
+               totalTime += getTotalTime(ranges, LocalTime.of(0, 0), LocalTimeHelper.getLocalTime(endDate));
             }
          }
 
@@ -1505,6 +1499,16 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       }
 
       return convertFormat(totalTime, format);
+   }
+
+   private boolean isSameDay(LocalDateTime d1, LocalDateTime d2)
+   {
+      if (d1 == null || d2 == null)
+      {
+         return false;
+      }
+
+      return d1.getYear() == d2.getYear() && d1.getDayOfYear() == d2.getDayOfYear();
    }
 
    /**
@@ -1602,44 +1606,40 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          }
       }
 
-      return (Duration.getInstance(duration, format));
+      return Duration.getInstance(duration, format);
    }
 
    /**
-    * Retrieves the amount of time represented by a calendar exception
+    * Retrieves the amount of time represented by a set of calendar hours
     * before or after an intersection point.
     *
-    * @param exception calendar exception
-    * @param date intersection time
-    * @param after true to report time after intersection, false to report time before
+    * @param hours calendar hours
+    * @param targetTime intersection time
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarHours exception, Date date, boolean after)
+   private long getTotalTime(ProjectCalendarHours hours, LocalTime targetTime)
    {
-      long currentTime = DateHelper.getCanonicalTime(date).getTime();
       long total = 0;
-      for (DateRange range : exception)
+      for (LocalTimeRange range : hours)
       {
-         total += getTime(range.getStart(), range.getEnd(), currentTime, after);
+         if (range.getEnd() == LocalTime.MIDNIGHT || !targetTime.isAfter(range.getEnd()))
+         {
+            total += getTime(range.getStart(), range.getEnd(), targetTime, range.getEnd());
+         }
       }
-      return (total);
+      return total;
    }
 
    /**
     * Retrieves the amount of working time represented by
     * a calendar exception.
     *
-    * @param exception calendar exception
+    * @param hours calendar exception
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarHours exception)
+   private long getTotalTime(ProjectCalendarHours hours)
    {
-      long total = 0;
-      for (DateRange range : exception)
-      {
-         total += getTime(range.getStart(), range.getEnd());
-      }
-      return (total);
+      return hours.stream().mapToLong(LocalTimeRange::getDurationAsMilliseconds).sum();
    }
 
    /**
@@ -1647,102 +1647,25 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * day, which intersects with the supplied time range.
     *
     * @param hours collection of working hours in a day
-    * @param startDate time range start
-    * @param endDate time range end
-    * @return length of time in milliseconds
-    */
-   private long getTotalTime(ProjectCalendarHours hours, Date startDate, Date endDate)
-   {
-      long total = 0;
-      if (startDate.getTime() != endDate.getTime())
-      {
-         Date start = DateHelper.getCanonicalTime(startDate);
-         Date end = DateHelper.getCanonicalTime(endDate);
-
-         for (DateRange range : hours)
-         {
-            Date rangeStart = range.getStart();
-            Date rangeEnd = range.getEnd();
-            if (rangeStart != null && rangeEnd != null)
-            {
-               Date canoncialRangeStart = DateHelper.getCanonicalTime(rangeStart);
-               Date canonicalRangeEnd = DateHelper.getCanonicalEndTime(rangeStart, rangeEnd);
-
-               if (canoncialRangeStart.getTime() == canonicalRangeEnd.getTime() && rangeEnd.getTime() > rangeStart.getTime())
-               {
-                  total += (24 * 60 * 60 * 1000);
-               }
-               else
-               {
-                  total += getTime(start, end, canoncialRangeStart, canonicalRangeEnd);
-               }
-            }
-         }
-      }
-
-      return (total);
-   }
-
-   /**
-    * Calculates how much of a time range is before or after a
-    * target intersection point.
-    *
     * @param start time range start
     * @param end time range end
-    * @param target target intersection point
-    * @param after true if time after target required, false for time before
     * @return length of time in milliseconds
     */
-   private long getTime(Date start, Date end, long target, boolean after)
+   private long getTotalTime(ProjectCalendarHours hours, LocalTime start, LocalTime end)
    {
-      long total = 0;
-      if (start != null && end != null)
+      if (start.equals(end))
       {
-         Date startTime = DateHelper.getCanonicalTime(start);
-         Date endTime = DateHelper.getCanonicalEndTime(start, end);
-
-         int diff = DateHelper.compare(startTime, endTime, target);
-         if (diff == 0)
-         {
-            if (after)
-            {
-               total = (endTime.getTime() - target);
-            }
-            else
-            {
-               total = (target - startTime.getTime());
-            }
-         }
-         else
-         {
-            if ((after && diff < 0) || (!after && diff > 0))
-            {
-               total = (endTime.getTime() - startTime.getTime());
-            }
-         }
+         return 0;
       }
-      return (total);
-   }
 
-   /**
-    * Retrieves the amount of time between two date time values. Note that
-    * these values are converted into canonical values to remove the
-    * date component.
-    *
-    * @param start start time
-    * @param end end time
-    * @return length of time
-    */
-   private long getTime(Date start, Date end)
-   {
       long total = 0;
-      if (start != null && end != null)
+
+      for (LocalTimeRange range : hours)
       {
-         Date startTime = DateHelper.getCanonicalTime(start);
-         Date endTime = DateHelper.getCanonicalEndTime(start, end);
-         total = (endTime.getTime() - startTime.getTime());
+         total += getTime(start, end, range.getStart(), range.getEnd());
       }
-      return (total);
+
+      return total;
    }
 
    /**
@@ -1755,26 +1678,38 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param end2 end of second range
     * @return overlapping time in milliseconds
     */
-   private long getTime(Date start1, Date end1, Date start2, Date end2)
+   private long getTime(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2)
    {
-      long total = 0;
-
-      if (start1 != null && end1 != null && start2 != null && end2 != null)
+      if (start1 == null || end1 == null || start2 == null || end2 == null)
       {
-         long start;
-         long end;
+         return 0;
+      }
 
-         start = Math.max(start1.getTime(), start2.getTime());
+      LocalTime maxStart = start1.isAfter(start2) ? start1 : start2;
 
-         end = Math.min(end1.getTime(), end2.getTime());
-
-         if (start < end)
+      LocalTime minEnd;
+      if (end1 == LocalTime.MIDNIGHT && end2 != LocalTime.MIDNIGHT)
+      {
+         minEnd = end2;
+      }
+      else
+      {
+         if (end1 != LocalTime.MIDNIGHT && end2 == LocalTime.MIDNIGHT)
          {
-            total = end - start;
+            minEnd = end1;
+         }
+         else
+         {
+            minEnd = end1.isBefore(end2) ? end1 : end2;
          }
       }
 
-      return (total);
+      if (minEnd == LocalTime.MIDNIGHT || maxStart.isBefore(minEnd))
+      {
+         return LocalTimeHelper.getMillisecondsInRange(maxStart, minEnd);
+      }
+
+      return 0;
    }
 
    /**
@@ -1784,7 +1719,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public List<ProjectCalendar> getDerivedCalendars()
    {
-      return Collections.unmodifiableList(m_projectFile.getCalendars().stream().filter(c -> c.m_parent != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
+      return Collections.unmodifiableList(m_projectFile.getCalendars().stream().filter(c -> c.m_parent != null && m_uniqueID != null && m_uniqueID.equals(c.m_parent.m_uniqueID)).collect(Collectors.toList()));
    }
 
    @Override public String toString()
@@ -1796,7 +1731,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       pw.println("   name=" + getName());
       pw.println("   baseCalendarName=" + (m_parent == null ? "" : m_parent.getName()));
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          pw.println("   [Day " + day);
          pw.println("      type=" + getCalendarDayType(day));
@@ -1844,11 +1779,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * Retrieves the working hours on the given date.
     *
     * @param date required date
-    * @param cal optional calendar instance
-    * @param day optional day instance
     * @return working hours
     */
-   protected ProjectCalendarHours getRanges(Date date, Calendar cal, Day day)
+   protected ProjectCalendarHours getRanges(LocalDate date)
    {
       // Check for exceptions for this date in this calendar and any base calendars
       ProjectCalendarHours ranges = getException(date);
@@ -1864,19 +1797,9 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          week = this;
       }
 
-      // Determine the day of the week of if we don't have it
-      if (day == null)
-      {
-         if (cal == null)
-         {
-            cal = Calendar.getInstance();
-            cal.setTime(date);
-         }
-         day = Day.getInstance(cal.get(Calendar.DAY_OF_WEEK));
-      }
-
       // Use the day type to retrieve the ranges
-      switch (week.getCalendarDayType(day))
+      DayOfWeek day = date.getDayOfWeek();
+      switch (week.getCalendarDayType(date.getDayOfWeek()))
       {
          case NON_WORKING:
          {
@@ -1901,6 +1824,35 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    }
 
    /**
+    * Retrieves the working hours on the given day of the week.
+    *
+    * @param day required day
+    * @return working hours
+    */
+   protected ProjectCalendarHours getRanges(DayOfWeek day)
+   {
+      switch (getCalendarDayType(day))
+      {
+         case NON_WORKING:
+         {
+            return EMPTY_DATE_RANGES;
+         }
+
+         case WORKING:
+         {
+            return getCalendarHours(day);
+         }
+
+         case DEFAULT:
+         {
+            return m_parent == null ? EMPTY_DATE_RANGES : m_parent.getHours(day);
+         }
+      }
+
+      return EMPTY_DATE_RANGES;
+   }
+
+   /**
     * Ensure exceptions are sorted.
     */
    private void sortExceptions()
@@ -1919,14 +1871,47 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    private void populateExpandedExceptions()
    {
-      if (!m_exceptions.isEmpty() && m_expandedExceptions.isEmpty())
+      if (m_exceptions.isEmpty() || !m_expandedExceptions.isEmpty())
       {
-         for (ProjectCalendarException exception : m_exceptions)
-         {
-            m_expandedExceptions.addAll(exception.getExpandedExceptions());
-         }
-         Collections.sort(m_expandedExceptions);
+         return;
       }
+
+      // Separate exceptions into recurring and non-recurring.
+      // Non-recurring exceptions are grouped by their recurrence type.
+      List<ProjectCalendarException> nonRecurring = new ArrayList<>();
+      Map<RecurrenceType, List<ProjectCalendarException>> recurring = new HashMap<>();
+      for (ProjectCalendarException exception : m_exceptions)
+      {
+         List<ProjectCalendarException> expanded = exception.getExpandedExceptions();
+         if (expanded.size() == 1)
+         {
+            nonRecurring.add(expanded.get(0));
+         }
+         else
+         {
+            recurring.computeIfAbsent(exception.getRecurring().getRecurrenceType(), k -> new ArrayList<>()).add(exception);
+         }
+      }
+
+      // Process the recurring exceptions in reverse priority order
+      // to ensure that the final contents of the map reflect the effective
+      // exception on each date.
+      Map<LocalDate, ProjectCalendarException> map = new TreeMap<>();
+      for (RecurrenceType type : ORDERED_RECURRENCE_TYPES)
+      {
+         recurring.computeIfAbsent(type, k -> Collections.emptyList()).forEach(e -> e.getExpandedExceptions().forEach(x -> map.put(x.getFromDate(), x)));
+      }
+
+      // Overlay the map with non-recurring exceptions
+      // Non-recurring exceptions have the highest priority and override
+      // expanded exceptions from recurring exceptions.
+      for (ProjectCalendarException exception : nonRecurring)
+      {
+         map.put(exception.getFromDate(), exception);
+      }
+
+      // Note the use of TreeMap ensures our expanded exceptions are sorted
+      m_expandedExceptions.addAll(map.values());
    }
 
    /**
@@ -2019,7 +2004,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    /**
     * Unique identifier of this calendar.
     */
-   private Integer m_uniqueID = Integer.valueOf(0);
+   private Integer m_uniqueID;
+
+   /**
+    * Calendar GUID.
+    */
+   private UUID m_guid;
 
    /**
     * List of exceptions to the base calendar.
@@ -2044,11 +2034,11 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    /**
     * Caches used to speed up date calculations.
     */
-   private final Map<DateRange, Long> m_workingDateCache = new WeakHashMap<>();
-   private final Map<Date, Date> m_startTimeCache = new WeakHashMap<>();
-   private Date m_getDateLastStartDate;
-   private double m_getDateLastRemainingMinutes;
-   private Date m_getDateLastResult;
+   private final Map<LocalDateTimeRange, Long> m_workingDateCache = new WeakHashMap<>();
+   private final Map<LocalDate, LocalTime> m_startTimeCache = new WeakHashMap<>();
+   private LocalDateTime m_getDateLastStartDate;
+   private long m_getDateLastRemainingMilliseconds;
+   private LocalDateTime m_getDateLastResult;
 
    /**
     * Work week definitions.
@@ -2061,6 +2051,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    private Integer m_calendarMinutesPerYear;
    private CalendarType m_type = CalendarType.GLOBAL;
    private boolean m_personal;
+   private final boolean m_temporaryCalendar;
 
    /**
     * Default base calendar name to use when none is supplied.
@@ -2075,6 +2066,14 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * and take an alternative approach.
     */
    private static final int MAX_NONWORKING_DAYS = 1000;
+
+   private static final RecurrenceType[] ORDERED_RECURRENCE_TYPES =
+   {
+      RecurrenceType.WEEKLY,
+      RecurrenceType.MONTHLY,
+      RecurrenceType.YEARLY,
+      RecurrenceType.DAILY
+   };
 
    private static final ProjectCalendarHours EMPTY_DATE_RANGES = new ProjectCalendarHours()
    {

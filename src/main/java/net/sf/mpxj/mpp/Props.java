@@ -25,10 +25,13 @@ package net.sf.mpxj.mpp;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.UUID;
 
 import net.sf.mpxj.common.ByteArrayHelper;
 
@@ -129,14 +132,14 @@ class Props extends MPPComponent
    }
 
    /**
-    * Retrieves a timestamp from the property data.
+    * Retrieves a time from the property data.
     *
     * @param type Type identifier
     * @return timestamp
     */
-   public Date getTime(Integer type)
+   public LocalTime getTime(Integer type)
    {
-      Date result = null;
+      LocalTime result = null;
 
       byte[] item = m_map.get(type);
       if (item != null)
@@ -144,7 +147,7 @@ class Props extends MPPComponent
          result = MPPUtility.getTime(item, 0);
       }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -153,9 +156,9 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return timestamp
     */
-   public Date getTimestamp(Integer type)
+   public LocalDateTime getTimestamp(Integer type)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       byte[] item = m_map.get(type);
       if (item != null)
@@ -210,9 +213,9 @@ class Props extends MPPComponent
     * @param type Type identifier
     * @return string value
     */
-   public Date getDate(Integer type)
+   public LocalDateTime getDate(Integer type)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
       byte[] item = m_map.get(type);
       if (item != null)
@@ -221,6 +224,33 @@ class Props extends MPPComponent
       }
 
       return (result);
+   }
+
+   /**
+    * Retrieves a UUID value from the property data.
+    *
+    * @param type Type identifier
+    * @return UUID value
+    */
+   public UUID getUUID(Integer type)
+   {
+      byte[] item = m_map.get(type);
+      if (item == null)
+      {
+         return null;
+      }
+
+      if (item.length > 16)
+      {
+         // MPP9 stores a string representation of the GUID
+         String value = MPPUtility.getUnicodeString(item, 0, 76);
+         if (value.length() == 38 && value.charAt(0) == '{' && value.charAt(37) == '}')
+         {
+            return UUID.fromString(value.substring(1, 37));
+         }
+      }
+
+      return MPPUtility.getGUID(item, 0);
    }
 
    /**
@@ -265,6 +295,7 @@ class Props extends MPPComponent
    public static final Integer PROJECT_START_DATE = Integer.valueOf(37748738);
    public static final Integer PROJECT_FINISH_DATE = Integer.valueOf(37748739);
    public static final Integer SCHEDULE_FROM = Integer.valueOf(37748740);
+   public static final Integer RESOURCE_POOL = Integer.valueOf(37748747);
    public static final Integer DEFAULT_CALENDAR_NAME = Integer.valueOf(37748750);
    public static final Integer CURRENCY_SYMBOL = Integer.valueOf(37748752);
    public static final Integer CURRENCY_PLACEMENT = Integer.valueOf(37748753);
@@ -283,6 +314,7 @@ class Props extends MPPComponent
    public static final Integer END_TIME = Integer.valueOf(37748769);
 
    public static final Integer WEEK_START_DAY = Integer.valueOf(37748773);
+   public static final Integer GUID = Integer.valueOf(37748777);
    public static final Integer FISCAL_YEAR_START_MONTH = Integer.valueOf(37748780);
    public static final Integer DEFAULT_TASK_TYPE = Integer.valueOf(37748785);
    public static final Integer HONOR_CONSTRAINTS = Integer.valueOf(37748794);
@@ -341,6 +373,8 @@ class Props extends MPPComponent
 
    public static final Integer ASSIGNMENT_FIELD_MAP = Integer.valueOf(131095);
    public static final Integer ASSIGNMENT_FIELD_MAP2 = Integer.valueOf(50331671);
+
+   public static final Integer BASELINE_CALENDAR_NAME = Integer.valueOf(37753747);
 
    public static final Integer BASELINE_DATE = Integer.valueOf(37753749);
    public static final Integer BASELINE1_DATE = Integer.valueOf(37753750);

@@ -23,9 +23,14 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
+import net.sf.mpxj.common.DayOfWeekHelper;
+import net.sf.mpxj.Duration;
 import org.apache.poi.hpsf.CustomProperties;
 import org.apache.poi.hpsf.CustomProperty;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
@@ -35,13 +40,11 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-import net.sf.mpxj.Day;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ScheduleFrom;
-import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
 
@@ -61,8 +64,9 @@ public final class ProjectPropertiesReader
    {
       try
       {
-         // MPPUtility.fileDump("c:\\temp\\props.txt", props.toString().getBytes());
+         //MPPUtility.fileDump("props.txt", props.toString().getBytes());
          ProjectProperties ph = file.getProjectProperties();
+         ph.setGUID(props.getUUID(Props.GUID));
          ph.setStartDate(props.getTimestamp(Props.PROJECT_START_DATE));
          ph.setFinishDate(props.getTimestamp(Props.PROJECT_FINISH_DATE));
          ph.setScheduleFrom(ScheduleFrom.getInstance(1 - props.getShort(Props.SCHEDULE_FROM)));
@@ -80,21 +84,22 @@ public final class ProjectPropertiesReader
          ph.setDefaultWorkUnits(MPPUtility.getWorkTimeUnits(props.getShort(Props.WORK_UNITS)));
          ph.setSplitInProgressTasks(props.getBoolean(Props.SPLIT_TASKS));
          ph.setUpdatingTaskStatusUpdatesResourceStatus(props.getBoolean(Props.TASK_UPDATES_RESOURCE));
-         ph.setCriticalSlackLimit(Integer.valueOf(props.getInt(Props.CRITICAL_SLACK_LIMIT)));
+         ph.setCriticalSlackLimit(Duration.getInstance(props.getInt(Props.CRITICAL_SLACK_LIMIT), TimeUnit.DAYS));
 
          ph.setCurrencyDigits(Integer.valueOf(props.getShort(Props.CURRENCY_DIGITS)));
          ph.setCurrencySymbol(props.getUnicodeString(Props.CURRENCY_SYMBOL));
          ph.setCurrencyCode(props.getUnicodeString(Props.CURRENCY_CODE));
          //ph.setDecimalSeparator();
-         ph.setDefaultTaskType(TaskType.getInstance(props.getShort(Props.DEFAULT_TASK_TYPE)));
+         ph.setDefaultTaskType(TaskTypeHelper.getInstance(props.getShort(Props.DEFAULT_TASK_TYPE)));
          ph.setSymbolPosition(MPPUtility.getSymbolPosition(props.getShort(Props.CURRENCY_PLACEMENT)));
          //ph.setThousandsSeparator();
-         ph.setWeekStartDay(Day.getInstance(props.getShort(Props.WEEK_START_DAY) + 1));
+         ph.setWeekStartDay(DayOfWeekHelper.getInstance(props.getShort(Props.WEEK_START_DAY) + 1));
          ph.setFiscalYearStartMonth(Integer.valueOf(props.getShort(Props.FISCAL_YEAR_START_MONTH)));
          ph.setFiscalYearStart(props.getShort(Props.FISCAL_YEAR_START) == 1);
          ph.setDaysPerMonth(Integer.valueOf(props.getShort(Props.DAYS_PER_MONTH)));
          ph.setEditableActualCosts(props.getBoolean(Props.EDITABLE_ACTUAL_COSTS));
          ph.setHonorConstraints(!props.getBoolean(Props.HONOR_CONSTRAINTS));
+         ph.setBaselineCalendarName(props.getUnicodeString(Props.BASELINE_CALENDAR_NAME));
 
          PropertySet ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(SummaryInformation.DEFAULT_STREAM_NAME))));
          SummaryInformation summaryInformation = new SummaryInformation(ps);
@@ -106,11 +111,11 @@ public final class ProjectPropertiesReader
          ph.setTemplate(summaryInformation.getTemplate());
          ph.setLastAuthor(summaryInformation.getLastAuthor());
          ph.setRevision(NumberHelper.parseInteger(summaryInformation.getRevNumber()));
-         ph.setCreationDate(summaryInformation.getCreateDateTime());
-         ph.setLastSaved(summaryInformation.getLastSaveDateTime());
+         ph.setCreationDate(getLocalDateTime(summaryInformation.getCreateDateTime()));
+         ph.setLastSaved(getLocalDateTime(summaryInformation.getLastSaveDateTime()));
          ph.setShortApplicationName(summaryInformation.getApplicationName());
          ph.setEditingTime(Integer.valueOf((int) summaryInformation.getEditTime()));
-         ph.setLastPrinted(summaryInformation.getLastPrinted());
+         ph.setLastPrinted(getLocalDateTime(summaryInformation.getLastPrinted()));
 
          try
          {
@@ -124,6 +129,7 @@ public final class ProjectPropertiesReader
             // the corrupt data. We'll do the same here. I have raised a bug with POI
             // to see if they want to make the library more robust in the face of bad data.
             // https://bz.apache.org/bugzilla/show_bug.cgi?id=61550
+            file.addIgnoredError(ex);
             ps = null;
          }
 
@@ -143,7 +149,12 @@ public final class ProjectPropertiesReader
          {
             for (CustomProperty property : customProperties.properties())
             {
-               customPropertiesMap.put(property.getName(), property.getValue());
+               Object value = property.getValue();
+               if (value instanceof Date)
+               {
+                  value = getLocalDateTime((Date) value);
+               }
+               customPropertiesMap.put(property.getName(), value);
             }
          }
          ph.setCustomProperties(customPropertiesMap);
@@ -163,6 +174,8 @@ public final class ProjectPropertiesReader
          ph.setBaselineDate(10, props.getTimestamp(Props.BASELINE10_DATE));
 
          ph.setNewTasksAreManual(props.getBoolean(Props.NEW_TASKS_ARE_MANUAL));
+
+         ph.setResourcePoolFile(getResourcePool(props.getByteArray(Props.RESOURCE_POOL)));
       }
 
       catch (Exception ex)
@@ -170,4 +183,48 @@ public final class ProjectPropertiesReader
          throw new MPXJException(MPXJException.READ_ERROR, ex);
       }
    }
+
+   private String getResourcePool(byte[] data)
+   {
+      if (data == null)
+      {
+         return null;
+      }
+
+      // 18 byte header
+      int offset = 18;
+      if (offset + 4 >= data.length)
+      {
+         return null;
+      }
+
+      // Length of the 8.3 filename
+      int length = MPPUtility.getInt(data, offset);
+      offset += 4;
+
+      // 8.3 filename
+      offset += length;
+
+      // 34 byte header
+      offset += 34;
+      if (offset >= data.length)
+      {
+         return null;
+      }
+
+      return MPPUtility.getUnicodeString(data, offset);
+   }
+
+   private LocalDateTime getLocalDateTime(Date date)
+   {
+      if (date == null)
+      {
+         return null;
+      }
+
+      m_calendar.setTime(date);
+      return LocalDateTime.of(m_calendar.get(Calendar.YEAR), m_calendar.get(Calendar.MONTH) + 1, m_calendar.get(Calendar.DAY_OF_MONTH), m_calendar.get(Calendar.HOUR_OF_DAY), m_calendar.get(Calendar.MINUTE), m_calendar.get(Calendar.SECOND));
+   }
+
+   private final Calendar m_calendar = Calendar.getInstance();
 }

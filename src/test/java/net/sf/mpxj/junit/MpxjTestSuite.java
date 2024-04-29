@@ -24,7 +24,7 @@
 package net.sf.mpxj.junit;
 
 import net.sf.mpxj.junit.assignment.EffectiveRateTest;
-import net.sf.mpxj.junit.calendar.GetStartDateTest;
+import net.sf.mpxj.mspdi.XsdDurationTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -71,6 +71,8 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
  * Ideally this would be generated dynamically, which is fine when running under
  * a JVM, but various approaches to this failed when running under IKVM...
  * so a big list of classes it is!
+ *
+ * TODO: revisit making this dynamic when working with the modern IKVM implementation
  */
 @RunWith(Suite.class) @Suite.SuiteClasses(
 {
@@ -153,9 +155,14 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    LocaleDataTest.class,
    MultiDayExceptionsTest.class,
    SemVerTest.class,
-   GetStartDateTest.class,
    EffectiveRateTest.class,
    CombinedCalendarTest.class,
+   XsdDurationTest.class,
+   CalendarExceptionPrecedenceTest.class,
+   TimescaleUtilityTest.class,
+   ResourceHierarchyTest.class,
+   XmlRelationshipLagCalendarTest.class,
+   XerRelationshipLagCalendarTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {

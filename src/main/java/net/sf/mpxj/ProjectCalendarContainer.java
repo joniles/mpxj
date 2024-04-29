@@ -23,6 +23,8 @@
 
 package net.sf.mpxj;
 
+import java.time.DayOfWeek;
+
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -42,6 +44,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
 
    @Override public void removed(ProjectCalendar calendar)
    {
+      super.removed(calendar);
       calendar.getDerivedCalendars().forEach(c -> c.setParent(null));
       calendar.getResources().forEach(r -> r.setCalendar(null));
       calendar.getTasks().forEach(t -> t.setCalendar(null));
@@ -88,13 +91,13 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
    {
       ProjectCalendar calendar = add();
 
-      calendar.setCalendarDayType(Day.SUNDAY, DayType.DEFAULT);
-      calendar.setCalendarDayType(Day.MONDAY, DayType.DEFAULT);
-      calendar.setCalendarDayType(Day.TUESDAY, DayType.DEFAULT);
-      calendar.setCalendarDayType(Day.WEDNESDAY, DayType.DEFAULT);
-      calendar.setCalendarDayType(Day.THURSDAY, DayType.DEFAULT);
-      calendar.setCalendarDayType(Day.FRIDAY, DayType.DEFAULT);
-      calendar.setCalendarDayType(Day.SATURDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.SUNDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.MONDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.TUESDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.WEDNESDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.THURSDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.FRIDAY, DayType.DEFAULT);
+      calendar.setCalendarDayType(DayOfWeek.SATURDAY, DayType.DEFAULT);
 
       return (calendar);
    }
@@ -122,9 +125,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
             result = addDefaultBaseCalendar();
             if (NumberHelper.getInt(result.getUniqueID()) == 0)
             {
-               ProjectConfig config = m_projectFile.getProjectConfig();
-               config.updateCalendarUniqueCounter();
-               result.setUniqueID(Integer.valueOf(config.getNextCalendarUniqueID()));
+               result.setUniqueID(m_projectFile.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
             }
          }
       }
@@ -143,7 +144,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
    {
       ProjectCalendar calendar = null;
 
-      if (calendarName != null && calendarName.length() != 0)
+      if (calendarName != null && !calendarName.isEmpty())
       {
          for (ProjectCalendar projectCalendar : this)
          {

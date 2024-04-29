@@ -24,8 +24,11 @@
 
 package net.sf.mpxj;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +36,6 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.PopulatedFields;
 import net.sf.mpxj.common.ProjectFieldLists;
@@ -71,7 +73,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
       setDateOrder(DateOrder.DMY);
       setTimeFormat(ProjectTimeFormat.TWELVE_HOUR);
-      setDefaultStartTime(DateHelper.getTimeFromMinutesPastMidnight(Integer.valueOf(480)));
+      setDefaultStartTime(LocalTime.of(8, 0));
       setDateSeparator(DEFAULT_DATE_SEPARATOR);
       setTimeSeparator(DEFAULT_TIME_SEPARATOR);
       setAMText("am");
@@ -101,7 +103,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setStartDate(null);
       setFinishDate(null);
       setScheduleFrom(DEFAULT_SCHEDULE_FROM);
-      setCurrentDate(new Date());
+      setCurrentDate(LocalDateTime.now());
       setComments(null);
       setCost(DEFAULT_COST);
       setBaselineCost(DEFAULT_COST);
@@ -146,6 +148,8 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       setNewTasksAreManual(true);
       setWeekStartDay(DEFAULT_WEEK_START_DAY);
       setCriticalActivityType(CriticalActivityType.TOTAL_FLOAT);
+      setTotalSlackCalculationType(TotalSlackCalculationType.SMALLEST_SLACK);
+      setRelationshipLagCalendar(RelationshipLagCalendar.PREDECESSOR);
    }
 
    /**
@@ -277,7 +281,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Flag representing whether or not to split in-progress tasks.
+    * Flag representing whether to split in-progress tasks.
     *
     * @return Boolean value
     */
@@ -287,7 +291,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
-    * Flag representing whether or not to split in-progress tasks.
+    * Flag representing whether to split in-progress tasks.
     *
     * @param flag boolean value
     */
@@ -344,9 +348,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return default start time
     */
-   public Date getDefaultStartTime()
+   public LocalTime getDefaultStartTime()
    {
-      return (Date) get(ProjectField.DEFAULT_START_TIME);
+      return (LocalTime) get(ProjectField.DEFAULT_START_TIME);
    }
 
    /**
@@ -357,7 +361,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param defaultStartTime default time
     */
-   public void setDefaultStartTime(Date defaultStartTime)
+   public void setDefaultStartTime(LocalTime defaultStartTime)
    {
       set(ProjectField.DEFAULT_START_TIME, defaultStartTime);
    }
@@ -487,9 +491,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return End time
     */
-   public Date getDefaultEndTime()
+   public LocalTime getDefaultEndTime()
    {
-      return (Date) get(ProjectField.DEFAULT_END_TIME);
+      return (LocalTime) get(ProjectField.DEFAULT_END_TIME);
    }
 
    /**
@@ -497,7 +501,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param date End time
     */
-   public void setDefaultEndTime(Date date)
+   public void setDefaultEndTime(LocalTime date)
    {
       set(ProjectField.DEFAULT_END_TIME, date);
    }
@@ -563,6 +567,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Set the default calendar unique ID for this project.
+    *
+    * @param id default calendar unique ID
+    */
+   public void setDefaultCalendarUniqueID(Integer id)
+   {
+      set(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID, id);
+   }
+
+   /**
+    * Retrieve the default calendar unique ID for this project.
+    *
+    * @return default calendar unique ID
+    */
+   public Integer getDefaultCalendarUniqueID()
+   {
+      return (Integer) get(ProjectField.DEFAULT_CALENDAR_UNIQUE_ID);
+   }
+
+   /**
     * Set the default calendar for this project.
     *
     * @param calendar default calendar
@@ -587,7 +611,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param startDate project start date
     */
-   public void setStartDate(Date startDate)
+   public void setStartDate(LocalDateTime startDate)
    {
       set(ProjectField.START_DATE, startDate);
    }
@@ -598,9 +622,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return project start date
     */
-   public Date getStartDate()
+   public LocalDateTime getStartDate()
    {
-      return (Date) get(ProjectField.START_DATE);
+      return (LocalDateTime) get(ProjectField.START_DATE);
    }
 
    /**
@@ -609,9 +633,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return project finish date
     */
-   public Date getFinishDate()
+   public LocalDateTime getFinishDate()
    {
-      return (Date) get(ProjectField.FINISH_DATE);
+      return (LocalDateTime) get(ProjectField.FINISH_DATE);
    }
 
    /**
@@ -619,7 +643,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param finishDate project finish date
     */
-   public void setFinishDate(Date finishDate)
+   public void setFinishDate(LocalDateTime finishDate)
    {
       set(ProjectField.FINISH_DATE, finishDate);
    }
@@ -651,9 +675,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return current date
     */
-   public Date getCurrentDate()
+   public LocalDateTime getCurrentDate()
    {
-      return (Date) get(ProjectField.CURRENT_DATE);
+      return (LocalDateTime) get(ProjectField.CURRENT_DATE);
    }
 
    /**
@@ -661,7 +685,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param currentDate current date
     */
-   public void setCurrentDate(Date currentDate)
+   public void setCurrentDate(LocalDateTime currentDate)
    {
       set(ProjectField.CURRENT_DATE, currentDate);
    }
@@ -911,7 +935,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param baselineStartDate baseline project start date
     */
-   public void setBaselineStart(Date baselineStartDate)
+   public void setBaselineStart(LocalDateTime baselineStartDate)
    {
       set(ProjectField.BASELINE_START, baselineStartDate);
    }
@@ -921,9 +945,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return baseline project start date
     */
-   public Date getBaselineStart()
+   public LocalDateTime getBaselineStart()
    {
-      return (Date) get(ProjectField.BASELINE_START);
+      return (LocalDateTime) get(ProjectField.BASELINE_START);
    }
 
    /**
@@ -931,7 +955,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param baselineFinishDate baseline project finish date
     */
-   public void setBaselineFinish(Date baselineFinishDate)
+   public void setBaselineFinish(LocalDateTime baselineFinishDate)
    {
       set(ProjectField.BASELINE_FINISH, baselineFinishDate);
    }
@@ -941,9 +965,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return baseline project finish date
     */
-   public Date getBaselineFinish()
+   public LocalDateTime getBaselineFinish()
    {
-      return (Date) get(ProjectField.BASELINE_FINISH);
+      return (LocalDateTime) get(ProjectField.BASELINE_FINISH);
    }
 
    /**
@@ -951,7 +975,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param actualStartDate actual project start date
     */
-   public void setActualStart(Date actualStartDate)
+   public void setActualStart(LocalDateTime actualStartDate)
    {
       set(ProjectField.ACTUAL_START, actualStartDate);
    }
@@ -961,9 +985,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return actual project start date
     */
-   public Date getActualStart()
+   public LocalDateTime getActualStart()
    {
-      return (Date) get(ProjectField.ACTUAL_START);
+      return (LocalDateTime) get(ProjectField.ACTUAL_START);
    }
 
    /**
@@ -971,7 +995,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param actualFinishDate actual project finish date
     */
-   public void setActualFinish(Date actualFinishDate)
+   public void setActualFinish(LocalDateTime actualFinishDate)
    {
       set(ProjectField.ACTUAL_FINISH, actualFinishDate);
    }
@@ -981,9 +1005,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return actual project finish date
     */
-   public Date getActualFinish()
+   public LocalDateTime getActualFinish()
    {
-      return (Date) get(ProjectField.ACTUAL_FINISH);
+      return (LocalDateTime) get(ProjectField.ACTUAL_FINISH);
    }
 
    /**
@@ -1114,15 +1138,15 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    /**
     * Sets the position of the currency symbol.
     *
-    * @param posn currency symbol position.
+    * @param value currency symbol position.
     */
-   public void setSymbolPosition(CurrencySymbolPosition posn)
+   public void setSymbolPosition(CurrencySymbolPosition value)
    {
-      if (posn == null)
+      if (value == null)
       {
-         posn = DEFAULT_CURRENCY_SYMBOL_POSITION;
+         value = DEFAULT_CURRENCY_SYMBOL_POSITION;
       }
-      set(ProjectField.CURRENCY_SYMBOL_POSITION, posn);
+      set(ProjectField.CURRENCY_SYMBOL_POSITION, value);
    }
 
    /**
@@ -1512,9 +1536,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return last saved date
     */
-   public Date getLastSaved()
+   public LocalDateTime getLastSaved()
    {
-      return (Date) get(ProjectField.LAST_SAVED);
+      return (LocalDateTime) get(ProjectField.LAST_SAVED);
    }
 
    /**
@@ -1522,7 +1546,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param lastSaved last saved date
     */
-   public void setLastSaved(Date lastSaved)
+   public void setLastSaved(LocalDateTime lastSaved)
    {
       set(ProjectField.LAST_SAVED, lastSaved);
    }
@@ -1532,9 +1556,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return status date
     */
-   public Date getStatusDate()
+   public LocalDateTime getStatusDate()
    {
-      return (Date) get(ProjectField.STATUS_DATE);
+      return (LocalDateTime) get(ProjectField.STATUS_DATE);
    }
 
    /**
@@ -1542,7 +1566,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param statusDate status date
     */
-   public void setStatusDate(Date statusDate)
+   public void setStatusDate(LocalDateTime statusDate)
    {
       set(ProjectField.STATUS_DATE, statusDate);
    }
@@ -1912,9 +1936,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return project creation date
     */
-   public Date getCreationDate()
+   public LocalDateTime getCreationDate()
    {
-      return (Date) get(ProjectField.CREATION_DATE);
+      return (LocalDateTime) get(ProjectField.CREATION_DATE);
    }
 
    /**
@@ -1922,7 +1946,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param creationDate project creation date
     */
-   public void setCreationDate(Date creationDate)
+   public void setCreationDate(LocalDateTime creationDate)
    {
       set(ProjectField.CREATION_DATE, creationDate);
    }
@@ -1932,9 +1956,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return extended creation date
     */
-   public Date getExtendedCreationDate()
+   public LocalDateTime getExtendedCreationDate()
    {
-      return (Date) get(ProjectField.EXTENDED_CREATION_DATE);
+      return (LocalDateTime) get(ProjectField.EXTENDED_CREATION_DATE);
    }
 
    /**
@@ -1962,7 +1986,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param creationDate extended creation date
     */
-   public void setExtendedCreationDate(Date creationDate)
+   public void setExtendedCreationDate(LocalDateTime creationDate)
    {
       set(ProjectField.EXTENDED_CREATION_DATE, creationDate);
    }
@@ -1972,9 +1996,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return critical slack limit
     */
-   public Integer getCriticalSlackLimit()
+   public Duration getCriticalSlackLimit()
    {
-      return (Integer) get(ProjectField.CRITICAL_SLACK_LIMIT);
+      return (Duration) get(ProjectField.CRITICAL_SLACK_LIMIT);
    }
 
    /**
@@ -1982,7 +2006,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param criticalSlackLimit critical slack limit
     */
-   public void setCriticalSlackLimit(Integer criticalSlackLimit)
+   public void setCriticalSlackLimit(Duration criticalSlackLimit)
    {
       set(ProjectField.CRITICAL_SLACK_LIMIT, criticalSlackLimit);
    }
@@ -2078,9 +2102,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return week start day
     */
-   public Day getWeekStartDay()
+   public DayOfWeek getWeekStartDay()
    {
-      return (Day) get(ProjectField.WEEK_START_DAY);
+      return (DayOfWeek) get(ProjectField.WEEK_START_DAY);
    }
 
    /**
@@ -2088,7 +2112,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param weekStartDay week start day
     */
-   public void setWeekStartDay(Day weekStartDay)
+   public void setWeekStartDay(DayOfWeek weekStartDay)
    {
       set(ProjectField.WEEK_START_DAY, weekStartDay);
    }
@@ -2178,9 +2202,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return baseline value
     */
-   public Date getBaselineDate()
+   public LocalDateTime getBaselineDate()
    {
-      return (Date) get(ProjectField.BASELINE_DATE);
+      return (LocalDateTime) get(ProjectField.BASELINE_DATE);
    }
 
    /**
@@ -2188,7 +2212,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param value baseline value
     */
-   public void setBaselineDate(Date value)
+   public void setBaselineDate(LocalDateTime value)
    {
       set(ProjectField.BASELINE_DATE, value);
    }
@@ -2199,9 +2223,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
-   public Date getBaselineDate(int baselineNumber)
+   public LocalDateTime getBaselineDate(int baselineNumber)
    {
-      return (Date) get(selectField(ProjectFieldLists.BASELINE_DATES, baselineNumber));
+      return (LocalDateTime) get(selectField(ProjectFieldLists.BASELINE_DATES, baselineNumber));
    }
 
    /**
@@ -2210,7 +2234,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
-   public void setBaselineDate(int baselineNumber, Date value)
+   public void setBaselineDate(int baselineNumber, LocalDateTime value)
    {
       set(selectField(ProjectFieldLists.BASELINE_DATES, baselineNumber), value);
    }
@@ -2260,9 +2284,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return last printed property
     */
-   public Date getLastPrinted()
+   public LocalDateTime getLastPrinted()
    {
-      return (Date) get(ProjectField.LASTPRINTED);
+      return (LocalDateTime) get(ProjectField.LASTPRINTED);
    }
 
    /**
@@ -2270,7 +2294,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param lastPrinted property value
     */
-   public void setLastPrinted(Date lastPrinted)
+   public void setLastPrinted(LocalDateTime lastPrinted)
    {
       set(ProjectField.LASTPRINTED, lastPrinted);
    }
@@ -2557,7 +2581,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
 
    /**
     * This method retrieves a value representing the type of MPP file
-    * that has been read. Currently this method will return the value 8 for
+    * that has been read. Currently, this method will return the value 8 for
     * an MPP8 file (Project 98), 9 for an MPP9 file (Project 2000 and
     * Project 2002), 12 for an MPP12 file (Project 2003, Project 2007) and 14 for an
     * MPP14 file (Project 2010 and Project 2013).
@@ -2726,7 +2750,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param date must finish by date
     */
-   public void setMustFinishBy(Date date)
+   public void setMustFinishBy(LocalDateTime date)
    {
       set(ProjectField.MUST_FINISH_BY, date);
    }
@@ -2736,9 +2760,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return must finish by date
     */
-   public Date getMustFinishBy()
+   public LocalDateTime getMustFinishBy()
    {
-      return (Date) get(ProjectField.MUST_FINISH_BY);
+      return (LocalDateTime) get(ProjectField.MUST_FINISH_BY);
    }
 
    /**
@@ -2746,7 +2770,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param date scheduled finish by date
     */
-   public void setScheduledFinish(Date date)
+   public void setScheduledFinish(LocalDateTime date)
    {
       set(ProjectField.SCHEDULED_FINISH, date);
    }
@@ -2756,9 +2780,9 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return scheduled finish by date
     */
-   public Date getScheduledFinish()
+   public LocalDateTime getScheduledFinish()
    {
-      return (Date) get(ProjectField.SCHEDULED_FINISH);
+      return (LocalDateTime) get(ProjectField.SCHEDULED_FINISH);
    }
 
    /**
@@ -2766,7 +2790,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @param date planned start by date
     */
-   public void setPlannedStart(Date date)
+   public void setPlannedStart(LocalDateTime date)
    {
       set(ProjectField.PLANNED_START, date);
    }
@@ -2776,17 +2800,708 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     *
     * @return planned start by date
     */
-   public Date getPlannedStart()
+   public LocalDateTime getPlannedStart()
    {
-      return (Date) get(ProjectField.PLANNED_START);
+      return (LocalDateTime) get(ProjectField.PLANNED_START);
    }
 
    /**
-    * Maps a field index to a TaskField instance.
+    * Retrieves the location unique ID.
+    *
+    * @return location unique ID
+    */
+   public Integer getLocationUniqueID()
+   {
+      return (Integer) get(ProjectField.LOCATION_UNIQUE_ID);
+   }
+
+   /**
+    * Sets the location unique ID.
+    *
+    * @param uniqueID location unique ID
+    */
+   public void setLocationUniqueID(Integer uniqueID)
+   {
+      set(ProjectField.LOCATION_UNIQUE_ID, uniqueID);
+   }
+
+   /**
+    * Retrieves the location.
+    *
+    * @return location.
+    */
+   public Location getLocation()
+   {
+      return getParentFile().getLocations().getByUniqueID(getLocationUniqueID());
+   }
+
+   /**
+    * Sets the location.
+    *
+    * @param location location
+    */
+   public void setLocation(Location location)
+   {
+      setLocationUniqueID(location == null ? null : location.getUniqueID());
+   }
+
+   /**
+    * Retrieve the resource pool file associated with this project.
+    *
+    * @return resource pool file
+    */
+   public String getResourcePoolFile()
+   {
+      return (String) get(ProjectField.RESOURCE_POOL_FILE);
+   }
+
+   /**
+    * Set the resource pool file associated with this project.
+    *
+    * @param file resource pool file
+    */
+   public void setResourcePoolFile(String file)
+   {
+      set(ProjectField.RESOURCE_POOL_FILE, file);
+   }
+
+   /**
+    * Retrieve a ProjectFile instance representing the resource pool for this project
+    * Returns null if this project does not have a resource pool or the file cannot be read.
+    *
+    * @return ProjectFile instance for the resource pool
+    */
+   public ProjectFile getResourcePoolObject()
+   {
+      return getParentFile().readExternalProject(getResourcePoolFile());
+   }
+
+   /**
+    * Set the total slack calculation type.
+    *
+    * @param type total slack calculation type
+    */
+   public void setTotalSlackCalculationType(TotalSlackCalculationType type)
+   {
+      set(ProjectField.TOTAL_SLACK_CALCULATION_TYPE, type);
+   }
+
+   /**
+    * Retrieve the total slack calculation type.
+    *
+    * @return total slack calculation type
+    */
+   public TotalSlackCalculationType getTotalSlackCalculationType()
+   {
+      return (TotalSlackCalculationType) get(ProjectField.TOTAL_SLACK_CALCULATION_TYPE);
+   }
+
+   /**
+    * Set the relationship lag calendar.
+    *
+    * @param calendar relationship lag calendar
+    */
+   public void setRelationshipLagCalendar(RelationshipLagCalendar calendar)
+   {
+      set(ProjectField.RELATIONSHIP_LAG_CALENDAR, calendar);
+   }
+
+   /**
+    * Retrieve the relationship lag calendar.
+    *
+    * @return relationship lag calendar
+    */
+   public RelationshipLagCalendar getRelationshipLagCalendar()
+   {
+      return (RelationshipLagCalendar) get(ProjectField.RELATIONSHIP_LAG_CALENDAR);
+   }
+
+   /**
+    * Retrieve the WBS Code separator character.
+    *
+    * @return WBS Code separator character
+    */
+   public String getWbsCodeSeparator()
+   {
+      return (String) get(ProjectField.WBS_CODE_SEPARATOR);
+   }
+
+   /**
+    * Set the WBS Code separator character.
+    *
+    * @param value WBS Code separator character
+    */
+   public void setWbsCodeSeparator(String value)
+   {
+      set(ProjectField.WBS_CODE_SEPARATOR, value);
+   }
+
+   /**
+    * Retrieve the consider assignments in other projects when leveling flag.
+    *
+    * @return consider assignments in other projects flag
+    */
+   public boolean getConsiderAssignmentsInOtherProjects()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS));
+   }
+
+   /**
+    * Set the consider assignments in other projects when leveling flag.
+    *
+    * @param value consider assignments in other projects fla
+    */
+   public void setConsiderAssignmentsInOtherProjects(boolean value)
+   {
+      set(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS, value);
+   }
+
+   /**
+    * Retrieve the priority of assignment in other projects to consider when leveling.
+    *
+    * @return assignment priority
+    */
+   public Integer getConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan()
+   {
+      return (Integer) get(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN);
+   }
+
+   /**
+    * Set the priority of assignment in other projects to consider when leveling.
+    *
+    * @param value assignment priority
+    */
+   public void setConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan(Integer value)
+   {
+      set(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN, value);
+   }
+
+   /**
+    * Retrieve the preserve scheduled early and late dates flag.
+    *
+    * @return preserve scheduled early and late dates flag
+    */
+   public boolean getPreserveScheduledEarlyAndLateDates()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES));
+   }
+
+   /**
+    * Set the preserve scheduled early and late dates flag.
+    *
+    * @param value preserve scheduled early and late dates flag
+    */
+   public void setPreserveScheduledEarlyAndLateDates(boolean value)
+   {
+      set(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES, value);
+   }
+
+   /**
+    * Retrieve the level all resources flag.
+    *
+    * @return level all resources flag
+    */
+   public boolean getLevelAllResources()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.LEVEL_ALL_RESOURCES));
+   }
+
+   /**
+    * Set the level all resources flag.
+    *
+    * @param value level all resources flag
+    */
+   public void setLevelAllResources(boolean value)
+   {
+      set(ProjectField.LEVEL_ALL_RESOURCES, value);
+   }
+
+   /**
+    * Retrieve the level resources only within activity total float flag.
+    *
+    * @return level resources only within activity total float flag
+    */
+   public boolean getLevelResourcesOnlyWithinActivityTotalFloat()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT));
+   }
+
+   /**
+    * Set the level resources only within activity total float flag.
+    *
+    * @param value level resources only within activity total float flag
+    */
+   public void setLevelResourcesOnlyWithinActivityTotalFloat(boolean value)
+   {
+      set(ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT, value);
+   }
+
+   /**
+    * Retrieve the preserve minimum float when leveling value.
+    *
+    * @return float to preserve when leveling
+    */
+   public Duration getPreserveMinimumFloatWhenLeveling()
+   {
+      return (Duration) get(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING);
+   }
+
+   /**
+    * Set the preserve minimum float when leveling value.
+    *
+    * @param value float to preserve when leveling
+    */
+   public void setPreserveMinimumFloatWhenLeveling(Duration value)
+   {
+      set(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING, value);
+   }
+
+   /**
+    * Retrieve the maximum percentage to overallocate resources.
+    *
+    * @return maximum percentage to overallocate resources
+    */
+   public Number getMaxPercentToOverallocateResources()
+   {
+      return (Number) get(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES);
+   }
+
+   /**
+    * Set the maximum percentage to overallocate resources.
+    *
+    * @param value maximum percentage to overallocate resources
+    */
+   public void setMaxPercentToOverallocateResources(Number value)
+   {
+      set(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES, value);
+   }
+
+   /**
+    * Retrieve the leveling priorities expression.
+    *
+    * @return leveling priorities expression
+    */
+   public String getLevelingPriorities()
+   {
+      return (String) get(ProjectField.LEVELING_PRIORITIES);
+   }
+
+   /**
+    * Set the leveling priorities expression.
+    *
+    * @param value leveling priorities expression
+    */
+   public void setLevelingPriorities(String value)
+   {
+      set(ProjectField.LEVELING_PRIORITIES, value);
+   }
+
+   /**
+    * Retrieve the data date and planned start set to project forecast start flag.
+    *
+    * @return data date and planned start set to project forecast start flag
+    */
+   public boolean getDataDateAndPlannedStartSetToProjectForecastStart()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START));
+   }
+
+   /**
+    * Set the data date and planned start set to project forecast start flag.
+    *
+    * @param value data date and planned start set to project forecast start flag
+    */
+   public void setDataDateAndPlannedStartSetToProjectForecastStart(boolean value)
+   {
+      set(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START, value);
+   }
+
+   /**
+    * Retrieve the ignore relationships to and from other projects flag.
+    *
+    * @return ignore relationships to and from other projects flag
+    */
+   public boolean getIgnoreRelationshipsToAndFromOtherProjects()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS));
+   }
+
+   /**
+    * Set the ignore relationships to and from other projects flag.
+    *
+    * @param value ignore relationships to and from other projects flag
+    */
+   public void setIgnoreRelationshipsToAndFromOtherProjects(boolean value)
+   {
+      set(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS, value);
+   }
+
+   /**
+    * Retrieve the mark open-ended activities as critical flag.
+    *
+    * @return mark open-ended activities as critical flag
+    */
+   public boolean getMakeOpenEndedActivitiesCritical()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL));
+   }
+
+   /**
+    * Set the mark open-ended activities as critical flag.
+    *
+    * @param value mark open-ended activities as critical flag
+    */
+   public void setMakeOpenEndedActivitiesCritical(boolean value)
+   {
+      set(ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL, value);
+   }
+
+   /**
+    * Retrieve the use expected finish dates flag.
+    *
+    * @return use expected finish dates flag
+    */
+   public boolean getUseExpectedFinishDates()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.USE_EXPECTED_FINISH_DATES));
+   }
+
+   /**
+    * Set the use expected finish dates flag.
+    *
+    * @param value use expected finish dates flag
+    */
+   public void setUseExpectedFinishDates(boolean value)
+   {
+      set(ProjectField.USE_EXPECTED_FINISH_DATES, value);
+   }
+
+   /**
+    * Retrieve the compute start to start lag from early start flag.
+    *
+    * @return start to start lag from early start flag
+    */
+   public boolean getComputeStartToStartLagFromEarlyStart()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START));
+   }
+
+   /**
+    * Set the compute start to start lag from early start flag.
+    *
+    * @param value compute start to start lag from early start flag
+    */
+   public void setComputeStartToStartLagFromEarlyStart(boolean value)
+   {
+      set(ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START, value);
+   }
+
+   /**
+    * Set the calculate float based on finish date of each project flag.
+    *
+    * @return calculate float based on finish date of each project flag
+    */
+   public boolean getCalculateFloatBasedOnFinishDateOfEachProject()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT));
+   }
+
+   /**
+    * Set the calculate float based on finish date of each project flag.
+    *
+    * @param value calculate float based on finish date of each project flag
+    */
+   public void setCalculateFloatBasedOnFinishDateOfEachProject(boolean value)
+   {
+      set(ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT, value);
+   }
+
+   /**
+    * Get the calculate multiple float paths flag.
+    *
+    * @return calculate multiple float paths flag
+    */
+   public boolean getCalculateMultipleFloatPaths()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS));
+   }
+
+   /**
+    * Set the calculate multiple float paths flag.
+    *
+    * @param value calculate multiple float paths flag
+    */
+   public void setCalculateMultipleFloatPaths(boolean value)
+   {
+      set(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS, value);
+   }
+
+   /**
+    * Retrieve the calculate multiple float paths using total float flag.
+    *
+    * @return calculate multiple float paths using total float flag
+    */
+   public boolean getCalculateMultipleFloatPathsUsingTotalFloat()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT));
+   }
+
+   /**
+    * Set the calculate multiple float paths using total float flag.
+    *
+    * @param value calculate multiple float paths using total float flag
+    */
+   public void setCalculateMultipleFloatPathsUsingTotalFloat(boolean value)
+   {
+      set(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT, value);
+   }
+
+   /**
+    * Retrieve the display multiple float paths ending with activity unique ID value.
+    *
+    * @return display multiple float paths ending with activity unique ID value
+    */
+   public Integer getDisplayMultipleFloatPathsEndingWithActivityUniqueID()
+   {
+      return (Integer) get(ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY_UNIQUE_ID);
+   }
+
+   /**
+    * Set the display multiple float paths ending with activity unique ID value.
+    *
+    * @param value display multiple float paths ending with activity unique ID value
+    */
+   public void setDisplayMultipleFloatPathsEndingWithActivityUniqueID(Integer value)
+   {
+      set(ProjectField.DISPLAY_MULTIPLE_FLOAT_PATHS_ENDING_WITH_ACTIVITY_UNIQUE_ID, value);
+   }
+
+   /**
+    * Retrieve the limit number of paths to calculate flag.
+    *
+    * @return limit number of paths to calculate flag
+    */
+   public boolean getLimitNumberOfFloatPathsToCalculate()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE));
+   }
+
+   /**
+    * Set the limit number of paths to calculate flag.
+    *
+    * @param value limit number of paths to calculate flag
+    */
+   public void setLimitNumberOfFloatPathsToCalculate(boolean value)
+   {
+      set(ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, value);
+   }
+
+   /**
+    * Retrieve the maximum number of float paths to calculate.
+    *
+    * @return maximum number of float paths to calculate.
+    */
+   public Integer getMaximumNumberOfFloatPathsToCalculate()
+   {
+      return (Integer) get(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE);
+   }
+
+   /**
+    * Set the method used when scheduling progressed activities.
+    *
+    * @param value scheduling progressed activities method
+    */
+   public void setSchedulingProgressedActivities(SchedulingProgressedActivities value)
+   {
+      set(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES, value);
+   }
+
+   /**
+    * Retrieve the method used when scheduling progressed activities.
+    *
+    * @return maximum number of float paths to calculate.
+    */
+   public SchedulingProgressedActivities getSchedulingProgressedActivities()
+   {
+      return (SchedulingProgressedActivities) get(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES);
+   }
+
+   /**
+    * Set the maximum number of float paths to calculate.
+    *
+    * @param value maximum number of float paths to calculate
+    */
+   public void setMaximumNumberOfFloatPathsToCalculate(Integer value)
+   {
+      set(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, value);
+   }
+
+   /**
+    * Retrieve the name of the baseline type associated with this project.
+    *
+    * @return baseline type name
+    */
+   public String getBaselineTypeName()
+   {
+      return (String) get(ProjectField.BASELINE_TYPE_NAME);
+   }
+
+   /**
+    * Set the name of the baseline type associated with this project.
+    *
+    * @param value baseline type name
+    */
+   public void setBaselineTypeName(String value)
+   {
+      set(ProjectField.BASELINE_TYPE_NAME, value);
+   }
+
+   /**
+    * Retrieve the unique ID of the baseline type associated with this project.
+    *
+    * @return baseline type unique ID
+    */
+   public Integer getBaselineTypeUniqueID()
+   {
+      return (Integer) get(ProjectField.BASELINE_TYPE_UNIQUE_ID);
+   }
+
+   /**
+    * Set the unique ID of the baseline type associated with this project.
+    *
+    * @param value baseline type unique ID
+    */
+   public void setBaselineTypeUniqueID(Integer value)
+   {
+      set(ProjectField.BASELINE_TYPE_UNIQUE_ID, value);
+   }
+
+   /**
+    * Retrieve the last baseline update date.
+    *
+    * @return last baseline update date
+    */
+   public LocalDateTime getLastBaselineUpdateDate()
+   {
+      return (LocalDateTime) get(ProjectField.LAST_BASELINE_UPDATE_DATE);
+   }
+
+   /**
+    * Set the last baseline update date.
+    *
+    * @param value last baseline update date
+    */
+   public void setLastBaselineUpdateDate(LocalDateTime value)
+   {
+      set(ProjectField.LAST_BASELINE_UPDATE_DATE, value);
+   }
+
+   /**
+    * Retrieve the prefix used when creating an Activity ID.
+    *
+    * @return activity ID prefix
+    */
+   public String getActivityIdPrefix()
+   {
+      return (String) get(ProjectField.ACTIVITY_ID_PREFIX);
+   }
+
+   /**
+    * Set the prefix used when creating an Activity ID.
+    *
+    * @param value activity ID prefix
+    */
+   public void setActivityIdPrefix(String value)
+   {
+      set(ProjectField.ACTIVITY_ID_PREFIX, value);
+   }
+
+   /**
+    * Retrieve the suffix used when creating an Activity ID.
+    *
+    * @return activity ID suffix
+    */
+   public Integer getActivityIdSuffix()
+   {
+      return (Integer) get(ProjectField.ACTIVITY_ID_SUFFIX);
+   }
+
+   /**
+    * Set the suffix used when creating an Activity ID.
+    *
+    * @param value activity ID suffix
+    */
+   public void setActivityIdSuffix(Integer value)
+   {
+      set(ProjectField.ACTIVITY_ID_SUFFIX, value);
+   }
+
+   /**
+    * Retrieve the increment used when creating Activity ID values.
+    *
+    * @return activity ID increment
+    */
+   public Integer getActivityIdIncrement()
+   {
+      return (Integer) get(ProjectField.ACTIVITY_ID_INCREMENT);
+   }
+
+   /**
+    * Set the increment used when creating Activity ID values.
+    *
+    * @param value activity ID increment
+    */
+   public void setActivityIdIncrement(Integer value)
+   {
+      set(ProjectField.ACTIVITY_ID_INCREMENT, value);
+   }
+
+   /**
+    * Retrieve the "increment activity ID based on selected activity" flag.
+    *
+    * @return "increment activity ID based on selected activity" flag
+    */
+   public boolean getActivityIdIncrementBasedOnSelectedActivity()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY));
+   }
+
+   /**
+    * Set the "increment activity ID based on selected activity" flag.
+    *
+    * @param value "increment activity ID based on selected activity" flag
+    */
+   public void setActivityIdIncrementBasedOnSelectedActivity(boolean value)
+   {
+      set(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, value);
+   }
+
+   /**
+    * Set the baseline calendar name.
+    *
+    * @return baseline calendar name
+    */
+   public String getBaselineCalendarName()
+   {
+      return (String) get(ProjectField.BASELINE_CALENDAR_NAME);
+   }
+
+   /**
+    * Retrieve the baseline calendar name.
+    *
+    * @param value baseline calendar name
+    */
+   public void setBaselineCalendarName(String value)
+   {
+      set(ProjectField.BASELINE_CALENDAR_NAME, value);
+   }
+
+   /**
+    * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
     * @param index required field index
-    * @return TaskField instance
+    * @return ProjectField instance
     */
    private ProjectField selectField(ProjectField[] fields, int index)
    {
@@ -2797,7 +3512,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return (fields[index - 1]);
    }
 
-   @Override void invalidateCache(FieldType field, Object newValue)
+   @Override void handleFieldChange(FieldType field, Object oldValue, Object newValue)
    {
       // No action required
    }
@@ -2833,24 +3548,14 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       set(field, (value ? Boolean.TRUE : Boolean.FALSE));
    }
 
-   private Date calculateStartDate()
+   private LocalDateTime calculateStartDate()
    {
       return getParentFile().getEarliestStartDate();
    }
 
-   private Date calculateFinishDate()
+   private LocalDateTime calculateFinishDate()
    {
       return getParentFile().getLatestFinishDate();
-   }
-
-   private Integer calculateDaysPerMonth()
-   {
-      return DEFAULT_DAYS_PER_MONTH;
-   }
-
-   private Integer calculateMinutesPerDay()
-   {
-      return DEFAULT_MINUTES_PER_DAY;
    }
 
    private Integer calculateMinutesPerWeek()
@@ -2866,31 +3571,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    private Integer calculateMinutesPerYear()
    {
       return Integer.valueOf(NumberHelper.getInt(getMinutesPerDay()) * NumberHelper.getInt(getDaysPerMonth()) * 12);
-   }
-
-   private Character calculateDateSeparator()
-   {
-      return Character.valueOf(DEFAULT_DATE_SEPARATOR);
-   }
-
-   private Character calculateTimeSeparator()
-   {
-      return Character.valueOf(DEFAULT_TIME_SEPARATOR);
-   }
-
-   private Character calculateDecimalSeparator()
-   {
-      return Character.valueOf(DEFAULT_DECIMAL_SEPARATOR);
-   }
-
-   private Character calculateThousandsSeparator()
-   {
-      return Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR);
-   }
-
-   private Character calculateMpxDelimiter()
-   {
-      return Character.valueOf(DEFAULT_MPX_DELIMITER);
    }
 
    /**
@@ -2941,7 +3621,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    /**
     * Default critical slack limit.
     */
-   private static final Integer DEFAULT_CRITICAL_SLACK_LIMIT = Integer.valueOf(0);
+   private static final Duration DEFAULT_CRITICAL_SLACK_LIMIT = Duration.getInstance(0, TimeUnit.DAYS);
 
    /**
     * Default baseline for earned value.
@@ -2956,7 +3636,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    /**
     * Default week start day.
     */
-   private static final Day DEFAULT_WEEK_START_DAY = Day.MONDAY;
+   private static final DayOfWeek DEFAULT_WEEK_START_DAY = DayOfWeek.MONDAY;
 
    /**
     * Default work value.
@@ -3003,20 +3683,54 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    private static final Integer DEFAULT_MINUTES_PER_WEEK = Integer.valueOf(2400);
 
+   private static final Integer DEFAULT_OTHER_PROJECT_ASSIGNMENT_PRIORITY = Integer.valueOf(5);
+
+   private static final Duration DEFAULT_MINIMUM_FLOAT = Duration.getInstance(1, TimeUnit.HOURS);
+
+   private static final Double DEFAULT_OVERALLOCATION = Double.valueOf(25.0);
+
+   private static final Integer DEFAULT_FLOAT_PATHS = Integer.valueOf(10);
+
    private static final Map<FieldType, Function<ProjectProperties, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
    {
       CALCULATED_FIELD_MAP.put(ProjectField.START_DATE, ProjectProperties::calculateStartDate);
       CALCULATED_FIELD_MAP.put(ProjectField.FINISH_DATE, ProjectProperties::calculateFinishDate);
-      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, ProjectProperties::calculateDaysPerMonth);
-      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, ProjectProperties::calculateMinutesPerDay);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_WEEK, ProjectProperties::calculateMinutesPerWeek);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_MONTH, ProjectProperties::calculateMinutesPerMonth);
       CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_YEAR, ProjectProperties::calculateMinutesPerYear);
-      CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, ProjectProperties::calculateDateSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, ProjectProperties::calculateTimeSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, ProjectProperties::calculateThousandsSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, ProjectProperties::calculateDecimalSeparator);
-      CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, ProjectProperties::calculateMpxDelimiter);
+
+      CALCULATED_FIELD_MAP.put(ProjectField.DAYS_PER_MONTH, p -> DEFAULT_DAYS_PER_MONTH);
+      CALCULATED_FIELD_MAP.put(ProjectField.MINUTES_PER_DAY, p -> DEFAULT_MINUTES_PER_DAY);
+      CALCULATED_FIELD_MAP.put(ProjectField.DATE_SEPARATOR, p -> Character.valueOf(DEFAULT_DATE_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.TIME_SEPARATOR, p -> Character.valueOf(DEFAULT_TIME_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.THOUSANDS_SEPARATOR, p -> Character.valueOf(DEFAULT_THOUSANDS_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.DECIMAL_SEPARATOR, p -> Character.valueOf(DEFAULT_DECIMAL_SEPARATOR));
+      CALCULATED_FIELD_MAP.put(ProjectField.MPX_DELIMITER, p -> Character.valueOf(DEFAULT_MPX_DELIMITER));
+      CALCULATED_FIELD_MAP.put(ProjectField.CUSTOM_PROPERTIES, p -> new HashMap<String, Object>());
+      CALCULATED_FIELD_MAP.put(ProjectField.WBS_CODE_SEPARATOR, p -> ".");
+      CALCULATED_FIELD_MAP.put(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.CONSIDER_ASSIGNMENTS_IN_OTHER_PROJECTS_WITH_PRIORITY_EQUAL_HIGHER_THAN, p -> DEFAULT_OTHER_PROJECT_ASSIGNMENT_PRIORITY);
+      CALCULATED_FIELD_MAP.put(ProjectField.PRESERVE_SCHEDULED_EARLY_AND_LATE_DATES, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.LEVEL_ALL_RESOURCES, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.LEVEL_RESOURCES_ONLY_WITHIN_ACTIVITY_TOTAL_FLOAT, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.PRESERVE_MINIMUM_FLOAT_WHEN_LEVELING, p -> DEFAULT_MINIMUM_FLOAT);
+      CALCULATED_FIELD_MAP.put(ProjectField.MAX_PERCENT_TO_OVERALLOCATE_RESOURCES, p -> DEFAULT_OVERALLOCATION);
+      CALCULATED_FIELD_MAP.put(ProjectField.LEVELING_PRIORITIES, p -> "(0||priority_type(sort_type|ASC)())");
+      CALCULATED_FIELD_MAP.put(ProjectField.DATA_DATE_AND_PLANNED_START_SET_TO_PROJECT_FORECAST_START, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.IGNORE_RELATIONSHIPS_TO_AND_FROM_OTHER_PROJECTS, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.MAKE_OPEN_ENDED_ACTIVITIES_CRITICAL, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.USE_EXPECTED_FINISH_DATES, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.COMPUTE_START_TO_START_LAG_FROM_EARLY_START, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_FLOAT_BASED_ON_FINISH_DATE_OF_EACH_PROJECT, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.CALCULATE_MULTIPLE_FLOAT_PATHS_USING_TOTAL_FLOAT, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.LIMIT_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.MAXIMUM_NUMBER_OF_FLOAT_PATHS_TO_CALCULATE, p -> DEFAULT_FLOAT_PATHS);
+      CALCULATED_FIELD_MAP.put(ProjectField.SCHEDULING_PROGRESSED_ACTIVITIES, p -> SchedulingProgressedActivities.RETAINED_LOGIC);
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_PREFIX, p -> "A");
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_SUFFIX, p -> Integer.valueOf(1000));
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT, p -> Integer.valueOf(10));
+      CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, p -> Boolean.TRUE);
    }
 }

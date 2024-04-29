@@ -24,13 +24,16 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
+import net.sf.mpxj.LocalTimeRange;
+import net.sf.mpxj.common.LocalDateHelper;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-import net.sf.mpxj.DateRange;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
@@ -105,14 +108,13 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
          ProjectCalendarException exception;
          long duration;
          int periodCount;
-         Date start;
 
          for (index = 0; index < exceptionCount; index++)
          {
             offset = 4 + (60 * 7) + (index * 64);
 
-            Date fromDate = MPPUtility.getDate(data, offset);
-            Date toDate = MPPUtility.getDate(data, offset + 2);
+            LocalDate fromDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset));
+            LocalDate toDate = LocalDateHelper.getLocalDate(MPPUtility.getDate(data, offset + 2));
             exception = cal.addCalendarException(fromDate, toDate);
 
             periodCount = MPPUtility.getShort(data, offset + 6);
@@ -120,9 +122,10 @@ class MPP9CalendarFactory extends AbstractCalendarFactory
             {
                for (int exceptionPeriodIndex = 0; exceptionPeriodIndex < periodCount; exceptionPeriodIndex++)
                {
-                  start = MPPUtility.getTime(data, offset + 12 + (exceptionPeriodIndex * 2));
+                  LocalTime start = MPPUtility.getTime(data, offset + 12 + (exceptionPeriodIndex * 2));
                   duration = MPPUtility.getDuration(data, offset + 24 + (exceptionPeriodIndex * 4));
-                  exception.add(new DateRange(start, new Date(start.getTime() + duration)));
+                  LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
+                  exception.add(new LocalTimeRange(start, end));
                }
             }
          }

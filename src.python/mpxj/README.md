@@ -4,7 +4,8 @@
 file formats and databases to be read and written. This Python package uses
 the [JPype](https://pypi.org/project/JPype1/) Java bridge to allow direct
 access from Python to the MPXJ library. You can find details of the Java
-classes and methods in the [Javadocs](http://www.mpxj.org/apidocs/index.html).
+classes and methods in the [Javadocs](http://www.mpxj.org/apidocs/index.html), and more general documentation
+on the [MPXJ website](https://www.mpxj.org/).
 
 After installing this package you can either work with some of the simple built-in
 utilities provided by MPXJ for tasks like file format conversion:
@@ -80,7 +81,7 @@ properties.setAuthor("Jon Iles")
 
 # Let's create an alias for TEXT1
 customFields = file.getCustomFields()
-field = customFields.getCustomField(TaskField.TEXT1)
+field = customFields.getOrCreate(TaskField.TEXT1)
 field.setAlias("My Custom Field")
 
 # Add resources

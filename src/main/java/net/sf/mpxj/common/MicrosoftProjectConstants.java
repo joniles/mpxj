@@ -36,5 +36,10 @@ public final class MicrosoftProjectConstants
 
    }
 
+   /**
+    * Maximum unique ID value MS Project will accept.
+    */
+   public static final int MAX_UNIQUE_ID = 0x1FFFFF;
+
    public static final Integer ASSIGNMENT_NULL_RESOURCE_ID = Integer.valueOf(-65535);
 }

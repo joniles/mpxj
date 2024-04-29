@@ -24,8 +24,9 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -172,7 +173,7 @@ public class CustomFieldValueReader9
       }
 
       VarMeta outlineCodeVarMeta = new VarMeta9(new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("VarMeta"))));
-      Var2Data outlineCodeVarData = new Var2Data(outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
+      Var2Data outlineCodeVarData = new Var2Data(m_file, outlineCodeVarMeta, new DocumentInputStream(((DocumentEntry) outlineCodeDir.getEntry("Var2Data"))));
 
       Map<FieldType, List<Pair<String, String>>> valueMap = new HashMap<>();
 
@@ -291,7 +292,7 @@ public class CustomFieldValueReader9
 
             case DATE:
             {
-               Date value = MPPUtility.getTimestamp(data, index);
+               LocalDateTime value = MPPUtility.getTimestamp(data, index);
                result.add(value);
                index += 4;
                break;

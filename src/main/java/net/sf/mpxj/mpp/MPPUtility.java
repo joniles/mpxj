@@ -27,8 +27,9 @@ import java.awt.Color;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import java.util.UUID;
 
 import net.sf.mpxj.CurrencySymbolPosition;
@@ -41,7 +42,6 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.ByteArrayHelper;
 import net.sf.mpxj.common.CharsetHelper;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.RateHelper;
@@ -316,9 +316,9 @@ public final class MPPUtility
     * @param offset location of data as offset into the array
     * @return date value
     */
-   public static final Date getDate(byte[] data, int offset)
+   public static final LocalDateTime getDate(byte[] data, int offset)
    {
-      Date result;
+      LocalDateTime result;
       long days = getShort(data, offset);
 
       if (days == 65535)
@@ -327,7 +327,7 @@ public final class MPPUtility
       }
       else
       {
-         result = DateHelper.getDateFromLong(EPOCH + (days * DateHelper.MS_PER_DAY));
+         result = EPOCH_DATE.plusDays(days);
       }
 
       return (result);
@@ -341,16 +341,15 @@ public final class MPPUtility
     * @param offset location of data as offset into the array
     * @return time value
     */
-   public static final Date getTime(byte[] data, int offset)
+   public static final LocalTime getTime(byte[] data, int offset)
    {
-      int time = getShort(data, offset) / 10;
-      Calendar cal = DateHelper.popCalendar(EPOCH_DATE);
-      cal.set(Calendar.HOUR_OF_DAY, (time / 60));
-      cal.set(Calendar.MINUTE, (time % 60));
-      cal.set(Calendar.SECOND, 0);
-      cal.set(Calendar.MILLISECOND, 0);
-      DateHelper.pushCalendar(cal);
-      return (cal.getTime());
+      // TODO: do we want to improve the accuracy here by using seconds?
+      long seconds = (getShort(data, offset) / 10L) * 60L;
+      if (seconds > 86399)
+      {
+         seconds = seconds % 86400;
+      }
+      return LocalTime.ofSecondOfDay(seconds);
    }
 
    /**
@@ -363,7 +362,7 @@ public final class MPPUtility
     */
    public static final long getDuration(byte[] data, int offset)
    {
-      return ((getShort(data, offset) * DateHelper.MS_PER_MINUTE) / 10);
+      return ((getShort(data, offset) * MS_PER_MINUTE) / 10);
    }
 
    /**
@@ -373,9 +372,9 @@ public final class MPPUtility
     * @param offset location of data as offset into the array
     * @return time value
     */
-   public static final Date getTimestamp(byte[] data, int offset)
+   public static final LocalDateTime getTimestamp(byte[] data, int offset)
    {
-      Date result;
+      LocalDateTime result;
 
       long days = getShort(data, offset + 2);
       if (days < 100)
@@ -397,7 +396,8 @@ public final class MPPUtility
          {
             time = 0;
          }
-         result = DateHelper.getTimestampFromLong((EPOCH + (days * DateHelper.MS_PER_DAY) + ((time * DateHelper.MS_PER_MINUTE) / 10)));
+
+         result = EPOCH_DATE.plusDays(days).plusSeconds(time * 6);
       }
 
       return (result);
@@ -410,10 +410,10 @@ public final class MPPUtility
     * @param offset location of data as offset into the array
     * @return time value
     */
-   public static final Date getTimestampFromTenths(byte[] data, int offset)
+   public static final LocalDateTime getTimestampFromTenths(byte[] data, int offset)
    {
-      long ms = ((long) getInt(data, offset)) * 6000;
-      return (DateHelper.getTimestampFromLong(EPOCH + ms));
+      long seconds = ((long) getInt(data, offset)) * 6;
+      return EPOCH_DATE.plusSeconds(seconds);
    }
 
    /**
@@ -971,7 +971,7 @@ public final class MPPUtility
          targetUnits = TimeUnit.HOURS;
       }
 
-      resource.set(rateField, RateHelper.convertFromHours(file, rate, targetUnits));
+      resource.set(rateField, RateHelper.convertFromHours(file.getProjectProperties(), rate, targetUnits));
    }
 
    /**
@@ -1118,7 +1118,7 @@ public final class MPPUtility
             {
                try
                {
-                  Date d = MPPUtility.getTimestamp(data, i);
+                  LocalDateTime d = MPPUtility.getTimestamp(data, i);
                   if (d != null)
                   {
                      System.out.println(i + ":" + d);
@@ -1145,7 +1145,7 @@ public final class MPPUtility
             {
                try
                {
-                  Date d = MPPUtility.getDate(data, i);
+                  LocalDateTime d = MPPUtility.getDate(data, i);
                   if (d != null)
                   {
                      System.out.println(i + ":" + d);
@@ -1160,7 +1160,7 @@ public final class MPPUtility
             {
                try
                {
-                  Date d = MPPUtility.getTime(data, i);
+                  LocalTime d = MPPUtility.getTime(data, i);
                   System.out.println(i + ":" + d);
                }
                catch (Exception ex)
@@ -1242,7 +1242,7 @@ public final class MPPUtility
          {
             try
             {
-               Date d = data.getTimestamp(id, Integer.valueOf(i));
+               LocalDateTime d = data.getTimestamp(id, Integer.valueOf(i));
                if (d != null)
                {
                   System.out.println(i + ":" + d);
@@ -1309,28 +1309,13 @@ public final class MPPUtility
    }
 
    /**
-    * Get the epoch date.
-    *
-    * @return epoch date.
+    * Epoch date for MPP date calculation is 31/12/1983.
     */
-   public static Date getEpochDate()
-   {
-      return EPOCH_DATE;
-   }
-
-   /**
-    * Epoch date for MPP date calculation is 31/12/1983. This constant
-    * is that date expressed in milliseconds using the Java date epoch.
-    */
-   public static final long EPOCH = 441676800000L;
-
-   /**
-    * Epoch Date as a Date instance.
-    */
-   private static final Date EPOCH_DATE = DateHelper.getTimestampFromLong(EPOCH);
+   public static final LocalDateTime EPOCH_DATE = LocalDateTime.of(1983, 12, 31, 0, 0);
 
    /**
     * Mask used to remove flags from the duration units field.
     */
    private static final int DURATION_UNITS_MASK = 0x1F;
+   private static final long MS_PER_MINUTE = 60 * 1000;
 }

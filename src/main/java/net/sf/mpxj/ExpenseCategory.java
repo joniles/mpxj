@@ -34,12 +34,25 @@ public class ExpenseCategory implements ProjectEntityWithUniqueID
     * @param uniqueID expense category unique ID
     * @param name expense category name
     * @param sequenceNumber sequence number
+    * @deprecated use builder
     */
-   public ExpenseCategory(Integer uniqueID, String name, Integer sequenceNumber)
+   @Deprecated public ExpenseCategory(Integer uniqueID, String name, Integer sequenceNumber)
    {
       m_uniqueID = uniqueID;
       m_name = name;
       m_sequenceNumber = sequenceNumber;
+   }
+
+   /**
+    * Constructor.
+    *
+    * @param builder builder class
+    */
+   private ExpenseCategory(Builder builder)
+   {
+      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(ExpenseCategory.class).syncOrGetNext(builder.m_uniqueID);
+      m_name = builder.m_name;
+      m_sequenceNumber = builder.m_sequenceNumber;
    }
 
    @Override public Integer getUniqueID()
@@ -80,4 +93,85 @@ public class ExpenseCategory implements ProjectEntityWithUniqueID
    private final Integer m_uniqueID;
    private final String m_name;
    private final Integer m_sequenceNumber;
+
+   /**
+    * ExpenseCategory builder.
+    */
+   public static class Builder
+   {
+      /**
+       * Constructor.
+       *
+       * @param file parent file
+       */
+      public Builder(ProjectFile file)
+      {
+         m_file = file;
+      }
+
+      /**
+       * Initialise the builder from an existing ExpenseCategory instance.
+       *
+       * @param value ExpenseCategory instance
+       * @return builder
+       */
+      public Builder from(ExpenseCategory value)
+      {
+         m_uniqueID = value.m_uniqueID;
+         m_name = value.m_name;
+         m_sequenceNumber = value.m_sequenceNumber;
+         return this;
+      }
+
+      /**
+       * Add the unique ID.
+       *
+       * @param value unique ID value
+       * @return builder
+       */
+      public Builder uniqueID(Integer value)
+      {
+         m_uniqueID = value;
+         return this;
+      }
+
+      /**
+       * Add the name.
+       *
+       * @param value name
+       * @return builder
+       */
+      public Builder name(String value)
+      {
+         m_name = value;
+         return this;
+      }
+
+      /**
+       * Add the sequence number.
+       *
+       * @param value sequence number
+       * @return builder
+       */
+      public Builder sequenceNumber(Integer value)
+      {
+         m_sequenceNumber = value;
+         return this;
+      }
+
+      /**
+       * Build an ExpenseCategory instance.
+       *
+       * @return ExpenseCategory instance
+       */
+      public ExpenseCategory build()
+      {
+         return new ExpenseCategory(this);
+      }
+
+      private final ProjectFile m_file;
+      private Integer m_uniqueID;
+      private String m_name;
+      private Integer m_sequenceNumber;
+   }
 }

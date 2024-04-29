@@ -25,9 +25,9 @@ package net.sf.mpxj.synchro;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,8 +36,7 @@ import java.util.UUID;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectCalendar;
@@ -47,7 +46,9 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.LocalTimeRange;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -88,11 +89,6 @@ public final class SynchroReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * Reads data from the SP file.
     *
@@ -112,6 +108,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
       processResources();
       processTasks();
       processPredecessors();
+      m_project.readComplete();
 
       return m_project;
    }
@@ -146,26 +143,26 @@ public final class SynchroReader extends AbstractProjectStreamReader
    {
       ProjectCalendar calendar = m_project.addCalendar();
 
-      Map<UUID, List<DateRange>> dayTypeMap = processDayTypes(row.getRows("DAY_TYPES"));
+      Map<UUID, List<LocalTimeRange>> dayTypeMap = processDayTypes(row.getRows("DAY_TYPES"));
 
       calendar.setName(row.getString("NAME"));
 
-      processRanges(dayTypeMap.get(row.getUUID("SUNDAY_DAY_TYPE")), calendar.addCalendarHours(Day.SUNDAY));
-      processRanges(dayTypeMap.get(row.getUUID("MONDAY_DAY_TYPE")), calendar.addCalendarHours(Day.MONDAY));
-      processRanges(dayTypeMap.get(row.getUUID("TUESDAY_DAY_TYPE")), calendar.addCalendarHours(Day.TUESDAY));
-      processRanges(dayTypeMap.get(row.getUUID("WEDNESDAY_DAY_TYPE")), calendar.addCalendarHours(Day.WEDNESDAY));
-      processRanges(dayTypeMap.get(row.getUUID("THURSDAY_DAY_TYPE")), calendar.addCalendarHours(Day.THURSDAY));
-      processRanges(dayTypeMap.get(row.getUUID("FRIDAY_DAY_TYPE")), calendar.addCalendarHours(Day.FRIDAY));
-      processRanges(dayTypeMap.get(row.getUUID("SATURDAY_DAY_TYPE")), calendar.addCalendarHours(Day.SATURDAY));
+      processRanges(dayTypeMap.get(row.getUUID("SUNDAY_DAY_TYPE")), calendar.addCalendarHours(DayOfWeek.SUNDAY));
+      processRanges(dayTypeMap.get(row.getUUID("MONDAY_DAY_TYPE")), calendar.addCalendarHours(DayOfWeek.MONDAY));
+      processRanges(dayTypeMap.get(row.getUUID("TUESDAY_DAY_TYPE")), calendar.addCalendarHours(DayOfWeek.TUESDAY));
+      processRanges(dayTypeMap.get(row.getUUID("WEDNESDAY_DAY_TYPE")), calendar.addCalendarHours(DayOfWeek.WEDNESDAY));
+      processRanges(dayTypeMap.get(row.getUUID("THURSDAY_DAY_TYPE")), calendar.addCalendarHours(DayOfWeek.THURSDAY));
+      processRanges(dayTypeMap.get(row.getUUID("FRIDAY_DAY_TYPE")), calendar.addCalendarHours(DayOfWeek.FRIDAY));
+      processRanges(dayTypeMap.get(row.getUUID("SATURDAY_DAY_TYPE")), calendar.addCalendarHours(DayOfWeek.SATURDAY));
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
-         calendar.setWorkingDay(day, calendar.getCalendarHours(day).size() > 0);
+         calendar.setWorkingDay(day, !calendar.getCalendarHours(day).isEmpty());
       }
 
       for (MapRow assignment : row.getRows("DAY_TYPE_ASSIGNMENTS"))
       {
-         Date date = assignment.getDate("DATE");
+         LocalDate date = LocalDateHelper.getLocalDate(assignment.getDate("DATE"));
          processRanges(dayTypeMap.get(assignment.getUUID("DAY_TYPE_UUID")), calendar.addCalendarException(date));
       }
 
@@ -179,7 +176,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
     * @param ranges time ranges from a Synchro table
     * @param container time range container
     */
-   private void processRanges(List<DateRange> ranges, ProjectCalendarHours container)
+   private void processRanges(List<LocalTimeRange> ranges, ProjectCalendarHours container)
    {
       if (ranges != null)
       {
@@ -193,15 +190,15 @@ public final class SynchroReader extends AbstractProjectStreamReader
     * @param types Synchro day type rows
     * @return Map of day types by UUID
     */
-   private Map<UUID, List<DateRange>> processDayTypes(List<MapRow> types)
+   private Map<UUID, List<LocalTimeRange>> processDayTypes(List<MapRow> types)
    {
-      Map<UUID, List<DateRange>> map = new HashMap<>();
+      Map<UUID, List<LocalTimeRange>> map = new HashMap<>();
       for (MapRow row : types)
       {
-         List<DateRange> ranges = new ArrayList<>();
+         List<LocalTimeRange> ranges = new ArrayList<>();
          for (MapRow range : row.getRows("TIME_RANGES"))
          {
-            ranges.add(new DateRange(range.getDate("START"), range.getDate("END")));
+            ranges.add(new LocalTimeRange(range.getTime("START"), range.getTime("END")));
          }
          map.put(row.getUUID("UUID"), ranges);
       }
@@ -326,7 +323,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
             task.setStart(row.getDate("PLANNED_START"));
             if (task.getStart() != null && task.getDuration() != null)
             {
-               task.setFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getDuration(), false));
+               task.setFinish(task.getEffectiveCalendar().getDate(task.getStart(), task.getDuration()));
             }
             break;
          }
@@ -419,7 +416,10 @@ public final class SynchroReader extends AbstractProjectStreamReader
       Task predecessor = m_taskMap.get(row.getUUID("PREDECESSOR_UUID"));
       if (predecessor != null)
       {
-         Relation relation = task.addPredecessor(predecessor, row.getRelationType("RELATION_TYPE"), row.getDuration("LAG"));
+         Relation relation = task.addPredecessor(new Relation.Builder()
+            .targetTask(predecessor)
+            .type(row.getRelationType("RELATION_TYPE"))
+            .lag(row.getDuration("LAG")));
          m_eventManager.fireRelationReadEvent(relation);
       }
    }
@@ -460,9 +460,9 @@ public final class SynchroReader extends AbstractProjectStreamReader
    private void setConstraints(Task task, MapRow row)
    {
       ConstraintType constraintType = null;
-      Date constraintDate = null;
-      Date lateDate = row.getDate("CONSTRAINT_LATE_DATE");
-      Date earlyDate = row.getDate("CONSTRAINT_EARLY_DATE");
+      LocalDateTime constraintDate = null;
+      LocalDateTime lateDate = row.getDate("CONSTRAINT_LATE_DATE");
+      LocalDateTime earlyDate = row.getDate("CONSTRAINT_EARLY_DATE");
 
       switch (row.getInteger("CONSTRAINT_TYPE").intValue())
       {
@@ -608,14 +608,14 @@ public final class SynchroReader extends AbstractProjectStreamReader
    {
       if (parentTask.hasChildTasks())
       {
-         Date plannedStartDate = null;
-         Date plannedFinishDate = null;
+         LocalDateTime plannedStartDate = null;
+         LocalDateTime plannedFinishDate = null;
 
          for (Task task : parentTask.getChildTasks())
          {
             updateDates(task);
-            plannedStartDate = DateHelper.min(plannedStartDate, task.getStart());
-            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getFinish());
+            plannedStartDate = LocalDateTimeHelper.min(plannedStartDate, task.getStart());
+            plannedFinishDate = LocalDateTimeHelper.max(plannedFinishDate, task.getFinish());
          }
 
          parentTask.setStart(plannedStartDate);

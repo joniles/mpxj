@@ -56,8 +56,9 @@ public interface ProjectReader
     *
     * @param props properties to set
     * @return current ProjectReader instance to allow method chaining
+    * @deprecated use reader class setter methods directly. For UniversalProjectReader, use getProjectReaderProxy to access the reader instance.
     */
-   public ProjectReader setProperties(Properties props);
+   @Deprecated ProjectReader setProperties(Properties props);
 
    /**
     * Add a listener to receive events as a project is being read.

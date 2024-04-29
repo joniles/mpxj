@@ -23,21 +23,24 @@
 
 package net.sf.mpxj.mpd;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.AssignmentField;
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
@@ -59,18 +62,21 @@ import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.RtfNotes;
 import net.sf.mpxj.ScheduleFrom;
-import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.TaskType;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.WorkGroup;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.FieldTypeHelper;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.Pair;
 import net.sf.mpxj.common.RateHelper;
 import net.sf.mpxj.listener.ProjectListener;
+import net.sf.mpxj.mpp.TaskTypeHelper;
 import net.sf.mpxj.mpp.WorkContourHelper;
 
 /**
@@ -148,6 +154,7 @@ abstract class MPD9AbstractReader
          config.setAutoWBS(false);
          config.setAutoCalendarUniqueID(false);
          config.setAutoAssignmentUniqueID(false);
+         config.setAutoRelationUniqueID(false);
 
          m_project.getProjectProperties().setFileApplication("Microsoft");
          m_project.getProjectProperties().setFileType("MPD");
@@ -166,8 +173,9 @@ abstract class MPD9AbstractReader
          processCustomAttributes();
          processSubProjects();
          postProcessing();
+         m_project.readComplete();
 
-         return (m_project);
+         return m_project;
       }
 
       catch (MpdException ex)
@@ -348,28 +356,13 @@ abstract class MPD9AbstractReader
     */
    private void processSubProjects()
    {
-      int subprojectIndex = 1;
       for (Task task : m_project.getTasks())
       {
-         String subProjectFileName = task.getSubprojectName();
+         String subProjectFileName = task.getSubprojectFile();
          if (subProjectFileName != null)
          {
-            String fileName = subProjectFileName;
-            int offset = 0x01000000 + (subprojectIndex * 0x00400000);
-            int index = subProjectFileName.lastIndexOf('\\');
-            if (index != -1)
-            {
-               fileName = subProjectFileName.substring(index + 1);
-            }
-
-            SubProject sp = new SubProject();
-            sp.setFileName(fileName);
-            sp.setFullPath(subProjectFileName);
-            sp.setUniqueIDOffset(Integer.valueOf(offset));
-            sp.setTaskUniqueID(task.getUniqueID());
-            task.setSubProject(sp);
-
-            ++subprojectIndex;
+            //int offset = 0x01000000 + (subprojectIndex * 0x00400000);
+            task.setSubprojectFile(subProjectFileName);
          }
       }
    }
@@ -504,7 +497,7 @@ abstract class MPD9AbstractReader
       properties.setSplitInProgressTasks(row.getBoolean("PROJ_OPT_SPLIT_IN_PROGRESS"));
       //properties.setDateOrder();
       //properties.setTimeFormat();
-      properties.setDefaultStartTime(row.getDate("PROJ_OPT_DEF_START_TIME"));
+      properties.setDefaultStartTime(LocalTimeHelper.getLocalTime(row.getDate("PROJ_OPT_DEF_START_TIME")));
       //properties.setDateSeparator();
       //properties.setTimeSeparator();
       //properties.setAmText();
@@ -539,7 +532,7 @@ abstract class MPD9AbstractReader
       properties.setSubject(row.getString("PROJ_PROP_SUBJECT"));
       properties.setAuthor(row.getString("PROJ_PROP_AUTHOR"));
       properties.setKeywords(row.getString("PROJ_PROP_KEYWORDS"));
-      properties.setDefaultEndTime(row.getDate("PROJ_OPT_DEF_FINISH_TIME"));
+      properties.setDefaultEndTime(LocalTimeHelper.getLocalTime(row.getDate("PROJ_OPT_DEF_FINISH_TIME")));
       properties.setProjectExternallyEdited(row.getBoolean("PROJ_EXT_EDITED_FLAG"));
       properties.setCategory(row.getString("PROJ_PROP_CATEGORY"));
       properties.setDaysPerMonth(row.getInteger("PROJ_OPT_DAYS_PER_MONTH"));
@@ -568,16 +561,16 @@ abstract class MPD9AbstractReader
       properties.setNewTasksEffortDriven(row.getBoolean("PROJ_OPT_NEW_ARE_EFFORT_DRIVEN"));
       //properties.setMoveRemainingStartsForward();
       //properties.setActualsInSync(row.getInt("PROJ_ACTUALS_SYNCH") != 0); // Not in MPP9 MPD?
-      properties.setDefaultTaskType(TaskType.getInstance(row.getInt("PROJ_OPT_DEF_TASK_TYPE")));
+      properties.setDefaultTaskType(TaskTypeHelper.getInstance(row.getInt("PROJ_OPT_DEF_TASK_TYPE")));
       //properties.setEarnedValueMethod();
       properties.setCreationDate(row.getDate("PROJ_CREATION_DATE"));
       //properties.setExtendedCreationDate(row.getDate("PROJ_CREATION_DATE_EX")); // Not in MPP9 MPD?
       properties.setDefaultFixedCostAccrual(AccrueType.getInstance(row.getInt("PROJ_OPT_DEF_FIX_COST_ACCRUAL")));
-      properties.setCriticalSlackLimit(row.getInteger("PROJ_OPT_CRITICAL_SLACK_LIMIT"));
+      properties.setCriticalSlackLimit(Duration.getInstance(row.getInt("PROJ_OPT_CRITICAL_SLACK_LIMIT"), TimeUnit.DAYS));
       //properties.setBaselineForEarnedValue;
       properties.setFiscalYearStartMonth(row.getInteger("PROJ_OPT_FY_START_MONTH"));
       //properties.setNewTaskStartIsProjectStart();
-      properties.setWeekStartDay(Day.getInstance(row.getInt("PROJ_OPT_WEEK_START_DAY") + 1));
+      properties.setWeekStartDay(DayOfWeekHelper.getInstance(row.getInt("PROJ_OPT_WEEK_START_DAY") + 1));
       //properties.setCalculateMultipleCriticalPaths();
 
       //
@@ -670,17 +663,17 @@ abstract class MPD9AbstractReader
     */
    private void processCalendarException(ProjectCalendar calendar, Row row)
    {
-      Date fromDate = row.getDate("CD_FROM_DATE");
-      Date toDate = row.getDate("CD_TO_DATE");
+      LocalDate fromDate = LocalDateHelper.getLocalDate(row.getDate("CD_FROM_DATE"));
+      LocalDate toDate = LocalDateHelper.getLocalDate(row.getDate("CD_TO_DATE"));
       boolean working = row.getInt("CD_WORKING") != 0;
       ProjectCalendarException exception = calendar.addCalendarException(fromDate, toDate);
       if (working)
       {
-         exception.add(new DateRange(row.getDate("CD_FROM_TIME1"), row.getDate("CD_TO_TIME1")));
-         exception.add(new DateRange(row.getDate("CD_FROM_TIME2"), row.getDate("CD_TO_TIME2")));
-         exception.add(new DateRange(row.getDate("CD_FROM_TIME3"), row.getDate("CD_TO_TIME3")));
-         exception.add(new DateRange(row.getDate("CD_FROM_TIME4"), row.getDate("CD_TO_TIME4")));
-         exception.add(new DateRange(row.getDate("CD_FROM_TIME5"), row.getDate("CD_TO_TIME5")));
+         processHours(exception, row, "CD_FROM_TIME1", "CD_TO_TIME1");
+         processHours(exception, row, "CD_FROM_TIME2", "CD_TO_TIME2");
+         processHours(exception, row, "CD_FROM_TIME3", "CD_TO_TIME3");
+         processHours(exception, row, "CD_FROM_TIME4", "CD_TO_TIME4");
+         processHours(exception, row, "CD_FROM_TIME5", "CD_TO_TIME5");
       }
    }
 
@@ -693,47 +686,27 @@ abstract class MPD9AbstractReader
     */
    private void processCalendarHours(ProjectCalendar calendar, Row row, int dayIndex)
    {
-      Day day = Day.getInstance(dayIndex);
+      DayOfWeek day = DayOfWeekHelper.getInstance(dayIndex);
       boolean working = row.getInt("CD_WORKING") != 0;
       calendar.setWorkingDay(day, working);
       if (working)
       {
          ProjectCalendarHours hours = calendar.addCalendarHours(day);
+         processHours(hours, row, "CD_FROM_TIME1", "CD_TO_TIME1");
+         processHours(hours, row, "CD_FROM_TIME2", "CD_TO_TIME2");
+         processHours(hours, row, "CD_FROM_TIME3", "CD_TO_TIME3");
+         processHours(hours, row, "CD_FROM_TIME4", "CD_TO_TIME4");
+         processHours(hours, row, "CD_FROM_TIME5", "CD_TO_TIME5");
+      }
+   }
 
-         Date start = row.getDate("CD_FROM_TIME1");
-         Date end = row.getDate("CD_TO_TIME1");
-         if (start != null && end != null)
-         {
-            hours.add(new DateRange(start, end));
-         }
-
-         start = row.getDate("CD_FROM_TIME2");
-         end = row.getDate("CD_TO_TIME2");
-         if (start != null && end != null)
-         {
-            hours.add(new DateRange(start, end));
-         }
-
-         start = row.getDate("CD_FROM_TIME3");
-         end = row.getDate("CD_TO_TIME3");
-         if (start != null && end != null)
-         {
-            hours.add(new DateRange(start, end));
-         }
-
-         start = row.getDate("CD_FROM_TIME4");
-         end = row.getDate("CD_TO_TIME4");
-         if (start != null && end != null)
-         {
-            hours.add(new DateRange(start, end));
-         }
-
-         start = row.getDate("CD_FROM_TIME5");
-         end = row.getDate("CD_TO_TIME5");
-         if (start != null && end != null)
-         {
-            hours.add(new DateRange(start, end));
-         }
+   private void processHours(ProjectCalendarHours hours, Row row, String startField, String endField)
+   {
+      LocalDateTime start = row.getDate(startField);
+      LocalDateTime end = row.getDate(endField);
+      if (start != null && end != null)
+      {
+         hours.add(new LocalTimeRange(LocalTimeHelper.getLocalTime(start), LocalTimeHelper.getLocalTime(end)));
       }
    }
 
@@ -767,6 +740,8 @@ abstract class MPD9AbstractReader
    private void processResource(Row row)
    {
       Integer uniqueID = row.getInteger("RES_UID");
+      UnitOfMeasureContainer uom = m_project.getUnitsOfMeasure();
+
       if (uniqueID != null && uniqueID.intValue() >= 0)
       {
          Resource resource = m_project.addResource();
@@ -779,8 +754,6 @@ abstract class MPD9AbstractReader
          //resource.setActualWorkProtected();
          //resource.setActiveDirectoryGUID();
          resource.setACWP(row.getCurrency("RES_ACWP"));
-         resource.setAvailableFrom(row.getDate("RES_AVAIL_FROM"));
-         resource.setAvailableTo(row.getDate("RES_AVAIL_TO"));
          //resource.setBaseCalendar();
          resource.setBaselineCost(getDefaultOnNull(row.getCurrency("RES_BASE_COST"), NumberHelper.DOUBLE_ZERO));
          resource.setBaselineWork(row.getDuration("RES_BASE_WORK"));
@@ -865,8 +838,7 @@ abstract class MPD9AbstractReader
          //resource.setIsInactive();
          //resource.setIsNull();
          //resource.setLinkedFields();RES_HAS_LINKED_FIELDS = false ( java.lang.Boolean)
-         resource.setMaterialLabel(row.getString("RES_MATERIAL_LABEL"));
-         resource.setMaxUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("RES_MAX_UNITS")) * 100));
+         resource.setUnitOfMeasure(uom.getOrCreateByAbbreviation(row.getString("RES_MATERIAL_LABEL")));
          resource.setName(row.getString("RES_NAME"));
          //resource.setNtAccount();
          //resource.setNumber1();
@@ -998,12 +970,18 @@ abstract class MPD9AbstractReader
          resource.setOverAllocated(NumberHelper.getDouble(resource.getPeakUnits()) > NumberHelper.getDouble(resource.getMaxUnits()));
 
          Number costPerUse = row.getCurrency("RES_COST_PER_USE");
-         Rate standardRate = RateHelper.convertFromHours(m_project, NumberHelper.getDouble(row.getDouble("RES_STD_RATE")), TimeUnit.getInstance(row.getInt("RES_STD_RATE_FMT") - 1));
-         Rate overtimeRate = RateHelper.convertFromHours(m_project, NumberHelper.getDouble(row.getDouble("RES_OVT_RATE")), TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1));
+         Rate standardRate = RateHelper.convertFromHours(m_project.getProjectProperties(), NumberHelper.getDouble(row.getDouble("RES_STD_RATE")), TimeUnit.getInstance(row.getInt("RES_STD_RATE_FMT") - 1));
+         Rate overtimeRate = RateHelper.convertFromHours(m_project.getProjectProperties(), NumberHelper.getDouble(row.getDouble("RES_OVT_RATE")), TimeUnit.getInstance(row.getInt("RES_OVT_RATE_FMT") - 1));
 
          CostRateTable costRateTable = new CostRateTable();
-         costRateTable.add(new CostRateTableEntry(DateHelper.START_DATE_NA, DateHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
+         costRateTable.add(new CostRateTableEntry(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, costPerUse, standardRate, overtimeRate));
          resource.setCostRateTable(0, costRateTable);
+
+         LocalDateTime availableFrom = row.getDate("RES_AVAIL_FROM");
+         LocalDateTime availableTo = row.getDate("RES_AVAIL_TO");
+         availableFrom = availableFrom == null ? LocalDateTimeHelper.START_DATE_NA : availableFrom;
+         availableTo = availableTo == null ? LocalDateTimeHelper.END_DATE_NA : availableTo;
+         resource.getAvailability().add(new Availability(availableFrom, availableTo, Double.valueOf(NumberHelper.getDouble(row.getDouble("RES_MAX_UNITS")) * 100)));
 
          m_eventManager.fireResourceReadEvent(resource);
 
@@ -1402,7 +1380,7 @@ abstract class MPD9AbstractReader
          //task.setText29();
          //task.setText30();
          //task.setTotalSlack(row.getDuration("TASK_TOTAL_SLACK")); //@todo FIX ME
-         task.setType(TaskType.getInstance(row.getInt("TASK_TYPE")));
+         task.setType(TaskTypeHelper.getInstance(row.getInt("TASK_TYPE")));
          task.setUniqueID(uniqueID);
          //task.setUpdateNeeded();
          task.setWBS(row.getString("TASK_WBS"));
@@ -1492,11 +1470,11 @@ abstract class MPD9AbstractReader
       Task successorTask = m_project.getTaskByUniqueID(row.getInteger("LINK_SUCC_UID"));
       if (predecessorTask != null && successorTask != null)
       {
-         RelationType type = RelationType.getInstance(row.getInt("LINK_TYPE"));
-         TimeUnit durationUnits = MPDUtility.getDurationTimeUnits(row.getInt("LINK_LAG_FMT"));
-         Duration duration = MPDUtility.getDuration(row.getDouble("LINK_LAG").doubleValue(), durationUnits);
-         Relation relation = successorTask.addPredecessor(predecessorTask, type, duration);
-         relation.setUniqueID(row.getInteger("LINK_UID"));
+         Relation relation = successorTask.addPredecessor(new Relation.Builder()
+            .targetTask(predecessorTask)
+            .type(RelationType.getInstance(row.getInt("LINK_TYPE")))
+            .lag(MPDUtility.getDuration(row.getDouble("LINK_LAG").doubleValue(), MPDUtility.getDurationTimeUnits(row.getInt("LINK_LAG_FMT"))))
+            .uniqueID(row.getInteger("LINK_UID")));
          m_eventManager.fireRelationReadEvent(relation);
       }
    }
@@ -1617,11 +1595,6 @@ abstract class MPD9AbstractReader
       {
          task.setSummary(task.hasChildTasks());
       }
-
-      //
-      // Ensure that the unique ID counters are correct
-      //
-      config.updateUniqueCounters();
    }
 
    /*

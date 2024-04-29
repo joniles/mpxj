@@ -23,20 +23,24 @@
 
 package net.sf.mpxj.sample;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import net.sf.mpxj.Availability;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.ProjectWriterUtility;
@@ -87,12 +91,6 @@ public class MpxjCreate
    private static void create(String filename) throws Exception
    {
       //
-      // Create a simple date format to allow us to
-      // easily set date values.
-      //
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
-      //
       // Create a ProjectFile instance
       //
       ProjectFile file = new ProjectFile();
@@ -109,11 +107,12 @@ public class MpxjCreate
       // Add a default calendar called "Standard"
       //
       ProjectCalendar calendar = file.addDefaultBaseCalendar();
+      file.setDefaultCalendar(calendar);
 
       //
       // Add a holiday to the calendar to demonstrate calendar exceptions
       //
-      calendar.addCalendarException(df.parse("13/03/2006"));
+      calendar.addCalendarException(LocalDate.of(2006, 3, 13));
 
       //
       // Retrieve the project properties and set the start date. Note Microsoft
@@ -123,7 +122,7 @@ public class MpxjCreate
       // today's date.
       //
       ProjectProperties properties = file.getProjectProperties();
-      properties.setStartDate(df.parse("01/01/2003"));
+      properties.setStartDate(LocalDateTime.of(2003, 1, 1, 0, 0));
 
       //
       // Set a couple more properties just for fun
@@ -152,7 +151,7 @@ public class MpxjCreate
       // output file format when alternative separators and delimiters
       // are used.
       //
-      resource2.setMaxUnits(Double.valueOf(50.0));
+      resource2.getAvailability().add(new Availability(LocalDateTimeHelper.START_DATE_NA, LocalDateTimeHelper.END_DATE_NA, Double.valueOf(50.0)));
 
       //
       // Create a summary task
@@ -166,7 +165,7 @@ public class MpxjCreate
       Task task2 = task1.addTask();
       task2.setName("First Sub Task");
       task2.setDuration(Duration.getInstance(10.5, TimeUnit.DAYS));
-      task2.setStart(df.parse("01/01/2003"));
+      task2.setStart(LocalDateTime.of(2003, 1, 1, 0, 0));
       task2.setText(1, "My Custom Value 1");
 
       //
@@ -178,30 +177,30 @@ public class MpxjCreate
       // or partially complete.
       //
       task2.setPercentageComplete(NumberHelper.getDouble(50.0));
-      task2.setActualStart(df.parse("01/01/2003"));
+      task2.setActualStart(LocalDateTime.of(2003, 1, 1, 0, 0));
 
       //
       // Create the second sub task
       //
       Task task3 = task1.addTask();
       task3.setName("Second Sub Task");
-      task3.setStart(df.parse("11/01/2003"));
+      task3.setStart(LocalDateTime.of(2003, 1, 11, 0, 0));
       task3.setDuration(Duration.getInstance(10, TimeUnit.DAYS));
       task3.setText(1, "My Custom Value 2");
 
       //
       // Link these two tasks
       //
-      task3.addPredecessor(task2, RelationType.FINISH_START, null);
+      task3.addPredecessor(new Relation.Builder().targetTask(task2).type(RelationType.FINISH_START));
 
       //
       // Add a milestone
       //
       Task milestone1 = task1.addTask();
       milestone1.setName("Milestone");
-      milestone1.setStart(df.parse("21/01/2003"));
+      milestone1.setStart(LocalDateTime.of(2003, 1, 21, 0, 0));
       milestone1.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
-      milestone1.addPredecessor(task3, RelationType.FINISH_START, null);
+      milestone1.addPredecessor(new Relation.Builder().targetTask(task3).type(RelationType.FINISH_START));
 
       //
       // This final task has a percent complete value, but no
@@ -211,9 +210,9 @@ public class MpxjCreate
       Task task4 = file.addTask();
       task4.setName("Next Task");
       task4.setDuration(Duration.getInstance(8, TimeUnit.DAYS));
-      task4.setStart(df.parse("01/01/2003"));
+      task4.setStart(LocalDateTime.of(2003, 1, 1, 0, 0));
       task4.setPercentageComplete(NumberHelper.getDouble(70.0));
-      task4.setActualStart(df.parse("01/01/2003"));
+      task4.setActualStart(LocalDateTime.of(2003, 1, 1, 0, 0));
 
       //
       // Assign resources to tasks
@@ -239,8 +238,8 @@ public class MpxjCreate
       //
       assignment1.setRemainingWork(Duration.getInstance(40, TimeUnit.HOURS));
       assignment2.setRemainingWork(Duration.getInstance(80, TimeUnit.HOURS));
-      assignment1.setStart(df.parse("01/01/2003"));
-      assignment2.setStart(df.parse("11/01/2003"));
+      assignment1.setStart(LocalDateTime.of(2003, 1, 1, 0, 0));
+      assignment2.setStart(LocalDateTime.of(2003, 1, 11, 0, 0));
 
       //
       // Write a 100% complete task
@@ -248,9 +247,9 @@ public class MpxjCreate
       Task task5 = file.addTask();
       task5.setName("Last Task");
       task5.setDuration(Duration.getInstance(3, TimeUnit.DAYS));
-      task5.setStart(df.parse("01/01/2003"));
+      task5.setStart(LocalDateTime.of(2003, 1, 1, 0, 0));
       task5.setPercentageComplete(NumberHelper.getDouble(100.0));
-      task5.setActualStart(df.parse("01/01/2003"));
+      task5.setActualStart(LocalDateTime.of(2003, 1, 1, 0, 0));
 
       //
       // Write a 100% complete milestone
@@ -258,9 +257,9 @@ public class MpxjCreate
       Task task6 = file.addTask();
       task6.setName("Last Milestone");
       task6.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
-      task6.setStart(df.parse("01/01/2003"));
+      task6.setStart(LocalDateTime.of(2003, 1, 1, 0, 0));
       task6.setPercentageComplete(NumberHelper.getDouble(100.0));
-      task6.setActualStart(df.parse("01/01/2003"));
+      task6.setActualStart(LocalDateTime.of(2003, 1, 1, 0, 0));
 
       //
       // Write the file

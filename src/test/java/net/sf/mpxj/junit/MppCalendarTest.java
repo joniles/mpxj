@@ -25,17 +25,17 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
 
@@ -171,33 +171,31 @@ public class MppCalendarTest
     */
    private void testCalendars(ProjectFile mpp)
    {
-      DateFormat tf = new SimpleDateFormat("HH:mm");
-
       ProjectCalendar cal = mpp.getCalendarByUniqueID(Integer.valueOf(1));
       assertNotNull(cal);
       assertEquals("Standard", cal.getName());
       assertNull(cal.getParent());
       assertFalse(cal.isDerived());
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.MONDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.TUESDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.WEDNESDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.THURSDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.FRIDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.MONDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.TUESDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.WEDNESDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.THURSDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.FRIDAY));
 
-      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(Day.SATURDAY));
-      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(Day.SUNDAY));
+      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(DayOfWeek.SATURDAY));
+      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(DayOfWeek.SUNDAY));
 
       assertEquals(0, cal.getCalendarExceptions().size());
 
-      ProjectCalendarHours hours = cal.getCalendarHours(Day.MONDAY);
+      ProjectCalendarHours hours = cal.getCalendarHours(DayOfWeek.MONDAY);
       assertEquals(2, hours.size());
 
-      DateRange range = hours.get(0);
-      assertEquals("08:00", tf.format(range.getStart()));
-      assertEquals("12:00", tf.format(range.getEnd()));
-      range = cal.getCalendarHours(Day.MONDAY).get(1);
-      assertEquals("13:00", tf.format(range.getStart()));
-      assertEquals("17:00", tf.format(range.getEnd()));
+      LocalTimeRange range = hours.get(0);
+      assertEquals(LocalTime.of(8, 0), range.getStart());
+      assertEquals(LocalTime.of(12, 0), range.getEnd());
+      range = cal.getCalendarHours(DayOfWeek.MONDAY).get(1);
+      assertEquals(LocalTime.of(13, 0), range.getStart());
+      assertEquals(LocalTime.of(17, 0), range.getEnd());
    }
 
    /**
@@ -207,29 +205,26 @@ public class MppCalendarTest
     */
    private void testExceptions(ProjectFile mpp)
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-      DateFormat tf = new SimpleDateFormat("HH:mm");
-
       ProjectCalendar cal = mpp.getCalendarByUniqueID(Integer.valueOf(1));
       assertNotNull(cal);
       assertEquals("Standard", cal.getName());
       assertNull(cal.getParent());
       assertFalse(cal.isDerived());
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.MONDAY));
-      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(Day.TUESDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.WEDNESDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.THURSDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.FRIDAY));
-      assertEquals(DayType.WORKING, cal.getCalendarDayType(Day.SATURDAY));
-      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(Day.SUNDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.MONDAY));
+      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(DayOfWeek.TUESDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.WEDNESDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.THURSDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.FRIDAY));
+      assertEquals(DayType.WORKING, cal.getCalendarDayType(DayOfWeek.SATURDAY));
+      assertEquals(DayType.NON_WORKING, cal.getCalendarDayType(DayOfWeek.SUNDAY));
 
       List<net.sf.mpxj.ProjectCalendarException> exceptions = cal.getCalendarExceptions();
       assertEquals(3, exceptions.size());
 
       ProjectCalendarException exception = exceptions.get(0);
       assertFalse(exception.getWorking());
-      assertEquals("05/03/2008 00:00", df.format(exception.getFromDate()));
-      assertEquals("05/03/2008 23:59", df.format(exception.getToDate()));
+      assertEquals(LocalDate.of(2008, 3, 5), exception.getFromDate());
+      assertEquals(LocalDate.of(2008, 3, 5), exception.getToDate());
       assertNull(exception.get(0).getStart());
       assertNull(exception.get(0).getEnd());
       assertNull(exception.get(1).getStart());
@@ -243,12 +238,12 @@ public class MppCalendarTest
 
       exception = exceptions.get(1);
       assertTrue(exception.getWorking());
-      assertEquals("09/03/2008 00:00", df.format(exception.getFromDate()));
-      assertEquals("09/03/2008 23:59", df.format(exception.getToDate()));
-      assertEquals("08:00", tf.format(exception.get(0).getStart()));
-      assertEquals("12:00", tf.format(exception.get(0).getEnd()));
-      assertEquals("13:00", tf.format(exception.get(1).getStart()));
-      assertEquals("17:00", tf.format(exception.get(1).getEnd()));
+      assertEquals(LocalDate.of(2008, 3, 9), exception.getFromDate());
+      assertEquals(LocalDate.of(2008, 3, 9), exception.getToDate());
+      assertEquals(LocalTime.of(8, 0), exception.get(0).getStart());
+      assertEquals(LocalTime.of(12, 0), exception.get(0).getEnd());
+      assertEquals(LocalTime.of(13, 0), exception.get(1).getStart());
+      assertEquals(LocalTime.of(17, 0), exception.get(1).getEnd());
       assertNull(exception.get(2).getStart());
       assertNull(exception.get(2).getEnd());
       assertNull(exception.get(3).getStart());
@@ -258,17 +253,17 @@ public class MppCalendarTest
 
       exception = exceptions.get(2);
       assertTrue(exception.getWorking());
-      assertEquals("16/03/2008 00:00", df.format(exception.getFromDate()));
-      assertEquals("16/03/2008 23:59", df.format(exception.getToDate()));
-      assertEquals("08:00", tf.format(exception.get(0).getStart()));
-      assertEquals("09:00", tf.format(exception.get(0).getEnd()));
-      assertEquals("11:00", tf.format(exception.get(1).getStart()));
-      assertEquals("12:00", tf.format(exception.get(1).getEnd()));
-      assertEquals("14:00", tf.format(exception.get(2).getStart()));
-      assertEquals("15:00", tf.format(exception.get(2).getEnd()));
-      assertEquals("16:00", tf.format(exception.get(3).getStart()));
-      assertEquals("17:00", tf.format(exception.get(3).getEnd()));
-      assertEquals("18:00", tf.format(exception.get(4).getStart()));
-      assertEquals("19:00", tf.format(exception.get(4).getEnd()));
+      assertEquals(LocalDate.of(2008, 3, 16), exception.getFromDate());
+      assertEquals(LocalDate.of(2008, 3, 16), exception.getToDate());
+      assertEquals(LocalTime.of(8, 0), exception.get(0).getStart());
+      assertEquals(LocalTime.of(9, 0), exception.get(0).getEnd());
+      assertEquals(LocalTime.of(11, 0), exception.get(1).getStart());
+      assertEquals(LocalTime.of(12, 0), exception.get(1).getEnd());
+      assertEquals(LocalTime.of(14, 0), exception.get(2).getStart());
+      assertEquals(LocalTime.of(15, 0), exception.get(2).getEnd());
+      assertEquals(LocalTime.of(16, 0), exception.get(3).getStart());
+      assertEquals(LocalTime.of(17, 0), exception.get(3).getEnd());
+      assertEquals(LocalTime.of(18, 0), exception.get(4).getStart());
+      assertEquals(LocalTime.of(19, 0), exception.get(4).getEnd());
    }
 }

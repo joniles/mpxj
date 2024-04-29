@@ -37,6 +37,7 @@ import net.sf.mpxj.DayType;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.common.CharsetHelper;
+import net.sf.mpxj.common.HierarchyHelper;
 import net.sf.mpxj.common.ReaderTokenizer;
 import net.sf.mpxj.common.Tokenizer;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
@@ -66,6 +67,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
          processPredecessors();
          processAssignments();
          // TODO: user defined field support
+         project.readComplete();
 
          return project;
       }
@@ -74,11 +76,6 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       {
          m_reader = null;
       }
-   }
-
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -111,7 +108,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
             while (tk.nextToken() == Tokenizer.TT_WORD)
             {
                String token = tk.getToken();
-               if (columns.size() == 0)
+               if (columns.isEmpty())
                {
                   if (token.charAt(0) == '#')
                   {
@@ -196,12 +193,12 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
     */
    private void processFileType(String token) throws MPXJException
    {
-      String version = token.substring(2).split(" ")[0];
+      m_fileVersion = Integer.valueOf(token.substring(2).split(" ")[0]);
       //System.out.println(version);
-      Class<? extends AbstractFileFormat> fileFormatClass = FILE_VERSION_MAP.get(Integer.valueOf(version));
+      Class<? extends AbstractFileFormat> fileFormatClass = FILE_VERSION_MAP.get(m_fileVersion);
       if (fileFormatClass == null)
       {
-         throw new MPXJException("Unsupported PP file format version " + version);
+         throw new MPXJException("Unsupported PP file format version " + m_fileVersion);
       }
 
       try
@@ -224,7 +221,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       List<Row> rows = getTable("PROJECT_SUMMARY");
       if (!rows.isEmpty())
       {
-         m_reader.processProjectProperties(rows.get(0), null, null);
+         m_reader.processProjectProperties(m_fileVersion, rows.get(0), null, null);
       }
    }
 
@@ -249,17 +246,11 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       Map<Integer, List<Row>> timeEntryMap = m_reader.createTimeEntryMap(rows);
 
       rows = getTable("CALENDAR");
-      rows.sort(CALENDAR_COMPARATOR);
+      rows = HierarchyHelper.sortHierarchy(rows, r -> r.getInteger("CALENDARID"), r -> r.getInteger("CALENDAR"));
       for (Row row : rows)
       {
          m_reader.processCalendar(row, workPatternMap, workPatternAssignmentMap, exceptionAssignmentMap, timeEntryMap, exceptionMap);
       }
-
-      //
-      // Update unique counters at this point as we will be generating
-      // resource calendars, and will need to auto generate IDs
-      //
-      m_reader.getProject().getProjectConfig().updateUniqueCounters();
    }
 
    /**
@@ -285,8 +276,9 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       List<Row> expandedTasks = getTable("EXPANDED_TASK");
       List<Row> tasks = getTable("TASK");
       List<Row> milestones = getTable("MILESTONE");
+      List<Row> hammocks = getTable("HAMMOCK_TASK");
 
-      m_reader.processTasks(bars, expandedTasks, tasks, milestones);
+      m_reader.processTasks(bars, expandedTasks, tasks, milestones, hammocks);
    }
 
    /**
@@ -393,6 +385,7 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
       return m_tables.getOrDefault(name, Collections.emptyList());
    }
 
+   private Integer m_fileVersion;
    private AstaReader m_reader;
    private Map<String, List<Row>> m_tables;
    private Map<Integer, TableDefinition> m_tableDefinitions;
@@ -400,7 +393,6 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
 
    private static final char DELIMITER = ',';
 
-   private static final RowComparator CALENDAR_COMPARATOR = new RowComparator("CALENDARID");
    private static final RowComparator PERMANENT_RESOURCE_COMPARATOR = new RowComparator("PERMANENT_RESOURCEID");
    private static final RowComparator CONSUMABLE_RESOURCE_COMPARATOR = new RowComparator("CONSUMABLE_RESOURCEID");
    private static final RowComparator LINK_COMPARATOR = new RowComparator("LINKID");

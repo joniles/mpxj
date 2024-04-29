@@ -28,13 +28,8 @@ import java.io.PrintWriter;
 /**
  * Column containing task relationships.
  */
-class RelationColumn extends AbstractColumn
+abstract class RelationColumn extends AbstractColumn
 {
-   @Override protected int postHeaderSkipBytes()
-   {
-      return 16;
-   }
-
    @Override protected int readData(byte[] buffer, int offset)
    {
       StringsWithLengthBlock data = new StringsWithLengthBlock().read(buffer, offset, true);

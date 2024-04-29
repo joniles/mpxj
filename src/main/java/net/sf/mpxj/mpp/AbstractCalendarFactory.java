@@ -24,18 +24,20 @@
 package net.sf.mpxj.mpp;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
+import net.sf.mpxj.common.DayOfWeekHelper;
+import net.sf.mpxj.LocalTimeRange;
 import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectCalendar;
@@ -77,7 +79,7 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       //MPPUtility.fileHexDump("c:\\temp\\varmeta.txt", new DocumentInputStream (((DocumentEntry)calDir.getEntry("VarMeta"))));
 
       VarMeta calVarMeta = getCalendarVarMeta(calDir);
-      Var2Data calVarData = new Var2Data(calVarMeta, new DocumentInputStream((DocumentEntry) calDir.getEntry("Var2Data")));
+      Var2Data calVarData = new Var2Data(m_file, calVarMeta, new DocumentInputStream((DocumentEntry) calDir.getEntry("Var2Data")));
 
       //      System.out.println(calVarMeta);
       //      System.out.println(calVarData);
@@ -88,8 +90,14 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       //      System.out.println(calFixedMeta);
       //      System.out.println(calFixedData);
 
-      //      FixedMeta calFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("Fixed2Meta"))), 9);
-      //      FixedData calFixed2Data = new FixedData(calFixed2Meta, inputStreamFactory.getInstance(calDir, "Fixed2Data"), 48);
+      FixedData calFixed2Data = null;
+
+      if (calDir.hasEntry("Fixed2Meta"))
+      {
+         FixedMeta calFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) calDir.getEntry("Fixed2Meta"))), 9);
+         calFixed2Data = new FixedData(calFixed2Meta, inputStreamFactory.getInstance(calDir, "Fixed2Data"), 48);
+      }
+
       //      System.out.println(calFixed2Meta);
       //      System.out.println(calFixed2Data);
 
@@ -105,6 +113,8 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       for (int loop = 0; loop < items; loop++)
       {
          byte[] fixedData = calFixedData.getByteArrayValue(loop);
+         byte[] fixedData2 = calFixed2Data == null ? null : calFixed2Data.getByteArrayValue(loop);
+
          if (fixedData != null && fixedData.length >= 8)
          {
             int offset = 0;
@@ -167,12 +177,13 @@ abstract class AbstractCalendarFactory implements CalendarFactory
                   }
 
                   cal.setUniqueID(calendarID);
+                  cal.setGUID(MPPUtility.getGUID(fixedData2, 0));
 
                   if (varData == null)
                   {
                      if (baseCalendarID <= 0)
                      {
-                        Stream.of(Day.values()).forEach(cal::addCalendarHours);
+                        Stream.of(DayOfWeek.values()).forEach(cal::addCalendarHours);
                      }
                   }
                   else
@@ -224,16 +235,15 @@ abstract class AbstractCalendarFactory implements CalendarFactory
       int index;
       int defaultFlag;
       int periodCount;
-      Date start;
       long duration;
-      Day day;
-      List<DateRange> dateRanges = new ArrayList<>(5);
+      DayOfWeek day;
+      List<LocalTimeRange> dateRanges = new ArrayList<>(5);
 
       for (index = 0; index < 7; index++)
       {
          offset = getCalendarHoursOffset() + (60 * index);
          defaultFlag = data == null ? 1 : MPPUtility.getShort(data, offset);
-         day = Day.getInstance(index + 1);
+         day = DayOfWeekHelper.getInstance(index + 1);
 
          if (defaultFlag == 1)
          {
@@ -273,11 +283,11 @@ abstract class AbstractCalendarFactory implements CalendarFactory
             while (periodIndex < periodCount)
             {
                int startOffset = offset + 8 + (periodIndex * 2);
-               start = MPPUtility.getTime(data, startOffset);
+               LocalTime start = MPPUtility.getTime(data, startOffset);
                int durationOffset = offset + 20 + (periodIndex * 4);
                duration = MPPUtility.getDuration(data, durationOffset);
-               Date end = new Date(start.getTime() + duration);
-               dateRanges.add(new DateRange(start, end));
+               LocalTime end = start.plus(duration, ChronoUnit.MILLIS);
+               dateRanges.add(new LocalTimeRange(start, end));
                ++periodIndex;
             }
 
@@ -285,14 +295,14 @@ abstract class AbstractCalendarFactory implements CalendarFactory
             {
                if (isBaseCalendar)
                {
-                  cal.addCalendarHours(Day.getInstance(index + 1));
+                  cal.addCalendarHours(DayOfWeekHelper.getInstance(index + 1));
                }
                cal.setWorkingDay(day, false);
             }
             else
             {
                cal.setWorkingDay(day, true);
-               hours = cal.addCalendarHours(Day.getInstance(index + 1));
+               hours = cal.addCalendarHours(DayOfWeekHelper.getInstance(index + 1));
                hours.addAll(dateRanges);
             }
          }

@@ -21,6 +21,30 @@ You can work directly with the `PrimaveraXERFileReader` class by replacing
 `UniversalProjectReader` with `PrimaveraXERFileReader`. This provides access to
 additional options, as described below.
 
+### Ignore Errors
+By default P6 ignores records it can't successfully read from an XER file. MPXJ
+takes the same approach, and in most cases if it doesn't receive the data it
+expects for a particular record it will ignore the problematic item.
+
+This behavior is controlled using the `setIgnoreErrors` method. The example
+below illustrates how we can force the `PrimaveraXERFileReader` to report
+errors encountered when reading a file:
+
+```java
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+
+// ...
+
+PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+
+reader.setIgnoreErrors(false);
+ProjectFile project = reader.read("my-sample.xer");
+```
+
+Note that if errors are ignored when reading a file, the ignored errors
+are available by using the `ProjectFile.getIgnoredErrors()` method.
+
 ### Encoding
 By default MPXJ assumes that XER files are encoded using Windows-1252. The
 `UniversalProjectReader` understands Unicode Byte Order Marks (BOM) and will
@@ -158,55 +182,6 @@ import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
 reader.setWbsIsFullPath(false);
 ```
-
-### User Defined Fields
-MPXJ attempts to map user defined fields from P6 to the custom fields.
-When MPXJ reads user defined fields from the XER file, it will assign
-each new user defined field to a new custom attribute. For example when
-the first custom text field is read, it will be stored in TEXT1, the next
-custom text field will be stored in TEXT2, and so on.
- 
-It is possible that there are more user defined values in the XER file
-than there are custom attributes of a specific type in the MPXJ data model.
-For example the task entity only has TEXT to TEXT30 attributes, so if the XER
-file has more than 30 text user defined attributes, the default mapping
-switches to using ENTERPRISE_TEXT fields.
-
-The list below shows the default mappings used by MPXJ. Where there is more than
-one item shown for each user defined type, this indicates how MPXJ "overflows"
-from one custom type to another.
-
-* FT_TEXT: TEXT, ENTERPRISE_TEXT
-* FT_START_DATE: START
-* FT_END_DATE: FINISH
-* FT_FLOAT_2_DECIMALS: NUMBER, ENTERPRISE_NUMBER
-* FT_INT: NUMBER, ENTERPRISE_NUMBER
-* FT_STATICTYPE: TEXT, ENTERPRISE_TEXT
-* FT_MONEY: COST, ENTERPRISE_COST
-   
-You can modify the default mappings used between P6 user defined fields and MPXJ
-custom fields using the methods shown in the code sample below:
-
-```java
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraXERFileReader;
-
-// ...
-
-PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-reader.setFieldNamesForTaskUdfType(UserFieldDataType.FT_TEXT, "ENTERPRISE_TEXT", "TEXT");
-reader.setFieldNamesForResourceUdfType(UserFieldDataType.FT_START_DATE, "DATE");
-reader.setFieldNamesForAssignmentUdfType(UserFieldDataType.FT_END_DATE, "DATE");
-ProjectFile file = reader.read("my-sample.xer");
-```
-
-As the sample shows, a method is provided for the three main entity types:
-tasks, resources and resource assignments. The first argument you pass to these
-methods is the P6 user defined field type, followed by a list of names, for
-example to use the fields DATE1, DATE2 and so on in MPXJ, you would pass in
-`"DATE"`. To allow values to overflow from one custom field type to another, you
-can simply pass additional values (see the `setFieldNamesForTaskUdfType` example
-above).
 
 ### Reading Additional Attributes
 A data-driven approach is used to extract the attributes used by MPXJ from the

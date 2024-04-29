@@ -48,7 +48,6 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.ResourceRequestType;
 import net.sf.mpxj.RtfNotes;
-import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.WorkGroup;
@@ -859,7 +858,7 @@ abstract class FieldMap
 
                   case TASK_TYPE:
                   {
-                     result = TaskType.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
+                     result = TaskTypeHelper.getInstance(MPPUtility.getShort(data, m_fixedDataOffset));
                      break;
                   }
 

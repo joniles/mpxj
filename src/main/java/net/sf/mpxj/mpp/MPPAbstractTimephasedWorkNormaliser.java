@@ -23,103 +23,98 @@
 
 package net.sf.mpxj.mpp;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 import net.sf.mpxj.Duration;
+import net.sf.mpxj.TimePeriodEntity;
 import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 
 /**
- * Normalise timephased resource assignment data from an MPP file.
+ * Normalise timephased data from an MPP file.
  */
 public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimephasedWorkNormaliser
 {
 
    /**
     * This method converts the internal representation of timephased
-    * resource assignment data used by MS Project into a standardised
+    * data used by MS Project into a standardised
     * format to make it easy to work with.
     *
-    * @param assignment resource assignment
-    * @param list list of assignment data
+    * @param parent parent entity
+    * @param list list of timephased data
     */
-   @Override public void normalise(ResourceAssignment assignment, List<TimephasedWork> list)
+   @Override public void normalise(ProjectCalendar calendar, TimePeriodEntity parent, List<TimephasedWork> list)
    {
       if (list.isEmpty())
       {
          return;
       }
 
-      ProjectCalendar calendar = getCalendar(assignment);
       //dumpList(list);
       splitDays(calendar, list);
       //dumpList(list);
       mergeSameDay(calendar, list);
       //dumpList(list);
-      mergeSameWork(list);
+      mergeSameWork(calendar, parent, list);
       //dumpList(list);
       convertToHours(list);
       //dumpList(list);
    }
 
    /**
-    * Retrieve the calendar to be used by this normaliser.
-    *
-    * @param assignment resource assignment
-    * @return calendar to use when normalising
-    */
-   protected abstract ProjectCalendar getCalendar(ResourceAssignment assignment);
-
-   /**
     * This method breaks down spans of time into individual days.
     *
     * @param calendar current project calendar
-    * @param list list of assignment data
+    * @param list list of timephased data
     */
    private void splitDays(ProjectCalendar calendar, List<TimephasedWork> list)
    {
       List<TimephasedWork> result = new ArrayList<>();
       boolean remainderInserted = false;
 
-      for (TimephasedWork assignment : list)
+      for (TimephasedWork item : list)
       {
          if (remainderInserted)
          {
-            assignment.setStart(DateHelper.addDays(assignment.getStart(), 1));
+            item.setStart(item.getStart().plusDays(1));
             remainderInserted = false;
          }
 
-         Duration calendarWork = calendar.getWork(assignment.getStart(), assignment.getFinish(), TimeUnit.MINUTES);
+         Duration calendarWork = calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.MINUTES);
 
-         while (assignment != null)
+         while (item != null)
          {
-            Date startDay = DateHelper.getDayStartDate(assignment.getStart());
-            Date finishDay = DateHelper.getDayStartDate(assignment.getFinish());
+            LocalDateTime startDay = LocalDateTimeHelper.getDayStartDate(item.getStart());
+            LocalDateTime finishDay = LocalDateTimeHelper.getDayStartDate(item.getFinish());
 
             // special case - when the finishday time is midnight, it's really the previous day...
-            if (assignment.getFinish().getTime() == finishDay.getTime())
+            if (item.getFinish().equals(finishDay))
             {
-               finishDay = DateHelper.addDays(finishDay, -1);
+               finishDay = finishDay.minusDays(1);
             }
 
-            if (startDay.getTime() == finishDay.getTime())
+            if (startDay.equals(finishDay))
             {
-               Duration totalWork = assignment.getTotalAmount();
-               Duration assignmentWork = getAssignmentWork(calendar, assignment);
-               if ((totalWork.getDuration() - assignmentWork.getDuration()) > EQUALITY_DELTA)
+               Duration totalWork = item.getTotalAmount();
+               Duration itemWork = getItemWork(calendar, item);
+               if ((totalWork.getDuration() - itemWork.getDuration()) > EQUALITY_DELTA)
                {
-                  assignment.setTotalAmount(assignmentWork);
-                  result.add(assignment);
-                  Duration remainingWork = Duration.getInstance(totalWork.getDuration() - assignmentWork.getDuration(), TimeUnit.MINUTES);
+                  item.setTotalAmount(itemWork);
+                  result.add(item);
+                  Duration remainingWork = Duration.getInstance(totalWork.getDuration() - itemWork.getDuration(), TimeUnit.MINUTES);
 
-                  Date remainderStart = DateHelper.addDays(finishDay, 1);
-                  Date remainderFinish = DateHelper.addDays(remainderStart, 1);
+                  LocalDateTime remainderStart = finishDay.plusDays(1);
+                  LocalDateTime remainderFinish = remainderStart.plusDays(1);
 
                   TimephasedWork remainder = new TimephasedWork();
                   remainder.setStart(remainderStart);
@@ -131,26 +126,26 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
                }
                else
                {
-                  result.add(assignment);
+                  result.add(item);
                }
                break;
             }
 
-            TimephasedWork[] split = splitFirstDay(calendar, assignment, calendarWork);
+            TimephasedWork[] split = splitFirstDay(calendar, item, calendarWork);
             if (split[0] != null)
             {
-               TimephasedWork firstDayAssignment = split[0];
-               result.add(firstDayAssignment);
-               Duration firstDayCalendarWork = calendar.getWork(firstDayAssignment.getStart(), firstDayAssignment.getFinish(), TimeUnit.MINUTES);
+               TimephasedWork firstDayItem = split[0];
+               result.add(firstDayItem);
+               Duration firstDayCalendarWork = calendar.getWork(firstDayItem.getStart(), firstDayItem.getFinish(), TimeUnit.MINUTES);
                calendarWork = Duration.getInstance((calendarWork.getDuration() - firstDayCalendarWork.getDuration()), TimeUnit.MINUTES);
             }
 
-            if (assignment.equals(split[1]))
+            if (item.equals(split[1]))
             {
                break;
             }
 
-            assignment = split[1];
+            item = split[1];
          }
       }
 
@@ -162,44 +157,44 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     * This method splits the first day off of a time span.
     *
     * @param calendar current calendar
-    * @param assignment timephased assignment span
-    * @param calendarWork working hours for assignment from the calendar
-    * @return first day and remainder assignments
+    * @param item timephased item
+    * @param calendarWork working hours for item from the calendar
+    * @return first day and remainder items
     */
-   private TimephasedWork[] splitFirstDay(ProjectCalendar calendar, TimephasedWork assignment, Duration calendarWork)
+   private TimephasedWork[] splitFirstDay(ProjectCalendar calendar, TimephasedWork item, Duration calendarWork)
    {
       TimephasedWork[] result = new TimephasedWork[2];
 
       //
       // Retrieve data used to calculate the pro-rata work split
       //
-      Date assignmentStart = assignment.getStart();
-      Date assignmentFinish = assignment.getFinish();
-      Duration assignmentWork = assignment.getTotalAmount();
+      LocalDateTime itemStart = item.getStart();
+      LocalDateTime itemFinish = item.getFinish();
+      Duration itemWork = item.getTotalAmount();
 
       if (calendarWork.getDuration() != 0)
       {
          //
          // Split the first day
          //
-         Date splitFinish;
+         LocalDateTime splitFinish;
          double splitMinutes;
-         if (calendar.isWorkingDate(assignmentStart))
+         LocalDate itemStartAsLocalDate = LocalDateHelper.getLocalDate(itemStart);
+         if (calendar.isWorkingDate(itemStartAsLocalDate))
          {
-            Date splitFinishTime = calendar.getFinishTime(assignmentStart);
-            splitFinish = DateHelper.setTime(assignmentStart, splitFinishTime);
+            splitFinish = LocalTimeHelper.setEndTime(itemStart, calendar.getFinishTime(itemStartAsLocalDate));
 
-            Duration calendarSplitWork = calendar.getWork(assignmentStart, splitFinish, TimeUnit.MINUTES);
-            Duration assignmentWorkPerDay = assignment.getAmountPerDay();
+            Duration calendarSplitWork = calendar.getWork(itemStart, splitFinish, TimeUnit.MINUTES);
+            Duration itemWorkPerDay = item.getAmountPerDay();
             Duration splitWork;
 
-            splitMinutes = assignmentWorkPerDay.getDuration();
+            splitMinutes = itemWorkPerDay.getDuration();
             splitMinutes *= calendarSplitWork.getDuration();
             splitMinutes /= (8 * 60); // this appears to be a fixed value
             splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
 
             TimephasedWork split = new TimephasedWork();
-            split.setStart(assignmentStart);
+            split.setStart(itemStart);
             split.setFinish(splitFinish);
             split.setTotalAmount(splitWork);
 
@@ -207,30 +202,30 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          }
          else
          {
-            splitFinish = assignmentStart;
+            splitFinish = itemStart;
             splitMinutes = 0;
          }
 
          //
          // Split the remainder
          //
-         Date splitStart = calendar.getNextWorkStart(splitFinish);
-         splitFinish = assignmentFinish;
+         LocalDateTime splitStart = calendar.getNextWorkStart(splitFinish);
+         splitFinish = itemFinish;
          TimephasedWork split;
-         if (splitStart.getTime() > splitFinish.getTime())
+         if (splitStart.isAfter(splitFinish))
          {
             split = null;
          }
          else
          {
-            splitMinutes = assignmentWork.getDuration() - splitMinutes;
+            splitMinutes = itemWork.getDuration() - splitMinutes;
             Duration splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
 
             split = new TimephasedWork();
             split.setStart(splitStart);
             split.setFinish(splitFinish);
             split.setTotalAmount(splitWork);
-            split.setAmountPerDay(assignment.getAmountPerDay());
+            split.setAmountPerDay(item.getAmountPerDay());
          }
 
          result[1] = split;
@@ -239,47 +234,34 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
    }
 
    /**
-    * This method merges together assignment data for the same day.
+    * This method merges together timephased data for the same day.
     *
     * @param calendar current calendar
-    * @param list assignment data
+    * @param list timephased data
     */
    protected abstract void mergeSameDay(ProjectCalendar calendar, List<TimephasedWork> list);
 
    /**
-    * Retrieves the pro-rata work carried out on a given day.
+    * Retrieves the pro rata work carried out on a given day.
     *
     * @param calendar current calendar
-    * @param assignment current assignment.
-    * @return assignment work duration
+    * @param item current item.
+    * @return item work duration
     */
-   private Duration getAssignmentWork(ProjectCalendar calendar, TimephasedWork assignment)
+   private Duration getItemWork(ProjectCalendar calendar, TimephasedWork item)
    {
+      LocalDateTime splitFinish = LocalTimeHelper.setEndTime(item.getStart(), calendar.getFinishTime(LocalDateHelper.getLocalDate(item.getStart())));
 
-      Date splitFinishTime = calendar.getFinishTime(assignment.getStart());
-      Date splitFinish = DateHelper.setTime(assignment.getStart(), splitFinishTime);
-
-      Duration calendarSplitWork = calendar.getWork(assignment.getStart(), splitFinish, TimeUnit.MINUTES);
-      Duration assignmentWorkPerDay = assignment.getAmountPerDay();
+      Duration calendarSplitWork = calendar.getWork(item.getStart(), splitFinish, TimeUnit.MINUTES);
+      Duration itemWorkPerDay = item.getAmountPerDay();
       Duration splitWork;
 
-      double splitMinutes = assignmentWorkPerDay.getDuration();
+      double splitMinutes = itemWorkPerDay.getDuration();
       splitMinutes *= calendarSplitWork.getDuration();
       splitMinutes /= (8 * 60); // this appears to be a fixed value
       splitWork = Duration.getInstance(splitMinutes, TimeUnit.MINUTES);
       return splitWork;
    }
-
-   /*
-      private void dumpList(List<TimephasedWork> list)
-      {
-         System.out.println();
-         for (TimephasedWork assignment : list)
-         {
-            System.out.println(assignment);
-         }
-      }
-   */
 
    private static final double EQUALITY_DELTA = 0.2;
 }

@@ -26,7 +26,7 @@ package net.sf.mpxj;
 /**
  * This class represents the relationship between two tasks.
  */
-public final class Relation
+public final class Relation implements ProjectEntityWithUniqueID
 {
    /**
     * Default constructor.
@@ -35,22 +35,53 @@ public final class Relation
     * @param targetTask target task instance
     * @param type relation type
     * @param lag relation lag
+    * @deprecated use Relation.Builder
     */
-   public Relation(Task sourceTask, Task targetTask, RelationType type, Duration lag)
+   @Deprecated public Relation(Task sourceTask, Task targetTask, RelationType type, Duration lag)
    {
       m_sourceTask = sourceTask;
       m_targetTask = targetTask;
-      m_type = type;
-      m_lag = lag;
+      m_type = type == null ? RelationType.FINISH_START : type;
+      m_lag = lag == null ? Duration.getInstance(0, TimeUnit.DAYS) : lag;
+      m_notes = null;
 
-      if (m_type == null)
+      ProjectFile project = sourceTask.getParentFile();
+      ProjectConfig projectConfig = project.getProjectConfig();
+      if (projectConfig.getAutoRelationUniqueID())
       {
-         m_type = RelationType.FINISH_START;
+         setUniqueID(project.getUniqueIdObjectSequence(Relation.class).getNext());
+      }
+   }
+
+   /**
+    * Constructor.
+    *
+    * @param builder Builder instance
+    */
+   private Relation(Builder builder)
+   {
+      m_sourceTask = builder.m_sourceTask;
+      m_targetTask = builder.m_targetTask;
+      m_type = builder.m_type == null ? RelationType.FINISH_START : builder.m_type;
+      m_lag = builder.m_lag == null ? Duration.getInstance(0, TimeUnit.DAYS) : builder.m_lag;
+      m_notes = builder.m_notes;
+
+      Integer uniqueID = builder.m_uniqueID;
+
+      if (uniqueID == null)
+      {
+         ProjectFile project = m_sourceTask.getParentFile();
+         ProjectConfig projectConfig = project.getProjectConfig();
+         if (projectConfig.getAutoRelationUniqueID())
+         {
+            uniqueID = project.getUniqueIdObjectSequence(Relation.class).getNext();
+         }
       }
 
-      if (m_lag == null)
+      if (uniqueID != null)
       {
-         m_lag = Duration.getInstance(0, TimeUnit.DAYS);
+         m_sourceTask.getParentFile().getRelations().updateUniqueID(this, m_uniqueID, uniqueID);
+         m_uniqueID = uniqueID;
       }
    }
 
@@ -62,7 +93,7 @@ public final class Relation
     */
    public RelationType getType()
    {
-      return (m_type);
+      return m_type;
    }
 
    /**
@@ -73,7 +104,7 @@ public final class Relation
     */
    public Duration getLag()
    {
-      return (m_lag);
+      return m_lag;
    }
 
    /**
@@ -101,7 +132,7 @@ public final class Relation
     *
     * @return unique ID
     */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return m_uniqueID;
    }
@@ -110,15 +141,27 @@ public final class Relation
     * Set the Unique ID of this Relation.
     *
     * @param uniqueID unique ID
+    * @deprecated use Relation.Builder
     */
-   public void setUniqueID(Integer uniqueID)
+   @Deprecated @Override public void setUniqueID(Integer uniqueID)
    {
+      m_sourceTask.getParentFile().getRelations().updateUniqueID(this, m_uniqueID, uniqueID);
       m_uniqueID = uniqueID;
+   }
+
+   /**
+    * Retrieve the notes association with this relationship.
+    *
+    * @return notes
+    */
+   public String getNotes()
+   {
+      return m_notes;
    }
 
    @Override public String toString()
    {
-      return ("[Relation lag: " + m_lag + " type: " + m_type + " " + m_sourceTask + " -> " + m_targetTask + "]");
+      return ("[Relation lag: " + m_lag + " type: " + m_type + " " + m_targetTask + " -> " + m_sourceTask + "]");
    }
 
    private Integer m_uniqueID;
@@ -136,10 +179,124 @@ public final class Relation
    /**
     * Type of relationship.
     */
-   private RelationType m_type;
+   private final RelationType m_type;
 
    /**
     * Lag between the two tasks.
     */
-   private Duration m_lag;
+   private final Duration m_lag;
+
+   private final String m_notes;
+
+   /**
+    * Relation builder.
+    */
+   public static class Builder
+   {
+      /**
+       * Create a builder from a Relation instance.
+       *
+       * @param value relation instance
+       * @return Builder instance
+       */
+      public Builder from(Relation value)
+      {
+         m_uniqueID = value.m_uniqueID;
+         m_sourceTask = value.m_sourceTask;
+         m_targetTask = value.m_targetTask;
+         m_type = value.m_type;
+         m_lag = value.m_lag;
+         m_notes = value.m_notes;
+         return this;
+      }
+
+      /**
+       * Add the unique ID.
+       *
+       * @param value unique ID
+       * @return builder
+       */
+      public Builder uniqueID(Integer value)
+      {
+         m_uniqueID = value;
+         return this;
+      }
+
+      /**
+       * Add the source task.
+       *
+       * @param value source task
+       * @return builder
+       */
+      public Builder sourceTask(Task value)
+      {
+         m_sourceTask = value;
+         return this;
+      }
+
+      /**
+       * Add the target task.
+       *
+       * @param value target task
+       * @return builder
+       */
+      public Builder targetTask(Task value)
+      {
+         m_targetTask = value;
+         return this;
+      }
+
+      /**
+       * Add the type.
+       *
+       * @param value type
+       * @return builder
+       */
+      public Builder type(RelationType value)
+      {
+         m_type = value;
+         return this;
+      }
+
+      /**
+       * Add the lag.
+       *
+       * @param value lag
+       * @return builder
+       */
+      public Builder lag(Duration value)
+      {
+         m_lag = value;
+         return this;
+      }
+
+      /**
+       * Add notes.
+       *
+       * @param value notes
+       * @return builder
+       */
+      public Builder notes(String value)
+      {
+         m_notes = value;
+         return this;
+      }
+
+      /**
+       * Build a Relation instance.
+       *
+       * @return Relation instance
+       */
+      public Relation build()
+      {
+         return new Relation(this);
+      }
+
+      Integer m_uniqueID;
+      Task m_sourceTask;
+      Task m_targetTask;
+      RelationType m_type = RelationType.FINISH_START;
+      Duration m_lag = Duration.getInstance(0, TimeUnit.DAYS);
+      String m_notes;
+   }
 }

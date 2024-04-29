@@ -24,12 +24,10 @@
 package net.sf.mpxj.mpd;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +36,7 @@ import java.util.stream.Collectors;
 import javax.sql.DataSource;
 
 import net.sf.mpxj.common.AutoCloseableHelper;
+import net.sf.mpxj.common.ConnectionHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ResultSetHelper;
 
@@ -48,10 +47,13 @@ final class MPD9DatabaseReader extends MPD9AbstractReader
 {
    @Override protected List<Row> getRows(String table, Map<String, Integer> keys) throws MpdException
    {
+      // Copy entries to a list to ensure order is consistent when iterating
+      List<Map.Entry<String, Integer>> keyList = new ArrayList<>(keys.entrySet());
+
       String sql = "select * from " + table;
       if (!keys.isEmpty())
       {
-         sql = sql + " where " + keys.entrySet().stream().map(e -> e.getKey() + "=?").collect(Collectors.joining(" and "));
+         sql = sql + " where " + keyList.stream().map(e -> e.getKey() + "=?").collect(Collectors.joining(" and "));
       }
 
       try
@@ -61,7 +63,7 @@ final class MPD9DatabaseReader extends MPD9AbstractReader
          try (PreparedStatement ps = m_connection.prepareStatement(sql))
          {
             int index = 1;
-            for (Map.Entry<String, Integer> entry : keys.entrySet())
+            for (Map.Entry<String, Integer> entry : keyList)
             {
                ps.setInt(index++, NumberHelper.getInt(entry.getValue()));
             }
@@ -141,15 +143,7 @@ final class MPD9DatabaseReader extends MPD9AbstractReader
    {
       try
       {
-         Set<String> tables = new HashSet<>();
-         DatabaseMetaData dmd = m_connection.getMetaData();
-         try (ResultSet rs = dmd.getTables(null, null, null, null))
-         {
-            while (rs.next())
-            {
-               tables.add(rs.getString("TABLE_NAME"));
-            }
-         }
+         Set<String> tables = ConnectionHelper.getTableNames(m_connection);
          m_hasResourceBaselines = tables.contains("MSP_RESOURCE_BASELINES");
          m_hasTaskBaselines = tables.contains("MSP_TASK_BASELINES");
          m_hasAssignmentBaselines = tables.contains("MSP_ASSIGNMENT_BASELINES");

@@ -23,6 +23,8 @@
 
 package net.sf.mpxj.primavera;
 
+import net.sf.mpxj.common.ObjectSequence;
+
 /**
  * Collection of sequence generator used across multiple ProjectFile exports.
  */
@@ -36,11 +38,6 @@ final class PrimaveraPMObjectSequences
    public Integer getProjectObjectID()
    {
       return m_projectObjectID.getNext();
-   }
-
-   public Integer getRelationshipObjectID()
-   {
-      return m_relationshipObjectID.getNext();
    }
 
    public Integer getRateObjectID()
@@ -60,7 +57,6 @@ final class PrimaveraPMObjectSequences
 
    private final ObjectSequence m_projectID = new ObjectSequence(0);
    private final ObjectSequence m_projectObjectID = new ObjectSequence(1);
-   private final ObjectSequence m_relationshipObjectID = new ObjectSequence(1);
    private final ObjectSequence m_rateObjectID = new ObjectSequence(1);
    private final ObjectSequence m_wbsNoteObjectID = new ObjectSequence(1);
    private final ObjectSequence m_activityNoteObjectID = new ObjectSequence(1);

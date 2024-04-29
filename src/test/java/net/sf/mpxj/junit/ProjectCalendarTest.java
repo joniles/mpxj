@@ -25,16 +25,21 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpp.MPPReader;
 
@@ -48,178 +53,173 @@ public class ProjectCalendarTest
    /**
     * Test get getWork method.
     */
-   @Test public void testGetWork() throws Exception
+   @Test public void testGetWork()
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-      Date startDate;
-      Date endDate;
-      Duration variance;
-
       ProjectFile project = new ProjectFile();
       ProjectCalendar projectCalendar = project.addDefaultBaseCalendar();
 
-      startDate = df.parse("14/03/2006 08:00");
-      endDate = df.parse("15/03/2006 08:00");
-      variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
+      LocalDateTime startDate = LocalDateTime.of(2006, 3, 14, 8, 0);
+      LocalDateTime endDate = LocalDateTime.of(2006, 3, 15, 8, 0);
+      Duration variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(1.0, variance.getDuration(), 0.01);
 
-      endDate = df.parse("13/03/2006 08:00");
+      endDate = LocalDateTime.of(2006, 3, 13, 8, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(-1.0, variance.getDuration(), 0.01);
 
-      startDate = df.parse("14/03/2006 08:00");
-      endDate = df.parse("15/03/2006 09:00");
+      startDate = LocalDateTime.of(2006, 3, 14, 8, 0);
+      endDate = LocalDateTime.of(2006, 3, 15, 9, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(1.13, variance.getDuration(), 0.01);
 
-      endDate = df.parse("15/03/2006 09:30");
+      endDate = LocalDateTime.of(2006, 3, 15, 9, 30);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(1.19, variance.getDuration(), 0.01);
 
-      endDate = df.parse("15/03/2006 12:00");
+      endDate = LocalDateTime.of(2006, 3, 15, 12, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(1.5, variance.getDuration(), 0.01);
 
-      endDate = df.parse("15/03/2006 13:00");
+      endDate = LocalDateTime.of(2006, 3, 15, 13, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(1.5, variance.getDuration(), 0.01);
 
-      endDate = df.parse("15/03/2006 14:00");
+      endDate = LocalDateTime.of(2006, 3, 15, 14, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(1.63, variance.getDuration(), 0.01);
 
-      endDate = df.parse("15/03/2006 16:00");
+      endDate = LocalDateTime.of(2006, 3, 15, 16, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(1.88, variance.getDuration(), 0.01);
 
-      endDate = df.parse("15/03/2006 17:00");
+      endDate = LocalDateTime.of(2006, 3, 15, 17, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(2.0, variance.getDuration(), 0.01);
 
-      endDate = df.parse("16/03/2006 07:00");
+      endDate = LocalDateTime.of(2006, 3, 16, 7, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(2.0, variance.getDuration(), 0.01);
 
-      endDate = df.parse("16/03/2006 08:00");
+      endDate = LocalDateTime.of(2006, 3, 16, 8, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(2.0, variance.getDuration(), 0.01);
 
-      endDate = df.parse("18/03/2006 08:00");
+      endDate = LocalDateTime.of(2006, 3, 18, 8, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(4.0, variance.getDuration(), 0.01);
 
-      endDate = df.parse("19/03/2006 08:00");
+      endDate = LocalDateTime.of(2006, 3, 19, 8, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(4.0, variance.getDuration(), 0.01);
 
-      endDate = df.parse("20/03/2006 08:00");
+      endDate = LocalDateTime.of(2006, 3, 20, 8, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(4.0, variance.getDuration(), 0.01);
 
-      startDate = df.parse("18/03/2006 08:00");
-      endDate = df.parse("19/03/2006 17:00");
+      startDate = LocalDateTime.of(2006, 3, 18, 8, 0);
+      endDate = LocalDateTime.of(2006, 3, 19, 17, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(0.0, variance.getDuration(), 0.01);
 
-      startDate = df.parse("18/03/2006 08:00");
-      endDate = df.parse("20/03/2006 17:00");
+      startDate = LocalDateTime.of(2006, 3, 18, 8, 0);
+      endDate = LocalDateTime.of(2006, 3, 20, 17, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(1.0, variance.getDuration(), 0.01);
 
-      startDate = df.parse("17/03/2006 08:00");
-      endDate = df.parse("20/03/2006 17:00");
+      startDate = LocalDateTime.of(2006, 3, 17, 8, 0);
+      endDate = LocalDateTime.of(2006, 3, 20, 17, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(2.0, variance.getDuration(), 0.01);
 
-      startDate = df.parse("17/03/2006 08:00");
-      endDate = df.parse("18/03/2006 17:00");
+      startDate = LocalDateTime.of(2006, 3, 17, 8, 0);
+      endDate = LocalDateTime.of(2006, 3, 18, 17, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(1.0, variance.getDuration(), 0.01);
 
       //
       // Try a date in BST
       //
-      startDate = df.parse("10/07/2006 08:00");
-      endDate = df.parse("11/07/2006 08:00");
+      startDate = LocalDateTime.of(2006, 7, 10, 8, 0);
+      endDate = LocalDateTime.of(2006, 7, 11, 8, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(1.0, variance.getDuration(), 0.01);
 
       //
       // Try a date crossing GMT to BST
       //
-      startDate = df.parse("13/03/2006 08:00");
-      endDate = df.parse("11/07/2006 08:00");
+      startDate = LocalDateTime.of(2006, 3, 13, 8, 0);
+      endDate = LocalDateTime.of(2006, 7, 11, 8, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(86.0, variance.getDuration(), 0.01);
 
       //
       // Same date tests
       //
-      startDate = df.parse("14/03/2006 08:00");
-      endDate = df.parse("14/03/2006 08:00");
+      startDate = LocalDateTime.of(2006, 3, 14, 8, 0);
+      endDate = LocalDateTime.of(2006, 3, 14, 8, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(0.0, variance.getDuration(), 0.01);
 
-      endDate = df.parse("14/03/2006 09:00");
+      endDate = LocalDateTime.of(2006, 3, 14, 9, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(0.13, variance.getDuration(), 0.01);
 
-      endDate = df.parse("14/03/2006 10:00");
+      endDate = LocalDateTime.of(2006, 3, 14, 10, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(0.25, variance.getDuration(), 0.01);
 
-      endDate = df.parse("14/03/2006 11:00");
+      endDate = LocalDateTime.of(2006, 3, 14, 11, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(0.38, variance.getDuration(), 0.01);
 
-      endDate = df.parse("14/03/2006 12:00");
+      endDate = LocalDateTime.of(2006, 3, 14, 12, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(0.5, variance.getDuration(), 0.01);
 
-      endDate = df.parse("14/03/2006 13:00");
+      endDate = LocalDateTime.of(2006, 3, 14, 13, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(0.5, variance.getDuration(), 0.01);
 
-      endDate = df.parse("14/03/2006 16:00");
+      endDate = LocalDateTime.of(2006, 3, 14, 16, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(0.88, variance.getDuration(), 0.01);
 
-      endDate = df.parse("14/03/2006 17:00");
+      endDate = LocalDateTime.of(2006, 3, 14, 17, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(1.0, variance.getDuration(), 0.01);
 
-      endDate = df.parse("14/03/2006 18:00");
+      endDate = LocalDateTime.of(2006, 3, 14, 18, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(1.0, variance.getDuration(), 0.01);
 
       //
       // Same date non-working day
       //
-      startDate = df.parse("12/03/2006 08:00");
-      endDate = df.parse("12/03/2006 17:00");
+      startDate = LocalDateTime.of(2006, 3, 12, 8, 0);
+      endDate = LocalDateTime.of(2006, 3, 12, 17, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(0.0, variance.getDuration(), 0.01);
 
       //
       // Exception tests
       //
-      startDate = df.parse("13/03/2006 08:00");
-      endDate = df.parse("24/03/2006 16:00");
+      startDate = LocalDateTime.of(2006, 3, 13, 8, 0);
+      endDate = LocalDateTime.of(2006, 3, 24, 16, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(9.88, variance.getDuration(), 0.01);
 
-      projectCalendar.addCalendarException(df.parse("14/03/2006 00:00"), df.parse("14/03/2006 23:59"));
+      projectCalendar.addCalendarException(LocalDate.of(2006, 3, 14), LocalDate.of(2006, 3, 14));
 
-      startDate = df.parse("13/03/2006 08:00");
-      endDate = df.parse("24/03/2006 16:00");
+      startDate = LocalDateTime.of(2006, 3, 13, 8, 0);
+      endDate = LocalDateTime.of(2006, 3, 24, 16, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(8.88, variance.getDuration(), 0.01);
 
-      ProjectCalendarException exception = projectCalendar.addCalendarException(df.parse("18/03/2006 00:00"), df.parse("18/03/2006 23:59"));
-      exception.add(new DateRange(df.parse("18/03/2006 08:00"), df.parse("18/03/2006 12:00")));
+      ProjectCalendarException exception = projectCalendar.addCalendarException(LocalDate.of(206, 3, 18), LocalDate.of(2006, 3, 18));
+      exception.add(new LocalTimeRange(LocalTime.of(8, 0), LocalTime.of(12, 0)));
 
-      startDate = df.parse("18/03/2006 08:00");
-      endDate = df.parse("18/03/2006 16:00");
+      startDate = LocalDateTime.of(2006, 3, 18, 8, 0);
+      endDate = LocalDateTime.of(2006, 3, 18, 16, 0);
       variance = projectCalendar.getWork(startDate, endDate, TimeUnit.DAYS);
       assertEquals(0.5, variance.getDuration(), 0.01);
    }
@@ -496,208 +496,435 @@ public class ProjectCalendarTest
    /**
     * Simple tests to exercise the ProjectCalendar.getDate method.
     */
-   @Test public void testGetDate() throws Exception
+   @Test public void testGetDate()
    {
       ProjectFile file = new ProjectFile();
-      Duration duration;
       ProjectCalendar cal = file.addDefaultBaseCalendar();
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-      Date startDate = df.parse("09/10/2003 08:00");
+      LocalDateTime startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
 
       //
       // Add one 8 hour day
       //
-      duration = Duration.getInstance(8, TimeUnit.HOURS);
-      Date endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 17:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("10/10/2003 08:00", df.format(endDate));
+      Duration duration = Duration.getInstance(8, TimeUnit.HOURS);
+      LocalDateTime endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 17, 0), endDate);
 
       //
       // Add two 8 hour days
       //
       duration = Duration.getInstance(16, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("10/10/2003 17:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("13/10/2003 08:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 10, 17, 0), endDate);
 
       //
       // Add three 8 hour days which span a weekend
       //
       duration = Duration.getInstance(24, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("13/10/2003 17:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("14/10/2003 08:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 13, 17, 0), endDate);
 
       //
       // Add 9 hours from the start of a day
       //
       duration = Duration.getInstance(9, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("10/10/2003 09:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("10/10/2003 09:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 10, 9, 0), endDate);
 
       //
       // Add 1 hour from the start of a day
       //
       duration = Duration.getInstance(1, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 09:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("09/10/2003 09:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 9, 0), endDate);
 
       //
       // Add 1 hour offset by 1 hour from the start of a day
       //
-      startDate = df.parse("09/10/2003 09:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 9, 0);
       duration = Duration.getInstance(1, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 10:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("09/10/2003 10:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 10, 0), endDate);
 
       //
       // Add 1 hour which crosses a date ranges
       //
-      startDate = df.parse("09/10/2003 11:30");
+      startDate = LocalDateTime.of(2003, 10, 9, 11, 30);
       duration = Duration.getInstance(1, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 13:30", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("09/10/2003 13:30", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 13, 30), endDate);
 
       //
       // Add 1 hour at the start of the second range
       //
-      startDate = df.parse("09/10/2003 13:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 13, 0);
       duration = Duration.getInstance(1, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 14:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("09/10/2003 14:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 14, 0), endDate);
 
       //
       // Add 1 hour offset by 1 hour from the start of the second range
       //
-      startDate = df.parse("09/10/2003 14:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 14, 0);
       duration = Duration.getInstance(1, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 15:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("09/10/2003 15:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 15, 0), endDate);
 
       //
       // Full first range
       //
-      startDate = df.parse("09/10/2003 08:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(4, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 12:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("09/10/2003 13:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 12, 0), endDate);
 
       //
       // Full second range
       //
-      startDate = df.parse("09/10/2003 13:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 13, 0);
       duration = Duration.getInstance(4, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 17:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("10/10/2003 08:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 17, 0), endDate);
 
       //
       // Offset full first range
       //
-      startDate = df.parse("09/10/2003 09:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 9, 0);
       duration = Duration.getInstance(3, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 12:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("09/10/2003 13:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 12, 0), endDate);
 
       //
       // Offset full second range
       //
-      startDate = df.parse("09/10/2003 14:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 14, 0);
       duration = Duration.getInstance(3, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("09/10/2003 17:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("10/10/2003 08:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 17, 0), endDate);
 
       //
       // Cross weekend
       //
-      startDate = df.parse("09/10/2003 8:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(24, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("13/10/2003 17:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("14/10/2003 08:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 13, 17, 0), endDate);
 
       //
       // Make Friday 10th a non-working day
       //
-      cal.addCalendarException(df.parse("10/10/2003 00:00"), df.parse("10/10/2003 23:59"));
+      cal.addCalendarException(LocalDate.of(2003, 10, 10), LocalDate.of(2003, 10, 10));
 
       //
       // Cross weekend with a non-working day exception
       //
-      startDate = df.parse("09/10/2003 8:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(24, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("14/10/2003 17:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("15/10/2003 08:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 14, 17, 0), endDate);
 
       //
       // Make Saturday 11th a working day
       //
-      ProjectCalendarException ex = cal.addCalendarException(df.parse("11/10/2003 00:00"), df.parse("11/10/2003 23:59"));
-      ex.add(new DateRange(df.parse("11/10/2003 09:00"), df.parse("11/10/2003 13:00")));
+      ProjectCalendarException ex = cal.addCalendarException(LocalDate.of(2003, 10, 11), LocalDate.of(2003, 10, 11));
+      ex.add(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(13, 0)));
 
       //
       // Cross weekend with a non-working day exception and a working day exception
       //
-      startDate = df.parse("09/10/2003 8:00");
+      startDate = LocalDateTime.of(2003, 10, 9, 8, 0);
       duration = Duration.getInstance(24, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("14/10/2003 12:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("14/10/2003 13:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 14, 12, 0), endDate);
 
       //
       // Make the start date a non-working day
       //
-      startDate = df.parse("12/10/2003 8:00");
+      startDate = LocalDateTime.of(2003, 10, 12, 8, 0);
       duration = Duration.getInstance(8, TimeUnit.HOURS);
-      endDate = cal.getDate(startDate, duration, false);
-      assertEquals("13/10/2003 17:00", df.format(endDate));
-      endDate = cal.getDate(startDate, duration, true);
-      assertEquals("14/10/2003 08:00", df.format(endDate));
+      endDate = cal.getDate(startDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 13, 17, 0), endDate);
+   }
+
+   /**
+    * Simple tests to exercise the ProjectCalendar.getDate method with a negative duration.
+    */
+   @Test public void testGetDateWithNegativeDuration()
+   {
+      ProjectFile file = new ProjectFile();
+      ProjectCalendar cal = file.addDefaultBaseCalendar();
+      LocalDateTime endDate = LocalDateTime.of(2003, 10, 9, 17, 0);
+
+      //
+      // Subtract one 8 hour day
+      //
+      Duration duration = Duration.getInstance(-8, TimeUnit.HOURS);
+      LocalDateTime startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 8, 0), startDate);
+
+      //
+      // Subtract two 8 hour days
+      //
+      duration = Duration.getInstance(-16, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 8, 8, 0), startDate);
+
+      //
+      // Subtract five 8 hour days which span a weekend
+      //
+      duration = Duration.getInstance(-40, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 3, 8, 0), startDate);
+
+      //
+      // Subtract 9 hours from the end of a day
+      //
+      duration = Duration.getInstance(-9, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 8, 16, 0), startDate);
+
+      //
+      // Subtract 1 hour from the end of a day
+      //
+      duration = Duration.getInstance(-1, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 16, 0), startDate);
+
+      //
+      // Subtract 1 hour offset by 1 hour from the end of a day
+      //
+      endDate = LocalDateTime.of(2003, 10, 9, 16, 0);
+      duration = Duration.getInstance(-1, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 15, 0), startDate);
+
+      //
+      // Subtract 1 hour which crosses a date ranges
+      //
+      endDate = LocalDateTime.of(2003, 10, 9, 13, 30);
+      duration = Duration.getInstance(-1, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 11, 30), startDate);
+
+      //
+      // Subtract 1 hour at the start of the first range
+      //
+      endDate = LocalDateTime.of(2003, 10, 9, 12, 0);
+      duration = Duration.getInstance(-1, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 11, 0), startDate);
+
+      //
+      // Subtract 1 hour offset by 1 hour from the end of the first range
+      //
+      endDate = LocalDateTime.of(2003, 10, 9, 11, 0);
+      duration = Duration.getInstance(-1, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 10, 0), startDate);
+
+      //
+      // Full first range
+      //
+      endDate = LocalDateTime.of(2003, 10, 9, 12, 0);
+      duration = Duration.getInstance(-4, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 8, 0), startDate);
+
+      //
+      // Full second range
+      //
+      endDate = LocalDateTime.of(2003, 10, 9, 17, 0);
+      duration = Duration.getInstance(-4, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 13, 0), startDate);
+
+      //
+      // Offset full first range
+      //
+      endDate = LocalDateTime.of(2003, 10, 9, 11, 0);
+      duration = Duration.getInstance(-3, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 8, 0), startDate);
+
+      //
+      // Offset full second range
+      //
+      endDate = LocalDateTime.of(2003, 10, 9, 16, 0);
+      duration = Duration.getInstance(-3, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 9, 13, 0), startDate);
+
+      //
+      // Cross weekend
+      //
+      endDate = LocalDateTime.of(2003, 10, 6, 9, 0);
+      duration = Duration.getInstance(-24, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 1, 9, 0), startDate);
+
+      //
+      // Make Friday 3rd a non-working day
+      //
+      cal.addCalendarException(LocalDate.of(2003, 10, 3), LocalDate.of(2003, 10, 3));
+
+      //
+      // Cross weekend with a non-working day exception
+      //
+      endDate = LocalDateTime.of(2003, 10, 6, 9, 0);
+      duration = Duration.getInstance(-24, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 9, 30, 9, 0), startDate);
+
+      //
+      // Make Saturday 4th a working day
+      //
+      ProjectCalendarException ex = cal.addCalendarException(LocalDate.of(2003, 10, 4), LocalDate.of(2003, 10, 4));
+      ex.add(new LocalTimeRange(LocalTime.of(9, 0), LocalTime.of(13, 0)));
+
+      //
+      // Cross weekend with a non-working day exception and a working day exception
+      //
+      endDate = LocalDateTime.of(2003, 10, 6, 9, 0);
+      duration = Duration.getInstance(-24, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 9, 30, 14, 0), startDate);
+
+      //
+      // Make the end date a non-working day
+      //
+      endDate = LocalDateTime.of(2003, 10, 12, 8, 0);
+      duration = Duration.getInstance(-8, TimeUnit.HOURS);
+      startDate = cal.getDate(endDate, duration);
+      assertEquals(LocalDateTime.of(2003, 10, 10, 8, 0), startDate);
+   }
+
+   /**
+    * Simple tests to exercise the ProjectCalendar.getDate method with a negative duration including midnight.
+    */
+   @Test public void testMidnightNegativeDuration()
+   {
+      ProjectFile file = new ProjectFile();
+      ProjectCalendar calendar = new ProjectCalendar(file);
+
+      List<LocalTimeRange> ranges = Arrays.asList(
+         new LocalTimeRange(LocalTime.of(0, 0), LocalTime.of(4, 30)),
+         new LocalTimeRange(LocalTime.of(8, 30), LocalTime.of(0, 0)));
+
+      Arrays.stream(DayOfWeek.values()).forEach(d -> calendar.setCalendarDayType(d, DayType.WORKING));
+
+      calendar.addCalendarHours(DayOfWeek.MONDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.TUESDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.WEDNESDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.THURSDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.FRIDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.SATURDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.SUNDAY).addAll(ranges);
+
+      // Within first range
+      LocalDateTime result = calendar.getDate(LocalDateTime.of(2024, 2, 28, 4, 0), Duration.getInstance(-2, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 2, 0), result);
+
+      // From end of first range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 28, 4, 30), Duration.getInstance(-2, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 2, 30), result);
+
+      // All of second range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 28, 4, 30), Duration.getInstance(-4.5, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 0, 0), result);
+
+      // From end of second range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-1, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 23, 0), result);
+
+      // All of the second range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-15.5, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 8, 30), result);
+
+      // Overlap both ranges
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 28, 23, 0), Duration.getInstance(-15, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 4, 0), result);
+
+      // All of both ranges
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-20, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 0, 0), result);
+
+      // Overlap across midnight
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 4, 0), Duration.getInstance(-6, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 22, 0), result);
+
+      // Overlap across midnight from non-working time
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 5, 0), Duration.getInstance(-6, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 22, 30), result);
+
+      // 1 full working day, from end of day
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-20, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 0, 0), result);
+
+      // 1 full working day with offset
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 1, 0), Duration.getInstance(-20, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 1, 0), result);
+
+      // 2 full working days
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-40, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 27, 0, 0), result);
+   }
+
+   /**
+    * Simple tests to exercise the ProjectCalendar.getDate method with a negative duration using a 24x7 calendar.
+    */
+   @Test public void test247()
+   {
+      ProjectFile file = new ProjectFile();
+      ProjectCalendar calendar = new ProjectCalendar(file);
+
+      List<LocalTimeRange> ranges = Collections.singletonList(new LocalTimeRange(LocalTime.of(0, 0), LocalTime.of(0, 0)));
+
+      Arrays.stream(DayOfWeek.values()).forEach(d -> calendar.setCalendarDayType(d, DayType.WORKING));
+
+      calendar.addCalendarHours(DayOfWeek.MONDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.TUESDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.WEDNESDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.THURSDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.FRIDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.SATURDAY).addAll(ranges);
+      calendar.addCalendarHours(DayOfWeek.SUNDAY).addAll(ranges);
+
+      // Within range
+      LocalDateTime result = calendar.getDate(LocalDateTime.of(2024, 2, 28, 4, 0), Duration.getInstance(-2, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 2, 0), result);
+
+      // From end of range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-2, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 22, 0), result);
+
+      // All range
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 0, 0), Duration.getInstance(-24, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 0, 0), result);
+
+      // Across days
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 8, 0), Duration.getInstance(-24, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 8, 0), result);
+
+      // Across days
+      result = calendar.getDate(LocalDateTime.of(2024, 2, 29, 4, 0), Duration.getInstance(-8, TimeUnit.HOURS));
+      assertEquals(LocalDateTime.of(2024, 2, 28, 20, 0), result);
    }
 
    /**
     * Simple tests to exercise the ProjectCalendar.getStartTime method.
     */
-   @Test public void testStartTime() throws Exception
+   @Test public void testStartTime()
    {
       ProjectFile file = new ProjectFile();
       ProjectCalendar cal = file.addDefaultBaseCalendar();
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
       //
       // Working day
       //
-      assertEquals("01/01/0001 08:00", df.format(cal.getStartTime(df.parse("09/10/2003 00:00"))));
+      assertEquals(LocalTime.of(8, 0), cal.getStartTime(LocalDate.of(2003, 10, 9)));
 
       //
       // Non-working day
       //
-      assertNull(cal.getStartTime(df.parse("11/10/2003 00:00")));
+      assertNull(cal.getStartTime(LocalDate.of(2003, 10, 11)));
    }
 }

@@ -9,6 +9,8 @@ theme:
   name: material
   logo: images/mpxj-white.svg
   favicon: images/favicon.png
+  features:
+    - content.tabs.link
 
 extra:
   analytics:
@@ -19,12 +21,15 @@ markdown_extensions:
   - attr_list
   - pymdownx.highlight
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 
 nav:
   - 'Introduction': 'index.md'
   - 'Changes': 'CHANGELOG.md'
   - 'Support': 'support.md'
   - 'File Formats': 'supported-formats.md'
+  - 'Store': 'store.md'
   - 'Getting Started':
     - 'Getting Started with Java': 'howto-start-java.md'
     - 'Getting Started with .Net': 'howto-dotnet.md'
@@ -59,12 +64,19 @@ nav:
     - 'SDEF files': 'howto-read-sdef.md'
     - 'Schedule Grid files': 'howto-read-schedule-grid.md'
     - 'Project Commander files': 'howto-read-projectcommander.md'
+    - 'Deltek Open Plan BK3 files': 'howto-read-openplan.md'
   - 'How to Write...':
     - 'MPX files': 'howto-write-mpx.md'
     - 'MSPDI files': 'howto-write-mspdi.md'
+    - 'Planner files' : 'howto-write-planner.md'
+    - 'SDEF files' : 'howto-write-sdef.md'
+    - 'PMXML files' : 'howto-write-pmxml.md'
+    - 'XER files' : 'howto-write-xer.md'
   - 'How to Use...':
       - 'Calendars': 'howto-use-calendars.md'
       - 'Fields': 'howto-use-fields.md'
+      - 'External Projects': 'howto-use-external-projects.md'
+      - 'Universal Project Reader': 'howto-use-universal.md'
   - 'Field Guides...':
     - 'Field Guide': 'field-guide.md'
     - 'MPP Field Guide': 'mpp-field-guide.md'

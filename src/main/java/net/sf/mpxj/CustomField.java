@@ -44,7 +44,7 @@ public class CustomField implements Comparable<CustomField>
       m_field = field;
       m_parent = parent;
       m_table = new CustomFieldLookupTable();
-      m_indicator = new GraphicalIndicator();
+      m_indicator = new GraphicalIndicator(field);
       m_masks = new ArrayList<>();
    }
 

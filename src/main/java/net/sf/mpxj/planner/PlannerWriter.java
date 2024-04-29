@@ -25,11 +25,13 @@ package net.sf.mpxj.planner;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +43,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ProjectCalendar;
@@ -57,8 +59,9 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ProjectCalendarHelper;
@@ -145,12 +148,12 @@ public final class PlannerWriter extends AbstractProjectWriter
    private void writeProjectProperties()
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
-
+      String projectStart = properties.getStartDate() == null ? "" : getDateTimeString(properties.getStartDate());
       m_plannerProject.setCompany(properties.getCompany());
       m_plannerProject.setManager(properties.getManager());
       m_plannerProject.setName(getString(properties.getName()));
-      m_plannerProject.setProjectStart(getDateTime(properties.getStartDate()));
-      m_plannerProject.setCalendar(getIntegerString(m_projectFile.getDefaultCalendar().getUniqueID()));
+      m_plannerProject.setProjectStart(projectStart);
+      m_plannerProject.setCalendar(getIntegerString(m_projectFile.getProjectProperties().getDefaultCalendarUniqueID()));
       m_plannerProject.setMrprojectVersion("2");
    }
 
@@ -229,13 +232,13 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       DefaultWeek dw = m_factory.createDefaultWeek();
       plannerCalendar.setDefaultWeek(dw);
-      dw.setMon(getWorkingDayString(mpxjCalendar, Day.MONDAY));
-      dw.setTue(getWorkingDayString(mpxjCalendar, Day.TUESDAY));
-      dw.setWed(getWorkingDayString(mpxjCalendar, Day.WEDNESDAY));
-      dw.setThu(getWorkingDayString(mpxjCalendar, Day.THURSDAY));
-      dw.setFri(getWorkingDayString(mpxjCalendar, Day.FRIDAY));
-      dw.setSat(getWorkingDayString(mpxjCalendar, Day.SATURDAY));
-      dw.setSun(getWorkingDayString(mpxjCalendar, Day.SUNDAY));
+      dw.setMon(getWorkingDayString(mpxjCalendar, DayOfWeek.MONDAY));
+      dw.setTue(getWorkingDayString(mpxjCalendar, DayOfWeek.TUESDAY));
+      dw.setWed(getWorkingDayString(mpxjCalendar, DayOfWeek.WEDNESDAY));
+      dw.setThu(getWorkingDayString(mpxjCalendar, DayOfWeek.THURSDAY));
+      dw.setFri(getWorkingDayString(mpxjCalendar, DayOfWeek.FRIDAY));
+      dw.setSat(getWorkingDayString(mpxjCalendar, DayOfWeek.SATURDAY));
+      dw.setSun(getWorkingDayString(mpxjCalendar, DayOfWeek.SUNDAY));
 
       //
       // Set working hours
@@ -256,7 +259,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       //
       for (int dayLoop = 1; dayLoop < 8; dayLoop++)
       {
-         Day day = Day.getInstance(dayLoop);
+         DayOfWeek day = DayOfWeekHelper.getInstance(dayLoop);
          if (mpxjCalendar.isWorkingDay(day))
          {
             processWorkingHours(mpxjCalendar, uniqueID, day, typeList);
@@ -297,7 +300,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param day Day instance
     * @param typeList Planner list of days
     */
-   private void processWorkingHours(ProjectCalendar mpxjCalendar, Sequence uniqueID, Day day, List<OverriddenDayType> typeList)
+   private void processWorkingHours(ProjectCalendar mpxjCalendar, Sequence uniqueID, DayOfWeek day, List<OverriddenDayType> typeList)
    {
       if (isWorkingDay(mpxjCalendar, day))
       {
@@ -308,17 +311,17 @@ public final class PlannerWriter extends AbstractProjectWriter
             typeList.add(odt);
             odt.setId(getIntegerString(uniqueID.next()));
             List<Interval> intervalList = odt.getInterval();
-            for (DateRange mpxjRange : mpxjHours)
+            for (LocalTimeRange mpxjRange : mpxjHours)
             {
-               Date rangeStart = mpxjRange.getStart();
-               Date rangeEnd = mpxjRange.getEnd();
+               LocalTime rangeStart = mpxjRange.getStart();
+               LocalTime rangeEnd = mpxjRange.getEnd();
 
                if (rangeStart != null && rangeEnd != null)
                {
                   Interval interval = m_factory.createInterval();
                   intervalList.add(interval);
-                  interval.setStart(getTimeString(rangeStart));
-                  interval.setEnd(getTimeString(rangeEnd));
+                  interval.setStart(m_timeFormat.format(rangeStart));
+                  interval.setEnd(m_timeFormat.format(rangeEnd));
                }
             }
          }
@@ -336,9 +339,9 @@ public final class PlannerWriter extends AbstractProjectWriter
       List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxjCalendar);
       for (ProjectCalendarException mpxjCalendarException : expandedExceptions)
       {
-         Date rangeStartDay = mpxjCalendarException.getFromDate();
-         Date rangeEndDay = mpxjCalendarException.getToDate();
-         if (DateHelper.getDayStartDate(rangeStartDay).getTime() == DateHelper.getDayEndDate(rangeEndDay).getTime())
+         LocalDate rangeStartDay = mpxjCalendarException.getFromDate();
+         LocalDate rangeEndDay = mpxjCalendarException.getToDate();
+         if (rangeStartDay.equals(rangeEndDay))
          {
             //
             // Exception covers a single day
@@ -354,19 +357,15 @@ public final class PlannerWriter extends AbstractProjectWriter
             //
             // Exception covers a range of days
             //
-            Calendar cal = DateHelper.popCalendar(rangeStartDay);
-
-            while (cal.getTime().getTime() < rangeEndDay.getTime())
+            while (!rangeStartDay.isAfter(rangeEndDay))
             {
                net.sf.mpxj.planner.schema.Day day = m_factory.createDay();
                dayList.add(day);
                day.setType("day-type");
-               day.setDate(getDateString(cal.getTime()));
+               day.setDate(getDateString(rangeStartDay));
                day.setId(mpxjCalendarException.getWorking() ? "0" : "1");
-               cal.add(Calendar.DAY_OF_YEAR, 1);
+               rangeStartDay = rangeStartDay.plusDays(1);
             }
-
-            DateHelper.pushCalendar(cal);
          }
 
          /*
@@ -455,7 +454,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       plannerTask.setPercentComplete(getIntegerString(mpxjTask.getPercentageWorkComplete()));
       plannerTask.setPriority(mpxjTask.getPriority() == null ? null : getIntegerString(mpxjTask.getPriority().getValue() * 10));
       plannerTask.setScheduling(getScheduling(mpxjTask.getType()));
-      plannerTask.setStart(getDateTimeString(DateHelper.getDayStartDate(mpxjTask.getStart())));
+      plannerTask.setStart(getDateTimeString(LocalDateTimeHelper.getDayStartDate(mpxjTask.getStart())));
       plannerTask.setType(mpxjTask.getMilestone() ? "milestone" : "normal");
       plannerTask.setWork(getDurationString(getWork(mpxjTask)));
       plannerTask.setWorkStart(getDateTimeString(mpxjTask.getStart()));
@@ -514,18 +513,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    private Duration getWork(Task task)
    {
       Duration result = task.getWork();
-
-      if (result != null && result.getDuration() != 0)
-      {
-         return result;
-      }
-
-      if (result == null || result.getDuration() == 0)
-      {
-         return task.getDuration();
-      }
-
-      return result;
+      return result != null && result.getDuration() != 0 ? result : task.getDuration();
    }
 
    /**
@@ -600,8 +588,8 @@ public final class PlannerWriter extends AbstractProjectWriter
       }
 
       // Convert the lag to an elapsed duration.
-      Date predecessorDate;
-      Date successorDate;
+      LocalDateTime predecessorDate;
+      LocalDateTime successorDate;
 
       switch (relation.getType())
       {
@@ -639,8 +627,8 @@ public final class PlannerWriter extends AbstractProjectWriter
       {
          return lag;
       }
-
-      double minutes = (successorDate.getTime() - predecessorDate.getTime()) / (1000.0 * 60.0);
+      long milliseconds = predecessorDate.until(successorDate, ChronoUnit.MILLIS);
+      double minutes = milliseconds / (1000.0 * 60.0);
       return Duration.getInstance(minutes, TimeUnit.ELAPSED_MINUTES);
    }
 
@@ -679,35 +667,6 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * Convert a Planner date-time value into a Java date.
-    *
-    * 20070222T080000Z
-    *
-    * @param value Planner date-time
-    * @return Java Date instance
-    */
-   private String getDateTime(Date value)
-   {
-      StringBuilder result = new StringBuilder(16);
-
-      if (value != null)
-      {
-         Calendar cal = DateHelper.popCalendar(value);
-         result.append(m_fourDigitFormat.format(cal.get(Calendar.YEAR)));
-         result.append(m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1));
-         result.append(m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)));
-         result.append("T");
-         result.append(m_twoDigitFormat.format(cal.get(Calendar.HOUR_OF_DAY)));
-         result.append(m_twoDigitFormat.format(cal.get(Calendar.MINUTE)));
-         result.append(m_twoDigitFormat.format(cal.get(Calendar.SECOND)));
-         result.append("Z");
-         DateHelper.pushCalendar(cal);
-      }
-
-      return (result.toString());
-   }
-
-   /**
     * Convert an Integer value into a String.
     *
     * @param value Integer value
@@ -737,7 +696,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param day Day instance
     * @return boolean flag
     */
-   private boolean isWorkingDay(ProjectCalendar mpxjCalendar, Day day)
+   private boolean isWorkingDay(ProjectCalendar mpxjCalendar, DayOfWeek day)
    {
       boolean result = false;
       net.sf.mpxj.DayType type = mpxjCalendar.getCalendarDayType(day);
@@ -762,14 +721,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
          case DEFAULT:
          {
-            if (mpxjCalendar.getParent() == null)
-            {
-               result = false;
-            }
-            else
-            {
-               result = isWorkingDay(mpxjCalendar.getParent(), day);
-            }
+            result = mpxjCalendar.getParent() != null && isWorkingDay(mpxjCalendar.getParent(), day);
             break;
          }
       }
@@ -785,7 +737,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param day Day instance
     * @return boolean flag as a string
     */
-   private String getWorkingDayString(ProjectCalendar mpxjCalendar, Day day)
+   private String getWorkingDayString(ProjectCalendar mpxjCalendar, DayOfWeek day)
    {
       String result = null;
       net.sf.mpxj.DayType type = mpxjCalendar.getCalendarDayType(day);
@@ -819,23 +771,6 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * Convert a Java date into a Planner time.
-    *
-    * 0800
-    *
-    * @param value Java Date instance
-    * @return Planner time value
-    */
-   private String getTimeString(Date value)
-   {
-      Calendar cal = DateHelper.popCalendar(value);
-      int hours = cal.get(Calendar.HOUR_OF_DAY);
-      int minutes = cal.get(Calendar.MINUTE);
-      DateHelper.pushCalendar(cal);
-      return m_twoDigitFormat.format(hours) + m_twoDigitFormat.format(minutes);
-   }
-
-   /**
     * Convert a Java date into a Planner date.
     *
     * 20070222
@@ -843,14 +778,9 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param value Java Date instance
     * @return Planner date
     */
-   private String getDateString(Date value)
+   private String getDateString(LocalDate value)
    {
-      Calendar cal = DateHelper.popCalendar(value);
-      int year = cal.get(Calendar.YEAR);
-      int month = cal.get(Calendar.MONTH) + 1;
-      int day = cal.get(Calendar.DAY_OF_MONTH);
-      DateHelper.pushCalendar(cal);
-      return m_fourDigitFormat.format(year) + m_twoDigitFormat.format(month) + m_twoDigitFormat.format(day);
+      return m_dateFormat.format(value);
    }
 
    /**
@@ -861,16 +791,14 @@ public final class PlannerWriter extends AbstractProjectWriter
     * @param value Java date
     * @return Planner date-time string
     */
-   private String getDateTimeString(Date value)
+   private String getDateTimeString(LocalDateTime value)
    {
-      String result = null;
-      if (value != null)
+      if (value == null)
       {
-         Calendar cal = DateHelper.popCalendar(value);
-         result = m_fourDigitFormat.format(cal.get(Calendar.YEAR)) + m_twoDigitFormat.format(cal.get(Calendar.MONTH) + 1) + m_twoDigitFormat.format(cal.get(Calendar.DAY_OF_MONTH)) + 'T' + m_twoDigitFormat.format(cal.get(Calendar.HOUR_OF_DAY)) + m_twoDigitFormat.format(cal.get(Calendar.MINUTE)) + m_twoDigitFormat.format(cal.get(Calendar.SECOND)) + 'Z';
-         DateHelper.pushCalendar(cal);
+         return null;
       }
-      return result;
+
+      return m_dateTimeFormat.format(value);
    }
 
    /**
@@ -984,7 +912,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    private String getScheduling(TaskType value)
    {
       String result = "fixed-work";
-      if (value == TaskType.FIXED_DURATION)
+      if (value == TaskType.FIXED_DURATION || value == TaskType.FIXED_DURATION_AND_UNITS)
       {
          result = "fixed-duration";
       }
@@ -1003,7 +931,7 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * Set the encoding used to write the file. By default UTF-8 is used.
+    * Set the encoding used to write the file. By default, UTF-8 is used.
     *
     * @param encoding encoding name
     */
@@ -1029,8 +957,9 @@ public final class PlannerWriter extends AbstractProjectWriter
    private ObjectFactory m_factory;
    private Project m_plannerProject;
 
-   private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
-   private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
+   private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HHmm");
+   private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
+   private final DateTimeFormatter m_dateTimeFormat = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
 
    private static final Map<RelationType, String> RELATIONSHIP_TYPES = new HashMap<>();
    static

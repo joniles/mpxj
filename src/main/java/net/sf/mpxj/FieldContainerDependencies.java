@@ -51,7 +51,7 @@ class FieldContainerDependencies<T>
     * Identify the target calculated field.
     *
     * @param type calculated field
-    * @return this to allow method cahinaing
+    * @return this to allow method chaining
     */
    public FieldContainerDependencies<T> calculatedField(T type)
    {

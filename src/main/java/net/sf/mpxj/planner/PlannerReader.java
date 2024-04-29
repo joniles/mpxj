@@ -24,13 +24,11 @@
 package net.sf.mpxj.planner;
 
 import java.io.InputStream;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,11 +40,11 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.LocalTimeRange;
 import org.xml.sax.SAXException;
 
 import net.sf.mpxj.ConstraintType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
 import net.sf.mpxj.DayType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -66,7 +64,6 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.DateHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.UnmarshalHelper;
 import net.sf.mpxj.planner.schema.Allocation;
@@ -107,6 +104,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
          config.setAutoOutlineLevel(false);
          config.setAutoOutlineNumber(false);
          config.setAutoWBS(false);
+         config.setAutoCalendarUniqueID(false);
 
          m_projectFile.getProjectProperties().setFileApplication("Planner");
          m_projectFile.getProjectProperties().setFileType("XML");
@@ -120,13 +118,9 @@ public final class PlannerReader extends AbstractProjectStreamReader
          readResources(plannerProject);
          readTasks(plannerProject);
          readAssignments(plannerProject);
+         m_projectFile.readComplete();
 
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
-
-         return (m_projectFile);
+         return m_projectFile;
       }
 
       catch (ParserConfigurationException | SAXException | JAXBException ex)
@@ -141,17 +135,12 @@ public final class PlannerReader extends AbstractProjectStreamReader
       }
    }
 
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
-   }
-
    /**
     * This method extracts project properties from a Planner file.
     *
     * @param project Root node of the Planner file
     */
-   private void readProjectProperties(Project project) throws MPXJException
+   private void readProjectProperties(Project project)
    {
       ProjectProperties properties = m_projectFile.getProjectProperties();
 
@@ -166,7 +155,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     *
     * @param project Root node of the Planner file
     */
-   private void readCalendars(Project project) throws MPXJException
+   private void readCalendars(Project project)
    {
       Calendars calendars = project.getCalendars();
       if (calendars != null)
@@ -182,6 +171,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
       if (m_defaultCalendar == null)
       {
          m_defaultCalendar = m_projectFile.addDefaultBaseCalendar();
+         m_defaultCalendar.setUniqueID(m_projectFile.getUniqueIdObjectSequence(ProjectCalendar.class).getNext());
       }
 
       m_projectFile.getProjectProperties().setDefaultCalendar(m_defaultCalendar);
@@ -193,7 +183,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param plannerCalendar Calendar data
     * @param parentMpxjCalendar parent of derived calendar
     */
-   private void readCalendar(net.sf.mpxj.planner.schema.Calendar plannerCalendar, ProjectCalendar parentMpxjCalendar) throws MPXJException
+   private void readCalendar(net.sf.mpxj.planner.schema.Calendar plannerCalendar, ProjectCalendar parentMpxjCalendar)
    {
       //
       // Create a calendar instance
@@ -210,19 +200,19 @@ public final class PlannerReader extends AbstractProjectStreamReader
       //
       // Read the hours for each day type
       //
-      Map<String, List<DateRange>> map = getHoursMap(plannerCalendar);
+      Map<String, List<LocalTimeRange>> map = getHoursMap(plannerCalendar);
 
       //
       // Set the hours for each day based on the day type
       //
       DefaultWeek dw = plannerCalendar.getDefaultWeek();
-      setHours(map, mpxjCalendar, Day.MONDAY, dw.getMon());
-      setHours(map, mpxjCalendar, Day.TUESDAY, dw.getTue());
-      setHours(map, mpxjCalendar, Day.WEDNESDAY, dw.getWed());
-      setHours(map, mpxjCalendar, Day.THURSDAY, dw.getThu());
-      setHours(map, mpxjCalendar, Day.FRIDAY, dw.getFri());
-      setHours(map, mpxjCalendar, Day.SATURDAY, dw.getSat());
-      setHours(map, mpxjCalendar, Day.SUNDAY, dw.getSun());
+      setHours(map, mpxjCalendar, DayOfWeek.MONDAY, dw.getMon());
+      setHours(map, mpxjCalendar, DayOfWeek.TUESDAY, dw.getTue());
+      setHours(map, mpxjCalendar, DayOfWeek.WEDNESDAY, dw.getWed());
+      setHours(map, mpxjCalendar, DayOfWeek.THURSDAY, dw.getThu());
+      setHours(map, mpxjCalendar, DayOfWeek.FRIDAY, dw.getFri());
+      setHours(map, mpxjCalendar, DayOfWeek.SATURDAY, dw.getSat());
+      setHours(map, mpxjCalendar, DayOfWeek.SUNDAY, dw.getSun());
 
       //
       // Process any exception days
@@ -247,15 +237,15 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param plannerCalendar Planner calendar
     * @return day type map
     */
-   private Map<String, List<DateRange>> getHoursMap(net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws MPXJException
+   private Map<String, List<LocalTimeRange>> getHoursMap(net.sf.mpxj.planner.schema.Calendar plannerCalendar)
    {
-      Map<String, List<DateRange>> result = new HashMap<>();
+      Map<String, List<LocalTimeRange>> result = new HashMap<>();
       for (OverriddenDayType type : plannerCalendar.getOverriddenDayTypes().getOverriddenDayType())
       {
-         List<DateRange> hours = new ArrayList<>();
+         List<LocalTimeRange> hours = new ArrayList<>();
          for (Interval interval : type.getInterval())
          {
-            hours.add(new DateRange(getTime(interval.getStart()), getTime(interval.getEnd())));
+            hours.add(new LocalTimeRange(getTime(interval.getStart()), getTime(interval.getEnd())));
          }
          result.put(type.getId(), hours);
       }
@@ -270,9 +260,9 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param mpxjDay MPXJ calendar
     * @param plannerDay Planner day type
     */
-   private void setHours(Map<String, List<DateRange>> map, ProjectCalendar mpxjCalendar, Day mpxjDay, String plannerDay)
+   private void setHours(Map<String, List<LocalTimeRange>> map, ProjectCalendar mpxjCalendar, DayOfWeek mpxjDay, String plannerDay)
    {
-      List<DateRange> dateRanges = map.get(plannerDay);
+      List<LocalTimeRange> dateRanges = map.get(plannerDay);
       if (dateRanges == null)
       {
          // Note that ID==2 is the hard coded "use base" day type
@@ -301,7 +291,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param mpxjCalendar MPXJ calendar
     * @param plannerCalendar Planner calendar
     */
-   private void processExceptionDays(Map<String, List<DateRange>> map, ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar) throws MPXJException
+   private void processExceptionDays(Map<String, List<LocalTimeRange>> map, ProjectCalendar mpxjCalendar, net.sf.mpxj.planner.schema.Calendar plannerCalendar)
    {
       Days days = plannerCalendar.getDays();
       if (days != null)
@@ -311,9 +301,9 @@ public final class PlannerReader extends AbstractProjectStreamReader
          {
             if (day.getType().equals("day-type"))
             {
-               Date exceptionDate = getDate(day.getDate());
+               LocalDate exceptionDate = LocalDate.parse(day.getDate(), m_dateFormat);
                ProjectCalendarException exception = mpxjCalendar.addCalendarException(exceptionDate);
-               List<DateRange> dateRanges = map.get(day.getId());
+               List<LocalTimeRange> dateRanges = map.get(day.getId());
                if (dateRanges != null)
                {
                   exception.addAll(dateRanges);
@@ -370,7 +360,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     *
     * @param plannerProject Root node of the Planner file
     */
-   private void readTasks(Project plannerProject) throws MPXJException
+   private void readTasks(Project plannerProject)
    {
       Tasks tasks = plannerProject.getTasks();
       if (tasks != null)
@@ -395,7 +385,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param parentTask parent task
     * @param plannerTask Task data
     */
-   private void readTask(Task parentTask, net.sf.mpxj.planner.schema.Task plannerTask) throws MPXJException
+   private void readTask(Task parentTask, net.sf.mpxj.planner.schema.Task plannerTask)
    {
       Task mpxjTask;
 
@@ -530,12 +520,10 @@ public final class PlannerReader extends AbstractProjectStreamReader
             Task predecessorTask = m_projectFile.getTaskByUniqueID(predecessorID);
             if (predecessorTask != null)
             {
-               Duration lag = getLagDuration(predecessor.getLag());
-               if (lag == null)
-               {
-                  lag = Duration.getInstance(0, TimeUnit.HOURS);
-               }
-               Relation relation = mpxjTask.addPredecessor(predecessorTask, RELATIONSHIP_TYPES.get(predecessor.getType()), lag);
+               Relation relation = mpxjTask.addPredecessor(new Relation.Builder()
+                  .targetTask(predecessorTask)
+                  .type(RELATIONSHIP_TYPES.get(predecessor.getType()))
+                  .lag(getLagDuration(predecessor.getLag())));
                m_eventManager.fireRelationReadEvent(relation);
             }
          }
@@ -650,79 +638,14 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param value Planner date-time
     * @return Java Date instance
     */
-   private Date getDateTime(String value) throws MPXJException
+   private LocalDateTime getDateTime(String value)
    {
       if (value == null)
       {
          return null;
       }
 
-      try
-      {
-         Number year = m_fourDigitFormat.parse(value.substring(0, 4));
-         Number month = m_twoDigitFormat.parse(value.substring(4, 6));
-         Number day = m_twoDigitFormat.parse(value.substring(6, 8));
-
-         Number hours = m_twoDigitFormat.parse(value.substring(9, 11));
-         Number minutes = m_twoDigitFormat.parse(value.substring(11, 13));
-
-         Calendar cal = DateHelper.popCalendar();
-         cal.set(Calendar.YEAR, year.intValue());
-         cal.set(Calendar.MONTH, month.intValue() - 1);
-         cal.set(Calendar.DAY_OF_MONTH, day.intValue());
-
-         cal.set(Calendar.HOUR_OF_DAY, hours.intValue());
-         cal.set(Calendar.MINUTE, minutes.intValue());
-
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-         Date result = cal.getTime();
-         DateHelper.pushCalendar(cal);
-
-         return result;
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse date-time " + value, ex);
-      }
-   }
-
-   /**
-    * Convert a Planner date into a Java date.
-    *
-    * 20070222
-    *
-    * @param value Planner date
-    * @return Java Date instance
-    */
-   private Date getDate(String value) throws MPXJException
-   {
-      try
-      {
-         Number year = m_fourDigitFormat.parse(value.substring(0, 4));
-         Number month = m_twoDigitFormat.parse(value.substring(4, 6));
-         Number day = m_twoDigitFormat.parse(value.substring(6, 8));
-
-         Calendar cal = DateHelper.popCalendar();
-         cal.set(Calendar.YEAR, year.intValue());
-         cal.set(Calendar.MONTH, month.intValue() - 1);
-         cal.set(Calendar.DAY_OF_MONTH, day.intValue());
-
-         cal.set(Calendar.HOUR_OF_DAY, 0);
-         cal.set(Calendar.MINUTE, 0);
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-         Date result = cal.getTime();
-         DateHelper.pushCalendar(cal);
-
-         return result;
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse date " + value, ex);
-      }
+      return LocalDateTime.parse(value, m_dateTimeFormat);
    }
 
    /**
@@ -733,28 +656,9 @@ public final class PlannerReader extends AbstractProjectStreamReader
     * @param value Planner time
     * @return Java Date instance
     */
-   private Date getTime(String value) throws MPXJException
+   private LocalTime getTime(String value)
    {
-      try
-      {
-         Number hours = m_twoDigitFormat.parse(value.substring(0, 2));
-         Number minutes = m_twoDigitFormat.parse(value.substring(2, 4));
-
-         Calendar cal = DateHelper.popCalendar();
-         cal.set(Calendar.HOUR_OF_DAY, hours.intValue());
-         cal.set(Calendar.MINUTE, minutes.intValue());
-         cal.set(Calendar.SECOND, 0);
-         cal.set(Calendar.MILLISECOND, 0);
-         Date result = cal.getTime();
-         DateHelper.pushCalendar(cal);
-
-         return result;
-      }
-
-      catch (ParseException ex)
-      {
-         throw new MPXJException("Failed to parse time " + value, ex);
-      }
+      return LocalTime.parse(value, m_timeFormat);
    }
 
    /**
@@ -822,7 +726,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
    {
       Duration result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          double seconds = getLong(value);
          double hours = seconds / (60 * 60);
@@ -852,7 +756,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
    {
       Duration result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          double seconds = getLong(value);
          double hours = seconds / (60 * 60);
@@ -910,9 +814,9 @@ public final class PlannerReader extends AbstractProjectStreamReader
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private ProjectCalendar m_defaultCalendar;
-   private final NumberFormat m_twoDigitFormat = new DecimalFormat("00");
-   private final NumberFormat m_fourDigitFormat = new DecimalFormat("0000");
-
+   private final DateTimeFormatter m_timeFormat = DateTimeFormatter.ofPattern("HHmm");
+   private final DateTimeFormatter m_dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
+   private final DateTimeFormatter m_dateTimeFormat = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
    private static final Map<String, RelationType> RELATIONSHIP_TYPES = new HashMap<>();
    static
    {

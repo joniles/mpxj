@@ -80,7 +80,7 @@ public enum ConstraintField implements FieldType
 
    @Override public FieldType getUnitsType()
    {
-      return m_unitsType;
+      return null;
    }
 
    /**
@@ -126,6 +126,4 @@ public enum ConstraintField implements FieldType
 
    private int m_value;
    private final DataType m_dataType;
-   private FieldType m_unitsType;
-
 }

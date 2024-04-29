@@ -24,7 +24,7 @@
 
 package net.sf.mpxj;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * This class represents a resource assignment workgroup fields record
@@ -97,7 +97,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @param val date to set
     */
-   public void setUpdateStart(Date val)
+   public void setUpdateStart(LocalDateTime val)
    {
       m_updateStart = val;
    }
@@ -107,7 +107,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @return update Start Date
     */
-   public Date getUpdateStart()
+   public LocalDateTime getUpdateStart()
    {
       return (m_updateStart);
    }
@@ -117,7 +117,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @param val date to set
     */
-   public void setUpdateFinish(Date val)
+   public void setUpdateFinish(LocalDateTime val)
    {
       m_updateFinish = val;
    }
@@ -127,7 +127,7 @@ public final class ResourceAssignmentWorkgroupFields
     *
     * @return update Finish Date
     */
-   public Date getUpdateFinish()
+   public LocalDateTime getUpdateFinish()
    {
       return (m_updateFinish);
    }
@@ -157,7 +157,7 @@ public final class ResourceAssignmentWorkgroupFields
    private String m_messageUniqueID;
    private boolean m_confirmed;
    private boolean m_responsePending;
-   private Date m_updateStart;
-   private Date m_updateFinish;
+   private LocalDateTime m_updateStart;
+   private LocalDateTime m_updateFinish;
    private String m_scheduleID;
 }

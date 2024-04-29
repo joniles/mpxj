@@ -23,13 +23,15 @@
 
 package net.sf.mpxj.primavera;
 
-import java.awt.Color;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Comparator;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -39,24 +41,23 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import net.sf.mpxj.AccrueType;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
-import net.sf.mpxj.ActivityCodeScope;
 import net.sf.mpxj.ActivityCodeValue;
-import net.sf.mpxj.ActivityStatus;
-import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.Availability;
-import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.DateRange;
-import net.sf.mpxj.Day;
+import java.time.DayOfWeek;
+
+import net.sf.mpxj.SchedulingProgressedActivities;
+import net.sf.mpxj.UnitOfMeasure;
+import net.sf.mpxj.UnitOfMeasureContainer;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.ExpenseCategory;
@@ -66,10 +67,13 @@ import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.FieldTypeClass;
 import net.sf.mpxj.HtmlNotes;
+import net.sf.mpxj.Location;
+import net.sf.mpxj.LocationContainer;
 import net.sf.mpxj.Notes;
+import net.sf.mpxj.NotesTopic;
+import net.sf.mpxj.NotesTopicContainer;
 import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.PercentCompleteType;
-import net.sf.mpxj.Priority;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
 import net.sf.mpxj.ProjectCalendarHours;
@@ -77,24 +81,25 @@ import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
-import net.sf.mpxj.RateSource;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
-import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
-import net.sf.mpxj.TaskType;
+import net.sf.mpxj.LocalTimeRange;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.UserDefinedFieldContainer;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.ColorHelper;
+import net.sf.mpxj.common.HierarchyHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ObjectSequence;
 import net.sf.mpxj.common.SlackHelper;
 
 /**
@@ -113,8 +118,9 @@ final class PrimaveraReader
     * @param roleFields role field mapping
     * @param matchPrimaveraWBS determine WBS behaviour
     * @param wbsIsFullPath determine the WBS attribute structure
+    * @param ignoreErrors ignore errors flag
     */
-   public PrimaveraReader(Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath)
+   public PrimaveraReader(Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors)
    {
       m_project = new ProjectFile();
       m_eventManager = m_project.getEventManager();
@@ -124,7 +130,8 @@ final class PrimaveraReader
       config.setAutoResourceUniqueID(false);
       config.setAutoAssignmentUniqueID(false);
       config.setAutoWBS(false);
-      config.setBaselineStrategy(new PrimaveraBaselineStrategy());
+      config.setAutoRelationUniqueID(false);
+      config.setBaselineStrategy(PrimaveraBaselineStrategy.PLANNED_DATES);
 
       m_resourceFields = resourceFields;
       m_roleFields = roleFields;
@@ -134,6 +141,9 @@ final class PrimaveraReader
 
       m_matchPrimaveraWBS = matchPrimaveraWBS;
       m_wbsIsFullPath = wbsIsFullPath;
+      m_ignoreErrors = ignoreErrors;
+
+      m_relationObjectID = new ObjectSequence(1);
    }
 
    /**
@@ -173,21 +183,56 @@ final class PrimaveraReader
          Row row = rows.get(0);
          properties.setBaselineProjectUniqueID(row.getInteger("sum_base_proj_id"));
          properties.setCreationDate(row.getDate("create_date"));
-         properties.setCriticalActivityType(CRITICAL_ACTIVITY_MAP.getOrDefault(row.getString("critical_path_type"), CriticalActivityType.TOTAL_FLOAT));
+         properties.setCriticalActivityType(CriticalActivityTypeHelper.getInstanceFromXer(row.getString("critical_path_type")));
          properties.setGUID(row.getUUID("guid"));
          properties.setProjectID(row.getString("proj_short_name"));
          properties.setName(row.getString("proj_short_name")); // Temporary, updated later from the WBS
-         properties.setDefaultTaskType(TASK_TYPE_MAP.get(row.getString("def_duration_type")));
+         properties.setDefaultTaskType(TaskTypeHelper.getInstanceFromXer(row.getString("def_duration_type")));
          properties.setStatusDate(row.getDate("last_recalc_date"));
          properties.setFiscalYearStartMonth(row.getInteger("fy_start_month_num"));
          properties.setExportFlag(row.getBoolean("export_flag"));
          properties.setPlannedStart(row.getDate("plan_start_date"));
          properties.setScheduledFinish(row.getDate("scd_end_date"));
          properties.setMustFinishBy(row.getDate("plan_end_date"));
+         properties.setCriticalSlackLimit(Duration.getInstance(row.getInt("critical_drtn_hr_cnt"), TimeUnit.HOURS));
+         properties.setLocationUniqueID(row.getInteger("location_id"));
+         properties.setWbsCodeSeparator(row.getString("name_sep_char"));
+         properties.setActivityIdPrefix(row.getString("task_code_prefix"));
+         properties.setActivityIdSuffix(row.getInteger("task_code_base"));
+         properties.setActivityIdIncrement(row.getInteger("task_code_step"));
+         properties.setActivityIdIncrementBasedOnSelectedActivity(row.getBoolean("task_code_prefix_flag"));
 
          // cannot assign actual calendar yet as it has not been read yet
          m_defaultCalendarID = row.getInteger("clndr_id");
       }
+   }
+
+   /**
+    * Process locations.
+    *
+    * @param locations locations data
+    */
+   public void processLocations(List<Row> locations)
+   {
+      LocationContainer container = m_project.getLocations();
+      locations.forEach(
+         row -> container.add(
+            new Location.Builder(m_project)
+               .uniqueID(row.getInteger("location_id"))
+               .name(row.getString("location_name"))
+               .addressLine1(row.getString("address_line1"))
+               .addressLine2(row.getString("address_line2"))
+               .addressLine3(row.getString("address_line3"))
+               .city(row.getString("city_name"))
+               .municipality(row.getString("municipality_name"))
+               .state(row.getString("state_name"))
+               .stateCode(row.getString("state_code"))
+               .country(row.getString("country_name"))
+               .countryCode(row.getString("country_code"))
+               .postalCode(row.getString("postal_code"))
+               .latitude(row.getDouble("latitude"))
+               .longitude(row.getDouble("longitude"))
+               .build()));
    }
 
    /**
@@ -198,7 +243,7 @@ final class PrimaveraReader
    public void processExpenseCategories(List<Row> categories)
    {
       ExpenseCategoryContainer container = m_project.getExpenseCategories();
-      categories.forEach(row -> container.add(new ExpenseCategory(row.getInteger("cost_type_id"), row.getString("cost_type"), row.getInteger("seq_num"))));
+      categories.forEach(row -> container.add(new ExpenseCategory.Builder(m_project).uniqueID(row.getInteger("cost_type_id")).name(row.getString("cost_type")).sequenceNumber(row.getInteger("seq_num")).build()));
    }
 
    /**
@@ -209,8 +254,42 @@ final class PrimaveraReader
    public void processCostAccounts(List<Row> accounts)
    {
       CostAccountContainer container = m_project.getCostAccounts();
-      accounts.forEach(row -> container.add(new CostAccount(row.getInteger("acct_id"), row.getString("acct_short_name"), row.getString("acct_name"), row.getString("acct_descr"), row.getInteger("acct_seq_num"))));
-      accounts.forEach(row -> container.getByUniqueID(row.getInteger("acct_id")).setParent(container.getByUniqueID(row.getInteger("parent_acct_id"))));
+      HierarchyHelper.sortHierarchy(accounts, v -> v.getInteger("acct_id"), v -> v.getInteger("parent_acct_id")).forEach(row -> container.add(
+         new CostAccount.Builder(m_project)
+            .uniqueID(row.getInteger("acct_id"))
+            .id(row.getString("acct_short_name"))
+            .name(row.getString("acct_name"))
+            .notes(getNotes(row.getString("acct_descr")))
+            .sequenceNumber(row.getInteger("acct_seq_num"))
+            .parent(container.getByUniqueID(row.getInteger("parent_acct_id")))
+            .build()));
+   }
+
+   /**
+    * Process units of measure.
+    *
+    * @param units units of measure
+    */
+   public void processUnitsOfMeasure(List<Row> units)
+   {
+      UnitOfMeasureContainer container = m_project.getUnitsOfMeasure();
+      units.forEach(row -> container.add(processUnitOfMeasure(row)));
+   }
+
+   /**
+    * Create a unit of measure instance.
+    *
+    * @param row unit of measure data
+    * @return UnitOfMeasure instance
+    */
+   private UnitOfMeasure processUnitOfMeasure(Row row)
+   {
+      return new UnitOfMeasure.Builder(m_project)
+         .uniqueID(row.getInteger("unit_id"))
+         .abbreviation(row.getString("unit_abbrev"))
+         .name(row.getString("unit_name"))
+         .sequenceNumber(row.getInteger("seq_num"))
+         .build();
    }
 
    /**
@@ -227,28 +306,37 @@ final class PrimaveraReader
 
       for (Row row : types)
       {
-         ActivityCode code = new ActivityCode(row.getInteger("actv_code_type_id"), ACTIVITY_CODE_SCOPE_MAP.get(row.getString("actv_code_type_scope")), row.getInteger("proj_id"), row.getInteger("seq_num"), row.getString("actv_code_type"), row.getBoolean("super_flag"), row.getInteger("actv_short_len"));
+         ActivityCode code = new ActivityCode.Builder(m_project)
+            .uniqueID(row.getInteger("actv_code_type_id"))
+            .scope(ActivityCodeScopeHelper.getInstanceFromXer(row.getString("actv_code_type_scope")))
+            .scopeEpsUniqueID(row.getInteger("wbs_id"))
+            .scopeProjectUniqueID(row.getInteger("proj_id"))
+            .sequenceNumber(row.getInteger("seq_num"))
+            .name(row.getString("actv_code_type"))
+            .secure(row.getBoolean("super_flag"))
+            .maxLength(row.getInteger("actv_short_len"))
+            .build();
          container.add(code);
          map.put(code.getUniqueID(), code);
       }
 
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getInteger("actv_code_id"), v -> v.getInteger("parent_actv_code_id"));
       for (Row row : typeValues)
       {
          ActivityCode code = map.get(row.getInteger("actv_code_type_id"));
          if (code != null)
          {
-            ActivityCodeValue value = code.addValue(row.getInteger("actv_code_id"), row.getInteger("seq_num"), row.getString("short_name"), row.getString("actv_code_name"), getColor(row.getString("color")));
+            ActivityCodeValue value = new ActivityCodeValue.Builder(m_project)
+               .type(code)
+               .uniqueID(row.getInteger("actv_code_id"))
+               .sequenceNumber(row.getInteger("seq_num"))
+               .name(row.getString("short_name"))
+               .description(row.getString("actv_code_name"))
+               .color(ColorHelper.parseHexColor(row.getString("color")))
+               .parent(m_activityCodeMap.get(row.getInteger("parent_actv_code_id")))
+               .build();
+            code.getValues().add(value);
             m_activityCodeMap.put(value.getUniqueID(), value);
-         }
-      }
-
-      for (Row row : typeValues)
-      {
-         ActivityCodeValue child = m_activityCodeMap.get(row.getInteger("actv_code_id"));
-         ActivityCodeValue parent = m_activityCodeMap.get(row.getInteger("parent_actv_code_id"));
-         if (parent != null && child != null)
-         {
-            child.setParent(parent);
          }
       }
 
@@ -258,16 +346,6 @@ final class PrimaveraReader
          List<Integer> list = m_activityCodeAssignments.computeIfAbsent(taskID, k -> new ArrayList<>());
          list.add(row.getInteger("actv_code_id"));
       }
-   }
-
-   private Color getColor(String value)
-   {
-      Color result = null;
-      if (value != null && value.length() > 0)
-      {
-         result = new Color(Integer.parseInt(value, 16));
-      }
-      return result;
    }
 
    /**
@@ -288,16 +366,17 @@ final class PrimaveraReader
          String tableName = row.getString("table_name");
          tableNameMap.put(fieldId, tableName);
 
-         FieldTypeClass fieldTypeClass = FIELD_TYPE_MAP.get(tableName);
+         FieldTypeClass fieldTypeClass = FieldTypeClassHelper.getInstanceFromXer(tableName);
          if (fieldTypeClass == null)
          {
             continue;
          }
 
+         boolean summaryTaskOnly = tableName.equals("PROJWBS");
          String internalName = row.getString("udf_type_name");
          String externalName = row.getString("udf_type_label");
-         DataType dataType = DATA_TYPE_MAP.get(row.getString("logical_data_type"));
-         UserDefinedField fieldType = new UserDefinedField(fieldId, internalName, externalName, fieldTypeClass, dataType);
+         DataType dataType = UdfHelper.getDataTypeFromXer(row.getString("logical_data_type"));
+         UserDefinedField fieldType = new UserDefinedField(fieldId, internalName, externalName, fieldTypeClass, summaryTaskOnly, dataType);
          container.add(fieldType);
 
          m_udfFields.put(fieldId, fieldType);
@@ -357,7 +436,6 @@ final class PrimaveraReader
       //
       ProjectConfig config = m_project.getProjectConfig();
       config.setAutoCalendarUniqueID(true);
-      config.updateCalendarUniqueCounter();
 
       ProjectCalendar defaultCalendar = m_project.getCalendarByUniqueID(m_defaultCalendarID);
       if (defaultCalendar == null)
@@ -380,7 +458,7 @@ final class PrimaveraReader
       Integer id = row.getInteger("clndr_id");
       calendar.setUniqueID(id);
       calendar.setName(row.getString("clndr_name"));
-      calendar.setType(CALENDAR_TYPE_MAP.get(row.getString("clndr_type")));
+      calendar.setType(CalendarTypeHelper.getInstanceFromXer(row.getString("clndr_type")));
       calendar.setPersonal(row.getBoolean("rsrc_private"));
 
       if (row.getBoolean("default_flag") && m_defaultCalendarID == null)
@@ -399,17 +477,7 @@ final class PrimaveraReader
          StructuredTextRecord daysOfWeek = root.getChild("DaysOfWeek");
          StructuredTextRecord exceptions = root.getChild("Exceptions");
 
-         if (daysOfWeek == null)
-         {
-            if (row.getInteger("base_clndr_id") == null)
-            {
-               // We have a base calendar, but we don't have any days specified.
-               // Populate the calendar with a default working week.
-               calendar.addDefaultCalendarDays();
-               calendar.addDefaultCalendarHours();
-            }
-         }
-         else
+         if (daysOfWeek != null)
          {
             processCalendarDays(calendar, daysOfWeek);
          }
@@ -419,32 +487,16 @@ final class PrimaveraReader
             processCalendarExceptions(calendar, exceptions);
          }
       }
-      else
-      {
-         // if there is not DaysOfWeek data, Primavera seems to default to Mon-Fri, 8:00-16:00
-         DateRange defaultHourRange = new DateRange(DateHelper.getTime(8, 0), DateHelper.getTime(16, 0));
-         for (Day day : Day.values())
-         {
-            ProjectCalendarHours hours = calendar.addCalendarHours(day);
-            if (day != Day.SATURDAY && day != Day.SUNDAY)
-            {
-               calendar.setWorkingDay(day, true);
-               hours.add(defaultHourRange);
-            }
-            else
-            {
-               calendar.setWorkingDay(day, false);
-            }
-         }
-      }
+
+      ProjectCalendarHelper.ensureWorkingTime(calendar);
 
       //
       // Try and extract minutes per period from the calendar row
       //
-      Double rowHoursPerDay = getHoursPerPeriod(row, "day_hr_cnt");
-      Double rowHoursPerWeek = getHoursPerPeriod(row, "week_hr_cnt");
-      Double rowHoursPerMonth = getHoursPerPeriod(row, "month_hr_cnt");
-      Double rowHoursPerYear = getHoursPerPeriod(row, "year_hr_cnt");
+      Double rowHoursPerDay = row.getDouble("day_hr_cnt");
+      Double rowHoursPerWeek = row.getDouble("week_hr_cnt");
+      Double rowHoursPerMonth = row.getDouble("month_hr_cnt");
+      Double rowHoursPerYear = row.getDouble("year_hr_cnt");
 
       calendar.setCalendarMinutesPerDay(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerDay) * 60)));
       calendar.setCalendarMinutesPerWeek(Integer.valueOf((int) (NumberHelper.getDouble(rowHoursPerWeek) * 60)));
@@ -462,7 +514,7 @@ final class PrimaveraReader
          int minutesPerWeek = 0;
          int workingDays = 0;
 
-         for (Day day : Day.values())
+         for (DayOfWeek day : DayOfWeek.values())
          {
             ProjectCalendarHours hours = calendar.getCalendarHours(day);
             if (hours == null)
@@ -470,13 +522,12 @@ final class PrimaveraReader
                continue;
             }
 
-            if (hours.size() > 0)
+            if (!hours.isEmpty())
             {
                ++workingDays;
-               for (DateRange range : hours)
+               for (LocalTimeRange range : hours)
                {
-                  long milliseconds = range.getEnd().getTime() - range.getStart().getTime();
-                  minutesPerWeek += (milliseconds / (1000 * 60));
+                  minutesPerWeek += (range.getDurationAsMilliseconds() / (1000 * 60));
                }
             }
          }
@@ -511,22 +562,6 @@ final class PrimaveraReader
       return calendar;
    }
 
-   private Double getHoursPerPeriod(Row row, String name)
-   {
-      try
-      {
-         return row.getDouble(name);
-      }
-
-      catch (ClassCastException ex)
-      {
-         // We have seen examples of malformed calendar data where fields have been missing
-         // from the record. We'll typically get a class cast exception here as we're trying
-         // to process something which isn't a double.
-         return null;
-      }
-   }
-
    /**
     * Process calendar days of the week.
     *
@@ -535,9 +570,9 @@ final class PrimaveraReader
     */
    private void processCalendarDays(ProjectCalendar calendar, StructuredTextRecord daysOfWeek)
    {
-      Map<Day, StructuredTextRecord> days = daysOfWeek.getChildren().stream().filter(d -> Day.getInstance(Integer.parseInt(d.getRecordName())) != null).collect(Collectors.toMap(d -> Day.getInstance(Integer.parseInt(d.getRecordName())), d -> d));
+      Map<DayOfWeek, StructuredTextRecord> days = daysOfWeek.getChildren().stream().filter(d -> DayOfWeekHelper.getInstance(Integer.parseInt(d.getRecordName())) != null).collect(Collectors.toMap(d -> DayOfWeekHelper.getInstance(Integer.parseInt(d.getRecordName())), d -> d));
 
-      for (Day day : Day.values())
+      for (DayOfWeek day : DayOfWeek.values())
       {
          StructuredTextRecord dayRecord = days.get(day);
          processCalendarHours(day, calendar, dayRecord == null ? StructuredTextRecord.EMPTY : dayRecord);
@@ -551,12 +586,12 @@ final class PrimaveraReader
     * @param calendar project calendar
     * @param dayRecord working day data
     */
-   private void processCalendarHours(Day day, ProjectCalendar calendar, StructuredTextRecord dayRecord)
+   private void processCalendarHours(DayOfWeek day, ProjectCalendar calendar, StructuredTextRecord dayRecord)
    {
       // Get hours
       ProjectCalendarHours hours = calendar.addCalendarHours(day);
       List<StructuredTextRecord> recHours = dayRecord.getChildren();
-      if (recHours.size() == 0)
+      if (recHours.isEmpty())
       {
          // No data -> not working
          calendar.setWorkingDay(day, false);
@@ -589,22 +624,24 @@ final class PrimaveraReader
          return;
       }
 
-      // for end time treat midnight as midnight next day
-      if (endText.equals("00:00"))
-      {
-         endText = "24:00";
-      }
-
+      DateTimeFormatter formatter = startText.indexOf(' ') == -1 ? m_twentyFourHourTimeFormat : m_twelveHourTimeFormat;
       try
       {
-         Date start = m_calendarTimeFormat.parse(startText);
-         Date end = m_calendarTimeFormat.parse(endText);
-         ranges.add(new DateRange(start, end));
+         LocalTime start = LocalTime.parse(startText, formatter);
+         LocalTime end = LocalTime.parse(endText, formatter);
+         ranges.add(new LocalTimeRange(start, end));
       }
 
-      catch (ParseException e)
+      catch (DateTimeParseException ex)
       {
-         // silently ignore date parse exceptions
+         if (m_ignoreErrors)
+         {
+            m_project.addIgnoredError(ex);
+         }
+         else
+         {
+            throw ex;
+         }
       }
    }
 
@@ -619,7 +656,7 @@ final class PrimaveraReader
       for (StructuredTextRecord exception : exceptions.getChildren())
       {
          long daysFromEpoch = Integer.parseInt(exception.getAttribute("d"));
-         Date startEx = DateHelper.getDateFromLong(EXCEPTION_EPOCH + (daysFromEpoch * DateHelper.MS_PER_DAY));
+         LocalDate startEx = EXCEPTION_EPOCH.plusDays(daysFromEpoch);
 
          ProjectCalendarException pce = calendar.addCalendarException(startEx, startEx);
          for (StructuredTextRecord exceptionHours : exception.getChildren())
@@ -647,6 +684,11 @@ final class PrimaveraReader
 
          resource.setNotesObject(getNotes(resource.getNotes()));
 
+         // Note: if default units per time is an empty field, this represents a value of zero in P6
+         Number defaultUnitsPerTime = row.getDouble("def_qty_per_hr");
+         defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
+         resource.setDefaultUnits(defaultUnitsPerTime);
+
          m_eventManager.fireResourceReadEvent(resource);
       }
    }
@@ -662,7 +704,7 @@ final class PrimaveraReader
       {
          Resource resource = m_project.addResource();
          processFields(m_roleFields, row, resource);
-         resource.setRole(Boolean.TRUE);
+         resource.setRole(true);
          resource.setUniqueID(m_roleClashMap.addID(resource.getUniqueID()));
          resource.setNotesObject(getNotes(resource.getNotes()));
       }
@@ -672,6 +714,17 @@ final class PrimaveraReader
    {
       Notes notes = getHtmlNote(text);
       return notes == null || notes.isEmpty() ? null : notes;
+   }
+
+   /**
+    * Return null if string is empty, otherwise return string.
+    *
+    * @param text string
+    * @return null if empty, otherwise string
+    */
+   private String nullIfEmpty(String text)
+   {
+      return text == null || text.isEmpty() ? null : text;
    }
 
    /**
@@ -690,9 +743,9 @@ final class PrimaveraReader
          {
             return cmp;
          }
-         Date d1 = r1.getDate("start_date");
-         Date d2 = r2.getDate("start_date");
-         return DateHelper.compare(d1, d2);
+         LocalDateTime d1 = r1.getDate("start_date");
+         LocalDateTime d2 = r2.getDate("start_date");
+         return LocalDateTimeHelper.compare(d1, d2);
       });
 
       Resource resource = null;
@@ -723,8 +776,8 @@ final class PrimaveraReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
-         Date startDate = row.getDate("start_date");
-         Date endDate = DateHelper.END_DATE_NA;
+         LocalDateTime startDate = row.getDate("start_date");
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
 
          if (i + 1 < rows.size())
          {
@@ -732,21 +785,18 @@ final class PrimaveraReader
             int nextResourceID = nextRow.getInt("rsrc_id");
             if (resourceID.intValue() == nextResourceID)
             {
-               Calendar cal = DateHelper.popCalendar(nextRow.getDate("start_date"));
-               cal.add(Calendar.MINUTE, -1);
-               endDate = cal.getTime();
-               DateHelper.pushCalendar(cal);
+               endDate = nextRow.getDate("start_date").minusMinutes(1);
             }
          }
 
-         if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
          {
-            startDate = DateHelper.START_DATE_NA;
+            startDate = LocalDateTimeHelper.START_DATE_NA;
          }
 
-         if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
          {
-            endDate = DateHelper.END_DATE_NA;
+            endDate = LocalDateTimeHelper.END_DATE_NA;
          }
 
          resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
@@ -777,19 +827,7 @@ final class PrimaveraReader
     */
    public void processRoleRates(List<Row> rows)
    {
-      // Primavera defines resource cost tables by start dates so sort and define end by next
-      rows.sort((r1, r2) -> {
-         Integer id1 = r1.getInteger("role_id");
-         Integer id2 = r2.getInteger("role_id");
-         int cmp = NumberHelper.compare(id1, id2);
-         if (cmp != 0)
-         {
-            return cmp;
-         }
-         Date d1 = r1.getDate("start_date");
-         Date d2 = r2.getDate("start_date");
-         return DateHelper.compare(d1, d2);
-      });
+      sortRoleTableRows(rows);
 
       Resource resource = null;
 
@@ -818,35 +856,106 @@ final class PrimaveraReader
          };
 
          Double costPerUse = NumberHelper.getDouble(0.0);
-         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
-         Date startDate = row.getDate("start_date");
-         Date endDate = DateHelper.END_DATE_NA;
+         LocalDateTime startDate = row.getDate("start_date");
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
 
          if (i + 1 < rows.size())
          {
             Row nextRow = rows.get(i + 1);
             if (NumberHelper.equals(row.getInteger("role_id"), nextRow.getInteger("role_id")))
             {
-               Calendar cal = DateHelper.popCalendar(nextRow.getDate("start_date"));
-               cal.add(Calendar.MINUTE, -1);
-               endDate = cal.getTime();
-               DateHelper.pushCalendar(cal);
+               endDate = nextRow.getDate("start_date").minusMinutes(1);
             }
          }
 
-         if (startDate == null || startDate.getTime() < DateHelper.START_DATE_NA.getTime())
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
          {
-            startDate = DateHelper.START_DATE_NA;
+            startDate = LocalDateTimeHelper.START_DATE_NA;
          }
 
-         if (endDate == null || endDate.getTime() > DateHelper.END_DATE_NA.getTime())
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
          {
-            endDate = DateHelper.END_DATE_NA;
+            endDate = LocalDateTimeHelper.END_DATE_NA;
          }
 
          resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
+      }
+   }
+
+   /**
+    * Process role availability.
+    *
+    * @param rows role availability data
+    */
+   public void processRoleAvailability(List<Row> rows)
+   {
+      sortRoleTableRows(rows);
+
+      Resource resource = null;
+
+      for (int i = 0; i < rows.size(); ++i)
+      {
+         Row row = rows.get(i);
+
+         Integer resourceID = m_roleClashMap.getID(row.getInteger("role_id"));
+         if (resource == null || !resource.getUniqueID().equals(resourceID))
+         {
+            resource = m_project.getResourceByUniqueID(resourceID);
+            if (resource == null)
+            {
+               continue;
+            }
+            resource.getAvailability().clear();
+         }
+
+         Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
+         LocalDateTime startDate = row.getDate("start_date");
+         LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
+
+         if (i + 1 < rows.size())
+         {
+            Row nextRow = rows.get(i + 1);
+            if (NumberHelper.equals(row.getInteger("role_id"), nextRow.getInteger("role_id")))
+            {
+               endDate = nextRow.getDate("start_date").minusMinutes(1);
+            }
+         }
+
+         if (startDate == null || startDate.isBefore(LocalDateTimeHelper.START_DATE_NA))
+         {
+            startDate = LocalDateTimeHelper.START_DATE_NA;
+         }
+
+         if (endDate == null || endDate.isAfter(LocalDateTimeHelper.END_DATE_NA))
+         {
+            endDate = LocalDateTimeHelper.END_DATE_NA;
+         }
+
          resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
       }
+   }
+
+   /**
+    * Primavera defines role tables by role and start dates so sort by start date
+    * to allow us to determine the end date of each entry.
+    *
+    * @param rows role table rows
+    */
+   private void sortRoleTableRows(List<Row> rows)
+   {
+      //
+      rows.sort((r1, r2) -> {
+         Integer id1 = r1.getInteger("role_id");
+         Integer id2 = r2.getInteger("role_id");
+         int cmp = NumberHelper.compare(id1, id2);
+         if (cmp != 0)
+         {
+            return cmp;
+         }
+         LocalDateTime d1 = r1.getDate("start_date");
+         LocalDateTime d2 = r2.getDate("start_date");
+         return LocalDateTimeHelper.compare(d1, d2);
+      });
    }
 
    /**
@@ -863,17 +972,6 @@ final class PrimaveraReader
       String projectName = projectProperties.getName();
       Set<Task> wbsTasks = new HashSet<>();
       boolean baselineFromCurrentProject = m_project.getProjectProperties().getBaselineProjectUniqueID() == null;
-
-      //
-      // We set the project name when we read the project properties, but that's just
-      // the short name. The full project name lives on the first WBS item. Rather than
-      // querying twice, we'll just set it here where we have access to the WBS items.
-      // We'll leave the short name in place if there is no WBS.
-      //
-      if (!wbs.isEmpty())
-      {
-         projectProperties.setName(wbs.get(0).getString("wbs_name"));
-      }
 
       //
       // Read WBS entries and create tasks.
@@ -906,16 +1004,15 @@ final class PrimaveraReader
          }
          else
          {
-            m_project.getChildTasks().remove(task);
-            parentTask.getChildTasks().add(task);
-
-            if (m_wbsIsFullPath)
-            {
-               task.setWBS(parentTask.getWBS() + DEFAULT_WBS_SEPARATOR + task.getWBS());
-            }
+            parentTask.addChildTask(task);
          }
 
          task.setActivityID(task.getWBS());
+      }
+
+      if (m_wbsIsFullPath)
+      {
+         m_project.getChildTasks().forEach(t -> populateWBS(null, t));
       }
 
       //
@@ -945,14 +1042,19 @@ final class PrimaveraReader
 
          processFields(m_taskFields, row, task);
 
+         task.setActualWork(WorkHelper.addWork(task.getActualWorkLabor(), task.getActualWorkNonlabor()));
+         task.setPlannedWork(WorkHelper.addWork(task.getPlannedWorkLabor(), task.getPlannedWorkNonlabor()));
+         task.setRemainingWork(WorkHelper.addWork(task.getRemainingWorkLabor(), task.getRemainingWorkNonlabor()));
+         task.setWork(WorkHelper.addWork(task.getActualWork(), task.getRemainingWork()));
+
          task.setMilestone(BooleanHelper.getBoolean(MILESTONE_MAP.get(row.getString("task_type"))));
-         task.setActivityStatus(STATUS_MAP.get(row.getString("status_code")));
-         task.setActivityType(ACTIVITY_TYPE_MAP.get(row.getString("task_type")));
+         task.setActivityStatus(ActivityStatusHelper.getInstanceFromXer(row.getString("status_code")));
+         task.setActivityType(ActivityTypeHelper.getInstanceFromXer(row.getString("task_type")));
 
          // Only "Resource Dependent" activities consider resource calendars during scheduling in P6.
          task.setIgnoreResourceCalendar(!"TT_Rsrc".equals(row.getString("task_type")));
 
-         task.setPercentCompleteType(PERCENT_COMPLETE_TYPE.get(row.getString("complete_pct_type")));
+         task.setPercentCompleteType(PercentCompleteTypeHelper.getInstanceFromXer(row.getString("complete_pct_type")));
          task.setPercentageWorkComplete(calculateUnitsPercentComplete(row));
          task.setPercentageComplete(calculateDurationPercentComplete(row));
          task.setPhysicalPercentComplete(calculatePhysicalPercentComplete(row));
@@ -962,16 +1064,16 @@ final class PrimaveraReader
             task.setWBS(parentTask.getWBS());
          }
 
-         Integer uniqueID = task.getUniqueID();
+         Integer originalUniqueID = row.getInteger("task_id");
 
          // Add User Defined Fields - before we handle ID clashes
-         populateUserDefinedFieldValues("TASK", FieldTypeClass.TASK, task, uniqueID);
+         populateUserDefinedFieldValues("TASK", FieldTypeClass.TASK, task, originalUniqueID);
 
-         populateActivityCodes(task);
+         populateActivityCodes(task, originalUniqueID);
 
-         task.setNotesObject(taskNotes.get(uniqueID));
+         task.setNotesObject(taskNotes.get(originalUniqueID));
 
-         task.setUniqueID(m_activityClashMap.addID(uniqueID));
+         task.setUniqueID(m_activityClashMap.addID(originalUniqueID));
 
          Integer calId = row.getInteger("clndr_id");
          ProjectCalendar cal = m_project.getCalendarByUniqueID(calId);
@@ -979,20 +1081,18 @@ final class PrimaveraReader
 
          populateField(task, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START);
          populateField(task, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH, TaskField.PLANNED_FINISH);
-         Duration work = Duration.add(task.getActualWork(), task.getRemainingWork(), task.getEffectiveCalendar());
-         task.setWork(work);
 
          // Calculate actual duration
-         Date actualStart = task.getActualStart();
+         LocalDateTime actualStart = task.getActualStart();
          if (actualStart != null)
          {
-            Date finish = task.getActualFinish();
+            LocalDateTime finish = task.getActualFinish();
             if (finish == null)
             {
                finish = m_project.getProjectProperties().getStatusDate();
 
                // Handle the case where the actual start is after the status date
-               if (finish != null && finish.getTime() < actualStart.getTime())
+               if (finish != null && finish.isBefore(actualStart))
                {
                   finish = actualStart;
                }
@@ -1006,7 +1106,15 @@ final class PrimaveraReader
          }
 
          // Calculate duration at completion
-         Duration durationAtCompletion = Duration.add(task.getActualDuration(), task.getRemainingDuration(), task.getEffectiveCalendar());
+         Duration durationAtCompletion;
+         if (task.getActualDuration() != null && task.getActualDuration().getDuration() != 0 && task.getRemainingDuration() != null && task.getRemainingDuration().getDuration() != 0)
+         {
+            durationAtCompletion = task.getEffectiveCalendar().getWork(task.getStart(), task.getFinish(), TimeUnit.HOURS);
+         }
+         else
+         {
+            durationAtCompletion = task.getActualDuration() != null && task.getActualDuration().getDuration() != 0 ? task.getActualDuration() : task.getRemainingDuration();
+         }
          task.setDuration(durationAtCompletion);
 
          if (forceCriticalToFalse)
@@ -1034,6 +1142,30 @@ final class PrimaveraReader
       new ActivitySorter(wbsTasks).sort(m_project);
 
       updateStructure();
+
+      //
+      // We set the project name when we read the project properties, but that's just
+      // the short name. The full project name lives on the first WBS item.
+      // We'll leave the short name in place if there is no "project summary" WBS.
+      //
+      if (m_project.getChildTasks().size() == 1)
+      {
+         Task firstChildTask = m_project.getChildTasks().get(0);
+         if (firstChildTask.getSummary())
+         {
+            projectProperties.setName(firstChildTask.getName());
+         }
+      }
+   }
+
+   private void populateWBS(Task parent, Task task)
+   {
+      if (parent != null)
+      {
+         task.setWBS(parent.getWBS() + m_project.getProjectProperties().getWbsCodeSeparator() + task.getWBS());
+         task.setActivityID(task.getWBS());
+      }
+      task.getChildTasks().forEach(t -> populateWBS(task, t));
    }
 
    private void populateBaselineFromCurrentProject(Task task)
@@ -1049,10 +1181,11 @@ final class PrimaveraReader
     * Read details of any activity codes assigned to this task.
     *
     * @param task parent task
+    * @param uniqueID task Unique ID
     */
-   private void populateActivityCodes(Task task)
+   private void populateActivityCodes(Task task, Integer uniqueID)
    {
-      List<Integer> list = m_activityCodeAssignments.get(task.getUniqueID());
+      List<Integer> list = m_activityCodeAssignments.get(uniqueID);
       if (list != null)
       {
          for (Integer id : list)
@@ -1098,29 +1231,9 @@ final class PrimaveraReader
                break;
             }
 
-            case GUID:
             case INTEGER:
             {
-               value = row.getInteger("udf_code_id");
-               break;
-            }
-
-            case BOOLEAN:
-            {
-               String text = row.getString("udf_text");
-               if (text != null)
-               {
-                  // before a normal boolean parse, we try to look up the text as a P6 static type indicator UDF
-                  value = STATICTYPE_UDF_MAP.get(text);
-                  if (value == null)
-                  {
-                     value = Boolean.valueOf(row.getBoolean("udf_text"));
-                  }
-               }
-               else
-               {
-                  value = Boolean.valueOf(row.getBoolean("udf_number"));
-               }
+               value = row.getInteger("udf_number");
                break;
             }
 
@@ -1160,40 +1273,70 @@ final class PrimaveraReader
    }
 
    /**
-    * Create a map of notebook topics.
+    * Populate notebook topics.
     *
     * @param rows notebook topic rows
-    * @return notebook topic map
     */
-   public Map<Integer, String> getNotebookTopics(List<Row> rows)
+   public void processNotebookTopics(List<Row> rows)
    {
-      Map<Integer, String> topics = new HashMap<>();
-      rows.forEach(row -> topics.put(row.getInteger("memo_type_id"), row.getString("memo_type")));
-      return topics;
+      rows.forEach(this::processNotebookTopic);
    }
 
    /**
-    * Convert the P6 notes to plain text.
+    * Populate an individual notebook topic.
     *
-    * @param topics topic map
+    * @param row notebook topic row
+    */
+   private void processNotebookTopic(Row row)
+   {
+      NotesTopic topic = new NotesTopic.Builder(m_project)
+         .uniqueID(row.getInteger("memo_type_id"))
+         .sequenceNumber(row.getInteger("seq_num"))
+         .availableForEPS(row.getBoolean("eps_flag"))
+         .availableForProject(row.getBoolean("proj_flag"))
+         .availableForWBS(row.getBoolean("wbs_flag"))
+         .availableForActivity(row.getBoolean("task_flag"))
+         .name(row.getString("memo_type"))
+         .build();
+
+      m_project.getNotesTopics().add(topic);
+   }
+
+   /**
+    * Extract notes.
+    *
     * @param rows notebook rows
-    * @param idColumn id column name
+    * @param uniqueIDColumn note unique ID column name
+    * @param entityIdColumn entity id column name
     * @param textColumn text column name
     * @return note text
     */
-   public Map<Integer, Notes> getNotes(Map<Integer, String> topics, List<Row> rows, String idColumn, String textColumn)
+   public Map<Integer, Notes> getNotes(List<Row> rows, String uniqueIDColumn, String entityIdColumn, String textColumn)
    {
-      Map<Integer, Map<Integer, List<String>>> map = rows.stream().collect(Collectors.groupingBy(r -> r.getInteger(idColumn), Collectors.groupingBy(r -> r.getInteger("memo_type_id"), Collectors.mapping(r -> r.getString(textColumn), Collectors.toList()))));
-
+      Map<Integer, List<Row>> map = rows.stream().sorted(Comparator.comparing(r -> r.getInteger(uniqueIDColumn))).collect(Collectors.groupingBy(r -> r.getInteger(entityIdColumn), Collectors.mapping(r -> r, Collectors.toList())));
+      NotesTopicContainer topics = m_project.getNotesTopics();
       Map<Integer, Notes> result = new HashMap<>();
 
-      for (Map.Entry<Integer, Map<Integer, List<String>>> entry : map.entrySet())
+      for (Map.Entry<Integer, List<Row>> entry : map.entrySet())
       {
          List<Notes> list = new ArrayList<>();
-         for (Map.Entry<Integer, List<String>> topicEntry : entry.getValue().entrySet())
+         for (Row row : entry.getValue())
          {
-            topicEntry.getValue().stream().map(this::getHtmlNote).filter(n -> n != null && !n.isEmpty()).forEach(n -> list.add(new StructuredNotes(topicEntry.getKey(), topics.get(topicEntry.getKey()), n)));
+            HtmlNotes notes = getHtmlNote(row.getString(textColumn));
+            if (notes == null || notes.isEmpty())
+            {
+               continue;
+            }
+
+            NotesTopic topic = topics.getByUniqueID(row.getInteger("memo_type_id"));
+            if (topic == null)
+            {
+               topic = topics.getDefaultTopic();
+            }
+
+            list.add(new StructuredNotes(row.getInteger(uniqueIDColumn), topic, notes));
          }
+
          result.put(entry.getKey(), new ParentNotes(list));
       }
 
@@ -1328,22 +1471,22 @@ final class PrimaveraReader
       if (parentTask.hasChildTasks())
       {
          int finished = 0;
-         Date startDate = parentTask.getStart();
-         Date finishDate = parentTask.getFinish();
-         Date plannedStartDate = parentTask.getPlannedStart();
-         Date plannedFinishDate = parentTask.getPlannedFinish();
-         Date actualStartDate = parentTask.getActualStart();
-         Date actualFinishDate = parentTask.getActualFinish();
-         Date earlyStartDate = parentTask.getEarlyStart();
-         Date earlyFinishDate = parentTask.getEarlyFinish();
-         Date lateStartDate = parentTask.getLateStart();
-         Date lateFinishDate = parentTask.getLateFinish();
-         Date baselineStartDate = parentTask.getBaselineStart();
-         Date baselineFinishDate = parentTask.getBaselineFinish();
-         Date remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
-         Date remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
-         Date remainingLateStartDate = parentTask.getRemainingLateStart();
-         Date remainingLateFinishDate = parentTask.getRemainingLateFinish();
+         LocalDateTime startDate = parentTask.getStart();
+         LocalDateTime finishDate = parentTask.getFinish();
+         LocalDateTime plannedStartDate = parentTask.getPlannedStart();
+         LocalDateTime plannedFinishDate = parentTask.getPlannedFinish();
+         LocalDateTime actualStartDate = parentTask.getActualStart();
+         LocalDateTime actualFinishDate = parentTask.getActualFinish();
+         LocalDateTime earlyStartDate = parentTask.getEarlyStart();
+         LocalDateTime earlyFinishDate = parentTask.getEarlyFinish();
+         LocalDateTime lateStartDate = parentTask.getLateStart();
+         LocalDateTime lateFinishDate = parentTask.getLateFinish();
+         LocalDateTime baselineStartDate = parentTask.getBaselineStart();
+         LocalDateTime baselineFinishDate = parentTask.getBaselineFinish();
+         LocalDateTime remainingEarlyStartDate = parentTask.getRemainingEarlyStart();
+         LocalDateTime remainingEarlyFinishDate = parentTask.getRemainingEarlyFinish();
+         LocalDateTime remainingLateStartDate = parentTask.getRemainingLateStart();
+         LocalDateTime remainingLateFinishDate = parentTask.getRemainingLateFinish();
          boolean critical = false;
 
          for (Task task : parentTask.getChildTasks())
@@ -1353,22 +1496,22 @@ final class PrimaveraReader
             // the child tasks can have null dates (e.g. for nested wbs elements with no task children) so we
             // still must protect against some children having null dates
 
-            startDate = DateHelper.min(startDate, task.getStart());
-            finishDate = DateHelper.max(finishDate, task.getFinish());
-            plannedStartDate = DateHelper.min(plannedStartDate, task.getPlannedStart());
-            plannedFinishDate = DateHelper.max(plannedFinishDate, task.getPlannedFinish());
-            actualStartDate = DateHelper.min(actualStartDate, task.getActualStart());
-            actualFinishDate = DateHelper.max(actualFinishDate, task.getActualFinish());
-            earlyStartDate = DateHelper.min(earlyStartDate, task.getEarlyStart());
-            earlyFinishDate = DateHelper.max(earlyFinishDate, task.getEarlyFinish());
-            remainingEarlyStartDate = DateHelper.min(remainingEarlyStartDate, task.getRemainingEarlyStart());
-            remainingEarlyFinishDate = DateHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
-            lateStartDate = DateHelper.min(lateStartDate, task.getLateStart());
-            lateFinishDate = DateHelper.max(lateFinishDate, task.getLateFinish());
-            remainingLateStartDate = DateHelper.min(remainingLateStartDate, task.getRemainingLateStart());
-            remainingLateFinishDate = DateHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
-            baselineStartDate = DateHelper.min(baselineStartDate, task.getBaselineStart());
-            baselineFinishDate = DateHelper.max(baselineFinishDate, task.getBaselineFinish());
+            startDate = LocalDateTimeHelper.min(startDate, task.getStart());
+            finishDate = LocalDateTimeHelper.max(finishDate, task.getFinish());
+            plannedStartDate = LocalDateTimeHelper.min(plannedStartDate, task.getPlannedStart());
+            plannedFinishDate = LocalDateTimeHelper.max(plannedFinishDate, task.getPlannedFinish());
+            actualStartDate = LocalDateTimeHelper.min(actualStartDate, task.getActualStart());
+            actualFinishDate = LocalDateTimeHelper.max(actualFinishDate, task.getActualFinish());
+            earlyStartDate = LocalDateTimeHelper.min(earlyStartDate, task.getEarlyStart());
+            earlyFinishDate = LocalDateTimeHelper.max(earlyFinishDate, task.getEarlyFinish());
+            remainingEarlyStartDate = LocalDateTimeHelper.min(remainingEarlyStartDate, task.getRemainingEarlyStart());
+            remainingEarlyFinishDate = LocalDateTimeHelper.max(remainingEarlyFinishDate, task.getRemainingEarlyFinish());
+            lateStartDate = LocalDateTimeHelper.min(lateStartDate, task.getLateStart());
+            lateFinishDate = LocalDateTimeHelper.max(lateFinishDate, task.getLateFinish());
+            remainingLateStartDate = LocalDateTimeHelper.min(remainingLateStartDate, task.getRemainingLateStart());
+            remainingLateFinishDate = LocalDateTimeHelper.max(remainingLateFinishDate, task.getRemainingLateFinish());
+            baselineStartDate = LocalDateTimeHelper.min(baselineStartDate, task.getBaselineStart());
+            baselineFinishDate = LocalDateTimeHelper.max(baselineFinishDate, task.getBaselineFinish());
 
             if (task.getActualFinish() != null)
             {
@@ -1414,7 +1557,7 @@ final class PrimaveraReader
          Duration remainingDuration = null;
          if (parentTask.getActualFinish() == null)
          {
-            Date taskStartDate = parentTask.getRemainingEarlyStart();
+            LocalDateTime taskStartDate = parentTask.getRemainingEarlyStart();
             if (taskStartDate == null)
             {
                taskStartDate = parentTask.getEarlyStart();
@@ -1424,7 +1567,7 @@ final class PrimaveraReader
                }
             }
 
-            Date taskFinishDate = parentTask.getRemainingEarlyFinish();
+            LocalDateTime taskFinishDate = parentTask.getRemainingEarlyFinish();
             if (taskFinishDate == null)
             {
                taskFinishDate = parentTask.getEarlyFinish();
@@ -1535,19 +1678,31 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
+         Integer uniqueID = row.getInteger("task_pred_id");
+         if (uniqueID == null)
+         {
+            uniqueID = m_relationObjectID.getNext();
+         }
+
          Integer successorID = m_activityClashMap.getID(row.getInteger("task_id"));
          Integer predecessorID = m_activityClashMap.getID(row.getInteger("pred_task_id"));
 
          Task successorTask = m_project.getTaskByUniqueID(successorID);
          Task predecessorTask = m_project.getTaskByUniqueID(predecessorID);
 
-         RelationType type = getRelationType(row.getString("pred_type"));
+         RelationType type = RelationTypeHelper.getInstanceFromXer(row.getString("pred_type"));
          Duration lag = row.getDuration("lag_hr_cnt");
+         String comments = nullIfEmpty(row.getString("comments"));
 
          if (successorTask != null && predecessorTask != null)
          {
-            Relation relation = successorTask.addPredecessor(predecessorTask, type, lag);
-            relation.setUniqueID(row.getInteger("task_pred_id"));
+            Relation relation = successorTask.addPredecessor(new Relation.Builder()
+               .targetTask(predecessorTask)
+               .type(type)
+               .lag(lag)
+               .uniqueID(uniqueID)
+               .notes(comments));
+
             m_eventManager.fireRelationReadEvent(relation);
          }
          else
@@ -1555,46 +1710,19 @@ final class PrimaveraReader
             // If we're missing the predecessor or successor we assume they are external relations
             if (successorTask != null && predecessorTask == null)
             {
-               ExternalRelation relation = new ExternalRelation(predecessorID, successorTask, type, lag, true);
+               ExternalRelation relation = new ExternalRelation(uniqueID, predecessorID, successorTask, type, lag, true, comments);
                m_externalRelations.add(relation);
-               relation.setUniqueID(row.getInteger("task_pred_id"));
             }
             else
             {
                if (successorTask == null && predecessorTask != null)
                {
-                  ExternalRelation relation = new ExternalRelation(successorID, predecessorTask, type, lag, false);
+                  ExternalRelation relation = new ExternalRelation(uniqueID, successorID, predecessorTask, type, lag, false, comments);
                   m_externalRelations.add(relation);
-                  relation.setUniqueID(row.getInteger("task_pred_id"));
                }
             }
          }
       }
-   }
-
-   /**
-    * Look up the relation type between tasks.
-    *
-    * @param value string representation of a relation type
-    * @return RelationType instance
-    */
-   private RelationType getRelationType(String value)
-   {
-      RelationType result = null;
-      if (value != null)
-      {
-         // We have examples from XER files where the relation type is in the form
-         // PR_FF1, PR_FF2 and so on. We'll try to handle this by stripping off any
-         // suffix to determine the original relation type.
-         if (value.length() > 5)
-         {
-            value = value.substring(0, 5);
-         }
-         result = RELATION_TYPE_MAP.get(value);
-      }
-
-      // Default to Finish-Start if we can't determine the type
-      return result == null ? RelationType.FINISH_START : result;
    }
 
    /**
@@ -1624,26 +1752,32 @@ final class PrimaveraReader
             ResourceAssignment assignment = task.addResourceAssignment(resource);
             processFields(m_assignmentFields, row, assignment);
 
+            assignment.setWorkContour(m_project.getWorkContours().getByUniqueID(row.getInteger("curv_id")));
+            assignment.setRateIndex(RateTypeHelper.getInstanceFromXer(row.getString("rate_type")));
+            assignment.setRole(m_project.getResourceByUniqueID(roleID));
+            assignment.setOverrideRate(readRate(row.getDouble("cost_per_qty")));
+            assignment.setRateSource(RateSourceHelper.getInstanceFromXer(row.getString("cost_per_qty_source_type")));
+
             populateField(assignment, AssignmentField.START, AssignmentField.ACTUAL_START, AssignmentField.PLANNED_START);
             populateField(assignment, AssignmentField.FINISH, AssignmentField.ACTUAL_FINISH, AssignmentField.PLANNED_FINISH);
 
-            // include actual overtime work in work calculations
-            Duration remainingWork = row.getDuration("remain_qty");
-            Duration actualOvertimeWork = row.getDuration("act_ot_qty");
+            // calculate work
+            Duration remainingWork = assignment.getRemainingWork();
             Duration actualRegularWork = row.getDuration("act_reg_qty");
-            Duration actualWork = Duration.add(actualOvertimeWork, actualRegularWork, task.getEffectiveCalendar());
-            Duration totalWork = Duration.add(actualWork, remainingWork, task.getEffectiveCalendar());
+            Duration actualOvertimeWork = assignment.getActualOvertimeWork();
+            Duration actualWork = Duration.add(actualRegularWork, actualOvertimeWork, assignment.getEffectiveCalendar());
             assignment.setActualWork(actualWork);
+            Duration totalWork = Duration.add(actualWork, remainingWork, assignment.getEffectiveCalendar());
             assignment.setWork(totalWork);
-            assignment.setWorkContour(m_project.getWorkContours().getByUniqueID(row.getInteger("curv_id")));
-            assignment.setRateIndex(RATE_TYPE_MAP.getOrDefault(row.getString("rate_type"), Integer.valueOf(0)));
-            assignment.setRole(m_project.getResourceByUniqueID(roleID));
-            assignment.setOverrideRate(readRate(row.getDouble("cost_per_qty")));
-            assignment.setRateSource(RATE_SOURCE_MAP.getOrDefault(row.getString("cost_per_qty_source_type"), RateSource.RESOURCE));
 
-            // include actual overtime cost in cost calculations
-            assignment.setActualCost(NumberHelper.sumAsDouble(row.getDouble("act_reg_cost"), row.getDouble("act_ot_cost")));
-            assignment.setCost(NumberHelper.sumAsDouble(assignment.getActualCost(), assignment.getRemainingCost()));
+            // calculate cost
+            Number remainingCost = assignment.getRemainingCost();
+            Number actualRegularCost = row.getDouble("act_reg_cost");
+            Number actualOvertimeCost = assignment.getActualOvertimeCost();
+            Number actualCost = NumberHelper.sumAsDouble(actualRegularCost, actualOvertimeCost);
+            assignment.setActualCost(actualCost);
+            Number totalCost = NumberHelper.sumAsDouble(actualCost, remainingCost);
+            assignment.setCost(totalCost);
 
             // roll up to parent task
             task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), assignment.getPlannedCost()));
@@ -1651,16 +1785,14 @@ final class PrimaveraReader
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), assignment.getRemainingCost()));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), assignment.getCost()));
 
-            double units;
-            if (resource.getType() == ResourceType.MATERIAL)
+            if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)
             {
-               units = (totalWork == null) ? 0 : totalWork.getDuration() * 100;
+               assignment.setUnits(row.getDouble("target_qty"));
             }
             else // RT_Labor & RT_Equip
             {
-               units = NumberHelper.getDouble(row.getDouble("target_qty_per_hr")) * 100;
+               assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("target_qty_per_hr")) * 100));
             }
-            assignment.setUnits(NumberHelper.getDouble(units));
 
             // Add User Defined Fields
             populateUserDefinedFieldValues("TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
@@ -1702,6 +1834,7 @@ final class PrimaveraReader
          double actualCost = 0;
          double remainingCost = 0;
          double cost = 0;
+         double fixedCost = 0;
 
          //process children first before adding their costs
          for (Task child : parentTask.getChildTasks())
@@ -1711,12 +1844,14 @@ final class PrimaveraReader
             actualCost += NumberHelper.getDouble(child.getActualCost());
             remainingCost += NumberHelper.getDouble(child.getRemainingCost());
             cost += NumberHelper.getDouble(child.getCost());
+            fixedCost += NumberHelper.getDouble(child.getFixedCost());
          }
 
          parentTask.setPlannedCost(NumberHelper.getDouble(plannedCost));
          parentTask.setActualCost(NumberHelper.getDouble(actualCost));
          parentTask.setRemainingCost(NumberHelper.getDouble(remainingCost));
          parentTask.setCost(NumberHelper.getDouble(cost));
+         parentTask.setFixedCost(NumberHelper.getDouble(fixedCost));
       }
    }
 
@@ -1748,41 +1883,47 @@ final class PrimaveraReader
          Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
          if (task != null)
          {
-            List<ExpenseItem> items = task.getExpenseItems();
-            ExpenseItem ei = new ExpenseItem(task);
-            items.add(ei);
+            Double actualCost = row.getDouble("act_cost");
+            Double remainingCost = row.getDouble("remain_cost");
+            Double pricePerUnit = row.getDouble("cost_per_qty");
 
-            ei.setAccount(m_project.getCostAccounts().getByUniqueID(row.getInteger("acct_id")));
-            ei.setAccrueType(ACCRUE_TYPE_MAP.get(row.getString("cost_load_type")));
-            ei.setActualCost(row.getDouble("act_cost"));
-            ei.setAutoComputeActuals(row.getBoolean("auto_compute_act_flag"));
-            ei.setCategory(m_project.getExpenseCategories().getByUniqueID(row.getInteger("cost_type_id")));
-            ei.setDescription(row.getString("cost_descr"));
-            ei.setDocumentNumber(row.getString("po_number"));
-            ei.setName(row.getString("cost_name"));
-            ei.setPlannedCost(row.getDouble("target_cost"));
-            ei.setPlannedUnits(row.getDouble("target_qty"));
-            ei.setPricePerUnit(row.getDouble("cost_per_qty"));
-            ei.setRemainingCost(row.getDouble("remain_cost"));
-            ei.setUniqueID(row.getInteger("cost_item_id"));
-            ei.setUnitOfMeasure(row.getString("qty_name"));
-            ei.setVendor(row.getString("vendor_name"));
+            ExpenseItem.Builder builder = new ExpenseItem.Builder(task)
+               .account(m_project.getCostAccounts().getByUniqueID(row.getInteger("acct_id")))
+               .accrueType(AccrueTypeHelper.getInstanceFromXer(row.getString("cost_load_type")))
+               .actualCost(actualCost)
+               .autoComputeActuals(row.getBoolean("auto_compute_act_flag"))
+               .category(m_project.getExpenseCategories().getByUniqueID(row.getInteger("cost_type_id")))
+               .description(row.getString("cost_descr"))
+               .documentNumber(row.getString("po_number"))
+               .name(row.getString("cost_name"))
+               .plannedCost(row.getDouble("target_cost"))
+               .plannedUnits(row.getDouble("target_qty"))
+               .pricePerUnit(pricePerUnit)
+               .remainingCost(remainingCost)
+               .uniqueID(row.getInteger("cost_item_id"))
+               .unitOfMeasure(row.getString("qty_name"))
+               .vendor(row.getString("vendor_name"))
+               .atCompletionCost(NumberHelper.sumAsDouble(actualCost, remainingCost));
 
-            ei.setAtCompletionCost(NumberHelper.sumAsDouble(ei.getActualCost(), ei.getRemainingCost()));
-
-            double pricePerUnit = NumberHelper.getDouble(ei.getPricePerUnit());
-            if (pricePerUnit != 0.0)
+            double pricePerUnitValue = NumberHelper.getDouble(pricePerUnit);
+            if (pricePerUnitValue != 0.0)
             {
-               ei.setActualUnits(Double.valueOf(NumberHelper.getDouble(ei.getActualCost()) / pricePerUnit));
-               ei.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(ei.getRemainingCost()) / pricePerUnit));
-               ei.setAtCompletionUnits(NumberHelper.sumAsDouble(ei.getActualUnits(), ei.getRemainingUnits()));
+               Double actualUnits = Double.valueOf(NumberHelper.getDouble(actualCost) / pricePerUnitValue);
+               Double remainingUnits = Double.valueOf(NumberHelper.getDouble(remainingCost) / pricePerUnitValue);
+               builder.actualUnits(actualUnits)
+                  .remainingUnits(remainingUnits)
+                  .atCompletionUnits(NumberHelper.sumAsDouble(actualUnits, remainingUnits));
             }
+
+            ExpenseItem ei = builder.build();
+            task.getExpenseItems().add(ei);
 
             // Roll up to parent task
             task.setPlannedCost(NumberHelper.sumAsDouble(task.getPlannedCost(), ei.getPlannedCost()));
             task.setActualCost(NumberHelper.sumAsDouble(task.getActualCost(), ei.getActualCost()));
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), ei.getRemainingCost()));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), ei.getAtCompletionCost()));
+            task.setFixedCost(NumberHelper.sumAsDouble(task.getFixedCost(), ei.getAtCompletionCost()));
          }
       }
    }
@@ -1802,71 +1943,120 @@ final class PrimaveraReader
             continue;
          }
 
-         Step step = new Step(task);
+         Step step = new Step.Builder(task)
+            .uniqueID(row.getInteger("proc_id"))
+            .name(row.getString("proc_name"))
+            .percentComplete(row.getDouble("complete_pct"))
+            .sequenceNumber(row.getInteger("seq_num"))
+            .weight(row.getDouble("proc_wt"))
+            .description(getNotes(row.getString("proc_descr")))
+            .build();
+
          task.getSteps().add(step);
-         step.setUniqueID(row.getInteger("proc_id"));
-         step.setName(row.getString("proc_name"));
-         step.setPercentComplete(row.getDouble("complete_pct"));
-         step.setSequenceNumber(row.getInteger("seq_num"));
-         step.setWeight(row.getDouble("proc_wt"));
-         step.setDescriptionObject(getNotes(row.getString("proc_descr")));
       }
    }
 
    /**
     * Extract schedule options.
+    * TODO: deprecate the use of custom properties and replace with specific attributes
     *
     * @param row schedule options row
     */
    public void processScheduleOptions(Row row)
    {
+      // NOTE: custom properties are deprecated and will be removed at the next major release
       Map<String, Object> customProperties = new TreeMap<>();
+      ProjectProperties projectProperties = m_project.getProjectProperties();
 
       //
       // Leveling Options
       //
+
       // Automatically level resources when scheduling
       customProperties.put("ConsiderAssignmentsInOtherProjects", Boolean.valueOf(row.getBoolean("level_outer_assign_flag")));
-      customProperties.put("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", row.getString("level_outer_assign_priority"));
+      projectProperties.setConsiderAssignmentsInOtherProjects(row.getBoolean("level_outer_assign_flag"));
+
+      customProperties.put("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", NumberHelper.getInteger(row.getString("level_outer_assign_priority")));
+      projectProperties.setConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan(NumberHelper.getInteger(row.getString("level_outer_assign_priority")));
+
       customProperties.put("PreserveScheduledEarlyAndLateDates", Boolean.valueOf(row.getBoolean("level_keep_sched_date_flag")));
+      projectProperties.setPreserveScheduledEarlyAndLateDates(row.getBoolean("level_keep_sched_date_flag"));
+
       // Recalculate assignment costs after leveling
       customProperties.put("LevelAllResources", Boolean.valueOf(row.getBoolean("level_all_rsrc_flag")));
+      projectProperties.setLevelAllResources(row.getBoolean("level_all_rsrc_flag"));
+
       customProperties.put("LevelResourcesOnlyWithinActivityTotalFloat", Boolean.valueOf(row.getBoolean("level_within_float_flag")));
-      customProperties.put("PreserveMinimumFloatWhenLeveling", row.getString("level_float_thrs_cnt"));
-      customProperties.put("MaxPercentToOverallocateResources", row.getString("level_over_alloc_pct"));
+      projectProperties.setLevelResourcesOnlyWithinActivityTotalFloat(row.getBoolean("level_within_float_flag"));
+
+      customProperties.put("PreserveMinimumFloatWhenLeveling", NumberHelper.getInteger(row.getString("level_float_thrs_cnt")));
+      projectProperties.setPreserveMinimumFloatWhenLeveling(Duration.getInstance(NumberHelper.getInt(row.getString("level_float_thrs_cnt")), TimeUnit.HOURS));
+
+      customProperties.put("MaxPercentToOverallocateResources", NumberHelper.getDoubleObject(row.getString("level_over_alloc_pct")));
+      projectProperties.setMaxPercentToOverallocateResources(NumberHelper.getDoubleObject(row.getString("level_over_alloc_pct")));
+
       customProperties.put("LevelingPriorities", row.getString("levelprioritylist"));
+      projectProperties.setLevelingPriorities(row.getString("levelprioritylist"));
 
       //
       // Schedule
       //
       customProperties.put("SetDataDateAndPlannedStartToProjectForecastStart", Boolean.valueOf(row.getBoolean("sched_setplantoforecast")));
+      projectProperties.setDataDateAndPlannedStartSetToProjectForecastStart(row.getBoolean("sched_setplantoforecast"));
 
       //
       // Schedule Options - General
       //
-      customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", row.getString("sched_outer_depend_type"));
+      customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", Boolean.valueOf("SD_None".equals(row.getString("sched_outer_depend_type"))));
+      projectProperties.setIgnoreRelationshipsToAndFromOtherProjects("SD_None".equals(row.getString("sched_outer_depend_type")));
+
       customProperties.put("MakeOpenEndedActivitiesCritical", Boolean.valueOf(row.getBoolean("sched_open_critical_flag")));
+      projectProperties.setMakeOpenEndedActivitiesCritical(row.getBoolean("sched_open_critical_flag"));
+
       customProperties.put("UseExpectedFinishDates", Boolean.valueOf(row.getBoolean("sched_use_expect_end_flag")));
-      // Schedule automatically when a change affects dates
-      // Level resources during scheduling
+      projectProperties.setUseExpectedFinishDates(row.getBoolean("sched_use_expect_end_flag"));
+
+      // Schedule automatically when a change affects dates - not in XER/database?
+
+      // Level resources during scheduling - not in XER/database?
+
       customProperties.put("WhenSchedulingProgressedActivitiesUseRetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
       customProperties.put("WhenSchedulingProgressedActivitiesUseProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
+      projectProperties.setSchedulingProgressedActivities(row.getBoolean("sched_retained_logic") ? SchedulingProgressedActivities.RETAINED_LOGIC : (row.getBoolean("sched_progress_override") ? SchedulingProgressedActivities.PROGRESS_OVERRIDE : SchedulingProgressedActivities.ACTUAL_DATES));
+
       customProperties.put("ComputeStartToStartLagFromEarlyStart", Boolean.valueOf(row.getBoolean("sched_lag_early_start_flag")));
+      projectProperties.setComputeStartToStartLagFromEarlyStart(row.getBoolean("sched_lag_early_start_flag"));
+
       // Define critical activities as
+
       customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", Boolean.valueOf(row.getBoolean("sched_use_project_end_date_for_float")));
+      projectProperties.setCalculateFloatBasedOnFinishDateOfEachProject(row.getBoolean("sched_use_project_end_date_for_float"));
+
       customProperties.put("ComputeTotalFloatAs", row.getString("sched_float_type"));
+      projectProperties.setTotalSlackCalculationType(TotalSlackCalculationTypeHelper.getInstanceFromXer(row.getString("sched_float_type")));
+
       customProperties.put("CalendarForSchedulingRelationshipLag", row.getString("sched_calendar_on_relationship_lag"));
+      projectProperties.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXer(row.getString("sched_calendar_on_relationship_lag")));
 
       //
       // Schedule Options - Advanced
       //
       customProperties.put("CalculateMultipleFloatPaths", Boolean.valueOf(row.getBoolean("enable_multiple_longest_path_calc")));
-      customProperties.put("CalculateMultiplePathsUsingTotalFloat", Boolean.valueOf(row.getBoolean("use_total_float_multiple_longest_paths")));
-      customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", row.getString("key_activity_for_multiple_longest_paths"));
-      customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
-      customProperties.put("NumberofPathsToCalculate", row.getString("max_multiple_longest_path"));
+      projectProperties.setCalculateMultipleFloatPaths(row.getBoolean("enable_multiple_longest_path_calc"));
 
-      m_project.getProjectProperties().setCustomProperties(customProperties);
+      customProperties.put("CalculateMultiplePathsUsingTotalFloat", Boolean.valueOf(row.getBoolean("use_total_float_multiple_longest_paths")));
+      projectProperties.setCalculateMultipleFloatPathsUsingTotalFloat(row.getBoolean("use_total_float_multiple_longest_paths"));
+
+      customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", NumberHelper.getInteger(row.getString("key_activity_for_multiple_longest_paths")));
+      projectProperties.setDisplayMultipleFloatPathsEndingWithActivityUniqueID(NumberHelper.getInteger(row.getString("key_activity_for_multiple_longest_paths")));
+
+      customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
+      projectProperties.setLimitNumberOfFloatPathsToCalculate(row.getBoolean("limit_multiple_longest_path_calc"));
+
+      customProperties.put("NumberofPathsToCalculate", NumberHelper.getInteger(row.getString("max_multiple_longest_path")));
+      projectProperties.setMaximumNumberOfFloatPathsToCalculate(NumberHelper.getInteger(row.getString("max_multiple_longest_path")));
+
+      projectProperties.setCustomProperties(customProperties);
    }
 
    /**
@@ -1922,25 +2112,25 @@ final class PrimaveraReader
 
             case RESOURCE_TYPE:
             {
-               value = RESOURCE_TYPE_MAP.get(row.getString(name));
+               value = ResourceTypeHelper.getInstanceFromXer(row.getString(name));
                break;
             }
 
             case TASK_TYPE:
             {
-               value = TASK_TYPE_MAP.get(row.getString(name));
+               value = TaskTypeHelper.getInstanceFromXer(row.getString(name));
                break;
             }
 
             case CONSTRAINT:
             {
-               value = CONSTRAINT_TYPE_MAP.get(row.getString(name));
+               value = ConstraintTypeHelper.getInstanceFromXer(row.getString(name));
                break;
             }
 
             case PRIORITY:
             {
-               value = PRIORITY_MAP.get(row.getString(name));
+               value = PriorityHelper.getInstanceFromXer(row.getString(name));
                break;
             }
 
@@ -2006,8 +2196,8 @@ final class PrimaveraReader
    private Number calculateDurationPercentComplete(Row row)
    {
       double result = 0;
-      double targetDuration = row.getDuration("target_drtn_hr_cnt").getDuration();
-      double remainingDuration = row.getDuration("remain_drtn_hr_cnt").getDuration();
+      double targetDuration = NumberHelper.getDouble(row.getDouble("target_drtn_hr_cnt"));
+      double remainingDuration = NumberHelper.getDouble(row.getDouble("remain_drtn_hr_cnt"));
 
       if (targetDuration == 0)
       {
@@ -2051,6 +2241,9 @@ final class PrimaveraReader
       map.put(ResourceField.RESOURCE_ID, "rsrc_short_name");
       map.put(ResourceField.CALCULATE_COSTS_FROM_UNITS, "def_cost_qty_link_flag");
       map.put(ResourceField.SEQUENCE_NUMBER, "rsrc_seq_num");
+      map.put(ResourceField.ACTIVE, "active_flag");
+      map.put(ResourceField.LOCATION_UNIQUE_ID, "location_id");
+      map.put(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID, "unit_id");
 
       return map;
    }
@@ -2105,13 +2298,15 @@ final class PrimaveraReader
    {
       Map<FieldType, String> map = new LinkedHashMap<>();
 
-      map.put(TaskField.UNIQUE_ID, "task_id");
       map.put(TaskField.GUID, "guid");
       map.put(TaskField.NAME, "task_name");
       map.put(TaskField.REMAINING_DURATION, "remain_drtn_hr_cnt");
-      map.put(TaskField.ACTUAL_WORK, "act_work_qty");
-      map.put(TaskField.REMAINING_WORK, "remain_work_qty");
-      map.put(TaskField.PLANNED_WORK, "target_work_qty");
+      map.put(TaskField.ACTUAL_WORK_LABOR, "act_work_qty");
+      map.put(TaskField.ACTUAL_WORK_NONLABOR, "act_equip_qty");
+      map.put(TaskField.REMAINING_WORK_LABOR, "remain_work_qty");
+      map.put(TaskField.REMAINING_WORK_NONLABOR, "remain_equip_qty");
+      map.put(TaskField.PLANNED_WORK_LABOR, "target_work_qty");
+      map.put(TaskField.PLANNED_WORK_NONLABOR, "target_equip_qty");
       map.put(TaskField.PLANNED_DURATION, "target_drtn_hr_cnt");
       map.put(TaskField.CONSTRAINT_DATE, "cstr_date");
       map.put(TaskField.ACTUAL_START, "act_start_date");
@@ -2141,6 +2336,8 @@ final class PrimaveraReader
       map.put(TaskField.EXTERNAL_EARLY_START, "external_early_start_date");
       map.put(TaskField.EXTERNAL_LATE_FINISH, "external_late_end_date");
       map.put(TaskField.LONGEST_PATH, "driving_path_flag");
+      map.put(TaskField.LOCATION_UNIQUE_ID, "location_id");
+      map.put(TaskField.EXPECTED_FINISH, "expect_end_date");
 
       return map;
    }
@@ -2169,7 +2366,10 @@ final class PrimaveraReader
       map.put(AssignmentField.ASSIGNMENT_DELAY, "target_lag_drtn_hr_cnt");
       map.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, "cost_qty_link_flag");
       map.put(AssignmentField.COST_ACCOUNT_UNIQUE_ID, "acct_id");
-
+      map.put(AssignmentField.REMAINING_EARLY_START, "restart_date");
+      map.put(AssignmentField.REMAINING_EARLY_FINISH, "reend_date");
+      map.put(AssignmentField.REMAINING_LATE_START, "rem_late_start_date");
+      map.put(AssignmentField.REMAINING_LATE_FINISH, "rem_late_end_date");
       return map;
    }
 
@@ -2177,7 +2377,8 @@ final class PrimaveraReader
    private final EventManager m_eventManager;
    private final ClashMap m_activityClashMap = new ClashMap();
    private final ClashMap m_roleClashMap = new ClashMap();
-   private final DateFormat m_calendarTimeFormat = new SimpleDateFormat("HH:mm");
+   private final DateTimeFormatter m_twentyFourHourTimeFormat = DateTimeFormatter.ofPattern("H:mm");
+   private final DateTimeFormatter m_twelveHourTimeFormat = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("h:mm a").toFormatter();
    private Integer m_defaultCalendarID;
    private final Map<FieldType, String> m_resourceFields;
    private final Map<FieldType, String> m_roleFields;
@@ -2187,6 +2388,7 @@ final class PrimaveraReader
    private final List<ExternalRelation> m_externalRelations = new ArrayList<>();
    private final boolean m_matchPrimaveraWBS;
    private final boolean m_wbsIsFullPath;
+   private final boolean m_ignoreErrors;
 
    private final Map<Integer, FieldType> m_udfFields = new HashMap<>();
    private final Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
@@ -2194,56 +2396,7 @@ final class PrimaveraReader
    private final Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
    private final Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
 
-   private static final Map<String, ResourceType> RESOURCE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RESOURCE_TYPE_MAP.put(null, ResourceType.WORK);
-      RESOURCE_TYPE_MAP.put("RT_Labor", ResourceType.WORK);
-      RESOURCE_TYPE_MAP.put("RT_Mat", ResourceType.MATERIAL);
-      RESOURCE_TYPE_MAP.put("RT_Equip", ResourceType.COST);
-   }
-
-   private static final Map<String, ConstraintType> CONSTRAINT_TYPE_MAP = new HashMap<>();
-   static
-   {
-      CONSTRAINT_TYPE_MAP.put("CS_MSO", ConstraintType.START_ON);
-      CONSTRAINT_TYPE_MAP.put("CS_MSOB", ConstraintType.START_NO_LATER_THAN);
-      CONSTRAINT_TYPE_MAP.put("CS_MSOA", ConstraintType.START_NO_EARLIER_THAN);
-      CONSTRAINT_TYPE_MAP.put("CS_MEO", ConstraintType.FINISH_ON);
-      CONSTRAINT_TYPE_MAP.put("CS_MEOB", ConstraintType.FINISH_NO_LATER_THAN);
-      CONSTRAINT_TYPE_MAP.put("CS_MEOA", ConstraintType.FINISH_NO_EARLIER_THAN);
-      CONSTRAINT_TYPE_MAP.put("CS_ALAP", ConstraintType.AS_LATE_AS_POSSIBLE);
-      CONSTRAINT_TYPE_MAP.put("CS_MANDSTART", ConstraintType.MUST_START_ON);
-      CONSTRAINT_TYPE_MAP.put("CS_MANDFIN", ConstraintType.MUST_FINISH_ON);
-   }
-
-   private static final Map<String, Priority> PRIORITY_MAP = new HashMap<>();
-   static
-   {
-      PRIORITY_MAP.put("PT_Top", Priority.getInstance(Priority.HIGHEST));
-      PRIORITY_MAP.put("PT_High", Priority.getInstance(Priority.HIGH));
-      PRIORITY_MAP.put("PT_Normal", Priority.getInstance(Priority.MEDIUM));
-      PRIORITY_MAP.put("PT_Low", Priority.getInstance(Priority.LOW));
-      PRIORITY_MAP.put("PT_Lowest", Priority.getInstance(Priority.LOWEST));
-   }
-
-   private static final Map<String, RelationType> RELATION_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RELATION_TYPE_MAP.put("PR_FS", RelationType.FINISH_START);
-      RELATION_TYPE_MAP.put("PR_FF", RelationType.FINISH_FINISH);
-      RELATION_TYPE_MAP.put("PR_SS", RelationType.START_START);
-      RELATION_TYPE_MAP.put("PR_SF", RelationType.START_FINISH);
-   }
-
-   private static final Map<String, TaskType> TASK_TYPE_MAP = new HashMap<>();
-   static
-   {
-      TASK_TYPE_MAP.put("DT_FixedDrtn", TaskType.FIXED_DURATION);
-      TASK_TYPE_MAP.put("DT_FixedQty", TaskType.FIXED_UNITS);
-      TASK_TYPE_MAP.put("DT_FixedDUR2", TaskType.FIXED_WORK);
-      TASK_TYPE_MAP.put("DT_FixedRate", TaskType.FIXED_WORK);
-   }
+   private final ObjectSequence m_relationObjectID;
 
    private static final Map<String, Boolean> MILESTONE_MAP = new HashMap<>();
    static
@@ -2254,17 +2407,6 @@ final class PrimaveraReader
       MILESTONE_MAP.put("TT_Mile", Boolean.TRUE);
       MILESTONE_MAP.put("TT_FinMile", Boolean.TRUE);
       MILESTONE_MAP.put("TT_WBS", Boolean.FALSE);
-   }
-
-   private static final Map<String, ActivityType> ACTIVITY_TYPE_MAP = new HashMap<>();
-   static
-   {
-      ACTIVITY_TYPE_MAP.put("TT_Task", ActivityType.TASK_DEPENDENT);
-      ACTIVITY_TYPE_MAP.put("TT_Rsrc", ActivityType.RESOURCE_DEPENDENT);
-      ACTIVITY_TYPE_MAP.put("TT_LOE", ActivityType.LEVEL_OF_EFFORT);
-      ACTIVITY_TYPE_MAP.put("TT_Mile", ActivityType.START_MILESTONE);
-      ACTIVITY_TYPE_MAP.put("TT_FinMile", ActivityType.FINISH_MILESTONE);
-      ACTIVITY_TYPE_MAP.put("TT_WBS", ActivityType.WBS_SUMMARY);
    }
 
    /*
@@ -2279,6 +2421,7 @@ final class PrimaveraReader
       TIME_UNIT_MAP.put("QT_Year", TimeUnit.YEARS);
    }
    */
+
    private static final Map<String, CurrencySymbolPosition> CURRENCY_SYMBOL_POSITION_MAP = new HashMap<>();
    static
    {
@@ -2288,106 +2431,5 @@ final class PrimaveraReader
       CURRENCY_SYMBOL_POSITION_MAP.put("1.1 #", CurrencySymbolPosition.AFTER_WITH_SPACE);
    }
 
-   private static final Map<String, Boolean> STATICTYPE_UDF_MAP = new HashMap<>();
-   static
-   {
-      // this is a judgement call on how the static type indicator values would be best translated to a flag
-      STATICTYPE_UDF_MAP.put("UDF_G0", Boolean.FALSE); // no indicator
-      STATICTYPE_UDF_MAP.put("UDF_G1", Boolean.FALSE); // red x
-      STATICTYPE_UDF_MAP.put("UDF_G2", Boolean.FALSE); // yellow !
-      STATICTYPE_UDF_MAP.put("UDF_G3", Boolean.TRUE); // green check
-      STATICTYPE_UDF_MAP.put("UDF_G4", Boolean.TRUE); // blue star
-   }
-
-   private static final Map<String, FieldTypeClass> FIELD_TYPE_MAP = new HashMap<>();
-   static
-   {
-      FIELD_TYPE_MAP.put("PROJWBS", FieldTypeClass.TASK);
-      FIELD_TYPE_MAP.put("TASK", FieldTypeClass.TASK);
-      FIELD_TYPE_MAP.put("RSRC", FieldTypeClass.RESOURCE);
-      FIELD_TYPE_MAP.put("TASKRSRC", FieldTypeClass.ASSIGNMENT);
-      FIELD_TYPE_MAP.put("PROJECT", FieldTypeClass.PROJECT);
-   }
-
-   private static final Map<String, AccrueType> ACCRUE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      ACCRUE_TYPE_MAP.put("CL_Uniform", AccrueType.PRORATED);
-      ACCRUE_TYPE_MAP.put("CL_End", AccrueType.END);
-      ACCRUE_TYPE_MAP.put("CL_Start", AccrueType.START);
-   }
-
-   private static final Map<String, PercentCompleteType> PERCENT_COMPLETE_TYPE = new HashMap<>();
-   static
-   {
-      PERCENT_COMPLETE_TYPE.put("CP_Phys", PercentCompleteType.PHYSICAL);
-      PERCENT_COMPLETE_TYPE.put("CP_Drtn", PercentCompleteType.DURATION);
-      PERCENT_COMPLETE_TYPE.put("CP_Units", PercentCompleteType.UNITS);
-   }
-
-   private static final Map<String, ActivityStatus> STATUS_MAP = new HashMap<>();
-   static
-   {
-      STATUS_MAP.put("TK_NotStart", ActivityStatus.NOT_STARTED);
-      STATUS_MAP.put("TK_Active", ActivityStatus.IN_PROGRESS);
-      STATUS_MAP.put("TK_Complete", ActivityStatus.COMPLETED);
-   }
-
-   private static final Map<String, CriticalActivityType> CRITICAL_ACTIVITY_MAP = new HashMap<>();
-   static
-   {
-      CRITICAL_ACTIVITY_MAP.put("CT_TotFloat", CriticalActivityType.TOTAL_FLOAT);
-      CRITICAL_ACTIVITY_MAP.put("CT_DrivPath", CriticalActivityType.LONGEST_PATH);
-   }
-
-   private static final Map<String, net.sf.mpxj.CalendarType> CALENDAR_TYPE_MAP = new HashMap<>();
-   static
-   {
-      CALENDAR_TYPE_MAP.put("CA_Base", net.sf.mpxj.CalendarType.GLOBAL);
-      CALENDAR_TYPE_MAP.put("CA_Project", net.sf.mpxj.CalendarType.PROJECT);
-      CALENDAR_TYPE_MAP.put("CA_Rsrc", net.sf.mpxj.CalendarType.RESOURCE);
-   }
-
-   private static final Map<String, ActivityCodeScope> ACTIVITY_CODE_SCOPE_MAP = new HashMap<>();
-   static
-   {
-      ACTIVITY_CODE_SCOPE_MAP.put("AS_Global", ActivityCodeScope.GLOBAL);
-      ACTIVITY_CODE_SCOPE_MAP.put("AS_EPS", ActivityCodeScope.EPS);
-      ACTIVITY_CODE_SCOPE_MAP.put("AS_Project", ActivityCodeScope.PROJECT);
-   }
-
-   private static final Map<String, Integer> RATE_TYPE_MAP = new HashMap<>();
-   static
-   {
-      RATE_TYPE_MAP.put("COST_PER_QTY", Integer.valueOf(0));
-      RATE_TYPE_MAP.put("COST_PER_QTY2", Integer.valueOf(1));
-      RATE_TYPE_MAP.put("COST_PER_QTY3", Integer.valueOf(2));
-      RATE_TYPE_MAP.put("COST_PER_QTY4", Integer.valueOf(3));
-      RATE_TYPE_MAP.put("COST_PER_QTY5", Integer.valueOf(4));
-   }
-
-   private static final Map<String, RateSource> RATE_SOURCE_MAP = new HashMap<>();
-   static
-   {
-      RATE_SOURCE_MAP.put("ST_Rsrc", RateSource.RESOURCE);
-      RATE_SOURCE_MAP.put("ST_Role", RateSource.ROLE);
-      RATE_SOURCE_MAP.put("ST_Custom", RateSource.OVERRIDE);
-   }
-
-   private static final Map<String, DataType> DATA_TYPE_MAP = new HashMap<>();
-   static
-   {
-      DATA_TYPE_MAP.put("FT_TEXT", DataType.STRING);
-      DATA_TYPE_MAP.put("FT_MONEY", DataType.CURRENCY);
-      DATA_TYPE_MAP.put("FT_END_DATE", DataType.DATE);
-      DATA_TYPE_MAP.put("FT_STATICTYPE", DataType.STRING);
-      DATA_TYPE_MAP.put("FT_INT", DataType.INTEGER);
-      DATA_TYPE_MAP.put("FT_FLOAT", DataType.NUMERIC);
-      DATA_TYPE_MAP.put("FT_FLOAT_2_DECIMALS", DataType.NUMERIC);
-      DATA_TYPE_MAP.put("FT_START_DATE", DataType.DATE);
-   }
-
-   private static final long EXCEPTION_EPOCH = -2209161599935L;
-
-   static final String DEFAULT_WBS_SEPARATOR = ".";
+   static final LocalDate EXCEPTION_EPOCH = LocalDate.of(1899, 12, 30);
 }

@@ -117,7 +117,7 @@ class FieldMap9 extends FieldMap
          new FieldItem(TaskField.ACTUAL_OVERTIME_COST, FieldLocation.VAR_DATA, 0, 65535, 6, 0, 0),
          new FieldItem(TaskField.REMAINING_OVERTIME_COST, FieldLocation.VAR_DATA, 0, 65535, 7, 0, 0),
          new FieldItem(TaskField.SUBPROJECT_TASKS_UNIQUEID_OFFSET, FieldLocation.VAR_DATA, 0, 65535, 8, 0, 0),
-         new FieldItem(TaskField.SUBPROJECT_UNIQUE_TASK_ID, FieldLocation.VAR_DATA, 0, 65535, 9, 0, 0),
+         new FieldItem(TaskField.SUBPROJECT_TASK_UNIQUE_ID, FieldLocation.VAR_DATA, 0, 65535, 9, 0, 0),
          new FieldItem(TaskField.WBS, FieldLocation.VAR_DATA, 0, 65535, 10, 0, 0),
          new FieldItem(TaskField.NAME, FieldLocation.VAR_DATA, 0, 65535, 11, 0, 0),
          new FieldItem(TaskField.CONTACT, FieldLocation.VAR_DATA, 0, 65535, 12, 0, 0),

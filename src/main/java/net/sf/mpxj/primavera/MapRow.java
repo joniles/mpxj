@@ -23,7 +23,7 @@
 
 package net.sf.mpxj.primavera;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -41,102 +41,193 @@ class MapRow implements Row
     * Constructor.
     *
     * @param map map to be wrapped by this instance
+    * @param ignoreErrors true if errors reading values are ignored
     */
-   public MapRow(Map<String, Object> map)
+   public MapRow(Map<String, Object> map, boolean ignoreErrors)
    {
       m_map = map;
+      m_ignoreErrors = ignoreErrors;
    }
 
    @Override public final String getString(String name)
    {
-      Object value = getObject(name);
-      String result;
-      if (value == null)
+      try
       {
-         result = null;
-      }
-      else
-      {
-         if (value instanceof byte[])
+         Object value = getObject(name);
+         String result;
+         if (value == null)
          {
-            result = new String((byte[]) value);
+            result = null;
          }
          else
          {
-            result = value.toString();
+            if (value instanceof byte[])
+            {
+               result = new String((byte[]) value);
+            }
+            else
+            {
+               result = value.toString();
+            }
          }
+         return result;
       }
-      return result;
+
+      catch (Exception ex)
+      {
+         if (m_ignoreErrors)
+         {
+            return null;
+         }
+         throw ex;
+      }
    }
 
    @Override public final Integer getInteger(String name)
    {
-      Object result = getObject(name);
-      if (result != null)
+      try
       {
-         if (!(result instanceof Integer))
+         Object result = getObject(name);
+         if (result != null)
          {
-            result = Integer.valueOf(((Number) result).intValue());
+            if (!(result instanceof Integer))
+            {
+               result = Integer.valueOf(((Number) result).intValue());
+            }
          }
+         return ((Integer) result);
       }
-      return ((Integer) result);
+
+      catch (Exception ex)
+      {
+         if (m_ignoreErrors)
+         {
+            return null;
+         }
+         throw ex;
+      }
    }
 
    @Override public final Double getDouble(String name)
    {
-      Object result = getObject(name);
-      if (result != null)
+      try
       {
-         if (!(result instanceof Double))
+         Object result = getObject(name);
+         if (result != null)
          {
-            result = Double.valueOf(((Number) result).doubleValue());
+            if (!(result instanceof Double))
+            {
+               result = Double.valueOf(((Number) result).doubleValue());
+            }
          }
+         return ((Double) result);
       }
-      return ((Double) result);
+
+      catch (Exception ex)
+      {
+         if (m_ignoreErrors)
+         {
+            return null;
+         }
+         throw ex;
+      }
    }
 
    @Override public final boolean getBoolean(String name)
    {
-      boolean result = false;
-      Object value = getObject(name);
-      if (value != null)
+      try
       {
-         if (value instanceof Boolean)
+         boolean result = false;
+         Object value = getObject(name);
+         if (value != null)
          {
-            result = BooleanHelper.getBoolean((Boolean) value);
-         }
-         else
-         {
-            if (value instanceof Number)
+            if (value instanceof Boolean)
             {
-               // generally all non-zero numbers are treated as truthy
-               result = ((Number) value).doubleValue() != 0.0;
+               result = BooleanHelper.getBoolean((Boolean) value);
             }
             else
             {
-               if (value instanceof String)
+               if (value instanceof Number)
                {
-                  result = parseBoolean((String) value);
+                  // generally all non-zero numbers are treated as truthy
+                  result = ((Number) value).doubleValue() != 0.0;
+               }
+               else
+               {
+                  if (value instanceof String)
+                  {
+                     result = parseBoolean((String) value);
+                  }
                }
             }
          }
+         return result;
       }
-      return result;
+
+      catch (Exception ex)
+      {
+         if (m_ignoreErrors)
+         {
+            return false;
+         }
+         throw ex;
+      }
    }
 
    @Override public final int getInt(String name)
    {
-      return (NumberHelper.getInt((Number) getObject(name)));
+      try
+      {
+         return (NumberHelper.getInt((Number) getObject(name)));
+      }
+
+      catch (Exception ex)
+      {
+         if (m_ignoreErrors)
+         {
+            return 0;
+         }
+         throw ex;
+      }
    }
 
-   @Override public final Date getDate(String name)
+   @Override public final LocalDateTime getDate(String name)
    {
-      return ((Date) getObject(name));
+      try
+      {
+         return ((LocalDateTime) getObject(name));
+      }
+
+      catch (Exception ex)
+      {
+         if (m_ignoreErrors)
+         {
+            return null;
+         }
+         throw ex;
+      }
    }
 
    @Override public final Duration getDuration(String name)
    {
-      return (Duration.getInstance(NumberHelper.getDouble(getDouble(name)), TimeUnit.HOURS));
+      try
+      {
+         Double value = getDouble(name);
+         if (value == null)
+         {
+            return null;
+         }
+         return Duration.getInstance(value.doubleValue(), TimeUnit.HOURS);
+      }
+
+      catch (Exception ex)
+      {
+         if (m_ignoreErrors)
+         {
+            return null;
+         }
+         throw ex;
+      }
    }
 
    @Override public final UUID getUUID(String name)
@@ -168,4 +259,5 @@ class MapRow implements Row
    }
 
    protected final Map<String, Object> m_map;
+   private final boolean m_ignoreErrors;
 }

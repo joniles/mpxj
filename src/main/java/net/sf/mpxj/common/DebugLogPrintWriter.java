@@ -34,11 +34,23 @@ public final class DebugLogPrintWriter
 {
    /**
     * If the MPXJ_DEBUG_LOG environment variable is set, create a
-    * PrintWriter to write to the specified file.
+    * PrintWriter to write to the specified file. A new file is created each time.
     *
     * @return PrintWriter instance
     */
    public static final PrintWriter getInstance()
+   {
+      return getInstance(false);
+   }
+
+   /**
+    * If the MPXJ_DEBUG_LOG environment variable is set, create a
+    * PrintWriter to write to the specified file.
+    *
+    * @param append append to an existing file if true
+    * @return PrintWriter instance
+    */
+   public static final PrintWriter getInstance(boolean append)
    {
       PrintWriter result;
       String logFile = System.getenv("MPXJ_DEBUG_LOG");
@@ -50,7 +62,7 @@ public final class DebugLogPrintWriter
       {
          try
          {
-            result = new PrintWriter(new FileWriter(logFile));
+            result = new PrintWriter(new FileWriter(logFile, append));
             System.out.println("DebugLogger Configured");
          }
          catch (IOException e)

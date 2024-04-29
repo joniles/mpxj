@@ -23,12 +23,12 @@
 
 package net.sf.mpxj.primavera;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.UUID;
 
 import net.sf.mpxj.common.XmlHelper;
@@ -108,9 +108,9 @@ public final class DatatypeConverter
     * @param value date time value
     * @return string representation
     */
-   public static final String printDateTime(Date value)
+   public static final String printDateTime(LocalDateTime value)
    {
-      return (value == null ? null : DATE_FORMAT.get().format(value));
+      return value == null ? null : DATE_FORMAT.format(value);
    }
 
    /**
@@ -119,18 +119,18 @@ public final class DatatypeConverter
     * @param value string representation
     * @return date time value
     */
-   public static final Date parseDateTime(String value)
+   public static final LocalDateTime parseDateTime(String value)
    {
-      Date result = null;
+      LocalDateTime result = null;
 
-      if (value != null && value.length() != 0)
+      if (value != null && !value.isEmpty())
       {
          try
          {
-            result = DATE_FORMAT.get().parse(value);
+            result = LocalDateTime.parse(value, DATE_FORMAT);
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
             // Ignore parse exception
          }
@@ -145,9 +145,9 @@ public final class DatatypeConverter
     * @param value time value
     * @return time value
     */
-   public static final String printTime(Date value)
+   public static final String printTime(LocalTime value)
    {
-      return (value == null ? null : TIME_FORMAT.get().format(value));
+      return (value == null ? null : TIME_FORMAT.format(value));
    }
 
    /**
@@ -156,17 +156,17 @@ public final class DatatypeConverter
     * @param value time value
     * @return time value
     */
-   public static final Date parseTime(String value)
+   public static final LocalTime parseTime(String value)
    {
-      Date result = null;
-      if (value != null && value.length() != 0)
+      LocalTime result = null;
+      if (value != null && !value.isEmpty())
       {
          try
          {
-            result = TIME_FORMAT.get().parse(value);
+            result = LocalTime.parse(value, TIME_FORMAT);
          }
 
-         catch (ParseException ex)
+         catch (DateTimeParseException ex)
          {
             // Ignore this and return null
          }
@@ -288,20 +288,12 @@ public final class DatatypeConverter
       return value;
    }
 
-   private static final ThreadLocal<DateFormat> DATE_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-      df.setLenient(false);
-      return df;
-   });
+   private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-   private static final ThreadLocal<DateFormat> TIME_FORMAT = ThreadLocal.withInitial(() -> {
-      DateFormat df = new SimpleDateFormat("HH:mm:ss");
-      df.setLenient(false);
-      return df;
-   });
+   private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
    private static final ThreadLocal<NumberFormat> DOUBLE_FORMAT = ThreadLocal.withInitial(() -> {
-      DecimalFormat format = new DecimalFormat("#.##");
+      DecimalFormat format = new DecimalFormat("#.###############");
       format.setGroupingUsed(false);
       return format;
    });

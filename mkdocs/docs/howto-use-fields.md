@@ -36,23 +36,22 @@ and when we call the getter method we'll be returned the name as a `String`.
 How about working with a field that has a type other than a String?
 
 ```java
-DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-Date startDate = df.parse("10/05/2022");
+LocalDateTime startDate = LocalDateTime.of(2022, 5, 10, 8, 0);
 task.setStart(startDate);
 
-System.out.println("Start date: " + df.format(task.getStart()));
+System.out.println("Start date: " + task.getStart());
 ```
 
 Here's the output from the sample code:
 
 ```
-Start date: 10/05/2022
+Start date: 2022-05-10T08:00
 ```
 
-We're setting and retrieving the task's start date using a `Date` instance.
-For almost all of the fields supported by tasks, resources, and resource
-assignments you'll find a pair of getter and setter methods allowing you
-to access and modify the field with a convenient type safe interface.
+We're setting and retrieving the task's start date using a `LocalDateTime`
+instance. For almost all of the fields supported by tasks, resources, and
+resource assignments you'll find a pair of getter and setter methods allowing
+you to access and modify the field with a convenient type safe interface.
 
 ## Field Enumerations
 What if we don't know ahead of time which fields we need to access? For example,
@@ -67,17 +66,17 @@ task.set(TaskField.NAME, "Task 2");
 name = (String)task.get(TaskField.NAME);
 System.out.println("Task name: " + name);
 
-startDate = df.parse("11/05/2022");
+startDate = LocalDateTime.of(2022, 5, 11, 8, 0);
 task.set(TaskField.START, startDate);
 
-System.out.println("Start date: " + df.format(task.getStart()));
+System.out.println("Start date: " + task.getStart());
 ```
 
 Here's the output from this sample code:
 
 ```
 Task name: Task 2
-Start date: 11/05/2022
+Start date: 2022-05-11T08:00
 ```
 
 What are the `TaskField` values in the example above? `TaskField` is an
@@ -120,9 +119,8 @@ Task task1 = file.addTask();
 Task task2 = file.addTask();
 
 // Set up example dates
-DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-Date baselineStart = df.parse("01/05/2022");
-Date startDate = df.parse("10/05/2022");
+LocalDateTime baselineStart = LocalDateTime.of(2022, 5, 1, 8, 0);
+LocalDateTime startDate = LocalDateTime.of(2022,5, 10, 8, 0);
 
 // Update task1 using methods
 task1.setStart(startDate);
@@ -181,20 +179,19 @@ ProjectFile file = new ProjectFile();
 file.setDefaultCalendar(file.addDefaultBaseCalendar());
 
 // Set up example dates
-DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-Date baselineStart = df.parse("01/05/2022");
-Date startDate = df.parse("10/05/2022");
+LocalDateTime baselineStart = LocalDateTime.of(2022, 5, 1, 8, 0);
+LocalDateTime startDate = LocalDateTime.of(2022,5, 10, 8, 0);
 
 // Create a task
 Task task = file.addTask();
 task.setStart(startDate);
 task.setBaselineStart(baselineStart);
 
-System.out.println("Start Variance using getCachedValue(): "
+System.out.println("Start Variance using getCachedValue(): " 
    + task.getCachedValue(TaskField.START_VARIANCE));
-System.out.println("Start Variance using get(): "
+System.out.println("Start Variance using get(): " 
    + task.get(TaskField.START_VARIANCE));
-System.out.println("Start Variance using getCachedValue(): "
+System.out.println("Start Variance using getCachedValue(): " 
    + task.getCachedValue(TaskField.START_VARIANCE));
 ```
 
@@ -228,7 +225,7 @@ representing the fields which particular classes can contain.
 * `TaskField`
 * `AssignmentField`
 
-What I didn't mention earlier is that each of these enumerations implements the
+What I didn't mention then is that each of these enumerations implements the
 `FieldType` interface which defines a common set of methods for each of these
 enumerations. The most interesting of these methods are:
 
@@ -289,13 +286,13 @@ private String getValueAsText(FieldContainer container, FieldType type)
     {
         case CURRENCY:
         {
-            result = new DecimalFormat("£0.00").format((Number)value);
+            result = new DecimalFormat("£0.00").format(value);
             break;
         }
 
         case DATE:
         {
-            result = new SimpleDateFormat("dd/MM/yyyy").format((Date)value);
+            result = DateTimeFormatter.ofPattern("dd/MM/yyyy").format((LocalDateTime)value);
             break;
         }
 
@@ -322,7 +319,7 @@ and so on). Given the particular field the user has asked us to display
 (passed in via the `type` argument), we retrieve the value from the container
 as an `Object`, then use the data type to decide how best to format the value
 for display. (This is obviously a contrived example - I wouldn't recommend
-creating new instances of `DecimalFormat` and `SimpleDateFormat` each time you
+creating new instances of `DecimalFormat` and `DateTimeFormatter` each time you
 need to format a value!)
 
 ## Custom Fields

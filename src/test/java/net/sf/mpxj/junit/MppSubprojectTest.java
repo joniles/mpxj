@@ -25,7 +25,6 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.SubProject;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.mpd.MPDFileReader;
 import net.sf.mpxj.mpp.MPPReader;
@@ -118,21 +117,12 @@ public class MppSubprojectTest
       assertEquals("SubprojectB-9", taskSubprojectB.getName());
 
       // Subproject A
-      SubProject subprojectA = taskSubprojectA.getSubProject();
-      assertNotNull(subprojectA);
       final String expectedFilenameA = "\\SubprojectA-9.mpp";
-      //assertEquals(expectedFilenameA, subprojectA.getDosFileName());
-      assertTrue(expectedFilenameA.contains(subprojectA.getFileName()));
-      //subprojectA.getDosFullPath(); don't need to test
-      assertTrue(subprojectA.getFullPath().contains(expectedFilenameA));
-      assertEquals(Integer.valueOf(2), subprojectA.getTaskUniqueID());
-
-      //assertEquals(null, taskSubprojectA.getSubprojectName());  // TODO: why is this null?
+      assertTrue(taskSubprojectA.getSubprojectFile().contains(expectedFilenameA));
       assertFalse(taskSubprojectA.getSubprojectReadOnly());
 
       if (isMPP)
       {
-         assertEquals(Integer.valueOf(8388608), subprojectA.getUniqueIDOffset()); // MPD needs to be fixed
          assertEquals(Integer.valueOf(8388608), taskSubprojectA.getSubprojectTasksUniqueIDOffset());
          assertEquals(Integer.valueOf(0), taskSubprojectA.getSubprojectTaskUniqueID());
       }

@@ -24,12 +24,8 @@
 package net.sf.mpxj.fasttrack;
 
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-import net.sf.mpxj.common.DateHelper;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Column containing dates.
@@ -49,7 +45,7 @@ class DateColumn extends AbstractColumn
       // Structure flags? See StringColumn...
       offset += 4;
 
-      // Originally I though that there was a fixed 48 byte offset from the end of
+      // Originally I thought that there was a fixed 48 byte offset from the end of
       // the header to the start of the data. In fact there appears to be an optional
       // block of string data after the header, but before the binary version of the dates.
       // The string dates in this optional block don't appear to match the actual dates, so
@@ -60,9 +56,8 @@ class DateColumn extends AbstractColumn
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);
       offset = data.getOffset();
 
-      Calendar cal = DateHelper.popCalendar();
       byte[][] rawData = data.getData();
-      m_data = new Date[rawData.length];
+      m_data = new LocalDate[rawData.length];
       for (int index = 0; index < rawData.length; index++)
       {
          byte[] rawValue = rawData[index];
@@ -71,29 +66,27 @@ class DateColumn extends AbstractColumn
             int value = FastTrackUtility.getInt(rawValue, 0);
             if (value > 0)
             {
-               cal.setTimeInMillis(DATE_EPOCH);
-               cal.add(Calendar.DAY_OF_YEAR, value);
-               int year = cal.get(Calendar.YEAR);
+               LocalDate date = DATE_EPOCH.plusDays(value);
+               int year = date.getYear();
                // Sanity test: ignore dates with obviously incorrect years
                if (year > 1980 && year < 2100)
                {
-                  m_data[index] = cal.getTime();
+                  m_data[index] = date;
                }
             }
          }
       }
-      DateHelper.pushCalendar(cal);
 
       return offset;
    }
 
    @Override protected void dumpData(PrintWriter pw)
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
       pw.println("  [Data");
       for (Object item : m_data)
       {
-         Object value = item == null ? "" : df.format((Date) item);
+         Object value = item == null ? "" : df.format((LocalDate) item);
          pw.println("    " + value);
       }
       pw.println("  ]");
@@ -102,5 +95,5 @@ class DateColumn extends AbstractColumn
    /**
     * 31/12/1979 00:00.
     */
-   private static final long DATE_EPOCH = 315446400000L;
+   private static final LocalDate DATE_EPOCH = LocalDate.of(1979, 12, 31);
 }

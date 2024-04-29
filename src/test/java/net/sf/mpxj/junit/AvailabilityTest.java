@@ -25,12 +25,12 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.AvailabilityTable;
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.mpp.MPPReader;
@@ -111,7 +111,7 @@ public class AvailabilityTest
     *
     * @param file project file
     */
-   private void testAvailability(ProjectFile file) throws Exception
+   private void testAvailability(ProjectFile file)
    {
       //
       // Resource with empty availability table
@@ -119,7 +119,7 @@ public class AvailabilityTest
       Resource resource = file.getResourceByID(Integer.valueOf(1));
       assertEquals("Resource One", resource.getName());
       AvailabilityTable table = resource.getAvailability();
-      assertEquals(0, table.size());
+      assertTrue(table.hasDefaultDateRange());
 
       //
       // Resource with populated availability table
@@ -136,11 +136,11 @@ public class AvailabilityTest
       //
       // Validate date-based row selection
       //
-      assertNull(table.getEntryByDate(m_df.parse("01/05/2009 12:00")));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2009, 5, 1, 12, 0)));
       assertAvailabilityEquals("02/07/2009 00:00", "01/08/2009 23:59", 60.0, table, 1);
-      assertNull(table.getEntryByDate(m_df.parse("02/08/2009 12:00")));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2009, 8, 2, 12, 0)));
       assertAvailabilityEquals("20/08/2009 00:00", "30/08/2009 23:59", 75.0, table, 2);
-      assertNull(table.getEntryByDate(m_df.parse("01/09/2009 12:00")));
+      assertNull(table.getEntryByDate(LocalDateTime.of(2009, 9, 1, 12, 0)));
    }
 
    /**
@@ -168,11 +168,11 @@ public class AvailabilityTest
     */
    private void assertAvailabilityEquals(String startDate, String endDate, double units, Availability entry)
    {
-      DateRange range = entry.getRange();
+      LocalDateTimeRange range = entry.getRange();
       assertEquals(startDate, m_df.format(range.getStart()));
       assertEquals(endDate, m_df.format(range.getEnd()));
       assertEquals(units, entry.getUnits().doubleValue(), 0);
    }
 
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 }

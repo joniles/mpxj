@@ -25,16 +25,15 @@ package net.sf.mpxj.turboproject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.Day;
-import net.sf.mpxj.Duration;
+import java.time.DayOfWeek;
+
 import net.sf.mpxj.EventManager;
 import net.sf.mpxj.FieldContainer;
 import net.sf.mpxj.FieldType;
@@ -47,13 +46,13 @@ import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectConfig;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
-import net.sf.mpxj.RelationType;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceField;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.InputStreamHelper;
+import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
 
 /**
@@ -90,11 +89,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
          readTasks();
          readRelationships();
          readResourceAssignments();
-
-         //
-         // Ensure that the unique ID counters are correct
-         //
-         config.updateUniqueCounters();
+         m_projectFile.readComplete();
 
          return m_projectFile;
       }
@@ -110,11 +105,6 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
          m_eventManager = null;
          m_tables = null;
       }
-   }
-
-   @Override public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException
-   {
-      return Collections.singletonList(read(inputStream));
    }
 
    /**
@@ -181,15 +171,15 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
          ProjectCalendar calendar = m_projectFile.addCalendar();
          calendar.setUniqueID(row.getInteger("UNIQUE_ID"));
          calendar.setName(row.getString("NAME"));
-         calendar.setWorkingDay(Day.SUNDAY, row.getBoolean("SUNDAY"));
-         calendar.setWorkingDay(Day.MONDAY, row.getBoolean("MONDAY"));
-         calendar.setWorkingDay(Day.TUESDAY, row.getBoolean("TUESDAY"));
-         calendar.setWorkingDay(Day.WEDNESDAY, row.getBoolean("WEDNESDAY"));
-         calendar.setWorkingDay(Day.THURSDAY, row.getBoolean("THURSDAY"));
-         calendar.setWorkingDay(Day.FRIDAY, row.getBoolean("FRIDAY"));
-         calendar.setWorkingDay(Day.SATURDAY, row.getBoolean("SATURDAY"));
+         calendar.setWorkingDay(DayOfWeek.SUNDAY, row.getBoolean("SUNDAY"));
+         calendar.setWorkingDay(DayOfWeek.MONDAY, row.getBoolean("MONDAY"));
+         calendar.setWorkingDay(DayOfWeek.TUESDAY, row.getBoolean("TUESDAY"));
+         calendar.setWorkingDay(DayOfWeek.WEDNESDAY, row.getBoolean("WEDNESDAY"));
+         calendar.setWorkingDay(DayOfWeek.THURSDAY, row.getBoolean("THURSDAY"));
+         calendar.setWorkingDay(DayOfWeek.FRIDAY, row.getBoolean("FRIDAY"));
+         calendar.setWorkingDay(DayOfWeek.SATURDAY, row.getBoolean("SATURDAY"));
 
-         for (Day day : Day.values())
+         for (DayOfWeek day : DayOfWeek.values())
          {
             ProjectCalendarHours hours = calendar.addCalendarHours(day);
             if (calendar.isWorkingDay(day))
@@ -239,7 +229,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
             break;
          }
 
-         Date date = row.getDate("DATE");
+         LocalDate date = LocalDateHelper.getLocalDate(row.getDate("DATE"));
          ProjectCalendarException exception = calendar.addCalendarException(date);
          if (row.getBoolean("WORKING"))
          {
@@ -406,9 +396,11 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
 
          if (task1 != null && task2 != null)
          {
-            RelationType type = row.getRelationType("TYPE");
-            Duration lag = row.getDuration("LAG");
-            Relation relation = task2.addPredecessor(task1, type, lag);
+            Relation relation = task2.addPredecessor(new Relation.Builder()
+               .targetTask(task1)
+               .type(row.getRelationType("TYPE"))
+               .lag(row.getDuration("LAG")));
+
             m_eventManager.fireRelationReadEvent(relation);
          }
       }

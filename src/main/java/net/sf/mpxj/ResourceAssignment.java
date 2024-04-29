@@ -24,10 +24,11 @@
 
 package net.sf.mpxj;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,13 +40,16 @@ import java.util.function.Function;
 
 import net.sf.mpxj.common.AssignmentFieldLists;
 import net.sf.mpxj.common.BooleanHelper;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.CombinedCalendar;
+import net.sf.mpxj.common.DefaultTimephasedCostContainer;
+import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
  * This class represents a resource assignment record from an MPX file.
  */
-public final class ResourceAssignment extends AbstractFieldContainer<ResourceAssignment> implements ProjectEntityWithUniqueID
+public final class ResourceAssignment extends AbstractFieldContainer<ResourceAssignment> implements ProjectEntityWithUniqueID, TimePeriodEntity
 {
    /**
     * Constructor.
@@ -59,7 +63,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
       if (file.getProjectConfig().getAutoAssignmentUniqueID())
       {
-         setUniqueID(Integer.valueOf(file.getProjectConfig().getNextAssignmentUniqueID()));
+         setUniqueID(file.getUniqueIdObjectSequence(ResourceAssignment.class).getNext());
       }
 
       m_task = task;
@@ -150,9 +154,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return baseline start date
     */
-   public Date getBaselineStart()
+   public LocalDateTime getBaselineStart()
    {
-      return (Date) get(AssignmentField.BASELINE_START);
+      return (LocalDateTime) get(AssignmentField.BASELINE_START);
    }
 
    /**
@@ -160,7 +164,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param start baseline start date
     */
-   public void setBaselineStart(Date start)
+   public void setBaselineStart(LocalDateTime start)
    {
       set(AssignmentField.BASELINE_START, start);
    }
@@ -170,9 +174,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return actual start date
     */
-   public Date getActualStart()
+   public LocalDateTime getActualStart()
    {
-      return (Date) get(AssignmentField.ACTUAL_START);
+      return (LocalDateTime) get(AssignmentField.ACTUAL_START);
    }
 
    /**
@@ -180,7 +184,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param start actual start date
     */
-   public void setActualStart(Date start)
+   public void setActualStart(LocalDateTime start)
    {
       set(AssignmentField.ACTUAL_START, start);
    }
@@ -190,9 +194,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return baseline finish date
     */
-   public Date getBaselineFinish()
+   public LocalDateTime getBaselineFinish()
    {
-      return (Date) get(AssignmentField.BASELINE_FINISH);
+      return (LocalDateTime) get(AssignmentField.BASELINE_FINISH);
    }
 
    /**
@@ -200,7 +204,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param finish baseline finish
     */
-   public void setBaselineFinish(Date finish)
+   public void setBaselineFinish(LocalDateTime finish)
    {
       set(AssignmentField.BASELINE_FINISH, finish);
    }
@@ -210,9 +214,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return actual finish date
     */
-   public Date getActualFinish()
+   public LocalDateTime getActualFinish()
    {
-      return (Date) get(AssignmentField.ACTUAL_FINISH);
+      return (LocalDateTime) get(AssignmentField.ACTUAL_FINISH);
    }
 
    /**
@@ -220,7 +224,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param finish actual finish
     */
-   public void setActualFinish(Date finish)
+   public void setActualFinish(LocalDateTime finish)
    {
       set(AssignmentField.ACTUAL_FINISH, finish);
    }
@@ -350,9 +354,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return start date
     */
-   public Date getStart()
+   @Override public LocalDateTime getStart()
    {
-      return (Date) get(AssignmentField.START);
+      return (LocalDateTime) get(AssignmentField.START);
    }
 
    /**
@@ -360,7 +364,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param val start date
     */
-   public void setStart(Date val)
+   public void setStart(LocalDateTime val)
    {
       set(AssignmentField.START, val);
    }
@@ -370,9 +374,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return finish date
     */
-   public Date getFinish()
+   @Override public LocalDateTime getFinish()
    {
-      return (Date) get(AssignmentField.FINISH);
+      return (LocalDateTime) get(AssignmentField.FINISH);
    }
 
    /**
@@ -380,7 +384,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param val finish date
     */
-   public void setFinish(Date val)
+   public void setFinish(LocalDateTime val)
    {
       set(AssignmentField.FINISH, val);
    }
@@ -549,6 +553,26 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    public void setRateIndex(Integer index)
    {
       set(AssignmentField.RATE_INDEX, index);
+   }
+
+   /**
+    * Retrieve the role unique ID in which this resource assignment is being performed.
+    *
+    * @return Resource unique ID representing a role
+    */
+   public Integer getRoleUniqueID()
+   {
+      return (Integer) get(AssignmentField.ROLE_UNIQUE_ID);
+   }
+
+   /**
+    * Set the unique ID of the role in which this resource assignment is being performed.
+    *
+    * @param id Resource unique ID representing a role
+    */
+   public void setRoleUniqueID(Integer id)
+   {
+      set(AssignmentField.ROLE_UNIQUE_ID, id);
    }
 
    /**
@@ -731,7 +755,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
          }
 
       }
-      return m_timephasedCost;
+      return m_timephasedCost == null ? null : m_timephasedCost.getData();
    }
 
    /**
@@ -768,7 +792,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
       }
 
-      return m_timephasedActualCost;
+      return m_timephasedActualCost == null ? null : m_timephasedActualCost.getData();
    }
 
    /**
@@ -779,15 +803,15 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param overtimeWorkList timephased work
     * @return timephased cost
     */
-   private List<TimephasedCost> getTimephasedCostSingleRate(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
+   private TimephasedCostContainer getTimephasedCostSingleRate(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
-      List<TimephasedCost> result = new ArrayList<>();
-
       //just return an empty list if there is no timephased work passed in
       if (standardWorkList == null)
       {
-         return result;
+         return new DefaultTimephasedCostContainer(this, null, Collections.emptyList(), false);
       }
+
+      List<TimephasedCost> result = new ArrayList<>();
 
       //takes care of the situation where there is no timephased overtime work
       Iterator<TimephasedWork> overtimeIterator = overtimeWorkList == null ? Collections.emptyIterator() : overtimeWorkList.iterator();
@@ -863,12 +887,12 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
          else
          {
             //prorated way
-            result.addAll(splitCostProrated(getCalendar(), totalCost, costPerDay, standardWork.getStart()));
+            result.addAll(splitCostProrated(getEffectiveCalendar(), totalCost, costPerDay, standardWork.getStart()));
          }
 
       }
 
-      return result;
+      return new DefaultTimephasedCostContainer(this, null, result, false);
    }
 
    /**
@@ -879,12 +903,12 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param overtimeWorkList timephased work
     * @return timephased cost
     */
-   private List<TimephasedCost> getTimephasedCostMultipleRates(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
+   private TimephasedCostContainer getTimephasedCostMultipleRates(List<TimephasedWork> standardWorkList, List<TimephasedWork> overtimeWorkList)
    {
       List<TimephasedWork> standardWorkResult = new ArrayList<>();
       List<TimephasedWork> overtimeWorkResult = new ArrayList<>();
       CostRateTable table = getCostRateTable();
-      ProjectCalendar calendar = getCalendar();
+      ProjectCalendar calendar = getEffectiveCalendar();
 
       Iterator<TimephasedWork> iter = overtimeWorkList.iterator();
       for (TimephasedWork standardWork : standardWorkList)
@@ -920,11 +944,11 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return timephased cost
     */
-   private List<TimephasedCost> getTimephasedCostFixedAmount()
+   private TimephasedCostContainer getTimephasedCostFixedAmount()
    {
       List<TimephasedCost> result = new ArrayList<>();
 
-      ProjectCalendar cal = getCalendar();
+      ProjectCalendar cal = getEffectiveCalendar();
 
       double remainingCost = getRemainingCost().doubleValue();
 
@@ -943,7 +967,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
             }
             else
             {
-               //for prorated, we have to deal with it differently depending on whether or not
+               //for prorated, we have to deal with it differently depending on whether
                //any actual has been entered, since we want to mimic the other timephased data
                //where planned and actual values do not overlap
                double numWorkingDays = cal.getWork(getStart(), getFinish(), TimeUnit.DAYS).getDuration();
@@ -957,7 +981,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
                   //partial day cost amount
 
                   int numActualDaysUsed = (int) Math.ceil(getActualCost().doubleValue() / standardAmountPerDay);
-                  Date actualWorkFinish = cal.getDate(getStart(), Duration.getInstance(numActualDaysUsed, TimeUnit.DAYS), false);
+                  LocalDateTime actualWorkFinish = cal.getDate(getStart(), Duration.getInstance(numActualDaysUsed, TimeUnit.DAYS));
 
                   double partialDayActualAmount = getActualCost().doubleValue() % standardAmountPerDay;
 
@@ -986,7 +1010,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
             }
       }
 
-      return result;
+      return new DefaultTimephasedCostContainer(this, null, result, false);
    }
 
    /**
@@ -994,7 +1018,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return timephased cost
     */
-   private List<TimephasedCost> getTimephasedActualCostFixedAmount()
+   private TimephasedCostContainer getTimephasedActualCostFixedAmount()
    {
       List<TimephasedCost> result = new ArrayList<>();
 
@@ -1006,25 +1030,25 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
          if (accrueAt == AccrueType.START)
          {
-            result.add(splitCostStart(getCalendar(), actualCost, getActualStart()));
+            result.add(splitCostStart(getEffectiveCalendar(), actualCost, getActualStart()));
          }
          else
             if (accrueAt == AccrueType.END)
             {
-               result.add(splitCostEnd(getCalendar(), actualCost, getActualFinish()));
+               result.add(splitCostEnd(getEffectiveCalendar(), actualCost, getActualFinish()));
             }
             else
             {
                //for prorated, we have to deal with it differently; have to 'fill up' each
                //day with the standard amount before going to the next one
-               double numWorkingDays = getCalendar().getWork(getStart(), getFinish(), TimeUnit.DAYS).getDuration();
+               double numWorkingDays = getEffectiveCalendar().getWork(getStart(), getFinish(), TimeUnit.DAYS).getDuration();
                double standardAmountPerDay = getCost().doubleValue() / numWorkingDays;
 
-               result.addAll(splitCostProrated(getCalendar(), actualCost, standardAmountPerDay, getActualStart()));
+               result.addAll(splitCostProrated(getEffectiveCalendar(), actualCost, standardAmountPerDay, getActualStart()));
             }
       }
 
-      return result;
+      return new DefaultTimephasedCostContainer(this, null, result, false);
    }
 
    /**
@@ -1038,11 +1062,11 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param start start date of the timephased cost block
     * @return timephased cost
     */
-   private TimephasedCost splitCostStart(ProjectCalendar calendar, double totalAmount, Date start)
+   private TimephasedCost splitCostStart(ProjectCalendar calendar, double totalAmount, LocalDateTime start)
    {
       TimephasedCost cost = new TimephasedCost();
       cost.setStart(start);
-      cost.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS), false));
+      cost.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS)));
       cost.setAmountPerDay(Double.valueOf(totalAmount));
       cost.setTotalAmount(Double.valueOf(totalAmount));
 
@@ -1060,10 +1084,11 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param finish finish date of the timephased cost block
     * @return timephased cost
     */
-   private TimephasedCost splitCostEnd(ProjectCalendar calendar, double totalAmount, Date finish)
+   private TimephasedCost splitCostEnd(ProjectCalendar calendar, double totalAmount, LocalDateTime finish)
    {
       TimephasedCost cost = new TimephasedCost();
-      cost.setStart(calendar.getStartDate(finish, Duration.getInstance(1, TimeUnit.DAYS)));
+      ProjectCalendarHours hours = calendar.getHours(finish);
+      cost.setStart(LocalTimeHelper.setTime(finish, hours.get(0).getStart()));
       cost.setFinish(finish);
       cost.setAmountPerDay(Double.valueOf(totalAmount));
       cost.setTotalAmount(Double.valueOf(totalAmount));
@@ -1085,7 +1110,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param start date of the first timephased cost block
     * @return timephased cost
     */
-   private List<TimephasedCost> splitCostProrated(ProjectCalendar calendar, double totalAmount, double standardAmountPerDay, Date start)
+   private List<TimephasedCost> splitCostProrated(ProjectCalendar calendar, double totalAmount, double standardAmountPerDay, LocalDateTime start)
    {
       List<TimephasedCost> result = new ArrayList<>();
 
@@ -1096,7 +1121,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
       if (numStandardAmountDays > 0)
       {
-         Date finishStandardBlock = calendar.getDate(start, Duration.getInstance(numStandardAmountDays, TimeUnit.DAYS), false);
+         LocalDateTime finishStandardBlock = calendar.getDate(start, Duration.getInstance(numStandardAmountDays, TimeUnit.DAYS));
 
          TimephasedCost standardBlock = new TimephasedCost();
          standardBlock.setAmountPerDay(Double.valueOf(standardAmountPerDay));
@@ -1116,7 +1141,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
          nextBlock.setAmountPerDay(Double.valueOf(amountForLastDay));
          nextBlock.setTotalAmount(Double.valueOf(amountForLastDay));
          nextBlock.setStart(start);
-         nextBlock.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS), false));
+         nextBlock.setFinish(calendar.getDate(start, Duration.getInstance(1, TimeUnit.DAYS)));
 
          result.add(nextBlock);
       }
@@ -1143,20 +1168,20 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       while (true)
       {
          CostRateTableEntry rate = table.get(rateIndex);
-         Date splitDate = rate.getEndDate();
-         if (splitDate.getTime() >= work.getFinish().getTime())
+         LocalDateTime splitDate = rate.getEndDate();
+         if (!splitDate.isBefore(work.getFinish()))
          {
             result.add(work);
             break;
          }
 
-         Date currentPeriodEnd = calendar.getPreviousWorkFinish(splitDate);
+         LocalDateTime currentPeriodEnd = calendar.getPreviousWorkFinish(splitDate);
 
          TimephasedWork currentPeriod = new TimephasedWork(work);
          currentPeriod.setFinish(currentPeriodEnd);
          result.add(currentPeriod);
 
-         Date nextPeriodStart = calendar.getNextWorkStart(splitDate);
+         LocalDateTime nextPeriodStart = calendar.getNextWorkStart(splitDate);
          work.setStart(nextPeriodStart);
 
          ++rateIndex;
@@ -1180,7 +1205,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       // table, this is an open-ended rate which covers any work, it won't
       // have specific dates attached to it.
       //
-      if (table.size() > 1)
+      if (table != null && table.size() > 1)
       {
          //
          // If we have multiple rates in the table, see if the same rate
@@ -1200,10 +1225,20 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param date target date
     * @return cost rate table entry
     */
-   private CostRateTableEntry getCostRateTableEntry(Date date)
+   private CostRateTableEntry getCostRateTableEntry(LocalDateTime date)
    {
       CostRateTable table = getCostRateTable();
-      return table.size() == 1 ? table.get(0) : table.getEntryByDate(date);
+      if (table == null)
+      {
+         return CostRateTableEntry.DEFAULT_ENTRY;
+      }
+
+      CostRateTableEntry entry = table.size() == 1 ? table.get(0) : table.getEntryByDate(date);
+      if (entry == null)
+      {
+         entry = CostRateTableEntry.DEFAULT_ENTRY;
+      }
+      return entry;
    }
 
    /**
@@ -1212,7 +1247,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param date target date
     * @return cost rate table entry index
     */
-   private int getCostRateTableEntryIndex(Date date)
+   private int getCostRateTableEntryIndex(LocalDateTime date)
    {
       CostRateTable table = getCostRateTable();
       return table.size() == 1 ? 0 : table.getIndexByDate(date);
@@ -1281,8 +1316,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * Retrieves the calendar used for this resource assignment.
     *
     * @return ProjectCalendar instance
+    * @deprecated use getEffectveCalendar instead
     */
-   public ProjectCalendar getCalendar()
+   @Deprecated public ProjectCalendar getCalendar()
    {
       ProjectCalendar calendar = null;
       Resource resource = getResource();
@@ -1298,6 +1334,47 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       }
 
       return calendar;
+   }
+
+   /**
+    * Retrieves the effective calendar used for this resource assignment.
+    *
+    * @return ProjectCalendar instance
+    */
+   public ProjectCalendar getEffectiveCalendar()
+   {
+      ProjectCalendar result;
+
+      Task task = getTask();
+      Resource resource = getResource();
+
+      ProjectCalendar explicitTaskCalendar = task.getCalendar();
+      ProjectCalendar resourceCalendar = resource != null && !task.getIgnoreResourceCalendar() && resource.getType() == ResourceType.WORK ? resource.getCalendar() : null;
+
+      if (explicitTaskCalendar == null)
+      {
+         if (resourceCalendar == null)
+         {
+            result = task.getEffectiveCalendar();
+         }
+         else
+         {
+            result = resourceCalendar;
+         }
+      }
+      else
+      {
+         if (resourceCalendar == null)
+         {
+            result = explicitTaskCalendar;
+         }
+         else
+         {
+            result = new CombinedCalendar(explicitTaskCalendar, resourceCalendar);
+         }
+      }
+
+      return result;
    }
 
    /**
@@ -1470,7 +1547,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
-   public void setBaselineStart(int baselineNumber, Date value)
+   public void setBaselineStart(int baselineNumber, LocalDateTime value)
    {
       set(selectField(AssignmentFieldLists.BASELINE_STARTS, baselineNumber), value);
    }
@@ -1481,9 +1558,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
-   public Date getBaselineStart(int baselineNumber)
+   public LocalDateTime getBaselineStart(int baselineNumber)
    {
-      return (Date) get(selectField(AssignmentFieldLists.BASELINE_STARTS, baselineNumber));
+      return (LocalDateTime) get(selectField(AssignmentFieldLists.BASELINE_STARTS, baselineNumber));
    }
 
    /**
@@ -1492,7 +1569,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param baselineNumber baseline index (1-10)
     * @param value baseline value
     */
-   public void setBaselineFinish(int baselineNumber, Date value)
+   public void setBaselineFinish(int baselineNumber, LocalDateTime value)
    {
       set(selectField(AssignmentFieldLists.BASELINE_FINISHES, baselineNumber), value);
    }
@@ -1503,9 +1580,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param baselineNumber baseline index (1-10)
     * @return baseline value
     */
-   public Date getBaselineFinish(int baselineNumber)
+   public LocalDateTime getBaselineFinish(int baselineNumber)
    {
-      return (Date) get(selectField(AssignmentFieldLists.BASELINE_FINISHES, baselineNumber));
+      return (LocalDateTime) get(selectField(AssignmentFieldLists.BASELINE_FINISHES, baselineNumber));
    }
 
    /**
@@ -1580,7 +1657,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param index start index (1-10)
     * @param value start value
     */
-   public void setStart(int index, Date value)
+   public void setStart(int index, LocalDateTime value)
    {
       set(selectField(AssignmentFieldLists.CUSTOM_START, index), value);
    }
@@ -1591,9 +1668,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param index start index (1-10)
     * @return start value
     */
-   public Date getStart(int index)
+   public LocalDateTime getStart(int index)
    {
-      return (Date) get(selectField(AssignmentFieldLists.CUSTOM_START, index));
+      return (LocalDateTime) get(selectField(AssignmentFieldLists.CUSTOM_START, index));
    }
 
    /**
@@ -1602,7 +1679,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param index finish index (1-10)
     * @param value finish value
     */
-   public void setFinish(int index, Date value)
+   public void setFinish(int index, LocalDateTime value)
    {
       set(selectField(AssignmentFieldLists.CUSTOM_FINISH, index), value);
    }
@@ -1613,9 +1690,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param index finish index (1-10)
     * @return finish value
     */
-   public Date getFinish(int index)
+   public LocalDateTime getFinish(int index)
    {
-      return (Date) get(selectField(AssignmentFieldLists.CUSTOM_FINISH, index));
+      return (LocalDateTime) get(selectField(AssignmentFieldLists.CUSTOM_FINISH, index));
    }
 
    /**
@@ -1624,7 +1701,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param index date index (1-10)
     * @param value date value
     */
-   public void setDate(int index, Date value)
+   public void setDate(int index, LocalDateTime value)
    {
       set(selectField(AssignmentFieldLists.CUSTOM_DATE, index), value);
    }
@@ -1635,9 +1712,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param index date index (1-10)
     * @return date value
     */
-   public Date getDate(int index)
+   public LocalDateTime getDate(int index)
    {
-      return (Date) get(selectField(AssignmentFieldLists.CUSTOM_DATE, index));
+      return (LocalDateTime) get(selectField(AssignmentFieldLists.CUSTOM_DATE, index));
    }
 
    /**
@@ -1756,7 +1833,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param index date index (1-30)
     * @param value date value
     */
-   public void setEnterpriseDate(int index, Date value)
+   public void setEnterpriseDate(int index, LocalDateTime value)
    {
       set(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_DATE, index), value);
    }
@@ -1767,9 +1844,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     * @param index date index (1-30)
     * @return date value
     */
-   public Date getEnterpriseDate(int index)
+   public LocalDateTime getEnterpriseDate(int index)
    {
-      return (Date) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_DATE, index));
+      return (LocalDateTime) get(selectField(AssignmentFieldLists.ENTERPRISE_CUSTOM_DATE, index));
    }
 
    /**
@@ -2431,9 +2508,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return Date
     */
-   public Date getCreateDate()
+   public LocalDateTime getCreateDate()
    {
-      return (Date) get(AssignmentField.CREATED);
+      return (LocalDateTime) get(AssignmentField.CREATED);
    }
 
    /**
@@ -2442,7 +2519,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param val date
     */
-   public void setCreateDate(Date val)
+   public void setCreateDate(LocalDateTime val)
    {
       set(AssignmentField.CREATED, val);
    }
@@ -2623,9 +2700,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return stop date
     */
-   public Date getStop()
+   public LocalDateTime getStop()
    {
-      return (Date) get(AssignmentField.STOP);
+      return (LocalDateTime) get(AssignmentField.STOP);
    }
 
    /**
@@ -2633,7 +2710,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param stop stop date
     */
-   public void setStop(Date stop)
+   public void setStop(LocalDateTime stop)
    {
       set(AssignmentField.STOP, stop);
    }
@@ -2643,9 +2720,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return resume date
     */
-   public Date getResume()
+   public LocalDateTime getResume()
    {
-      return (Date) get(AssignmentField.RESUME);
+      return (LocalDateTime) get(AssignmentField.RESUME);
    }
 
    /**
@@ -2653,7 +2730,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param resume resume date
     */
-   public void setResume(Date resume)
+   public void setResume(LocalDateTime resume)
    {
       set(AssignmentField.RESUME, resume);
    }
@@ -2703,9 +2780,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return planned start value
     */
-   public Date getPlannedStart()
+   public LocalDateTime getPlannedStart()
    {
-      return (Date) get(AssignmentField.PLANNED_START);
+      return (LocalDateTime) get(AssignmentField.PLANNED_START);
    }
 
    /**
@@ -2713,7 +2790,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param value planned start value
     */
-   public void setPlannedStart(Date value)
+   public void setPlannedStart(LocalDateTime value)
    {
       set(AssignmentField.PLANNED_START, value);
    }
@@ -2723,9 +2800,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @return planed finish value
     */
-   public Date getPlannedFinish()
+   public LocalDateTime getPlannedFinish()
    {
-      return (Date) get(AssignmentField.PLANNED_FINISH);
+      return (LocalDateTime) get(AssignmentField.PLANNED_FINISH);
    }
 
    /**
@@ -2733,7 +2810,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param value planned finish value
     */
-   public void setPlannedFinish(Date value)
+   public void setPlannedFinish(LocalDateTime value)
    {
       set(AssignmentField.PLANNED_FINISH, value);
    }
@@ -2759,6 +2836,26 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Retrieve the cost account unique ID for this resource assignment.
+    *
+    * @return cost account unique ID
+    */
+   public Integer getCostAccountUniqueID()
+   {
+      return (Integer) get(AssignmentField.COST_ACCOUNT_UNIQUE_ID);
+   }
+
+   /**
+    * Set the cost account unique ID for this resource assignment.
+    *
+    * @param id cost account unique ID
+    */
+   public void setCostAccountUniqueID(Integer id)
+   {
+      set(AssignmentField.COST_ACCOUNT_UNIQUE_ID, id);
+   }
+
+   /**
     * Retrieve the cost account for this resource assignment.
     *
     * @return CostAccount instance for this resource assignment
@@ -2779,13 +2876,93 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Retrieve the remaining late finish value.
+    *
+    * @return remaining late finish
+    */
+   public LocalDateTime getRemainingLateFinish()
+   {
+      return (LocalDateTime) get(AssignmentField.REMAINING_LATE_FINISH);
+   }
+
+   /**
+    * Set the remaining late finish value.
+    *
+    * @param date remaining late finish
+    */
+   public void setRemainingLateFinish(LocalDateTime date)
+   {
+      set(AssignmentField.REMAINING_LATE_FINISH, date);
+   }
+
+   /**
+    * Retrieve the remaining late start value.
+    *
+    * @return remaining late start
+    */
+   public LocalDateTime getRemainingLateStart()
+   {
+      return (LocalDateTime) get(AssignmentField.REMAINING_LATE_START);
+   }
+
+   /**
+    * Set the remaining late start value.
+    *
+    * @param date remaining late start
+    */
+   public void setRemainingLateStart(LocalDateTime date)
+   {
+      set(AssignmentField.REMAINING_LATE_START, date);
+   }
+
+   /**
+    * Retrieve the remaining early finish value.
+    *
+    * @return remaining early finish
+    */
+   public LocalDateTime getRemainingEarlyFinish()
+   {
+      return (LocalDateTime) get(AssignmentField.REMAINING_EARLY_FINISH);
+   }
+
+   /**
+    * Set the remaining early finish value.
+    *
+    * @param date remaining early finish
+    */
+   public void setRemainingEarlyFinish(LocalDateTime date)
+   {
+      set(AssignmentField.REMAINING_EARLY_FINISH, date);
+   }
+
+   /**
+    * Retrieve the remaining early start value.
+    *
+    * @return remaining early start
+    */
+   public LocalDateTime getRemainingEarlyStart()
+   {
+      return (LocalDateTime) get(AssignmentField.REMAINING_EARLY_START);
+   }
+
+   /**
+    * Set the remaining early start value.
+    *
+    * @param date remaining early start
+    */
+   public void setRemainingEarlyStart(LocalDateTime date)
+   {
+      set(AssignmentField.REMAINING_EARLY_START, date);
+   }
+
+   /**
     * Based on the configuration data for this resource assignment,
     * return the cost rate effective on the supplied date.
     *
     * @param date target date
     * @return cost rate effective on the target date
     */
-   public Rate getEffectiveRate(Date date)
+   public Rate getEffectiveRate(LocalDateTime date)
    {
       // If the rate source is "override", return the
       // override rate value configured for this assignment.
@@ -2853,7 +3030,9 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
 
    @Override public String toString()
    {
-      return ("[Resource Assignment task=" + getTask().getName() + " resource=" + (getResource() == null ? "Unassigned" : getResource().getName()) + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
+      String taskName = getTask() == null ? "null" : getTask().getName();
+      String resourceName = getResource() == null ? "Unassigned" : getResource().getName();
+      return ("[Resource Assignment task=" + taskName + " resource=" + resourceName + " start=" + getStart() + " finish=" + getFinish() + " duration=" + getWork() + " workContour=" + getWorkContour() + "]");
    }
 
    /**
@@ -2872,15 +3051,15 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     *
     * @param field modified field
     */
-   @Override protected void invalidateCache(FieldType field, Object newValue)
+   @Override protected void handleFieldChange(FieldType field, Object oldValue, Object newValue)
    {
       if (field == AssignmentField.UNIQUE_ID)
       {
-         getParentFile().getResourceAssignments().clearUniqueIDMap();
+         getParentFile().getResourceAssignments().updateUniqueID(this, (Integer) oldValue, (Integer) newValue);
          return;
       }
 
-      DEPENDENCY_MAP.getOrDefault(field, Collections.emptyList()).forEach(f -> set(f, null));
+      clearDependentFields(DEPENDENCY_MAP, field);
    }
 
    @Override boolean getAlwaysCalculatedField(FieldType field)
@@ -2962,31 +3141,39 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    private Duration calculateStartVariance()
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-      return DateHelper.getVariance(getTask(), getBaselineStart(), getStart(), format);
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getBaselineStart(), getStart(), format);
    }
 
    private Duration calculateFinishVariance()
    {
       TimeUnit format = getParentFile().getProjectProperties().getDefaultDurationUnits();
-      return DateHelper.getVariance(getTask(), getBaselineFinish(), getFinish(), format);
+      return LocalDateTimeHelper.getVariance(getEffectiveCalendar(), getBaselineFinish(), getFinish(), format);
    }
 
-   private Date calculateStart()
+   private LocalDateTime calculateStart()
    {
-      Date result = (Date) getCachedValue(AssignmentField.START);
+      LocalDateTime result = (LocalDateTime) getCachedValue(AssignmentField.START);
       if (result == null)
       {
-         result = getTask().getStart();
+         Task task = getTask();
+         if (task != null)
+         {
+            result = task.getStart();
+         }
       }
       return result;
    }
 
-   private Date calculateFinish()
+   private LocalDateTime calculateFinish()
    {
-      Date result = (Date) getCachedValue(AssignmentField.FINISH);
+      LocalDateTime result = (LocalDateTime) getCachedValue(AssignmentField.FINISH);
       if (result == null)
       {
-         result = getTask().getFinish();
+         Task task = getTask();
+         if (task != null)
+         {
+            result = task.getFinish();
+         }
       }
       return result;
    }
@@ -3022,10 +3209,10 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    private TimephasedWorkContainer m_timephasedWork;
-   private List<TimephasedCost> m_timephasedCost;
+   private TimephasedCostContainer m_timephasedCost;
 
    private TimephasedWorkContainer m_timephasedActualWork;
-   private List<TimephasedCost> m_timephasedActualCost;
+   private TimephasedCostContainer m_timephasedActualCost;
 
    private TimephasedWorkContainer m_timephasedOvertimeWork;
    private TimephasedWorkContainer m_timephasedActualOvertimeWork;

@@ -23,12 +23,12 @@
 
 package net.sf.mpxj.utility;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -36,7 +36,8 @@ import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedItem;
 import net.sf.mpxj.TimephasedWork;
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.LocalDateHelper;
+import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.mpp.TimescaleUnits;
 
@@ -56,7 +57,7 @@ public final class TimephasedUtility
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<DateRange> dateList)
+   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<LocalDateTimeRange> dateList)
    {
       ArrayList<Duration> result = new ArrayList<>(dateList.size());
       int lastStartIndex = 0;
@@ -66,7 +67,7 @@ public final class TimephasedUtility
       // Each date range in this list corresponds to a column
       // shown on the "timescale" view by MS Project
       //
-      for (DateRange range : dateList)
+      for (LocalDateTimeRange range : dateList)
       {
          //
          // If the current date range does not intersect with any of the
@@ -104,10 +105,27 @@ public final class TimephasedUtility
     * @param rangeUnits timescale units
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
+    * @deprecated use version of this method which takes a ProjectCalendar rather than a ProjectFile as its first argument
     */
-   public ArrayList<Duration> segmentBaselineWork(ProjectFile file, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<DateRange> dateList)
+   @Deprecated public ArrayList<Duration> segmentBaselineWork(ProjectFile file, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
    {
       return segmentWork(file.getBaselineCalendar(), work, rangeUnits, dateList);
+   }
+
+   /**
+    * This is the main entry point used to convert the internal representation
+    * of timephased baseline work into an external form which can
+    * be displayed to the user.
+    *
+    * @param calendar calendar to use for calculations
+    * @param work timephased resource assignment data
+    * @param rangeUnits timescale units
+    * @param dateList timescale date ranges
+    * @return list of durations, one per timescale date range
+    */
+   public ArrayList<Duration> segmentBaselineWork(ProjectCalendar calendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
+   {
+      return segmentWork(calendar, work, rangeUnits, dateList);
    }
 
    /**
@@ -121,7 +139,7 @@ public final class TimephasedUtility
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Double> segmentCost(ProjectCalendar projectCalendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<DateRange> dateList)
+   public ArrayList<Double> segmentCost(ProjectCalendar projectCalendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
    {
       ArrayList<Double> result = new ArrayList<>(dateList.size());
       int lastStartIndex = 0;
@@ -131,7 +149,7 @@ public final class TimephasedUtility
       // Each date range in this list corresponds to a column
       // shown on the "timescale" view by MS Project
       //
-      for (DateRange range : dateList)
+      for (LocalDateTimeRange range : dateList)
       {
          //
          // If the current date range does not intersect with any of the
@@ -169,10 +187,27 @@ public final class TimephasedUtility
     * @param rangeUnits timescale units
     * @param dateList timescale date ranges
     * @return list of durations, one per timescale date range
+    * @deprecated use version of this method which takes a ProjectCalendar rather than a ProjectFile as its first argument
     */
-   public ArrayList<Double> segmentBaselineCost(ProjectFile file, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<DateRange> dateList)
+   @Deprecated public ArrayList<Double> segmentBaselineCost(ProjectFile file, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
    {
       return segmentCost(file.getBaselineCalendar(), cost, rangeUnits, dateList);
+   }
+
+   /**
+    * This is the main entry point used to convert the internal representation
+    * of timephased baseline cost into an external form which can
+    * be displayed to the user.
+    *
+    * @param calendar calendar to use for calculations
+    * @param cost timephased resource assignment data
+    * @param rangeUnits timescale units
+    * @param dateList timescale date ranges
+    * @return list of durations, one per timescale date range
+    */
+   public ArrayList<Double> segmentBaselineCost(ProjectCalendar calendar, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
+   {
+      return segmentCost(calendar, cost, rangeUnits, dateList);
    }
 
    /**
@@ -185,18 +220,18 @@ public final class TimephasedUtility
     * @param startIndex index at which to start the search
     * @return index of timephased resource assignment which intersects with the target date range
     */
-   private <T extends TimephasedItem<?>> int getStartIndex(DateRange range, List<T> assignments, int startIndex)
+   private <T extends TimephasedItem<?>> int getStartIndex(LocalDateTimeRange range, List<T> assignments, int startIndex)
    {
       int result = -1;
       if (assignments != null)
       {
-         long rangeStart = range.getStart().getTime();
-         long rangeEnd = range.getEnd().getTime();
+         LocalDateTime rangeStart = range.getStart();
+         LocalDateTime rangeEnd = range.getEnd();
 
          for (int loop = startIndex; loop < assignments.size(); loop++)
          {
             T assignment = assignments.get(loop);
-            int compareResult = DateHelper.compare(assignment.getStart(), assignment.getFinish(), rangeStart);
+            int compareResult = LocalDateTimeHelper.compare(assignment.getStart(), assignment.getFinish(), rangeStart);
 
             //
             // The start of the target range falls after the assignment end -
@@ -222,7 +257,7 @@ public final class TimephasedUtility
             // the assignment start. We need to determine if the end of the
             // target range overlaps the assignment.
             //
-            compareResult = DateHelper.compare(assignment.getStart(), assignment.getFinish(), rangeEnd);
+            compareResult = LocalDateTimeHelper.compare(assignment.getStart(), assignment.getFinish(), rangeEnd);
             if (compareResult >= 0)
             {
                result = loop;
@@ -244,7 +279,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Duration getRangeDuration(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedWork> assignments, int startIndex)
+   private Duration getRangeDuration(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex)
    {
       Duration result;
 
@@ -280,7 +315,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Duration getRangeDurationSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedWork> assignments, int startIndex)
+   private Duration getRangeDurationSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex)
    {
       throw new UnsupportedOperationException("Please request this functionality from the MPXJ maintainer");
    }
@@ -298,7 +333,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Duration getRangeDurationWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedWork> assignments, int startIndex)
+   private Duration getRangeDurationWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex)
    {
       // option 1:
       // Our date range starts before the start of the TRA at the start index.
@@ -331,34 +366,29 @@ public final class TimephasedUtility
          //
          // Select the correct start date
          //
-         long startDate = range.getStart().getTime();
-         long assignmentStart = assignment.getStart().getTime();
-         if (startDate < assignmentStart)
+         LocalDateTime startDate = range.getStart();
+         LocalDateTime assignmentStart = assignment.getStart();
+         if (startDate.isBefore(assignmentStart))
          {
             startDate = assignmentStart;
          }
 
-         long rangeEndDate = range.getEnd().getTime();
-         long traEndDate = assignment.getFinish().getTime();
-
-         Calendar cal = DateHelper.popCalendar(startDate);
-         Date calendarDate = cal.getTime();
+         LocalDateTime rangeEndDate = range.getEnd();
+         LocalDateTime traEndDate = assignment.getFinish();
+         LocalDateTime calendarDate = startDate;
 
          //
          // Start counting forwards
          //
-         while (startDate < rangeEndDate && startDate < traEndDate)
+         while (startDate.isBefore(rangeEndDate) && startDate.isBefore(traEndDate))
          {
-            if (projectCalendar == null || projectCalendar.isWorkingDate(calendarDate))
+            if (projectCalendar == null || projectCalendar.isWorkingDate(LocalDateHelper.getLocalDate(calendarDate)))
             {
                ++totalDays;
             }
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            startDate = cal.getTimeInMillis();
-            calendarDate = cal.getTime();
+            startDate = startDate.plusDays(1);
+            calendarDate = startDate;
          }
-
-         DateHelper.pushCalendar(cal);
 
          //
          // If we still haven't reached the end of our range
@@ -366,7 +396,7 @@ public final class TimephasedUtility
          //
          done = true;
          totalWork += (assignment.getAmountPerDay().getDuration() * totalDays);
-         if (startDate < rangeEndDate)
+         if (startDate.isBefore(rangeEndDate))
          {
             ++startIndex;
             if (startIndex < assignments.size())
@@ -393,7 +423,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Double getRangeCost(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedCost> assignments, int startIndex)
+   private Double getRangeCost(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedCost> assignments, int startIndex)
    {
       Double result;
 
@@ -429,7 +459,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Double getRangeCostWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedCost> assignments, int startIndex)
+   private Double getRangeCostWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedCost> assignments, int startIndex)
    {
       int totalDays = 0;
       double totalCost = 0;
@@ -441,33 +471,29 @@ public final class TimephasedUtility
          //
          // Select the correct start date
          //
-         long startDate = range.getStart().getTime();
-         long assignmentStart = assignment.getStart().getTime();
-         if (startDate < assignmentStart)
+         LocalDateTime startDate = range.getStart();
+         LocalDateTime assignmentStart = assignment.getStart();
+         if (startDate.isBefore(assignmentStart))
          {
             startDate = assignmentStart;
          }
 
-         long rangeEndDate = range.getEnd().getTime();
-         long traEndDate = assignment.getFinish().getTime();
-
-         Calendar cal = DateHelper.popCalendar(startDate);
-         Date calendarDate = cal.getTime();
+         LocalDateTime rangeEndDate = range.getEnd();
+         LocalDateTime traEndDate = assignment.getFinish();
+         LocalDateTime calendarDate = startDate;
 
          //
          // Start counting forwards
          //
-         while (startDate < rangeEndDate && startDate < traEndDate)
+         while (startDate.isBefore(rangeEndDate) && startDate.isBefore(traEndDate))
          {
-            if (projectCalendar == null || projectCalendar.isWorkingDate(calendarDate))
+            if (projectCalendar == null || projectCalendar.isWorkingDate(LocalDateHelper.getLocalDate(calendarDate)))
             {
                ++totalDays;
             }
-            cal.add(Calendar.DAY_OF_YEAR, 1);
-            startDate = cal.getTimeInMillis();
-            calendarDate = cal.getTime();
+            startDate = startDate.plusDays(1);
+            calendarDate = startDate;
          }
-         DateHelper.pushCalendar(cal);
 
          //
          // If we still haven't reached the end of our range
@@ -475,7 +501,7 @@ public final class TimephasedUtility
          //
          done = true;
          totalCost += (assignment.getAmountPerDay().doubleValue() * totalDays);
-         if (startDate < rangeEndDate)
+         if (startDate.isBefore(rangeEndDate))
          {
             ++startIndex;
             if (startIndex < assignments.size())
@@ -504,7 +530,7 @@ public final class TimephasedUtility
     * @param startIndex index at which to start searching through the timephased resource assignments
     * @return work duration
     */
-   private Double getRangeCostSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, DateRange range, List<TimephasedCost> assignments, int startIndex)
+   private Double getRangeCostSubDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedCost> assignments, int startIndex)
    {
       throw new UnsupportedOperationException("Please request this functionality from the MPXJ maintainer");
    }

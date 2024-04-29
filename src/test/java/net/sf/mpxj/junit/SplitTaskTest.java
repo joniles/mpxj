@@ -25,11 +25,10 @@ package net.sf.mpxj.junit;
 
 import static org.junit.Assert.*;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.mpp.MPPReader;
@@ -51,7 +50,7 @@ public class SplitTaskTest
       Task task = mpp.getTaskByUniqueID(Integer.valueOf(1));
       assertNull(task.getSplits());
 
-      List<DateRange> taskSplits;
+      List<LocalDateTimeRange> taskSplits;
       for (int taskID = 2; taskID <= 6; taskID++)
       {
          task = mpp.getTaskByUniqueID(Integer.valueOf(taskID));
@@ -81,7 +80,7 @@ public class SplitTaskTest
    @Test public void testSplits2() throws Exception
    {
       ProjectFile mpp = new MPPReader().read(MpxjTestData.filePath("splits9b.mpp"));
-      List<DateRange> taskSplits;
+      List<LocalDateTimeRange> taskSplits;
       Task task = mpp.getTaskByUniqueID(Integer.valueOf(1));
       taskSplits = task.getSplits();
       assertEquals(5, taskSplits.size());
@@ -116,11 +115,11 @@ public class SplitTaskTest
     * @param start expected start date
     * @param end expected end date
     */
-   private void testSplit(DateRange range, String start, String end)
+   private void testSplit(LocalDateTimeRange range, String start, String end)
    {
       assertEquals(start, m_df.format(range.getStart()));
       assertEquals(end, m_df.format(range.getEnd()));
    }
 
-   private final DateFormat m_df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+   private final DateTimeFormatter m_df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 }

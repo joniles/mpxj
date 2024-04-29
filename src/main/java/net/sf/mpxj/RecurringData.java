@@ -26,13 +26,14 @@ package net.sf.mpxj;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.text.DateFormatSymbols;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
 
-import net.sf.mpxj.common.DateHelper;
+import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -45,7 +46,7 @@ public class RecurringData
     *
     * @return recurrence start date
     */
-   public Date getStartDate()
+   public LocalDate getStartDate()
    {
       return m_startDate;
    }
@@ -55,9 +56,9 @@ public class RecurringData
     *
     * @param val recurrence start date
     */
-   public void setStartDate(Date val)
+   public void setStartDate(LocalDate val)
    {
-      m_startDate = DateHelper.getDayStartDate(val);
+      m_startDate = val;
       clearDatesCache();
    }
 
@@ -66,7 +67,7 @@ public class RecurringData
     *
     * @return recurrence finish date
     */
-   public Date getFinishDate()
+   public LocalDate getFinishDate()
    {
       return m_finishDate;
    }
@@ -76,9 +77,9 @@ public class RecurringData
     *
     * @param val recurrence finish date
     */
-   public void setFinishDate(Date val)
+   public void setFinishDate(LocalDate val)
    {
-      m_finishDate = DateHelper.getDayEndDate(val);
+      m_finishDate = val;
       clearDatesCache();
    }
 
@@ -150,7 +151,7 @@ public class RecurringData
     *
     * @return true if daily recurrence applies to working days only
     */
-   public boolean isWorkingDaysOnly()
+   public boolean getWorkingDaysOnly()
    {
       return m_workingDaysOnly;
    }
@@ -172,7 +173,7 @@ public class RecurringData
     * @param day Day instance
     * @return true if this day is included
     */
-   public boolean getWeeklyDay(Day day)
+   public boolean getWeeklyDay(DayOfWeek day)
    {
       return m_days.contains(day);
    }
@@ -183,7 +184,7 @@ public class RecurringData
     * @param day Day instance
     * @param value true if this day is included in the recurrence
     */
-   public void setWeeklyDay(Day day, boolean value)
+   public void setWeeklyDay(DayOfWeek day, boolean value)
    {
       if (value)
       {
@@ -208,9 +209,9 @@ public class RecurringData
       if (days != null)
       {
          int value = days.intValue();
-         for (Day day : Day.values())
+         for (DayOfWeek day : DayOfWeek.values())
          {
-            setWeeklyDay(day, ((value & masks[day.getValue()]) != 0));
+            setWeeklyDay(day, ((value & masks[DayOfWeekHelper.getValue(day)]) != 0));
          }
          clearDatesCache();
       }
@@ -263,9 +264,9 @@ public class RecurringData
     *
     * @return day of the week
     */
-   public Day getDayOfWeek()
+   public DayOfWeek getDayOfWeek()
    {
-      Day result = null;
+      DayOfWeek result = null;
       if (!m_days.isEmpty())
       {
          result = m_days.iterator().next();
@@ -278,7 +279,7 @@ public class RecurringData
     *
     * @param day day of the week
     */
-   public void setDayOfWeek(Day day)
+   public void setDayOfWeek(DayOfWeek day)
    {
       m_days.clear();
       m_days.add(day);
@@ -332,7 +333,7 @@ public class RecurringData
     *
     * @return array of start dates
     */
-   public Date[] getDates()
+   public LocalDate[] getDates()
    {
       populateDates();
       return m_dates;
@@ -357,7 +358,7 @@ public class RecurringData
     *
     * @return first calculated exception date
     */
-   public Date getCalculatedFirstDate()
+   public LocalDate getCalculatedFirstDate()
    {
       populateDates();
       return m_dates[0];
@@ -370,7 +371,7 @@ public class RecurringData
     *
     * @return last calculated exception date
     */
-   public Date getCalculatedLastDate()
+   public LocalDate getCalculatedLastDate()
    {
       populateDates();
       return m_dates[m_dates.length - 1];
@@ -389,39 +390,36 @@ public class RecurringData
          frequency = 1;
       }
 
-      Calendar calendar = DateHelper.popCalendar(m_startDate);
-      List<Date> dates = new ArrayList<>();
+      List<LocalDate> dates = new ArrayList<>();
 
       switch (m_recurrenceType)
       {
          case DAILY:
          {
-            getDailyDates(calendar, frequency, dates);
+            getDailyDates(frequency, dates);
             break;
          }
 
          case WEEKLY:
          {
-            getWeeklyDates(calendar, frequency, dates);
+            getWeeklyDates(frequency, dates);
             break;
          }
 
          case MONTHLY:
          {
-            getMonthlyDates(calendar, frequency, dates);
+            getMonthlyDates(frequency, dates);
             break;
          }
 
          case YEARLY:
          {
-            getYearlyDates(calendar, dates);
+            getYearlyDates(dates);
             break;
          }
       }
 
-      DateHelper.pushCalendar(calendar);
-
-      m_dates = dates.toArray(new Date[0]);
+      m_dates = dates.toArray(new LocalDate[0]);
    }
 
    /**
@@ -430,11 +428,11 @@ public class RecurringData
     * occurrences attribute. If we have a finish date, we'll use that instead.
     * We're assuming that the recurring data has one or other of those values.
     *
-    * @param calendar current date
+    * @param date current date
     * @param dates dates generated so far
     * @return true if we should calculate another date
     */
-   private boolean moreDates(Calendar calendar, List<Date> dates)
+   private boolean moreDates(LocalDate date, List<LocalDate> dates)
    {
       boolean result;
       if (m_finishDate == null)
@@ -448,7 +446,7 @@ public class RecurringData
       }
       else
       {
-         result = calendar.getTimeInMillis() <= m_finishDate.getTime();
+         result = !date.isAfter(m_finishDate);
       }
       return result;
    }
@@ -456,267 +454,259 @@ public class RecurringData
    /**
     * Calculate start dates for a daily recurrence.
     *
-    * @param calendar current date
     * @param frequency frequency
     * @param dates array of start dates
     */
-   private void getDailyDates(Calendar calendar, int frequency, List<Date> dates)
+   private void getDailyDates(int frequency, List<LocalDate> dates)
    {
-      while (moreDates(calendar, dates))
+      LocalDate date = m_startDate;
+      while (moreDates(date, dates))
       {
-         dates.add(calendar.getTime());
-         calendar.add(Calendar.DAY_OF_YEAR, frequency);
+         dates.add(date);
+         date = date.plusDays(frequency);
       }
    }
 
    /**
     * Calculate start dates for a weekly recurrence.
     *
-    * @param calendar current date
     * @param frequency frequency
     * @param dates array of start dates
     */
-   private void getWeeklyDates(Calendar calendar, int frequency, List<Date> dates)
+   private void getWeeklyDates(int frequency, List<LocalDate> dates)
    {
+      LocalDate date = m_startDate;
+
       //
       // We need to work from the start of the week that contains the start date
       // and ignore any matches we get that are before the start date.
       //
-      int currentDay = calendar.get(Calendar.DAY_OF_WEEK);
-      if (currentDay > Calendar.SUNDAY)
+      DayOfWeek currentDay = date.getDayOfWeek();
+      if (currentDay != DayOfWeek.SUNDAY)
       {
-         calendar.add(Calendar.DAY_OF_YEAR, Calendar.SUNDAY - currentDay);
-         currentDay = Calendar.SUNDAY;
+         date = date.minusDays(currentDay.getValue());
+         currentDay = DayOfWeek.SUNDAY;
       }
 
-      while (moreDates(calendar, dates))
+      while (moreDates(date, dates))
       {
          int offset = 0;
 
          for (int dayIndex = 0; dayIndex < 7; dayIndex++)
          {
-            if (getWeeklyDay(Day.getInstance(currentDay)))
+            if (getWeeklyDay(currentDay))
             {
                if (offset != 0)
                {
-                  calendar.add(Calendar.DAY_OF_YEAR, offset);
+                  date = date.plusDays(offset);
                   offset = 0;
                }
-               if (!moreDates(calendar, dates))
+               if (!moreDates(date, dates))
                {
                   break;
                }
 
-               if (calendar.getTimeInMillis() >= m_startDate.getTime())
+               if (!date.isBefore(m_startDate))
                {
-                  dates.add(calendar.getTime());
+                  dates.add(date);
                }
             }
 
             ++offset;
-            ++currentDay;
-
-            if (currentDay > 7)
-            {
-               currentDay = 1;
-            }
+            currentDay = currentDay.plus(1);
          }
 
          if (frequency > 1)
          {
             offset += (7 * (frequency - 1));
          }
-         calendar.add(Calendar.DAY_OF_YEAR, offset);
+         date = date.plusDays(offset);
       }
    }
 
    /**
     * Calculate start dates for a monthly recurrence.
     *
-    * @param calendar current date
     * @param frequency frequency
     * @param dates array of start dates
     */
-   private void getMonthlyDates(Calendar calendar, int frequency, List<Date> dates)
+   private void getMonthlyDates(int frequency, List<LocalDate> dates)
    {
       if (m_relative)
       {
-         getMonthlyRelativeDates(calendar, frequency, dates);
+         getMonthlyRelativeDates(frequency, dates);
       }
       else
       {
-         getMonthlyAbsoluteDates(calendar, frequency, dates);
+         getMonthlyAbsoluteDates(frequency, dates);
       }
    }
 
    /**
     * Calculate start dates for a monthly relative recurrence.
     *
-    * @param calendar current date
     * @param frequency frequency
     * @param dates array of start dates
     */
-   private void getMonthlyRelativeDates(Calendar calendar, int frequency, List<Date> dates)
+   private void getMonthlyRelativeDates(int frequency, List<LocalDate> dates)
    {
-      long startDate = calendar.getTimeInMillis();
-      calendar.set(Calendar.DAY_OF_MONTH, 1);
+      LocalDate date = LocalDate.of(m_startDate.getYear(), m_startDate.getMonth(), 1);
       int dayNumber = NumberHelper.getInt(m_dayNumber);
 
-      while (moreDates(calendar, dates))
+      while (moreDates(date, dates))
       {
          if (dayNumber > 4)
          {
-            setCalendarToLastRelativeDay(calendar);
+            date = getLastRelativeDay(date);
          }
          else
          {
-            setCalendarToOrdinalRelativeDay(calendar, dayNumber);
+            date = getOrdinalRelativeDay(date, dayNumber);
          }
 
-         if (calendar.getTimeInMillis() >= startDate)
+         if (!date.isBefore(m_startDate))
          {
-            dates.add(calendar.getTime());
-            if (!moreDates(calendar, dates))
+            dates.add(date);
+            if (!moreDates(date, dates))
             {
                break;
             }
          }
-         calendar.set(Calendar.DAY_OF_MONTH, 1);
-         calendar.add(Calendar.MONTH, frequency);
+
+         date = LocalDate.of(date.getYear(), date.getMonth(), 1);
+         date = date.plusMonths(frequency);
       }
    }
 
    /**
     * Calculate start dates for a monthly absolute recurrence.
     *
-    * @param calendar current date
     * @param frequency frequency
     * @param dates array of start dates
     */
-   private void getMonthlyAbsoluteDates(Calendar calendar, int frequency, List<Date> dates)
+   private void getMonthlyAbsoluteDates(int frequency, List<LocalDate> dates)
    {
-      int currentDayNumber = calendar.get(Calendar.DAY_OF_MONTH);
-      calendar.set(Calendar.DAY_OF_MONTH, 1);
+      LocalDate date = m_startDate;
+      int currentDayNumber = date.getDayOfMonth();
+      date = LocalDate.of(date.getYear(), date.getMonth(), 1);
       int requiredDayNumber = NumberHelper.getInt(m_dayNumber);
       if (requiredDayNumber < currentDayNumber)
       {
-         calendar.add(Calendar.MONTH, 1);
+         date = date.plusMonths(1);
       }
 
-      while (moreDates(calendar, dates))
+      while (moreDates(date, dates))
       {
          int useDayNumber = requiredDayNumber;
-         int maxDayNumber = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+         YearMonth month = YearMonth.of(date.getYear(), date.getMonth());
+         int maxDayNumber = month.lengthOfMonth();
          if (useDayNumber > maxDayNumber)
          {
             useDayNumber = maxDayNumber;
          }
-         calendar.set(Calendar.DAY_OF_MONTH, useDayNumber);
-         dates.add(calendar.getTime());
-         calendar.set(Calendar.DAY_OF_MONTH, 1);
-         calendar.add(Calendar.MONTH, frequency);
+
+         date = LocalDate.of(date.getYear(), date.getMonth(), useDayNumber);
+         dates.add(date);
+
+         date = LocalDate.of(date.getYear(), date.getMonth(), 1);
+         date = date.plusMonths(frequency);
       }
    }
 
    /**
     * Calculate start dates for a yearly recurrence.
     *
-    * @param calendar current date
     * @param dates array of start dates
     */
-   private void getYearlyDates(Calendar calendar, List<Date> dates)
+   private void getYearlyDates(List<LocalDate> dates)
    {
       if (m_relative)
       {
-         getYearlyRelativeDates(calendar, dates);
+         getYearlyRelativeDates(dates);
       }
       else
       {
-         getYearlyAbsoluteDates(calendar, dates);
+         getYearlyAbsoluteDates(dates);
       }
    }
 
    /**
     * Calculate start dates for a yearly relative recurrence.
     *
-    * @param calendar current date
     * @param dates array of start dates
     */
-   private void getYearlyRelativeDates(Calendar calendar, List<Date> dates)
+   private void getYearlyRelativeDates(List<LocalDate> dates)
    {
-      long startDate = calendar.getTimeInMillis();
-      calendar.set(Calendar.DAY_OF_MONTH, 1);
-      calendar.set(Calendar.MONTH, NumberHelper.getInt(m_monthNumber) - 1);
+      LocalDate date = LocalDate.of(m_startDate.getYear(), NumberHelper.getInt(m_monthNumber), 1);
 
       int dayNumber = NumberHelper.getInt(m_dayNumber);
-      while (moreDates(calendar, dates))
+      while (moreDates(date, dates))
       {
          if (dayNumber > 4)
          {
-            setCalendarToLastRelativeDay(calendar);
+            date = getLastRelativeDay(date);
          }
          else
          {
-            setCalendarToOrdinalRelativeDay(calendar, dayNumber);
+            date = getOrdinalRelativeDay(date, dayNumber);
          }
 
-         if (calendar.getTimeInMillis() >= startDate)
+         if (!date.isBefore(m_startDate))
          {
-            dates.add(calendar.getTime());
-            if (!moreDates(calendar, dates))
+            dates.add(date);
+            if (!moreDates(date, dates))
             {
                break;
             }
          }
-         calendar.set(Calendar.DAY_OF_MONTH, 1);
-         calendar.add(Calendar.YEAR, 1);
+
+         date = LocalDate.of(date.getYear() + 1, date.getMonth(), 1);
       }
    }
 
    /**
     * Calculate start dates for a yearly absolute recurrence.
     *
-    * @param calendar current date
     * @param dates array of start dates
     */
-   private void getYearlyAbsoluteDates(Calendar calendar, List<Date> dates)
+   private void getYearlyAbsoluteDates(List<LocalDate> dates)
    {
-      long startDate = calendar.getTimeInMillis();
-      calendar.set(Calendar.DAY_OF_MONTH, 1);
-      calendar.set(Calendar.MONTH, NumberHelper.getInt(m_monthNumber) - 1);
+      LocalDate date = LocalDate.of(m_startDate.getYear(), NumberHelper.getInt(m_monthNumber), 1);
       int requiredDayNumber = NumberHelper.getInt(m_dayNumber);
 
-      while (moreDates(calendar, dates))
+      while (moreDates(date, dates))
       {
          int useDayNumber = requiredDayNumber;
-         int maxDayNumber = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+         YearMonth month = YearMonth.of(date.getYear(), date.getMonth());
+         int maxDayNumber = month.lengthOfMonth();
          if (useDayNumber > maxDayNumber)
          {
             useDayNumber = maxDayNumber;
          }
 
-         calendar.set(Calendar.DAY_OF_MONTH, useDayNumber);
-         if (calendar.getTimeInMillis() < startDate)
+         date = LocalDate.of(date.getYear(), date.getMonth(), useDayNumber);
+         if (date.isBefore(m_startDate))
          {
-            calendar.add(Calendar.YEAR, 1);
+            date = date.plusYears(1);
          }
 
-         dates.add(calendar.getTime());
-         calendar.set(Calendar.DAY_OF_MONTH, 1);
-         calendar.add(Calendar.YEAR, 1);
+         dates.add(date);
+         date = LocalDate.of(date.getYear(), date.getMonth(), 1);
+         date = date.plusYears(1);
       }
    }
 
    /**
     * Moves a calendar to the nth named day of the month.
     *
-    * @param calendar current date
+    * @param date current date
     * @param dayNumber nth day
+    * @return ordinal relative day
     */
-   private void setCalendarToOrdinalRelativeDay(Calendar calendar, int dayNumber)
+   private LocalDate getOrdinalRelativeDay(LocalDate date, int dayNumber)
    {
-      int currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-      int requiredDayOfWeek = getDayOfWeek().getValue();
+      int currentDayOfWeek = DayOfWeekHelper.getValue(date.getDayOfWeek());
+      int requiredDayOfWeek = DayOfWeekHelper.getValue(getDayOfWeek());
       int dayOfWeekOffset = 0;
       if (requiredDayOfWeek > currentDayOfWeek)
       {
@@ -732,25 +722,30 @@ public class RecurringData
 
       if (dayOfWeekOffset != 0)
       {
-         calendar.add(Calendar.DAY_OF_YEAR, dayOfWeekOffset);
+         date = date.plusDays(dayOfWeekOffset);
       }
 
       if (dayNumber > 1)
       {
-         calendar.add(Calendar.DAY_OF_YEAR, (7 * (dayNumber - 1)));
+         date = date.plusDays((7 * ((long) dayNumber - 1)));
       }
+
+      return date;
    }
 
    /**
     * Moves a calendar to the last named day of the month.
     *
-    * @param calendar current date
+    * @param date current date
+    * @return last relative day
     */
-   private void setCalendarToLastRelativeDay(Calendar calendar)
+   private LocalDate getLastRelativeDay(LocalDate date)
    {
-      calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-      int currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-      int requiredDayOfWeek = getDayOfWeek().getValue();
+      YearMonth month = YearMonth.of(date.getYear(), date.getMonth());
+      date = LocalDate.of(date.getYear(), date.getMonth(), month.lengthOfMonth());
+
+      int currentDayOfWeek = DayOfWeekHelper.getValue(date.getDayOfWeek());
+      int requiredDayOfWeek = DayOfWeekHelper.getValue(getDayOfWeek());
       int dayOfWeekOffset = 0;
 
       if (currentDayOfWeek > requiredDayOfWeek)
@@ -767,8 +762,10 @@ public class RecurringData
 
       if (dayOfWeekOffset != 0)
       {
-         calendar.add(Calendar.DAY_OF_YEAR, dayOfWeekOffset);
+         date = date.plusDays(dayOfWeekOffset);
       }
+
+      return date;
    }
 
    /**
@@ -776,14 +773,12 @@ public class RecurringData
     *
     * @param date yearly absolute date
     */
-   public void setYearlyAbsoluteFromDate(Date date)
+   public void setYearlyAbsoluteFromDate(LocalDate date)
    {
       if (date != null)
       {
-         Calendar cal = DateHelper.popCalendar(date);
-         m_dayNumber = Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH));
-         m_monthNumber = Integer.valueOf(cal.get(Calendar.MONTH) + 1);
-         DateHelper.pushCalendar(cal);
+         m_dayNumber = Integer.valueOf(date.getDayOfMonth());
+         m_monthNumber = Integer.valueOf(date.getMonthValue());
          clearDatesCache();
       }
    }
@@ -837,7 +832,7 @@ public class RecurringData
             pw.print(" week on ");
 
             StringBuilder sb = new StringBuilder();
-            for (Day day : Day.values())
+            for (DayOfWeek day : DayOfWeek.values())
             {
                if (getWeeklyDay(day))
                {
@@ -845,7 +840,7 @@ public class RecurringData
                   {
                      sb.append(", ");
                   }
-                  sb.append(dfs.getWeekdays()[day.getValue()]);
+                  sb.append(dfs.getWeekdays()[DayOfWeekHelper.getValue(day)]);
                }
             }
             pw.print(sb);
@@ -859,7 +854,7 @@ public class RecurringData
                pw.print(" on The ");
                pw.print(DAY_ORDINAL[m_dayNumber.intValue()]);
                pw.print(" ");
-               pw.print(dfs.getWeekdays()[getDayOfWeek().getValue()]);
+               pw.print(dfs.getWeekdays()[DayOfWeekHelper.getValue(getDayOfWeek())]);
                pw.print(" of ");
                pw.print(getOrdinal(m_frequency));
             }
@@ -881,7 +876,7 @@ public class RecurringData
             {
                pw.print(DAY_ORDINAL[m_dayNumber.intValue()]);
                pw.print(" ");
-               pw.print(dfs.getWeekdays()[getDayOfWeek().getValue()]);
+               pw.print(dfs.getWeekdays()[DayOfWeekHelper.getValue(getDayOfWeek())]);
                pw.print(" of ");
                pw.print(dfs.getMonths()[m_monthNumber.intValue() - 1]);
             }
@@ -908,7 +903,7 @@ public class RecurringData
          pw.print(" To " + m_finishDate);
       }
 
-      pw.println("]");
+      pw.print("]");
       pw.flush();
       return os.toString();
    }
@@ -940,8 +935,8 @@ public class RecurringData
    //
    // Common attributes
    //
-   private Date m_startDate;
-   private Date m_finishDate;
+   private LocalDate m_startDate;
+   private LocalDate m_finishDate;
    private Integer m_occurrences;
    private RecurrenceType m_recurrenceType;
    private boolean m_relative;
@@ -950,6 +945,6 @@ public class RecurringData
    private Integer m_frequency;
    private Integer m_dayNumber;
    private Integer m_monthNumber;
-   private Date[] m_dates;
-   private final EnumSet<Day> m_days = EnumSet.noneOf(Day.class);
+   private LocalDate[] m_dates;
+   private final EnumSet<DayOfWeek> m_days = EnumSet.noneOf(DayOfWeek.class);
 }

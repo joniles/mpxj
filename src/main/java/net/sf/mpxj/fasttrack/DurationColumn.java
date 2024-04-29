@@ -28,13 +28,8 @@ import java.io.PrintWriter;
 /**
  * Column containing duration values.
  */
-class DurationColumn extends AbstractColumn
+abstract class DurationColumn extends AbstractColumn
 {
-   @Override protected int postHeaderSkipBytes()
-   {
-      return 18;
-   }
-
    @Override protected int readData(byte[] buffer, int offset)
    {
       FixedSizeItemsBlock data = new FixedSizeItemsBlock().read(buffer, offset);

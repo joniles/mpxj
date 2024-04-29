@@ -46,10 +46,11 @@ class RelationTypeColumn extends AbstractShortColumn
    {
       int result = data[m_offset + offset];
       RelationType type = null;
-      if (result >= 0 || result < TYPES.length)
+      if (result >= 0 && result < TYPES.length)
       {
          type = TYPES[result];
       }
+
       if (type == null)
       {
          type = RelationType.FINISH_START;

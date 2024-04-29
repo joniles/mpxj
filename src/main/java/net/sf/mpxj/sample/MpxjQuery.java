@@ -23,10 +23,12 @@
 
 package net.sf.mpxj.sample;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,7 +36,7 @@ import java.util.stream.Collectors;
 import net.sf.mpxj.AssignmentField;
 import net.sf.mpxj.ChildResourceContainer;
 import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.DateRange;
+import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectCalendar;
@@ -136,10 +138,10 @@ public class MpxjQuery
     */
    private static void listProjectProperties(ProjectFile file)
    {
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm z");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
       ProjectProperties properties = file.getProjectProperties();
-      Date startDate = properties.getStartDate();
-      Date finishDate = properties.getFinishDate();
+      LocalDateTime startDate = properties.getStartDate();
+      LocalDateTime finishDate = properties.getFinishDate();
       String formattedStartDate = startDate == null ? "(none)" : df.format(startDate);
       String formattedFinishDate = finishDate == null ? "(none)" : df.format(finishDate);
 
@@ -169,11 +171,11 @@ public class MpxjQuery
     */
    private static void listTasks(ProjectFile file)
    {
-      SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm z");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
       for (Task task : file.getTasks())
       {
-         Date date = task.getStart();
+         LocalDateTime date = task.getStart();
          String text = task.getStartText();
          String startDate = text != null ? text : (date != null ? df.format(date) : "(no start date supplied)");
 
@@ -238,7 +240,7 @@ public class MpxjQuery
          listTaskHierarchy(task, indent + " ");
       }
 
-      if (indent.length() == 0)
+      if (indent.isEmpty())
       {
          System.out.println();
       }
@@ -259,7 +261,7 @@ public class MpxjQuery
          listResourceHierarchy(resource, indent + " ");
       }
 
-      if (indent.length() == 0)
+      if (indent.isEmpty())
       {
          System.out.println();
       }
@@ -317,17 +319,18 @@ public class MpxjQuery
    private static void listTimephasedWork(ResourceAssignment assignment)
    {
       Task task = assignment.getTask();
-      int days = (int) ((task.getFinish().getTime() - task.getStart().getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+      int days = (int) ((task.getStart().until(task.getFinish(), ChronoUnit.MILLIS)) / (1000 * 60 * 60 * 24)) + 1;
       if (days > 1)
       {
-         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
+         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yy");
 
          TimescaleUtility timescale = new TimescaleUtility();
-         ArrayList<DateRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
+         ArrayList<LocalDateTimeRange> dates = timescale.createTimescale(task.getStart(), TimescaleUnits.DAYS, days);
          TimephasedUtility timephased = new TimephasedUtility();
 
-         ArrayList<Duration> durations = timephased.segmentWork(assignment.getCalendar(), assignment.getTimephasedWork(), TimescaleUnits.DAYS, dates);
-         for (DateRange range : dates)
+         ArrayList<Duration> durations = timephased.segmentWork(assignment.getEffectiveCalendar(), assignment.getTimephasedWork(), TimescaleUnits.DAYS, dates);
+         for (LocalDateTimeRange range : dates)
          {
             System.out.print(df.format(range.getStart()) + "\t");
          }
@@ -408,7 +411,7 @@ public class MpxjQuery
       {
          String notes = task.getNotes();
 
-         if (notes.length() != 0)
+         if (!notes.isEmpty())
          {
             System.out.println("Notes for " + task.getName() + ": " + notes);
          }
@@ -428,7 +431,7 @@ public class MpxjQuery
       {
          String notes = resource.getNotes();
 
-         if (notes.length() != 0)
+         if (!notes.isEmpty())
          {
             System.out.println("Notes for " + resource.getName() + ": " + notes);
          }

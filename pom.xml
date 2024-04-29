@@ -9,7 +9,7 @@
 	<artifactId>mpxj</artifactId>
 
 	<!-- Note - this is automatically updated by the ant build ... don't remove the MPXJ comment! -->
-	<!-- MPXJ --><version>11.1.0</version>
+	<!-- MPXJ --><version>12.9.3</version>
 
 	<name>MPXJ</name>
 	<url>http://mpxj.org</url>
@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.36.0.3</version>
+			<version>3.42.0.0</version>
 		</dependency>
 
 		<dependency>
@@ -186,7 +186,13 @@
 			<name>lobmelon</name>
 		</contributor>
 		<contributor>
+			<name>Andrew Marks</name>
+		</contributor>
+		<contributor>
 			<name>Nathaniel Marrin</name>
+		</contributor>
+		<contributor>
+			<name>Alex Matatov</name>
 		</contributor>
 		<contributor>
 			<name>Dave McKay</name>
@@ -238,6 +244,9 @@
 		</contributor>
 		<contributor>
 			<name>Shlomo Swidler</name>
+		</contributor>
+		<contributor>
+			<name>Daniel Taylor</name>
 		</contributor>
 		<contributor>
 			<name>Jonas Tampier</name>

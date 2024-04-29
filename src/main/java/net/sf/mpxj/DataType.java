@@ -83,7 +83,10 @@ public enum DataType implements MpxjEnum
    CUSTOM(50),
    RATE_SOURCE(51),
    TASK_MODE(52),
-   STEP_LIST(53);
+   STEP_LIST(53),
+   TOTAL_SLACK_TYPE(54),
+   RELATIONSHIP_LAG_CALENDAR(55),
+   SCHEDULING_PROGRESSED_ACTIVITIES(56);
 
    /**
     * Private constructor.

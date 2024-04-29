@@ -26,8 +26,8 @@ package net.sf.mpxj.junit.project;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import net.sf.mpxj.reader.UniversalProjectReader;
 import org.junit.Test;
@@ -63,7 +63,7 @@ public class ProjectValueListsTest
     */
    private void testProjectValueLists(File file) throws MPXJException
    {
-      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
       ProjectFile project = new UniversalProjectReader().read(file);
       CustomFieldContainer container = project.getCustomFields();
 
@@ -80,11 +80,11 @@ public class ProjectValueListsTest
       config = container.get(TaskField.DATE1);
       table = config.getLookupTable();
       assertEquals(3, table.size());
-      assertEquals("01/01/2015", df.format(table.get(0).getValue()));
+      assertEquals("01/01/2015", df.format((LocalDateTime) table.get(0).getValue()));
       assertEquals("Description 1", table.get(0).getDescription());
-      assertEquals("02/01/2015", df.format(table.get(1).getValue()));
+      assertEquals("02/01/2015", df.format((LocalDateTime) table.get(1).getValue()));
       assertEquals("Description 2", table.get(1).getDescription());
-      assertEquals("03/01/2015", df.format(table.get(2).getValue()));
+      assertEquals("03/01/2015", df.format((LocalDateTime) table.get(2).getValue()));
       assertEquals("Description 3", table.get(2).getDescription());
 
       config = container.get(TaskField.DURATION1);

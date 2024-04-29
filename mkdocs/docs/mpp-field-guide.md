@@ -22,15 +22,23 @@ The tables are not hand-crafted: they have been generated from test data and are
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 AM Text|✓|✓|✓|✓
+Activity ID Increment|✓|✓|✓|✓
+Activity ID Increment Based On Selected Activity|✓|✓|✓|✓
+Activity ID Prefix|✓|✓|✓|✓
+Activity ID Suffix|✓|✓|✓|✓
 Application Version|✓|✓|✓|✓
 Author|✓|✓|✓|✓
 Auto Add New Resources and Tasks|✓|✓|✓|✓
 Auto Filter| |✓|✓| 
 Auto Link|✓|✓|✓|✓
 Bar Text Date Format|✓|✓|✓|✓
+Calculate Float on Finish Date of Each Project|✓|✓|✓|✓
+Calculate Multiple Paths Using Total Float|✓|✓|✓|✓
 Category|✓|✓|✓|✓
 Comments|✓|✓|✓|✓
 Company|✓|✓|✓|✓
+Compute Start to Start Lag From Early Start|✓|✓|✓|✓
+Consider Assignments In Other Project With Priority Equal or Higher Than|✓|✓|✓|✓
 Content Status| |✓|✓|✓
 Content Type| |✓|✓|✓
 Creation Date|✓|✓|✓|✓
@@ -62,6 +70,7 @@ Finish Date|✓|✓|✓|✓
 Fiscal Year Start|✓|✓|✓|✓
 Fiscal Year Start Month|✓|✓|✓|✓
 Full Application Name|✓|✓|✓|✓
+GUID|✓|✓|✓|✓
 Honor Constraints|✓|✓|✓|✓
 Hyperlink Base|✓|✓|✓|✓
 Keywords|✓|✓|✓|✓
@@ -69,12 +78,16 @@ Language| |✓|✓|✓
 Last Author|✓|✓|✓|✓
 Last Printed|✓|✓|✓|✓
 Last Saved|✓|✓|✓|✓
+Level All Resources|✓|✓|✓|✓
+Leveling Priorities|✓|✓|✓|✓
+Limit Number of Float Paths to Calculate|✓|✓|✓|✓
 MPP File Type|✓|✓|✓|✓
 MPX Code Page|✓|✓|✓|✓
 MPX Delimiter|✓|✓|✓|✓
 MPX File Version|✓|✓|✓|✓
 MPX Program Name|✓|✓|✓|✓
 Manager|✓|✓|✓|✓
+Maximum Percentage to Overallocate Resources|✓|✓|✓|✓
 Microsoft Project Server URL|✓|✓|✓|✓
 Minutes per Day|✓|✓|✓|✓
 Minutes per Month|✓|✓|✓|✓
@@ -84,10 +97,15 @@ Multiple Critical Paths| |✓|✓|✓
 New Task Start Is Project Start|✓|✓|✓|✓
 New Tasks Are Manual| |✓|✓|✓
 New Tasks Estimated|✓|✓|✓|✓
+Number of Float Paths to Calculate|✓|✓|✓|✓
 PM Text|✓|✓|✓|✓
 Presentation Format| |✓|✓|✓
+Preserve Minimum Float When Leveling|✓|✓|✓|✓
+Preserve Scheduled Early and Late Dates|✓|✓|✓|✓
 Project File Path| |✓|✓|✓
 Project Title|✓|✓|✓|✓
+Relationship Lag Calendar|✓|✓|✓|✓
+Resource Pool File| |✓|✓|✓
 Revision|✓|✓|✓|✓
 Schedule From|✓|✓|✓|✓
 Short Application Name|✓|✓|✓|✓
@@ -100,8 +118,12 @@ Template|✓|✓|✓|✓
 Thousands Separator|✓|✓|✓|✓
 Time Format|✓|✓|✓|✓
 Time Separator|✓|✓|✓|✓
+Total Slack Calculation Type|✓|✓|✓|✓
 Updating Task Status Updates Resource Status|✓|✓|✓|✓
+Use Expected Finish Dates|✓|✓|✓|✓
+WBS Code Separator|✓|✓|✓|✓
 Week Start Day|✓|✓|✓|✓
+When Scheduling Progressed Activities Use|✓|✓|✓|✓
 
 ### Baseline Fields
 Field|MPP8|MPP9|MPP12|MPP14
@@ -116,6 +138,7 @@ Baseline7 Date| |✓| |✓
 Baseline8 Date| |✓| |✓
 Baseline9 Date| |✓| |✓
 Baseline10 Date| | |✓|✓
+Baseline Calendar Name|✓|✓|✓|✓
 Baseline Date| |✓|✓|✓
 
 ## Task
@@ -156,7 +179,9 @@ Early Start|✓|✓|✓|✓
 Earned Value Method| | |✓|✓
 Effort Driven|✓|✓|✓|✓
 Estimated| |✓|✓|✓
+Expanded|✓|✓|✓|✓
 Expense Items|✓|✓|✓|✓
+External Project| |✓|✓|✓
 External Task| |✓|✓|✓
 Finish|✓|✓|✓|✓
 Finish Slack|✓|✓|✓|✓
@@ -184,12 +209,12 @@ Manual Duration Units| | | |✓
 Marked| |✓|✓|✓
 Milestone|✓|✓|✓|✓
 Notes|✓|✓|✓|✓
+Null| |✓|✓|✓
 Outline Level|✓|✓|✓|✓
 Outline Number|✓|✓|✓|✓
 Overtime Cost|✓|✓|✓|✓
 Parent Task Unique ID| |✓|✓|✓
 Physical % Complete| |✓|✓|✓
-Predecessors|✓|✓|✓|✓
 Preleveled Finish|✓|✓|✓|✓
 Preleveled Start|✓|✓|✓|✓
 Priority|✓|✓|✓|✓
@@ -215,12 +240,11 @@ Start Slack|✓|✓|✓|✓
 Start Variance|✓|✓|✓|✓
 Steps|✓|✓|✓|✓
 Stop|✓|✓|✓|✓
-Subproject| |✓|✓|✓
-Subproject File| |✓| | 
+Subproject File| |✓|✓|✓
+Subproject GUID| | |✓|✓
 Subproject Task ID| |✓|✓|✓
+Subproject Task Unique ID| |✓|✓|✓
 Subproject Tasks Unique ID Offset| |✓|✓|✓
-Subproject Unique Task ID| |✓|✓|✓
-Successors|✓|✓|✓|✓
 Summary|✓|✓|✓|✓
 Summary Progress| |✓|✓|✓
 Task Calendar GUID| | |✓|✓
@@ -565,6 +589,7 @@ Enterprise Project Text40| |✓|✓|✓
 Field|MPP8|MPP9|MPP12|MPP14
 ---|---|---|---|---
 Accrue At|✓|✓|✓|✓
+Active|✓|✓|✓|✓
 Actual Cost| |✓|✓|✓
 Actual Overtime Cost| |✓|✓|✓
 Actual Overtime Work| |✓|✓|✓
@@ -591,6 +616,7 @@ Cost Rate D| |✓|✓|✓
 Cost Rate E| |✓|✓|✓
 Cost Variance|✓|✓|✓|✓
 Created| |✓|✓|✓
+Default Units|✓|✓|✓|✓
 Email Address| |✓|✓|✓
 GUID| | |✓|✓
 Generic| |✓|✓|✓
@@ -603,7 +629,7 @@ Hyperlink SubAddress| |✓|✓|✓
 ID|✓|✓|✓|✓
 Initials|✓|✓|✓|✓
 Material Label| |✓|✓|✓
-Max Units|✓|✓|✓|✓
+Max Units| |✓|✓|✓
 Name|✓|✓|✓|✓
 Notes|✓|✓|✓|✓
 Overallocated|✓|✓|✓|✓
@@ -623,6 +649,7 @@ Standard Rate Units| |✓|✓|✓
 Subproject Unique Resource ID| |✓|✓| 
 Type|✓|✓|✓|✓
 Unique ID|✓|✓|✓|✓
+Unit of Measure Unique ID| |✓|✓|✓
 Windows User Account| |✓|✓|✓
 Work|✓|✓|✓|✓
 Work Variance|✓|✓|✓|✓
