@@ -21,6 +21,9 @@ Capturing a baseline in Microsoft Project is as simple as selecting the "Set
 Baseline" menu option for the current project you are working with to take a
 new baseline.
 
+
+<p align="center"><img alt="Set Baseline Menu Option" src="/images/howto-use-baselines/set-baseline-menu-option.png" width="25%"/></p>
+
 <figure markdown="span">
   ![Set Baseline Menu Option](images/howto-use-baselines/set-baseline-menu-option.png){ width="50%" }
   <figcaption>Microsoft Project Set Baseline Menu Option</figcaption>
