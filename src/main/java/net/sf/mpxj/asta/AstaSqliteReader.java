@@ -408,6 +408,12 @@ public class AstaSqliteReader extends AbstractProjectFileReader
       return list;
    }
 
+   /**
+    * Finds the current baseline ID from the USERR table and attaches this as the project's baseline.
+    *
+    * @param project parent project
+    * @param projectID parent project unique ID
+    */
    private void processBaseline(ProjectFile project, Integer projectID) throws MPXJException
    {
       try

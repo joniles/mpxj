@@ -122,7 +122,20 @@ baseline schedule).
 > end user outside of P6, there is no way to automatically determine which are
 > the correct baseline values to be displayed. This will be discussed in more
 > detail in the following section.
- 
+
+### Asta Powerproject
+
+Powerproject takes the same approach as P6 to capturing a baseline - an entire
+copy of the schedule is made. This copy can either be held as a separate file,
+or can be embedded within the main schedule file (note the "Embed the baseline
+in the file" option in the dialog shown below).
+
+<p align="center"><img alt="Asta Baseline Dialog" src="/images/howto-use-baselines/asta-baseline-dialog.png" width="75%"/></p>
+
+MPXJ can read baselines which have been embedded within the main schedule file,
+although as you will see in a later section, with a little more work you can
+attach a baseline from a separate file to the main schedule.
+
 ## Baselines in MPXJ
 
 ### Microsoft Project
@@ -260,12 +273,26 @@ reader.setBaselineStrategy(PrimaveraBaselineStrategy.CURRENT_DATES);
 ProjectFile file = reader.read("sample-pmxml.xml");
 ```
 
+### Asta Powerproject
+When reading an Asta Powerproject schedule, if baselines have been embedded
+within the main schedule file, you will be able to access the baseline schedules
+from MPXJ, as illustrated by the example code below:
+
+```java
+ProjectFile file = new UniversalProjectReader().read("sample.pp");
+System.out.println("The project includes "
+   + file.getBaselines().size()
+   + " baselines");
+
+for (ProjectFile baseline : file.getBaselines())
+{
+   System.out.println("Baseline name: "
+      + baseline.getProjectProperties().getName());
+}
+```
 
 
-
-Asta Powerproject
-
-### Manually Attaching Baselines
+## Manually Attaching Baselines
 
 
 
