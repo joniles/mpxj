@@ -21,23 +21,13 @@ Capturing a baseline in Microsoft Project is as simple as selecting the "Set
 Baseline" menu option for the current project you are working with to take a
 new baseline.
 
-
 <p align="center"><img alt="Set Baseline Menu Option" src="/images/howto-use-baselines/set-baseline-menu-option.png" width="25%"/></p>
-
-<figure markdown="span">
-  ![Set Baseline Menu Option](images/howto-use-baselines/set-baseline-menu-option.png){ width="50%" }
-  <figcaption>Microsoft Project Set Baseline Menu Option</figcaption>
-</figure>
 
 You'll be prompted to select which baseline you'd like to populate
 ("Baseline", "Baseline 1", "Baseline 2" and so on), and whether you'd like to
 baseline the whole project or just selected tasks.
 
-<figure markdown="span">
-  ![Set Baseline Dialog](images/howto-use-baselines/set-baseline-dialog.png){ width="50%" }
-  <figcaption>Microsoft Project Set Baseline Dialog</figcaption>
-</figure>
-
+<p align="center"><img alt="Set Baseline Dialog" src="/images/howto-use-baselines/set-baseline-dialog.png" width="25%"/></p>
 
 When you click OK, the attributes captured as a baseline by Microsoft Project
 will be copied to the equivalent baseline attributes.
