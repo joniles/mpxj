@@ -47,6 +47,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
+import net.sf.mpxj.BaselineStrategy;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
@@ -188,7 +189,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @param strategy baseline strategy
     */
-   public void setBaselineStrategy(PrimaveraBaselineStrategy strategy)
+   public void setBaselineStrategy(BaselineStrategy strategy)
    {
       m_baselineStrategy = strategy;
    }
@@ -198,7 +199,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     *
     * @return baseline strategy
     */
-   public PrimaveraBaselineStrategy getBaselineStrategy()
+   public BaselineStrategy getBaselineStrategy()
    {
       return m_baselineStrategy;
    }
@@ -2579,7 +2580,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private List<ExternalRelation> m_externalRelations;
    private boolean m_linkCrossProjectRelations;
    private Integer m_defaultCalendarObjectID;
-   private PrimaveraBaselineStrategy m_baselineStrategy = PrimaveraBaselineStrategy.PLANNED_DATES;
+   private BaselineStrategy m_baselineStrategy = PrimaveraBaselineStrategy.PLANNED_ATTRIBUTES;
 
    private static final Map<String, DayOfWeek> DAY_MAP = new HashMap<>();
    static

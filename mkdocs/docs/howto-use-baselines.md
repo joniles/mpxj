@@ -273,19 +273,20 @@ baseline schedule.
 
 MPXJ provides baseline strategy implementations matching the two approaches
 taken by P6, depending on the "Earned value calculation". The default strategy
-is represented by the constant `PrimaveraBaselineStrategy.PLANNED_DATES`, with
+is represented by the constant `PrimaveraBaselineStrategy.PLANNED_ATTRIBUTES`, with
 the alternative approach represented by the constant
-`PrimaveraBaselineStrategy.CURRENT_DATES`. The sample code below illustrates
+`PrimaveraBaselineStrategy.CURRENT_ATTRIBUTES`. The sample code below illustrates
 how this constant is used to alter MPXJ's behavior to match P6 when the earned
 value setting is not "Budgeted values with planned dates". 
 
 ```java
 PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
-reader.setBaselineStrategy(PrimaveraBaselineStrategy.CURRENT_DATES);
+reader.setBaselineStrategy(PrimaveraBaselineStrategy.CURRENT_ATTRIBUTES);
 ProjectFile file = reader.read("sample-pmxml.xml");
 ```
 
 ### Asta Powerproject
+
 When reading an Asta Powerproject schedule MPXJ will read the main schedule, 
 and if defined, the current baseline schedule.
 
@@ -303,14 +304,106 @@ System.out.println("Baseline project name: " + baseline.getProjectProperties().g
 
 ## Manually Attaching Baselines
 
-As we saw in the previous section, MPXJ can attach a baseline `ProjectFile` instance 
-to the main project, and populate the relevant baseline attribute in the main project.
-MPXJ will actually allow you to explicitly attach up to 11 baseline projects to a main project.
-Each project attached in this way will be used to populat ethe relevnt baseline attributes.
+As we saw in the previous section, MPXJ can attach a baseline `ProjectFile`
+instance to the main project, and populate the relevant baseline attributes in
+the main project. MPXJ will actually allow you to explicitly attach up to 11
+baseline projects to a main project. Each project attached in this way will be
+used to populate the relevant baseline attributes.
 
-setbaselinegetbaselines
-clearbaseline
+In this first example we can see that we are reading a main project and a single
+baseline file, and attaching the baseline as the "default" baseline. This means
+that attributes like Baseline Start, Baseline Finish and so on will be
+populated in the main schedule.
+
+```java
+ProjectFile main = new UniversalProjectReader().read("main.pp");
+ProjectFile baseline = new UniversalProjectReader().read("baseline.pp");
+main.setBaseline(baseline);
+```
+
+This next example shows two baseline file being attached as Baseline1 and
+Baseline2, which means that the attributes Baseline1 Start, Baseline2 Start,
+Baseline1 Finish, Baseline2 Finish will be populated.
 
 
+```java
+ProjectFile main = new UniversalProjectReader().read("main.pp");
+ProjectFile baseline1 = new UniversalProjectReader().read("baseline1.pp");
+ProjectFile baseline2 = new UniversalProjectReader().read("baseline2.pp");
+main.setBaseline(baseline1, 1);
+main.setBaseline(baseline2, 2);
+```
 
-TODO: note for MPP and MSPDI we read and populate all baselines, for P6 and asta we only attach the current baseline
+You can retrieve a list of all attached baselines using the
+`ProjectFile.getBaselines()` method. Note that the returned list will always
+contain 11 items, some of which may be null if the corresponding baseline has
+not been set. You can also remove a baseline from the current schedule using
+one of the `ProjectFile.clearBaseline()` methods.
+
+## Baseline Strategies
+
+In an earlier section the use of baseline strategies was noted. classes which
+implement the `BaselineStrategy` interface are used to control how tasks in the
+main and baseline schedule are matched, and which attributes are used to
+populate the relevant baseline attributes.
+
+MPXJ provides three implementations of the `BaselineStrategy` interface:
+
+* `DefaultBaselineStrategy`
+* `AstaBaselineStrategy`
+* `PrimaveraBaselineStrategy`
+
+The `DefaultBaselineStrategy` matches tasks based on their GUID attribute, and
+populates the main schedule's baseline attributes from their equivalent
+attributes in the baseline schedule, for example, Baseline Duration will be
+populated using the Duration attribute in the baseline schedule and so on. You
+don't need to create new instances of this strategy as static instance is
+provided as `DefaultBaselineStrategy.INSTANCE`.
+
+The `AstaBaselineStrategy` matches tasks based on their Unique ID attribute, and
+populates the main schedule's baseline attributes from their equivalent
+attributes in the baseline schedule, for example, Baseline Duration will be
+populated using the Duration attribute in the baseline schedule and so on. You
+can't create new instances of this strategy, instead use the static instance 
+provided by `AstaBaselineStrategy.INSTANCE`.
+
+Finally the `PrimaveraBaselineStrategy` matches tasks based on their Activity
+ID. Two variants of the strategy are provided as
+`PrimaveraBaselineStrategy.PLANNED_ATTRIBUTES` and
+`PrimaveraBaselineStrategy.CURRENT_ATTRIBUTES`. The `PLANNED_ATTRIBUTES`
+instance, as the name suggests, uses the planned attributes from the  baseline
+schedule to populate the baseline attributes in the main schedule, and the
+`CURRENT_ATTRIBUTES` the current attributes from the baseline schedule to
+populate the baseline attributes in the main schedule (for example, Baseline
+Duration in the main schedule is populated using the Duration attribute in the
+baseline schedule).
+
+When using the MPXJ reader classes, the correct strategy for the specific
+schedule type you are reading is selected for you. If you need behavior which
+differs from one of the defaults you can provide your own `BaselineStrategy`
+implementation. Where the reader class is automatically attaching baselines to
+the main schedule, you can pass an instance of your strategy class to the
+reader:
+
+```java
+BaselineStrategy myStrategy = new MyBaselineStrategy();
+PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+reader.setBaselineStrategy(myStrategy);
+ProjectFile file = reader.read("sample-pmxml.xml");
+```
+
+If you are reading the main and baseline schedules separately, you can set the
+baseline strategy on the main schedule, and this will be used when each
+baseline schedule is attached:
+
+```java
+BaselineStrategy myStrategy = new MyBaselineStratgey();
+ProjectFile main = new UniversalProjectReader().read("main.pp");
+main.getProjectConfig().setBaselineStrategy(myStrategy);
+
+ProjectFile baseline1 = new UniversalProjectReader().read("baseline1.pp");
+ProjectFile baseline2 = new UniversalProjectReader().read("baseline2.pp");
+
+main.setBaseline(baseline1, 1);
+main.setBaseline(baseline2, 2);
+```

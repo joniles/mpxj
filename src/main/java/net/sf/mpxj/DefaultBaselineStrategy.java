@@ -125,6 +125,8 @@ public class DefaultBaselineStrategy implements BaselineStrategy
       return SOURCE_FIELDS;
    }
 
+   public static final DefaultBaselineStrategy INSTANCE = new DefaultBaselineStrategy();
+
    private static final TaskField[] SOURCE_FIELDS =
    {
       TaskField.COST,

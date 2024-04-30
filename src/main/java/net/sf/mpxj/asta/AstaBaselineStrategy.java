@@ -29,8 +29,16 @@ import net.sf.mpxj.Task;
 /**
  * Strategy used to assign baselines for Asta schedules.
  */
-public class AstaBaselineStrategy extends DefaultBaselineStrategy
+public final class AstaBaselineStrategy extends DefaultBaselineStrategy
 {
+   /**
+    * Private constructor.
+    */
+   private AstaBaselineStrategy()
+   {
+
+   }
+
    @Override protected Object getKeyForTask(Task task)
    {
       // It looks like Powerproject uses a single ID generator for all entities,
@@ -38,4 +46,6 @@ public class AstaBaselineStrategy extends DefaultBaselineStrategy
       // To be on the safe side we'll build a key which includes the summary and milestone flags.
       return task.getUniqueID() + ":" + task.getSummary() + ":" + task.getMilestone();
    }
+
+   public static final AstaBaselineStrategy INSTANCE = new AstaBaselineStrategy();
 }
