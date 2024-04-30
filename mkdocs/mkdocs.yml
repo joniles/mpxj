@@ -77,6 +77,7 @@ nav:
       - 'Fields': 'howto-use-fields.md'
       - 'External Projects': 'howto-use-external-projects.md'
       - 'Universal Project Reader': 'howto-use-universal.md'
+      - 'Baselines': 'howto-use-baselines.md'
   - 'Field Guides...':
     - 'Field Guide': 'field-guide.md'
     - 'MPP Field Guide': 'mpp-field-guide.md'

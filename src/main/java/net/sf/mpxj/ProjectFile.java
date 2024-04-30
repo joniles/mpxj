@@ -654,6 +654,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * Retrieve the default baseline project.
+    *
+    * @return ProjectFile instance or null
+    */
+   public ProjectFile getBaseline()
+   {
+      return getBaseline(0);
+   }
+
+   /**
     * Store the supplied project as baselineN, and use it to set the
     * baselineN cost, duration, finish, fixed cost accrual, fixed cost, start and
     * work attributes for the tasks in the current project.
@@ -675,6 +685,22 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * Retrieve baselineN from Baseline, Baseline1, Baseline2 ... Baseline10.
+    * Returns null if the specified baseline has not been set.
+    *
+    * @param index 0-10 representing Baseline, Baseline1, Baseline2 ... Baseline10
+    * @return ProjectFile instance or null
+    */
+   public ProjectFile getBaseline(int index)
+   {
+      if (index < 0 || index >= m_baselines.length)
+      {
+         throw new IllegalArgumentException(index + " is not a valid baseline index");
+      }
+      return m_baselines[index];
+   }
+
+   /**
     * Clear the default baseline for this project.
     */
    public void clearBaseline()
@@ -689,7 +715,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public void clearBaseline(int index)
    {
-      new DefaultBaselineStrategy().clearBaseline(this, index);
+      m_config.getBaselineStrategy().clearBaseline(this, index);
    }
 
    /**
