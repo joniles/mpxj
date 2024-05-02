@@ -681,6 +681,15 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       }
 
       m_baselines[index] = baseline;
+      if (index == 0)
+      {
+         m_properties.setBaselineDate(baseline.getProjectProperties().getCreationDate());
+      }
+      else
+      {
+         m_properties.setBaselineDate(index, baseline.getProjectProperties().getCreationDate());
+      }
+
       m_config.getBaselineStrategy().populateBaseline(this, baseline, index);
    }
 
