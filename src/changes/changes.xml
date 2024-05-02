@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.9.4">
+			<action dev="joniles" type="update">When a baseline is added using one of the `ProjectFile.setBaseline` methods, ensure that the relevant baseline date is set in `ProjectProperties`.</action>
 		</release>
 		<release date="2024-04-24" version="12.9.3">
 			<action dev="joniles" type="update">Improve handling of non-standard timestamp formats in XER files.</action>
