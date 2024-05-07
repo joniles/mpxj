@@ -155,20 +155,42 @@ public final class JsonWriter extends AbstractProjectWriter
     * Retrieve the encoding to used when writing the JSON file.
     *
     * @return encoding
+    * @deprecated use getCharset
     */
-   public Charset getEncoding()
+   @Deprecated public Charset getEncoding()
    {
-      return m_encoding;
+      return m_charset;
    }
 
    /**
     * Set the encoding to used when writing the JSON file.
     *
-    * @param encoding encoding to use
+    * @param charset encoding to use
+    * @deprecated use setCharset
     */
-   public void setEncoding(Charset encoding)
+   @Deprecated public void setEncoding(Charset charset)
    {
-      m_encoding = encoding;
+      m_charset = charset;
+   }
+
+   /**
+    * Retrieve the charset to used when writing the JSON file.
+    *
+    * @return charset
+    */
+   public Charset getCharset()
+   {
+      return m_charset;
+   }
+
+   /**
+    * Set the charset to used when writing the JSON file.
+    *
+    * @param charset charset to use
+    */
+   public void setCharset(Charset charset)
+   {
+      m_charset = charset;
    }
 
    /**
@@ -217,7 +239,7 @@ public final class JsonWriter extends AbstractProjectWriter
       try
       {
          m_projectFile = projectFile;
-         m_writer = new JsonStreamWriter(stream, m_encoding);
+         m_writer = new JsonStreamWriter(stream, m_charset);
          m_writer.setPretty(m_pretty);
 
          m_writer.writeStartObject(null);
@@ -1866,11 +1888,11 @@ public final class JsonWriter extends AbstractProjectWriter
    private JsonStreamWriter m_writer;
    private boolean m_pretty;
    private boolean m_includeLayoutData;
-   private Charset m_encoding = DEFAULT_ENCODING;
+   private Charset m_charset = DEFAULT_CHARSET;
    private boolean m_writeAttributeTypes;
    private TimeUnit m_timeUnits;
 
-   private static final Charset DEFAULT_ENCODING = CharsetHelper.UTF8;
+   private static final Charset DEFAULT_CHARSET = CharsetHelper.UTF8;
 
    private static final Map<String, DataType> TYPE_MAP = new HashMap<>();
    static
