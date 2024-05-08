@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.sf.mpxj.FieldType;
+import net.sf.mpxj.HasCharset;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ProjectFile;
@@ -58,7 +59,7 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
 /**
  * This class creates a new ProjectFile instance by reading a Primavera XER file.
  */
-public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
+public final class PrimaveraXERFileReader extends AbstractProjectStreamReader implements HasCharset
 {
    /**
     * Set the ID of the project to be read.
@@ -86,7 +87,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     *
     * @param charset Charset used when reading the file
     */
-   @Override public void setCharset(Charset charset)
+   @SuppressWarnings("deprecation") @Override public void setCharset(Charset charset)
    {
       m_charset = charset;
    }
@@ -96,7 +97,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader
     *
     * @return Charset instance
     */
-   private Charset getCharset()
+   @Override public Charset getCharset()
    {
       Charset result = m_charset;
       if (result == null)

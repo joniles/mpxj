@@ -32,6 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.mpxj.HasCharset;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.AbstractProjectStreamReader;
@@ -39,7 +40,7 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
 /**
  * Read the contents of an SDEF file.
  */
-public final class SDEFReader extends AbstractProjectStreamReader
+public final class SDEFReader extends AbstractProjectStreamReader implements HasCharset
 {
    /**
     * Set the character set used when reading an SDEF file.
@@ -48,7 +49,7 @@ public final class SDEFReader extends AbstractProjectStreamReader
     *
     * @param charset character set to use when reading the file
     */
-   @Override public void setCharset(Charset charset)
+   @SuppressWarnings("deprecation") @Override public void setCharset(Charset charset)
    {
       m_charset = charset;
    }

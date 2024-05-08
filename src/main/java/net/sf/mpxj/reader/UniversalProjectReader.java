@@ -39,6 +39,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
+import net.sf.mpxj.HasCharset;
 import net.sf.mpxj.common.ConnectionHelper;
 import net.sf.mpxj.openplan.OpenPlanReader;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
@@ -1015,7 +1016,10 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    @SuppressWarnings("deprecation") private <T extends ProjectReader> T configure(T reader)
    {
-      reader.setCharset(m_charset);
+      if (reader instanceof HasCharset)
+      {
+         ((HasCharset)reader).setCharset(m_charset);
+      }
       reader.setProperties(m_properties);
       addListenersToReader(reader);
       return reader;

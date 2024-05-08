@@ -124,5 +124,5 @@ public interface ProjectReader
     *
     * @param charset encoding to use when reading a file
     */
-   public void setCharset(Charset charset);
+   @Deprecated public void setCharset(Charset charset);
 }
