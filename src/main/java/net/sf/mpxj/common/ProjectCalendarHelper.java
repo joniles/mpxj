@@ -111,28 +111,11 @@ public final class ProjectCalendarHelper
     *
     * @param calendar calendar to process
     * @return expanded exceptions, including working weeks
+    * @deprecated use ProjectCalendar.getExpandedCalendarExceptionsWithWorkWeeks
     */
-   public static List<ProjectCalendarException> getExpandedExceptionsWithWorkWeeks(ProjectCalendar calendar)
+   @Deprecated public static List<ProjectCalendarException> getExpandedExceptionsWithWorkWeeks(ProjectCalendar calendar)
    {
-      List<ProjectCalendarException> result;
-
-      if (calendar.getWorkWeeks().isEmpty())
-      {
-         result = calendar.getExpandedCalendarExceptions();
-      }
-      else
-      {
-         ProjectCalendar temporaryCalendar = new TemporaryCalendar(calendar.getParentFile());
-         ProjectCalendarHelper.mergeExceptions(temporaryCalendar, calendar.getCalendarExceptions());
-         for (ProjectCalendarWeek week : calendar.getWorkWeeks())
-         {
-            ProjectCalendarHelper.mergeExceptions(temporaryCalendar, week.convertToRecurringExceptions(calendar));
-         }
-
-         result = temporaryCalendar.getExpandedCalendarExceptions();
-      }
-
-      return result;
+      return calendar.getExpandedCalendarExceptionsWithWorkWeeks();
    }
 
    /**

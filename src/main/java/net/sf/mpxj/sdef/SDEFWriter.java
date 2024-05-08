@@ -201,7 +201,7 @@ public final class SDEFWriter extends AbstractProjectWriter
    {
       for (ProjectCalendar record : records)
       {
-         List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(record);
+         List<ProjectCalendarException> expandedExceptions = record.getExpandedCalendarExceptionsWithWorkWeeks();
          if (!expandedExceptions.isEmpty())
          {
             List<String> formattedExceptions = new ArrayList<>();

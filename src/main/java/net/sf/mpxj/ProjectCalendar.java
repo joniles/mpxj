@@ -47,6 +47,7 @@ import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.LocalTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
+import net.sf.mpxj.common.ProjectCalendarHelper;
 
 /**
  * This class represents a Calendar Definition record. Both base calendars
@@ -419,6 +420,34 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    {
       populateExpandedExceptions();
       return Collections.unmodifiableList(m_expandedExceptions);
+   }
+
+   /**
+    * Expand any exceptions in the calendar, and include any working weeks
+    * defined by this calendar as exceptions. This is typically used to communicate
+    * working time accurately when the consuming application does not have the concept
+    * of working weeks.
+    *
+    * @return List of calendar exceptions representing exceptions and working weeks
+    */
+   public List<ProjectCalendarException> getExpandedCalendarExceptionsWithWorkWeeks()
+   {
+      if (m_workWeeks.isEmpty())
+      {
+         return getExpandedCalendarExceptions();
+      }
+
+      ProjectCalendar temporaryCalendar = new TemporaryCalendar(getParentFile());
+      ProjectCalendarHelper.mergeExceptions(temporaryCalendar, getCalendarExceptions());
+      LocalDate earliestStartDate = LocalDateHelper.getLocalDate(m_projectFile.getEarliestStartDate());
+      LocalDate latestFinishDate = LocalDateHelper.getLocalDate(m_projectFile.getLatestFinishDate());
+
+      for (ProjectCalendarWeek week : getWorkWeeks())
+      {
+         ProjectCalendarHelper.mergeExceptions(temporaryCalendar, week.convertToRecurringExceptions(earliestStartDate, latestFinishDate));
+      }
+
+      return temporaryCalendar.getExpandedCalendarExceptions();
    }
 
    /**

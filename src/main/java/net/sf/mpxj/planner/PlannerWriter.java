@@ -337,7 +337,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private void processExceptionDays(ProjectCalendar mpxjCalendar, List<net.sf.mpxj.planner.schema.Day> dayList)
    {
-      List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxjCalendar);
+      List<ProjectCalendarException> expandedExceptions = mpxjCalendar.getExpandedCalendarExceptionsWithWorkWeeks();
       for (ProjectCalendarException mpxjCalendarException : expandedExceptions)
       {
          LocalDate rangeStartDay = mpxjCalendarException.getFromDate();
