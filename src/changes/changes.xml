@@ -11,6 +11,7 @@
 			<action dev="joniles" type="update">Marked the `PlannerWriter` methods `setEncoding` and `getEncoding` as deprecated, use `setCharset` and `getCharset` instead.</action>
 			<action dev="joniles" type="update">Marked the `PrimaveraXERFileWriter` method `setEncoding` as deprecated, use `setCharset` instead.</action>
 			<action dev="joniles" type="update">Marked the `ProjectCalendarHelper` method `getExpandedExceptionsWithWorkWeeks` as deprecated, use `ProjectCalendar.getExpandedCalendarExceptionsWithWorkWeeks` instead.</action>
+			<action dev="joniles" type="update">Marked the `ProjectReader` method `setCharset` as deprecated. Readers which support setting the Chraset now implement the `HasCharset` interface, which includes Charset getter and setter methods.</action>
 		</release>
 		<release date="2024-04-24" version="12.9.3">
 			<action dev="joniles" type="update">Improve handling of non-standard timestamp formats in XER files.</action>
