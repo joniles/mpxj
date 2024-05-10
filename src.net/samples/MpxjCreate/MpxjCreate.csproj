@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MpxjSample</RootNamespace>
     <AssemblyName>MpxjCreate</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="commons-collections4-4.4">
@@ -126,8 +128,8 @@
     <Reference Include="IKVM.Runtime.JNI">
       <HintPath>..\..\lib\net45\IKVM.Runtime.JNI.dll</HintPath>
     </Reference>
-    <Reference Include="jsoup-1.15.1">
-      <HintPath>..\..\lib\net45\jsoup-1.15.1.dll</HintPath>
+    <Reference Include="jsoup-1.15.3">
+      <HintPath>..\..\lib\net45\jsoup-1.15.3.dll</HintPath>
     </Reference>
     <Reference Include="log4j-api-2.17.2">
       <HintPath>..\..\lib\net45\log4j-api-2.17.2.dll</HintPath>
@@ -155,6 +157,9 @@
   <ItemGroup>
     <Compile Include="MpxjCreate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
