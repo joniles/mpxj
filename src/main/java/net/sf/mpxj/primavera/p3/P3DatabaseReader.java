@@ -466,8 +466,7 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
             Relation relation = successor.addPredecessor(new Relation.Builder()
                .targetTask(predecessor)
                .type(row.getRelationType("LAG_TYPE"))
-               .lag(row.getDuration("LAG_VALUE"))
-            );
+               .lag(row.getDuration("LAG_VALUE")));
 
             m_eventManager.fireRelationReadEvent(relation);
          }

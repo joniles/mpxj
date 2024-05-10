@@ -131,7 +131,7 @@ final class PrimaveraReader
       config.setAutoAssignmentUniqueID(false);
       config.setAutoWBS(false);
       config.setAutoRelationUniqueID(false);
-      config.setBaselineStrategy(PrimaveraBaselineStrategy.PLANNED_DATES);
+      config.setBaselineStrategy(PrimaveraBaselineStrategy.PLANNED_ATTRIBUTES);
 
       m_resourceFields = resourceFields;
       m_roleFields = roleFields;
@@ -232,9 +232,7 @@ final class PrimaveraReader
                .postalCode(row.getString("postal_code"))
                .latitude(row.getDouble("latitude"))
                .longitude(row.getDouble("longitude"))
-               .build()
-         )
-      );
+               .build()));
    }
 
    /**
@@ -1703,8 +1701,7 @@ final class PrimaveraReader
                .type(type)
                .lag(lag)
                .uniqueID(uniqueID)
-               .notes(comments)
-            );
+               .notes(comments));
 
             m_eventManager.fireRelationReadEvent(relation);
          }

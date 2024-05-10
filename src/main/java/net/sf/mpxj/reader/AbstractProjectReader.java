@@ -104,7 +104,7 @@ public abstract class AbstractProjectReader implements ProjectReader
     * Default "do nothing" implementation, as most readers do not need
     * to be provided with an explicit encoding.
     */
-   @Override public void setCharset(Charset charset)
+   @Deprecated @Override public void setCharset(Charset charset)
    {
       // default implementation - do nothing
    }

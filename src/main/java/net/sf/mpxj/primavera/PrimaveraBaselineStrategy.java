@@ -32,6 +32,9 @@ import net.sf.mpxj.TaskField;
  */
 public final class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
 {
+   /**
+    * Private constructor.
+    */
    private PrimaveraBaselineStrategy(TaskField[] sourceFields)
    {
       m_sourceFields = sourceFields;
@@ -54,7 +57,10 @@ public final class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
 
    private final TaskField[] m_sourceFields;
 
-   public static final PrimaveraBaselineStrategy PLANNED_DATES = new PrimaveraBaselineStrategy(new TaskField[]
+   /**
+    * @deprecated use PLANNED_ATTRIBUTES
+    */
+   @Deprecated public static final PrimaveraBaselineStrategy PLANNED_DATES = new PrimaveraBaselineStrategy(new TaskField[]
    {
       TaskField.PLANNED_COST,
       TaskField.PLANNED_DURATION,
@@ -65,7 +71,32 @@ public final class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
       TaskField.PLANNED_WORK
    });
 
-   public static final PrimaveraBaselineStrategy CURRENT_DATES = new PrimaveraBaselineStrategy(new TaskField[]
+   /**
+    * @deprecated use CURRENT_ATTRIBUTES
+    */
+   @Deprecated public static final PrimaveraBaselineStrategy CURRENT_DATES = new PrimaveraBaselineStrategy(new TaskField[]
+   {
+      TaskField.COST,
+      TaskField.DURATION,
+      TaskField.FINISH,
+      TaskField.FIXED_COST_ACCRUAL,
+      TaskField.FIXED_COST,
+      TaskField.START,
+      TaskField.WORK
+   });
+
+   public static final PrimaveraBaselineStrategy PLANNED_ATTRIBUTES = new PrimaveraBaselineStrategy(new TaskField[]
+   {
+      TaskField.PLANNED_COST,
+      TaskField.PLANNED_DURATION,
+      TaskField.PLANNED_FINISH,
+      TaskField.FIXED_COST_ACCRUAL,
+      TaskField.FIXED_COST,
+      TaskField.PLANNED_START,
+      TaskField.PLANNED_WORK
+   });
+
+   public static final PrimaveraBaselineStrategy CURRENT_ATTRIBUTES = new PrimaveraBaselineStrategy(new TaskField[]
    {
       TaskField.COST,
       TaskField.DURATION,

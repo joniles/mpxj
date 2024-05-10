@@ -892,8 +892,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
          successor.addPredecessor(new Relation.Builder()
             .targetTask(predecessor)
             .type(relation.getType())
-            .lag(relation.getLag())
-         );
+            .lag(relation.getLag()));
       }
    }
 

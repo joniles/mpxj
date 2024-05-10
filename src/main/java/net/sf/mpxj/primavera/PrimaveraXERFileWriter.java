@@ -98,8 +98,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     * Sets the character encoding used when writing an XER file.
     *
     * @param encoding encoding name
+    * @deprecated use setCharset instead
     */
-   public void setEncoding(String encoding)
+   @Deprecated public void setEncoding(String encoding)
    {
       m_encoding = encoding;
    }
@@ -113,6 +114,22 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    public void setCharset(Charset charset)
    {
       m_charset = charset;
+   }
+
+   /**
+    * Retrieve the Charset used to write the file.
+    *
+    * @return Charset instance
+    */
+   public Charset getCharset()
+   {
+      if (m_charset != null)
+      {
+         return m_charset;
+      }
+
+      // We default to CP1252 as this seems to be the most common encoding
+      return m_encoding == null ? CharsetHelper.CP1252 : Charset.forName(m_encoding);
    }
 
    @Override public void write(ProjectFile projectFile, OutputStream outputStream) throws IOException
@@ -170,22 +187,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          revertWbsHierarchyChange();
          m_writer = null;
       }
-   }
-
-   /**
-    * Retrieve the Charset used to write the file.
-    *
-    * @return Charset instance
-    */
-   private Charset getCharset()
-   {
-      Charset result = m_charset;
-      if (result == null)
-      {
-         // We default to CP1252 as this seems to be the most common encoding
-         result = m_encoding == null ? CharsetHelper.CP1252 : Charset.forName(m_encoding);
-      }
-      return result;
    }
 
    /**
@@ -934,10 +935,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static boolean locationIsCity(Location location)
    {
       return location.getCity() != null && !location.getCity().isEmpty() &&
-         location.getState() != null && !location.getState().isEmpty() &&
-         location.getStateCode() != null && !location.getStateCode().isEmpty() &&
-         location.getCountry() != null && !location.getCountry().isEmpty() &&
-         location.getCountryCode() != null && !location.getCountryCode().isEmpty();
+               location.getState() != null && !location.getState().isEmpty() &&
+               location.getStateCode() != null && !location.getStateCode().isEmpty() &&
+               location.getCountry() != null && !location.getCountry().isEmpty() &&
+               location.getCountryCode() != null && !location.getCountryCode().isEmpty();
    }
 
    private static Integer getProjectID(Integer id)

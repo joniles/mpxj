@@ -262,8 +262,7 @@ public final class SageReader extends AbstractProjectStreamReader
       task.addPredecessor(new Relation.Builder()
          .targetTask(predecessor)
          .type(parseRelationType(columns, 2))
-         .lag(parseDuration(columns, 3))
-      );
+         .lag(parseDuration(columns, 3)));
    }
 
    /**

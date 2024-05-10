@@ -778,7 +778,7 @@ final class PrimaveraPMProjectWriter
       HolidayOrExceptions xmlExceptions = m_factory.createCalendarTypeHolidayOrExceptions();
       xml.setHolidayOrExceptions(xmlExceptions);
 
-      List<ProjectCalendarException> expandedExceptions = net.sf.mpxj.common.ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxj);
+      List<ProjectCalendarException> expandedExceptions = mpxj.getExpandedCalendarExceptionsWithWorkWeeks();
       if (!expandedExceptions.isEmpty())
       {
          Set<LocalDate> exceptionDates = new HashSet<>();

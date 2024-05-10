@@ -103,7 +103,7 @@ final class AstaReader
       config.setAutoAssignmentUniqueID(false);
       config.setAutoCalendarUniqueID(false);
       config.setAutoRelationUniqueID(false);
-      config.setBaselineStrategy(new AstaBaselineStrategy());
+      config.setBaselineStrategy(AstaBaselineStrategy.INSTANCE);
 
       m_project.getProjectProperties().setFileApplication("Asta");
       m_project.getProjectProperties().setFileType("PP");
@@ -1130,8 +1130,7 @@ final class AstaReader
                .targetTask(startTask)
                .type(type)
                .lag(lag)
-               .uniqueID(row.getInteger("LINKID"))
-            );
+               .uniqueID(row.getInteger("LINKID")));
 
             // resolve indeterminate constraint for successor tasks
             if (m_deferredConstraintType.contains(endTask.getUniqueID()))

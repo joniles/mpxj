@@ -399,7 +399,7 @@ public final class MPXWriter extends AbstractProjectWriter
          }
       }
 
-      List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(record);
+      List<ProjectCalendarException> expandedExceptions = record.getExpandedCalendarExceptionsWithWorkWeeks();
       if (!expandedExceptions.isEmpty())
       {
          //

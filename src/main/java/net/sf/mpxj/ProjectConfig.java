@@ -512,7 +512,7 @@ public class ProjectConfig
     */
    private boolean m_completeThroughIsNextWorkStart;
 
-   private BaselineStrategy m_baselineStrategy = new DefaultBaselineStrategy();
+   private BaselineStrategy m_baselineStrategy = DefaultBaselineStrategy.INSTANCE;
 
    private File m_subprojectWorkingDirectory;
 }

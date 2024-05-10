@@ -49,6 +49,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.ChildTaskContainer;
+import net.sf.mpxj.HasCharset;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.LocalDateRange;
 import net.sf.mpxj.LocalTimeRange;
@@ -120,7 +121,7 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
 /**
  * This class creates a new ProjectFile instance by reading an MSPDI file.
  */
-public final class MSPDIReader extends AbstractProjectStreamReader
+public final class MSPDIReader extends AbstractProjectStreamReader implements HasCharset
 {
    /**
     * Sets the character encoding used when reading an MSPDI file.
@@ -138,7 +139,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @param charset Charset used when reading the file
     */
-   @Override public void setCharset(Charset charset)
+   @SuppressWarnings("deprecation") @Override public void setCharset(Charset charset)
    {
       m_charset = charset;
    }
@@ -148,7 +149,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
     *
     * @return Charset instance
     */
-   private Charset getCharset()
+   @Override public Charset getCharset()
    {
       Charset result = m_charset;
       if (result == null)
@@ -1757,8 +1758,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader
       Relation relation = currTask.addPredecessor(new Relation.Builder()
          .targetTask(prevTask)
          .type(type)
-         .lag(lagDuration)
-      );
+         .lag(lagDuration));
 
       m_eventManager.fireRelationReadEvent(relation);
    }

@@ -523,8 +523,7 @@ public final class PlannerReader extends AbstractProjectStreamReader
                Relation relation = mpxjTask.addPredecessor(new Relation.Builder()
                   .targetTask(predecessorTask)
                   .type(RELATIONSHIP_TYPES.get(predecessor.getType()))
-                  .lag(getLagDuration(predecessor.getLag()))
-               );
+                  .lag(getLagDuration(predecessor.getLag())));
                m_eventManager.fireRelationReadEvent(relation);
             }
          }

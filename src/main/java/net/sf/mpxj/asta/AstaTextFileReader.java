@@ -393,7 +393,6 @@ public final class AstaTextFileReader extends AbstractProjectStreamReader
 
    private static final char DELIMITER = ',';
 
-   private static final RowComparator CALENDAR_COMPARATOR = new RowComparator("CALENDARID");
    private static final RowComparator PERMANENT_RESOURCE_COMPARATOR = new RowComparator("PERMANENT_RESOURCEID");
    private static final RowComparator CONSUMABLE_RESOURCE_COMPARATOR = new RowComparator("CONSUMABLE_RESOURCEID");
    private static final RowComparator LINK_COMPARATOR = new RowComparator("LINKID");

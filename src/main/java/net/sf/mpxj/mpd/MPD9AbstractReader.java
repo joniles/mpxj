@@ -1474,8 +1474,7 @@ abstract class MPD9AbstractReader
             .targetTask(predecessorTask)
             .type(RelationType.getInstance(row.getInt("LINK_TYPE")))
             .lag(MPDUtility.getDuration(row.getDouble("LINK_LAG").doubleValue(), MPDUtility.getDurationTimeUnits(row.getInt("LINK_LAG_FMT"))))
-            .uniqueID(row.getInteger("LINK_UID"))
-         );
+            .uniqueID(row.getInteger("LINK_UID")));
          m_eventManager.fireRelationReadEvent(relation);
       }
    }

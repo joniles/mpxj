@@ -25,6 +25,7 @@ package net.sf.mpxj.planner;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -104,9 +105,9 @@ public final class PlannerWriter extends AbstractProjectWriter
 
          Marshaller marshaller = MarshallerHelper.create(CONTEXT);
          marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-         if (m_encoding != null)
+         if (m_charset != null)
          {
-            marshaller.setProperty(Marshaller.JAXB_ENCODING, m_encoding);
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, m_charset.name());
          }
 
          //
@@ -336,7 +337,7 @@ public final class PlannerWriter extends AbstractProjectWriter
     */
    private void processExceptionDays(ProjectCalendar mpxjCalendar, List<net.sf.mpxj.planner.schema.Day> dayList)
    {
-      List<ProjectCalendarException> expandedExceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxjCalendar);
+      List<ProjectCalendarException> expandedExceptions = mpxjCalendar.getExpandedCalendarExceptionsWithWorkWeeks();
       for (ProjectCalendarException mpxjCalendarException : expandedExceptions)
       {
          LocalDate rangeStartDay = mpxjCalendarException.getFromDate();
@@ -934,10 +935,11 @@ public final class PlannerWriter extends AbstractProjectWriter
     * Set the encoding used to write the file. By default, UTF-8 is used.
     *
     * @param encoding encoding name
+    * @deprecated use setCharset
     */
-   public void setEncoding(String encoding)
+   @Deprecated public void setEncoding(String encoding)
    {
-      m_encoding = encoding;
+      m_charset = Charset.forName(encoding);
    }
 
    /**
@@ -945,13 +947,35 @@ public final class PlannerWriter extends AbstractProjectWriter
     * UTF-8 is used.
     *
     * @return encoding name
+    * @deprecated use getCharset
     */
-   public String getEncoding()
+   @Deprecated public String getEncoding()
    {
-      return m_encoding;
+      return m_charset == null ? null : m_charset.name();
    }
 
-   private String m_encoding;
+   /**
+    * Set the charset used to write the file. By default, UTF-8 is used.
+    *
+    * @param charset charset
+    */
+   public void setCharset(Charset charset)
+   {
+      m_charset = charset;
+   }
+
+   /**
+    * Retrieve the charset used to write the file. If this value is null,
+    * UTF-8 is used.
+    *
+    * @return charset
+    */
+   public Charset getCharset()
+   {
+      return m_charset;
+   }
+
+   private Charset m_charset;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private ObjectFactory m_factory;

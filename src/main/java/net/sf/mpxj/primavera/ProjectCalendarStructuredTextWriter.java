@@ -102,7 +102,7 @@ class ProjectCalendarStructuredTextWriter
       int exceptionIndex = 0;
       Set<LocalDate> exceptionDates = new HashSet<>();
 
-      List<ProjectCalendarException> exceptions = net.sf.mpxj.common.ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(calendar);
+      List<ProjectCalendarException> exceptions = calendar.getExpandedCalendarExceptionsWithWorkWeeks();
       for (ProjectCalendarException exception : exceptions)
       {
          LocalDate currentDate = exception.getFromDate();

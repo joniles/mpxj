@@ -419,8 +419,7 @@ public final class SynchroReader extends AbstractProjectStreamReader
          Relation relation = task.addPredecessor(new Relation.Builder()
             .targetTask(predecessor)
             .type(row.getRelationType("RELATION_TYPE"))
-            .lag(row.getDuration("LAG"))
-         );
+            .lag(row.getDuration("LAG")));
          m_eventManager.fireRelationReadEvent(relation);
       }
    }

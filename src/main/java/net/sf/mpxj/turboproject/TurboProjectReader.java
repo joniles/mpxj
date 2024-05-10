@@ -399,8 +399,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
             Relation relation = task2.addPredecessor(new Relation.Builder()
                .targetTask(task1)
                .type(row.getRelationType("TYPE"))
-               .lag(row.getDuration("LAG"))
-            );
+               .lag(row.getDuration("LAG")));
 
             m_eventManager.fireRelationReadEvent(relation);
          }

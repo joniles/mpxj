@@ -751,7 +751,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeExceptions9(ProjectCalendar mpxjCalendar, List<Project.Calendars.Calendar.WeekDays.WeekDay> dayList)
    {
-      List<ProjectCalendarException> exceptions = ProjectCalendarHelper.getExpandedExceptionsWithWorkWeeks(mpxjCalendar);
+      List<ProjectCalendarException> exceptions = mpxjCalendar.getExpandedCalendarExceptionsWithWorkWeeks();
 
       // Exceptions in an MSPDI file need to be sorted, or they are ignored.
       // Expanded exceptions from a calendar are sorted by default.
