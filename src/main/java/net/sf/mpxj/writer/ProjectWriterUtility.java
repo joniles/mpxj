@@ -37,10 +37,8 @@ import net.sf.mpxj.sdef.SDEFWriter;
 
 /**
  * This class contains utility methods for working with ProjectWriters.
- *
- * @deprecated use UniversalProjectWriter
  */
-@Deprecated public final class ProjectWriterUtility
+public final class ProjectWriterUtility
 {
    /**
     * Constructor.
@@ -56,8 +54,9 @@ import net.sf.mpxj.sdef.SDEFWriter;
     *
     * @param name file name
     * @return ProjectWriter instance
+    * @deprecated use UniversalProjectWriter
     */
-   public static ProjectWriter getProjectWriter(String name) throws InstantiationException, IllegalAccessException
+   @Deprecated public static ProjectWriter getProjectWriter(String name) throws InstantiationException, IllegalAccessException
    {
       int index = name.lastIndexOf('.');
       if (index == -1)
@@ -81,8 +80,9 @@ import net.sf.mpxj.sdef.SDEFWriter;
     * getProjectWriter method.
     *
     * @return set of file extensions
+    * @deprecated use UniversalProjectWriter
     */
-   public static Set<String> getSupportedFileExtensions()
+   @Deprecated public static Set<String> getSupportedFileExtensions()
    {
       return (WRITER_MAP.keySet());
    }
