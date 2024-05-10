@@ -177,9 +177,9 @@ task6.setPercentageComplete(Double.valueOf(100.0))
 task6.setActualStart(df.parse("01/01/2003"))
 
 # Write the file
-from net.sf.mpxj.writer import ProjectWriterUtility
-writer = ProjectWriterUtility.getProjectWriter(filename)
-writer.write(file, filename)
+from net.sf.mpxj.writer import FileFormat
+from net.sf.mpxj.writer import UniversalProjectWriter
+UniversalProjectWriter().withFormat(fileformat).write(file, filename)
 
 jpype.shutdownJVM()
 ```

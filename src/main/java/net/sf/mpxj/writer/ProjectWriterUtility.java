@@ -37,8 +37,10 @@ import net.sf.mpxj.sdef.SDEFWriter;
 
 /**
  * This class contains utility methods for working with ProjectWriters.
+ *
+ * @deprecated use UniversalProjectWriter
  */
-public final class ProjectWriterUtility
+@Deprecated public final class ProjectWriterUtility
 {
    /**
     * Constructor.
@@ -57,7 +59,6 @@ public final class ProjectWriterUtility
     */
    public static ProjectWriter getProjectWriter(String name) throws InstantiationException, IllegalAccessException
    {
-      // TODO: deprecate for next major release and simplify exceptions in method signature
       int index = name.lastIndexOf('.');
       if (index == -1)
       {

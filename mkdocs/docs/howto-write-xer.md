@@ -7,15 +7,18 @@ The sample code below illustrates how to write data to an XER file.
 
 ```java
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
+import net.sf.mpxj.writer.FileFormat;
+import net.sf.mpxj.writer.UniversalProjectWriter;
 
 // ...
 
-PrimaveraXERFileWriter writer = new PrimaveraXERFileWriter();
-writer.write(projectFile, outputFileName);
+new UniversalProjectWriter().withFormat(FileFormat.XER).write(project, fileName);
 ```
 
 ## Using PrimaveraXERFileWriter
+
+If required, the `PrimaveraXERFileWriter` class can be used directly, which
+provides access to additional options, as described below.
 
 ### Encoding
 By default XER files written by MPXJ are encoded using the Windows-1252

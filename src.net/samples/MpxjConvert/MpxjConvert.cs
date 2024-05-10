@@ -14,14 +14,14 @@ namespace MpxjSample
         {
           try
           {
-             if (args.Length != 2)
+             if (args.Length != 3)
              {
-                Console.Out.WriteLine ("Usage: MpxjConvert <input file name> <output file name>");
+                Console.Out.WriteLine ("Usage: MpxjConvert <input file name> <output format> <output file name>");
              }
              else
              {
                 MpxjConvert convert = new MpxjConvert();
-                convert.process(args[0], args[1]);
+                convert.process(args[0], FileFormat.valueOf(args[1]), args[3]);
              }
           }
 
@@ -31,7 +31,7 @@ namespace MpxjSample
           }
         }
 
-        public void process (string inputFile, string outputFile)
+        public void process (string inputFile, FileFormat outputFormat, string outputFile)
         {
             Console.Out.WriteLine("Reading input file started.");
             DateTime start = DateTime.Now;
@@ -41,8 +41,7 @@ namespace MpxjSample
 
             Console.Out.WriteLine("Writing output file started.");
             start = DateTime.Now;
-            ProjectWriter writer = ProjectWriterUtility.getProjectWriter(outputFile);
-            writer.write(projectFile, outputFile);
+            new UniversalProjectWriter().withFormat(outputFormat).write(projectFile, outputFile);
             elapsed = DateTime.Now - start;
             Console.Out.WriteLine("Writing output completed in " + elapsed.TotalMilliseconds + "ms.");
         }

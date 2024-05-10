@@ -15,14 +15,14 @@ namespace MpxjSample
         {
             try
             {
-                if (args.Length != 1)
+                if (args.Length != 2)
                 {
-                    Console.Out.WriteLine("Usage: MpxjCreate <output file name>");
+                    Console.Out.WriteLine("Usage: MpxjCreate <output format> <output file name>");
                 }
                 else
                 {
                     MpxjCreate create = new MpxjCreate();
-                    create.process(args[0]);
+                    create.Process(FileFormat.valueOf(args[0]), args[1]);
                 }
             }
 
@@ -32,7 +32,7 @@ namespace MpxjSample
             }
         }
 
-        public void process(string filename)
+        public void Process(FileFormat format, string filename)
         {
             //
             // Create a ProjectFile instance
@@ -188,9 +188,7 @@ namespace MpxjSample
             //
             // Write the file
             //
-            ProjectWriter writer = ProjectWriterUtility.getProjectWriter(filename);
-            writer.write(file, filename);
-
+            new UniversalProjectWriter().withFormat(format).write(file, filename);
         }
 
         private java.util.Date ParseDate(string date)

@@ -7,15 +7,18 @@ The sample code below illustrates how to write data to a PMXML file.
 
 ```java
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
+import net.sf.mpxj.writer.FileFormat;
+import net.sf.mpxj.writer.UniversalProjectWriter;
 
 // ...
 
-PrimaveraPMFileWriter writer = new PrimaveraPMFileWriter();
-writer.write(projectFile, outputFileName);
+new UniversalProjectWriter().withFormat(FileFormat.PMXML).write(project, fileName);
 ```
 
 ## Using PrimaveraPMFileWriter
+
+If required, the `PrimaveraPMFileWriter` class can be used directly, which
+provides access to additional options, as described below.
 
 ### Baselines
 

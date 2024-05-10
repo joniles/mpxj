@@ -11,16 +11,18 @@ The sample code below illustrates how to write data to an SDEF file.
 
 ```java
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.sdef.SDEFWriter;
+import net.sf.mpxj.writer.FileFormat;
+import net.sf.mpxj.writer.UniversalProjectWriter;
 
 // ...
 
-SDEFWriter writer = new SDEFWriter();
-writer.write(projectFile, outputFileName);
+new UniversalProjectWriter().withFormat(FileFormat.SDEF).write(project, fileName);
 ```
 
-
 ## Using SDEFWriter
+
+If required, the `SDEFWriter` class can be used directly, which
+provides access to additional options, as described below.
 
 ### Charset
 By default SDEF files are written using the `US_ASCII` charset. The `setCharset`

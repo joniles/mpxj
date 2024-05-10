@@ -25,6 +25,8 @@ package net.sf.mpxj.sample;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.CustomField;
@@ -42,8 +44,8 @@ import net.sf.mpxj.TaskField;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
-import net.sf.mpxj.writer.ProjectWriter;
-import net.sf.mpxj.writer.ProjectWriterUtility;
+import net.sf.mpxj.writer.FileFormat;
+import net.sf.mpxj.writer.UniversalProjectWriter;
 
 /**
  * This example illustrates creation of an MPX or an MSPDI file from scratch.
@@ -62,13 +64,14 @@ public class MpxjCreate
    {
       try
       {
-         if (args.length != 1)
+         if (args.length != 2)
          {
-            System.out.println("Usage: MpxCreate <output file name>");
+            System.out.println("Usage: MpxCreate <output file format> <output file name>");
+            System.out.println("(valid output file format values: " + Arrays.stream(FileFormat.values()).map(Enum::name).collect(Collectors.joining(", ")) + ")");
          }
          else
          {
-            create(args[0]);
+            create(FileFormat.valueOf(args[0]), args[1]);
          }
       }
 
@@ -86,9 +89,10 @@ public class MpxjCreate
     * to assign resources to tasks, the resources must appear in the
     * file before the tasks.
     *
+    * @param format output format
     * @param filename output file name
     */
-   private static void create(String filename) throws Exception
+   private static void create(FileFormat format, String filename) throws Exception
    {
       //
       // Create a ProjectFile instance
@@ -264,7 +268,6 @@ public class MpxjCreate
       //
       // Write the file
       //
-      ProjectWriter writer = ProjectWriterUtility.getProjectWriter(filename);
-      writer.write(file, filename);
+      new UniversalProjectWriter().withFormat(format).write(file, filename);
    }
 }

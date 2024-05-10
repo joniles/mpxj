@@ -46,11 +46,11 @@ using java.text;
 using net.sf.mpxj;
 using net.sf.mpxj.writer;
 
-// The helper class we use later to actually write the file
-// selects the file type based on the extension of the
-// filename. In the example below we'll be generating an MSPDI
+// In the example below we'll be generating an MSPDI
 // file which we can import into Microsoft Project.
 var filename = "example.xml";
+var fileformat = FileFormat.MSPDI;
+
 
 // Create a simple date format to allow us to easily set date values.
 var df = new SimpleDateFormat("dd/MM/yyyy");
@@ -174,6 +174,5 @@ task6.setPercentageComplete(java.lang.Double.valueOf(100.0));
 task6.setActualStart(df.parse("01/01/2003"));
 
 // Write the file
-var writer = ProjectWriterUtility.getProjectWriter(filename);
-writer.write(file, filename);
+new UniversalProjectWriter().withFormat(fileformat).write(file, filename);
 ```
