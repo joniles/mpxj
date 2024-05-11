@@ -6,7 +6,7 @@ class which matches the format you want to convert to.
 
 MPXJ can do a lot of the work for you, as the example below illustrates. The
 `UniversalProjectReader` will detect the type of schedule being read and handle
-it accordingly. The `UinversalProjectWriter` class manages the individual
+it accordingly. The `UniversalProjectWriter` class manages the individual
 writer classes for you, taking an argument representing the type of file you
 want to write.
 
