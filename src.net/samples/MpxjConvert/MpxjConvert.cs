@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using net.sf.mpxj;
 using net.sf.mpxj.reader;
 using net.sf.mpxj.writer;
@@ -18,7 +20,7 @@ namespace MpxjSample
              else
              {
                 MpxjConvert convert = new MpxjConvert();
-                convert.Process(args[0],  args[1]);
+                convert.process(args[0],  args[1]);
              }
           }
 
@@ -28,7 +30,7 @@ namespace MpxjSample
           }
         }
 
-        public void Process (string inputFile, string outputFile)
+        public void process (string inputFile, string outputFile)
         {
             Console.Out.WriteLine("Reading input file started.");
             DateTime start = DateTime.Now;
@@ -36,11 +38,39 @@ namespace MpxjSample
             TimeSpan elapsed = DateTime.Now - start;
             Console.Out.WriteLine("Reading input file completed in " + elapsed.TotalMilliseconds + "ms.");
 
+            if (projectFile == null)
+            {
+                throw new ArgumentException("Unsupported file type");
+            }
+
+            var extension = Path.GetExtension(outputFile);
+            if (extension == null || extension == "")
+            {
+                throw new ArgumentException($"Filename has no extension {outputFile}");
+            }
+
+            FileFormatMap.TryGetValue(extension, out var format);
+            if (format == null)
+            {
+                throw new ArgumentException($"Cannot write files of type: {extension}");
+            }
+
             Console.Out.WriteLine("Writing output file started.");
             start = DateTime.Now;
-            new UniversalProjectWriter().withFormat(outputFormat).write(projectFile, outputFile);
+            new UniversalProjectWriter().withFormat(format).write(projectFile, outputFile);
             elapsed = DateTime.Now - start;
             Console.Out.WriteLine("Writing output completed in " + elapsed.TotalMilliseconds + "ms.");
         }
+
+        private static readonly Dictionary<string, FileFormat> FileFormatMap = new Dictionary<string, FileFormat>()
+        {
+            { "MPX", FileFormat.MPX },
+            { "XML", FileFormat.MSPDI },
+            { "PMXML", FileFormat.PMXML },
+            { "PLANNER", FileFormat.PLANNER },
+            { "JSON", FileFormat.JSON },
+            { "SDEF", FileFormat.SDEF },
+            { "XER", FileFormat.XER }
+        };
     }
 }
