@@ -68,7 +68,7 @@ public class LocaleTest
       File out = Files.createTempFile("junit-" + locale.getLanguage(), ".mpx").toFile();
       writer.setLocale(locale);
       writer.write(mpx, out);
-      writer.setUseLocaleDefaults(true);
+
       reader.setLocale(locale);
       reader.read(out);
       out.deleteOnExit();
