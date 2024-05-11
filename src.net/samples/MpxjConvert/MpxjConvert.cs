@@ -20,7 +20,7 @@ namespace MpxjSample
              else
              {
                 MpxjConvert convert = new MpxjConvert();
-                convert.process(args[0],  args[1]);
+                convert.process(args[0], args[1]);
              }
           }
 
