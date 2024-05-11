@@ -23,22 +23,12 @@
 
 package net.sf.mpxj.sample;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.json.JsonWriter;
-import net.sf.mpxj.mpx.MPXWriter;
-import net.sf.mpxj.mspdi.MSPDIWriter;
-import net.sf.mpxj.planner.PlannerWriter;
-import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
-import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
 import net.sf.mpxj.reader.UniversalProjectReader;
-import net.sf.mpxj.sdef.SDEFWriter;
 import net.sf.mpxj.writer.FileFormat;
-import net.sf.mpxj.writer.ProjectWriter;
 import net.sf.mpxj.writer.UniversalProjectWriter;
 
 /**
@@ -107,7 +97,7 @@ public final class MpxjConvert
       }
 
       String extension = outputFile.substring(index + 1).toUpperCase();
-      FileFormat outputFormat = WRITER_MAP.get(extension);
+      FileFormat outputFormat = FILE_FORMAT_MAP.get(extension);
       if (extension == null)
       {
          throw new IllegalArgumentException("Cannot write files of type: " + extension);
@@ -120,15 +110,15 @@ public final class MpxjConvert
       System.out.println("Writing output completed in " + elapsed + "ms.");
    }
 
-   private static final Map<String, FileFormat> WRITER_MAP = new HashMap<>();
+   private static final Map<String, FileFormat> FILE_FORMAT_MAP = new HashMap<>();
    static
    {
-      WRITER_MAP.put("MPX", FileFormat.MPX);
-      WRITER_MAP.put("XML", FileFormat.MSPDI);
-      WRITER_MAP.put("PMXML", FileFormat.PMXML);
-      WRITER_MAP.put("PLANNER", FileFormat.PLANNER);
-      WRITER_MAP.put("JSON", FileFormat.JSON);
-      WRITER_MAP.put("SDEF", FileFormat.SDEF);
-      WRITER_MAP.put("XER", FileFormat.XER);
+      FILE_FORMAT_MAP.put("MPX", FileFormat.MPX);
+      FILE_FORMAT_MAP.put("XML", FileFormat.MSPDI);
+      FILE_FORMAT_MAP.put("PMXML", FileFormat.PMXML);
+      FILE_FORMAT_MAP.put("PLANNER", FileFormat.PLANNER);
+      FILE_FORMAT_MAP.put("JSON", FileFormat.JSON);
+      FILE_FORMAT_MAP.put("SDEF", FileFormat.SDEF);
+      FILE_FORMAT_MAP.put("XER", FileFormat.XER);
    }
 }
