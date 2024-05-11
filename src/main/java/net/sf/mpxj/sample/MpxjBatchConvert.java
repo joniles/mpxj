@@ -24,10 +24,6 @@
 package net.sf.mpxj.sample;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
-import net.sf.mpxj.writer.FileFormat;
 
 /**
  * This is a general utility designed to multiple files in one directory
@@ -44,18 +40,16 @@ public final class MpxjBatchConvert
    {
       try
       {
-         if (args.length != 5)
+         if (args.length != 4)
          {
-            System.out.println("Usage: MpxjBatchConvert <source directory> <source suffix> <target directory> <target format> <target suffix>");
-            System.out.println("(valid target format values: " + Arrays.stream(FileFormat.values()).map(Enum::name).collect(Collectors.joining(", ")) + ")");
+            System.out.println("Usage: MpxjBatchConvert <source directory> <source suffix> <target directory> <target suffix>");
          }
          else
          {
             File sourceDirectory = new File(args[0]);
             final String sourceSuffix = args[1];
             String targetDirectory = args[2];
-            FileFormat targetFormat = FileFormat.valueOf(args[3]);
-            String targetSuffix = args[4];
+            String targetSuffix = args[3];
 
             File[] fileList = sourceDirectory.listFiles(pathname -> pathname.getName().endsWith(sourceSuffix));
 
@@ -67,7 +61,7 @@ public final class MpxjBatchConvert
                   String oldName = file.getName();
                   String newName = oldName.substring(0, oldName.length() - sourceSuffix.length()) + targetSuffix;
                   File newFile = new File(targetDirectory, newName);
-                  convert.process(file.getCanonicalPath(), targetFormat, newFile.getCanonicalPath());
+                  convert.process(file.getCanonicalPath(), newFile.getCanonicalPath());
                }
             }
          }

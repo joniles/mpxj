@@ -14,13 +14,13 @@ formats. In this case the example shows a schedule file being read and
 re-written as a JSON file ready to be consumed by another  application.
 
 ```bat
-path\to\mpxj\script\run.bat net.sf.mpxj.sample.MpxjConvert myfile.mpp JSON myfile.json
+path\to\mpxj\script\run.bat net.sf.mpxj.sample.MpxjConvert myfile.mpp myfile.json
 ```
 
 The same example again, but using the shell script:
 
 ```sh
-path/to/mpxj/script/run.sh net.sf.mpxj.sample.MpxjConvert myfile.mpp JSON myfile.json
+path/to/mpxj/script/run.sh net.sf.mpxj.sample.MpxjConvert myfile.mpp myfile.json
 ```
 Note: these scripts assume that you have a version of Java installed and available
 on the path.

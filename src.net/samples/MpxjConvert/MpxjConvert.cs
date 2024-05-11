@@ -11,14 +11,14 @@ namespace MpxjSample
         {
           try
           {
-             if (args.Length != 3)
+             if (args.Length != 2)
              {
-                Console.Out.WriteLine ("Usage: MpxjConvert <input file name> <output format> <output file name>");
+                Console.Out.WriteLine ("Usage: MpxjConvert <input file name> <output file name>");
              }
              else
              {
                 MpxjConvert convert = new MpxjConvert();
-                convert.Process(args[0], FileFormat.valueOf(args[1]), args[2]);
+                convert.Process(args[0],  args[1]);
              }
           }
 
@@ -28,7 +28,7 @@ namespace MpxjSample
           }
         }
 
-        public void Process (string inputFile, FileFormat outputFormat, string outputFile)
+        public void Process (string inputFile, string outputFile)
         {
             Console.Out.WriteLine("Reading input file started.");
             DateTime start = DateTime.Now;

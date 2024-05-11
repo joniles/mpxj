@@ -20,9 +20,8 @@ built-in utilities provided by MPXJ for tasks like file format conversion:
 
 ```c#
 using net.sf.mpxj.sample;
-using net.sf.mpxj.writer;
 
-new MpxjConvert().process("example.mpp", FileFormat.MPX, "example.mpx");
+new MpxjConvert().process("example.mpp", "example.mpx");
 ```
 
 or you can interact directly with the object model exposed by MPXJ to extract data:
