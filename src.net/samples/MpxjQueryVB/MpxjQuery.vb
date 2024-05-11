@@ -363,7 +363,7 @@ Module MpxjQuery
     ''' <param name="javaObject"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Private Function ToString(javaObject As java.util.Date)
+    Private Function ToString(javaObject As java.time.LocalDateTime)
         Dim result As String
         If javaObject Is Nothing Then
             result = "null"

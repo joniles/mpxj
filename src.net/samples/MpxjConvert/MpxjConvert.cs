@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using net.sf.mpxj;
 using net.sf.mpxj.reader;
 using net.sf.mpxj.writer;
@@ -21,7 +18,7 @@ namespace MpxjSample
              else
              {
                 MpxjConvert convert = new MpxjConvert();
-                convert.process(args[0], FileFormat.valueOf(args[1]), args[3]);
+                convert.Process(args[0], FileFormat.valueOf(args[1]), args[2]);
              }
           }
 
@@ -31,7 +28,7 @@ namespace MpxjSample
           }
         }
 
-        public void process (string inputFile, FileFormat outputFormat, string outputFile)
+        public void Process (string inputFile, FileFormat outputFormat, string outputFile)
         {
             Console.Out.WriteLine("Reading input file started.");
             DateTime start = DateTime.Now;
