@@ -185,7 +185,7 @@ namespace MpxjSample
             //
             // Write the file
             //
-            new UniversalProjectWriter().withFormat(format).write(file, filename);
+            new UniversalProjectWriter(format).write(file, filename);
         }
 
         private java.time.LocalDateTime ParseLocalDateTime(string date)

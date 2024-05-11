@@ -43,21 +43,18 @@ import net.sf.mpxj.sdef.SDEFWriter;
  * Provides a wrapper around the writer classes implemented by MPXJ
  * to simplify their use.
  * <p/>
- * For example: {@code new UniversalProjectWriter.withFormat(ProjectWriterFileFormat.MPX).write(projectFile, fileName)}
+ * For example: {@code new UniversalProjectWriter(ProjectWriterFileFormat.MPX).write(projectFile, fileName)}
  */
 public final class UniversalProjectWriter implements ProjectWriter
 {
    /**
-    * Call this method to set the desired file format.
-    * Returns this instance to allow method chaining.
+    * Constructor.
     *
-    * @param format require format
-    * @return this instance
+    * @param format desired file format
     */
-   public ProjectWriter withFormat(FileFormat format)
+   public UniversalProjectWriter(FileFormat format)
    {
       m_format = format;
-      return this;
    }
 
    @Override public void write(ProjectFile projectFile, String fileName) throws IOException
@@ -91,7 +88,7 @@ public final class UniversalProjectWriter implements ProjectWriter
       return supplier.get();
    }
 
-   private FileFormat m_format;
+   private final FileFormat m_format;
 
    private static final Map<FileFormat, Supplier<ProjectWriter>> WRITER_MAP = new HashMap<>();
    static

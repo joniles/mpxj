@@ -24,7 +24,7 @@ want to write.
         public void convert(String inputFile, FileFormat format, String outputFile) throws Exception
         {
             ProjectFile projectFile = new UniversalProjectReader().read(inputFile);
-            new UniversalProjectWriter().withFormat(format).write(projectFile, outputFile);
+            new UniversalProjectWriter(format).write(projectFile, outputFile);
         }
     }
 	```
@@ -41,7 +41,7 @@ want to write.
         public void Convert(string inputFile, FileFormat format, string outputFile)
         {
             var projectFile = new UniversalProjectReader().read(inputFile);
-            new UniversalProjectWriter().withFormat(format).write(projectFile, outputFile);
+            new UniversalProjectWriter(format).write(projectFile, outputFile);
         }
     }
 	```
@@ -59,7 +59,7 @@ want to write.
 
 	def convert(input_file, format, output_file):
 		project_file = UniversalProjectReader().read(input_file);
-		UniversalProjectWriter().withFormat(format).write(project_file, output_file);
+		UniversalProjectWriter(format).write(project_file, output_file);
 	
 	jpype.shutdownJVM()
 	```

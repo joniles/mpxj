@@ -178,7 +178,7 @@ task6.setActualStart(df.parse("01/01/2003"))
 
 # Write the file
 from net.sf.mpxj.writer import UniversalProjectWriter
-UniversalProjectWriter().withFormat(fileformat).write(file, filename)
+UniversalProjectWriter(fileformat).write(file, filename)
 
 jpype.shutdownJVM()
 ```

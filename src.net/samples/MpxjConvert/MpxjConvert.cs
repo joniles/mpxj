@@ -57,7 +57,7 @@ namespace MpxjSample
 
             Console.Out.WriteLine("Writing output file started.");
             start = DateTime.Now;
-            new UniversalProjectWriter().withFormat(format).write(projectFile, outputFile);
+            new UniversalProjectWriter(format).write(projectFile, outputFile);
             elapsed = DateTime.Now - start;
             Console.Out.WriteLine("Writing output completed in " + elapsed.TotalMilliseconds + "ms.");
         }

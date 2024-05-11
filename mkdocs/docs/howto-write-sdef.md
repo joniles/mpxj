@@ -16,7 +16,7 @@ import net.sf.mpxj.writer.UniversalProjectWriter;
 
 // ...
 
-new UniversalProjectWriter().withFormat(FileFormat.SDEF).write(project, fileName);
+new UniversalProjectWriter(FileFormat.SDEF).write(project, fileName);
 ```
 
 ## Using SDEFWriter

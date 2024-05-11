@@ -13,7 +13,7 @@ import net.sf.mpxj.writer.UniversalProjectWriter;
 
 // ...
 
-new UniversalProjectWriter().withFormat(FileFormat.PLANNER).write(project, fileName);
+new UniversalProjectWriter(FileFormat.PLANNER).write(project, fileName);
 ```
 
 ## Using PlannerWriter

@@ -182,5 +182,5 @@ task6.PercentageComplete = java.lang.Double.valueOf(100.0)
 task6.ActualStart = df.parse("01/01/2003")
 
 ' Write the file
-New UniversalProjectWriter().withFormat(fileformat).write(file, filename)
+New UniversalProjectWriter(fileformat).write(file, filename)
 ```

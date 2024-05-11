@@ -105,7 +105,7 @@ public final class MpxjConvert
 
       System.out.println("Writing output file started.");
       start = System.currentTimeMillis();
-      new UniversalProjectWriter().withFormat(outputFormat).write(projectFile, outputFile);
+      new UniversalProjectWriter(outputFormat).write(projectFile, outputFile);
       elapsed = System.currentTimeMillis() - start;
       System.out.println("Writing output completed in " + elapsed + "ms.");
    }

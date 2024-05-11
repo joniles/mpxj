@@ -12,7 +12,7 @@ import net.sf.mpxj.writer.UniversalProjectWriter;
 
 // ...
 
-new UniversalProjectWriter().withFormat(FileFormat.PMXML).write(project, fileName);
+new UniversalProjectWriter(FileFormat.PMXML).write(project, fileName);
 ```
 
 ## Using PrimaveraPMFileWriter

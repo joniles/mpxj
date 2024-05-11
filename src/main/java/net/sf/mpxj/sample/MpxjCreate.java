@@ -268,6 +268,6 @@ public class MpxjCreate
       //
       // Write the file
       //
-      new UniversalProjectWriter().withFormat(format).write(file, filename);
+      new UniversalProjectWriter(format).write(file, filename);
    }
 }

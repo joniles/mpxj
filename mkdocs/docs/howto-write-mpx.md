@@ -15,7 +15,7 @@ import net.sf.mpxj.writer.UniversalProjectWriter;
 
 // ...
 
-new UniversalProjectWriter().withFormat(FileFormat.MPX).write(project, fileName);
+new UniversalProjectWriter(FileFormat.MPX).write(project, fileName);
 ```
 
 ## Using MPXWriter

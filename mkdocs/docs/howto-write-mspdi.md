@@ -12,7 +12,7 @@ import net.sf.mpxj.writer.UniversalProjectWriter;
 
 // ...
 
-new UniversalProjectWriter().withFormat(FileFormat.MSPDI).write(project, fileName);
+new UniversalProjectWriter(FileFormat.MSPDI).write(project, fileName);
 ```
 
 ## Using MSPDIWriter
