@@ -23,8 +23,9 @@ built-in utilities provided by MPXJ for tasks like file format conversion:
 
 ```vbnet
 Imports net.sf.mpxj.sample
+Imports net.sf.mpxj.writer
 
-New MpxjConvert().process("example.mpp", "example.mpx")
+New MpxjConvert().process("example.mpp", FileFormat.MPX, "example.mpx")
 ```
 
 or you can interact directly with the object model exposed by MPXJ to extract data:

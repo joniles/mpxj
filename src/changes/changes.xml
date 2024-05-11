@@ -13,7 +13,7 @@
 			<action dev="joniles" type="update">Marked the `ProjectCalendarHelper` method `getExpandedExceptionsWithWorkWeeks` as deprecated, use `ProjectCalendar.getExpandedCalendarExceptionsWithWorkWeeks` instead.</action>
 			<action dev="joniles" type="update">Marked the `ProjectReader` method `setCharset` as deprecated. Readers which support setting the Chraset now implement the `HasCharset` interface, which includes Charset getter and setter methods.</action>
 
-			<action dev="joniles" type="update">Implemented the `UniversalProjectWriter` class. This complements the `UniversalProjectReader` class and provides a simple way for MPXJ users to write project files without having to be concerned with details of the individual `ProjectWriter` classes. This class wil replace </action>
+			<action dev="joniles" type="update">Implemented the `UniversalProjectWriter` class. This complements the `UniversalProjectReader` class and provides a simple way for MPXJ users to write project files without having to be concerned with details of the individual `ProjectWriter` classes. This is intended to replace `ProjectWriterUtility` </action>
 		</release>
 		<release date="2024-04-24" version="12.9.3">
 			<action dev="joniles" type="update">Improve handling of non-standard timestamp formats in XER files.</action>
