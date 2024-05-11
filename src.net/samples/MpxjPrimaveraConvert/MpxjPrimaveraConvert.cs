@@ -38,7 +38,7 @@ namespace MpxjSample
           {
              if (args.Length != 4)
              {
-                 Console.Out.WriteLine("Usage: MpxjPrimaveraConvert <JDBC connection string> <project ID> <output file name>");
+                 Console.Out.WriteLine("Usage: MpxjPrimaveraConvert <JDBC connection string> <project ID> <output file format> <output file name>");
              }
              else
              {
