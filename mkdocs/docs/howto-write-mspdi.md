@@ -16,7 +16,6 @@ new UniversalProjectWriter().withFormat(FileFormat.MSPDI).write(project, fileNam
 ```
 
 ## Using MSPDIWriter
-
 If required, the `MSPDIWriter` class can be used directly, which provides access
 to additional options, as described below.
 

@@ -3,6 +3,7 @@ XER files have been imported and exported by Primavera software since the
 earliest days of P6 and this format is still often the preferred way to
 move schedule data between instances of P6 even today.
 
+## Writing XER files
 The sample code below illustrates how to write data to an XER file.
 
 ```java
@@ -16,7 +17,6 @@ new UniversalProjectWriter().withFormat(FileFormat.XER).write(project, fileName)
 ```
 
 ## Using PrimaveraXERFileWriter
-
 If required, the `PrimaveraXERFileWriter` class can be used directly, which
 provides access to additional options, as described below.
 
