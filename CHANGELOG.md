@@ -1,12 +1,6 @@
 # Changelog
 
 ## 12.9.4 (unreleased)
-* When a baseline is added using one of the `ProjectFile.setBaseline` methods, ensure that the relevant baseline date is set in `ProjectProperties`.
-* Marked the `JsonWriter` methods `setEncoding` and `getEncoding` as deprecated, use `setCharset` and `getCharset` instead.
-* Marked the `PlannerWriter` methods `setEncoding` and `getEncoding` as deprecated, use `setCharset` and `getCharset` instead.
-* Marked the `PrimaveraXERFileWriter` method `setEncoding` as deprecated, use `setCharset` instead.
-* Marked the `ProjectCalendarHelper` method `getExpandedExceptionsWithWorkWeeks` as deprecated, use `ProjectCalendar.getExpandedCalendarExceptionsWithWorkWeeks` instead.
-* Marked the `ProjectReader` method `setCharset` as deprecated. Readers which support setting the Chraset now implement the `HasCharset` interface, which includes Charset getter and setter methods.
 
 ## 12.9.3 (2024-04-24)
 * Improve handling of non-standard timestamp formats in XER files.
