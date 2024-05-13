@@ -54,10 +54,10 @@ public final class ProjectWriterUtility
     *
     * @param name file name
     * @return ProjectWriter instance
+    * @deprecated use UniversalProjectWriter
     */
-   public static ProjectWriter getProjectWriter(String name) throws InstantiationException, IllegalAccessException
+   @Deprecated public static ProjectWriter getProjectWriter(String name) throws InstantiationException, IllegalAccessException
    {
-      // TODO: deprecate for next major release and simplify exceptions in method signature
       int index = name.lastIndexOf('.');
       if (index == -1)
       {
@@ -80,8 +80,9 @@ public final class ProjectWriterUtility
     * getProjectWriter method.
     *
     * @return set of file extensions
+    * @deprecated use UniversalProjectWriter
     */
-   public static Set<String> getSupportedFileExtensions()
+   @Deprecated public static Set<String> getSupportedFileExtensions()
    {
       return (WRITER_MAP.keySet());
    }

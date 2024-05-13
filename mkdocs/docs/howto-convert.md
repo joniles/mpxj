@@ -6,59 +6,44 @@ class which matches the format you want to convert to.
 
 MPXJ can do a lot of the work for you, as the example below illustrates. The
 `UniversalProjectReader` will detect the type of schedule being read and handle
-it accordingly. The `ProjectWriterUtility` will use the extension of the output
-file to determine the type of file written.
-
-The extensions recognised by the `ProjectWriterUtility` class are:
-
-* MPX
-* XML (writes an MSPDI file)
-* PMXML
-* PLANNER
-* JSON
-* SDEF
-* XER
+it accordingly. The `UniversalProjectWriter` class manages the individual
+writer classes for you, taking an argument representing the type of file you
+want to write.
 
 === "Java"
 	```java
-	package org.mpxj.howto.convert;
-	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.reader.UniversalProjectReader;
-	import net.sf.mpxj.writer.ProjectWriter;
-	import net.sf.mpxj.writer.ProjectWriterUtility;
-	
-	public class ConvertUniversal
-	{
-	   	public void convert(String inputFile, String outputFile) throws Exception
-	   	{
-	      	UniversalProjectReader reader = new UniversalProjectReader();
-	      	ProjectFile projectFile = reader.read(inputFile);
-		
-	      	ProjectWriter writer = ProjectWriterUtility.getProjectWriter(outputFile);
-	      	writer.write(projectFile, outputFile);
-	   	}
-	}
+    package org.mpxj.howto.convert;
+
+    import net.sf.mpxj.ProjectFile;
+    import net.sf.mpxj.reader.UniversalProjectReader;
+    import net.sf.mpxj.writer.FileFormat;
+    import net.sf.mpxj.writer.UniversalProjectWriter;
+
+    public class ConvertUniversal
+    {
+        public void convert(String inputFile, FileFormat format, String outputFile) throws Exception
+        {
+            ProjectFile projectFile = new UniversalProjectReader().read(inputFile);
+            new UniversalProjectWriter(format).write(projectFile, outputFile);
+        }
+    }
 	```
 
 === "C#"
 	```c#
-	using net.sf.mpxj.reader;
-	using net.sf.mpxj.writer;
-	
-	namespace MpxjSamples.HowToConvert;
-	
-	public class ConvertUniversal
-	{
-		public void Convert(string inputFile, string outputFile)
-		{
-        	var reader = new UniversalProjectReader();
-        	var projectFile = reader.read(inputFile);
-	
-        	var writer = ProjectWriterUtility.getProjectWriter(outputFile);
-        	writer.write(projectFile, outputFile);
-    	}
-	}
+    using net.sf.mpxj.reader;
+    using net.sf.mpxj.writer;
+
+    namespace MpxjSamples.HowToConvert;
+
+    public class ConvertUniversal
+    {
+        public void Convert(string inputFile, FileFormat format, string outputFile)
+        {
+            var projectFile = new UniversalProjectReader().read(inputFile);
+            new UniversalProjectWriter(format).write(projectFile, outputFile);
+        }
+    }
 	```
 
 === "Python"
@@ -69,13 +54,12 @@ The extensions recognised by the `ProjectWriterUtility` class are:
 	jpype.startJVM()
 	
 	from net.sf.mpxj.reader import UniversalProjectReader
-	from net.sf.mpxj.writer import ProjectWriterUtility
-	
-	def convert(input_file, output_file):
-		reader = UniversalProjectReader();
-		project_file = reader.read(input_file);
-		writer = ProjectWriterUtility.getProjectWriter(output_file);
-		writer.write(project_file, output_file);
+	from net.sf.mpxj.writer import FileFormat
+	from net.sf.mpxj.writer import UniversalProjectWriter
+
+	def convert(input_file, format, output_file):
+		project_file = UniversalProjectReader().read(input_file);
+		UniversalProjectWriter(format).write(project_file, output_file);
 	
 	jpype.shutdownJVM()
 	```

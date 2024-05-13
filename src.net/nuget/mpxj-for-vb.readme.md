@@ -49,11 +49,10 @@ Imports java.text
 Imports net.sf.mpxj
 Imports net.sf.mpxj.writer
 
-' The helper class we use later to actually write the file
-' selects the file type based on the extension of the
-' filename. In the example below we'll be generating an MSPDI
+' In the example below we'll be generating an MSPDI
 ' file which we can import into Microsoft Project.
-Dim filename = "/Users/joniles/Downloads/test.xml"
+Dim filename = "example.xml"
+Dim fileformat = FileFormat.MSPDI
 
 ' Create a simple date format to allow us to easily set date values.
 Dim df = New SimpleDateFormat("dd/MM/yyyy")
@@ -183,6 +182,5 @@ task6.PercentageComplete = java.lang.Double.valueOf(100.0)
 task6.ActualStart = df.parse("01/01/2003")
 
 ' Write the file
-Dim writer = ProjectWriterUtility.getProjectWriter(filename)
-writer.write(file, filename)
+New UniversalProjectWriter(fileformat).write(file, filename)
 ```
