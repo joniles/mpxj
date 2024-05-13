@@ -1,6 +1,16 @@
 # Changelog
 
-## 12.9.4 (unreleased)
+## 12.10.1 (unreleased)
+
+## 12.10.0 (2024-05-13)
+* When a baseline is added using one of the `ProjectFile.setBaseline` methods, ensure that the relevant baseline date is set in `ProjectProperties`.
+* Marked the `JsonWriter` methods `setEncoding` and `getEncoding` as deprecated, use `setCharset` and `getCharset` instead.
+* Marked the `PlannerWriter` methods `setEncoding` and `getEncoding` as deprecated, use `setCharset` and `getCharset` instead.
+* Marked the `PrimaveraXERFileWriter` method `setEncoding` as deprecated, use `setCharset` instead.
+* Marked the `ProjectCalendarHelper` method `getExpandedExceptionsWithWorkWeeks` as deprecated, use `ProjectCalendar.getExpandedCalendarExceptionsWithWorkWeeks` instead.
+* Marked the `ProjectReader` method `setCharset` as deprecated. Readers which support setting the Chraset now implement the `HasCharset` interface, which includes Charset getter and setter methods.
+* Implemented the `UniversalProjectWriter` class. This complements the `UniversalProjectReader` class by providing a simple way for MPXJ users to write project files without having to be concerned with details of the individual `ProjectWriter` classes. This is intended to replace the `ProjectWriterUtility` class. Note that the `ProjectWriterUtility` has a somewhat brittle mechanism to determine the output file format from the supplied output file name. This is not replicated by `UniversalProjectWriter`, users are expected to provide their own code to determine the appropriate file format.
+* Marked the `ProjectWriterUtility` class as deprecated.
 
 ## 12.9.3 (2024-04-24)
 * Improve handling of non-standard timestamp formats in XER files.

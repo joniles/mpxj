@@ -9,7 +9,7 @@
 	<artifactId>mpxj</artifactId>
 
 	<!-- Note - this is automatically updated by the ant build ... don't remove the MPXJ comment! -->
-	<!-- MPXJ --><version>12.9.3</version>
+	<!-- MPXJ --><version>12.10.0</version>
 
 	<name>MPXJ</name>
 	<url>http://mpxj.org</url>
@@ -443,10 +443,18 @@
 						<goals>
 							<goal>test-jar</goal>
 						</goals>
+						<configuration>
+							<archive>
+								<manifestEntries>
+									<!-- Ensure the tests jar has a different automatic module name from the main jar. -->
+									<!-- This allows IkvmMaven to generate both assemblies and give them different DLLs names -->
+									<Automatic-Module-Name>mpxjtests</Automatic-Module-Name>
+								</manifestEntries>
+							</archive>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 
