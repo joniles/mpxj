@@ -34,6 +34,8 @@ public final class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
 {
    /**
     * Private constructor.
+    * 
+    * @param sourceFields baseline source fields
     */
    private PrimaveraBaselineStrategy(TaskField[] sourceFields)
    {
@@ -58,6 +60,8 @@ public final class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
    private final TaskField[] m_sourceFields;
 
    /**
+    * Planned attributes used for baselines.
+    * 
     * @deprecated use PLANNED_ATTRIBUTES
     */
    @Deprecated public static final PrimaveraBaselineStrategy PLANNED_DATES = new PrimaveraBaselineStrategy(new TaskField[]
@@ -72,6 +76,8 @@ public final class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
    });
 
    /**
+    * Current attributes used for baselines.
+    * 
     * @deprecated use CURRENT_ATTRIBUTES
     */
    @Deprecated public static final PrimaveraBaselineStrategy CURRENT_DATES = new PrimaveraBaselineStrategy(new TaskField[]

@@ -59,7 +59,7 @@ public final class SDEFReader extends AbstractProjectStreamReader implements Has
     *
     * @return character set
     */
-   public Charset getCharset()
+   @Override public Charset getCharset()
    {
       return m_charset == null ? StandardCharsets.US_ASCII : m_charset;
    }
