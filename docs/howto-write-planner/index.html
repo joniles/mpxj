@@ -1190,6 +1190,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Planner files
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1199,6 +1210,58 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#writing-planner-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing Planner files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-plannerwriter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using PlannerWriter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using PlannerWriter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#charset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Charset
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1586,6 +1649,47 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#writing-planner-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing Planner files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-plannerwriter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using PlannerWriter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using PlannerWriter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#charset" class="md-nav__link">
+    <span class="md-ellipsis">
+      Charset
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1603,13 +1707,29 @@
 <p><a href="https://wiki.gnome.org/Apps/Planner">Gnome Planner</a> is a simple cross platform planning tool. MPXJ can be used
 to write a schedule as a Planner file, which the Gnome Planner application
 can open.</p>
+<h2 id="writing-planner-files">Writing Planner files</h2>
 <p>The sample code below illustrates how to write data to a Planner file.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.FileFormat</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.UniversalProjectWriter</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectWriter</span><span class="p">(</span><span class="n">FileFormat</span><span class="p">.</span><span class="na">PLANNER</span><span class="p">).</span><span class="na">write</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">fileName</span><span class="p">);</span>
+</code></pre></div>
+<h2 id="using-plannerwriter">Using PlannerWriter</h2>
+<p>If required, the <code>PlannerWriter</code> class can be used directly, which provides
+access to additional options, as described below.</p>
+<h3 id="charset">Charset</h3>
+<p>The character set used to write a Planner file can be specified using the
+<code>setCharset</code> method, as illustrated below.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.planner.PlannerWriter</span><span class="p">;</span>
 
 <span class="c1">// ...</span>
 
 <span class="n">PlannerWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PlannerWriter</span><span class="p">();</span>
+<span class="n">writer</span><span class="p">.</span><span class="na">setCharset</span><span class="p">(</span><span class="n">Charset</span><span class="p">.</span><span class="na">forName</span><span class="p">(</span><span class="s">&quot;GB2312&quot;</span><span class="p">));</span>
 <span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFileName</span><span class="p">);</span>
 </code></pre></div>
 

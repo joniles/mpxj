@@ -1269,6 +1269,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#writing-pmxml-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing PMXML files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#using-primaverapmfilewriter" class="md-nav__link">
     <span class="md-ellipsis">
       Using PrimaveraPMFileWriter
@@ -1647,6 +1656,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#writing-pmxml-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing PMXML files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#using-primaverapmfilewriter" class="md-nav__link">
     <span class="md-ellipsis">
       Using PrimaveraPMFileWriter
@@ -1688,16 +1706,19 @@
 <h1 id="how-to-write-pmxml-files">How To: Write PMXML files</h1>
 <p>The XML file format supported by Primavera P6 for import and export is known as
 PMXML.</p>
+<h2 id="writing-pmxml-files">Writing PMXML files</h2>
 <p>The sample code below illustrates how to write data to a PMXML file.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraPMFileWriter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.FileFormat</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.UniversalProjectWriter</span><span class="p">;</span>
 
 <span class="c1">// ...</span>
 
-<span class="n">PrimaveraPMFileWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraPMFileWriter</span><span class="p">();</span>
-<span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFileName</span><span class="p">);</span>
+<span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectWriter</span><span class="p">(</span><span class="n">FileFormat</span><span class="p">.</span><span class="na">PMXML</span><span class="p">).</span><span class="na">write</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">fileName</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="using-primaverapmfilewriter">Using PrimaveraPMFileWriter</h2>
+<p>If required, the <code>PrimaveraPMFileWriter</code> class can be used directly, which
+provides access to additional options, as described below.</p>
 <h3 id="baselines">Baselines</h3>
 <p>By default baselines are not written to PMXML files. If the <code>ProjectFile</code>
 instance you are writing contains a baseline, this can be included in the PMXML

@@ -291,9 +291,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1294-unreleased" class="md-nav__link">
+  <a href="#12101-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      12.9.4 (unreleased)
+      12.10.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12100-2024-05-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.10.0 (2024-05-13)
     </span>
   </a>
   
@@ -3781,9 +3790,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1294-unreleased" class="md-nav__link">
+  <a href="#12101-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      12.9.4 (unreleased)
+      12.10.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12100-2024-05-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.10.0 (2024-05-13)
     </span>
   </a>
   
@@ -5956,7 +5974,18 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1294-unreleased">12.9.4 (unreleased)</h2>
+<h2 id="12101-unreleased">12.10.1 (unreleased)</h2>
+<h2 id="12100-2024-05-13">12.10.0 (2024-05-13)</h2>
+<ul>
+<li>When a baseline is added using one of the <code>ProjectFile.setBaseline</code> methods, ensure that the relevant baseline date is set in <code>ProjectProperties</code>.</li>
+<li>Marked the <code>JsonWriter</code> methods <code>setEncoding</code> and <code>getEncoding</code> as deprecated, use <code>setCharset</code> and <code>getCharset</code> instead.</li>
+<li>Marked the <code>PlannerWriter</code> methods <code>setEncoding</code> and <code>getEncoding</code> as deprecated, use <code>setCharset</code> and <code>getCharset</code> instead.</li>
+<li>Marked the <code>PrimaveraXERFileWriter</code> method <code>setEncoding</code> as deprecated, use <code>setCharset</code> instead.</li>
+<li>Marked the <code>ProjectCalendarHelper</code> method <code>getExpandedExceptionsWithWorkWeeks</code> as deprecated, use <code>ProjectCalendar.getExpandedCalendarExceptionsWithWorkWeeks</code> instead.</li>
+<li>Marked the <code>ProjectReader</code> method <code>setCharset</code> as deprecated. Readers which support setting the Chraset now implement the <code>HasCharset</code> interface, which includes Charset getter and setter methods.</li>
+<li>Implemented the <code>UniversalProjectWriter</code> class. This complements the <code>UniversalProjectReader</code> class by providing a simple way for MPXJ users to write project files without having to be concerned with details of the individual <code>ProjectWriter</code> classes. This is intended to replace the <code>ProjectWriterUtility</code> class. Note that the <code>ProjectWriterUtility</code> has a somewhat brittle mechanism to determine the output file format from the supplied output file name. This is not replicated by <code>UniversalProjectWriter</code>, users are expected to provide their own code to determine the appropriate file format.</li>
+<li>Marked the <code>ProjectWriterUtility</code> class as deprecated.</li>
+</ul>
 <h2 id="1293-2024-04-24">12.9.3 (2024-04-24)</h2>
 <ul>
 <li>Improve handling of non-standard timestamp formats in XER files.</li>

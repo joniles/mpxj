@@ -1148,6 +1148,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    MPX files
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1157,6 +1168,67 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#writing-mpx-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing MPX files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-mpxwriter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using MPXWriter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using MPXWriter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#locale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Locale
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#locale-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      Locale Defaults
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1586,6 +1658,56 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#writing-mpx-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing MPX files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-mpxwriter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using MPXWriter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using MPXWriter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#locale" class="md-nav__link">
+    <span class="md-ellipsis">
+      Locale
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#locale-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      Locale Defaults
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1605,13 +1727,50 @@ a data interchange format. Versions of Project after Project 98 until Project
 2010 can only read MPX files. Versions of Microsoft Project after 2010 cannot
 read MPX files. Other third party project planning applications continue to use
 MPX as a data interchange format.</p>
+<h2 id="writing-mpx-files">Writing MPX files</h2>
 <p>The sample code below illustrates how to write data to an MPX file.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.FileFormat</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.UniversalProjectWriter</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectWriter</span><span class="p">(</span><span class="n">FileFormat</span><span class="p">.</span><span class="na">MPX</span><span class="p">).</span><span class="na">write</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">fileName</span><span class="p">);</span>
+</code></pre></div>
+<h2 id="using-mpxwriter">Using MPXWriter</h2>
+<p>If required, the <code>MPXWriter</code> class can be used directly, which provides access
+to additional options, as described below.</p>
+<h3 id="locale">Locale</h3>
+<p>The MPX file format is actually locale specific, so in the example code below we
+can see that the writer is being asked to produce a file suitable for reading
+with a localized German version of Microsoft Project.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.mpx.MPXWriter</span><span class="p">;</span>
 
 <span class="c1">// ...</span>
 
 <span class="n">MPXWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MPXWriter</span><span class="p">();</span>
+<span class="n">writer</span><span class="p">.</span><span class="na">setLocale</span><span class="p">(</span><span class="n">Locale</span><span class="p">.</span><span class="na">GERMAN</span><span class="p">);</span>
+<span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFileName</span><span class="p">);</span>
+</code></pre></div>
+<p>The locales supported by the MPX writer class can be retrieved using
+the following call:</p>
+<div class="highlight"><pre><span></span><code><span class="n">MPXWriter</span><span class="p">.</span><span class="na">getSupportedLocales</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="locale-defaults">Locale Defaults</h3>
+<p>By default the MPX writer ignores the date, time, number and currency formats
+specified in the project properties and instead uses the defaults from the
+specified locale. Calling the <code>setUseLocaleDefaults</code> method and passing <code>false</code>
+ensures that the information present in the project properties is used instead
+of the locale defaults. This is illustrated in the sample code below:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.mpx.MPXWriter</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="n">MPXWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MPXWriter</span><span class="p">();</span>
+<span class="n">writer</span><span class="p">.</span><span class="na">setLocale</span><span class="p">(</span><span class="n">Locale</span><span class="p">.</span><span class="na">GERMAN</span><span class="p">);</span>
+<span class="n">writer</span><span class="p">.</span><span class="na">setUseLocaleDefaults</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 <span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFileName</span><span class="p">);</span>
 </code></pre></div>
 
