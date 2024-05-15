@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.mpp;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -101,8 +102,20 @@ public final class ProjectPropertiesReader
          ph.setHonorConstraints(!props.getBoolean(Props.HONOR_CONSTRAINTS));
          ph.setBaselineCalendarName(props.getUnicodeString(Props.BASELINE_CALENDAR_NAME));
 
-         PropertySet ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(SummaryInformation.DEFAULT_STREAM_NAME))));
-         SummaryInformation summaryInformation = new SummaryInformation(ps);
+         PropertySet ps = null;
+         
+         try {
+            ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(SummaryInformation.DEFAULT_STREAM_NAME))));
+         }
+         catch (FileNotFoundException ex)
+         {
+            // Microsoft Project opens a file successfully with missing summary property set.
+            // We'll do the same here.
+            file.addIgnoredError(ex);
+            ps = null;
+         }
+
+         SummaryInformation summaryInformation = ps == null ? new SummaryInformation() : new SummaryInformation(ps);
          ph.setProjectTitle(summaryInformation.getTitle());
          ph.setSubject(summaryInformation.getSubject());
          ph.setAuthor(summaryInformation.getAuthor());
@@ -129,6 +142,13 @@ public final class ProjectPropertiesReader
             // the corrupt data. We'll do the same here. I have raised a bug with POI
             // to see if they want to make the library more robust in the face of bad data.
             // https://bz.apache.org/bugzilla/show_bug.cgi?id=61550
+            file.addIgnoredError(ex);
+            ps = null;
+         }
+         catch (FileNotFoundException ex)
+         {
+            // Microsoft Project opens a file successfully with missing document summary property set.
+            // We'll do the same here.
             file.addIgnoredError(ex);
             ps = null;
          }
