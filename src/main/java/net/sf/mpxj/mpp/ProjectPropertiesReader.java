@@ -104,9 +104,11 @@ public final class ProjectPropertiesReader
 
          PropertySet ps = null;
          
-         try {
+         try
+         {
             ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(SummaryInformation.DEFAULT_STREAM_NAME))));
          }
+
          catch (FileNotFoundException ex)
          {
             // Microsoft Project opens a file successfully with missing summary property set.
@@ -135,20 +137,19 @@ public final class ProjectPropertiesReader
             ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(DocumentSummaryInformation.DEFAULT_STREAM_NAME))));
          }
 
-         catch (RuntimeException ex)
+         catch (RuntimeException | FileNotFoundException ex)
          {
+            // RuntimeException:
             // I have one example MPP file which has a corrupt document summary property set.
             // Microsoft Project opens the file successfully, apparently by just ignoring
             // the corrupt data. We'll do the same here. I have raised a bug with POI
             // to see if they want to make the library more robust in the face of bad data.
             // https://bz.apache.org/bugzilla/show_bug.cgi?id=61550
-            file.addIgnoredError(ex);
-            ps = null;
-         }
-         catch (FileNotFoundException ex)
-         {
+
+            // FileNotFoundException:
             // Microsoft Project opens a file successfully with missing document summary property set.
             // We'll do the same here.
+
             file.addIgnoredError(ex);
             ps = null;
          }
