@@ -47,7 +47,7 @@ final class FixDeferFix extends MPPComponent
    FixDeferFix(InputStream is)
       throws IOException
    {
-      m_data = InputStreamHelper.read(is, is.available());
+      m_data = InputStreamHelper.readAvailable(is);
    }
 
    /**

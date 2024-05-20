@@ -1023,7 +1023,7 @@ public final class MPPUtility
    {
       try
       {
-         fileHexDump(fileName, InputStreamHelper.read(is, is.available()));
+         fileHexDump(fileName, InputStreamHelper.readAvailable(is));
       }
 
       catch (IOException ex)

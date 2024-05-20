@@ -99,7 +99,7 @@ final class FixedData extends MPPComponent
    FixedData(FixedMeta meta, InputStream is, int maxExpectedSize, int minSize)
       throws IOException
    {
-      byte[] buffer = InputStreamHelper.read(is, is.available());
+      byte[] buffer = InputStreamHelper.readAvailable(is);
 
       int itemCount = meta.getAdjustedItemCount();
       m_array = new Object[itemCount];
@@ -173,7 +173,7 @@ final class FixedData extends MPPComponent
    FixedData(FixedMeta meta, int itemSize, InputStream is)
       throws IOException
    {
-      byte[] buffer = InputStreamHelper.read(is, is.available());
+      byte[] buffer = InputStreamHelper.readAvailable(is);
 
       int itemCount = meta.getAdjustedItemCount();
       m_array = new Object[itemCount];

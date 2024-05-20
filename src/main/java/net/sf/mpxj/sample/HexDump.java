@@ -78,7 +78,7 @@ public class HexDump
       FileInputStream is = new FileInputStream(input);
       PrintWriter pw = new PrintWriter(new FileWriter(output));
 
-      byte[] buffer = InputStreamHelper.read(is, is.available());
+      byte[] buffer = InputStreamHelper.readAvailable(is);
       pw.println(ByteArrayHelper.hexdump(buffer, 0, buffer.length, true, 16, ""));
 
       is.close();

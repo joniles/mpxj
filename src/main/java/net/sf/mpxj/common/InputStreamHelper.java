@@ -108,6 +108,18 @@ public class InputStreamHelper
    }
 
    /**
+    * Reda the available bytes from the input stream and populate
+    * a new byte array.
+    *
+    * @param is InputStream instance
+    * @return new byte array instance
+    */
+   public static byte[] readAvailable(InputStream is) throws IOException
+   {
+      return read(is, new byte[is.available()]);
+   }
+
+   /**
     * Reads a specified number of bytes from the input stream and populates
     * a new byte array. If the required number of bytes can't be read
     * an exception will be raised.

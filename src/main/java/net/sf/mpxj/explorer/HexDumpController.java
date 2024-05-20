@@ -96,7 +96,7 @@ public class HexDumpController
       try
       {
          is = new DocumentInputStream(entry);
-         byte[] data = InputStreamHelper.read(is, is.available());
+         byte[] data = InputStreamHelper.readAvailable(is);
          m_model.setData(data);
          updateTables();
       }

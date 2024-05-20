@@ -1844,7 +1844,7 @@ final class MPP14Reader implements MPPVariantReader
          //System.out.println(varData);
 
          InputStream is = new DocumentInputStream(((DocumentEntry) dir.getEntry("FixedData")));
-         byte[] fixedData = InputStreamHelper.read(is, is.available());
+         byte[] fixedData = InputStreamHelper.readAvailable(is);
          is.close();
          //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
 
