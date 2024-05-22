@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="12.10.1">
+		<release date="unreleased" version="12.10.2">
+		</release>
+		<release date="2024-05-22" version="12.10.1">
 			<action dev="joniles" type="update">Ignore missing `PropertySet`s when reading MPP files (Contributed by Fabian Schmidt).</action>
 			<action dev="joniles" type="update">Corrected handling of the "24 Hour Calendar" Relationship Lag Calendar setting when reading and writing XER files (Based on a contribution by Alex Matatov)</action>
 		</release>		

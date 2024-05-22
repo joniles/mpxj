@@ -1,6 +1,10 @@
 # Changelog
 
-## 12.10.1 (unreleased)
+## 12.10.2 (unreleased)
+
+## 12.10.1 (2024-05-22)
+* Ignore missing `PropertySet`s when reading MPP files (Contributed by Fabian Schmidt).
+* Corrected handling of the "24 Hour Calendar" Relationship Lag Calendar setting when reading and writing XER files (Based on a contribution by Alex Matatov)
 
 ## 12.10.0 (2024-05-13)
 * When a baseline is added using one of the `ProjectFile.setBaseline` methods, ensure that the relevant baseline date is set in `ProjectProperties`.
