@@ -163,11 +163,11 @@ public class CustomFieldValueReader9
             continue;
          }
 
-         int index = MPPUtility.getShort(data, 0);
          int fieldID = MPPUtility.getInt(data, 12);
          FieldType fieldType = FieldTypeHelper.getInstance(m_file, fieldID);
-         if (fieldType.getFieldTypeClass() != FieldTypeClass.UNKNOWN)
+         if (fieldType != null && fieldType.getFieldTypeClass() != FieldTypeClass.UNKNOWN)
          {
+            int index = MPPUtility.getShort(data, 0);
             map.put(Integer.valueOf(index), fieldType);
          }
       }
