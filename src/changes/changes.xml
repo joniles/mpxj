@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="12.10.2">
 			<action dev="joniles" type="update">Added a missing unique ID mapping when writing resource assignment resource unique IDs to MSPDI files (Contributed by Alex Matatov)</action>
+			<action dev="joniles" type="update">Handle null field type when reading outline code values from an MPP9 file.</action>
 		</release>
 		<release date="2024-05-22" version="12.10.1">
 			<action dev="joniles" type="update">Ignore missing `PropertySet`s when reading MPP files (Contributed by Fabian Schmidt).</action>
