@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="12.10.2">
+		<release date="unreleased" version="12.10.3">
+		</release>
+		<release date="2024-06-03" version="12.10.2">
 			<action dev="joniles" type="update">Added a missing unique ID mapping when writing resource assignment resource unique IDs to MSPDI files (Contributed by Alex Matatov)</action>
 			<action dev="joniles" type="update">Handle null field type when reading outline code values from an MPP9 file.</action>
 		</release>

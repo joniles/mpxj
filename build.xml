@@ -7,7 +7,7 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="12.10.1" />
+		<property name="current.version" value="12.10.2" />
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="mvn.cmd"/>
 		<property name="ruby.cmd" value="bundle.bat"/>

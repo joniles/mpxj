@@ -1,6 +1,10 @@
 # Changelog
 
-## 12.10.2 (unreleased)
+## 12.10.3 (unreleased)
+
+## 12.10.2 (2024-06-03)
+* Added a missing unique ID mapping when writing resource assignment resource unique IDs to MSPDI files (Contributed by Alex Matatov)
+* Handle null field type when reading outline code values from an MPP9 file.
 
 ## 12.10.1 (2024-05-22)
 * Ignore missing `PropertySet`s when reading MPP files (Contributed by Fabian Schmidt).
