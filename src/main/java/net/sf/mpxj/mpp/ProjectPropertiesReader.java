@@ -103,7 +103,7 @@ public final class ProjectPropertiesReader
          ph.setBaselineCalendarName(props.getUnicodeString(Props.BASELINE_CALENDAR_NAME));
 
          PropertySet ps = null;
-         
+
          try
          {
             ps = new PropertySet(new DocumentInputStream(((DocumentEntry) rootDir.getEntry(SummaryInformation.DEFAULT_STREAM_NAME))));
