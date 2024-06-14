@@ -998,6 +998,13 @@ module MPXJ
       attribute_values['project_id']
     end
 
+    # Retrieve the Project Is Baseline value
+    #
+    # @return Project Is Baseline value
+    def project_is_baseline
+      get_boolean_value(attribute_values['project_is_baseline'])
+    end
+
     # Retrieve the Project Title value
     #
     # @return Project Title value
@@ -1344,6 +1351,7 @@ module MPXJ
       'project_externally_edited' => :boolean,
       'project_file_path' => :string,
       'project_id' => :string,
+      'project_is_baseline' => :boolean,
       'project_title' => :string,
       'relationship_lag_calendar' => :relationship_lag_calendar,
       'remove_file_properties' => :boolean,
