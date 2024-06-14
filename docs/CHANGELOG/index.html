@@ -291,9 +291,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1294-unreleased" class="md-nav__link">
+  <a href="#12104-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      12.9.4 (unreleased)
+      12.10.4 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12103-2024-06-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.10.3 (2024-06-14)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12102-2024-06-03" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.10.2 (2024-06-03)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12101-2024-05-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.10.1 (2024-05-22)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12100-2024-05-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.10.0 (2024-05-13)
     </span>
   </a>
   
@@ -3781,9 +3817,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1294-unreleased" class="md-nav__link">
+  <a href="#12104-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      12.9.4 (unreleased)
+      12.10.4 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12103-2024-06-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.10.3 (2024-06-14)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12102-2024-06-03" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.10.2 (2024-06-03)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12101-2024-05-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.10.1 (2024-05-22)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12100-2024-05-13" class="md-nav__link">
+    <span class="md-ellipsis">
+      12.10.0 (2024-05-13)
     </span>
   </a>
   
@@ -5956,7 +6028,32 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1294-unreleased">12.9.4 (unreleased)</h2>
+<h2 id="12104-unreleased">12.10.4 (unreleased)</h2>
+<h2 id="12103-2024-06-14">12.10.3 (2024-06-14)</h2>
+<ul>
+<li>Add new project property <code>IsProjectBaseline</code>. When using the <code>readAll</code> method to retrieve a set of schedules, if the data source contans both schedules and baselines this property will be true for the <code>ProjectFile</code> instances which represent a baseline.</li>
+</ul>
+<h2 id="12102-2024-06-03">12.10.2 (2024-06-03)</h2>
+<ul>
+<li>Added a missing unique ID mapping when writing resource assignment resource unique IDs to MSPDI files (Contributed by Alex Matatov)</li>
+<li>Handle null field type when reading outline code values from an MPP9 file.</li>
+</ul>
+<h2 id="12101-2024-05-22">12.10.1 (2024-05-22)</h2>
+<ul>
+<li>Ignore missing <code>PropertySet</code>s when reading MPP files (Contributed by Fabian Schmidt).</li>
+<li>Corrected handling of the "24 Hour Calendar" Relationship Lag Calendar setting when reading and writing XER files (Based on a contribution by Alex Matatov)</li>
+</ul>
+<h2 id="12100-2024-05-13">12.10.0 (2024-05-13)</h2>
+<ul>
+<li>When a baseline is added using one of the <code>ProjectFile.setBaseline</code> methods, ensure that the relevant baseline date is set in <code>ProjectProperties</code>.</li>
+<li>Marked the <code>JsonWriter</code> methods <code>setEncoding</code> and <code>getEncoding</code> as deprecated, use <code>setCharset</code> and <code>getCharset</code> instead.</li>
+<li>Marked the <code>PlannerWriter</code> methods <code>setEncoding</code> and <code>getEncoding</code> as deprecated, use <code>setCharset</code> and <code>getCharset</code> instead.</li>
+<li>Marked the <code>PrimaveraXERFileWriter</code> method <code>setEncoding</code> as deprecated, use <code>setCharset</code> instead.</li>
+<li>Marked the <code>ProjectCalendarHelper</code> method <code>getExpandedExceptionsWithWorkWeeks</code> as deprecated, use <code>ProjectCalendar.getExpandedCalendarExceptionsWithWorkWeeks</code> instead.</li>
+<li>Marked the <code>ProjectReader</code> method <code>setCharset</code> as deprecated. Readers which support setting the Chraset now implement the <code>HasCharset</code> interface, which includes Charset getter and setter methods.</li>
+<li>Implemented the <code>UniversalProjectWriter</code> class. This complements the <code>UniversalProjectReader</code> class by providing a simple way for MPXJ users to write project files without having to be concerned with details of the individual <code>ProjectWriter</code> classes. This is intended to replace the <code>ProjectWriterUtility</code> class. Note that the <code>ProjectWriterUtility</code> has a somewhat brittle mechanism to determine the output file format from the supplied output file name. This is not replicated by <code>UniversalProjectWriter</code>, users are expected to provide their own code to determine the appropriate file format.</li>
+<li>Marked the <code>ProjectWriterUtility</code> class as deprecated.</li>
+</ul>
 <h2 id="1293-2024-04-24">12.9.3 (2024-04-24)</h2>
 <ul>
 <li>Improve handling of non-standard timestamp formats in XER files.</li>

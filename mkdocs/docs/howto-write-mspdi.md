@@ -7,16 +7,17 @@ The sample code below illustrates how to write data to an MSPDI file.
 
 ```java
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mspdi.MSPDIWriter;
+import net.sf.mpxj.writer.FileFormat;
+import net.sf.mpxj.writer.UniversalProjectWriter;
 
 // ...
 
-MSPDIWriter writer = new MSPDIWriter();
-writer.write(projectFile, outputFileName);
+new UniversalProjectWriter(FileFormat.MSPDI).write(project, fileName);
 ```
 
-
 ## Using MSPDIWriter
+If required, the `MSPDIWriter` class can be used directly, which provides access
+to additional options, as described below.
 
 ### Microsoft Project Compatible Output
 Microsoft Project has a non-standard way of representing negative duration

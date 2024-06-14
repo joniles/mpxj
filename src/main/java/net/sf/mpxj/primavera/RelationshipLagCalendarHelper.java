@@ -101,7 +101,7 @@ final class RelationshipLagCalendarHelper
       XER_TYPE_MAP.put("rcal_Predecessor", RelationshipLagCalendar.PREDECESSOR);
       XER_TYPE_MAP.put("rcal_Successor", RelationshipLagCalendar.SUCCESSOR);
       XER_TYPE_MAP.put("rcal_ProjDefault", RelationshipLagCalendar.PROJECT_DEFAULT);
-      XER_TYPE_MAP.put("rcal_24hour", RelationshipLagCalendar.TWENTY_FOUR_HOUR);
+      XER_TYPE_MAP.put("rcal_24Hour", RelationshipLagCalendar.TWENTY_FOUR_HOUR);
    }
 
    private static final Map<RelationshipLagCalendar, String> TYPE_XER_MAP = new HashMap<>();
@@ -110,6 +110,6 @@ final class RelationshipLagCalendarHelper
       TYPE_XER_MAP.put(RelationshipLagCalendar.PREDECESSOR, "rcal_Predecessor");
       TYPE_XER_MAP.put(RelationshipLagCalendar.SUCCESSOR, "rcal_Successor");
       TYPE_XER_MAP.put(RelationshipLagCalendar.PROJECT_DEFAULT, "rcal_ProjDefault");
-      TYPE_XER_MAP.put(RelationshipLagCalendar.TWENTY_FOUR_HOUR, "rcal_24hour");
+      TYPE_XER_MAP.put(RelationshipLagCalendar.TWENTY_FOUR_HOUR, "rcal_24Hour");
    }
 }

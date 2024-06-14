@@ -1745,14 +1745,16 @@ read and write an XML-based data interchange format called MSPDI.</p>
 <h2 id="writing-mspdi-files">Writing MSPDI files</h2>
 <p>The sample code below illustrates how to write data to an MSPDI file.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.mspdi.MSPDIWriter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.FileFormat</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.UniversalProjectWriter</span><span class="p">;</span>
 
 <span class="c1">// ...</span>
 
-<span class="n">MSPDIWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIWriter</span><span class="p">();</span>
-<span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFileName</span><span class="p">);</span>
+<span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectWriter</span><span class="p">(</span><span class="n">FileFormat</span><span class="p">.</span><span class="na">MSPDI</span><span class="p">).</span><span class="na">write</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">fileName</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="using-mspdiwriter">Using MSPDIWriter</h2>
+<p>If required, the <code>MSPDIWriter</code> class can be used directly, which provides access
+to additional options, as described below.</p>
 <h3 id="microsoft-project-compatible-output">Microsoft Project Compatible Output</h3>
 <p>Microsoft Project has a non-standard way of representing negative duration
 values (it should have a minus sign as a prefix at the start of the XSD duration

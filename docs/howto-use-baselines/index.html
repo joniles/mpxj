@@ -2017,7 +2017,7 @@ Microsoft Project schedule.</p>
 <p>The first thing to note is that XER files do not contain  baseline data. XER
 files do include the ID of the Project Baseline schedule (via the
 <code>ProjectProperties.getBaselineProjectUniqueID()</code> method) but nothing more. Note
-that if Project Baseline ID value is zero, this indicates that the Project
+that if the Project Baseline ID value is zero, this indicates that the Project
 Baseline selected in P6 is "&lt;Current Project&gt;". If this is the case, MPXJ
 will populate the attributes for the default baseline from the planned
 attributes (for example a task's Baseline Start will be set to the task's
@@ -2046,10 +2046,11 @@ method returns zero, MPXJ will automatically populate the attributes of the
 default baseline using values from the equivalent planned attributes (for example
 a task's Baseline Start will be set to the task's Planned Start attribute).</p>
 <p>Where PMXML files differ from XER files is that if the unique ID of one of the
-exported baselines matches the ID of the Project Baseline attribute from another
-project, MPXJ will link the two projects and
-populate the attributes of the default baseline in the main project using the
-equivalent planned attributes from the baseline project.</p>
+exported baselines matches the ID of the Project Baseline attribute from
+another project, MPXJ will link the two projects, populate the attributes of
+the default baseline in the main project using the equivalent planned
+attributes from the baseline project, and will set the default baseline date
+in the main project to the baseline project's create date.</p>
 <p>To link the baseline MPXJ has actually attached the baseline <code>ProjectFile</code>
 instance to the main schedule using the <code>ProjectFile.setBaseline()</code> method. As
 well as begin able to work the populated baseline attributes in the main
@@ -2084,8 +2085,12 @@ value setting is not "Budgeted values with planned dates". </p>
 <span class="n">ProjectFile</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;sample-pmxml.xml&quot;</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="asta-powerproject_1">Asta Powerproject</h3>
-<p>When reading an Asta Powerproject schedule MPXJ will read the main schedule, 
-and if defined, the current baseline schedule.</p>
+<p>When reading an Asta Powerproject schedule MPXJ will read the main schedule, and
+if defined and embedded in the main schedule file, the current baseline
+schedule. MPXJ will populate the attributes of the default baseline in the main
+project using the equivalent attributes from the baseline project, and will set
+the default baseline date in the main project to the baseline project's create
+date.</p>
 <blockquote>
 <p>Note that at present MPXJ does not read all available baselines from a
 Powerproject schedule. Feedback welcomed if the ability to read all baselines

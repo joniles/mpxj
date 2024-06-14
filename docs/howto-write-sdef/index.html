@@ -1248,6 +1248,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#writing-sdef-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing SDEF files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#using-sdefwriter" class="md-nav__link">
     <span class="md-ellipsis">
       Using SDEFWriter
@@ -1647,6 +1656,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#writing-sdef-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing SDEF files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#using-sdefwriter" class="md-nav__link">
     <span class="md-ellipsis">
       Using SDEFWriter
@@ -1692,16 +1710,19 @@ file, used to import a project schedule up into the QCS (Quality Control
 System) software from USACE. The
 specification for the file format can be found
 <a href="https://www.publications.usace.army.mil/Portals/76/Publications/EngineerRegulations/ER_1-1-11.pdf">here</a>.</p>
+<h2 id="writing-sdef-files">Writing SDEF files</h2>
 <p>The sample code below illustrates how to write data to an SDEF file.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.sdef.SDEFWriter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.FileFormat</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.writer.UniversalProjectWriter</span><span class="p">;</span>
 
 <span class="c1">// ...</span>
 
-<span class="n">SDEFWriter</span><span class="w"> </span><span class="n">writer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SDEFWriter</span><span class="p">();</span>
-<span class="n">writer</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="n">projectFile</span><span class="p">,</span><span class="w"> </span><span class="n">outputFileName</span><span class="p">);</span>
+<span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectWriter</span><span class="p">(</span><span class="n">FileFormat</span><span class="p">.</span><span class="na">SDEF</span><span class="p">).</span><span class="na">write</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">fileName</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="using-sdefwriter">Using SDEFWriter</h2>
+<p>If required, the <code>SDEFWriter</code> class can be used directly, which
+provides access to additional options, as described below.</p>
 <h3 id="charset">Charset</h3>
 <p>By default SDEF files are written using the <code>US_ASCII</code> charset. The <code>setCharset</code>
 method on the <code>SDEFWriter</code> class can be used to change this if required:</p>

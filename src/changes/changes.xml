@@ -5,13 +5,28 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="12.9.4">
+		<release date="unreleased" version="12.10.4">
+		</release>
+		<release date="2024-06-14" version="12.10.3">
+			<action dev="joniles" type="update">Add new project property `IsProjectBaseline`. When using the `readAll` method to retrieve a set of schedules, if the data source contans both schedules and baselines this property will be true for the `ProjectFile` instances which represent a baseline.</action>
+		</release>
+		<release date="2024-06-03" version="12.10.2">
+			<action dev="joniles" type="update">Added a missing unique ID mapping when writing resource assignment resource unique IDs to MSPDI files (Contributed by Alex Matatov)</action>
+			<action dev="joniles" type="update">Handle null field type when reading outline code values from an MPP9 file.</action>
+		</release>
+		<release date="2024-05-22" version="12.10.1">
+			<action dev="joniles" type="update">Ignore missing `PropertySet`s when reading MPP files (Contributed by Fabian Schmidt).</action>
+			<action dev="joniles" type="update">Corrected handling of the "24 Hour Calendar" Relationship Lag Calendar setting when reading and writing XER files (Based on a contribution by Alex Matatov)</action>
+		</release>		
+		<release date="2024-05-13" version="12.10.0">
 			<action dev="joniles" type="update">When a baseline is added using one of the `ProjectFile.setBaseline` methods, ensure that the relevant baseline date is set in `ProjectProperties`.</action>
 			<action dev="joniles" type="update">Marked the `JsonWriter` methods `setEncoding` and `getEncoding` as deprecated, use `setCharset` and `getCharset` instead.</action>
 			<action dev="joniles" type="update">Marked the `PlannerWriter` methods `setEncoding` and `getEncoding` as deprecated, use `setCharset` and `getCharset` instead.</action>
 			<action dev="joniles" type="update">Marked the `PrimaveraXERFileWriter` method `setEncoding` as deprecated, use `setCharset` instead.</action>
 			<action dev="joniles" type="update">Marked the `ProjectCalendarHelper` method `getExpandedExceptionsWithWorkWeeks` as deprecated, use `ProjectCalendar.getExpandedCalendarExceptionsWithWorkWeeks` instead.</action>
 			<action dev="joniles" type="update">Marked the `ProjectReader` method `setCharset` as deprecated. Readers which support setting the Chraset now implement the `HasCharset` interface, which includes Charset getter and setter methods.</action>
+			<action dev="joniles" type="update">Implemented the `UniversalProjectWriter` class. This complements the `UniversalProjectReader` class by providing a simple way for MPXJ users to write project files without having to be concerned with details of the individual `ProjectWriter` classes. This is intended to replace the `ProjectWriterUtility` class. Note that the `ProjectWriterUtility` has a somewhat brittle mechanism to determine the output file format from the supplied output file name. This is not replicated by `UniversalProjectWriter`, users are expected to provide their own code to determine the appropriate file format.</action>
+			<action dev="joniles" type="update">Marked the `ProjectWriterUtility` class as deprecated.</action>
 		</release>
 		<release date="2024-04-24" version="12.9.3">
 			<action dev="joniles" type="update">Improve handling of non-standard timestamp formats in XER files.</action>

@@ -1595,7 +1595,7 @@ public final class MPXWriter extends AbstractProjectWriter
     *
     * @return array of supported locales
     */
-   public Locale[] getSupportedLocales()
+   public static Locale[] getSupportedLocales()
    {
       return (LocaleUtility.getSupportedLocales());
    }

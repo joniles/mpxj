@@ -96,8 +96,8 @@
     <Reference Include="IKVM.Runtime.JNI">
       <HintPath>..\..\lib\netcoreapp3.1\IKVM.Runtime.JNI.dll</HintPath>
     </Reference>
-    <Reference Include="jsoup-1.15.1">
-      <HintPath>..\..\lib\netcoreapp3.1\jsoup-1.15.1.dll</HintPath>
+    <Reference Include="jsoup-1.15.3">
+      <HintPath>..\..\lib\netcoreapp3.1\jsoup-1.15.3.dll</HintPath>
     </Reference>
     <Reference Include="log4j-api-2.17.2">
       <HintPath>..\..\lib\netcoreapp3.1\log4j-api-2.17.2.dll</HintPath>

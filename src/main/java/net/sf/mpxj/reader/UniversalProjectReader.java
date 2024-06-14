@@ -1018,7 +1018,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
    {
       if (reader instanceof HasCharset)
       {
-         ((HasCharset)reader).setCharset(m_charset);
+         ((HasCharset) reader).setCharset(m_charset);
       }
       reader.setProperties(m_properties);
       addListenersToReader(reader);

@@ -1804,7 +1804,7 @@ final class MPP9Reader implements MPPVariantReader
          //System.out.println(varData);
 
          InputStream is = m_inputStreamFactory.getInstance(dir, "FixedData");
-         byte[] fixedData = InputStreamHelper.read(is, is.available());
+         byte[] fixedData = InputStreamHelper.readAvailable(is);
          //System.out.println(ByteArrayHelper.hexdump(fixedData, false, 16, ""));
 
          ViewStateReader reader = new ViewStateReader9();

@@ -2027,7 +2027,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       xml.setRemainingOvertimeCost(DatatypeConverter.printCurrency(mpx.getRemainingOvertimeCost()));
       xml.setRemainingOvertimeWork(DatatypeConverter.printDuration(this, mpx.getRemainingOvertimeWork()));
       xml.setRemainingWork(DatatypeConverter.printDuration(this, mpx.getRemainingWork()));
-      xml.setResourceUID(mpx.getResource() == null ? BigInteger.valueOf(MicrosoftProjectConstants.ASSIGNMENT_NULL_RESOURCE_ID.intValue()) : BigInteger.valueOf(NumberHelper.getInt(mpx.getResourceUniqueID())));
+      xml.setResourceUID(mpx.getResource() == null ? BigInteger.valueOf(MicrosoftProjectConstants.ASSIGNMENT_NULL_RESOURCE_ID.intValue()) : BigInteger.valueOf(NumberHelper.getInt(m_resourceMapper.getUniqueID(mpx.getResource()))));
       xml.setResume(mpx.getResume());
       xml.setStart(mpx.getStart());
       xml.setStop(mpx.getStop());

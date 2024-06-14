@@ -48,12 +48,12 @@ jpype.startJVM()
 from java.lang import Double
 from java.text import SimpleDateFormat
 from net.sf.mpxj import ProjectFile, TaskField, Duration, TimeUnit, RelationType
+from net.sf.mpxj.writer import FileFormat
 
-# The helper class we use later to actually write the file
-# selects the file type based on the extension of the
-# filename. In the example below we'll be generating an MSPDI
+# In the example below we'll be generating an MSPDI
 # file which we can import into Microsoft Project.
 filename = "test.xml"
+fileformat = FileFormat.MSPDI
 
 # Create a simple date format to allow us to easily set date values.
 df = SimpleDateFormat("dd/MM/yyyy")
@@ -177,9 +177,8 @@ task6.setPercentageComplete(Double.valueOf(100.0))
 task6.setActualStart(df.parse("01/01/2003"))
 
 # Write the file
-from net.sf.mpxj.writer import ProjectWriterUtility
-writer = ProjectWriterUtility.getProjectWriter(filename)
-writer.write(file, filename)
+from net.sf.mpxj.writer import UniversalProjectWriter
+UniversalProjectWriter(fileformat).write(file, filename)
 
 jpype.shutdownJVM()
 ```

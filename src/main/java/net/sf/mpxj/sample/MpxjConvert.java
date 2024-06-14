@@ -23,12 +23,13 @@
 
 package net.sf.mpxj.sample;
 
-import net.sf.mpxj.MPXJException;
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.UniversalProjectReader;
-import net.sf.mpxj.writer.ProjectWriter;
-import net.sf.mpxj.writer.ProjectWriterUtility;
+import net.sf.mpxj.writer.FileFormat;
+import net.sf.mpxj.writer.UniversalProjectWriter;
 
 /**
  * This is a general utility designed to convert from one project file format
@@ -80,33 +81,44 @@ public final class MpxjConvert
    {
       System.out.println("Reading input file started.");
       long start = System.currentTimeMillis();
-      ProjectFile projectFile = readFile(inputFile);
+      ProjectFile projectFile = new UniversalProjectReader().read(inputFile);
       long elapsed = System.currentTimeMillis() - start;
       System.out.println("Reading input file completed in " + elapsed + "ms.");
 
-      System.out.println("Writing output file started.");
-      start = System.currentTimeMillis();
-      ProjectWriter writer = ProjectWriterUtility.getProjectWriter(outputFile);
-      writer.write(projectFile, outputFile);
-      elapsed = System.currentTimeMillis() - start;
-      System.out.println("Writing output completed in " + elapsed + "ms.");
-   }
-
-   /**
-    * Use the universal project reader to open the file.
-    * Throw an exception if we can't determine the file type.
-    *
-    * @param inputFile file name
-    * @return ProjectFile instance
-    */
-   private ProjectFile readFile(String inputFile) throws MPXJException
-   {
-      ProjectReader reader = new UniversalProjectReader();
-      ProjectFile projectFile = reader.read(inputFile);
       if (projectFile == null)
       {
          throw new IllegalArgumentException("Unsupported file type");
       }
-      return projectFile;
+
+      int index = outputFile.lastIndexOf('.');
+      if (index == -1)
+      {
+         throw new IllegalArgumentException("Filename has no extension: " + outputFile);
+      }
+
+      String extension = outputFile.substring(index + 1).toUpperCase();
+      FileFormat outputFormat = FILE_FORMAT_MAP.get(extension);
+      if (extension == null)
+      {
+         throw new IllegalArgumentException("Cannot write files of type: " + extension);
+      }
+
+      System.out.println("Writing output file started.");
+      start = System.currentTimeMillis();
+      new UniversalProjectWriter(outputFormat).write(projectFile, outputFile);
+      elapsed = System.currentTimeMillis() - start;
+      System.out.println("Writing output completed in " + elapsed + "ms.");
+   }
+
+   private static final Map<String, FileFormat> FILE_FORMAT_MAP = new HashMap<>();
+   static
+   {
+      FILE_FORMAT_MAP.put("MPX", FileFormat.MPX);
+      FILE_FORMAT_MAP.put("XML", FileFormat.MSPDI);
+      FILE_FORMAT_MAP.put("PMXML", FileFormat.PMXML);
+      FILE_FORMAT_MAP.put("PLANNER", FileFormat.PLANNER);
+      FILE_FORMAT_MAP.put("JSON", FileFormat.JSON);
+      FILE_FORMAT_MAP.put("SDEF", FileFormat.SDEF);
+      FILE_FORMAT_MAP.put("XER", FileFormat.XER);
    }
 }

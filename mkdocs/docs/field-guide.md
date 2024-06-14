@@ -177,6 +177,7 @@ Baseline Start| | |✓| | | | | | |✓| | | | | | | | | | | |
 Baseline Type Name| | | | | | | | | | | | | | |✓| | | | | | | | | 
 Baseline Work| | | | | | | | | |✓| | | | | | | | | | | | | | 
 Last Baseline Update Date| | | | | | | | | | | | | | |✓| | | | | | | | | 
+Project Is Baseline| | | | | | | | | | | | | | |✓| | | | | | | | | 
 
 ## Task
 ### Core Fields

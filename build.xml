@@ -7,7 +7,7 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="12.9.3" />
+		<property name="current.version" value="12.10.3" />
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="mvn.cmd"/>
 		<property name="ruby.cmd" value="bundle.bat"/>
@@ -140,9 +140,9 @@
 		/>
 	</target>
 
-	<target name="package" depends="init,update-version-numbers">
+	<target name="maven-install" depends="init,update-version-numbers">
 		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true package" />
+			<arg line="-DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true install" />
 		</exec>
 		<copy file="${basedir}/target/mpxj-${current.version}.jar" tofile="${basedir}/mpxj.jar"/>
 		<copy file="${basedir}/target/mpxj-${current.version}-tests.jar" tofile="${basedir}/mpxj-test.jar"/>
@@ -168,7 +168,7 @@
 		</java>
 	</target>
 
-	<!-- For deploy efficiency, assumes that the package target has been run -->
+	<!-- For deploy efficiency, assumes that the maven-install target has been run -->
 	<target name="gem-setup" depends="init" description="Build jars required by ruby gem and copy to correct location">
 		<copy file="${basedir}/mpxj.jar" todir="${basedir}/src.ruby/mpxj/lib/mpxj"/>
 		<copy todir="${basedir}/src.ruby/mpxj/lib/mpxj">
@@ -200,7 +200,7 @@
 		</copy>
 	</target>
 
-	<!-- For deploy efficiency, assumes that the package target has been run -->
+	<!-- For deploy efficiency, assumes that the maven-install target has been run -->
 	<target name="python-setup" depends="init" description="Build jars required by python package and copy to correct location">
 		<copy file="${basedir}/mpxj.jar" todir="${basedir}/src.python/mpxj/mpxj/lib"/>
 		<copy todir="${basedir}/src.python/mpxj/mpxj/lib">
@@ -886,7 +886,7 @@
 		<copy file="src.net/utilities/bin/Debug/netcoreapp3.1/MpxjUtilities.dll" tofile="${mpxj-utilities.nca31.dll}"/>
 	</target>
 
-	<target name="archive" depends="package,ikvm-nca31-dll,vs-nca31-dll,ikvm-net45-dll,vs-net45-dll,gem-source,changelog,releasenotes" description="Create library files"/>
+	<target name="archive" depends="maven-install,ikvm-nca31-dll,vs-nca31-dll,ikvm-net45-dll,vs-net45-dll,gem-source,changelog,releasenotes" description="Create library files"/>
 
 	<target name="distribute" depends="archive,dotnet-clean,nuget-package" description="Create distribution">
 		<zip zipfile="${distribution}">

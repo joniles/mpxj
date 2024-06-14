@@ -97,7 +97,6 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    MppEmbeddedTest.class,
    MppRecurringTest.class,
    MppNullTaskTest.class,
-   ProjectWriterUtilityTest.class,
    PlannerCalendarTest.class,
    PlannerResourceTest.class,
    TimephasedTest.class,

@@ -166,7 +166,7 @@ public class ProjectCleanUtility
    private void processFile(String input, String output) throws IOException
    {
       FileInputStream is = new FileInputStream(input);
-      byte[] data = InputStreamHelper.read(is, is.available());
+      byte[] data = InputStreamHelper.readAvailable(is);
       is.close();
 
       processReplacements(data, Collections.singletonList(m_project.getProjectProperties()), false, false, PROJECT_FIELDS);

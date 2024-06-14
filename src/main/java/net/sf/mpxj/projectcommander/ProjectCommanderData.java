@@ -134,7 +134,7 @@ final class ProjectCommanderData
    {
       try
       {
-         m_buffer = InputStreamHelper.read(is, is.available());
+         m_buffer = InputStreamHelper.readAvailable(is);
       }
 
       finally

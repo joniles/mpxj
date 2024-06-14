@@ -1,6 +1,27 @@
 # Changelog
 
-## 12.9.4 (unreleased)
+## 12.10.4 (unreleased)
+
+## 12.10.3 (2024-06-14)
+* Add new project property `IsProjectBaseline`. When using the `readAll` method to retrieve a set of schedules, if the data source contans both schedules and baselines this property will be true for the `ProjectFile` instances which represent a baseline.
+
+## 12.10.2 (2024-06-03)
+* Added a missing unique ID mapping when writing resource assignment resource unique IDs to MSPDI files (Contributed by Alex Matatov)
+* Handle null field type when reading outline code values from an MPP9 file.
+
+## 12.10.1 (2024-05-22)
+* Ignore missing `PropertySet`s when reading MPP files (Contributed by Fabian Schmidt).
+* Corrected handling of the "24 Hour Calendar" Relationship Lag Calendar setting when reading and writing XER files (Based on a contribution by Alex Matatov)
+
+## 12.10.0 (2024-05-13)
+* When a baseline is added using one of the `ProjectFile.setBaseline` methods, ensure that the relevant baseline date is set in `ProjectProperties`.
+* Marked the `JsonWriter` methods `setEncoding` and `getEncoding` as deprecated, use `setCharset` and `getCharset` instead.
+* Marked the `PlannerWriter` methods `setEncoding` and `getEncoding` as deprecated, use `setCharset` and `getCharset` instead.
+* Marked the `PrimaveraXERFileWriter` method `setEncoding` as deprecated, use `setCharset` instead.
+* Marked the `ProjectCalendarHelper` method `getExpandedExceptionsWithWorkWeeks` as deprecated, use `ProjectCalendar.getExpandedCalendarExceptionsWithWorkWeeks` instead.
+* Marked the `ProjectReader` method `setCharset` as deprecated. Readers which support setting the Chraset now implement the `HasCharset` interface, which includes Charset getter and setter methods.
+* Implemented the `UniversalProjectWriter` class. This complements the `UniversalProjectReader` class by providing a simple way for MPXJ users to write project files without having to be concerned with details of the individual `ProjectWriter` classes. This is intended to replace the `ProjectWriterUtility` class. Note that the `ProjectWriterUtility` has a somewhat brittle mechanism to determine the output file format from the supplied output file name. This is not replicated by `UniversalProjectWriter`, users are expected to provide their own code to determine the appropriate file format.
+* Marked the `ProjectWriterUtility` class as deprecated.
 
 ## 12.9.3 (2024-04-24)
 * Improve handling of non-standard timestamp formats in XER files.
