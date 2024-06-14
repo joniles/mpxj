@@ -60,15 +60,26 @@ public class StructuredNotes extends Notes
     */
    public Integer getTopicID()
    {
-      return m_topic.getUniqueID();
+      return m_topic == null ? null : m_topic.getUniqueID();
    }
 
    /**
     * Retrieve this note's topic.
     *
     * @return topic name
+    * @deprecated use getNotesTopic()
     */
-   public NotesTopic getTopicName()
+   @Deprecated public NotesTopic getTopicName()
+   {
+      return m_topic;
+   }
+
+   /**
+    * Retrieve this note's topic.
+    *
+    * @return notes topic
+    */
+   public NotesTopic getNotesTopic()
    {
       return m_topic;
    }
