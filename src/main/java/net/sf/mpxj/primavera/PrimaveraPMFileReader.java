@@ -679,6 +679,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setBaselineTypeName(project.getBaselineTypeName());
       properties.setBaselineTypeUniqueID(project.getBaselineTypeObjectId());
       properties.setLastBaselineUpdateDate(project.getLastBaselineUpdateDate());
+      properties.setProjectIsBaseline(true);
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 

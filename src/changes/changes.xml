@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="12.10.3">
+			<action dev="joniles" type="update">Add new project property `IsProjectBaseline`. When using the `readAll` method to retrieve a set of schedules, if the data source contans both schedules and baselines this property will be true for the `ProjectFile` instances which represent a baseline.</action>
 		</release>
 		<release date="2024-06-03" version="12.10.2">
 			<action dev="joniles" type="update">Added a missing unique ID mapping when writing resource assignment resource unique IDs to MSPDI files (Contributed by Alex Matatov)</action>
