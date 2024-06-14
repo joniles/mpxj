@@ -397,7 +397,7 @@ public final class MPPReader extends AbstractProjectStreamReader
     * Internal only. Get the read password for this Project file. This is
     * needed in order to be allowed to read a read-protected Project file.
     *
-    * @return password password text
+    * @return password text
     */
    public String getReadPassword()
    {
@@ -419,7 +419,7 @@ public final class MPPReader extends AbstractProjectStreamReader
     *
     * @return true if password protection is respected
     */
-   boolean getRespectPasswordProtection()
+   public boolean getRespectPasswordProtection()
    {
       return m_respectPasswordProtection;
    }
