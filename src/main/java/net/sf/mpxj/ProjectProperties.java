@@ -3497,6 +3497,30 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Returns true if this ProjectFile instance represents a baseline.
+    * This is useful where readers can return a list of all
+    * schedules from a data source which may include both projects
+    * and baselines.
+    *
+    * @return true if this ProjectFile instance represents a baseline
+    */
+   public boolean getProjectIsBaseline()
+   {
+      return BooleanHelper.getBoolean((Boolean) get(ProjectField.PROJECT_IS_BASELINE));
+   }
+
+   /**
+    * Set the flag to indicate if this ProjectFile instance
+    * represents a baseline.
+    *
+    * @param value true if this ProjectFile instance represents a baseline
+    */
+   public void setProjectIsBaseline(boolean value)
+   {
+      set(ProjectField.PROJECT_IS_BASELINE, value);
+   }
+
+   /**
     * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
@@ -3732,5 +3756,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_SUFFIX, p -> Integer.valueOf(1000));
       CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT, p -> Integer.valueOf(10));
       CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, p -> Boolean.TRUE);
+      CALCULATED_FIELD_MAP.put(ProjectField.PROJECT_IS_BASELINE, p -> Boolean.FALSE);
    }
 }
