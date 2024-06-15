@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.mpxj</groupId>
 	<artifactId>mpxj</artifactId>
-	<version>${mpxj.version}</version>
+	<version>12.10.3</version>
 	<name>MPXJ</name>
 	<url>http://mpxj.org</url>
 

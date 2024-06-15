@@ -7,8 +7,8 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="12.10.5" />
-		<property name="current.version.classifier" value="-SNAPSHOT" />
+		<property name="current.version" value="12.10.3" />
+		<property name="current.version.classifier" value="" />
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="mvn.cmd"/>
 		<property name="ruby.cmd" value="bundle.bat"/>
@@ -96,6 +96,19 @@
 	</target>
 
 	<target name="update-version-numbers" depends="init" description="Ensure that version numbers in the code are up-to-date">
+		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="versions:set -DnewVersion=${current.version}${current.version.classifier}"/>
+		</exec>
+		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="versions:set -f ${basedir}/pom.tests.xml -DnewVersion=${current.version}${current.version.classifier}"/>
+		</exec>
+		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="versions:commit"/>
+		</exec>
+		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="versions:commit -f ${basedir}/pom.tests.xml"/>
+		</exec>
+
 		<replaceregexp
 		               match='(\[assembly: (AssemblyVersion|AssemblyFileVersion)\(").+("\)\])'
 		               replace='\1${current.version}.0\3'
@@ -137,13 +150,13 @@
 
 	<target name="maven-install" depends="init,update-version-numbers">
 		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-Dmpxj.version=${current.version}${current.version.classifier} -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true install" />
+			<arg line="-DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true install" />
 		</exec>
 		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-f ${basedir}/pom.tests.xml -Dmpxj.version=${current.version}${current.version.classifier} -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true install" />
+			<arg line="-f ${basedir}/pom.tests.xml -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true install" />
 		</exec>
-		<copy file="${basedir}/target/mpxj-${current.version}.jar" tofile="${basedir}/mpxj.jar"/>
-		<copy file="${basedir}/target/mpxj-${current.version}-tests.jar" tofile="${basedir}/mpxj-test.jar"/>
+		<copy file="${basedir}/target/mpxj-${current.version}${current.version.classifier}.jar" tofile="${basedir}/mpxj.jar"/>
+		<copy file="${basedir}/target.tests/mpxj-tests-${current.version}${current.version.classifier}.jar" tofile="${basedir}/mpxj-test.jar"/>
 	</target>
 
 	<target name="changelog" description="Update changelog">
@@ -961,10 +974,10 @@
 
 	<target name="maven-clean" depends="init" description="Cleans the maven directory">
 		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-Dmpxj.version=${current.version}${current.version.classifier} clean" />
+			<arg line="clean" />
 		</exec>
 		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-f ${basedir}/pom.tests.xml -Dmpxj.version=${current.version}${current.version.classifier} clean" />
+			<arg line="-f ${basedir}/pom.tests.xml clean" />
 		</exec>
 	</target>
 
@@ -984,7 +997,7 @@
 
 	<target name="maven-site-build" depends="init" description="Execute maven to produce site content">
 		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-Dmpxj.version=${current.version}${current.version.classifier} post-site" />
+			<arg line="post-site" />
 		</exec>
 
 		<!-- Remove the table which just lists the version numbers -->
@@ -1020,13 +1033,13 @@
 
 	<target name="maven-test" depends="init" description="Execute maven and run tests">
 		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-Dmpxj.version=${current.version}${current.version.classifier} -Dmpxj.junit.datadir=${basedir}/junit/data clean test" />
+			<arg line="-Dmpxj.junit.datadir=${basedir}/junit/data clean test" />
 		</exec>
 	</target>
 
 	<target name="maven-deploy" depends="init" description="Execute maven and deploy to OSSRH">
 		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-Dmpxj.version=${current.version}${current.version.classifier} -DskipTests=true clean deploy" />
+			<arg line="-DskipTests=true clean deploy" />
 		</exec>
 	</target>
 
