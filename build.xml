@@ -139,6 +139,9 @@
 		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-Dmpxj.version=${current.version}${current.version.classifier} -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true install" />
 		</exec>
+		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-f ${basedir}/pom.tests.xml -Dmpxj.version=${current.version}${current.version.classifier} -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true install" />
+		</exec>
 		<copy file="${basedir}/target/mpxj-${current.version}.jar" tofile="${basedir}/mpxj.jar"/>
 		<copy file="${basedir}/target/mpxj-${current.version}-tests.jar" tofile="${basedir}/mpxj-test.jar"/>
 	</target>
