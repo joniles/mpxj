@@ -7,7 +7,7 @@
 		<property environment="env"/>
 
 		<!-- Build Configuration -->
-		<property name="current.version" value="12.10.3" />
+		<property name="current.version" value="12.10.5" />
 		<property name="current.version.classifier" value="-SNAPSHOT" />
 		<!-- Environment Configuration-->
 		<property name="maven.cmd" value="mvn.cmd"/>
@@ -962,6 +962,9 @@
 	<target name="maven-clean" depends="init" description="Cleans the maven directory">
 		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
 			<arg line="-Dmpxj.version=${current.version}${current.version.classifier} clean" />
+		</exec>
+		<exec executable="${maven.cmd}" dir="${basedir}" failonerror="true">
+			<arg line="-f ${basedir}/pom.tests.xml -Dmpxj.version=${current.version}${current.version.classifier} clean" />
 		</exec>
 	</target>
 
