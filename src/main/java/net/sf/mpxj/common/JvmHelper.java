@@ -41,7 +41,7 @@ public final class JvmHelper
 
    static
    {
-      String runtime = System.getProperty("java.runtime.name");
-      IKVM = runtime != null && runtime.contains("IKVM");
+      String vm = System.getProperty("java.vm.name");
+      IKVM = vm != null && vm.contains("IKVM");
    }
 }

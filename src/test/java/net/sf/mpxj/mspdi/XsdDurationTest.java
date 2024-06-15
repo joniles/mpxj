@@ -26,13 +26,21 @@ package net.sf.mpxj.mspdi;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+
+import static net.sf.mpxj.junit.MpxjAssert.assumeJvm;
 
 /**
  * XsdDuration tests.
  */
 public class XsdDurationTest
 {
+   @Before public void beforeMethod()
+   {
+      assumeJvm();
+   }
+
    /**
     * Ensure a null duration is handled.
     */
