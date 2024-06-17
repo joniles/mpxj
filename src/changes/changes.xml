@@ -6,10 +6,40 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="13.0.0">
+			<action dev="joniles" type="update">NOTE: this is a major release containing breaking changes. When updating from a 12.x release it is recommended that you first update to the most recent 12.x release and deal with any deprecation warnings before moving to this release.</action>
+
 			<action dev="joniles" type="update">Updated to use JAXB3. Among other things this change ensures compatibility with Spring Boot 3. Note that this may be a breaking change for you if you own application uses JAXB2.</action>
 			<action dev="joniles" type="update">When reading P6 schedules, the custom properties (as retrieved using `ProjectProperties.getCustomProperties`) will no longer contain scheduling options. These are now all available as attributes of the `ProjectProperties` class.</action>
 			<action dev="joniles" type="update">Removed redundant `setUniqueID` methods from immutable objects. These previously threw `UnsupportedOperationException` when called.</action>
 			<action dev="joniles" type="update">The `ProjectEntityWithUniqueID` interface no longer contains the `setUniqueID` method. Entities with a mutable Unique ID attribute now implement the `ProjectEntityWithMutableUniqueID` interface, which inherits from the `ProjectEntityWithUniqueID` interface.</action>
+
+			<action dev="joniles" type="update">The deprecated `ActivityCode()` constructor and `addValue` method have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `ActivityCodeValue()` constructor and `setParent` method have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `CostAccount()` constructor and `getDescription` method have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `CustomFieldValueItem` methods `getParent` and `setParent` have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `ExpenseCategory()` constructor has been removed.</action>
+			<action dev="joniles" type="update">The deprecated `ExpenseItem(Task)` constructor and all setter methods have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `JsonWriter` methods `setEncoding` and `getEncoding` have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `Location.Builder()` constructor has been removed.</action>
+			<action dev="joniles" type="update">The deprecated `NotesTopic()` constructor has been removed.</action>
+			<action dev="joniles" type="update">The deprecated `ObjectSequence` method `reset` has been removed.</action>
+			<action dev="joniles" type="update">The deprecated `PlannerWriter` methods `setEncoding` and `getEncoding` have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `PrimaveraXERFileWriter` method `setEncoding` has been removed.</action>
+			<action dev="joniles" type="update">The deprecated `ProjectCalendar` method `getDate` has been removed.</action>
+			<action dev="joniles" type="update">The deprecated `ProjectCalendarHelper` method `getExpandedExceptionsWithWorkWeeks` has been removed.</action>
+			<action dev="joniles" type="update">The deprecated `ProjectEntityContainer` methods `getNextUniqueID`, `renumberUniqueIDs` and `updateUniqueIdCounter` have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `ProjectFile` methods `expandSubprojects` and `updateUniqueIdCounters` have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `ProjectReader` method `setProperties` and `setCharset` have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `ProjectWriterUtility` class has been removed.</action>
+			<action dev="joniles" type="update">The deprecated `RateHelper` methods accepting a `ProjectFile` argument have veen removed.</action>
+			<action dev="joniles" type="update">The deprecated `Relation(Task,Task,RelationType,Duration)` constructor has been removed.</action>
+			<action dev="joniles" type="update">The deprecated `RelationContainer.addPredecessor(Task,Task,RelationType,Duration)` method has been removed</action>
+			<action dev="joniles" type="update">The deprecated `Resource` methods `setAvailableFrom`, `setAvailableTo`, `setMaterialLabel` and `setMaxUnits` have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `ResourceAssignment` method `getCalendar` has been removed.</action>
+			<action dev="joniles" type="update">The deprecated `Step(Task)` constructor and all setter methods have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `Task` method `addPredecessor(Task,RelationType,Duration)` has been removed</action>
+			<action dev="joniles" type="update">The deprecated `TimephasedUtility` methods `segmentBaselineWork(ProjectFile, ...)` and `segmentBaselineCost(ProjectFile, ...)` methods have been removed.</action>
+			<action dev="joniles" type="update">The deprecated `UnitOfMeasure.Builder()` constructor has been removed.</action>
 		</release>
 		<release date="2024-06-14" version="12.10.3">
 			<action dev="joniles" type="update">Add new project property `IsProjectBaseline`. When using the `readAll` method to retrieve a set of schedules, if the data source contains both schedules and baselines this property will be true for the `ProjectFile` instances which represent a baseline.</action>
