@@ -424,7 +424,7 @@ public final class Location implements ProjectEntityWithUniqueID
          return new Location(this);
       }
 
-      private ProjectFile m_file;
+      private final ProjectFile m_file;
       private String m_addressLine1;
       private String m_addressLine2;
       private String m_addressLine3;

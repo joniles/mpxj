@@ -31,16 +31,6 @@ import java.io.File;
 public class ProjectConfig
 {
    /**
-    * Constructor.
-    *
-    * @param projectFile parent project
-    */
-   public ProjectConfig(ProjectFile projectFile)
-   {
-      m_parent = projectFile;
-   }
-
-   /**
     * Used to set whether WBS numbers are automatically created.
     *
     * @param flag true if automatic WBS required.
@@ -317,8 +307,6 @@ public class ProjectConfig
    {
       return m_subprojectWorkingDirectory;
    }
-
-   private final ProjectFile m_parent;
 
    /**
     * Indicating whether WBS value should be calculated on creation, or will

@@ -958,7 +958,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_externalProjects.read(fileName);
    }
 
-   private final ProjectConfig m_config = new ProjectConfig(this);
+   private final ProjectConfig m_config = new ProjectConfig();
    private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);
    private final TaskContainer m_tasks = new TaskContainer(this);

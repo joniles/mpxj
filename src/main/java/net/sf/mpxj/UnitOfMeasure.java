@@ -168,7 +168,7 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
          return new UnitOfMeasure(this);
       }
 
-      private ProjectFile m_file;
+      private final ProjectFile m_file;
       private Integer m_uniqueID;
       private String m_name;
       private String m_abbreviation;

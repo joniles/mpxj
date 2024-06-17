@@ -25,7 +25,6 @@ package net.sf.mpxj.common;
 
 import java.math.BigDecimal;
 
-import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimeUnitDefaultsContainer;
