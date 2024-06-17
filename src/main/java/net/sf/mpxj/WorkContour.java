@@ -51,11 +51,6 @@ public final class WorkContour implements ProjectEntityWithUniqueID
       return m_uniqueID;
    }
 
-   @Override public void setUniqueID(Integer id)
-   {
-      throw new UnsupportedOperationException();
-   }
-
    /**
     * Retrieve the values which define the curve.
     * The method returns an array of 21 doubles, each representing 5% of the duration.

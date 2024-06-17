@@ -55,7 +55,7 @@ import net.sf.mpxj.common.ProjectCalendarHelper;
  * of this class. The class is used to define the working and non-working days
  * of the week. The default calendar defines Monday to Friday as working days.
  */
-public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntityWithUniqueID, TimeUnitDefaultsContainer
+public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntityWithMutableUniqueID, TimeUnitDefaultsContainer
 {
    /**
     * Default constructor.

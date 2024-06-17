@@ -62,16 +62,6 @@ public final class Location implements ProjectEntityWithUniqueID
    }
 
    /**
-    * Set the unique ID.
-    *
-    * @param id Unique ID value
-    */
-   @Override public void setUniqueID(Integer id)
-   {
-      throw new UnsupportedOperationException();
-   }
-
-   /**
     * Retrieve a line of the address.
     *
     * @return address line

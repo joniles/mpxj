@@ -49,11 +49,6 @@ public class NotesTopic implements ProjectEntityWithUniqueID
       return m_uniqueID;
    }
 
-   @Override public void setUniqueID(Integer id)
-   {
-      throw new UnsupportedOperationException();
-   }
-
    /**
     * Retrieve the sequence number.
     *

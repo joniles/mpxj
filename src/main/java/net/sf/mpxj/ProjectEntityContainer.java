@@ -82,9 +82,9 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
          return;
       }
 
-      if (currentElement != null)
+      if (currentElement instanceof ProjectEntityWithMutableUniqueID)
       {
-         m_uniqueIDClashList.add(element);
+         m_uniqueIDClashList.add((ProjectEntityWithMutableUniqueID)element);
       }
 
       m_uniqueIDMap.put(element.getUniqueID(), element);
@@ -120,9 +120,9 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
          return;
       }
 
-      if (currentElement != null)
+      if (currentElement instanceof ProjectEntityWithMutableUniqueID)
       {
-         m_uniqueIDClashList.add(element);
+         m_uniqueIDClashList.add((ProjectEntityWithMutableUniqueID)element);
       }
 
       m_uniqueIDMap.put(newUniqueID, element);
@@ -149,5 +149,5 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
    protected final ProjectFile m_projectFile;
    private final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
-   private final List<T> m_uniqueIDClashList = new ArrayList<>();
+   private final List<ProjectEntityWithMutableUniqueID> m_uniqueIDClashList = new ArrayList<>();
 }

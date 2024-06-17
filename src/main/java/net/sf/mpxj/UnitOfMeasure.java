@@ -45,11 +45,6 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
       return m_uniqueID;
    }
 
-   @Override public void setUniqueID(Integer id)
-   {
-      throw new UnsupportedOperationException();
-   }
-
    /**
     * Retrieve the unit of measure name.
     *

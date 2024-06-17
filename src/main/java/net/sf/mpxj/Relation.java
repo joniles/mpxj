@@ -26,7 +26,7 @@ package net.sf.mpxj;
 /**
  * This class represents the relationship between two tasks.
  */
-public final class Relation implements ProjectEntityWithUniqueID
+public final class Relation implements ProjectEntityWithMutableUniqueID
 {
    /**
     * Constructor.
