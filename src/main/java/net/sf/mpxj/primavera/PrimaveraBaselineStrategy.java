@@ -59,38 +59,6 @@ public final class PrimaveraBaselineStrategy extends DefaultBaselineStrategy
 
    private final TaskField[] m_sourceFields;
 
-   /**
-    * Planned attributes used for baselines.
-    *
-    * @deprecated use PLANNED_ATTRIBUTES
-    */
-   @Deprecated public static final PrimaveraBaselineStrategy PLANNED_DATES = new PrimaveraBaselineStrategy(new TaskField[]
-   {
-      TaskField.PLANNED_COST,
-      TaskField.PLANNED_DURATION,
-      TaskField.PLANNED_FINISH,
-      TaskField.FIXED_COST_ACCRUAL,
-      TaskField.FIXED_COST,
-      TaskField.PLANNED_START,
-      TaskField.PLANNED_WORK
-   });
-
-   /**
-    * Current attributes used for baselines.
-    *
-    * @deprecated use CURRENT_ATTRIBUTES
-    */
-   @Deprecated public static final PrimaveraBaselineStrategy CURRENT_DATES = new PrimaveraBaselineStrategy(new TaskField[]
-   {
-      TaskField.COST,
-      TaskField.DURATION,
-      TaskField.FINISH,
-      TaskField.FIXED_COST_ACCRUAL,
-      TaskField.FIXED_COST,
-      TaskField.START,
-      TaskField.WORK
-   });
-
    public static final PrimaveraBaselineStrategy PLANNED_ATTRIBUTES = new PrimaveraBaselineStrategy(new TaskField[]
    {
       TaskField.PLANNED_COST,

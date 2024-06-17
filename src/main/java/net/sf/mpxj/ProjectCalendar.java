@@ -601,29 +601,6 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    }
 
    /**
-    * Given a start date and a duration, this method calculates the
-    * end date. It takes account of working hours in each day, non-working
-    * days and calendar exceptions. If the returnNextWorkStart parameter is
-    * set to true, the method will return the start date and time of the next
-    * working period if the end date is at the end of a working period.
-    *
-    * @param startDate start date
-    * @param duration duration
-    * @param returnNextWorkStart if set to true will return start of next working period
-    * @return end date
-    * @deprecated use getDate method without the "returnNextWorkStart" boolean argument
-    */
-   @Deprecated public LocalDateTime getDate(LocalDateTime startDate, Duration duration, boolean returnNextWorkStart)
-   {
-      LocalDateTime cal = duration.getDuration() < 0 ? getDateFromNegativeDuration(startDate, duration) : getDateFromPositiveDuration(startDate, duration);
-      if (returnNextWorkStart)
-      {
-         cal = getNextWorkStart(cal);
-      }
-      return cal;
-   }
-
-   /**
     * Given a date and a duration, this method calculates the resulting date when the duration is added.
     * This method handles both positive and negative durations.
     *

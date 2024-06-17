@@ -100,23 +100,6 @@ public final class TimephasedUtility
     * of timephased baseline work into an external form which can
     * be displayed to the user.
     *
-    * @param file parent project file
-    * @param work timephased resource assignment data
-    * @param rangeUnits timescale units
-    * @param dateList timescale date ranges
-    * @return list of durations, one per timescale date range
-    * @deprecated use version of this method which takes a ProjectCalendar rather than a ProjectFile as its first argument
-    */
-   @Deprecated public ArrayList<Duration> segmentBaselineWork(ProjectFile file, List<TimephasedWork> work, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
-   {
-      return segmentWork(file.getBaselineCalendar(), work, rangeUnits, dateList);
-   }
-
-   /**
-    * This is the main entry point used to convert the internal representation
-    * of timephased baseline work into an external form which can
-    * be displayed to the user.
-    *
     * @param calendar calendar to use for calculations
     * @param work timephased resource assignment data
     * @param rangeUnits timescale units
@@ -175,23 +158,6 @@ public final class TimephasedUtility
       }
 
       return result;
-   }
-
-   /**
-    * This is the main entry point used to convert the internal representation
-    * of timephased baseline cost into an external form which can
-    * be displayed to the user.
-    *
-    * @param file parent project file
-    * @param cost timephased resource assignment data
-    * @param rangeUnits timescale units
-    * @param dateList timescale date ranges
-    * @return list of durations, one per timescale date range
-    * @deprecated use version of this method which takes a ProjectCalendar rather than a ProjectFile as its first argument
-    */
-   @Deprecated public ArrayList<Double> segmentBaselineCost(ProjectFile file, List<TimephasedCost> cost, TimescaleUnits rangeUnits, ArrayList<LocalDateTimeRange> dateList)
-   {
-      return segmentCost(file.getBaselineCalendar(), cost, rangeUnits, dateList);
    }
 
    /**

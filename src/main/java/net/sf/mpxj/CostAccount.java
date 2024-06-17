@@ -31,25 +31,6 @@ public class CostAccount implements ProjectEntityWithUniqueID
    /**
     * Constructor.
     *
-    * @param uniqueID unique ID
-    * @param id short name
-    * @param name name
-    * @param description description
-    * @param sequenceNumber sequence number
-    * @deprecated use builder
-    */
-   @Deprecated public CostAccount(Integer uniqueID, String id, String name, String description, Integer sequenceNumber)
-   {
-      m_uniqueID = uniqueID;
-      m_id = id;
-      m_name = name;
-      m_notes = new Notes(description);
-      m_sequenceNumber = sequenceNumber;
-   }
-
-   /**
-    * Constructor.
-    *
     * @param builder builder
     */
    private CostAccount(Builder builder)
@@ -90,17 +71,6 @@ public class CostAccount implements ProjectEntityWithUniqueID
    public String getName()
    {
       return m_name;
-   }
-
-   /**
-    * Retrieve the description.
-    *
-    * @return description
-    * @deprecated use getNotes method instead
-    */
-   @Deprecated public String getDescription()
-   {
-      return m_notes.toString();
    }
 
    /**
@@ -153,16 +123,6 @@ public class CostAccount implements ProjectEntityWithUniqueID
       return m_parent;
    }
 
-   /**
-    * Set the parent cost account.
-    *
-    * @param parent parent cost account
-    */
-   public void setParent(CostAccount parent)
-   {
-      m_parent = parent;
-   }
-
    @Override public String toString()
    {
       return "[CostAccount uniqueID=" + m_uniqueID + " name=" + m_name + "]";
@@ -173,7 +133,7 @@ public class CostAccount implements ProjectEntityWithUniqueID
    private final String m_name;
    private final Notes m_notes;
    private final Integer m_sequenceNumber;
-   private CostAccount m_parent;
+   private final CostAccount m_parent;
 
    /**
     * CostAccount builder.
@@ -241,18 +201,6 @@ public class CostAccount implements ProjectEntityWithUniqueID
       {
          m_name = value;
          return this;
-      }
-
-      /**
-       * Add description.
-       *
-       * @param value description
-       * @return builder
-       * @deprecated use notes method instead
-       */
-      @Deprecated public Builder description(String value)
-      {
-         return notes(value);
       }
 
       /**

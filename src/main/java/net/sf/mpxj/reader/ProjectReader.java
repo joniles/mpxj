@@ -41,26 +41,6 @@ import net.sf.mpxj.listener.ProjectListener;
 public interface ProjectReader
 {
    /**
-    * Pass a set of Properties to allow the behavior of a reader to be configured.
-    * This provides an alternative to calling individual setter methods to set
-    * the values of the properties you need to configure.
-    * <p>
-    * NOTE: currently this only supports Boolean properties.
-    * <p>
-    * Properties are passed in this form:
-    * {@code <class name>.<property name>=<property value>}. This method will ignore any properties
-    * which are not intended for the current reader class. Here's an example:
-    * <pre>
-    * net.sf.mpxj.phoenix.PhoenixReader.UseActivityCodesForTaskHierarchy=true
-    * </pre>
-    *
-    * @param props properties to set
-    * @return current ProjectReader instance to allow method chaining
-    * @deprecated use reader class setter methods directly. For UniversalProjectReader, use getProjectReaderProxy to access the reader instance.
-    */
-   @Deprecated ProjectReader setProperties(Properties props);
-
-   /**
     * Add a listener to receive events as a project is being read.
     *
     * @param listener ProjectListener instance
@@ -117,12 +97,4 @@ public interface ProjectReader
     */
    public List<ProjectFile> readAll(InputStream inputStream) throws MPXJException;
 
-   /**
-    * Some readers will be sensitive to the encoding of the file they are reading.
-    * If this is applicable, this method can be called to set the encoding to
-    * use when reading a file.
-    *
-    * @param charset encoding to use when reading a file
-    */
-   @Deprecated public void setCharset(Charset charset);
 }

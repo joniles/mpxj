@@ -35,27 +35,6 @@ public class ActivityCodeValue
    /**
     * Constructor.
     *
-    * @param type parent activity code type
-    * @param uniqueID unique ID
-    * @param sequenceNumber value sequence number
-    * @param name value name
-    * @param description value description
-    * @param color value color
-    * @deprecated use builder
-    */
-   @Deprecated public ActivityCodeValue(ActivityCode type, Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
-   {
-      m_type = type;
-      m_uniqueID = uniqueID;
-      m_sequenceNumber = sequenceNumber;
-      m_name = name;
-      m_description = description;
-      m_color = color;
-   }
-
-   /**
-    * Constructor.
-    *
     * @param builder builder
     */
    private ActivityCodeValue(Builder builder)
@@ -150,17 +129,6 @@ public class ActivityCodeValue
    }
 
    /**
-    * Set the parent ActivityCodeValue.
-    *
-    * @param parent parent ActivityCodeValue
-    * @deprecated use builder
-    */
-   @Deprecated public void setParent(ActivityCodeValue parent)
-   {
-      m_parent = parent;
-   }
-
-   /**
     * Retrieve any children of this value.
     *
     * @return list of ActivityCodeValue instances
@@ -181,7 +149,7 @@ public class ActivityCodeValue
    private final String m_name;
    private final String m_description;
    private final Color m_color;
-   private ActivityCodeValue m_parent;
+   private final ActivityCodeValue m_parent;
 
    /**
     * ActivityCodeValue builder.

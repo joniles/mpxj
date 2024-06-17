@@ -29,31 +29,6 @@ package net.sf.mpxj;
 public final class Relation implements ProjectEntityWithUniqueID
 {
    /**
-    * Default constructor.
-    *
-    * @param sourceTask source task instance
-    * @param targetTask target task instance
-    * @param type relation type
-    * @param lag relation lag
-    * @deprecated use Relation.Builder
-    */
-   @Deprecated public Relation(Task sourceTask, Task targetTask, RelationType type, Duration lag)
-   {
-      m_sourceTask = sourceTask;
-      m_targetTask = targetTask;
-      m_type = type == null ? RelationType.FINISH_START : type;
-      m_lag = lag == null ? Duration.getInstance(0, TimeUnit.DAYS) : lag;
-      m_notes = null;
-
-      ProjectFile project = sourceTask.getParentFile();
-      ProjectConfig projectConfig = project.getProjectConfig();
-      if (projectConfig.getAutoRelationUniqueID())
-      {
-         setUniqueID(project.getUniqueIdObjectSequence(Relation.class).getNext());
-      }
-   }
-
-   /**
     * Constructor.
     *
     * @param builder Builder instance
@@ -141,9 +116,8 @@ public final class Relation implements ProjectEntityWithUniqueID
     * Set the Unique ID of this Relation.
     *
     * @param uniqueID unique ID
-    * @deprecated use Relation.Builder
     */
-   @Deprecated @Override public void setUniqueID(Integer uniqueID)
+   @Override public void setUniqueID(Integer uniqueID)
    {
       m_sourceTask.getParentFile().getRelations().updateUniqueID(this, m_uniqueID, uniqueID);
       m_uniqueID = uniqueID;

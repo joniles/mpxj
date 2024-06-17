@@ -31,21 +31,6 @@ public class ExpenseCategory implements ProjectEntityWithUniqueID
    /**
     * Constructor.
     *
-    * @param uniqueID expense category unique ID
-    * @param name expense category name
-    * @param sequenceNumber sequence number
-    * @deprecated use builder
-    */
-   @Deprecated public ExpenseCategory(Integer uniqueID, String name, Integer sequenceNumber)
-   {
-      m_uniqueID = uniqueID;
-      m_name = name;
-      m_sequenceNumber = sequenceNumber;
-   }
-
-   /**
-    * Constructor.
-    *
     * @param builder builder class
     */
    private ExpenseCategory(Builder builder)

@@ -104,56 +104,6 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
    }
 
    /**
-    * Add a predecessor for a task.
-    *
-    * @param sourceTask source task
-    * @param targetTask target task (the predecessor)
-    * @param type relationship type
-    * @param lag relationship lag
-    * @return new Relation instance
-    * @deprecated use addPredecessor(Relation.Builder)
-    */
-   @Deprecated public Relation addPredecessor(Task sourceTask, Task targetTask, RelationType type, Duration lag)
-   {
-      //
-      // Ensure that we have a valid lag duration
-      //
-      if (lag == null)
-      {
-         lag = Duration.getInstance(0, TimeUnit.DAYS);
-      }
-
-      //
-      // Retrieve the list of predecessors
-      //
-      List<Relation> predecessorList = m_predecessors.getOrDefault(sourceTask, EMPTY_LIST);
-
-      //
-      // Ensure that there is only one predecessor relationship between
-      // these two tasks.
-      //
-      for (Relation relation : predecessorList)
-      {
-         if (relation.getTargetTask() == targetTask)
-         {
-            if (relation.getType() == type && relation.getLag().compareTo(lag) == 0)
-            {
-               return relation;
-            }
-            break;
-         }
-      }
-
-      //
-      // If necessary, create a new predecessor relationship
-      //
-      Relation predecessorRelation = new Relation(sourceTask, targetTask, type, lag);
-      add(predecessorRelation);
-
-      return predecessorRelation;
-   }
-
-   /**
     * Add a predecessor relationship using the Relation instance created by the
     * supplied relation.Builder.
     *

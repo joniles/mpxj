@@ -1313,30 +1313,6 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
-    * Retrieves the calendar used for this resource assignment.
-    *
-    * @return ProjectCalendar instance
-    * @deprecated use getEffectveCalendar instead
-    */
-   @Deprecated public ProjectCalendar getCalendar()
-   {
-      ProjectCalendar calendar = null;
-      Resource resource = getResource();
-      if (resource != null)
-      {
-         calendar = resource.getCalendar();
-      }
-
-      Task task = getTask();
-      if (calendar == null || task.getIgnoreResourceCalendar())
-      {
-         calendar = task.getEffectiveCalendar();
-      }
-
-      return calendar;
-   }
-
-   /**
     * Retrieves the effective calendar used for this resource assignment.
     *
     * @return ProjectCalendar instance

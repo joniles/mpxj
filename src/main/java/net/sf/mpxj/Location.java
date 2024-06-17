@@ -224,16 +224,6 @@ public final class Location implements ProjectEntityWithUniqueID
       /**
        * Constructor.
        *
-       * @deprecated use Builder(ProjectFile file)
-       */
-      @Deprecated public Builder()
-      {
-
-      }
-
-      /**
-       * Constructor.
-       *
        * @param file parent project file.
        */
       public Builder(ProjectFile file)

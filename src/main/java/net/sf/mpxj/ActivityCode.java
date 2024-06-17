@@ -37,31 +37,6 @@ public class ActivityCode
    /**
     * Constructor.
     *
-    * @param uniqueID activity code unique ID
-    * @param scope activity code scope
-    * @param scopeEpsUniqueID scope EPS Unique ID
-    * @param scopeProjectUniqueID scope Project Unique ID
-    * @param sequenceNumber sequence number
-    * @param name activity code name
-    * @param secure secure flag
-    * @param maxLength max length
-    * @deprecated use builder
-    */
-   @Deprecated public ActivityCode(Integer uniqueID, ActivityCodeScope scope, Integer scopeEpsUniqueID, Integer scopeProjectUniqueID, Integer sequenceNumber, String name, boolean secure, Integer maxLength)
-   {
-      m_uniqueID = uniqueID;
-      m_scope = scope;
-      m_scopeEpsUniqueID = scopeEpsUniqueID;
-      m_scopeProjectUniqueID = scopeProjectUniqueID;
-      m_sequenceNumber = sequenceNumber;
-      m_name = name;
-      m_secure = secure;
-      m_maxLength = maxLength;
-   }
-
-   /**
-    * Constructor.
-    *
     * @param builder builder
     */
    private ActivityCode(Builder builder)
@@ -154,24 +129,6 @@ public class ActivityCode
    public Integer getMaxLength()
    {
       return m_maxLength;
-   }
-
-   /**
-    * Add a value to this activity code.
-    *
-    * @param uniqueID value unique ID
-    * @param sequenceNumber value sequence number
-    * @param name value name
-    * @param description value description
-    * @param color value color
-    * @return ActivityCodeValue instance
-    * @deprecated use ActivityCodeValue.Builder and pass result to addValue(ActivityCodeValue) method
-    */
-   @Deprecated public ActivityCodeValue addValue(Integer uniqueID, Integer sequenceNumber, String name, String description, Color color)
-   {
-      ActivityCodeValue value = new ActivityCodeValue(this, uniqueID, sequenceNumber, name, description, color);
-      m_values.add(value);
-      return value;
    }
 
    /**

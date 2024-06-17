@@ -37,38 +37,6 @@ public final class ExternalRelation
    /**
     * Default constructor.
     *
-    * @param sourceUniqueID source task unique ID
-    * @param targetTask target task instance
-    * @param type relation type
-    * @param lag relation lag
-    * @param predecessor true if this is a predecessor of the current task
-    * @deprecated use the constructor which requires the unique ID and notes
-    */
-   @Deprecated public ExternalRelation(Integer sourceUniqueID, Task targetTask, RelationType type, Duration lag, boolean predecessor)
-   {
-      // TODO: make uniqueID immutable once this method is removed
-      this(null, sourceUniqueID, targetTask, type, lag, predecessor);
-   }
-
-   /**
-    * Default constructor.
-    *
-    * @param uniqueID unique ID
-    * @param sourceUniqueID source task unique ID
-    * @param targetTask target task instance
-    * @param type relation type
-    * @param lag relation lag
-    * @param predecessor true if this is a predecessor of the current task
-    * @deprecated use the constructor which requires notes
-    */
-   @Deprecated public ExternalRelation(Integer uniqueID, Integer sourceUniqueID, Task targetTask, RelationType type, Duration lag, boolean predecessor)
-   {
-      this(uniqueID, sourceUniqueID, targetTask, type, lag, predecessor, null);
-   }
-
-   /**
-    * Default constructor.
-    *
     * @param uniqueID external relation unique ID
     * @param sourceUniqueID source task unique ID
     * @param targetTask target task instance
@@ -158,16 +126,6 @@ public final class ExternalRelation
    }
 
    /**
-    * Set the Unique ID of this Relation.
-    *
-    * @param uniqueID unique ID
-    */
-   public void setUniqueID(Integer uniqueID)
-   {
-      m_uniqueID = uniqueID;
-   }
-
-   /**
     * Indication relation type.
     *
     * @return true if this is an external predecessor, or false if it is an external successor.
@@ -192,7 +150,7 @@ public final class ExternalRelation
       return "[ExternalPredecessor " + m_externalTaskUniqueID + " -> " + m_targetTask + "]";
    }
 
-   private Integer m_uniqueID;
+   private final Integer m_uniqueID;
 
    /**
     * External task unique ID.

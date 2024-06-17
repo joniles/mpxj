@@ -104,21 +104,6 @@ public final class ProjectCalendarHelper
    }
 
    /**
-    * Expand any exceptions in the given calendar, and include any working weeks
-    * defined by this calendar as exceptions. This is typically used to communicate
-    * working time accurately when the consuming application does not have the concept
-    * of working weeks.
-    *
-    * @param calendar calendar to process
-    * @return expanded exceptions, including working weeks
-    * @deprecated use ProjectCalendar.getExpandedCalendarExceptionsWithWorkWeeks
-    */
-   @Deprecated public static List<ProjectCalendarException> getExpandedExceptionsWithWorkWeeks(ProjectCalendar calendar)
-   {
-      return calendar.getExpandedCalendarExceptionsWithWorkWeeks();
-   }
-
-   /**
     * Merge exceptions recursively from the source calendar (and any calendars from which it is derived)
     * into the target calendar.
     *

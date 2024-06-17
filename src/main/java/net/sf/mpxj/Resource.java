@@ -237,17 +237,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
-    * Set the units label for a material resource.
-    *
-    * @param materialLabel material resource units label
-    * @deprecated use setUnitOfMeasure
-    */
-   @Deprecated public void setMaterialLabel(String materialLabel)
-   {
-      // Deprecated
-   }
-
-   /**
     * Retrieves the units label for a material resource.
     *
     * @return material resource units label
@@ -438,17 +427,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
-    * Sets the maximum availability of a resource.
-    *
-    * @param maxUnits maximum availability
-    * @deprecated create entries in the availability table to set this value
-    */
-   @Deprecated public void setMaxUnits(Number maxUnits)
-   {
-      set(ResourceField.MAX_UNITS, maxUnits);
-   }
-
-   /**
     * Retrieves the maximum availability of a resource on the current date.
     * Refer to the availability table to retrieve this value for other dates.
     *
@@ -510,17 +488,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
-    * Set the "available from" date.
-    *
-    * @param date available from date
-    * @deprecated this attribute is now derived from the resources' availability table
-    */
-   @Deprecated public void setAvailableFrom(LocalDateTime date)
-   {
-      set(ResourceField.AVAILABLE_FROM, date);
-   }
-
-   /**
     * Retrieves the "available to" date.
     *
     * @return available from date
@@ -528,17 +495,6 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    public LocalDateTime getAvailableTo()
    {
       return (LocalDateTime) get(ResourceField.AVAILABLE_TO);
-   }
-
-   /**
-    * Set the "available to" date.
-    *
-    * @param date available to date
-    * @deprecated this attribute is now derived from the resources' availability table
-    */
-   @Deprecated public void setAvailableTo(LocalDateTime date)
-   {
-      set(ResourceField.AVAILABLE_TO, date);
    }
 
    /**

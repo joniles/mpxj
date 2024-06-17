@@ -93,16 +93,6 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
       /**
        * Constructor.
        *
-       * @deprecated use Builder(ProjectFile) constructor
-       */
-      @Deprecated public Builder()
-      {
-
-      }
-
-      /**
-       * Constructor.
-       *
        * @param file parent file
        */
       public Builder(ProjectFile file)

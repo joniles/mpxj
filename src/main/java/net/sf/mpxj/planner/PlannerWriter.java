@@ -931,29 +931,6 @@ public final class PlannerWriter extends AbstractProjectWriter
    }
 
    /**
-    * Set the encoding used to write the file. By default, UTF-8 is used.
-    *
-    * @param encoding encoding name
-    * @deprecated use setCharset
-    */
-   @Deprecated public void setEncoding(String encoding)
-   {
-      m_charset = Charset.forName(encoding);
-   }
-
-   /**
-    * Retrieve the encoding used to write the file. If this value is null,
-    * UTF-8 is used.
-    *
-    * @return encoding name
-    * @deprecated use getCharset
-    */
-   @Deprecated public String getEncoding()
-   {
-      return m_charset == null ? null : m_charset.name();
-   }
-
-   /**
     * Set the charset used to write the file. By default, UTF-8 is used.
     *
     * @param charset charset
