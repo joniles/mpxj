@@ -17,7 +17,7 @@
 		<release date="2024-05-22" version="12.10.1">
 			<action dev="joniles" type="update">Ignore missing `PropertySet`s when reading MPP files (Contributed by Fabian Schmidt).</action>
 			<action dev="joniles" type="update">Corrected handling of the "24 Hour Calendar" Relationship Lag Calendar setting when reading and writing XER files (Based on a contribution by Alex Matatov)</action>
-		</release>		
+		</release>
 		<release date="2024-05-13" version="12.10.0">
 			<action dev="joniles" type="update">When a baseline is added using one of the `ProjectFile.setBaseline` methods, ensure that the relevant baseline date is set in `ProjectProperties`.</action>
 			<action dev="joniles" type="update">Marked the `JsonWriter` methods `setEncoding` and `getEncoding` as deprecated, use `setCharset` and `getCharset` instead.</action>

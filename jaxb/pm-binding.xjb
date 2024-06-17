@@ -1,4 +1,4 @@
-<jxb:bindings version="1.0" xmlns:jxb="http://java.sun.com/xml/ns/jaxb" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<jxb:bindings version="3.0" xmlns:jxb="https://jakarta.ee/xml/ns/jaxb" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <!-- note that the schemaLocation will need to be changed to be correct for your system -->
   <jxb:bindings node="/xsd:schema" schemaLocation="file:p6v2312-p6apibo-corrected.xsd">
     <jxb:globalBindings generateElementProperty="false">

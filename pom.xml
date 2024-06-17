@@ -3,14 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
 
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.mpxj</groupId>
 	<artifactId>mpxj</artifactId>
-
-	<!-- Note - this is automatically updated by the ant build ... don't remove the MPXJ comment! -->
-	<!-- MPXJ --><version>12.10.3</version>
-
+	<version>12.10.3</version>
 	<name>MPXJ</name>
 	<url>http://mpxj.org</url>
 
@@ -48,24 +45,28 @@
 			<version>1.16.0</version>
 		</dependency>
 
-		<!-- Make JAXB an explicit dependency to avoid issues across different Java versions -->
 		<dependency>
 		    <groupId>jakarta.xml.bind</groupId>
 		    <artifactId>jakarta.xml.bind-api</artifactId>
-		    <version>2.3.2</version>
+		    <version>3.0.1</version>
 		</dependency>
 
 		<dependency>
 		    <groupId>org.glassfish.jaxb</groupId>
 		    <artifactId>jaxb-runtime</artifactId>
-		    <version>2.3.2</version>
+		    <version>3.0.2</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.healthmarketscience.jackcess/jackcess -->
 		<dependency>
 			<groupId>com.healthmarketscience.jackcess</groupId>
 			<artifactId>jackcess</artifactId>
 			<version>4.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.15.3</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -74,12 +75,6 @@
 			<artifactId>junit</artifactId>
 			<version>4.13.1</version>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jsoup</groupId>
-			<artifactId>jsoup</artifactId>
-			<version>1.15.3</version>
 		</dependency>
 	</dependencies>
 
@@ -431,29 +426,6 @@
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>false</overWriteSnapshots>
 							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Generate test jar -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.2.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>test-jar</goal>
-						</goals>
-						<configuration>
-							<archive>
-								<manifestEntries>
-									<!-- Ensure the tests jar has a different automatic module name from the main jar. -->
-									<!-- This allows IkvmMaven to generate both assemblies and give them different DLLs names -->
-									<Automatic-Module-Name>mpxjtests</Automatic-Module-Name>
-								</manifestEntries>
-							</archive>
 						</configuration>
 					</execution>
 				</executions>

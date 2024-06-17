@@ -50,7 +50,6 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.common.FileHelper;
 import net.sf.mpxj.common.JvmHelper;
-import net.sf.mpxj.common.MarshallerHelper;
 import net.sf.mpxj.json.JsonWriter;
 import net.sf.mpxj.mpx.MPXReader;
 import net.sf.mpxj.mpx.MPXWriter;
@@ -220,28 +219,6 @@ public class CustomerDataTest
          {
             FIELD_REPORTER.process(project);
          }
-      }
-   }
-
-   /**
-    * Enable our custom character escape handler if we're running on a JVM.
-    */
-   @BeforeClass public static void enableCustomEscapeHandling()
-   {
-      if (!JvmHelper.isIkvm())
-      {
-         MarshallerHelper.enableCustomEscapeHandling(true);
-      }
-   }
-
-   /**
-    * Disable our custom character escape handler if we're running on a JVM.
-    */
-   @AfterClass public static void disableCustomEscapeHandling()
-   {
-      if (!JvmHelper.isIkvm())
-      {
-         MarshallerHelper.enableCustomEscapeHandling(false);
       }
    }
 

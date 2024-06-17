@@ -1,6 +1,7 @@
 /mpxj.jar
 /mpxj-test.jar
 /target
+/target.tests
 /lib
 /src.net/lib/**/junit.dll
 /src.net/lib/**/mpxj*.dll
@@ -11,6 +12,10 @@
 /src.net/lib/**/sqlite-jdbc*.dll
 /src.net/lib/**/jsoup*.dll
 /src.net/lib/**/jackcess*.dll
+/src.net/lib/**/jakarta*.dll
+/src.net/lib/**/istack*.dll
+/src.net/lib/**/txw*.dll
+/src.net/lib/**/jaxb*.dll
 /src.net/lib/**/MpxjUtilities.dll
 /src.net/lib/**/*.tlb
 /src.net/lib/**/*.bat

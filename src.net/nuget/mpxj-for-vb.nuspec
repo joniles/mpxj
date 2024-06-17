@@ -31,6 +31,11 @@
         <file src="..\lib\net45\sqlite-jdbc*.*" target="lib\net45"/>
         <file src="..\lib\net45\jsoup*.*" target="lib\net45"/>
         <file src="..\lib\net45\jackcess*.*" target="lib\net45"/>
+        <file src="..\lib\net45\jakarta*.*" target="lib\net45"/>
+        <file src="..\lib\net45\istack*.*" target="lib\net45"/>
+        <file src="..\lib\net45\txw2*.*" target="lib\net45"/>
+        <file src="..\lib\net45\jaxb*.*" target="lib\net45"/>
+
         <file src="..\lib\net45\log4j*.*" target="lib\net45"/>
         <file src="..\lib\net45\MpxjUtilities.*" target="lib\net45"/>
 
@@ -40,6 +45,10 @@
         <file src="..\lib\netcoreapp3.1\sqlite-jdbc*.*" target="lib\netcoreapp3.1"/>
         <file src="..\lib\netcoreapp3.1\jsoup*.*" target="lib\netcoreapp3.1"/>
         <file src="..\lib\netcoreapp3.1\jackcess*.*" target="lib\netcoreapp3.1"/>
+        <file src="..\lib\netcoreapp3.1\jakarta*.*" target="lib\netcoreapp3.1"/>
+        <file src="..\lib\netcoreapp3.1\istack*.*" target="lib\netcoreapp3.1"/>
+        <file src="..\lib\netcoreapp3.1\txw2*.*" target="lib\netcoreapp3.1"/>
+        <file src="..\lib\netcoreapp3.1\jaxb*.*" target="lib\netcoreapp3.1"/>
         <file src="..\lib\netcoreapp3.1\log4j*.*" target="lib\netcoreapp3.1"/>
         <file src="..\lib\netcoreapp3.1\MpxjUtilities.*" target="lib\netcoreapp3.1"/>
 
