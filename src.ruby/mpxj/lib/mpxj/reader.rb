@@ -1,5 +1,7 @@
 require 'tempfile'
+require 'active_support'
 require 'active_support/core_ext/time/calculations'
+require 'active_support/core_ext/object/blank'
 
 module MPXJ
   # Used to read a project plan from a file
