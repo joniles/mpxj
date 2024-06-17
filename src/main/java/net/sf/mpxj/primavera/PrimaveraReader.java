@@ -1958,7 +1958,6 @@ final class PrimaveraReader
 
    /**
     * Extract schedule options.
-    * TODO: deprecate the use of custom properties and replace with specific attributes
     *
     * @param row schedule options row
     */
