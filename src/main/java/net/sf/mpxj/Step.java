@@ -28,7 +28,7 @@ import net.sf.mpxj.common.NumberHelper;
 /**
  * Represents an activity step.
  */
-public class Step
+public final class Step
 {
    /**
     * Constructor.

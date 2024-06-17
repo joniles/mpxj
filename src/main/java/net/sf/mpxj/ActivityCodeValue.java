@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 /**
  * Represents an individual activity code value.
  */
-public class ActivityCodeValue
+public final class ActivityCodeValue
 {
    /**
     * Constructor.

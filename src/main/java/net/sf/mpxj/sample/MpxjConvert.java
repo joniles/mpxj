@@ -98,7 +98,7 @@ public final class MpxjConvert
 
       String extension = outputFile.substring(index + 1).toUpperCase();
       FileFormat outputFormat = FILE_FORMAT_MAP.get(extension);
-      if (extension == null)
+      if (outputFormat == null)
       {
          throw new IllegalArgumentException("Cannot write files of type: " + extension);
       }

@@ -26,7 +26,7 @@ package net.sf.mpxj;
 /**
  * Represents a topic, used by P6 to organise notes.
  */
-public class NotesTopic implements ProjectEntityWithUniqueID
+public final class NotesTopic implements ProjectEntityWithUniqueID
 {
    /**
     * Constructor.

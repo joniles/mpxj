@@ -95,8 +95,7 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 public class PrimaveraXERFileWriter extends AbstractProjectWriter
 {
    /**
-    * Alternative way to set the file encoding. If both an encoding name and a Charset instance
-    * are supplied, the Charset instance is used.
+    * Set the Charset used to write the file.
     *
     * @param charset Charset used when writing the file
     */
@@ -112,13 +111,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    public Charset getCharset()
    {
-      if (m_charset != null)
-      {
-         return m_charset;
-      }
-
-      // We default to CP1252 as this seems to be the most common encoding
-      return m_encoding == null ? CharsetHelper.CP1252 : Charset.forName(m_encoding);
+      return m_charset;
    }
 
    @Override public void write(ProjectFile projectFile, OutputStream outputStream) throws IOException
@@ -974,8 +967,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return type == null ? PercentCompleteType.DURATION : type;
    }
 
-   private String m_encoding;
-   private Charset m_charset;
+   private Charset m_charset = CharsetHelper.CP1252;
    private ProjectFile m_file;
    private XerWriter m_writer;
    private ObjectSequence m_rateObjectID;

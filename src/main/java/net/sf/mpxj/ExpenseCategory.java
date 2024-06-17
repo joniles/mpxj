@@ -26,7 +26,7 @@ package net.sf.mpxj;
 /**
  * Expense category definition.
  */
-public class ExpenseCategory implements ProjectEntityWithUniqueID
+public final class ExpenseCategory implements ProjectEntityWithUniqueID
 {
    /**
     * Constructor.

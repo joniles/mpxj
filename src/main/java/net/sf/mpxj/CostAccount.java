@@ -26,7 +26,7 @@ package net.sf.mpxj;
 /**
  * Cost account definition.
  */
-public class CostAccount implements ProjectEntityWithUniqueID
+public final class CostAccount implements ProjectEntityWithUniqueID
 {
    /**
     * Constructor.

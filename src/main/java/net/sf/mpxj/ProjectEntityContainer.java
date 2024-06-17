@@ -84,7 +84,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
       if (currentElement instanceof ProjectEntityWithMutableUniqueID)
       {
-         m_uniqueIDClashList.add((ProjectEntityWithMutableUniqueID)element);
+         m_uniqueIDClashList.add((ProjectEntityWithMutableUniqueID) element);
       }
 
       m_uniqueIDMap.put(element.getUniqueID(), element);
@@ -122,7 +122,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
       if (currentElement instanceof ProjectEntityWithMutableUniqueID)
       {
-         m_uniqueIDClashList.add((ProjectEntityWithMutableUniqueID)element);
+         m_uniqueIDClashList.add((ProjectEntityWithMutableUniqueID) element);
       }
 
       m_uniqueIDMap.put(newUniqueID, element);
