@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="13.0.0">
 			<action dev="joniles" type="update">Updated to use JAXB3. Amongst other things this change ensures compatibility with Spring Boot 3. Note that this may be a breaking change for you if you own application uses JAXB2.</action>
+			<action dev="joniles" type="update">When reading P6 schedule, the custom properties (as retrieved using `ProjectProperties.getCustomProperties`) will no longer contain scheduling options. These are now all present as attributes of the `ProjectProperties` class.</action>
 		</release>
 		<release date="2024-06-14" version="12.10.3">
 			<action dev="joniles" type="update">Add new project property `IsProjectBaseline`. When using the `readAll` method to retrieve a set of schedules, if the data source contans both schedules and baselines this property will be true for the `ProjectFile` instances which represent a baseline.</action>

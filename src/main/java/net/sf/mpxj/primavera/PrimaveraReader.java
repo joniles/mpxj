@@ -1964,8 +1964,6 @@ final class PrimaveraReader
     */
    public void processScheduleOptions(Row row)
    {
-      // NOTE: custom properties are deprecated and will be removed at the next major release
-      Map<String, Object> customProperties = new TreeMap<>();
       ProjectProperties projectProperties = m_project.getProjectProperties();
 
       //
@@ -1973,90 +1971,48 @@ final class PrimaveraReader
       //
 
       // Automatically level resources when scheduling
-      customProperties.put("ConsiderAssignmentsInOtherProjects", Boolean.valueOf(row.getBoolean("level_outer_assign_flag")));
       projectProperties.setConsiderAssignmentsInOtherProjects(row.getBoolean("level_outer_assign_flag"));
-
-      customProperties.put("ConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan", NumberHelper.getInteger(row.getString("level_outer_assign_priority")));
       projectProperties.setConsiderAssignmentsInOtherProjectsWithPriorityEqualHigherThan(NumberHelper.getInteger(row.getString("level_outer_assign_priority")));
-
-      customProperties.put("PreserveScheduledEarlyAndLateDates", Boolean.valueOf(row.getBoolean("level_keep_sched_date_flag")));
       projectProperties.setPreserveScheduledEarlyAndLateDates(row.getBoolean("level_keep_sched_date_flag"));
 
       // Recalculate assignment costs after leveling
-      customProperties.put("LevelAllResources", Boolean.valueOf(row.getBoolean("level_all_rsrc_flag")));
       projectProperties.setLevelAllResources(row.getBoolean("level_all_rsrc_flag"));
-
-      customProperties.put("LevelResourcesOnlyWithinActivityTotalFloat", Boolean.valueOf(row.getBoolean("level_within_float_flag")));
       projectProperties.setLevelResourcesOnlyWithinActivityTotalFloat(row.getBoolean("level_within_float_flag"));
-
-      customProperties.put("PreserveMinimumFloatWhenLeveling", NumberHelper.getInteger(row.getString("level_float_thrs_cnt")));
       projectProperties.setPreserveMinimumFloatWhenLeveling(Duration.getInstance(NumberHelper.getInt(row.getString("level_float_thrs_cnt")), TimeUnit.HOURS));
-
-      customProperties.put("MaxPercentToOverallocateResources", NumberHelper.getDoubleObject(row.getString("level_over_alloc_pct")));
       projectProperties.setMaxPercentToOverallocateResources(NumberHelper.getDoubleObject(row.getString("level_over_alloc_pct")));
-
-      customProperties.put("LevelingPriorities", row.getString("levelprioritylist"));
       projectProperties.setLevelingPriorities(row.getString("levelprioritylist"));
 
       //
       // Schedule
       //
-      customProperties.put("SetDataDateAndPlannedStartToProjectForecastStart", Boolean.valueOf(row.getBoolean("sched_setplantoforecast")));
       projectProperties.setDataDateAndPlannedStartSetToProjectForecastStart(row.getBoolean("sched_setplantoforecast"));
 
       //
       // Schedule Options - General
       //
-      customProperties.put("IgnoreRelationshipsToAndFromOtherProjects", Boolean.valueOf("SD_None".equals(row.getString("sched_outer_depend_type"))));
       projectProperties.setIgnoreRelationshipsToAndFromOtherProjects("SD_None".equals(row.getString("sched_outer_depend_type")));
-
-      customProperties.put("MakeOpenEndedActivitiesCritical", Boolean.valueOf(row.getBoolean("sched_open_critical_flag")));
       projectProperties.setMakeOpenEndedActivitiesCritical(row.getBoolean("sched_open_critical_flag"));
-
-      customProperties.put("UseExpectedFinishDates", Boolean.valueOf(row.getBoolean("sched_use_expect_end_flag")));
       projectProperties.setUseExpectedFinishDates(row.getBoolean("sched_use_expect_end_flag"));
 
       // Schedule automatically when a change affects dates - not in XER/database?
 
       // Level resources during scheduling - not in XER/database?
-
-      customProperties.put("WhenSchedulingProgressedActivitiesUseRetainedLogic", Boolean.valueOf(row.getBoolean("sched_retained_logic")));
-      customProperties.put("WhenSchedulingProgressedActivitiesUseProgressOverride", Boolean.valueOf(row.getBoolean("sched_progress_override")));
       projectProperties.setSchedulingProgressedActivities(row.getBoolean("sched_retained_logic") ? SchedulingProgressedActivities.RETAINED_LOGIC : (row.getBoolean("sched_progress_override") ? SchedulingProgressedActivities.PROGRESS_OVERRIDE : SchedulingProgressedActivities.ACTUAL_DATES));
-
-      customProperties.put("ComputeStartToStartLagFromEarlyStart", Boolean.valueOf(row.getBoolean("sched_lag_early_start_flag")));
       projectProperties.setComputeStartToStartLagFromEarlyStart(row.getBoolean("sched_lag_early_start_flag"));
 
       // Define critical activities as
-
-      customProperties.put("CalculateFloatBasedOnFishDateOfEachProject", Boolean.valueOf(row.getBoolean("sched_use_project_end_date_for_float")));
       projectProperties.setCalculateFloatBasedOnFinishDateOfEachProject(row.getBoolean("sched_use_project_end_date_for_float"));
-
-      customProperties.put("ComputeTotalFloatAs", row.getString("sched_float_type"));
       projectProperties.setTotalSlackCalculationType(TotalSlackCalculationTypeHelper.getInstanceFromXer(row.getString("sched_float_type")));
-
-      customProperties.put("CalendarForSchedulingRelationshipLag", row.getString("sched_calendar_on_relationship_lag"));
       projectProperties.setRelationshipLagCalendar(RelationshipLagCalendarHelper.getInstanceFromXer(row.getString("sched_calendar_on_relationship_lag")));
 
       //
       // Schedule Options - Advanced
       //
-      customProperties.put("CalculateMultipleFloatPaths", Boolean.valueOf(row.getBoolean("enable_multiple_longest_path_calc")));
       projectProperties.setCalculateMultipleFloatPaths(row.getBoolean("enable_multiple_longest_path_calc"));
-
-      customProperties.put("CalculateMultiplePathsUsingTotalFloat", Boolean.valueOf(row.getBoolean("use_total_float_multiple_longest_paths")));
       projectProperties.setCalculateMultipleFloatPathsUsingTotalFloat(row.getBoolean("use_total_float_multiple_longest_paths"));
-
-      customProperties.put("DisplayMultipleFloatPathsEndingWithActivity", NumberHelper.getInteger(row.getString("key_activity_for_multiple_longest_paths")));
       projectProperties.setDisplayMultipleFloatPathsEndingWithActivityUniqueID(NumberHelper.getInteger(row.getString("key_activity_for_multiple_longest_paths")));
-
-      customProperties.put("LimitNumberOfPathsToCalculate", Boolean.valueOf(row.getBoolean("limit_multiple_longest_path_calc")));
       projectProperties.setLimitNumberOfFloatPathsToCalculate(row.getBoolean("limit_multiple_longest_path_calc"));
-
-      customProperties.put("NumberofPathsToCalculate", NumberHelper.getInteger(row.getString("max_multiple_longest_path")));
       projectProperties.setMaximumNumberOfFloatPathsToCalculate(NumberHelper.getInteger(row.getString("max_multiple_longest_path")));
-
-      projectProperties.setCustomProperties(customProperties);
    }
 
    /**
