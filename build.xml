@@ -929,7 +929,7 @@
 		<delete dir="${ikvm.working.dir}" />
 	</target>
 
-	<target name="ruby-clean" depends="init" description="Clean up Ruby files">
+	<target name="gem-clean" depends="init" description="Clean up Ruby files">
 		<delete dir="${basedir}/src.ruby/mpxj/doc" />
 		<delete dir="${basedir}/src.ruby/mpxj/legal" />
 		<delete dir="${basedir}/src.ruby/mpxj/pkg" />
@@ -951,7 +951,7 @@
 		<mkdir dir="${basedir}/src.python/mpxj/mpxj/lib" />
 	</target>
 
-	<target name="clean" depends="init, temp-clean, dotnet-clean, ruby-clean, python-clean, maven-clean" description="Clean up all files">
+	<target name="clean" depends="init, temp-clean, dotnet-clean, gem-clean, python-clean, maven-clean" description="Clean up all files">
 		<delete file="${basedir}/mpxj.jar" />
 		<delete file="${basedir}/mpxj-test.jar" />
 
