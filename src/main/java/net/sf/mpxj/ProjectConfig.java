@@ -31,16 +31,6 @@ import java.io.File;
 public class ProjectConfig
 {
    /**
-    * Constructor.
-    *
-    * @param projectFile parent project
-    */
-   public ProjectConfig(ProjectFile projectFile)
-   {
-      m_parent = projectFile;
-   }
-
-   /**
     * Used to set whether WBS numbers are automatically created.
     *
     * @param flag true if automatic WBS required.
@@ -251,83 +241,6 @@ public class ProjectConfig
    }
 
    /**
-    * This method is used to retrieve the next unique ID for a task.
-    *
-    * @return next unique ID
-    * @deprecated use ProjectFile.getTasks().getNextUniqueID()
-    */
-   @Deprecated public int getNextTaskUniqueID()
-   {
-      return m_parent.getUniqueIdObjectSequence(Task.class).getNext().intValue();
-   }
-
-   /**
-    * This method is used to retrieve the next unique ID for a calendar.
-    *
-    * @return next unique ID
-    * @deprecated use ProjectFile.getCalendars().getNextUniqueID()
-    */
-   @Deprecated public int getNextCalendarUniqueID()
-   {
-      return m_parent.getUniqueIdObjectSequence(ProjectCalendar.class).getNext().intValue();
-   }
-
-   /**
-    * This method is used to retrieve the next unique ID for an assignment.
-    *
-    * @return next unique ID
-    * @deprecated use ProjectFile.getResourceAssignments().getNextUniqueID()
-    */
-   @Deprecated int getNextAssignmentUniqueID()
-   {
-      return m_parent.getUniqueIdObjectSequence(ResourceAssignment.class).getNext().intValue();
-   }
-
-   /**
-    * This method is used to retrieve the next ID for a task.
-    *
-    * @return next ID
-    * @deprecated use ProjectFile.getTasks().getNextID()
-    */
-   @Deprecated public int getNextTaskID()
-   {
-      return m_parent.getTasks().getNextID().intValue();
-   }
-
-   /**
-    * This method is used to retrieve the next unique ID for a resource.
-    *
-    * @return next unique ID
-    * @deprecated use ProjectFile.getResources().getNextUniqueID()
-    */
-   @Deprecated public int getNextResourceUniqueID()
-   {
-      return m_parent.getUniqueIdObjectSequence(Resource.class).getNext().intValue();
-   }
-
-   /**
-    * This method is used to retrieve the next ID for a resource.
-    *
-    * @return next ID
-    * @deprecated use ProjectFile.getResources().getNextID()
-    */
-   @Deprecated public int getNextResourceID()
-   {
-      return m_parent.getResources().getNextID().intValue();
-   }
-
-   /**
-    * This method is used to retrieve the next unique ID for a relation.
-    *
-    * @return next unique ID
-    * @deprecated  use ProjectFile.getRelations().getNextUniqueID()
-    */
-   @Deprecated public int getNextRelationUniqueID()
-   {
-      return m_parent.getUniqueIdObjectSequence(Relation.class).getNext().intValue();
-   }
-
-   /**
     * Returns true if a task's Complete Through attribute is reported as
     * the time work can next start. Defaults to false. When set to true this
     * matches the behaviour of MS Project versions prior to 2007.
@@ -349,56 +262,6 @@ public class ProjectConfig
    public void setCompleteThroughIsNextWorkStart(boolean completeThroughIsNextWorkStart)
    {
       m_completeThroughIsNextWorkStart = completeThroughIsNextWorkStart;
-   }
-
-   /**
-    * This method is called to ensure that after a project file has been
-    * read, the cached unique ID values used to generate new unique IDs
-    * start after the end of the existing set of unique IDs.
-    *
-    * @deprecated use ProjectFile.updateUniqueCounters
-    */
-   @Deprecated public void updateUniqueCounters()
-   {
-      // Deprecated
-   }
-
-   /**
-    * Ensure unique ID counter is in sync with project file.
-    *
-    * @deprecated use ProjectFile.getTasks().updateUniqueIdCounter()
-    */
-   @Deprecated public void updateTaskUniqueCounter()
-   {
-      // Deprecated
-   }
-
-   /**
-    * Ensure unique ID counter is in sync with project file.
-    *
-    * @deprecated use ProjectFile.getResources().updateUniqueIdCounter()
-    */
-   @Deprecated public void updateResourceUniqueCounter()
-   {
-      // Deprecated
-   }
-
-   /**
-    * Ensure unique ID counter is in sync with project file.
-    *
-    * @deprecated use ProjectFile.getResources().updateUniqueIdCounter()
-    */
-   @Deprecated public void updateCalendarUniqueCounter()
-   {
-      // Deprecated
-   }
-
-   /**
-    * Ensure unique ID counter is in sync with project file.
-    */
-   @Deprecated public void updateAssignmentUniqueCounter()
-   {
-      // Deprecated
    }
 
    /**
@@ -444,8 +307,6 @@ public class ProjectConfig
    {
       return m_subprojectWorkingDirectory;
    }
-
-   private final ProjectFile m_parent;
 
    /**
     * Indicating whether WBS value should be calculated on creation, or will

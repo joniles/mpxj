@@ -49,7 +49,7 @@ public final class SDEFReader extends AbstractProjectStreamReader implements Has
     *
     * @param charset character set to use when reading the file
     */
-   @SuppressWarnings("deprecation") @Override public void setCharset(Charset charset)
+   @Override public void setCharset(Charset charset)
    {
       m_charset = charset;
    }

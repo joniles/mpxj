@@ -45,11 +45,6 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
       return m_uniqueID;
    }
 
-   @Override public void setUniqueID(Integer id)
-   {
-      throw new UnsupportedOperationException();
-   }
-
    /**
     * Retrieve the unit of measure name.
     *
@@ -90,16 +85,6 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
     */
    public static class Builder
    {
-      /**
-       * Constructor.
-       *
-       * @deprecated use Builder(ProjectFile) constructor
-       */
-      @Deprecated public Builder()
-      {
-
-      }
-
       /**
        * Constructor.
        *
@@ -183,7 +168,7 @@ public final class UnitOfMeasure implements ProjectEntityWithUniqueID
          return new UnitOfMeasure(this);
       }
 
-      private ProjectFile m_file;
+      private final ProjectFile m_file;
       private Integer m_uniqueID;
       private String m_name;
       private String m_abbreviation;

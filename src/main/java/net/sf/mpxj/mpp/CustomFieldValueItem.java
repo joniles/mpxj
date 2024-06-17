@@ -114,28 +114,6 @@ public final class CustomFieldValueItem
    }
 
    /**
-    * Set the parent ID.
-    *
-    * @param id parent ID
-    * @deprecated use setParentUniqueID
-    */
-   @Deprecated public void setParent(Integer id)
-   {
-      m_parentUniqueID = id;
-   }
-
-   /**
-    * Retrieve the parent ID.
-    *
-    * @return parent IDs
-    * @deprecated use getParentUniqueID
-    */
-   @Deprecated public Integer getParent()
-   {
-      return m_parentUniqueID;
-   }
-
-   /**
     * Set the parent unique ID.
     *
     * @param id parent ID

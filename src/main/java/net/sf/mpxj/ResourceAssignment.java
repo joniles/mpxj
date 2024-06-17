@@ -49,7 +49,7 @@ import net.sf.mpxj.common.NumberHelper;
 /**
  * This class represents a resource assignment record from an MPX file.
  */
-public final class ResourceAssignment extends AbstractFieldContainer<ResourceAssignment> implements ProjectEntityWithUniqueID, TimePeriodEntity
+public final class ResourceAssignment extends AbstractFieldContainer<ResourceAssignment> implements ProjectEntityWithMutableUniqueID, TimePeriodEntity
 {
    /**
     * Constructor.
@@ -1310,30 +1310,6 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    public List<TimephasedCost> getTimephasedBaselineCost(int index)
    {
       return m_timephasedBaselineCost[index] == null ? null : m_timephasedBaselineCost[index].getData();
-   }
-
-   /**
-    * Retrieves the calendar used for this resource assignment.
-    *
-    * @return ProjectCalendar instance
-    * @deprecated use getEffectveCalendar instead
-    */
-   @Deprecated public ProjectCalendar getCalendar()
-   {
-      ProjectCalendar calendar = null;
-      Resource resource = getResource();
-      if (resource != null)
-      {
-         calendar = resource.getCalendar();
-      }
-
-      Task task = getTask();
-      if (calendar == null || task.getIgnoreResourceCalendar())
-      {
-         calendar = task.getEffectiveCalendar();
-      }
-
-      return calendar;
    }
 
    /**

@@ -75,18 +75,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
-    * This method is called to ensure that all unique ID values
-    * held by MPXJ are within the range supported by MS Project.
-    * If any of these values fall outside of this range, the unique IDs
-    * of the relevant entities are renumbered.
-    * @deprecated no longer required as the MSPDI and MPX writers handle this dynamically without changing the original schedule
-    */
-   @Deprecated public void validateUniqueIDsForMicrosoftProject()
-   {
-      // Deprecated
-   }
-
-   /**
     * This method is used to retrieve a list of all top level tasks
     * defined in this project file.
     *
@@ -751,27 +739,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     * of tasks to visit all tasks from all files, the {@code ProjectFile.getTasks()}
     * collection will still only contain the tasks from the original project,
     * not  all the subprojects.
-    *
-    * @deprecated use the new version of this method which accepts a Boolean flag
-    */
-   @Deprecated public void expandSubprojects()
-   {
-      getTasks().stream().map(Task::expandSubproject).filter(Objects::nonNull).forEach(ProjectFile::expandSubprojects);
-   }
-
-   /**
-    * Calling this method will recursively expand any subprojects
-    * in the current file and in turn any subprojects those files contain.
-    * The tasks from the subprojects will be attached
-    * to what was originally the subproject task. Assuming all subproject
-    * files can be located and loaded correctly, this will present
-    * a complete view of the project.
-    * <p/>
-    * Note that the current project and any subprojects are still independent
-    * projects, so while you can recursively descend through the hierarchy
-    * of tasks to visit all tasks from all files, the {@code ProjectFile.getTasks()}
-    * collection will still only contain the tasks from the original project,
-    * not  all the subprojects.
     * <p/>
     * Passing {@code true} for the {@code replaceExternalTasks} flag will
     * replace any predecessor or successor relationships with external tasks
@@ -783,7 +750,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public void expandSubprojects(boolean replaceExternalTasks)
    {
-      getTasks().stream().map(Task::expandSubproject).filter(Objects::nonNull).forEach(ProjectFile::expandSubprojects);
+      getTasks().stream().map(Task::expandSubproject).filter(Objects::nonNull).forEach(p -> p.expandSubprojects(replaceExternalTasks));
       if (replaceExternalTasks)
       {
          replaceExternalTasks();
@@ -938,18 +905,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
-    * This method is called to ensure that after a project file has been
-    * read, the cached unique ID values used to generate new unique IDs
-    * start after the end of the existing set of unique IDs.
-    *
-    * @deprecated no longer required
-    */
-   @Deprecated public void updateUniqueIdCounters()
-   {
-      // Deprecated
-   }
-
-   /**
     * This method is called to renumber any Unique ID values which
     * were found to have duplicates.
     */
@@ -1003,7 +958,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_externalProjects.read(fileName);
    }
 
-   private final ProjectConfig m_config = new ProjectConfig(this);
+   private final ProjectConfig m_config = new ProjectConfig();
    private final ProjectProperties m_properties = new ProjectProperties(this);
    private final ResourceContainer m_resources = new ResourceContainer(this);
    private final TaskContainer m_tasks = new TaskContainer(this);

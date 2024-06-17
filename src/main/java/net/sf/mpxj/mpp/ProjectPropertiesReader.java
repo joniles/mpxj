@@ -114,7 +114,6 @@ public final class ProjectPropertiesReader
             // Microsoft Project opens a file successfully with missing summary property set.
             // We'll do the same here.
             file.addIgnoredError(ex);
-            ps = null;
          }
 
          SummaryInformation summaryInformation = ps == null ? new SummaryInformation() : new SummaryInformation(ps);

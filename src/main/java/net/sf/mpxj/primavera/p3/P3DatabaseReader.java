@@ -32,7 +32,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
@@ -71,31 +70,15 @@ public final class P3DatabaseReader extends AbstractProjectFileReader
     */
    public static final ProjectFile setProjectNameAndRead(File directory) throws MPXJException
    {
-      return setProjectNameAndRead(directory, null);
-   }
-
-   /**
-    * Convenience method which locates the first P3 database in a directory
-    * and opens it.
-    *
-    * @param directory directory containing a P3 database
-    * @param properties optional properties to pass to reader's setProperties method
-    * @return ProjectFile instance
-    * @deprecated use setProjectNameAndRead(File) method instead
-    */
-   @Deprecated public static final ProjectFile setProjectNameAndRead(File directory, Properties properties) throws MPXJException
-   {
       List<String> projects = listProjectNames(directory);
-
-      if (!projects.isEmpty())
+      if (projects.isEmpty())
       {
-         P3DatabaseReader reader = new P3DatabaseReader();
-         reader.setProperties(properties);
-         reader.setProjectName(projects.get(0));
-         return reader.read(directory);
+         return null;
       }
 
-      return null;
+      P3DatabaseReader reader = new P3DatabaseReader();
+      reader.setProjectName(projects.get(0));
+      return reader.read(directory);
    }
 
    /**

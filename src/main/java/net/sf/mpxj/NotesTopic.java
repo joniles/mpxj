@@ -31,29 +31,6 @@ public class NotesTopic implements ProjectEntityWithUniqueID
    /**
     * Constructor.
     *
-    * @param uniqueID unique ID
-    * @param sequenceNumber sequence number
-    * @param name name
-    * @param availableForEPS available for EPS flag
-    * @param availableForProject available for project flag
-    * @param availableForWBS available for wbs flag
-    * @param availableForActivity available for activity flag
-    * @deprecated use builder class
-    */
-   @Deprecated public NotesTopic(Integer uniqueID, Integer sequenceNumber, String name, boolean availableForEPS, boolean availableForProject, boolean availableForWBS, boolean availableForActivity)
-   {
-      m_uniqueID = uniqueID;
-      m_sequenceNumber = sequenceNumber;
-      m_name = name;
-      m_availableForEPS = availableForEPS;
-      m_availableForProject = availableForProject;
-      m_availableForWBS = availableForWBS;
-      m_availableForActivity = availableForActivity;
-   }
-
-   /**
-    * Constructor.
-    *
     * @param builder NotesTopic builder
     */
    private NotesTopic(Builder builder)
@@ -70,11 +47,6 @@ public class NotesTopic implements ProjectEntityWithUniqueID
    @Override public Integer getUniqueID()
    {
       return m_uniqueID;
-   }
-
-   @Override public void setUniqueID(Integer id)
-   {
-      throw new UnsupportedOperationException();
    }
 
    /**

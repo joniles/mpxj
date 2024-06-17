@@ -95,17 +95,6 @@ import net.sf.mpxj.writer.AbstractProjectWriter;
 public class PrimaveraXERFileWriter extends AbstractProjectWriter
 {
    /**
-    * Sets the character encoding used when writing an XER file.
-    *
-    * @param encoding encoding name
-    * @deprecated use setCharset instead
-    */
-   @Deprecated public void setEncoding(String encoding)
-   {
-      m_encoding = encoding;
-   }
-
-   /**
     * Alternative way to set the file encoding. If both an encoding name and a Charset instance
     * are supplied, the Charset instance is used.
     *

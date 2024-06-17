@@ -87,7 +87,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
     *
     * @param charset Charset used when reading the file
     */
-   @SuppressWarnings("deprecation") @Override public void setCharset(Charset charset)
+   @Override public void setCharset(Charset charset)
    {
       m_charset = charset;
    }

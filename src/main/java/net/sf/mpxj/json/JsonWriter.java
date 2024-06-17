@@ -152,28 +152,6 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * Retrieve the encoding to used when writing the JSON file.
-    *
-    * @return encoding
-    * @deprecated use getCharset
-    */
-   @Deprecated public Charset getEncoding()
-   {
-      return m_charset;
-   }
-
-   /**
-    * Set the encoding to used when writing the JSON file.
-    *
-    * @param charset encoding to use
-    * @deprecated use setCharset
-    */
-   @Deprecated public void setEncoding(Charset charset)
-   {
-      m_charset = charset;
-   }
-
-   /**
     * Retrieve the charset to used when writing the JSON file.
     *
     * @return charset

@@ -33,17 +33,6 @@ public class Step
    /**
     * Constructor.
     *
-    * @param task parent task
-    * @deprecated use builder class
-    */
-   @Deprecated public Step(Task task)
-   {
-      m_task = task;
-   }
-
-   /**
-    * Constructor.
-    *
     * @param builder step builder
     */
    private Step(Builder builder)
@@ -78,17 +67,6 @@ public class Step
    }
 
    /**
-    * Set the unique ID.
-    *
-    * @param uniqueID unique ID
-    * @deprecated use builder class
-    */
-   @Deprecated public void setUniqueID(Integer uniqueID)
-   {
-      m_uniqueID = uniqueID;
-   }
-
-   /**
     * Retrieve the step name.
     *
     * @return step name
@@ -96,17 +74,6 @@ public class Step
    public String getName()
    {
       return m_name;
-   }
-
-   /**
-    * Set the step name.
-    *
-    * @param name step name
-    * @deprecated use builder class
-    */
-   @Deprecated public void setName(String name)
-   {
-      m_name = name;
    }
 
    /**
@@ -120,17 +87,6 @@ public class Step
    }
 
    /**
-    * Set the step percent complete.
-    *
-    * @param percentComplete percent complete
-    * @deprecated use builder class
-    */
-   @Deprecated public void setPercentComplete(Double percentComplete)
-   {
-      m_percentComplete = percentComplete;
-   }
-
-   /**
     * Retrieve the step sequence number.
     *
     * @return step sequence number
@@ -141,17 +97,6 @@ public class Step
    }
 
    /**
-    * Set the step sequence number.
-    *
-    * @param sequenceNumber step sequence number
-    * @deprecated use builder class
-    */
-   @Deprecated public void setSequenceNumber(Integer sequenceNumber)
-   {
-      m_sequenceNumber = sequenceNumber;
-   }
-
-   /**
     * Retrieve the step weight.
     *
     * @return step weight
@@ -159,17 +104,6 @@ public class Step
    public Double getWeight()
    {
       return m_weight;
-   }
-
-   /**
-    * Set the step weight.
-    *
-    * @param weight step weight
-    * @deprecated use builder class
-    */
-   @Deprecated public void setWeight(Double weight)
-   {
-      m_weight = weight;
    }
 
    /**
@@ -193,28 +127,6 @@ public class Step
    }
 
    /**
-    * Set the step description.
-    *
-    * @param notes step description
-    * @deprecated use builder class
-    */
-   @Deprecated public void setDescription(String notes)
-   {
-      m_description = notes == null ? null : new Notes(notes);
-   }
-
-   /**
-    * Set the step description.
-    *
-    * @param notes step description
-    * @deprecated use builder class
-    */
-   @Deprecated public void setDescriptionObject(Notes notes)
-   {
-      m_description = notes;
-   }
-
-   /**
     * Retrieve a flag indicating if the step is complete.
     *
     * @return true if the step is complete
@@ -225,12 +137,12 @@ public class Step
    }
 
    private final Task m_task;
-   private Integer m_uniqueID;
-   private String m_name;
-   private Double m_percentComplete;
-   private Integer m_sequenceNumber;
-   private Double m_weight;
-   private Notes m_description;
+   private final Integer m_uniqueID;
+   private final String m_name;
+   private final Double m_percentComplete;
+   private final Integer m_sequenceNumber;
+   private final Double m_weight;
+   private final Notes m_description;
 
    /**
     * Step builder.

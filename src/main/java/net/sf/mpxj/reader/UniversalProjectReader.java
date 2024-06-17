@@ -236,36 +236,6 @@ public final class UniversalProjectReader extends AbstractProjectReader
       protected final T m_source;
    }
 
-   /**
-    * Pass a set of Properties to configure the behavior of the reader class selected by
-    * {@code UniversalProjectReader} to read a schedule. Users of {@code UniversalProjectReader} are
-    * not expected to know what type of schedule they are working with ahead of time, so
-    * {@code UniversalProjectReader} will select the correct reader for the supplied file type
-    * use it to read the file.
-    * <p>
-    * Users of {@code UniversalProjectReader} may still want to configure the behavior of the individual reader
-    * classes, but as {@code UniversalProjectReader} hides their use from callers, an alternative
-    * mechanism is required to allow configuration information to be passed. In this case a {@code Properties}
-    * instance can be passed containing properties in this form:
-    * {@code <class name>.<property name>=<property value>}.
-    * <p>
-    * Here's an example of a single property value:
-    * <pre>
-    * net.sf.mpxj.phoenix.PhoenixReader.UseActivityCodesForTaskHierarchy=true
-    * </pre>
-    * This approach allows properties for multiple different reader classes to be specified,
-    * in one {@code Properties} instance, with only the relevant properties being applied to the reader
-    * class actually used by {@code UniversalProjectReader} to read the supplied schedule.
-    *
-    * @param props properties to set
-    * @return current UniversalProjectReader instance to allow method chaining
-    */
-   @Deprecated @Override public ProjectReader setProperties(Properties props)
-   {
-      m_properties = props;
-      return this;
-   }
-
    @Override public ProjectFile read(String fileName) throws MPXJException
    {
       return read(new File(fileName));
@@ -1014,13 +984,12 @@ public final class UniversalProjectReader extends AbstractProjectReader
       }
    }
 
-   @SuppressWarnings("deprecation") private <T extends ProjectReader> T configure(T reader)
+   private <T extends ProjectReader> T configure(T reader)
    {
       if (reader instanceof HasCharset)
       {
          ((HasCharset) reader).setCharset(m_charset);
       }
-      reader.setProperties(m_properties);
       addListenersToReader(reader);
       return reader;
    }

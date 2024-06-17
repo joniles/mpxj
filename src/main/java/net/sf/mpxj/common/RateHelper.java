@@ -25,7 +25,6 @@ package net.sf.mpxj.common;
 
 import java.math.BigDecimal;
 
-import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Rate;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimeUnitDefaultsContainer;
@@ -35,19 +34,6 @@ import net.sf.mpxj.TimeUnitDefaultsContainer;
  */
 public final class RateHelper
 {
-   /**
-    * Convert a rate to hours.
-    *
-    * @param file parent file
-    * @param rate rate to convert
-    * @return converted rate
-    * @deprecated pass instance of ProjectProperties or other TimeUnitDefaultsContainer instead of ProjectFile
-    */
-   @Deprecated public static double convertToHours(ProjectFile file, Rate rate)
-   {
-      return convertToHours(file.getProjectProperties(), rate);
-   }
-
    /**
     * Convert a rate to hours.
     *
@@ -102,20 +88,6 @@ public final class RateHelper
    /**
     * Convert a rate from amount per hour to an amount per target unit.
     *
-    * @param file parent file
-    * @param rate rate to convert
-    * @param targetUnits required units
-    * @return new Rate instance
-    * @deprecated pass instance of ProjectProperties or other TimeUnitDefaultsContainer instead of ProjectFile
-    */
-   @Deprecated public static Rate convertFromHours(ProjectFile file, Rate rate, TimeUnit targetUnits)
-   {
-      return convertFromHours(file.getProjectProperties(), rate, targetUnits);
-   }
-
-   /**
-    * Convert a rate from amount per hour to an amount per target unit.
-    *
     * @param defaults defaults used for conversion
     * @param rate rate to convert
     * @param targetUnits required units
@@ -124,21 +96,6 @@ public final class RateHelper
    public static Rate convertFromHours(TimeUnitDefaultsContainer defaults, Rate rate, TimeUnit targetUnits)
    {
       return convertFromHours(defaults, rate.getAmount(), targetUnits);
-   }
-
-   /**
-    * Convert a rate from amount per hour to an amount per target unit.
-    * Handles rounding in a way which provides better compatibility with MSPDI files.
-    *
-    * @param file parent file
-    * @param value rate to convert
-    * @param targetUnits required units
-    * @return new Rate instance
-    * @deprecated pass instance of ProjectProperties or other TimeUnitDefaultsContainer instead of ProjectFile
-    */
-   @Deprecated public static Rate convertFromHours(ProjectFile file, BigDecimal value, TimeUnit targetUnits)
-   {
-      return convertFromHours(file.getProjectProperties(), value, targetUnits);
    }
 
    /**
@@ -158,20 +115,6 @@ public final class RateHelper
          return new Rate(NumberHelper.round(v, 2), targetUnits);
       }
       return convertFromHours(defaults, value.doubleValue(), targetUnits);
-   }
-
-   /**
-    * Convert a rate from amount per hour to an amount per target unit.
-    *
-    * @param file parent file
-    * @param value rate to convert
-    * @param targetUnits required units
-    * @return new Rate instance
-    * @deprecated pass instance of ProjectProperties or other TimeUnitDefaultsContainer instead of ProjectFile
-    */
-   @Deprecated public static Rate convertFromHours(ProjectFile file, double value, TimeUnit targetUnits)
-   {
-      return convertFromHours(file.getProjectProperties(), value, targetUnits);
    }
 
    /**

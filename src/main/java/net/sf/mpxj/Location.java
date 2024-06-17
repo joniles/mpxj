@@ -62,16 +62,6 @@ public final class Location implements ProjectEntityWithUniqueID
    }
 
    /**
-    * Set the unique ID.
-    *
-    * @param id Unique ID value
-    */
-   @Override public void setUniqueID(Integer id)
-   {
-      throw new UnsupportedOperationException();
-   }
-
-   /**
     * Retrieve a line of the address.
     *
     * @return address line
@@ -221,16 +211,6 @@ public final class Location implements ProjectEntityWithUniqueID
     */
    public static class Builder
    {
-      /**
-       * Constructor.
-       *
-       * @deprecated use Builder(ProjectFile file)
-       */
-      @Deprecated public Builder()
-      {
-
-      }
-
       /**
        * Constructor.
        *
@@ -444,7 +424,7 @@ public final class Location implements ProjectEntityWithUniqueID
          return new Location(this);
       }
 
-      private ProjectFile m_file;
+      private final ProjectFile m_file;
       private String m_addressLine1;
       private String m_addressLine2;
       private String m_addressLine3;

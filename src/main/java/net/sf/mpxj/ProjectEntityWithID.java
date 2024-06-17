@@ -26,7 +26,7 @@ package net.sf.mpxj;
 /**
  * Implemented by entities which can be identified by an ID.
  */
-public interface ProjectEntityWithID extends ProjectEntityWithUniqueID
+public interface ProjectEntityWithID extends ProjectEntityWithMutableUniqueID
 {
    /**
     * Retrieve the ID value of the entity.

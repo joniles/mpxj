@@ -103,9 +103,8 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
     * Note that if a resource has a Parent Resource ID which we can't find, the
     * resource will be left at the top level by default.
     */
-   public void updateStructure()
+   void updateStructure()
    {
-      // TODO: deprecate - change method visibility
       if (size() > 1)
       {
          m_projectFile.getChildResources().clear();

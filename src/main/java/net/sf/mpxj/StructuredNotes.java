@@ -66,17 +66,6 @@ public class StructuredNotes extends Notes
    /**
     * Retrieve this note's topic.
     *
-    * @return topic name
-    * @deprecated use getNotesTopic()
-    */
-   @Deprecated public NotesTopic getTopicName()
-   {
-      return m_topic;
-   }
-
-   /**
-    * Retrieve this note's topic.
-    *
     * @return notes topic
     */
    public NotesTopic getNotesTopic()

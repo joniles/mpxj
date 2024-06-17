@@ -58,31 +58,6 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    }
 
    /**
-    * Renumbers all entity unique IDs.
-    *
-    * @deprecated no longer required as the MSPDI and MPX writers handle this dynamically without changing the original schedule
-    */
-   @Deprecated public void renumberUniqueIDs()
-   {
-      int uid = firstUniqueID();
-      for (T entity : this)
-      {
-         // TODO: remove from interface when this method is deleted
-         entity.setUniqueID(Integer.valueOf(uid++));
-      }
-   }
-
-   /**
-    * Validate that the Unique IDs for the entities in this container are valid for MS Project.
-    * If they are not valid, i.e. one or more of them are too large, renumber them.
-    * @deprecated no longer required as the MSPDI and MPX writers handle this dynamically without changing the original schedule
-    */
-   @Deprecated public void validateUniqueIDsForMicrosoftProject()
-   {
-      // Deprecated
-   }
-
-   /**
     * Retrieve an entity by its Unique ID.
     *
     * @param id entity Unique ID
@@ -107,9 +82,9 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
          return;
       }
 
-      if (currentElement != null)
+      if (currentElement instanceof ProjectEntityWithMutableUniqueID)
       {
-         m_uniqueIDClashList.add(element);
+         m_uniqueIDClashList.add((ProjectEntityWithMutableUniqueID)element);
       }
 
       m_uniqueIDMap.put(element.getUniqueID(), element);
@@ -145,36 +120,13 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
          return;
       }
 
-      if (currentElement != null)
+      if (currentElement instanceof ProjectEntityWithMutableUniqueID)
       {
-         m_uniqueIDClashList.add(element);
+         m_uniqueIDClashList.add((ProjectEntityWithMutableUniqueID)element);
       }
 
       m_uniqueIDMap.put(newUniqueID, element);
       m_projectFile.getUniqueIdObjectSequence(element.getClass()).sync(newUniqueID);
-   }
-
-   /**
-    * Retrieve the next Unique ID value for this entity.
-    *
-    * @return next Unique ID value
-    * @deprecated use ProjectFile.getUniqueIdObjectSequence(T.class).getNext()
-    */
-   @Deprecated public Integer getNextUniqueID()
-   {
-      throw new UnsupportedOperationException();
-   }
-
-   /**
-    * Update the Unique ID counter to ensure it produces
-    * values which start after the highest Unique ID
-    * currently in use for this entity.
-    *
-    * @deprecated no longer required
-    */
-   @Deprecated public void updateUniqueIdCounter()
-   {
-      // Deprecated
    }
 
    /**
@@ -197,5 +149,5 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
 
    protected final ProjectFile m_projectFile;
    private final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
-   private final List<T> m_uniqueIDClashList = new ArrayList<>();
+   private final List<ProjectEntityWithMutableUniqueID> m_uniqueIDClashList = new ArrayList<>();
 }

@@ -1,8 +1,7 @@
 /*
- * file:       ProjectEntityWithUniqueID.java
+ * file:       ProjectEntityWithMutableUniqueID.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software 2002-2015
- * date:       15/04/2015
+ * date:       2024-06-17
  */
 
 /*
@@ -24,14 +23,14 @@
 package net.sf.mpxj;
 
 /**
- * Implemented by entities which can be identified by a Unique ID.
+ * Implemented by entities which can be identified by a mutable Unique ID.
  */
-public interface ProjectEntityWithUniqueID
+public interface ProjectEntityWithMutableUniqueID extends ProjectEntityWithUniqueID
 {
    /**
-    * Retrieve the Unique ID value of the entity.
+    * Set the Unique ID value of the entity.
     *
-    * @return Unique ID value
+    * @param id Unique ID value
     */
-   public Integer getUniqueID();
+   public void setUniqueID(Integer id);
 }

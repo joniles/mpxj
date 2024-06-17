@@ -34,7 +34,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import net.sf.mpxj.ChildTaskContainer;
 import java.time.DayOfWeek;
@@ -78,31 +77,15 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
     */
    public static final ProjectFile setProjectNameAndRead(File directory) throws MPXJException
    {
-      return setProjectNameAndRead(directory, null);
-   }
-
-   /**
-    * Convenience method which locates the first SureTrak database in a directory
-    * and opens it.
-    *
-    * @param directory directory containing a SureTrak database
-    * @param properties optional properties to pass to reader's setProperties method
-    * @return ProjectFile instance
-    * @deprecated use setProjectNameAndRead(File) method instead
-    */
-   @Deprecated public static final ProjectFile setProjectNameAndRead(File directory, Properties properties) throws MPXJException
-   {
       List<String> projects = listProjectNames(directory);
-
-      if (!projects.isEmpty())
+      if (projects.isEmpty())
       {
-         SureTrakDatabaseReader reader = new SureTrakDatabaseReader();
-         reader.setProperties(properties);
-         reader.setProjectName(projects.get(0));
-         return reader.read(directory);
+         return null;
       }
 
-      return null;
+      SureTrakDatabaseReader reader = new SureTrakDatabaseReader();
+      reader.setProjectName(projects.get(0));
+      return reader.read(directory);
    }
 
    /**
