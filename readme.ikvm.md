@@ -1,6 +1,7 @@
 # Legacy IKVM for MPXJ
 
-**NOTE: the legacy IKVM version of MPXJ is deprecated.**
+**NOTE: the legacy IKVM version of MPXJ is deprecated and will no longer be
+distributed after MPXJ version 14.**
 
 ## .Net Framework
 The version of IKVM used to build the legacy version of MPXJ for .Net Framework is 8.1.5717.0
