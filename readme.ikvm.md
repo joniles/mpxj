@@ -1,11 +1,13 @@
-# IKVM for MPXJ
+# Legacy IKVM for MPXJ
+
+**NOTE: the legacy IKVM version of MPXJ is deprecated.**
 
 ## .Net Framework
-The version of IKVM used to build MPXJ for .Net Framework is 8.1.5717.0
+The version of IKVM used to build the legacy version of MPXJ for .Net Framework is 8.1.5717.0
 (See [IKVM.NET 8.1 Release Candidate 0](https://web.archive.org/web/20210816060013/http://weblog.ikvm.net/#ab36dc873-097a-445d-b61a-3501eca38f5e)).
 
 ## .Net Core
-The version of IKVM used to build MPXJ for .Net Core is from
+The version of IKVM used to build the legacy version of MPXJ for .Net Core is from
 [this branch](https://github.com/ikvm-revived/ikvm/pull/38) of
 [ikvm-revived/ikvm](https://github.com/ikvm-revived/ikvm).
 
