@@ -15,6 +15,7 @@
 			<action dev="joniles" type="update">Removed redundant `setUniqueID` methods from immutable objects. These previously threw `UnsupportedOperationException` when called.</action>
 			<action dev="joniles" type="update">The `ProjectEntityWithUniqueID` interface no longer contains the `setUniqueID` method. Entities with a mutable Unique ID attribute now implement the `ProjectEntityWithMutableUniqueID` interface, which inherits from the `ProjectEntityWithUniqueID` interface.</action>
 			<action dev="joniles" type="update">The `MSPDIReader` and `PrimaveraXERFileReader` classes no longer provide getter and setter methods for `Encoding`, use the `Charset` getter and setter methods instead.</action>
+			<action dev="joniles" type="update">Removed the `XerFieldType` class and replaced usages of it with the `DataType` class.</action>
 			<action dev="joniles" type="update">The deprecated `ActivityCode()` constructor and `addValue` method have been removed.</action>
 			<action dev="joniles" type="update">The deprecated `ActivityCodeValue()` constructor and `setParent` method have been removed.</action>
 			<action dev="joniles" type="update">The deprecated `CostAccount()` constructor and `getDescription` method have been removed.</action>

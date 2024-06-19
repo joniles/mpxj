@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.HasCharset;
 import net.sf.mpxj.MPXJException;
@@ -748,7 +749,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
 
          String fieldName = m_currentFieldNames[loop];
          String fieldValue = record.get(loop);
-         XerFieldType fieldType = getFieldType(fieldName);
+         DataType fieldType = getFieldType(fieldName);
 
          Object objectValue;
          if (fieldValue.isEmpty())
@@ -775,7 +776,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
                }
 
                case CURRENCY:
-               case DOUBLE:
+               case NUMERIC:
                case DURATION:
                {
                   try
@@ -856,9 +857,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
     * @param fieldName field name
     * @return field type
     */
-   private XerFieldType getFieldType(String fieldName)
+   private DataType getFieldType(String fieldName)
    {
-      XerFieldType fieldType;
+      DataType fieldType;
 
       // This is the only field name collision we've encountered so far
       // when determining the field type. Ideally we'd perform a lookup
@@ -866,11 +867,11 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       // collision, we'll take a simpler approach for now.
       if (m_currentTableName.equals("projcost") && fieldName.equals("target_qty"))
       {
-         fieldType = XerFieldType.CURRENCY;
+         fieldType = DataType.CURRENCY;
       }
       else
       {
-         fieldType = m_fieldTypes.getOrDefault(fieldName, XerFieldType.STRING);
+         fieldType = m_fieldTypes.getOrDefault(fieldName, DataType.STRING);
       }
       return fieldType;
    }
@@ -890,7 +891,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
     *
     * @return Map of XER column names to types
     */
-   public Map<String, XerFieldType> getFieldTypeMap()
+   public Map<String, DataType> getFieldTypeMap()
    {
       return m_fieldTypes;
    }
@@ -1059,7 +1060,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
     *
     * @return field type map instance
     */
-   private Map<String, XerFieldType> getDefaultFieldTypes()
+   private Map<String, DataType> getDefaultFieldTypes()
    {
       return new HashMap<>(FIELD_TYPE_MAP);
    }
@@ -1081,7 +1082,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    private final Map<FieldType, String> m_wbsFields = PrimaveraReader.getDefaultWbsFieldMap();
    private final Map<FieldType, String> m_taskFields = PrimaveraReader.getDefaultTaskFieldMap();
    private final Map<FieldType, String> m_assignmentFields = PrimaveraReader.getDefaultAssignmentFieldMap();
-   private final Map<String, XerFieldType> m_fieldTypes = getDefaultFieldTypes();
+   private final Map<String, DataType> m_fieldTypes = getDefaultFieldTypes();
    private boolean m_matchPrimaveraWBS = true;
    private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;
@@ -1116,154 +1117,154 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    /**
     * Maps field names to data types.
     */
-   private static final Map<String, XerFieldType> FIELD_TYPE_MAP = new HashMap<>();
+   private static final Map<String, DataType> FIELD_TYPE_MAP = new HashMap<>();
    static
    {
-      FIELD_TYPE_MAP.put("acct_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("acct_seq_num", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("act_cost", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("act_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("act_equip_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("act_ot_cost", XerFieldType.CURRENCY);
-      FIELD_TYPE_MAP.put("act_ot_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("act_reg_cost", XerFieldType.CURRENCY);
-      FIELD_TYPE_MAP.put("act_reg_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("act_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("act_work_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("actv_code_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("actv_code_type_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("actv_short_len", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("anticip_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("anticip_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("base_clndr_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("clndr_data", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("clndr_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("clndr_name", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("clndr_type", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("complete_pct", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("cost_item_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("cost_per_qty", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("cost_per_qty2", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("cost_per_qty3", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("cost_per_qty4", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("cost_per_qty5", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("cost_type_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("create_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("critical_drtn_hr_cnt", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("cstr_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("cstr_date2", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("curv_id", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("day_hr_cnt", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("decimal_digit_cnt", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("default_flag", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("def_qty_per_hr", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("driving_path_flag", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("early_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("early_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("expect_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("external_early_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("external_late_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("fk_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("free_float_hr_cnt", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("fy_start_month_num", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("indep_remain_total_cost", XerFieldType.CURRENCY);
-      FIELD_TYPE_MAP.put("indep_remain_work_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("lag_hr_cnt", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("last_chng_date", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("last_recalc_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("late_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("late_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("latitude", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("location_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("loginal_data_type", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("longitude", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("max_qty_per_hr", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("memo_type_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("memo_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("month_hr_cnt", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("orig_cost", XerFieldType.CURRENCY);
-      FIELD_TYPE_MAP.put("parent_acct_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("parent_actv_code_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("parent_role_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("parent_rsrc_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("parent_wbs_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("pct_usage_0", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_1", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_2", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_3", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_4", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_5", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_6", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_7", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_8", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_9", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_10", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_11", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_12", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_13", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_14", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_15", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_16", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_17", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_18", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_19", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("pct_usage_20", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("phys_complete_pct", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("plan_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("plan_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("pred_task_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("proc_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("proc_wt", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("proj_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("reend_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("rem_late_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("rem_late_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("remain_cost", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("remain_drtn_hr_cnt", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("remain_equip_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("remain_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("remain_work_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("restart_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("resume_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("role_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("rsrc_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("rsrc_seq_num", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("scd_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("sched_calendar_on_relationship_lag", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("seq_num", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("sum_base_proj_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("super_flag", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("suspend_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("table_name", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("target_cost", XerFieldType.CURRENCY);
-      FIELD_TYPE_MAP.put("target_drtn_hr_cnt", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("target_end_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("target_equip_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("target_lag_drtn_hr_cnt", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("target_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("target_qty_per_hr", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("target_start_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("target_work_qty", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("task_code_base", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("task_code_step", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("task_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("task_pred_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("taskrsrc_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("total_float_hr_cnt", XerFieldType.DURATION);
-      FIELD_TYPE_MAP.put("udf_code_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("udf_date", XerFieldType.DATE);
-      FIELD_TYPE_MAP.put("udf_number", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("udf_text", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("udf_type", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("udf_type_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("udf_type_label", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("udf_type_name", XerFieldType.STRING);
-      FIELD_TYPE_MAP.put("unit_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("wbs_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("wbs_memo_id", XerFieldType.INTEGER);
-      FIELD_TYPE_MAP.put("week_hr_cnt", XerFieldType.DOUBLE);
-      FIELD_TYPE_MAP.put("year_hr_cnt", XerFieldType.DOUBLE);
+      FIELD_TYPE_MAP.put("acct_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("acct_seq_num", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("act_cost", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("act_end_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("act_equip_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("act_ot_cost", DataType.CURRENCY);
+      FIELD_TYPE_MAP.put("act_ot_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("act_reg_cost", DataType.CURRENCY);
+      FIELD_TYPE_MAP.put("act_reg_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("act_start_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("act_work_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("actv_code_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("actv_code_type_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("actv_short_len", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("anticip_end_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("anticip_start_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("base_clndr_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("clndr_data", DataType.STRING);
+      FIELD_TYPE_MAP.put("clndr_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("clndr_name", DataType.STRING);
+      FIELD_TYPE_MAP.put("clndr_type", DataType.STRING);
+      FIELD_TYPE_MAP.put("complete_pct", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("cost_item_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("cost_per_qty", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("cost_per_qty2", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("cost_per_qty3", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("cost_per_qty4", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("cost_per_qty5", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("cost_type_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("create_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("critical_drtn_hr_cnt", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("cstr_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("cstr_date2", DataType.DATE);
+      FIELD_TYPE_MAP.put("curv_id", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("day_hr_cnt", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("decimal_digit_cnt", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("default_flag", DataType.STRING);
+      FIELD_TYPE_MAP.put("def_qty_per_hr", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("driving_path_flag", DataType.STRING);
+      FIELD_TYPE_MAP.put("early_end_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("early_start_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("expect_end_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("external_early_start_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("external_late_end_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("fk_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("free_float_hr_cnt", DataType.DURATION);
+      FIELD_TYPE_MAP.put("fy_start_month_num", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("indep_remain_total_cost", DataType.CURRENCY);
+      FIELD_TYPE_MAP.put("indep_remain_work_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("lag_hr_cnt", DataType.DURATION);
+      FIELD_TYPE_MAP.put("last_chng_date", DataType.STRING);
+      FIELD_TYPE_MAP.put("last_recalc_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("late_end_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("late_start_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("latitude", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("location_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("loginal_data_type", DataType.STRING);
+      FIELD_TYPE_MAP.put("longitude", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("max_qty_per_hr", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("memo_type_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("memo_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("month_hr_cnt", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("orig_cost", DataType.CURRENCY);
+      FIELD_TYPE_MAP.put("parent_acct_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("parent_actv_code_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("parent_role_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("parent_rsrc_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("parent_wbs_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("pct_usage_0", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_1", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_2", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_3", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_4", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_5", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_6", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_7", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_8", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_9", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_10", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_11", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_12", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_13", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_14", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_15", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_16", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_17", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_18", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_19", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("pct_usage_20", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("phys_complete_pct", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("plan_end_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("plan_start_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("pred_task_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("proc_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("proc_wt", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("proj_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("reend_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("rem_late_start_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("rem_late_end_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("remain_cost", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("remain_drtn_hr_cnt", DataType.DURATION);
+      FIELD_TYPE_MAP.put("remain_equip_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("remain_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("remain_work_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("restart_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("resume_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("role_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("rsrc_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("rsrc_seq_num", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("scd_end_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("sched_calendar_on_relationship_lag", DataType.STRING);
+      FIELD_TYPE_MAP.put("seq_num", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("start_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("sum_base_proj_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("super_flag", DataType.STRING);
+      FIELD_TYPE_MAP.put("suspend_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("table_name", DataType.STRING);
+      FIELD_TYPE_MAP.put("target_cost", DataType.CURRENCY);
+      FIELD_TYPE_MAP.put("target_drtn_hr_cnt", DataType.DURATION);
+      FIELD_TYPE_MAP.put("target_end_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("target_equip_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("target_lag_drtn_hr_cnt", DataType.DURATION);
+      FIELD_TYPE_MAP.put("target_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("target_qty_per_hr", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("target_start_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("target_work_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("task_code_base", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("task_code_step", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("task_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("task_pred_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("taskrsrc_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("total_float_hr_cnt", DataType.DURATION);
+      FIELD_TYPE_MAP.put("udf_code_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("udf_date", DataType.DATE);
+      FIELD_TYPE_MAP.put("udf_number", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("udf_text", DataType.STRING);
+      FIELD_TYPE_MAP.put("udf_type", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("udf_type_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("udf_type_label", DataType.STRING);
+      FIELD_TYPE_MAP.put("udf_type_name", DataType.STRING);
+      FIELD_TYPE_MAP.put("unit_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("wbs_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("wbs_memo_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("week_hr_cnt", DataType.NUMERIC);
+      FIELD_TYPE_MAP.put("year_hr_cnt", DataType.NUMERIC);
    }
 
    private static final Set<String> REQUIRED_TABLES = new HashSet<>();
