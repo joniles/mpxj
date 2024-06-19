@@ -6,13 +6,19 @@ by ProjectLibre version 1.5.5 and later versions.
 The simplest way to read a POD file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.pod");
+public class ProjectLibre
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.pod");
+   }
+}
 ```
 
 You can work directly with the `ProjectLibreReader` by replacing

@@ -9,13 +9,19 @@ functionality, so you may not find start and finish dates for each task.
 The simplest way to read a Merlin file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample-merlin-project");
+public class Merlin
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample-merlin-project");
+   }
+}
 ```
 
 Note that on a Mac Merlin projects are not single files, but rather they are

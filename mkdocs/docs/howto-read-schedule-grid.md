@@ -7,13 +7,19 @@ The simplest way to read a schedule grid file is to use the
 `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.schedule_grid");
+public class ScheduleGrid
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.schedule_grid");
+   }
+}
 ```
 
 ## Using SageReader
@@ -28,15 +34,20 @@ below illustrates how we can force the `SageReader` to report
 errors encountered when reading a file:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.sage.SageReader;
 
-// ...
-
-SageReader reader = new SageReader();
-
-reader.setIgnoreErrors(false);
-ProjectFile project = reader.read("my-sample.schedule_grid");
+public class ScheduleGridIgnoreErrors
+{
+   public void read() throws Exception
+   {
+      SageReader reader = new SageReader();
+      reader.setIgnoreErrors(false);
+      ProjectFile project = reader.read("my-sample.schedule_grid");
+   }
+}
 ```
 
 Note that if errors are ignored when reading a file, the ignored errors

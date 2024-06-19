@@ -22,8 +22,7 @@ MPXJ.Net NuGet package to your project as a dependency and you can get started.
 > project has finished building.
 
 ## IKVM.Maven.Sdk
-**Documented for completeness, recommend using the MPXJ.Net package rather than
-this approach**.
+**Documented for completeness. Use the MPXJ.Net package instead.**.
 
 IKVM provides an extension to SDK-style .Net
 projects called [IKVM.Maven.SDK](https://www.nuget.org/packages/IKVM.Maven.Sdk)
@@ -63,8 +62,7 @@ recommended.
 
 
 ## Legacy IKVM
-**Deprecated. Do Not Use. This version will no longer be published once
-MPXJ version 14 is released.**
+**Deprecated. Do Not Use. Only supported until MPXJ version 14.**
 
 The original .Net version of MPXJ was created using a legacy version of IKVM.
 The assemblies for this version are shipped as part of the MPXJ distribution and

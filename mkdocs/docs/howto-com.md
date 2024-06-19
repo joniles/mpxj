@@ -1,4 +1,5 @@
 # Getting Started with COM
+**Deprecated. Only supported until MPXJ version 14.**
 
 The .Net Framework assemblies provided in the DLLs described
 [here](howto-dotnet.md) are accessible from COM. This should allow you to, for

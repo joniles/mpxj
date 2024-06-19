@@ -14,13 +14,19 @@ Microsoft Project which produce them:
 The simplest way to read an MPP file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.mpp");
+public class MPP
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.mpp");
+   }
+}
 ```
 
 ## Using MPPReader
@@ -36,14 +42,20 @@ MPXJ only supports decryption of password protected MPP9 files. The code below i
 how you would supply the password:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
 
-// ...
-
-MPPReader reader = new MPPReader();
-reader.setReadPassword("my secret password");
-ProjectFile project = reader.read("my-sample.mpp");
+public class MPPWithPassword
+{
+   public void read() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setReadPassword("my secret password");
+      ProjectFile project = reader.read("my-sample.mpp");
+   }
+}
 ```
 
 The encryption used by MPP9 files doesn't actually require the password in order to
@@ -51,14 +63,20 @@ read the contents of the file. If you wish you can set a flag to ignore
 the MPP9 password protection.
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
 
-// ...
-
-MPPReader reader = new MPPReader();
-reader.setRespectPasswordProtection(false);
-ProjectFile project = reader.read("my-sample.mpp");
+public class MPPIgnorePassword
+{
+   public void read() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setRespectPasswordProtection(false);
+      ProjectFile project = reader.read("my-sample.mpp");
+   }
+}
 ```
 
 ### Presentation Data
@@ -69,14 +87,20 @@ to read it. This will speed up reading MPP files, and slightly reduce memory con
 To do this you will use the `setReadPresentationData` method, as shown below:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
 
-// ...
-
-MPPReader reader = new MPPReader();
-reader.setReadPresentationData(false);
-ProjectFile project = reader.read("my-sample.mpp");
+public class MPPPresentationData
+{
+   public void read() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setReadPresentationData(false);
+      ProjectFile project = reader.read("my-sample.mpp");
+   }
+}
 ```
 
 ### Properties Only
@@ -85,14 +109,20 @@ summary properties from the file, you can use the `setReadPropertiesOnly` method
 as shown below:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
 
-// ...
-
-MPPReader reader = new MPPReader();
-reader.setReadPropertiesOnly(true);
-ProjectFile project = reader.read("my-sample.mpp");
+public class MPPPropertiesOnly
+{
+   public void read() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setReadPropertiesOnly(true);
+      ProjectFile project = reader.read("my-sample.mpp");
+   }
+}
 ```
 
 ### Raw timephased data
@@ -108,12 +138,18 @@ work with the raw data directly from the MPP file, you can use the
 `setUseRawTimephasedData` to do this, as shown below:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpp.MPPReader;
 
-// ...
-
-MPPReader reader = new MPPReader();
-reader.setUseRawTimephasedData(true);
-ProjectFile project = reader.read("my-sample.mpp");
+public class MPPRawTimephased
+{
+   public void read() throws Exception
+   {
+      MPPReader reader = new MPPReader();
+      reader.setUseRawTimephasedData(true);
+      ProjectFile project = reader.read("my-sample.mpp");
+   }
+}
 ```

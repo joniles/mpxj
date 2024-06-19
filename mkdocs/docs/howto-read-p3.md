@@ -9,13 +9,19 @@ containing all of the files from a single project.
 The simplest way to read a PRX file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.prx");
+public class P3
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.prx");
+   }
+}
 ```
 
 You can work directly with the `P3PRXFileReader` by replacing
@@ -29,13 +35,19 @@ options. If you know that the directory only contains a single project, you can
 use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-p3-directory");
+public class P3Directory
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-p3-directory");
+   }
+}
 ```
 
 If the directory happens to contain multiple projects the
@@ -46,22 +58,29 @@ If you know that the directory you are working with contains multiple projects,
 you will need to use the `P3DatabaseReader` class.
 
 ```java
-import java.util.List;
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.p3.P3DatabaseReader;
 
-// ...
+import java.util.List;
 
-// Find a list of the project names
-String directory = "my-p3-directory";
-List<String> projectNames = P3DatabaseReader.listProjectNames(directory);
+public class P3NamedProject
+{
+   public void read() throws Exception
+   {
+      // Find a list of the project names
+      String directory = "my-p3-directory";
+      List<String> projectNames = P3DatabaseReader.listProjectNames(directory);
 
-// Tell the reader which project to work with
-P3DatabaseReader reader = new P3DatabaseReader();
-reader.setProjectName(projectNames.get(0));
+      // Tell the reader which project to work with
+      P3DatabaseReader reader = new P3DatabaseReader();
+      reader.setProjectName(projectNames.get(0));
 
-// Read the project
-ProjectFile project = reader.read(directory);
+      // Read the project
+      ProjectFile project = reader.read(directory);
+   }
+}
 ```
 
 As the example above shows, the `P3DatabaseReader` class provides a method which

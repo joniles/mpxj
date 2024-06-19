@@ -5,13 +5,19 @@ Phoenix Project Manager uses PPX files.
 The simplest way to read a PPX file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.ppx");
+public class Phoenix
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.ppx");
+   }
+}
 ```
 
 You can work directly with the `PhoenixReader` by replacing

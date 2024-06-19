@@ -6,13 +6,19 @@ been tested with FTS files produced by FastTrack 10.
 The simplest way to read an FTS file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.fts");
+public class FastTrack
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.fts");
+   }
+}
 ```
 
 You can work directly with the `FastTrackReader` by replacing

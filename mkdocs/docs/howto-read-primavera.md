@@ -9,44 +9,52 @@ The only difference when reading from an Oracle
 database will be the JDBC driver and connection string used.
 
 ```java
-import java.sql.Connection;
-import java.sql.DriverManager;
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 
-// ...
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Map;
 
-//
-// Load the JDBC driver
-//
-String driverClass="net.sourceforge.jtds.jdbc.Driver";
-Class.forName(driverClass);
+public class P6JDBC
+{
+   public void read() throws Exception
+   {
+      //
+      // Load the JDBC driver
+      //
+      String driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver";
+      Class.forName(driverClass);
 
-//
-// Open a database connection. You will need to change
-// these details to match the name of your server, database, user and password.
-//
-String connectionString="jdbc:jtds:sqlserver://localhost/PMDB;user=pmdb;password=pmdb";
-Connection c = DriverManager.getConnection(connectionString);
-PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-reader.setConnection(c);
+      //
+      // Open a database connection. You will need to change
+      // these details to match the name of your server, database, user and password.
+      //
+      String connectionString="jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;";
+      Connection c = DriverManager.getConnection(connectionString);
+      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+      reader.setConnection(c);
 
-//
-// Retrieve a list of the projects available in the database
-//
-Map<Integer,String> projects = reader.listProjects();
+      //
+      // Retrieve a list of the projects available in the database
+      //
+      Map<Integer,String> projects = reader.listProjects();
 
-//
-// At this point you'll select the project
-// you want to work with.
-//
+      //
+      // At this point you'll select the project
+      // you want to work with.
+      //
 
-//
-// Now open the selected project using its ID
-//
-int selectedProjectID = 1;
-reader.setProjectID(selectedProjectID);
-ProjectFile projectFile = reader.read();
+      //
+      // Now open the selected project using its ID
+      //
+      int selectedProjectID = 1;
+      reader.setProjectID(selectedProjectID);
+      ProjectFile projectFile = reader.read();
+   }
+}
 ```
 
 You can also connect to a standalone SQLite P6 database. This
@@ -54,67 +62,43 @@ is easier to achieve as a specific reader class has been created
 which manages the database connection for you:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
 
-...
+import java.io.File;
+import java.util.Map;
 
-PrimaveraDatabaseFileReader reader = new PrimaveraDatabaseFileReader();
+public class P6Sqlite
+{
+   public void read() throws Exception
+   {
+      PrimaveraDatabaseFileReader reader = new PrimaveraDatabaseFileReader();
 
-//
-// Retrieve a list of the projects available in the database
-//
-Map<Integer,String> projects = reader.listProjects("PPMDBSQLite.db");
+      //
+      // Retrieve a list of the projects available in the database
+      //
+      File file = new File("PPMDBSQLite.db");
+      Map<Integer,String> projects = reader.listProjects(file);
 
-//
-// At this point you'll select the project
-// you want to work with.
-//
+      //
+      // At this point you'll select the project
+      // you want to work with.
+      //
 
-//
-// Now open the selected project using its ID
-//
-int selectedProjectID = 1;
-reader.setProjectID(selectedProjectID);
-ProjectFile projectFile = reader.read("PPMDBSQLite.db");
+      //
+      // Now open the selected project using its ID
+      //
+      int selectedProjectID = 1;
+      reader.setProjectID(selectedProjectID);
+      ProjectFile projectFile = reader.read("PPMDBSQLite.db");
+   }
+}
 ```
 
 ## .Net
-The situation is a little more complicated when using the .Net version of MPXJ.
-In this case you are still actually running Java code, so you need to use a JDBC
-driver to establish a database connection.
-
-Your first step will be to convert your JDBC driver to a .Net assembly using
-IKVM. For example the command line below converts a version of Microsoft's SQL
-Server JDBC driver to a .Net assembly:
-
-```
-c:\java\ikvm-8.0.5449.1\bin\ikvmc.exe -out:mssql-jdbc-6.4.0.jre8.dll -target:library -keyfile:c:\java\mpxj\src.net\mpxj.snk -version:6.4.0.0 mssql-jdbc-6.4.0.jre8.jar
-```
-
-You can then add a reference to this assembly to your project. Configuring the
-JDBC driver needs to be done in a slightly different way than you would when using
-Java. Here we need to create an instance of the JDBC driver class directly,
-rather than referencing it by name as we would in Java.
-
-```C#
-//
-// Configure the connection
-//
-var driver = new SQLServerDriver();
-var connectionProperties = new Properties();
-var connection = driver.connect(connectionString, connectionProperties);
-
-//
-// Configure the reader
-//
-var reader = new PrimaveraDatabaseReader();
-reader.Connection = connection;
-
-```
-
-You can find the complete code for this
-[here](https://github.com/joniles/mpxj/blob/master/src.net/MpxjPrimaveraConvert/MpxjPrimaveraConvert.cs).
+This documentation will be provided shortly.
 
 ## Using PrimaveraDatabaseReader
 This section documents the additional options provided by the PrimaveraDatabaseReader.
@@ -129,13 +113,18 @@ default behaviour now matches Primavera, but should you wish to you can revert
 to the original behaviour by calling the `setMatchPrimaveraWBS` as shown below.
 
 ```java
-import net.sf.mpxj.ProjectFile;
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 
-// ...
-
-PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-reader.setMatchPrimaveraWBS(false);
+public class P6ActivityWbs
+{
+   public void read() throws Exception
+   {
+      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+      reader.setMatchPrimaveraWBS(false);
+   }
+}
 ```
 
 ### WBS is Full Path
@@ -148,13 +137,18 @@ the code for the current WBS entry (in the example above `wbs2`) call the
 
 
 ```java
-import net.sf.mpxj.ProjectFile;
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 
-// ...
-
-PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-reader.setWbsIsFullPath(false);
+public class P6WbsFullPath
+{
+   public void read() throws Exception
+   {
+      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+      reader.setWbsIsFullPath(false);
+   }
+}
 ```
 
 ### Reading Additional Attributes
@@ -166,27 +160,56 @@ you will need to retrieve the maps which define which MPXJ attributes are used
 to store which columns from the database:
 
 ```java
-PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-Map<FieldType, String> resourceFieldMap = reader.getResourceFieldMap();
-Map<FieldType, String> wbsFieldMap = reader.getWbsFieldMap();
-Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
-Map<FieldType, String> assignmentFieldMap = reader.getAssignmentFieldMap();
+package org.mpxj.howto.read;
+
+import net.sf.mpxj.FieldType;
+import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+
+import java.util.Map;
+
+public class P6AttributeMaps
+{
+   public void read() throws Exception
+   {
+      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+      Map<FieldType, String> resourceFieldMap = reader.getResourceFieldMap();
+      Map<FieldType, String> wbsFieldMap = reader.getWbsFieldMap();
+      Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
+      Map<FieldType, String> assignmentFieldMap = reader.getAssignmentFieldMap();
+   }
+}
 ```
 
 These maps will contain the default mapping between columns and MPXJ attributes.
 You can modify these existing mappings, or add new ones, for example:
 
 ```java
-//
-// Change the field used to store rsrc_id
-//
-activityFieldMap.remove(TaskField.NUMBER1);
-activityFieldMap.put(TaskField.NUMBER2, "rsrc_id");
+package org.mpxj.howto.read;
 
-//
-// Read an Activity column called an_example_field and store it in TEXT10
-//
-activityFieldMap.put(TaskField.TEXT10, "an_example_field");
+import net.sf.mpxj.FieldType;
+import net.sf.mpxj.TaskField;
+import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+
+import java.util.Map;
+
+public class P6AttributeConfig
+{
+   public void read() throws Exception
+   {
+      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+      Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
+
+      //
+      // Store rsrc_id in NUMBER1
+      //
+      activityFieldMap.put(TaskField.NUMBER1, "rsrc_id");
+
+      //
+      // Read an Activity column called an_example_field and store it in TEXT10
+      //
+      activityFieldMap.put(TaskField.TEXT10, "an_example_field");
+   }
+}
 ```
 
 ### Ignore Errors
@@ -196,14 +219,18 @@ example below illustrates how we can force the `PrimaveraDatabaseReader` to
 report errors encountered when reading from a Primavera database:
 
 ```java
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mspdi.MSPDIReader;
+package org.mpxj.howto.read;
 
-// ...
+import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 
-PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-
-reader.setIgnoreErrors(false);
+public class P6IgnoreErrors
+{
+   public void read() throws Exception
+   {
+      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+      reader.setIgnoreErrors(false);
+   }
+}
 ```
 
 Note that if errors are ignored when reading from a Primavera database, the

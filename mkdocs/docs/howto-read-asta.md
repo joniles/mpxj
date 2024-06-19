@@ -5,13 +5,19 @@ Asta Powerproject and Asta Easyproject both use PP files.
 The simplest way to read a PP file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.pp");
+public class Asta
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.pp");
+   }
+}
 ```
 
 You can work directly with the `AstaFileReader` by replacing

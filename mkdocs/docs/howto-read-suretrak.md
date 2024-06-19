@@ -9,13 +9,19 @@ compressed archive containing all of the files from a single project.
 The simplest way to read an STX file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.stx");
+public class SureTrak
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.stx");
+   }
+}
 ```
 
 You can work directly with the `SureTrakSTXFileReader` by replacing
@@ -29,13 +35,19 @@ two options. If you know that the directory only contains a single project, you
 can use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-suretrak-directory");
+public class SureTrakDirectory
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-suretrak-directory");
+   }
+}
 ```
 
 If the directory happens to contain multiple projects the
@@ -46,22 +58,29 @@ If you know that the directory you are working with contains multiple projects,
 you will need to use the `SureTrakDatabaseReader` class.
 
 ```java
-import java.util.List;
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
 
-// ...
+import java.util.List;
 
-// Find a list of the project names
-String directory = "my-suretrak-directory";
-List<String> projectNames = SureTrakDatabaseReader.listProjectNames(directory);
+public class SureTrakListProjects
+{
+   public void read() throws Exception
+   {
+      // Find a list of the project names
+      String directory = "my-suretrak-directory";
+      List<String> projectNames = SureTrakDatabaseReader.listProjectNames(directory);
 
-// Tell the reader which project to work with
-P3DatabaseReader reader = new SureTrakDatabaseReader();
-reader.setProjectName(projectNames.get(0));
+      // Tell the reader which project to work with
+      SureTrakDatabaseReader reader = new SureTrakDatabaseReader();
+      reader.setProjectName(projectNames.get(0));
 
-// Read the project
-ProjectFile project = reader.read(directory);
+      // Read the project
+      ProjectFile project = reader.read(directory);
+   }
+}
 ```
 
 As the example above shows, the `SureTrakDatabaseReader` class provides a method

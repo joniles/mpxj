@@ -7,13 +7,19 @@ The simplest way to read an Open Plan file is to use the
 `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.bk3");
+public class OpenPlan
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.bk3");
+   }
+}
 ```
 
 You can work directly with the `OpenPlanReader` by replacing

@@ -6,13 +6,19 @@ The simplest way to read a  CDPX, CPDZ or CPDTZ file is to use the
 `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.cdpx");
+public class ConceptDraw
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.cdpx");
+   }
+}
 ```
 
 You can work directly with the `ConceptDrawProjectReader` by replacing

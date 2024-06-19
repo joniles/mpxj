@@ -8,13 +8,19 @@ this format can be found
 The simplest way to read an SDEF file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.sdef");
+public class SDEF
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.sdef");
+   }
+}
 ```
 
 ## Using SDEFReader
@@ -29,15 +35,20 @@ below illustrates how we can force the `SDEFReader` to report
 errors encountered when reading a file:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.sdef.SDEFReader;
 
-// ...
-
-SDEFReader reader = new SDEFReader();
-
-reader.setIgnoreErrors(false);
-ProjectFile project = reader.read("my-sample.sdef");
+public class SDEFIgnoreErrors
+{
+   public void read() throws Exception
+   {
+      SDEFReader reader = new SDEFReader();
+      reader.setIgnoreErrors(false);
+      ProjectFile project = reader.read("my-sample.sdef");
+   }
+}
 ```
 
 Note that if errors are ignored when reading a file, the ignored errors

@@ -5,13 +5,20 @@ GanttProject writes schedule data to GAN files (which are actually just XML file
 The simplest way to read a GAN file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
+public class GanttProject
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.gan");
+   }
+}
 
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.gan");
 ```
 
 You can work directly with the `GanttProjectReader` by replacing

@@ -14,13 +14,19 @@ may also be used to read data from a Project Server SQL Server database.
 The simplest way to read an MPD file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.mpd");
+public class MPD
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.mpd");
+   }
+}
 ```
 In order for this to work the `UniversalProjectReader` assumes that the
 JDBC-ODBC bridge driver is available. As an MPD file can contain multiple
@@ -55,18 +61,26 @@ this list of projects, and select the specific project that you want to read. In
 this case we read each project in the file in turn.
 
 ```java
-import java.util.Map;
-import java.util.Map.Entry;
-import net.sf.mpxj.mpd.MPDDatabaseReader;
+package org.mpxj.howto.read;
 
-MPDDatabaseReader reader = new MPDDatabaseReader();
-reader.setConnection(connection);
-Map<Integer, String> projects = reader.listProjects();
-for (Entry<Integer, String> entry : projects.entrySet())
+import net.sf.mpxj.mpd.MPDDatabaseReader;
+import java.sql.Connection;
+import java.util.Map;
+
+public class MPDUsingReader
 {
-   System.out.println("Project name: " + entry.getValue());
-   reader.setProjectID(entry.getKey());
-   reader.read();
+   public void read(Connection connection) throws Exception
+   {
+      MPDDatabaseReader reader = new MPDDatabaseReader();
+      reader.setConnection(connection);
+      Map<Integer, String> projects = reader.listProjects();
+      for (Map.Entry<Integer, String> entry : projects.entrySet())
+      {
+         System.out.println("Project name: " + entry.getValue());
+         reader.setProjectID(entry.getKey());
+         reader.read();
+      }
+   }
 }
 
 ```

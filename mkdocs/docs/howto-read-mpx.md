@@ -8,13 +8,19 @@ Other third party project planning applications continue to use MPX as a data in
 The simplest way to read an MPX file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.mpx");
+public class MPX
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.mpx");
+   }
+}
 ```
 
 ## Using MPXReader
@@ -41,14 +47,22 @@ The sample below shows how this is done:
 
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpx.MPXReader;
 
-// ...
+import java.util.Locale;
 
-MPXReader reader = new MPXReader();
-reader.setLocale(Locale.GERMAN);
-ProjectFile project = reader.read("my-sample.mpx");
+public class MPXWithLocale
+{
+   public void read() throws Exception
+   {
+      MPXReader reader = new MPXReader();
+      reader.setLocale(Locale.GERMAN);
+      ProjectFile project = reader.read("my-sample.mpx");
+   }
+}
 ```
 
 The following locales are supported by `MPXReader`:
@@ -66,11 +80,19 @@ The following locales are supported by `MPXReader`:
 You can retrieve a list of supported locales programmatically using the code shown below:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.mpx.MPXReader;
 
-// ...
+import java.util.Locale;
 
-Locale[] locales = MPXReader.getSupportedLocales();
+public class MPXSupportedLocales
+{
+   public void read() throws Exception
+   {
+      Locale[] locales = MPXReader.getSupportedLocales();
+   }
+}
 ```
 
 ### Ignore Text Models
@@ -90,12 +112,18 @@ behaviour and read these files, you would call `setIgnoreTextModels` as
 shown in the example below.
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpx.MPXReader;
 
-// ...
-
-MPXReader reader = new MPXReader();
-reader.setIgnoreTextModels(false);
-ProjectFile project = reader.read("my-sample.mpx");
+public class MPXIgnoreTextModels
+{
+   public void read() throws Exception
+   {
+      MPXReader reader = new MPXReader();
+      reader.setIgnoreTextModels(false);
+      ProjectFile project = reader.read("my-sample.mpx");
+   }
+}
 ```

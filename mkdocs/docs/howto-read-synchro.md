@@ -5,13 +5,19 @@ Synchro Scheduler writes SP files.
 The simplest way to read an SP file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.sp");
+public class Synchro
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.sp");
+   }
+}
 ```
 
 You can work directly with the `SynchroReader` by replacing

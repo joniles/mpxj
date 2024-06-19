@@ -1,4 +1,4 @@
-# Gettsing Started with Java
+# Getting Started with Java
 
 MPXJ is built to work with versions of Java from 1.8 onwards. For many people,
 the easiest way to get started with MPXJ and its dependencies is to use Maven.
@@ -9,7 +9,7 @@ project:
 <dependency>
   <groupId>net.sf.mpxj</groupId>
   <artifactId>mpxj</artifactId>
-  <version>10.11.0</version>
+  <version>13.0.0</version>
 </dependency>
 ```
 

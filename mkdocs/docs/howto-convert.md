@@ -13,35 +13,32 @@ want to write.
 === "Java"
 	```java
     package org.mpxj.howto.convert;
-
+    
     import net.sf.mpxj.ProjectFile;
     import net.sf.mpxj.reader.UniversalProjectReader;
     import net.sf.mpxj.writer.FileFormat;
     import net.sf.mpxj.writer.UniversalProjectWriter;
-
+    
     public class ConvertUniversal
     {
-        public void convert(String inputFile, FileFormat format, String outputFile) throws Exception
-        {
-            ProjectFile projectFile = new UniversalProjectReader().read(inputFile);
-            new UniversalProjectWriter(format).write(projectFile, outputFile);
-        }
+       public void convert(String inputFile, FileFormat format, String outputFile) throws Exception
+       {
+          ProjectFile projectFile = new UniversalProjectReader().read(inputFile);
+          new UniversalProjectWriter(format).write(projectFile, outputFile);
+       }
     }
 	```
 
 === "C#"
 	```c#
-    using net.sf.mpxj.reader;
-    using net.sf.mpxj.writer;
-
-    namespace MpxjSamples.HowToConvert;
-
+    using MPXJ.Net;
+    
     public class ConvertUniversal
     {
         public void Convert(string inputFile, FileFormat format, string outputFile)
         {
-            var projectFile = new UniversalProjectReader().read(inputFile);
-            new UniversalProjectWriter(format).write(projectFile, outputFile);
+            var projectFile = new UniversalProjectReader().Read(inputFile);
+            new UniversalProjectWriter(format).Write(projectFile, outputFile);
         }
     }
 	```
@@ -69,45 +66,42 @@ you can use the specific Reader and Writer classes, as shown below.
 
 === "Java"
 	```java
-	package org.mpxj.howto.convert;
-	
-	import net.sf.mpxj.ProjectFile;
-	import net.sf.mpxj.mpp.MPPReader;
-	import net.sf.mpxj.mpx.MPXWriter;
-	import net.sf.mpxj.reader.ProjectReader;
-	import net.sf.mpxj.writer.ProjectWriter;
-	
-	public class ConvertMppToMpx
-	{
-	   	public void convert(String inputFile, String outputFile) throws Exception
-	   	{
-	      	ProjectReader reader = new MPPReader();
-	      	ProjectFile projectFile = reader.read(inputFile);
-		
-	      	ProjectWriter writer = new MPXWriter();
-	      	writer.write(projectFile, outputFile);
-	   	}
-	}
+    package org.mpxj.howto.convert;
+    
+    import net.sf.mpxj.ProjectFile;
+    import net.sf.mpxj.mpp.MPPReader;
+    import net.sf.mpxj.mpx.MPXWriter;
+    import net.sf.mpxj.reader.ProjectReader;
+    import net.sf.mpxj.writer.ProjectWriter;
+    
+    public class ConvertMppToMpx
+    {
+       public void convert(String inputFile, String outputFile) throws Exception
+       {
+          ProjectReader reader = new MPPReader();
+          ProjectFile projectFile = reader.read(inputFile);
+    
+          ProjectWriter writer = new MPXWriter();
+          writer.write(projectFile, outputFile);
+       }
+    }
 	```
 
 === "C#"
 	```c#
-	using net.sf.mpxj.mpp;
-	using net.sf.mpxj.mpx;
-	
-	namespace MpxjSamples.HowToConvert;
-	
-	public class ConvertMppToMpx
-	{
-    	public void Convert(string inputFile, string outputFile)
-    	{
-        	var reader = new MPPReader();
-        	var projectFile = reader.read(inputFile);
-	
-        	var writer = new MPXWriter();
-        	writer.write(projectFile, outputFile);
-    	}
-	}
+    using MPXJ.Net;
+    
+    public class ConvertMppToMpx
+    {
+        public void Convert(string inputFile, string outputFile)
+        {
+            var reader = new MPPReader();
+            var projectFile = reader.Read(inputFile);
+    
+            var writer = new MPXWriter();
+            writer.Write(projectFile, outputFile);
+        }
+    }
 	```
 
 

@@ -5,13 +5,19 @@ Gantt Designer writes schedule data to GNT files.
 The simplest way to read a GNT file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.gnt");
+public class GanttDesigner
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.gnt");
+   }
+}
 ```
 
 You can work directly with the `GanttDesignerReader` by replacing

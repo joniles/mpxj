@@ -6,13 +6,19 @@ which Microsoft Project has been able to read and write since Project 2002.
 The simplest way to read an MSPDI file is to use the `UniversalProjectReader`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-// ...
-
-UniversalProjectReader reader = new UniversalProjectReader();
-ProjectFile project = reader.read("my-sample.xml");
+public class MSDPI
+{
+   public void read() throws Exception
+   {
+      UniversalProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("my-sample.xml");
+   }
+}
 ```
 
 ## Using MSPDIReader
@@ -20,51 +26,56 @@ You can work directly with the `MSPDIReader` class by replacing
 `UniversalProjectReader` with `MSPDIReader`. This provides access to additional
 options, as described below.
 
-### Encoding
+### Charset
 By default MPXJ assumes that MSPDI files are encoded as UTF-8. The
 `UniversalProjectReader` understands Unicode Byte Order Marks (BOM) and will
 adjust the encoding appropriately if a BOM is present. If you have an MSPDI file
-with an unusual encoding, you can manually set the encoding used by the reader.
-
-Two methods are provided to do this: `setCharset` and `setEncoding`. The
-`setCharset` method takes an instance of the `Charset` class, while the
-`setEncoding` method takes the name of an encoding. Examples of these methods
-are shown below:
+with an unusual encoding, you can manually set the encoding used by the reader,
+as illustrated below.
 
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
-// ...
+import java.nio.charset.Charset;
 
-MSPDIReader reader = new MSPDIReader();
+public class MSPDIWithCharset
+{
+   public void read() throws Exception
+   {
+      MSPDIReader reader = new MSPDIReader();
 
-// Use a Charset instance
-reader.setCharset(Charset.forName("GB2312"));
-ProjectFile project = reader.read("my-sample.xml");
-
-// Use an encoding name
-reader.setEncoding("GB2312");
-project = reader.read("my-sample.xml");
+      reader.setCharset(Charset.forName("GB2312"));
+      ProjectFile project = reader.read("my-sample.xml");
+   }
+}
 ```
 
 ### Microsoft Project Compatibility
 Microsoft Project will read MSPDI files which are not valid XML according to the
 MSPDI schema. By default MPXJ has been configured to take the same approach. If
-for some reason you wish to  apply strict validation when reading an MSPDI file,
+for some reason you wish to apply strict validation when reading an MSPDI file,
 you can do this using the  `setMicrosoftProjectCompatibleInput` method, as shown
 below.
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
-// ...
-
-MSPDIReader reader = new MSPDIReader();
-reader.setMicrosoftProjectCompatibleInput(false);
-ProjectFile project = reader.read("my-sample.xml");
+public class MSPDICompatibleInput
+{
+   public void read() throws Exception
+   {
+      MSPDIReader reader = new MSPDIReader();
+      reader.setMicrosoftProjectCompatibleInput(false);
+      ProjectFile project = reader.read("my-sample.xml");
+   }
+}
 ```
 
 ### Ignore Errors
@@ -74,15 +85,21 @@ below illustrates how we can force the `MSPDIReader` to report
 errors encountered when reading a file:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIReader;
 
-// ...
+public class MSPDIIgnoreErrors
+{
+   public void read() throws Exception
+   {
+      MSPDIReader reader = new MSPDIReader();
 
-MSPDIReader reader = new MSPDIReader();
-
-reader.setIgnoreErrors(false);
-ProjectFile project = reader.read("my-sample.xml");
+      reader.setIgnoreErrors(false);
+      ProjectFile project = reader.read("my-sample.xml");
+   }
+}
 ```
 
 Note that if errors are ignored when reading a file, the ignored errors

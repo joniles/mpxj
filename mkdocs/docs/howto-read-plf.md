@@ -1,20 +1,29 @@
 # How To: Read Primavera PLF files
-Primavera P6 can export layout information as PLF files.
-These files define the visual appearance of the P6 user interface,
-and can be imported and exported by P6. Although MPXJ doesn't currently
-offer any facilities to interpret the contents of these files,
-the data they contain can be read.
+Primavera P6 can export layout information as PLF files. These files define the
+visual appearance of the P6 user interface, and can be imported and exported by
+P6. Although MPXJ doesn't currently offer any facilities to interpret the
+contents of these files, the data they contain can be read.
 
 ## Reading PLF files
-A PLF file contains "structured text" and can be read using `StructuredTextParser`:
+A PLF file contains "structured text" and can be read using
+`StructuredTextParser`:
 
 ```java
+package org.mpxj.howto.read;
+
 import net.sf.mpxj.primavera.StructuredTextParser;
+import net.sf.mpxj.primavera.StructuredTextRecord;
 
-// ...
+import java.io.FileInputStream;
 
-StructuredTextParser parser = new StructuredTextParser();
-StructuredTextRecord record = parser.parse(new FileInputStream("test.plf"))
+public class PLF
+{
+   public void read() throws Exception
+   {
+      StructuredTextParser parser = new StructuredTextParser();
+      StructuredTextRecord record = parser.parse(new FileInputStream("test.plf"));
+   }
+}
 ```
 
 ### Attributes
