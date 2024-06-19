@@ -519,7 +519,7 @@ If you need to you can retrieve all of this information in one go:
 ```java
 ProjectFile file = new UniversalProjectReader().read("example.mpp");
 
-Set<ProjectField> allFields = file.getPopulatedFields();
+Set<FieldType> allFields = file.getPopulatedFields();
 ```
 
 The set returned by the project's `getPopulatedFields` will contain all the
