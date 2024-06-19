@@ -19,25 +19,31 @@ as-is, you only need to so something different if you want to work with the
 contents of the Subproject.
 
 ```java
+package org.mpxj.howto.use.externalprojects;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-...
-
-ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-for (Task task : file.getTasks())
+public class IdentifySubprojectTasks
 {
-    if (task.getExternalProject())
-    {
-        System.out.println(task.getName() + " is a subproject");
-        System.out.println("Path to the file is: " +
-            task.getSubprojectFile());
-        System.out.println("GUID of this project is: " +
-            task.getSubprojectGUID());
-        System.out.println("Offset used when displaying Unique ID values is: " +
-            task.getSubprojectTasksUniqueIDOffset());
-    }
+   public void process() throws Exception
+   {
+      ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+      for (Task task : file.getTasks())
+      {
+         if (task.getExternalProject())
+         {
+            System.out.println(task.getName() + " is a subproject");
+            System.out.println("The path to the file is: "
+               + task.getSubprojectFile());
+            System.out.println("The GUID of this project is: "
+               + task.getSubprojectGUID());
+            System.out.println("The offset used when displaying Unique ID values is: "
+               + task.getSubprojectTasksUniqueIDOffset());
+         }
+      }
+   }
 }
 ```
 
@@ -60,10 +66,22 @@ If you wish, you can use `UniversalProjectReader` directly to load the
 external project, as the example below illustrates:
 
 ```java
-ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
-String filePath = externalProjectTask.getSubprojectFile();
-ProjectFile externalProjectFile = new UniversalProjectReader().read(filePath);
+package org.mpxj.howto.use.externalprojects;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Task;
+import net.sf.mpxj.reader.UniversalProjectReader;
+
+public class ReadSubprojectData
+{
+   public void process() throws Exception
+   {
+      ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+      Task externalProject = file.getTaskByID(Integer.valueOf(1));
+      String filePath = externalProject.getSubprojectFile();
+      ProjectFile externalProjectFile = new UniversalProjectReader().read(filePath);
+   }
+}
 ```
 
 The code above assumes that the file is located on a readable filesystem at
@@ -79,9 +97,21 @@ An alternative to writing your own code to do this would be to use the method
 provided by MPXJ, as illustrated below:
 
 ```java
-ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
-ProjectFile externalProjectFile = externalProjectTask.getSubprojectObject();
+package org.mpxj.howto.use.externalprojects;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Task;
+import net.sf.mpxj.reader.UniversalProjectReader;
+
+public class ReadSubprojectDataMpxj
+{
+   public void process() throws Exception
+   {
+      ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+      Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
+      ProjectFile externalProjectFile = externalProjectTask.getSubprojectObject();
+   }
+}
 ```
 
 The advantage of this approach, apart from using less code, is that MPXJ will
@@ -91,10 +121,24 @@ working directory of the current process, however this behaviour can be
 configured as the example below illustrates:
 
 ```java
-ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-file.getProjectConfig().setSubprojectWorkingDirectory(new File("/path/to/dir"));
-Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
-ProjectFile externalProjectFile = externalProjectTask.getSubprojectObject();
+package org.mpxj.howto.use.externalprojects;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Task;
+import net.sf.mpxj.reader.UniversalProjectReader;
+
+import java.io.File;
+
+public class ReadSubprojectDataDirectory
+{
+   public void process() throws Exception
+   {
+      ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+      file.getProjectConfig().setSubprojectWorkingDirectory(new File("/path/to/directory"));
+      Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
+      ProjectFile externalProjectFile = externalProjectTask.getSubprojectObject();
+   }
+}
 ```
 
 In the code above we're calling the `setSubprojectWorkingDirectory` method
@@ -110,11 +154,23 @@ like any other summary task by revealing the child tasks it contains. We
 can reproduce this behavior using the code shown in the sample below:
 
 ```java
-ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
-System.out.println("Has child tasks? " + externalProjectTask.hasChildTasks());
-externalProjectTask.expandSubproject();
-System.out.println("Has child tasks? " + externalProjectTask.hasChildTasks());
+package org.mpxj.howto.use.externalprojects;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Task;
+import net.sf.mpxj.reader.UniversalProjectReader;
+
+public class ExpandSubprojects
+{
+   public void process() throws Exception
+   {
+      ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+      Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
+      System.out.println("Task has child tasks: " + externalProjectTask.hasChildTasks());
+      externalProjectTask.expandSubproject();
+      System.out.println("Task has child tasks: " + externalProjectTask.hasChildTasks());
+   }
+}
 ```
 
 The `expandSubproject` method attempts to open the external project, and if
@@ -129,11 +185,24 @@ ProjectFile instance.
 > we did when using the `getSubprojectObject` method.
 
 You can also do this globally and expand all Subproject tasks in a project
-by using the `expandSubprojects` method on the project file itself:
+by using the `expandSubprojects` method on the project file itself (we'll
+cover the `false` argument we're passing into this method in the section
+below on External Predecessors):
 
 ```java
-ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-file.expandSubprojects(false);
+package org.mpxj.howto.use.externalprojects;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.reader.UniversalProjectReader;
+
+public class ExpandSubprojectsGlobally
+{
+   public void process() throws Exception
+   {
+      ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+      file.expandSubprojects(false);
+   }
+}
 ```
 
 > Remember that all the "expand subproject" functionality described in the
@@ -163,19 +232,31 @@ at a placeholder task representing an external predecessor? The sample
 code below illustrates this:
 
 ```java
-ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-for (Task task : file.getTasks())
+package org.mpxj.howto.use.externalprojects;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.Task;
+import net.sf.mpxj.reader.UniversalProjectReader;
+
+public class ExternalPredecessors
 {
-    if (task.getExternalTask())
-    {
-        System.out.println(task.getName() + " is an external predecessor");
-        System.out.println("The path to the file containing this task is: "
-            + task.getSubprojectFile());
-        System.out.println("The ID of the task in this file is: "
-            + task.getSubprojectTaskID());
-        System.out.println("The Unique ID of the task in this file is: "
-            + task.getSubprojectTaskUniqueID());
-    }
+   public void process() throws Exception
+   {
+      ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+      for (Task task : file.getTasks())
+      {
+         if (task.getExternalTask())
+         {
+            System.out.println(task.getName() + " is an external predecessor");
+            System.out.println("The path to the file containing this task is: "
+               + task.getSubprojectFile());
+            System.out.println("The ID of the task in this file is: "
+               + task.getSubprojectTaskID());
+            System.out.println("The Unique ID of the task in this file is: "
+               + task.getSubprojectTaskUniqueID());
+         }
+      }
+   }
 }
 ```
 
@@ -238,16 +319,38 @@ The full path for a project's resource pool can be retrieved using the
 `getResourcePoolFile` method as illustrated below:
 
 ```java
-ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-String path = file.getProjectProperties().getResourcePoolFile();
+package org.mpxj.howto.use.externalprojects;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.reader.UniversalProjectReader;
+
+public class ResourcePool
+{
+   public void process() throws Exception
+   {
+      ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+      String path = file.getProjectProperties().getResourcePoolFile();
+   }
+}
 ```
 
 In a similar manner to the other external project examples given in previous
 sections, MPXJ can also open and read the resource pool file for you:
 
 ```java
-ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-ProjectFile resourcePool = file.getProjectProperties().getResourcePoolObject();
+package org.mpxj.howto.use.externalprojects;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.reader.UniversalProjectReader;
+
+public class ResourcePoolObject
+{
+   public void process() throws Exception
+   {
+      ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+      ProjectFile resourcePool = file.getProjectProperties().getResourcePoolObject();
+   }
+}
 ```
 
 ## MSPDI Files
