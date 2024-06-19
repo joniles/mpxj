@@ -79,7 +79,7 @@ between a start time and an end time as an inclusive range. Let's try printing
 these `LocalTimeRange` instances to our output to see what we get:
 
 ```java
-List<LocalTimeRange> hours = calendar.getCalendarHours(Day.TUESDAY);
+List<LocalTimeRange> hours = calendar.getCalendarHours(DayOfWeek.TUESDAY);
 hours.forEach(System.out::println);
 ```
 
@@ -110,7 +110,7 @@ So now our output looks like this:
 Let's use this method to take a look at the whole week again:
 
 ```java
-for (Day day : Day.values()) {
+for (DayOfWeek day : DayOfWeek.values()) {
    String dayType = calendar.getCalendarDayType(day).toString();
    System.out.println(day
       + " is a " + dayType + " day ("
@@ -135,7 +135,7 @@ working day, it doesn't have any working hours. MPXJ has some constants which
 can be used to help us add some working hours:
 
 ```java
-hours = calendar.getCalendarHours(Day.SATURDAY);
+hours = calendar.getCalendarHours(DayOfWeek.SATURDAY);
 hours.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
 hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
 ```
@@ -182,7 +182,7 @@ is to take a look at the actual amount of working time we've set up on Saturday.
 To do this we call the `getWork` method, as shown below.
 
 ```java
-Duration duration = calendar.getWork(Day.SATURDAY, TimeUnit.HOURS);
+Duration duration = calendar.getWork(DayOfWeek.SATURDAY, TimeUnit.HOURS);
 System.out.println(duration);
 ```
 
@@ -329,6 +329,7 @@ private void dateDump(ProjectCalendar calendar, LocalDate startDate, LocalDate e
    for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
       System.out.println(date + "\t" + calendar.getWork(date, TimeUnit.HOURS));
    }
+   System.out.println();
 }
 ```
 
@@ -420,8 +421,8 @@ Next we can set up our weekend 9am to 5pm working pattern:
 startTime = LocalTime.of(9, 0);
 finishTime = LocalTime.of(17, 0);
 LocalTimeRange weekendHours = new LocalTimeRange(startTime, finishTime);
-Arrays.asList(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY)
-   .stream().forEach(d -> week.addCalendarHours(d).add(weekendHours));
+Stream.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY)
+   .forEach(d -> week.addCalendarHours(d).add(weekendHours));
 ```
 
 Finally we can set up our weekday 5am to 9pm pattern:
@@ -430,9 +431,9 @@ Finally we can set up our weekday 5am to 9pm pattern:
 startTime = LocalTime.of(5, 0);
 finishTime = LocalTime.of(21, 0);
 LocalTimeRange weekdayHours = new LocalTimeRange(startTime, finishTime);
-Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY,
+Stream.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY,
       DayOfWeek.THURSDAY, DayOfWeek.FRIDAY)
-   .stream().forEach(d -> week.addCalendarHours(d).add(weekdayHours));
+   .forEach(d -> week.addCalendarHours(d).add(weekdayHours));
 ```
 
 As `ProjectCalendar` and `ProjectCalendarWeek` are both derived from the same
@@ -590,7 +591,7 @@ We can also do the same thing with day types:
 
 ```java
 parentCalendar.setCalendarDayType(DayOfWeek.TUESDAY, DayType.NON_WORKING);
-System.out.println("Is " + DayOfWeek.TUESDAY + " a working day: " 
+System.out.println("Is " + DayOfWeek.TUESDAY + " a working day: "
    + childCalendar.isWorkingDay(DayOfWeek.TUESDAY));
 ```
 
@@ -646,7 +647,8 @@ We can override the day type we're inheriting from the base calendar:
 childCalendar.setCalendarDayType(DayOfWeek.TUESDAY, DayType.WORKING);
 LocalTime startTime = LocalTime.of(9, 0);
 LocalTime finishTime = LocalTime.of(12, 30);
-childCalendar.addCalendarHours(DayOfWeek.TUESDAY).add(new LocalTimeRange(startTime, finishTime));
+childCalendar.addCalendarHours(DayOfWeek.TUESDAY)
+   .add(new LocalTimeRange(startTime, finishTime));
 ```
 
 In the code above we're explicitly setting Tuesday to be a working day, rather
@@ -773,8 +775,7 @@ ProjectCalendar calendar2 = file.addCalendar();
 calendar2.setName("Calendar 2");
 
 ProjectCalendar calendar3 = file.addCalendar();
-calendar2.setName("Calendar 3");
-
+calendar3.setName("Calendar 3");
 ```
 
 Our sample code above creates three calendars, each with a distinct name. To see
@@ -807,7 +808,7 @@ automatically populated. Let's see:
 
 
 ```java
-file.getCalendars().forEach(c -> System.out.println(c.getName() 
+file.getCalendars().forEach(c -> System.out.println(c.getName()
    + " (Unique ID: " + c.getUniqueID() + ")"));
 ```
 
