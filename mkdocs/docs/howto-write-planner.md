@@ -7,13 +7,19 @@ can open.
 The sample code below illustrates how to write data to a Planner file.
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.writer.FileFormat;
 import net.sf.mpxj.writer.UniversalProjectWriter;
 
-// ...
-
-new UniversalProjectWriter(FileFormat.PLANNER).write(project, fileName);
+public class Planner
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      new UniversalProjectWriter(FileFormat.PLANNER).write(project, fileName);
+   }
+}
 ```
 
 ## Using PlannerWriter
@@ -25,12 +31,20 @@ The character set used to write a Planner file can be specified using the
 `setCharset` method, as illustrated below.
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.planner.PlannerWriter;
 
-// ...
+import java.nio.charset.Charset;
 
-PlannerWriter writer = new PlannerWriter();
-writer.setCharset(Charset.forName("GB2312"));
-writer.write(projectFile, outputFileName);
+public class PlannerCharset
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      PlannerWriter writer = new PlannerWriter();
+      writer.setCharset(Charset.forName("GB2312"));
+      writer.write(project, fileName);
+   }
+}
 ```

@@ -9,13 +9,19 @@ MPX as a data interchange format.
 The sample code below illustrates how to write data to an MPX file.
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.writer.FileFormat;
 import net.sf.mpxj.writer.UniversalProjectWriter;
 
-// ...
-
-new UniversalProjectWriter(FileFormat.MPX).write(project, fileName);
+public class MPX
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      new UniversalProjectWriter(FileFormat.MPX).write(project, fileName);
+   }
+}
 ```
 
 ## Using MPXWriter
@@ -29,14 +35,22 @@ with a localized German version of Microsoft Project.
 
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpx.MPXWriter;
 
-// ...
+import java.util.Locale;
 
-MPXWriter writer = new MPXWriter();
-writer.setLocale(Locale.GERMAN);
-writer.write(projectFile, outputFileName);
+public class MPXLocale
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      MPXWriter writer = new MPXWriter();
+      writer.setLocale(Locale.GERMAN);
+      writer.write(project, fileName);
+   }
+}
 ```
 
 The locales supported by the MPX writer class can be retrieved using
@@ -54,13 +68,21 @@ ensures that the information present in the project properties is used instead
 of the locale defaults. This is illustrated in the sample code below:
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mpx.MPXWriter;
 
-// ...
+import java.util.Locale;
 
-MPXWriter writer = new MPXWriter();
-writer.setLocale(Locale.GERMAN);
-writer.setUseLocaleDefaults(false);
-writer.write(projectFile, outputFileName);
+public class MPXLocaleDefaults
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      MPXWriter writer = new MPXWriter();
+      writer.setLocale(Locale.GERMAN);
+      writer.setUseLocaleDefaults(false);
+      writer.write(project, fileName);
+   }
+}
 ```

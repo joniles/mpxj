@@ -6,13 +6,19 @@ read and write an XML-based data interchange format called MSPDI.
 The sample code below illustrates how to write data to an MSPDI file.
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.writer.FileFormat;
 import net.sf.mpxj.writer.UniversalProjectWriter;
 
-// ...
-
-new UniversalProjectWriter(FileFormat.MSPDI).write(project, fileName);
+public class MSPDI
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      new UniversalProjectWriter(FileFormat.MSPDI).write(project, fileName);
+   }
+}
 ```
 
 ## Using MSPDIWriter
@@ -39,14 +45,20 @@ correctly formatted XSD durations for consumption by applications other than
 Project you can set this flag to `false`:
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 
-// ...
-
-MSPDIWriter writer = new MSPDIWriter();
-writer.setMicrosoftProjectCompatibleOutput(false);
-writer.write(projectFile, outputFileName);
+public class MSPDICompatibleOutput
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      MSPDIWriter writer = new MSPDIWriter();
+      writer.setMicrosoftProjectCompatibleOutput(false);
+      writer.write(project, fileName);
+   }
+}
 ```     
 
 ### Save Version
@@ -75,15 +87,21 @@ Here's an example of the `SaveVersion` attribute being set to ensure that only
 the older style of calendar exceptions is written to the MSPDI file:
  
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.mspdi.SaveVersion;
 
-// ...
-
-MSPDIWriter writer = new MSPDIWriter();
-writer.setSaveVersion(SaveVersion.Project2002);
-writer.write(projectFile, outputFileName);
+public class MSPDISaveVersion
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      MSPDIWriter writer = new MSPDIWriter();
+      writer.setSaveVersion(SaveVersion.Project2002);
+      writer.write(project, fileName);
+   }
+}
 ```
 
 ### Timephased Data
@@ -108,27 +126,39 @@ In the first example below we're enabling timephased data, and using the default
 day-by-dat breakdown:
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 
-// ...
-
-MSPDIWriter writer = new MSPDIWriter();
-writer.setWriteTimephasedData(true);
-writer.write(projectFile, outputFileName);
+public class MSPDITimephased
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      MSPDIWriter writer = new MSPDIWriter();
+      writer.setWriteTimephasedData(true);
+      writer.write(project, fileName);
+   }
+}
 ```
 
 In this second example we're overriding the default behaviour as asking MPXJ to
 write an aggregated form of the timephased data: 
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 
-// ...
-
-MSPDIWriter writer = new MSPDIWriter();
-writer.setWriteTimephasedData(true);
-writer.setSplitTimephasedAsDays(false);
-writer.write(projectFile, outputFileName);
+public class MSPDITimephasedAggregate
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      MSPDIWriter writer = new MSPDIWriter();
+      writer.setWriteTimephasedData(true);
+      writer.setSplitTimephasedAsDays(false);
+      writer.write(project, fileName);
+   }
+}
 ```

@@ -6,13 +6,19 @@ PMXML.
 The sample code below illustrates how to write data to a PMXML file.
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.writer.FileFormat;
 import net.sf.mpxj.writer.UniversalProjectWriter;
 
-// ...
-
-new UniversalProjectWriter(FileFormat.PMXML).write(project, fileName);
+public class PMXML
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      new UniversalProjectWriter(FileFormat.PMXML).write(project, fileName);
+   }
+}
 ```
 
 ## Using PrimaveraPMFileWriter
@@ -25,14 +31,20 @@ instance you are writing contains a baseline, this can be included in the PMXML
 file by calling the `setWriteBaselines` method as shown below.
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
 
-// ...
-
-PrimaveraPMFileWriter writer = new PrimaveraPMFileWriter();
-writer.setWriteBaselines(true);
-writer.write(projectFile, outputFileName);
+public class PMXMLBaselines
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      PrimaveraPMFileWriter writer = new PrimaveraPMFileWriter();
+      writer.setWriteBaselines(true);
+      writer.write(project, fileName);
+   }
+}
 ```
 
 

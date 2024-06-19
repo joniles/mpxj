@@ -7,38 +7,46 @@ move schedule data between instances of P6 even today.
 The sample code below illustrates how to write data to an XER file.
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.writer.FileFormat;
 import net.sf.mpxj.writer.UniversalProjectWriter;
 
-// ...
-
-new UniversalProjectWriter(FileFormat.XER).write(project, fileName);
+public class XER
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      new UniversalProjectWriter(FileFormat.XER).write(project, fileName);
+   }
+}
 ```
 
 ## Using PrimaveraXERFileWriter
 If required, the `PrimaveraXERFileWriter` class can be used directly, which
 provides access to additional options, as described below.
 
-### Encoding
+### Charset
 By default XER files written by MPXJ are encoded using the Windows-1252
-character set. If you need to use a different encoding, the `setCharset` or
-`setEncoding` methods can be used to achieve this, as illustrated by the code
+character set. If you need to use a different character set, the `setCharset`
+method can be used to achieve this, as illustrated by the code
 below.
 
 ```java
+package org.mpxj.howto.write;
+
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
 
-// ...
+import java.nio.charset.Charset;
 
-PrimaveraXERFileWriter writer = new PrimaveraXERFileWriter();
-
-// Use a Charset instance
-writer.setCharset(Charset.forName("GB2312"));
-writer.write(projectFile, outputFileName);
-
-// Use an encoding name
-writer.setEncoding("GB2312");
-writer.write(projectFile, outputFileName);
+public class XERCharset
+{
+   public void write(ProjectFile project, String fileName) throws Exception
+   {
+      PrimaveraXERFileWriter writer = new PrimaveraXERFileWriter();
+      writer.setCharset(Charset.forName("GB2312"));
+      writer.write(project, fileName);
+   }
+}
 ```
