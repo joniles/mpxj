@@ -986,7 +986,7 @@ public final class UniversalProjectReader extends AbstractProjectReader
 
    private <T extends ProjectReader> T configure(T reader)
    {
-      if (reader instanceof HasCharset)
+      if (reader instanceof HasCharset && m_charset != null)
       {
          ((HasCharset) reader).setCharset(m_charset);
       }

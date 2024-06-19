@@ -124,18 +124,7 @@ import net.sf.mpxj.reader.AbstractProjectStreamReader;
 public final class MSPDIReader extends AbstractProjectStreamReader implements HasCharset
 {
    /**
-    * Sets the character encoding used when reading an MSPDI file.
-    *
-    * @param encoding encoding name
-    */
-   public void setEncoding(String encoding)
-   {
-      m_encoding = encoding;
-   }
-
-   /**
-    * Alternative way to set the file encoding. If both an encoding name and a Charset instance
-    * are supplied, the Charset instance is used.
+    * Set the Charset used to read the file.
     *
     * @param charset Charset used when reading the file
     */
@@ -151,12 +140,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
     */
    @Override public Charset getCharset()
    {
-      Charset result = m_charset;
-      if (result == null)
-      {
-         result = m_encoding == null ? CharsetHelper.UTF8 : Charset.forName(m_encoding);
-      }
-      return result;
+      return m_charset;
    }
 
    @Override public ProjectFile read(InputStream stream) throws MPXJException
@@ -2284,8 +2268,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
 
    private boolean m_compatibleInput = true;
    private boolean m_ignoreErrors = true;
-   private String m_encoding;
-   private Charset m_charset;
+   private Charset m_charset = CharsetHelper.UTF8;
    private ProjectFile m_projectFile;
    private EventManager m_eventManager;
    private Map<UUID, FieldType> m_lookupTableMap;

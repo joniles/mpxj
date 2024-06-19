@@ -72,18 +72,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    }
 
    /**
-    * Sets the character encoding used when reading an XER file.
-    *
-    * @param encoding encoding name
-    */
-   public void setEncoding(String encoding)
-   {
-      m_encoding = encoding;
-   }
-
-   /**
-    * Alternative way to set the file encoding. If both an encoding name and a Charset instance
-    * are supplied, the Charset instance is used.
+    * Set the Charset used to read the file.
     *
     * @param charset Charset used when reading the file
     */
@@ -99,13 +88,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
     */
    @Override public Charset getCharset()
    {
-      Charset result = m_charset;
-      if (result == null)
-      {
-         // We default to CP1252 as this seems to be the most common encoding
-         result = m_encoding == null ? CharsetHelper.CP1252 : Charset.forName(m_encoding);
-      }
-      return result;
+      return m_charset;
    }
 
    /**
@@ -1081,8 +1064,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       return new HashMap<>(FIELD_TYPE_MAP);
    }
 
-   private String m_encoding;
-   private Charset m_charset;
+   private Charset m_charset = CharsetHelper.CP1252;
    private PrimaveraReader m_reader;
    private Integer m_projectID;
    boolean m_skipTable;
