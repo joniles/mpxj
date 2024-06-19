@@ -151,12 +151,12 @@ Task task = file.getTaskByID(Integer.valueOf(1));
 
 System.out.println("Start: " + task.getStart());
 System.out.println("Baseline Start: " + task.getBaselineStart());
-System.out.println("Baseline 1 Start: " + task.getBaselineStart(1));
-System.out.println("Baseline 2 Start: " + task.getBaselineStart(2));
+System.out.println("Baseline1 Start: " + task.getBaselineStart(1));
+System.out.println("Baseline2 Start: " + task.getBaselineStart(2));
 
 // ...
 
-System.out.println("Baseline 10 Start: " + task.getBaselineStart(10));
+System.out.println("Baseline10 Start: " + task.getBaselineStart(10));
 ```
 
 When a baseline is taken in Microsoft Project, the date on which the baseline
@@ -405,13 +405,12 @@ baseline strategy on the main schedule, and this will be used when each
 baseline schedule is attached:
 
 ```java
-BaselineStrategy myStrategy = new MyBaselineStratgey();
+BaselineStrategy myStrategy = new MyBaselineStrategy();
 ProjectFile main = new UniversalProjectReader().read("main.pp");
 main.getProjectConfig().setBaselineStrategy(myStrategy);
 
 ProjectFile baseline1 = new UniversalProjectReader().read("baseline1.pp");
 ProjectFile baseline2 = new UniversalProjectReader().read("baseline2.pp");
-
 main.setBaseline(baseline1, 1);
 main.setBaseline(baseline2, 2);
 ```
