@@ -4,8 +4,20 @@ As you may have seen elsewhere in this documentation, the preferred way to read
 from most sources of schedule data is to use the `UniversalProjectReader`:
 
 ```java
-ProjectReader reader = new UniversalProjectReader ();
-ProjectFile project = reader.read("example.mpp");
+package org.mpxj.howto.use.universal;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.UniversalProjectReader;
+
+public class SimpleExample
+{
+   public void process() throws Exception
+   {
+      ProjectReader reader = new UniversalProjectReader();
+      ProjectFile project = reader.read("example.mpp");
+   }
+}
 ```
 
 This is very convenient as you don't need to know ahead of time what type of
@@ -28,32 +40,49 @@ or you can change the reader's settings before continuing to read the schedule.
 The example code below illustrates both these situations.
 
 ```java
-UniversalProjectReader upr = new UniversalProjectReader();
+package org.mpxj.howto.use.universal;
 
-// Retrieve the proxy
-try (UniversalProjectReader.ProjectReaderProxy proxy = upr.getProjectReaderProxy(file))
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.phoenix.PhoenixReader;
+import net.sf.mpxj.reader.ProjectReader;
+import net.sf.mpxj.reader.UniversalProjectReader;
+import net.sf.mpxj.sdef.SDEFReader;
+
+import java.io.File;
+
+public class ProxyExample
 {
-   // Retrieve the reader class
-   ProjectReader reader = proxy.getProjectReader();
-
-   // Determine if we want to continue processing this file type.
-   // In this example we are ignoring SDEF files.
-   if (reader instanceof SDEFReader)
-   {      
-      return;
-   }
-
-   // Provide configuration for specific reader types.
-   // In this example we are changing the behavior of the Phoenix reader.
-   if (reader instanceof PhoenixReader)
+   public void process(File file) throws Exception
    {
-      ((PhoenixReader)reader).setUseActivityCodesForTaskHierarchy(false);
+      UniversalProjectReader upr = new UniversalProjectReader();
+
+      // Retrieve the proxy
+      try (UniversalProjectReader.ProjectReaderProxy proxy
+              = upr.getProjectReaderProxy(file))
+      {
+         // Retrieve the reader class
+         ProjectReader reader = proxy.getProjectReader();
+
+         // Determine if we want to continue processing this file type.
+         // In this example we are ignoring SDEF files.
+         if (reader instanceof SDEFReader)
+         {
+            return;
+         }
+
+         // Provide configuration for specific reader types.
+         // In this example we are changing the behavior of the Phoenix reader.
+         if (reader instanceof PhoenixReader)
+         {
+            ((PhoenixReader)reader).setUseActivityCodesForTaskHierarchy(false);
+         }
+
+         // Finally, we read the schedule
+         ProjectFile project = proxy.read();
+
+         // Now we can work with the schedule data...
+      }
    }
-
-   // Finally, we read the schedule
-   ProjectFile project = proxy.read();
-
-   // Now we can work with the schedule data...
 }
 ```
 
