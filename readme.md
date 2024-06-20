@@ -50,7 +50,7 @@ More details of the supported file formats can be found
 
 ## Languages
 MPXJ is written and maintained in Java, however this is no barrier to using
-its functionality in other languages. Thanks to [IKVM](https://github.com/ikvm-revived/ikvm), MPXJ is
+its functionality in other languages. Thanks to [IKVM](https://github.com/ikvmnet/ikvm), MPXJ is
 [available for .Net](https://www.nuget.org/packages?q=net.sf.mpxj), allowing it to be used from any .Net language.
 
 There is also now a [Ruby Gem](https://rubygems.org/gems/mpxj) which provides
@@ -91,7 +91,7 @@ licences for the third party libraries used by MPXJ.
 This library includes functionality provided by:
 
 * [POI](http://poi.apache.org/)
-* [IKVM](https://ikvm.org/)
+* [IKVM](https://github.com/ikvmnet/ikvm)
 * [RTF Parser Kit](https://github.com/joniles/rtfparserkit)
 * [SQLITE-JDBC](https://github.com/xerial/sqlite-jdbc)
 * [ZLIB/CONTRIB](https://github.com/madler/zlib)
