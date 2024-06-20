@@ -2,13 +2,15 @@
 
 ## 13.0.1 (unreleased)
 
-## 13.0.0 (unreleased)
+## 13.0.0 (2024-06-20)
 * NOTE: this is a major release containing breaking changes. When updating from a 12.x release it is recommended that you first update to the most recent 12.x release and deal with any deprecation warnings before moving to this release.
-* NOTE: the [original `net.sf.mpxj` NuGet packages](https://www.nuget.org/packages?q=net.sf.mpxj)are now deprecated and will be replaced by the [MPXJ.Net NuGet Package](https://www.nuget.org/packages/MPXJ.Net) in the next major MPXJ release. The `net.sf.mpxj` packages will continue to be maintained until then, at which point they will no longer be distributed. Please migrate your code to use MPXJ.Net at the earliest opportunity, and open an issue in the GitHUb issue tracker if you encounter problems.
+* NOTE: the [original `net.sf.mpxj` NuGet packages](https://www.nuget.org/packages?q=net.sf.mpxj) are now deprecated and will be replaced by the [MPXJ.Net NuGet Package](https://www.nuget.org/packages/MPXJ.Net) in the next major MPXJ release. The `net.sf.mpxj` packages will continue to be maintained until then, at which point they will no longer be distributed. Please migrate your code to use MPXJ.Net at the earliest opportunity, and open an issue in the GitHUb issue tracker if you encounter problems.
 * Updated to use JAXB3. Among other things this change ensures compatibility with Spring Boot 3. Note that this may be a breaking change for you if you own application uses JAXB2.
 * When reading P6 schedules, the custom properties (as retrieved using `ProjectProperties.getCustomProperties`) will no longer contain scheduling options. These are now all available as attributes of the `ProjectProperties` class.
 * Removed redundant `setUniqueID` methods from immutable objects. These previously threw `UnsupportedOperationException` when called.
 * The `ProjectEntityWithUniqueID` interface no longer contains the `setUniqueID` method. Entities with a mutable Unique ID attribute now implement the `ProjectEntityWithMutableUniqueID` interface, which inherits from the `ProjectEntityWithUniqueID` interface.
+* The `MSPDIReader` and `PrimaveraXERFileReader` classes no longer provide getter and setter methods for `Encoding`, use the `Charset` getter and setter methods instead.
+* Removed the `XerFieldType` class and replaced usages of it with the `DataType` class.
 * The deprecated `ActivityCode()` constructor and `addValue` method have been removed.
 * The deprecated `ActivityCodeValue()` constructor and `setParent` method have been removed.
 * The deprecated `CostAccount()` constructor and `getDescription` method have been removed.
