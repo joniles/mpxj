@@ -1,12 +1,60 @@
 # How To: Read a Primavera P6 database
-Reading from a Primavera database is a slightly different proposition
-to reading file-based project data, as a database connection is required.
+Primavera P6 supports the use of SQLite, SQL Server and Oracle databases. SQLite
+is a single file database, and in common with the other file-based schedule
+formats MPXJ provides a reader class. To read schedules from SQL Server and
+Oracle databases you will need to use a JDBC connection with MPXJ. These
+approaches are described in the sections below.
 
-## Java
-The example below illustrates how to do this for a Primavera database
-hosted in SQL Server, using the open source JTDS JDBC driver. 
-The only difference when reading from an Oracle
-database will be the JDBC driver and connection string used.
+## SQLite
+The `PrimaveraDatabaseFileReader` provides convenient access to P6 schedules
+stored as a SQLite database. By default P6 will create a database called 
+`PPMDBSQLite.db` in the Windows user's `My Documents`  folder. The example code
+below illustrates how we'd list the schedules in this file, and reda one of
+those schedules using it ID.
+
+
+```java
+package org.mpxj.howto.read;
+
+import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
+
+import java.io.File;
+import java.util.Map;
+
+public class P6Sqlite
+{
+   public void read() throws Exception
+   {
+      PrimaveraDatabaseFileReader reader = new PrimaveraDatabaseFileReader();
+
+      //
+      // Retrieve a list of the projects available in the database
+      //
+      File file = new File("PPMDBSQLite.db");
+      Map<Integer,String> projects = reader.listProjects(file);
+
+      //
+      // At this point you'll select the project
+      // you want to work with.
+      //
+
+      //
+      // Now open the selected project using its ID
+      //
+      int selectedProjectID = 1;
+      reader.setProjectID(selectedProjectID);
+      ProjectFile projectFile = reader.read("PPMDBSQLite.db");
+   }
+}
+```
+
+## JDBC in Java
+For P6 schedules hosted in either a SQL Server databases or an Oracle database,
+we must use a JDBC driver with the `PrimaveraDatabaseReader` reader in order to
+access this data. In this example we're reading a schedule from a SQL Server
+database using Microsoft's JDBC driver. This code assumes that you have added
+the JDBC driver as a dependency to your Java project.
 
 ```java
 package org.mpxj.howto.read;
@@ -57,51 +105,78 @@ public class P6JDBC
 }
 ```
 
-You can also connect to a standalone SQLite P6 database. This
-is easier to achieve as a specific reader class has been created
-which manages the database connection for you:
 
-```java
-package org.mpxj.howto.read;
+## JDBC in .Net
+The approach for reading schedule data from a SQL Server or Orcale database is
+very similar to that used with the Java version. The main difference is how we
+add the JDBC driver to our project as a dependency. To do this we add a
+`MavenReference` to our project. The example below show how I have added this
+just after the reference to the `MPXJ.Net` package:
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
+```xml
+<ItemGroup>
+   <PackageReference Include="MPXJ.Net" Version="13.0.0" />
+   <MavenReference Include="com.microsoft.sqlserver:mssql-jdbc" Version="12.6.2.jre8" />
+</ItemGroup>
+```
 
-import java.io.File;
-import java.util.Map;
+> Note that the IKVM's conversion of Java code to .Net being works by
+> implementing a Java 8 (sometimes also known as a Java 1.8) virtual machine.
+> If you have a choice of Java packages to use which are targeted at different
+> Java versions, select the Java 8 version - as illustrated in the example above.
 
-public class P6Sqlite
+Now we can use the JDBC driver to create a connection to our database,
+as the sample code below illustrates.
+
+```c#
+using com.microsoft.sqlserver.jdbc;
+using MPXJ.Net;
+
+
+namespace MpxjJdbc
 {
-   public void read() throws Exception
-   {
-      PrimaveraDatabaseFileReader reader = new PrimaveraDatabaseFileReader();
+    public class P6JDBC
+    {
+        public void Read()
+        {
+            //
+            // Load the JDBC driver
+            //
+            var driver = new SQLServerDriver();
 
-      //
-      // Retrieve a list of the projects available in the database
-      //
-      File file = new File("PPMDBSQLite.db");
-      Map<Integer,String> projects = reader.listProjects(file);
+            //
+            // Open a database connection. You will need to change
+            // these details to match the name of your server, database, user and password.
+            //
+            var connectionString = "jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;";
+            var connection = driver.connect(connectionString, null);
+            var reader = new PrimaveraDatabaseReader();
+            reader.Connection = connection;
 
-      //
-      // At this point you'll select the project
-      // you want to work with.
-      //
+            //
+            // Retrieve a list of the projects available in the database
+            //
+            var projects = reader.ListProjects();
 
-      //
-      // Now open the selected project using its ID
-      //
-      int selectedProjectID = 1;
-      reader.setProjectID(selectedProjectID);
-      ProjectFile projectFile = reader.read("PPMDBSQLite.db");
-   }
+            //
+            // At this point you'll select the project
+            // you want to work with.
+            //
+
+            //
+            // Now open the selected project using its ID
+            //
+            int selectedProjectID = 1;
+            reader.ProjectID = selectedProjectID;
+            var projectFile = reader.Read();
+        }
+    }
 }
 ```
 
-## .Net
-This documentation will be provided shortly.
-
-## Using PrimaveraDatabaseReader
-This section documents the additional options provided by the PrimaveraDatabaseReader.
+## Options
+This section documents the additional options provided by the
+PrimaveraDatabaseReader.
 
  
 ### Activity WBS
