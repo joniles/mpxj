@@ -83,6 +83,7 @@ nav:
   - 'Field Guides...':
     - 'Field Guide': 'field-guide.md'
     - 'MPP Field Guide': 'mpp-field-guide.md'
+  - 'JavaDoc': '../apidocs/'
   - 'FAQ': 'faq.md'
   - 'Users': 'users.md'
-  - 'Maven Reports': 'maven-reports.md'
+  - 'Maven Reports': '../summary.html'
