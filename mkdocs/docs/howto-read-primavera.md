@@ -13,41 +13,73 @@ below illustrates how we'd list the schedules in this file, and reda one of
 those schedules using it ID.
 
 
-```java
-package org.mpxj.howto.read;
+=== "Java"
+	```java
+	package org.mpxj.howto.read;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
+	
+	import java.io.File;
+	import java.util.Map;
+	
+	public class P6Sqlite
+	{
+		public void read() throws Exception
+		{
+			PrimaveraDatabaseFileReader reader = new PrimaveraDatabaseFileReader();
+	
+			//
+			// Retrieve a list of the projects available in the database
+			//
+			File file = new File("PPMDBSQLite.db");
+			Map<Integer,String> projects = reader.listProjects(file);
+	
+			//
+			// At this point you'll select the project
+			// you want to work with.
+			//
+	
+			//
+			// Now open the selected project using its ID
+			//
+			int selectedProjectID = 1;
+			reader.setProjectID(selectedProjectID);
+			ProjectFile projectFile = reader.read(file);
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
-
-import java.io.File;
-import java.util.Map;
-
-public class P6Sqlite
-{
-   public void read() throws Exception
-   {
-      PrimaveraDatabaseFileReader reader = new PrimaveraDatabaseFileReader();
-
-      //
-      // Retrieve a list of the projects available in the database
-      //
-      File file = new File("PPMDBSQLite.db");
-      Map<Integer,String> projects = reader.listProjects(file);
-
-      //
-      // At this point you'll select the project
-      // you want to work with.
-      //
-
-      //
-      // Now open the selected project using its ID
-      //
-      int selectedProjectID = 1;
-      reader.setProjectID(selectedProjectID);
-      ProjectFile projectFile = reader.read("PPMDBSQLite.db");
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	public class P6Sqlite
+	{
+		public void Read()
+		{
+			var reader = new PrimaveraDatabaseFileReader();
+	
+			//
+			// Retrieve a list of the projects available in the database
+			//
+			var file = "PPMDBSQLite.db";
+			var projects = reader.ListProjects(file);
+	
+			//
+			// At this point you'll select the project
+			// you want to work with.
+			//
+	
+			//
+			// Now open the selected project using its ID
+			//
+			int selectedProjectID = 1;
+			reader.ProjectID = selectedProjectID;
+			var projectFile = reader.Read(file);
+		}
+	}
+	```
 
 ## JDBC in Java
 For P6 schedules hosted in either a SQL Server databases or an Oracle database,
@@ -68,40 +100,40 @@ import java.util.Map;
 
 public class P6JDBC
 {
-   public void read() throws Exception
-   {
-      //
-      // Load the JDBC driver
-      //
-      String driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver";
-      Class.forName(driverClass);
+	public void read() throws Exception
+	{
+		//
+		// Load the JDBC driver
+		//
+		String driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver";
+		Class.forName(driverClass);
 
-      //
-      // Open a database connection. You will need to change
-      // these details to match the name of your server, database, user and password.
-      //
-      String connectionString="jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;";
-      Connection c = DriverManager.getConnection(connectionString);
-      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-      reader.setConnection(c);
+		//
+		// Open a database connection. You will need to change
+		// these details to match the name of your server, database, user and password.
+		//
+		String connectionString="jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;";
+		Connection c = DriverManager.getConnection(connectionString);
+		PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+		reader.setConnection(c);
 
-      //
-      // Retrieve a list of the projects available in the database
-      //
-      Map<Integer,String> projects = reader.listProjects();
+		//
+		// Retrieve a list of the projects available in the database
+		//
+		Map<Integer,String> projects = reader.listProjects();
 
-      //
-      // At this point you'll select the project
-      // you want to work with.
-      //
+		//
+		// At this point you'll select the project
+		// you want to work with.
+		//
 
-      //
-      // Now open the selected project using its ID
-      //
-      int selectedProjectID = 1;
-      reader.setProjectID(selectedProjectID);
-      ProjectFile projectFile = reader.read();
-   }
+		//
+		// Now open the selected project using its ID
+		//
+		int selectedProjectID = 1;
+		reader.setProjectID(selectedProjectID);
+		ProjectFile projectFile = reader.read();
+	}
 }
 ```
 
@@ -115,8 +147,8 @@ just after the reference to the `MPXJ.Net` package:
 
 ```xml
 <ItemGroup>
-   <PackageReference Include="MPXJ.Net" Version="13.0.0" />
-   <MavenReference Include="com.microsoft.sqlserver:mssql-jdbc" Version="12.6.2.jre8" />
+	<PackageReference Include="MPXJ.Net" Version="13.0.0" />
+	<MavenReference Include="com.microsoft.sqlserver:mssql-jdbc" Version="12.6.2.jre8" />
 </ItemGroup>
 ```
 
@@ -135,42 +167,42 @@ using MPXJ.Net;
 
 namespace MpxjJdbc
 {
-    public class P6JDBC
-    {
-        public void Read()
-        {
-            //
-            // Load the JDBC driver
-            //
-            var driver = new SQLServerDriver();
+	 public class P6JDBC
+	 {
+		  public void Read()
+		  {
+				//
+				// Load the JDBC driver
+				//
+				var driver = new SQLServerDriver();
 
-            //
-            // Open a database connection. You will need to change
-            // these details to match the name of your server, database, user and password.
-            //
-            var connectionString = "jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;";
-            var connection = driver.connect(connectionString, null);
-            var reader = new PrimaveraDatabaseReader();
-            reader.Connection = connection;
+				//
+				// Open a database connection. You will need to change
+				// these details to match the name of your server, database, user and password.
+				//
+				var connectionString = "jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;";
+				var connection = driver.connect(connectionString, null);
+				var reader = new PrimaveraDatabaseReader();
+				reader.Connection = connection;
 
-            //
-            // Retrieve a list of the projects available in the database
-            //
-            var projects = reader.ListProjects();
+				//
+				// Retrieve a list of the projects available in the database
+				//
+				var projects = reader.ListProjects();
 
-            //
-            // At this point you'll select the project
-            // you want to work with.
-            //
+				//
+				// At this point you'll select the project
+				// you want to work with.
+				//
 
-            //
-            // Now open the selected project using its ID
-            //
-            int selectedProjectID = 1;
-            reader.ProjectID = selectedProjectID;
-            var projectFile = reader.Read();
-        }
-    }
+				//
+				// Now open the selected project using its ID
+				//
+				int selectedProjectID = 1;
+				reader.ProjectID = selectedProjectID;
+				var projectFile = reader.Read();
+		  }
+	 }
 }
 ```
 
@@ -187,20 +219,35 @@ activities will have the same WBS value as the parent WBS element. MPXJ's
 default behaviour now matches Primavera, but should you wish to you can revert
 to the original behaviour by calling the `setMatchPrimaveraWBS` as shown below.
 
-```java
-package org.mpxj.howto.read;
+=== "Java"
+	```java
+	package org.mpxj.howto.read;
+	
+	import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+	
+	public class P6ActivityWbs
+	{
+		public void read() throws Exception
+		{
+			PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+			reader.setMatchPrimaveraWBS(false);
+		}
+	}
+	```
 
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
-
-public class P6ActivityWbs
-{
-   public void read() throws Exception
-   {
-      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-      reader.setMatchPrimaveraWBS(false);
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	public class P6ActivityWbs
+	{
+		public void Read()
+		{
+			var reader = new PrimaveraDatabaseReader();
+			reader.MatchPrimaveraWBS = false;
+		}
+	}
+	```
 
 ### WBS is Full Path
 Currently, the WBS attribute of summary tasks (WBS entities in P6) will be a dot
@@ -210,21 +257,76 @@ the parents `root` and `wbs1`. To disable this behaviour, and simply record
 the code for the current WBS entry (in the example above `wbs2`) call the
 `setWbsIsFullPath` method, passing in `false`, as illustrated below.  
 
+=== "Java"
+	```java
+	package org.mpxj.howto.read;
+	
+	import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+	
+	public class P6WbsFullPath
+	{
+		public void read() throws Exception
+		{
+			PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+			reader.setWbsIsFullPath(false);
+		}
+	}
+	```
 
-```java
-package org.mpxj.howto.read;
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	public class P6WbsFullPath
+	{
+		public void Read()
+		{
+			var reader = new PrimaveraDatabaseReader();
+			reader.WbsIsFullPath = false;
+		}
+	}
+	```
 
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
 
-public class P6WbsFullPath
-{
-   public void read() throws Exception
-   {
-      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-      reader.setWbsIsFullPath(false);
-   }
-}
-```
+### Ignore Errors
+By default MPXJ will ignore errors when parsing attributes from a Primavera
+database. This behavior is controlled using the `setIgnoreErrors` method. The
+example below illustrates how we can force the `PrimaveraDatabaseReader` to
+report errors encountered when reading from a Primavera database:
+
+=== "Java"
+	```java
+	package org.mpxj.howto.read;
+	
+	import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+	
+	public class P6IgnoreErrors
+	{
+		public void read() throws Exception
+		{
+			PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+			reader.setIgnoreErrors(false);
+		}
+	}
+	```
+
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	public class P6IgnoreErrors
+	{
+	 	public void Read()
+	 	{
+		  	var reader = new PrimaveraDatabaseReader();
+		  	reader.IgnoreErrors = false;
+	 	}
+	}
+	```
+
+Note that if errors are ignored when reading from a Primavera database, the
+ignored errors are available by using the `ProjectFile.getIgnoredErrors()`
+method.
 
 ### Reading Additional Attributes
 A data-driven approach is used to extract the attributes used by MPXJ from the
@@ -244,14 +346,14 @@ import java.util.Map;
 
 public class P6AttributeMaps
 {
-   public void read() throws Exception
-   {
-      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-      Map<FieldType, String> resourceFieldMap = reader.getResourceFieldMap();
-      Map<FieldType, String> wbsFieldMap = reader.getWbsFieldMap();
-      Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
-      Map<FieldType, String> assignmentFieldMap = reader.getAssignmentFieldMap();
-   }
+	public void read() throws Exception
+	{
+		PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+		Map<FieldType, String> resourceFieldMap = reader.getResourceFieldMap();
+		Map<FieldType, String> wbsFieldMap = reader.getWbsFieldMap();
+		Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
+		Map<FieldType, String> assignmentFieldMap = reader.getAssignmentFieldMap();
+	}
 }
 ```
 
@@ -269,45 +371,21 @@ import java.util.Map;
 
 public class P6AttributeConfig
 {
-   public void read() throws Exception
-   {
-      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-      Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
+	public void read() throws Exception
+	{
+		PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
+		Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
 
-      //
-      // Store rsrc_id in NUMBER1
-      //
-      activityFieldMap.put(TaskField.NUMBER1, "rsrc_id");
+		//
+		// Store rsrc_id in NUMBER1
+		//
+		activityFieldMap.put(TaskField.NUMBER1, "rsrc_id");
 
-      //
-      // Read an Activity column called an_example_field and store it in TEXT10
-      //
-      activityFieldMap.put(TaskField.TEXT10, "an_example_field");
-   }
+		//
+		// Read an Activity column called an_example_field and store it in TEXT10
+		//
+		activityFieldMap.put(TaskField.TEXT10, "an_example_field");
+	}
 }
 ```
 
-### Ignore Errors
-By default MPXJ will ignore errors when parsing attributes from a Primavera
-database. This behavior is controlled using the `setIgnoreErrors` method. The
-example below illustrates how we can force the `PrimaveraDatabaseReader` to
-report errors encountered when reading from a Primavera database:
-
-```java
-package org.mpxj.howto.read;
-
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
-
-public class P6IgnoreErrors
-{
-   public void read() throws Exception
-   {
-      PrimaveraDatabaseReader reader = new PrimaveraDatabaseReader();
-      reader.setIgnoreErrors(false);
-   }
-}
-```
-
-Note that if errors are ignored when reading from a Primavera database, the
-ignored errors are available by using the `ProjectFile.getIgnoredErrors()`
-method.
