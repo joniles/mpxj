@@ -305,7 +305,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../store/" class="md-nav__link">
+      <a href="https://mpxj.teemill.com/collection/all-products/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1785,6 +1785,9 @@
 which Microsoft Project has been able to read and write since Project 2002.</p>
 <h2 id="reading-mspdi-files">Reading MSPDI files</h2>
 <p>The simplest way to read an MSPDI file is to use the <code>UniversalProjectReader</code>:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Java</label><label for="__tabbed_1_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
@@ -1792,13 +1795,29 @@ which Microsoft Project has been able to read and write since Project 2002.</p>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MSDPI</span>
 <span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="n">UniversalProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
-<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">UniversalProjectReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">MPXJ.Net</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MSPDI</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Read</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">();</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">Read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 <h2 id="using-mspdireader">Using MSPDIReader</h2>
 <p>You can work directly with the <code>MSPDIReader</code> class by replacing
 <code>UniversalProjectReader</code> with <code>MSPDIReader</code>. This provides access to additional
@@ -1809,6 +1828,9 @@ options, as described below.</p>
 adjust the encoding appropriately if a BOM is present. If you have an MSPDI file
 with an unusual encoding, you can manually set the encoding used by the reader,
 as illustrated below.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Java</label><label for="__tabbed_2_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
@@ -1818,21 +1840,42 @@ as illustrated below.</p>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MSPDIWithCharset</span>
 <span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="n">MSPDIReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIReader</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">MSPDIReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIReader</span><span class="p">();</span>
 
-<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setCharset</span><span class="p">(</span><span class="n">Charset</span><span class="p">.</span><span class="na">forName</span><span class="p">(</span><span class="s">&quot;GB2312&quot;</span><span class="p">));</span>
-<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setCharset</span><span class="p">(</span><span class="n">Charset</span><span class="p">.</span><span class="na">forName</span><span class="p">(</span><span class="s">&quot;GB2312&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">System.Text</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">MPXJ.Net</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MSPDIWithLocale</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Read</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="n">Encoding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Encoding</span><span class="p">.</span><span class="n">GetEncoding</span><span class="p">(</span><span class="s">&quot;GB2312&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">Read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 <h3 id="microsoft-project-compatibility">Microsoft Project Compatibility</h3>
 <p>Microsoft Project will read MSPDI files which are not valid XML according to the
 MSPDI schema. By default MPXJ has been configured to take the same approach. If
 for some reason you wish to apply strict validation when reading an MSPDI file,
 you can do this using the  <code>setMicrosoftProjectCompatibleInput</code> method, as shown
 below.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Java</label><label for="__tabbed_3_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
@@ -1840,19 +1883,39 @@ below.</p>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MSPDICompatibleInput</span>
 <span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="n">MSPDIReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIReader</span><span class="p">();</span>
-<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setMicrosoftProjectCompatibleInput</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">MSPDIReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setMicrosoftProjectCompatibleInput</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">MPXJ.Net</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MSPDICompatibleInput</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Read</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="n">MicrosoftProjectCompatibleInput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">Read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 <h3 id="ignore-errors">Ignore Errors</h3>
 <p>By default MPXJ will ignore errors when parsing attributes from an MSPDI file.
 This behavior is controlled using the <code>setIgnoreErrors</code> method. The example
 below illustrates how we can force the <code>MSPDIReader</code> to report
 errors encountered when reading a file:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Java</label><label for="__tabbed_4_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
@@ -1860,15 +1923,32 @@ errors encountered when reading a file:</p>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MSPDIIgnoreErrors</span>
 <span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="n">MSPDIReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIReader</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">MSPDIReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIReader</span><span class="p">();</span>
 
-<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setIgnoreErrors</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setIgnoreErrors</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">MPXJ.Net</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MSPDIIgnoreErrors</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Read</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MSPDIReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="n">IgnoreErrors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">Read</span><span class="p">(</span><span class="s">&quot;my-sample.xml&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 <p>Note that if errors are ignored when reading a file, the ignored errors
 are available by using the <code>ProjectFile.getIgnoredErrors()</code> method.</p>
 
