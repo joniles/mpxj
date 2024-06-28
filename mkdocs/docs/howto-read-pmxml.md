@@ -25,6 +25,8 @@ The simplest way to read a PMXML file is to use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class PMXML
 	{
 		public void Read()
@@ -75,6 +77,8 @@ PMXML file, as shown below:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class PMXMLListProjects
 	{
 		public void Read()
@@ -141,6 +145,8 @@ Alternatively you can ask MPXJ to read all the projects contained in the file:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class PMXMLReadAll
 	{
 		public void Read()
@@ -188,6 +194,8 @@ MPXJ will attempt to link these relations across projects:
 === "C#"
 	```c#
 	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToRead;
 	
 	public class PMXMLLinkCrossProject
 	{

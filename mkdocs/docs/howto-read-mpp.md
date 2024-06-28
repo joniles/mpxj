@@ -34,6 +34,8 @@ The simplest way to read an MPP file is to use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class MPP
 	{
 		public void Read()
@@ -80,6 +82,8 @@ illustrates how you would supply the password:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class MPPWithPassword
 	{
 		public void Read()
@@ -117,6 +121,8 @@ MPP9 password protection.
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class MPPIgnorePassword
 	{
 		public void Read()
@@ -157,6 +163,8 @@ To do this you will use the `setReadPresentationData` method, as shown below:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class MPPPresentationData
 	{
 		public void Read()
@@ -195,6 +203,8 @@ as shown below:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class MPPPropertiesOnly
 	{
 		public void Read()
@@ -239,6 +249,8 @@ work with the raw data directly from the MPP file, you can use the
 === "C#"
 	```c#
 	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToRead;
 	
 	public class MPPRawTimephased
 	{

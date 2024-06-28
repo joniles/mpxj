@@ -26,6 +26,8 @@ The simplest way to read an MSPDI file is to use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class MSPDI
 	{
 		public void Read()
@@ -74,6 +76,8 @@ as illustrated below.
 	using System.Text;
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class MSPDIWithLocale
 	{
 		public void Read()
@@ -114,6 +118,8 @@ below.
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class MSPDICompatibleInput
 	{
 		public void Read()
@@ -153,6 +159,8 @@ errors encountered when reading a file:
 === "C#"
 	```c#
 	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToRead;
 	
 	public class MSPDIIgnoreErrors
 	{

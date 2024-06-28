@@ -25,10 +25,11 @@ The simplest way to read an SDEF file is to use the `UniversalProjectReader`:
 	```
 
 === "C#"
-	```c#
-	
+	```c#	
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class SDEF
 	{
 		public void Read()
@@ -71,6 +72,8 @@ errors encountered when reading a file:
 === "C#"
 	```c#
 	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToRead;
 	
 	public class SDEFIgnoreErrors
 	{

@@ -27,6 +27,8 @@ The simplest way to read a  CDPX, CPDZ or CPDTZ file is to use the
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+	
 	public class ConceptDraw
 	{
 	 	public void Read()

@@ -54,6 +54,8 @@ those schedules using it ID.
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class P6Sqlite
 	{
 		public void Read()
@@ -164,45 +166,43 @@ as the sample code below illustrates.
 using com.microsoft.sqlserver.jdbc;
 using MPXJ.Net;
 
+namespace MPXJ.Samples.HowToRead;
 
-namespace MpxjJdbc
+public class P6JDBC
 {
-	 public class P6JDBC
-	 {
-		  public void Read()
-		  {
-				//
-				// Load the JDBC driver
-				//
-				var driver = new SQLServerDriver();
+	public void Read()
+	{
+		//
+		// Load the JDBC driver
+		//
+		var driver = new SQLServerDriver();
 
-				//
-				// Open a database connection. You will need to change
-				// these details to match the name of your server, database, user and password.
-				//
-				var connectionString = "jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;";
-				var connection = driver.connect(connectionString, null);
-				var reader = new PrimaveraDatabaseReader();
-				reader.Connection = connection;
+		//
+		// Open a database connection. You will need to change
+		// these details to match the name of your server, database, user and password.
+		//
+		var connectionString = "jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;";
+		var connection = driver.connect(connectionString, null);
+		var reader = new PrimaveraDatabaseReader();
+		reader.Connection = connection;
 
-				//
-				// Retrieve a list of the projects available in the database
-				//
-				var projects = reader.ListProjects();
+		//
+		// Retrieve a list of the projects available in the database
+		//
+		var projects = reader.ListProjects();
 
-				//
-				// At this point you'll select the project
-				// you want to work with.
-				//
+		//
+		// At this point you'll select the project
+		// you want to work with.
+		//
 
-				//
-				// Now open the selected project using its ID
-				//
-				int selectedProjectID = 1;
-				reader.ProjectID = selectedProjectID;
-				var projectFile = reader.Read();
-		  }
-	 }
+		//
+		// Now open the selected project using its ID
+		//
+		int selectedProjectID = 1;
+		reader.ProjectID = selectedProjectID;
+		var projectFile = reader.Read();
+	}
 }
 ```
 
@@ -239,6 +239,8 @@ to the original behaviour by calling the `setMatchPrimaveraWBS` as shown below.
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class P6ActivityWbs
 	{
 		public void Read()
@@ -277,6 +279,8 @@ the code for the current WBS entry (in the example above `wbs2`) call the
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class P6WbsFullPath
 	{
 		public void Read()
@@ -313,6 +317,8 @@ report errors encountered when reading from a Primavera database:
 === "C#"
 	```c#
 	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToRead;
 	
 	public class P6IgnoreErrors
 	{

@@ -30,6 +30,8 @@ The simplest way to read an MPD file is to use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class MPDFile
 	{
 		public void Read()
@@ -90,6 +92,8 @@ calling the `read` method reads the required project.
 === "C#"
 	```c#
 	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToRead;
 	
 	public class MPDFileWithReader
 	{

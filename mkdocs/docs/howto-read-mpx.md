@@ -28,6 +28,8 @@ The simplest way to read an MPX file is to use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class MPX
 	{
 		public void Read()
@@ -86,6 +88,8 @@ The sample below shows how this is done:
 	using System.Globalization;
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class MPXWithLocale
 	{
 		public void Read()
@@ -132,6 +136,8 @@ You can retrieve a list of supported locales programmatically using the code sho
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class MPXSupportedLocales
 	{
 		public void Read()
@@ -178,6 +184,8 @@ shown in the example below.
 === "C#"
 	```c#
 	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToRead;
 	
 	public class MPXIgnoreTextModels
 	{

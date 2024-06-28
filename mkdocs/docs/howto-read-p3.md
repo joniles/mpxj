@@ -29,6 +29,8 @@ The simplest way to read a PRX file is to use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class P3
 	{
 		public void Read()
@@ -70,6 +72,8 @@ use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class P3Directory
 	{
 		public void Read()
@@ -117,6 +121,8 @@ you will need to use the `P3DatabaseReader` class.
 === "C#"
 	```c#
 	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToRead;
 	
 	public class P3NamedProject
 	{

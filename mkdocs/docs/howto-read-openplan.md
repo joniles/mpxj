@@ -27,6 +27,8 @@ The simplest way to read an Open Plan file is to use the
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+	
 	public class OpenPlan
 	{
 	 	public void Read()

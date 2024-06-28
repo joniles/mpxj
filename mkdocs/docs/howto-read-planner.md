@@ -26,6 +26,8 @@ The simplest way to read a Planner file is to use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+	
 	public class Planner
 	{
 	 	public void Read()

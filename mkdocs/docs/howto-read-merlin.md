@@ -29,6 +29,8 @@ The simplest way to read a Merlin file is to use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+	
 	public class Merlin
 	{
 	 	public void Read()

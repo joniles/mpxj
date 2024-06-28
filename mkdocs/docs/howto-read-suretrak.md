@@ -29,6 +29,8 @@ The simplest way to read an STX file is to use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class SureTrak
 	{
 		public void Read()
@@ -70,6 +72,8 @@ can use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class SureTrakDirectory
 	{
 		public void Read()
@@ -117,6 +121,8 @@ you will need to use the `SureTrakDatabaseReader` class.
 === "C#"
 	```c#
 	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToRead;
 	
 	public class SureTrakListProjects
 	{

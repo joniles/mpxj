@@ -25,6 +25,8 @@ The simplest way to read a PEP file is to use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+	
 	public class TurboProject
 	{
 	 	public void Read()

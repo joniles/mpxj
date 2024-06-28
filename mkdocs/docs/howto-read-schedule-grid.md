@@ -27,6 +27,8 @@ The simplest way to read a schedule grid file is to use the
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+
 	public class ScheduleGrid
 	{
 		public void Read()
@@ -69,6 +71,8 @@ errors encountered when reading a file:
 === "C#"
 	```c#
 	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToRead;
 	
 	public class ScheduleGridIgnoreErrors
 	{

@@ -27,6 +27,8 @@ The simplest way to read a PP file is to use the `UniversalProjectReader`:
 	```c#
 	using MPXJ.Net;
 	
+	namespace MPXJ.Samples.HowToRead;
+	
 	public class Asta
 	{
 		 public void Read()
