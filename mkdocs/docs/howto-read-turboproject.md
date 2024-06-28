@@ -4,21 +4,36 @@ TurboProject writes schedule data to PEP files.
 ## Reading PEP files
 The simplest way to read a PEP file is to use the `UniversalProjectReader`:
 
-```java
-package org.mpxj.howto.read;
+=== "Java"
+	```java
+	package org.mpxj.howto.read;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.reader.UniversalProjectReader;
+	
+	public class TurboProject
+	{
+		public void read() throws Exception
+		{
+			UniversalProjectReader reader = new UniversalProjectReader();
+			ProjectFile project = reader.read("my-sample.pep");
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.UniversalProjectReader;
-
-public class TurboProject
-{
-   public void read() throws Exception
-   {
-      UniversalProjectReader reader = new UniversalProjectReader();
-      ProjectFile project = reader.read("my-sample.pep");
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	public class TurboProject
+	{
+	 	public void Read()
+	 	{
+		  	var reader = new UniversalProjectReader();
+		  	var project = reader.Read("my-sample.pep");
+	 	}
+	}
+	```
 
 You can work directly with the `TurboProjectReader` by replacing
 `UniversalProjectReader` with `TurboProjectReader`, although this offers no

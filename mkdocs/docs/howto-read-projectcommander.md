@@ -6,21 +6,36 @@ format.
 The simplest way to read a Project Commander file is to use the
 `UniversalProjectReader`:
 
-```java
-package org.mpxj.howto.read;
+=== "Java"
+	```java
+	package org.mpxj.howto.read;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.reader.UniversalProjectReader;
+	
+	public class ProjectCommander
+	{
+		public void read() throws Exception
+		{
+			UniversalProjectReader reader = new UniversalProjectReader();
+			ProjectFile project = reader.read("my-sample.pc");
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.UniversalProjectReader;
-
-public class ProjectCommander
-{
-   public void read() throws Exception
-   {
-      UniversalProjectReader reader = new UniversalProjectReader();
-      ProjectFile project = reader.read("my-sample.pc");
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	public class ProjectCommander
+	{
+	 	public void Read()
+	 	{
+		  	var reader = new UniversalProjectReader();
+		  	var project = reader.Read("my-sample.pc");
+	 	}
+	}
+	```
 
 You can work directly with the `ProjectCommanderReader` by replacing
 `UniversalProjectReader` with `ProjectCommanderReader`, although this offers no
