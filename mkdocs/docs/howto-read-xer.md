@@ -6,21 +6,36 @@ widely used.
 ## Reading XER files
 The simplest way to read an XER file is to use the `UniversalProjectReader`:
 
-```java
-package org.mpxj.howto.read;
+=== "Java"
+	```java
+	package org.mpxj.howto.read;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.reader.UniversalProjectReader;
+	
+	public class XER
+	{
+		public void read() throws Exception
+		{
+			UniversalProjectReader reader = new UniversalProjectReader();
+			ProjectFile project = reader.read("my-sample.xer");
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.UniversalProjectReader;
-
-public class XER
-{
-   public void read() throws Exception
-   {
-      UniversalProjectReader reader = new UniversalProjectReader();
-      ProjectFile project = reader.read("my-sample.xer");
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	public class XER
+	{
+	 	public void Read()
+	 	{
+		  	var reader = new UniversalProjectReader();
+		  	var project = reader.Read("my-sample.xer");
+	 	}
+	}
+	```
 
 ## Using PrimaveraXERFileReader
 You can work directly with the `PrimaveraXERFileReader` class by replacing
@@ -44,12 +59,12 @@ import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 public class XERIgnoreErrors
 {
-   public void read() throws Exception
-   {
-      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-      reader.setIgnoreErrors(false);
-      ProjectFile project = reader.read("my-sample.xer");
-   }
+	public void read() throws Exception
+	{
+		PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+		reader.setIgnoreErrors(false);
+		ProjectFile project = reader.read("my-sample.xer");
+	}
 }
 ```
 
@@ -72,14 +87,12 @@ import java.nio.charset.Charset;
 
 public class XERCharset
 {
-   public void read() throws Exception
-   {
-      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-
-      // Use a Charset instance
-      reader.setCharset(Charset.forName("GB2312"));
-      ProjectFile project = reader.read("my-sample.xer");
-   }
+	public void read() throws Exception
+	{
+		PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+		reader.setCharset(Charset.forName("GB2312"));
+		ProjectFile project = reader.read("my-sample.xer");
+	}
 }
 ```
 
@@ -99,17 +112,17 @@ import java.util.Map;
 
 public class XERListProjects
 {
-   public void read() throws Exception
-   {
-      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-      FileInputStream is = new FileInputStream("my-sample.xer");
-      Map<Integer, String> projects = reader.listProjects(is);
-      System.out.println("ID\tName");
-      for (Map.Entry<Integer, String> entry : projects.entrySet())
-      {
-         System.out.println(entry.getKey()+"\t"+entry.getValue());
-      }
-   }
+	public void read() throws Exception
+	{
+		PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+		FileInputStream is = new FileInputStream("my-sample.xer");
+		Map<Integer, String> projects = reader.listProjects(is);
+		System.out.println("ID\tName");
+		for (Map.Entry<Integer, String> entry : projects.entrySet())
+		{
+			System.out.println(entry.getKey()+"\t"+entry.getValue());
+		}
+	}
 }
 ```
 The call to `listProjects` returns a `Map` whose key is the project ID,
@@ -126,12 +139,12 @@ import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 public class XERProjectID
 {
-   public void read() throws Exception
-   {
-      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-      reader.setProjectID(123);
-      ProjectFile file = reader.read("my-sample.xer");
-   }
+	public void read() throws Exception
+	{
+		PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+		reader.setProjectID(123);
+		ProjectFile file = reader.read("my-sample.xer");
+	}
 }
 ```
 
@@ -143,8 +156,6 @@ package org.mpxj.howto.read;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.List;
 
 public class XERReadAll
@@ -152,8 +163,7 @@ public class XERReadAll
    public void read() throws Exception
    {
       PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-      InputStream is = new FileInputStream("my-sample.xer");
-      List<ProjectFile> files = reader.readAll(is);
+      List<ProjectFile> files = reader.readAll("my-sample.xer");
    }
 }
 ```
@@ -173,8 +183,6 @@ package org.mpxj.howto.read;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.List;
 
 public class XERLinkCrossProject
@@ -183,8 +191,7 @@ public class XERLinkCrossProject
    {
       PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
       reader.setLinkCrossProjectRelations(true);
-      InputStream is = new FileInputStream("my-sample.xer");
-      List<ProjectFile> files = reader.readAll(is);
+      List<ProjectFile> files = reader.readAll("my-sample.xer");
    }
 }
 ```
@@ -205,12 +212,12 @@ import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 public class XERMatchWbs
 {
-   public void read() throws Exception
-   {
-      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-      reader.setMatchPrimaveraWBS(false);
-      ProjectFile file = reader.read("my-sample.xer");
-   }
+	public void read() throws Exception
+	{
+		PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+		reader.setMatchPrimaveraWBS(false);
+		ProjectFile file = reader.read("my-sample.xer");
+	}
 }
 ```
 
@@ -231,12 +238,12 @@ import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 
 public class XERWbsFullPath
 {
-   public void read() throws Exception
-   {
-      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-      reader.setWbsIsFullPath(false);
-      ProjectFile file = reader.read("my-sample.xer");
-   }
+	public void read() throws Exception
+	{
+		PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+		reader.setWbsIsFullPath(false);
+		ProjectFile file = reader.read("my-sample.xer");
+	}
 }
 ```
 
@@ -258,14 +265,14 @@ import java.util.Map;
 
 public class XERAttributeMaps
 {
-   public void read() throws Exception
-   {
-      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-      Map<FieldType, String> resourceFieldMap = reader.getResourceFieldMap();
-      Map<FieldType, String> wbsFieldMap = reader.getWbsFieldMap();
-      Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
-      Map<FieldType, String> assignmentFieldMap = reader.getAssignmentFieldMap();
-   }
+	public void read() throws Exception
+	{
+		PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+		Map<FieldType, String> resourceFieldMap = reader.getResourceFieldMap();
+		Map<FieldType, String> wbsFieldMap = reader.getWbsFieldMap();
+		Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
+		Map<FieldType, String> assignmentFieldMap = reader.getAssignmentFieldMap();
+	}
 }
 ```
 
@@ -283,21 +290,21 @@ import java.util.Map;
 
 public class XERAttributeConfig
 {
-   public void read() throws Exception
-   {
-      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-      Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
+	public void read() throws Exception
+	{
+		PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+		Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
 
-      //
-      // Store rsrc_id in NUMBER1
-      //
-      activityFieldMap.put(TaskField.NUMBER1, "rsrc_id");
+		//
+		// Store rsrc_id in NUMBER1
+		//
+		activityFieldMap.put(TaskField.NUMBER1, "rsrc_id");
 
-      //
-      // Read an Activity column called an_example_field and store it in TEXT10
-      //
-      activityFieldMap.put(TaskField.TEXT10, "an_example_field");
-   }
+		//
+		// Read an Activity column called an_example_field and store it in TEXT10
+		//
+		activityFieldMap.put(TaskField.TEXT10, "an_example_field");
+	}
 }
 ```
 
@@ -323,13 +330,13 @@ import java.util.Map;
 
 public class XERRegisterType
 {
-   public void read() throws Exception
-   {
-      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-      Map<String, DataType> fieldTypeMap = reader.getFieldTypeMap();
-      fieldTypeMap.put("an_example_id", DataType.INTEGER);
-      Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
-      activityFieldMap.put(TaskField.NUMBER2, "an_example_id");
-   }
+	public void read() throws Exception
+	{
+		PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+		Map<String, DataType> fieldTypeMap = reader.getFieldTypeMap();
+		fieldTypeMap.put("an_example_id", DataType.INTEGER);
+		Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
+		activityFieldMap.put(TaskField.NUMBER2, "an_example_id");
+	}
 }
 ```
