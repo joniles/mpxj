@@ -4,21 +4,36 @@ Primavera P6 can export data in an XML format known as PMXML.
 ## Reading PMXML files
 The simplest way to read a PMXML file is to use the `UniversalProjectReader`:
 
-```java
-package org.mpxj.howto.read;
+=== "Java"
+	```java
+	package org.mpxj.howto.read;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.reader.UniversalProjectReader;
+	
+	public class PMXML
+	{
+		public void read() throws Exception
+		{
+			UniversalProjectReader reader = new UniversalProjectReader();
+			ProjectFile project = reader.read("my-sample.xml");
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.UniversalProjectReader;
-
-public class PMXML
-{
-   public void read() throws Exception
-   {
-      UniversalProjectReader reader = new UniversalProjectReader();
-      ProjectFile project = reader.read("my-sample.xml");
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	public class PMXML
+	{
+		public void Read()
+		{
+			var reader = new UniversalProjectReader();
+			var project = reader.Read("my-sample.xml");
+		}
+	}
+	```
 
 ## Using PrimaveraPMFileReader
 You can work directly with the `PrimaveraPMFileReader` by replacing
@@ -31,29 +46,52 @@ non-external project it finds in the file, otherwise it defaults to the first
 project it finds. You can however use MPXJ to list the projects contained in a
 PMXML file, as shown below:
 
-```java
-package org.mpxj.howto.read;
+=== "Java"
+	```java
+	package org.mpxj.howto.read;
+	
+	import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+	
+	import java.io.FileInputStream;
+	import java.util.Map;
+	
+	public class PMXMLListProjects
+	{
+		public void read() throws Exception
+		{
+			PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+			FileInputStream is = new FileInputStream("my-sample.xml");
+			Map<Integer, String> projects = reader.listProjects(is);
+			System.out.println("ID\tName");
+			for (Map.Entry<Integer, String> entry : projects.entrySet())
+			{
+				System.out.println(entry.getKey()+"\t"+entry.getValue());
+			}
+		}
+	}
+	```
 
-import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	public class PMXMLListProjects
+	{
+		public void Read()
+		{
+			var reader = new PrimaveraPMFileReader();
+			var stream = new FileStream("my-sample.xml",
+				FileMode.Open, FileAccess.Read, FileShare.None);
+			var projects = reader.ListProjects(stream);
+			System.Console.WriteLine("ID\tName");
+			foreach (var entry in projects)
+			{
+					System.Console.WriteLine($"{entry.Key}\t{entry.Value}");
+			}
+		}
+	}
+	```
 
-import java.io.FileInputStream;
-import java.util.Map;
-
-public class PMXMLListProjects
-{
-   public void read() throws Exception
-   {
-      PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
-      FileInputStream is = new FileInputStream("my-sample.xml");
-      Map<Integer, String> projects = reader.listProjects(is);
-      System.out.println("ID\tName");
-      for (Map.Entry<Integer, String> entry : projects.entrySet())
-      {
-         System.out.println(entry.getKey()+"\t"+entry.getValue());
-      }
-   }
-}
-```
 The call to `listProjects` returns a `Map` whose key is the project ID,
 and the values are project short names.
 
@@ -68,37 +106,50 @@ import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 
 public class PMXMLProjectID
 {
-   public void read() throws Exception
-   {
-      PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
-      reader.setProjectID(123);
-      ProjectFile file = reader.read("my-sample.xml");
-   }
+	public void read() throws Exception
+	{
+		PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+		reader.setProjectID(123);
+		ProjectFile file = reader.read("my-sample.xml");
+	}
 }
 ```
 
 Alternatively you can ask MPXJ to read all the projects contained in the file:
 
-```java
-package org.mpxj.howto.read;
+=== "Java"
+	```java
+	package org.mpxj.howto.read;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+	
+	import java.util.List;
+	
+	public class PMXMLReadAll
+	{
+		public void read() throws Exception
+		{
+			PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+			List<ProjectFile> files = reader.readAll("my-sample.xml");
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.List;
-
-public class PMXMLReadAll
-{
-   public void read() throws Exception
-   {
-      PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
-      InputStream is = new FileInputStream("my-sample.xml");
-      List<ProjectFile> files = reader.readAll(is);
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	public class PMXMLReadAll
+	{
+		public void Read()
+		{
+			var reader = new UniversalProjectReader();
+			var project = reader.ReadAll("my-sample.xml");
+		}
+	}
+	```
 
 The call to the `readAll` method returns a list of `ProjectFile` instances
 corresponding to the projects in the PMXML file.
@@ -114,27 +165,40 @@ which span those projects. By default, these cross-project relations are ignored
 However, if you set the `linkCrossProjectRelations` reader attribute to `true`,
 MPXJ will attempt to link these relations across projects: 
 
-```java
-package org.mpxj.howto.read;
+=== "Java"
+	```java
+	package org.mpxj.howto.read;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+	
+	import java.util.List;
+	
+	public class PMXMLLinkCrossProject
+	{
+		public void read() throws Exception
+		{
+			PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+			reader.setLinkCrossProjectRelations(true);
+			List<ProjectFile> files = reader.readAll("my-sample.xml");
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraPMFileReader;
-
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.List;
-
-public class PMXMLLinkCrossProject
-{
-   public void read() throws Exception
-   {
-      PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
-      reader.setLinkCrossProjectRelations(true);
-      InputStream is = new FileInputStream("my-sample.xml");
-      List<ProjectFile> files = reader.readAll(is);
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	public class PMXMLLinkCrossProject
+	{
+	 	public void Read()
+	 	{
+		  	var reader = new PrimaveraPMFileReader();
+		  	reader.LinkCrossProjectRelations = true;
+		  	var files = reader.ReadAll("my-sample.xml");
+	 	}
+	}
+	```
 
 ### Baselines
 Users can export PMXML files from P6 which contain the baseline project
@@ -160,19 +224,16 @@ import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraBaselineStrategy;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.List;
 
 public class PMXMLBaselines
 {
-   public void read() throws Exception
-   {
-      PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
-      reader.setBaselineStrategy(PrimaveraBaselineStrategy.CURRENT_ATTRIBUTES);
-      InputStream is = new FileInputStream("my-sample.xml");
-      List<ProjectFile> files = reader.readAll(is);
-   }
+	public void read() throws Exception
+	{
+		PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
+		reader.setBaselineStrategy(PrimaveraBaselineStrategy.CURRENT_ATTRIBUTES);
+		List<ProjectFile> files = reader.readAll("my-sample.xml");
+	}
 }
 ```
 
