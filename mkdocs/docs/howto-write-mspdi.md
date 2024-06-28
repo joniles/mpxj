@@ -5,21 +5,37 @@ read and write an XML-based data interchange format called MSPDI.
 ## Writing MSPDI files
 The sample code below illustrates how to write data to an MSPDI file.
 
-```java
-package org.mpxj.howto.write;
+=== "Java"
+	```java
+	package org.mpxj.howto.write;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.writer.FileFormat;
+	import net.sf.mpxj.writer.UniversalProjectWriter;
+	
+	public class MSPDI
+	{
+		public void write(ProjectFile project, String fileName) throws Exception
+		{
+			new UniversalProjectWriter(FileFormat.MSPDI).write(project, fileName);
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.writer.FileFormat;
-import net.sf.mpxj.writer.UniversalProjectWriter;
-
-public class MSPDI
-{
-   public void write(ProjectFile project, String fileName) throws Exception
-   {
-      new UniversalProjectWriter(FileFormat.MSPDI).write(project, fileName);
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToWrite;
+	
+	public class MSPDI
+	{
+		public void Write(ProjectFile project, string fileName)
+		{
+			new UniversalProjectWriter(FileFormat.MSPDI).Write(project, fileName);
+		}
+	}
+	```
 
 ## Using MSPDIWriter
 If required, the `MSPDIWriter` class can be used directly, which provides access
@@ -44,22 +60,40 @@ durations written by MPXJ can be read by Project. If you need to produce
 correctly formatted XSD durations for consumption by applications other than
 Project you can set this flag to `false`:
 
-```java
-package org.mpxj.howto.write;
+=== "Java"
+	```java
+	package org.mpxj.howto.write;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.mspdi.MSPDIWriter;
+	
+	public class MSPDICompatibleOutput
+	{
+		public void write(ProjectFile project, String fileName) throws Exception
+		{
+			MSPDIWriter writer = new MSPDIWriter();
+			writer.setMicrosoftProjectCompatibleOutput(false);
+			writer.write(project, fileName);
+		}
+	}
+	```     
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mspdi.MSPDIWriter;
-
-public class MSPDICompatibleOutput
-{
-   public void write(ProjectFile project, String fileName) throws Exception
-   {
-      MSPDIWriter writer = new MSPDIWriter();
-      writer.setMicrosoftProjectCompatibleOutput(false);
-      writer.write(project, fileName);
-   }
-}
-```     
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToWrite;
+	
+	public class MSPDICompatibleOutput
+	{
+		public void Write(ProjectFile project, string fileName)
+		{
+			var writer = new MSPDIWriter();
+			writer.MicrosoftProjectCompatibleOutput = false;
+			writer.Write(project, fileName);
+		}
+	}
+	```
 
 ### Save Version
 The MSPDI file contains a `SaveVersion` attribute which indicates the version of
@@ -85,24 +119,42 @@ format data as well.
 
 Here's an example of the `SaveVersion` attribute being set to ensure that only
 the older style of calendar exceptions is written to the MSPDI file:
- 
-```java
-package org.mpxj.howto.write;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mspdi.MSPDIWriter;
-import net.sf.mpxj.mspdi.SaveVersion;
+=== "Java" 
+	```java
+	package org.mpxj.howto.write;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.mspdi.MSPDIWriter;
+	import net.sf.mpxj.mspdi.SaveVersion;
+	
+	public class MSPDISaveVersion
+	{
+		public void write(ProjectFile project, String fileName) throws Exception
+		{
+			MSPDIWriter writer = new MSPDIWriter();
+			writer.setSaveVersion(SaveVersion.Project2002);
+			writer.write(project, fileName);
+		}
+	}
+	```
 
-public class MSPDISaveVersion
-{
-   public void write(ProjectFile project, String fileName) throws Exception
-   {
-      MSPDIWriter writer = new MSPDIWriter();
-      writer.setSaveVersion(SaveVersion.Project2002);
-      writer.write(project, fileName);
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToWrite;
+	
+	public class MSPDISaveVersion
+	{
+		public void Write(ProjectFile project, string fileName)
+		{
+			var writer = new MSPDIWriter();
+			writer.SaveVersion = SaveVersion.Project2002;
+			writer.Write(project, fileName);
+		}
+	}
+	```
 
 ### Timephased Data
 By default `MSPDIWriter` does not write timephased data to an MSPDI file. To
@@ -125,40 +177,77 @@ format MPXJ writes does this for you automatically.
 In the first example below we're enabling timephased data, and using the default
 day-by-dat breakdown:
 
-```java
-package org.mpxj.howto.write;
+=== "Java"
+	```java
+	package org.mpxj.howto.write;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.mspdi.MSPDIWriter;
+	
+	public class MSPDITimephased
+	{
+		public void write(ProjectFile project, String fileName) throws Exception
+		{
+			MSPDIWriter writer = new MSPDIWriter();
+			writer.setWriteTimephasedData(true);
+			writer.write(project, fileName);
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mspdi.MSPDIWriter;
-
-public class MSPDITimephased
-{
-   public void write(ProjectFile project, String fileName) throws Exception
-   {
-      MSPDIWriter writer = new MSPDIWriter();
-      writer.setWriteTimephasedData(true);
-      writer.write(project, fileName);
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToWrite;
+	
+	public class MSPDITimephased
+	{
+		public void Write(ProjectFile project, string fileName)
+		{
+			var writer = new MSPDIWriter();
+			writer.WriteTimephasedData = true;
+			writer.Write(project, fileName);
+		}
+	}
+	```
 
 In this second example we're overriding the default behaviour as asking MPXJ to
 write an aggregated form of the timephased data: 
 
-```java
-package org.mpxj.howto.write;
+=== "Java"
+	```java
+	package org.mpxj.howto.write;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.mspdi.MSPDIWriter;
+	
+	public class MSPDITimephasedAggregate
+	{
+		public void write(ProjectFile project, String fileName) throws Exception
+		{
+			MSPDIWriter writer = new MSPDIWriter();
+			writer.setWriteTimephasedData(true);
+			writer.setSplitTimephasedAsDays(false);
+			writer.write(project, fileName);
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mspdi.MSPDIWriter;
-
-public class MSPDITimephasedAggregate
-{
-   public void write(ProjectFile project, String fileName) throws Exception
-   {
-      MSPDIWriter writer = new MSPDIWriter();
-      writer.setWriteTimephasedData(true);
-      writer.setSplitTimephasedAsDays(false);
-      writer.write(project, fileName);
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToWrite;
+	
+	public class MSPDITimephasedAggregate
+	{
+	 	public void Write(ProjectFile project, string fileName)
+	 	{
+		  	var writer = new MSPDIWriter();
+		  	writer.WriteTimephasedData = true;
+		  	writer.SplitTimephasedAsDays = true;
+		  	writer.Write(project, fileName);
+	 	}
+	}
+	```

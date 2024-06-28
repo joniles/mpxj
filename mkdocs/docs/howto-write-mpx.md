@@ -8,21 +8,37 @@ MPX as a data interchange format.
 ## Writing MPX files
 The sample code below illustrates how to write data to an MPX file.
 
-```java
-package org.mpxj.howto.write;
+=== "Java"
+	```java
+	package org.mpxj.howto.write;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.writer.FileFormat;
+	import net.sf.mpxj.writer.UniversalProjectWriter;
+	
+	public class MPX
+	{
+		public void write(ProjectFile project, String fileName) throws Exception
+		{
+			new UniversalProjectWriter(FileFormat.MPX).write(project, fileName);
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.writer.FileFormat;
-import net.sf.mpxj.writer.UniversalProjectWriter;
-
-public class MPX
-{
-   public void write(ProjectFile project, String fileName) throws Exception
-   {
-      new UniversalProjectWriter(FileFormat.MPX).write(project, fileName);
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToWrite;
+	
+	public class MPX
+	{
+		public void Write(ProjectFile project, string fileName)
+		{
+			new UniversalProjectWriter(FileFormat.MPX).Write(project, fileName);
+		}
+	}
+	```
 
 ## Using MPXWriter
 If required, the `MPXWriter` class can be used directly, which provides access
@@ -34,31 +50,56 @@ can see that the writer is being asked to produce a file suitable for reading
 with a localized German version of Microsoft Project.
 
 
-```java
-package org.mpxj.howto.write;
+=== "Java"
+	```java
+	package org.mpxj.howto.write;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.mpx.MPXWriter;
+	
+	import java.util.Locale;
+	
+	public class MPXLocale
+	{
+		public void write(ProjectFile project, String fileName) throws Exception
+		{
+			MPXWriter writer = new MPXWriter();
+			writer.setLocale(Locale.GERMAN);
+			writer.write(project, fileName);
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpx.MPXWriter;
-
-import java.util.Locale;
-
-public class MPXLocale
-{
-   public void write(ProjectFile project, String fileName) throws Exception
-   {
-      MPXWriter writer = new MPXWriter();
-      writer.setLocale(Locale.GERMAN);
-      writer.write(project, fileName);
-   }
-}
-```
+=== "C#"
+	```c#
+	using System.Globalization;
+	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToWrite;
+	
+	public class MPXLocale
+	{
+		public void Write(ProjectFile project, string fileName)
+		{
+			var writer = new MPXWriter();
+			writer.Culture = CultureInfo.GetCultureInfo("de");
+			writer.Write(project, fileName);
+		}
+	}
+	```
 
 The locales supported by the MPX writer class can be retrieved using
 the following call:
 
-```java
-MPXWriter.getSupportedLocales()
-```
+=== "Java"
+	```java
+	MPXWriter.getSupportedLocales()
+	```
+
+=== "C#"
+	```c#
+	MPXWriter.SupportedCultures
+	```
 
 ### Locale Defaults
 By default the MPX writer ignores the date, time, number and currency formats
@@ -67,22 +108,42 @@ specified locale. Calling the `setUseLocaleDefaults` method and passing `false`
 ensures that the information present in the project properties is used instead
 of the locale defaults. This is illustrated in the sample code below:
 
-```java
-package org.mpxj.howto.write;
+=== "Java"
+	```java
+	package org.mpxj.howto.write;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.mpx.MPXWriter;
+	
+	import java.util.Locale;
+	
+	public class MPXLocaleDefaults
+	{
+		public void write(ProjectFile project, String fileName) throws Exception
+		{
+			MPXWriter writer = new MPXWriter();
+			writer.setLocale(Locale.GERMAN);
+			writer.setUseLocaleDefaults(false);
+			writer.write(project, fileName);
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpx.MPXWriter;
-
-import java.util.Locale;
-
-public class MPXLocaleDefaults
-{
-   public void write(ProjectFile project, String fileName) throws Exception
-   {
-      MPXWriter writer = new MPXWriter();
-      writer.setLocale(Locale.GERMAN);
-      writer.setUseLocaleDefaults(false);
-      writer.write(project, fileName);
-   }
-}
-```
+=== "C#"
+	```c#
+	using System.Globalization;
+	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToWrite;
+	
+	public class MPXLocaleDefaults
+	{
+		public void Write(ProjectFile project, string fileName)
+		{
+			var writer = new MPXWriter();
+			writer.Culture = CultureInfo.GetCultureInfo("de");
+			writer.UseCultureDefaults = false;
+			writer.Write(project, fileName);
+		}
+	}
+	```
