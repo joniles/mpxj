@@ -946,18 +946,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#reading-additional-attributes" class="md-nav__link">
+  <a href="#ignore-errors" class="md-nav__link">
     <span class="md-ellipsis">
-      Reading Additional Attributes
+      Ignore Errors
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ignore-errors" class="md-nav__link">
+  <a href="#reading-additional-attributes" class="md-nav__link">
     <span class="md-ellipsis">
-      Ignore Errors
+      Reading Additional Attributes
     </span>
   </a>
   
@@ -1797,18 +1797,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#reading-additional-attributes" class="md-nav__link">
+  <a href="#ignore-errors" class="md-nav__link">
     <span class="md-ellipsis">
-      Reading Additional Attributes
+      Ignore Errors
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ignore-errors" class="md-nav__link">
+  <a href="#reading-additional-attributes" class="md-nav__link">
     <span class="md-ellipsis">
-      Ignore Errors
+      Reading Additional Attributes
     </span>
   </a>
   
@@ -1846,6 +1846,9 @@ stored as a SQLite database. By default P6 will create a database called
 <code>PPMDBSQLite.db</code> in the Windows user's <code>My Documents</code>  folder. The example code
 below illustrates how we'd list the schedules in this file, and reda one of
 those schedules using it ID.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Java</label><label for="__tabbed_1_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.ProjectFile</span><span class="p">;</span>
@@ -1856,30 +1859,65 @@ those schedules using it ID.</p>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">P6Sqlite</span>
 <span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="n">PrimaveraDatabaseFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseFileReader</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">PrimaveraDatabaseFileReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseFileReader</span><span class="p">();</span>
 
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="c1">// Retrieve a list of the projects available in the database</span>
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="n">File</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">File</span><span class="p">(</span><span class="s">&quot;PPMDBSQLite.db&quot;</span><span class="p">);</span>
-<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">listProjects</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Retrieve a list of the projects available in the database</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="n">File</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">File</span><span class="p">(</span><span class="s">&quot;PPMDBSQLite.db&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">listProjects</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
 
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="c1">// At this point you&#39;ll select the project</span>
-<span class="w">      </span><span class="c1">// you want to work with.</span>
-<span class="w">      </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// At this point you&#39;ll select the project</span>
+<span class="w">        </span><span class="c1">// you want to work with.</span>
+<span class="w">        </span><span class="c1">//</span>
 
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="c1">// Now open the selected project using its ID</span>
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="kt">int</span><span class="w"> </span><span class="n">selectedProjectID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
-<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setProjectID</span><span class="p">(</span><span class="n">selectedProjectID</span><span class="p">);</span>
-<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;PPMDBSQLite.db&quot;</span><span class="p">);</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Now open the selected project using its ID</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">selectedProjectID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setProjectID</span><span class="p">(</span><span class="n">selectedProjectID</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">MPXJ.Net</span><span class="p">;</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">MPXJ.Samples.HowToRead</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">P6Sqlite</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Read</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseFileReader</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Retrieve a list of the projects available in the database</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;PPMDBSQLite.db&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">ListProjects</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// At this point you&#39;ll select the project</span>
+<span class="w">        </span><span class="c1">// you want to work with.</span>
+<span class="w">        </span><span class="c1">//</span>
+
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Now open the selected project using its ID</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">selectedProjectID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="n">ProjectID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">selectedProjectID</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">Read</span><span class="p">(</span><span class="n">file</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 <h2 id="jdbc-in-java">JDBC in Java</h2>
 <p>For P6 schedules hosted in either a SQL Server databases or an Oracle database,
 we must use a JDBC driver with the <code>PrimaveraDatabaseReader</code> reader in order to
@@ -1897,40 +1935,40 @@ the JDBC driver as a dependency to your Java project.</p>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">P6JDBC</span>
 <span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="c1">// Load the JDBC driver</span>
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="n">String</span><span class="w"> </span><span class="n">driverClass</span><span class="o">=</span><span class="s">&quot;com.microsoft.sqlserver.jdbc.SQLServerDriver&quot;</span><span class="p">;</span>
-<span class="w">      </span><span class="n">Class</span><span class="p">.</span><span class="na">forName</span><span class="p">(</span><span class="n">driverClass</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Load the JDBC driver</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">driverClass</span><span class="o">=</span><span class="s">&quot;com.microsoft.sqlserver.jdbc.SQLServerDriver&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Class</span><span class="p">.</span><span class="na">forName</span><span class="p">(</span><span class="n">driverClass</span><span class="p">);</span>
 
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="c1">// Open a database connection. You will need to change</span>
-<span class="w">      </span><span class="c1">// these details to match the name of your server, database, user and password.</span>
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="n">String</span><span class="w"> </span><span class="n">connectionString</span><span class="o">=</span><span class="s">&quot;jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;&quot;</span><span class="p">;</span>
-<span class="w">      </span><span class="n">Connection</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">connectionString</span><span class="p">);</span>
-<span class="w">      </span><span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
-<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setConnection</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Open a database connection. You will need to change</span>
+<span class="w">        </span><span class="c1">// these details to match the name of your server, database, user and password.</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">connectionString</span><span class="o">=</span><span class="s">&quot;jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Connection</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">connectionString</span><span class="p">);</span>
+<span class="w">        </span><span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setConnection</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
 
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="c1">// Retrieve a list of the projects available in the database</span>
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">listProjects</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Retrieve a list of the projects available in the database</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">listProjects</span><span class="p">();</span>
 
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="c1">// At this point you&#39;ll select the project</span>
-<span class="w">      </span><span class="c1">// you want to work with.</span>
-<span class="w">      </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// At this point you&#39;ll select the project</span>
+<span class="w">        </span><span class="c1">// you want to work with.</span>
+<span class="w">        </span><span class="c1">//</span>
 
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="c1">// Now open the selected project using its ID</span>
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="kt">int</span><span class="w"> </span><span class="n">selectedProjectID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
-<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setProjectID</span><span class="p">(</span><span class="n">selectedProjectID</span><span class="p">);</span>
-<span class="w">      </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">();</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Now open the selected project using its ID</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">selectedProjectID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setProjectID</span><span class="p">(</span><span class="n">selectedProjectID</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ProjectFile</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">read</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="jdbc-in-net">JDBC in .Net</h2>
@@ -1940,8 +1978,8 @@ add the JDBC driver to our project as a dependency. To do this we add a
 <code>MavenReference</code> to our project. The example below show how I have added this
 just after the reference to the <code>MPXJ.Net</code> package:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;ItemGroup&gt;</span>
-<span class="w">   </span><span class="nt">&lt;PackageReference</span><span class="w"> </span><span class="na">Include=</span><span class="s">&quot;MPXJ.Net&quot;</span><span class="w"> </span><span class="na">Version=</span><span class="s">&quot;13.0.0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">   </span><span class="nt">&lt;MavenReference</span><span class="w"> </span><span class="na">Include=</span><span class="s">&quot;com.microsoft.sqlserver:mssql-jdbc&quot;</span><span class="w"> </span><span class="na">Version=</span><span class="s">&quot;12.6.2.jre8&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;PackageReference</span><span class="w"> </span><span class="na">Include=</span><span class="s">&quot;MPXJ.Net&quot;</span><span class="w"> </span><span class="na">Version=</span><span class="s">&quot;13.0.0&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;MavenReference</span><span class="w"> </span><span class="na">Include=</span><span class="s">&quot;com.microsoft.sqlserver:mssql-jdbc&quot;</span><span class="w"> </span><span class="na">Version=</span><span class="s">&quot;12.6.2.jre8&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="nt">&lt;/ItemGroup&gt;</span>
 </code></pre></div>
 <blockquote>
@@ -1955,44 +1993,42 @@ as the sample code below illustrates.</p>
 <div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">com.microsoft.sqlserver.jdbc</span><span class="p">;</span>
 <span class="k">using</span><span class="w"> </span><span class="nn">MPXJ.Net</span><span class="p">;</span>
 
+<span class="k">namespace</span><span class="w"> </span><span class="nn">MPXJ.Samples.HowToRead</span><span class="p">;</span>
 
-<span class="k">namespace</span><span class="w"> </span><span class="nn">MpxjJdbc</span>
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">P6JDBC</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">P6JDBC</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Read</span><span class="p">()</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">        </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Read</span><span class="p">()</span>
-<span class="w">        </span><span class="p">{</span>
-<span class="w">            </span><span class="c1">//</span>
-<span class="w">            </span><span class="c1">// Load the JDBC driver</span>
-<span class="w">            </span><span class="c1">//</span>
-<span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SQLServerDriver</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Load the JDBC driver</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SQLServerDriver</span><span class="p">();</span>
 
-<span class="w">            </span><span class="c1">//</span>
-<span class="w">            </span><span class="c1">// Open a database connection. You will need to change</span>
-<span class="w">            </span><span class="c1">// these details to match the name of your server, database, user and password.</span>
-<span class="w">            </span><span class="c1">//</span>
-<span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">connectionString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;&quot;</span><span class="p">;</span>
-<span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">driver</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">connectionString</span><span class="p">,</span><span class="w"> </span><span class="k">null</span><span class="p">);</span>
-<span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
-<span class="w">            </span><span class="n">reader</span><span class="p">.</span><span class="n">Connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Open a database connection. You will need to change</span>
+<span class="w">        </span><span class="c1">// these details to match the name of your server, database, user and password.</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">connectionString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;jdbc:sqlserver://localhost:1433;databaseName=my-database-name;user=my-user-name;password=my-password;&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">driver</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">connectionString</span><span class="p">,</span><span class="w"> </span><span class="k">null</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="n">Connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">;</span>
 
-<span class="w">            </span><span class="c1">//</span>
-<span class="w">            </span><span class="c1">// Retrieve a list of the projects available in the database</span>
-<span class="w">            </span><span class="c1">//</span>
-<span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">ListProjects</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Retrieve a list of the projects available in the database</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">projects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">ListProjects</span><span class="p">();</span>
 
-<span class="w">            </span><span class="c1">//</span>
-<span class="w">            </span><span class="c1">// At this point you&#39;ll select the project</span>
-<span class="w">            </span><span class="c1">// you want to work with.</span>
-<span class="w">            </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// At this point you&#39;ll select the project</span>
+<span class="w">        </span><span class="c1">// you want to work with.</span>
+<span class="w">        </span><span class="c1">//</span>
 
-<span class="w">            </span><span class="c1">//</span>
-<span class="w">            </span><span class="c1">// Now open the selected project using its ID</span>
-<span class="w">            </span><span class="c1">//</span>
-<span class="w">            </span><span class="kt">int</span><span class="w"> </span><span class="n">selectedProjectID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">;</span>
-<span class="w">            </span><span class="n">reader</span><span class="p">.</span><span class="n">ProjectID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">selectedProjectID</span><span class="p">;</span>
-<span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">Read</span><span class="p">();</span>
-<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Now open the selected project using its ID</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">selectedProjectID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="n">ProjectID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">selectedProjectID</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">projectFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">Read</span><span class="p">();</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -2006,19 +2042,40 @@ does not match Primavera's behaviour where all of a WBS element's child
 activities will have the same WBS value as the parent WBS element. MPXJ's
 default behaviour now matches Primavera, but should you wish to you can revert
 to the original behaviour by calling the <code>setMatchPrimaveraWBS</code> as shown below.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Java</label><label for="__tabbed_2_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraDatabaseReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">P6ActivityWbs</span>
 <span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
-<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setMatchPrimaveraWBS</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setMatchPrimaveraWBS</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">MPXJ.Net</span><span class="p">;</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">MPXJ.Samples.HowToRead</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">P6ActivityWbs</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Read</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="n">MatchPrimaveraWBS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 <h3 id="wbs-is-full-path">WBS is Full Path</h3>
 <p>Currently, the WBS attribute of summary tasks (WBS entities in P6) will be a dot
 separated hierarchy of all the parent WBS attributes.
@@ -2026,19 +2083,82 @@ In this example, <code>root.wbs1.wbs2</code> is the WBS attribute for <code>wbs2
 the parents <code>root</code> and <code>wbs1</code>. To disable this behaviour, and simply record
 the code for the current WBS entry (in the example above <code>wbs2</code>) call the
 <code>setWbsIsFullPath</code> method, passing in <code>false</code>, as illustrated below.  </p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Java</label><label for="__tabbed_3_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraDatabaseReader</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">P6WbsFullPath</span>
 <span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
-<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setWbsIsFullPath</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setWbsIsFullPath</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">MPXJ.Net</span><span class="p">;</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">MPXJ.Samples.HowToRead</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">P6WbsFullPath</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Read</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="n">WbsIsFullPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="ignore-errors">Ignore Errors</h3>
+<p>By default MPXJ will ignore errors when parsing attributes from a Primavera
+database. This behavior is controlled using the <code>setIgnoreErrors</code> method. The
+example below illustrates how we can force the <code>PrimaveraDatabaseReader</code> to
+report errors encountered when reading from a Primavera database:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Java</label><label for="__tabbed_4_2">C#</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraDatabaseReader</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">P6IgnoreErrors</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="na">setIgnoreErrors</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">using</span><span class="w"> </span><span class="nn">MPXJ.Net</span><span class="p">;</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">MPXJ.Samples.HowToRead</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">P6IgnoreErrors</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Read</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">reader</span><span class="p">.</span><span class="n">IgnoreErrors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Note that if errors are ignored when reading from a Primavera database, the
+ignored errors are available by using the <code>ProjectFile.getIgnoredErrors()</code>
+method.</p>
 <h3 id="reading-additional-attributes">Reading Additional Attributes</h3>
 <p>A data-driven approach is used to extract the attributes used by MPXJ from the
 database. You can if you wish change the way attributes are read from the file,
@@ -2055,14 +2175,14 @@ to store which columns from the database:</p>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">P6AttributeMaps</span>
 <span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
-<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">resourceFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getResourceFieldMap</span><span class="p">();</span>
-<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">wbsFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getWbsFieldMap</span><span class="p">();</span>
-<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">activityFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getActivityFieldMap</span><span class="p">();</span>
-<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">assignmentFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getAssignmentFieldMap</span><span class="p">();</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">resourceFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getResourceFieldMap</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">wbsFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getWbsFieldMap</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">activityFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getActivityFieldMap</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">assignmentFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getAssignmentFieldMap</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>These maps will contain the default mapping between columns and MPXJ attributes.
@@ -2077,44 +2197,23 @@ You can modify these existing mappings, or add new ones, for example:</p>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">P6AttributeConfig</span>
 <span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
-<span class="w">      </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">activityFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getActivityFieldMap</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">FieldType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">activityFieldMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getActivityFieldMap</span><span class="p">();</span>
 
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="c1">// Store rsrc_id in NUMBER1</span>
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="n">activityFieldMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">NUMBER1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rsrc_id&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Store rsrc_id in NUMBER1</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="n">activityFieldMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">NUMBER1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rsrc_id&quot;</span><span class="p">);</span>
 
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="c1">// Read an Activity column called an_example_field and store it in TEXT10</span>
-<span class="w">      </span><span class="c1">//</span>
-<span class="w">      </span><span class="n">activityFieldMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">TEXT10</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;an_example_field&quot;</span><span class="p">);</span>
-<span class="w">   </span><span class="p">}</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="c1">// Read an Activity column called an_example_field and store it in TEXT10</span>
+<span class="w">        </span><span class="c1">//</span>
+<span class="w">        </span><span class="n">activityFieldMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">TaskField</span><span class="p">.</span><span class="na">TEXT10</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;an_example_field&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="ignore-errors">Ignore Errors</h3>
-<p>By default MPXJ will ignore errors when parsing attributes from a Primavera
-database. This behavior is controlled using the <code>setIgnoreErrors</code> method. The
-example below illustrates how we can force the <code>PrimaveraDatabaseReader</code> to
-report errors encountered when reading from a Primavera database:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.mpxj.howto.read</span><span class="p">;</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">net.sf.mpxj.primavera.PrimaveraDatabaseReader</span><span class="p">;</span>
-
-<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">P6IgnoreErrors</span>
-<span class="p">{</span>
-<span class="w">   </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span>
-<span class="w">   </span><span class="p">{</span>
-<span class="w">      </span><span class="n">PrimaveraDatabaseReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrimaveraDatabaseReader</span><span class="p">();</span>
-<span class="w">      </span><span class="n">reader</span><span class="p">.</span><span class="na">setIgnoreErrors</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="w">   </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Note that if errors are ignored when reading from a Primavera database, the
-ignored errors are available by using the <code>ProjectFile.getIgnoredErrors()</code>
-method.</p>
 
 
 
