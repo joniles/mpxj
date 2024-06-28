@@ -9,21 +9,37 @@ specification for the file format can be found
 ## Writing SDEF files
 The sample code below illustrates how to write data to an SDEF file.
 
-```java
-package org.mpxj.howto.write;
+=== "Java"
+	```java
+	package org.mpxj.howto.write;
+	
+	import net.sf.mpxj.ProjectFile;
+	import net.sf.mpxj.writer.FileFormat;
+	import net.sf.mpxj.writer.UniversalProjectWriter;
+	
+	public class SDEF
+	{
+		public void write(ProjectFile project, String fileName) throws Exception
+		{
+			new UniversalProjectWriter(FileFormat.SDEF).write(project, fileName);
+		}
+	}
+	```
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.writer.FileFormat;
-import net.sf.mpxj.writer.UniversalProjectWriter;
-
-public class SDEF
-{
-   public void write(ProjectFile project, String fileName) throws Exception
-   {
-      new UniversalProjectWriter(FileFormat.SDEF).write(project, fileName);
-   }
-}
-```
+=== "C#"
+	```c#
+	using MPXJ.Net;
+	
+	namespace MPXJ.Samples.HowToWrite;
+	
+	public class SDEF
+	{
+	 	public void Write(ProjectFile project, string fileName)
+	 	{
+		  	new UniversalProjectWriter(FileFormat.SDEF).Write(project, fileName);
+	 	}
+	}
+	```
 
 ## Using SDEFWriter
 If required, the `SDEFWriter` class can be used directly, which
@@ -43,11 +59,11 @@ import java.nio.charset.StandardCharsets;
 
 public class SDEFCharset
 {
-   public void write(ProjectFile project, String fileName) throws Exception
-   {
-      SDEFWriter writer = new SDEFWriter();
-      writer.setCharset(StandardCharsets.UTF_8);
-      writer.write(project, fileName);
-   }
+	public void write(ProjectFile project, String fileName) throws Exception
+	{
+		SDEFWriter writer = new SDEFWriter();
+		writer.setCharset(StandardCharsets.UTF_8);
+		writer.write(project, fileName);
+	}
 }
 ```
