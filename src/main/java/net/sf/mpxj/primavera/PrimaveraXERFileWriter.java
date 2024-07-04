@@ -225,7 +225,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeResourceRates()
    {
       m_writer.writeTable("RSRCRATE", RESOURCE_RATE_COLUMNS);
-      m_file.getResources().stream().filter(r -> !r.getRole()).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeCostRateTableEntries(RESOURCE_RATE_COLUMNS, r));
+      m_file.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeCostRateTableEntries(RESOURCE_RATE_COLUMNS, r));
    }
 
    /**
