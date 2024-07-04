@@ -5,7 +5,9 @@
 		<author email="jon.iles@bcs.org.uk">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="13.0.1">
+		<release date="unreleased" version="13.0.2">
+		</release>
+		<release date="2024-07-04" version="13.0.1">
 			<action dev="joniles" type="update">For XER files, ignore the "null" resource when writing resource rates.</action>
 			<action dev="joniles" type="update">When reading MPP files, ensure that Enterprise Custom Field Unique IDs are unique across entities.</action>
 		</release>

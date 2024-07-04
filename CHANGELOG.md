@@ -1,6 +1,10 @@
 # Changelog
 
-## 13.0.1 (unreleased)
+## 13.0.2 (unreleased)
+
+## 13.0.1 (2024-07-04)
+* For XER files, ignore the "null" resource when writing resource rates.
+* When reading MPP files, ensure that Enterprise Custom Field Unique IDs are unique across entities.
 
 ## 13.0.0 (2024-06-20)
 * NOTE: this is a major release containing breaking changes. When updating from a 12.x release it is recommended that you first update to the most recent 12.x release and deal with any deprecation warnings before moving to this release.
