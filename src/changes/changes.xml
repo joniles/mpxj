@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="13.0.1">
 			<action dev="joniles" type="update">For XER files, ignore the "null" resource when writing resource rates.</action>
+			<action dev="joniles" type="update">When reading MPP files, ensure that Enterprise Custom Field Unique IDs are unique across entities.</action>
 		</release>
 		<release date="2024-06-20" version="13.0.0">
 			<action dev="joniles" type="update">NOTE: this is a major release containing breaking changes. When updating from a 12.x release it is recommended that you first update to the most recent 12.x release and deal with any deprecation warnings before moving to this release.</action>
