@@ -890,7 +890,7 @@ final class PrimaveraPMProjectWriter
 
       xml.setObjectId(mpxj.getUniqueID());
       xml.setName(mpxj.getName());
-      xml.setId(mpxj.getResourceID());
+      xml.setId(getRoleID(mpxj));
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setResponsibilities(getNotes(mpxj.getNotesObject()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
@@ -2009,12 +2009,20 @@ final class PrimaveraPMProjectWriter
     */
    private String getResourceID(Resource resource)
    {
-      String result = resource.getResourceID();
-      if (result == null)
-      {
-         result = RESOURCE_ID_PREFIX + resource.getUniqueID();
-      }
-      return result;
+      String id = resource.getResourceID();
+      return id == null || id.isEmpty() ? RESOURCE_ID_PREFIX + resource.getUniqueID() : id;
+   }
+
+   /**
+    * Generate a default Role ID for a role.
+    *
+    * @param role Resource instance
+    * @return generated Role ID
+    */
+   private String getRoleID(Resource role)
+   {
+      String id = role.getResourceID();
+      return id == null || id.isEmpty() ? ROLE_ID_PREFIX + role.getResourceID() : id;
    }
 
    /**
@@ -2030,6 +2038,7 @@ final class PrimaveraPMProjectWriter
 
    private static final String DEFAULT_PROJECT_ID = "PROJECT";
    private static final String RESOURCE_ID_PREFIX = "RESOURCE-";
+   private static final String ROLE_ID_PREFIX = "ROLE-";
    private static final Integer DEFAULT_CURRENCY_ID = Integer.valueOf(1);
 
    private static final String[] DAY_NAMES =
