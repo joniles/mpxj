@@ -1,6 +1,9 @@
 # Changelog
 
-## 13.0.2 (unreleased)
+## 13.0.3 (unreleased)
+
+## 13.0.2 (2024-07-08)
+* When writing XER files, provide a default value for the Resource ID if it is not populated.
 
 ## 13.0.1 (2024-07-04)
 * For XER files, ignore the "null" resource when writing resource rates.
