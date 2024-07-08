@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="13.0.2">
+			<action dev="joniles" type="update">When writing XER files, provide a default value for the Resource ID if it is not populated.</action>
 		</release>
 		<release date="2024-07-04" version="13.0.1">
 			<action dev="joniles" type="update">For XER files, ignore the "null" resource when writing resource rates.</action>

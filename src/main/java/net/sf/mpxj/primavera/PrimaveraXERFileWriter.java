@@ -979,6 +979,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private Integer m_originalOutlineLevel;
 
    private static final Integer DEFAULT_PROJECT_ID = Integer.valueOf(1);
+   private static final String RESOURCE_ID_PREFIX = "RESOURCE-";
+   private static final String ROLE_ID_PREFIX = "ROLE-";
 
    interface ExportFunction<T>
    {
@@ -1008,7 +1010,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ROLE_COLUMNS.put("parent_role_id", r -> r.getParentResourceUniqueID());
       ROLE_COLUMNS.put("seq_num", r -> r.getSequenceNumber());
       ROLE_COLUMNS.put("role_name", r -> StringHelper.stripControlCharacters(r.getName()));
-      ROLE_COLUMNS.put("role_short_name", r -> r.getResourceID());
+      ROLE_COLUMNS.put("role_short_name", r -> r.getResourceID() == null || r.getResourceID().isEmpty() ? ROLE_ID_PREFIX + r.getUniqueID() : r.getResourceID());
       ROLE_COLUMNS.put("pobs_id", r -> "");
       ROLE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       ROLE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
@@ -1062,7 +1064,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("office_phone", r -> "");
       RESOURCE_COLUMNS.put("other_phone", r -> "");
       RESOURCE_COLUMNS.put("rsrc_name", r -> StringHelper.stripControlCharacters(r.getName()));
-      RESOURCE_COLUMNS.put("rsrc_short_name", r -> r.getResourceID());
+      RESOURCE_COLUMNS.put("rsrc_short_name", r -> r.getResourceID() == null || r.getResourceID().isEmpty() ? RESOURCE_ID_PREFIX + r.getUniqueID() : r.getResourceID());
       RESOURCE_COLUMNS.put("rsrc_title_name", r -> "");
       RESOURCE_COLUMNS.put("def_qty_per_hr", r -> r.getDefaultUnits() == null || r.getDefaultUnits().doubleValue() == 0.0 ? null : Double.valueOf(r.getDefaultUnits().doubleValue() / 100.0));
       RESOURCE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
