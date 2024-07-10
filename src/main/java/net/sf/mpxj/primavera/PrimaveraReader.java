@@ -56,6 +56,7 @@ import java.time.DayOfWeek;
 import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
+import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;
@@ -100,6 +101,7 @@ import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.NumberHelper;
 import net.sf.mpxj.common.ObjectSequence;
 import net.sf.mpxj.common.SlackHelper;
+import net.sf.mpxj.TimephasedWorkContainer;
 
 /**
  * This class provides a generic front end to read project data from
@@ -1795,6 +1797,13 @@ final class PrimaveraReader
 
             // Add User Defined Fields
             populateUserDefinedFieldValues("TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
+
+            // Read timephased data
+            TimephasedWorkContainer timephasedActualWork = TimephasedHelper.read(assignment.getEffectiveCalendar(), assignment.getActualStart(), row.getString("actual_crv"));
+            TimephasedWorkContainer timephasedRemainingWork = TimephasedHelper.read(assignment.getEffectiveCalendar(), assignment.getRemainingEarlyStart(), row.getString("remain_crv"));
+            assignment.setTimephasedActualWork(timephasedActualWork);
+            assignment.setTimephasedWork(timephasedRemainingWork);
+            assignment.setWorkContour(WorkContour.CONTOURED);
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
