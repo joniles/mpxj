@@ -29,7 +29,8 @@
 		<property name="distribution" value="${dist.dir}/mpxj-${current.version}.zip" />
 
 		<!-- Runtime Dependencies -->
-		<property name="poi.jar" value="poi-5.2.2" />
+		<!-- NOTE: poi.jar is only used to name the legacy DLL -->
+		<property name="poi.jar" value="poi-5.2.2 "/>
 		<property name="poifs.jar" value="poifs-5.2.2"/>
 		<property name="commons-collections.jar" value="commons-collections4-4.4" />
 		<property name="commons-io.jar" value="commons-io-2.11.0" />
@@ -53,7 +54,7 @@
 		<property name="hamcrest.jar" value="hamcrest-core-1.3"/>
 
 		<!-- Dependency Paths -->
-		<path id="poi.path"><pathelement location="${lib.dir}/${poi.jar}.jar" /></path>
+		<path id="poifs.path"><pathelement location="${basedir}/../poifs/target/${poifs.jar}.jar" /></path>
 		<path id="commons-collections.path"><pathelement location="${lib.dir}/${commons-collections.jar}.jar" /></path>
 		<path id="commons-io.path"><pathelement location="${lib.dir}/${commons-io.jar}.jar" /></path>
 		<path id="commons-math.path"><pathelement location="${lib.dir}/${commons-math.jar}.jar" /></path>
@@ -73,7 +74,7 @@
 		<path id="junit.path"><pathelement location="${lib.dir}/${junit.jar}.jar" /></path>
 
 		<!-- Dependency Classpaths -->
-		<property name="poi.classpath" refid="poi.path" />
+		<property name="poifs.classpath" refid="poifs.path" />
 		<property name="commons-collections.classpath" refid="commons-collections.path" />
 		<property name="commons-io.classpath" refid="commons-io.path" />
 		<property name="commons-math.classpath" refid="commons-math.path" />
@@ -432,11 +433,11 @@
 			<include name="**/mspdi/XsdDuration.java" />
 		</replace>
 
-		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}::${commons-logging.classpath}:${jackcess.classpath}:${jakarta.activation.classpath}:${jakarta.xml.bind-api.classpath}:${istack-commons-runtime.classpath}:${txw2.classpath}:${jaxb-core.classpath}:${jaxb-runtime.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poifs.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}::${commons-logging.classpath}:${jackcess.classpath}:${jakarta.activation.classpath}:${jakarta.xml.bind-api.classpath}:${istack-commons-runtime.classpath}:${txw2.classpath}:${jaxb-core.classpath}:${jaxb-runtime.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
-		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${jakarta.activation.classpath}:${jakarta.xml.bind-api.classpath}:${istack-commons-runtime.classpath}:${txw2.classpath}:${jaxb-core.classpath}:${jaxb-runtime.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poifs.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${jakarta.activation.classpath}:${jakarta.xml.bind-api.classpath}:${istack-commons-runtime.classpath}:${txw2.classpath}:${jaxb-core.classpath}:${jaxb-runtime.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
@@ -494,11 +495,11 @@
 			<include name="**/mspdi/XsdDuration.java" />
 		</replace>
 
-		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${jakarta.activation.classpath}:${jakarta.xml.bind-api.classpath}:${istack-commons-runtime.classpath}:${txw2.classpath}:${jaxb-core.classpath}:${jaxb-runtime.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
+		<javac srcdir="${ikvm.src.dir}" destdir="${ikvm.classes.dir}" classpath="${classpath}:${poifs.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${jakarta.activation.classpath}:${jakarta.xml.bind-api.classpath}:${istack-commons-runtime.classpath}:${txw2.classpath}:${jaxb-core.classpath}:${jaxb-runtime.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false" excludes="net/sf/mpxj/explorer/**">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
-		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poi.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${jakarta.activation.classpath}:${jakarta.xml.bind-api.classpath}:${istack-commons-runtime.classpath}:${txw2.classpath}:${jaxb-core.classpath}:${jaxb-runtime.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
+		<javac srcdir="${ikvm.src.test.dir}" destdir="${ikvm.classes.test.dir}" classpath="${classpath}:${ikvm.classes.dir}:${poifs.classpath}:${rtfparserkit.classpath}:${sqlite-jdbc.classpath}:${jsoup.classpath}:${commons-lang3.classpath}:${commons-logging.classpath}:${jackcess.classpath}:${jakarta.activation.classpath}:${jakarta.xml.bind-api.classpath}:${istack-commons-runtime.classpath}:${txw2.classpath}:${jaxb-core.classpath}:${jaxb-runtime.classpath}:${junit.classpath}:${ikvm.lib.dir}/mscorlib.jar" debug="on" source="${target-jvm-version}" target="${target-jvm-version}" includeantruntime="false">
 			<compilerarg line="-encoding cp1252" />
 		</javac>
 
@@ -520,7 +521,7 @@
 				<pathelement path="${classpath}" />
 				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
 				<pathelement location="${junit.classpath}" />
-				<pathelement location="${poi.classpath}" />
+				<pathelement location="${poifs.classpath}" />
 				<pathelement location="${rtfparserkit.classpath}" />
 				<pathelement location="${sqlite-jdbc.classpath}" />
 				<pathelement location="${jsoup.classpath}" />
@@ -544,7 +545,7 @@
 				<pathelement path="${classpath}" />
 				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
 				<pathelement location="${junit.classpath}" />
-				<pathelement location="${poi.classpath}" />
+				<pathelement location="${poifs.classpath}" />
 				<pathelement location="${rtfparserkit.classpath}" />
 				<pathelement location="${sqlite-jdbc.classpath}" />
 				<pathelement location="${jsoup.classpath}" />
@@ -732,7 +733,7 @@
 				<pathelement path="${classpath}" />
 				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
 				<pathelement location="${junit.classpath}" />
-				<pathelement location="${poi.classpath}" />
+				<pathelement location="${poifs.classpath}" />
 				<pathelement location="${rtfparserkit.classpath}" />
 				<pathelement location="${sqlite-jdbc.classpath}" />
 				<pathelement location="${jsoup.classpath}" />
@@ -756,7 +757,7 @@
 				<pathelement path="${classpath}" />
 				<pathelement path="${ikvm.working.dir}/mpxj.jar" />
 				<pathelement location="${junit.classpath}" />
-				<pathelement location="${poi.classpath}" />
+				<pathelement location="${poifs.classpath}" />
 				<pathelement location="${rtfparserkit.classpath}" />
 				<pathelement location="${sqlite-jdbc.classpath}" />
 				<pathelement location="${jsoup.classpath}" />
