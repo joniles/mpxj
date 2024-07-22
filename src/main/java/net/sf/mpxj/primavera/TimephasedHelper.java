@@ -1,7 +1,6 @@
 package net.sf.mpxj.primavera;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +14,8 @@ final class TimephasedHelper
 {
    public static TimephasedWorkContainer read(ProjectCalendar calendar, LocalDateTime start, String values)
    {
+      System.out.println(values);
+
       if (values == null || values.isEmpty())
       {
          return null;
@@ -76,5 +77,56 @@ final class TimephasedHelper
             throw new UnsupportedOperationException();
          }
       };
+   }
+
+   public static String write(ProjectCalendar calendar, List<TimephasedWork> items)
+   {
+      // NOTE: needs curv_id set to 9. Hard coded value for manual curve, only set when timephased data present?
+      // Output seems to need trailing zero blocks to work?
+      if (items == null || items.isEmpty())
+      {
+         return null;
+      }
+
+      StringBuffer result = new StringBuffer();
+      LocalDateTime previousFinish = null;
+
+      for (TimephasedWork item : items)
+      {
+         if (previousFinish != null)
+         {
+            Duration workToNextItem = calendar.getWork(previousFinish, item.getStart(), TimeUnit.HOURS);
+            if(workToNextItem.getDuration() != 0)
+            {
+               if (result.length() != 0)
+               {
+                  result.append(";");
+               }
+
+               result.append("0:");
+               result.append((int)workToNextItem.getDuration());
+            }
+         }
+
+         Duration workHours = item.getTotalAmount().convertUnits(TimeUnit.HOURS, calendar);
+         Duration periodHours = calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.HOURS);
+
+         if (result.length() != 0)
+         {
+            result.append(";");
+         }
+
+         // Can we have decimal values or just integers?
+         // Are we always recording timephased data as hours?
+         result.append((int)workHours.getDuration());
+         result.append(':');
+         result.append((int)periodHours.getDuration());
+
+         previousFinish = item.getFinish();
+      }
+
+      System.out.println(result.toString());
+
+      return result.toString();
    }
 }
