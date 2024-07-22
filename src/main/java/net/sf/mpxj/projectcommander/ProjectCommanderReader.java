@@ -560,15 +560,16 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
     */
    private void readResource(Block block)
    {
+      Block resourceTask = getChildBlock(block, "CResourceTask");
+      if (resourceTask == null)
+      {
+         return;
+      }
+
       byte[] data = block.getData();
       Resource resource = m_projectFile.addResource();
       resource.setName(DatatypeConverter.getString(data, 0));
-
-      Block resourceTask = getChildBlock(block, "CResourceTask");
-      if (resourceTask != null)
-      {
-         resource.setUniqueID(Integer.valueOf(DatatypeConverter.getShort(resourceTask.getData(), 9)));
-      }
+      resource.setUniqueID(Integer.valueOf(DatatypeConverter.getShort(resourceTask.getData(), 9)));
 
       Block calendarBlock = getChildBlock(block, "CCalendar");
       if (calendarBlock != null)
