@@ -138,8 +138,8 @@
                                              <xs:attribute name="description" type="xs:string"/>
                                              <xs:attribute name="uuid" type="phoenixUuid"/>
                                              <xs:attribute name="creation_time" type="xs:dateTime"/>
-                                             <xs:attribute name="total_cost" type="xs:int"/>
-                                             <xs:attribute name="billed" type="xs:int"/>
+                                             <xs:attribute name="total_cost" type="xs:double"/>
+                                             <xs:attribute name="billed" type="xs:double"/>
                                              <xs:attribute name="explicit" type="xs:boolean"/>
                                              <xs:attribute name="current_start" type="xs:dateTime"/>
                                              <xs:attribute name="current_finish" type="phoenixFinish"/>
