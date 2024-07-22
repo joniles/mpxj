@@ -6,6 +6,9 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="13.0.3">
+			<action dev="joniles" type="update">Updated to POI 5.3.0</action>
+			<action dev="joniles" type="update">Update Phoenix schemas to ensure that cost types are represented as doubles.</action>
+			<action dev="joniles" type="update">Updated to avoid reading apparently invalid resources from Project Commander files.</action>
 		</release>
 		<release date="2024-07-08" version="13.0.2">
 			<action dev="joniles" type="update">When writing XER files, provide a default value for the Resource ID if it is not populated.</action>
