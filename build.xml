@@ -30,7 +30,7 @@
 
 		<!-- Runtime Dependencies -->
 		<!-- NOTE: poi.jar is only used to name the legacy DLL -->
-		<property name="poi.jar" value="poi-5.2.2 "/>
+		<property name="poi.jar" value="poi-5.2.2"/>
 		<property name="poifs.jar" value="poifs-5.2.2"/>
 		<property name="commons-collections.jar" value="commons-collections4-4.4" />
 		<property name="commons-io.jar" value="commons-io-2.11.0" />
@@ -55,10 +55,10 @@
 
 		<!-- Dependency Paths -->
 		<path id="poifs.path"><pathelement location="${basedir}/../poifs/target/${poifs.jar}.jar" /></path>
-		<path id="commons-collections.path"><pathelement location="${lib.dir}/${commons-collections.jar}.jar" /></path>
-		<path id="commons-io.path"><pathelement location="${lib.dir}/${commons-io.jar}.jar" /></path>
-		<path id="commons-math.path"><pathelement location="${lib.dir}/${commons-math.jar}.jar" /></path>
-		<path id="log4j-api.path"><pathelement location="${lib.dir}/${log4j-api.jar}.jar" /></path>
+		<path id="commons-collections.path"><pathelement location="${basedir}/../poifs/target/${commons-collections.jar}.jar" /></path>
+		<path id="commons-io.path"><pathelement location="${basedir}/../poifs/target/${commons-io.jar}.jar" /></path>
+		<path id="commons-math.path"><pathelement location="${basedir}/../poifs/target/${commons-math.jar}.jar" /></path>
+		<path id="log4j-api.path"><pathelement location="${basedir}/../poifs/target/${log4j-api.jar}.jar" /></path>
 		<path id="rtfparserkit.path"><pathelement location="${lib.dir}/${rtfparserkit.jar}.jar" /></path>
 		<path id="sqlite-jdbc.path"><pathelement location="${lib.dir}/${sqlite-jdbc.jar}.jar" /></path>
 		<path id="jsoup.path"><pathelement location="${lib.dir}/${jsoup.jar}.jar" /></path>
@@ -562,19 +562,19 @@
 		</java>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${commons-collections.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}/../poifs/target/${commons-collections.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-io.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${commons-io.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-io.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}/../poifs/target/${commons-io.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${commons-math.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}/../poifs/target/${commons-math.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.net45.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${log4j-api.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${lib.dir}\${log4j-api.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${log4j-api.net45.dll} -target:library -keyfile:${mpxj.snk} -version:${current.version}.0 ${basedir}/../poifs/target/${log4j-api.jar}.jar" />
 		</exec>
 
 		<!-- POI >= 5.0.0 won't compile as-is using IKVM. Instead we use poifs which is a cut down
@@ -774,19 +774,19 @@
 		</java>
 
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${commons-collections.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-collections.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}/../poifs/target/${commons-collections.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-io.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${commons-io.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-io.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}/../poifs/target/${commons-io.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${commons-math.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${commons-math.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}/../poifs/target/${commons-math.jar}.jar" />
 		</exec>
 
 		<exec executable="${ikvmc.nca31.cmd}" dir="${basedir}" failonerror="true">
-			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${log4j-api.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}\lib\${log4j-api.jar}.jar" />
+			<arg line="-nowarn:0111 -nowarn:0100 -nowarn:0003 -out:${log4j-api.nca31.dll} -target:library -key:mpxj-key -version:${current.version}.0 -reference:System.Runtime.dll -reference:System.Runtime.Extensions.dll -reference:System.Threading.dll -reference:System.Threading.Thread.dll ${basedir}/../poifs/target/${log4j-api.jar}.jar" />
 		</exec>
 
 		<!-- POI >= 5.0.0 won't compile as-is using IKVM. Instead we use poifs which is a cut down
