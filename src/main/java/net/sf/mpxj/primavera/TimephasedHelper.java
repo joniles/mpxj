@@ -1,6 +1,7 @@
 package net.sf.mpxj.primavera;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,16 +42,19 @@ final class TimephasedHelper
 
          if (workHours.getDuration() != 0)
          {
+            double days = calendar.getDuration(currentStart, currentFinish).getDuration();
+
             TimephasedWork timephasedItem = new TimephasedWork();
             timephasedItem.setStart(currentStart);
             timephasedItem.setFinish(currentFinish);
             timephasedItem.setTotalAmount(workHours);
+            timephasedItem.setAmountPerDay(Duration.getInstance(workHours.getDuration()/days, TimeUnit.HOURS));
             list.add(timephasedItem);
          }
 
          // TODO: get this to work for round-trip XER/PMXML read/write
          // BUT: add a flag which prevents export to MSPDI until we have sorted out normalisation and correct MSPDI export
-         // CHECK: that the segmentation tools give the exected result
+         // CHECK: that the segmentation tools give the expected result
          
          currentStart = calendar.getNextWorkStart(currentFinish);
       }

@@ -1799,11 +1799,12 @@ final class PrimaveraReader
             populateUserDefinedFieldValues("TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
 
             // Read timephased data
+            TimephasedWorkContainer timephasedPlannedWork = TimephasedHelper.read(assignment.getEffectiveCalendar(), assignment.getPlannedStart(), row.getString("target_crv"));
             TimephasedWorkContainer timephasedActualWork = TimephasedHelper.read(assignment.getEffectiveCalendar(), assignment.getActualStart(), row.getString("actual_crv"));
             TimephasedWorkContainer timephasedRemainingWork = TimephasedHelper.read(assignment.getEffectiveCalendar(), assignment.getRemainingEarlyStart(), row.getString("remain_crv"));
+            assignment.setTimephasedPlannedWork(timephasedPlannedWork);
             assignment.setTimephasedActualWork(timephasedActualWork);
             assignment.setTimephasedWork(timephasedRemainingWork);
-            assignment.setWorkContour(WorkContour.CONTOURED);
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
