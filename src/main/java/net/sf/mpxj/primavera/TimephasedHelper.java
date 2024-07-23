@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.TimephasedWorkContainer;
@@ -118,6 +119,16 @@ final class TimephasedHelper
       }
 
       return result.toString();
+   }
+
+   public static Integer getCurveID(ResourceAssignment assignment)
+   {
+      if (assignment.getHasTimephasedData())
+      {
+         // Apparently hard-coded ID representing manually entered curve values
+         return Integer.valueOf(9);
+      }
+      return CurveHelper.getCurveID(assignment.getWorkContour());
    }
 
    private static final DecimalFormat FORMAT = new DecimalFormat("#");

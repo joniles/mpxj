@@ -992,16 +992,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return type == null ? PercentCompleteType.DURATION : type;
    }
 
-   public static Integer getCurveID(ResourceAssignment assignment)
-   {
-      if (assignment.getHasTimephasedData())
-      {
-         // Apparently hard-coded ID representing manually entered curve values
-         return Integer.valueOf(9);
-      }
-      return CurveHelper.getCurveID(assignment.getWorkContour());
-   }
-
    private Charset m_charset = CharsetHelper.CP1252;
    private ProjectFile m_file;
    private XerWriter m_writer;
@@ -1368,7 +1358,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("rate_type", r -> RateTypeHelper.getXerFromInstance(r.getRateIndex()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", r -> Currency.ZERO);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", r -> Integer.valueOf(0));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", r -> getCurveID(r));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", r -> TimephasedHelper.getCurveID(r));
       RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", r -> r.getResource() == null ? ResourceType.WORK : r.getResource().getType());
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", r -> r.getRateSource());
       RESOURCE_ASSIGNMENT_COLUMNS.put("create_user", r -> null);
