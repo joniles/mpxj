@@ -1,5 +1,6 @@
 package net.sf.mpxj.primavera;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +15,6 @@ final class TimephasedHelper
 {
    public static TimephasedWorkContainer read(ProjectCalendar calendar, LocalDateTime start, String values)
    {
-      System.out.println(values);
-
       if (values == null || values.isEmpty())
       {
          return null;
@@ -40,8 +39,9 @@ final class TimephasedHelper
          Duration workHours = Duration.getInstance(Double.valueOf(item[0]), TimeUnit.HOURS);
          Duration periodHours = Duration.getInstance(Double.valueOf(item[1]), TimeUnit.HOURS);
          LocalDateTime currentFinish = calendar.getDate(currentStart, periodHours);
+         Duration calendarHours = calendar.getWork(currentStart, currentFinish, TimeUnit.HOURS);
 
-         if (workHours.getDuration() != 0)
+         if (workHours.getDuration() != 0 || calendarHours.getDuration() != 0)
          {
             double days = calendar.getDuration(currentStart, currentFinish).getDuration();
 
@@ -53,10 +53,6 @@ final class TimephasedHelper
             list.add(timephasedItem);
          }
 
-         // TODO: get this to work for round-trip XER/PMXML read/write
-         // BUT: add a flag which prevents export to MSPDI until we have sorted out normalisation and correct MSPDI export
-         // CHECK: that the segmentation tools give the expected result
-         
          currentStart = calendar.getNextWorkStart(currentFinish);
       }
 
@@ -81,8 +77,6 @@ final class TimephasedHelper
 
    public static String write(ProjectCalendar calendar, List<TimephasedWork> items)
    {
-      // NOTE: needs curv_id set to 9. Hard coded value for manual curve, only set when timephased data present?
-      // Output seems to need trailing zero blocks to work?
       if (items == null || items.isEmpty())
       {
          return null;
@@ -116,17 +110,15 @@ final class TimephasedHelper
             result.append(";");
          }
 
-         // Can we have decimal values or just integers?
-         // Are we always recording timephased data as hours?
-         result.append((int)workHours.getDuration());
+         result.append(FORMAT.format(workHours.getDuration()));
          result.append(':');
-         result.append((int)periodHours.getDuration());
+         result.append(FORMAT.format(periodHours.getDuration()));
 
          previousFinish = item.getFinish();
       }
 
-      System.out.println(result.toString());
-
       return result.toString();
    }
+
+   private static final DecimalFormat FORMAT = new DecimalFormat("#");
 }

@@ -733,6 +733,11 @@ public class ProjectTreeController
             ((MSPDIWriter) writer).setSplitTimephasedAsDays(false);
          }
 
+         if (fileClass == PrimaveraXERFileWriter.class)
+         {
+            ((PrimaveraXERFileWriter) writer).setWriteTimephasedData(true);
+         }
+
          writer.write(m_projectFile, file);
       }
 
