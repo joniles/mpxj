@@ -155,6 +155,7 @@ final class PrimaveraPMProjectWriter
          m_activityTypePopulated = m_projectFile.getTasks().getPopulatedFields().contains(TaskField.ACTIVITY_TYPE);
          m_wbsSequence = new ObjectSequence(0);
          m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(m_projectFile);
+         m_projectFromPrimavera = "Primavera".equals(m_projectFile.getProjectProperties().getFileApplication());
 
          if (baseline)
          {
@@ -1185,6 +1186,14 @@ final class PrimaveraPMProjectWriter
       xml.setPlannedUnitsPerTime(unitsHelper.getPlannedUnitsPerTime());
       xml.setRemainingUnits(unitsHelper.getRemainingUnits());
       xml.setRemainingUnitsPerTime(unitsHelper.getRemainingUnitsPerTime());
+
+      if (m_projectFromPrimavera)
+      {
+         ProjectCalendar calendar = mpxj.getEffectiveCalendar();
+         xml.setPlannedCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedPlannedWork()));
+         xml.setActualCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedActualWork()));
+         xml.setRemainingCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedWork()));
+      }
    }
 
    /**
@@ -2071,4 +2080,5 @@ final class PrimaveraPMProjectWriter
    private ObjectSequence m_wbsSequence;
    private Set<FieldType> m_userDefinedFields;
    private boolean m_activityTypePopulated;
+   private boolean m_projectFromPrimavera;
 }

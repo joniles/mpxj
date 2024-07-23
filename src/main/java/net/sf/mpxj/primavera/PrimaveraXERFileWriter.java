@@ -114,16 +114,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return m_charset;
    }
 
-   public void setWriteTimephasedData(boolean value)
-   {
-      m_writeTimephasedData = value;
-   }
-
-   public boolean getWriteTimephasedData()
-   {
-      return m_writeTimephasedData;
-   }
-
    @Override public void write(ProjectFile projectFile, OutputStream outputStream) throws IOException
    {
       m_file = projectFile;
@@ -342,7 +332,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeResourceAssignments()
    {
       Map<String, ExportFunction<ResourceAssignment>> columns;
-      if (m_writeTimephasedData && m_projectFromPrimavera)
+      if (m_projectFromPrimavera)
       {
          columns = RESOURCE_ASSIGNMENT_COLUMNS;
       }
@@ -352,7 +342,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          columns.put("target_crv", r -> null);
          columns.put("remain_crv", r -> null);
          columns.put("actual_crv", r -> null);
-         columns.put("curv_id", r -> CurveHelper.getCurveID(r.getWorkContour()));
       }
 
       m_writer.writeTable("TASKRSRC", RESOURCE_ASSIGNMENT_COLUMNS);
@@ -1002,7 +991,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private Set<FieldType> m_userDefinedFields;
    private Task m_temporaryRootWbs;
    private Integer m_originalOutlineLevel;
-   private boolean m_writeTimephasedData;
    private boolean m_projectFromPrimavera;
 
    private static final Integer DEFAULT_PROJECT_ID = Integer.valueOf(1);
@@ -1358,7 +1346,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("rate_type", r -> RateTypeHelper.getXerFromInstance(r.getRateIndex()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", r -> Currency.ZERO);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", r -> Integer.valueOf(0));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", r -> TimephasedHelper.getCurveID(r));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", r -> CurveHelper.getCurveID(r.getWorkContour()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", r -> r.getResource() == null ? ResourceType.WORK : r.getResource().getType());
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty_source_type", r -> r.getRateSource());
       RESOURCE_ASSIGNMENT_COLUMNS.put("create_user", r -> null);

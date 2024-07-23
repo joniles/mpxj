@@ -1753,7 +1753,7 @@ final class PrimaveraReader
             ResourceAssignment assignment = task.addResourceAssignment(resource);
             processFields(m_assignmentFields, row, assignment);
 
-            assignment.setWorkContour(m_project.getWorkContours().getByUniqueID(row.getInteger("curv_id")));
+            assignment.setWorkContour(CurveHelper.getWorkContour(m_project, row.getInteger("curv_id")));
             assignment.setRateIndex(RateTypeHelper.getInstanceFromXer(row.getString("rate_type")));
             assignment.setRole(m_project.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getDouble("cost_per_qty")));

@@ -48,6 +48,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.BaselineStrategy;
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
@@ -1886,7 +1887,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
             assignment.setActualOvertimeCost(row.getActualOvertimeCost());
             assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));
-            assignment.setWorkContour(m_projectFile.getWorkContours().getByUniqueID(row.getResourceCurveObjectId()));
+            assignment.setWorkContour(CurveHelper.getWorkContour(m_projectFile, row.getResourceCurveObjectId()));
             assignment.setRateIndex(RateTypeHelper.getInstanceFromXml(row.getRateType()));
             assignment.setRole(m_projectFile.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getCostPerQuantity()));
@@ -1926,7 +1927,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100));
             }
 
+            // Add User Defined Fields
             populateUserDefinedFieldValues(assignment, row.getUDF());
+
+            // Read timephased data
+            TimephasedWorkContainer timephasedPlannedWork = TimephasedHelper.read(assignment.getEffectiveCalendar(), assignment.getPlannedStart(), row.getPlannedCurve());
+            TimephasedWorkContainer timephasedActualWork = TimephasedHelper.read(assignment.getEffectiveCalendar(), assignment.getActualStart(), row.getActualCurve());
+            TimephasedWorkContainer timephasedRemainingWork = TimephasedHelper.read(assignment.getEffectiveCalendar(), assignment.getRemainingEarlyStart(), row.getRemainingCurve());
+            assignment.setTimephasedPlannedWork(timephasedPlannedWork);
+            assignment.setTimephasedActualWork(timephasedActualWork);
+            assignment.setTimephasedWork(timephasedRemainingWork);
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
