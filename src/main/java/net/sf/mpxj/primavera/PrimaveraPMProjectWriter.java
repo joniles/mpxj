@@ -1169,12 +1169,8 @@ final class PrimaveraPMProjectWriter
       xml.setProjectObjectId(m_projectObjectID);
       xml.setRemainingCost(getCurrency(mpxj.getRemainingCost()));
 
-      // NOTE: this isn't correct, we're actually looking for the duration
-      // over which the remaining work takes place.
-      // Something like this is an approximation - but is wrong as often as it is correct.
-      //xml.setRemainingDuration(getDurationInHours(mpxj.getEffectiveCalendar().getDuration(mpxj.getRemainingEarlyStart(), mpxj.getRemainingEarlyFinish()).convertUnits(TimeUnit.HOURS, mpxj.getEffectiveCalendar())));
-      // Needs more thought!
-      xml.setRemainingDuration(getDurationInHours(mpxj.getRemainingWork()));
+      // NOTE: this is better than the last approach, but not correct in all cases - needs more work!
+      xml.setRemainingDuration(getDurationInHours(task.getRemainingDuration()));
 
       xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(task.getParentTaskUniqueID());
