@@ -103,14 +103,14 @@ abstract class AbstractUnitsHelper
       double time = NumberHelper.getDouble(getDurationInHours(file, Optional.ofNullable(task.getPlannedDuration()).orElseGet(task::getDuration)));
       double unitsPerTime = time == 0 ? 0 : units / time;
       m_plannedUnits = Double.valueOf(units);
-      m_plannedUnitsPerTime = Double.valueOf(unitsPerTime);
+      m_plannedUnitsPerTime = getPercentage(assignment.getUnits());
 
       // Remaining
       if (assignment.getActualStart() == null)
       {
          // The assignment has not started
          m_remainingUnits = m_plannedUnits;
-         m_remainingUnitsPerTime = m_plannedUnitsPerTime;
+         m_remainingUnitsPerTime = getPercentage(assignment.getRemainingUnits());
       }
       else
       {
@@ -121,13 +121,13 @@ abstract class AbstractUnitsHelper
             double remainingUnits = NumberHelper.getDouble(getDurationInHours(file, assignment.getRemainingWork()));
             double remainingUnitsPerTime = remainingTime == 0 ? 0 : remainingUnits / remainingTime;
             m_remainingUnits = Double.valueOf(remainingUnits);
-            m_remainingUnitsPerTime = Double.valueOf(remainingUnitsPerTime);
+            m_remainingUnitsPerTime = Double.valueOf(NumberHelper.getDouble(assignment.getRemainingUnits()) / 100.0);
          }
          else
          {
             // The assignment is complete
             m_remainingUnits = NumberHelper.DOUBLE_ZERO;
-            m_remainingUnitsPerTime = m_plannedUnitsPerTime;
+            m_remainingUnitsPerTime = getPercentage(assignment.getRemainingUnits());
          }
       }
    }

@@ -1223,6 +1223,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       FIELD_TYPE_MAP.put("remain_drtn_hr_cnt", DataType.DURATION);
       FIELD_TYPE_MAP.put("remain_equip_qty", DataType.DURATION);
       FIELD_TYPE_MAP.put("remain_qty", DataType.DURATION);
+      FIELD_TYPE_MAP.put("remain_qty_per_hr", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("remain_work_qty", DataType.DURATION);
       FIELD_TYPE_MAP.put("restart_date", DataType.DATE);
       FIELD_TYPE_MAP.put("resume_date", DataType.DATE);
