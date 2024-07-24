@@ -1787,10 +1787,12 @@ final class PrimaveraReader
             if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)
             {
                assignment.setUnits(row.getDouble("target_qty"));
+               assignment.setUnits(row.getDouble("remain_qty"));
             }
             else // RT_Labor & RT_Equip
             {
                assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("target_qty_per_hr")) * 100));
+               assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getDouble("remain_qty_per_hr")) * 100));
             }
 
             // Add User Defined Fields

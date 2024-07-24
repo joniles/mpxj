@@ -1931,10 +1931,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)
             {
                assignment.setUnits(row.getPlannedUnits());
+               assignment.setRemainingUnits(row.getRemainingUnits());
             }
             else // RT_Labor & RT_Equip
             {
                assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100));
+               assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getRemainingUnitsPerTime()) * 100));
             }
 
             populateUserDefinedFieldValues(assignment, row.getUDF());
