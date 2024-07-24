@@ -1,6 +1,12 @@
 # Changelog
 
 ## 13.0.3 (unreleased)
+* Updated to POI 5.3.0
+* Update Phoenix schemas to ensure that cost types are represented as doubles.
+* Updated to avoid reading apparently invalid resources from Project Commander files.
+* Correct the `Finish` attribute for resource assignments when reading PMXML files.
+* Improve accuracy of the `RemainingDuration` attribute for resource assignments when writing PMXML files.
+* Improve recognition of non-working days when reading calendars certain PMXML files.
 
 ## 13.0.2 (2024-07-08)
 * When writing XER files, provide a default value for the Resource ID if it is not populated.
