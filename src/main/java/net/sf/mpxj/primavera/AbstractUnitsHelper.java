@@ -107,75 +107,6 @@ abstract class AbstractUnitsHelper
    }
 
    /**
-    * Units calculations for a material  resource.
-    *
-    * @param assignment resource assignment
-    */
-//   private void materialResource(ResourceAssignment assignment)
-//   {
-//      // Planned
-//      ProjectFile file = assignment.getParentFile();
-//      m_plannedUnits = getDurationInHours(file, Optional.ofNullable(assignment.getPlannedWork()).orElseGet(assignment::getWork));
-//      m_plannedUnitsPerTime = getPercentage(assignment.getUnits());
-//      m_remainingUnitsPerTime = getPercentage(assignment.getRemainingUnits());
-//
-//      // Remaining
-//      if (assignment.getActualStart() == null)
-//      {
-//         // The assignment has not started
-//         m_remainingUnits = m_plannedUnits;
-//      }
-//      else
-//      {
-//         if (assignment.getActualFinish() == null)
-//         {
-//            // The assignment is in progress
-//            m_remainingUnits = getDurationInHours(file, assignment.getRemainingWork());
-//         }
-//         else
-//         {
-//            // The assignment is complete
-//            m_remainingUnits = NumberHelper.DOUBLE_ZERO;
-//         }
-//      }
-//   }
-
-   /**
-    * Units calculations for a non-material  resource.
-    *
-    * @param assignment resource assignment
-    */
-//   private void otherResource(ResourceAssignment assignment)
-//   {
-//      // Planned
-//      ProjectFile file = assignment.getParentFile();
-//      Task task = assignment.getTask();
-//      m_plannedUnits = getDurationInHours(file, Optional.ofNullable(assignment.getPlannedWork()).orElseGet(assignment::getWork));
-//      m_plannedUnitsPerTime = getPercentage(assignment.getUnits());
-//      m_remainingUnitsPerTime = getPercentage(assignment.getRemainingUnits());
-//
-//      // Remaining
-//      if (assignment.getActualStart() == null)
-//      {
-//         // The assignment has not started
-//         m_remainingUnits = m_plannedUnits;
-//      }
-//      else
-//      {
-//         if (assignment.getActualFinish() == null)
-//         {
-//            // The assignment is in progress
-//            m_remainingUnits = getDurationInHours(file, assignment.getRemainingWork());
-//         }
-//         else
-//         {
-//            // The assignment is complete
-//            m_remainingUnits = NumberHelper.DOUBLE_ZERO;
-//         }
-//      }
-//   }
-
-   /**
     * Retrieve a duration in the form required by Primavera.
     *
     * @param duration Duration instance
@@ -227,8 +158,8 @@ abstract class AbstractUnitsHelper
     */
    protected abstract double getScale();
 
-   private Double m_plannedUnits;
-   private Double m_plannedUnitsPerTime;
-   private Double m_remainingUnits;
-   private Double m_remainingUnitsPerTime;
+   private final Double m_plannedUnits;
+   private final Double m_plannedUnitsPerTime;
+   private final Double m_remainingUnits;
+   private final Double m_remainingUnitsPerTime;
 }
