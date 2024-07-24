@@ -914,6 +914,7 @@ Owner| | |✓|✓
 Percent Work Complete|✓|✓|✓|✓
 Rate Source|✓|✓|✓|✓
 Regular Work| |✓|✓|✓
+Remaining Assignment Units|✓|✓|✓|✓
 Remaining Cost| |✓|✓|✓
 Remaining Overtime Cost| |✓|✓|✓
 Remaining Overtime Work| |✓|✓|✓

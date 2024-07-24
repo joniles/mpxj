@@ -534,6 +534,7 @@ public enum AssignmentField implements FieldType
    REMAINING_EARLY_FINISH(DataType.DATE),
    REMAINING_LATE_START(DataType.DATE),
    REMAINING_LATE_FINISH(DataType.DATE),
+   REMAINING_ASSIGNMENT_UNITS(DataType.UNITS),
    FINISH(DataType.DATE);
 
    /**
