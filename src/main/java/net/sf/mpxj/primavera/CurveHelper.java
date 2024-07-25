@@ -48,7 +48,7 @@ final class CurveHelper
          return null;
       }
 
-      // Special case: the "manual" curve type won't be exported
+      // Special case: the "manual" curve type won't be present in an exported file, but the ID is a fixed value
       if (id.equals(WorkContour.CONTOURED.getUniqueID()))
       {
          return WorkContour.CONTOURED;
