@@ -120,5 +120,5 @@ final class TimephasedHelper
       return result.toString();
    }
 
-   private static final DecimalFormat FORMAT = new DecimalFormat("#");
+   private static final DecimalFormat FORMAT = new DecimalFormat("#.#");
 }
