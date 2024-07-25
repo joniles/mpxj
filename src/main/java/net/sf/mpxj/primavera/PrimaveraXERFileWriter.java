@@ -121,6 +121,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_rateObjectID = new ObjectSequence(1);
       m_noteObjectID = new ObjectSequence(1);
       m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(projectFile);
+      m_projectFromPrimavera = "Primavera".equals(m_file.getProjectProperties().getFileApplication());
 
       // We need to do this first to ensure the default topic is created if required
       populateWbsNotes();
@@ -330,8 +331,22 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceAssignments()
    {
+      Map<String, ExportFunction<ResourceAssignment>> columns;
+      if (m_projectFromPrimavera)
+      {
+         columns = RESOURCE_ASSIGNMENT_COLUMNS;
+      }
+      else
+      {
+         // Don't write timephased data if the schedule isn't from P6
+         columns = new LinkedHashMap<>(RESOURCE_ASSIGNMENT_COLUMNS);
+         columns.put("target_crv", r -> null);
+         columns.put("remain_crv", r -> null);
+         columns.put("actual_crv", r -> null);
+      }
+
       m_writer.writeTable("TASKRSRC", RESOURCE_ASSIGNMENT_COLUMNS);
-      m_file.getResourceAssignments().stream().filter(t -> isValidAssignment(t)).sorted(Comparator.comparing(ResourceAssignment::getUniqueID)).forEach(t -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_COLUMNS, t));
+      m_file.getResourceAssignments().stream().filter(t -> isValidAssignment(t)).sorted(Comparator.comparing(ResourceAssignment::getUniqueID)).forEach(t -> m_writer.writeRecord(columns, t));
    }
 
    /**
@@ -977,6 +992,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private Set<FieldType> m_userDefinedFields;
    private Task m_temporaryRootWbs;
    private Integer m_originalOutlineLevel;
+   private boolean m_projectFromPrimavera;
 
    private static final Integer DEFAULT_PROJECT_ID = Integer.valueOf(1);
    private static final String RESOURCE_ID_PREFIX = "RESOURCE-";
@@ -1306,12 +1322,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_lag_drtn_hr_cnt", r -> r.getDelay());
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_qty_per_hr", r -> new XerUnitsHelper(r).getPlannedUnitsPerTime());
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_qty", r -> r.getActualOvertimeWork());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_qty", r -> PrimaveraXERFileWriter.getActualRegularWork(r));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_qty", r -> getActualRegularWork(r));
       RESOURCE_ASSIGNMENT_COLUMNS.put("relag_drtn_hr_cnt", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("ot_factor", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty", r -> r.getOverrideRate());
       RESOURCE_ASSIGNMENT_COLUMNS.put("target_cost", r -> Currency.getInstance(r.getPlannedCost()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", r -> Currency.getInstance(PrimaveraXERFileWriter.getActualRegularCost(r)));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", r -> Currency.getInstance(getActualRegularCost(r)));
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_cost", r -> Currency.getInstance(r.getActualOvertimeCost()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("remain_cost", r -> Currency.getInstance(r.getRemainingCost()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_start_date", r -> r.getActualStart());
@@ -1323,9 +1339,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_start_date", r -> r.getRemainingLateStart());
       RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_end_date", r -> r.getRemainingLateFinish());
       RESOURCE_ASSIGNMENT_COLUMNS.put("rollup_dates_flag", r -> Boolean.TRUE);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_crv", r -> null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_crv", r -> null);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("actual_crv", r -> null);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_crv", r -> TimephasedHelper.write(r.getTask().getEffectiveCalendar(), r.getTimephasedPlannedWork()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_crv", r -> TimephasedHelper.write(r.getTask().getEffectiveCalendar(), r.getTimephasedWork()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("actual_crv", r -> TimephasedHelper.write(r.getTask().getEffectiveCalendar(), r.getTimephasedActualWork()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("ts_pend_act_end_flag", r -> Boolean.FALSE);
       RESOURCE_ASSIGNMENT_COLUMNS.put("guid", r -> r.getGUID());
       RESOURCE_ASSIGNMENT_COLUMNS.put("rate_type", r -> RateTypeHelper.getXerFromInstance(r.getRateIndex()));

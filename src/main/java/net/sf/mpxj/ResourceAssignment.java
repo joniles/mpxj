@@ -656,6 +656,28 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Retrieves the timephased breakdown of the planned work for this
+    * resource assignment.
+    *
+    * @return timephased planned work
+    */
+   public List<TimephasedWork> getTimephasedPlannedWork()
+   {
+      return m_timephasedPlannedWork == null ? null : m_timephasedPlannedWork.getData();
+   }
+
+   /**
+    * Sets the timephased breakdown of the planned work for this
+    * resource assignment.
+    *
+    * @param data timephased data
+    */
+   public void setTimephasedPlannedWork(TimephasedWorkContainer data)
+   {
+      m_timephasedPlannedWork = data;
+   }
+
+   /**
     * Retrieves the timephased breakdown of the completed work for this
     * resource assignment.
     *
@@ -3210,11 +3232,14 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       return Boolean.TRUE;
    }
 
-   private TimephasedWorkContainer m_timephasedWork;
-   private TimephasedCostContainer m_timephasedCost;
+   private TimephasedWorkContainer m_timephasedPlannedWork;
+   private TimephasedCostContainer m_timephasedPlannedCost;
 
    private TimephasedWorkContainer m_timephasedActualWork;
    private TimephasedCostContainer m_timephasedActualCost;
+
+   private TimephasedWorkContainer m_timephasedWork;
+   private TimephasedCostContainer m_timephasedCost;
 
    private TimephasedWorkContainer m_timephasedOvertimeWork;
    private TimephasedWorkContainer m_timephasedActualOvertimeWork;

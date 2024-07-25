@@ -7,6 +7,8 @@
 	<body>
 		<release date="unreleased" version="13.0.3">
 			<action dev="joniles" type="update">Updated to POI 5.3.0</action>
+			<action dev="joniles" type="update">Add support for reading and writing timephased data for activities in P6 schedules which have a "manual" curve. (Note: MPXJ does not currently support translating timephased data between different applications, so timephased data read from an MPP file won't be written to a P6 schedule and vice versa).</action>
+			<action dev="joniles" type="update">Add an attribute to the `ResourceAssignment` class to represent timephased planned work. This is read from/written to P6 as Budgeted Work.</action>
 			<action dev="joniles" type="update">Update Phoenix schemas to ensure that cost types are represented as doubles.</action>
 			<action dev="joniles" type="update">Updated to avoid reading apparently invalid resources from Project Commander files.</action>
 			<action dev="joniles" type="update">Correct the `Finish` attribute for resource assignments when reading PMXML files.</action>

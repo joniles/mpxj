@@ -48,6 +48,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.BaselineStrategy;
 import net.sf.mpxj.DataType;
+import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
@@ -1866,6 +1867,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       for (ResourceAssignmentType row : assignments)
       {
          Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(row.getActivityObjectId()));
+         ProjectCalendar effectiveCalendar = task.getEffectiveCalendar();
 
          Integer roleID = m_roleClashMap.getID(row.getRoleObjectId());
          Integer resourceID = row.getResourceObjectId();
@@ -1897,7 +1899,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setGUID(DatatypeConverter.parseUUID(row.getGUID()));
             assignment.setActualOvertimeCost(row.getActualOvertimeCost());
             assignment.setActualOvertimeWork(getDuration(row.getActualOvertimeUnits()));
-            assignment.setWorkContour(m_projectFile.getWorkContours().getByUniqueID(row.getResourceCurveObjectId()));
+            assignment.setWorkContour(CurveHelper.getWorkContour(m_projectFile, row.getResourceCurveObjectId()));
             assignment.setRateIndex(RateTypeHelper.getInstanceFromXml(row.getRateType()));
             assignment.setRole(m_projectFile.getResourceByUniqueID(roleID));
             assignment.setOverrideRate(readRate(row.getCostPerQuantity()));
@@ -1913,7 +1915,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             // calculate work
             Duration remainingWork = assignment.getRemainingWork();
             Duration actualWork = assignment.getActualWork();
-            Duration totalWork = Duration.add(actualWork, remainingWork, assignment.getEffectiveCalendar());
+            Duration totalWork = Duration.add(actualWork, remainingWork, effectiveCalendar);
             assignment.setWork(totalWork);
 
             // calculate cost
@@ -1931,7 +1933,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100));
             assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getRemainingUnitsPerTime()) * 100));
 
+            // Add User Defined Fields
             populateUserDefinedFieldValues(assignment, row.getUDF());
+
+            // Read timephased data
+            TimephasedWorkContainer timephasedPlannedWork = TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getPlannedCurve());
+            TimephasedWorkContainer timephasedActualWork = TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getActualCurve());
+            TimephasedWorkContainer timephasedRemainingWork = TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getRemainingCurve());
+            assignment.setTimephasedPlannedWork(timephasedPlannedWork);
+            assignment.setTimephasedActualWork(timephasedActualWork);
+            assignment.setTimephasedWork(timephasedRemainingWork);
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }

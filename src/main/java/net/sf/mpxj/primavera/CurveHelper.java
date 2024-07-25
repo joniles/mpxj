@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.primavera;
 
+import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.WorkContour;
 
 /**
@@ -32,11 +33,27 @@ final class CurveHelper
 {
    public static Integer getCurveID(WorkContour contour)
    {
-      if (contour == null || contour.isContourFlat() || contour.isContourManual())
+      if (contour == null || contour.isContourFlat())
       {
          return null;
       }
 
       return contour.getUniqueID();
+   }
+
+   public static WorkContour getWorkContour(ProjectFile file, Integer id)
+   {
+      if (id == null)
+      {
+         return null;
+      }
+
+      // Special case: the "manual" curve type won't be present in an exported file, but the ID is a fixed value
+      if (id.equals(WorkContour.CONTOURED.getUniqueID()))
+      {
+         return WorkContour.CONTOURED;
+      }
+
+      return file.getWorkContours().getByUniqueID(id);
    }
 }

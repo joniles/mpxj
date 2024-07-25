@@ -233,6 +233,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
          m_extendedAttributes = getExtendedAttributesList();
 
          m_sourceIsMicrosoftProject = MICROSOFT_PROJECT_FILES.contains(m_projectFile.getProjectProperties().getFileType());
+         m_sourceIsPrimavera = "Primavera".equals(m_projectFile.getProjectProperties().getFileApplication());
          m_userDefinedFieldMap = new UserDefinedFieldMap(projectFile, MAPPING_TARGET_CUSTOM_FIELDS);
 
          m_taskMapper = new MicrosoftProjectUniqueIDMapper(m_projectFile.getTasks());
@@ -2191,7 +2192,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAssignmentTimephasedData(ResourceAssignment mpx, Project.Assignments.Assignment xml)
    {
-      if (!m_writeTimephasedData || !mpx.getHasTimephasedData())
+      if (!m_writeTimephasedData || !mpx.getHasTimephasedData() || m_sourceIsPrimavera)
       {
          return;
       }
@@ -2709,6 +2710,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private boolean m_splitTimephasedAsDays = true;
 
    private boolean m_writeTimephasedData;
+
+   private boolean m_sourceIsPrimavera;
 
    private SaveVersion m_saveVersion = SaveVersion.Project2016;
 
