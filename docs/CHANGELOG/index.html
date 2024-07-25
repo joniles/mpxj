@@ -6126,13 +6126,16 @@
 <h2 id="1303-unreleased">13.0.3 (unreleased)</h2>
 <ul>
 <li>Updated to POI 5.3.0</li>
+<li>Add support for reading and writing timephased data for activities in P6 schedules which have a "manual" curve. (Note: MPXJ does not currently support translating timephased data between different applications, so timephased data read from an MPP file won't be written to a P6 schedule and vice versa).</li>
+<li>Add an attribute to the <code>ResourceAssignment</code> class to represent timephased planned work. This is read from/written to P6 as Budgeted Work.</li>
 <li>Update Phoenix schemas to ensure that cost types are represented as doubles.</li>
 <li>Updated to avoid reading apparently invalid resources from Project Commander files.</li>
 <li>Correct the <code>Finish</code> attribute for resource assignments when reading PMXML files.</li>
 <li>Improve accuracy of the <code>RemainingDuration</code> attribute for resource assignments when writing PMXML files.</li>
 <li>Improve recognition of non-working days when reading calendars certain PMXML files.</li>
 <li>Add support for the Resource Assignment field Remaining Units. (Note: this field defaults to the same value as Units if it is not explicitly populated).</li>
-<li>Ensure the Resource Assignment field Remaining Units is populated from Remaining Units/Time when reading P6 schedules.</li>
+<li>Ensure the Resource Assignment field Remaining Units is read from and written to P6 schedules.</li>
+<li>Improve handling of invalid calendar exception data when reading P6 schedules from XER files or a P6 database.</li>
 </ul>
 <h2 id="1302-2024-07-08">13.0.2 (2024-07-08)</h2>
 <ul>
