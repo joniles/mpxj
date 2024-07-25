@@ -1169,9 +1169,6 @@ final class PrimaveraPMProjectWriter
       xml.setProjectObjectId(m_projectObjectID);
       xml.setRemainingCost(getCurrency(mpxj.getRemainingCost()));
 
-      // NOTE: this is better than the last approach, but not correct in all cases - needs more work!
-      xml.setRemainingDuration(getDurationInHours(task.getRemainingDuration()));
-
       xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(task.getParentTaskUniqueID());
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, false, mpxj));
@@ -1188,6 +1185,25 @@ final class PrimaveraPMProjectWriter
       xml.setPlannedUnitsPerTime(unitsHelper.getPlannedUnitsPerTime());
       xml.setRemainingUnits(unitsHelper.getRemainingUnits());
       xml.setRemainingUnitsPerTime(unitsHelper.getRemainingUnitsPerTime());
+      xml.setRemainingDuration(getResourceAssignmentRemainingDuration(task, mpxj));
+   }
+
+   private Double getResourceAssignmentRemainingDuration(Task task, ResourceAssignment mpxj)
+   {
+      Double remainingDuration;
+      if (mpxj.getActualFinish() != null)
+      {
+         return Double.valueOf(0);
+      }
+
+      if (mpxj.getRemainingUnits() == null || mpxj.getRemainingWork() == null || mpxj.getRemainingUnits().doubleValue() == 0)
+      {
+         return getDurationInHours(task.getEffectiveCalendar().getWork(mpxj.getRemainingEarlyStart(), mpxj.getRemainingEarlyFinish(), TimeUnit.HOURS));
+      }
+
+      double workPerHour = mpxj.getRemainingUnits().doubleValue();
+      double remainingWork = mpxj.getRemainingWork().getDuration();
+      return Double.valueOf((remainingWork * 100.0) / workPerHour);
    }
 
    /**
