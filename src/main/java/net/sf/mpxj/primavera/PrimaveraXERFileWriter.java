@@ -338,6 +338,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
       else
       {
+         // Don't write timephased data if the schedule isn't from P6
          columns = new LinkedHashMap<>(RESOURCE_ASSIGNMENT_COLUMNS);
          columns.put("target_crv", r -> null);
          columns.put("remain_crv", r -> null);
