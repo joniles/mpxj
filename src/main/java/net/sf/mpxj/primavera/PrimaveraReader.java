@@ -376,7 +376,7 @@ final class PrimaveraReader
          String internalName = row.getString("udf_type_name");
          String externalName = row.getString("udf_type_label");
          DataType dataType = UdfHelper.getDataTypeFromXer(row.getString("logical_data_type"));
-         UserDefinedField fieldType = new UserDefinedField(fieldId, internalName, externalName, fieldTypeClass, summaryTaskOnly, dataType);
+         UserDefinedField fieldType = new UserDefinedField(m_project, fieldId, internalName, externalName, fieldTypeClass, summaryTaskOnly, dataType);
          container.add(fieldType);
 
          m_udfFields.put(fieldId, fieldType);
@@ -1353,7 +1353,7 @@ final class PrimaveraReader
                topic = topics.getDefaultTopic();
             }
 
-            list.add(new StructuredNotes(row.getInteger(uniqueIDColumn), topic, notes));
+            list.add(new StructuredNotes(m_project, row.getInteger(uniqueIDColumn), topic, notes));
          }
 
          result.put(entry.getKey(), new ParentNotes(list));

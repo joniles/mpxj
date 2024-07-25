@@ -55,7 +55,7 @@ public final class MPPResourceField
             int id = (k.intValue() & 0xFFF) + 1;
             String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
             String externalName = "Enterprise Custom Field " + id;
-            return new UserDefinedField(Integer.valueOf(RESOURCE_FIELD_BASE + k.intValue()), internalName, externalName, FieldTypeClass.RESOURCE, false, DataType.CUSTOM);
+            return new UserDefinedField(project, Integer.valueOf(RESOURCE_FIELD_BASE + k.intValue()), internalName, externalName, FieldTypeClass.RESOURCE, false, DataType.CUSTOM);
          });
       }
 
