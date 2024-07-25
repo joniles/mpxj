@@ -17,7 +17,6 @@ Work to build and maintain MPXJ is kindly supported by my sponsors:
 <img width="5%"/>
 <a href="https://buildots.com/"><img width="25%" alt="Buildots Logo" src="images/buildots.png"/></a>
 </p>
-
 <p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
 <a href="https://www.onepager.com/"><img width="15%" alt="OnePager Logo" src="images/onepager.png"/></a>
 <img width="10%"/>
@@ -25,7 +24,6 @@ Work to build and maintain MPXJ is kindly supported by my sponsors:
 <img width="10%"/>
 <a href="https://www.turbo-chart.com/"><img width="15%" alt="Turbo Chart Logo" src="images/turbo-chart.png"/></a>
 </p>
-
 <p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
 <a href="https://www.rationalplan.com/"><img width="15%" alt="RationalPlan Logo" src="images/rationalplan.png"/></a>
 <img width="10%"/>
