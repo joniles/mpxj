@@ -1339,9 +1339,9 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_start_date", r -> r.getRemainingLateStart());
       RESOURCE_ASSIGNMENT_COLUMNS.put("rem_late_end_date", r -> r.getRemainingLateFinish());
       RESOURCE_ASSIGNMENT_COLUMNS.put("rollup_dates_flag", r -> Boolean.TRUE);
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_crv", r -> TimephasedHelper.write(r.getEffectiveCalendar(), r.getTimephasedPlannedWork()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_crv", r -> TimephasedHelper.write(r.getEffectiveCalendar(), r.getTimephasedWork()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("actual_crv", r -> TimephasedHelper.write(r.getEffectiveCalendar(), r.getTimephasedActualWork()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_crv", r -> TimephasedHelper.write(r.getTask().getEffectiveCalendar(), r.getTimephasedPlannedWork()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_crv", r -> TimephasedHelper.write(r.getTask().getEffectiveCalendar(), r.getTimephasedWork()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("actual_crv", r -> TimephasedHelper.write(r.getTask().getEffectiveCalendar(), r.getTimephasedActualWork()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("ts_pend_act_end_flag", r -> Boolean.FALSE);
       RESOURCE_ASSIGNMENT_COLUMNS.put("guid", r -> r.getGUID());
       RESOURCE_ASSIGNMENT_COLUMNS.put("rate_type", r -> RateTypeHelper.getXerFromInstance(r.getRateIndex()));

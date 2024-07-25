@@ -1735,6 +1735,7 @@ final class PrimaveraReader
       for (Row row : rows)
       {
          Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
+         ProjectCalendar effectiveCalendar = task.getEffectiveCalendar();
 
          Integer roleID = m_roleClashMap.getID(row.getInteger("role_id"));
          Integer resourceID = row.getInteger("rsrc_id");
@@ -1765,9 +1766,9 @@ final class PrimaveraReader
             Duration remainingWork = assignment.getRemainingWork();
             Duration actualRegularWork = row.getDuration("act_reg_qty");
             Duration actualOvertimeWork = assignment.getActualOvertimeWork();
-            Duration actualWork = Duration.add(actualRegularWork, actualOvertimeWork, assignment.getEffectiveCalendar());
+            Duration actualWork = Duration.add(actualRegularWork, actualOvertimeWork, effectiveCalendar);
             assignment.setActualWork(actualWork);
-            Duration totalWork = Duration.add(actualWork, remainingWork, assignment.getEffectiveCalendar());
+            Duration totalWork = Duration.add(actualWork, remainingWork, effectiveCalendar);
             assignment.setWork(totalWork);
 
             // calculate cost
@@ -1792,9 +1793,9 @@ final class PrimaveraReader
             populateUserDefinedFieldValues("TASKRSRC", FieldTypeClass.ASSIGNMENT, assignment, assignment.getUniqueID());
 
             // Read timephased data
-            TimephasedWorkContainer timephasedPlannedWork = TimephasedHelper.read(assignment.getEffectiveCalendar(), assignment.getPlannedStart(), row.getString("target_crv"));
-            TimephasedWorkContainer timephasedActualWork = TimephasedHelper.read(assignment.getEffectiveCalendar(), assignment.getActualStart(), row.getString("actual_crv"));
-            TimephasedWorkContainer timephasedRemainingWork = TimephasedHelper.read(assignment.getEffectiveCalendar(), assignment.getRemainingEarlyStart(), row.getString("remain_crv"));
+            TimephasedWorkContainer timephasedPlannedWork = TimephasedHelper.read(effectiveCalendar, assignment.getPlannedStart(), row.getString("target_crv"));
+            TimephasedWorkContainer timephasedActualWork = TimephasedHelper.read(effectiveCalendar, assignment.getActualStart(), row.getString("actual_crv"));
+            TimephasedWorkContainer timephasedRemainingWork = TimephasedHelper.read(effectiveCalendar, assignment.getRemainingEarlyStart(), row.getString("remain_crv"));
             assignment.setTimephasedPlannedWork(timephasedPlannedWork);
             assignment.setTimephasedActualWork(timephasedActualWork);
             assignment.setTimephasedWork(timephasedRemainingWork);

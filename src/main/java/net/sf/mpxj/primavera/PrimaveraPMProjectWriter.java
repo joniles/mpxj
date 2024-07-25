@@ -1190,7 +1190,7 @@ final class PrimaveraPMProjectWriter
 
       if (m_projectFromPrimavera)
       {
-         ProjectCalendar calendar = mpxj.getEffectiveCalendar();
+         ProjectCalendar calendar = task.getEffectiveCalendar();
          xml.setPlannedCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedPlannedWork()));
          xml.setActualCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedActualWork()));
          xml.setRemainingCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedWork()));
