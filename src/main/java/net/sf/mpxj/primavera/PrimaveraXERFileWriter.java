@@ -119,7 +119,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       m_file = projectFile;
       m_writer = new XerWriter(projectFile, new OutputStreamWriter(outputStream, getCharset()));
       m_rateObjectID = new ObjectSequence(1);
-      m_noteObjectID = new ObjectSequence(1);
       m_userDefinedFields = UdfHelper.getUserDefinedFieldsSet(projectFile);
       m_projectFromPrimavera = "Primavera".equals(m_file.getProjectProperties().getFileApplication());
 
@@ -723,7 +722,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          return (StructuredNotes) notes;
       }
 
-      return new StructuredNotes(m_noteObjectID.getNext(), m_file.getNotesTopics().getDefaultTopic(), notes);
+      return new StructuredNotes(m_file, null, m_file.getNotesTopics().getDefaultTopic(), notes);
    }
 
    /**
@@ -986,7 +985,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private ProjectFile m_file;
    private XerWriter m_writer;
    private ObjectSequence m_rateObjectID;
-   private ObjectSequence m_noteObjectID;
    private List<Map<String, Object>> m_wbsNotes;
    private List<Map<String, Object>> m_activityNotes;
    private Set<FieldType> m_userDefinedFields;

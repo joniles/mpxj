@@ -34,11 +34,28 @@ public class StructuredNotes extends Notes
     * @param uniqueID unique ID
     * @param topic notes topic
     * @param notes Notes instance
+    * @deprecated use the new version of the constructor
     */
-   public StructuredNotes(Integer uniqueID, NotesTopic topic, Notes notes)
+   @Deprecated public StructuredNotes(Integer uniqueID, NotesTopic topic, Notes notes)
    {
       super(StructuredNotes.getStructuredText(topic.getName(), notes));
       m_uniqueID = uniqueID;
+      m_topic = topic;
+      m_notes = notes;
+   }
+
+   /**
+    * Constructor.
+    *
+    * @param file parent file
+    * @param uniqueID unique ID
+    * @param topic notes topic
+    * @param notes Notes instance
+    */
+   public StructuredNotes(ProjectFile file, Integer uniqueID, NotesTopic topic, Notes notes)
+   {
+      super(StructuredNotes.getStructuredText(topic.getName(), notes));
+      m_uniqueID = file.getUniqueIdObjectSequence(StructuredNotes.class).syncOrGetNext(uniqueID);
       m_topic = topic;
       m_notes = notes;
    }

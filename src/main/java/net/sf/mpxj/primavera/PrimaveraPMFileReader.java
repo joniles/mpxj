@@ -2220,7 +2220,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          topic = m_projectFile.getNotesTopics().getDefaultTopic();
       }
 
-      return new StructuredNotes(uniqueID, topic, note);
+      return new StructuredNotes(m_projectFile, uniqueID, topic, note);
    }
 
    /**
