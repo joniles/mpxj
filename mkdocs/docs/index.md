@@ -17,14 +17,18 @@ Work to build and maintain MPXJ is kindly supported by my sponsors:
 <img width="5%"/>
 <a href="https://buildots.com/"><img width="25%" alt="Buildots Logo" src="images/buildots.png"/></a>
 </p>
+
 <p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
+<a href="https://www.onepager.com/"><img width="15%" alt="OnePager Logo" src="images/onepager.png"/></a>
+<img width="10%"/>
 <a href="https://www.bryntum.com/"><img width="30%" alt="Bryntum Logo" src="images/bryntum.png"/></a>
 <img width="10%"/>
 <a href="https://www.turbo-chart.com/"><img width="15%" alt="Turbo Chart Logo" src="images/turbo-chart.png"/></a>
-<img width="10%"/>
-<a href="https://www.rationalplan.com/"><img width="15%" alt="RationalPlan Logo" src="images/rationalplan.png"/></a>
 </p>
+
 <p float="left" align="middle" style="margin-block-end: 0em; margin-block-start: 0em;">
+<a href="https://www.rationalplan.com/"><img width="15%" alt="RationalPlan Logo" src="images/rationalplan.png"/></a>
+<img width="10%"/>
 <a href="https://corasystems.com/"><img width="22%" alt="Cora Systems Logo" src="images/cora.png"/></a>
 <img width="10%"/>
 <a href="https://www.alicetechnologies.com/"><img width="22%" alt="ALICE Technologies Logo" src="images/alice.png"/></a>
