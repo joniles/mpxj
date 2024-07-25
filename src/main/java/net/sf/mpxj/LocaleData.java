@@ -1747,7 +1747,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_EARLY_FINISH.getValue()] = "Remaining Early Finish";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_LATE_START.getValue()] = "Remaining Late Start";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_LATE_FINISH.getValue()] = "Remaining Late Finish";
-
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.REMAINING_ASSIGNMENT_UNITS.getValue()] = "Remaining Assignment Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK.getValue()] = "Hyperlink";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_ADDRESS.getValue()] = "Hyperlink Address";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.HYPERLINK_SUBADDRESS.getValue()] = "Hyperlink Subaddress";

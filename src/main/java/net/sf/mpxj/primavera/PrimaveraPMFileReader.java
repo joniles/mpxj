@@ -1001,6 +1001,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             ProjectCalendarException pce = calendar.addCalendarException(startDate, endDate);
 
             List<WorkTimeType> workTime = ex.getWorkTime();
+
+            // Special case: a single entry for 00:00-23:59 is treated by P6 as a non-working day
+            if (workTime.size() == 1)
+            {
+               WorkTimeType work = workTime.get(0);
+               if (work == null || (LocalTime.MIDNIGHT.equals(work.getStart()) && NON_WORKING_END_TIME.equals(work.getFinish())))
+               {
+                  continue;
+               }
+            }
+
             for (WorkTimeType work : workTime)
             {
                if (work != null && work.getStart() != null && work.getFinish() != null)
@@ -1918,14 +1929,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             task.setRemainingCost(NumberHelper.sumAsDouble(task.getRemainingCost(), remainingCost));
             task.setCost(NumberHelper.sumAsDouble(task.getCost(), atCompletionCost));
 
-            if (resource.getType() == net.sf.mpxj.ResourceType.MATERIAL)
-            {
-               assignment.setUnits(row.getPlannedUnits());
-            }
-            else // RT_Labor & RT_Equip
-            {
-               assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100));
-            }
+            assignment.setUnits(Double.valueOf(NumberHelper.getDouble(row.getPlannedUnitsPerTime()) * 100));
+            assignment.setRemainingUnits(Double.valueOf(NumberHelper.getDouble(row.getRemainingUnitsPerTime()) * 100));
 
             // Add User Defined Fields
             populateUserDefinedFieldValues(assignment, row.getUDF());
@@ -2589,4 +2594,5 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private static final WbsRowComparatorPMXML WBS_ROW_COMPARATOR = new WbsRowComparatorPMXML();
 
    private static final Pattern ENCODING_PATTERN = Pattern.compile(".*<\\?xml.*encoding=\"([^\"]+)\".*\\?>.*", Pattern.DOTALL);
+   private static final LocalTime NON_WORKING_END_TIME = LocalTime.of(23, 59);
 }

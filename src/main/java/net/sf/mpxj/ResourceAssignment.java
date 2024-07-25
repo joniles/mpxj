@@ -130,6 +130,26 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Returns the remaining units of this resource assignment.
+    *
+    * @return remaining units
+    */
+   public Number getRemainingUnits()
+   {
+      return (Number) get(AssignmentField.REMAINING_ASSIGNMENT_UNITS);
+   }
+
+   /**
+    * Sets the remaining units for this resource assignment.
+    *
+    * @param val remaining units
+    */
+   public void setRemainingUnits(Number val)
+   {
+      set(AssignmentField.REMAINING_ASSIGNMENT_UNITS, val);
+   }
+
+   /**
     * Returns the work of this resource assignment.
     *
     * @return work
@@ -3176,6 +3196,12 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       return result;
    }
 
+   private Number calculateRemainingAssignmentUnits()
+   {
+      // Default to the planned units if a remaining units value is not available
+      return getUnits();
+   }
+
    /**
     * Supply a default value for the rate index.
     *
@@ -3251,6 +3277,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       CALCULATED_FIELD_MAP.put(AssignmentField.WORK_VARIANCE, ResourceAssignment::calculateWorkVariance);
       CALCULATED_FIELD_MAP.put(AssignmentField.START, ResourceAssignment::calculateStart);
       CALCULATED_FIELD_MAP.put(AssignmentField.FINISH, ResourceAssignment::calculateFinish);
+      CALCULATED_FIELD_MAP.put(AssignmentField.REMAINING_ASSIGNMENT_UNITS, ResourceAssignment::calculateRemainingAssignmentUnits);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_INDEX, ResourceAssignment::defaultRateIndex);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_SOURCE, ResourceAssignment::defaultRateSource);
       CALCULATED_FIELD_MAP.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, ResourceAssignment::defaultCalculateCostsFromUnits);

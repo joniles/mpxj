@@ -1170,13 +1170,6 @@ final class PrimaveraPMProjectWriter
       xml.setProjectObjectId(m_projectObjectID);
       xml.setRemainingCost(getCurrency(mpxj.getRemainingCost()));
 
-      // NOTE: this isn't correct, we're actually looking for the duration
-      // over which the remaining work takes place.
-      // Something like this is an approximation - but is wrong as often as it is correct.
-      //xml.setRemainingDuration(getDurationInHours(mpxj.getEffectiveCalendar().getDuration(mpxj.getRemainingEarlyStart(), mpxj.getRemainingEarlyFinish()).convertUnits(TimeUnit.HOURS, mpxj.getEffectiveCalendar())));
-      // Needs more thought!
-      xml.setRemainingDuration(getDurationInHours(mpxj.getRemainingWork()));
-
       xml.setStartDate(mpxj.getStart());
       xml.setWBSObjectId(task.getParentTaskUniqueID());
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.ASSIGNMENT, false, mpxj));
@@ -1193,6 +1186,7 @@ final class PrimaveraPMProjectWriter
       xml.setPlannedUnitsPerTime(unitsHelper.getPlannedUnitsPerTime());
       xml.setRemainingUnits(unitsHelper.getRemainingUnits());
       xml.setRemainingUnitsPerTime(unitsHelper.getRemainingUnitsPerTime());
+      xml.setRemainingDuration(getResourceAssignmentRemainingDuration(task, mpxj));
 
       if (m_projectFromPrimavera)
       {
@@ -1201,6 +1195,24 @@ final class PrimaveraPMProjectWriter
          xml.setActualCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedActualWork()));
          xml.setRemainingCurve(TimephasedHelper.write(calendar, mpxj.getTimephasedWork()));
       }
+   }
+
+   private Double getResourceAssignmentRemainingDuration(Task task, ResourceAssignment mpxj)
+   {
+      Double remainingDuration;
+      if (mpxj.getActualFinish() != null)
+      {
+         return Double.valueOf(0);
+      }
+
+      if (mpxj.getRemainingUnits() == null || mpxj.getRemainingWork() == null || mpxj.getRemainingUnits().doubleValue() == 0)
+      {
+         return getDurationInHours(task.getEffectiveCalendar().getWork(mpxj.getRemainingEarlyStart(), mpxj.getRemainingEarlyFinish(), TimeUnit.HOURS));
+      }
+
+      double workPerHour = mpxj.getRemainingUnits().doubleValue();
+      double remainingWork = mpxj.getRemainingWork().getDuration();
+      return Double.valueOf((remainingWork * 100.0) / workPerHour);
    }
 
    /**

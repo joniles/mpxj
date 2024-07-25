@@ -39,13 +39,30 @@ abstract class AbstractUnitsHelper
 {
    public AbstractUnitsHelper(ResourceAssignment assignment)
    {
-      if (assignment.getResource().getType() == ResourceType.MATERIAL)
+      // Planned
+      ProjectFile file = assignment.getParentFile();
+      m_plannedUnits = getDurationInHours(file, Optional.ofNullable(assignment.getPlannedWork()).orElseGet(assignment::getWork));
+      m_plannedUnitsPerTime = getPercentage(assignment.getUnits());
+      m_remainingUnitsPerTime = getPercentage(assignment.getRemainingUnits());
+
+      // Remaining
+      if (assignment.getActualStart() == null)
       {
-         materialResource(assignment);
+         // The assignment has not started
+         m_remainingUnits = m_plannedUnits;
       }
       else
       {
-         otherResource(assignment);
+         if (assignment.getActualFinish() == null)
+         {
+            // The assignment is in progress
+            m_remainingUnits = getDurationInHours(file, assignment.getRemainingWork());
+         }
+         else
+         {
+            // The assignment is complete
+            m_remainingUnits = NumberHelper.DOUBLE_ZERO;
+         }
       }
    }
 
@@ -87,89 +104,6 @@ abstract class AbstractUnitsHelper
    public Double getRemainingUnitsPerTime()
    {
       return m_remainingUnitsPerTime;
-   }
-
-   /**
-    * Units calculations for a material  resource.
-    *
-    * @param assignment resource assignment
-    */
-   private void materialResource(ResourceAssignment assignment)
-   {
-      // Planned
-      ProjectFile file = assignment.getParentFile();
-      Task task = assignment.getTask();
-      double units = NumberHelper.getDouble(getDurationInHours(file, Optional.ofNullable(assignment.getPlannedWork()).orElseGet(assignment::getWork)));
-      double time = NumberHelper.getDouble(getDurationInHours(file, Optional.ofNullable(task.getPlannedDuration()).orElseGet(task::getDuration)));
-      double unitsPerTime = time == 0 ? 0 : units / time;
-      m_plannedUnits = Double.valueOf(units);
-      m_plannedUnitsPerTime = Double.valueOf(unitsPerTime);
-
-      // Remaining
-      if (assignment.getActualStart() == null)
-      {
-         // The assignment has not started
-         m_remainingUnits = m_plannedUnits;
-         m_remainingUnitsPerTime = m_plannedUnitsPerTime;
-      }
-      else
-      {
-         if (assignment.getActualFinish() == null)
-         {
-            // The assignment is in progress
-            double remainingTime = NumberHelper.getDouble(getDurationInHours(file, task.getRemainingDuration()));
-            double remainingUnits = NumberHelper.getDouble(getDurationInHours(file, assignment.getRemainingWork()));
-            double remainingUnitsPerTime = remainingTime == 0 ? 0 : remainingUnits / remainingTime;
-            m_remainingUnits = Double.valueOf(remainingUnits);
-            m_remainingUnitsPerTime = Double.valueOf(remainingUnitsPerTime);
-         }
-         else
-         {
-            // The assignment is complete
-            m_remainingUnits = NumberHelper.DOUBLE_ZERO;
-            m_remainingUnitsPerTime = m_plannedUnitsPerTime;
-         }
-      }
-   }
-
-   /**
-    * Units calculations for a non-material  resource.
-    *
-    * @param assignment resource assignment
-    */
-   private void otherResource(ResourceAssignment assignment)
-   {
-      // Planned
-      ProjectFile file = assignment.getParentFile();
-      Task task = assignment.getTask();
-      m_plannedUnits = getDurationInHours(file, Optional.ofNullable(assignment.getPlannedWork()).orElseGet(assignment::getWork));
-      m_plannedUnitsPerTime = getPercentage(assignment.getUnits());
-
-      // Remaining
-      if (assignment.getActualStart() == null)
-      {
-         // The assignment has not started
-         m_remainingUnits = m_plannedUnits;
-         m_remainingUnitsPerTime = m_plannedUnitsPerTime;
-      }
-      else
-      {
-         double remainingDuration = NumberHelper.getDouble(getDurationInHours(file, task.getRemainingDuration()));
-         if (assignment.getActualFinish() == null)
-         {
-            // The assignment is in progress
-            double remainingWork = NumberHelper.getDouble(getDurationInHours(file, assignment.getRemainingWork()));
-            double units = remainingDuration == 0 ? 0 : remainingWork / remainingDuration;
-            m_remainingUnits = Double.valueOf(remainingWork);
-            m_remainingUnitsPerTime = Double.valueOf(units);
-         }
-         else
-         {
-            // The assignment is complete
-            m_remainingUnits = NumberHelper.DOUBLE_ZERO;
-            m_remainingUnitsPerTime = m_plannedUnitsPerTime;
-         }
-      }
    }
 
    /**
@@ -224,8 +158,8 @@ abstract class AbstractUnitsHelper
     */
    protected abstract double getScale();
 
-   private Double m_plannedUnits;
-   private Double m_plannedUnitsPerTime;
-   private Double m_remainingUnits;
-   private Double m_remainingUnitsPerTime;
+   private final Double m_plannedUnits;
+   private final Double m_plannedUnitsPerTime;
+   private final Double m_remainingUnits;
+   private final Double m_remainingUnitsPerTime;
 }
