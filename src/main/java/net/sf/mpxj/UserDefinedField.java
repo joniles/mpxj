@@ -33,21 +33,48 @@ public class UserDefinedField implements FieldType
    /**
     * Constructor.
     *
-    * @param id unique ID
+    * @param uniqueID unique ID
+    * @param internalName internal name for this field
+    * @param externalName user-visible name for this field
+    * @param fieldTypeClass type of entity on which this field can be used
+    * @param summaryTaskOnly flag is true if this UDF can only be applied to summary tasks (WBS)
+    * @param dataType data type of this field
+    * @deprecated use the new version of this constructor
+    */
+   @Deprecated public UserDefinedField(Integer uniqueID, String internalName, String externalName, FieldTypeClass fieldTypeClass, boolean summaryTaskOnly, DataType dataType)
+   {
+      if (internalName == null || internalName.isEmpty())
+      {
+         internalName = "user_field_" + uniqueID;
+      }
+
+      m_uniqueID = uniqueID;
+      m_internalName = internalName;
+      m_externalName = externalName;
+      m_fieldTypeClass = fieldTypeClass;
+      m_summaryTaskOnly = summaryTaskOnly;
+      m_dataType = dataType;
+   }
+
+   /**
+    * Constructor.
+    *
+    * @param file parent file
+    * @param uniqueID unique ID
     * @param internalName internal name for this field
     * @param externalName user-visible name for this field
     * @param fieldTypeClass type of entity on which this field can be used
     * @param summaryTaskOnly flag is true if this UDF can only be applied to summary tasks (WBS)
     * @param dataType data type of this field
     */
-   public UserDefinedField(Integer id, String internalName, String externalName, FieldTypeClass fieldTypeClass, boolean summaryTaskOnly, DataType dataType)
+   public UserDefinedField(ProjectFile file, Integer uniqueID, String internalName, String externalName, FieldTypeClass fieldTypeClass, boolean summaryTaskOnly, DataType dataType)
    {
       if (internalName == null || internalName.isEmpty())
       {
-         internalName = "user_field_" + id;
+         internalName = "user_field_" + uniqueID;
       }
 
-      m_id = id;
+      m_uniqueID = file.getUniqueIdObjectSequence(UserDefinedField.class).syncOrGetNext(uniqueID);
       m_internalName = internalName;
       m_externalName = externalName;
       m_fieldTypeClass = fieldTypeClass;
@@ -57,7 +84,7 @@ public class UserDefinedField implements FieldType
 
    @Override public int getValue()
    {
-      return m_id.intValue();
+      return m_uniqueID.intValue();
    }
 
    /**
@@ -67,7 +94,7 @@ public class UserDefinedField implements FieldType
     */
    public Integer getUniqueID()
    {
-      return m_id;
+      return m_uniqueID;
    }
 
    /**
@@ -127,7 +154,7 @@ public class UserDefinedField implements FieldType
       return getName();
    }
 
-   private final Integer m_id;
+   private final Integer m_uniqueID;
    private final FieldTypeClass m_fieldTypeClass;
    private final boolean m_summaryTaskOnly;
    private final String m_externalName;

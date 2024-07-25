@@ -588,7 +588,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       boolean summaryTaskOnly = udf.getSubjectArea().equals("WBS");
       String externalName = udf.getTitle();
       DataType dataType = UdfHelper.getDataTypeFromXml(udf.getDataType());
-      UserDefinedField field = new UserDefinedField(udf.getObjectId(), null, externalName, fieldTypeClass, summaryTaskOnly, dataType);
+      UserDefinedField field = new UserDefinedField(m_projectFile, udf.getObjectId(), null, externalName, fieldTypeClass, summaryTaskOnly, dataType);
       m_fieldTypeMap.put(udf.getObjectId(), field);
       m_projectFile.getUserDefinedFields().add(field);
       m_projectFile.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
