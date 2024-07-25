@@ -655,7 +655,26 @@ final class PrimaveraReader
    {
       for (StructuredTextRecord exception : exceptions.getChildren())
       {
-         long daysFromEpoch = Integer.parseInt(exception.getAttribute("d"));
+         long daysFromEpoch;
+
+         try
+         {
+            daysFromEpoch = Integer.parseInt(exception.getAttribute("d"));
+         }
+
+         catch (NumberFormatException ex)
+         {
+            if (m_ignoreErrors)
+            {
+               m_project.addIgnoredError(ex);
+               continue;
+            }
+            else
+            {
+               throw ex;
+            }
+         }
+
          LocalDate startEx = EXCEPTION_EPOCH.plusDays(daysFromEpoch);
 
          ProjectCalendarException pce = calendar.addCalendarException(startEx, startEx);

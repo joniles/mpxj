@@ -16,6 +16,7 @@
 			<action dev="joniles" type="update">Improve recognition of non-working days when reading calendars certain PMXML files.</action>
 			<action dev="joniles" type="update">Add support for the Resource Assignment field Remaining Units. (Note: this field defaults to the same value as Units if it is not explicitly populated).</action>
 			<action dev="joniles" type="update">Ensure the Resource Assignment field Remaining Units is read from and written to P6 schedules.</action>
+			<action dev="joniles" type="update">Improve handling of invalid calendar exception data when reading P6 schedules from XER files or a P6 database.</action>
 		</release>
 		<release date="2024-07-08" version="13.0.2">
 			<action dev="joniles" type="update">When writing XER files, provide a default value for the Resource ID if it is not populated.</action>
