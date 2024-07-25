@@ -56,7 +56,6 @@ import java.time.DayOfWeek;
 import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
-import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.EventManager;

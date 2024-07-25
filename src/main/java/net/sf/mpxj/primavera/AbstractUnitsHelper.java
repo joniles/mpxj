@@ -27,8 +27,6 @@ import java.util.Optional;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.ResourceType;
-import net.sf.mpxj.Task;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.NumberHelper;
 
