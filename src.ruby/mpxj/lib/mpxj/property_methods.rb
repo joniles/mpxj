@@ -935,6 +935,13 @@ module MPXJ
       get_boolean_value(attribute_values['new_task_start_is_project_start'])
     end
 
+    # Retrieve the Notes value
+    #
+    # @return Notes value
+    def notes
+      attribute_values['notes']
+    end
+
     # Retrieve the Percentage Complete value
     #
     # @return Percentage Complete value
@@ -1010,6 +1017,13 @@ module MPXJ
     # @return Project Title value
     def project_title
       attribute_values['project_title']
+    end
+
+    # Retrieve the Project Website URL value
+    #
+    # @return Project Website URL value
+    def project_website_url
+      attribute_values['project_website_url']
     end
 
     # Retrieve the Relationship Lag Calendar value
@@ -1342,6 +1356,7 @@ module MPXJ
       'new_tasks_effort_driven' => :boolean,
       'new_tasks_estimated' => :boolean,
       'new_task_start_is_project_start' => :boolean,
+      'notes' => :notes,
       'percentage_complete' => :percentage,
       'planned_start' => :date,
       'pm_text' => :string,
@@ -1353,6 +1368,7 @@ module MPXJ
       'project_id' => :string,
       'project_is_baseline' => :boolean,
       'project_title' => :string,
+      'project_website_url' => :string,
       'relationship_lag_calendar' => :relationship_lag_calendar,
       'remove_file_properties' => :boolean,
       'resource_pool_file' => :string,

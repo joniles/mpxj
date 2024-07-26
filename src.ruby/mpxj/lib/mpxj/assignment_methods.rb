@@ -2818,6 +2818,13 @@ module MPXJ
       get_duration_value(attribute_values['regular_work'])
     end
 
+    # Retrieve the Remaining Assignment Units value
+    #
+    # @return Remaining Assignment Units value
+    def remaining_assignment_units
+      get_float_value(attribute_values['remaining_assignment_units'])
+    end
+
     # Retrieve the Remaining Cost value
     #
     # @return Remaining Cost value
@@ -3928,6 +3935,7 @@ module MPXJ
       'rate_index' => :integer,
       'rate_source' => :rate_source,
       'regular_work' => :work,
+      'remaining_assignment_units' => :units,
       'remaining_cost' => :currency,
       'remaining_early_finish' => :date,
       'remaining_early_start' => :date,

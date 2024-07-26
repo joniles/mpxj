@@ -1,6 +1,8 @@
 # Changelog
 
-## 13.0.3 (unreleased)
+## 13.1.1 (unreleased)
+
+## 13.1.0 (2024-07-26)
 * Updated to POI 5.3.0
 * Add support for reading and writing timephased data for activities in P6 schedules which have a "manual" curve. (Note: MPXJ does not currently support translating timephased data between different applications, so timephased data read from an MPP file won't be written to a P6 schedule and vice versa).
 * Add an attribute to the `ResourceAssignment` class to represent timephased planned work. This is read from/written to P6 as Budgeted Work.
@@ -12,6 +14,14 @@
 * Add support for the Resource Assignment field Remaining Units. (Note: this field defaults to the same value as Units if it is not explicitly populated).
 * Ensure the Resource Assignment field Remaining Units is read from and written to P6 schedules.
 * Improve handling of invalid calendar exception data when reading P6 schedules from XER files or a P6 database.
+* Improve the implementation of the Unique ID sequence generator used by MPXJ to avoid issues when multiple classloaders are used.
+* Deprecated the original `StructuredNotes` constructor. A new version of the constructor takes an additional `ProjectFile` argument.
+* Deprecated the original `UserDefinedField` constructor. A new version of the constructor takes an additional `ProjectFile` argument.
+* Add support for reading and writing the Project Website URL attribute for P6 schedules.
+* Add support for the Notes attribute as part of the `ProjectProperties` class.
+* Ensure that project notes are read from and written to PMXML files.
+* Usability improvements to the Notes class hierarchy to make it easier to update notes.
+* Improvements to notes handling when writing PMXML files to make it easier to construct structured notes using plain text.
 
 ## 13.0.2 (2024-07-08)
 * When writing XER files, provide a default value for the Resource ID if it is not populated.
