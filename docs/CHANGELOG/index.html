@@ -291,9 +291,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1303-unreleased" class="md-nav__link">
+  <a href="#1311-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.0.3 (unreleased)
+      13.1.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1310-2024-07-26" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.1.0 (2024-07-26)
     </span>
   </a>
   
@@ -3885,9 +3894,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1303-unreleased" class="md-nav__link">
+  <a href="#1311-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.0.3 (unreleased)
+      13.1.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1310-2024-07-26" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.1.0 (2024-07-26)
     </span>
   </a>
   
@@ -6123,7 +6141,8 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1303-unreleased">13.0.3 (unreleased)</h2>
+<h2 id="1311-unreleased">13.1.1 (unreleased)</h2>
+<h2 id="1310-2024-07-26">13.1.0 (2024-07-26)</h2>
 <ul>
 <li>Updated to POI 5.3.0</li>
 <li>Add support for reading and writing timephased data for activities in P6 schedules which have a "manual" curve. (Note: MPXJ does not currently support translating timephased data between different applications, so timephased data read from an MPP file won't be written to a P6 schedule and vice versa).</li>
@@ -6136,6 +6155,14 @@
 <li>Add support for the Resource Assignment field Remaining Units. (Note: this field defaults to the same value as Units if it is not explicitly populated).</li>
 <li>Ensure the Resource Assignment field Remaining Units is read from and written to P6 schedules.</li>
 <li>Improve handling of invalid calendar exception data when reading P6 schedules from XER files or a P6 database.</li>
+<li>Improve the implementation of the Unique ID sequence generator used by MPXJ to avoid issues when multiple classloaders are used.</li>
+<li>Deprecated the original <code>StructuredNotes</code> constructor. A new version of the constructor takes an additional <code>ProjectFile</code> argument.</li>
+<li>Deprecated the original <code>UserDefinedField</code> constructor. A new version of the constructor takes an additional <code>ProjectFile</code> argument.</li>
+<li>Add support for reading and writing the Project Website URL attribute for P6 schedules.</li>
+<li>Add support for the Notes attribute as part of the <code>ProjectProperties</code> class.</li>
+<li>Ensure that project notes are read from and written to PMXML files.</li>
+<li>Usability improvements to the Notes class hierarchy to make it easier to update notes.</li>
+<li>Improvements to notes handling when writing PMXML files to make it easier to construct structured notes using plain text.</li>
 </ul>
 <h2 id="1302-2024-07-08">13.0.2 (2024-07-08)</h2>
 <ul>
