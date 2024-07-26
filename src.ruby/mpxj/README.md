@@ -3,7 +3,7 @@
 This gem allows a Ruby developer to work with a read-only view of project plans
 saved by a number of popular project planning applications. The work required to
 read data from these files is actually carried out by a
-[Java library](http://mpxj.sf.net), hence you will need Java installed and
+[Java library](https://mpxj.org), hence you will need Java installed and
 available on your path in order to work with this gem. Once the project data has
 been read from a file, a set of Ruby objects provides access to the structure of
 the project plan and its attributes.
@@ -32,18 +32,7 @@ You'll find details of what has changed in this version
 
 ## Supported File Types
 
-This gem uses the file name extension to determine what kind of project data it
-is reading. The list below shows the supported file extensions:
-
-* **MPP** - Microsoft Project MPP file
-* **MPT** - Microsoft Project template file
-* **MPX** - Microsoft Project MPX file
-* **XML** - Microsoft Project MSPDI (XML) file
-* **MPD** - Microsoft Project database (only when the gem is used on Microsoft Windows)
-* **PLANNER** - Gnome Planner
-* **XER** - Primavera XER file
-* **PMXML** - Primavera PMXML file
-* **PP** - Asta Powerproject file
+Full details of the supported file formats can be found [here](https://www.mpxj.org/supported-formats/).
 
 ## Example Code
 
@@ -80,8 +69,4 @@ A **Project** contains **Resource**s and **Task**s. Each **Resource** can be
 them which are represented as **Relation**s.
 
 ## Acknowledgements
-This gem includes functionality provided by POI
-[http://poi.apache.org](http://poi.apache.org/)
-
-This gem includes functionality provided by RTF Parser Kit
-[https://github.com/joniles/rtfparserkit](https://github.com/joniles/rtfparserkit/)
+Acknowledgements for this library can be found [here](https://www.mpxj.org/#acknowledgements).

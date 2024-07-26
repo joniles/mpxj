@@ -69,7 +69,7 @@ Having problems? Need support? All the details you need can be found on the
 [support page](support.md).
 
 Using MPXJ successfully somewhere? I'd
-[love to hear from you](mailto:jon.iles@bcs.org.uk) about your experiences.
+[love to hear from you](mailto:jon@timephased.com) about your experiences.
 Do tell me what's missing or what could be better - I can use this feedback
 to guide future development work. It would also be great to add a link to your
 website from the [MPXJ users page](users.md).

@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "mpxj"
   spec.version       = MPXJ::VERSION
   spec.authors       = ["Jon Iles"]
-  spec.email         = ["jon.iles@bcs.org.uk"]
+  spec.email         = ["jon@timephased.com"]
 
   spec.summary       = "The MPXJ gem allows Ruby applications to work with schedule data from project management applications including Microsoft Project, Primavera, Asta Powerproject and Gnome Planner amongst others. The gem provides a Ruby wrapper around the MPXJ Java JAR."
-  spec.homepage      = "http://mpxj.sf.net"
+  spec.homepage      = "https://mpxj.org"
   spec.licenses      = ['LGPL-2.1-or-later']
 
   spec.files         = Dir.glob("{bin,lib,docs,legal}/**/*").concat(["README.md"])
