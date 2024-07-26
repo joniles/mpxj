@@ -2197,7 +2197,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Notes getNotesObject()
    {
-      return (Notes)get(TaskField.NOTES);
+      return (Notes) get(TaskField.NOTES);
    }
 
    /**

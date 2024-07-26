@@ -3527,7 +3527,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public String getProjectWebsiteUrl()
    {
-      return (String)get(ProjectField.PROJECT_WEBSITE_URL);
+      return (String) get(ProjectField.PROJECT_WEBSITE_URL);
    }
 
    /**
@@ -3558,7 +3558,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    public Notes getNotesObject()
    {
-      return (Notes)get(TaskField.NOTES);
+      return (Notes) get(TaskField.NOTES);
    }
 
    /**

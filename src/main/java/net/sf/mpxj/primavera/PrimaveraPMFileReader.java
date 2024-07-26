@@ -1871,7 +1871,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (ResourceAssignmentType row : assignments)
       {
-         Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(row.getActivityObjectId()));        
+         Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(row.getActivityObjectId()));
          Integer roleID = m_roleClashMap.getID(row.getRoleObjectId());
          Integer resourceID = row.getResourceObjectId();
 

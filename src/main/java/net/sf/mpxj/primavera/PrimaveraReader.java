@@ -1751,7 +1751,7 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
-         Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));         
+         Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
          Integer roleID = m_roleClashMap.getID(row.getInteger("role_id"));
          Integer resourceID = row.getInteger("rsrc_id");
 

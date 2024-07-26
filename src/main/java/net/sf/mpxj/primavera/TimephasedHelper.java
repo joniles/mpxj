@@ -78,7 +78,7 @@ final class TimephasedHelper
          timephasedItem.setStart(currentStart);
          timephasedItem.setFinish(currentFinish);
          timephasedItem.setTotalAmount(workHours);
-         timephasedItem.setAmountPerDay(Duration.getInstance(workHours.getDuration()/days, TimeUnit.HOURS));
+         timephasedItem.setAmountPerDay(Duration.getInstance(workHours.getDuration() / days, TimeUnit.HOURS));
          list.add(timephasedItem);
 
          currentStart = calendar.getNextWorkStart(currentFinish);
@@ -125,7 +125,7 @@ final class TimephasedHelper
          if (previousFinish != null)
          {
             Duration workToNextItem = calendar.getWork(previousFinish, item.getStart(), TimeUnit.HOURS);
-            if(workToNextItem.getDuration() != 0)
+            if (workToNextItem.getDuration() != 0)
             {
                if (result.length() != 0)
                {
@@ -133,7 +133,7 @@ final class TimephasedHelper
                }
 
                result.append("0:");
-               result.append((int)workToNextItem.getDuration());
+               result.append((int) workToNextItem.getDuration());
             }
          }
 

@@ -1532,7 +1532,7 @@ final class PrimaveraPMProjectWriter
 
       if (notesAreNativeFormat(notes))
       {
-         writeNativeWbsNote(wbsObjectID, (ParentNotes)notes);
+         writeNativeWbsNote(wbsObjectID, (ParentNotes) notes);
       }
       else
       {
