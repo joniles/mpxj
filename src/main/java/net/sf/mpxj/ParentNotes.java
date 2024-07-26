@@ -39,7 +39,7 @@ public class ParentNotes extends Notes
     */
    public ParentNotes(List<Notes> childNotes)
    {
-      super(childNotes.stream().filter(Objects::nonNull).map(Notes::toString).collect(Collectors.joining("\n")).trim());
+      super(null);
       m_childNotes = childNotes;
    }
 
@@ -51,6 +51,11 @@ public class ParentNotes extends Notes
    public List<Notes> getChildNotes()
    {
       return m_childNotes;
+   }
+
+   @Override public String toString()
+   {
+      return m_childNotes.stream().filter(Objects::nonNull).map(Notes::toString).collect(Collectors.joining("\n")).trim();
    }
 
    private final List<Notes> m_childNotes;

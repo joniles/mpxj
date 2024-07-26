@@ -1570,12 +1570,11 @@ final class PrimaveraPMProjectWriter
       for (Notes note : notes.getChildNotes())
       {
          StructuredNotes structuredNotes = (StructuredNotes) note;
-         HtmlNotes htmlNotes = (HtmlNotes) structuredNotes.getNotes();
 
          ProjectNoteType xml = m_factory.createProjectNoteType();
          m_projectNotes.add(xml);
 
-         xml.setNote(htmlNotes.getHtml());
+         xml.setNote(getNotes(structuredNotes.getNotes()));
          xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
          xml.setObjectId(structuredNotes.getUniqueID());
          xml.setProjectObjectId(m_projectObjectID);
@@ -1655,7 +1654,7 @@ final class PrimaveraPMProjectWriter
     */
    private boolean notesAreNativeFormat(Notes notes)
    {
-      return notes instanceof ParentNotes && ((ParentNotes) notes).getChildNotes().stream().allMatch(n -> n instanceof StructuredNotes && ((StructuredNotes) n).getNotes() instanceof HtmlNotes);
+      return notes instanceof ParentNotes && ((ParentNotes) notes).getChildNotes().stream().allMatch(n -> n instanceof StructuredNotes);
    }
 
    /**

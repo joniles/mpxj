@@ -48,7 +48,9 @@ public class Notes
     */
    public boolean isEmpty()
    {
-      return m_text == null || m_text.isEmpty();
+      // Subclasses may have their own representation of the text
+      String text = toString();
+      return text == null || text.isEmpty();
    }
 
    @Override public String toString()
