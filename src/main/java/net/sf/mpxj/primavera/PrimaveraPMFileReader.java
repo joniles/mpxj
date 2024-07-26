@@ -653,6 +653,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setActivityIdSuffix(project.getActivityIdSuffix());
       properties.setActivityIdIncrement(project.getActivityIdIncrement());
       properties.setActivityIdIncrementBasedOnSelectedActivity(BooleanHelper.getBoolean(project.isActivityIdBasedOnSelectedActivity()));
+      properties.setProjectWebsiteUrl(nullIfEmpty(project.getWebSiteURL()));
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 
@@ -680,6 +681,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       properties.setBaselineTypeUniqueID(project.getBaselineTypeObjectId());
       properties.setLastBaselineUpdateDate(project.getLastBaselineUpdateDate());
       properties.setProjectIsBaseline(true);
+      properties.setProjectWebsiteUrl(project.getWebSiteURL());
 
       m_defaultCalendarObjectID = project.getActivityDefaultCalendarObjectId();
 

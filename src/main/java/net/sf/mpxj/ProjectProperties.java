@@ -3521,6 +3521,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Retrieve the project website URL.
+    *
+    * @return project website URL
+    */
+   public String getProjectWebsiteUrl()
+   {
+      return (String)get(ProjectField.PROJECT_WEBSITE_URL);
+   }
+
+   /**
+    * Set the project website URL.
+    *
+    * @param value project website url
+    */
+   public void setProjectWebsiteUrl(String value)
+   {
+      set(ProjectField.PROJECT_WEBSITE_URL, value);
+   }
+
+   /**
     * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.

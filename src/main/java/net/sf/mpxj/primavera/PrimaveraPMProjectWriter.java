@@ -557,6 +557,7 @@ final class PrimaveraPMProjectWriter
       project.setUseProjectBaselineForEarnedValue(Boolean.TRUE);
       project.setWBSCodeSeparator(mpxj.getWbsCodeSeparator());
       project.setLocationObjectId(mpxj.getLocationUniqueID());
+      project.setWebSiteURL(mpxj.getProjectWebsiteUrl());
 
       writeScheduleOptions(project.getScheduleOptions());
    }
@@ -622,6 +623,7 @@ final class PrimaveraPMProjectWriter
       project.setBaselineTypeName(mpxj.getBaselineTypeName());
       project.setBaselineTypeObjectId(mpxj.getBaselineProjectUniqueID());
       project.setLastBaselineUpdateDate(mpxj.getLastBaselineUpdateDate());
+      project.setWebSiteURL(mpxj.getProjectWebsiteUrl());
 
       writeScheduleOptions(project.getScheduleOptions());
    }
