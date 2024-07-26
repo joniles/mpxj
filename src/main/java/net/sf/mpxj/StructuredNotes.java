@@ -38,7 +38,7 @@ public class StructuredNotes extends Notes
     */
    @Deprecated public StructuredNotes(Integer uniqueID, NotesTopic topic, Notes notes)
    {
-      super(StructuredNotes.getStructuredText(topic.getName(), notes));
+      super(null);
       m_uniqueID = uniqueID;
       m_topic = topic;
       m_notes = notes;
@@ -54,7 +54,7 @@ public class StructuredNotes extends Notes
     */
    public StructuredNotes(ProjectFile file, Integer uniqueID, NotesTopic topic, Notes notes)
    {
-      super(StructuredNotes.getStructuredText(topic.getName(), notes));
+      super(null);
       m_uniqueID = file.getUniqueIdObjectSequence(StructuredNotes.class).syncOrGetNext(uniqueID);
       m_topic = topic;
       m_notes = notes;
@@ -100,25 +100,18 @@ public class StructuredNotes extends Notes
       return m_notes;
    }
 
-   /**
-    * Create a plain text version of this note which includes the topic and the text.
-    *
-    * @param topicName topic name
-    * @param note Notes instance
-    * @return plain text note
-    */
-   private static String getStructuredText(String topicName, Notes note)
+   @Override public String toString()
    {
       String result;
 
-      String text = note == null ? null : note.toString();
+      String text = m_notes == null ? null : m_notes.toString();
       if (text == null || text.isEmpty())
       {
          result = null;
       }
       else
       {
-         result = topicName + "\n" + text + "\n";
+         result = m_topic.getName() + "\n" + text + "\n";
       }
 
       return result;
