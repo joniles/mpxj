@@ -487,16 +487,19 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             activityExpenseType = project.getActivityExpense();
          }
 
+         processNotebookTopics(apibo);
+         Map<Integer, Notes> wbsNotes = getWbsNotes(projectNotes);
+         m_projectFile.getProjectProperties().setNotesObject(wbsNotes.get(Integer.valueOf(0)));
+
          processGlobalProperties(apibo);
          processUnitsOfMeasure(apibo);
          processExpenseCategories(apibo);
          processCostAccounts(apibo);
-         processNotebookTopics(apibo);
          processActivityCodes(apibo, activityCodeTypes, activityCodes);
          processCalendars(apibo, calendars);
          processResources(apibo);
          processRoles(apibo);
-         processTasks(wbs, getWbsNotes(projectNotes), activities, getActivityNotes(activityNotes));
+         processTasks(wbs, wbsNotes, activities, getActivityNotes(activityNotes));
          processPredecessors(relationships);
          processWorkContours(apibo);
          processAssignments(assignments);
@@ -2192,7 +2195,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     */
    private Map<Integer, Notes> getWbsNotes(List<ProjectNoteType> notes)
    {
-      Map<Integer, List<ProjectNoteType>> map = notes.stream().filter(n -> n.getWBSObjectId() != null).collect(Collectors.groupingBy(ProjectNoteType::getWBSObjectId, Collectors.toList()));
+      // Project notes have a null WBS ID. We'll map this to zero to allow us to add them to the map.
+      Map<Integer, List<ProjectNoteType>> map = notes.stream().collect(Collectors.groupingBy(n -> n.getWBSObjectId() == null ? Integer.valueOf(0) : n.getWBSObjectId(), Collectors.toList()));
       return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> new ParentNotes(e.getValue().stream().map(n -> getNote(n.getObjectId(), n.getNotebookTopicObjectId(), n.getNote())).filter(Objects::nonNull).collect(Collectors.toList()))));
    }
 

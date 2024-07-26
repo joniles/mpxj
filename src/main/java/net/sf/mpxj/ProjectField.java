@@ -203,7 +203,8 @@ public enum ProjectField implements FieldType
    ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY(DataType.BOOLEAN),
    BASELINE_CALENDAR_NAME(DataType.STRING),
    PROJECT_IS_BASELINE(DataType.BOOLEAN),
-   PROJECT_WEBSITE_URL(DataType.STRING);
+   PROJECT_WEBSITE_URL(DataType.STRING),
+   NOTES(DataType.NOTES);
 
    /**
     * Constructor.
