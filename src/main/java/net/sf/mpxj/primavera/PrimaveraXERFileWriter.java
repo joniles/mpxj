@@ -1140,7 +1140,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("def_qty_type", p -> "QT_Hour");
       PROJECT_COLUMNS.put("add_by_name", p -> "admin");
       PROJECT_COLUMNS.put("web_local_root_path", p -> "");
-      PROJECT_COLUMNS.put("proj_url", p -> "");
+      PROJECT_COLUMNS.put("proj_url", p -> p.getProjectWebsiteUrl());
       PROJECT_COLUMNS.put("def_rate_type", p -> RateTypeHelper.getXerFromInstance(Integer.valueOf(0)));
       PROJECT_COLUMNS.put("add_act_remain_flag", p -> Boolean.FALSE);
       PROJECT_COLUMNS.put("act_this_per_link_flag", p -> Boolean.TRUE);

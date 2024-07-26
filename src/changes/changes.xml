@@ -20,6 +20,7 @@
 			<action dev="joniles" type="update">Improve the implementation of the Unique ID sequence generator used by MPXJ to avoid issues when multiple classloaders are used.</action>
 			<action dev="joniles" type="update">Deprecated the original `StructuredNotes` constructor. A new version of the constructor takes an additional `ProjectFile` argument.</action>
 			<action dev="joniles" type="update">Deprecated the original `UserDefinedField` constructor. A new version of the constructor takes an additional `ProjectFile` argument.</action>
+			<action dev="joniles" type="update">Add support for reading and writing the Project Website URL attribute for P6 schedules.</action>
 		</release>
 		<release date="2024-07-08" version="13.0.2">
 			<action dev="joniles" type="update">When writing XER files, provide a default value for the Resource ID if it is not populated.</action>
