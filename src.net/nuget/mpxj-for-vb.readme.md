@@ -1,5 +1,9 @@
 # MPXJ for VB
 
+**IMPORTANT**: this is the legacy .Net version of MPXJ. When MPXJ 14 is released
+this package will no longer be published. Please migrate your code to use the
+MPXJ.Net package instead.
+
 [MPXJ](http://mpxj.org) is a Java library which allows a variety of project
 file formats and databases to be read and written. This NuGet package uses
 [IKVM](https://github.com/ikvm-revived/ikvm) to translate the Java library into a .Net assembly.
