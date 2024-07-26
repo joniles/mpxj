@@ -1,7 +1,7 @@
 # MPXJ Users
 
 Here is a list of organisations and projects currently using, or believed to be
-using MPXJ. Feel free to [contact me](mailto:jon.iles@bcs.org.uk) if you would
+using MPXJ. Feel free to [contact me](mailto:jon@timephased.com) if you would
 like to be featured in this list.
 
 * ]project-open[ [www.project-open.com](http://www.project-open.com)
