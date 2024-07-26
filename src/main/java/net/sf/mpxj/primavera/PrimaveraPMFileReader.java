@@ -1871,9 +1871,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (ResourceAssignmentType row : assignments)
       {
-         Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(row.getActivityObjectId()));
-         ProjectCalendar effectiveCalendar = task.getEffectiveCalendar();
-
+         Task task = m_projectFile.getTaskByUniqueID(m_activityClashMap.getID(row.getActivityObjectId()));        
          Integer roleID = m_roleClashMap.getID(row.getRoleObjectId());
          Integer resourceID = row.getResourceObjectId();
 
@@ -1888,6 +1886,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          if (task != null && resource != null)
          {
+            ProjectCalendar effectiveCalendar = task.getEffectiveCalendar();
             ResourceAssignment assignment = task.addResourceAssignment(resource);
 
             assignment.setUniqueID(row.getObjectId());

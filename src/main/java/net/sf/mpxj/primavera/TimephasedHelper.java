@@ -69,8 +69,8 @@ final class TimephasedHelper
             return null;
          }
 
-         Duration workHours = Duration.getInstance(Double.valueOf(item[0]), TimeUnit.HOURS);
-         Duration periodHours = Duration.getInstance(Double.valueOf(item[1]), TimeUnit.HOURS);
+         Duration workHours = Duration.getInstance(Double.parseDouble(item[0]), TimeUnit.HOURS);
+         Duration periodHours = Duration.getInstance(Double.parseDouble(item[1]), TimeUnit.HOURS);
          LocalDateTime currentFinish = calendar.getDate(currentStart, periodHours);
          double days = calendar.getDuration(currentStart, currentFinish).getDuration();
 

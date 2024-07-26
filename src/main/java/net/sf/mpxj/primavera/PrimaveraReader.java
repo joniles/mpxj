@@ -670,10 +670,7 @@ final class PrimaveraReader
                m_project.addIgnoredError(ex);
                continue;
             }
-            else
-            {
-               throw ex;
-            }
+            throw ex;
          }
 
          LocalDate startEx = EXCEPTION_EPOCH.plusDays(daysFromEpoch);
@@ -1754,9 +1751,7 @@ final class PrimaveraReader
    {
       for (Row row : rows)
       {
-         Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));
-         ProjectCalendar effectiveCalendar = task.getEffectiveCalendar();
-
+         Task task = m_project.getTaskByUniqueID(m_activityClashMap.getID(row.getInteger("task_id")));         
          Integer roleID = m_roleClashMap.getID(row.getInteger("role_id"));
          Integer resourceID = row.getInteger("rsrc_id");
 
@@ -1770,6 +1765,7 @@ final class PrimaveraReader
          Resource resource = m_project.getResourceByUniqueID(resourceID);
          if (task != null && resource != null)
          {
+            ProjectCalendar effectiveCalendar = task.getEffectiveCalendar();
             ResourceAssignment assignment = task.addResourceAssignment(resource);
             processFields(m_assignmentFields, row, assignment);
 

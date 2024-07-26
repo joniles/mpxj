@@ -1205,7 +1205,6 @@ final class PrimaveraPMProjectWriter
 
    private Double getResourceAssignmentRemainingDuration(Task task, ResourceAssignment mpxj)
    {
-      Double remainingDuration;
       if (mpxj.getActualFinish() != null)
       {
          return Double.valueOf(0);

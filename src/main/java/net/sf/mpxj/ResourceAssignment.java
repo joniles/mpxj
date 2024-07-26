@@ -3233,7 +3233,6 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    private TimephasedWorkContainer m_timephasedPlannedWork;
-   private TimephasedCostContainer m_timephasedPlannedCost;
 
    private TimephasedWorkContainer m_timephasedActualWork;
    private TimephasedCostContainer m_timephasedActualCost;
