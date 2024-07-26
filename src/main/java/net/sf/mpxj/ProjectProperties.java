@@ -3530,6 +3530,27 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return (String)get(ProjectField.PROJECT_WEBSITE_URL);
    }
 
+   public String getNotes()
+   {
+      Object notes = get(TaskField.NOTES);
+      return notes == null ? "" : notes.toString();
+   }
+
+   public void setNotes(String notes)
+   {
+      set(TaskField.NOTES, notes == null ? null : new Notes(notes));
+   }
+
+   public Notes getNotesObject()
+   {
+      return (Notes)get(TaskField.NOTES);
+   }
+
+   public void setNotesObject(Notes notes)
+   {
+      set(TaskField.NOTES, notes);
+   }
+
    /**
     * Set the project website URL.
     *

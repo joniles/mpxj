@@ -2295,6 +2295,7 @@ public final class LocaleData extends ListResourceBundle
       PROJECT_COLUMNS_ARRAY[ProjectField.BASELINE_CALENDAR_NAME.getValue()] = "Baseline Calendar Name";
       PROJECT_COLUMNS_ARRAY[ProjectField.PROJECT_IS_BASELINE.getValue()] = "Project Is Baseline";
       PROJECT_COLUMNS_ARRAY[ProjectField.PROJECT_WEBSITE_URL.getValue()] = "Project Website URL";
+      PROJECT_COLUMNS_ARRAY[ProjectField.NOTES.getValue()] = "Notes";
    }
 
    private static final Object[][] RESOURCES =

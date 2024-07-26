@@ -560,6 +560,8 @@ final class PrimaveraPMProjectWriter
       project.setWebSiteURL(mpxj.getProjectWebsiteUrl());
 
       writeScheduleOptions(project.getScheduleOptions());
+
+      writeNotes(null, mpxj.getNotesObject());
    }
 
    private void writeProjectProperties(BaselineProjectType project)
@@ -626,6 +628,8 @@ final class PrimaveraPMProjectWriter
       project.setWebSiteURL(mpxj.getProjectWebsiteUrl());
 
       writeScheduleOptions(project.getScheduleOptions());
+
+      writeNotes(null, mpxj.getNotesObject());
    }
 
    private void writeScheduleOptions(List<ScheduleOptionsType> list)
@@ -999,7 +1003,7 @@ final class PrimaveraPMProjectWriter
 
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.TASK, true, mpxj));
 
-      writeWbsNote(mpxj);
+      writeNotes(mpxj.getUniqueID(), mpxj.getNotesObject());
    }
 
    /**
@@ -1514,54 +1518,50 @@ final class PrimaveraPMProjectWriter
       }
    }
 
-   /**
-    * Write notes for a WBS entry.
-    *
-    * @param task WBS entry.
-    */
-   private void writeWbsNote(Task task)
+   private void writeNotes(Integer wbsObjectID, Notes notes)
    {
-      String notes = task.getNotes();
-      if (notes.isEmpty())
+      if (notes == null || notes.toString().isEmpty())
       {
          return;
       }
 
-      if (notesAreNativeFormat(task.getNotesObject()))
+      if (notesAreNativeFormat(notes))
       {
-         writeNativeWbsNote(task);
+         writeNativeWbsNote(wbsObjectID, (ParentNotes)notes);
       }
       else
       {
-         writeDefaultWbsNote(task);
+         writeDefaultWbsNote(wbsObjectID, notes.toString());
       }
    }
 
    /**
     * Generate a notebook entry from plain text.
     *
-    * @param task WBS entry
+    * @param wbsObjectID WBS object ID
+    * @param notes notes text
     */
-   private void writeDefaultWbsNote(Task task)
+   private void writeDefaultWbsNote(Integer wbsObjectID, String notes)
    {
       ProjectNoteType xml = m_factory.createProjectNoteType();
       m_projectNotes.add(xml);
 
-      xml.setNote(HtmlHelper.getHtmlFromPlainText(task.getNotes()));
+      xml.setNote(HtmlHelper.getHtmlFromPlainText(notes));
       xml.setNotebookTopicObjectId(m_projectFile.getNotesTopics().getDefaultTopic().getUniqueID());
       xml.setObjectId(m_sequences.getWbsNoteObjectID());
       xml.setProjectObjectId(m_projectObjectID);
-      xml.setWBSObjectId(task.getUniqueID());
+      xml.setWBSObjectId(wbsObjectID);
    }
 
    /**
     * Generate notebook entries from structured notes.
     *
-    * @param task WBS entry
+    * @param wbsObjectID WBS object ID
+    * @param notes notes object
     */
-   private void writeNativeWbsNote(Task task)
+   private void writeNativeWbsNote(Integer wbsObjectID, ParentNotes notes)
    {
-      for (Notes note : ((ParentNotes) task.getNotesObject()).getChildNotes())
+      for (Notes note : notes.getChildNotes())
       {
          StructuredNotes structuredNotes = (StructuredNotes) note;
          HtmlNotes htmlNotes = (HtmlNotes) structuredNotes.getNotes();
@@ -1573,7 +1573,7 @@ final class PrimaveraPMProjectWriter
          xml.setNotebookTopicObjectId(structuredNotes.getTopicID());
          xml.setObjectId(structuredNotes.getUniqueID());
          xml.setProjectObjectId(m_projectObjectID);
-         xml.setWBSObjectId(task.getUniqueID());
+         xml.setWBSObjectId(wbsObjectID);
       }
    }
 

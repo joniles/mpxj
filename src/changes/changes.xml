@@ -21,6 +21,8 @@
 			<action dev="joniles" type="update">Deprecated the original `StructuredNotes` constructor. A new version of the constructor takes an additional `ProjectFile` argument.</action>
 			<action dev="joniles" type="update">Deprecated the original `UserDefinedField` constructor. A new version of the constructor takes an additional `ProjectFile` argument.</action>
 			<action dev="joniles" type="update">Add support for reading and writing the Project Website URL attribute for P6 schedules.</action>
+			<action dev="joniles" type="update">Add support for the Notes attribute as part of the `ProjectProperties` class.</action>
+			<action dev="joniles" type="update">Ensure that project notes are reda from and written to PMXML files.</action>
 		</release>
 		<release date="2024-07-08" version="13.0.2">
 			<action dev="joniles" type="update">When writing XER files, provide a default value for the Resource ID if it is not populated.</action>
