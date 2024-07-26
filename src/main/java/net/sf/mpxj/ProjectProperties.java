@@ -3530,22 +3530,42 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       return (String)get(ProjectField.PROJECT_WEBSITE_URL);
    }
 
+   /**
+    * Retrieve the project notes.
+    *
+    * @return project notes
+    */
    public String getNotes()
    {
       Object notes = get(TaskField.NOTES);
       return notes == null ? "" : notes.toString();
    }
 
+   /**
+    * Set the project notes.
+    *
+    * @param notes project notes
+    */
    public void setNotes(String notes)
    {
       set(TaskField.NOTES, notes == null ? null : new Notes(notes));
    }
 
+   /**
+    * Retrieve the project notes object.
+    *
+    * @return project notes object
+    */
    public Notes getNotesObject()
    {
       return (Notes)get(TaskField.NOTES);
    }
 
+   /**
+    * Set the project notes object.
+    *
+    * @param notes project notes object
+    */
    public void setNotesObject(Notes notes)
    {
       set(TaskField.NOTES, notes);

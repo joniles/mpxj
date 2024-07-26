@@ -561,7 +561,7 @@ final class PrimaveraPMProjectWriter
 
       writeScheduleOptions(project.getScheduleOptions());
 
-      writeNotes(null, mpxj.getNotesObject());
+      writeWbsNote(null, mpxj.getNotesObject());
    }
 
    private void writeProjectProperties(BaselineProjectType project)
@@ -629,7 +629,7 @@ final class PrimaveraPMProjectWriter
 
       writeScheduleOptions(project.getScheduleOptions());
 
-      writeNotes(null, mpxj.getNotesObject());
+      writeWbsNote(null, mpxj.getNotesObject());
    }
 
    private void writeScheduleOptions(List<ScheduleOptionsType> list)
@@ -1003,7 +1003,7 @@ final class PrimaveraPMProjectWriter
 
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.TASK, true, mpxj));
 
-      writeNotes(mpxj.getUniqueID(), mpxj.getNotesObject());
+      writeWbsNote(mpxj.getUniqueID(), mpxj.getNotesObject());
    }
 
    /**
@@ -1518,7 +1518,13 @@ final class PrimaveraPMProjectWriter
       }
    }
 
-   private void writeNotes(Integer wbsObjectID, Notes notes)
+   /**
+    * Write notes for a WBS or Project entry.
+    *
+    * @param wbsObjectID WBS object ID (null for project notes)
+    * @param notes notes
+    */
+   private void writeWbsNote(Integer wbsObjectID, Notes notes)
    {
       if (notes == null || notes.toString().isEmpty())
       {
