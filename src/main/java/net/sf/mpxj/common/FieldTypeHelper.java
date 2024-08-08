@@ -93,6 +93,14 @@ public final class FieldTypeHelper
       return result;
    }
 
+   /**
+    * Retrieve a FieldType instance based on an ID value from
+    * an MPP9, MPP12 or MPP14 file.
+    *
+    * @param project parent project
+    * @param fieldID field ID
+    * @return FieldType instance
+    */
    public static final FieldType getInstance(ProjectFile project, int fieldID)
    {
       return getInstance(project, fieldID, DataType.CUSTOM);
@@ -100,10 +108,11 @@ public final class FieldTypeHelper
 
    /**
     * Retrieve a FieldType instance based on an ID value from
-    * an MPP9 or MPP12 file.
+    * an MPP9, MPP12 or MPP14 file.
     *
     * @param project parent project
     * @param fieldID field ID
+    * @param customFieldDataType custom field data type
     * @return FieldType instance
     */
    public static final FieldType getInstance(ProjectFile project, int fieldID, DataType customFieldDataType)
