@@ -83,6 +83,11 @@ public class UserDefinedField implements FieldType
       m_dataType = dataType;
    }
 
+   /**
+    * Private constructor.
+    *
+    * @param builder Builder instance
+    */
    private UserDefinedField(Builder builder)
    {
       m_uniqueID = builder.m_file.getUniqueIdObjectSequence(UserDefinedField.class).syncOrGetNext(builder.m_uniqueID);
@@ -173,6 +178,9 @@ public class UserDefinedField implements FieldType
    private final String m_internalName;
    private DataType m_dataType;
 
+   /**
+    * User defined field builder.
+    */
    public static class Builder
    {
       /**
@@ -197,36 +205,71 @@ public class UserDefinedField implements FieldType
          return this;
       }
 
+      /**
+       * Add tyhe field type class.
+       *
+       * @param value field type class
+       * @return builder
+       */
       public Builder fieldTypeClass(FieldTypeClass value)
       {
          m_fieldTypeClass = value;
          return this;
       }
 
+      /**
+       * Add the summary task only flag.
+       *
+       * @param value summary task only flag
+       * @return builder
+       */
       public Builder summaryTaskOnly(boolean value)
       {
          m_summaryTaskOnly = value;
          return this;
       }
 
+      /**
+       * Add the external name.
+       *
+       * @param value external name
+       * @return builder
+       */
       public Builder externalName(String value)
       {
          m_externalName = value;
          return this;
       }
 
+      /**
+       * Add the internal name.
+       *
+       * @param value internal name
+       * @return builder
+       */
       public Builder internalName(String value)
       {
          m_internalName = value;
          return this;
       }
 
+      /**
+       * Add the data type.
+       *
+       * @param value data type
+       * @return builder
+       */
       public Builder dataType(DataType value)
       {
          m_dataType = value;
          return this;
       }
 
+      /**
+       * Build a UserDefinedField instance.
+       *
+       * @return builder
+       */
       public UserDefinedField build()
       {
          return new UserDefinedField(this);
