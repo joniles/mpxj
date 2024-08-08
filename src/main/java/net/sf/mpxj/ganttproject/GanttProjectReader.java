@@ -113,7 +113,6 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          m_taskPropertyDefinitions = new HashMap<>();
          m_roleDefinitions = new HashMap<>();
          m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
-         m_userDefinedFieldID = 0;
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceUniqueID(false);
@@ -338,9 +337,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
             continue;
          }
 
-         // TODO: use standard unique ID generation
          UserDefinedField fieldType = new UserDefinedField.Builder(m_projectFile)
-            .uniqueID(Integer.valueOf(++m_userDefinedFieldID))
             .externalName(definition.getName())
             .fieldTypeClass(FieldTypeClass.RESOURCE)
             .dataType(type)
@@ -383,9 +380,7 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
             continue;
          }
 
-         // TODO: use standard unique ID generation
          UserDefinedField fieldType = new UserDefinedField.Builder(m_projectFile)
-            .uniqueID(Integer.valueOf(++m_userDefinedFieldID))
             .externalName(definition.getName())
             .fieldTypeClass(FieldTypeClass.TASK)
             .dataType(type)
@@ -813,7 +808,6 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
    private Map<String, Pair<FieldType, Object>> m_resourcePropertyDefinitions;
    private Map<String, Pair<FieldType, Object>> m_taskPropertyDefinitions;
    private Map<String, String> m_roleDefinitions;
-   private int m_userDefinedFieldID;
 
    private static final int[] PRIORITY =
    {

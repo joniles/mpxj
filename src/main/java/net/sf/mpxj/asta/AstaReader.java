@@ -1877,7 +1877,7 @@ final class AstaReader
          {
             continue;
          }
-         
+
          UserDefinedField field = new UserDefinedField.Builder(m_project)
             .uniqueID(row.getInteger("UDF_ID"))
             .externalName(row.getString("UDF_NAME"))
