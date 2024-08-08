@@ -1878,14 +1878,18 @@ final class AstaReader
             continue;
          }
 
-         Integer id = row.getInteger("UDF_ID");
-         String externalName = row.getString("UDF_NAME");
-         UserDefinedField field = new UserDefinedField(m_project, id, null, externalName, fieldTypeClass, false, dataType);
-         userDefinedFields.add(field);
-         customFields.add(field).setAlias(externalName);
+         UserDefinedField field = new UserDefinedField.Builder(m_project)
+            .uniqueID(row.getInteger("UDF_ID"))
+            .externalName(row.getString("UDF_NAME"))
+            .fieldTypeClass(fieldTypeClass)
+            .dataType(dataType)
+            .build();
 
-         objectTypeMap.put(id, objectType);
-         fieldMap.put(id, field);
+         userDefinedFields.add(field);
+         customFields.add(field).setAlias(field.getName());
+
+         objectTypeMap.put(field.getUniqueID(), objectType);
+         fieldMap.put(field.getUniqueID(), field);
       }
    }
 

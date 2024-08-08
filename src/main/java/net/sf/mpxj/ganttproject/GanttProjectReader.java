@@ -113,7 +113,6 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
          m_taskPropertyDefinitions = new HashMap<>();
          m_roleDefinitions = new HashMap<>();
          m_dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
-         m_userDefinedFieldID = 0;
 
          ProjectConfig config = m_projectFile.getProjectConfig();
          config.setAutoResourceUniqueID(false);
@@ -338,10 +337,12 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
             continue;
          }
 
-         Integer id = Integer.valueOf(++m_userDefinedFieldID);
-         String externalName = definition.getName();
+         UserDefinedField fieldType = new UserDefinedField.Builder(m_projectFile)
+            .externalName(definition.getName())
+            .fieldTypeClass(FieldTypeClass.RESOURCE)
+            .dataType(type)
+            .build();
 
-         UserDefinedField fieldType = new UserDefinedField(m_projectFile, id, null, externalName, FieldTypeClass.RESOURCE, false, type);
          container.add(fieldType);
          m_projectFile.getCustomFields().add(fieldType).setAlias(definition.getName());
 
@@ -379,10 +380,12 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
             continue;
          }
 
-         Integer id = Integer.valueOf(++m_userDefinedFieldID);
-         String externalName = definition.getName();
+         UserDefinedField fieldType = new UserDefinedField.Builder(m_projectFile)
+            .externalName(definition.getName())
+            .fieldTypeClass(FieldTypeClass.TASK)
+            .dataType(type)
+            .build();
 
-         UserDefinedField fieldType = new UserDefinedField(m_projectFile, id, null, externalName, FieldTypeClass.TASK, false, type);
          container.add(fieldType);
          m_projectFile.getCustomFields().add(fieldType).setAlias(definition.getName());
 
@@ -805,7 +808,6 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
    private Map<String, Pair<FieldType, Object>> m_resourcePropertyDefinitions;
    private Map<String, Pair<FieldType, Object>> m_taskPropertyDefinitions;
    private Map<String, String> m_roleDefinitions;
-   private int m_userDefinedFieldID;
 
    private static final int[] PRIORITY =
    {

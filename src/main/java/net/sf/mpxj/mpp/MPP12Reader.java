@@ -87,7 +87,7 @@ final class MPP12Reader implements MPPVariantReader
          {
             processSubProjectData();
             processGraphicalIndicators();
-            processCustomValueLists();
+            processCustomFields();
             processCalendarData();
             processResourceData();
             processTaskData();
@@ -202,11 +202,26 @@ final class MPP12Reader implements MPPVariantReader
    }
 
    /**
-    * This method extracts and collates the value list information
-    * for custom column value lists.
+    * Read custom field definitions.
     */
-   private void processCustomValueLists() throws IOException
+   private void processCustomFields() throws IOException
    {
+      // Ensure we have read the custom field definitions ...
+      DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
+      if (taskDir.hasEntry("Props"))
+      {
+         Props12 props = new Props12(m_inputStreamFactory.getInstance(taskDir, "Props"));
+         new CustomFieldReader12(m_file, props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
+      }
+
+      DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
+      if (rscDir.hasEntry("Props"))
+      {
+         Props12 props = new Props12(m_inputStreamFactory.getInstance(rscDir, "Props"));
+         new CustomFieldReader12(m_file, props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
+      }
+
+      // ... before we add values lists
       Map<UUID, FieldType> lookupTableMap = new HashMap<>();
       populateLookupTableMap(lookupTableMap, (DirectoryEntry) m_projectDir.getEntry("TBkndTask"));
       populateLookupTableMap(lookupTableMap, (DirectoryEntry) m_projectDir.getEntry("TBkndRsc"));
@@ -965,7 +980,6 @@ final class MPP12Reader implements MPPVariantReader
       FixedMeta taskFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Meta"))), 86);
       FixedData taskFixed2Data = new FixedData(taskFixed2Meta, new DocumentInputStream(((DocumentEntry) taskDir.getEntry("Fixed2Data"))));
 
-      Props12 props = new Props12(m_inputStreamFactory.getInstance(taskDir, "Props"));
       //System.out.println(taskFixedMeta);
       //System.out.println(taskFixedData);
       //System.out.println(taskVarMeta);
@@ -974,9 +988,6 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(m_outlineCodeVarData.getVarMeta());
       //System.out.println(m_outlineCodeVarData);
       //System.out.println(props);
-
-      // Process aliases
-      new CustomFieldReader12(m_file, props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
 
       TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData, taskFixed2Data, taskVarData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
@@ -1502,7 +1513,6 @@ final class MPP12Reader implements MPPVariantReader
       FixedData rscFixedData = new FixedData(rscFixedMeta, m_inputStreamFactory.getInstance(rscDir, "FixedData"));
       FixedMeta rscFixed2Meta = new FixedMeta(new DocumentInputStream(((DocumentEntry) rscDir.getEntry("Fixed2Meta"))), 49);
       FixedData rscFixed2Data = new FixedData(rscFixed2Meta, m_inputStreamFactory.getInstance(rscDir, "Fixed2Data"));
-      Props12 props = new Props12(m_inputStreamFactory.getInstance(rscDir, "Props"));
       //System.out.println(rscVarMeta);
       //System.out.println(rscVarData);
       //System.out.println(rscFixedMeta);
@@ -1510,9 +1520,6 @@ final class MPP12Reader implements MPPVariantReader
       //System.out.println(rscFixed2Meta);
       //System.out.println(rscFixed2Data);
       //System.out.println(props);
-
-      // Process aliases
-      new CustomFieldReader12(m_file, props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
 
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();

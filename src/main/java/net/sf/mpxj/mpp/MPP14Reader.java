@@ -94,7 +94,7 @@ final class MPP14Reader implements MPPVariantReader
          {
             processSubProjectData();
             processGraphicalIndicators();
-            processCustomValueLists();
+            processCustomFields();
             processCalendarData();
             processResourceData();
             processTaskData();
@@ -218,11 +218,33 @@ final class MPP14Reader implements MPPVariantReader
    }
 
    /**
-    * This method extracts and collates the value list information
-    * for custom column value lists.
+    * Read custom field definitions.
     */
-   private void processCustomValueLists() throws IOException
+   private void processCustomFields() throws IOException
    {
+      // Ensure we have read the custom field definitions ...
+      DirectoryEntry taskDir = (DirectoryEntry) m_projectDir.getEntry("TBkndTask");
+      if (taskDir.hasEntry("Props"))
+      {
+         Props14 props = new Props14(m_file, m_inputStreamFactory.getInstance(taskDir, "Props"));
+         new CustomFieldReader14(m_file, props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
+      }
+
+      DirectoryEntry rscDir = (DirectoryEntry) m_projectDir.getEntry("TBkndRsc");
+      if (rscDir.hasEntry("Props"))
+      {
+         Props14 props = new Props14(m_file, m_inputStreamFactory.getInstance(rscDir, "Props"));
+         new CustomFieldReader14(m_file, props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
+      }
+
+      DirectoryEntry assnDir = (DirectoryEntry) m_projectDir.getEntry("TBkndAssn");
+      if (assnDir.hasEntry("Props"))
+      {
+         Props props = new Props14(m_file, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
+         new CustomFieldReader14(m_file, props.getByteArray(ASSIGNMENT_FIELD_NAME_ALIASES)).process();
+      }
+
+      // ... before we add values lists
       Map<UUID, FieldType> lookupTableMap = new HashMap<>();
       populateLookupTableMap(lookupTableMap, (DirectoryEntry) m_projectDir.getEntry("TBkndTask"));
       populateLookupTableMap(lookupTableMap, (DirectoryEntry) m_projectDir.getEntry("TBkndRsc"));
@@ -983,13 +1005,6 @@ final class MPP14Reader implements MPPVariantReader
       //      System.out.println(m_outlineCodeVarData.getVarMeta());
       //      System.out.println(m_outlineCodeVarData);
 
-      // Process aliases
-      if (taskDir.hasEntry("Props"))
-      {
-         Props14 props = new Props14(m_file, m_inputStreamFactory.getInstance(taskDir, "Props"));
-         new CustomFieldReader14(m_file, props.getByteArray(TASK_FIELD_NAME_ALIASES)).process();
-      }
-
       TreeMap<Integer, Integer> taskMap = createTaskMap(fieldMap, taskFixedMeta, taskFixedData, taskFixed2Data, taskVarData);
       // The var data may not contain all the tasks as tasks with no var data assigned will
       // not be saved in there. Most notably these are tasks with no name. So use the task map
@@ -1537,13 +1552,6 @@ final class MPP14Reader implements MPPVariantReader
       //System.out.println(rscFixed2Meta);
       //System.out.println(rscFixed2Data);
 
-      // Process aliases
-      if (rscDir.hasEntry("Props"))
-      {
-         Props14 props = new Props14(m_file, m_inputStreamFactory.getInstance(rscDir, "Props"));
-         new CustomFieldReader14(m_file, props.getByteArray(RESOURCE_FIELD_NAME_ALIASES)).process();
-      }
-
       TreeMap<Integer, Integer> resourceMap = createResourceMap(fieldMap, rscFixedMeta, rscFixedData);
       Integer[] uniqueid = rscVarMeta.getUniqueIdentifierArray();
       Integer offset;
@@ -1700,13 +1708,6 @@ final class MPP14Reader implements MPPVariantReader
       FixedData assnFixedData = new FixedData(110, m_inputStreamFactory.getInstance(assnDir, "FixedData"));
       FixedData assnFixedData2 = new FixedData(48, m_inputStreamFactory.getInstance(assnDir, "Fixed2Data"));
       //FixedMeta assnFixedMeta2 = new FixedMeta(new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Fixed2Meta"))), 53);
-
-      // Process aliases
-      if (assnDir.hasEntry("Props"))
-      {
-         Props props = new Props14(m_file, new DocumentInputStream(((DocumentEntry) assnDir.getEntry("Props"))));
-         new CustomFieldReader14(m_file, props.getByteArray(ASSIGNMENT_FIELD_NAME_ALIASES)).process();
-      }
 
       ResourceAssignmentFactory factory = new ResourceAssignmentFactory();
       factory.process(m_file, fieldMap, enterpriseCustomFieldMap, m_reader.getUseRawTimephasedData(), assnVarMeta, assnVarData, assnFixedMeta, assnFixedData, assnFixedData2, assnFixedMeta.getItemCount());
