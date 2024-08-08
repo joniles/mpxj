@@ -503,7 +503,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeActivityUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "TASK".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      return getActivityStream().map(t -> writeUdfAssignments(fields, TaskField.UNIQUE_ID, t)).flatMap(Collection::stream).collect(Collectors.toList());
+      Integer projectID = getProjectID(m_file.getProjectProperties().getUniqueID());
+      return getActivityStream().map(t -> writeUdfAssignments(fields, projectID, t.getUniqueID(), t)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
@@ -514,7 +515,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeWbsUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "PROJWBS".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      return getWbsStream().map(t -> writeUdfAssignments(fields, TaskField.UNIQUE_ID, t)).flatMap(Collection::stream).collect(Collectors.toList());
+      Integer projectID = getProjectID(m_file.getProjectProperties().getUniqueID());
+      return getWbsStream().map(t -> writeUdfAssignments(fields, projectID, t.getUniqueID(), t)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
@@ -525,7 +527,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeResourceUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "RSRC".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      return m_file.getResources().stream().map(r -> writeUdfAssignments(fields, ResourceField.UNIQUE_ID, r)).flatMap(Collection::stream).collect(Collectors.toList());
+      return m_file.getResources().stream().map(r -> writeUdfAssignments(fields, null, r.getUniqueID(), r)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
@@ -536,7 +538,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeResourceAssignmentUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "TASKRSRC".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      return m_file.getResourceAssignments().stream().map(a -> writeUdfAssignments(fields, AssignmentField.UNIQUE_ID, a)).flatMap(Collection::stream).collect(Collectors.toList());
+      Integer projectID = getProjectID(m_file.getProjectProperties().getUniqueID());
+      return m_file.getResourceAssignments().stream().map(a -> writeUdfAssignments(fields, projectID, a.getUniqueID(), a)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
@@ -547,22 +550,22 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeProjectUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "PROJECT".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      return writeUdfAssignments(fields, ProjectField.UNIQUE_ID, m_file.getProjectProperties());
+      Integer projectID = getProjectID(m_file.getProjectProperties().getUniqueID());
+      return writeUdfAssignments(fields, projectID, projectID, m_file.getProjectProperties());
    }
 
    /**
     * Write UDF assignments from a FieldContainer instance.
     *
     * @param fields UDF fields to write
-    * @param uniqueID unique ID field type
+    * @param projectID parent project ID
+    * @param entityID container unique ID
     * @param container field container
     * @return list of UDF records
     */
-   private List<Map<String, Object>> writeUdfAssignments(Set<FieldType> fields, FieldType uniqueID, FieldContainer container)
+   private List<Map<String, Object>> writeUdfAssignments(Set<FieldType> fields, Integer projectID, Integer entityID, FieldContainer container)
    {
-      Integer projectID = container instanceof Resource ? null : getProjectID(m_file.getProjectProperties().getUniqueID());
-      Integer entityId = (Integer) container.get(uniqueID);
-      return fields.stream().map(f -> writeUdfAssignment(f, projectID, entityId, container.get(f))).collect(Collectors.toList());
+      return fields.stream().map(f -> writeUdfAssignment(f, projectID, entityID, container.get(f))).collect(Collectors.toList());
    }
 
    /**
