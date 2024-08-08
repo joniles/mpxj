@@ -338,10 +338,14 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
             continue;
          }
 
-         Integer id = Integer.valueOf(++m_userDefinedFieldID);
-         String externalName = definition.getName();
+         // TODO: use standard unique ID generation
+         UserDefinedField fieldType = new UserDefinedField.Builder(m_projectFile)
+            .uniqueID(Integer.valueOf(++m_userDefinedFieldID))
+            .externalName(definition.getName())
+            .fieldTypeClass(FieldTypeClass.RESOURCE)
+            .dataType(type)
+            .build();
 
-         UserDefinedField fieldType = new UserDefinedField(m_projectFile, id, null, externalName, FieldTypeClass.RESOURCE, false, type);
          container.add(fieldType);
          m_projectFile.getCustomFields().add(fieldType).setAlias(definition.getName());
 
@@ -379,10 +383,14 @@ public final class GanttProjectReader extends AbstractProjectStreamReader
             continue;
          }
 
-         Integer id = Integer.valueOf(++m_userDefinedFieldID);
-         String externalName = definition.getName();
+         // TODO: use standard unique ID generation
+         UserDefinedField fieldType = new UserDefinedField.Builder(m_projectFile)
+            .uniqueID(Integer.valueOf(++m_userDefinedFieldID))
+            .externalName(definition.getName())
+            .fieldTypeClass(FieldTypeClass.TASK)
+            .dataType(type)
+            .build();
 
-         UserDefinedField fieldType = new UserDefinedField(m_projectFile, id, null, externalName, FieldTypeClass.TASK, false, type);
          container.add(fieldType);
          m_projectFile.getCustomFields().add(fieldType).setAlias(definition.getName());
 

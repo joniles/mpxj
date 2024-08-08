@@ -59,9 +59,12 @@ public final class MPPAssignmentField
       {
          return project.getUserDefinedFields().getOrCreateAssignmentField(Integer.valueOf(value), (k) -> {
             int id = (k.intValue() & 0xFFF) + 1;
-            String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
-            String externalName = "Enterprise Custom Field " + id;
-            return new UserDefinedField(project, Integer.valueOf(ASSIGNMENT_FIELD_BASE + k.intValue()), internalName, externalName, FieldTypeClass.ASSIGNMENT, false, customFieldDataType);
+            return new UserDefinedField.Builder(project)
+               .uniqueID(Integer.valueOf(ASSIGNMENT_FIELD_BASE + k.intValue()))
+               .internalName("ENTERPRISE_CUSTOM_FIELD" + id)
+               .externalName("Enterprise Custom Field " + id)
+               .fieldTypeClass(FieldTypeClass.ASSIGNMENT)
+               .dataType(customFieldDataType).build();
          });
       }
 

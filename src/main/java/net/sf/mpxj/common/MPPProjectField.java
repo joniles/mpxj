@@ -55,9 +55,13 @@ public class MPPProjectField
       {
          return project.getUserDefinedFields().getOrCreateProjectField(Integer.valueOf(value), (k) -> {
             int id = (k.intValue() & 0xFFF) + 1;
-            String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
-            String externalName = "Enterprise Custom Field " + id;
-            return new UserDefinedField(project, Integer.valueOf(PROJECT_FIELD_BASE + k.intValue()), internalName, externalName, FieldTypeClass.PROJECT, false, customFieldDataType);
+            return new UserDefinedField.Builder(project)
+               .uniqueID(Integer.valueOf(PROJECT_FIELD_BASE + k.intValue()))
+               .internalName("ENTERPRISE_CUSTOM_FIELD" + id)
+               .externalName("Enterprise Custom Field " + id)
+               .fieldTypeClass(FieldTypeClass.PROJECT)
+               .dataType(customFieldDataType)
+               .build();
          });
       }
 

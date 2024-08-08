@@ -373,15 +373,19 @@ final class PrimaveraReader
             continue;
          }
 
-         boolean summaryTaskOnly = tableName.equals("PROJWBS");
-         String internalName = row.getString("udf_type_name");
-         String externalName = row.getString("udf_type_label");
-         DataType dataType = UdfHelper.getDataTypeFromXer(row.getString("logical_data_type"));
-         UserDefinedField fieldType = new UserDefinedField(m_project, fieldId, internalName, externalName, fieldTypeClass, summaryTaskOnly, dataType);
+         UserDefinedField fieldType = new UserDefinedField.Builder(m_project)
+            .uniqueID(fieldId)
+            .internalName(row.getString("udf_type_name"))
+            .externalName(row.getString("udf_type_label"))
+            .fieldTypeClass(fieldTypeClass)
+            .summaryTaskOnly(tableName.equals("PROJWBS"))
+            .dataType(UdfHelper.getDataTypeFromXer(row.getString("logical_data_type")))
+            .build();
+
          container.add(fieldType);
 
          m_udfFields.put(fieldId, fieldType);
-         m_project.getCustomFields().add(fieldType).setAlias(externalName).setUniqueID(fieldId);
+         m_project.getCustomFields().add(fieldType).setAlias(fieldType.getName()).setUniqueID(fieldId);
       }
 
       // Process values

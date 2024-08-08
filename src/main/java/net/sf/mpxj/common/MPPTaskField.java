@@ -58,9 +58,13 @@ public class MPPTaskField
       {
          return project.getUserDefinedFields().getOrCreateTaskField(Integer.valueOf(value), (k) -> {
             int id = (k.intValue() & 0xFFF) + 1;
-            String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
-            String externalName = "Enterprise Custom Field " + id;
-            return new UserDefinedField(project, Integer.valueOf(TASK_FIELD_BASE + k.intValue()), internalName, externalName, FieldTypeClass.TASK, false, customFieldDataType);
+            return new UserDefinedField.Builder(project)
+               .uniqueID(Integer.valueOf(TASK_FIELD_BASE + k.intValue()))
+               .internalName("ENTERPRISE_CUSTOM_FIELD" + id)
+               .externalName("Enterprise Custom Field " + id)
+               .fieldTypeClass(FieldTypeClass.TASK)
+               .dataType(customFieldDataType)
+               .build();
          });
       }
 
