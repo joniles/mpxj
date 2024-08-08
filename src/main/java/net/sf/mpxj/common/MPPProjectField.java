@@ -36,6 +36,14 @@ import net.sf.mpxj.UserDefinedField;
  */
 public class MPPProjectField
 {
+   /**
+    * Retrieve an instance of the ProjectField class based on the data read from an
+    * MS Project file.
+    *
+    * @param project parent project
+    * @param value value from an MS Project file
+    * @return ProjectField instance
+    */
    public static FieldType getInstance(ProjectFile project, int value)
    {
       return getInstance(project, value, DataType.CUSTOM);
@@ -47,6 +55,7 @@ public class MPPProjectField
     *
     * @param project parent project
     * @param value value from an MS Project file
+    * @param customFieldDataType custom field data type
     * @return ProjectField instance
     */
    public static FieldType getInstance(ProjectFile project, int value, DataType customFieldDataType)

@@ -39,6 +39,14 @@ import net.sf.mpxj.UserDefinedField;
  */
 public final class MPPResourceField
 {
+   /**
+    * Retrieve an instance of the ResourceField class based on the data read from an
+    * MS Project file.
+    *
+    * @param project parent project
+    * @param value value from an MS Project file
+    * @return ResourceField instance
+    */
    public static FieldType getInstance(ProjectFile project, int value)
    {
       return getInstance(project, value, DataType.CUSTOM);
@@ -50,6 +58,7 @@ public final class MPPResourceField
     *
     * @param project parent project
     * @param value value from an MS Project file
+    * @param customFieldDataType custom field data type
     * @return ResourceField instance
     */
    public static FieldType getInstance(ProjectFile project, int value, DataType customFieldDataType)
