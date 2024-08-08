@@ -39,6 +39,11 @@ import net.sf.mpxj.UserDefinedField;
  */
 public final class MPPAssignmentField
 {
+   public static FieldType getInstance(ProjectFile project, int value)
+   {
+      return getInstance(project, value, DataType.CUSTOM);
+   }
+
    /**
     * Retrieve an instance of the AssignmentField class based on the data read from an
     * MS Project file.
@@ -47,7 +52,7 @@ public final class MPPAssignmentField
     * @param value value from an MS Project file
     * @return AssignmentField instance
     */
-   public static FieldType getInstance(ProjectFile project, int value)
+   public static FieldType getInstance(ProjectFile project, int value, DataType customFieldDataType)
    {
       // The 0x4000 prefix appears to be specific to resource assignments - but don't appear to carry useful information
       if ((value & 0x8000) != 0)
@@ -56,7 +61,7 @@ public final class MPPAssignmentField
             int id = (k.intValue() & 0xFFF) + 1;
             String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
             String externalName = "Enterprise Custom Field " + id;
-            return new UserDefinedField(project, Integer.valueOf(ASSIGNMENT_FIELD_BASE + k.intValue()), internalName, externalName, FieldTypeClass.ASSIGNMENT, false, DataType.CUSTOM);
+            return new UserDefinedField(project, Integer.valueOf(ASSIGNMENT_FIELD_BASE + k.intValue()), internalName, externalName, FieldTypeClass.ASSIGNMENT, false, customFieldDataType);
          });
       }
 

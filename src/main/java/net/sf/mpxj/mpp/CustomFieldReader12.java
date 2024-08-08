@@ -23,6 +23,9 @@
 
 package net.sf.mpxj.mpp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import net.sf.mpxj.FieldType;
@@ -53,109 +56,102 @@ class CustomFieldReader12
     */
    public void process()
    {
-      if (m_data != null)
+      if (m_data == null)
       {
-         int index = 0;
-         int offset = 0;
-         // First the length (repeated twice)
-         int aliasBlockSize = MPPUtility.getInt(m_data, offset);
-         offset += 8;
-         // Then the number of custom columns
-         int numberOfAliases = MPPUtility.getInt(m_data, offset);
-         offset += 4;
-
-         // Then the aliases themselves
-         while (index < numberOfAliases && offset < aliasBlockSize)
-         {
-            // Get the Field ID
-            int fieldID = MPPUtility.getInt(m_data, offset);
-            offset += 4;
-
-            // Get the alias offset (offset + 4 for some reason).
-            int aliasOffset = MPPUtility.getInt(m_data, offset) + 4;
-            offset += 4;
-            // Read the alias itself
-            if (aliasOffset < m_data.length)
-            {
-               String alias = MPPUtility.getUnicodeString(m_data, aliasOffset);
-               if (!alias.isEmpty())
-               {
-                  m_fields.getOrCreate(FieldTypeHelper.getInstance(m_file, fieldID)).setAlias(alias);
-               }
-            }
-            index++;
-         }
-
-         // NOTE: the blocks here all follow the same format.
-         // 4 byte block size (excluding these 4 bytes)
-         // 4 byte block size again
-         // 4 byte item count
-         // N bytes of data (if item count is non-zero)
-         // The first block contains alias details
-         // The last block may be enterprise custom field details (as per MPP14)
-         // Not sure about the other blocks.
-
-         // Skip past the alias block
-         offset = 4 + aliasBlockSize;
-
-         // Unknown block 1: size, size count
-         int unknownBlock1Size = MPPUtility.getInt(m_data, offset);
-         offset += 4;
-         offset += unknownBlock1Size;
-
-         // Unknown block 2: size, size count
-         int unknownBlock2Size = MPPUtility.getInt(m_data, offset);
-         offset += 4;
-         offset += unknownBlock2Size;
-
-         // Field definitions block
-         // size repeated twice hence 8 bytes
-         //int definitionsBlockSize = MPPUtility.getInt(m_data, offset);
-         offset += 8;
-
-         int numberOfDefinitions = MPPUtility.getInt(m_data, offset);
-         offset += 4;
-
-         for (int definitionIndex = 0; definitionIndex < numberOfDefinitions; definitionIndex++)
-         {
-            // FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset));
-            //CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset)));
-            //System.out.println(fieldType + "\t" + ByteArrayHelper.hexdump(m_data, offset, 8, false));
-            offset += 8;
-         }
-
-         //System.out.println(ByteArrayHelper.hexdump(m_data, offset, m_data.length-offset, false));
-         for (int definitionIndex = 0; definitionIndex < numberOfDefinitions; definitionIndex++)
-         {
-            if (offset + 2 > m_data.length)
-            {
-               return;
-            }
-
-            int blockSize = MPPUtility.getShort(m_data, offset);
-            if (offset + blockSize > m_data.length)
-            {
-               return;
-            }
-
-            FieldType fieldType = FieldTypeHelper.getInstance(m_file, MPPUtility.getInt(m_data, offset + 4));
-
-            // Don't try to set the data type unless it's a custom field
-            if (fieldType instanceof UserDefinedField && fieldType.getDataType() == DataType.CUSTOM)
-            {
-               int dataTypeValue = MPPUtility.getShort(m_data, offset + 12);
-               DataType dataType = EnterpriseCustomFieldDataType.getDataTypeFromID(dataTypeValue);
-               if (dataType != null)
-               {
-                  ((UserDefinedField) fieldType).setDataType(dataType);
-               }
-               //System.out.println(customField.getFieldType() + "\t" + customField.getAlias() + "\t" + customField.getDataType() + "\t" + dataTypeValue);
-               //System.out.println(customField.getFieldType() + "\t" + ByteArrayHelper.hexdump(m_data, offset, blockSize, false));
-            }
-
-            offset += blockSize;
-         }
+         return;
       }
+
+      Map<Integer, String> aliasMap = new HashMap<>();
+      int index = 0;
+      int offset = 0;
+      // First the length (repeated twice)
+      int aliasBlockSize = MPPUtility.getInt(m_data, offset);
+      offset += 8;
+      // Then the number of custom columns
+      int numberOfAliases = MPPUtility.getInt(m_data, offset);
+      offset += 4;
+
+      // Then the aliases themselves
+      while (index < numberOfAliases && offset < aliasBlockSize)
+      {
+         // Get the Field ID
+         int fieldID = MPPUtility.getInt(m_data, offset);
+         offset += 4;
+
+         // Get the alias offset (offset + 4 for some reason).
+         int aliasOffset = MPPUtility.getInt(m_data, offset) + 4;
+         offset += 4;
+         // Read the alias itself
+         if (aliasOffset < m_data.length)
+         {
+            String alias = MPPUtility.getUnicodeString(m_data, aliasOffset);
+            if (!alias.isEmpty())
+            {
+               aliasMap.put(Integer.valueOf(fieldID), alias);
+            }
+         }
+         index++;
+      }
+
+      // NOTE: the blocks here all follow the same format.
+      // 4 byte block size (excluding these 4 bytes)
+      // 4 byte block size again
+      // 4 byte item count
+      // N bytes of data (if item count is non-zero)
+      // The first block contains alias details
+      // The last block may be enterprise custom field details (as per MPP14)
+      // Not sure about the other blocks.
+
+      // Skip past the alias block
+      offset = 4 + aliasBlockSize;
+
+      // Unknown block 1: size, size count
+      int unknownBlock1Size = MPPUtility.getInt(m_data, offset);
+      offset += 4;
+      offset += unknownBlock1Size;
+
+      // Unknown block 2: size, size count
+      int unknownBlock2Size = MPPUtility.getInt(m_data, offset);
+      offset += 4;
+      offset += unknownBlock2Size;
+
+      // Field definitions block
+      // size repeated twice hence 8 bytes
+      //int definitionsBlockSize = MPPUtility.getInt(m_data, offset);
+      offset += 8;
+
+      int numberOfDefinitions = MPPUtility.getInt(m_data, offset);
+      offset += 4;
+
+      for (int definitionIndex = 0; definitionIndex < numberOfDefinitions; definitionIndex++)
+      {
+         // FieldType fieldType = FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset));
+         //CustomField customField = m_fields.getCustomField(FieldTypeHelper.getInstance(MPPUtility.getInt(m_data, offset)));
+         //System.out.println(fieldType + "\t" + ByteArrayHelper.hexdump(m_data, offset, 8, false));
+         offset += 8;
+      }
+
+      //System.out.println(ByteArrayHelper.hexdump(m_data, offset, m_data.length-offset, false));
+      for (int definitionIndex = 0; definitionIndex < numberOfDefinitions; definitionIndex++)
+      {
+         if (offset + 2 > m_data.length)
+         {
+            break;
+         }
+
+         int blockSize = MPPUtility.getShort(m_data, offset);
+         if (offset + blockSize > m_data.length)
+         {
+            break;
+         }
+
+         DataType customFieldDataType = EnterpriseCustomFieldDataType.getDataTypeFromID(MPPUtility.getShort(m_data, offset + 12));
+         FieldTypeHelper.getInstance(m_file, MPPUtility.getInt(m_data, offset + 4), customFieldDataType);
+
+         offset += blockSize;
+      }
+
+      aliasMap.forEach((k,v) ->  m_fields.getOrCreate(FieldTypeHelper.getInstance(m_file, k.intValue())).setAlias(v));
    }
 
    private final ProjectFile m_file;

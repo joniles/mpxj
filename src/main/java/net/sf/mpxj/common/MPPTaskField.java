@@ -39,6 +39,11 @@ import net.sf.mpxj.UserDefinedField;
  */
 public class MPPTaskField
 {
+   public static FieldType getInstance(ProjectFile project, int value)
+   {
+      return getInstance(project, value, DataType.CUSTOM);
+   }
+
    /**
     * Retrieve an instance of the TaskField class based on the data read from an
     * MS Project file.
@@ -47,7 +52,7 @@ public class MPPTaskField
     * @param value value from an MS Project file
     * @return TaskField instance
     */
-   public static FieldType getInstance(ProjectFile project, int value)
+   public static FieldType getInstance(ProjectFile project, int value, DataType customFieldDataType)
    {
       if ((value & 0x8000) != 0)
       {
@@ -55,7 +60,7 @@ public class MPPTaskField
             int id = (k.intValue() & 0xFFF) + 1;
             String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
             String externalName = "Enterprise Custom Field " + id;
-            return new UserDefinedField(project, Integer.valueOf(TASK_FIELD_BASE + k.intValue()), internalName, externalName, FieldTypeClass.TASK, false, DataType.CUSTOM);
+            return new UserDefinedField(project, Integer.valueOf(TASK_FIELD_BASE + k.intValue()), internalName, externalName, FieldTypeClass.TASK, false, customFieldDataType);
          });
       }
 

@@ -41,7 +41,7 @@ public final class EnterpriseCustomFieldDataType
     */
    public static DataType getDataTypeFromID(int value)
    {
-      return DATA_TYPE_MAP.get(Integer.valueOf(value));
+      return DATA_TYPE_MAP.getOrDefault(Integer.valueOf(value), DataType.CUSTOM);
    }
 
    /**

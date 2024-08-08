@@ -36,6 +36,11 @@ import net.sf.mpxj.UserDefinedField;
  */
 public class MPPProjectField
 {
+   public static FieldType getInstance(ProjectFile project, int value)
+   {
+      return getInstance(project, value, DataType.CUSTOM);
+   }
+
    /**
     * Retrieve an instance of the ProjectField class based on the data read from an
     * MS Project file.
@@ -44,7 +49,7 @@ public class MPPProjectField
     * @param value value from an MS Project file
     * @return ProjectField instance
     */
-   public static FieldType getInstance(ProjectFile project, int value)
+   public static FieldType getInstance(ProjectFile project, int value, DataType customFieldDataType)
    {
       if ((value & 0x8000) != 0)
       {
@@ -52,7 +57,7 @@ public class MPPProjectField
             int id = (k.intValue() & 0xFFF) + 1;
             String internalName = "ENTERPRISE_CUSTOM_FIELD" + id;
             String externalName = "Enterprise Custom Field " + id;
-            return new UserDefinedField(project, Integer.valueOf(PROJECT_FIELD_BASE + k.intValue()), internalName, externalName, FieldTypeClass.PROJECT, false, DataType.CUSTOM);
+            return new UserDefinedField(project, Integer.valueOf(PROJECT_FIELD_BASE + k.intValue()), internalName, externalName, FieldTypeClass.PROJECT, false, customFieldDataType);
          });
       }
 

@@ -93,6 +93,11 @@ public final class FieldTypeHelper
       return result;
    }
 
+   public static final FieldType getInstance(ProjectFile project, int fieldID)
+   {
+      return getInstance(project, fieldID, DataType.CUSTOM);
+   }
+
    /**
     * Retrieve a FieldType instance based on an ID value from
     * an MPP9 or MPP12 file.
@@ -101,7 +106,7 @@ public final class FieldTypeHelper
     * @param fieldID field ID
     * @return FieldType instance
     */
-   public static final FieldType getInstance(ProjectFile project, int fieldID)
+   public static final FieldType getInstance(ProjectFile project, int fieldID, DataType customFieldDataType)
    {
       if (fieldID == -1)
       {
@@ -116,7 +121,7 @@ public final class FieldTypeHelper
       {
          case MPPTaskField.TASK_FIELD_BASE:
          {
-            result = MPPTaskField.getInstance(project, index);
+            result = MPPTaskField.getInstance(project, index, customFieldDataType);
             if (result == null)
             {
                result = getPlaceholder(TaskField.class, index);
@@ -126,7 +131,7 @@ public final class FieldTypeHelper
 
          case MPPResourceField.RESOURCE_FIELD_BASE:
          {
-            result = MPPResourceField.getInstance(project, index);
+            result = MPPResourceField.getInstance(project, index, customFieldDataType);
             if (result == null)
             {
                result = getPlaceholder(ResourceField.class, index);
@@ -136,7 +141,7 @@ public final class FieldTypeHelper
 
          case MPPAssignmentField.ASSIGNMENT_FIELD_BASE:
          {
-            result = MPPAssignmentField.getInstance(project, index);
+            result = MPPAssignmentField.getInstance(project, index, customFieldDataType);
             if (result == null)
             {
                result = getPlaceholder(AssignmentField.class, index);
@@ -156,7 +161,7 @@ public final class FieldTypeHelper
 
          case MPPProjectField.PROJECT_FIELD_BASE:
          {
-            result = MPPProjectField.getInstance(project, index);
+            result = MPPProjectField.getInstance(project, index, customFieldDataType);
             if (result == null)
             {
                result = getPlaceholder(ProjectField.class, index);
