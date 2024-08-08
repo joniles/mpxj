@@ -206,7 +206,7 @@ public class UserDefinedField implements FieldType
       }
 
       /**
-       * Add tyhe field type class.
+       * Add the field type class.
        *
        * @param value field type class
        * @return builder
