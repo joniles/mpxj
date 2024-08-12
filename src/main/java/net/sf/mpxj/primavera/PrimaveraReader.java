@@ -336,7 +336,7 @@ final class PrimaveraReader
                .color(ColorHelper.parseHexColor(row.getString("color")))
                .parent(m_activityCodeMap.get(row.getInteger("parent_actv_code_id")))
                .build();
-            code.getValues().add(value);
+            code.addValue(value);
             m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }

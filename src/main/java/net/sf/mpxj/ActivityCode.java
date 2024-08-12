@@ -153,6 +153,16 @@ public final class ActivityCode
       return m_values.stream().filter(v -> v.getParent() == null).collect(Collectors.toList());
    }
 
+   /**
+    * Add a value to this activity code.
+    *
+    * @param value activity code value
+    */
+   public void addValue(ActivityCodeValue value)
+   {
+      m_values.add(value);
+   }
+
    private final Integer m_uniqueID;
    private final ActivityCodeScope m_scope;
    private final Integer m_scopeEpsUniqueID;

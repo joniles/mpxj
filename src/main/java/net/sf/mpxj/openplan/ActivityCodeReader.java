@@ -81,7 +81,7 @@ class ActivityCodeReader
          {
             ActivityCodeValue acv = new ActivityCodeValue.Builder(m_file).type(ac).name(value.getID()).description(value.getDescription()).sequenceNumber(Integer.valueOf(valueSequence++)).build();
 
-            ac.getValues().add(acv);
+            ac.addValue(acv);
             valueMap.put(value.getUniqueID(), acv);
          }
 

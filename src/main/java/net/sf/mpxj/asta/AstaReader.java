@@ -2226,7 +2226,7 @@ final class AstaReader
             .description(description)
             .parent(valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY")))
             .build();
-         code.getValues().add(value);
+         code.addValue(value);
          valueMap.put(value.getUniqueID(), value);
       }
 
