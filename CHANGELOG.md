@@ -1,6 +1,13 @@
 # Changelog
 
-## 13.1.1 (unreleased)
+## 13.2.1 (unreleased)
+
+## 13.2.0 (2024-08-12)
+* Implemented the `UserDefinedField.Builder` class.
+* Marked the `UserDefinedField` constructor as deprecated. Use the builder class instead.
+* Marked the `UserDefinedField.setDataType()` method as deprecated. Use the builder class instead.
+* Updated to address an issue when writing XER files where a project does not have an explicit Unique ID value, and there are project UDF values.
+* Added the convenience method `ActivityCode.addValue` to make it easier to add a value to an activity code.
 
 ## 13.1.0 (2024-07-26)
 * Updated to POI 5.3.0

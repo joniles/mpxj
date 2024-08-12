@@ -6,7 +6,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\mpxj.snk</AssemblyOriginatorKeyFile>
-    <Version>13.1.0.0</Version>
+    <Version>13.2.0.0</Version>
     <Copyright>Copyright © Packwood Software</Copyright>
   </PropertyGroup>
 
