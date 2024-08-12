@@ -5953,4 +5953,15 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       dependencies.calculatedField(TaskField.COMPLETE_THROUGH).dependsOn(TaskField.DURATION, TaskField.ACTUAL_START, TaskField.PERCENT_COMPLETE);
       dependencies.calculatedField(TaskField.EXTERNAL_PROJECT).dependsOn(TaskField.SUBPROJECT_FILE, TaskField.EXTERNAL_TASK);
    }
+
+   public Object getCurrentValue(FieldType field)
+   {
+      if (field == TaskField.PARENT_TASK_UNIQUE_ID)
+      {
+         Integer id = getParentTaskUniqueID();
+         return id == null ? Integer.valueOf(-1) : id;
+      }
+
+      return get(field);
+   }
 }

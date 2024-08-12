@@ -746,7 +746,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                .color(ColorHelper.parseHtmlColor(typeValue.getColor()))
                .parent(m_activityCodeMap.get(typeValue.getParentObjectId()))
                .build();
-            code.getValues().add(value);
+            code.addValue(value);
             m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }

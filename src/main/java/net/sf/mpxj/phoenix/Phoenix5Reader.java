@@ -242,7 +242,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
             .name(typeValue.getName())
             .description(typeValue.getName())
             .build();
-         activityCode.getValues().add(activityCodeValue);
+         activityCode.addValue(activityCodeValue);
 
          String name = typeValue.getName();
          UUID uuid = getValueUUID(codeUUID, typeValue.getUuid(), name);
