@@ -439,6 +439,20 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          addListenersToProject(m_projectFile);
 
+         processUdfDefintions(apibo);
+         processLocations(apibo);
+         processNotebookTopics(apibo);
+         processCalendars(apibo.getCalendar());
+         processUnitsOfMeasure(apibo);
+         processExpenseCategories(apibo);
+         processCostAccounts(apibo);
+         processActivityCodes(apibo.getActivityCodeType(), apibo.getActivityCode());
+         processResources(apibo);
+         processRoles(apibo);
+         processWorkContours(apibo);
+         processResourceRates(apibo);
+         processRoleRates(apibo);
+
          List<ActivityCodeTypeType> activityCodeTypes;
          List<ActivityCodeType> activityCodes;
          List<CalendarType> calendars;
@@ -450,9 +464,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          List<ResourceAssignmentType> assignments;
          List<ActivityExpenseType> activityExpenseType;
          List<ActivityStepType> steps;
-
-         processUdfDefintions(apibo);
-         processLocations(apibo);
 
          if (projectObject instanceof ProjectType)
          {
@@ -487,25 +498,18 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             activityExpenseType = project.getActivityExpense();
          }
 
-         processNotebookTopics(apibo);
+
          Map<Integer, Notes> wbsNotes = getWbsNotes(projectNotes);
          m_projectFile.getProjectProperties().setNotesObject(wbsNotes.get(Integer.valueOf(0)));
 
          processGlobalProperties(apibo);
-         processUnitsOfMeasure(apibo);
-         processExpenseCategories(apibo);
-         processCostAccounts(apibo);
-         processActivityCodes(apibo, activityCodeTypes, activityCodes);
-         processCalendars(apibo, calendars);
-         processResources(apibo);
-         processRoles(apibo);
+         processActivityCodes(activityCodeTypes, activityCodes);
+         processCalendars(calendars);
+         configureProjectCalendars();
          processTasks(wbs, wbsNotes, activities, getActivityNotes(activityNotes));
          processPredecessors(relationships);
-         processWorkContours(apibo);
          processAssignments(assignments);
          processExpenseItems(activityExpenseType);
-         processResourceRates(apibo);
-         processRoleRates(apibo);
          processActivitySteps(steps);
          rollupValues();
 
@@ -695,21 +699,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       processScheduleOptions(project.getScheduleOptions());
    }
 
-   /**
-    * Process activity code data.
-    *
-    * @param apibo global activity code data
-    * @param activityCodeTypes project-specific activity code types
-    * @param activityCodes project-specific activity codes
-    */
-   private void processActivityCodes(APIBusinessObjects apibo, List<ActivityCodeTypeType> activityCodeTypes, List<ActivityCodeType> activityCodes)
+   private void processActivityCodes(List<ActivityCodeTypeType> types, List<ActivityCodeType> typeValues)
    {
       ActivityCodeContainer container = m_projectFile.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
-
-      List<ActivityCodeTypeType> types = new ArrayList<>();
-      types.addAll(apibo.getActivityCodeType());
-      types.addAll(activityCodeTypes);
 
       for (ActivityCodeTypeType type : types)
       {
@@ -726,10 +719,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          container.add(code);
          map.put(code.getUniqueID(), code);
       }
-
-      List<ActivityCodeType> typeValues = new ArrayList<>();
-      typeValues.addAll(apibo.getActivityCode());
-      typeValues.addAll(activityCodes);
 
       typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getObjectId(), v -> v.getParentObjectId());
       for (ActivityCodeType typeValue : typeValues)
@@ -887,11 +876,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
     * @param apibo file data
     * @param projectCalendars project-specific calendars
     */
-   private void processCalendars(APIBusinessObjects apibo, List<CalendarType> projectCalendars)
+   private void processCalendars(List<CalendarType> calendars)
    {
-      List<CalendarType> calendars = new ArrayList<>(apibo.getCalendar());
-      calendars.addAll(projectCalendars);
-
       //
       // First pass: read calendar definitions
       //
@@ -917,7 +903,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             entry.getKey().setParent(baseCalendar);
          }
       }
+   }
 
+   private void configureProjectCalendars()
+   {
       //
       // Set the default calendar if we've read ID from the project properties
       //
