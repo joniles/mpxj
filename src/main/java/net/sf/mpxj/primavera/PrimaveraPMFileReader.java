@@ -438,20 +438,23 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          addListenersToProject(m_projectFile);
 
+         // Process common data
          processUdfDefintions(apibo);
          processLocations(apibo);
          processNotebookTopics(apibo);
-         processCalendars(apibo.getCalendar());
          processUnitsOfMeasure(apibo);
          processExpenseCategories(apibo);
          processCostAccounts(apibo);
          processActivityCodes(apibo.getActivityCodeType(), apibo.getActivityCode());
+         processWorkContours(apibo);
+
+         processCalendars(apibo.getCalendar());
          processResources(apibo);
          processRoles(apibo);
-         processWorkContours(apibo);
          processResourceRates(apibo);
          processRoleRates(apibo);
 
+         // Process project specific data
          List<ActivityCodeTypeType> activityCodeTypes;
          List<ActivityCodeType> activityCodes;
          List<CalendarType> calendars;
