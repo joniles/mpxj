@@ -5,7 +5,10 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="13.2.1">
+		<release date="unreleased" version="13.2.2">
+		</release>
+		<release date="2024-08-13" version="13.2.1">
+			<action dev="joniles" type="update">Make the MPXJ.Net assembly strong named.</action>
 		</release>
 		<release date="2024-08-12" version="13.2.0">
 			<action dev="joniles" type="update">Implemented the `UserDefinedField.Builder` class.</action>

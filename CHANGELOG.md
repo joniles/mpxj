@@ -1,6 +1,9 @@
 # Changelog
 
-## 13.2.1 (unreleased)
+## 13.2.2 (unreleased)
+
+## 13.2.1 (2024-08-13)
+* Make the MPXJ.Net assembly strong named.
 
 ## 13.2.0 (2024-08-12)
 * Implemented the `UserDefinedField.Builder` class.
