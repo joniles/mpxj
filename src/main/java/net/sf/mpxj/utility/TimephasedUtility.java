@@ -23,6 +23,7 @@
 
 package net.sf.mpxj.utility;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -31,6 +32,7 @@ import java.util.List;
 import net.sf.mpxj.LocalDateTimeRange;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedItem;
@@ -46,6 +48,22 @@ import net.sf.mpxj.mpp.TimescaleUnits;
 public final class TimephasedUtility
 {
    /**
+   * This is the main entry point used to convert the internal representation
+   * of timephased work into an external form which can
+   * be displayed to the user.
+   *
+   * @param projectCalendar calendar used by the resource assignment
+   * @param work timephased resource assignment data
+   * @param rangeUnits timescale units
+   * @param dateList timescale date ranges
+   * @return list of durations, one per timescale date range
+   */
+   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<LocalDateTimeRange> dateList)
+   {
+      return segmentWork(projectCalendar, work, rangeUnits, dateList, false);
+   }
+
+   /**
     * This is the main entry point used to convert the internal representation
     * of timephased work into an external form which can
     * be displayed to the user.
@@ -54,9 +72,10 @@ public final class TimephasedUtility
     * @param work timephased resource assignment data
     * @param rangeUnits timescale units
     * @param dateList timescale date ranges
+    * @param taskIsManualScheduled task is manual scheduled. Therefore it is allowed to have work outside of range on first day.
     * @return list of durations, one per timescale date range
     */
-   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<LocalDateTimeRange> dateList)
+   public ArrayList<Duration> segmentWork(ProjectCalendar projectCalendar, List<TimephasedWork> work, TimescaleUnits rangeUnits, List<LocalDateTimeRange> dateList, boolean taskIsManualScheduled)
    {
       ArrayList<Duration> result = new ArrayList<>(dateList.size());
       int lastStartIndex = 0;
@@ -86,7 +105,7 @@ public final class TimephasedUtility
             // much time from this resource assignment can be allocated
             // to the current date range.
             //
-            result.add(getRangeDuration(projectCalendar, rangeUnits, range, work, startIndex));
+            result.add(getRangeDuration(projectCalendar, rangeUnits, range, work, startIndex, taskIsManualScheduled));
             lastStartIndex = startIndex;
          }
       }
@@ -242,9 +261,10 @@ public final class TimephasedUtility
     * @param range target date range
     * @param assignments timephased resource assignments
     * @param startIndex index at which to start searching through the timephased resource assignments
+    * @param taskIsManualScheduled task is manual scheduled. Therefore it is allowed to have work outside of range on first day.
     * @return work duration
     */
-   private Duration getRangeDuration(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex)
+   private Duration getRangeDuration(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex, boolean taskIsManualScheduled)
    {
       Duration result;
 
@@ -259,7 +279,7 @@ public final class TimephasedUtility
 
          default:
          {
-            result = getRangeDurationWholeDay(projectCalendar, rangeUnits, range, assignments, startIndex);
+            result = getRangeDurationWholeDay(projectCalendar, rangeUnits, range, assignments, startIndex, taskIsManualScheduled);
             break;
          }
       }
@@ -296,9 +316,10 @@ public final class TimephasedUtility
     * @param range target date range
     * @param assignments timephased resource assignments
     * @param startIndex index at which to start searching through the timephased resource assignments
+    * @param taskIsManualScheduled task is manual scheduled. Therefore it is allowed to have work outside of range on first day.
     * @return work duration
     */
-   private Duration getRangeDurationWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex)
+   private Duration getRangeDurationWholeDay(ProjectCalendar projectCalendar, TimescaleUnits rangeUnits, LocalDateTimeRange range, List<TimephasedWork> assignments, int startIndex, boolean taskIsManualScheduled)
    {
       // option 1:
       // Our date range starts before the start of the TRA at the start index.
@@ -324,6 +345,7 @@ public final class TimephasedUtility
       int totalDays = 0;
       double totalWork = 0;
       TimephasedWork assignment = assignments.get(startIndex);
+      LocalDate assingmentStart = assignments.get(0).getStart().toLocalDate();
       boolean done;
 
       do
@@ -351,6 +373,12 @@ public final class TimephasedUtility
             {
                ++totalDays;
             }
+            else
+               if (taskIsManualScheduled && assingmentStart.equals(LocalDateHelper.getLocalDate(calendarDate)))
+               {
+                  // Manual scheduled task on first day must work.
+                  ++totalDays;
+               }
             startDate = startDate.plusDays(1);
             calendarDate = startDate;
          }

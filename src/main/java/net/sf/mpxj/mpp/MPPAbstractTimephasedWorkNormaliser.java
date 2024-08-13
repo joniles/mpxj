@@ -25,6 +25,7 @@ package net.sf.mpxj.mpp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -32,6 +33,7 @@ import java.util.List;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimePeriodEntity;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedWork;
 import net.sf.mpxj.common.AbstractTimephasedWorkNormaliser;
@@ -61,7 +63,7 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
       }
 
       //dumpList(list);
-      splitDays(calendar, list);
+      splitDays(calendar, list, parent);
       //dumpList(list);
       mergeSameDay(calendar, list);
       //dumpList(list);
@@ -76,11 +78,14 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     *
     * @param calendar current project calendar
     * @param list list of timephased data
+    * @param assingment parent entity
     */
-   private void splitDays(ProjectCalendar calendar, List<TimephasedWork> list)
+   private void splitDays(ProjectCalendar calendar, List<TimephasedWork> list, TimePeriodEntity assignment)
    {
       List<TimephasedWork> result = new ArrayList<>();
       boolean remainderInserted = false;
+      boolean taskIsManualScheduled = assignment.getTask().getTaskMode() == TaskMode.MANUALLY_SCHEDULED;
+      LocalDate assignmentStart = assignment.getStart().toLocalDate();
 
       for (TimephasedWork item : list)
       {
@@ -90,7 +95,40 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
             remainderInserted = false;
          }
 
-         Duration calendarWork = calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.MINUTES);
+         Duration calendarWork = null;
+         boolean firstDayOfAssignment = assignmentStart.equals(item.getStart().toLocalDate());
+
+         if (taskIsManualScheduled
+                  && firstDayOfAssignment
+                  && !item.getStart().toLocalDate().equals(item.getFinish().toLocalDate()))
+         {
+            // Manual scheduled work on assignment start date can have work outside of work range.
+            // But only on the first day. Therefore we must calculate this here. The getWork method is not aware of this.
+            // Need to split getWork into two parts for it.
+            LocalDateTime splitStart = item.getStart();
+            LocalDateTime splitFinish = LocalTimeHelper.setEndTime(splitStart, calendar.getFinishTime(splitStart.toLocalDate(), taskIsManualScheduled));
+            boolean addMissingMinute = false;
+            if (splitFinish.isBefore(splitStart))
+            {
+               // Assumption work outside of normal working time. Therefore assumption work until end of day.
+               splitFinish = LocalTimeHelper.setEndTime(splitStart, LocalTime.of(23, 59));
+               addMissingMinute = true;
+            }
+            calendarWork = calendar.getWork(splitStart, splitFinish, TimeUnit.MINUTES, taskIsManualScheduled);
+
+            if (addMissingMinute)
+            {
+               calendarWork = Duration.add(calendarWork, Duration.getInstance(1, TimeUnit.MINUTES), calendar);
+            }
+
+            splitStart = calendar.getNextWorkStart(splitFinish);
+            splitFinish = item.getFinish();
+            calendarWork = Duration.add(calendarWork, calendar.getWork(splitStart, splitFinish, TimeUnit.MINUTES, taskIsManualScheduled), calendar);
+         }
+         else
+         {
+            calendarWork = calendar.getWork(item.getStart(), item.getFinish(), TimeUnit.MINUTES, taskIsManualScheduled);
+         }
 
          while (item != null)
          {
@@ -106,23 +144,30 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
             if (startDay.equals(finishDay))
             {
                Duration totalWork = item.getTotalAmount();
-               Duration itemWork = getItemWork(calendar, item);
+               Duration itemWork = getItemWork(calendar, item, taskIsManualScheduled);
                if ((totalWork.getDuration() - itemWork.getDuration()) > EQUALITY_DELTA)
                {
-                  item.setTotalAmount(itemWork);
-                  result.add(item);
-                  Duration remainingWork = Duration.getInstance(totalWork.getDuration() - itemWork.getDuration(), TimeUnit.MINUTES);
+                  if (taskIsManualScheduled)
+                  {
+                     result.add(item);
+                  }
+                  else
+                  {
+                     item.setTotalAmount(itemWork);
+                     result.add(item);
+                     Duration remainingWork = Duration.getInstance(totalWork.getDuration() - itemWork.getDuration(), TimeUnit.MINUTES);
 
-                  LocalDateTime remainderStart = finishDay.plusDays(1);
-                  LocalDateTime remainderFinish = remainderStart.plusDays(1);
+                     LocalDateTime remainderStart = finishDay.plusDays(1);
+                     LocalDateTime remainderFinish = remainderStart.plusDays(1);
 
-                  TimephasedWork remainder = new TimephasedWork();
-                  remainder.setStart(remainderStart);
-                  remainder.setFinish(remainderFinish);
-                  remainder.setTotalAmount(remainingWork);
-                  result.add(remainder);
+                     TimephasedWork remainder = new TimephasedWork();
+                     remainder.setStart(remainderStart);
+                     remainder.setFinish(remainderFinish);
+                     remainder.setTotalAmount(remainingWork);
+                     result.add(remainder);
 
-                  remainderInserted = true;
+                     remainderInserted = true;
+                  }
                }
                else
                {
@@ -131,12 +176,12 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
                break;
             }
 
-            TimephasedWork[] split = splitFirstDay(calendar, item, calendarWork);
+            TimephasedWork[] split = splitFirstDay(calendar, item, calendarWork, taskIsManualScheduled);
             if (split[0] != null)
             {
                TimephasedWork firstDayItem = split[0];
                result.add(firstDayItem);
-               Duration firstDayCalendarWork = calendar.getWork(firstDayItem.getStart(), firstDayItem.getFinish(), TimeUnit.MINUTES);
+               Duration firstDayCalendarWork = calendar.getWork(firstDayItem.getStart(), firstDayItem.getFinish(), TimeUnit.MINUTES, taskIsManualScheduled);
                calendarWork = Duration.getInstance((calendarWork.getDuration() - firstDayCalendarWork.getDuration()), TimeUnit.MINUTES);
             }
 
@@ -159,9 +204,10 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     * @param calendar current calendar
     * @param item timephased item
     * @param calendarWork working hours for item from the calendar
+    * @param taskIsManualScheduled task is manual scheduled. Therefore it is allowed to have work outside of range.
     * @return first day and remainder items
     */
-   private TimephasedWork[] splitFirstDay(ProjectCalendar calendar, TimephasedWork item, Duration calendarWork)
+   private TimephasedWork[] splitFirstDay(ProjectCalendar calendar, TimephasedWork item, Duration calendarWork, boolean taskIsManualScheduled)
    {
       TimephasedWork[] result = new TimephasedWork[2];
 
@@ -180,11 +226,22 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
          LocalDateTime splitFinish;
          double splitMinutes;
          LocalDate itemStartAsLocalDate = LocalDateHelper.getLocalDate(itemStart);
-         if (calendar.isWorkingDate(itemStartAsLocalDate))
+         if (taskIsManualScheduled || calendar.isWorkingDate(itemStartAsLocalDate))
          {
-            splitFinish = LocalTimeHelper.setEndTime(itemStart, calendar.getFinishTime(itemStartAsLocalDate));
+            splitFinish = LocalTimeHelper.setEndTime(itemStart, calendar.getFinishTime(itemStartAsLocalDate, taskIsManualScheduled));
+            boolean addMissingMinute = false;
+            if (taskIsManualScheduled && splitFinish.isBefore(itemStart))
+            {
+               // Assumption work outside of normal working time. Therefore assumption work until end of day.
+               splitFinish = LocalTimeHelper.setEndTime(itemStart, LocalTime.of(23, 59));
+               addMissingMinute = true;
+            }
 
-            Duration calendarSplitWork = calendar.getWork(itemStart, splitFinish, TimeUnit.MINUTES);
+            Duration calendarSplitWork = calendar.getWork(itemStart, splitFinish, TimeUnit.MINUTES, taskIsManualScheduled);
+            if (addMissingMinute)
+            {
+               calendarSplitWork = Duration.add(calendarSplitWork, Duration.getInstance(1, TimeUnit.MINUTES), calendar);
+            }
             Duration itemWorkPerDay = item.getAmountPerDay();
             Duration splitWork;
 
@@ -248,11 +305,11 @@ public abstract class MPPAbstractTimephasedWorkNormaliser extends AbstractTimeph
     * @param item current item.
     * @return item work duration
     */
-   private Duration getItemWork(ProjectCalendar calendar, TimephasedWork item)
+   private Duration getItemWork(ProjectCalendar calendar, TimephasedWork item, boolean taskIsManualScheduled)
    {
       LocalDateTime splitFinish = LocalTimeHelper.setEndTime(item.getStart(), calendar.getFinishTime(LocalDateHelper.getLocalDate(item.getStart())));
 
-      Duration calendarSplitWork = calendar.getWork(item.getStart(), splitFinish, TimeUnit.MINUTES);
+      Duration calendarSplitWork = calendar.getWork(item.getStart(), splitFinish, TimeUnit.MINUTES, taskIsManualScheduled);
       Duration itemWorkPerDay = item.getAmountPerDay();
       Duration splitWork;
 

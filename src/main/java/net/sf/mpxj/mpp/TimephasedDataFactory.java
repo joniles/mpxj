@@ -32,6 +32,7 @@ import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.TimephasedCost;
 import net.sf.mpxj.TimephasedCostContainer;
@@ -61,7 +62,8 @@ final class TimephasedDataFactory
    public List<TimephasedWork> getCompleteWork(ProjectCalendar calendar, ResourceAssignment resourceAssignment, byte[] data)
    {
       List<TimephasedWork> list = new ArrayList<>();
-      if (calendar == null || data == null || data.length <= 26 || MPPUtility.getShort(data, 0) == 0 || resourceAssignment.getTask().getDuration() == null || resourceAssignment.getTask().getDuration().getDuration() == 0)
+      net.sf.mpxj.Task task = resourceAssignment.getTask();
+      if (calendar == null || data == null || data.length <= 26 || MPPUtility.getShort(data, 0) == 0 || task.getDuration() == null || task.getDuration().getDuration() == 0)
       {
          return list;
       }
@@ -166,11 +168,13 @@ final class TimephasedDataFactory
    public List<TimephasedWork> getPlannedWork(ProjectCalendar calendar, ResourceAssignment assignment, byte[] data, List<TimephasedWork> timephasedComplete, ResourceType resourceType)
    {
       List<TimephasedWork> list = new ArrayList<>();
-      if (data == null || data.length == 0 || assignment.getTask().getDuration() == null || assignment.getTask().getDuration().getDuration() == 0)
+      net.sf.mpxj.Task task = assignment.getTask();
+      if (data == null || data.length == 0 || task.getDuration() == null || task.getDuration().getDuration() == 0)
       {
          return list;
       }
 
+      boolean taskIsManualScheduled = task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED;
       int blockCount = MPPUtility.getShort(data, 0);
       if (blockCount == 0)
       {
@@ -182,23 +186,40 @@ final class TimephasedDataFactory
                time /= 1000;
                Duration totalWork = Duration.getInstance(time, TimeUnit.MINUTES);
 
-               // Originally this value was used to calculate the amount per day,
-               // but the value proved to be unreliable in some circumstances resulting
-               // in negative durations.
-               // MPPUtility.getDouble(data, 8);
-
                TimephasedWork work = new TimephasedWork();
                work.setStart(timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume());
-
                work.setFinish(assignment.getFinish());
                work.setTotalAmount(totalWork);
                list.add(work);
+
+               if (taskIsManualScheduled)
+               {
+                  // Originally this value was used to calculate the amount per day,
+                  // but the value proved to be unreliable in some circumstances resulting
+                  // in negative durations.
+                  time = MPPUtility.getDouble(data, 8);
+                  time /= 2000;
+                  time *= 6;
+                  Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
+                  work.setAmountPerDay(workPerDay);
+               }
             }
          }
       }
       else
       {
-         LocalDateTime offset = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
+         // Duration assignmentTotalWork = null;
+         // {
+         //    double time = MPPUtility.getDouble(data, 16);
+         //    if (time != 0.0)
+         //    {
+         //       time /= 1000;
+         //       assignmentTotalWork = Duration.getInstance(time, TimeUnit.MINUTES);
+         //    }
+         // }
+
+         LocalDateTime assignmentStart = timephasedComplete.isEmpty() ? assignment.getStart() : assignment.getResume();
+         LocalDateTime offset = assignmentStart;
          int index = 40;
          double previousCumulativeWork = 0;
          TimephasedWork previousAssignment = null;
@@ -216,9 +237,15 @@ final class TimephasedDataFactory
                start = offset;
             }
             else
-            {
-               start = calendar.getNextWorkStart(calendar.getDate(offset, blockDuration));
-            }
+               if (taskIsManualScheduled)
+               {
+                  start = calendar.getDateManualScheduled(offset, blockDuration);
+                  start = calendar.getNextWorkStart(start, start.toLocalDate().equals(assignmentStart.toLocalDate()));
+               }
+               else
+               {
+                  start = calendar.getNextWorkStart(calendar.getDate(offset, blockDuration));
+               }
 
             double currentCumulativeWork = MPPUtility.getDouble(data, index + 4);
             double assignmentDuration = currentCumulativeWork - previousCumulativeWork;
@@ -226,23 +253,31 @@ final class TimephasedDataFactory
             Duration totalWork = Duration.getInstance(assignmentDuration, TimeUnit.MINUTES);
             previousCumulativeWork = currentCumulativeWork;
 
-            // Originally this value was used to calculate the amount per day,
-            // but the value proved to be unreliable in some circumstances resulting
-            // in negative durations.
-            // MPPUtility.getDouble(data, index + 12);
-
             int currentModifiedFlag = MPPUtility.getShort(data, index + 22);
             boolean modified = (currentBlock > 0 && previousModifiedFlag != 0 && currentModifiedFlag == 0) || ((currentModifiedFlag & 0x3000) != 0);
             previousModifiedFlag = currentModifiedFlag;
 
             TimephasedWork work = new TimephasedWork();
             work.setStart(start);
+            if (taskIsManualScheduled)
+            {
+               // Originally this value was used to calculate the amount per day,
+               // but the value proved to be unreliable in some circumstances resulting
+               // in negative durations.
+               time = MPPUtility.getDouble(data, index + 12);
+               time /= 2000;
+               time *= 6;
+               Duration workPerDay = Duration.getInstance(time, TimeUnit.MINUTES);
+               work.setAmountPerDay(workPerDay);
+            }
             work.setModified(modified);
             work.setTotalAmount(totalWork);
 
             if (previousAssignment != null)
             {
-               LocalDateTime finish = calendar.getDate(offset, blockDuration);
+               LocalDateTime finish = taskIsManualScheduled
+                        ? calendar.getDateManualScheduled(offset, blockDuration)
+                        : calendar.getDate(offset, blockDuration);
                previousAssignment.setFinish(finish);
                if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
                {
@@ -262,7 +297,9 @@ final class TimephasedDataFactory
             double time = MPPUtility.getInt(data, 24);
             time /= 80;
             Duration blockDuration = Duration.getInstance(time, TimeUnit.MINUTES);
-            LocalDateTime finish = calendar.getDate(offset, blockDuration);
+            LocalDateTime finish = taskIsManualScheduled
+                     ? calendar.getDateManualScheduled(offset, blockDuration)
+                     : calendar.getDate(offset, blockDuration);
             previousAssignment.setFinish(finish);
             if (previousAssignment.getStart().equals(previousAssignment.getFinish()))
             {
@@ -271,7 +308,10 @@ final class TimephasedDataFactory
          }
       }
 
-      calculateAmountPerDay(calendar, list);
+      if (!taskIsManualScheduled)
+      {
+         calculateAmountPerDay(calendar, list);
+      }
 
       return list;
    }

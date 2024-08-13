@@ -43,4 +43,12 @@ public interface TimePeriodEntity
     * @return finish time
     */
    public LocalDateTime getFinish();
+
+   /**
+    * This method retrieves a reference to the task with which this
+    * assignment is associated.
+    *
+    * @return task
+    */
+    public Task getTask();
 }

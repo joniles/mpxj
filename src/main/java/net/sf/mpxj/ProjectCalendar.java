@@ -578,20 +578,35 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
    }
 
    /**
+   * Retrieves the time at which work finishes on the given date, or returns
+   * null if this is a non-working day.
+   *
+   * @param date Date instance
+   * @return finish time, or null for non-working day
+   */
+   public LocalTime getFinishTime(LocalDate date)
+   {
+      return getFinishTime(date, false);
+   }
+
+   /**
     * Retrieves the time at which work finishes on the given date, or returns
     * null if this is a non-working day.
     *
     * @param date Date instance
+    * @param taskIsManualScheduled task is manual scheduled. Therefore it is allowed to have work outside of range.
     * @return finish time, or null for non-working day
     */
-   public LocalTime getFinishTime(LocalDate date)
+   public LocalTime getFinishTime(LocalDate date, boolean taskIsManualScheduled)
    {
       if (date == null)
       {
          return null;
       }
 
-      ProjectCalendarHours ranges = getRanges(date);
+      ProjectCalendarHours ranges = taskIsManualScheduled
+         ? getRangesManualScheduled(date)
+         : getRanges(date);
       if (ranges == null || ranges.isEmpty())
       {
          return null;
@@ -610,10 +625,24 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public LocalDateTime getDate(LocalDateTime date, Duration duration)
    {
-      return duration.getDuration() < 0 ? getDateFromNegativeDuration(date, duration) : getDateFromPositiveDuration(date, duration);
+      return duration.getDuration() < 0 ? getDateFromNegativeDuration(date, duration, false) : getDateFromPositiveDuration(date, duration, false);
    }
 
-   private LocalDateTime getDateFromPositiveDuration(LocalDateTime startDate, Duration duration)
+   /**
+    * Given a date and a duration, this method calculates the resulting date when the duration is added.
+    * This method handles both positive and negative durations.
+    *
+    * @param date date
+    * @param duration duration
+    * @param taskIsManualScheduled task is manual scheduled. Therefore it is allowed to have work outside of range.
+    * @return date plus duration
+    */
+   public LocalDateTime getDate(LocalDateTime date, Duration duration, boolean taskIsManualScheduled)
+   {
+      return duration.getDuration() < 0 ? getDateFromNegativeDuration(date, duration, taskIsManualScheduled) : getDateFromPositiveDuration(date, duration, taskIsManualScheduled);
+   }
+
+   private LocalDateTime getDateFromPositiveDuration(LocalDateTime startDate, Duration duration, boolean taskIsManualScheduled)
    {
       ProjectProperties properties = getParentFile().getProjectProperties();
       long remainingMilliseconds = Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
@@ -626,19 +655,21 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       // Can we skip come computation by working forward from the
       // last call to this method?
       //
-      LocalDateTime getDateLastStartDate = m_getDateLastStartDate;
-      long getDateLastRemainingMilliseconds = m_getDateLastRemainingMilliseconds;
+      if (!taskIsManualScheduled) {
+         LocalDateTime getDateLastStartDate = m_getDateLastStartDate;
+         long getDateLastRemainingMilliseconds = m_getDateLastRemainingMilliseconds;
 
-      m_getDateLastStartDate = startDate;
-      m_getDateLastRemainingMilliseconds = remainingMilliseconds;
+         m_getDateLastStartDate = startDate;
+         m_getDateLastRemainingMilliseconds = remainingMilliseconds;
 
-      if (m_getDateLastResult != null && LocalDateTimeHelper.compare(startDate, getDateLastStartDate) == 0 && remainingMilliseconds >= getDateLastRemainingMilliseconds)
-      {
-         startDate = m_getDateLastResult;
-         remainingMilliseconds = remainingMilliseconds - getDateLastRemainingMilliseconds;
-         if (remainingMilliseconds == 0)
+         if (m_getDateLastResult != null && LocalDateTimeHelper.compare(startDate, getDateLastStartDate) == 0 && remainingMilliseconds >= getDateLastRemainingMilliseconds)
          {
-            return startDate;
+            startDate = m_getDateLastResult;
+            remainingMilliseconds = remainingMilliseconds - getDateLastRemainingMilliseconds;
+            if (remainingMilliseconds == 0)
+            {
+               return startDate;
+            }
          }
       }
 
@@ -647,7 +678,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
       while (remainingMilliseconds > 0)
       {
-         long currentDateWorkingMilliseconds = Math.round(getWork(currentDayStart, currentDayEnd, TimeUnit.MINUTES).getDuration() * 60000.0);
+         long currentDateWorkingMilliseconds = Math.round(getWork(currentDayStart, currentDayEnd, TimeUnit.MINUTES, taskIsManualScheduled).getDuration() * 60000.0);
 
          if (remainingMilliseconds == currentDateWorkingMilliseconds)
          {
@@ -696,6 +727,31 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(currentDayStart));
 
             LocalTime currentDayStartTime = LocalTimeHelper.getLocalTime(currentDayStart);
+            if (taskIsManualScheduled)
+            {
+               // Manual task is allowed to have work before range.
+               LocalTime firstRangeStart = ranges.get(0).getStart();
+               if (currentDayStartTime.isBefore(firstRangeStart))
+               {
+                  long rangeMilliseconds = LocalTimeHelper.getMillisecondsInRange(currentDayStartTime, firstRangeStart);
+                  if (remainingMilliseconds > rangeMilliseconds)
+                  {
+                     remainingMilliseconds -= rangeMilliseconds;
+                  }
+                  else
+                  {
+                     LocalTime firstRangeEnd = firstRangeStart;
+                     if (remainingMilliseconds != rangeMilliseconds)
+                     {
+                        firstRangeEnd = firstRangeStart.plus(remainingMilliseconds, ChronoUnit.MILLIS);
+                     }
+                     currentDayEnd = LocalTimeHelper.setTime(currentDayStart, firstRangeEnd);
+                     remainingMilliseconds = 0;
+                     break;
+                  }
+               }
+            }
+
             boolean firstRange = true;
             for (LocalTimeRange range : ranges)
             {
@@ -750,12 +806,14 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
          currentDayEnd = LocalDateTime.of(currentDayEnd.toLocalDate(), LocalTime.of(currentDayEnd.getHour(), currentDayEnd.getMinute(), currentDayEnd.getSecond()));
       }
 
-      m_getDateLastResult = currentDayEnd;
+      if (!taskIsManualScheduled) {
+         m_getDateLastResult = currentDayEnd;
+      }
 
       return currentDayEnd;
    }
 
-   private LocalDateTime getDateFromNegativeDuration(LocalDateTime endDate, Duration duration)
+   private LocalDateTime getDateFromNegativeDuration(LocalDateTime endDate, Duration duration, boolean taskIsManualScheduled)
    {
       ProjectProperties properties = getParentFile().getProjectProperties();
       long remainingMilliseconds = -Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
@@ -779,7 +837,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
       while (remainingMilliseconds > 0)
       {
-         long currentDayWorkingMilliseconds = Math.round(getWork(currentDayStart, currentDayEnd, TimeUnit.MINUTES).getDuration() * 60000.0);
+         long currentDayWorkingMilliseconds = Math.round(getWork(currentDayStart, currentDayEnd, TimeUnit.MINUTES, taskIsManualScheduled).getDuration() * 60000.0);
 
          //
          // We have exactly the time we need
@@ -899,12 +957,27 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public LocalDateTime getNextWorkStart(LocalDateTime date)
    {
+      return getNextWorkStart(date, false);
+   }
+
+   /**
+    * Utility method to retrieve the next working date start time, given
+    * a date and time as a starting point.
+    *
+    * @param date date and time start point
+    * @param taskIsManualScheduled task is manual scheduled. Therefore it is allowed to have work outside of range.
+    * @return date and time of next work start
+    */
+   public LocalDateTime getNextWorkStart(LocalDateTime date, boolean taskIsManualScheduled)
+   {
       LocalDateTime originalDate = date;
 
       //
       // Find the date ranges for the current day
       //
-      ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(originalDate));
+      ProjectCalendarHours ranges = taskIsManualScheduled
+         ? getRangesManualScheduled(LocalDateHelper.getLocalDate(originalDate))
+         : getRanges(LocalDateHelper.getLocalDate(originalDate));
 
       if (ranges != null)
       {
@@ -1018,6 +1091,163 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       }
 
       return date;
+   }
+
+   private ProjectCalendarHours getRangesManualScheduled(LocalDate date) {
+      // If today is not a working day then find first ProjectCalendarRange with working time. Starting on Tuesday(!). Uses this a basis for all calculations.
+      ProjectCalendarHours effectiveRanges = getRanges(date);
+      if (effectiveRanges.isEmpty())
+      {
+         // Date is not a working day.
+         // Find first ProjectCalendarRange with working time. Starting on Tuesday(!). Using [Default] calendar - ignoring exceptions and work week rules. Uses this a basis for all calculations.
+         if (getDayType(DayOfWeek.TUESDAY) == DayType.WORKING) {
+            effectiveRanges = getHours(DayOfWeek.TUESDAY);
+         } else if (getDayType(DayOfWeek.WEDNESDAY) == DayType.WORKING) {
+            effectiveRanges = getHours(DayOfWeek.WEDNESDAY);
+         } else if (getDayType(DayOfWeek.THURSDAY) == DayType.WORKING) {
+            effectiveRanges = getHours(DayOfWeek.THURSDAY);
+         } else if (getDayType(DayOfWeek.FRIDAY) == DayType.WORKING) {
+            effectiveRanges = getHours(DayOfWeek.FRIDAY);
+         } else if (getDayType(DayOfWeek.SATURDAY) == DayType.WORKING) {
+            effectiveRanges = getHours(DayOfWeek.SATURDAY);
+         } else if (getDayType(DayOfWeek.SUNDAY) == DayType.WORKING) {
+            effectiveRanges = getHours(DayOfWeek.SUNDAY);
+         } else if (getDayType(DayOfWeek.MONDAY) == DayType.WORKING) {
+            effectiveRanges = getHours(DayOfWeek.MONDAY);
+         }
+      }
+      return effectiveRanges;
+   }
+
+   /**
+    * Given a date and a duration, this method calculates the resulting working date and time when the duration is added for an MPP manual scheduled task.
+    * A Manual scheduled task is allowed to have work outside of work calendar, but only for the first day.
+    *
+    * @param startDate date and time start point
+    * @param duration duration
+    * @return date and time of next work start
+    */
+   public LocalDateTime getDateManualScheduled(LocalDateTime startDate, Duration duration)
+   {
+      ProjectProperties properties = getParentFile().getProjectProperties();
+      long remainingMilliseconds = Math.round(NumberHelper.round(duration.convertUnits(TimeUnit.MINUTES, properties).getDuration(), 2) * 60000.0);
+      if (remainingMilliseconds == 0)
+      {
+         return startDate;
+      }
+
+      // Scenarios:
+      // a) start before range
+      //  -> Work until range start full and then use range.
+      // b) start after range
+      //  -> Ignore range and work until end of day full.
+      // c) start on range end
+      //  -> Continue work next regular work day.
+      // d) start inside range
+      //  -> Work until range end.
+      LocalDate localDate = LocalDateHelper.getLocalDate(startDate);
+      LocalTime localTime = startDate.toLocalTime();
+      ProjectCalendarHours effectiveRanges = getRangesManualScheduled(localDate);
+
+      if (effectiveRanges != null) {
+         LocalTime lastRangeEnd = effectiveRanges.get(effectiveRanges.size()-1).getEnd();
+         if (localTime.isAfter(lastRangeEnd)) {
+            // Scenario b) start after range
+            long rangeMilliseconds = LocalTimeHelper.getMillisecondsInRange(localTime, LocalTime.MAX) + 1000L /* MAX has 1 Nanosecond missing. */;
+            if (remainingMilliseconds > rangeMilliseconds)
+            {
+               remainingMilliseconds -= rangeMilliseconds;
+               duration = Duration.add(duration, convertFormat(-1 * rangeMilliseconds, TimeUnit.MINUTES), properties);
+               localTime = localTime.plus(rangeMilliseconds, ChronoUnit.MILLIS);
+            }
+            else
+            {
+               // Duration ends before end of day.
+               localTime = localTime.plus(remainingMilliseconds, ChronoUnit.MILLIS);
+               return LocalTimeHelper.setTime(startDate, localTime);
+            }
+         } else if (localTime.equals(lastRangeEnd)) {
+            // Scenario c) start on range end
+            return getDate(startDate, duration, true);
+         } else if (isWorkingDate(localDate)) {
+            // Use Normal rules.
+            return getDate(startDate, duration, true);
+         } else {
+            // Scenario a) start before range
+            // Scenario d) start inside range
+            long rangeMilliseconds = getTotalTime(effectiveRanges, localTime, lastRangeEnd, true);
+            if (remainingMilliseconds > rangeMilliseconds)
+            {
+               remainingMilliseconds -= rangeMilliseconds;
+               duration = Duration.add(duration, convertFormat(-1 * rangeMilliseconds, TimeUnit.MINUTES), properties);
+               localTime = lastRangeEnd;
+            }
+            else if (remainingMilliseconds == rangeMilliseconds)
+            {
+               return LocalTimeHelper.setTime(startDate, lastRangeEnd);
+            }
+            else
+            {
+               // Duration ends before range end.
+
+               //
+               // We have fewer hours to allocate than there are working hours
+               // in this day. We need to calculate the time of day at which
+               // our work ends.
+               //
+
+               boolean firstRange = true;
+               for (LocalTimeRange range : effectiveRanges)
+               {
+                  //
+                  // Skip this range if its end is before our start time
+                  //
+                  LocalTime rangeStart = range.getStart();
+                  LocalTime rangeEnd = range.getEnd();
+
+                  if (rangeStart == null || rangeEnd == null)
+                  {
+                     continue;
+                  }
+                  if (firstRange && rangeEnd != LocalTime.MIDNIGHT && rangeEnd.isBefore(localTime))
+                  {
+                     continue;
+                  }
+                  if (firstRange && rangeStart.isBefore(localTime)) // TODO CHANGE ME TO INCLUDE taskIsManualScheduled
+                  {
+                     rangeStart = localTime;
+                  }
+                  if (!firstRange && rangeStart.isAfter(localTime))
+                  {
+                     localTime = rangeStart;
+                  }
+                  firstRange = false;
+
+                  rangeMilliseconds = LocalTimeHelper.getMillisecondsInRange(localTime, rangeEnd);
+                  if (remainingMilliseconds > rangeMilliseconds)
+                  {
+                     remainingMilliseconds -= rangeMilliseconds;
+                     duration = Duration.add(duration, convertFormat(-1 * rangeMilliseconds, TimeUnit.MINUTES), properties);
+                     localTime = rangeEnd;
+                  }
+                  else
+                  {
+                     if (remainingMilliseconds != rangeMilliseconds)
+                     {
+                        rangeEnd = rangeStart.plus(remainingMilliseconds, ChronoUnit.MILLIS);
+                     }
+                     localTime = rangeEnd;
+                     remainingMilliseconds = 0;
+                     break;
+                  }
+               }
+               return LocalTimeHelper.setTime(startDate, localTime);
+            }
+         }
+      }
+
+      // Rest of work is performed on normal work day.
+      return getDate(startDate, duration, false);
    }
 
    /**
@@ -1389,6 +1619,21 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     */
    public Duration getWork(LocalDateTime startDate, LocalDateTime endDate, TimeUnit format)
    {
+      return getWork(startDate, endDate, format, false);
+   }
+
+   /**
+    * This method retrieves a Duration instance representing the amount of
+    * work between two dates based on this calendar.
+    *
+    * @param startDate start date
+    * @param endDate end date
+    * @param format required duration format
+    * @param taskIsManualScheduled task is manual scheduled. Therefore it is allowed to have work outside of range.
+    * @return amount of work
+    */
+   public Duration getWork(LocalDateTime startDate, LocalDateTime endDate, TimeUnit format, boolean taskIsManualScheduled)
+   {
       if (startDate == null || endDate == null)
       {
          return null;
@@ -1398,7 +1643,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       Long cachedResult = m_workingDateCache.get(range);
       long totalTime = 0;
 
-      if (cachedResult == null)
+      if (taskIsManualScheduled || cachedResult == null)
       {
          //
          // We want the start date to be the earliest date, and the end date
@@ -1416,10 +1661,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
 
          if (isSameDay(startDate, endDate))
          {
-            ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(startDate));
+            ProjectCalendarHours ranges = taskIsManualScheduled
+               ? getRangesManualScheduled(LocalDateHelper.getLocalDate(startDate))
+               : getRanges(LocalDateHelper.getLocalDate(startDate));
             if (!ranges.isEmpty())
             {
-               totalTime = getTotalTime(ranges, LocalTimeHelper.getLocalTime(startDate), LocalTimeHelper.getLocalTime(endDate));
+               totalTime = getTotalTime(ranges, LocalTimeHelper.getLocalTime(startDate), LocalTimeHelper.getLocalTime(endDate), taskIsManualScheduled);
             }
          }
          else
@@ -1448,7 +1695,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
                //
                // Calculate the amount of working time for this day
                //
-               totalTime += getTotalTime(getRanges(LocalDateHelper.getLocalDate(currentDate)), targetTime);
+               totalTime += getTotalTime(getRanges(LocalDateHelper.getLocalDate(currentDate)), targetTime, taskIsManualScheduled);
 
                //
                // Process each working day until we reach the last day
@@ -1488,7 +1735,8 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(endDate));
             if (!ranges.isEmpty())
             {
-               totalTime += getTotalTime(ranges, LocalTime.of(0, 0), LocalTimeHelper.getLocalTime(endDate));
+               // Ignore task is Manual scheduled here.
+               totalTime += getTotalTime(ranges, LocalTime.of(0, 0), LocalTimeHelper.getLocalTime(endDate), false);
             }
          }
 
@@ -1497,7 +1745,10 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             totalTime = -totalTime;
          }
 
-         m_workingDateCache.put(range, Long.valueOf(totalTime));
+         if (!taskIsManualScheduled) {
+            // Manual tasks don't participate in caching.
+            m_workingDateCache.put(range, Long.valueOf(totalTime));
+         }
       }
       else
       {
@@ -1621,17 +1872,39 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     *
     * @param hours calendar hours
     * @param targetTime intersection time
+    * @param taskIsManualScheduled task is manual scheduled. Therefore it is allowed to have work outside of range.
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarHours hours, LocalTime targetTime)
+   private long getTotalTime(ProjectCalendarHours hours, LocalTime targetTime, boolean taskIsManualScheduled)
    {
+      if (taskIsManualScheduled)
+      {
+         LocalTime lastCalendarHourEnd = hours.get(hours.size() - 1).getEnd();
+         if (lastCalendarHourEnd.isBefore(targetTime))
+         {
+            // Manual scheduled task ignores calendar range end. If start is after range end.
+            return LocalTimeHelper.getMillisecondsInRange(targetTime, LocalTime.MAX) + 1000L /* MAX has 1 Nanosecond missing. */;
+         }
+      }
+
       long total = 0;
+      boolean firstRange = true;
+
       for (LocalTimeRange range : hours)
       {
          if (range.getEnd() == LocalTime.MIDNIGHT || !targetTime.isAfter(range.getEnd()))
          {
-            total += getTime(range.getStart(), range.getEnd(), targetTime, range.getEnd());
+            if (taskIsManualScheduled && firstRange)
+            {
+               // Manual scheduled task ignores calendar range start.
+               total += getTime(targetTime, range.getEnd(), targetTime, range.getEnd());
+            }
+            else
+            {
+               total += getTime(range.getStart(), range.getEnd(), targetTime, range.getEnd());
+            }
          }
+         firstRange = false;
       }
       return total;
    }
@@ -1655,20 +1928,40 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param hours collection of working hours in a day
     * @param start time range start
     * @param end time range end
+    * @param taskIsManualScheduled task is manual scheduled. Therefore it is allowed to have work outside of range.
     * @return length of time in milliseconds
     */
-   private long getTotalTime(ProjectCalendarHours hours, LocalTime start, LocalTime end)
+   private long getTotalTime(ProjectCalendarHours hours, LocalTime start, LocalTime end, boolean taskIsManualScheduled)
    {
       if (start.equals(end))
       {
          return 0;
       }
 
+      if (taskIsManualScheduled)
+      {
+         LocalTime lastCalendarHourEnd = hours.get(hours.size() - 1).getEnd();
+         if (lastCalendarHourEnd.isBefore(start))
+         {
+            // Manual scheduled task ignores calendar range end. If start is after range end.
+            return LocalTimeHelper.getMillisecondsInRange(start, end);
+         }
+      }
+
       long total = 0;
+      boolean firstRange = true;
 
       for (LocalTimeRange range : hours)
       {
-         total += getTime(start, end, range.getStart(), range.getEnd());
+         if (taskIsManualScheduled && firstRange)
+         {
+            total += getTime(start, end, start, range.getEnd());
+         }
+         else
+         {
+            total += getTime(start, end, range.getStart(), range.getEnd());
+         }
+         firstRange = false;
       }
 
       return total;
