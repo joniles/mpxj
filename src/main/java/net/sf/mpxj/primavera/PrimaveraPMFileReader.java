@@ -47,7 +47,6 @@ import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.BaselineStrategy;
-import net.sf.mpxj.DataType;
 import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
@@ -699,6 +698,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       processScheduleOptions(project.getScheduleOptions());
    }
 
+   /**
+    * Process activity code data.
+    *
+    * @param types list of activity code types
+    * @param typeValues list of activity code values
+    */
    private void processActivityCodes(List<ActivityCodeTypeType> types, List<ActivityCodeType> typeValues)
    {
       ActivityCodeContainer container = m_projectFile.getActivityCodes();
@@ -873,8 +878,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Process project calendars.
     *
-    * @param apibo file data
-    * @param projectCalendars project-specific calendars
+    * @param calendars list of calendar data
     */
    private void processCalendars(List<CalendarType> calendars)
    {
@@ -905,6 +909,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
+   /**
+    * Set the default calendar ID and enable auto calendar unique ID values.
+    */
    private void configureProjectCalendars()
    {
       //
