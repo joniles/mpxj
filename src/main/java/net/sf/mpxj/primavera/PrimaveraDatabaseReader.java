@@ -99,14 +99,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
          ProjectFile project = m_reader.getProject();
          addListenersToProject(project);
-
          processTableNames();
          processAnalytics();
 
          processUnitsOfMeasure();
          processUserDefinedFields();
          processLocations();
-         processProjectProperties();
          processActivityCodes();
          processExpenseCategories();
          processCostAccounts();
@@ -119,6 +117,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processRoleRates();
          processRoleAvailability();
 
+         processProjectProperties();
          processTasks();
          processPredecessors();
          processWorkContours();
