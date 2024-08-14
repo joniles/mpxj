@@ -1,6 +1,9 @@
 # Changelog
 
-## 13.2.2 (unreleased)
+## 13.2.3 (unreleased)
+
+## 13.2.2 (2024-08-14)
+* Add missing constructors to `TimephasedCost` and `TimephasedWork` in MPXJ.Net.
 
 ## 13.2.1 (2024-08-13)
 * Make the MPXJ.Net assembly strong named.
