@@ -72,7 +72,7 @@ public class UserDefinedFieldContainer implements Collection<UserDefinedField>
       }
 
       map.put(field.getUniqueID(), field);
-      m_fields.add(field);
+      addField(field);
       return true;
    }
 

@@ -203,8 +203,25 @@ final class PrimaveraReader
          properties.setActivityIdIncrementBasedOnSelectedActivity(row.getBoolean("task_code_prefix_flag"));
          properties.setProjectWebsiteUrl(row.getString("proj_url"));
 
-         // cannot assign actual calendar yet as it has not been read yet
-         m_defaultCalendarID = row.getInteger("clndr_id");
+         ProjectCalendar calendar = m_project.getCalendarByUniqueID(row.getInteger("clndr_id"));
+         if (calendar != null)
+         {
+            m_project.getProjectProperties().setDefaultCalendar(calendar);
+         }
+      }
+
+      //
+      // We've used Primavera's unique ID values for the calendars we've read so far.
+      // At this point any new calendars we create must be auto numbered. We also need to
+      // ensure that the auto numbering starts from an appropriate value.
+      //
+      ProjectConfig config = m_project.getProjectConfig();
+      config.setAutoCalendarUniqueID(true);
+
+      // Ensure we have a default calendar
+      if (m_project.getDefaultCalendar() == null)
+      {
+         m_project.setDefaultCalendar(m_project.getCalendars().findOrCreateDefaultCalendar());
       }
    }
 
@@ -433,21 +450,6 @@ final class PrimaveraReader
             entry.getKey().setParent(baseCalendar);
          }
       }
-
-      //
-      // We've used Primavera's unique ID values for the calendars we've read so far.
-      // At this point any new calendars we create must be auto number. We also need to
-      // ensure that the auto numbering starts from an appropriate value.
-      //
-      ProjectConfig config = m_project.getProjectConfig();
-      config.setAutoCalendarUniqueID(true);
-
-      ProjectCalendar defaultCalendar = m_project.getCalendarByUniqueID(m_defaultCalendarID);
-      if (defaultCalendar == null)
-      {
-         defaultCalendar = m_project.getCalendars().findOrCreateDefaultCalendar();
-      }
-      m_project.setDefaultCalendar(defaultCalendar);
    }
 
    /**
@@ -466,10 +468,10 @@ final class PrimaveraReader
       calendar.setType(CalendarTypeHelper.getInstanceFromXer(row.getString("clndr_type")));
       calendar.setPersonal(row.getBoolean("rsrc_private"));
 
-      if (row.getBoolean("default_flag") && m_defaultCalendarID == null)
+      // We may override this later with project properties
+      if (row.getBoolean("default_flag") && m_project.getProjectProperties().getDefaultCalendarUniqueID() == null)
       {
-         // We don't have a default calendar set for the project, use the global default
-         m_defaultCalendarID = id;
+         m_project.getProjectProperties().setDefaultCalendar(calendar);
       }
 
       // Process data
@@ -2357,7 +2359,6 @@ final class PrimaveraReader
    private final ClashMap m_roleClashMap = new ClashMap();
    private final DateTimeFormatter m_twentyFourHourTimeFormat = DateTimeFormatter.ofPattern("H:mm");
    private final DateTimeFormatter m_twelveHourTimeFormat = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("h:mm a").toFormatter();
-   private Integer m_defaultCalendarID;
    private final Map<FieldType, String> m_resourceFields;
    private final Map<FieldType, String> m_roleFields;
    private final Map<FieldType, String> m_wbsFields;
