@@ -102,6 +102,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
          processTableNames();
          processAnalytics();
+
          processUnitsOfMeasure();
          processUserDefinedFields();
          processLocations();
@@ -110,18 +111,21 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processExpenseCategories();
          processCostAccounts();
          processNotebookTopics();
+
          processCalendars();
          processResources();
          processRoles();
          processResourceRates();
          processRoleRates();
          processRoleAvailability();
+
          processTasks();
          processPredecessors();
          processWorkContours();
          processAssignments();
          processExpenseItems();
          processActivitySteps();
+
          m_reader.rollupValues();
 
          m_reader = null;
