@@ -40,6 +40,7 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
    public ProjectCalendarContainer(ProjectFile projectFile)
    {
       super(projectFile);
+      m_projectFile = projectFile;
    }
 
    @Override public void removed(ProjectCalendar calendar)
@@ -162,4 +163,6 @@ public class ProjectCalendarContainer extends ProjectEntityContainer<ProjectCale
 
       return (calendar);
    }
+
+   private final ProjectFile m_projectFile;
 }

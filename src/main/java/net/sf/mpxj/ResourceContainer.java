@@ -43,6 +43,7 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
    public ResourceContainer(ProjectFile projectFile)
    {
       super(projectFile);
+      m_projectFile = projectFile;
    }
 
    @Override public void removed(Resource resource)
@@ -153,4 +154,6 @@ public class ResourceContainer extends ProjectEntityWithIDContainer<Resource>
    {
       return m_projectFile.getCustomFields().getFieldTypeByAlias(FieldTypeClass.RESOURCE, alias);
    }
+
+   private final ProjectFile m_projectFile;
 }

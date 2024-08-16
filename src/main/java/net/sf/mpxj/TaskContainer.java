@@ -44,6 +44,7 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
    public TaskContainer(ProjectFile projectFile)
    {
       super(projectFile);
+      m_projectFile = projectFile;
    }
 
    /**
@@ -260,4 +261,6 @@ public class TaskContainer extends ProjectEntityWithIDContainer<Task>
       Task firstEntity = getByID(Integer.valueOf(0));
       return firstEntity == null ? 1 : 0;
    }
+
+   private final ProjectFile m_projectFile;
 }
