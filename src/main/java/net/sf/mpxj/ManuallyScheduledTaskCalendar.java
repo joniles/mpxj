@@ -22,34 +22,92 @@
 
 package net.sf.mpxj;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class ManuallyScheduledTaskCalendar extends ProjectCalendar {
+/**
+ * This class represents a Calendar Definition record for an MPP Manually Scheduled task.
+ */
+public class ManuallyScheduledTaskCalendar extends ProjectCalendar
+{
    public ManuallyScheduledTaskCalendar(ProjectCalendar calendar, ResourceAssignment assignment)
    {
       super(calendar.getParentFile(), true);
       m_calendar = calendar;
       m_assignment = assignment;
    }
-   
-   public LocalDateTime getDate(LocalDateTime date, Duration duration)
+
+   /**
+    * Retrieves the working hours on the given date.
+    *
+    * @param date required date
+    * @return working hours
+    */
+   @Override protected ProjectCalendarHours getRanges(LocalDate date)
+   {
+      // If today is not a working day then find first ProjectCalendarRange with working time.
+      ProjectCalendarHours effectiveRanges = m_calendar.getRanges(date);
+      if (effectiveRanges.isEmpty())
+      {
+         // Date is not a working day.
+         // Find first ProjectCalendarRange with working time. Starting on Tuesday(!).
+         // Using [Default] calendar - ignoring exceptions and work week rules. Uses this a basis for all calculations.
+         if (m_calendar.getDayType(DayOfWeek.TUESDAY) == DayType.WORKING)
+         {
+            effectiveRanges = m_calendar.getHours(DayOfWeek.TUESDAY);
+         }
+         else
+            if (m_calendar.getDayType(DayOfWeek.WEDNESDAY) == DayType.WORKING)
+            {
+               effectiveRanges = m_calendar.getHours(DayOfWeek.WEDNESDAY);
+            }
+            else
+               if (m_calendar.getDayType(DayOfWeek.THURSDAY) == DayType.WORKING)
+               {
+                  effectiveRanges = m_calendar.getHours(DayOfWeek.THURSDAY);
+               }
+               else
+                  if (m_calendar.getDayType(DayOfWeek.FRIDAY) == DayType.WORKING)
+                  {
+                     effectiveRanges = m_calendar.getHours(DayOfWeek.FRIDAY);
+                  }
+                  else
+                     if (m_calendar.getDayType(DayOfWeek.SATURDAY) == DayType.WORKING)
+                     {
+                        effectiveRanges = m_calendar.getHours(DayOfWeek.SATURDAY);
+                     }
+                     else
+                        if (m_calendar.getDayType(DayOfWeek.SUNDAY) == DayType.WORKING)
+                        {
+                           effectiveRanges = m_calendar.getHours(DayOfWeek.SUNDAY);
+                        }
+                        else
+                           if (m_calendar.getDayType(DayOfWeek.MONDAY) == DayType.WORKING)
+                           {
+                              effectiveRanges = m_calendar.getHours(DayOfWeek.MONDAY);
+                           }
+      }
+      return effectiveRanges;
+   }
+
+   @Override public LocalDateTime getDate(LocalDateTime date, Duration duration)
    {
       throw new UnsupportedOperationException();
    }
 
-   public Duration getWork(LocalDateTime startDate, LocalDateTime endDate, TimeUnit format)
+   @Override public Duration getWork(LocalDateTime startDate, LocalDateTime endDate, TimeUnit format)
    {
       throw new UnsupportedOperationException();
    }
 
-   public LocalTime getFinishTime(LocalDate date)
+   @Override public LocalTime getFinishTime(LocalDate date)
    {
       throw new UnsupportedOperationException();
    }
 
-   public LocalDateTime getNextWorkStart(LocalDateTime date)
+   @Override public LocalDateTime getNextWorkStart(LocalDateTime date)
    {
       throw new UnsupportedOperationException();
    }
