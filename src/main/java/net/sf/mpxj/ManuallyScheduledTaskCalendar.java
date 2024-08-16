@@ -37,6 +37,7 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
       super(calendar.getParentFile(), true);
       m_calendar = calendar;
       m_assignment = assignment;
+      this.setParent(calendar);
    }
 
    /**
