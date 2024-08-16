@@ -42,7 +42,7 @@ import net.sf.mpxj.common.ObjectSequence;
 /**
  * This class represents a project plan.
  */
-public final class ProjectFile implements ChildTaskContainer, ChildResourceContainer
+public final class ProjectFile implements ChildTaskContainer, ChildResourceContainer, UniqueIdObjectSequenceProvider
 {
    /**
     * Retrieve project configuration data.

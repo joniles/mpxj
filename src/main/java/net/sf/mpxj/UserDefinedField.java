@@ -68,7 +68,7 @@ public class UserDefinedField implements FieldType
     * @param dataType data type of this field
     * @deprecated use the Builder class
     */
-   @Deprecated public UserDefinedField(ProjectFile file, Integer uniqueID, String internalName, String externalName, FieldTypeClass fieldTypeClass, boolean summaryTaskOnly, DataType dataType)
+   @Deprecated public UserDefinedField(UniqueIdObjectSequenceProvider file, Integer uniqueID, String internalName, String externalName, FieldTypeClass fieldTypeClass, boolean summaryTaskOnly, DataType dataType)
    {
       if (internalName == null || internalName.isEmpty())
       {
@@ -90,7 +90,7 @@ public class UserDefinedField implements FieldType
     */
    private UserDefinedField(Builder builder)
    {
-      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(UserDefinedField.class).syncOrGetNext(builder.m_uniqueID);
+      m_uniqueID = builder.m_sequenceProvider.getUniqueIdObjectSequence(UserDefinedField.class).syncOrGetNext(builder.m_uniqueID);
       m_internalName =  builder.m_internalName == null || builder.m_internalName.isEmpty() ? builder.m_internalName = "user_field_" + m_uniqueID : builder.m_internalName;
       m_externalName = builder.m_externalName;
       m_fieldTypeClass = builder.m_fieldTypeClass;
@@ -186,11 +186,11 @@ public class UserDefinedField implements FieldType
       /**
        * Constructor.
        *
-       * @param file parent project file.
+       * @param sequenceProvider parent project file.
        */
-      public Builder(ProjectFile file)
+      public Builder(UniqueIdObjectSequenceProvider sequenceProvider)
       {
-         m_file = file;
+         m_sequenceProvider = sequenceProvider;
       }
 
       /**
@@ -275,7 +275,7 @@ public class UserDefinedField implements FieldType
          return new UserDefinedField(this);
       }
 
-      private final ProjectFile m_file;
+      private final UniqueIdObjectSequenceProvider m_sequenceProvider;
       private Integer m_uniqueID;
       private FieldTypeClass m_fieldTypeClass;
       private boolean m_summaryTaskOnly;
