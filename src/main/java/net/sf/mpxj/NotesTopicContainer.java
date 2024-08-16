@@ -45,10 +45,9 @@ public class NotesTopicContainer extends ProjectEntityContainer<NotesTopic>
     */
    public NotesTopic getDefaultTopic()
    {
-      NotesTopicContainer topics = m_projectFile.getNotesTopics();
-      if (topics.getByUniqueID(NotesTopic.DEFAULT.getUniqueID()) == null)
+      if (getByUniqueID(NotesTopic.DEFAULT.getUniqueID()) == null)
       {
-         topics.add(NotesTopic.DEFAULT);
+         add(NotesTopic.DEFAULT);
       }
       return NotesTopic.DEFAULT;
    }
