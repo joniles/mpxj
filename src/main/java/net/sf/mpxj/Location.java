@@ -35,7 +35,7 @@ public final class Location implements ProjectEntityWithUniqueID
     */
    private Location(Builder builder)
    {
-      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(Location.class).syncOrGetNext(builder.m_uniqueID);
+      m_uniqueID = builder.m_sequenceProvider.getUniqueIdObjectSequence(Location.class).syncOrGetNext(builder.m_uniqueID);
       m_addressLine1 = builder.m_addressLine1;
       m_addressLine2 = builder.m_addressLine2;
       m_addressLine3 = builder.m_addressLine3;
@@ -214,11 +214,11 @@ public final class Location implements ProjectEntityWithUniqueID
       /**
        * Constructor.
        *
-       * @param file parent project file.
+       * @param sequenceProvider parent project file.
        */
-      public Builder(ProjectFile file)
+      public Builder(UniqueIdObjectSequenceProvider sequenceProvider)
       {
-         m_file = file;
+         m_sequenceProvider = sequenceProvider;
       }
 
       /**
@@ -424,7 +424,7 @@ public final class Location implements ProjectEntityWithUniqueID
          return new Location(this);
       }
 
-      private final ProjectFile m_file;
+      private final UniqueIdObjectSequenceProvider m_sequenceProvider;
       private String m_addressLine1;
       private String m_addressLine2;
       private String m_addressLine3;

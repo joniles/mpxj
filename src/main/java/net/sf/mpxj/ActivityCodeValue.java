@@ -39,7 +39,7 @@ public final class ActivityCodeValue
     */
    private ActivityCodeValue(Builder builder)
    {
-      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(ActivityCodeValue.class).syncOrGetNext(builder.m_uniqueID);
+      m_uniqueID = builder.m_sequenceProvider.getUniqueIdObjectSequence(ActivityCodeValue.class).syncOrGetNext(builder.m_uniqueID);
       m_type = builder.m_type;
       m_sequenceNumber = builder.m_sequenceNumber;
       m_name = builder.m_name;
@@ -159,11 +159,11 @@ public final class ActivityCodeValue
       /**
        * Constructor.
        *
-       * @param file parent project file
+       * @param sequenceProvider parent project file
        */
-      public Builder(ProjectFile file)
+      public Builder(UniqueIdObjectSequenceProvider sequenceProvider)
       {
-         m_file = file;
+         m_sequenceProvider = sequenceProvider;
       }
 
       /**
@@ -278,7 +278,7 @@ public final class ActivityCodeValue
          return new ActivityCodeValue(this);
       }
 
-      private final ProjectFile m_file;
+      private final UniqueIdObjectSequenceProvider m_sequenceProvider;
       private ActivityCode m_type;
       private Integer m_uniqueID;
       private Integer m_sequenceNumber;

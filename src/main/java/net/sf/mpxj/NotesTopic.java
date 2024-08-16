@@ -35,7 +35,7 @@ public final class NotesTopic implements ProjectEntityWithUniqueID
     */
    private NotesTopic(Builder builder)
    {
-      m_uniqueID = builder.m_file == null ? builder.m_uniqueID : builder.m_file.getUniqueIdObjectSequence(NotesTopic.class).syncOrGetNext(builder.m_uniqueID);
+      m_uniqueID = builder.m_sequenceProvider == null ? builder.m_uniqueID : builder.m_sequenceProvider.getUniqueIdObjectSequence(NotesTopic.class).syncOrGetNext(builder.m_uniqueID);
       m_sequenceNumber = builder.m_sequenceNumber;
       m_name = builder.m_name;
       m_availableForEPS = builder.m_availableForEPS;
@@ -117,11 +117,11 @@ public final class NotesTopic implements ProjectEntityWithUniqueID
       /**
        * Constructor.
        *
-       * @param file parent file
+       * @param sequenceProvider parent file
        */
-      public Builder(ProjectFile file)
+      public Builder(UniqueIdObjectSequenceProvider sequenceProvider)
       {
-         m_file = file;
+         m_sequenceProvider = sequenceProvider;
       }
 
       /**
@@ -236,7 +236,7 @@ public final class NotesTopic implements ProjectEntityWithUniqueID
          return new NotesTopic(this);
       }
 
-      private final ProjectFile m_file;
+      private final UniqueIdObjectSequenceProvider m_sequenceProvider;
       private Integer m_uniqueID;
       private Integer m_sequenceNumber;
       private String m_name;

@@ -35,7 +35,7 @@ public final class ExpenseCategory implements ProjectEntityWithUniqueID
     */
    private ExpenseCategory(Builder builder)
    {
-      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(ExpenseCategory.class).syncOrGetNext(builder.m_uniqueID);
+      m_uniqueID = builder.m_sequenceProvider.getUniqueIdObjectSequence(ExpenseCategory.class).syncOrGetNext(builder.m_uniqueID);
       m_name = builder.m_name;
       m_sequenceNumber = builder.m_sequenceNumber;
    }
@@ -82,11 +82,11 @@ public final class ExpenseCategory implements ProjectEntityWithUniqueID
       /**
        * Constructor.
        *
-       * @param file parent file
+       * @param sequenceProvider parent file
        */
-      public Builder(ProjectFile file)
+      public Builder(UniqueIdObjectSequenceProvider sequenceProvider)
       {
-         m_file = file;
+         m_sequenceProvider = sequenceProvider;
       }
 
       /**
@@ -149,7 +149,7 @@ public final class ExpenseCategory implements ProjectEntityWithUniqueID
          return new ExpenseCategory(this);
       }
 
-      private final ProjectFile m_file;
+      private final UniqueIdObjectSequenceProvider m_sequenceProvider;
       private Integer m_uniqueID;
       private String m_name;
       private Integer m_sequenceNumber;
