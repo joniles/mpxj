@@ -1392,6 +1392,11 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
          }
       }
 
+      if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+      {
+         result = new ManuallyScheduledTaskCalendar(result, this);
+      }
+
       return result;
    }
 
