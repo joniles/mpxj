@@ -523,7 +523,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public CostAccountContainer getCostAccounts()
    {
-      return m_costAccounts;
+      return m_shared.getCostAccounts();
    }
 
    /**
@@ -543,7 +543,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public WorkContourContainer getWorkContours()
    {
-      return m_workContours;
+      return m_shared.getWorkContours();
    }
 
    /**
@@ -985,9 +985,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final CustomFieldContainer m_customFields = new CustomFieldContainer();
    private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer();
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
-   private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
    private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer(this);
-   private final WorkContourContainer m_workContours = new WorkContourContainer(this);
    private final NotesTopicContainer m_notesTopics = new NotesTopicContainer(this);
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];

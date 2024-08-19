@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.Collections;
 import java.util.Arrays;
 
 import net.sf.mpxj.common.ObjectSequence;
@@ -42,6 +41,26 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    }
 
    /**
+    * Retrieves the cost accounts available for this schedule.
+    *
+    * @return cost accounts
+    */
+   public CostAccountContainer getCostAccounts()
+   {
+      return m_costAccounts;
+   }
+
+   /**
+    * Retrieves the work contours available for this schedule.
+    *
+    * @return work contours
+    */
+   public WorkContourContainer getWorkContours()
+   {
+      return m_workContours;
+   }
+
+   /**
     * Retrieve the ObjectSequence instance used to generate Unique ID values for a given class.
     *
     * @param c target class
@@ -55,7 +74,15 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    private final LocationContainer m_locations = new LocationContainer(this);
    private final UnitOfMeasureContainer m_unitsOfMeasure = new UnitOfMeasureContainer(this);
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
+   private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
+   private final WorkContourContainer m_workContours = new WorkContourContainer(this);
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 
-   public static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(Arrays.asList(Location.class.getName(), UnitOfMeasure.class.getName(), ExpenseCategory.class.getName()));
+   public static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
+      Arrays.asList(
+         Location.class.getName(),
+         UnitOfMeasure.class.getName(),
+         ExpenseCategory.class.getName(),
+         CostAccount.class.getName(),
+         WorkContour.class.getName()));
 }

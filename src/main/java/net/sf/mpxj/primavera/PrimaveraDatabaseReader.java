@@ -115,11 +115,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             processLocations();
             processUnitsOfMeasure();
             processExpenseCategories();
+            processCostAccounts();
+            processWorkContours();
          }
 
          processUserDefinedFields();
          processActivityCodes();
-         processCostAccounts();
          processNotebookTopics();
 
          processCalendars();
@@ -132,7 +133,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processProjectProperties();
          processTasks();
          processPredecessors();
-         processWorkContours();
          processAssignments();
          processExpenseItems();
          processActivitySteps();
@@ -430,7 +430,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processAssignments() throws SQLException
    {
-      processWorkContours();
       List<Row> rows = getRows("select * from " + m_schema + "taskrsrc where proj_id=? and delete_date is null", m_projectID);
       m_reader.processAssignments(rows);
    }

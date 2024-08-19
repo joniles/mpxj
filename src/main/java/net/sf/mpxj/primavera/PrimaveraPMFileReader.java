@@ -452,13 +452,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             processLocations(apibo);
             processUnitsOfMeasure(apibo);
             processExpenseCategories(apibo);
+            processCostAccounts(apibo);
+            processWorkContours(apibo);
          }
 
-         processUdfDefintions(apibo);
          processNotebookTopics(apibo);
-         processCostAccounts(apibo);
+         processUdfDefintions(apibo);
          processActivityCodes(apibo.getActivityCodeType(), apibo.getActivityCode());
-         processWorkContours(apibo);
 
          processCalendars(apibo.getCalendar());
          processResources(apibo);

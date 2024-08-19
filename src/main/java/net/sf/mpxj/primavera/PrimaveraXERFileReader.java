@@ -234,13 +234,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
             processLocations();
             processUnitsOfMeasure();
             processExpenseCategories();
+            processCostAccounts();
+            processWorkContours();
          }
 
          processUserDefinedFields();
          processActivityCodes();
-
-         processCostAccounts();
          processNotebookTopics();
+
          processCalendars();
          processResources();
          processRoles();
@@ -588,7 +589,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
     */
    private void processAssignments()
    {
-      processWorkContours();
       List<Row> rows = getRows("taskrsrc", "proj_id", m_projectID);
       m_reader.processAssignments(rows);
    }
