@@ -401,12 +401,24 @@ final class PrimaveraReader
             .build();
 
          container.add(fieldType);
-
-         m_udfFields.put(fieldId, fieldType);
          m_project.getCustomFields().add(fieldType).setAlias(fieldType.getName()).setUniqueID(fieldId);
       }
 
       // Process values
+      for (Row row : values)
+      {
+         Integer typeID = row.getInteger("udf_type_id");
+         String tableName = tableNameMap.get(typeID);
+         Map<Integer, List<Row>> tableData = m_udfValues.computeIfAbsent(tableName, k -> new HashMap<>());
+
+         Integer id = row.getInteger("fk_id");
+         List<Row> list = tableData.computeIfAbsent(id, k -> new ArrayList<>());
+         list.add(row);
+      }
+   }
+
+   public void processUserDefinedFieldValues(List<Row> values)
+   {
       for (Row row : values)
       {
          Integer typeID = row.getInteger("udf_type_id");
@@ -1233,43 +1245,44 @@ final class PrimaveraReader
    private void addUDFValue(FieldTypeClass fieldType, FieldContainer container, Row row)
    {
       Integer fieldId = row.getInteger("udf_type_id");
-      FieldType field = m_udfFields.get(fieldId);
+      FieldType field = m_project.getUserDefinedFields().getByUniqueID(fieldId);
+      if (field == null)
+      {
+         return;
+      }
 
       Object value;
-      if (field != null)
+      DataType fieldDataType = field.getDataType();
+
+      switch (fieldDataType)
       {
-         DataType fieldDataType = field.getDataType();
-
-         switch (fieldDataType)
+         case DATE:
          {
-            case DATE:
-            {
-               value = row.getDate("udf_date");
-               break;
-            }
-
-            case CURRENCY:
-            case NUMERIC:
-            {
-               value = row.getDouble("udf_number");
-               break;
-            }
-
-            case INTEGER:
-            {
-               value = row.getInteger("udf_number");
-               break;
-            }
-
-            default:
-            {
-               value = row.getString("udf_text");
-               break;
-            }
+            value = row.getDate("udf_date");
+            break;
          }
 
-         container.set(field, value);
+         case CURRENCY:
+         case NUMERIC:
+         {
+            value = row.getDouble("udf_number");
+            break;
+         }
+
+         case INTEGER:
+         {
+            value = row.getInteger("udf_number");
+            break;
+         }
+
+         default:
+         {
+            value = row.getString("udf_text");
+            break;
+         }
       }
+
+      container.set(field, value);
    }
 
    /**
@@ -2370,7 +2383,6 @@ final class PrimaveraReader
    private final boolean m_wbsIsFullPath;
    private final boolean m_ignoreErrors;
 
-   private final Map<Integer, FieldType> m_udfFields = new HashMap<>();
    private final Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
 
    private final Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();

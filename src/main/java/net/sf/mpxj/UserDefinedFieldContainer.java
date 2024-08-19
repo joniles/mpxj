@@ -41,26 +41,26 @@ public class UserDefinedFieldContainer implements Collection<UserDefinedField>
    /**
     * Constructor.
     *
-    * @param file parent project
+    * @param customFields custom fields container
     */
-   public UserDefinedFieldContainer(ProjectFile file)
+   public UserDefinedFieldContainer(CustomFieldContainer customFields)
    {
-      m_file = file;
+      m_customFields = customFields;
    }
 
    @Override public Iterator<UserDefinedField> iterator()
    {
-      return m_fields.iterator();
+      return m_uniqueIDMap.values().iterator();
    }
 
    @Override public Object[] toArray()
    {
-      return m_fields.toArray();
+      return m_uniqueIDMap.values().toArray();
    }
 
    @Override public <T> T[] toArray(T[] a)
    {
-      return m_fields.toArray(a);
+      return m_uniqueIDMap.values().toArray(a);
    }
 
    @Override public boolean add(UserDefinedField field)
@@ -118,17 +118,17 @@ public class UserDefinedFieldContainer implements Collection<UserDefinedField>
 
    @Override public boolean remove(Object o)
    {
-      m_file.getCustomFields().remove((UserDefinedField) o);
+      m_customFields.remove((UserDefinedField) o);
       m_taskFields.remove(o);
       m_resourceFields.remove(o);
       m_assignmentFields.remove(o);
       m_projectFields.remove(o);
-      return m_fields.remove(o);
+      return m_uniqueIDMap.remove(((UserDefinedField) o).getUniqueID(), o);
    }
 
    @Override public boolean containsAll(Collection<?> c)
    {
-      return m_fields.containsAll(c);
+      return m_uniqueIDMap.values().containsAll(c);
    }
 
    @Override public boolean addAll(Collection<? extends UserDefinedField> c)
@@ -156,27 +156,27 @@ public class UserDefinedFieldContainer implements Collection<UserDefinedField>
 
    @Override public void forEach(Consumer<? super UserDefinedField> action)
    {
-      m_fields.forEach(action);
+      m_uniqueIDMap.values().forEach(action);
    }
 
    @Override public Spliterator<UserDefinedField> spliterator()
    {
-      return m_fields.spliterator();
+      return m_uniqueIDMap.values().spliterator();
    }
 
    @Override public int size()
    {
-      return m_fields.size();
+      return m_uniqueIDMap.size();
    }
 
    @Override public boolean isEmpty()
    {
-      return m_fields.isEmpty();
+      return m_uniqueIDMap.isEmpty();
    }
 
    @Override public boolean contains(Object o)
    {
-      return m_fields.contains(o);
+      return m_uniqueIDMap.containsValue(o);
    }
 
    /**
@@ -267,16 +267,27 @@ public class UserDefinedFieldContainer implements Collection<UserDefinedField>
       return m_projectFields.computeIfAbsent(id, (i) -> addField(createFunction.apply(i)));
    }
 
+   /**
+    * Retrieve a user defined field by its Unique ID.
+    *
+    * @param id entity Unique ID
+    * @return user defined field or null
+    */
+   public UserDefinedField getByUniqueID(Integer id)
+   {
+      return m_uniqueIDMap.get(id);
+   }
+
    private UserDefinedField addField(UserDefinedField field)
    {
-      m_fields.add(field);
+      m_uniqueIDMap.put(field.getUniqueID(), field);
       return field;
    }
 
-   private final ProjectFile m_file;
+   private final CustomFieldContainer m_customFields;
    private final Map<Integer, UserDefinedField> m_taskFields = new HashMap<>();
    private final Map<Integer, UserDefinedField> m_resourceFields = new HashMap<>();
    private final Map<Integer, UserDefinedField> m_assignmentFields = new HashMap<>();
    private final Map<Integer, UserDefinedField> m_projectFields = new HashMap<>();
-   private final Set<UserDefinedField> m_fields = new HashSet<>();
+   private final Map<Integer, UserDefinedField> m_uniqueIDMap = new HashMap<>();
 }

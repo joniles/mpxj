@@ -483,7 +483,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public CustomFieldContainer getCustomFields()
    {
-      return m_customFields;
+      return m_shared.getCustomFields();
    }
 
    /**
@@ -533,7 +533,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public UserDefinedFieldContainer getUserDefinedFields()
    {
-      return m_userDefinedFields;
+      return m_shared.getUserDefinedFields();
    }
 
    /**
@@ -982,10 +982,8 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final GroupContainer m_groups = new GroupContainer();
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
-   private final CustomFieldContainer m_customFields = new CustomFieldContainer();
    private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer();
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
-   private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer(this);
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
    private final List<Exception> m_ignoredErrors = new ArrayList<>();

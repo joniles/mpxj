@@ -118,9 +118,9 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             processCostAccounts();
             processWorkContours();
             processNotebookTopics();
+            processUserDefinedFields();
          }
 
-         processUserDefinedFields();
          processActivityCodes();
 
          processCalendars();

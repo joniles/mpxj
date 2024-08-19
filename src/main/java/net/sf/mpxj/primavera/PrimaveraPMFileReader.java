@@ -421,7 +421,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_activityClashMap = new ClashMap();
          m_roleClashMap = new ClashMap();
          m_activityCodeMap = new HashMap<>();
-         m_fieldTypeMap = new HashMap<>();
 
          boolean readSharedData = m_shared == null;
          if (m_shared == null)
@@ -455,9 +454,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             processCostAccounts(apibo);
             processWorkContours(apibo);
             processNotebookTopics(apibo);
+            processUdfDefintions(apibo);
          }
 
-         processUdfDefintions(apibo);
          processActivityCodes(apibo.getActivityCodeType(), apibo.getActivityCode());
 
          processCalendars(apibo.getCalendar());
@@ -538,7 +537,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_activityClashMap = null;
          m_roleClashMap = null;
          m_activityCodeMap = null;
-         m_fieldTypeMap = null;
       }
    }
 
@@ -612,7 +610,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          .dataType(UdfHelper.getDataTypeFromXml(udf.getDataType()))
          .build();
 
-      m_fieldTypeMap.put(udf.getObjectId(), field);
       m_projectFile.getUserDefinedFields().add(field);
       m_projectFile.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
    }
@@ -2307,7 +2304,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (UDFAssignmentType udf : udfs)
       {
-         FieldType fieldType = m_fieldTypeMap.get(Integer.valueOf(udf.getTypeObjectId()));
+         UserDefinedField fieldType = m_projectFile.getUserDefinedFields().getByUniqueID(Integer.valueOf(udf.getTypeObjectId()));
          if (fieldType != null)
          {
             mpxj.set(fieldType, getUdfValue(udf));
@@ -2567,7 +2564,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private ClashMap m_activityClashMap;
    private ClashMap m_roleClashMap;
    private Map<Integer, ActivityCodeValue> m_activityCodeMap;
-   private Map<Integer, FieldType> m_fieldTypeMap;
    private List<ExternalRelation> m_externalRelations;
    private boolean m_linkCrossProjectRelations;
    private BaselineStrategy m_baselineStrategy = PrimaveraBaselineStrategy.PLANNED_ATTRIBUTES;

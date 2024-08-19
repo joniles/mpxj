@@ -71,6 +71,26 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    }
 
    /**
+    * Retrieves the custom fields for this project.
+    *
+    * @return custom fields
+    */
+   public CustomFieldContainer getCustomFields()
+   {
+      return m_customFields;
+   }
+
+   /**
+    * Retrieves the user defined fields available for this schedule.
+    *
+    * @return user defined fields
+    */
+   public UserDefinedFieldContainer getUserDefinedFields()
+   {
+      return m_userDefinedFields;
+   }
+
+   /**
     * Retrieve the ObjectSequence instance used to generate Unique ID values for a given class.
     *
     * @param c target class
@@ -87,6 +107,8 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
    private final WorkContourContainer m_workContours = new WorkContourContainer(this);
    private final NotesTopicContainer m_notesTopics = new NotesTopicContainer(this);
+   private final CustomFieldContainer m_customFields = new CustomFieldContainer();
+   private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer(m_customFields);
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 
    public static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
@@ -96,5 +118,6 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
          ExpenseCategory.class.getName(),
          CostAccount.class.getName(),
          WorkContour.class.getName(),
-         NotesTopic.class.getName()));
+         NotesTopic.class.getName(),
+         UserDefinedField.class.getName()));
 }
