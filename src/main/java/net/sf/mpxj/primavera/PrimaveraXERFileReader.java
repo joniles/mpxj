@@ -237,11 +237,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
             processCostAccounts();
             processWorkContours();
             processNotebookTopics();
-            processUserDefinedFields();
+            processUdfDefinitions();
          }
 
          processActivityCodes();
 
+         processUdfValues();
          processCalendars();
          processResources();
          processRoles();
@@ -506,13 +507,21 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    }
 
    /**
-    * Process user defined fields.
+    * Process user defined field definitions.
     */
-   private void processUserDefinedFields()
+   private void processUdfDefinitions()
    {
       List<Row> fields = getRows("udftype", null, null);
+      m_reader.processUdfDefinitions(fields);
+   }
+
+   /**
+    * Process user defined field values.
+    */
+   private void processUdfValues()
+   {
       List<Row> values = getRows("udfvalue", null, null);
-      m_reader.processUserDefinedFields(fields, values);
+      m_reader.processUdfValues(values);
    }
 
    /**

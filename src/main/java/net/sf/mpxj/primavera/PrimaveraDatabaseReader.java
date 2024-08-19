@@ -118,11 +118,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             processCostAccounts();
             processWorkContours();
             processNotebookTopics();
-            processUserDefinedFields();
+            processUdfDefinitions();
          }
 
          processActivityCodes();
 
+         processUdfValues();
          processCalendars();
          processResources();
          processRoles();
@@ -309,13 +310,18 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    }
 
    /**
-    * Process user defined fields.
+    * Process user defined field definitions.
     */
-   private void processUserDefinedFields() throws SQLException
+   private void processUdfDefinitions() throws SQLException
    {
       List<Row> fields = getRows("select * from " + m_schema + "udftype");
+      m_reader.processUdfDefinitions(fields);
+   }
+
+   private void processUdfValues() throws SQLException
+   {
       List<Row> values = getRows("select * from " + m_schema + "udfvalue where proj_id=? or proj_id is null", m_projectID);
-      m_reader.processUserDefinedFields(fields, values);
+      m_reader.processUdfValues(values);
    }
 
    /**

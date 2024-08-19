@@ -368,22 +368,18 @@ final class PrimaveraReader
    }
 
    /**
-    * Process User Defined Fields (UDF).
+    * Process User Defined Field (UDF) definitions.
     *
     * @param fields field definitions
-    * @param values field values
     */
-   public void processUserDefinedFields(List<Row> fields, List<Row> values)
+   public void processUdfDefinitions(List<Row> fields)
    {
-      // Process fields
-      Map<Integer, String> tableNameMap = new HashMap<>();
       UserDefinedFieldContainer container = m_project.getUserDefinedFields();
 
       for (Row row : fields)
       {
          Integer fieldId = row.getInteger("udf_type_id");
          String tableName = row.getString("table_name");
-         tableNameMap.put(fieldId, tableName);
 
          FieldTypeClass fieldTypeClass = FieldTypeClassHelper.getInstanceFromXer(tableName);
          if (fieldTypeClass == null)
@@ -403,26 +399,25 @@ final class PrimaveraReader
          container.add(fieldType);
          m_project.getCustomFields().add(fieldType).setAlias(fieldType.getName()).setUniqueID(fieldId);
       }
-
-      // Process values
-      for (Row row : values)
-      {
-         Integer typeID = row.getInteger("udf_type_id");
-         String tableName = tableNameMap.get(typeID);
-         Map<Integer, List<Row>> tableData = m_udfValues.computeIfAbsent(tableName, k -> new HashMap<>());
-
-         Integer id = row.getInteger("fk_id");
-         List<Row> list = tableData.computeIfAbsent(id, k -> new ArrayList<>());
-         list.add(row);
-      }
    }
 
-   public void processUserDefinedFieldValues(List<Row> values)
+   /**
+    * Process User Defined Field (UDF) values.
+    *
+    * @param values field values
+    */
+   public void processUdfValues(List<Row> values)
    {
       for (Row row : values)
       {
-         Integer typeID = row.getInteger("udf_type_id");
-         String tableName = tableNameMap.get(typeID);
+         FieldType fieldType = m_project.getUserDefinedFields().getByUniqueID(row.getInteger("udf_type_id"));
+         if (fieldType == null)
+         {
+            // UDF values for entities we don't currently support
+            continue;
+         }
+
+         String tableName = FieldTypeClassHelper.getXerFromInstance(fieldType);
          Map<Integer, List<Row>> tableData = m_udfValues.computeIfAbsent(tableName, k -> new HashMap<>());
 
          Integer id = row.getInteger("fk_id");

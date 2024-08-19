@@ -86,6 +86,7 @@ Full Application Name| | | | | | | | |✓| | | | | | | | | | |
 GUID| | | | | | |✓| |✓| |✓| | | |✓|✓|✓| | | | | | | 
 Honor Constraints| | | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Hyperlink Base| | | | | | | | |✓| | | | | | | | | | | | | | | 
+Ignore Relationships To And From Other Projects| | | | | | | | | | | | | | | | |✓| | | | | | | 
 Inserted Projects Like Summary| | | | | | | | | | |✓| | | | | | | | | | | | | 
 Keywords| | | | | | | |✓|✓|✓| | | | | | | | | | | | | | 
 Language| | | | | | | | |✓| | | | | | | | | | | | | | | 
