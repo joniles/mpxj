@@ -53,6 +53,7 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
 
+import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
@@ -120,9 +121,9 @@ final class PrimaveraReader
     * @param wbsIsFullPath determine the WBS attribute structure
     * @param ignoreErrors ignore errors flag
     */
-   public PrimaveraReader(Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors)
+   public PrimaveraReader(ProjectFileSharedData shared, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors)
    {
-      m_project = new ProjectFile();
+      m_project = new ProjectFile(shared);
       m_eventManager = m_project.getEventManager();
 
       ProjectConfig config = m_project.getProjectConfig();

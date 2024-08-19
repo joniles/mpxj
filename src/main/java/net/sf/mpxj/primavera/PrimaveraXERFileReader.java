@@ -46,6 +46,7 @@ import net.sf.mpxj.HasCharset;
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.Notes;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.WorkContour;
@@ -155,16 +156,18 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       {
          m_tables = new HashMap<>();
          m_numberFormat = new DecimalFormat();
+         m_readSharedData = true;
 
          processFile(is);
 
          List<Row> rows = getRows("project", null, null);
          List<ProjectFile> result = new ArrayList<>(rows.size());
          List<ExternalRelation> externalRelations = new ArrayList<>();
+         ProjectFileSharedData shared = new ProjectFileSharedData();
          for (Row row : rows)
          {
             setProjectID(row.getInt("proj_id"));
-            m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+            m_reader = new PrimaveraReader(shared, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
             ProjectFile project = readProject();
             externalRelations.addAll(m_reader.getExternalRelations());
 
@@ -225,14 +228,19 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
          addListenersToProject(project);
          processProjectID();
 
-         processUnitsOfMeasure();
+         if (m_readSharedData)
+         {
+            m_readSharedData = false;
+            processLocations();
+            processUnitsOfMeasure();
+            processExpenseCategories();
+         }
+
          processUserDefinedFields();
-         processLocations();
          processActivityCodes();
-         processExpenseCategories();
+
          processCostAccounts();
          processNotebookTopics();
-
          processCalendars();
          processResources();
          processRoles();
@@ -1090,6 +1098,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    private boolean m_wbsIsFullPath = true;
    private boolean m_linkCrossProjectRelations;
    private boolean m_ignoreErrors = true;
+   private boolean m_readSharedData;
 
    /**
     * Represents expected record types.

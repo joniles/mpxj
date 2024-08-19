@@ -38,6 +38,7 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
@@ -87,26 +88,37 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       }
    }
 
+   public ProjectFile read() throws MPXJException
+   {
+      m_readSharedData = true;
+      return read(new ProjectFileSharedData());
+   }
+
    /**
     * Read a project from the current data source.
     *
     * @return ProjectFile instance
     */
-   public ProjectFile read() throws MPXJException
+   private ProjectFile read(ProjectFileSharedData shared) throws MPXJException
    {
       try
       {
-         m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+         m_reader = new PrimaveraReader(shared, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
          ProjectFile project = m_reader.getProject();
          addListenersToProject(project);
          processTableNames();
          processAnalytics();
 
-         processUnitsOfMeasure();
+         if (m_readSharedData)
+         {
+            m_readSharedData = false;
+            processLocations();
+            processUnitsOfMeasure();
+            processExpenseCategories();
+         }
+
          processUserDefinedFields();
-         processLocations();
          processActivityCodes();
-         processExpenseCategories();
          processCostAccounts();
          processNotebookTopics();
 
@@ -159,10 +171,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       Map<Integer, String> projects = listProjects();
       List<ProjectFile> result = new ArrayList<>(projects.keySet().size());
+      ProjectFileSharedData shared = new ProjectFileSharedData();
+      m_readSharedData = true;
       for (Integer id : projects.keySet())
       {
          setProjectID(id.intValue());
-         result.add(read());
+         result.add(read(shared));
       }
       return result;
    }
@@ -749,6 +763,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private boolean m_wbsIsFullPath = true;
    private boolean m_ignoreErrors = true;
    private Set<String> m_tableNames;
+   private boolean m_readSharedData;
 
    private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();

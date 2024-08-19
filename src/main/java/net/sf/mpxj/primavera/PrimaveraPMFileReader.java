@@ -47,6 +47,7 @@ import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.BaselineStrategy;
+import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
@@ -257,6 +258,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       List<ProjectFile> result = new ArrayList<>(projects.size() + baselineProjects.size());
       m_externalRelations = new ArrayList<>();
 
+      ProjectFileSharedData shared = new ProjectFileSharedData();
       projects.forEach(project -> result.add(read(apibo, project)));
       baselineProjects.forEach(project -> result.add(read(apibo, project)));
 
@@ -421,7 +423,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_activityCodeMap = new HashMap<>();
          m_fieldTypeMap = new HashMap<>();
 
-         m_projectFile = new ProjectFile();
+         boolean readSharedData = m_shared == null;
+         if (m_shared == null)
+         {
+            m_shared = new ProjectFileSharedData();
+         }
+
+         m_projectFile = new ProjectFile(m_shared);
          m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
@@ -439,11 +447,15 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          addListenersToProject(m_projectFile);
 
          // Process common data
+         if (readSharedData)
+         {
+            processLocations(apibo);
+            processUnitsOfMeasure(apibo);
+            processExpenseCategories(apibo);
+         }
+
          processUdfDefintions(apibo);
-         processLocations(apibo);
          processNotebookTopics(apibo);
-         processUnitsOfMeasure(apibo);
-         processExpenseCategories(apibo);
          processCostAccounts(apibo);
          processActivityCodes(apibo.getActivityCodeType(), apibo.getActivityCode());
          processWorkContours(apibo);
@@ -522,6 +534,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       finally
       {
          m_projectFile = null;
+         m_shared = null;
          m_activityClashMap = null;
          m_roleClashMap = null;
          m_activityCodeMap = null;
@@ -2549,6 +2562,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private Integer m_projectID;
    private ProjectFile m_projectFile;
+   private ProjectFileSharedData m_shared;
    private EventManager m_eventManager;
    private ClashMap m_activityClashMap;
    private ClashMap m_roleClashMap;
