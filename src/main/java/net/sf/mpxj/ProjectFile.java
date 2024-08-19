@@ -553,7 +553,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public NotesTopicContainer getNotesTopics()
    {
-      return m_notesTopics;
+      return m_shared.getNotesTopics();
    }
 
    /**
@@ -986,7 +986,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer();
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer(this);
-   private final NotesTopicContainer m_notesTopics = new NotesTopicContainer(this);
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
    private final List<Exception> m_ignoredErrors = new ArrayList<>();

@@ -236,11 +236,11 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
             processExpenseCategories();
             processCostAccounts();
             processWorkContours();
+            processNotebookTopics();
          }
 
          processUserDefinedFields();
          processActivityCodes();
-         processNotebookTopics();
 
          processCalendars();
          processResources();

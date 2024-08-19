@@ -61,6 +61,16 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    }
 
    /**
+    * Retrieves the notes topics available for this schedule.
+    *
+    * @return notes topics
+    */
+   public NotesTopicContainer getNotesTopics()
+   {
+      return m_notesTopics;
+   }
+
+   /**
     * Retrieve the ObjectSequence instance used to generate Unique ID values for a given class.
     *
     * @param c target class
@@ -76,6 +86,7 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
    private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
    private final WorkContourContainer m_workContours = new WorkContourContainer(this);
+   private final NotesTopicContainer m_notesTopics = new NotesTopicContainer(this);
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 
    public static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
@@ -84,5 +95,6 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
          UnitOfMeasure.class.getName(),
          ExpenseCategory.class.getName(),
          CostAccount.class.getName(),
-         WorkContour.class.getName()));
+         WorkContour.class.getName(),
+         NotesTopic.class.getName()));
 }
