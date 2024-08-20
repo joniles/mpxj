@@ -48,9 +48,9 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
     */
    @Override protected ProjectCalendarHours getRanges(LocalDate date)
    {
-      // If today is not a working day then find first ProjectCalendarRange with working time.
       ProjectCalendarHours effectiveRanges = m_calendar.getRanges(date);
-      if (effectiveRanges.isEmpty() && date.equals(m_assignment_start_date))
+      // If today is not a working day then find first ProjectCalendarRange with working time.
+      if (effectiveRanges.isEmpty() && (date.equals(m_assignment_start_date) || date.equals(m_assignment_end_date)))
       {
          // Date is not a working day.
          // Find first ProjectCalendarRange with working time. Starting on Tuesday(!).
