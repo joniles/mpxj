@@ -74,10 +74,15 @@ public class TimephasedWorkSegmentManualOffsetTest
       //
       LocalDateTime startDate = LocalDateTime.of(2024, 07, 26, 0, 0);
       int segmentCount = 12;
+      int assignmentIndex = 0;
 
       for (ResourceAssignment assignment : file.getResourceAssignments())
       {
-         testSegments(assignment, startDate, segmentCount, TimescaleUnits.DAYS, false);
+         //if (assignmentIndex == 22)
+         {
+            testSegments(assignment, assignmentIndex, startDate, segmentCount, TimescaleUnits.DAYS, false);
+         }
+         assignmentIndex++;
       }
    }
 
@@ -89,7 +94,7 @@ public class TimephasedWorkSegmentManualOffsetTest
     * @param units units of duration for each segment
     * @param complete flag indicating if planned or complete work is required
     */
-   private void testSegments(ResourceAssignment assignment, LocalDateTime startDate, int segmentCount, TimescaleUnits units, boolean complete)
+   private void testSegments(ResourceAssignment assignment, int assignmentIndex, LocalDateTime startDate, int segmentCount, TimescaleUnits units, boolean complete)
    {
       String jsonString = assignment.getNotes();
       {
@@ -130,7 +135,7 @@ public class TimephasedWorkSegmentManualOffsetTest
          {
             expected = Double.parseDouble(jsonValue);
          }
-         assertEquals("Failed at index " + loop + " assignment " + assignment, expected, durationList.get(loop).convertUnits(TimeUnit.MINUTES, unitDefaults).getDuration(), 0.009);
+         assertEquals("Failed at index " + loop + " assignment index " + assignmentIndex + "=>" + assignment, expected, durationList.get(loop).convertUnits(TimeUnit.MINUTES, unitDefaults).getDuration(), 0.009);
 
          loop++;
       }
