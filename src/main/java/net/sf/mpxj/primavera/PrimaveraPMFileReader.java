@@ -420,7 +420,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       {
          m_activityClashMap = new ClashMap();
          m_roleClashMap = new ClashMap();
-         m_activityCodeMap = new HashMap<>();
 
          boolean readSharedData = m_shared == null;
          if (m_shared == null)
@@ -536,7 +535,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_shared = null;
          m_activityClashMap = null;
          m_roleClashMap = null;
-         m_activityCodeMap = null;
       }
    }
 
@@ -756,10 +754,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                .name(typeValue.getCodeValue())
                .description(typeValue.getDescription())
                .color(ColorHelper.parseHtmlColor(typeValue.getColor()))
-               .parent(m_activityCodeMap.get(typeValue.getParentObjectId()))
+               .parent(code.getValueByUniqueID(typeValue.getParentObjectId()))
                .build();
             code.addValue(value);
-            m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }
    }
@@ -2367,10 +2364,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (CodeAssignmentType assignment : codes)
       {
-         ActivityCodeValue code = m_activityCodeMap.get(Integer.valueOf(assignment.getValueObjectId()));
-         if (code != null)
+         ActivityCode activityCode = m_projectFile.getActivityCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (activityCode == null)
          {
-            task.addActivityCode(code);
+            continue;
+         }
+
+         ActivityCodeValue activityCodeValue = activityCode.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (activityCodeValue != null)
+         {
+            task.addActivityCode(activityCodeValue);
          }
       }
    }
@@ -2563,7 +2566,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    private EventManager m_eventManager;
    private ClashMap m_activityClashMap;
    private ClashMap m_roleClashMap;
-   private Map<Integer, ActivityCodeValue> m_activityCodeMap;
    private List<ExternalRelation> m_externalRelations;
    private boolean m_linkCrossProjectRelations;
    private BaselineStrategy m_baselineStrategy = PrimaveraBaselineStrategy.PLANNED_ATTRIBUTES;

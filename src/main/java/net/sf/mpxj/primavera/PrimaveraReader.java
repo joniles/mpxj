@@ -352,18 +352,17 @@ final class PrimaveraReader
                .name(row.getString("short_name"))
                .description(row.getString("actv_code_name"))
                .color(ColorHelper.parseHexColor(row.getString("color")))
-               .parent(m_activityCodeMap.get(row.getInteger("parent_actv_code_id")))
+               .parent(code.getValueByUniqueID(row.getInteger("parent_actv_code_id")))
                .build();
             code.addValue(value);
-            m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }
 
       for (Row row : assignments)
       {
          Integer taskID = row.getInteger("task_id");
-         List<Integer> list = m_activityCodeAssignments.computeIfAbsent(taskID, k -> new ArrayList<>());
-         list.add(row.getInteger("actv_code_id"));
+         List<Row> list = m_activityCodeAssignments.computeIfAbsent(taskID, k -> new ArrayList<>());
+         list.add(row);
       }
    }
 
@@ -1216,16 +1215,24 @@ final class PrimaveraReader
     */
    private void populateActivityCodes(Task task, Integer uniqueID)
    {
-      List<Integer> list = m_activityCodeAssignments.get(uniqueID);
-      if (list != null)
+      List<Row> list = m_activityCodeAssignments.get(uniqueID);
+      if (list == null)
       {
-         for (Integer id : list)
+         return;
+      }
+
+      for (Row row : list)
+      {
+         ActivityCode activityCode = m_project.getActivityCodes().getByUniqueID(row.getInteger("actv_code_type_id"));
+         if (activityCode == null)
          {
-            ActivityCodeValue value = m_activityCodeMap.get(id);
-            if (value != null)
-            {
-               task.addActivityCode(value);
-            }
+            continue;
+         }
+
+         ActivityCodeValue value = activityCode.getValueByUniqueID(row.getInteger("actv_code_id"));
+         if (value != null)
+         {
+            task.addActivityCode(value);
          }
       }
    }
@@ -2379,9 +2386,7 @@ final class PrimaveraReader
    private final boolean m_ignoreErrors;
 
    private final Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
-
-   private final Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
-   private final Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
+   private final Map<Integer, List<Row>> m_activityCodeAssignments = new HashMap<>();
 
    private final ObjectSequence m_relationObjectID;
 

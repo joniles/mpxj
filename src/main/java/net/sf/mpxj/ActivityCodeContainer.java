@@ -28,6 +28,11 @@ package net.sf.mpxj;
  */
 public class ActivityCodeContainer extends ProjectEntityContainer<ActivityCode>
 {
+   /**
+    * Constructor.
+    *
+    * @param sequenceProvider sequence provider
+    */
    public ActivityCodeContainer(UniqueIdObjectSequenceProvider sequenceProvider)
    {
       super(sequenceProvider);
