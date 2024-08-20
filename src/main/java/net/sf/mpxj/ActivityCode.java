@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * Activity code type definition, contains a list of the valid
  * values for this activity code.
  */
-public final class ActivityCode
+public final class ActivityCode implements ProjectEntityWithUniqueID
 {
    /**
     * Constructor.
@@ -161,6 +161,17 @@ public final class ActivityCode
    public void addValue(ActivityCodeValue value)
    {
       m_values.add(value);
+   }
+
+   public ActivityCodeValue getValueByUniqueID(Integer id)
+   {
+      if (id == null)
+      {
+         return null;
+      }
+
+      // I'd prefer a map-based lookup, but this will do for now and the list of values will typically be fairly short
+      return m_values.stream().filter(v -> v.getUniqueID().intValue() == id.intValue()).findFirst().orElse(null);
    }
 
    private final Integer m_uniqueID;

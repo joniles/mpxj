@@ -26,7 +26,10 @@ package net.sf.mpxj;
 /**
  * Container for activity code definitions.
  */
-public class ActivityCodeContainer extends ListWithCallbacks<ActivityCode>
+public class ActivityCodeContainer extends ProjectEntityContainer<ActivityCode>
 {
-   // No body
+   public ActivityCodeContainer(UniqueIdObjectSequenceProvider sequenceProvider)
+   {
+      super(sequenceProvider);
+   }
 }
