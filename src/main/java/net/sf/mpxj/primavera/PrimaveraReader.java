@@ -312,13 +312,12 @@ final class PrimaveraReader
    }
 
    /**
-    * Read activity code types and values.
+    * Read activity code definitions.
     *
     * @param types activity code type data
     * @param typeValues activity code value data
-    * @param assignments activity code task assignments
     */
-   public void processActivityCodes(List<Row> types, List<Row> typeValues, List<Row> assignments)
+   public void processActivityCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
       ActivityCodeContainer container = m_project.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
@@ -357,7 +356,15 @@ final class PrimaveraReader
             code.addValue(value);
          }
       }
+   }
 
+   /**
+    * Process activity code assignments.
+    *
+    * @param assignments activity code assignments
+    */
+   public void processActivityCodeAssignments(List<Row> assignments)
+   {
       for (Row row : assignments)
       {
          Integer taskID = row.getInteger("task_id");

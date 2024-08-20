@@ -456,7 +456,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             processUdfDefintions(apibo);
          }
 
-         processActivityCodes(apibo.getActivityCodeType(), apibo.getActivityCode());
+         processActivityCodeDefinitions(apibo.getActivityCodeType(), apibo.getActivityCode());
 
          processCalendars(apibo.getCalendar());
          processResources(apibo);
@@ -514,7 +514,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setNotesObject(wbsNotes.get(Integer.valueOf(0)));
 
          processGlobalProperties(apibo);
-         processActivityCodes(activityCodeTypes, activityCodes);
+         processActivityCodeDefinitions(activityCodeTypes, activityCodes);
          configureProjectCalendars();
          processTasks(wbs, wbsNotes, activities, getActivityNotes(activityNotes));
          processPredecessors(relationships);
@@ -715,12 +715,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Process activity code data.
+    * Process activity code definitions.
     *
     * @param types list of activity code types
     * @param typeValues list of activity code values
     */
-   private void processActivityCodes(List<ActivityCodeTypeType> types, List<ActivityCodeType> typeValues)
+   private void processActivityCodeDefinitions(List<ActivityCodeTypeType> types, List<ActivityCodeType> typeValues)
    {
       ActivityCodeContainer container = m_projectFile.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();

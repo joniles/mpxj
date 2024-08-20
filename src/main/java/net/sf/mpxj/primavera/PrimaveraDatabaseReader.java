@@ -121,8 +121,9 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             processUdfDefinitions();
          }
 
-         processActivityCodes();
+         processActivityCodeDefinitions();
 
+         processActivityCodeAssignments();
          processUdfValues();
          processCalendars();
          processResources();
@@ -299,14 +300,22 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    }
 
    /**
-    * Process activity code data.
+    * Process activity code definitions.
     */
-   private void processActivityCodes() throws SQLException
+   private void processActivityCodeDefinitions() throws SQLException
    {
       List<Row> types = getRows("select * from " + m_schema + "actvtype where actv_code_type_id in (select distinct actv_code_type_id from taskactv where proj_id=?)", m_projectID);
       List<Row> typeValues = getRows("select * from " + m_schema + "actvcode where actv_code_id in (select distinct actv_code_id from taskactv where proj_id=?)", m_projectID);
+      m_reader.processActivityCodeDefinitions(types, typeValues);
+   }
+
+   /**
+    * Process activity code assignments.
+    */
+   private void processActivityCodeAssignments() throws SQLException
+   {
       List<Row> assignments = getRows("select * from " + m_schema + "taskactv where proj_id=?", m_projectID);
-      m_reader.processActivityCodes(types, typeValues, assignments);
+      m_reader.processActivityCodeAssignments(assignments);
    }
 
    /**

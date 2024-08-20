@@ -240,8 +240,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
             processUdfDefinitions();
          }
 
-         processActivityCodes();
+         processActivityCodeDefinitions();
 
+         processActivityCodeAssignments();
          processUdfValues();
          processCalendars();
          processResources();
@@ -483,14 +484,22 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    }
 
    /**
-    * Process activity code data.
+    * Process activity code definitions.
     */
-   private void processActivityCodes()
+   private void processActivityCodeDefinitions()
    {
       List<Row> types = getRows("actvtype", null, null);
       List<Row> typeValues = getRows("actvcode", null, null);
+      m_reader.processActivityCodeDefinitions(types, typeValues);
+   }
+
+   /**
+    * Process activity code assignments.
+    */
+   private void processActivityCodeAssignments()
+   {
       List<Row> assignments = getRows("taskactv", null, null);
-      m_reader.processActivityCodes(types, typeValues, assignments);
+      m_reader.processActivityCodeAssignments(assignments);
    }
 
    /**
