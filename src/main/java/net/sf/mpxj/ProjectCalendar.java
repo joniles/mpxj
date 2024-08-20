@@ -1419,7 +1419,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(startDate));
             if (!ranges.isEmpty())
             {
-               totalTime = getTotalTime(ranges, startDate, endDate);
+               totalTime = getTotalTime(ranges, LocalTimeHelper.getLocalTime(startDate), LocalTimeHelper.getLocalTime(endDate));
             }
          }
          else
@@ -1488,8 +1488,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
             ProjectCalendarHours ranges = getRanges(LocalDateHelper.getLocalDate(endDate));
             if (!ranges.isEmpty())
             {
-               LocalDateTime canonicalCurrentDate = LocalDateTimeHelper.getDayStartDate(currentDate);
-               totalTime += getTotalTime(ranges, canonicalCurrentDate, endDate);
+               totalTime += getTotalTime(ranges, LocalTime.of(0, 0), LocalTimeHelper.getLocalTime(endDate));
             }
          }
 
@@ -1508,7 +1507,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
       return convertFormat(totalTime, format);
    }
 
-   protected boolean isSameDay(LocalDateTime d1, LocalDateTime d2)
+   private boolean isSameDay(LocalDateTime d1, LocalDateTime d2)
    {
       if (d1 == null || d2 == null)
       {
@@ -1624,7 +1623,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param targetTime intersection time
     * @return length of time in milliseconds
     */
-   protected long getTotalTime(ProjectCalendarHours hours, LocalTime targetTime)
+   private long getTotalTime(ProjectCalendarHours hours, LocalTime targetTime)
    {
       long total = 0;
       for (LocalTimeRange range : hours)
@@ -1654,14 +1653,12 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * day, which intersects with the supplied time range.
     *
     * @param hours collection of working hours in a day
-    * @param startDateTime time range start
-    * @param endDateTime time range end
+    * @param start time range start
+    * @param end time range end
     * @return length of time in milliseconds
     */
-   protected long getTotalTime(ProjectCalendarHours hours, LocalDateTime startDateTime, LocalDateTime endDateTime)
+   private long getTotalTime(ProjectCalendarHours hours, LocalTime start, LocalTime end)
    {
-      LocalTime start = startDateTime.toLocalTime();
-      LocalTime end = endDateTime.toLocalTime();
       if (start.equals(end))
       {
          return 0;
@@ -1687,7 +1684,7 @@ public class ProjectCalendar extends ProjectCalendarDays implements ProjectEntit
     * @param end2 end of second range
     * @return overlapping time in milliseconds
     */
-   protected long getTime(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2)
+   private long getTime(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2)
    {
       if (start1 == null || end1 == null || start2 == null || end2 == null)
       {
