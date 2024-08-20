@@ -24,7 +24,6 @@ package net.sf.mpxj;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -37,6 +36,8 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
       super(calendar.getParentFile(), true);
       m_calendar = calendar;
       m_assignment = assignment;
+      m_assignment_start_date = m_assignment.getStart().toLocalDate();
+      m_assignment_end_date = m_assignment.getFinish().toLocalDate();
    }
 
    /**
@@ -49,7 +50,7 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
    {
       // If today is not a working day then find first ProjectCalendarRange with working time.
       ProjectCalendarHours effectiveRanges = m_calendar.getRanges(date);
-      if (effectiveRanges.isEmpty())
+      if (effectiveRanges.isEmpty() && date.equals(m_assignment_start_date))
       {
          // Date is not a working day.
          // Find first ProjectCalendarRange with working time. Starting on Tuesday(!).
@@ -89,29 +90,69 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
                               effectiveRanges = m_calendar.getHours(DayOfWeek.MONDAY);
                            }
       }
+
+      if (date.equals(m_assignment_start_date))
+      {
+         LocalTime assignment_start_time = m_assignment.getStart().toLocalTime();
+         LocalTime firstRangeStart = effectiveRanges.get(0).getStart();
+         if (assignment_start_time.isBefore(firstRangeStart))
+         {
+            // Create a new temp ranges.
+            // First range is from assignment start to regular end of range.
+            ProjectCalendarHours newRanges = new ProjectCalendarHours();
+            newRanges.addAll(effectiveRanges);
+            LocalTime firstRangeEnd = effectiveRanges.get(0).getEnd();
+            newRanges.set(0, new LocalTimeRange(assignment_start_time, firstRangeEnd));
+            effectiveRanges = newRanges;
+         }
+         else
+         {
+            LocalTime lastRangeEnd = effectiveRanges.get(effectiveRanges.size() - 1).getEnd();
+            if (assignment_start_time.isAfter(lastRangeEnd))
+            {
+               // Create a new temp ranges.
+               // Only one range from assignment start to end of day.
+               ProjectCalendarHours newRanges = new ProjectCalendarHours();
+               newRanges.add(new LocalTimeRange(assignment_start_time, LocalTime.MIDNIGHT));
+               effectiveRanges = newRanges;
+            }
+         }
+      }
+
+      if (date.equals(m_assignment_end_date))
+      {
+         LocalTime assignment_end_time = m_assignment.getFinish().toLocalTime();
+         LocalTime firstRangeStart = effectiveRanges.get(0).getStart();
+
+         if (assignment_end_time.isBefore(firstRangeStart))
+         {
+            // Create a new temp ranges.
+            // Only one range from start of day to assignment end.
+            ProjectCalendarHours newRanges = new ProjectCalendarHours();
+            newRanges.add(new LocalTimeRange(LocalTime.MIDNIGHT, assignment_end_time));
+            effectiveRanges = newRanges;
+         }
+         else
+         {
+            LocalTime lastRangeEnd = effectiveRanges.get(effectiveRanges.size() - 1).getEnd();
+            if (assignment_end_time.isAfter(lastRangeEnd))
+            {
+               // Create a new temp ranges.
+               // Last range is from regular range end to assignment end.
+               ProjectCalendarHours newRanges = new ProjectCalendarHours();
+               newRanges.addAll(effectiveRanges);
+               LocalTime lastRangeStart = effectiveRanges.get(effectiveRanges.size() - 1).getStart();
+               newRanges.set(effectiveRanges.size() - 1, new LocalTimeRange(lastRangeStart, assignment_end_time));
+               effectiveRanges = newRanges;
+            }
+         }
+      }
+
       return effectiveRanges;
-   }
-
-   @Override public LocalDateTime getDate(LocalDateTime date, Duration duration)
-   {
-      throw new UnsupportedOperationException();
-   }
-
-   @Override public Duration getWork(LocalDateTime startDate, LocalDateTime endDate, TimeUnit format)
-   {
-      throw new UnsupportedOperationException();
-   }
-
-   @Override public LocalTime getFinishTime(LocalDate date)
-   {
-      throw new UnsupportedOperationException();
-   }
-
-   @Override public LocalDateTime getNextWorkStart(LocalDateTime date)
-   {
-      throw new UnsupportedOperationException();
    }
 
    private final ProjectCalendar m_calendar;
    private final ResourceAssignment m_assignment;
+   private final LocalDate m_assignment_start_date;
+   private final LocalDate m_assignment_end_date;
 }
