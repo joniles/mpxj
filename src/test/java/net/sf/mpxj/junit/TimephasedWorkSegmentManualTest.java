@@ -1096,7 +1096,7 @@ public class TimephasedWorkSegmentManualTest
       assertEquals(expected.length, durationList.size());
       for (int loop = 0; loop < expected.length; loop++)
       {
-         assertEquals("Failed at index " + loop, expected[loop], durationList.get(loop).getDuration(), 0.009);
+         assertEquals("Failed at index " + loop + " assignment " + assignment, expected[loop], durationList.get(loop).getDuration(), 0.009);
       }
    }
 

@@ -75,13 +75,9 @@ public class TimephasedWorkSegmentManualOffsetTest
       LocalDateTime startDate = LocalDateTime.of(2024, 07, 26, 0, 0);
       int segmentCount = 12;
 
-      int i = 0;
-
       for (ResourceAssignment assignment : file.getResourceAssignments())
       {
-         if (i == 11)
-            testSegments(assignment, startDate, segmentCount, TimescaleUnits.DAYS, false);
-         i++;
+         testSegments(assignment, startDate, segmentCount, TimescaleUnits.DAYS, false);
       }
    }
 
