@@ -89,6 +89,11 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
                            {
                               effectiveRanges = m_calendar.getHours(DayOfWeek.MONDAY);
                            }
+         // In case the calendar has no working days. Normally Project blocks the creation of such calendar.
+         if (effectiveRange.isEmpty())
+         {
+               return effectiveRanges;
+         }
       }
 
       if (date.equals(m_assignment_start_date))
