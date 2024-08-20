@@ -493,7 +493,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ActivityCodeContainer getActivityCodes()
    {
-      return m_activityCodes;
+      return m_shared.getActivityCodes();
    }
 
    /**
@@ -982,7 +982,6 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final GroupContainer m_groups = new GroupContainer();
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
-   private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer(this);
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];

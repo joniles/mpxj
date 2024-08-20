@@ -91,6 +91,16 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    }
 
    /**
+    * Retrieves the activity code configuration for this project.
+    *
+    * @return activity codes
+    */
+   public ActivityCodeContainer getActivityCodes()
+   {
+      return m_activityCodes;
+   }
+
+   /**
     * Retrieve the ObjectSequence instance used to generate Unique ID values for a given class.
     *
     * @param c target class
@@ -109,6 +119,7 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    private final NotesTopicContainer m_notesTopics = new NotesTopicContainer(this);
    private final CustomFieldContainer m_customFields = new CustomFieldContainer();
    private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer(m_customFields);
+   private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer(this);
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 
    public static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
@@ -119,5 +130,6 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
          CostAccount.class.getName(),
          WorkContour.class.getName(),
          NotesTopic.class.getName(),
-         UserDefinedField.class.getName()));
+         UserDefinedField.class.getName(),
+         ActivityCode.class.getName()));
 }

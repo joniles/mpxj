@@ -238,9 +238,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
             processWorkContours();
             processNotebookTopics();
             processUdfDefinitions();
+            processActivityCodeDefinitions();
          }
-
-         processActivityCodeDefinitions();
 
          processActivityCodeAssignments();
          processUdfValues();
