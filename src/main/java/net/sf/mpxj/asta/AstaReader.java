@@ -695,6 +695,7 @@ final class AstaReader
       //NATURAL_ORDER
       //SPARI_INTEGER
       task.setName(name);
+      task.setActivityID(row.getString("_UNIQUE_TASK_ID"));
       //EXPANDED_TASK
       //PRIORITY
       //UNSCHEDULABLE
