@@ -44,11 +44,19 @@ import net.sf.mpxj.common.ObjectSequence;
  */
 public final class ProjectFile implements ChildTaskContainer, ChildResourceContainer, UniqueIdObjectSequenceProvider
 {
+   /**
+    * Default constructor.
+    */
    public ProjectFile()
    {
       m_shared = new ProjectFileSharedData();
    }
 
+   /**
+    * Constructor allowing a ProjectFileSharedData instance to be passed.
+    *
+    * @param shared ProjectFileSharedData instance 
+    */
    public ProjectFile(ProjectFileSharedData shared)
    {
       m_shared = shared;
