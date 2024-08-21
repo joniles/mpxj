@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="13.2.3">
 			<action dev="joniles" type="update">When reading Powerproject schedules, ensure that the Activity ID attribute for WBS entries is populated using Powerproject's Unique Task ID attribute.</action>
+			<action dev="joniles" type="update">Add support for reading timephased planned work from MPP files for manually scheduled tasks (Contributed by Fabian Schmidt).</action>
 		</release>
 		<release date="2024-08-14" version="13.2.2">
 			<action dev="joniles" type="update">Add missing constructors to `TimephasedCost` and `TimephasedWork` in MPXJ.Net.</action>

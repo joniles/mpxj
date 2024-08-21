@@ -162,6 +162,8 @@ import net.sf.mpxj.junit.task.TaskTextValuesTest;
    ResourceHierarchyTest.class,
    XmlRelationshipLagCalendarTest.class,
    XerRelationshipLagCalendarTest.class,
+   TimephasedWorkSegmentManualOffsetTest.class,
+   TimephasedWorkSegmentManualTest.class,
    CustomerDataTest.class
 }) public class MpxjTestSuite
 {
