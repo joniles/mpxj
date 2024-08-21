@@ -1,8 +1,7 @@
 /*
- * file:       NotesTopicContainer.java
+ * file:       UniqueIdObjectSequenceProvider.java
  * author:     Jon Iles
- * copyright:  (c) Packwood Software
- * date:       2023-03-27
+ * date:       2024-08-16
  */
 
 /*
@@ -23,32 +22,19 @@
 
 package net.sf.mpxj;
 
+import net.sf.mpxj.common.ObjectSequence;
+
 /**
- * Represents the notes topics available to the current project.
+ * Classes implementing this interface provide a method which allows
+ * unique ID object sequences to be retrieved for the requested class.
  */
-public class NotesTopicContainer extends ProjectEntityContainer<NotesTopic>
+public interface UniqueIdObjectSequenceProvider
 {
    /**
-    * Constructor.
+    * Retrieve an `ObjectSequence` for the requested class.
     *
-    * @param projectFile parent project
+    * @param c class
+    * @return ObjectSequence instance
     */
-   public NotesTopicContainer(ProjectFile projectFile)
-   {
-      super(projectFile);
-   }
-
-   /**
-    * Retrieve a default NotesTopic instance, creating it if it doesn't already exist.
-    *
-    * @return default NotesTopic instance
-    */
-   public NotesTopic getDefaultTopic()
-   {
-      if (getByUniqueID(NotesTopic.DEFAULT.getUniqueID()) == null)
-      {
-         add(NotesTopic.DEFAULT);
-      }
-      return NotesTopic.DEFAULT;
-   }
+   public ObjectSequence getUniqueIdObjectSequence(Class<?> c);
 }

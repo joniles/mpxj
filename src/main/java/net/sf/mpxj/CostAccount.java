@@ -35,7 +35,7 @@ public final class CostAccount implements ProjectEntityWithUniqueID
     */
    private CostAccount(Builder builder)
    {
-      m_uniqueID = builder.m_file.getUniqueIdObjectSequence(CostAccount.class).syncOrGetNext(builder.m_uniqueID);
+      m_uniqueID = builder.m_sequenceProvider.getUniqueIdObjectSequence(CostAccount.class).syncOrGetNext(builder.m_uniqueID);
       m_id = builder.m_id;
       m_name = builder.m_name;
       m_notes = builder.m_notes;
@@ -138,11 +138,11 @@ public final class CostAccount implements ProjectEntityWithUniqueID
       /**
        * Constructor.
        *
-       * @param file parent file
+       * @param sequenceProvider parent file
        */
-      public Builder(ProjectFile file)
+      public Builder(UniqueIdObjectSequenceProvider sequenceProvider)
       {
-         m_file = file;
+         m_sequenceProvider = sequenceProvider;
       }
 
       /**
@@ -256,7 +256,7 @@ public final class CostAccount implements ProjectEntityWithUniqueID
          return new CostAccount(this);
       }
 
-      private final ProjectFile m_file;
+      private final UniqueIdObjectSequenceProvider m_sequenceProvider;
       private Integer m_uniqueID;
       private String m_id;
       private String m_name;
