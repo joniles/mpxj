@@ -1,7 +1,7 @@
 /*
- * file:       ProjectCalendar.java
+ * file:       ManuallyScheduledTaskCalendar.java
  * author:     Fabian Schmidt
- * date:       16/08/2024
+ * date:       2024-08-16
  */
 
 /*
@@ -25,19 +25,28 @@ package net.sf.mpxj;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This class represents a Calendar Definition record for an MPP Manually Scheduled task.
  */
 public class ManuallyScheduledTaskCalendar extends ProjectCalendar
 {
+   /**
+    * Constructor.
+    *
+    * @param calendar effective calendar for resource assignment
+    * @param assignment resource assignment
+    */
    public ManuallyScheduledTaskCalendar(ProjectCalendar calendar, ResourceAssignment assignment)
    {
       super(calendar.getParentFile(), true);
       m_calendar = calendar;
       m_assignment = assignment;
-      m_assignment_start_date = m_assignment.getStart().toLocalDate();
-      m_assignment_end_date = m_assignment.getFinish().toLocalDate();
+      m_assignmentStartDate = m_assignment.getStart().toLocalDate();
+      m_assignmentEndDate = m_assignment.getFinish().toLocalDate();
    }
 
    /**
@@ -50,45 +59,16 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
    {
       ProjectCalendarHours effectiveRanges = m_calendar.getRanges(date);
       // If today is not a working day then find first ProjectCalendarRange with working time.
-      if (effectiveRanges.isEmpty() && (date.equals(m_assignment_start_date) || date.equals(m_assignment_end_date)))
+      if (effectiveRanges.isEmpty() && (date.equals(m_assignmentStartDate) || date.equals(m_assignmentEndDate)))
       {
          // Date is not a working day.
          // Find first ProjectCalendarRange with working time. Starting on Tuesday(!).
          // Using [Default] calendar - ignoring exceptions and work week rules. Uses this a basis for all calculations.
-         if (m_calendar.getDayType(DayOfWeek.TUESDAY) == DayType.WORKING)
+         DayOfWeek firstWorkingDay = WEEK_DAYS.stream().filter(d -> m_calendar.getDayType(d) == DayType.WORKING).findFirst().orElse(null);
+         if (firstWorkingDay != null)
          {
-            effectiveRanges = m_calendar.getHours(DayOfWeek.TUESDAY);
+            effectiveRanges = m_calendar.getHours(firstWorkingDay);
          }
-         else
-            if (m_calendar.getDayType(DayOfWeek.WEDNESDAY) == DayType.WORKING)
-            {
-               effectiveRanges = m_calendar.getHours(DayOfWeek.WEDNESDAY);
-            }
-            else
-               if (m_calendar.getDayType(DayOfWeek.THURSDAY) == DayType.WORKING)
-               {
-                  effectiveRanges = m_calendar.getHours(DayOfWeek.THURSDAY);
-               }
-               else
-                  if (m_calendar.getDayType(DayOfWeek.FRIDAY) == DayType.WORKING)
-                  {
-                     effectiveRanges = m_calendar.getHours(DayOfWeek.FRIDAY);
-                  }
-                  else
-                     if (m_calendar.getDayType(DayOfWeek.SATURDAY) == DayType.WORKING)
-                     {
-                        effectiveRanges = m_calendar.getHours(DayOfWeek.SATURDAY);
-                     }
-                     else
-                        if (m_calendar.getDayType(DayOfWeek.SUNDAY) == DayType.WORKING)
-                        {
-                           effectiveRanges = m_calendar.getHours(DayOfWeek.SUNDAY);
-                        }
-                        else
-                           if (m_calendar.getDayType(DayOfWeek.MONDAY) == DayType.WORKING)
-                           {
-                              effectiveRanges = m_calendar.getHours(DayOfWeek.MONDAY);
-                           }
       }
 
       // In case the calendar has no working days. Normally Project blocks the creation of such calendar.
@@ -97,7 +77,7 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
          return effectiveRanges;
       }
 
-      if (date.equals(m_assignment_start_date))
+      if (date.equals(m_assignmentStartDate))
       {
          LocalTime assignment_start_time = m_assignment.getStart().toLocalTime();
          LocalTime firstRangeStart = effectiveRanges.get(0).getStart();
@@ -124,8 +104,8 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
             }
          }
       }
-
-      if (date.equals(m_assignment_end_date))
+      
+      if (date.equals(m_assignmentEndDate))
       {
          LocalTime assignment_end_time = m_assignment.getFinish().toLocalTime();
          LocalTime firstRangeStart = effectiveRanges.get(0).getStart();
@@ -159,6 +139,16 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
 
    private final ProjectCalendar m_calendar;
    private final ResourceAssignment m_assignment;
-   private final LocalDate m_assignment_start_date;
-   private final LocalDate m_assignment_end_date;
+   private final LocalDate m_assignmentStartDate;
+   private final LocalDate m_assignmentEndDate;
+   
+   private static final List<DayOfWeek> WEEK_DAYS = Arrays.asList(
+      DayOfWeek.TUESDAY,
+      DayOfWeek.WEDNESDAY,
+      DayOfWeek.THURSDAY,
+      DayOfWeek.FRIDAY,
+      DayOfWeek.SATURDAY,
+      DayOfWeek.SUNDAY,
+      DayOfWeek.MONDAY
+   );
 }
