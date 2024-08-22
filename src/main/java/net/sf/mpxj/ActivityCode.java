@@ -55,7 +55,7 @@ public final class ActivityCode implements ProjectEntityWithUniqueID
     *
     * @return unique ID
     */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return m_uniqueID;
    }

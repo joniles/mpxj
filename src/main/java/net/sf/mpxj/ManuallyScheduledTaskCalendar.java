@@ -78,27 +78,27 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
 
       if (date.equals(m_assignmentStartDate))
       {
-         LocalTime assignment_start_time = m_assignment.getStart().toLocalTime();
+         LocalTime assignmentStartTime = m_assignment.getStart().toLocalTime();
          LocalTime firstRangeStart = effectiveRanges.get(0).getStart();
-         if (assignment_start_time.isBefore(firstRangeStart))
+         if (assignmentStartTime.isBefore(firstRangeStart))
          {
             // Create a new temp ranges.
             // First range is from assignment start to regular end of range.
             ProjectCalendarHours newRanges = new ProjectCalendarHours();
             newRanges.addAll(effectiveRanges);
             LocalTime firstRangeEnd = effectiveRanges.get(0).getEnd();
-            newRanges.set(0, new LocalTimeRange(assignment_start_time, firstRangeEnd));
+            newRanges.set(0, new LocalTimeRange(assignmentStartTime, firstRangeEnd));
             effectiveRanges = newRanges;
          }
          else
          {
             LocalTime lastRangeEnd = effectiveRanges.get(effectiveRanges.size() - 1).getEnd();
-            if (assignment_start_time.isAfter(lastRangeEnd))
+            if (assignmentStartTime.isAfter(lastRangeEnd))
             {
                // Create a new temp ranges.
                // Only one range from assignment start to end of day.
                ProjectCalendarHours newRanges = new ProjectCalendarHours();
-               newRanges.add(new LocalTimeRange(assignment_start_time, LocalTime.MIDNIGHT));
+               newRanges.add(new LocalTimeRange(assignmentStartTime, LocalTime.MIDNIGHT));
                effectiveRanges = newRanges;
             }
          }
@@ -106,28 +106,28 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
       
       if (date.equals(m_assignmentEndDate))
       {
-         LocalTime assignment_end_time = m_assignment.getFinish().toLocalTime();
+         LocalTime assignmentEndTime = m_assignment.getFinish().toLocalTime();
          LocalTime firstRangeStart = effectiveRanges.get(0).getStart();
 
-         if (assignment_end_time.isBefore(firstRangeStart))
+         if (assignmentEndTime.isBefore(firstRangeStart))
          {
             // Create a new temp ranges.
             // Only one range from start of day to assignment end.
             ProjectCalendarHours newRanges = new ProjectCalendarHours();
-            newRanges.add(new LocalTimeRange(LocalTime.MIDNIGHT, assignment_end_time));
+            newRanges.add(new LocalTimeRange(LocalTime.MIDNIGHT, assignmentEndTime));
             effectiveRanges = newRanges;
          }
          else
          {
             LocalTime lastRangeEnd = effectiveRanges.get(effectiveRanges.size() - 1).getEnd();
-            if (assignment_end_time.isAfter(lastRangeEnd))
+            if (assignmentEndTime.isAfter(lastRangeEnd))
             {
                // Create a new temp ranges.
                // Last range is from regular range end to assignment end.
                ProjectCalendarHours newRanges = new ProjectCalendarHours();
                newRanges.addAll(effectiveRanges);
                LocalTime lastRangeStart = effectiveRanges.get(effectiveRanges.size() - 1).getStart();
-               newRanges.set(effectiveRanges.size() - 1, new LocalTimeRange(lastRangeStart, assignment_end_time));
+               newRanges.set(effectiveRanges.size() - 1, new LocalTimeRange(lastRangeStart, assignmentEndTime));
                effectiveRanges = newRanges;
             }
          }

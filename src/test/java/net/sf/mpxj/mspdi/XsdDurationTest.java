@@ -36,6 +36,9 @@ import static net.sf.mpxj.junit.MpxjAssert.assumeJvm;
  */
 public class XsdDurationTest
 {
+   /**
+    * Check that we're not in IKVM.
+    */
    @Before public void beforeMethod()
    {
       assumeJvm();
