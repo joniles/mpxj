@@ -943,7 +943,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ObjectSequence getUniqueIdObjectSequence(Class<?> c)
    {
-      return ProjectFileSharedData.HOSTED_CLASS_NAMES.contains(c.getName()) ? m_shared.getUniqueIdObjectSequence(c) : m_uniqueIdObjectSequences.computeIfAbsent(c.getName(), x -> new ObjectSequence(1));
+      return ProjectFileSharedData.contains(c) ? m_shared.getUniqueIdObjectSequence(c) : m_uniqueIdObjectSequences.computeIfAbsent(c.getName(), x -> new ObjectSequence(1));
    }
 
    /**

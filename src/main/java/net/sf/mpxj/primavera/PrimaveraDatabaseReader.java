@@ -88,6 +88,11 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       }
    }
 
+   /**
+    * Read a project from the current data source.
+    *
+    * @return ProjectFile instance
+    */
    public ProjectFile read() throws MPXJException
    {
       m_readSharedData = true;
@@ -97,6 +102,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    /**
     * Read a project from the current data source.
     *
+    * @param shared shared data to use when reading this project
     * @return ProjectFile instance
     */
    private ProjectFile read(ProjectFileSharedData shared) throws MPXJException

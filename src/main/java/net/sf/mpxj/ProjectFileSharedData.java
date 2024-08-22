@@ -1,3 +1,25 @@
+/*
+ * file:       ProjectFileSharedData.java
+ * author:     Jon Iles
+ * date:       2024-08-22
+ */
+
+/*
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by the
+ * Free Software Foundation; either version 2.1 of the License, or (at your
+ * option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
+ * License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+
 package net.sf.mpxj;
 
 import java.util.HashMap;
@@ -8,6 +30,9 @@ import java.util.Arrays;
 
 import net.sf.mpxj.common.ObjectSequence;
 
+/**
+ * Implements a container for common data which can be shared across multiple ProjectFile instances.
+ */
 public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
 {
    /**
@@ -111,6 +136,17 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
       return m_uniqueIdObjectSequences.computeIfAbsent(c.getName(), x -> new ObjectSequence(1));
    }
 
+   /**
+    * Indicates if this container is responsible for managing instances of the supplied class.
+    *
+    * @param c class to test
+    * @return true if this container manages instances of the supplied class
+    */
+   public static boolean contains(Class<?> c)
+   {
+      return HOSTED_CLASS_NAMES.contains(c.getName());
+   }
+
    private final LocationContainer m_locations = new LocationContainer(this);
    private final UnitOfMeasureContainer m_unitsOfMeasure = new UnitOfMeasureContainer(this);
    private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
@@ -122,7 +158,7 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer(this);
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 
-   public static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
+   private static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
       Arrays.asList(
          Location.class.getName(),
          UnitOfMeasure.class.getName(),
