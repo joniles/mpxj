@@ -106,8 +106,8 @@ public enum FileVersion implements MpxjEnum
             break;
          }
 
-         default:
          case 4:
+         default:
          {
             result = "4.0";
             break;

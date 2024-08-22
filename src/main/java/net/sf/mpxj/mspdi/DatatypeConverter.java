@@ -443,13 +443,6 @@ public final class DatatypeConverter
 
       switch (value)
       {
-         default:
-         case BEFORE:
-         {
-            result = "0";
-            break;
-         }
-
          case AFTER:
          {
             result = "1";
@@ -467,9 +460,16 @@ public final class DatatypeConverter
             result = "3";
             break;
          }
+
+         case BEFORE:
+         default:
+         {
+            result = "0";
+            break;
+         }
       }
 
-      return (result);
+      return result;
    }
 
    /**
@@ -832,8 +832,8 @@ public final class DatatypeConverter
                break;
             }
 
-            default:
             case 2:
+            default:
             {
                result = TimeUnit.HOURS;
                break;
@@ -891,8 +891,8 @@ public final class DatatypeConverter
             break;
          }
 
-         default:
          case HOURS:
+         default:
          {
             result = 2;
             break;
@@ -1385,8 +1385,8 @@ public final class DatatypeConverter
             break;
          }
 
-         default:
          case HOURS:
+         default:
          {
             result = (estimated ? 37 : 5);
             break;

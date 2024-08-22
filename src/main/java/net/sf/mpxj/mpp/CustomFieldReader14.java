@@ -28,9 +28,7 @@ import java.util.Map;
 
 import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
-import net.sf.mpxj.FieldType;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.UserDefinedField;
 import net.sf.mpxj.common.FieldTypeHelper;
 
 /**

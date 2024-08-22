@@ -132,8 +132,8 @@ public final class TimescaleUtility
             break;
          }
 
-         default:
          case DAYS:
+         default:
          {
             calendarIncrementUnit = ChronoUnit.DAYS;
             calendarIncrementAmount = 1;

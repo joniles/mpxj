@@ -72,7 +72,7 @@ public class TimephasedWorkSegmentManualOffsetTest
       //
       // Set the start date
       //
-      LocalDateTime startDate = LocalDateTime.of(2024, 07, 26, 0, 0);
+      LocalDateTime startDate = LocalDateTime.of(2024, 7, 26, 0, 0);
       int segmentCount = 12;
       int assignmentIndex = 0;
 
@@ -117,7 +117,7 @@ public class TimephasedWorkSegmentManualOffsetTest
       TimeUnitDefaultsContainer unitDefaults = assignment.getParentFile().getProjectProperties();
 
       int loop = 0;
-      while (jsonString.length() > 0)
+      while (!jsonString.isEmpty())
       {
          assertTrue("JSON time scaled data does more data for " + assignment, segmentCount > loop);
          String jsonValue = jsonString;

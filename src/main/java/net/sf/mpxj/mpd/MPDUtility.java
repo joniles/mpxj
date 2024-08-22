@@ -145,8 +145,8 @@ public final class MPDUtility
             break;
          }
 
-         default:
          case 7:
+         default:
          {
             units = TimeUnit.DAYS;
             break;

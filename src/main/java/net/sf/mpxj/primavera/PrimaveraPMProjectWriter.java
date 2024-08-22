@@ -315,8 +315,8 @@ final class PrimaveraPMProjectWriter
             break;
          }
 
-         default:
          case BEFORE:
+         default:
          {
             result = "#1.1";
             break;
