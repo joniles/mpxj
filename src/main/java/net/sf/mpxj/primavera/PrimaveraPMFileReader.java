@@ -257,7 +257,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       List<BaselineProjectType> baselineProjects = apibo.getBaselineProject();
       List<ProjectFile> result = new ArrayList<>(projects.size() + baselineProjects.size());
       m_externalRelations = new ArrayList<>();
-      
+
       projects.forEach(project -> result.add(read(apibo, project)));
       baselineProjects.forEach(project -> result.add(read(apibo, project)));
 
