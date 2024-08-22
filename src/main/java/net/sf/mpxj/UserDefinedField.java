@@ -91,7 +91,7 @@ public class UserDefinedField implements FieldType
    private UserDefinedField(Builder builder)
    {
       m_uniqueID = builder.m_sequenceProvider.getUniqueIdObjectSequence(UserDefinedField.class).syncOrGetNext(builder.m_uniqueID);
-      m_internalName =  builder.m_internalName == null || builder.m_internalName.isEmpty() ? builder.m_internalName = "user_field_" + m_uniqueID : builder.m_internalName;
+      m_internalName = builder.m_internalName == null || builder.m_internalName.isEmpty() ? builder.m_internalName = "user_field_" + m_uniqueID : builder.m_internalName;
       m_externalName = builder.m_externalName;
       m_fieldTypeClass = builder.m_fieldTypeClass;
       m_summaryTaskOnly = builder.m_summaryTaskOnly;

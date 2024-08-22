@@ -146,7 +146,7 @@ class CustomFieldReader14
          offset += 88;
       }
 
-      aliasMap.forEach((k,v) -> m_fields.getOrCreate(FieldTypeHelper.getInstance(m_file, k.intValue())).setAlias(v));
+      aliasMap.forEach((k, v) -> m_fields.getOrCreate(FieldTypeHelper.getInstance(m_file, k.intValue())).setAlias(v));
    }
 
    private final ProjectFile m_file;

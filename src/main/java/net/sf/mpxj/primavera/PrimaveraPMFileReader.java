@@ -507,7 +507,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             activityExpenseType = project.getActivityExpense();
          }
 
-
          Map<Integer, Notes> wbsNotes = getWbsNotes(projectNotes);
          m_projectFile.getProjectProperties().setNotesObject(wbsNotes.get(Integer.valueOf(0)));
 

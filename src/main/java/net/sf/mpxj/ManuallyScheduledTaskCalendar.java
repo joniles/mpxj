@@ -103,7 +103,7 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
             }
          }
       }
-      
+
       if (date.equals(m_assignmentEndDate))
       {
          LocalTime assignmentEndTime = m_assignment.getFinish().toLocalTime();
@@ -140,7 +140,7 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
    private final ResourceAssignment m_assignment;
    private final LocalDate m_assignmentStartDate;
    private final LocalDate m_assignmentEndDate;
-   
+
    private static final List<DayOfWeek> WEEK_DAYS = Arrays.asList(
       DayOfWeek.TUESDAY,
       DayOfWeek.WEDNESDAY,
@@ -148,6 +148,5 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
       DayOfWeek.FRIDAY,
       DayOfWeek.SATURDAY,
       DayOfWeek.SUNDAY,
-      DayOfWeek.MONDAY
-   );
+      DayOfWeek.MONDAY);
 }

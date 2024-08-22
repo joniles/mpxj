@@ -90,7 +90,7 @@ public class TimephasedWorkSegmentManualOffsetTest
     * Common method used to test timephased assignment segments against expected data.
     *
     * @param assignment parent resource assignment
-    * @param assignmentIndex index number of current assignment 
+    * @param assignmentIndex index number of current assignment
     * @param startDate start date for segments
     * @param segmentCount number of segments to create
     * @param units units of duration for each segment

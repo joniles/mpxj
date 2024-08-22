@@ -149,7 +149,7 @@ class CustomFieldReader12
          offset += blockSize;
       }
 
-      aliasMap.forEach((k,v) ->  m_fields.getOrCreate(FieldTypeHelper.getInstance(m_file, k.intValue())).setAlias(v));
+      aliasMap.forEach((k, v) -> m_fields.getOrCreate(FieldTypeHelper.getInstance(m_file, k.intValue())).setAlias(v));
    }
 
    private final ProjectFile m_file;
