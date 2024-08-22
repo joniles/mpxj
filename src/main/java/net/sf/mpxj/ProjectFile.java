@@ -55,7 +55,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    /**
     * Constructor allowing a ProjectFileSharedData instance to be passed.
     *
-    * @param shared ProjectFileSharedData instance 
+    * @param shared ProjectFileSharedData instance
     */
    public ProjectFile(ProjectFileSharedData shared)
    {
