@@ -332,6 +332,9 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       m_reader.processUdfDefinitions(fields);
    }
 
+   /**
+    * Process user defined field values.
+    */
    private void processUdfValues() throws SQLException
    {
       List<Row> values = getRows("select * from " + m_schema + "udfvalue where proj_id=? or proj_id is null", m_projectID);
