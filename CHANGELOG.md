@@ -1,6 +1,11 @@
 # Changelog
 
-## 13.2.3 (unreleased)
+## 13.3.1 (unreleased)
+
+## 13.3.0 (2024-08-22)
+* When reading multiple Primavera schedules from the same source, MPXJ now ensures that instances of activity code definitions, user defined field definitions, locations, units of measure, expense categories, cost accounts, work contours, and notes topics are shared across projects. This will allow you to, for example, filter tasks from multiple projects using a `Location` instance. Previously each project had its own independent instances for each of these types, which could not be used across multiple projects.
+* When reading Powerproject schedules, ensure that the Activity ID attribute for WBS entries is populated using Powerproject's Unique Task ID attribute.
+* Add support for reading timephased planned work from MPP files for manually scheduled tasks (Contributed by Fabian Schmidt).
 
 ## 13.2.2 (2024-08-14)
 * Add missing constructors to `TimephasedCost` and `TimephasedWork` in MPXJ.Net.
