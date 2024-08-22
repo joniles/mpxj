@@ -47,6 +47,7 @@ import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.BaselineStrategy;
+import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
@@ -418,10 +419,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       {
          m_activityClashMap = new ClashMap();
          m_roleClashMap = new ClashMap();
-         m_activityCodeMap = new HashMap<>();
-         m_fieldTypeMap = new HashMap<>();
 
-         m_projectFile = new ProjectFile();
+         boolean readSharedData = m_shared == null;
+         if (m_shared == null)
+         {
+            m_shared = new ProjectFileSharedData();
+         }
+
+         m_projectFile = new ProjectFile(m_shared);
          m_eventManager = m_projectFile.getEventManager();
 
          ProjectConfig config = m_projectFile.getProjectConfig();
@@ -439,14 +444,17 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          addListenersToProject(m_projectFile);
 
          // Process common data
-         processUdfDefintions(apibo);
-         processLocations(apibo);
-         processNotebookTopics(apibo);
-         processUnitsOfMeasure(apibo);
-         processExpenseCategories(apibo);
-         processCostAccounts(apibo);
-         processActivityCodes(apibo.getActivityCodeType(), apibo.getActivityCode());
-         processWorkContours(apibo);
+         if (readSharedData)
+         {
+            processLocations(apibo);
+            processUnitsOfMeasure(apibo);
+            processExpenseCategories(apibo);
+            processCostAccounts(apibo);
+            processWorkContours(apibo);
+            processNotebookTopics(apibo);
+            processUdfDefintions(apibo);
+            processActivityCodeDefinitions(apibo.getActivityCodeType(), apibo.getActivityCode());
+         }
 
          processCalendars(apibo.getCalendar());
          processResources(apibo);
@@ -504,7 +512,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          m_projectFile.getProjectProperties().setNotesObject(wbsNotes.get(Integer.valueOf(0)));
 
          processGlobalProperties(apibo);
-         processActivityCodes(activityCodeTypes, activityCodes);
+         processActivityCodeDefinitions(activityCodeTypes, activityCodes);
          configureProjectCalendars();
          processTasks(wbs, wbsNotes, activities, getActivityNotes(activityNotes));
          processPredecessors(relationships);
@@ -522,10 +530,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       finally
       {
          m_projectFile = null;
+         m_shared = null;
          m_activityClashMap = null;
          m_roleClashMap = null;
-         m_activityCodeMap = null;
-         m_fieldTypeMap = null;
       }
    }
 
@@ -599,7 +606,6 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          .dataType(UdfHelper.getDataTypeFromXml(udf.getDataType()))
          .build();
 
-      m_fieldTypeMap.put(udf.getObjectId(), field);
       m_projectFile.getUserDefinedFields().add(field);
       m_projectFile.getCustomFields().add(field).setAlias(udf.getTitle()).setUniqueID(udf.getObjectId());
    }
@@ -707,12 +713,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
-    * Process activity code data.
+    * Process activity code definitions.
     *
     * @param types list of activity code types
     * @param typeValues list of activity code values
     */
-   private void processActivityCodes(List<ActivityCodeTypeType> types, List<ActivityCodeType> typeValues)
+   private void processActivityCodeDefinitions(List<ActivityCodeTypeType> types, List<ActivityCodeType> typeValues)
    {
       ActivityCodeContainer container = m_projectFile.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
@@ -746,10 +752,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                .name(typeValue.getCodeValue())
                .description(typeValue.getDescription())
                .color(ColorHelper.parseHtmlColor(typeValue.getColor()))
-               .parent(m_activityCodeMap.get(typeValue.getParentObjectId()))
+               .parent(code.getValueByUniqueID(typeValue.getParentObjectId()))
                .build();
             code.addValue(value);
-            m_activityCodeMap.put(value.getUniqueID(), value);
          }
       }
    }
@@ -2294,7 +2299,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (UDFAssignmentType udf : udfs)
       {
-         FieldType fieldType = m_fieldTypeMap.get(Integer.valueOf(udf.getTypeObjectId()));
+         UserDefinedField fieldType = m_projectFile.getUserDefinedFields().getByUniqueID(Integer.valueOf(udf.getTypeObjectId()));
          if (fieldType != null)
          {
             mpxj.set(fieldType, getUdfValue(udf));
@@ -2357,10 +2362,16 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    {
       for (CodeAssignmentType assignment : codes)
       {
-         ActivityCodeValue code = m_activityCodeMap.get(Integer.valueOf(assignment.getValueObjectId()));
-         if (code != null)
+         ActivityCode activityCode = m_projectFile.getActivityCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (activityCode == null)
          {
-            task.addActivityCode(code);
+            continue;
+         }
+
+         ActivityCodeValue activityCodeValue = activityCode.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (activityCodeValue != null)
+         {
+            task.addActivityCode(activityCodeValue);
          }
       }
    }
@@ -2549,11 +2560,10 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
    private Integer m_projectID;
    private ProjectFile m_projectFile;
+   private ProjectFileSharedData m_shared;
    private EventManager m_eventManager;
    private ClashMap m_activityClashMap;
    private ClashMap m_roleClashMap;
-   private Map<Integer, ActivityCodeValue> m_activityCodeMap;
-   private Map<Integer, FieldType> m_fieldTypeMap;
    private List<ExternalRelation> m_externalRelations;
    private boolean m_linkCrossProjectRelations;
    private BaselineStrategy m_baselineStrategy = PrimaveraBaselineStrategy.PLANNED_ATTRIBUTES;

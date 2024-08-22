@@ -38,6 +38,7 @@ import java.util.Set;
 
 import javax.sql.DataSource;
 
+import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.FieldType;
 import net.sf.mpxj.MPXJException;
@@ -94,22 +95,41 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    public ProjectFile read() throws MPXJException
    {
+      m_readSharedData = true;
+      return read(new ProjectFileSharedData());
+   }
+
+   /**
+    * Read a project from the current data source.
+    *
+    * @param shared shared data to use when reading this project
+    * @return ProjectFile instance
+    */
+   private ProjectFile read(ProjectFileSharedData shared) throws MPXJException
+   {
       try
       {
-         m_reader = new PrimaveraReader(m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
+         m_reader = new PrimaveraReader(shared, m_resourceFields, m_roleFields, m_wbsFields, m_taskFields, m_assignmentFields, m_matchPrimaveraWBS, m_wbsIsFullPath, m_ignoreErrors);
          ProjectFile project = m_reader.getProject();
          addListenersToProject(project);
          processTableNames();
          processAnalytics();
 
-         processUnitsOfMeasure();
-         processUserDefinedFields();
-         processLocations();
-         processActivityCodes();
-         processExpenseCategories();
-         processCostAccounts();
-         processNotebookTopics();
+         if (m_readSharedData)
+         {
+            m_readSharedData = false;
+            processLocations();
+            processUnitsOfMeasure();
+            processExpenseCategories();
+            processCostAccounts();
+            processWorkContours();
+            processNotebookTopics();
+            processUdfDefinitions();
+            processActivityCodeDefinitions();
+         }
 
+         processActivityCodeAssignments();
+         processUdfValues();
          processCalendars();
          processResources();
          processRoles();
@@ -120,7 +140,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processProjectProperties();
          processTasks();
          processPredecessors();
-         processWorkContours();
          processAssignments();
          processExpenseItems();
          processActivitySteps();
@@ -159,10 +178,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       Map<Integer, String> projects = listProjects();
       List<ProjectFile> result = new ArrayList<>(projects.keySet().size());
+      ProjectFileSharedData shared = new ProjectFileSharedData();
+      m_readSharedData = true;
       for (Integer id : projects.keySet())
       {
          setProjectID(id.intValue());
-         result.add(read());
+         result.add(read(shared));
       }
       return result;
    }
@@ -284,24 +305,40 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    }
 
    /**
-    * Process activity code data.
+    * Process activity code definitions.
     */
-   private void processActivityCodes() throws SQLException
+   private void processActivityCodeDefinitions() throws SQLException
    {
       List<Row> types = getRows("select * from " + m_schema + "actvtype where actv_code_type_id in (select distinct actv_code_type_id from taskactv where proj_id=?)", m_projectID);
       List<Row> typeValues = getRows("select * from " + m_schema + "actvcode where actv_code_id in (select distinct actv_code_id from taskactv where proj_id=?)", m_projectID);
-      List<Row> assignments = getRows("select * from " + m_schema + "taskactv where proj_id=?", m_projectID);
-      m_reader.processActivityCodes(types, typeValues, assignments);
+      m_reader.processActivityCodeDefinitions(types, typeValues);
    }
 
    /**
-    * Process user defined fields.
+    * Process activity code assignments.
     */
-   private void processUserDefinedFields() throws SQLException
+   private void processActivityCodeAssignments() throws SQLException
+   {
+      List<Row> assignments = getRows("select * from " + m_schema + "taskactv where proj_id=?", m_projectID);
+      m_reader.processActivityCodeAssignments(assignments);
+   }
+
+   /**
+    * Process user defined field definitions.
+    */
+   private void processUdfDefinitions() throws SQLException
    {
       List<Row> fields = getRows("select * from " + m_schema + "udftype");
+      m_reader.processUdfDefinitions(fields);
+   }
+
+   /**
+    * Process user defined field values.
+    */
+   private void processUdfValues() throws SQLException
+   {
       List<Row> values = getRows("select * from " + m_schema + "udfvalue where proj_id=? or proj_id is null", m_projectID);
-      m_reader.processUserDefinedFields(fields, values);
+      m_reader.processUdfValues(values);
    }
 
    /**
@@ -416,7 +453,6 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processAssignments() throws SQLException
    {
-      processWorkContours();
       List<Row> rows = getRows("select * from " + m_schema + "taskrsrc where proj_id=? and delete_date is null", m_projectID);
       m_reader.processAssignments(rows);
    }
@@ -749,6 +785,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private boolean m_wbsIsFullPath = true;
    private boolean m_ignoreErrors = true;
    private Set<String> m_tableNames;
+   private boolean m_readSharedData;
 
    private final Map<FieldType, String> m_resourceFields = PrimaveraReader.getDefaultResourceFieldMap();
    private final Map<FieldType, String> m_roleFields = PrimaveraReader.getDefaultRoleFieldMap();

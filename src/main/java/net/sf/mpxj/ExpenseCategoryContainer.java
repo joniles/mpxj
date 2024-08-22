@@ -31,10 +31,10 @@ public class ExpenseCategoryContainer extends ProjectEntityContainer<ExpenseCate
    /**
     * Constructor.
     *
-    * @param projectFile parent project
+    * @param sequenceProvider sequence provider
     */
-   public ExpenseCategoryContainer(ProjectFile projectFile)
+   public ExpenseCategoryContainer(UniqueIdObjectSequenceProvider sequenceProvider)
    {
-      super(projectFile);
+      super(sequenceProvider);
    }
 }

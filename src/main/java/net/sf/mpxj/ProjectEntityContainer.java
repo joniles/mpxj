@@ -40,11 +40,11 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
    /**
     * Constructor.
     *
-    * @param projectFile parent project
+    * @param sequenceProvider sequence provider
     */
-   public ProjectEntityContainer(ProjectFile projectFile)
+   public ProjectEntityContainer(UniqueIdObjectSequenceProvider sequenceProvider)
    {
-      m_projectFile = projectFile;
+      m_sequenceProvider = sequenceProvider;
    }
 
    /**
@@ -126,7 +126,7 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
       }
 
       m_uniqueIDMap.put(newUniqueID, element);
-      m_projectFile.getUniqueIdObjectSequence(element.getClass()).sync(newUniqueID);
+      m_sequenceProvider.getUniqueIdObjectSequence(element.getClass()).sync(newUniqueID);
    }
 
    /**
@@ -140,14 +140,14 @@ public abstract class ProjectEntityContainer<T extends ProjectEntityWithUniqueID
          return;
       }
 
-      ObjectSequence sequence = m_projectFile.getUniqueIdObjectSequence(m_uniqueIDClashList.get(0).getClass());
+      ObjectSequence sequence = m_sequenceProvider.getUniqueIdObjectSequence(m_uniqueIDClashList.get(0).getClass());
       m_uniqueIDClashList.forEach(i -> i.setUniqueID(sequence.getNext()));
       m_uniqueIDClashList.clear();
       m_uniqueIDMap.clear();
       forEach(i -> m_uniqueIDMap.put(i.getUniqueID(), i));
    }
 
-   protected final ProjectFile m_projectFile;
+   protected final UniqueIdObjectSequenceProvider m_sequenceProvider;
    private final Map<Integer, T> m_uniqueIDMap = new HashMap<>();
    private final List<ProjectEntityWithMutableUniqueID> m_uniqueIDClashList = new ArrayList<>();
 }

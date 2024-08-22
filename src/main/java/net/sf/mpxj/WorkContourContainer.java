@@ -31,10 +31,10 @@ public class WorkContourContainer extends ProjectEntityContainer<WorkContour>
    /**
     * Constructor.
     *
-    * @param projectFile parent project
+    * @param sequenceProvider sequence provider
     */
-   public WorkContourContainer(ProjectFile projectFile)
+   public WorkContourContainer(UniqueIdObjectSequenceProvider sequenceProvider)
    {
-      super(projectFile);
+      super(sequenceProvider);
    }
 }

@@ -30,11 +30,11 @@ public class UnitOfMeasureContainer extends ProjectEntityContainer<UnitOfMeasure
    /**
     * Constructor.
     *
-    * @param projectFile parent project
+    * @param sequenceProvider sequence provider
     */
-   public UnitOfMeasureContainer(ProjectFile projectFile)
+   public UnitOfMeasureContainer(UniqueIdObjectSequenceProvider sequenceProvider)
    {
-      super(projectFile);
+      super(sequenceProvider);
    }
 
    /**
@@ -60,7 +60,7 @@ public class UnitOfMeasureContainer extends ProjectEntityContainer<UnitOfMeasure
     */
    private UnitOfMeasure buildUnitOfMeasure(String name)
    {
-      UnitOfMeasure uom = new UnitOfMeasure.Builder(m_projectFile)
+      UnitOfMeasure uom = new UnitOfMeasure.Builder(m_sequenceProvider)
          .name(name)
          .abbreviation(name)
          .sequenceNumber(Integer.valueOf(stream().mapToInt(u -> u.getSequenceNumber().intValue()).max().orElse(0) + 1))

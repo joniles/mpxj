@@ -53,6 +53,7 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
 
+import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
@@ -120,9 +121,9 @@ final class PrimaveraReader
     * @param wbsIsFullPath determine the WBS attribute structure
     * @param ignoreErrors ignore errors flag
     */
-   public PrimaveraReader(Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors)
+   public PrimaveraReader(ProjectFileSharedData shared, Map<FieldType, String> resourceFields, Map<FieldType, String> roleFields, Map<FieldType, String> wbsFields, Map<FieldType, String> taskFields, Map<FieldType, String> assignmentFields, boolean matchPrimaveraWBS, boolean wbsIsFullPath, boolean ignoreErrors)
    {
-      m_project = new ProjectFile();
+      m_project = new ProjectFile(shared);
       m_eventManager = m_project.getEventManager();
 
       ProjectConfig config = m_project.getProjectConfig();
@@ -311,13 +312,12 @@ final class PrimaveraReader
    }
 
    /**
-    * Read activity code types and values.
+    * Read activity code definitions.
     *
     * @param types activity code type data
     * @param typeValues activity code value data
-    * @param assignments activity code task assignments
     */
-   public void processActivityCodes(List<Row> types, List<Row> typeValues, List<Row> assignments)
+   public void processActivityCodeDefinitions(List<Row> types, List<Row> typeValues)
    {
       ActivityCodeContainer container = m_project.getActivityCodes();
       Map<Integer, ActivityCode> map = new HashMap<>();
@@ -351,38 +351,41 @@ final class PrimaveraReader
                .name(row.getString("short_name"))
                .description(row.getString("actv_code_name"))
                .color(ColorHelper.parseHexColor(row.getString("color")))
-               .parent(m_activityCodeMap.get(row.getInteger("parent_actv_code_id")))
+               .parent(code.getValueByUniqueID(row.getInteger("parent_actv_code_id")))
                .build();
             code.addValue(value);
-            m_activityCodeMap.put(value.getUniqueID(), value);
          }
-      }
-
-      for (Row row : assignments)
-      {
-         Integer taskID = row.getInteger("task_id");
-         List<Integer> list = m_activityCodeAssignments.computeIfAbsent(taskID, k -> new ArrayList<>());
-         list.add(row.getInteger("actv_code_id"));
       }
    }
 
    /**
-    * Process User Defined Fields (UDF).
+    * Process activity code assignments.
+    *
+    * @param assignments activity code assignments
+    */
+   public void processActivityCodeAssignments(List<Row> assignments)
+   {
+      for (Row row : assignments)
+      {
+         Integer taskID = row.getInteger("task_id");
+         List<Row> list = m_activityCodeAssignments.computeIfAbsent(taskID, k -> new ArrayList<>());
+         list.add(row);
+      }
+   }
+
+   /**
+    * Process User Defined Field (UDF) definitions.
     *
     * @param fields field definitions
-    * @param values field values
     */
-   public void processUserDefinedFields(List<Row> fields, List<Row> values)
+   public void processUdfDefinitions(List<Row> fields)
    {
-      // Process fields
-      Map<Integer, String> tableNameMap = new HashMap<>();
       UserDefinedFieldContainer container = m_project.getUserDefinedFields();
 
       for (Row row : fields)
       {
          Integer fieldId = row.getInteger("udf_type_id");
          String tableName = row.getString("table_name");
-         tableNameMap.put(fieldId, tableName);
 
          FieldTypeClass fieldTypeClass = FieldTypeClassHelper.getInstanceFromXer(tableName);
          if (fieldTypeClass == null)
@@ -400,16 +403,27 @@ final class PrimaveraReader
             .build();
 
          container.add(fieldType);
-
-         m_udfFields.put(fieldId, fieldType);
          m_project.getCustomFields().add(fieldType).setAlias(fieldType.getName()).setUniqueID(fieldId);
       }
+   }
 
-      // Process values
+   /**
+    * Process User Defined Field (UDF) values.
+    *
+    * @param values field values
+    */
+   public void processUdfValues(List<Row> values)
+   {
       for (Row row : values)
       {
-         Integer typeID = row.getInteger("udf_type_id");
-         String tableName = tableNameMap.get(typeID);
+         FieldType fieldType = m_project.getUserDefinedFields().getByUniqueID(row.getInteger("udf_type_id"));
+         if (fieldType == null)
+         {
+            // UDF values for entities we don't currently support
+            continue;
+         }
+
+         String tableName = FieldTypeClassHelper.getXerFromInstance(fieldType);
          Map<Integer, List<Row>> tableData = m_udfValues.computeIfAbsent(tableName, k -> new HashMap<>());
 
          Integer id = row.getInteger("fk_id");
@@ -1208,16 +1222,24 @@ final class PrimaveraReader
     */
    private void populateActivityCodes(Task task, Integer uniqueID)
    {
-      List<Integer> list = m_activityCodeAssignments.get(uniqueID);
-      if (list != null)
+      List<Row> list = m_activityCodeAssignments.get(uniqueID);
+      if (list == null)
       {
-         for (Integer id : list)
+         return;
+      }
+
+      for (Row row : list)
+      {
+         ActivityCode activityCode = m_project.getActivityCodes().getByUniqueID(row.getInteger("actv_code_type_id"));
+         if (activityCode == null)
          {
-            ActivityCodeValue value = m_activityCodeMap.get(id);
-            if (value != null)
-            {
-               task.addActivityCode(value);
-            }
+            continue;
+         }
+
+         ActivityCodeValue value = activityCode.getValueByUniqueID(row.getInteger("actv_code_id"));
+         if (value != null)
+         {
+            task.addActivityCode(value);
          }
       }
    }
@@ -1232,43 +1254,44 @@ final class PrimaveraReader
    private void addUDFValue(FieldTypeClass fieldType, FieldContainer container, Row row)
    {
       Integer fieldId = row.getInteger("udf_type_id");
-      FieldType field = m_udfFields.get(fieldId);
+      FieldType field = m_project.getUserDefinedFields().getByUniqueID(fieldId);
+      if (field == null)
+      {
+         return;
+      }
 
       Object value;
-      if (field != null)
+      DataType fieldDataType = field.getDataType();
+
+      switch (fieldDataType)
       {
-         DataType fieldDataType = field.getDataType();
-
-         switch (fieldDataType)
+         case DATE:
          {
-            case DATE:
-            {
-               value = row.getDate("udf_date");
-               break;
-            }
-
-            case CURRENCY:
-            case NUMERIC:
-            {
-               value = row.getDouble("udf_number");
-               break;
-            }
-
-            case INTEGER:
-            {
-               value = row.getInteger("udf_number");
-               break;
-            }
-
-            default:
-            {
-               value = row.getString("udf_text");
-               break;
-            }
+            value = row.getDate("udf_date");
+            break;
          }
 
-         container.set(field, value);
+         case CURRENCY:
+         case NUMERIC:
+         {
+            value = row.getDouble("udf_number");
+            break;
+         }
+
+         case INTEGER:
+         {
+            value = row.getInteger("udf_number");
+            break;
+         }
+
+         default:
+         {
+            value = row.getString("udf_text");
+            break;
+         }
       }
+
+      container.set(field, value);
    }
 
    /**
@@ -2369,11 +2392,8 @@ final class PrimaveraReader
    private final boolean m_wbsIsFullPath;
    private final boolean m_ignoreErrors;
 
-   private final Map<Integer, FieldType> m_udfFields = new HashMap<>();
    private final Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
-
-   private final Map<Integer, ActivityCodeValue> m_activityCodeMap = new HashMap<>();
-   private final Map<Integer, List<Integer>> m_activityCodeAssignments = new HashMap<>();
+   private final Map<Integer, List<Row>> m_activityCodeAssignments = new HashMap<>();
 
    private final ObjectSequence m_relationObjectID;
 

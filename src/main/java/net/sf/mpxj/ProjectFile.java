@@ -45,6 +45,24 @@ import net.sf.mpxj.common.ObjectSequence;
 public final class ProjectFile implements ChildTaskContainer, ChildResourceContainer, UniqueIdObjectSequenceProvider
 {
    /**
+    * Default constructor.
+    */
+   public ProjectFile()
+   {
+      m_shared = new ProjectFileSharedData();
+   }
+
+   /**
+    * Constructor allowing a ProjectFileSharedData instance to be passed.
+    *
+    * @param shared ProjectFileSharedData instance
+    */
+   public ProjectFile(ProjectFileSharedData shared)
+   {
+      m_shared = shared;
+   }
+
+   /**
     * Retrieve project configuration data.
     *
     * @return ProjectConfig instance.
@@ -473,7 +491,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public CustomFieldContainer getCustomFields()
    {
-      return m_customFields;
+      return m_shared.getCustomFields();
    }
 
    /**
@@ -483,7 +501,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ActivityCodeContainer getActivityCodes()
    {
-      return m_activityCodes;
+      return m_shared.getActivityCodes();
    }
 
    /**
@@ -503,7 +521,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ExpenseCategoryContainer getExpenseCategories()
    {
-      return m_expenseCategories;
+      return m_shared.getExpenseCategories();
    }
 
    /**
@@ -513,7 +531,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public CostAccountContainer getCostAccounts()
    {
-      return m_costAccounts;
+      return m_shared.getCostAccounts();
    }
 
    /**
@@ -523,7 +541,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public UserDefinedFieldContainer getUserDefinedFields()
    {
-      return m_userDefinedFields;
+      return m_shared.getUserDefinedFields();
    }
 
    /**
@@ -533,7 +551,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public WorkContourContainer getWorkContours()
    {
-      return m_workContours;
+      return m_shared.getWorkContours();
    }
 
    /**
@@ -543,7 +561,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public NotesTopicContainer getNotesTopics()
    {
-      return m_notesTopics;
+      return m_shared.getNotesTopics();
    }
 
    /**
@@ -553,7 +571,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public LocationContainer getLocations()
    {
-      return m_locations;
+      return m_shared.getLocations();
    }
 
    /**
@@ -563,7 +581,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public UnitOfMeasureContainer getUnitsOfMeasure()
    {
-      return m_unitsOfMeasure;
+      return m_shared.getUnitsOfMeasure();
    }
 
    /**
@@ -925,7 +943,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
     */
    public ObjectSequence getUniqueIdObjectSequence(Class<?> c)
    {
-      return m_uniqueIdObjectSequences.computeIfAbsent(c.getName(), x -> new ObjectSequence(1));
+      return ProjectFileSharedData.contains(c) ? m_shared.getUniqueIdObjectSequence(c) : m_uniqueIdObjectSequences.computeIfAbsent(c.getName(), x -> new ObjectSequence(1));
    }
 
    /**
@@ -972,18 +990,10 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final GroupContainer m_groups = new GroupContainer();
    private final ViewContainer m_views = new ViewContainer();
    private final EventManager m_eventManager = new EventManager();
-   private final CustomFieldContainer m_customFields = new CustomFieldContainer();
-   private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer();
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
-   private final ExpenseCategoryContainer m_expenseCategories = new ExpenseCategoryContainer(this);
-   private final CostAccountContainer m_costAccounts = new CostAccountContainer(this);
-   private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer(this);
-   private final WorkContourContainer m_workContours = new WorkContourContainer(this);
-   private final NotesTopicContainer m_notesTopics = new NotesTopicContainer(this);
-   private final LocationContainer m_locations = new LocationContainer(this);
-   private final UnitOfMeasureContainer m_unitsOfMeasure = new UnitOfMeasureContainer(this);
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
+   private final ProjectFileSharedData m_shared;
 }

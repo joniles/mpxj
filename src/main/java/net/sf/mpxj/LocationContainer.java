@@ -31,10 +31,10 @@ public class LocationContainer extends ProjectEntityContainer<Location>
    /**
     * Constructor.
     *
-    * @param projectFile parent project
+    * @param sequenceProvider sequence provider
     */
-   public LocationContainer(ProjectFile projectFile)
+   public LocationContainer(UniqueIdObjectSequenceProvider sequenceProvider)
    {
-      super(projectFile);
+      super(sequenceProvider);
    }
 }

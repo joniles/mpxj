@@ -31,10 +31,10 @@ public class CostAccountContainer extends ProjectEntityContainer<CostAccount>
    /**
     * Constructor.
     *
-    * @param projectFile parent project
+    * @param sequenceProvider sequence provider
     */
-   public CostAccountContainer(ProjectFile projectFile)
+   public CostAccountContainer(UniqueIdObjectSequenceProvider sequenceProvider)
    {
-      super(projectFile);
+      super(sequenceProvider);
    }
 }

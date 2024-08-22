@@ -41,6 +41,7 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
    public ResourceAssignmentContainer(ProjectFile projectFile)
    {
       super(projectFile);
+      m_projectFile = projectFile;
    }
 
    @Override public void removed(ResourceAssignment assignment)
@@ -84,4 +85,6 @@ public class ResourceAssignmentContainer extends ProjectEntityContainer<Resource
    {
       return m_projectFile.getCustomFields().getFieldTypeByAlias(FieldTypeClass.ASSIGNMENT, alias);
    }
+
+   private final ProjectFile m_projectFile;
 }
