@@ -59,6 +59,7 @@ import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.common.DefaultTimephasedCostContainer;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
+import net.sf.mpxj.common.ObjectSequence;
 import net.sf.mpxj.mpp.MPPTimephasedBaselineCostNormaliser;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -1874,30 +1875,48 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
    private void readOutlineCodeValues(Project.OutlineCodes.OutlineCode outlineCode, FieldType fieldType)
    {
       Project.OutlineCodes.OutlineCode.Values values = outlineCode.getValues();
-      if (values != null)
+      if (values == null)
       {
-         CustomField field = m_projectFile.getCustomFields().getOrCreate(fieldType);
-         CustomFieldLookupTable table = field.getLookupTable();
+         return;
+      }
 
-         table.setEnterprise(BooleanHelper.getBoolean(outlineCode.isEnterprise()));
-         table.setAllLevelsRequired(BooleanHelper.getBoolean(outlineCode.isAllLevelsRequired()));
-         table.setGUID(outlineCode.getGuid());
-         table.setLeafOnly(BooleanHelper.getBoolean(outlineCode.isLeafOnly()));
-         table.setOnlyTableValuesAllowed(BooleanHelper.getBoolean(outlineCode.isOnlyTableValuesAllowed()));
-         table.setResourceSubstitutionEnabled(BooleanHelper.getBoolean(outlineCode.isResourceSubstitutionEnabled()));
-         table.setShowIndent(BooleanHelper.getBoolean(outlineCode.isShowIndent()));
+      // I have come across one example MSPDI file with duplicate unique IDs
+      // for custom field values, possibly written by P6.
 
-         for (Project.OutlineCodes.OutlineCode.Values.Value value : values.getValue())
+      // Ensure our ObjectSequence is in sync with the values from the file
+      ObjectSequence uniqueIdSequence = m_projectFile.getUniqueIdObjectSequence(CustomFieldValueItem.class);
+      values.getValue().forEach(v -> uniqueIdSequence.sync(NumberHelper.getInteger(v.getValueID())));
+
+      CustomField field = m_projectFile.getCustomFields().getOrCreate(fieldType);
+      CustomFieldLookupTable table = field.getLookupTable();
+
+      table.setEnterprise(BooleanHelper.getBoolean(outlineCode.isEnterprise()));
+      table.setAllLevelsRequired(BooleanHelper.getBoolean(outlineCode.isAllLevelsRequired()));
+      table.setGUID(outlineCode.getGuid());
+      table.setLeafOnly(BooleanHelper.getBoolean(outlineCode.isLeafOnly()));
+      table.setOnlyTableValuesAllowed(BooleanHelper.getBoolean(outlineCode.isOnlyTableValuesAllowed()));
+      table.setResourceSubstitutionEnabled(BooleanHelper.getBoolean(outlineCode.isResourceSubstitutionEnabled()));
+      table.setShowIndent(BooleanHelper.getBoolean(outlineCode.isShowIndent()));
+
+      Set<Integer> uniqueIdValues = new HashSet<>();
+      for (Project.OutlineCodes.OutlineCode.Values.Value value : values.getValue())
+      {
+         Integer uniqueID = NumberHelper.getInteger(value.getValueID());
+         if (uniqueIdValues.contains(uniqueID))
          {
-            CustomFieldValueItem item = new CustomFieldValueItem(NumberHelper.getInteger(value.getValueID()));
-            item.setDescription(value.getDescription());
-            item.setGUID(value.getFieldGUID());
-            item.setCollapsed(BooleanHelper.getBoolean(value.isIsCollapsed()));
-            item.setParentUniqueID(NumberHelper.getInteger(value.getParentValueID()));
-            item.setType(CustomFieldValueDataType.getInstance(NumberHelper.getInt(value.getType())));
-            item.setValue(DatatypeConverter.parseOutlineCodeValue(value.getValue(), field.getFieldType().getDataType()));
-            table.add(item);
+            // Assign a new unique ID using the object sequence
+            uniqueID = uniqueIdSequence.getNext();
          }
+         uniqueIdValues.add(uniqueID);
+
+         CustomFieldValueItem item = new CustomFieldValueItem(uniqueID);
+         item.setDescription(value.getDescription());
+         item.setGUID(value.getFieldGUID());
+         item.setCollapsed(BooleanHelper.getBoolean(value.isIsCollapsed()));
+         item.setParentUniqueID(NumberHelper.getInteger(value.getParentValueID()));
+         item.setType(CustomFieldValueDataType.getInstance(NumberHelper.getInt(value.getType())));
+         item.setValue(DatatypeConverter.parseOutlineCodeValue(value.getValue(), field.getFieldType().getDataType()));
+         table.add(item);
       }
    }
 
