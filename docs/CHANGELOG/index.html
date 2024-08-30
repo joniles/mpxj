@@ -291,9 +291,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1331-unreleased" class="md-nav__link">
+  <a href="#1332-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.3.1 (unreleased)
+      13.3.2 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1331-2024-08-30" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.3.1 (2024-08-30)
     </span>
   </a>
   
@@ -3930,9 +3939,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1331-unreleased" class="md-nav__link">
+  <a href="#1332-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.3.1 (unreleased)
+      13.3.2 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1331-2024-08-30" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.3.1 (2024-08-30)
     </span>
   </a>
   
@@ -6213,7 +6231,12 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1331-unreleased">13.3.1 (unreleased)</h2>
+<h2 id="1332-unreleased">13.3.2 (unreleased)</h2>
+<h2 id="1331-2024-08-30">13.3.1 (2024-08-30)</h2>
+<ul>
+<li>Handle duplicate custom field value unique IDs when reading MSPDI files.</li>
+<li>Handle missing remaining early start date when reading timephased data from a P6 schedule.</li>
+</ul>
 <h2 id="1330-2024-08-22">13.3.0 (2024-08-22)</h2>
 <ul>
 <li>When reading multiple Primavera schedules from the same source, MPXJ now ensures that instances of activity code definitions, user defined field definitions, locations, units of measure, expense categories, cost accounts, work contours, and notes topics are shared across projects. This will allow you to, for example, filter tasks from multiple projects using a <code>Location</code> instance. Previously each project had its own independent instances for each of these types, which could not be used across multiple projects.</li>
