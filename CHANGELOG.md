@@ -1,6 +1,10 @@
 # Changelog
 
-## 13.3.1 (unreleased)
+## 13.3.2 (unreleased)
+
+## 13.3.1 (2024-08-30)
+* Handle duplicate custom field value unique IDs when reading MSPDI files.
+* Handle missing remaining early start date when reading timephased data from a P6 schedule.
 
 ## 13.3.0 (2024-08-22)
 * When reading multiple Primavera schedules from the same source, MPXJ now ensures that instances of activity code definitions, user defined field definitions, locations, units of measure, expense categories, cost accounts, work contours, and notes topics are shared across projects. This will allow you to, for example, filter tasks from multiple projects using a `Location` instance. Previously each project had its own independent instances for each of these types, which could not be used across multiple projects.

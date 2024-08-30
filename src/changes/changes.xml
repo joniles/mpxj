@@ -5,7 +5,9 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="13.3.1">
+		<release date="unreleased" version="13.3.2">
+		</release>
+		<release date="2024-08-30" version="13.3.1">
 			<action dev="joniles" type="update">Handle duplicate custom field value unique IDs when reading MSPDI files.</action>
 			<action dev="joniles" type="update">Handle missing remaining early start date when reading timephased data from a P6 schedule.</action>
 		</release>

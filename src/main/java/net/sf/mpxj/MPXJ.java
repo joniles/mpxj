@@ -28,5 +28,5 @@ package net.sf.mpxj;
  */
 public final class MPXJ
 {
-   public static final String VERSION = "13.3.0";
+   public static final String VERSION = "13.3.1";
 }
