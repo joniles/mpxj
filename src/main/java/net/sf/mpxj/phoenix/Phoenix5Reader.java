@@ -50,6 +50,7 @@ import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RelationshipLagCalendar;
 import net.sf.mpxj.Relation;
+import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
@@ -176,6 +177,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       mpxjProperties.setStatusDate(storepoint.getDataDate());
       mpxjProperties.setStartDate(storepoint.getStart());
       mpxjProperties.setRelationshipLagCalendar(LAG_CALENDAR_MAP.getOrDefault(storepoint.getLagCalendar(), mpxjProperties.getRelationshipLagCalendar()));
+      //mpxjProperties.setSchedulingProgressedActivities(storepoint.getRetainedLogic() ? SchedulingProgressedActivities.RETAINED_LOGIC : (storepoint.getProgressOverride() ? SchedulingProgressedActivities.PROGRESS_OVERRIDE : SchedulingProgressedActivities.ACTUAL_DATES));
    }
 
    /**
