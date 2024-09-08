@@ -178,7 +178,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
       mpxjProperties.setStatusDate(storepoint.getDataDate());
       mpxjProperties.setStartDate(storepoint.getStart());
-      mpxjProperties.setSchedulingProgressedActivities(activeLayout.isRetainedLogic() ? SchedulingProgressedActivities.RETAINED_LOGIC : (activeLayout.isProgressOverride() ? SchedulingProgressedActivities.PROGRESS_OVERRIDE : SchedulingProgressedActivities.ACTUAL_DATES));
+      mpxjProperties.setSchedulingProgressedActivities(activeLayout.isRetainedLogic().booleanValue()? SchedulingProgressedActivities.RETAINED_LOGIC : (activeLayout.isProgressOverride().booleanValue() ? SchedulingProgressedActivities.PROGRESS_OVERRIDE : SchedulingProgressedActivities.ACTUAL_DATES));
    }
 
    /**

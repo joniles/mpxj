@@ -56,7 +56,7 @@ class ProjectDirectoryReader extends DirectoryReader
    {
       /*
          Project Directory Contents
-      
+
          ACT - Activity
          ASG - Resource Assignment
          BSA - Baseline Activity

@@ -841,7 +841,7 @@ public class TimephasedWorkCostSegmentTest
          }
          System.out.println("}");
       }
-   
+
       private void dumpExpectedData(ResourceAssignment assignment, ArrayList<Double> list)
       {
          //System.out.println(assignment);
