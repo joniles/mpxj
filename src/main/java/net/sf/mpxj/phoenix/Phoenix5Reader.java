@@ -178,7 +178,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       mpxjProperties.setStatusDate(storepoint.getDataDate());
       mpxjProperties.setStartDate(storepoint.getStart());
       mpxjProperties.setRelationshipLagCalendar(LAG_CALENDAR_MAP.getOrDefault(storepoint.getLagCalendar(), mpxjProperties.getRelationshipLagCalendar()));
-      //mpxjProperties.setSchedulingProgressedActivities(storepoint.getRetainedLogic() ? SchedulingProgressedActivities.RETAINED_LOGIC : (storepoint.getProgressOverride() ? SchedulingProgressedActivities.PROGRESS_OVERRIDE : SchedulingProgressedActivities.ACTUAL_DATES));
+      mpxjProperties.setSchedulingProgressedActivities(storepoint.isRetainedLogic().booleanValue() ? SchedulingProgressedActivities.RETAINED_LOGIC : (storepoint.isProgressOverride().booleanValue() ? SchedulingProgressedActivities.PROGRESS_OVERRIDE : SchedulingProgressedActivities.ACTUAL_DATES));
    }
 
    /**
