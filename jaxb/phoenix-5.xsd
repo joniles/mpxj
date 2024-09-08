@@ -225,15 +225,15 @@
                            <xs:attribute name="proposed_data_date" type="xs:dateTime"/>
                            <xs:attribute name="default_calendar" type="xs:string"/>
                            <xs:attribute name="id_increment" type="xs:int"/>
-                           <xs:attribute name="contiguous" type="xs:string"/>
-                           <xs:attribute name="ignore_actuals" type="xs:string"/>
-                           <xs:attribute name="ignore_data_date" type="xs:string"/>
-                           <xs:attribute name="interruptible" type="xs:string"/>
+                           <xs:attribute name="contiguous" type="xs:boolean"/>
+                           <xs:attribute name="ignore_actuals" type="xs:boolean"/>
+                           <xs:attribute name="ignore_data_date" type="xs:boolean"/>
+                           <xs:attribute name="interruptible" type="xs:boolean"/>
                            <xs:attribute name="lag_calendar" type="xs:string"/>
-                           <xs:attribute name="progress_override" type="xs:string"/>
-                           <xs:attribute name="retained_logic" type="xs:string"/>
-                           <xs:attribute name="status_on_current" type="xs:string"/>
-                           <xs:attribute name="status_on_master" type="xs:string"/>
+                           <xs:attribute name="progress_override" type="xs:boolean"/>
+                           <xs:attribute name="retained_logic" type="xs:boolean"/>
+                           <xs:attribute name="status_on_current" type="xs:boolean"/>
+                           <xs:attribute name="status_on_master" type="xs:boolean"/>
                         </xs:complexType>
                      </xs:element>
                   </xs:sequence>

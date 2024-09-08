@@ -50,6 +50,7 @@ import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.RelationshipLagCalendar;
 import net.sf.mpxj.Relation;
+import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
@@ -134,7 +135,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
 
          Project phoenixProject = (Project) UnmarshalHelper.unmarshal(CONTEXT, new SkipNulInputStream(stream));
          Storepoint storepoint = getCurrentStorepoint(phoenixProject);
-         readProjectProperties(phoenixProject.getSettings(), storepoint);
+         readProjectProperties(phoenixProject, storepoint);
          readCalendars(storepoint);
          readActivityCodes(storepoint);
          readTasks(phoenixProject, storepoint);
@@ -165,17 +166,19 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
    /**
     * This method extracts project properties from a Phoenix file.
     *
-    * @param phoenixSettings Phoenix settings
+    * @param phoenixProject Phoenix project
     * @param storepoint Current storepoint
     */
-   private void readProjectProperties(Settings phoenixSettings, Storepoint storepoint)
+   private void readProjectProperties(Project phoenixProject, Storepoint storepoint)
    {
+      Settings phoenixSettings = phoenixProject.getSettings();
       ProjectProperties mpxjProperties = m_projectFile.getProjectProperties();
       mpxjProperties.setName(phoenixSettings.getTitle());
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
       mpxjProperties.setStatusDate(storepoint.getDataDate());
       mpxjProperties.setStartDate(storepoint.getStart());
       mpxjProperties.setRelationshipLagCalendar(LAG_CALENDAR_MAP.getOrDefault(storepoint.getLagCalendar(), mpxjProperties.getRelationshipLagCalendar()));
+      mpxjProperties.setSchedulingProgressedActivities(storepoint.isRetainedLogic().booleanValue() ? SchedulingProgressedActivities.RETAINED_LOGIC : (storepoint.isProgressOverride().booleanValue() ? SchedulingProgressedActivities.PROGRESS_OVERRIDE : SchedulingProgressedActivities.ACTUAL_DATES));
    }
 
    /**
