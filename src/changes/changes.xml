@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="13.3.2">
 			<action dev="joniles" type="update">Ensure the Scheduling Progressed Activities project property is populated when reading Phoenix schedules.</action>
+			<action dev="joniles" type="update">When reading milestones from an Asta schedule, ensure that the Activity Type attribute is populated to allow start milestones and finish milestones to be differentiated.</action>
 		</release>
 		<release date="2024-08-30" version="13.3.1">
 			<action dev="joniles" type="update">Handle duplicate custom field value unique IDs when reading MSPDI files.</action>
