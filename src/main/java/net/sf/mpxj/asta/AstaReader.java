@@ -42,6 +42,7 @@ import java.util.function.Function;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
@@ -761,6 +762,7 @@ final class AstaReader
       //PROGREST_PERIOD
       //SYMBOL_APPEARANCE
       //MILESTONE_TYPE
+      task.setActivityType(getMilestoneType(row));
       //PLACEMENU
       //INTERRUPTIBLE_X
       //ACTUAL_DURATIONTYPF
@@ -837,6 +839,23 @@ final class AstaReader
       processConstraints(row, task);
 
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
+   }
+
+   /**
+    * Retrieve the milestone type.
+    *
+    * @param row row
+    * @return milestone type
+    */
+   private ActivityType getMilestoneType(Row row)
+   {
+      Integer value = row.getInteger("MILESTONE_TYPE");
+      if (value == null)
+      {
+         return ActivityType.FINISH_MILESTONE;
+      }
+
+      return value.intValue() == 1 ? ActivityType.FINISH_MILESTONE : ActivityType.START_MILESTONE;
    }
 
    /**
