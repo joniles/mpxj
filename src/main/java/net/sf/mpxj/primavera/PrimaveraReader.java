@@ -55,6 +55,10 @@ import java.time.DayOfWeek;
 
 import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.SchedulingProgressedActivities;
+import net.sf.mpxj.Shift;
+import net.sf.mpxj.ShiftContainer;
+import net.sf.mpxj.ShiftPeriod;
+import net.sf.mpxj.ShiftPeriodContainer;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
@@ -253,6 +257,33 @@ final class PrimaveraReader
                .latitude(row.getDouble("latitude"))
                .longitude(row.getDouble("longitude"))
                .build()));
+   }
+
+   public void processShifts(List<Row> shifts, List<Row> periods)
+   {
+      ShiftContainer shiftContainer = m_project.getShifts();
+      shifts.forEach(r -> shiftContainer.add(
+         new Shift.Builder(m_project)
+            .uniqueID(r.getInteger("shift_id"))
+            .name(r.getString("shift_name"))
+            .build()
+      ));
+
+      ShiftPeriodContainer shiftPeriodContainer = m_project.getShiftPeriods();
+      for(Row row : periods)
+      {
+         Shift shift = shiftContainer.getByUniqueID(row.getInteger("shift_id"));
+         if (shift == null)
+         {
+            continue;
+         }
+
+         ShiftPeriod period = new ShiftPeriod.Builder(m_project, shift)
+            .uniqueID(row.getInteger("shift_period_id"))
+            .startHour(row.getInteger("shift_start_hr_num"))
+            .build();
+         shiftPeriodContainer.add(period);
+      }
    }
 
    /**

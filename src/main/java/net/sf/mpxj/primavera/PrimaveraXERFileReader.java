@@ -232,6 +232,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
          {
             m_readSharedData = false;
             processLocations();
+            processShifts();
             processUnitsOfMeasure();
             processExpenseCategories();
             processCostAccounts();
@@ -432,6 +433,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    private void processLocations()
    {
       m_reader.processLocations(getRows("location", null, null));
+   }
+
+   /**
+    * Process shifts.
+    */
+   private void processShifts()
+   {
+      m_reader.processShifts(getRows("shift", null, null), getRows("shiftper", null, null));
    }
 
    /**
@@ -1262,6 +1271,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       FIELD_TYPE_MAP.put("scd_end_date", DataType.DATE);
       FIELD_TYPE_MAP.put("sched_calendar_on_relationship_lag", DataType.STRING);
       FIELD_TYPE_MAP.put("seq_num", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("shift_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("shift_period_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("shift_start_hr_num", DataType.INTEGER);
       FIELD_TYPE_MAP.put("start_date", DataType.DATE);
       FIELD_TYPE_MAP.put("sum_base_proj_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("super_flag", DataType.STRING);
@@ -1327,6 +1339,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       REQUIRED_TABLES.add("taskproc");
       REQUIRED_TABLES.add("location");
       REQUIRED_TABLES.add("umeasure");
+      REQUIRED_TABLES.add("shift");
+      REQUIRED_TABLES.add("shiftper");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();
