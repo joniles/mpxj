@@ -48,6 +48,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.BaselineStrategy;
 import net.sf.mpxj.ProjectFileSharedData;
+import net.sf.mpxj.Shift;
+import net.sf.mpxj.ShiftContainer;
+import net.sf.mpxj.ShiftPeriod;
+import net.sf.mpxj.ShiftPeriodContainer;
 import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
@@ -65,6 +69,8 @@ import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
 import net.sf.mpxj.primavera.schema.ProjectListType;
+import net.sf.mpxj.primavera.schema.ShiftPeriodType;
+import net.sf.mpxj.primavera.schema.ShiftType;
 import net.sf.mpxj.primavera.schema.UnitOfMeasureType;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
@@ -454,6 +460,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             processNotebookTopics(apibo);
             processUdfDefintions(apibo);
             processActivityCodeDefinitions(apibo.getActivityCodeType(), apibo.getActivityCode());
+            processShifts(apibo);
          }
 
          processCalendars(apibo.getCalendar());
@@ -782,6 +789,30 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             .latitude(c.getLatitude())
             .longitude(c.getLongitude())
             .build()));
+   }
+
+   private void processShifts(APIBusinessObjects apibo)
+   {
+      ShiftContainer shiftContainer = m_projectFile.getShifts();
+      ShiftPeriodContainer shiftPeriodContainer = m_projectFile.getShiftPeriods();
+
+      for (ShiftType xml : apibo.getShift())
+      {
+         Shift shift = new Shift.Builder(m_projectFile)
+            .name(xml.getName())
+            .uniqueID(xml.getObjectId())
+            .build();
+         shiftContainer.add(shift);
+
+         for (ShiftPeriodType xmlPeriod : xml.getShiftPeriod())
+         {
+            ShiftPeriod period = new ShiftPeriod.Builder(m_projectFile, shift)
+               .uniqueID(xmlPeriod.getObjectId())
+               .startHour(xmlPeriod.getStartHour())
+               .build();
+            shiftPeriodContainer.add(period);
+         }
+      }
    }
 
    /**

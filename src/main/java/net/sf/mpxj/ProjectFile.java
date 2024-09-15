@@ -504,6 +504,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_shared.getActivityCodes();
    }
 
+   public ShiftContainer getShifts()
+   {
+      return m_shared.getShifts();
+   }
+
+   public ShiftPeriodContainer getShiftPeriods()
+   {
+      return m_shared.getShiftPeriods();
+   }
+
    /**
     * Retrieves the data link configuration for this project.
     *
