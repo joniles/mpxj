@@ -2542,6 +2542,46 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Retrieves the shift unique ID.
+    *
+    * @return shift unique ID
+    */
+   public Integer getShiftUniqueID()
+   {
+      return (Integer) get(ResourceField.SHIFT_UNIQUE_ID);
+   }
+
+   /**
+    * Sets the shift unique ID.
+    *
+    * @param uniqueID shift unique ID
+    */
+   public void setShiftUniqueID(Integer uniqueID)
+   {
+      set(ResourceField.SHIFT_UNIQUE_ID, uniqueID);
+   }
+
+   /**
+    * Retrieves the shift.
+    *
+    * @return shift.
+    */
+   public Shift getShift()
+   {
+      return getParentFile().getShifts().getByUniqueID(getShiftUniqueID());
+   }
+
+   /**
+    * Sets the shift.
+    *
+    * @param shift shift
+    */
+   public void setShift(Shift shift)
+   {
+      setShiftUniqueID(shift == null ? null : shift.getUniqueID());
+   }
+
+   /**
     * Retrieve the unit of measure unique ID.
     *
     * @return unit of measure unique ID

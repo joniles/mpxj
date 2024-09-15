@@ -2279,6 +2279,7 @@ final class PrimaveraReader
       map.put(ResourceField.ACTIVE, "active_flag");
       map.put(ResourceField.LOCATION_UNIQUE_ID, "location_id");
       map.put(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID, "unit_id");
+      map.put(ResourceField.SHIFT_UNIQUE_ID, "shift_id");
 
       return map;
    }

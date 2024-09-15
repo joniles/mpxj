@@ -1099,7 +1099,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("parent_rsrc_id", r -> r.getParentResourceUniqueID());
       RESOURCE_COLUMNS.put("clndr_id", r -> r.getCalendarUniqueID());
       RESOURCE_COLUMNS.put("role_id", r -> "");
-      RESOURCE_COLUMNS.put("shift_id", r -> "");
+      RESOURCE_COLUMNS.put("shift_id", r -> r.getShiftUniqueID());
       RESOURCE_COLUMNS.put("user_id", r -> "");
       RESOURCE_COLUMNS.put("pobs_id", r -> "");
       RESOURCE_COLUMNS.put("guid", r -> r.getGUID());
