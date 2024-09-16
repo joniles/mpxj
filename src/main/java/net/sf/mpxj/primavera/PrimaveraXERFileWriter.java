@@ -258,6 +258,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       map.put("cost_per_qty5", entry.getRate(4));
       map.put("start_date", entry.getStartDate());
       map.put("max_qty_per_hr", getMaxQuantityPerHour(resource, entry));
+      map.put("shift_period_id", entry.getShiftPeriod() == null ? null : entry.getShiftPeriod().getUniqueID());
 
       m_writer.writeRecord(columns, map);
    }
@@ -1085,7 +1086,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_RATE_COLUMNS.put("max_qty_per_hr", m -> m.get("max_qty_per_hr"));
       RESOURCE_RATE_COLUMNS.put("cost_per_qty", m -> m.get("cost_per_qty"));
       RESOURCE_RATE_COLUMNS.put("start_date", m -> m.get("start_date"));
-      RESOURCE_RATE_COLUMNS.put("shift_period_id", m -> "");
+      RESOURCE_RATE_COLUMNS.put("shift_period_id", m -> m.get("shift_period_id"));
       RESOURCE_RATE_COLUMNS.put("cost_per_qty2", m -> m.get("cost_per_qty2"));
       RESOURCE_RATE_COLUMNS.put("cost_per_qty3", m -> m.get("cost_per_qty3"));
       RESOURCE_RATE_COLUMNS.put("cost_per_qty4", m -> m.get("cost_per_qty4"));

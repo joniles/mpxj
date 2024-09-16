@@ -2035,6 +2035,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
+         ShiftPeriod period = m_projectFile.getShiftPeriods().getByUniqueID(row.getShiftPeriodObjectId());
          LocalDateTime startDate = row.getEffectiveDate();
          LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
 
@@ -2057,7 +2058,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             endDate = LocalDateTimeHelper.END_DATE_NA;
          }
 
-         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
+         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, period, values));
          resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
       }
    }

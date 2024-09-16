@@ -1434,7 +1434,7 @@ final class PrimaveraPMProjectWriter
             //rate.setResourceId(value);
             //rate.setResourceName(value);
             rate.setResourceObjectId(resource.getUniqueID());
-            //rate.setShiftPeriodObjectId(value);
+            rate.setShiftPeriodObjectId(entry.getShiftPeriod() == null ? null : entry.getShiftPeriod().getUniqueID());
          }
       }
    }

@@ -845,6 +845,8 @@ final class PrimaveraReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
+         ShiftPeriod period = m_project.getShiftPeriods().getByUniqueID(row.getInteger("shift_period_id"));
+
          LocalDateTime startDate = row.getDate("start_date");
          LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
 
@@ -868,7 +870,7 @@ final class PrimaveraReader
             endDate = LocalDateTimeHelper.END_DATE_NA;
          }
 
-         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
+         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, period, values));
          resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
       }
    }
