@@ -64,9 +64,10 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
    /**
     * Constructor.
     *
-    * @param startDate    start date
-    * @param endDate      end date
-    * @param costPerUse   cost per use
+    * @param startDate start date
+    * @param endDate end date
+    * @param costPerUse cost per use
+    * @param shiftPeriod shift period
     * @param rates Rate instances
     */
    public CostRateTableEntry(LocalDateTime startDate, LocalDateTime endDate, Number costPerUse, ShiftPeriod shiftPeriod, Rate... rates)

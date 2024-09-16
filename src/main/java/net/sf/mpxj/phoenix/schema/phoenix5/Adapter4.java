@@ -5,23 +5,24 @@
 // Generated on: 2024.09.08 at 11:22:53 AM BST
 //
 
-
 package net.sf.mpxj.phoenix.schema.phoenix5;
 
 import java.util.UUID;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter4
-    extends XmlAdapter<String, UUID>
+         extends
+            XmlAdapter<String, UUID>
 {
 
+   @Override public UUID unmarshal(String value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.parseUUID(value));
+   }
 
-    @Override public UUID unmarshal(String value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.parseUUID(value));
-    }
-
-    @Override public String marshal(UUID value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.printUUID(value));
-    }
+   @Override public String marshal(UUID value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.printUUID(value));
+   }
 
 }

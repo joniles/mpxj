@@ -5,23 +5,24 @@
 // Generated on: 2024.09.08 at 11:22:53 AM BST
 //
 
-
 package net.sf.mpxj.phoenix.schema.phoenix5;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.Duration;
 
 public class Adapter3
-    extends XmlAdapter<String, Duration>
+         extends
+            XmlAdapter<String, Duration>
 {
 
+   @Override public Duration unmarshal(String value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.parseDuration(value));
+   }
 
-    @Override public Duration unmarshal(String value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.parseDuration(value));
-    }
-
-    @Override public String marshal(Duration value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.printDuration(value));
-    }
+   @Override public String marshal(Duration value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.printDuration(value));
+   }
 
 }

@@ -5,23 +5,24 @@
 // Generated on: 2024.09.08 at 11:22:53 AM BST
 //
 
-
 package net.sf.mpxj.phoenix.schema.phoenix5;
 
 import java.time.LocalDateTime;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter9
-    extends XmlAdapter<String, LocalDateTime>
+         extends
+            XmlAdapter<String, LocalDateTime>
 {
 
+   @Override public LocalDateTime unmarshal(String value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.parseFinishDateTime(value));
+   }
 
-    @Override public LocalDateTime unmarshal(String value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.parseFinishDateTime(value));
-    }
-
-    @Override public String marshal(LocalDateTime value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.printFinishDateTime(value));
-    }
+   @Override public String marshal(LocalDateTime value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.printFinishDateTime(value));
+   }
 
 }

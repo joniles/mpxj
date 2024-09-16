@@ -28,7 +28,7 @@ import java.time.temporal.ChronoUnit;
 /**
  * Represents a Resource Shift Period.
  */
-public class ShiftPeriod implements ProjectEntityWithUniqueID, Comparable<ShiftPeriod>
+public final class ShiftPeriod implements ProjectEntityWithUniqueID, Comparable<ShiftPeriod>
 {
    /**
     * Private constructor.
@@ -58,7 +58,7 @@ public class ShiftPeriod implements ProjectEntityWithUniqueID, Comparable<ShiftP
     *
     * @return unique ID
     */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return m_uniqueID;
    }

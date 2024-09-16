@@ -29,7 +29,7 @@ import java.util.TreeSet;
 /**
  * Represents a Resource Shift.
  */
-public class Shift implements ProjectEntityWithUniqueID
+public final class Shift implements ProjectEntityWithUniqueID
 {
    /**
     * Private constructor.
@@ -47,7 +47,7 @@ public class Shift implements ProjectEntityWithUniqueID
     *
     * @return shift unique ID
     */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return m_uniqueID;
    }

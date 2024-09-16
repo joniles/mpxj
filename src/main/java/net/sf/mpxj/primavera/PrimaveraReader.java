@@ -272,11 +272,10 @@ final class PrimaveraReader
          new Shift.Builder(m_project)
             .uniqueID(r.getInteger("shift_id"))
             .name(r.getString("shift_name"))
-            .build()
-      ));
+            .build()));
 
       ShiftPeriodContainer shiftPeriodContainer = m_project.getShiftPeriods();
-      for(Row row : periods)
+      for (Row row : periods)
       {
          Shift shift = shiftContainer.getByUniqueID(row.getInteger("shift_id"));
          if (shift == null)

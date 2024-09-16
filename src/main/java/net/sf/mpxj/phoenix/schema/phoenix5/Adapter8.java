@@ -5,23 +5,24 @@
 // Generated on: 2024.09.08 at 11:22:53 AM BST
 //
 
-
 package net.sf.mpxj.phoenix.schema.phoenix5;
 
 import java.time.DayOfWeek;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class Adapter8
-    extends XmlAdapter<String, DayOfWeek>
+         extends
+            XmlAdapter<String, DayOfWeek>
 {
 
+   @Override public DayOfWeek unmarshal(String value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.parseDay(value));
+   }
 
-    @Override public DayOfWeek unmarshal(String value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.parseDay(value));
-    }
-
-    @Override public String marshal(DayOfWeek value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.printDay(value));
-    }
+   @Override public String marshal(DayOfWeek value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.printDay(value));
+   }
 
 }

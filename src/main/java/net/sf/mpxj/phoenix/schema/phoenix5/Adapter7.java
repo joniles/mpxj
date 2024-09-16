@@ -5,23 +5,24 @@
 // Generated on: 2024.09.08 at 11:22:53 AM BST
 //
 
-
 package net.sf.mpxj.phoenix.schema.phoenix5;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import net.sf.mpxj.ResourceType;
 
 public class Adapter7
-    extends XmlAdapter<String, ResourceType>
+         extends
+            XmlAdapter<String, ResourceType>
 {
 
+   @Override public ResourceType unmarshal(String value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.parseResourceType(value));
+   }
 
-    @Override public ResourceType unmarshal(String value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.parseResourceType(value));
-    }
-
-    @Override public String marshal(ResourceType value) {
-        return (net.sf.mpxj.phoenix.DatatypeConverter.printResourceType(value));
-    }
+   @Override public String marshal(ResourceType value)
+   {
+      return (net.sf.mpxj.phoenix.DatatypeConverter.printResourceType(value));
+   }
 
 }
