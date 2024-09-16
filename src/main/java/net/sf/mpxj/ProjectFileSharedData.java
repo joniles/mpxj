@@ -125,11 +125,21 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
       return m_activityCodes;
    }
 
+   /**
+    * Retrieves the shifts for this project.
+    *
+    * @return shifts
+    */
    public ShiftContainer getShifts()
    {
       return m_shifts;
    }
 
+   /**
+    * Retrieves the shift periods for this project.
+    *
+    * @return shift periods
+    */
    public ShiftPeriodContainer getShiftPeriods()
    {
       return m_shiftPeriods;

@@ -406,7 +406,7 @@ final class PrimaveraPMProjectWriter
          {
             ShiftPeriodType spt = m_factory.createShiftPeriodType();
             spt.setObjectId(period.getUniqueID());
-            spt.setStartHour(Integer.valueOf(period.getStartHour().getHour()));
+            spt.setStartHour(Integer.valueOf(period.getStart().getHour()));
             st.getShiftPeriod().add(spt);
          }
 

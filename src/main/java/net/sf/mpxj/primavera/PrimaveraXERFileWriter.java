@@ -1634,6 +1634,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       SHIFT_PERIOD_COLUMNS.put("shift_period_id", s -> s.getUniqueID());
       SHIFT_PERIOD_COLUMNS.put("shift_id", s -> s.getParentShift().getUniqueID());
-      SHIFT_PERIOD_COLUMNS.put("shift_start_hr_num", s -> s.getStartHour().getHour());
+      SHIFT_PERIOD_COLUMNS.put("shift_start_hr_num", s -> s.getStart().getHour());
    }
 }

@@ -5,7 +5,8 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="13.3.2">
+		<release date="unreleased" version="13.4.0">
+			<action dev="joniles" type="update">Added support for reading and writing resource shifts for P6 schedules.</action>
 			<action dev="joniles" type="update">Ensure the Scheduling Progressed Activities project property is populated when reading Phoenix schedules.</action>
 			<action dev="joniles" type="update">When reading milestones from an Asta schedule, ensure that the Activity Type attribute is populated to allow start milestones and finish milestones to be differentiated.</action>
 		</release>
