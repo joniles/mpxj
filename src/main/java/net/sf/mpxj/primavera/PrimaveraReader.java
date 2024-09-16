@@ -259,6 +259,12 @@ final class PrimaveraReader
                .build()));
    }
 
+   /**
+    * Process shifts.
+    *
+    * @param shifts shift data
+    * @param periods shift period data
+    */
    public void processShifts(List<Row> shifts, List<Row> periods)
    {
       ShiftContainer shiftContainer = m_project.getShifts();
@@ -280,7 +286,7 @@ final class PrimaveraReader
 
          ShiftPeriod period = new ShiftPeriod.Builder(m_project, shift)
             .uniqueID(row.getInteger("shift_period_id"))
-            .startHour(row.getInteger("shift_start_hr_num"))
+            .start(row.getInteger("shift_start_hr_num"))
             .build();
          shiftPeriodContainer.add(period);
       }

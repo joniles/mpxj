@@ -38,7 +38,7 @@ public class ShiftPeriod implements ProjectEntityWithUniqueID, Comparable<ShiftP
    private ShiftPeriod(Builder builder)
    {
       m_uniqueID = builder.m_sequenceProvider.getUniqueIdObjectSequence(ShiftPeriod.class).syncOrGetNext(builder.m_uniqueID);
-      m_start = builder.m_startHour;
+      m_start = builder.m_start;
       m_parentShift = builder.m_shift;
       m_parentShift.getPeriods().add(this);
    }

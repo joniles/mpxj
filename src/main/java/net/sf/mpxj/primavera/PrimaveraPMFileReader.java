@@ -791,6 +791,11 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             .build()));
    }
 
+   /**
+    * Process shifts.
+    *
+    * @param apibo top level object
+    */
    private void processShifts(APIBusinessObjects apibo)
    {
       ShiftContainer shiftContainer = m_projectFile.getShifts();
@@ -808,7 +813,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             ShiftPeriod period = new ShiftPeriod.Builder(m_projectFile, shift)
                .uniqueID(xmlPeriod.getObjectId())
-               .startHour(xmlPeriod.getStartHour())
+               .start(xmlPeriod.getStartHour())
                .build();
             shiftPeriodContainer.add(period);
          }
