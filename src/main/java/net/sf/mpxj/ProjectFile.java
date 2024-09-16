@@ -504,11 +504,21 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
       return m_shared.getActivityCodes();
    }
 
+   /**
+    * Retrieves the shifts for this project.
+    *
+    * @return shifts
+    */
    public ShiftContainer getShifts()
    {
       return m_shared.getShifts();
    }
 
+   /**
+    * Retrieves the shift periods for this project.
+    *
+    * @return shift periods
+    */
    public ShiftPeriodContainer getShiftPeriods()
    {
       return m_shared.getShiftPeriods();

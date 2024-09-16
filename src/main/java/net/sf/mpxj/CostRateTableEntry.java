@@ -140,6 +140,11 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
       return m_costPerUse;
    }
 
+   /**
+    * Retrieve the shift period associated with this rate.
+    *
+    * @return ShiftPeriod instance or null
+    */
    public ShiftPeriod getShiftPeriod()
    {
       return m_shiftPeriod;
