@@ -166,7 +166,7 @@ public final class ActivityCode implements ProjectEntityWithUniqueID
    /**
     * Retrieve a value belonging to this activity code using its unique ID.
     *
-    * @param id actuvity code value unique ID
+    * @param id activity code value unique ID
     * @return ActivityCodeValue instance or null
     */
    public ActivityCodeValue getValueByUniqueID(Integer id)

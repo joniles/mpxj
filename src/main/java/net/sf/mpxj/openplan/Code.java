@@ -46,7 +46,7 @@ class Code
    }
 
    /**
-    * Rerieve the code ID.
+    * Retrieve the code ID.
     *
     * @return code ID
     */

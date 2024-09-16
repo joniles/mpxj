@@ -49,7 +49,7 @@ public final class LocalDateHelper
    }
 
    /**
-    * Convert a LocalDateTime instance to a Localdate instance, handling null values.
+    * Convert a LocalDateTime instance to a LocalDate instance, handling null values.
     *
     * @param date LocalDateTimeInstance
     * @return LocalDate instance or null

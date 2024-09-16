@@ -46,7 +46,7 @@ import org.junit.Test;
 
 /**
  * This a test for reading timephased work of manual scheduled tasks from an MPP file.
- * It validates the data against JSON withint the Note field for each assignment.
+ * It validates the data against JSON within the Note field for each assignment.
  * The JSON is created by a VBA inside the MPP file.
  */
 public class TimephasedWorkSegmentManualOffsetTest

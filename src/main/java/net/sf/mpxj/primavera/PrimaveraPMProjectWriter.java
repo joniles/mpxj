@@ -398,7 +398,7 @@ final class PrimaveraPMProjectWriter
       List<ShiftType> shifts = m_apibo.getShift();
       for (Shift shift : m_projectFile.getShifts())
       {
-         ShiftType st = m_factory.createShiftType();;
+         ShiftType st = m_factory.createShiftType();
          st.setObjectId(shift.getUniqueID());
          st.setName(shift.getName());
 

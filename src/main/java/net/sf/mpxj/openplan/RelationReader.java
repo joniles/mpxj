@@ -42,7 +42,7 @@ class RelationReader
     * Constructor.
     *
     * @param root parent directory
-    * @param file projcet file
+    * @param file project file
     */
    public RelationReader(DirectoryEntry root, ProjectFile file)
    {

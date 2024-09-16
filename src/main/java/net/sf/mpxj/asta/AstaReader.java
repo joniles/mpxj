@@ -528,7 +528,7 @@ final class AstaReader
       //BEEN_SPLIT
       //INTERRUPTIBLE
       //HOLDING_PIN
-      ///ACTUAL_DURATIONTYPF
+      //ACTUAL_DURATIONTYPF
       //ACTUAL_DURATIONELA_MONTHS
       task.setActualDuration(row.getDuration("ACTUAL_DURATIONHOURS"));
       task.setEarlyStart(row.getDate("EARLY_START_DATE"));
