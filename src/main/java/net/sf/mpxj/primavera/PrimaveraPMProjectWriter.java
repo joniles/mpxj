@@ -51,6 +51,8 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
 
+import net.sf.mpxj.Shift;
+import net.sf.mpxj.ShiftPeriod;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
@@ -121,6 +123,8 @@ import net.sf.mpxj.primavera.schema.ResourceType;
 import net.sf.mpxj.primavera.schema.RoleRateType;
 import net.sf.mpxj.primavera.schema.RoleType;
 import net.sf.mpxj.primavera.schema.ScheduleOptionsType;
+import net.sf.mpxj.primavera.schema.ShiftPeriodType;
+import net.sf.mpxj.primavera.schema.ShiftType;
 import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.UnitOfMeasureType;
@@ -196,6 +200,7 @@ final class PrimaveraPMProjectWriter
             m_udf = project.getUDF();
 
             writeLocations();
+            writeShifts();
             writeProjectProperties(project);
             writeUnitsOfMeasure();
             writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
@@ -382,6 +387,30 @@ final class PrimaveraPMProjectWriter
          lt.setLatitude(location.getLatitude());
          lt.setLongitude(location.getLongitude());
          locations.add(lt);
+      }
+   }
+
+   /**
+    * Write shifts.
+    */
+   private void writeShifts()
+   {
+      List<ShiftType> shifts = m_apibo.getShift();
+      for (Shift shift : m_projectFile.getShifts())
+      {
+         ShiftType st = m_factory.createShiftType();;
+         st.setObjectId(shift.getUniqueID());
+         st.setName(shift.getName());
+
+         for (ShiftPeriod period : shift.getPeriods())
+         {
+            ShiftPeriodType spt = m_factory.createShiftPeriodType();
+            spt.setObjectId(period.getUniqueID());
+            spt.setStartHour(Integer.valueOf(period.getStart().getHour()));
+            st.getShiftPeriod().add(spt);
+         }
+
+         shifts.add(st);
       }
    }
 
@@ -867,6 +896,7 @@ final class PrimaveraPMProjectWriter
       xml.setSequenceNumber(mpxj.getSequenceNumber());
       xml.setLocationObjectId(mpxj.getLocationUniqueID());
       xml.setUnitOfMeasureObjectId(mpxj.getUnitOfMeasureUniqueID());
+      xml.setShiftObjectId(mpxj.getShiftUniqueID());
 
       // Write both attributes for backward compatibility,
       // "DefaultUnitsPerTime" is the value read by recent versions of P6
@@ -1404,7 +1434,7 @@ final class PrimaveraPMProjectWriter
             //rate.setResourceId(value);
             //rate.setResourceName(value);
             rate.setResourceObjectId(resource.getUniqueID());
-            //rate.setShiftPeriodObjectId(value);
+            rate.setShiftPeriodObjectId(entry.getShiftPeriod() == null ? null : entry.getShiftPeriod().getUniqueID());
          }
       }
    }

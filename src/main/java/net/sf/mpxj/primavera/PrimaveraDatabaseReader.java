@@ -119,6 +119,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          {
             m_readSharedData = false;
             processLocations();
+            processShifts();
             processUnitsOfMeasure();
             processExpenseCategories();
             processCostAccounts();
@@ -253,6 +254,17 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       if (m_tableNames.contains("LOCATION"))
       {
          m_reader.processLocations(getRows("select * from " + m_schema + "location"));
+      }
+   }
+
+   /**
+    * Select shifts from the database.
+    */
+   private void processShifts() throws SQLException
+   {
+      if (m_tableNames.contains("SHIFT") && m_tableNames.contains("SHIFTPER"))
+      {
+         m_reader.processShifts(getRows("select * from " + m_schema + "shift"), getRows("select * from " + m_schema + "shiftper"));
       }
    }
 

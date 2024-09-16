@@ -126,6 +126,26 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    }
 
    /**
+    * Retrieves the shifts for this project.
+    *
+    * @return shifts
+    */
+   public ShiftContainer getShifts()
+   {
+      return m_shifts;
+   }
+
+   /**
+    * Retrieves the shift periods for this project.
+    *
+    * @return shift periods
+    */
+   public ShiftPeriodContainer getShiftPeriods()
+   {
+      return m_shiftPeriods;
+   }
+
+   /**
     * Retrieve the ObjectSequence instance used to generate Unique ID values for a given class.
     *
     * @param c target class
@@ -156,6 +176,8 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    private final CustomFieldContainer m_customFields = new CustomFieldContainer();
    private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer(m_customFields);
    private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer(this);
+   private final ShiftContainer m_shifts = new ShiftContainer(this);
+   private final ShiftPeriodContainer m_shiftPeriods = new ShiftPeriodContainer(this);
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 
    private static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
@@ -167,5 +189,7 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
          WorkContour.class.getName(),
          NotesTopic.class.getName(),
          UserDefinedField.class.getName(),
-         ActivityCode.class.getName()));
+         ActivityCode.class.getName(),
+         Shift.class.getName(),
+         ShiftPeriod.class.getName()));
 }

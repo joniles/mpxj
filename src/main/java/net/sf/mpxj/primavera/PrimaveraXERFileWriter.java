@@ -68,6 +68,8 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.SchedulingProgressedActivities;
+import net.sf.mpxj.Shift;
+import net.sf.mpxj.ShiftPeriod;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
@@ -130,6 +132,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeHeader();
          writeExpenseCategories();
          writeCurrencies();
+         writeShifts();
+         writeShiftPeriods();
          writeLocations();
          writeNoteTypes();
          writeResourceCurves();
@@ -254,6 +258,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       map.put("cost_per_qty5", entry.getRate(4));
       map.put("start_date", entry.getStartDate());
       map.put("max_qty_per_hr", getMaxQuantityPerHour(resource, entry));
+      map.put("shift_period_id", entry.getShiftPeriod() == null ? null : entry.getShiftPeriod().getUniqueID());
 
       m_writer.writeRecord(columns, map);
    }
@@ -369,6 +374,34 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       m_writer.writeTable("UMEASURE", UNIT_OF_MEASURE_COLUMNS);
       m_file.getUnitsOfMeasure().stream().sorted(Comparator.comparing(UnitOfMeasure::getUniqueID)).forEach(a -> m_writer.writeRecord(UNIT_OF_MEASURE_COLUMNS, a));
+   }
+
+   /**
+    * Write shifts.
+    */
+   private void writeShifts()
+   {
+      if (m_file.getShifts().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("SHIFT", SHIFT_COLUMNS);
+      m_file.getShifts().stream().sorted(Comparator.comparing(Shift::getUniqueID)).forEach(l -> m_writer.writeRecord(SHIFT_COLUMNS, l));
+   }
+
+   /**
+    * Write shift periods.
+    */
+   private void writeShiftPeriods()
+   {
+      if (m_file.getShiftPeriods().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("SHIFTPER", SHIFT_PERIOD_COLUMNS);
+      m_file.getShiftPeriods().stream().sorted(Comparator.comparing(ShiftPeriod::getUniqueID)).forEach(l -> m_writer.writeRecord(SHIFT_PERIOD_COLUMNS, l));
    }
 
    /**
@@ -1053,7 +1086,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_RATE_COLUMNS.put("max_qty_per_hr", m -> m.get("max_qty_per_hr"));
       RESOURCE_RATE_COLUMNS.put("cost_per_qty", m -> m.get("cost_per_qty"));
       RESOURCE_RATE_COLUMNS.put("start_date", m -> m.get("start_date"));
-      RESOURCE_RATE_COLUMNS.put("shift_period_id", m -> "");
+      RESOURCE_RATE_COLUMNS.put("shift_period_id", m -> m.get("shift_period_id"));
       RESOURCE_RATE_COLUMNS.put("cost_per_qty2", m -> m.get("cost_per_qty2"));
       RESOURCE_RATE_COLUMNS.put("cost_per_qty3", m -> m.get("cost_per_qty3"));
       RESOURCE_RATE_COLUMNS.put("cost_per_qty4", m -> m.get("cost_per_qty4"));
@@ -1067,7 +1100,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("parent_rsrc_id", r -> r.getParentResourceUniqueID());
       RESOURCE_COLUMNS.put("clndr_id", r -> r.getCalendarUniqueID());
       RESOURCE_COLUMNS.put("role_id", r -> "");
-      RESOURCE_COLUMNS.put("shift_id", r -> "");
+      RESOURCE_COLUMNS.put("shift_id", r -> r.getShiftUniqueID());
       RESOURCE_COLUMNS.put("user_id", r -> "");
       RESOURCE_COLUMNS.put("pobs_id", r -> "");
       RESOURCE_COLUMNS.put("guid", r -> r.getGUID());
@@ -1587,5 +1620,20 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       UNIT_OF_MEASURE_COLUMNS.put("seq_num", u -> u.getSequenceNumber());
       UNIT_OF_MEASURE_COLUMNS.put("unit_abbrev", u -> u.getAbbreviation());
       UNIT_OF_MEASURE_COLUMNS.put("unit_name", u -> StringHelper.stripControlCharacters(u.getName()));
+   }
+
+   private static final Map<String, ExportFunction<Shift>> SHIFT_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      SHIFT_COLUMNS.put("shift_id", s -> s.getUniqueID());
+      SHIFT_COLUMNS.put("shift_name", s -> StringHelper.stripControlCharacters(s.getName()));
+   }
+
+   private static final Map<String, ExportFunction<ShiftPeriod>> SHIFT_PERIOD_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      SHIFT_PERIOD_COLUMNS.put("shift_period_id", s -> s.getUniqueID());
+      SHIFT_PERIOD_COLUMNS.put("shift_id", s -> s.getParentShift().getUniqueID());
+      SHIFT_PERIOD_COLUMNS.put("shift_start_hr_num", s -> s.getStart().getHour());
    }
 }

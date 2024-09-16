@@ -58,9 +58,23 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
     */
    public CostRateTableEntry(LocalDateTime startDate, LocalDateTime endDate, Number costPerUse, Rate... rates)
    {
+      this(startDate, endDate, costPerUse, null, rates);
+   }
+
+   /**
+    * Constructor.
+    *
+    * @param startDate    start date
+    * @param endDate      end date
+    * @param costPerUse   cost per use
+    * @param rates Rate instances
+    */
+   public CostRateTableEntry(LocalDateTime startDate, LocalDateTime endDate, Number costPerUse, ShiftPeriod shiftPeriod, Rate... rates)
+   {
       m_startDate = startDate;
       m_endDate = endDate;
       m_costPerUse = costPerUse;
+      m_shiftPeriod = shiftPeriod;
       Arrays.fill(m_rates, Rate.ZERO);
       System.arraycopy(rates, 0, m_rates, 0, rates.length);
    }
@@ -126,6 +140,16 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
       return m_costPerUse;
    }
 
+   /**
+    * Retrieve the shift period associated with this rate.
+    *
+    * @return ShiftPeriod instance or null
+    */
+   public ShiftPeriod getShiftPeriod()
+   {
+      return m_shiftPeriod;
+   }
+
    @Override public int compareTo(CostRateTableEntry o)
    {
       return LocalDateTimeHelper.compare(m_endDate, o.m_endDate);
@@ -141,6 +165,8 @@ public final class CostRateTableEntry implements Comparable<CostRateTableEntry>
    private final LocalDateTime m_endDate;
    private final Number m_costPerUse;
    private final Rate[] m_rates = new Rate[MAX_RATES];
+   private final ShiftPeriod m_shiftPeriod;
+
    public static final CostRateTableEntry DEFAULT_ENTRY = new CostRateTableEntry();
    public static final int MAX_RATES = 5;
 }
