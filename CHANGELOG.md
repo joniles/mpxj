@@ -1,6 +1,12 @@
 # Changelog
 
-## 13.3.2 (unreleased)
+## 13.4.1 (unreleased)
+
+## 13.4.0 (2024-09-18)
+* Added support for reading and writing resource shifts for P6 schedules.
+* Ensure the Scheduling Progressed Activities project property is populated when reading Phoenix schedules.
+* When reading milestones from an Asta schedule, ensure that the Activity Type attribute is populated to allow start milestones and finish milestones to be differentiated.
+* Fix an issue which occurred when writing MSPDI files with manually scheduled tasks starting on non-working days where their timephased data is split as days.
 
 ## 13.3.1 (2024-08-30)
 * Handle duplicate custom field value unique IDs when reading MSPDI files.

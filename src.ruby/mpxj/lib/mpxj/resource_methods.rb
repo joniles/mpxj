@@ -3441,6 +3441,13 @@ module MPXJ
       get_integer_value(attribute_values['sequence_number'])
     end
 
+    # Retrieve the Shift Unique ID value
+    #
+    # @return Shift Unique ID value
+    def shift_unique_id
+      get_integer_value(attribute_values['shift_unique_id'])
+    end
+
     # Retrieve the Standard Rate value
     #
     # @return Standard Rate value
@@ -4381,6 +4388,7 @@ module MPXJ
       'response_pending' => :boolean,
       'role' => :boolean,
       'sequence_number' => :integer,
+      'shift_unique_id' => :integer,
       'standard_rate' => :rate,
       'standard_rate_units' => :rate_units,
       'start' => :date,
