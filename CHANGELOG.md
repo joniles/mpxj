@@ -1,6 +1,9 @@
 # Changelog
 
-## 13.4.1 (unreleased)
+## 13.4.2 (unreleased)
+
+## 13.4.1 (2024-10-07)
+* Added the `ProjectCalendarDays.getCalendarDayTypes()` method to allow direct access to the `DayType` instances for each day of the week.
 
 ## 13.4.0 (2024-09-18)
 * Added support for reading and writing resource shifts for P6 schedules.
