@@ -135,6 +135,17 @@ public abstract class ProjectCalendarDays
    }
 
    /**
+    * Retrieves an array of DayType instances representing a week,
+    * where Sunday is the first entry in the array.
+    *
+    * @return array of DayType instances
+    */
+   public DayType[] getCalendarDayTypes()
+   {
+      return m_days;
+   }
+
+   /**
     * This method allows the retrieval of the actual working day flag,
     * which can take the values DEFAULT, WORKING, or NONWORKING. This differs
     * from the isWorkingDay method as it retrieves the actual flag value.

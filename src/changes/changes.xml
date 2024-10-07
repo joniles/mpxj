@@ -6,6 +6,7 @@
 	</properties>
 	<body>
 		<release date="unreleased" version="13.4.1">
+			<action dev="joniles" type="update">Added the `ProjectCalendarDays.getCalendarDayTypes()` method to allow direct access to the `DayType` instances for each day of the week.</action>
 		</release>
 		<release date="2024-09-18" version="13.4.0">
 			<action dev="joniles" type="update">Added support for reading and writing resource shifts for P6 schedules.</action>
