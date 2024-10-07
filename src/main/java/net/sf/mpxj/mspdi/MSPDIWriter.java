@@ -2416,8 +2416,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
          LocalDateTime finishDay = LocalDateTimeHelper.getDayStartDate(finishDate);
          if (startDay.equals(finishDay))
          {
-            LocalDateTime currentStart = LocalDateTime.of(startDay.toLocalDate(), calendar.getStartTime(LocalDateHelper.getLocalDate(startDay)));
-            if (startDate.isAfter(currentStart))
+            LocalTime startTime = calendar.getStartTime(LocalDateHelper.getLocalDate(startDay));
+            LocalDateTime currentStart = startTime == null ? null : LocalDateTime.of(startDay.toLocalDate(), startTime);
+            if (currentStart != null && startDate.isAfter(currentStart))
             {
                TimephasedCost padding = new TimephasedCost();
                padding.setStart(currentStart);
@@ -2429,8 +2430,9 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
             result.add(assignment);
 
-            LocalDateTime currentFinish = LocalDateTime.of(startDay.toLocalDate(), calendar.getFinishTime(LocalDateHelper.getLocalDate(startDay)));
-            if (finishDate.isBefore(currentFinish))
+            LocalTime finishTime = calendar.getFinishTime(LocalDateHelper.getLocalDate(startDay));
+            LocalDateTime currentFinish = finishTime == null ? null : LocalDateTime.of(startDay.toLocalDate(), finishTime);
+            if (currentFinish != null && finishDate.isBefore(currentFinish))
             {
                TimephasedCost padding = new TimephasedCost();
                padding.setStart(finishDate);
