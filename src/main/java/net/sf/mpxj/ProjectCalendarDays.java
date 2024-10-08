@@ -55,6 +55,17 @@ public abstract class ProjectCalendarDays
    }
 
    /**
+    * Retrieves an array representing the working hours for each day of the week,
+    * where Sunday is the first entry in the array.
+    *
+    * @return array of ProjectCalendarHours instances, one for each week day
+    */
+   public ProjectCalendarHours[] getCalendarHours()
+   {
+      return m_hours;
+   }
+
+   /**
     * This method retrieves the calendar hours for the specified day.
     * Note that this method only returns the hours specification for the
     * current calendar.If this is a derived calendar, it does not refer to
