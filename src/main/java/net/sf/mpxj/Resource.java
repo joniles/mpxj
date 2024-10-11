@@ -1754,6 +1754,21 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return (m_assignments);
    }
 
+   public void addRoleAssignment(Resource role, SkillLevel skillLevel)
+   {
+      m_roleAssignments.put(role, skillLevel);
+   }
+
+   public void removeRoleAssignment(Resource role)
+   {
+      m_roleAssignments.remove(role);
+   }
+
+   public Map<Resource, SkillLevel> getRoleAssignments()
+   {
+      return m_roleAssignments;
+   }
+
    /**
     * Where a resource in an MPP file represents a resource from a subproject,
     * this value will be non-zero. The value itself is the unique ID value shown
@@ -2886,6 +2901,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * List of all assignments for this resource.
     */
    private final List<ResourceAssignment> m_assignments = new ArrayList<>();
+   private final Map<Resource, SkillLevel> m_roleAssignments = new HashMap<>();
 
    /**
     * This list holds references to all resources that are children of the

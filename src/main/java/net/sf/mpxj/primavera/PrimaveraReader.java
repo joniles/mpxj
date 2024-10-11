@@ -59,6 +59,7 @@ import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftContainer;
 import net.sf.mpxj.ShiftPeriod;
 import net.sf.mpxj.ShiftPeriodContainer;
+import net.sf.mpxj.SkillLevel;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
@@ -2099,6 +2100,44 @@ final class PrimaveraReader
       projectProperties.setDisplayMultipleFloatPathsEndingWithActivityUniqueID(NumberHelper.getInteger(row.getString("key_activity_for_multiple_longest_paths")));
       projectProperties.setLimitNumberOfFloatPathsToCalculate(row.getBoolean("limit_multiple_longest_path_calc"));
       projectProperties.setMaximumNumberOfFloatPathsToCalculate(NumberHelper.getInteger(row.getString("max_multiple_longest_path")));
+   }
+
+   public void processRoleAssignments(List<Row> rows)
+   {
+      for (Row row : rows)
+      {
+         Integer resourceID = row.getInteger("rsrc_id");
+         if (resourceID == null)
+         {
+            continue;
+         }
+
+         Integer roleID =  row.getInteger("role_id");
+         if (roleID == null)
+         {
+            continue;
+         }
+
+         Integer skillLevel = row.getInteger("skill_level");
+         if (skillLevel == null)
+         {
+            continue;
+         }
+
+         Resource resource = m_project.getResourceByUniqueID(resourceID);
+         if (resource == null)
+         {
+            continue;
+         }
+
+         Resource role = m_project.getResourceByUniqueID(roleID);
+         if (role == null)
+         {
+            continue;
+         }
+
+         resource.addRoleAssignment(role, SkillLevelHelper.getInstanceFromXer(skillLevel));
+      }
    }
 
    /**

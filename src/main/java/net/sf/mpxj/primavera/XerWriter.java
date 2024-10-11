@@ -55,6 +55,7 @@ import net.sf.mpxj.Rate;
 import net.sf.mpxj.RateSource;
 import net.sf.mpxj.RelationType;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.SkillLevel;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.ColorHelper;
@@ -335,6 +336,7 @@ final class XerWriter
       FORMAT_MAP.put(DataType.class, (w, o) -> UdfHelper.getXerFromDataType((DataType) o));
       FORMAT_MAP.put(MaxUnits.class, (w, o) -> w.m_maxUnitsFormat.format(NumberHelper.getDouble(((MaxUnits) o).toNumber()) / 100.0));
       FORMAT_MAP.put(Currency.class, (w, o) -> w.m_currencyFormat.format(((Currency) o).toNumber()));
+      FORMAT_MAP.put(SkillLevel.class, (w, o) -> SkillLevelHelper.getXerFromInstance((SkillLevel)o));
       FORMAT_MAP.put(String.class, (w, o) -> w.formatString((String) o));
    }
 }

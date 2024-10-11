@@ -134,6 +134,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          processCalendars();
          processResources();
          processRoles();
+         processRoleAssignments();
          processResourceRates();
          processRoleRates();
          processRoleAvailability();
@@ -400,6 +401,18 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       // TODO: handle exporting parent roles
       List<Row> rows = getRows("select * from " + m_schema + "roles where delete_date is null and role_id in (select role_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by seq_num", m_projectID);
       m_reader.processRoles(rows);
+   }
+
+   /**
+    * Process role assignments.
+    */
+   private void processRoleAssignments() throws SQLException
+   {
+      if (m_tableNames.contains("RSRCROLE"))
+      {
+         List<Row> rows = getRows("select * from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)", m_projectID);
+         m_reader.processRoleAssignments(rows);
+      }
    }
 
    /**
