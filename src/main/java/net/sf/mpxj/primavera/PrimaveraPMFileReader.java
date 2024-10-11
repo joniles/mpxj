@@ -69,6 +69,7 @@ import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
 import net.sf.mpxj.primavera.schema.ProjectListType;
+import net.sf.mpxj.primavera.schema.ResourceRoleType;
 import net.sf.mpxj.primavera.schema.ShiftPeriodType;
 import net.sf.mpxj.primavera.schema.ShiftType;
 import net.sf.mpxj.primavera.schema.UnitOfMeasureType;
@@ -466,6 +467,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processCalendars(apibo.getCalendar());
          processResources(apibo);
          processRoles(apibo);
+         processRoleAssignments(apibo);
          processResourceRates(apibo);
          processRoleRates(apibo);
 
@@ -1199,6 +1201,31 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setResourceID(role.getId());
          resource.setNotesObject(getHtmlNote(role.getResponsibilities()));
          resource.setSequenceNumber(role.getSequenceNumber());
+      }
+   }
+
+   /**
+    * Process role assignments.
+    *
+    * @param apibo xml container
+    */
+   private void processRoleAssignments(APIBusinessObjects apibo)
+   {
+      for (ResourceRoleType assignment : apibo.getResourceRole())
+      {
+         Resource resource = m_projectFile.getResourceByUniqueID(assignment.getResourceObjectId());
+         if (resource == null)
+         {
+            continue;
+         }
+
+         Resource role = m_projectFile.getResourceByUniqueID(assignment.getRoleObjectId());
+         if (role == null)
+         {
+            continue;
+         }
+
+         resource.addRoleAssignment(role, SkillLevelHelper.getInstanceFromXml(assignment.getProficiency()));
       }
    }
 
