@@ -1754,16 +1754,35 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       return (m_assignments);
    }
 
+   /**
+    * Add a role assignment, and a skill level for the role, to this resource. Replaces any existing
+    * assignment for this role.
+    *
+    * @param role role to assign to the resource
+    * @param skillLevel skill level
+    */
    public void addRoleAssignment(Resource role, SkillLevel skillLevel)
    {
       m_roleAssignments.put(role, skillLevel);
    }
 
+   /**
+    * Remove a role assignment from this resource.
+    *
+    * @param role role to remove
+    */
    public void removeRoleAssignment(Resource role)
    {
       m_roleAssignments.remove(role);
    }
 
+   /**
+    * Retrieve a map of the roles assigned to this resource.
+    * The roles are represented as the keys in this map
+    * with the skill level represented as the value.
+    *
+    * @return role assignment map
+    */
    public Map<Resource, SkillLevel> getRoleAssignments()
    {
       return m_roleAssignments;
