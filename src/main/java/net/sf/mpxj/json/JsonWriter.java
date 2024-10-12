@@ -901,6 +901,11 @@ public final class JsonWriter extends AbstractProjectWriter
       m_writer.writeEndList();
    }
 
+   /**
+    * Write the role assignments for a resource.
+    *
+    * @param resource resource
+    */
    private void writeRoleAssignments(Resource resource) throws IOException
    {
       Map<Resource, SkillLevel> map = resource.getRoleAssignments();
