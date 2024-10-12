@@ -900,6 +900,7 @@ final class PrimaveraPMProjectWriter
       xml.setLocationObjectId(mpxj.getLocationUniqueID());
       xml.setUnitOfMeasureObjectId(mpxj.getUnitOfMeasureUniqueID());
       xml.setShiftObjectId(mpxj.getShiftUniqueID());
+      xml.setPrimaryRoleObjectId(mpxj.getPrimaryRoleUniqueID());
 
       // Write both attributes for backward compatibility,
       // "DefaultUnitsPerTime" is the value read by recent versions of P6
