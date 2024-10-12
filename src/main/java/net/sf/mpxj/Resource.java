@@ -2637,6 +2637,46 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Retrieves the primary role unique ID.
+    *
+    * @return primary role unique ID
+    */
+   public Integer getPrimaryRoleUniqueID()
+   {
+      return (Integer) get(ResourceField.PRIMARY_ROLE_UNIQUE_ID);
+   }
+
+   /**
+    * Sets the primary role unique ID.
+    *
+    * @param uniqueID primary role unique ID
+    */
+   public void setPrimaryRoleUniqueID(Integer uniqueID)
+   {
+      set(ResourceField.PRIMARY_ROLE_UNIQUE_ID, uniqueID);
+   }
+
+   /**
+    * Retrieves the primary role.
+    *
+    * @return primary role
+    */
+   public Resource getPrimaryRole()
+   {
+      return getParentFile().getResources().getByUniqueID(getPrimaryRoleUniqueID());
+   }
+
+   /**
+    * Sets the primary role.
+    *
+    * @param role primary role
+    */
+   public void setShift(Resource role)
+   {
+      setPrimaryRoleUniqueID(role == null ? null : role.getUniqueID());
+   }
+
+   /**
     * Maps a field index to a ResourceField instance.
     *
     * @param fields array of fields used as the basis for the mapping.

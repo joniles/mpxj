@@ -1612,6 +1612,7 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.UNIT_OF_MEASURE_UNIQUE_ID.getValue()] = "Unit of Measure Unique ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.DEFAULT_UNITS.getValue()] = "Default Units";
       RESOURCE_COLUMNS_ARRAY[ResourceField.SHIFT_UNIQUE_ID.getValue()] = "Shift Unique ID";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.PRIMARY_ROLE_UNIQUE_ID.getValue()] = "Primary Role Unique ID";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.START.getValue()] = "Start";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_UNITS.getValue()] = "Assignment Units";
