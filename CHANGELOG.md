@@ -1,6 +1,9 @@
 # Changelog
 
-## 13.4.2 (unreleased)
+## 13.4.3 (unreleased)
+
+## 13.4.2 (2024-10-08)
+* Added the `ProjectCalendarDays.getCalendarHours()` method to allow direct access to the `ProjectCalendarHours` instances for each day of the week.
 
 ## 13.4.1 (2024-10-07)
 * Added the `ProjectCalendarDays.getCalendarDayTypes()` method to allow direct access to the `DayType` instances for each day of the week.
