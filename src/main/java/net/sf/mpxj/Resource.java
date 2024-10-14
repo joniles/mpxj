@@ -2690,7 +2690,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     *
     * @param role primary role
     */
-   public void setShift(Resource role)
+   public void setPrimaryRole(Resource role)
    {
       setPrimaryRoleUniqueID(role == null ? null : role.getUniqueID());
    }
