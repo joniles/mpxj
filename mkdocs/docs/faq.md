@@ -125,7 +125,7 @@ running the JUnit test runner with the -noloading command line option, other
 taking other steps to disable JUnit classloading was recommended. This problem
 is not believed to affect the more recent version of JAXB now used by MPXJ.
 
-## .NET Core
+## .NET
 **When using MPXJ from .NET Core I get an error similar to `No data is available
   for encoding 437. For information on defining a custom encoding, see the
   documentation for the Encoding.RegisterProvider method.`**
@@ -137,6 +137,28 @@ resolve this issue add the following to your code:
 ```c#
 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 ```
+
+**I have set up a simple test project using MPXJ.Net, and when I try to do
+anything with MPXJ, an exception is thrown**
+
+One of the libraries MPXJ depends on throws and catches one or more exceptions
+as part of its normal flow of control. These exceptions are handled, so you can
+keep pressing continue, and your code should run normally after that.
+Visual Studio is breaking on these exceptions even though they are
+handled. You can prevent this behavior by adding this condition to the
+"Common Language Runtime Exceptions" entry in the exception
+settings window in Visual Studio: `Module Name Not Equals org.glassfish.*`,
+as illustrated below.
+
+![Visual Studio Exception Settings](images/exception-settings.png)
+
+**I have set up a simple test project using MPXJ.Net, and when I try to do
+anything with MPXJ, Visual Studio crashes**
+
+This is the same problem as described above. MPXJ is catching an exception being
+raised in one of MPXJ's dependencies and, in the process, crashing. The
+solution is the same: add the condition described above to ensure that Visual
+Studio ignores this exception.
 
 ## log4j2
 When you start MPXJ, you may see the following message written to the console:
