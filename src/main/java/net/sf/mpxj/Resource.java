@@ -1755,6 +1755,40 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Add a role assignment, and a skill level for the role, to this resource. Replaces any existing
+    * assignment for this role.
+    *
+    * @param role role to assign to the resource
+    * @param skillLevel skill level
+    */
+   public void addRoleAssignment(Resource role, SkillLevel skillLevel)
+   {
+      m_roleAssignments.put(role, skillLevel);
+   }
+
+   /**
+    * Remove a role assignment from this resource.
+    *
+    * @param role role to remove
+    */
+   public void removeRoleAssignment(Resource role)
+   {
+      m_roleAssignments.remove(role);
+   }
+
+   /**
+    * Retrieve a map of the roles assigned to this resource.
+    * The roles are represented as the keys in this map
+    * with the skill level represented as the value.
+    *
+    * @return role assignment map
+    */
+   public Map<Resource, SkillLevel> getRoleAssignments()
+   {
+      return m_roleAssignments;
+   }
+
+   /**
     * Where a resource in an MPP file represents a resource from a subproject,
     * this value will be non-zero. The value itself is the unique ID value shown
     * in the parent project. To retrieve the value of the resource unique ID in
@@ -2622,6 +2656,46 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Retrieves the primary role unique ID.
+    *
+    * @return primary role unique ID
+    */
+   public Integer getPrimaryRoleUniqueID()
+   {
+      return (Integer) get(ResourceField.PRIMARY_ROLE_UNIQUE_ID);
+   }
+
+   /**
+    * Sets the primary role unique ID.
+    *
+    * @param uniqueID primary role unique ID
+    */
+   public void setPrimaryRoleUniqueID(Integer uniqueID)
+   {
+      set(ResourceField.PRIMARY_ROLE_UNIQUE_ID, uniqueID);
+   }
+
+   /**
+    * Retrieves the primary role.
+    *
+    * @return primary role
+    */
+   public Resource getPrimaryRole()
+   {
+      return getParentFile().getResources().getByUniqueID(getPrimaryRoleUniqueID());
+   }
+
+   /**
+    * Sets the primary role.
+    *
+    * @param role primary role
+    */
+   public void setShift(Resource role)
+   {
+      setPrimaryRoleUniqueID(role == null ? null : role.getUniqueID());
+   }
+
+   /**
     * Maps a field index to a ResourceField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
@@ -2886,6 +2960,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * List of all assignments for this resource.
     */
    private final List<ResourceAssignment> m_assignments = new ArrayList<>();
+   private final Map<Resource, SkillLevel> m_roleAssignments = new HashMap<>();
 
    /**
     * This list holds references to all resources that are children of the

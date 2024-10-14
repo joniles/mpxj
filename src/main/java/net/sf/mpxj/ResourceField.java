@@ -603,6 +603,7 @@ public enum ResourceField implements FieldType
    UNIT_OF_MEASURE_UNIQUE_ID(DataType.INTEGER),
    DEFAULT_UNITS(DataType.UNITS),
    SHIFT_UNIQUE_ID(DataType.INTEGER),
+   PRIMARY_ROLE_UNIQUE_ID(DataType.INTEGER),
    FINISH(DataType.DATE);
 
    /**

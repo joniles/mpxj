@@ -53,6 +53,7 @@ import java.time.DayOfWeek;
 
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftPeriod;
+import net.sf.mpxj.SkillLevel;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
@@ -119,6 +120,7 @@ import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
 import net.sf.mpxj.primavera.schema.ResourceCurveType;
 import net.sf.mpxj.primavera.schema.ResourceCurveValuesType;
 import net.sf.mpxj.primavera.schema.ResourceRateType;
+import net.sf.mpxj.primavera.schema.ResourceRoleType;
 import net.sf.mpxj.primavera.schema.ResourceType;
 import net.sf.mpxj.primavera.schema.RoleRateType;
 import net.sf.mpxj.primavera.schema.RoleType;
@@ -215,6 +217,7 @@ final class PrimaveraPMProjectWriter
             writeCalendars();
             writeResources();
             writeRoles();
+            writeRoleAssignments();
             writeResourceRates();
             writeRoleRates();
             writeTasks();
@@ -897,6 +900,7 @@ final class PrimaveraPMProjectWriter
       xml.setLocationObjectId(mpxj.getLocationUniqueID());
       xml.setUnitOfMeasureObjectId(mpxj.getUnitOfMeasureUniqueID());
       xml.setShiftObjectId(mpxj.getShiftUniqueID());
+      xml.setPrimaryRoleObjectId(mpxj.getPrimaryRoleUniqueID());
 
       // Write both attributes for backward compatibility,
       // "DefaultUnitsPerTime" is the value read by recent versions of P6
@@ -931,6 +935,32 @@ final class PrimaveraPMProjectWriter
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setResponsibilities(getNotes(mpxj.getNotesObject()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
+   }
+
+   /**
+    * Write all resource role assignments.
+    */
+   private void writeRoleAssignments()
+   {
+      m_projectFile.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeRoleAssignments(r));
+   }
+
+   /**
+    * Write role assignments for a single resource.
+    *
+    * @param resource resource
+    */
+   private void writeRoleAssignments(Resource resource)
+   {
+      for (Map.Entry<Resource, SkillLevel> entry : resource.getRoleAssignments().entrySet().stream().sorted(Comparator.comparing(e -> e.getKey().getUniqueID())).collect(Collectors.toList()))
+      {
+         ResourceRoleType assignment = m_factory.createResourceRoleType();
+         m_apibo.getResourceRole().add(assignment);
+
+         assignment.setResourceObjectId(resource.getUniqueID());
+         assignment.setRoleObjectId(entry.getKey().getUniqueID());
+         assignment.setProficiency(SkillLevelHelper.getXmlFromInstance(entry.getValue()));
+      }
    }
 
    /**

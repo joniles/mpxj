@@ -50,6 +50,7 @@ import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.GraphicalIndicator;
 import net.sf.mpxj.GraphicalIndicatorCriteria;
+import net.sf.mpxj.SkillLevel;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.ExpenseItem;
@@ -590,6 +591,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeFields(resource, m_projectFile.getUserDefinedFields().getResourceFields().toArray(new FieldType[0]));
          writeCostRateTables(resource);
          writeAvailabilityTable(resource);
+         writeRoleAssignments(resource);
          m_writer.writeEndObject();
       }
       m_writer.writeEndList();
@@ -896,6 +898,31 @@ public final class JsonWriter extends AbstractProjectWriter
          writeDoubleField("units", entry.getUnits());
          m_writer.writeEndObject();
       }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write the role assignments for a resource.
+    *
+    * @param resource resource
+    */
+   private void writeRoleAssignments(Resource resource) throws IOException
+   {
+      Map<Resource, SkillLevel> map = resource.getRoleAssignments();
+      if (map.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("role_assignments");
+      for (Map.Entry<Resource, SkillLevel> entry : map.entrySet().stream().sorted(Comparator.comparing(o -> o.getKey().getUniqueID())).collect(Collectors.toList()))
+      {
+         m_writer.writeStartObject(null);
+         writeIntegerField("resource_id", entry.getKey().getUniqueID());
+         writeStringField("skill_level", entry.getValue());
+         m_writer.writeEndObject();
+      }
+
       m_writer.writeEndList();
    }
 

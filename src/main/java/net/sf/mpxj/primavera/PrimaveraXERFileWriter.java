@@ -70,6 +70,7 @@ import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftPeriod;
+import net.sf.mpxj.SkillLevel;
 import net.sf.mpxj.Step;
 import net.sf.mpxj.StructuredNotes;
 import net.sf.mpxj.Task;
@@ -149,6 +150,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeResources();
          writeActivityCodes();
          writeResourceRates();
+         writeRoleAssignments();
          writeActivities();
          writeWbsNotes();
          writeActivityCodeValues();
@@ -692,6 +694,62 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    }
 
    /**
+    * Write all resource role assignments.
+    */
+   private void writeRoleAssignments()
+   {
+      List<Map<String, Object>> assignments = m_file.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID)).flatMap(r -> getRoleAssignments(r).stream()).collect(Collectors.toList());
+      if (assignments.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("RSRCROLE", ROLE_ASSIGNMENT_COLUMNS);
+      assignments.forEach(a -> m_writer.writeRecord(ROLE_ASSIGNMENT_COLUMNS, a));
+   }
+
+   /**
+    * Retrieve the role assignment data for a single resource.
+    *
+    * @param resource resource
+    * @return list of maps containing role assignment data
+    */
+   private List<Map<String, Object>> getRoleAssignments(Resource resource)
+   {
+      if (resource.getRoleAssignments().isEmpty())
+      {
+         return Collections.emptyList();
+      }
+
+      List<Map<String, Object>> result = new ArrayList<>();
+      Integer resourceUniqueID = resource.getUniqueID();
+      String resourceShortName = getResourceShortName(resource);
+      String resourceName = StringHelper.stripControlCharacters(resource.getName());
+      ResourceType resourceType = resource.getType();
+      Integer resourcePrimaryRoleID = resource.getPrimaryRoleUniqueID();
+
+      for (Map.Entry<Resource, SkillLevel> entry : resource.getRoleAssignments().entrySet().stream().sorted(Comparator.comparing(e -> e.getKey().getUniqueID())).collect(Collectors.toList()))
+      {
+         Map<String, Object> map = new HashMap<>();
+         Resource role = entry.getKey();
+
+         map.put("rsrc_id", resourceUniqueID);
+         map.put("role_id", role.getUniqueID());
+         map.put("skill_level", entry.getValue());
+         map.put("role_short_name", getRoleShortName(role));
+         map.put("role_name", StringHelper.stripControlCharacters(role.getName()));
+         map.put("rsrc_short_name", resourceShortName);
+         map.put("rsrc_name", resourceName);
+         map.put("rsrc_type", resourceType);
+         map.put("rsrc_role_id", resourcePrimaryRoleID);
+
+         result.add(map);
+      }
+
+      return result;
+   }
+
+   /**
     * Create notes records for all WBS.
     */
    private void populateWbsNotes()
@@ -1013,6 +1071,16 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return type == null ? PercentCompleteType.DURATION : type;
    }
 
+   private static String getResourceShortName(Resource resource)
+   {
+      return resource.getResourceID() == null || resource.getResourceID().isEmpty() ? RESOURCE_ID_PREFIX + resource.getUniqueID() : resource.getResourceID();
+   }
+
+   public static String getRoleShortName(Resource role)
+   {
+      return role.getResourceID() == null || role.getResourceID().isEmpty() ? ROLE_ID_PREFIX + role.getUniqueID() : role.getResourceID();
+   }
+
    private Charset m_charset = CharsetHelper.CP1252;
    private ProjectFile m_file;
    private XerWriter m_writer;
@@ -1056,7 +1124,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ROLE_COLUMNS.put("parent_role_id", r -> r.getParentResourceUniqueID());
       ROLE_COLUMNS.put("seq_num", r -> r.getSequenceNumber());
       ROLE_COLUMNS.put("role_name", r -> StringHelper.stripControlCharacters(r.getName()));
-      ROLE_COLUMNS.put("role_short_name", r -> r.getResourceID() == null || r.getResourceID().isEmpty() ? ROLE_ID_PREFIX + r.getUniqueID() : r.getResourceID());
+      ROLE_COLUMNS.put("role_short_name", r -> getRoleShortName(r));
       ROLE_COLUMNS.put("pobs_id", r -> "");
       ROLE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       ROLE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
@@ -1099,7 +1167,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("rsrc_id", r -> r.getUniqueID());
       RESOURCE_COLUMNS.put("parent_rsrc_id", r -> r.getParentResourceUniqueID());
       RESOURCE_COLUMNS.put("clndr_id", r -> r.getCalendarUniqueID());
-      RESOURCE_COLUMNS.put("role_id", r -> "");
+      RESOURCE_COLUMNS.put("role_id", r -> r.getPrimaryRoleUniqueID());
       RESOURCE_COLUMNS.put("shift_id", r -> r.getShiftUniqueID());
       RESOURCE_COLUMNS.put("user_id", r -> "");
       RESOURCE_COLUMNS.put("pobs_id", r -> "");
@@ -1110,7 +1178,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("office_phone", r -> "");
       RESOURCE_COLUMNS.put("other_phone", r -> "");
       RESOURCE_COLUMNS.put("rsrc_name", r -> StringHelper.stripControlCharacters(r.getName()));
-      RESOURCE_COLUMNS.put("rsrc_short_name", r -> r.getResourceID() == null || r.getResourceID().isEmpty() ? RESOURCE_ID_PREFIX + r.getUniqueID() : r.getResourceID());
+      RESOURCE_COLUMNS.put("rsrc_short_name", r -> getResourceShortName(r));
       RESOURCE_COLUMNS.put("rsrc_title_name", r -> "");
       RESOURCE_COLUMNS.put("def_qty_per_hr", r -> r.getDefaultUnits() == null || r.getDefaultUnits().doubleValue() == 0.0 ? null : Double.valueOf(r.getDefaultUnits().doubleValue() / 100.0));
       RESOURCE_COLUMNS.put("cost_qty_type", r -> "QT_Hour");
@@ -1635,5 +1703,19 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       SHIFT_PERIOD_COLUMNS.put("shift_period_id", s -> s.getUniqueID());
       SHIFT_PERIOD_COLUMNS.put("shift_id", s -> s.getParentShift().getUniqueID());
       SHIFT_PERIOD_COLUMNS.put("shift_start_hr_num", s -> Integer.valueOf(s.getStart().getHour()));
+   }
+
+   private static final Map<String, ExportFunction<Map<String, Object>>> ROLE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      ROLE_ASSIGNMENT_COLUMNS.put("rsrc_id", v -> v.get("rsrc_id"));
+      ROLE_ASSIGNMENT_COLUMNS.put("role_id", v -> v.get("role_id"));
+      ROLE_ASSIGNMENT_COLUMNS.put("skill_level", v -> v.get("skill_level"));
+      ROLE_ASSIGNMENT_COLUMNS.put("role_short_name", v -> v.get("role_short_name"));
+      ROLE_ASSIGNMENT_COLUMNS.put("role_name", v -> v.get("role_name"));
+      ROLE_ASSIGNMENT_COLUMNS.put("rsrc_short_name", v -> v.get("rsrc_short_name"));
+      ROLE_ASSIGNMENT_COLUMNS.put("rsrc_name", v -> v.get("rsrc_name"));
+      ROLE_ASSIGNMENT_COLUMNS.put("rsrc_type", v -> v.get("rsrc_type"));
+      ROLE_ASSIGNMENT_COLUMNS.put("rsrc_role_id", v -> v.get("rsrc_role_id"));
    }
 }
