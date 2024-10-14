@@ -160,6 +160,18 @@ raised in one of MPXJ's dependencies and, in the process, crashing. The
 solution is the same: add the condition described above to ensure that Visual
 Studio ignores this exception.
 
+**I have set up a simple test project using MPXJ.Net, but when I run it I get
+this error `System.IO.FileNotFoundException: 'Could not load file or assembly
+'mpxj, Version=(version number), Culture=neutral, PublicKeyToken=(token)'
+or one of its dependencies. The system cannot find the file specified.'`**
+
+This is typically caused by MPXJ.Net being added as a dependency to a non
+SDK-style project. MPXJ.Net will only work with an SDK-style project.
+If you open your `csproj` file in a text editor, the first line should look
+something like this: `<Project Sdk="Microsoft.NET.Sdk">`. If your `csproj`
+file is different you will need to create a new SDK-style project. Sample
+projects in this form can be found [in this repository](https://github.com/joniles/mpxj-dotnet-samples).
+
 ## log4j2
 When you start MPXJ, you may see the following message written to the console:
 
