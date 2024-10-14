@@ -1,6 +1,8 @@
 # Changelog
 
-## 13.4.3 (unreleased)
+## 13.5.0 (unreleased)
+* Added support for reading and writing Resource Role Assignments for Primavera schedules. The `Resource.getRoleAssignments()` method retrieves a map representing the roles a resource is assigned to, along with the skill level for each assignment. The `Resource.addRoleAssignment()` and `Resource.removeRoleAssignment()` methods allow role assignments to be added and removed.
+* Added support for the Resource Primary Role attribute, which is read from and written to Primavera schedules.
 
 ## 13.4.2 (2024-10-08)
 * Added the `ProjectCalendarDays.getCalendarHours()` method to allow direct access to the `ProjectCalendarHours` instances for each day of the week.

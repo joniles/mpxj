@@ -109,6 +109,10 @@
 <td class="colFirst"><a href="#net.sf.mpxj.mspdi">net.sf.mpxj.mspdi</a></td>
 <td class="colLast">&nbsp;</td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><a href="#net.sf.mpxj.primavera">net.sf.mpxj.primavera</a></td>
+<td class="colLast">&nbsp;</td>
+</tr>
 </tbody>
 </table>
 </li>
@@ -155,26 +159,32 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a></code></td>
+<td class="colLast"><span class="typeNameLabel">Resource.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/Resource.html#getPrimaryRole--">getPrimaryRole</a></span>()</code>
+<div class="block">Retrieves the primary role.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code><a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a></code></td>
 <td class="colLast"><span class="typeNameLabel">ResourceAssignment.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/ResourceAssignment.html#getResource--">getResource</a></span>()</code>
 <div class="block">This method retrieves a reference to the resource with which this
  assignment is associated.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a></code></td>
 <td class="colLast"><span class="typeNameLabel">ProjectFile.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/ProjectFile.html#getResourceByID-java.lang.Integer-">getResourceByID</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;id)</code>
 <div class="block">This method allows an arbitrary resource to be retrieved based
  on its ID field.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a></code></td>
 <td class="colLast"><span class="typeNameLabel">ProjectFile.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/ProjectFile.html#getResourceByUniqueID-java.lang.Integer-">getResourceByUniqueID</a></span>(<a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Integer.html?is-external=true" title="class or interface in java.lang">Integer</a>&nbsp;id)</code>
 <div class="block">This method allows an arbitrary resource to be retrieved based
  on its UniqueID field.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a></code></td>
 <td class="colLast"><span class="typeNameLabel">ResourceAssignment.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/ResourceAssignment.html#getRole--">getRole</a></span>()</code>
 <div class="block">Retrieve the role in which this resource assignment is being performed.</div>
@@ -216,6 +226,12 @@
 <div class="block">Retrieve a list of the resources which use this calendar.</div>
 </td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code><a href="https://docs.oracle.com/javase/8/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>,<a href="../../../../net/sf/mpxj/SkillLevel.html" title="enum in net.sf.mpxj">SkillLevel</a>&gt;</code></td>
+<td class="colLast"><span class="typeNameLabel">Resource.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/Resource.html#getRoleAssignments--">getRoleAssignments</a></span>()</code>
+<div class="block">Retrieve a map of the roles assigned to this resource.</div>
+</td>
+</tr>
 </tbody>
 </table>
 <table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
@@ -239,46 +255,59 @@
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><span class="typeNameLabel">Resource.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/Resource.html#addRoleAssignment-net.sf.mpxj.Resource-net.sf.mpxj.SkillLevel-">addRoleAssignment</a></span>(<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;role,
+                 <a href="../../../../net/sf/mpxj/SkillLevel.html" title="enum in net.sf.mpxj">SkillLevel</a>&nbsp;skillLevel)</code>
+<div class="block">Add a role assignment, and a skill level for the role, to this resource.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><span class="typeNameLabel">Resource.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/Resource.html#compareTo-net.sf.mpxj.Resource-">compareTo</a></span>(<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;o)</code>
 <div class="block">This method implements the only method in the Comparable interface.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="typeNameLabel">EventManager.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/EventManager.html#fireResourceReadEvent-net.sf.mpxj.Resource-">fireResourceReadEvent</a></span>(<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;resource)</code>
 <div class="block">This method is called to alert project listeners to the fact that
  a resource has been read from a project file.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="typeNameLabel">EventManager.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/EventManager.html#fireResourceWrittenEvent-net.sf.mpxj.Resource-">fireResourceWrittenEvent</a></span>(<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;resource)</code>
 <div class="block">This method is called to alert project listeners to the fact that
  a resource has been written to a project file.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/sf/mpxj/ResourceAssignment.html" title="class in net.sf.mpxj">ResourceAssignment</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Task.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/Task.html#getExistingResourceAssignment-net.sf.mpxj.Resource-">getExistingResourceAssignment</a></span>(<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;resource)</code>
 <div class="block">Retrieves an existing resource assignment if one is present,
  to prevent duplicate resource assignments being added.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="typeNameLabel">Resource.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/Resource.html#removeChildResource-net.sf.mpxj.Resource-">removeChildResource</a></span>(<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;child)</code>
 <div class="block">Removes a child resource.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="typeNameLabel">ResourceContainer.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/ResourceContainer.html#removed-net.sf.mpxj.Resource-">removed</a></span>(<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;resource)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="typeNameLabel">ProjectFile.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/ProjectFile.html#removeResource-net.sf.mpxj.Resource-">removeResource</a></span>(<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;resource)</code>
 <div class="block">This method is used to remove a resource from the project.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><span class="typeNameLabel">Resource.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/Resource.html#removeRoleAssignment-net.sf.mpxj.Resource-">removeRoleAssignment</a></span>(<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;role)</code>
+<div class="block">Remove a role assignment from this resource.</div>
 </td>
 </tr>
 <tr class="rowColor">
@@ -288,6 +317,12 @@
 </td>
 </tr>
 <tr class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><span class="typeNameLabel">Resource.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/Resource.html#setPrimaryRole-net.sf.mpxj.Resource-">setPrimaryRole</a></span>(<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;role)</code>
+<div class="block">Sets the primary role.</div>
+</td>
+</tr>
+<tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><span class="typeNameLabel">ResourceAssignment.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/ResourceAssignment.html#setRole-net.sf.mpxj.Resource-">setRole</a></span>(<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;role)</code>
 <div class="block">Set the role in which this resource assignment is being performed.</div>
@@ -401,6 +436,24 @@
 <div class="block">Print a time unit from a rate, and handle special case
  for non-work resources.</div>
 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList"><a name="net.sf.mpxj.primavera">
+<!--   -->
+</a>
+<h3>Uses of <a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a> in <a href="../../../../net/sf/mpxj/primavera/package-summary.html">net.sf.mpxj.primavera</a></h3>
+<table class="useSummary" border="0" cellpadding="3" cellspacing="0" summary="Use table, listing methods, and an explanation">
+<caption><span>Methods in <a href="../../../../net/sf/mpxj/primavera/package-summary.html">net.sf.mpxj.primavera</a> with parameters of type <a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a></code></td>
+<td class="colLast"><span class="typeNameLabel">PrimaveraXERFileWriter.</span><code><span class="memberNameLink"><a href="../../../../net/sf/mpxj/primavera/PrimaveraXERFileWriter.html#getRoleShortName-net.sf.mpxj.Resource-">getRoleShortName</a></span>(<a href="../../../../net/sf/mpxj/Resource.html" title="class in net.sf.mpxj">Resource</a>&nbsp;role)</code>&nbsp;</td>
 </tr>
 </tbody>
 </table>
