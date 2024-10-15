@@ -135,40 +135,44 @@ class MapRow implements Row
 
    @Override public final boolean getBoolean(String name)
    {
+      Boolean result = getBooleanObject(name);
+      return result != null && result.booleanValue();
+   }
+
+   @Override public final Boolean getBooleanObject(String name)
+   {
       try
       {
-         boolean result = false;
          Object value = getObject(name);
-         if (value != null)
+         if (value == null)
          {
-            if (value instanceof Boolean)
-            {
-               result = BooleanHelper.getBoolean((Boolean) value);
-            }
-            else
-            {
-               if (value instanceof Number)
-               {
-                  // generally all non-zero numbers are treated as truthy
-                  result = ((Number) value).doubleValue() != 0.0;
-               }
-               else
-               {
-                  if (value instanceof String)
-                  {
-                     result = parseBoolean((String) value);
-                  }
-               }
-            }
+            return null;
          }
-         return result;
+
+         if (value instanceof Boolean)
+         {
+            return (Boolean)value;
+         }
+
+         if (value instanceof Number)
+         {
+            // generally all non-zero numbers are treated as truthy
+            return Boolean.valueOf(((Number) value).doubleValue() != 0.0);
+         }
+
+         if (value instanceof String)
+         {
+            return parseBoolean((String) value);
+         }
+
+         return null;
       }
 
       catch (Exception ex)
       {
          if (m_ignoreErrors)
          {
-            return false;
+            return null;
          }
          throw ex;
       }
@@ -253,9 +257,9 @@ class MapRow implements Row
     * @param value string representation
     * @return Boolean value
     */
-   private boolean parseBoolean(String value)
+   private Boolean parseBoolean(String value)
    {
-      return value != null && (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("y") || value.equalsIgnoreCase("yes"));
+      return Boolean.valueOf(value != null && (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("y") || value.equalsIgnoreCase("yes")));
    }
 
    protected final Map<String, Object> m_map;

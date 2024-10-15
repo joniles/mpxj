@@ -2165,7 +2165,7 @@ final class PrimaveraReader
 
             case BOOLEAN:
             {
-               value = Boolean.valueOf(row.getBoolean(name));
+               value = row.getBooleanObject(name);
                break;
             }
 
