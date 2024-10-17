@@ -59,7 +59,6 @@ import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftContainer;
 import net.sf.mpxj.ShiftPeriod;
 import net.sf.mpxj.ShiftPeriodContainer;
-import net.sf.mpxj.SkillLevel;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
@@ -2112,7 +2111,7 @@ final class PrimaveraReader
             continue;
          }
 
-         Integer roleID =  row.getInteger("role_id");
+         Integer roleID = row.getInteger("role_id");
          if (roleID == null)
          {
             continue;

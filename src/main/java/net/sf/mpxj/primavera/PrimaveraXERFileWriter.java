@@ -1076,7 +1076,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return resource.getResourceID() == null || resource.getResourceID().isEmpty() ? RESOURCE_ID_PREFIX + resource.getUniqueID() : resource.getResourceID();
    }
 
-   public static String getRoleShortName(Resource role)
+   private static String getRoleShortName(Resource role)
    {
       return role.getResourceID() == null || role.getResourceID().isEmpty() ? ROLE_ID_PREFIX + role.getUniqueID() : role.getResourceID();
    }
