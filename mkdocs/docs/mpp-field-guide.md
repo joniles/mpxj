@@ -191,6 +191,9 @@ Fixed Cost Accrual|✓|✓|✓|✓
 Free Slack| |✓|✓|✓
 GUID| | |✓|✓
 Hide Bar|✓|✓|✓|✓
+Hide Duration| | | |✓
+Hide Finish| | | |✓
+Hide Start| | | |✓
 Hyperlink|✓|✓|✓|✓
 Hyperlink Address|✓|✓|✓|✓
 Hyperlink Data| |✓|✓|✓
