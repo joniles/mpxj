@@ -174,7 +174,6 @@ public class InputStreamHelper
     */
    private static void processZipStream(File dir, InputStream inputStream) throws IOException
    {
-      String canonicalDestinationDirPath = dir.getCanonicalPath();
       ZipInputStream zip = new ZipInputStream(inputStream);
       while (true)
       {
@@ -187,8 +186,7 @@ public class InputStreamHelper
          File file = new File(dir, entry.getName());
 
          // https://snyk.io/research/zip-slip-vulnerability
-         String canonicalDestinationFile = file.getCanonicalPath();
-         if (!canonicalDestinationFile.startsWith(canonicalDestinationDirPath + File.separator))
+         if (!file.getCanonicalFile().toPath().startsWith(dir.getCanonicalFile().toPath()))
          {
             throw new IOException("Entry is outside of the target dir: " + entry.getName());
          }
