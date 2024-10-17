@@ -1046,6 +1046,7 @@ final class MPP14Reader implements MPPVariantReader
             metaData2BitFlags = PROJECT2016_TASK_META_DATA2_BIT_FLAGS;
          }
       }
+      
       for (Integer uniqueID : uniqueIdArray)
       {
          offset = taskMap.get(uniqueID);
