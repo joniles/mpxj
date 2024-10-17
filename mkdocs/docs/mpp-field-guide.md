@@ -191,9 +191,6 @@ Fixed Cost Accrual|✓|✓|✓|✓
 Free Slack| |✓|✓|✓
 GUID| | |✓|✓
 Hide Bar|✓|✓|✓|✓
-Hide Duration| | | |✓
-Hide Finish| | | |✓
-Hide Start| | | |✓
 Hyperlink|✓|✓|✓|✓
 Hyperlink Address|✓|✓|✓|✓
 Hyperlink Data| |✓|✓|✓
@@ -236,6 +233,9 @@ Rollup|✓|✓|✓|✓
 Scheduled Duration| | | |✓
 Scheduled Finish| | | |✓
 Scheduled Start| | | |✓
+Show Duration Text| | | |✓
+Show Finish Text| | | |✓
+Show Start Text| | | |✓
 Splits| |✓|✓|✓
 Sprint ID| | | |✓
 Start|✓|✓|✓|✓
