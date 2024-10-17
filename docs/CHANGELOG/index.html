@@ -291,9 +291,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1350-unreleased" class="md-nav__link">
+  <a href="#1351-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.5.0 (unreleased)
+      13.5.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1350-2024-10-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.5.0 (2024-10-17)
     </span>
   </a>
   
@@ -3966,9 +3975,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1350-unreleased" class="md-nav__link">
+  <a href="#1351-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.5.0 (unreleased)
+      13.5.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1350-2024-10-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.5.0 (2024-10-17)
     </span>
   </a>
   
@@ -6285,10 +6303,13 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1350-unreleased">13.5.0 (unreleased)</h2>
+<h2 id="1351-unreleased">13.5.1 (unreleased)</h2>
+<h2 id="1350-2024-10-17">13.5.0 (2024-10-17)</h2>
 <ul>
 <li>Added support for reading and writing Resource Role Assignments for Primavera schedules. The <code>Resource.getRoleAssignments()</code> method retrieves a map representing the roles a resource is assigned to, along with the skill level for each assignment. The <code>Resource.addRoleAssignment()</code> and <code>Resource.removeRoleAssignment()</code> methods allow role assignments to be added and removed.</li>
 <li>Added support for the Resource Primary Role attribute, which is read from and written to Primavera schedules.</li>
+<li>Improve handling Boolean attributes with default values when reading XER files.</li>
+<li>Added the <code>getShowStartText</code>, <code>getShowFinishText</code> and <code>getShowDurationText</code> methods to the <code>Task</code> class. When working with manually scheduled tasks in Microsoft Project, users can potentially supply arbitrary text for the Start, Finish and Duration attributes. Microsoft Project still stores appropriate values for these attributes, which can be accessed in MPXJ as Start, Finish and Duration, but where the user has supplied text, these attributes are available as Start Text, Finish Text, and Duration Text. The methods added by this change allow the caller to determine which version of each attribute should be shown to the user in order to replicate what they see in Microsoft Project.</li>
 </ul>
 <h2 id="1342-2024-10-08">13.4.2 (2024-10-08)</h2>
 <ul>
