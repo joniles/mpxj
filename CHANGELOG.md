@@ -1,8 +1,12 @@
 # Changelog
 
-## 13.5.0 (unreleased)
+## 13.5.1 (unreleased)
+
+## 13.5.0 (2024-10-17)
 * Added support for reading and writing Resource Role Assignments for Primavera schedules. The `Resource.getRoleAssignments()` method retrieves a map representing the roles a resource is assigned to, along with the skill level for each assignment. The `Resource.addRoleAssignment()` and `Resource.removeRoleAssignment()` methods allow role assignments to be added and removed.
 * Added support for the Resource Primary Role attribute, which is read from and written to Primavera schedules.
+* Improve handling Boolean attributes with default values when reading XER files.
+* Added the `getShowStartText`, `getShowFinishText` and `getShowDurationText` methods to the `Task` class. When working with manually scheduled tasks in Microsoft Project, users can potentially supply arbitrary text for the Start, Finish and Duration attributes. Microsoft Project still stores appropriate values for these attributes, which can be accessed in MPXJ as Start, Finish and Duration, but where the user has supplied text, these attributes are available as Start Text, Finish Text, and Duration Text. The methods added by this change allow the caller to determine which version of each attribute should be shown to the user in order to replicate what they see in Microsoft Project.
 
 ## 13.4.2 (2024-10-08)
 * Added the `ProjectCalendarDays.getCalendarHours()` method to allow direct access to the `ProjectCalendarHours` instances for each day of the week.

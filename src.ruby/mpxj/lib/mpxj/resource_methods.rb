@@ -3329,6 +3329,13 @@ module MPXJ
       get_float_value(attribute_values['pool'])
     end
 
+    # Retrieve the Primary Role Unique ID value
+    #
+    # @return Primary Role Unique ID value
+    def primary_role_unique_id
+      get_integer_value(attribute_values['primary_role_unique_id'])
+    end
+
     # Retrieve the Priority value
     #
     # @return Priority value
@@ -4372,6 +4379,7 @@ module MPXJ
       'phone' => :string,
       'phonetics' => :string,
       'pool' => :numeric,
+      'primary_role_unique_id' => :integer,
       'priority' => :numeric,
       'project' => :string,
       'proposed_finish' => :date,
