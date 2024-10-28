@@ -233,6 +233,9 @@ Rollup|✓|✓|✓|✓
 Scheduled Duration| | | |✓
 Scheduled Finish| | | |✓
 Scheduled Start| | | |✓
+Show Duration Text| | | |✓
+Show Finish Text| | | |✓
+Show Start Text| | | |✓
 Splits| |✓|✓|✓
 Sprint ID| | | |✓
 Start|✓|✓|✓|✓

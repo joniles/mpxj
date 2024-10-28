@@ -6234,11 +6234,32 @@ module MPXJ
       get_integer_value(attribute_values['sequence_number'])
     end
 
+    # Retrieve the Show Duration Text value
+    #
+    # @return Show Duration Text value
+    def show_duration_text
+      get_boolean_value(attribute_values['show_duration_text'])
+    end
+
+    # Retrieve the Show Finish Text value
+    #
+    # @return Show Finish Text value
+    def show_finish_text
+      get_boolean_value(attribute_values['show_finish_text'])
+    end
+
     # Retrieve the Show On Board value
     #
     # @return Show On Board value
     def show_on_board
       attribute_values['show_on_board']
+    end
+
+    # Retrieve the Show Start Text value
+    #
+    # @return Show Start Text value
+    def show_start_text
+      get_boolean_value(attribute_values['show_start_text'])
     end
 
     # Retrieve the SPI value
@@ -7769,7 +7790,10 @@ module MPXJ
       'secondary_constraint_type' => :constraint,
       'section' => :string,
       'sequence_number' => :integer,
+      'show_duration_text' => :boolean,
+      'show_finish_text' => :boolean,
       'show_on_board' => :string,
+      'show_start_text' => :boolean,
       'spi' => :numeric,
       'splits' => :date_range_list,
       'sprint' => :string,

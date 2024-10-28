@@ -5452,6 +5452,39 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Returns true for manually scheduled tasks if the Start Text attribute should be
+    * displayed to the user rather than the Start attribute.
+    *
+    * @return true if Start Text should be displayed
+    */
+   public boolean getShowStartText()
+   {
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.SHOW_START_TEXT)));
+   }
+
+   /**
+    * Returns true for manually scheduled tasks if the Finish Text attribute should be
+    * displayed to the user rather than the Finish attribute.
+    *
+    * @return true if Finish Text should be displayed
+    */
+   public boolean getShowFinishText()
+   {
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.SHOW_FINISH_TEXT)));
+   }
+
+   /**
+    * Returns true for manually scheduled tasks if the Duration Text attribute should be
+    * displayed to the user rather than the Duration attribute.
+    *
+    * @return true if Duration Text should be displayed
+    */
+   public boolean getShowDurationText()
+   {
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.SHOW_DURATION_TEXT)));
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.

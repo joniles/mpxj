@@ -29,7 +29,6 @@ import java.util.UUID;
 
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.common.BooleanHelper;
 import net.sf.mpxj.common.NumberHelper;
 
 /**
@@ -151,7 +150,7 @@ class MapRow implements Row
 
          if (value instanceof Boolean)
          {
-            return (Boolean)value;
+            return (Boolean) value;
          }
 
          if (value instanceof Number)
