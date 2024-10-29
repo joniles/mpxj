@@ -1037,7 +1037,8 @@ public enum TaskField implements FieldType
    REMAINING_WORK_NONLABOR(DataType.DURATION),
    SHOW_START_TEXT(DataType.BOOLEAN),
    SHOW_FINISH_TEXT(DataType.BOOLEAN),
-   SHOW_DURATION_TEXT(DataType.BOOLEAN);
+   SHOW_DURATION_TEXT(DataType.BOOLEAN),
+   ACTIVITY_PERCENT_COMPLETE(DataType.PERCENTAGE);
 
    /**
     * Constructor.

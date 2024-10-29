@@ -149,6 +149,7 @@ Field|MPP8|MPP9|MPP12|MPP14
 % Work Complete|✓|✓|✓|✓
 Active|✓|✓|✓|✓
 Activity Codes|✓|✓|✓|✓
+Activity Percent Complete|✓|✓|✓|✓
 Actual Cost|✓|✓|✓|✓
 Actual Duration|✓|✓|✓|✓
 Actual Duration Units| |✓|✓|✓
