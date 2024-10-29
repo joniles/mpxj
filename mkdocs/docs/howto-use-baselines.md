@@ -348,6 +348,34 @@ contain 11 items, some of which may be null if the corresponding baseline has
 not been set. You can also remove a baseline from the current schedule using
 one of the `ProjectFile.clearBaseline()` methods.
 
+### Baseline Tasks
+As described above, when working with applications which store baselines as
+separate copies of the main schedule, MPXJ populates a set of baseline
+attributes on the `Task` class. For example Baseline Duration, Baseline Cost
+and so on will be populated from tasks in the linked baseline schedule. This
+aligns with how Microsoft Project works, and although in many cases these
+attributes provide enough information to be useful, there are still occasions
+when it would be best to have direct access to the baseline task from the
+original task. You are not then restricted by the baseline attributes provided
+by MPXJ, instead you can compare the two tasks in any way you choose.
+
+Providing your `ProjectFile` instance has come from an application which
+includes a copy of the baseline schedule, or you have manually attached a
+baseline schedule to the `ProjectFile` instance, you can use the
+`Task.getBaselineTask()` methods to retrieve the baseline task for the current
+`Task` instance, as illustrated below.
+
+```java
+ProjectFile project = new UniversalProjectReader().read("project-with-baseline.xml");
+Task task = project.getTaskByUniqueID(1);
+Task baselineTask = task.getBaselineTask();
+```
+
+Note that if no baseline task is present for the task you are working with, the
+`Task.getBaselineTask()` methods will return `null`. This will always be the
+case for MPP files as Microsoft Project doesn't keep a separate copy of the
+baseline schedule.
+
 ### Strategies
 
 In an earlier section the use of baseline strategies was noted. Classes which
