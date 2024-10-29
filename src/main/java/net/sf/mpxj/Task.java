@@ -5502,8 +5502,8 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * If a baseline has been added using one of the {@code ProjectFile.addBaseline}
-    * methods, this method will allow you to retrieve the baseline task associated
+    * If the parent ProjectFile has one or more baseline ProjectFile instances,
+    * this method will allow you to retrieve the baseline task associated
     * with this current task. If no baseline task is present this method will return null.
     *
     * @return baseline task or null
@@ -5514,8 +5514,8 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
-    * If a baseline has been added using one of the {@code ProjectFile.addBaseline}
-    * methods, this method will allow you to retrieve the baseline task associated
+    * If the parent ProjectFile has one or more baseline ProjectFile instances,
+    * this method will allow you to retrieve the baseline task associated
     * with this current task. If no baseline task is present this method will return null.
     *
     * @param index baseline index
