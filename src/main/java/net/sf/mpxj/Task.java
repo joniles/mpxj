@@ -5485,6 +5485,17 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * This accessor method returns the percent complete value for this task
+    * as defined by the Percent Complete Type attribute.
+    *
+    * @return activity percent complete
+    */
+   public Number getActivityPercentComplete()
+   {
+      return (Number) get(TaskField.ACTIVITY_PERCENT_COMPLETE);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.
@@ -5854,6 +5865,33 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return getParentFile().getRelations().getSuccessors(this);
    }
 
+   private Number calculateActivityPercentComplete()
+   {
+      PercentCompleteType type = getPercentCompleteType();
+      if (type == null)
+      {
+         return getPercentageComplete();
+      }
+
+      switch(type)
+      {
+         case UNITS:
+         {
+            return getPercentageWorkComplete();
+         }
+
+         case PHYSICAL:
+         {
+            return getPhysicalPercentComplete();
+         }
+
+         default:
+         {
+            return getPercentageComplete();
+         }
+      }
+   }
+
    /**
     * Supply a default value for constraint type.
     *
@@ -5957,6 +5995,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.EXTERNAL_PROJECT, Task::calculateExternalProject);
       CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::calculatePredecessors);
       CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::calculateSuccessors);
+      CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_PERCENT_COMPLETE, Task::calculateActivityPercentComplete);
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
@@ -5985,5 +6024,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       dependencies.calculatedField(TaskField.CRITICAL).dependsOn(TaskField.TOTAL_SLACK, TaskField.ACTUAL_FINISH);
       dependencies.calculatedField(TaskField.COMPLETE_THROUGH).dependsOn(TaskField.DURATION, TaskField.ACTUAL_START, TaskField.PERCENT_COMPLETE);
       dependencies.calculatedField(TaskField.EXTERNAL_PROJECT).dependsOn(TaskField.SUBPROJECT_FILE, TaskField.EXTERNAL_TASK);
+      dependencies.calculatedField(TaskField.ACTIVITY_PERCENT_COMPLETE).dependsOn(TaskField.PERCENT_COMPLETE_TYPE, TaskField.PERCENT_COMPLETE, TaskField.PERCENT_WORK_COMPLETE, TaskField.PHYSICAL_PERCENT_COMPLETE);
    }
 }
