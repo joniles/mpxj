@@ -5502,6 +5502,31 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * If the parent ProjectFile has one or more baseline ProjectFile instances,
+    * this method will allow you to retrieve the baseline task associated
+    * with this current task. If no baseline task is present this method will return null.
+    *
+    * @return baseline task or null
+    */
+   public Task getBaselineTask()
+   {
+      return getBaselineTask(0);
+   }
+
+   /**
+    * If the parent ProjectFile has one or more baseline ProjectFile instances,
+    * this method will allow you to retrieve the baseline task associated
+    * with this current task. If no baseline task is present this method will return null.
+    *
+    * @param index baseline index
+    * @return baseline task or null
+    */
+   public Task getBaselineTask(int index)
+   {
+      return getParentFile().getBaselineTaskMap(index).get(this);
+   }
+
+   /**
     * Maps a field index to a TaskField instance.
     *
     * @param fields array of fields used as the basis for the mapping.

@@ -42,9 +42,23 @@ public class DefaultBaselineStrategy implements BaselineStrategy
 
    @Override public void populateBaseline(ProjectFile project, ProjectFile baseline, int index)
    {
+      // Determine which fields we need to populate
       TaskField[] baselineFields = getBaselineFields(index);
+
+      // Create a map from the baseline task key values to the baseline tasks
       Map<Object, Task> map = baseline.getTasks().stream().filter(t -> getKeyForTask(t) != null).collect(Collectors.toMap(this::getKeyForTask, t -> t, (u, v) -> null));
-      project.getTasks().forEach(t -> populateBaseline(t, map.get(getKeyForTask(t)), baselineFields));
+
+      // Create a map from the current project tasks to the baseline projects tasks
+      Map<Task, Task> baselineTaskMap = project.getTasks().stream().filter(t-> map.get(getKeyForTask(t)) != null).collect(Collectors.toMap(t -> t, t-> map.get(getKeyForTask(t))));
+
+      // Cache this map to support the Task.getBaselineTask() method
+      project.setBaselineTaskMap(index, baselineTaskMap);
+
+      // Populate the baseline
+      // Note that we iterate through all the tasks rather than the map
+      // we've just populated. This ensures that tasks which don't have
+      // a baseline have their baseline values set to null.
+      project.getTasks().forEach(t -> populateBaseline(t, baselineTaskMap.get(t), baselineFields));
    }
 
    /**
