@@ -28,12 +28,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.common.NumberHelper;
@@ -754,6 +756,30 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * Set a map of tasks in this project to tasks in baseline project.
+    * Populated when a baseline is added.
+    *
+    * @param index baseline index
+    * @param map map of current project tasks to baseline project tasks
+    */
+   void setBaselineTaskMap(int index, Map<Task, Task> map)
+   {
+      m_baselineTaskMap.put(Integer.valueOf(index), map);
+   }
+
+   /**
+    * Map of tasks in this project to tasks in a baseline project.
+    * Populated when a baseline is added.
+    *
+    * @param index baseline index
+    * @return map of current project tasks to baseline project tasks
+    */
+   Map<Task, Task> getBaselineTaskMap(int index)
+   {
+      return m_baselineTaskMap.getOrDefault(Integer.valueOf(index), Collections.emptyMap());
+   }
+
+   /**
     * A convenience method used to retrieve a set of FieldType instances representing
     * all populated fields in the project.
     *
@@ -1013,6 +1039,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
+   private final Map<Integer, Map<Task,Task>> m_baselineTaskMap = new HashMap<>();
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
    private final ProjectFileSharedData m_shared;

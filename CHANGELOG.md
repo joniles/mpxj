@@ -1,6 +1,9 @@
 # Changelog
 
-## 13.5.1 (unreleased)
+## 13.5.2 (unreleased)
+
+## 13.5.1 (2024-10-28)
+* Fix CVE-2024-49771: Potential Path Traversal Vulnerability
 
 ## 13.5.0 (2024-10-17)
 * Added support for reading and writing Resource Role Assignments for Primavera schedules. The `Resource.getRoleAssignments()` method retrieves a map representing the roles a resource is assigned to, along with the skill level for each assignment. The `Resource.addRoleAssignment()` and `Resource.removeRoleAssignment()` methods allow role assignments to be added and removed.
