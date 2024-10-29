@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="13.5.2">
 			<action dev="joniles" type="update">Added the `Task.getBaselineTask()` methods. For applications where a separate baseline schedule is present or a baseline has been manually added to the `ProjectFile` instance, these methods will allow you to access the underlying baseline task instance from the current task instance.</action>
+			<action dev="joniles" type="update">Added the Activity Percent Complete attribute to the `Task` class. The value of this attribute will be the Duration, Physical or Units percent complete value, based on the Percent Complete Type setting. This attribute is provided as a convenience to match the Activity Percent Complete type value show in P6.</action>
 		</release>
 		<release date="2024-10-28" version="13.5.1">
 			<action dev="joniles" type="update">Fix CVE-2024-49771: Potential Path Traversal Vulnerability</action>
