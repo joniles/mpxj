@@ -359,7 +359,7 @@ when it would be best to have direct access to the baseline task from the
 original task. You are not then restricted by the baseline attributes provided
 by MPXJ, instead you can compare the two tasks in any way you choose.
 
-Providing your `ProjectFile` instance has come from an application which
+Providing your `ProjectFile` instance has come from a file or database which
 includes a copy of the baseline schedule, or you have manually attached a
 baseline schedule to the `ProjectFile` instance, you can use the
 `Task.getBaselineTask()` methods to retrieve the baseline task for the current
