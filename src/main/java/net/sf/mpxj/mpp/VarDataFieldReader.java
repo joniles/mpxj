@@ -96,6 +96,11 @@ abstract class VarDataFieldReader
       else
       {
          item = m_customFields.getCustomFieldValueItemByUniqueID(uniqueId);
+         if (item == null)
+         {
+            // If the unique ID doesn't give us a result, fall back on the guid
+            item = m_customFields.getCustomFieldValueItemByGuid(guid);
+         }
       }
 
       return item == null ? guid : coerceValue(item.getValue());
