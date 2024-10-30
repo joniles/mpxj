@@ -33,7 +33,8 @@ Work to build and maintain MPXJ is kindly supported by my sponsors:
 </p>
 
 Head over to my [sponsors page](https://github.com/sponsors/joniles)
-if you'd like to see your name and logo here!
+if you'd like to see your name and logo here,
+or if you just want to say thanks you could [buy me a coffee](https://buymeacoffee.com/joniles)!
 
 
 ## File Formats
@@ -75,8 +76,9 @@ to guide future development work. It would also be great to add a link to your
 website from the [MPXJ users page](https://www.mpxj.org/users/).
 
 Finally, if you're deriving value from MPXJ, please consider
-[sponsoring me](https://github.com/sponsors/joniles) to ensure I can continue
-enhancing and maintaining the library. Thank you!
+[sponsoring me](https://github.com/sponsors/joniles), to ensure I can continue
+enhancing and maintaining the library,
+or just [buy me a coffee](https://buymeacoffee.com/joniles) - thank you!
 
 ## Licensing
 MPXJ is distributed under the terms of the
