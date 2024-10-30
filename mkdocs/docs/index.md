@@ -33,7 +33,8 @@ Work to build and maintain MPXJ is kindly supported by my sponsors:
 </p>
 
 Head over to my [sponsors page](https://github.com/sponsors/joniles)
-if you'd like to see your name and logo here!
+if you'd like to see your name and logo here,
+or you could just [buy me a coffee](https://buymeacoffee.com/joniles)!
 
 
 ## File Formats
