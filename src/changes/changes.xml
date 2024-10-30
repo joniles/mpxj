@@ -11,7 +11,7 @@
 			<action dev="joniles" type="update">Improve retrieval of custom field values for certain MPP files.</action>
 		</release>
 		<release date="2024-10-28" version="13.5.1">
-			<action dev="joniles" type="update">Fix CVE-2024-49771: Potential Path Traversal Vulnerability</action>
+			<action dev="joniles" type="update">Fix CVE-2024-49771: Potential Path Traversal Vulnerability (Contributed by yyjLF and sprinkle).</action>
 		</release>
 		<release date="2024-10-17" version="13.5.0">
 			<action dev="joniles" type="update">Added support for reading and writing Resource Role Assignments for Primavera schedules. The `Resource.getRoleAssignments()` method retrieves a map representing the roles a resource is assigned to, along with the skill level for each assignment. The `Resource.addRoleAssignment()` and `Resource.removeRoleAssignment()` methods allow role assignments to be added and removed.</action>
