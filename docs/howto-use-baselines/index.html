@@ -1462,6 +1462,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#baseline-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Baseline Tasks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#strategies" class="md-nav__link">
     <span class="md-ellipsis">
       Strategies
@@ -1854,6 +1863,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#baseline-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Baseline Tasks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#strategies" class="md-nav__link">
     <span class="md-ellipsis">
       Strategies
@@ -2174,6 +2192,29 @@ Baseline 1 Finish, Baseline 2 Finish and so on will be populated.</p>
 contain 11 items, some of which may be null if the corresponding baseline has
 not been set. You can also remove a baseline from the current schedule using
 one of the <code>ProjectFile.clearBaseline()</code> methods.</p>
+<h3 id="baseline-tasks">Baseline Tasks</h3>
+<p>As described above, when working with applications which store baselines as
+separate copies of the main schedule, MPXJ populates a set of baseline
+attributes on the <code>Task</code> class. For example Baseline Duration, Baseline Cost
+and so on will be populated from tasks in the linked baseline schedule. This
+aligns with how Microsoft Project works, and although in many cases these
+attributes provide enough information to be useful, there are still occasions
+when it would be best to have direct access to the baseline task from the
+original task. You are not then restricted by the baseline attributes provided
+by MPXJ, instead you can compare the two tasks in any way you choose.</p>
+<p>Providing your <code>ProjectFile</code> instance has come from a file or database which
+includes a copy of the baseline schedule, or you have manually attached a
+baseline schedule to the <code>ProjectFile</code> instance, you can use the
+<code>Task.getBaselineTask()</code> methods to retrieve the baseline task for the current
+<code>Task</code> instance, as illustrated below.</p>
+<div class="highlight"><pre><span></span><code><span class="n">ProjectFile</span><span class="w"> </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UniversalProjectReader</span><span class="p">().</span><span class="na">read</span><span class="p">(</span><span class="s">&quot;project-with-baseline.xml&quot;</span><span class="p">);</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">project</span><span class="p">.</span><span class="na">getTaskByUniqueID</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">Task</span><span class="w"> </span><span class="n">baselineTask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">task</span><span class="p">.</span><span class="na">getBaselineTask</span><span class="p">();</span>
+</code></pre></div>
+<p>Note that if no baseline task is present for the task you are working with, the
+<code>Task.getBaselineTask()</code> methods will return <code>null</code>. This will always be the
+case for MPP files as Microsoft Project doesn't keep a separate copy of the
+baseline schedule.</p>
 <h3 id="strategies">Strategies</h3>
 <p>In an earlier section the use of baseline strategies was noted. Classes which
 implement the <code>BaselineStrategy</code> interface are used to control how tasks in the

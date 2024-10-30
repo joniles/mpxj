@@ -6322,9 +6322,14 @@
 
 <h1 id="changelog">Changelog</h1>
 <h2 id="1352-unreleased">13.5.2 (unreleased)</h2>
+<ul>
+<li>Added the <code>Task.getBaselineTask()</code> methods. For applications where a separate baseline schedule is present or a baseline has been manually added to the <code>ProjectFile</code> instance, these methods will allow you to access the underlying baseline task instance from the current task instance.</li>
+<li>Added the Activity Percent Complete attribute to the <code>Task</code> class. The value of this attribute will be the Duration, Physical or Units percent complete value, based on the Percent Complete Type setting. This attribute is provided as a convenience to match the Activity Percent Complete type value shown in P6.</li>
+<li>Improve retrieval of custom field values for certain MPP files.</li>
+</ul>
 <h2 id="1351-2024-10-28">13.5.1 (2024-10-28)</h2>
 <ul>
-<li>Fix CVE-2024-49771: Potential Path Traversal Vulnerability</li>
+<li>Fix CVE-2024-49771: Potential Path Traversal Vulnerability (Contributed by yyjLF and sprinkle).</li>
 </ul>
 <h2 id="1350-2024-10-17">13.5.0 (2024-10-17)</h2>
 <ul>

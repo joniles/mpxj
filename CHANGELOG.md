@@ -1,9 +1,12 @@
 # Changelog
 
 ## 13.5.2 (unreleased)
+* Added the `Task.getBaselineTask()` methods. For applications where a separate baseline schedule is present or a baseline has been manually added to the `ProjectFile` instance, these methods will allow you to access the underlying baseline task instance from the current task instance.
+* Added the Activity Percent Complete attribute to the `Task` class. The value of this attribute will be the Duration, Physical or Units percent complete value, based on the Percent Complete Type setting. This attribute is provided as a convenience to match the Activity Percent Complete type value shown in P6.
+* Improve retrieval of custom field values for certain MPP files.
 
 ## 13.5.1 (2024-10-28)
-* Fix CVE-2024-49771: Potential Path Traversal Vulnerability
+* Fix CVE-2024-49771: Potential Path Traversal Vulnerability (Contributed by yyjLF and sprinkle).
 
 ## 13.5.0 (2024-10-17)
 * Added support for reading and writing Resource Role Assignments for Primavera schedules. The `Resource.getRoleAssignments()` method retrieves a map representing the roles a resource is assigned to, along with the skill level for each assignment. The `Resource.addRoleAssignment()` and `Resource.removeRoleAssignment()` methods allow role assignments to be added and removed.
