@@ -372,8 +372,8 @@ public final class SDEFWriter extends AbstractProjectWriter
          {
             m_buffer.setLength(0);
             m_buffer.append("PRED ");
-            m_buffer.append(getActivityID(pred.getSourceTask())).append(" ");
-            m_buffer.append(getActivityID(pred.getTargetTask())).append(" ");
+            m_buffer.append(getActivityID(pred.getSuccessorTask())).append(" ");
+            m_buffer.append(getActivityID(pred.getPredecessorTask())).append(" ");
             String type = "C"; // default finish-to-start
             if (!pred.getType().toString().equals("FS"))
             {

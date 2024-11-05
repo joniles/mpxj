@@ -1147,7 +1147,7 @@ final class AstaReader
             }
 
             endTask.addPredecessor(new Relation.Builder()
-               .targetTask(startTask)
+               .predecessorTask(startTask)
                .type(type)
                .lag(lag)
                .uniqueID(row.getInteger("LINKID")));

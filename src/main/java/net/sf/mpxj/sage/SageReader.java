@@ -260,7 +260,7 @@ public final class SageReader extends AbstractProjectStreamReader
       // columns[7] - unknown
 
       task.addPredecessor(new Relation.Builder()
-         .targetTask(predecessor)
+         .predecessorTask(predecessor)
          .type(parseRelationType(columns, 2))
          .lag(parseDuration(columns, 3)));
    }

@@ -1018,7 +1018,7 @@ public final class MPXReader extends AbstractProjectStreamReader
       if (targetTask != null)
       {
          Relation relation = sourceTask.addPredecessor(new Relation.Builder()
-            .targetTask(targetTask)
+            .predecessorTask(targetTask)
             .type(type)
             .lag(lag));
          m_eventManager.fireRelationReadEvent(relation);

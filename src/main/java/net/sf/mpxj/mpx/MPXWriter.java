@@ -1397,7 +1397,7 @@ public final class MPXWriter extends AbstractProjectWriter
 
       if (relation != null)
       {
-         StringBuilder sb = new StringBuilder(relation.getTargetTask().getID().toString());
+         StringBuilder sb = new StringBuilder(relation.getPredecessorTask().getID().toString());
 
          Duration duration = relation.getLag();
          RelationType type = relation.getType();

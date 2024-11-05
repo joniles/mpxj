@@ -462,7 +462,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Relation addPredecessor(Relation.Builder builder)
    {
-      return getParentFile().getRelations().addPredecessor(builder.sourceTask(this));
+      return getParentFile().getRelations().addPredecessor(builder.successorTask(this));
    }
 
    /**
@@ -5642,7 +5642,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       boolean result = false;
       for (Relation relation : list)
       {
-         if (relation.getTargetTask().getUniqueID().intValue() == task.getUniqueID().intValue())
+         if (relation.getPredecessorTask().getUniqueID().intValue() == task.getUniqueID().intValue())
          {
             result = true;
             break;

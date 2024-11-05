@@ -1741,7 +1741,7 @@ public final class MSPDIReader extends AbstractProjectStreamReader implements Ha
       }
 
       Relation relation = currTask.addPredecessor(new Relation.Builder()
-         .targetTask(prevTask)
+         .predecessorTask(prevTask)
          .type(type)
          .lag(lagDuration));
 

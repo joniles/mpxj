@@ -112,7 +112,7 @@ public class ConstraintFactory
             if (task1 != null && task2 != null)
             {
                Relation relation = task2.addPredecessor(new Relation.Builder()
-                  .targetTask(task1)
+                  .predecessorTask(task1)
                   .type(RelationType.getInstance(MPPUtility.getShort(data, 12)))
                   .lag(MPPUtility.getAdjustedDuration(properties, MPPUtility.getInt(data, durationOffset), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, durationUnitsOffset))))
                   .uniqueID(Integer.valueOf(constraintID)));

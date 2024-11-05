@@ -875,7 +875,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       if (predecessor != null && successor != null)
       {
          successor.addPredecessor(new Relation.Builder()
-            .targetTask(predecessor)
+            .predecessorTask(predecessor)
             .type(relation.getType())
             .lag(relation.getLag()));
       }

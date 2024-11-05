@@ -79,7 +79,7 @@ class RelationReader
          Task successor = map.get(row.getUuid("SUCC_ACT_UID"));
          if (predecessor != null && successor != null)
          {
-            successor.addPredecessor(new Relation.Builder().targetTask(predecessor).type(TYPE_MAP.getOrDefault(row.getString("REL_TYPE"), RelationType.FINISH_START)).lag(row.getDuration("REL_LAG")));
+            successor.addPredecessor(new Relation.Builder().predecessorTask(predecessor).type(TYPE_MAP.getOrDefault(row.getString("REL_TYPE"), RelationType.FINISH_START)).lag(row.getDuration("REL_LAG")));
          }
       }
    }
