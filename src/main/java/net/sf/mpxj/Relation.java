@@ -37,6 +37,8 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
    {
       m_sourceTask = builder.m_sourceTask;
       m_targetTask = builder.m_targetTask;
+      m_predecessorTask = builder.m_predecessorTask;
+      m_successorTask = builder.m_successorTask;
       m_type = builder.m_type == null ? RelationType.FINISH_START : builder.m_type;
       m_lag = builder.m_lag == null ? Duration.getInstance(0, TimeUnit.DAYS) : builder.m_lag;
       m_notes = builder.m_notes;
@@ -87,7 +89,7 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
     *
     * @return source task
     */
-   public Task getSourceTask()
+   @Deprecated public Task getSourceTask()
    {
       return m_sourceTask;
    }
@@ -97,9 +99,19 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
     *
     * @return target task
     */
-   public Task getTargetTask()
+   @Deprecated public Task getTargetTask()
    {
       return m_targetTask;
+   }
+
+   public Task getPredecessorTask()
+   {
+      return m_predecessorTask;
+   }
+
+   public Task getSuccessorTask()
+   {
+      return m_successorTask;
    }
 
    /**
@@ -150,6 +162,10 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
     */
    private final Task m_targetTask;
 
+   private final Task m_predecessorTask;
+
+   private final Task m_successorTask;
+
    /**
     * Type of relationship.
     */
@@ -178,6 +194,8 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
          m_uniqueID = value.m_uniqueID;
          m_sourceTask = value.m_sourceTask;
          m_targetTask = value.m_targetTask;
+         m_predecessorTask = value.m_predecessorTask;
+         m_successorTask = value.m_successorTask;
          m_type = value.m_type;
          m_lag = value.m_lag;
          m_notes = value.m_notes;
@@ -202,7 +220,7 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
        * @param value source task
        * @return builder
        */
-      public Builder sourceTask(Task value)
+      @Deprecated public Builder sourceTask(Task value)
       {
          m_sourceTask = value;
          return this;
@@ -214,9 +232,21 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
        * @param value target task
        * @return builder
        */
-      public Builder targetTask(Task value)
+      @Deprecated public Builder targetTask(Task value)
       {
          m_targetTask = value;
+         return this;
+      }
+
+      public Builder predecessorTask(Task value)
+      {
+         m_predecessorTask = value;
+         return this;
+      }
+
+      public Builder successorTask(Task value)
+      {
+         m_successorTask = value;
          return this;
       }
 
@@ -263,12 +293,34 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
        */
       public Relation build()
       {
+         if (m_targetTask == null)
+         {
+            m_targetTask = m_predecessorTask;
+         }
+
+         if (m_predecessorTask == null)
+         {
+            m_predecessorTask = m_targetTask;
+         }
+
+         if (m_sourceTask == null)
+         {
+            m_sourceTask = m_successorTask;
+         }
+
+         if (m_successorTask == null)
+         {
+            m_successorTask = m_sourceTask;
+         }
+
          return new Relation(this);
       }
 
       Integer m_uniqueID;
       Task m_sourceTask;
       Task m_targetTask;
+      Task m_predecessorTask;
+      Task m_successorTask;
       RelationType m_type = RelationType.FINISH_START;
       Duration m_lag = Duration.getInstance(0, TimeUnit.DAYS);
       String m_notes;

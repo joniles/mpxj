@@ -462,7 +462,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Relation addPredecessor(Relation.Builder builder)
    {
-      return getParentFile().getRelations().addPredecessor(builder.sourceTask(this));
+      return getParentFile().getRelations().addPredecessor(builder.successorTask(this));
    }
 
    /**

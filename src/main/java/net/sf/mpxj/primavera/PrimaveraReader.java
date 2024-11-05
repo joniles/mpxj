@@ -1782,7 +1782,7 @@ final class PrimaveraReader
          if (successorTask != null && predecessorTask != null)
          {
             Relation relation = successorTask.addPredecessor(new Relation.Builder()
-               .targetTask(predecessorTask)
+               .predecessorTask(predecessorTask)
                .type(type)
                .lag(lag)
                .uniqueID(uniqueID)

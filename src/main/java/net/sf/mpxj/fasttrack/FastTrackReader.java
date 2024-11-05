@@ -561,7 +561,7 @@ public final class FastTrackReader extends AbstractProjectFileReader
             {
                Duration lagDuration = Duration.getInstance(lag, m_data.getDurationTimeUnit());
                Relation relation = task.addPredecessor(new Relation.Builder()
-                  .targetTask(targetTask)
+                  .predecessorTask(targetTask)
                   .type(type)
                   .lag(lagDuration));
                m_eventManager.fireRelationReadEvent(relation);

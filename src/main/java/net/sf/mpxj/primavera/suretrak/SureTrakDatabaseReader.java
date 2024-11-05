@@ -568,7 +568,7 @@ public final class SureTrakDatabaseReader extends AbstractProjectFileReader
          if (predecessor != null && successor != null)
          {
             Relation relation = successor.addPredecessor(new Relation.Builder()
-               .targetTask(predecessor)
+               .predecessorTask(predecessor)
                .type(row.getRelationType("TYPE"))
                .lag(row.getDuration("LAG")));
             m_eventManager.fireRelationReadEvent(relation);

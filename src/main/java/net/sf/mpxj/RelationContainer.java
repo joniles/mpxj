@@ -115,7 +115,7 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
       //
       // Retrieve the list of predecessors
       //
-      List<Relation> predecessorList = m_predecessors.getOrDefault(builder.m_sourceTask, EMPTY_LIST);
+      List<Relation> predecessorList = m_predecessors.getOrDefault(builder.m_successorTask, EMPTY_LIST);
 
       //
       // Ensure that there is only one predecessor relationship between
@@ -123,7 +123,7 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
       //
       for (Relation relation : predecessorList)
       {
-         if (relation.getTargetTask() == builder.m_targetTask)
+         if (relation.getTargetTask() == builder.m_predecessorTask)
          {
             if (relation.getType() == builder.m_type && relation.getLag().compareTo(builder.m_lag) == 0)
             {

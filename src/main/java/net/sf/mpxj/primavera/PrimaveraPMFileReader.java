@@ -303,7 +303,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                }
 
                successor.addPredecessor(new Relation.Builder()
-                  .targetTask(predecessor)
+                  .predecessorTask(predecessor)
                   .type(externalRelation.getType())
                   .lag(externalRelation.getLag())
                   .uniqueID(externalRelation.getUniqueID())
@@ -1864,7 +1864,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (successorTask != null && predecessorTask != null)
          {
             Relation relation = successorTask.addPredecessor(new Relation.Builder()
-               .targetTask(predecessorTask)
+               .predecessorTask(predecessorTask)
                .type(type)
                .lag(lag)
                .uniqueID(row.getObjectId())
