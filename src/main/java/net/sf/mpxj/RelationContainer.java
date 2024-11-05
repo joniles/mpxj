@@ -80,13 +80,14 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
     * As we're only storing Relation instances representing predecessors, in order to
     * conform to the convention for successors we need create a new list of Relation instances with
     * transposed source and target tasks.
-    * TODO: review to determine if we need to continue with this approach
+    * DEPRECATED: when we reach version 14.0.0 this method will return what getRawSuccessors does now
     *
     * @param task task
     * @return task successors
     */
    public List<Relation> getSuccessors(Task task)
    {
+      //noinspection deprecation
       return getRawSuccessors(task).stream().map(r -> new Relation.Builder().from(r).sourceTask(r.getTargetTask()).targetTask(r.getSourceTask()).build()).collect(Collectors.toList());
    }
 
