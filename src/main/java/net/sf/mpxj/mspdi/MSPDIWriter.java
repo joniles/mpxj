@@ -1865,7 +1865,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<Relation> predecessors = mpx.getPredecessors();
       for (Relation rel : predecessors)
       {
-         list.add(writePredecessor(rel.getTargetTask(), rel.getType(), rel.getLag()));
+         list.add(writePredecessor(rel.getPredecessorTask(), rel.getType(), rel.getLag()));
          m_eventManager.fireRelationWrittenEvent(rel);
       }
    }

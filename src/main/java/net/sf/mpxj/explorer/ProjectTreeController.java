@@ -631,7 +631,7 @@ public class ProjectTreeController
          {
             @Override public String toString()
             {
-               return getTaskName(r.getTargetTask()) + "->" + getTaskName(r.getSourceTask()) + " " + r.getType() + " " + r.getLag();
+               return getTaskName(r.getPredecessorTask()) + "->" + getTaskName(r.getSuccessorTask()) + " " + r.getType() + " " + r.getLag();
             }
          };
          parentNode.add(childNode);

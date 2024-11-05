@@ -816,9 +816,9 @@ public class MppTaskTest
       assertEquals(1, predecessors.size());
       Relation relation = predecessors.get(0);
       // check task unique id that's stored in the Relation
-      assertEquals(subtask1.getUniqueID(), relation.getTargetTask().getUniqueID());
+      assertEquals(subtask1.getUniqueID(), relation.getPredecessorTask().getUniqueID());
       // check task id stored in the Task that's stored in the relation
-      Task predTask = relation.getTargetTask();
+      Task predTask = relation.getPredecessorTask();
       assertEquals(predTask.getID(), subtask1.getID());
       // check task unique id stored in the Task that's stored in the relation
       assertEquals(predTask.getUniqueID(), subtask1.getUniqueID());
@@ -830,8 +830,8 @@ public class MppTaskTest
       assertEquals(2, predecessors.size());
       relation = predecessors.get(0);
       Relation relation2 = predecessors.get(1);
-      assertEquals(subtask3.getUniqueID(), relation.getTargetTask().getUniqueID());
-      assertEquals(subtask4.getUniqueID(), relation2.getTargetTask().getUniqueID());
+      assertEquals(subtask3.getUniqueID(), relation.getPredecessorTask().getUniqueID());
+      assertEquals(subtask4.getUniqueID(), relation2.getPredecessorTask().getUniqueID());
       // Type for subtask 5
       assertEquals(TaskType.FIXED_WORK, subtask5.getType());
 
@@ -909,13 +909,13 @@ public class MppTaskTest
 
       List<Relation> listPreds = task2.getPredecessors();
       Relation relation = listPreds.get(0);
-      assertEquals(1, relation.getTargetTask().getUniqueID().intValue());
+      assertEquals(1, relation.getPredecessorTask().getUniqueID().intValue());
       assertEquals(RelationType.FINISH_START, relation.getType());
-      assertEquals(task1, relation.getTargetTask());
+      assertEquals(task1, relation.getPredecessorTask());
 
       listPreds = task3.getPredecessors();
       relation = listPreds.get(0);
-      assertEquals(2, relation.getTargetTask().getUniqueID().intValue());
+      assertEquals(2, relation.getPredecessorTask().getUniqueID().intValue());
       assertEquals(RelationType.START_START, relation.getType());
       Duration duration = relation.getLag();
       if (duration.getUnits() == TimeUnit.DAYS)
@@ -932,10 +932,10 @@ public class MppTaskTest
 
       listPreds = task4.getPredecessors();
       relation = listPreds.get(0);
-      assertEquals(3, relation.getTargetTask().getUniqueID().intValue());
+      assertEquals(3, relation.getPredecessorTask().getUniqueID().intValue());
       assertEquals(RelationType.FINISH_FINISH, relation.getType());
 
-      boolean removed = task4.removePredecessor(relation.getTargetTask(), relation.getType(), relation.getLag());
+      boolean removed = task4.removePredecessor(relation.getPredecessorTask(), relation.getType(), relation.getLag());
       assertTrue(removed);
       listPreds = task4.getPredecessors();
       assertTrue(listPreds.isEmpty());
@@ -954,12 +954,12 @@ public class MppTaskTest
 
       listPreds = task4.getPredecessors();
       relation = listPreds.get(0);
-      assertEquals(3, relation.getTargetTask().getUniqueID().intValue());
+      assertEquals(3, relation.getPredecessorTask().getUniqueID().intValue());
       assertEquals(RelationType.FINISH_FINISH, relation.getType());
 
       listPreds = task5.getPredecessors();
       relation = listPreds.get(0);
-      assertEquals(4, relation.getTargetTask().getUniqueID().intValue());
+      assertEquals(4, relation.getPredecessorTask().getUniqueID().intValue());
       assertEquals(RelationType.START_FINISH, relation.getType());
    }
 

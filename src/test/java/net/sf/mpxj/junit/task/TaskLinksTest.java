@@ -105,8 +105,8 @@ public class TaskLinksTest
       List<Relation> relations = task2.getPredecessors();
       assertEquals(1, relations.size());
       Relation relation = relations.get(0);
-      assertEquals(task2, relation.getSourceTask());
-      assertEquals(task1, relation.getTargetTask());
+      assertEquals(task2, relation.getSuccessorTask());
+      assertEquals(task1, relation.getPredecessorTask());
       assertEquals(type, relation.getType());
       assertEquals(lagUnits, relation.getLag().getUnits());
       assertTrue(NumberHelper.equals(lagDuration, relation.getLag().getDuration(), 0.0001));

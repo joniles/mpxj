@@ -1390,10 +1390,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       PREDECESSOR_COLUMNS.put("task_pred_id", r -> r.getUniqueID());
-      PREDECESSOR_COLUMNS.put("task_id", r -> r.getSourceTask().getUniqueID());
-      PREDECESSOR_COLUMNS.put("pred_task_id", r -> r.getTargetTask().getUniqueID());
-      PREDECESSOR_COLUMNS.put("proj_id", r -> getProjectID(r.getSourceTask().getParentFile().getProjectProperties().getUniqueID()));
-      PREDECESSOR_COLUMNS.put("pred_proj_id", r -> getProjectID(r.getTargetTask().getParentFile().getProjectProperties().getUniqueID()));
+      PREDECESSOR_COLUMNS.put("task_id", r -> r.getSuccessorTask().getUniqueID());
+      PREDECESSOR_COLUMNS.put("pred_task_id", r -> r.getPredecessorTask().getUniqueID());
+      PREDECESSOR_COLUMNS.put("proj_id", r -> getProjectID(r.getSuccessorTask().getParentFile().getProjectProperties().getUniqueID()));
+      PREDECESSOR_COLUMNS.put("pred_proj_id", r -> getProjectID(r.getPredecessorTask().getParentFile().getProjectProperties().getUniqueID()));
       PREDECESSOR_COLUMNS.put("pred_type", r -> r.getType());
       PREDECESSOR_COLUMNS.put("lag_hr_cnt", r -> r.getLag());
       PREDECESSOR_COLUMNS.put("comments", r -> r.getNotes());

@@ -57,14 +57,14 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
 
    @Override protected void added(Relation element)
    {
-      m_predecessors.computeIfAbsent(element.getSourceTask(), t -> new ArrayList<>()).add(element);
-      m_successors.computeIfAbsent(element.getTargetTask(), t -> new ArrayList<>()).add(element);
+      m_predecessors.computeIfAbsent(element.getSuccessorTask(), t -> new ArrayList<>()).add(element);
+      m_successors.computeIfAbsent(element.getPredecessorTask(), t -> new ArrayList<>()).add(element);
    }
 
    @Override protected void removed(Relation element)
    {
-      m_predecessors.getOrDefault(element.getSourceTask(), EMPTY_LIST).remove(element);
-      m_successors.getOrDefault(element.getTargetTask(), EMPTY_LIST).remove(element);
+      m_predecessors.getOrDefault(element.getSuccessorTask(), EMPTY_LIST).remove(element);
+      m_successors.getOrDefault(element.getPredecessorTask(), EMPTY_LIST).remove(element);
    }
 
    @Override protected void replaced(Relation oldElement, Relation newElement)
@@ -123,7 +123,7 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
       //
       for (Relation relation : predecessorList)
       {
-         if (relation.getTargetTask() == builder.m_predecessorTask)
+         if (relation.getPredecessorTask() == builder.m_predecessorTask)
          {
             if (relation.getType() == builder.m_type && relation.getLag().compareTo(builder.m_lag) == 0)
             {
@@ -145,18 +145,18 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
    /**
     * Remove a matching predecessor relationship from a task.
     *
-    * @param sourceTask source task
-    * @param targetTask target task (the predecessor to remove)
+    * @param successorTask successor task
+    * @param predecessorTask predecessor task to remove
     * @param type relationship type
     * @param lag relationship lag
     * @return true if a matching predecessor was removed
     */
-   public boolean removePredecessor(Task sourceTask, Task targetTask, RelationType type, Duration lag)
+   public boolean removePredecessor(Task successorTask, Task predecessorTask, RelationType type, Duration lag)
    {
       //
       // Retrieve the list of predecessors
       //
-      List<Relation> predecessorList = m_predecessors.getOrDefault(sourceTask, EMPTY_LIST);
+      List<Relation> predecessorList = m_predecessors.getOrDefault(successorTask, EMPTY_LIST);
       if (predecessorList.isEmpty())
       {
          return false;
@@ -173,7 +173,7 @@ public class RelationContainer extends ProjectEntityContainer<Relation>
       boolean matchFound = false;
       for (Relation relation : predecessorList)
       {
-         if (relation.getTargetTask() == targetTask && relation.getType() == type && relation.getLag().compareTo(lag) == 0)
+         if (relation.getPredecessorTask() == predecessorTask && relation.getType() == type && relation.getLag().compareTo(lag) == 0)
          {
             matchFound = true;
             remove(relation);

@@ -5642,7 +5642,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       boolean result = false;
       for (Relation relation : list)
       {
-         if (relation.getTargetTask().getUniqueID().intValue() == task.getUniqueID().intValue())
+         if (relation.getPredecessorTask().getUniqueID().intValue() == task.getUniqueID().intValue())
          {
             result = true;
             break;

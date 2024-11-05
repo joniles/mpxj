@@ -271,8 +271,8 @@ public final class MPPReader extends AbstractProjectStreamReader
          ArrayList<Relation> invalid = new ArrayList<>();
          for (Relation relation : predecessors)
          {
-            Task sourceTask = relation.getSourceTask();
-            Task targetTask = relation.getTargetTask();
+            Task sourceTask = relation.getSuccessorTask();
+            Task targetTask = relation.getPredecessorTask();
 
             String sourceOutlineNumber = sourceTask.getOutlineNumber();
             String targetOutlineNumber = targetTask.getOutlineNumber();
@@ -285,7 +285,7 @@ public final class MPPReader extends AbstractProjectStreamReader
 
          for (Relation relation : invalid)
          {
-            relation.getSourceTask().removePredecessor(relation.getTargetTask(), relation.getType(), relation.getLag());
+            relation.getSuccessorTask().removePredecessor(relation.getPredecessorTask(), relation.getType(), relation.getLag());
          }
       }
    }

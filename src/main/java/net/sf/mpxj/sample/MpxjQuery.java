@@ -483,7 +483,7 @@ public class MpxjQuery
                System.out.print(',');
             }
             first = false;
-            System.out.print(relation.getTargetTask().getID());
+            System.out.print(relation.getPredecessorTask().getID());
             Duration lag = relation.getLag();
             if (relation.getType() != RelationType.FINISH_START || lag.getDuration() != 0)
             {
