@@ -10,6 +10,7 @@
 			<action dev="joniles" type="update">Added the Activity Percent Complete attribute to the `Task` class. The value of this attribute will be the Duration, Physical or Units percent complete value, based on the Percent Complete Type setting. This attribute is provided as a convenience to match the Activity Percent Complete type value shown in P6.</action>
 			<action dev="joniles" type="update">Improve retrieval of custom field values for certain MPP files.</action>
 			<action dev="joniles" type="update">Improve handling of PMXML files with more than 11 baselines.</action>
+			<action dev="joniles" type="update">Improve handling of unexpected data types when writing JSON files.</action>
 		</release>
 		<release date="2024-10-28" version="13.5.1">
 			<action dev="joniles" type="update">Fix CVE-2024-49771: Potential Path Traversal Vulnerability (Contributed by yyjLF and sprinkle).</action>

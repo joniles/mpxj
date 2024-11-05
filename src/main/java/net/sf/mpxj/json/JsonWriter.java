@@ -1194,11 +1194,11 @@ public final class JsonWriter extends AbstractProjectWriter
     * @param fieldName field name
     * @param value field value
     */
-   private void writeMandatoryIntegerField(String fieldName, Object value) throws IOException
+   private void writeMandatoryIntegerField(String fieldName, Number value) throws IOException
    {
       if (value != null)
       {
-         m_writer.writeNameValuePair(fieldName, ((Number) value).intValue());
+         m_writer.writeNameValuePair(fieldName, value.intValue());
       }
    }
 
@@ -1211,13 +1211,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeIntegerField(FieldType fieldType, String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (!(value instanceof Number))
       {
-         int val = ((Number) value).intValue();
-         if (val != 0 || MANDATORY_FIELDS.contains(fieldType))
-         {
-            m_writer.writeNameValuePair(fieldName, val);
-         }
+         return;
+      }
+
+      int val = ((Number) value).intValue();
+      if (val != 0 || MANDATORY_FIELDS.contains(fieldType))
+      {
+         m_writer.writeNameValuePair(fieldName, val);
       }
    }
 
@@ -1229,15 +1231,17 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeDoubleField(String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (!(value instanceof Number))
       {
-         double val = ((Number) value).doubleValue();
-         if (val != 0)
-         {
-            // Round to 4 decimal places
-            val = Math.round(val * 10000.0) / 10000.0;
-            m_writer.writeNameValuePair(fieldName, val);
-         }
+         return;
+      }
+
+      double val = ((Number) value).doubleValue();
+      if (val != 0)
+      {
+         // Round to 4 decimal places
+         val = Math.round(val * 10000.0) / 10000.0;
+         m_writer.writeNameValuePair(fieldName, val);
       }
    }
 
@@ -1249,13 +1253,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeBooleanField(String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (!(value instanceof Boolean))
       {
-         boolean val = ((Boolean) value).booleanValue();
-         if (val)
-         {
-            m_writer.writeNameValuePair(fieldName, val);
-         }
+         return;
+      }
+
+      boolean val = ((Boolean) value).booleanValue();
+      if (val)
+      {
+         m_writer.writeNameValuePair(fieldName, val);
       }
    }
 
@@ -1268,52 +1274,58 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeDurationField(FieldContainer container, String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (value == null)
       {
-         if (value instanceof String)
+         return;
+      }
+
+      if (value instanceof String)
+      {
+         m_writer.writeNameValuePair(fieldName + "_text", (String) value);
+         return;
+      }
+
+      if (!(value instanceof Duration))
+      {
+         return;
+      }
+
+      Duration val = (Duration) value;
+      if (val.getDuration() != 0)
+      {
+         // If we have a calendar associated with this container,
+         // we'll use any defaults it supplies to handle the time
+         // units conversion.
+         TimeUnitDefaultsContainer defaults = null;
+         if (container instanceof Task)
          {
-            m_writer.writeNameValuePair(fieldName + "_text", (String) value);
+            defaults = ((Task) container).getEffectiveCalendar();
          }
          else
          {
-            Duration val = (Duration) value;
-            if (val.getDuration() != 0)
+            if (container instanceof Resource)
             {
-               // If we have a calendar associated with this container,
-               // we'll use any defaults it supplies to handle the time
-               // units conversion.
-               TimeUnitDefaultsContainer defaults = null;
-               if (container instanceof Task)
-               {
-                  defaults = ((Task) container).getEffectiveCalendar();
-               }
-               else
-               {
-                  if (container instanceof Resource)
-                  {
-                     defaults = ((Resource) container).getCalendar();
-                  }
-               }
-
-               if (defaults == null)
-               {
-                  defaults = m_projectFile.getProjectProperties();
-               }
-
-               // If a specific TimeUnit hasn't been provided, we default
-               // to writing seconds for backward compatibility.
-               if (m_timeUnits == null)
-               {
-                  Duration minutes = val.convertUnits(TimeUnit.MINUTES, defaults);
-                  long seconds = (long) (minutes.getDuration() * 60.0);
-                  m_writer.writeNameValuePair(fieldName, seconds);
-               }
-               else
-               {
-                  Duration duration = val.convertUnits(m_timeUnits, defaults);
-                  m_writer.writeNameValuePair(fieldName, duration.getDuration());
-               }
+               defaults = ((Resource) container).getCalendar();
             }
+         }
+
+         if (defaults == null)
+         {
+            defaults = m_projectFile.getProjectProperties();
+         }
+
+         // If a specific TimeUnit hasn't been provided, we default
+         // to writing seconds for backward compatibility.
+         if (m_timeUnits == null)
+         {
+            Duration minutes = val.convertUnits(TimeUnit.MINUTES, defaults);
+            long seconds = (long) (minutes.getDuration() * 60.0);
+            m_writer.writeNameValuePair(fieldName, seconds);
+         }
+         else
+         {
+            Duration duration = val.convertUnits(m_timeUnits, defaults);
+            m_writer.writeNameValuePair(fieldName, duration.getDuration());
          }
       }
    }
@@ -1326,18 +1338,24 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeTimestampField(String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (value == null)
       {
-         if (value instanceof String)
-         {
-            m_writer.writeNameValuePair(fieldName + "_text", (String) value);
-         }
-         else
-         {
-            LocalDateTime val = (LocalDateTime) value;
-            m_writer.writeNameValuePair(fieldName, val);
-         }
+         return;
       }
+
+      if (value instanceof String)
+      {
+         m_writer.writeNameValuePair(fieldName + "_text", (String) value);
+         return;
+      }
+
+      if (!(value instanceof LocalDateTime))
+      {
+         return;
+      }
+
+      LocalDateTime val = (LocalDateTime) value;
+      m_writer.writeNameValuePair(fieldName, val);
    }
 
    /**
@@ -1348,7 +1366,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeDateField(String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (value instanceof LocalDate)
       {
          m_writer.writeNameValuePairAsDate(fieldName, (LocalDate) value);
       }
@@ -1362,7 +1380,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeTimeField(String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (value instanceof LocalTime)
       {
          m_writer.writeNameValuePairAsTime(fieldName, (LocalTime) value);
       }
@@ -1376,13 +1394,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeTimeUnitsField(String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (!(value instanceof TimeUnit))
       {
-         TimeUnit val = (TimeUnit) value;
-         if (val != m_projectFile.getProjectProperties().getDefaultDurationUnits())
-         {
-            m_writer.writeNameValuePair(fieldName, val.toString());
-         }
+         return;
+      }
+
+      TimeUnit val = (TimeUnit) value;
+      if (val != m_projectFile.getProjectProperties().getDefaultDurationUnits())
+      {
+         m_writer.writeNameValuePair(fieldName, val.toString());
       }
    }
 
@@ -1394,7 +1414,7 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writePriorityField(String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (value instanceof Priority)
       {
          m_writer.writeNameValuePair(fieldName, ((Priority) value).getValue());
       }
@@ -1408,9 +1428,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeRateField(String fieldName, Object value) throws IOException
    {
-      if (value != null && ((Rate) value).getAmount() != 0.0)
+      if (!(value instanceof Rate))
       {
-         m_writer.writeNameValuePair(fieldName, ((Rate) value).getAmount() + "/" + ((Rate) value).getUnits());
+         return;
+      }
+
+      Rate val = (Rate)value;
+      if (val.getAmount() != 0.0)
+      {
+         m_writer.writeNameValuePair(fieldName, val.getAmount() + "/" + val.getUnits());
       }
    }
 
@@ -1422,6 +1448,11 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeMap(String fieldName, Object value) throws IOException
    {
+      if (!(value instanceof Map))
+      {
+         return;
+      }
+
       @SuppressWarnings("unchecked")
       Map<String, Object> map = (Map<String, Object>) value;
       if (map.isEmpty())
@@ -1455,6 +1486,11 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeDateRangeList(String fieldName, Object value) throws IOException
    {
+      if (!(value instanceof List))
+      {
+         return;
+      }
+
       @SuppressWarnings("unchecked")
       List<LocalDateTimeRange> list = (List<LocalDateTimeRange>) value;
       m_writer.writeStartList(fieldName);
@@ -1541,6 +1577,11 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeRelationList(String fieldName, Object value) throws IOException
    {
+      if (!(value instanceof List))
+      {
+         return;
+      }
+
       @SuppressWarnings("unchecked")
       List<Relation> list = (List<Relation>) value;
       if (!list.isEmpty())
@@ -1568,13 +1609,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeResourceRequestTypeField(String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (!(value instanceof ResourceRequestType))
       {
-         ResourceRequestType type = (ResourceRequestType) value;
-         if (type != ResourceRequestType.NONE)
-         {
-            m_writer.writeNameValuePair(fieldName, type.name());
-         }
+         return;
+      }
+
+      ResourceRequestType type = (ResourceRequestType) value;
+      if (type != ResourceRequestType.NONE)
+      {
+         m_writer.writeNameValuePair(fieldName, type.name());
       }
    }
 
@@ -1586,13 +1629,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeWorkContourField(String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (!(value instanceof WorkContour))
       {
-         WorkContour type = (WorkContour) value;
-         if (!type.isContourFlat())
-         {
-            m_writer.writeNameValuePair(fieldName, type.toString());
-         }
+         return;
+      }
+
+      WorkContour type = (WorkContour) value;
+      if (!type.isContourFlat())
+      {
+         m_writer.writeNameValuePair(fieldName, type.toString());
       }
    }
 
@@ -1605,13 +1650,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeEarnedValueMethodField(FieldContainer container, String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (!(value instanceof EarnedValueMethod))
       {
-         EarnedValueMethod method = (EarnedValueMethod) value;
-         if (container instanceof ProjectProperties || method != m_projectFile.getProjectProperties().getDefaultTaskEarnedValueMethod())
-         {
-            m_writer.writeNameValuePair(fieldName, method.name());
-         }
+         return;
+      }
+
+      EarnedValueMethod method = (EarnedValueMethod) value;
+      if (container instanceof ProjectProperties || method != m_projectFile.getProjectProperties().getDefaultTaskEarnedValueMethod())
+      {
+         m_writer.writeNameValuePair(fieldName, method.name());
       }
    }
 
@@ -1624,13 +1671,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeTaskTypeField(FieldContainer container, String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (!(value instanceof TaskType))
       {
-         TaskType type = (TaskType) value;
-         if (container instanceof ProjectProperties || type != m_projectFile.getProjectProperties().getDefaultTaskType())
-         {
-            m_writer.writeNameValuePair(fieldName, type.name());
-         }
+         return;
+      }
+
+      TaskType type = (TaskType) value;
+      if (container instanceof ProjectProperties || type != m_projectFile.getProjectProperties().getDefaultTaskType())
+      {
+         m_writer.writeNameValuePair(fieldName, type.name());
       }
    }
 
@@ -1644,6 +1693,11 @@ public final class JsonWriter extends AbstractProjectWriter
 
    private void writeActivityCodeList(String fieldName, Object value) throws IOException
    {
+      if (!(value instanceof List))
+      {
+         return;
+      }
+
       @SuppressWarnings("unchecked")
       List<ActivityCodeValue> list = (List<ActivityCodeValue>) value;
       if (!list.isEmpty())
@@ -1654,6 +1708,11 @@ public final class JsonWriter extends AbstractProjectWriter
 
    private void writeExpenseItemList(String fieldName, Object value) throws IOException
    {
+      if (!(value instanceof List))
+      {
+         return;
+      }
+
       @SuppressWarnings("unchecked")
       List<ExpenseItem> list = (List<ExpenseItem>) value;
       if (list.isEmpty())
@@ -1691,6 +1750,11 @@ public final class JsonWriter extends AbstractProjectWriter
 
    private void writeStepList(String fieldName, Object value) throws IOException
    {
+      if (!(value instanceof List))
+      {
+         return;
+      }
+
       @SuppressWarnings("unchecked")
       List<Step> list = (List<Step>) value;
       if (list.isEmpty())
@@ -1870,13 +1934,15 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeTaskModeField(String fieldName, Object value) throws IOException
    {
-      if (value != null)
+      if (!(value instanceof TaskMode))
       {
-         TaskMode type = (TaskMode) value;
-         if (type != TaskMode.AUTO_SCHEDULED)
-         {
-            m_writer.writeNameValuePair(fieldName, type.name());
-         }
+         return;
+      }
+
+      TaskMode type = (TaskMode) value;
+      if (type != TaskMode.AUTO_SCHEDULED)
+      {
+         m_writer.writeNameValuePair(fieldName, type.name());
       }
    }
 
