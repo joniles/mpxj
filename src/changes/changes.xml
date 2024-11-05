@@ -11,6 +11,8 @@
 			<action dev="joniles" type="update">Improve retrieval of custom field values for certain MPP files.</action>
 			<action dev="joniles" type="update">Improve handling of PMXML files with more than 11 baselines.</action>
 			<action dev="joniles" type="update">Improve handling of unexpected data types when writing JSON files.</action>
+			<action dev="joniles" type="update">Added the `Relation.getPredecessorTask()` and `Relation.getSuccessorTask()` methods.</action>
+			<action dev="joniles" type="update">Marked the `Relation.getSourceTask()` and `Relation.getTargetTask()` methods as deprecated, use the `Relation.getPredecessorTask()` and `Relation.getSuccessorTask()` instead.</action>
 		</release>
 		<release date="2024-10-28" version="13.5.1">
 			<action dev="joniles" type="update">Fix CVE-2024-49771: Potential Path Traversal Vulnerability (Contributed by yyjLF and sprinkle).</action>
