@@ -325,7 +325,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (apibo.getProjectList() != null && apibo.getProjectList().getProject().stream().anyMatch(p -> !p.getBaselineProject().isEmpty()))
          {
             // We have baselines in the project list
-            populateBaselinesbyProjectList(apibo, projects);
+            populateBaselinesByProjectList(apibo, projects);
          }
       }
    }
@@ -343,7 +343,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-   private void populateBaselinesbyProjectList(APIBusinessObjects apibo, List<ProjectFile> projects)
+   private void populateBaselinesByProjectList(APIBusinessObjects apibo, List<ProjectFile> projects)
    {
       Map<Integer, ProjectFile> map = projects.stream().collect(Collectors.toMap(p -> p.getProjectProperties().getUniqueID(), p -> p));
       for (ProjectListType.Project project : apibo.getProjectList().getProject())
@@ -368,7 +368,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             {
                continue;
             }
+
             parentProject.setBaseline(baselineProject, baselineIndex++);
+
+            // TODO: allow an arbitrary number of baselines to be captured
+            if (baselineIndex > 10)
+            {
+               break;
+            }
          }
       }
    }
