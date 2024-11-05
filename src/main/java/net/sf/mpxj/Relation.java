@@ -88,6 +88,7 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
     * Retrieve the source task of this relationship.
     *
     * @return source task
+    * @deprecated use getPredecessorTask() and getSuccessorTask()
     */
    @Deprecated public Task getSourceTask()
    {
@@ -98,17 +99,28 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
     * Retrieve the target task of this relationship.
     *
     * @return target task
+    * @deprecated use getPredecessorTask() and getSuccessorTask()
     */
    @Deprecated public Task getTargetTask()
    {
       return m_targetTask;
    }
 
+   /**
+    * Retrieve the predecessor task of this relationship.
+    *
+    * @return predecessor task
+    */
    public Task getPredecessorTask()
    {
       return m_predecessorTask;
    }
 
+   /**
+    * Retrieve the successor task of this relationship.
+    *
+    * @return successor task
+    */
    public Task getSuccessorTask()
    {
       return m_successorTask;
@@ -219,6 +231,7 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
        *
        * @param value source task
        * @return builder
+       * @deprecated use predecessorTask() or successorTask()
        */
       @Deprecated public Builder sourceTask(Task value)
       {
@@ -231,6 +244,7 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
        *
        * @param value target task
        * @return builder
+       * @deprecated use predecessorTask() or successorTask()
        */
       @Deprecated public Builder targetTask(Task value)
       {
@@ -238,12 +252,24 @@ public final class Relation implements ProjectEntityWithMutableUniqueID
          return this;
       }
 
+      /**
+       * Add the predecessor task.
+       *
+       * @param value predecessor task
+       * @return builder
+       */
       public Builder predecessorTask(Task value)
       {
          m_predecessorTask = value;
          return this;
       }
 
+      /**
+       * Add the successor task.
+       *
+       * @param value successor task
+       * @return builder
+       */
       public Builder successorTask(Task value)
       {
          m_successorTask = value;
