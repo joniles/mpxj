@@ -25,6 +25,13 @@ module MPXJ
       attribute_values['activity_id']
     end
 
+    # Retrieve the Activity Percent Complete value
+    #
+    # @return Activity Percent Complete value
+    def activity_percent_complete
+      get_float_value(attribute_values['activity_percent_complete'])
+    end
+
     # Retrieve the Activity Status value
     #
     # @return Activity Status value
@@ -6903,6 +6910,7 @@ module MPXJ
       'active' => :boolean,
       'activity_codes' => :activity_code_list,
       'activity_id' => :string,
+      'activity_percent_complete' => :percentage,
       'activity_status' => :activity_status,
       'activity_type' => :activity_type,
       'actual_cost' => :currency,

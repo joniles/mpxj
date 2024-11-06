@@ -1,9 +1,16 @@
 # Changelog
 
-## 13.5.2 (unreleased)
+## 13.6.1 (unreleased)
+
+## 13.6.0 (2024-11-06)
 * Added the `Task.getBaselineTask()` methods. For applications where a separate baseline schedule is present or a baseline has been manually added to the `ProjectFile` instance, these methods will allow you to access the underlying baseline task instance from the current task instance.
 * Added the Activity Percent Complete attribute to the `Task` class. The value of this attribute will be the Duration, Physical or Units percent complete value, based on the Percent Complete Type setting. This attribute is provided as a convenience to match the Activity Percent Complete type value shown in P6.
 * Improve retrieval of custom field values for certain MPP files.
+* Improve handling of PMXML files with more than 11 baselines.
+* Improve handling of unexpected data types when writing JSON files.
+* Added the `Relation.getPredecessorTask()` and `Relation.getSuccessorTask()` methods.
+* Marked the `Relation.getSourceTask()` and `Relation.getTargetTask()` methods as deprecated, use the `Relation.getPredecessorTask()` and `Relation.getSuccessorTask()` instead.
+* Ensure that with "Link Cross Project Relations" enabled when reading XER or PMXML files, the predecessor and successor lists for both tasks related acrosss projects are correctly populated.
 
 ## 13.5.1 (2024-10-28)
 * Fix CVE-2024-49771: Potential Path Traversal Vulnerability (Contributed by yyjLF and sprinkle).
