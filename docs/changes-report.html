@@ -33,7 +33,7 @@
 
         <div id="breadcrumbs">
           <ul class="breadcrumb">
-        <li id="publishDate">Last Published: 2024-10-30</li>
+        <li id="publishDate">Last Published: 2024-11-06</li>
           </ul>
         </div>
       </header>
@@ -68,23 +68,45 @@
 <h2><a name="MPXJ_Changes"></a>MPXJ Changes</h2><section>
 
 <p>Get the RSS feed of the last changes:&#160;<a href="changes.rss"><img src="images/rss.png" alt="rss feed" title="rss feed" /></a></p></section><section>
-<h3 id="a13.5.2">Release 13.5.2 &#x2013; unreleased</h3>
+<h3 id="a13.6.1">Release 13.6.1 &#x2013; unreleased</h3>
+<p>No changes in this release.</p></section><section>
+<h3 id="a13.6.0">Release 13.6.0 &#x2013; 2024-11-06</h3>
 <table border="0" class="table table-striped">
-<tr class="b">
+<tr class="a">
 <th>Type</th>
 <th>Changes</th>
 <th>By</th></tr>
-<tr class="a">
+<tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Added the `Task.getBaselineTask()` methods. For applications where a separate baseline schedule is present or a baseline has been manually added to the `ProjectFile` instance, these methods will allow you to access the underlying baseline task instance from the current task instance.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="b">
+<tr class="a">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Added the Activity Percent Complete attribute to the `Task` class. The value of this attribute will be the Duration, Physical or Units percent complete value, based on the Percent Complete Type setting. This attribute is provided as a convenience to match the Activity Percent Complete type value shown in P6.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr>
-<tr class="a">
+<tr class="b">
 <td><img src="images/update.gif" alt="Update" title="Update" /></td>
 <td>Improve retrieval of custom field values for certain MPP files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve handling of PMXML files with more than 11 baselines.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Improve handling of unexpected data types when writing JSON files.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Added the `Relation.getPredecessorTask()` and `Relation.getSuccessorTask()` methods.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="b">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Marked the `Relation.getSourceTask()` and `Relation.getTargetTask()` methods as deprecated, use the `Relation.getPredecessorTask()` and `Relation.getSuccessorTask()` instead.</td>
+<td><a href="team-list.html#joniles">joniles</a></td></tr>
+<tr class="a">
+<td><img src="images/update.gif" alt="Update" title="Update" /></td>
+<td>Ensure that with &quot;Link Cross Project Relations&quot; enabled when reading XER or PMXML files, the predecessor and successor lists for both tasks related acrosss projects are correctly populated.</td>
 <td><a href="team-list.html#joniles">joniles</a></td></tr></table></section><section>
 <h3 id="a13.5.1">Release 13.5.1 &#x2013; 2024-10-28</h3>
 <table border="0" class="table table-striped">

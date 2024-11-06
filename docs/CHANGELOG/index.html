@@ -291,9 +291,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1352-unreleased" class="md-nav__link">
+  <a href="#1361-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.5.2 (unreleased)
+      13.6.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1360-2024-11-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.6.0 (2024-11-06)
     </span>
   </a>
   
@@ -3984,9 +3993,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1352-unreleased" class="md-nav__link">
+  <a href="#1361-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.5.2 (unreleased)
+      13.6.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1360-2024-11-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.6.0 (2024-11-06)
     </span>
   </a>
   
@@ -6321,11 +6339,17 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1352-unreleased">13.5.2 (unreleased)</h2>
+<h2 id="1361-unreleased">13.6.1 (unreleased)</h2>
+<h2 id="1360-2024-11-06">13.6.0 (2024-11-06)</h2>
 <ul>
 <li>Added the <code>Task.getBaselineTask()</code> methods. For applications where a separate baseline schedule is present or a baseline has been manually added to the <code>ProjectFile</code> instance, these methods will allow you to access the underlying baseline task instance from the current task instance.</li>
 <li>Added the Activity Percent Complete attribute to the <code>Task</code> class. The value of this attribute will be the Duration, Physical or Units percent complete value, based on the Percent Complete Type setting. This attribute is provided as a convenience to match the Activity Percent Complete type value shown in P6.</li>
 <li>Improve retrieval of custom field values for certain MPP files.</li>
+<li>Improve handling of PMXML files with more than 11 baselines.</li>
+<li>Improve handling of unexpected data types when writing JSON files.</li>
+<li>Added the <code>Relation.getPredecessorTask()</code> and <code>Relation.getSuccessorTask()</code> methods.</li>
+<li>Marked the <code>Relation.getSourceTask()</code> and <code>Relation.getTargetTask()</code> methods as deprecated, use the <code>Relation.getPredecessorTask()</code> and <code>Relation.getSuccessorTask()</code> instead.</li>
+<li>Ensure that with "Link Cross Project Relations" enabled when reading XER or PMXML files, the predecessor and successor lists for both tasks related acrosss projects are correctly populated.</li>
 </ul>
 <h2 id="1351-2024-10-28">13.5.1 (2024-10-28)</h2>
 <ul>
