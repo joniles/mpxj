@@ -190,9 +190,8 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
                   if (predecessorTask != null)
                   {
                      Task successorTask = externalRelation.getTargetTask();
-                     ProjectFile successorProject = successorTask.getParentFile();
-                     ProjectFile predecessorProject = predecessorTask.getParentFile();
 
+                     ProjectFile successorProject = successorTask.getParentFile();
                      successorProject.getRelations().addPredecessor(new Relation.Builder()
                         .predecessorTask(predecessorTask)
                         .successorTask(successorTask)
@@ -201,12 +200,15 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
                         .uniqueID(externalRelation.getUniqueID())
                         .notes(externalRelation.getNotes()));
 
-//                     successorTask.addPredecessor(new Relation.Builder()
-//                        .predecessorTask(predecessorTask)
-//                        .type(externalRelation.getType())
-//                        .lag(externalRelation.getLag())
-//                        .uniqueID(externalRelation.getUniqueID())
-//                        .notes(externalRelation.getNotes()));
+                     ProjectFile predecessorProject = predecessorTask.getParentFile();
+                     predecessorProject.getRelations().addPredecessor(new Relation.Builder()
+                        .predecessorTask(predecessorTask)
+                        .successorTask(successorTask)
+                        .type(externalRelation.getType())
+                        .lag(externalRelation.getLag())
+                        .uniqueID(externalRelation.getUniqueID())
+                        .notes(externalRelation.getNotes()));
+
                      break;
                   }
                }
