@@ -39,7 +39,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileWriter;
+import net.sf.mpxj.reader.ProjectReader;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -513,10 +516,24 @@ public class CustomerDataTest
       }
       else
       {
-         projects = m_universalReader.readAll(file);
-         if (name.endsWith(".MPP") && projects.size() == 1)
+         try (UniversalProjectReader.ProjectReaderProxy proxy = m_universalReader.getProjectReaderProxy(file))
          {
-            validateMpp(file.getCanonicalPath(), projects.get(0));
+            ProjectReader reader = proxy.getProjectReader();
+            if (reader instanceof PrimaveraXERFileReader)
+            {
+               ((PrimaveraXERFileReader)reader).setLinkCrossProjectRelations(true);
+            }
+
+            if (reader instanceof PrimaveraPMFileReader)
+            {
+               ((PrimaveraPMFileReader)reader).setLinkCrossProjectRelations(true);
+            }
+
+            projects = proxy.readAll();
+            if (name.endsWith(".MPP") && projects.size() == 1)
+            {
+               validateMpp(file.getCanonicalPath(), projects.get(0));
+            }
          }
       }
 
