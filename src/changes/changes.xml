@@ -13,6 +13,7 @@
 			<action dev="joniles" type="update">Improve handling of unexpected data types when writing JSON files.</action>
 			<action dev="joniles" type="update">Added the `Relation.getPredecessorTask()` and `Relation.getSuccessorTask()` methods.</action>
 			<action dev="joniles" type="update">Marked the `Relation.getSourceTask()` and `Relation.getTargetTask()` methods as deprecated, use the `Relation.getPredecessorTask()` and `Relation.getSuccessorTask()` instead.</action>
+			<action dev="joniles" type="update">Ensure that with "Link Cross Project Relations" enabled when reading XER or PMXML files, the predecessor and successor lists for both tasks related acrosss projects are correctly populated.</action>
 		</release>
 		<release date="2024-10-28" version="13.5.1">
 			<action dev="joniles" type="update">Fix CVE-2024-49771: Potential Path Traversal Vulnerability (Contributed by yyjLF and sprinkle).</action>

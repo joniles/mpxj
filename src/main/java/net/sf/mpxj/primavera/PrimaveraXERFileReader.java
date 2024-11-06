@@ -189,12 +189,30 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
                   predecessorTask = proj.getTaskByUniqueID(externalRelation.externalTaskUniqueID());
                   if (predecessorTask != null)
                   {
-                     externalRelation.getTargetTask().addPredecessor(new Relation.Builder()
+                     Task successorTask = externalRelation.getTargetTask();
+
+                     // We need to ensure that the relation is present in both
+                     // projects so that predecessors and successors are populated
+                     // in both projects.
+
+                     ProjectFile successorProject = successorTask.getParentFile();
+                     successorProject.getRelations().addPredecessor(new Relation.Builder()
                         .predecessorTask(predecessorTask)
+                        .successorTask(successorTask)
                         .type(externalRelation.getType())
                         .lag(externalRelation.getLag())
                         .uniqueID(externalRelation.getUniqueID())
                         .notes(externalRelation.getNotes()));
+
+                     ProjectFile predecessorProject = predecessorTask.getParentFile();
+                     predecessorProject.getRelations().addPredecessor(new Relation.Builder()
+                        .predecessorTask(predecessorTask)
+                        .successorTask(successorTask)
+                        .type(externalRelation.getType())
+                        .lag(externalRelation.getLag())
+                        .uniqueID(externalRelation.getUniqueID())
+                        .notes(externalRelation.getNotes()));
+
                      break;
                   }
                }

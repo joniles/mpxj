@@ -302,8 +302,23 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                   predecessor = externalRelation.getTargetTask();
                }
 
-               successor.addPredecessor(new Relation.Builder()
+               // We need to ensure that the relation is present in both
+               // projects so that predecessors and successors are populated
+               // in both projects.
+
+               ProjectFile successorProject = successor.getParentFile();
+               successorProject.getRelations().addPredecessor(new Relation.Builder()
                   .predecessorTask(predecessor)
+                  .successorTask(successor)
+                  .type(externalRelation.getType())
+                  .lag(externalRelation.getLag())
+                  .uniqueID(externalRelation.getUniqueID())
+                  .notes(externalRelation.getNotes()));
+
+               ProjectFile predecessorProject = predecessor.getParentFile();
+               predecessorProject.getRelations().addPredecessor(new Relation.Builder()
+                  .predecessorTask(predecessor)
+                  .successorTask(successor)
                   .type(externalRelation.getType())
                   .lag(externalRelation.getLag())
                   .uniqueID(externalRelation.getUniqueID())

@@ -47,6 +47,9 @@ import com.jgoodies.binding.beans.PropertyAdapter;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
+import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+import net.sf.mpxj.reader.ProjectReader;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
 /**
@@ -60,6 +63,7 @@ public class ProjectExplorer
 
    protected JFrame m_frame;
    private boolean m_openAll;
+   private boolean m_linkCrossProjectRelations;
    private boolean m_expandSubprojects;
    private boolean m_removeExternalTasks = true;
    private final JMenuItem m_saveMenu = new JMenuItem("Save As...");
@@ -164,6 +168,9 @@ public class ProjectExplorer
       final JMenuItem mntmOpenAll = new JCheckBoxMenuItem("Open All");
       mnFile.add(mntmOpenAll);
 
+      final JMenuItem mntmLinkCrossProjectRelations = new JCheckBoxMenuItem("Link Cross Project Relations", m_linkCrossProjectRelations);
+      mnFile.add(mntmLinkCrossProjectRelations);
+
       final JMenuItem mntmExpandSubprojects = new JCheckBoxMenuItem("Expand Subprojects", m_expandSubprojects);
       mnFile.add(mntmExpandSubprojects);
 
@@ -199,6 +206,11 @@ public class ProjectExplorer
       // Open All
       //
       mntmOpenAll.addActionListener(e -> m_openAll = !m_openAll);
+
+      //
+      // Link Cross Project Relations
+      //
+      mntmLinkCrossProjectRelations.addActionListener(e -> m_linkCrossProjectRelations = !m_linkCrossProjectRelations);
 
       //
       // Expand Subprojects
@@ -238,24 +250,25 @@ public class ProjectExplorer
 
    private void openFile(File file)
    {
-      try
-      {
-         updateAndSaveRecents(file);
+      updateAndSaveRecents(file);
 
-         ProjectFile projectFile = new UniversalProjectReader().read(file);
-         if (projectFile == null)
+      try (UniversalProjectReader.ProjectReaderProxy proxy = new UniversalProjectReader().getProjectReaderProxy(file))
+      {
+         if (proxy == null)
          {
             JOptionPane.showMessageDialog(m_frame, "Unsupported file type");
             return;
          }
 
+         configureReader(proxy);
+         ProjectFile projectFile = proxy.read();
          expandSubprojects(file, projectFile);
          m_tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile));
          m_saveMenu.setEnabled(true);
          m_cleanMenu.setEnabled(true);
       }
 
-      catch (MPXJException ex)
+      catch (Exception ex)
       {
          throw new IllegalArgumentException("Failed to read file", ex);
       }
@@ -263,16 +276,18 @@ public class ProjectExplorer
 
    private void openAll(File file)
    {
-      try
-      {
-         updateAndSaveRecents(file);
+      updateAndSaveRecents(file);
 
-         List<ProjectFile> projectFiles = new UniversalProjectReader().readAll(file);
-         if (projectFiles.isEmpty())
+      try (UniversalProjectReader.ProjectReaderProxy proxy = new UniversalProjectReader().getProjectReaderProxy(file);)
+      {
+         if (proxy == null)
          {
             JOptionPane.showMessageDialog(m_frame, "Unsupported file type");
             return;
          }
+
+         configureReader(proxy);
+         List<ProjectFile> projectFiles = proxy.readAll();
 
          int index = 1;
          for (ProjectFile projectFile : projectFiles)
@@ -285,7 +300,7 @@ public class ProjectExplorer
          m_cleanMenu.setEnabled(true);
       }
 
-      catch (MPXJException ex)
+      catch (Exception ex)
       {
          throw new IllegalArgumentException("Failed to read file", ex);
       }
@@ -448,6 +463,25 @@ public class ProjectExplorer
       {
          projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
          projectFile.expandSubprojects(m_removeExternalTasks);
+      }
+   }
+
+   /**
+    * Apply any reader-specific configuration.
+    *
+    * @param proxy project reader proxy
+    */
+   private void configureReader(UniversalProjectReader.ProjectReaderProxy proxy)
+   {
+      ProjectReader reader = proxy.getProjectReader();
+      if (reader instanceof PrimaveraXERFileReader)
+      {
+         ((PrimaveraXERFileReader)reader).setLinkCrossProjectRelations(m_linkCrossProjectRelations);
+      }
+
+      if (reader instanceof PrimaveraPMFileReader)
+      {
+         ((PrimaveraPMFileReader)reader).setLinkCrossProjectRelations(m_linkCrossProjectRelations);
       }
    }
 
