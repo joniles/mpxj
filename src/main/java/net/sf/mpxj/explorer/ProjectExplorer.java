@@ -250,11 +250,10 @@ public class ProjectExplorer
 
    private void openFile(File file)
    {
-      try
-      {
-         updateAndSaveRecents(file);
+      updateAndSaveRecents(file);
 
-         UniversalProjectReader.ProjectReaderProxy proxy = new UniversalProjectReader().getProjectReaderProxy(file);
+      try (UniversalProjectReader.ProjectReaderProxy proxy = new UniversalProjectReader().getProjectReaderProxy(file))
+      {
          if (proxy == null)
          {
             JOptionPane.showMessageDialog(m_frame, "Unsupported file type");
@@ -269,7 +268,7 @@ public class ProjectExplorer
          m_cleanMenu.setEnabled(true);
       }
 
-      catch (MPXJException ex)
+      catch (Exception ex)
       {
          throw new IllegalArgumentException("Failed to read file", ex);
       }
@@ -277,11 +276,10 @@ public class ProjectExplorer
 
    private void openAll(File file)
    {
-      try
-      {
-         updateAndSaveRecents(file);
+      updateAndSaveRecents(file);
 
-         UniversalProjectReader.ProjectReaderProxy proxy = new UniversalProjectReader().getProjectReaderProxy(file);
+      try (UniversalProjectReader.ProjectReaderProxy proxy = new UniversalProjectReader().getProjectReaderProxy(file);)
+      {
          if (proxy == null)
          {
             JOptionPane.showMessageDialog(m_frame, "Unsupported file type");
@@ -302,7 +300,7 @@ public class ProjectExplorer
          m_cleanMenu.setEnabled(true);
       }
 
-      catch (MPXJException ex)
+      catch (Exception ex)
       {
          throw new IllegalArgumentException("Failed to read file", ex);
       }
