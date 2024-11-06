@@ -5604,7 +5604,20 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public boolean isPredecessor(Task task)
    {
-      return isRelated(task, getPredecessors());
+      return task != null && getPredecessors().stream().anyMatch(p -> p.getPredecessorTask().getUniqueID().intValue() == task.getUniqueID().intValue());
+   }
+
+   /**
+    * Utility method used to determine if the supplied task
+    * is a successor of the current task.
+    *
+    * @param task potential successor task
+    * @return Boolean flag
+    * @deprecated use isSuccessor
+    */
+   @Deprecated public boolean isSucessor(Task task)
+   {
+      return task != null && task.isPredecessor(this);
    }
 
    /**
@@ -5614,9 +5627,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param task potential successor task
     * @return Boolean flag
     */
-   public boolean isSucessor(Task task)
+   public boolean isSuccessor(Task task)
    {
-      return isRelated(task, getSuccessors());
+      return task != null && task.isPredecessor(this);
    }
 
    /**
@@ -5627,28 +5640,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public boolean hasChildTasks()
    {
       return !m_children.isEmpty();
-   }
-
-   /**
-    * Internal method used to test for the existence of a relationship
-    * with a task.
-    *
-    * @param task target task
-    * @param list list of relationships
-    * @return boolean flag
-    */
-   private boolean isRelated(Task task, List<Relation> list)
-   {
-      boolean result = false;
-      for (Relation relation : list)
-      {
-         if (relation.getPredecessorTask().getUniqueID().intValue() == task.getUniqueID().intValue())
-         {
-            result = true;
-            break;
-         }
-      }
-      return result;
    }
 
    private Integer calculateParentTaskUniqueID()
