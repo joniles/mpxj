@@ -75,4 +75,11 @@ describe MPXJ::Calendar do
       expect(calendar.minutes_per_year).to eq(nil)
     end
   end
+
+  describe "#days" do
+    it 'returns correct number of days' do
+      calendar = @project.get_calendar_by_unique_id(1)
+      expect(calendar.days.count).to eq(7)
+    end
+  end
 end
