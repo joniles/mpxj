@@ -1,8 +1,11 @@
 module MPXJ
   # Represents a calendar
   class Calendar < Container
+    attr_reader :days
+
     def initialize(parent_project, attribute_values)
       super(parent_project, attribute_values.slice('unique_id', 'guid', 'parent_unique_id', 'name', 'type', 'personal', 'minutes_per_day', 'minutes_per_week', 'minutes_per_month', 'minutes_per_year'))
+      process_days(attribute_values)
     end
 
     def unique_id
@@ -43,6 +46,12 @@ module MPXJ
 
     def minutes_per_year
       get_nillable_integer_value(attribute_values['minutes_per_year'])
+    end
+
+  private
+
+    def process_days(attribute_values)
+      @days = attribute_values.slice('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday').map {|name, day| [name, CalendarDay.new(parent_project, day)]}.to_h
     end
   end
 end
