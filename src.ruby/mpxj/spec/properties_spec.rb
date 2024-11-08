@@ -28,4 +28,10 @@ describe MPXJ::Properties do
       expect(properties["% Complete"]).to eq("0%")
     end
   end
+
+  describe "#default_calendar" do
+    it 'returns correct value' do
+      expect(@project.properties.default_calendar.unique_id).to eq(1)
+    end
+  end
 end

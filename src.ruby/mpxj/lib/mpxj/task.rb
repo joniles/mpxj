@@ -24,6 +24,14 @@ module MPXJ
       parent_project.get_task_by_unique_id(attribute_values['parent_task_unique_id']&.to_i)
     end
 
+    # Retrieve the calendar used by this task
+    #
+    # @return [Calendar] task calendar
+    # @return [nil] if this task does not have a calendar assigned
+    def calendar
+      parent_project.get_calendar_by_unique_id(attribute_values['calendar_unique_id']&.to_i)
+    end
+
     private
 
     def process_relations
