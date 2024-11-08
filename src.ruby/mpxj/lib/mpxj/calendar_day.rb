@@ -8,6 +8,9 @@ module MPXJ
       process_hours(attribute_values)
     end
 
+    # Retrieve the day type
+    #
+    # @return [String] the calendar day type
     def type
       attribute_values['type']
     end

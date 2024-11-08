@@ -8,14 +8,23 @@ module MPXJ
       process_days(attribute_values)
     end
 
+    # Retrieve the exception name
+    #
+    # @return [String] the exception name
     def name
       attribute_values['name']
     end
 
+    # Retrieve the date from which this working week is in effect
+    #
+    # @return [Time] effective from date
     def effective_from
       get_date_value(attribute_values['effective_from'])
     end
 
+    # Retrieve the date to which this working week is in effect
+    #
+    # @return [Time] effective to date
     def effective_to
       get_date_value(attribute_values['effective_to'])
     end
