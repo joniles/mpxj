@@ -82,4 +82,11 @@ describe MPXJ::Calendar do
       expect(calendar.days.count).to eq(7)
     end
   end
+
+  describe "#weeks" do
+    it 'returns correct number of weeks' do
+      calendar = @project.get_calendar_by_unique_id(3)
+      expect(calendar.weeks.count).to eq(2)
+    end
+  end
 end
