@@ -3,6 +3,7 @@ require "mpxj/container"
 require "mpxj/project"
 require "mpxj/property_methods"
 require "mpxj/properties"
+require "mpxj/calendar"
 require "mpxj/resource_methods"
 require "mpxj/resource"
 require "mpxj/task_methods"
@@ -16,6 +17,8 @@ require "mpxj/argument_error"
 require "mpxj/runtime_error"
 require "mpxj/unknown_error"
 require "mpxj/password_protected"
+
+require 'pry'
 
 module MPXJ
 end

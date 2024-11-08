@@ -1,0 +1,48 @@
+module MPXJ
+  # Represents a calendar
+  class Calendar < Container
+    def initialize(parent_project, attribute_values)
+      super(parent_project, attribute_values.slice('unique_id', 'guid', 'parent_unique_id', 'name', 'type', 'personal', 'minutes_per_day', 'minutes_per_week', 'minutes_per_month', 'minutes_per_year'))
+    end
+
+    def unique_id
+      get_integer_value(attribute_values['unique_id'])
+    end
+
+    def guid
+      attribute_values['guid']
+    end
+
+    def parent_unique_id
+      get_nillable_integer_value(attribute_values['parent_unique_id'])
+    end
+
+    def name
+      attribute_values['name']
+    end
+
+    def type
+      attribute_values['type']
+    end
+
+    def personal
+      get_boolean_value(attribute_values['personal'])
+    end
+
+    def minutes_per_day
+      get_nillable_integer_value(attribute_values['minutes_per_day'])
+    end
+
+    def minutes_per_week
+      get_nillable_integer_value(attribute_values['minutes_per_week'])
+    end
+
+    def minutes_per_month
+      get_nillable_integer_value(attribute_values['minutes_per_month'])
+    end
+
+    def minutes_per_year
+      get_nillable_integer_value(attribute_values['minutes_per_year'])
+    end
+  end
+end

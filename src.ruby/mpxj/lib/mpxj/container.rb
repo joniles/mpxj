@@ -45,6 +45,14 @@ module MPXJ
       end
     end
 
+    def get_nillable_integer_value(attribute_value)
+      if attribute_value.nil?
+        nil
+      else
+        attribute_value.to_i
+      end
+    end
+
     def get_boolean_value(attribute_value)
       attribute_value == true
     end
