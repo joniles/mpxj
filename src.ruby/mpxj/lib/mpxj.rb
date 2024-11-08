@@ -22,7 +22,5 @@ require "mpxj/runtime_error"
 require "mpxj/unknown_error"
 require "mpxj/password_protected"
 
-require 'pry'
-
 module MPXJ
 end
