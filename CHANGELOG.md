@@ -1,6 +1,7 @@
 # Changelog
 
 ## 13.6.1 (unreleased)
+* Update the MPXJ ruby gem to allow access to calendar data.
 
 ## 13.6.0 (2024-11-06)
 * Added the `Task.getBaselineTask()` methods. For applications where a separate baseline schedule is present or a baseline has been manually added to the `ProjectFile` instance, these methods will allow you to access the underlying baseline task instance from the current task instance.
