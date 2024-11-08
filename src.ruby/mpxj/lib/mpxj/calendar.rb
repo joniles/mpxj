@@ -11,7 +11,7 @@ module MPXJ
       process_weeks(attribute_values)
       process_exceptions(attribute_values)
     end
-    
+
     # Retrieve the calendar unique ID
     #
     # @return [Integer] the calendar unique ID
