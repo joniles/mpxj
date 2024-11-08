@@ -56,4 +56,17 @@ describe MPXJ::CalendarException do
       expect(exception.type).to eq('non_working')
     end
   end
+
+  describe "#hours" do
+    it 'returns correct number of hours' do
+      exceptions = @project.get_calendar_by_unique_id(3).exceptions
+      expect(exceptions.count).to eq(2)
+
+      exception = exceptions[0]
+      expect(exception.hours.count).to eq(2)
+
+      exception = exceptions[1]
+      expect(exception.hours.count).to eq(0)
+    end
+  end
 end
