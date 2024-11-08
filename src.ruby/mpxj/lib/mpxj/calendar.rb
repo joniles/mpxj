@@ -3,11 +3,13 @@ module MPXJ
   class Calendar < Container
     attr_reader :days
     attr_reader :weeks
+    attr_reader :exceptions
 
     def initialize(parent_project, attribute_values)
       super(parent_project, attribute_values.slice('unique_id', 'guid', 'parent_unique_id', 'name', 'type', 'personal', 'minutes_per_day', 'minutes_per_week', 'minutes_per_month', 'minutes_per_year'))
       process_days(attribute_values)
       process_weeks(attribute_values)
+      process_exceptions(attribute_values)
     end
 
     def unique_id
@@ -58,6 +60,10 @@ module MPXJ
 
     def process_weeks(attribute_values)
       @weeks = (attribute_values['working_weeks'] || []).map {|week| CalendarWeek.new(parent_project, week)}
+    end
+
+    def process_exceptions(attribute_values)
+      @exceptions = (attribute_values['exceptions'] || []).map {|exception| CalendarException.new(parent_project, exception)}
     end
   end
 end

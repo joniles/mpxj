@@ -1,5 +1,5 @@
 module MPXJ
-  # Represents a range of hours
+  # Represents a working week
   class CalendarWeek < Container
     attr_reader :days
 

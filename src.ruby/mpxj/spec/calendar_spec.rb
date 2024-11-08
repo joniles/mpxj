@@ -89,4 +89,11 @@ describe MPXJ::Calendar do
       expect(calendar.weeks.count).to eq(2)
     end
   end
+
+  describe "#exceptions" do
+    it 'returns correct number of exceptions' do
+      calendar = @project.get_calendar_by_unique_id(3)
+      expect(calendar.exceptions.count).to eq(2)
+    end
+  end
 end
