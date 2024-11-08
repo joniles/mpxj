@@ -23,6 +23,19 @@ describe MPXJ::Calendar do
     it 'returns correct parent_unique_id' do
       calendar = @project.get_calendar_by_unique_id(1)
       expect(calendar.parent_unique_id).to eq(nil)
+
+      calendar = @project.get_calendar_by_unique_id(2)
+      expect(calendar.parent_unique_id).to eq(1)
+    end
+  end
+
+  describe "#parent_calendar" do
+    it 'returns correct calendar instance' do
+      calendar = @project.get_calendar_by_unique_id(1)
+      expect(calendar.parent_calendar).to eq(nil)
+
+      calendar = @project.get_calendar_by_unique_id(2)
+      expect(calendar.parent_calendar.unique_id).to eq(1)
     end
   end
 

@@ -34,6 +34,14 @@ module MPXJ
       get_nillable_integer_value(attribute_values['parent_unique_id'])
     end
 
+    # Retrieve the parent calendar of this calendar
+    #
+    # @return [Calendar] if this calendar is the child of another calendar
+    # @return [nil] if this is a base calendar
+    def parent_calendar
+      parent_project.get_calendar_by_unique_id(attribute_values['parent_unique_id']&.to_i)
+    end
+
     # Retrieve the calendar name
     #
     # @return [String] the calendar name
