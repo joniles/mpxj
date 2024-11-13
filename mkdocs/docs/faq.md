@@ -172,6 +172,15 @@ something like this: `<Project Sdk="Microsoft.NET.Sdk">`. If your `csproj`
 file is different you will need to create a new SDK-style project. Sample
 projects in this form can be found [in this repository](https://github.com/joniles/mpxj-dotnet-samples).
 
+**I have an application which uses MPXJ.Net and runs fine on my local machine,
+but fails with a Segmentation Fault when run in Docker**
+When using Docker to host an application built with MPXJ.Net, you may find
+that the application crashes with a segmentation fault when invoking MPXJ.Net
+code. The issue is likely to be a library missing from the Docker image.
+Adding the following line to your `Dockerfile` will ensure that the 
+most common missing library is added:
+`RUN apt-get update && apt-get install -y libfontconfig`
+
 ## log4j2
 When you start MPXJ, you may see the following message written to the console:
 
