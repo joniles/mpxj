@@ -382,7 +382,7 @@ final class PrimaveraReader
          if (code != null)
          {
             ActivityCodeValue value = new ActivityCodeValue.Builder(m_project)
-               .type(code)
+               .activityCode(code)
                .uniqueID(row.getInteger("actv_code_id"))
                .sequenceNumber(row.getInteger("seq_num"))
                .name(row.getString("short_name"))

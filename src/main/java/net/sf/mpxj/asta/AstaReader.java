@@ -2239,7 +2239,7 @@ final class AstaReader
 
          ObjectSequence sequence = sequences.computeIfAbsent(code, x -> new ObjectSequence(1));
          ActivityCodeValue value = new ActivityCodeValue.Builder(m_project)
-            .type(code)
+            .activityCode(code)
             .uniqueID(id)
             .sequenceNumber(sequence.getNext())
             .name(name)

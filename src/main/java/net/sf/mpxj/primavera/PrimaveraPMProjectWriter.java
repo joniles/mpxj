@@ -1855,7 +1855,7 @@ final class PrimaveraPMProjectWriter
    private void writeActivityCodeAssignments(Task task, ActivityType xml)
    {
       Map<ActivityCode, ActivityCodeValue> map = new HashMap<>();
-      task.getActivityCodes().forEach(v -> map.put(v.getType(), v));
+      task.getActivityCodes().forEach(v -> map.put(v.getActivityCode(), v));
       map.values().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeActivityCodeAssignment(xml, v));
    }
 
@@ -1869,7 +1869,7 @@ final class PrimaveraPMProjectWriter
    {
       CodeAssignmentType assignment = m_factory.createCodeAssignmentType();
       xml.getCode().add(assignment);
-      assignment.setTypeObjectId(NumberHelper.getInt(value.getType().getUniqueID()));
+      assignment.setTypeObjectId(NumberHelper.getInt(value.getActivityCode().getUniqueID()));
       assignment.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
    }
 

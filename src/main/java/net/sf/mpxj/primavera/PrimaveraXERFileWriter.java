@@ -483,7 +483,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeActivityCodeAssignments(Task task, List<ActivityCodeValue> values)
    {
       Map<ActivityCode, ActivityCodeValue> map = new HashMap<>();
-      values.forEach(v -> map.put(v.getType(), v));
+      values.forEach(v -> map.put(v.getActivityCode(), v));
       map.values().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ACTIVITY_CODE_ASSIGNMENT_COLUMNS, new Pair<>(task, v)));
    }
 
@@ -1577,7 +1577,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_id", a -> a.getUniqueID());
       ACTIVITY_CODE_VALUE_COLUMNS.put("parent_actv_code_id", a -> a.getParentUniqueID());
-      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_type_id", a -> a.getType().getUniqueID());
+      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_type_id", a -> a.getActivityCode().getUniqueID());
       ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_name", a -> StringHelper.stripControlCharacters(a.getDescription()));
       ACTIVITY_CODE_VALUE_COLUMNS.put("short_name", a -> StringHelper.stripControlCharacters(a.getName()));
       ACTIVITY_CODE_VALUE_COLUMNS.put("seq_num", a -> a.getSequenceNumber());
@@ -1589,7 +1589,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("task_id", p -> p.getFirst().getUniqueID());
-      ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_type_id", p -> p.getSecond().getType().getUniqueID());
+      ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_type_id", p -> p.getSecond().getActivityCode().getUniqueID());
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_id", p -> p.getSecond().getUniqueID());
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("proj_id", p -> getProjectID(p.getFirst().getParentFile().getProjectProperties().getUniqueID()));
    }
