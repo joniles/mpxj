@@ -776,7 +776,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (code != null)
          {
             ActivityCodeValue value = new ActivityCodeValue.Builder(m_projectFile)
-               .type(code)
+               .activityCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
                .name(typeValue.getCodeValue())
