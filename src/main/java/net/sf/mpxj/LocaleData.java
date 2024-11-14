@@ -515,6 +515,7 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_TEXT40.getValue()] = "Enterprise Text40";
       TASK_COLUMNS_ARRAY[TaskField.COMPLETE_THROUGH.getValue()] = "Complete Through";
       TASK_COLUMNS_ARRAY[TaskField.SUMMARY_PROGRESS.getValue()] = "Summary Progress";
+      TASK_COLUMNS_ARRAY[TaskField.ACTIVITY_CODE_VALUES.getValue()] = "Activity Code Values";
 
       TASK_COLUMNS_ARRAY[TaskField.ACTIVE.getValue()] = "Active";
       TASK_COLUMNS_ARRAY[TaskField.GUID.getValue()] = "GUID";

@@ -1278,7 +1278,7 @@ final class PrimaveraReader
          ActivityCodeValue value = activityCode.getValueByUniqueID(row.getInteger("actv_code_id"));
          if (value != null)
          {
-            task.addActivityCode(value);
+            task.addActivityCodeValue(value);
          }
       }
    }

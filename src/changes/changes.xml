@@ -5,10 +5,14 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="13.6.1">
+		<release date="unreleased" version="13.7.0">
 			<action dev="joniles" type="update">Update the MPXJ ruby gem to allow access to calendar data.</action>
 			<action dev="joniles" type="update">Mark the `ActivityCodeValue.getType()` method as deprecated. For clarity this method has been replaced by the new `ActivityCodeValue.getActivityCode()` method.</action>
 			<action dev="joniles" type="update">Mark the `ActivityCodeValue.Builder.type()` method as deprecated. For clarity this method has been replaced by the new `ActivityCodeValue.Builder.activityCode()` method.</action>
+			<action dev="joniles" type="update">Added the `Task.getActivityCodeValues()` method, which returns a `Map` of `ActivityCodeValue` instances, keyed by `ActivityCode`.</action>
+			<action dev="joniles" type="update">Marked the `Task.getActivityCodes()` method as deprecated. Replaced with the `Task.getActivityCodeValues()` method which is more clearly named, and presents the activity code values in a more flexible form.</action>
+			<action dev="joniles" type="update">Added the `Task.addActivityCodeValue()` method.</action>
+			<action dev="joniles" type="update">Marked the `Task.addActivityCode()` method as deprecated. Replaced with the `Task.addActivityCodeValue()` method which is more clearly named.</action>
 		</release>
 		<release date="2024-11-06" version="13.6.0">
 			<action dev="joniles" type="update">Added the `Task.getBaselineTask()` methods. For applications where a separate baseline schedule is present or a baseline has been manually added to the `ProjectFile` instance, these methods will allow you to access the underlying baseline task instance from the current task instance.</action>

@@ -1133,7 +1133,14 @@ public final class JsonWriter extends AbstractProjectWriter
 
          case ACTIVITY_CODE_LIST:
          {
+            // deprecated
             writeActivityCodeList(fieldName, value);
+            break;
+         }
+
+         case ACTIVITY_CODE_VALUES:
+         {
+            writeActivityCodeValues(fieldName, value);
             break;
          }
 
@@ -1707,6 +1714,21 @@ public final class JsonWriter extends AbstractProjectWriter
       if (!list.isEmpty())
       {
          m_writer.writeList(fieldName, list.stream().map(ActivityCodeValue::getUniqueID).sorted().collect(Collectors.toList()));
+      }
+   }
+
+   private void writeActivityCodeValues(String fieldName, Object value) throws IOException
+   {
+      if (!(value instanceof Map))
+      {
+         return;
+      }
+
+      @SuppressWarnings("unchecked")
+      Map<ActivityCode, ActivityCodeValue> map = (Map<ActivityCode, ActivityCodeValue>) value;
+      if (!map.isEmpty())
+      {
+         m_writer.writeList(fieldName, map.values().stream().map(ActivityCodeValue::getUniqueID).sorted().collect(Collectors.toList()));
       }
    }
 

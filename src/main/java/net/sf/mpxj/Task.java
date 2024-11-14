@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -366,20 +367,42 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Retrieve the activity codes associated with this task.
     *
     * @return list of activity codes
+    * @deprecated use getActivityCodeValues()
     */
-   @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
+   @Deprecated @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
    {
       return (List<ActivityCodeValue>) get(TaskField.ACTIVITY_CODES);
+   }
+
+   /**
+    * Retrieve the activity code values associated with this task.
+    *
+    * @return map of activity code values
+    */
+   @SuppressWarnings("unchecked") public Map<ActivityCode, ActivityCodeValue> getActivityCodeValues()
+   {
+      return (Map<ActivityCode, ActivityCodeValue>) get(TaskField.ACTIVITY_CODE_VALUES);
    }
 
    /**
     * Assign an activity code to this task.
     *
     * @param value activity code value
+    * @deprecated use addActivityCodeValue()
     */
-   @SuppressWarnings("unchecked") public void addActivityCode(ActivityCodeValue value)
+   @Deprecated @SuppressWarnings("unchecked") public void addActivityCode(ActivityCodeValue value)
    {
-      ((List<ActivityCodeValue>) get(TaskField.ACTIVITY_CODES)).add(value);
+      ((Map<ActivityCode, ActivityCodeValue>) get(TaskField.ACTIVITY_CODE_VALUES)).put(value.getActivityCode(), value);
+   }
+
+   /**
+    * Assign an activity code value to this task.
+    *
+    * @param value activity code value
+    */
+   @SuppressWarnings("unchecked") public void addActivityCodeValue(ActivityCodeValue value)
+   {
+      ((Map<ActivityCode, ActivityCodeValue>) get(TaskField.ACTIVITY_CODE_VALUES)).put(value.getActivityCode(), value);
    }
 
    /**
@@ -5948,9 +5971,15 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return TaskMode.AUTO_SCHEDULED;
    }
 
-   private List<ActivityCodeValue> defaultActivityCodesList()
+   private List<ActivityCodeValue> calculateActivityCodes()
    {
-      return new ArrayList<>();
+      Map<ActivityCode, ActivityCodeValue> map = getActivityCodeValues();
+      return map.isEmpty() ? Collections.emptyList() : new ArrayList<>(map.values());
+   }
+
+   private Map<ActivityCode, ActivityCodeValue> defaultActivityCodeValues()
+   {
+      return new HashMap<>();
    }
 
    private List<ExpenseItem> defaultExpenseItems()
@@ -5990,7 +6019,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    private RecurringTask m_recurringTask;
 
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS));
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS, TaskField.ACTIVITY_CODES));
 
    private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
@@ -6012,11 +6041,12 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::calculatePredecessors);
       CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::calculateSuccessors);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_PERCENT_COMPLETE, Task::calculateActivityPercentComplete);
+      CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODES, Task::calculateActivityCodes);
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
       CALCULATED_FIELD_MAP.put(TaskField.TASK_MODE, Task::defaultTaskMode);
-      CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODES, Task::defaultActivityCodesList);
+      CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODE_VALUES, Task::defaultActivityCodeValues);
       CALCULATED_FIELD_MAP.put(TaskField.EXPENSE_ITEMS, Task::defaultExpenseItems);
       CALCULATED_FIELD_MAP.put(TaskField.STEPS, Task::defaultSteps);
       CALCULATED_FIELD_MAP.put(TaskField.EXPANDED, Task::defaultExpanded);

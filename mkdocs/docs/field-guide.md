@@ -188,7 +188,7 @@ Field|Asta (PP)|ConceptDraw PROJECT (CDP)|Deltek OpenPlan (BK3)|FastTrack (FTS)|
 % Work Complete| | | | | | | |✓|✓|✓|✓| | |✓|✓|✓|✓| | | | | | | 
 ACWP| | | | | | | |✓| | |✓| | | | | | | | | | | | | 
 Active|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
-Activity Codes|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Activity Code Values|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Activity ID|✓| |✓| | | | | | | | |✓|✓| |✓|✓|✓| | |✓| |✓|✓| 
 Activity Percent Complete|✓|✓| |✓|✓|✓| | |✓|✓|✓|✓|✓|✓|✓|✓|✓| | |✓| |✓|✓| 
 Activity Status| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
