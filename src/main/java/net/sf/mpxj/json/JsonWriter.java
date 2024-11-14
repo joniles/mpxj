@@ -1713,7 +1713,7 @@ public final class JsonWriter extends AbstractProjectWriter
       List<ActivityCodeValue> list = (List<ActivityCodeValue>) value;
       if (!list.isEmpty())
       {
-         m_writer.writeList(fieldName, list.stream().map(ActivityCodeValue::getUniqueID).collect(Collectors.toList()));
+         m_writer.writeList(fieldName, list.stream().map(ActivityCodeValue::getUniqueID).sorted().collect(Collectors.toList()));
       }
    }
 
