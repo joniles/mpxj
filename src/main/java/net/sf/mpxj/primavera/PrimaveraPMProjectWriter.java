@@ -1854,9 +1854,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeActivityCodeAssignments(Task task, ActivityType xml)
    {
-      Map<ActivityCode, ActivityCodeValue> map = new HashMap<>();
-      task.getActivityCodes().forEach(v -> map.put(v.getActivityCode(), v));
-      map.values().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeActivityCodeAssignment(xml, v));
+      task.getActivityCodeValues().values().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeActivityCodeAssignment(xml, v));
    }
 
    /**

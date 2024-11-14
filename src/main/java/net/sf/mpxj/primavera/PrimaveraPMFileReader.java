@@ -2458,7 +2458,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ActivityCodeValue activityCodeValue = activityCode.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
          if (activityCodeValue != null)
          {
-            task.addActivityCode(activityCodeValue);
+            task.addActivityCodeValue(activityCodeValue);
          }
       }
    }

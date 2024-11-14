@@ -2276,7 +2276,7 @@ final class AstaReader
          // Task will be null here for hammock tasks
          if (task != null)
          {
-            task.addActivityCode(value);
+            task.addActivityCodeValue(value);
          }
       }
    }

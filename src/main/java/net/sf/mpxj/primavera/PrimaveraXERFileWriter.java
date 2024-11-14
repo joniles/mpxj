@@ -471,19 +471,17 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeActivityCodeAssignments()
    {
       m_writer.writeTable("TASKACTV", ACTIVITY_CODE_ASSIGNMENT_COLUMNS);
-      getActivityStream().collect(Collectors.toMap(t -> t, Task::getActivityCodes, (u, v) -> u, TreeMap::new)).forEach(this::writeActivityCodeAssignments);
+      getActivityStream().collect(Collectors.toMap(t -> t, t -> t.getActivityCodeValues(), (u, v) -> u, TreeMap::new)).forEach(this::writeActivityCodeAssignments);
    }
 
    /**
     * Write activity code assignments for a task.
     *
     * @param task parent task
-    * @param values activity code values
+    * @param map activity code values
     */
-   private void writeActivityCodeAssignments(Task task, List<ActivityCodeValue> values)
+   private void writeActivityCodeAssignments(Task task, Map<ActivityCode, ActivityCodeValue> map)
    {
-      Map<ActivityCode, ActivityCodeValue> map = new HashMap<>();
-      values.forEach(v -> map.put(v.getActivityCode(), v));
       map.values().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ACTIVITY_CODE_ASSIGNMENT_COLUMNS, new Pair<>(task, v)));
    }
 

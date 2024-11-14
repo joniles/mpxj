@@ -1728,7 +1728,7 @@ public final class JsonWriter extends AbstractProjectWriter
       Map<ActivityCode, ActivityCodeValue> map = (Map<ActivityCode, ActivityCodeValue>) value;
       if (!map.isEmpty())
       {
-         m_writer.writeList(fieldName, map.values().stream().map(ActivityCodeValue::getUniqueID).collect(Collectors.toList()));
+         m_writer.writeList(fieldName, map.values().stream().map(ActivityCodeValue::getUniqueID).sorted().collect(Collectors.toList()));
       }
    }
 

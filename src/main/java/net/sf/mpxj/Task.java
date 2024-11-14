@@ -367,8 +367,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Retrieve the activity codes associated with this task.
     *
     * @return list of activity codes
+    * @deprecated use getActivityCodeValues()
     */
-   @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
+   @Deprecated @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
    {
       return (List<ActivityCodeValue>) get(TaskField.ACTIVITY_CODES);
    }
@@ -387,8 +388,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Assign an activity code to this task.
     *
     * @param value activity code value
+    * @deprecated use addActivityCodeValue()
     */
-   @SuppressWarnings("unchecked") public void addActivityCode(ActivityCodeValue value)
+   @Deprecated @SuppressWarnings("unchecked") public void addActivityCode(ActivityCodeValue value)
    {
       ((Map<ActivityCode, ActivityCodeValue>) get(TaskField.ACTIVITY_CODE_VALUES)).put(value.getActivityCode(), value);
    }

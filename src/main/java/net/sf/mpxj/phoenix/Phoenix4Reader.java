@@ -742,7 +742,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
          ActivityCodeValue value = m_activityCodeValues.get(valueUUID);
          if (value != null)
          {
-            task.addActivityCode(value);
+            task.addActivityCodeValue(value);
          }
       }
    }
