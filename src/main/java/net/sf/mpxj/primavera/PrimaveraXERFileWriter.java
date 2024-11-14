@@ -471,7 +471,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeActivityCodeAssignments()
    {
       m_writer.writeTable("TASKACTV", ACTIVITY_CODE_ASSIGNMENT_COLUMNS);
-      getActivityStream().collect(Collectors.toMap(t -> t, t -> t.getActivityCodeValues(), (u, v) -> u, TreeMap::new)).forEach(this::writeActivityCodeAssignments);
+      getActivityStream().collect(Collectors.toMap(t -> t, Task::getActivityCodeValues, (u, v) -> u, TreeMap::new)).forEach(this::writeActivityCodeAssignments);
    }
 
    /**
