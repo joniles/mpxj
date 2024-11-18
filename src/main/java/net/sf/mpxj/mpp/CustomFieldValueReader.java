@@ -104,15 +104,20 @@ abstract class CustomFieldValueReader
          {
             CustomFieldLookupTable table = m_container.getOrCreate(field).getLookupTable();
 
+            // Check that this isn't a duplicate entry. We're assuming that unique ID is enough to spot duplicates
+            // TODO: consider indexing the lookup tables to make this more efficient?
             if (table.stream().noneMatch(i -> i.getUniqueID().equals(item.getUniqueID())))
             {
+               // It's the first time we've seen this value so add it, and set the table's GUID
                table.add(item);
                // It's like this to avoid creating empty lookup tables. Need to refactor!
                table.setGUID(lookupTableGuid);
             }
             else
             {
-               // Replace the original instance in the table
+               // Replace the original instance in the table.
+               // This ensures that the same instance is in the container and the lookup table.
+               // TODO: is there a better way to do this? Should we generate the lookup table contents dynamically from the container?
                for (int index=0; index< table.size(); index++)
                {
                   if (table.get(index).getUniqueID().equals(item.getUniqueID()))
