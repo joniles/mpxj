@@ -67,28 +67,32 @@ abstract class CustomFieldValueReader
     */
    public void process()
    {
-      Integer[] uniqueid = m_outlineCodeVarMeta.getUniqueIdentifierArray();
-
-      for (int loop = 0; loop < uniqueid.length; loop++)
+      for (int loop=0; loop < m_outlineCodeFixedData.getItemCount(); loop++)
       {
-         byte[] fixedData2 = m_outlineCodeFixedData2.getByteArrayValue(loop + 3);
-         if (fixedData2 == null)
+         byte[] fixedData = m_outlineCodeFixedData.getByteArrayValue(loop);
+         if (fixedData == null)
          {
             continue;
          }
 
-         Integer id = uniqueid[loop];
-         CustomFieldValueItem item = new CustomFieldValueItem(id);
-         byte[] value = m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE);
-         item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
-         item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
-
-         byte[] fixedData = m_outlineCodeFixedData.getByteArrayValue(loop + 3);
-         if (fixedData != null)
+         Integer id = Integer.valueOf(MPPUtility.getShort(fixedData, UNJQUE_ID_OFFSET));
+         if (!m_outlineCodeVarMeta.containsKey(id))
          {
-            item.setParentUniqueID(Integer.valueOf(MPPUtility.getShort(fixedData, m_parentOffset)));
+            continue;
          }
 
+         byte[] value = m_outlineCodeVarData.getByteArray(id, VALUE_LIST_VALUE);
+         if (value == null)
+         {
+            continue;
+         }
+
+         CustomFieldValueItem item = new CustomFieldValueItem(id);
+         item.setDescription(m_outlineCodeVarData.getUnicodeString(id, VALUE_LIST_DESCRIPTION));
+         item.setUnknown(m_outlineCodeVarData.getByteArray(id, VALUE_LIST_UNKNOWN));
+         item.setParentUniqueID(Integer.valueOf(MPPUtility.getShort(fixedData, m_parentOffset)));
+
+         byte[] fixedData2 = m_outlineCodeFixedData2.getByteArrayValue(loop);
          item.setGUID(MPPUtility.getGUID(fixedData2, 0));
          UUID lookupTableGuid = MPPUtility.getGUID(fixedData2, m_fieldOffset);
          item.setType(CustomFieldValueDataType.getInstance(MPPUtility.getShort(fixedData2, m_typeOffset)));
@@ -99,9 +103,30 @@ abstract class CustomFieldValueReader
          if (field != null)
          {
             CustomFieldLookupTable table = m_container.getOrCreate(field).getLookupTable();
-            table.add(item);
-            // It's like this to avoid creating empty lookup tables. Need to refactor!
-            table.setGUID(lookupTableGuid);
+
+            // Check that this isn't a duplicate entry. We're assuming that unique ID is enough to spot duplicates
+            // TODO: consider indexing the lookup tables to make this more efficient?
+            if (table.stream().noneMatch(i -> i.getUniqueID().equals(item.getUniqueID())))
+            {
+               // It's the first time we've seen this value so add it, and set the table's GUID
+               table.add(item);
+               // It's like this to avoid creating empty lookup tables. Need to refactor!
+               table.setGUID(lookupTableGuid);
+            }
+            else
+            {
+               // Replace the original instance in the table.
+               // This ensures that the same instance is in the container and the lookup table.
+               // TODO: is there a better way to do this? Should we generate the lookup table contents dynamically from the container?
+               for (int index=0; index< table.size(); index++)
+               {
+                  if (table.get(index).getUniqueID().equals(item.getUniqueID()))
+                  {
+                     table.set(index, item);
+                     break;
+                  }
+               }
+            }
          }
       }
    }
@@ -210,6 +235,7 @@ abstract class CustomFieldValueReader
    protected int m_typeOffset;
    protected int m_fieldOffset;
 
+   public static final int UNJQUE_ID_OFFSET = 4;
    public static final Integer VALUE_LIST_VALUE = Integer.valueOf(22);
    public static final Integer VALUE_LIST_DESCRIPTION = Integer.valueOf(8);
    public static final Integer VALUE_LIST_UNKNOWN = Integer.valueOf(23);

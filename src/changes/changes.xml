@@ -13,6 +13,7 @@
 			<action dev="joniles" type="update">Marked the `Task.getActivityCodes()` method as deprecated. Replaced with the `Task.getActivityCodeValues()` method which is more clearly named, and presents the activity code values in a more flexible form.</action>
 			<action dev="joniles" type="update">Added the `Task.addActivityCodeValue()` method.</action>
 			<action dev="joniles" type="update">Marked the `Task.addActivityCode()` method as deprecated. Replaced with the `Task.addActivityCodeValue()` method which is more clearly named.</action>
+			<action dev="joniles" type="update">Further improvements to retrieval of custom field values read from MPP files.</action>
 		</release>
 		<release date="2024-11-06" version="13.6.0">
 			<action dev="joniles" type="update">Added the `Task.getBaselineTask()` methods. For applications where a separate baseline schedule is present or a baseline has been manually added to the `ProjectFile` instance, these methods will allow you to access the underlying baseline task instance from the current task instance.</action>
