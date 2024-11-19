@@ -125,7 +125,7 @@ running the JUnit test runner with the -noloading command line option, other
 taking other steps to disable JUnit classloading was recommended. This problem
 is not believed to affect the more recent version of JAXB now used by MPXJ.
 
-## .NET Core
+## .NET
 **When using MPXJ from .NET Core I get an error similar to `No data is available
   for encoding 437. For information on defining a custom encoding, see the
   documentation for the Encoding.RegisterProvider method.`**
@@ -137,6 +137,49 @@ resolve this issue add the following to your code:
 ```c#
 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 ```
+
+**I have set up a simple test project using MPXJ.Net, and when I try to do
+anything with MPXJ, an exception is thrown**
+
+One of the libraries MPXJ depends on throws and catches one or more exceptions
+as part of its normal flow of control. These exceptions are handled, so you can
+keep pressing continue, and your code should run normally after that.
+Visual Studio is breaking on these exceptions even though they are
+handled. You can prevent this behavior by adding this condition to the
+"Common Language Runtime Exceptions" entry in the exception
+settings window in Visual Studio: `Module Name Not Equals org.glassfish.*`,
+as illustrated below.
+
+![Visual Studio Exception Settings](images/exception-settings.png)
+
+**I have set up a simple test project using MPXJ.Net, and when I try to do
+anything with MPXJ, Visual Studio crashes**
+
+This is the same problem as described above. MPXJ is catching an exception being
+raised in one of MPXJ's dependencies and, in the process, crashing. The
+solution is the same: add the condition described above to ensure that Visual
+Studio ignores this exception.
+
+**I have set up a simple test project using MPXJ.Net, but when I run it I get
+this error `System.IO.FileNotFoundException: 'Could not load file or assembly
+'mpxj, Version=(version number), Culture=neutral, PublicKeyToken=(token)'
+or one of its dependencies. The system cannot find the file specified.'`**
+
+This is typically caused by MPXJ.Net being added as a dependency to a non
+SDK-style project. MPXJ.Net will only work with an SDK-style project.
+If you open your `csproj` file in a text editor, the first line should look
+something like this: `<Project Sdk="Microsoft.NET.Sdk">`. If your `csproj`
+file is different you will need to create a new SDK-style project. Sample
+projects in this form can be found [in this repository](https://github.com/joniles/mpxj-dotnet-samples).
+
+**I have an application which uses MPXJ.Net and runs fine on my local machine,
+but fails with a Segmentation Fault when run in Docker**
+When using Docker to host an application built with MPXJ.Net, you may find
+that the application crashes with a segmentation fault when invoking MPXJ.Net
+code. The issue is likely to be a library missing from the Docker image.
+Adding the following line to your `Dockerfile` will ensure that the 
+most common missing library is added:
+`RUN apt-get update && apt-get install -y libfontconfig`
 
 ## log4j2
 When you start MPXJ, you may see the following message written to the console:

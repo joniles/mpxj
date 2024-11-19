@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.mpxj</groupId>
 	<artifactId>mpxj</artifactId>
-	<version>13.3.0</version>
+	<version>13.6.0</version>
 	<name>MPXJ</name>
 	<url>http://mpxj.org</url>
 
@@ -242,6 +242,9 @@
 		</contributor>
 		<contributor>
 			<name>Shlomo Swidler</name>
+		</contributor>
+		<contributor>
+			<name>szadev</name>
 		</contributor>
 		<contributor>
 			<name>Daniel Taylor</name>

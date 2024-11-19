@@ -808,7 +808,7 @@ final class MPP8Reader implements MPPVariantReader
                   if (task1 != null && task2 != null)
                   {
                      Relation relation = task2.addPredecessor(new Relation.Builder()
-                        .targetTask(task1)
+                        .predecessorTask(task1)
                         .type(RelationType.getInstance(MPPUtility.getShort(data, 20)))
                         .lag(MPPUtility.getDuration(MPPUtility.getInt(data, 24), MPPUtility.getDurationTimeUnits(MPPUtility.getShort(data, 22))))
                         .uniqueID(Integer.valueOf(MPPUtility.getInt(data, 0))));

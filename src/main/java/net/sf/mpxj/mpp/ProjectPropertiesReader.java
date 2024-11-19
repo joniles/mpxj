@@ -25,9 +25,9 @@ package net.sf.mpxj.mpp;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 import net.sf.mpxj.common.DayOfWeekHelper;
@@ -242,9 +242,6 @@ public final class ProjectPropertiesReader
          return null;
       }
 
-      m_calendar.setTime(date);
-      return LocalDateTime.of(m_calendar.get(Calendar.YEAR), m_calendar.get(Calendar.MONTH) + 1, m_calendar.get(Calendar.DAY_OF_MONTH), m_calendar.get(Calendar.HOUR_OF_DAY), m_calendar.get(Calendar.MINUTE), m_calendar.get(Calendar.SECOND));
+      return LocalDateTime.ofInstant(date.toInstant(), TimeZone.getDefault().toZoneId());
    }
-
-   private final Calendar m_calendar = Calendar.getInstance();
 }

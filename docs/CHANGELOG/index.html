@@ -291,9 +291,72 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1331-unreleased" class="md-nav__link">
+  <a href="#1361-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.3.1 (unreleased)
+      13.6.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1360-2024-11-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.6.0 (2024-11-06)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1351-2024-10-28" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.5.1 (2024-10-28)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1350-2024-10-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.5.0 (2024-10-17)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1342-2024-10-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.4.2 (2024-10-08)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1341-2024-10-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.4.1 (2024-10-07)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1340-2024-09-18" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.4.0 (2024-09-18)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1331-2024-08-30" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.3.1 (2024-08-30)
     </span>
   </a>
   
@@ -3930,9 +3993,72 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1331-unreleased" class="md-nav__link">
+  <a href="#1361-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.3.1 (unreleased)
+      13.6.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1360-2024-11-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.6.0 (2024-11-06)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1351-2024-10-28" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.5.1 (2024-10-28)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1350-2024-10-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.5.0 (2024-10-17)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1342-2024-10-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.4.2 (2024-10-08)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1341-2024-10-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.4.1 (2024-10-07)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1340-2024-09-18" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.4.0 (2024-09-18)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1331-2024-08-30" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.3.1 (2024-08-30)
     </span>
   </a>
   
@@ -6213,7 +6339,52 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1331-unreleased">13.3.1 (unreleased)</h2>
+<h2 id="1361-unreleased">13.6.1 (unreleased)</h2>
+<ul>
+<li>Update the MPXJ ruby gem to allow access to calendar data.</li>
+</ul>
+<h2 id="1360-2024-11-06">13.6.0 (2024-11-06)</h2>
+<ul>
+<li>Added the <code>Task.getBaselineTask()</code> methods. For applications where a separate baseline schedule is present or a baseline has been manually added to the <code>ProjectFile</code> instance, these methods will allow you to access the underlying baseline task instance from the current task instance.</li>
+<li>Added the Activity Percent Complete attribute to the <code>Task</code> class. The value of this attribute will be the Duration, Physical or Units percent complete value, based on the Percent Complete Type setting. This attribute is provided as a convenience to match the Activity Percent Complete type value shown in P6.</li>
+<li>Improve retrieval of custom field values for certain MPP files.</li>
+<li>Improve handling of PMXML files with more than 11 baselines.</li>
+<li>Improve handling of unexpected data types when writing JSON files.</li>
+<li>Added the <code>Relation.getPredecessorTask()</code> and <code>Relation.getSuccessorTask()</code> methods.</li>
+<li>Marked the <code>Relation.getSourceTask()</code> and <code>Relation.getTargetTask()</code> methods as deprecated, use the <code>Relation.getPredecessorTask()</code> and <code>Relation.getSuccessorTask()</code> instead.</li>
+<li>Ensure that with "Link Cross Project Relations" enabled when reading XER or PMXML files, the predecessor and successor lists for both tasks related acrosss projects are correctly populated.</li>
+</ul>
+<h2 id="1351-2024-10-28">13.5.1 (2024-10-28)</h2>
+<ul>
+<li>Fix CVE-2024-49771: Potential Path Traversal Vulnerability (Contributed by yyjLF and sprinkle).</li>
+</ul>
+<h2 id="1350-2024-10-17">13.5.0 (2024-10-17)</h2>
+<ul>
+<li>Added support for reading and writing Resource Role Assignments for Primavera schedules. The <code>Resource.getRoleAssignments()</code> method retrieves a map representing the roles a resource is assigned to, along with the skill level for each assignment. The <code>Resource.addRoleAssignment()</code> and <code>Resource.removeRoleAssignment()</code> methods allow role assignments to be added and removed.</li>
+<li>Added support for the Resource Primary Role attribute, which is read from and written to Primavera schedules.</li>
+<li>Improve handling Boolean attributes with default values when reading XER files.</li>
+<li>Added the <code>getShowStartText</code>, <code>getShowFinishText</code> and <code>getShowDurationText</code> methods to the <code>Task</code> class. When working with manually scheduled tasks in Microsoft Project, users can potentially supply arbitrary text for the Start, Finish and Duration attributes. Microsoft Project still stores appropriate values for these attributes, which can be accessed in MPXJ as Start, Finish and Duration, but where the user has supplied text, these attributes are available as Start Text, Finish Text, and Duration Text. The methods added by this change allow the caller to determine which version of each attribute should be shown to the user in order to replicate what they see in Microsoft Project.</li>
+</ul>
+<h2 id="1342-2024-10-08">13.4.2 (2024-10-08)</h2>
+<ul>
+<li>Added the <code>ProjectCalendarDays.getCalendarHours()</code> method to allow direct access to the <code>ProjectCalendarHours</code> instances for each day of the week.</li>
+</ul>
+<h2 id="1341-2024-10-07">13.4.1 (2024-10-07)</h2>
+<ul>
+<li>Added the <code>ProjectCalendarDays.getCalendarDayTypes()</code> method to allow direct access to the <code>DayType</code> instances for each day of the week.</li>
+</ul>
+<h2 id="1340-2024-09-18">13.4.0 (2024-09-18)</h2>
+<ul>
+<li>Added support for reading and writing resource shifts for P6 schedules.</li>
+<li>Ensure the Scheduling Progressed Activities project property is populated when reading Phoenix schedules.</li>
+<li>When reading milestones from an Asta schedule, ensure that the Activity Type attribute is populated to allow start milestones and finish milestones to be differentiated.</li>
+<li>Fix an issue which occurred when writing MSPDI files with manually scheduled tasks starting on non-working days where their timephased data is split as days.</li>
+</ul>
+<h2 id="1331-2024-08-30">13.3.1 (2024-08-30)</h2>
+<ul>
+<li>Handle duplicate custom field value unique IDs when reading MSPDI files.</li>
+<li>Handle missing remaining early start date when reading timephased data from a P6 schedule.</li>
+</ul>
 <h2 id="1330-2024-08-22">13.3.0 (2024-08-22)</h2>
 <ul>
 <li>When reading multiple Primavera schedules from the same source, MPXJ now ensures that instances of activity code definitions, user defined field definitions, locations, units of measure, expense categories, cost accounts, work contours, and notes topics are shared across projects. This will allow you to, for example, filter tasks from multiple projects using a <code>Location</code> instance. Previously each project had its own independent instances for each of these types, which could not be used across multiple projects.</li>

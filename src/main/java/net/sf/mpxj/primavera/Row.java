@@ -71,6 +71,14 @@ interface Row
    public boolean getBoolean(String name);
 
    /**
+    * Retrieve a boolean attribute.
+    *
+    * @param name attribute name
+    * @return attribute value
+    */
+   public Boolean getBooleanObject(String name);
+
+   /**
     * Retrieve an in attribute.
     *
     * @param name attribute name

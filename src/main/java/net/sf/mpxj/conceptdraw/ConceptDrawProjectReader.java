@@ -440,7 +440,7 @@ public final class ConceptDrawProjectReader extends AbstractProjectStreamReader
       if (sourceTask != null && destinationTask != null)
       {
          Relation relation = destinationTask.addPredecessor(new Relation.Builder()
-            .targetTask(sourceTask)
+            .predecessorTask(sourceTask)
             .type(link.getType())
             .lag(getDuration(link.getLagUnit(), link.getLag()))
             .uniqueID(link.getID()));

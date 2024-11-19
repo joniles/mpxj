@@ -228,7 +228,7 @@ class ActivityReader
             ActivityCodeValue acv = entry.getValue().get(columnValue);
             if (acv != null)
             {
-               task.addActivityCode(acv);
+               task.addActivityCodeValue(acv);
             }
          }
 

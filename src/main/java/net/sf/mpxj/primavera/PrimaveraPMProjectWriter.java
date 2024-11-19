@@ -51,6 +51,9 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
 
+import net.sf.mpxj.Shift;
+import net.sf.mpxj.ShiftPeriod;
+import net.sf.mpxj.SkillLevel;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.common.DayOfWeekHelper;
 import net.sf.mpxj.Duration;
@@ -117,10 +120,13 @@ import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
 import net.sf.mpxj.primavera.schema.ResourceCurveType;
 import net.sf.mpxj.primavera.schema.ResourceCurveValuesType;
 import net.sf.mpxj.primavera.schema.ResourceRateType;
+import net.sf.mpxj.primavera.schema.ResourceRoleType;
 import net.sf.mpxj.primavera.schema.ResourceType;
 import net.sf.mpxj.primavera.schema.RoleRateType;
 import net.sf.mpxj.primavera.schema.RoleType;
 import net.sf.mpxj.primavera.schema.ScheduleOptionsType;
+import net.sf.mpxj.primavera.schema.ShiftPeriodType;
+import net.sf.mpxj.primavera.schema.ShiftType;
 import net.sf.mpxj.primavera.schema.UDFAssignmentType;
 import net.sf.mpxj.primavera.schema.UDFTypeType;
 import net.sf.mpxj.primavera.schema.UnitOfMeasureType;
@@ -196,6 +202,7 @@ final class PrimaveraPMProjectWriter
             m_udf = project.getUDF();
 
             writeLocations();
+            writeShifts();
             writeProjectProperties(project);
             writeUnitsOfMeasure();
             writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
@@ -210,6 +217,7 @@ final class PrimaveraPMProjectWriter
             writeCalendars();
             writeResources();
             writeRoles();
+            writeRoleAssignments();
             writeResourceRates();
             writeRoleRates();
             writeTasks();
@@ -382,6 +390,30 @@ final class PrimaveraPMProjectWriter
          lt.setLatitude(location.getLatitude());
          lt.setLongitude(location.getLongitude());
          locations.add(lt);
+      }
+   }
+
+   /**
+    * Write shifts.
+    */
+   private void writeShifts()
+   {
+      List<ShiftType> shifts = m_apibo.getShift();
+      for (Shift shift : m_projectFile.getShifts())
+      {
+         ShiftType st = m_factory.createShiftType();
+         st.setObjectId(shift.getUniqueID());
+         st.setName(shift.getName());
+
+         for (ShiftPeriod period : shift.getPeriods())
+         {
+            ShiftPeriodType spt = m_factory.createShiftPeriodType();
+            spt.setObjectId(period.getUniqueID());
+            spt.setStartHour(Integer.valueOf(period.getStart().getHour()));
+            st.getShiftPeriod().add(spt);
+         }
+
+         shifts.add(st);
       }
    }
 
@@ -867,6 +899,8 @@ final class PrimaveraPMProjectWriter
       xml.setSequenceNumber(mpxj.getSequenceNumber());
       xml.setLocationObjectId(mpxj.getLocationUniqueID());
       xml.setUnitOfMeasureObjectId(mpxj.getUnitOfMeasureUniqueID());
+      xml.setShiftObjectId(mpxj.getShiftUniqueID());
+      xml.setPrimaryRoleObjectId(mpxj.getPrimaryRoleUniqueID());
 
       // Write both attributes for backward compatibility,
       // "DefaultUnitsPerTime" is the value read by recent versions of P6
@@ -901,6 +935,32 @@ final class PrimaveraPMProjectWriter
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setResponsibilities(getNotes(mpxj.getNotesObject()));
       xml.setSequenceNumber(mpxj.getSequenceNumber());
+   }
+
+   /**
+    * Write all resource role assignments.
+    */
+   private void writeRoleAssignments()
+   {
+      m_projectFile.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeRoleAssignments(r));
+   }
+
+   /**
+    * Write role assignments for a single resource.
+    *
+    * @param resource resource
+    */
+   private void writeRoleAssignments(Resource resource)
+   {
+      for (Map.Entry<Resource, SkillLevel> entry : resource.getRoleAssignments().entrySet().stream().sorted(Comparator.comparing(e -> e.getKey().getUniqueID())).collect(Collectors.toList()))
+      {
+         ResourceRoleType assignment = m_factory.createResourceRoleType();
+         m_apibo.getResourceRole().add(assignment);
+
+         assignment.setResourceObjectId(resource.getUniqueID());
+         assignment.setRoleObjectId(entry.getKey().getUniqueID());
+         assignment.setProficiency(SkillLevelHelper.getXmlFromInstance(entry.getValue()));
+      }
    }
 
    /**
@@ -1235,8 +1295,8 @@ final class PrimaveraPMProjectWriter
 
          xml.setLag(getDurationInHours(mpxj.getLag()));
          xml.setObjectId(mpxj.getUniqueID());
-         xml.setPredecessorActivityObjectId(mpxj.getTargetTask().getUniqueID());
-         xml.setSuccessorActivityObjectId(mpxj.getSourceTask().getUniqueID());
+         xml.setPredecessorActivityObjectId(mpxj.getPredecessorTask().getUniqueID());
+         xml.setSuccessorActivityObjectId(mpxj.getSuccessorTask().getUniqueID());
          xml.setPredecessorProjectObjectId(m_projectObjectID);
          xml.setSuccessorProjectObjectId(m_projectObjectID);
          xml.setType(RelationTypeHelper.getXmlFromInstance(mpxj.getType()));
@@ -1404,7 +1464,7 @@ final class PrimaveraPMProjectWriter
             //rate.setResourceId(value);
             //rate.setResourceName(value);
             rate.setResourceObjectId(resource.getUniqueID());
-            //rate.setShiftPeriodObjectId(value);
+            rate.setShiftPeriodObjectId(entry.getShiftPeriod() == null ? null : entry.getShiftPeriod().getUniqueID());
          }
       }
    }
@@ -1794,9 +1854,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeActivityCodeAssignments(Task task, ActivityType xml)
    {
-      Map<ActivityCode, ActivityCodeValue> map = new HashMap<>();
-      task.getActivityCodes().forEach(v -> map.put(v.getType(), v));
-      map.values().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeActivityCodeAssignment(xml, v));
+      task.getActivityCodeValues().values().stream().sorted(Comparator.comparing(ActivityCodeValue::getUniqueID)).forEach(v -> writeActivityCodeAssignment(xml, v));
    }
 
    /**
@@ -1809,7 +1867,7 @@ final class PrimaveraPMProjectWriter
    {
       CodeAssignmentType assignment = m_factory.createCodeAssignmentType();
       xml.getCode().add(assignment);
-      assignment.setTypeObjectId(NumberHelper.getInt(value.getType().getUniqueID()));
+      assignment.setTypeObjectId(NumberHelper.getInt(value.getActivityCode().getUniqueID()));
       assignment.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
    }
 

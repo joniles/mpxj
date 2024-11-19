@@ -379,7 +379,7 @@ public class BasicTest
          {
             for (Relation rel : rels)
             {
-               assertNotNull(mpx.getTaskByUniqueID(rel.getTargetTask().getUniqueID()));
+               assertNotNull(mpx.getTaskByUniqueID(rel.getPredecessorTask().getUniqueID()));
             }
          }
       }

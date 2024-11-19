@@ -515,6 +515,7 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.ENTERPRISE_TEXT40.getValue()] = "Enterprise Text40";
       TASK_COLUMNS_ARRAY[TaskField.COMPLETE_THROUGH.getValue()] = "Complete Through";
       TASK_COLUMNS_ARRAY[TaskField.SUMMARY_PROGRESS.getValue()] = "Summary Progress";
+      TASK_COLUMNS_ARRAY[TaskField.ACTIVITY_CODE_VALUES.getValue()] = "Activity Code Values";
 
       TASK_COLUMNS_ARRAY[TaskField.ACTIVE.getValue()] = "Active";
       TASK_COLUMNS_ARRAY[TaskField.GUID.getValue()] = "GUID";
@@ -1055,6 +1056,10 @@ public final class LocaleData extends ListResourceBundle
       TASK_COLUMNS_ARRAY[TaskField.PLANNED_WORK_NONLABOR.getValue()] = "Planned Work (Nonlabor)";
       TASK_COLUMNS_ARRAY[TaskField.REMAINING_WORK_LABOR.getValue()] = "Remaining Work (Labor)";
       TASK_COLUMNS_ARRAY[TaskField.REMAINING_WORK_NONLABOR.getValue()] = "Remaining Work (Nonlabor)";
+      TASK_COLUMNS_ARRAY[TaskField.SHOW_START_TEXT.getValue()] = "Show Start Text";
+      TASK_COLUMNS_ARRAY[TaskField.SHOW_FINISH_TEXT.getValue()] = "Show Finish Text";
+      TASK_COLUMNS_ARRAY[TaskField.SHOW_DURATION_TEXT.getValue()] = "Show Duration Text";
+      TASK_COLUMNS_ARRAY[TaskField.ACTIVITY_PERCENT_COMPLETE.getValue()] = "Activity Percent Complete";
 
       RESOURCE_COLUMNS_ARRAY[ResourceField.ID.getValue()] = "ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.NAME.getValue()] = "Name";
@@ -1611,6 +1616,8 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.LOCATION_UNIQUE_ID.getValue()] = "Location Unique ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.UNIT_OF_MEASURE_UNIQUE_ID.getValue()] = "Unit of Measure Unique ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.DEFAULT_UNITS.getValue()] = "Default Units";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.SHIFT_UNIQUE_ID.getValue()] = "Shift Unique ID";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.PRIMARY_ROLE_UNIQUE_ID.getValue()] = "Primary Role Unique ID";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.START.getValue()] = "Start";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_UNITS.getValue()] = "Assignment Units";

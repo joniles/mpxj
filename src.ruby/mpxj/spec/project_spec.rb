@@ -5,6 +5,12 @@ describe MPXJ::Project do
     @project = MPXJ::Reader.read("#{File.dirname(__FILE__)}/project.mpp")
   end
 
+  describe "#all_calendars" do
+    it 'returns the number of calendars' do
+      expect(@project.all_calendars.size).to eq(5)
+    end
+  end
+
   describe "#all_resources" do
     it 'returns the number of resources' do
       expect(@project.all_resources.size).to eq(4)
@@ -26,6 +32,12 @@ describe MPXJ::Project do
   describe "#all_assignments" do
     it 'returns the number of assignments' do
       expect(@project.all_assignments.size).to eq(4)
+    end
+  end
+
+  describe "#get_calendar_by_unique_id" do
+    it 'returns the correct calendar' do
+      expect(@project.get_calendar_by_unique_id(1).unique_id).to eq(1)
     end
   end
 

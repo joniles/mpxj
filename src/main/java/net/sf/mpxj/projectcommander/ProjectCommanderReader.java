@@ -507,7 +507,7 @@ public final class ProjectCommanderReader extends AbstractProjectStreamReader
       }
 
       successor.addPredecessor(new Relation.Builder()
-         .targetTask(task)
+         .predecessorTask(task)
          .type(DatatypeConverter.getRelationType(data, 2))
          .lag(DatatypeConverter.getDuration(data, 6)));
    }

@@ -42,6 +42,7 @@ import java.util.function.Function;
 import net.sf.mpxj.ActivityCode;
 import net.sf.mpxj.ActivityCodeContainer;
 import net.sf.mpxj.ActivityCodeValue;
+import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.Availability;
 import net.sf.mpxj.ChildTaskContainer;
 import net.sf.mpxj.ConstraintType;
@@ -527,7 +528,7 @@ final class AstaReader
       //BEEN_SPLIT
       //INTERRUPTIBLE
       //HOLDING_PIN
-      ///ACTUAL_DURATIONTYPF
+      //ACTUAL_DURATIONTYPF
       //ACTUAL_DURATIONELA_MONTHS
       task.setActualDuration(row.getDuration("ACTUAL_DURATIONHOURS"));
       task.setEarlyStart(row.getDate("EARLY_START_DATE"));
@@ -761,6 +762,7 @@ final class AstaReader
       //PROGREST_PERIOD
       //SYMBOL_APPEARANCE
       //MILESTONE_TYPE
+      task.setActivityType(getMilestoneType(row));
       //PLACEMENU
       //INTERRUPTIBLE_X
       //ACTUAL_DURATIONTYPF
@@ -837,6 +839,23 @@ final class AstaReader
       processConstraints(row, task);
 
       m_weights.put(task, row.getDouble("OVERALL_PERCENT_COMPL_WEIGHT"));
+   }
+
+   /**
+    * Retrieve the milestone type.
+    *
+    * @param row row
+    * @return milestone type
+    */
+   private ActivityType getMilestoneType(Row row)
+   {
+      Integer value = row.getInteger("MILESTONE_TYPE");
+      if (value == null)
+      {
+         return ActivityType.FINISH_MILESTONE;
+      }
+
+      return value.intValue() == 1 ? ActivityType.FINISH_MILESTONE : ActivityType.START_MILESTONE;
    }
 
    /**
@@ -1128,7 +1147,7 @@ final class AstaReader
             }
 
             endTask.addPredecessor(new Relation.Builder()
-               .targetTask(startTask)
+               .predecessorTask(startTask)
                .type(type)
                .lag(lag)
                .uniqueID(row.getInteger("LINKID")));
@@ -2220,7 +2239,7 @@ final class AstaReader
 
          ObjectSequence sequence = sequences.computeIfAbsent(code, x -> new ObjectSequence(1));
          ActivityCodeValue value = new ActivityCodeValue.Builder(m_project)
-            .type(code)
+            .activityCode(code)
             .uniqueID(id)
             .sequenceNumber(sequence.getNext())
             .name(name)
@@ -2257,7 +2276,7 @@ final class AstaReader
          // Task will be null here for hammock tasks
          if (task != null)
          {
-            task.addActivityCode(value);
+            task.addActivityCodeValue(value);
          }
       }
    }

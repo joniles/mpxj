@@ -544,7 +544,7 @@ public final class PlannerWriter extends AbstractProjectWriter
 
       for (Relation rel : predecessors)
       {
-         Integer taskUniqueID = rel.getTargetTask().getUniqueID();
+         Integer taskUniqueID = rel.getPredecessorTask().getUniqueID();
          Predecessor plannerPredecessor = m_factory.createPredecessor();
          plannerPredecessor.setId(getIntegerString(++id));
          plannerPredecessor.setPredecessorId(getIntegerString(taskUniqueID));
@@ -574,7 +574,7 @@ public final class PlannerWriter extends AbstractProjectWriter
       // Calculate the effect of percent lag
       if (lag.getUnits() == TimeUnit.PERCENT)
       {
-         Duration targetDuration = relation.getTargetTask().getDuration();
+         Duration targetDuration = relation.getPredecessorTask().getDuration();
          double percentValue = lag.getDuration();
          double durationValue = targetDuration.getDuration();
          durationValue = (durationValue * percentValue) / 100.0;
@@ -595,29 +595,29 @@ public final class PlannerWriter extends AbstractProjectWriter
       {
          case START_START:
          {
-            predecessorDate = relation.getTargetTask().getStart();
-            successorDate = relation.getSourceTask().getStart();
+            predecessorDate = relation.getPredecessorTask().getStart();
+            successorDate = relation.getSuccessorTask().getStart();
             break;
          }
 
          case FINISH_FINISH:
          {
-            predecessorDate = relation.getTargetTask().getFinish();
-            successorDate = relation.getSourceTask().getFinish();
+            predecessorDate = relation.getPredecessorTask().getFinish();
+            successorDate = relation.getSuccessorTask().getFinish();
             break;
          }
 
          case START_FINISH:
          {
-            predecessorDate = relation.getTargetTask().getStart();
-            successorDate = relation.getSourceTask().getFinish();
+            predecessorDate = relation.getPredecessorTask().getStart();
+            successorDate = relation.getSuccessorTask().getFinish();
             break;
          }
 
          default:
          {
-            predecessorDate = relation.getTargetTask().getFinish();
-            successorDate = relation.getSourceTask().getStart();
+            predecessorDate = relation.getPredecessorTask().getFinish();
+            successorDate = relation.getSuccessorTask().getStart();
             break;
          }
       }

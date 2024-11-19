@@ -84,4 +84,12 @@ describe MPXJ::Task do
       expect(task.start.to_s).to eq('2015-03-17 08:00:00 -0700')
     end
   end
+
+  describe "#calendar" do
+    it 'returns correct value' do
+      task = @project.get_task_by_id(1)
+      expect(task.name).to eq('Task1')
+      expect(task.calendar).to eq(nil)
+    end
+  end
 end

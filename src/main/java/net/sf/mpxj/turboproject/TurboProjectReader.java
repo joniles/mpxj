@@ -397,7 +397,7 @@ public final class TurboProjectReader extends AbstractProjectStreamReader
          if (task1 != null && task2 != null)
          {
             Relation relation = task2.addPredecessor(new Relation.Builder()
-               .targetTask(task1)
+               .predecessorTask(task1)
                .type(row.getRelationType("TYPE"))
                .lag(row.getDuration("LAG")));
 

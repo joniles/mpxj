@@ -48,6 +48,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.BaselineStrategy;
 import net.sf.mpxj.ProjectFileSharedData;
+import net.sf.mpxj.Shift;
+import net.sf.mpxj.ShiftContainer;
+import net.sf.mpxj.ShiftPeriod;
+import net.sf.mpxj.ShiftPeriodContainer;
 import net.sf.mpxj.TimephasedWorkContainer;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
@@ -65,6 +69,9 @@ import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
 import net.sf.mpxj.primavera.schema.ProjectListType;
+import net.sf.mpxj.primavera.schema.ResourceRoleType;
+import net.sf.mpxj.primavera.schema.ShiftPeriodType;
+import net.sf.mpxj.primavera.schema.ShiftType;
 import net.sf.mpxj.primavera.schema.UnitOfMeasureType;
 import org.apache.poi.util.ReplacingInputStream;
 import org.xml.sax.InputSource;
@@ -295,8 +302,23 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                   predecessor = externalRelation.getTargetTask();
                }
 
-               successor.addPredecessor(new Relation.Builder()
-                  .targetTask(predecessor)
+               // We need to ensure that the relation is present in both
+               // projects so that predecessors and successors are populated
+               // in both projects.
+
+               ProjectFile successorProject = successor.getParentFile();
+               successorProject.getRelations().addPredecessor(new Relation.Builder()
+                  .predecessorTask(predecessor)
+                  .successorTask(successor)
+                  .type(externalRelation.getType())
+                  .lag(externalRelation.getLag())
+                  .uniqueID(externalRelation.getUniqueID())
+                  .notes(externalRelation.getNotes()));
+
+               ProjectFile predecessorProject = predecessor.getParentFile();
+               predecessorProject.getRelations().addPredecessor(new Relation.Builder()
+                  .predecessorTask(predecessor)
+                  .successorTask(successor)
                   .type(externalRelation.getType())
                   .lag(externalRelation.getLag())
                   .uniqueID(externalRelation.getUniqueID())
@@ -318,7 +340,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (apibo.getProjectList() != null && apibo.getProjectList().getProject().stream().anyMatch(p -> !p.getBaselineProject().isEmpty()))
          {
             // We have baselines in the project list
-            populateBaselinesbyProjectList(apibo, projects);
+            populateBaselinesByProjectList(apibo, projects);
          }
       }
    }
@@ -336,7 +358,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-   private void populateBaselinesbyProjectList(APIBusinessObjects apibo, List<ProjectFile> projects)
+   private void populateBaselinesByProjectList(APIBusinessObjects apibo, List<ProjectFile> projects)
    {
       Map<Integer, ProjectFile> map = projects.stream().collect(Collectors.toMap(p -> p.getProjectProperties().getUniqueID(), p -> p));
       for (ProjectListType.Project project : apibo.getProjectList().getProject())
@@ -361,7 +383,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             {
                continue;
             }
+
             parentProject.setBaseline(baselineProject, baselineIndex++);
+
+            // TODO: allow an arbitrary number of baselines to be captured
+            if (baselineIndex > 10)
+            {
+               break;
+            }
          }
       }
    }
@@ -454,11 +483,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             processNotebookTopics(apibo);
             processUdfDefintions(apibo);
             processActivityCodeDefinitions(apibo.getActivityCodeType(), apibo.getActivityCode());
+            processShifts(apibo);
          }
 
          processCalendars(apibo.getCalendar());
          processResources(apibo);
          processRoles(apibo);
+         processRoleAssignments(apibo);
          processResourceRates(apibo);
          processRoleRates(apibo);
 
@@ -745,7 +776,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (code != null)
          {
             ActivityCodeValue value = new ActivityCodeValue.Builder(m_projectFile)
-               .type(code)
+               .activityCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
                .name(typeValue.getCodeValue())
@@ -782,6 +813,35 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             .latitude(c.getLatitude())
             .longitude(c.getLongitude())
             .build()));
+   }
+
+   /**
+    * Process shifts.
+    *
+    * @param apibo top level object
+    */
+   private void processShifts(APIBusinessObjects apibo)
+   {
+      ShiftContainer shiftContainer = m_projectFile.getShifts();
+      ShiftPeriodContainer shiftPeriodContainer = m_projectFile.getShiftPeriods();
+
+      for (ShiftType xml : apibo.getShift())
+      {
+         Shift shift = new Shift.Builder(m_projectFile)
+            .name(xml.getName())
+            .uniqueID(xml.getObjectId())
+            .build();
+         shiftContainer.add(shift);
+
+         for (ShiftPeriodType xmlPeriod : xml.getShiftPeriod())
+         {
+            ShiftPeriod period = new ShiftPeriod.Builder(m_projectFile, shift)
+               .uniqueID(xmlPeriod.getObjectId())
+               .start(xmlPeriod.getStartHour())
+               .build();
+            shiftPeriodContainer.add(period);
+         }
+      }
    }
 
    /**
@@ -1139,6 +1199,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setActive(BooleanHelper.getBoolean(xml.isIsActive()));
          resource.setLocationUniqueID(xml.getLocationObjectId());
          resource.setUnitOfMeasureUniqueID(xml.getUnitOfMeasureObjectId());
+         resource.setShiftUniqueID(xml.getShiftObjectId());
+         resource.setPrimaryRoleUniqueID(xml.getPrimaryRoleObjectId());
 
          populateUserDefinedFieldValues(resource, xml.getUDF());
 
@@ -1162,6 +1224,31 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setResourceID(role.getId());
          resource.setNotesObject(getHtmlNote(role.getResponsibilities()));
          resource.setSequenceNumber(role.getSequenceNumber());
+      }
+   }
+
+   /**
+    * Process role assignments.
+    *
+    * @param apibo xml container
+    */
+   private void processRoleAssignments(APIBusinessObjects apibo)
+   {
+      for (ResourceRoleType assignment : apibo.getResourceRole())
+      {
+         Resource resource = m_projectFile.getResourceByUniqueID(assignment.getResourceObjectId());
+         if (resource == null)
+         {
+            continue;
+         }
+
+         Resource role = m_projectFile.getResourceByUniqueID(assignment.getRoleObjectId());
+         if (role == null)
+         {
+            continue;
+         }
+
+         resource.addRoleAssignment(role, SkillLevelHelper.getInstanceFromXml(assignment.getProficiency()));
       }
    }
 
@@ -1792,7 +1879,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (successorTask != null && predecessorTask != null)
          {
             Relation relation = successorTask.addPredecessor(new Relation.Builder()
-               .targetTask(predecessorTask)
+               .predecessorTask(predecessorTask)
                .type(type)
                .lag(lag)
                .uniqueID(row.getObjectId())
@@ -2003,6 +2090,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getMaxUnitsPerTime()) * 100); // adjust to be % as in MS Project
+         ShiftPeriod period = m_projectFile.getShiftPeriods().getByUniqueID(row.getShiftPeriodObjectId());
          LocalDateTime startDate = row.getEffectiveDate();
          LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
 
@@ -2025,7 +2113,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             endDate = LocalDateTimeHelper.END_DATE_NA;
          }
 
-         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
+         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, period, values));
          resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
       }
    }
@@ -2370,7 +2458,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          ActivityCodeValue activityCodeValue = activityCode.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
          if (activityCodeValue != null)
          {
-            task.addActivityCode(activityCodeValue);
+            task.addActivityCodeValue(activityCodeValue);
          }
       }
    }

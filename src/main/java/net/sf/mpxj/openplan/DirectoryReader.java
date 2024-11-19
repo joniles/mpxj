@@ -32,7 +32,7 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 abstract class DirectoryReader
 {
    /**
-    * Retriueve a named directory entry.
+    * Retrieve a named directory entry.
     *
     * @param root parent directory
     * @param name directory name

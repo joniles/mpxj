@@ -55,6 +55,10 @@ import java.time.DayOfWeek;
 
 import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.SchedulingProgressedActivities;
+import net.sf.mpxj.Shift;
+import net.sf.mpxj.ShiftContainer;
+import net.sf.mpxj.ShiftPeriod;
+import net.sf.mpxj.ShiftPeriodContainer;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.UnitOfMeasureContainer;
 import net.sf.mpxj.common.DayOfWeekHelper;
@@ -256,6 +260,38 @@ final class PrimaveraReader
    }
 
    /**
+    * Process shifts.
+    *
+    * @param shifts shift data
+    * @param periods shift period data
+    */
+   public void processShifts(List<Row> shifts, List<Row> periods)
+   {
+      ShiftContainer shiftContainer = m_project.getShifts();
+      shifts.forEach(r -> shiftContainer.add(
+         new Shift.Builder(m_project)
+            .uniqueID(r.getInteger("shift_id"))
+            .name(r.getString("shift_name"))
+            .build()));
+
+      ShiftPeriodContainer shiftPeriodContainer = m_project.getShiftPeriods();
+      for (Row row : periods)
+      {
+         Shift shift = shiftContainer.getByUniqueID(row.getInteger("shift_id"));
+         if (shift == null)
+         {
+            continue;
+         }
+
+         ShiftPeriod period = new ShiftPeriod.Builder(m_project, shift)
+            .uniqueID(row.getInteger("shift_period_id"))
+            .start(row.getInteger("shift_start_hr_num"))
+            .build();
+         shiftPeriodContainer.add(period);
+      }
+   }
+
+   /**
     * Process expense categories.
     *
     * @param categories expense categories
@@ -346,7 +382,7 @@ final class PrimaveraReader
          if (code != null)
          {
             ActivityCodeValue value = new ActivityCodeValue.Builder(m_project)
-               .type(code)
+               .activityCode(code)
                .uniqueID(row.getInteger("actv_code_id"))
                .sequenceNumber(row.getInteger("seq_num"))
                .name(row.getString("short_name"))
@@ -814,6 +850,8 @@ final class PrimaveraReader
 
          Double costPerUse = NumberHelper.getDouble(0.0);
          Double maxUnits = NumberHelper.getDouble(NumberHelper.getDouble(row.getDouble("max_qty_per_hr")) * 100); // adjust to be % as in MS Project
+         ShiftPeriod period = m_project.getShiftPeriods().getByUniqueID(row.getInteger("shift_period_id"));
+
          LocalDateTime startDate = row.getDate("start_date");
          LocalDateTime endDate = LocalDateTimeHelper.END_DATE_NA;
 
@@ -837,7 +875,7 @@ final class PrimaveraReader
             endDate = LocalDateTimeHelper.END_DATE_NA;
          }
 
-         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, values));
+         resource.getCostRateTable(0).add(new CostRateTableEntry(startDate, endDate, costPerUse, period, values));
          resource.getAvailability().add(new Availability(startDate, endDate, maxUnits));
       }
    }
@@ -1240,7 +1278,7 @@ final class PrimaveraReader
          ActivityCodeValue value = activityCode.getValueByUniqueID(row.getInteger("actv_code_id"));
          if (value != null)
          {
-            task.addActivityCode(value);
+            task.addActivityCodeValue(value);
          }
       }
    }
@@ -1744,7 +1782,7 @@ final class PrimaveraReader
          if (successorTask != null && predecessorTask != null)
          {
             Relation relation = successorTask.addPredecessor(new Relation.Builder()
-               .targetTask(predecessorTask)
+               .predecessorTask(predecessorTask)
                .type(type)
                .lag(lag)
                .uniqueID(uniqueID)
@@ -2063,6 +2101,44 @@ final class PrimaveraReader
       projectProperties.setMaximumNumberOfFloatPathsToCalculate(NumberHelper.getInteger(row.getString("max_multiple_longest_path")));
    }
 
+   public void processRoleAssignments(List<Row> rows)
+   {
+      for (Row row : rows)
+      {
+         Integer resourceID = row.getInteger("rsrc_id");
+         if (resourceID == null)
+         {
+            continue;
+         }
+
+         Integer roleID = row.getInteger("role_id");
+         if (roleID == null)
+         {
+            continue;
+         }
+
+         Integer skillLevel = row.getInteger("skill_level");
+         if (skillLevel == null)
+         {
+            continue;
+         }
+
+         Resource resource = m_project.getResourceByUniqueID(resourceID);
+         if (resource == null)
+         {
+            continue;
+         }
+
+         Resource role = m_project.getResourceByUniqueID(roleID);
+         if (role == null)
+         {
+            continue;
+         }
+
+         resource.addRoleAssignment(role, SkillLevelHelper.getInstanceFromXer(skillLevel));
+      }
+   }
+
    /**
     * Generic method to extract Primavera fields and assign to MPXJ fields.
     *
@@ -2088,7 +2164,7 @@ final class PrimaveraReader
 
             case BOOLEAN:
             {
-               value = Boolean.valueOf(row.getBoolean(name));
+               value = row.getBooleanObject(name);
                break;
             }
 
@@ -2248,6 +2324,8 @@ final class PrimaveraReader
       map.put(ResourceField.ACTIVE, "active_flag");
       map.put(ResourceField.LOCATION_UNIQUE_ID, "location_id");
       map.put(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID, "unit_id");
+      map.put(ResourceField.SHIFT_UNIQUE_ID, "shift_id");
+      map.put(ResourceField.PRIMARY_ROLE_UNIQUE_ID, "role_id");
 
       return map;
    }

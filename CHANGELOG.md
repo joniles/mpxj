@@ -1,6 +1,42 @@
 # Changelog
 
-## 13.3.1 (unreleased)
+## 13.6.1 (unreleased)
+* Update the MPXJ ruby gem to allow access to calendar data.
+
+## 13.6.0 (2024-11-06)
+* Added the `Task.getBaselineTask()` methods. For applications where a separate baseline schedule is present or a baseline has been manually added to the `ProjectFile` instance, these methods will allow you to access the underlying baseline task instance from the current task instance.
+* Added the Activity Percent Complete attribute to the `Task` class. The value of this attribute will be the Duration, Physical or Units percent complete value, based on the Percent Complete Type setting. This attribute is provided as a convenience to match the Activity Percent Complete type value shown in P6.
+* Improve retrieval of custom field values for certain MPP files.
+* Improve handling of PMXML files with more than 11 baselines.
+* Improve handling of unexpected data types when writing JSON files.
+* Added the `Relation.getPredecessorTask()` and `Relation.getSuccessorTask()` methods.
+* Marked the `Relation.getSourceTask()` and `Relation.getTargetTask()` methods as deprecated, use the `Relation.getPredecessorTask()` and `Relation.getSuccessorTask()` instead.
+* Ensure that with "Link Cross Project Relations" enabled when reading XER or PMXML files, the predecessor and successor lists for both tasks related acrosss projects are correctly populated.
+
+## 13.5.1 (2024-10-28)
+* Fix CVE-2024-49771: Potential Path Traversal Vulnerability (Contributed by yyjLF and sprinkle).
+
+## 13.5.0 (2024-10-17)
+* Added support for reading and writing Resource Role Assignments for Primavera schedules. The `Resource.getRoleAssignments()` method retrieves a map representing the roles a resource is assigned to, along with the skill level for each assignment. The `Resource.addRoleAssignment()` and `Resource.removeRoleAssignment()` methods allow role assignments to be added and removed.
+* Added support for the Resource Primary Role attribute, which is read from and written to Primavera schedules.
+* Improve handling Boolean attributes with default values when reading XER files.
+* Added the `getShowStartText`, `getShowFinishText` and `getShowDurationText` methods to the `Task` class. When working with manually scheduled tasks in Microsoft Project, users can potentially supply arbitrary text for the Start, Finish and Duration attributes. Microsoft Project still stores appropriate values for these attributes, which can be accessed in MPXJ as Start, Finish and Duration, but where the user has supplied text, these attributes are available as Start Text, Finish Text, and Duration Text. The methods added by this change allow the caller to determine which version of each attribute should be shown to the user in order to replicate what they see in Microsoft Project.
+
+## 13.4.2 (2024-10-08)
+* Added the `ProjectCalendarDays.getCalendarHours()` method to allow direct access to the `ProjectCalendarHours` instances for each day of the week.
+
+## 13.4.1 (2024-10-07)
+* Added the `ProjectCalendarDays.getCalendarDayTypes()` method to allow direct access to the `DayType` instances for each day of the week.
+
+## 13.4.0 (2024-09-18)
+* Added support for reading and writing resource shifts for P6 schedules.
+* Ensure the Scheduling Progressed Activities project property is populated when reading Phoenix schedules.
+* When reading milestones from an Asta schedule, ensure that the Activity Type attribute is populated to allow start milestones and finish milestones to be differentiated.
+* Fix an issue which occurred when writing MSPDI files with manually scheduled tasks starting on non-working days where their timephased data is split as days.
+
+## 13.3.1 (2024-08-30)
+* Handle duplicate custom field value unique IDs when reading MSPDI files.
+* Handle missing remaining early start date when reading timephased data from a P6 schedule.
 
 ## 13.3.0 (2024-08-22)
 * When reading multiple Primavera schedules from the same source, MPXJ now ensures that instances of activity code definitions, user defined field definitions, locations, units of measure, expense categories, cost accounts, work contours, and notes topics are shared across projects. This will allow you to, for example, filter tasks from multiple projects using a `Location` instance. Previously each project had its own independent instances for each of these types, which could not be used across multiple projects.

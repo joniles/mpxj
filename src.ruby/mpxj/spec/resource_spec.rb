@@ -15,4 +15,12 @@ describe MPXJ::Resource do
       expect(@project.get_resource_by_id(1).assignments[0].task_unique_id).to eq(1)
     end
   end
+
+  describe "#calendar" do
+    it 'returns correct value' do
+      resource = @project.get_resource_by_id(1)
+      expect(resource.name).to eq('Resource1')
+      expect(resource.calendar.unique_id).to eq(3)
+    end
+  end
 end

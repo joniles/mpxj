@@ -194,9 +194,6 @@ StringLiterals:
 HashSyntax:
   Enabled: false
 
-VariableInterpolation:
-  Enabled: false
-
 TrailingComma:
   Enabled: false
 

@@ -40,7 +40,7 @@ public final class ActivityCodeValue
    private ActivityCodeValue(Builder builder)
    {
       m_uniqueID = builder.m_sequenceProvider.getUniqueIdObjectSequence(ActivityCodeValue.class).syncOrGetNext(builder.m_uniqueID);
-      m_type = builder.m_type;
+      m_activityCode = builder.m_activityCode;
       m_sequenceNumber = builder.m_sequenceNumber;
       m_name = builder.m_name;
       m_description = builder.m_description;
@@ -49,13 +49,24 @@ public final class ActivityCodeValue
    }
 
    /**
-    * Retrieves the parent activity code type.
+    * Retrieves the parent activity code.
+    *
+    * @return ActivityCode instance
+    * @deprecated use getActivityCode instead
+    */
+   @Deprecated public ActivityCode getType()
+   {
+      return m_activityCode;
+   }
+
+   /**
+    * Retrieves the parent activity code.
     *
     * @return ActivityCode instance
     */
-   public ActivityCode getType()
+   public ActivityCode getActivityCode()
    {
-      return m_type;
+      return m_activityCode;
    }
 
    /**
@@ -135,15 +146,15 @@ public final class ActivityCodeValue
     */
    public List<ActivityCodeValue> getChildValues()
    {
-      return m_type.getValues().stream().filter(a -> a.m_parent == this).collect(Collectors.toList());
+      return m_activityCode.getValues().stream().filter(a -> a.m_parent == this).collect(Collectors.toList());
    }
 
    @Override public String toString()
    {
-      return m_type.getName() + ": " + m_name;
+      return m_activityCode.getName() + ": " + m_name;
    }
 
-   private final ActivityCode m_type;
+   private final ActivityCode m_activityCode;
    private final Integer m_uniqueID;
    private final Integer m_sequenceNumber;
    private final String m_name;
@@ -174,7 +185,7 @@ public final class ActivityCodeValue
        */
       public Builder from(ActivityCodeValue value)
       {
-         m_type = value.m_type;
+         m_activityCode = value.m_activityCode;
          m_uniqueID = value.m_uniqueID;
          m_sequenceNumber = value.m_sequenceNumber;
          m_name = value.m_name;
@@ -189,10 +200,23 @@ public final class ActivityCodeValue
        *
        * @param value activity code
        * @return builder
+       * @deprecated use activityCode instead
        */
-      public Builder type(ActivityCode value)
+      @Deprecated public Builder type(ActivityCode value)
       {
-         m_type = value;
+         m_activityCode = value;
+         return this;
+      }
+
+      /**
+       * Add parent activity code.
+       *
+       * @param value activity code
+       * @return builder
+       */
+      public Builder activityCode(ActivityCode value)
+      {
+         m_activityCode = value;
          return this;
       }
 
@@ -279,7 +303,7 @@ public final class ActivityCodeValue
       }
 
       private final UniqueIdObjectSequenceProvider m_sequenceProvider;
-      private ActivityCode m_type;
+      private ActivityCode m_activityCode;
       private Integer m_uniqueID;
       private Integer m_sequenceNumber;
       private String m_name;

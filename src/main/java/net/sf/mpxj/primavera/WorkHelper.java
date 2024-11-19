@@ -34,7 +34,7 @@ import net.sf.mpxj.TimeUnit;
 class WorkHelper
 {
    /**
-    * Summ a number of work values, ignoring null values.
+    * Sum a number of work values, ignoring null values.
     *
     * @param values values to sum
     * @return result

@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -366,20 +367,42 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Retrieve the activity codes associated with this task.
     *
     * @return list of activity codes
+    * @deprecated use getActivityCodeValues()
     */
-   @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
+   @Deprecated @SuppressWarnings("unchecked") public List<ActivityCodeValue> getActivityCodes()
    {
       return (List<ActivityCodeValue>) get(TaskField.ACTIVITY_CODES);
+   }
+
+   /**
+    * Retrieve the activity code values associated with this task.
+    *
+    * @return map of activity code values
+    */
+   @SuppressWarnings("unchecked") public Map<ActivityCode, ActivityCodeValue> getActivityCodeValues()
+   {
+      return (Map<ActivityCode, ActivityCodeValue>) get(TaskField.ACTIVITY_CODE_VALUES);
    }
 
    /**
     * Assign an activity code to this task.
     *
     * @param value activity code value
+    * @deprecated use addActivityCodeValue()
     */
-   @SuppressWarnings("unchecked") public void addActivityCode(ActivityCodeValue value)
+   @Deprecated @SuppressWarnings("unchecked") public void addActivityCode(ActivityCodeValue value)
    {
-      ((List<ActivityCodeValue>) get(TaskField.ACTIVITY_CODES)).add(value);
+      ((Map<ActivityCode, ActivityCodeValue>) get(TaskField.ACTIVITY_CODE_VALUES)).put(value.getActivityCode(), value);
+   }
+
+   /**
+    * Assign an activity code value to this task.
+    *
+    * @param value activity code value
+    */
+   @SuppressWarnings("unchecked") public void addActivityCodeValue(ActivityCodeValue value)
+   {
+      ((Map<ActivityCode, ActivityCodeValue>) get(TaskField.ACTIVITY_CODE_VALUES)).put(value.getActivityCode(), value);
    }
 
    /**
@@ -462,7 +485,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public Relation addPredecessor(Relation.Builder builder)
    {
-      return getParentFile().getRelations().addPredecessor(builder.sourceTask(this));
+      return getParentFile().getRelations().addPredecessor(builder.successorTask(this));
    }
 
    /**
@@ -5452,6 +5475,50 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    }
 
    /**
+    * Returns true for manually scheduled tasks if the Start Text attribute should be
+    * displayed to the user rather than the Start attribute.
+    *
+    * @return true if Start Text should be displayed
+    */
+   public boolean getShowStartText()
+   {
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.SHOW_START_TEXT)));
+   }
+
+   /**
+    * Returns true for manually scheduled tasks if the Finish Text attribute should be
+    * displayed to the user rather than the Finish attribute.
+    *
+    * @return true if Finish Text should be displayed
+    */
+   public boolean getShowFinishText()
+   {
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.SHOW_FINISH_TEXT)));
+   }
+
+   /**
+    * Returns true for manually scheduled tasks if the Duration Text attribute should be
+    * displayed to the user rather than the Duration attribute.
+    *
+    * @return true if Duration Text should be displayed
+    */
+   public boolean getShowDurationText()
+   {
+      return (BooleanHelper.getBoolean((Boolean) get(TaskField.SHOW_DURATION_TEXT)));
+   }
+
+   /**
+    * This accessor method returns the percent complete value for this task
+    * as defined by the Percent Complete Type attribute.
+    *
+    * @return activity percent complete
+    */
+   public Number getActivityPercentComplete()
+   {
+      return (Number) get(TaskField.ACTIVITY_PERCENT_COMPLETE);
+   }
+
+   /**
     * Retrieve the effective calendar for this task. If the task does not have
     * a specific calendar associated with it, fall back to using the default calendar
     * for the project.
@@ -5466,6 +5533,31 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          result = getParentFile().getDefaultCalendar();
       }
       return result;
+   }
+
+   /**
+    * If the parent ProjectFile has one or more baseline ProjectFile instances,
+    * this method will allow you to retrieve the baseline task associated
+    * with this current task. If no baseline task is present this method will return null.
+    *
+    * @return baseline task or null
+    */
+   public Task getBaselineTask()
+   {
+      return getBaselineTask(0);
+   }
+
+   /**
+    * If the parent ProjectFile has one or more baseline ProjectFile instances,
+    * this method will allow you to retrieve the baseline task associated
+    * with this current task. If no baseline task is present this method will return null.
+    *
+    * @param index baseline index
+    * @return baseline task or null
+    */
+   public Task getBaselineTask(int index)
+   {
+      return getParentFile().getBaselineTaskMap(index).get(this);
    }
 
    /**
@@ -5535,7 +5627,20 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    public boolean isPredecessor(Task task)
    {
-      return isRelated(task, getPredecessors());
+      return task != null && getPredecessors().stream().anyMatch(p -> p.getPredecessorTask().getUniqueID().intValue() == task.getUniqueID().intValue());
+   }
+
+   /**
+    * Utility method used to determine if the supplied task
+    * is a successor of the current task.
+    *
+    * @param task potential successor task
+    * @return Boolean flag
+    * @deprecated use isSuccessor
+    */
+   @Deprecated public boolean isSucessor(Task task)
+   {
+      return task != null && task.isPredecessor(this);
    }
 
    /**
@@ -5545,9 +5650,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * @param task potential successor task
     * @return Boolean flag
     */
-   public boolean isSucessor(Task task)
+   public boolean isSuccessor(Task task)
    {
-      return isRelated(task, getSuccessors());
+      return task != null && task.isPredecessor(this);
    }
 
    /**
@@ -5558,28 +5663,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    public boolean hasChildTasks()
    {
       return !m_children.isEmpty();
-   }
-
-   /**
-    * Internal method used to test for the existence of a relationship
-    * with a task.
-    *
-    * @param task target task
-    * @param list list of relationships
-    * @return boolean flag
-    */
-   private boolean isRelated(Task task, List<Relation> list)
-   {
-      boolean result = false;
-      for (Relation relation : list)
-      {
-         if (relation.getTargetTask().getUniqueID().intValue() == task.getUniqueID().intValue())
-         {
-            result = true;
-            break;
-         }
-      }
-      return result;
    }
 
    private Integer calculateParentTaskUniqueID()
@@ -5821,6 +5904,33 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return getParentFile().getRelations().getSuccessors(this);
    }
 
+   private Number calculateActivityPercentComplete()
+   {
+      PercentCompleteType type = getPercentCompleteType();
+      if (type == null)
+      {
+         return getPercentageComplete();
+      }
+
+      switch(type)
+      {
+         case UNITS:
+         {
+            return getPercentageWorkComplete();
+         }
+
+         case PHYSICAL:
+         {
+            return getPhysicalPercentComplete();
+         }
+
+         default:
+         {
+            return getPercentageComplete();
+         }
+      }
+   }
+
    /**
     * Supply a default value for constraint type.
     *
@@ -5861,9 +5971,15 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       return TaskMode.AUTO_SCHEDULED;
    }
 
-   private List<ActivityCodeValue> defaultActivityCodesList()
+   private List<ActivityCodeValue> calculateActivityCodes()
    {
-      return new ArrayList<>();
+      Map<ActivityCode, ActivityCodeValue> map = getActivityCodeValues();
+      return map.isEmpty() ? Collections.emptyList() : new ArrayList<>(map.values());
+   }
+
+   private Map<ActivityCode, ActivityCodeValue> defaultActivityCodeValues()
+   {
+      return new HashMap<>();
    }
 
    private List<ExpenseItem> defaultExpenseItems()
@@ -5903,7 +6019,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    private RecurringTask m_recurringTask;
 
-   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS));
+   private static final Set<FieldType> ALWAYS_CALCULATED_FIELDS = new HashSet<>(Arrays.asList(TaskField.PARENT_TASK_UNIQUE_ID, TaskField.PREDECESSORS, TaskField.SUCCESSORS, TaskField.ACTIVITY_CODES));
 
    private static final Map<FieldType, Function<Task, Object>> CALCULATED_FIELD_MAP = new HashMap<>();
    static
@@ -5924,11 +6040,13 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       CALCULATED_FIELD_MAP.put(TaskField.EXTERNAL_PROJECT, Task::calculateExternalProject);
       CALCULATED_FIELD_MAP.put(TaskField.PREDECESSORS, Task::calculatePredecessors);
       CALCULATED_FIELD_MAP.put(TaskField.SUCCESSORS, Task::calculateSuccessors);
+      CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_PERCENT_COMPLETE, Task::calculateActivityPercentComplete);
+      CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODES, Task::calculateActivityCodes);
       CALCULATED_FIELD_MAP.put(TaskField.CONSTRAINT_TYPE, Task::defaultConstraintType);
       CALCULATED_FIELD_MAP.put(TaskField.ACTIVE, Task::defaultActive);
       CALCULATED_FIELD_MAP.put(TaskField.TYPE, Task::defaultType);
       CALCULATED_FIELD_MAP.put(TaskField.TASK_MODE, Task::defaultTaskMode);
-      CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODES, Task::defaultActivityCodesList);
+      CALCULATED_FIELD_MAP.put(TaskField.ACTIVITY_CODE_VALUES, Task::defaultActivityCodeValues);
       CALCULATED_FIELD_MAP.put(TaskField.EXPENSE_ITEMS, Task::defaultExpenseItems);
       CALCULATED_FIELD_MAP.put(TaskField.STEPS, Task::defaultSteps);
       CALCULATED_FIELD_MAP.put(TaskField.EXPANDED, Task::defaultExpanded);
@@ -5952,5 +6070,6 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
       dependencies.calculatedField(TaskField.CRITICAL).dependsOn(TaskField.TOTAL_SLACK, TaskField.ACTUAL_FINISH);
       dependencies.calculatedField(TaskField.COMPLETE_THROUGH).dependsOn(TaskField.DURATION, TaskField.ACTUAL_START, TaskField.PERCENT_COMPLETE);
       dependencies.calculatedField(TaskField.EXTERNAL_PROJECT).dependsOn(TaskField.SUBPROJECT_FILE, TaskField.EXTERNAL_TASK);
+      dependencies.calculatedField(TaskField.ACTIVITY_PERCENT_COMPLETE).dependsOn(TaskField.PERCENT_COMPLETE_TYPE, TaskField.PERCENT_COMPLETE, TaskField.PERCENT_WORK_COMPLETE, TaskField.PHYSICAL_PERCENT_COMPLETE);
    }
 }

@@ -215,7 +215,7 @@ public final class NotesTopic implements ProjectEntityWithUniqueID
       }
 
       /**
-       * Add the availabale for project flag.
+       * Add the available for project flag.
        *
        * @param value available for project flag
        * @return builder

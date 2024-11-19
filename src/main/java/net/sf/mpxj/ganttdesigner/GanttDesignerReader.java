@@ -226,7 +226,7 @@ public final class GanttDesignerReader extends AbstractProjectStreamReader
             {
                Task predecessorTask = m_projectFile.getTaskByID(Integer.valueOf(predecessor));
                Relation relation = task.addPredecessor(new Relation.Builder()
-                  .targetTask(predecessorTask)
+                  .predecessorTask(predecessorTask)
                   .type(RelationType.FINISH_START)
                   .lag(ganttTask.getL()));
                m_eventManager.fireRelationReadEvent(relation);

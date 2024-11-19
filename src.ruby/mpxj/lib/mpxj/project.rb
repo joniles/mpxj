@@ -4,6 +4,7 @@ module MPXJ
   # Represents a project plan
   class Project
     attr_reader :properties
+    attr_reader :all_calendars
     attr_reader :all_resources
     attr_reader :all_tasks
     attr_reader :child_tasks
@@ -11,12 +12,14 @@ module MPXJ
     attr_reader :zone
 
     def initialize(file_name, zone)
+      @calendars_by_unique_id = {}
       @resources_by_unique_id = {}
       @tasks_by_unique_id = {}
 
-      @resources_by_id = {}
+      @resources_by_id = {}      
       @tasks_by_id = {}
 
+      @all_calendars = []
       @all_resources = []
       @all_tasks = []
       @all_assignments = []
@@ -29,11 +32,21 @@ module MPXJ
 
       file = File.read(file_name)
       json_data = JSON.parse(file)
+      process_calendars(json_data)
       process_custom_fields(json_data)
       process_properties(json_data)
       process_resources(json_data)
       process_tasks(json_data)
       process_assignments(json_data)
+    end
+
+    # Retrieves the calendar with the matching unique_id attribute
+    #
+    # @param unique_id [Integer] calendar unique ID
+    # @return [Calendar] if the requested calendar is found
+    # @return [nil] if the requested calendar is not found
+    def get_calendar_by_unique_id(unique_id)
+      @calendars_by_unique_id[unique_id]
     end
 
     # Retrieves the resource with the matching unique_id attribute
@@ -103,6 +116,15 @@ module MPXJ
     end
 
     private
+
+    def process_calendars(json_data)
+      calendars = json_data["calendars"]
+      calendars.each do |attribute_values|
+        calendar = Calendar.new(self, attribute_values)
+        @all_calendars << calendar
+        @calendars_by_unique_id[calendar.unique_id] = calendar
+      end
+    end
 
     def process_custom_fields(json_data)
       custom_fields = json_data["custom_fields"] || []

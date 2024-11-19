@@ -48,6 +48,7 @@ import net.sf.mpxj.ActivityCodeValue;
 import net.sf.mpxj.RecurrenceType;
 import net.sf.mpxj.RecurringData;
 import net.sf.mpxj.Relation;
+import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.common.SlackHelper;
@@ -133,7 +134,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
 
          Project phoenixProject = (Project) UnmarshalHelper.unmarshal(CONTEXT, new SkipNulInputStream(stream));
          Storepoint storepoint = getCurrentStorepoint(phoenixProject);
-         readProjectProperties(phoenixProject.getSettings(), storepoint);
+         readProjectProperties(phoenixProject, storepoint);
          readCalendars(storepoint);
          readActivityCodes(storepoint);
          readTasks(phoenixProject, storepoint);
@@ -164,16 +165,20 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
    /**
     * This method extracts project properties from a Phoenix file.
     *
-    * @param phoenixSettings Phoenix settings
+    * @param phoenixProject Phoenix project
     * @param storepoint Current storepoint
     */
-   private void readProjectProperties(Settings phoenixSettings, Storepoint storepoint)
+   private void readProjectProperties(Project phoenixProject, Storepoint storepoint)
    {
+      Settings phoenixSettings = phoenixProject.getSettings();
+      Layout activeLayout = getActiveLayout(phoenixProject);
+
       ProjectProperties mpxjProperties = m_projectFile.getProjectProperties();
       mpxjProperties.setName(phoenixSettings.getTitle());
       mpxjProperties.setDefaultDurationUnits(phoenixSettings.getBaseunit());
       mpxjProperties.setStatusDate(storepoint.getDataDate());
       mpxjProperties.setStartDate(storepoint.getStart());
+      mpxjProperties.setSchedulingProgressedActivities(activeLayout.isRetainedLogic().booleanValue() ? SchedulingProgressedActivities.RETAINED_LOGIC : (activeLayout.isProgressOverride().booleanValue() ? SchedulingProgressedActivities.PROGRESS_OVERRIDE : SchedulingProgressedActivities.ACTUAL_DATES));
    }
 
    /**
@@ -212,7 +217,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       for (Value typeValue : code.getValue())
       {
          ActivityCodeValue activityCodeValue = new ActivityCodeValue.Builder(m_projectFile)
-            .type(activityCode)
+            .activityCode(activityCode)
             .sequenceNumber(Integer.valueOf(++activityCodeValueSequence))
             .name(typeValue.getName())
             .description(typeValue.getName())
@@ -737,7 +742,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
          ActivityCodeValue value = m_activityCodeValues.get(valueUUID);
          if (value != null)
          {
-            task.addActivityCode(value);
+            task.addActivityCodeValue(value);
          }
       }
    }
@@ -890,7 +895,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
       if (predecessor != null && successor != null)
       {
          successor.addPredecessor(new Relation.Builder()
-            .targetTask(predecessor)
+            .predecessorTask(predecessor)
             .type(relation.getType())
             .lag(relation.getLag()));
       }
@@ -1077,7 +1082,7 @@ final class Phoenix4Reader extends AbstractProjectStreamReader
    private Map<UUID, ActivityCodeValue> m_activityCodeValues;
    private Map<Activity, Map<UUID, UUID>> m_activityCodeCache;
    private EventManager m_eventManager;
-   List<UUID> m_codeSequence;
+   private List<UUID> m_codeSequence;
    private final boolean m_useActivityCodesForTaskHierarchy;
 
    /**

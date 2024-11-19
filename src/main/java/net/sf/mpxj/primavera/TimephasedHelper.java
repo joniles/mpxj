@@ -48,7 +48,7 @@ final class TimephasedHelper
     */
    public static TimephasedWorkContainer read(ProjectCalendar calendar, LocalDateTime start, String values)
    {
-      if (values == null || values.isEmpty())
+      if (start == null || values == null || values.isEmpty())
       {
          return null;
       }

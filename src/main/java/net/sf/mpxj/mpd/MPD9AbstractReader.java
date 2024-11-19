@@ -1471,7 +1471,7 @@ abstract class MPD9AbstractReader
       if (predecessorTask != null && successorTask != null)
       {
          Relation relation = successorTask.addPredecessor(new Relation.Builder()
-            .targetTask(predecessorTask)
+            .predecessorTask(predecessorTask)
             .type(RelationType.getInstance(row.getInt("LINK_TYPE")))
             .lag(MPDUtility.getDuration(row.getDouble("LINK_LAG").doubleValue(), MPDUtility.getDurationTimeUnits(row.getInt("LINK_LAG_FMT"))))
             .uniqueID(row.getInteger("LINK_UID")));

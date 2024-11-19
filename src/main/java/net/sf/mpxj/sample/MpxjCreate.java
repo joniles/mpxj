@@ -195,7 +195,7 @@ public class MpxjCreate
       //
       // Link these two tasks
       //
-      task3.addPredecessor(new Relation.Builder().targetTask(task2).type(RelationType.FINISH_START));
+      task3.addPredecessor(new Relation.Builder().predecessorTask(task2).type(RelationType.FINISH_START));
 
       //
       // Add a milestone
@@ -204,7 +204,7 @@ public class MpxjCreate
       milestone1.setName("Milestone");
       milestone1.setStart(LocalDateTime.of(2003, 1, 21, 0, 0));
       milestone1.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
-      milestone1.addPredecessor(new Relation.Builder().targetTask(task3).type(RelationType.FINISH_START));
+      milestone1.addPredecessor(new Relation.Builder().predecessorTask(task3).type(RelationType.FINISH_START));
 
       //
       // This final task has a percent complete value, but no
