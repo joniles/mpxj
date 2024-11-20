@@ -127,6 +127,12 @@ public class CpmTest
    {
       boolean result = true;
       LocalDateTime baselineDate = (LocalDateTime)baseline.get(field);
+      if (baselineDate == null)
+      {
+         // We have XER files where some of the attributes we'd expect to be populated are not present. Skip these.
+         return true;
+      }
+
       LocalDateTime workingDate = (LocalDateTime)working.get(field);
 
       //m_buffer.append(baseline + " " + field + " baseline=" + baselineDate + " working=" + workingDate);
@@ -154,6 +160,12 @@ public class CpmTest
    private boolean compareDates(Task baseline, Task working, TaskField field)
    {
       LocalDateTime baselineDate = (LocalDateTime)baseline.get(field);
+      if (baselineDate == null)
+      {
+         // We have XER files where some of the attributes we'd expect to be populated are not present. Skip these.
+         return true;
+      }
+
       LocalDateTime workingDate = (LocalDateTime)working.get(field);
 
       if (baselineDate.isEqual(workingDate))
@@ -182,7 +194,7 @@ public class CpmTest
             boolean earlyStartFail = !compareDates(baseline, working, TaskField.EARLY_START);
             boolean earlyFinishFail = !compareDates(baseline, working, TaskField.EARLY_FINISH);
 
-            System.out.println(working);
+            System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
             System.out.println("Early Start: " + baseline.getEarlyStart() + " " + working.getEarlyStart() + (earlyStartFail ? " FAIL" : ""));
             System.out.println("Early Finish: " + baseline.getEarlyFinish() + " " + working.getEarlyFinish() + (earlyFinishFail ? " FAIL" : ""));
             System.out.println();
