@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -17,8 +18,9 @@ import net.sf.mpxj.TimeUnit;
 
 public class Schedule
 {
-   public Schedule(ProjectFile file)
+   public Schedule(ScheduleStrategy strategy, ProjectFile file)
    {
+      m_strategy = strategy;
       m_file = file;
    }
 
@@ -30,11 +32,18 @@ public class Schedule
          return;
       }
 
+      m_backwardPass = false;
       forwardPass(projectStartDate, tasks);
 
       LocalDateTime projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
 
       backwardPass(projectFinishDate, tasks);
+      m_backwardPass = true;
+
+      if (tasks.stream().anyMatch(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE))
+      {
+         forwardPass(projectStartDate, tasks);
+      }
    }
 
    private void forwardPass(LocalDateTime projectStartDate, List<Task> tasks) throws CpmException
@@ -236,23 +245,6 @@ public class Schedule
                {
                   lateFinish = previousWorkFinish;
                }
-
-               // Now we have finalised LS and LF, deal with an ALAP task
-               //               if (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE)
-               //               {
-               //                  LocalDateTime latestEarlyFinishPlusLag = task.getPredecessors().stream().filter(r -> r.getTargetTask().getActive()).map(r -> r.getPredecessorTask().getEffectiveCalendar().getDate(r.getPredecessorTask().getEarlyFinish(), r.getLag())).max(Comparator.naturalOrder()).orElse(null);
-               //
-               //                  if (latestEarlyFinishPlusLag == null || latestEarlyFinishPlusLag.isBefore(task.getLateStart()))
-               //                  {
-               //                     task.setEarlyStart(task.getLateStart());
-               //                  }
-               //                  else
-               //                  {
-               //                     task.setEarlyStart(latestEarlyFinishPlusLag);
-               //                  }
-               //
-               //                  task.setEarlyFinish(task.getEffectiveCalendar().getDate(task.getEarlyStart(), task.getDuration()));
-               //               }
             }
          }
          else
@@ -269,23 +261,31 @@ public class Schedule
 
    private LocalDateTime calculateEarlyStart(ProjectCalendar calendar, Relation relation)
    {
-      Task task = relation.getPredecessorTask();
+      Task predecessor = relation.getPredecessorTask();
 
       switch (relation.getType())
       {
          case FINISH_START:
          {
-            return calendar.getDate(task.getEarlyFinish(), relation.getLag());
+            // MS Project only: If predecessor is ALAP task and backward pass has been run then use predecessor late finish
+            if (m_strategy == ScheduleStrategy.MICROSOFT_PROJECT && predecessor.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
+            {
+               return calendar.getDate(predecessor.getLateFinish(), relation.getLag());
+            }
+            else
+            {
+               return calendar.getDate(predecessor.getEarlyFinish(), relation.getLag());
+            }
          }
 
          case START_START:
          {
-            return calendar.getDate(task.getEarlyStart(), relation.getLag());
+            return calendar.getDate(predecessor.getEarlyStart(), relation.getLag());
          }
 
          case FINISH_FINISH:
          {
-            LocalDateTime earlyStart = calendar.getDate(task.getEarlyFinish(), relation.getSuccessorTask().getDuration().negate());
+            LocalDateTime earlyStart = calendar.getDate(predecessor.getEarlyFinish(), relation.getSuccessorTask().getDuration().negate());
 
             earlyStart = calendar.getDate(earlyStart, relation.getLag());
 
@@ -298,7 +298,7 @@ public class Schedule
 
          case START_FINISH:
          {
-            return calendar.getDate(calendar.getDate(task.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+            return calendar.getDate(calendar.getDate(predecessor.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
          }
 
          default:
@@ -415,5 +415,7 @@ public class Schedule
       return date.plusMinutes((long)duration);
    }
 
+   private final ScheduleStrategy m_strategy;
    private final ProjectFile m_file;
+   private boolean m_backwardPass;
 }

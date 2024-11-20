@@ -36,48 +36,20 @@ public class CpmTest
          {
             continue;
          }
-         test.process(file.getPath());
+         test.process(ScheduleStrategy.MICROSOFT_PROJECT, file.getPath());
       }
-
-
-/*
-      test.process("/Users/joniles/Downloads/cpm-sample-fs-1.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-fs-2.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-fs-3.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-fs-4.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-fs-5.mpp");
-
-      test.process("/Users/joniles/Downloads/cpm-sample-sf-1.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-sf-2.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-sf-3.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-sf-4.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-sf-5.mpp");
-
-      test.process("/Users/joniles/Downloads/cpm-sample-ff-1.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-ff-2.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-ff-3.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-ff-4.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-ff-5.mpp");
-
-      test.process("/Users/joniles/Downloads/cpm-sample-ss-1.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-ss-2.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-ss-3.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-ss-4.mpp");
-      test.process("/Users/joniles/Downloads/cpm-sample-ss-5.mpp");
- */
    }
 
-   public void process(String file) throws Exception
+   public void process(ScheduleStrategy strategy, String file) throws Exception
    {
       System.out.print("Processing " + file + " ... ");
       m_forwardErrorCount = 0;
       m_backwardErrorCount = 0;
-      //m_buffer.setLength(0);
 
       m_baselineFile = new UniversalProjectReader().read(file);
       m_workingFile = new UniversalProjectReader().read(file);
 
-      new Schedule(m_workingFile).process(m_workingFile.getProjectProperties().getStartDate());
+      new Schedule(strategy, m_workingFile).process(m_workingFile.getProjectProperties().getStartDate());
 
       for (Task baselineTask : m_baselineFile.getTasks())
       {
@@ -91,7 +63,6 @@ public class CpmTest
       else
       {
          System.out.println("failed.");
-         //System.out.println(m_buffer);
          System.out.println("Forward errors: " + m_forwardErrorCount);
          System.out.println("Backward errors: " + m_backwardErrorCount);
          analyseFailures();
@@ -133,12 +104,7 @@ public class CpmTest
       }
 
       LocalDateTime workingDate = (LocalDateTime)working.get(field);
-
-      //m_buffer.append(baseline + " " + field + " baseline=" + baselineDate + " working=" + workingDate);
-
-
       if (LocalDateTimeHelper.compare(baselineDate, workingDate) != 0)
-      //if (!baselineDate.isEqual(workingDate))
       {
          ProjectCalendar calendar = baseline.getEffectiveCalendar();
          if (calendar.getNextWorkStart(workingDate).isEqual(baselineDate) || calendar.getNextWorkStart(baselineDate).isEqual(workingDate))
@@ -147,12 +113,10 @@ public class CpmTest
          }
          else
          {
-           // m_buffer.append(" FAIL");
             result = false;
          }
       }
 
-      //m_buffer.append("\n");
       return result;
    }
 
@@ -215,7 +179,7 @@ public class CpmTest
             boolean lateStartFail = !compareDates(baseline, working, TaskField.LATE_START);
             boolean lateFinishFail = !compareDates(baseline, working, TaskField.LATE_FINISH);
 
-            System.out.println(working);
+            System.out.println((working.getActivityID() == null ? "" : working.getActivityID()+ " ") + working);
             System.out.println("Late Start: " + baseline.getLateStart() + " " + working.getLateStart() + (lateStartFail ? " FAIL" : ""));
             System.out.println("Late Finish: " + baseline.getLateFinish() + " " + working.getLateFinish() + (lateFinishFail ? " FAIL" : ""));
             System.out.println();
@@ -227,7 +191,6 @@ public class CpmTest
    private ProjectFile m_workingFile;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
-   //private final StringBuffer m_buffer = new StringBuffer();
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
    static
