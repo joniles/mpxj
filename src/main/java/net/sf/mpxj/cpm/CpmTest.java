@@ -25,7 +25,7 @@ public class CpmTest
       }
 
       CpmTest test = new CpmTest();
-      
+
       File directory = new File(argv[0]);
       File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".mpp"));
 

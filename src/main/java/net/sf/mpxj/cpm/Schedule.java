@@ -1,6 +1,7 @@
 package net.sf.mpxj.cpm;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -29,7 +30,15 @@ public class Schedule
          return;
       }
 
-      // Forward pass
+      forwardPass(projectStartDate, tasks);
+
+      LocalDateTime projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+
+      backwardPass(projectFinishDate, tasks);
+   }
+
+   private void forwardPass(LocalDateTime projectStartDate, List<Task> tasks) throws CpmException
+   {
       for (Task task : tasks)
       {
          ProjectCalendar calendar = task.getEffectiveCalendar();
@@ -149,11 +158,13 @@ public class Schedule
          task.setEarlyStart(earlyStart);
          task.setEarlyFinish(earlyFinish);
       }
+   }
 
-      LocalDateTime projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
-
-      // Backward pass
+   private void backwardPass(LocalDateTime projectFinishDate, List<Task> x) throws CpmException
+   {
+      List<Task> tasks = new ArrayList<>(x);
       Collections.reverse(tasks);
+
       for (Task task : tasks)
       {
          List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> r.getSuccessorTask().getActive()).collect(Collectors.toList());
@@ -227,21 +238,21 @@ public class Schedule
                }
 
                // Now we have finalised LS and LF, deal with an ALAP task
-//               if (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE)
-//               {
-//                  LocalDateTime latestEarlyFinishPlusLag = task.getPredecessors().stream().filter(r -> r.getTargetTask().getActive()).map(r -> r.getPredecessorTask().getEffectiveCalendar().getDate(r.getPredecessorTask().getEarlyFinish(), r.getLag())).max(Comparator.naturalOrder()).orElse(null);
-//
-//                  if (latestEarlyFinishPlusLag == null || latestEarlyFinishPlusLag.isBefore(task.getLateStart()))
-//                  {
-//                     task.setEarlyStart(task.getLateStart());
-//                  }
-//                  else
-//                  {
-//                     task.setEarlyStart(latestEarlyFinishPlusLag);
-//                  }
-//
-//                  task.setEarlyFinish(task.getEffectiveCalendar().getDate(task.getEarlyStart(), task.getDuration()));
-//               }
+               //               if (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE)
+               //               {
+               //                  LocalDateTime latestEarlyFinishPlusLag = task.getPredecessors().stream().filter(r -> r.getTargetTask().getActive()).map(r -> r.getPredecessorTask().getEffectiveCalendar().getDate(r.getPredecessorTask().getEarlyFinish(), r.getLag())).max(Comparator.naturalOrder()).orElse(null);
+               //
+               //                  if (latestEarlyFinishPlusLag == null || latestEarlyFinishPlusLag.isBefore(task.getLateStart()))
+               //                  {
+               //                     task.setEarlyStart(task.getLateStart());
+               //                  }
+               //                  else
+               //                  {
+               //                     task.setEarlyStart(latestEarlyFinishPlusLag);
+               //                  }
+               //
+               //                  task.setEarlyFinish(task.getEffectiveCalendar().getDate(task.getEarlyStart(), task.getDuration()));
+               //               }
             }
          }
          else
