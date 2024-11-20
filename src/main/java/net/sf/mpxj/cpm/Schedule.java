@@ -47,7 +47,7 @@ public class Schedule
             }
             else
             {
-               List<Relation> predecessors = task.getPredecessors().stream().filter(r -> r.getTargetTask().getActive()).collect(Collectors.toList());
+               List<Relation> predecessors = task.getPredecessors().stream().filter(r -> r.getPredecessorTask().getActive()).collect(Collectors.toList());
                if (predecessors.isEmpty())
                {
                   switch (task.getConstraintType())
@@ -156,7 +156,7 @@ public class Schedule
       Collections.reverse(tasks);
       for (Task task : tasks)
       {
-         List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> r.getSourceTask().getActive()).collect(Collectors.toList());
+         List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> r.getSuccessorTask().getActive()).collect(Collectors.toList());
          ProjectCalendar calendar = task.getEffectiveCalendar();
          LocalDateTime lateFinish;
 
@@ -225,6 +225,23 @@ public class Schedule
                {
                   lateFinish = previousWorkFinish;
                }
+
+               // Now we have finalised LS and LF, deal with an ALAP task
+//               if (task.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE)
+//               {
+//                  LocalDateTime latestEarlyFinishPlusLag = task.getPredecessors().stream().filter(r -> r.getTargetTask().getActive()).map(r -> r.getPredecessorTask().getEffectiveCalendar().getDate(r.getPredecessorTask().getEarlyFinish(), r.getLag())).max(Comparator.naturalOrder()).orElse(null);
+//
+//                  if (latestEarlyFinishPlusLag == null || latestEarlyFinishPlusLag.isBefore(task.getLateStart()))
+//                  {
+//                     task.setEarlyStart(task.getLateStart());
+//                  }
+//                  else
+//                  {
+//                     task.setEarlyStart(latestEarlyFinishPlusLag);
+//                  }
+//
+//                  task.setEarlyFinish(task.getEffectiveCalendar().getDate(task.getEarlyStart(), task.getDuration()));
+//               }
             }
          }
          else
@@ -241,7 +258,7 @@ public class Schedule
 
    private LocalDateTime calculateEarlyStart(ProjectCalendar calendar, Relation relation)
    {
-      Task task = relation.getTargetTask();
+      Task task = relation.getPredecessorTask();
 
       switch (relation.getType())
       {
@@ -257,7 +274,7 @@ public class Schedule
 
          case FINISH_FINISH:
          {
-            LocalDateTime earlyStart = calendar.getDate(task.getEarlyFinish(), relation.getSourceTask().getDuration().negate());
+            LocalDateTime earlyStart = calendar.getDate(task.getEarlyFinish(), relation.getSuccessorTask().getDuration().negate());
 
             earlyStart = calendar.getDate(earlyStart, relation.getLag());
 
@@ -270,7 +287,7 @@ public class Schedule
 
          case START_FINISH:
          {
-            return calendar.getDate(calendar.getDate(task.getEarlyStart(), relation.getSourceTask().getDuration().negate()), relation.getLag());
+            return calendar.getDate(calendar.getDate(task.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
          }
 
          default:
@@ -282,8 +299,8 @@ public class Schedule
 
    private LocalDateTime calculateLateFinish(ProjectCalendar calendar, LocalDateTime projectFinishDate, Relation relation)
    {
-      Task predecessorTask = relation.getTargetTask();
-      Task successorTask = relation.getSourceTask();
+      Task predecessorTask = relation.getPredecessorTask();
+      Task successorTask = relation.getSuccessorTask();
       LocalDateTime lateFinish;
 
       switch (relation.getType())

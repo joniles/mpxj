@@ -2,7 +2,6 @@ package net.sf.mpxj.cpm;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.Set;
 
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskField;
 import net.sf.mpxj.common.LocalDateTimeHelper;
@@ -27,7 +25,7 @@ public class CpmTest
       }
 
       CpmTest test = new CpmTest();
-
+      
       File directory = new File(argv[0]);
       File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".mpp"));
 
@@ -40,6 +38,7 @@ public class CpmTest
          }
          test.process(file.getPath());
       }
+
 
 /*
       test.process("/Users/joniles/Downloads/cpm-sample-fs-1.mpp");
