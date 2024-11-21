@@ -1,6 +1,7 @@
 package net.sf.mpxj.cpm;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,6 +16,7 @@ import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.LocalTimeHelper;
 
 public class Schedule
 {
@@ -271,7 +273,28 @@ public class Schedule
          }
          else
          {
-            lateFinish = task.getActualFinish();
+            if (m_strategy == ScheduleStrategy.P6)
+            {
+               lateFinish = m_file.getProjectProperties().getStatusDate();
+            }
+            else
+            {
+               lateFinish = task.getActualFinish();
+            }
+         }
+
+         if (m_strategy == ScheduleStrategy.P6)
+         {
+            // P6 moves the late finish date to the end of the working period on that day.
+            LocalDateTime adjustedLateFinish = LocalTimeHelper.setEndTime(lateFinish, calendar.getFinishTime(lateFinish.toLocalDate()));
+
+            // There is some variability in how P6 represents this, e.g. 16:59 and 17:00 are equivalent
+            // Don't adjust the date if they are 1 minute apart to ensure the dates we produce are aligned with P6.
+            long differenceInSeconds = lateFinish.until(adjustedLateFinish, ChronoUnit.SECONDS);
+            if (differenceInSeconds > 60)
+            {
+               lateFinish = adjustedLateFinish;
+            }
          }
 
          LocalDateTime lateStart = task.getActualStart() == null ? calendar.getDate(lateFinish, task.getDuration().negate()) : task.getActualStart();
