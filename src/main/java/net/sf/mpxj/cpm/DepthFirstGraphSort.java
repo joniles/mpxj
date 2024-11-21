@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
@@ -44,6 +45,12 @@ public class DepthFirstGraphSort
 
             // Ignore probably null tasks
             if (task.getName() == null)
+            {
+               continue;
+            }
+
+            // Ignore level of effort tasks - TODO: determine how Early/Late values are calculated from dependent activities
+            if (task.getActivityType() == ActivityType.LEVEL_OF_EFFORT)
             {
                continue;
             }

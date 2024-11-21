@@ -275,7 +275,14 @@ public class Schedule
          {
             if (m_strategy == ScheduleStrategy.P6)
             {
-               lateFinish = m_file.getProjectProperties().getStatusDate();
+               if (successors.isEmpty())
+               {
+                  lateFinish = m_file.getProjectProperties().getStatusDate();
+               }
+               else
+               {
+                  lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, projectFinishDate, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
+               }
             }
             else
             {
@@ -299,7 +306,16 @@ public class Schedule
             }
          }
 
-         LocalDateTime lateStart = task.getActualStart() == null ? calendar.getDate(lateFinish, task.getDuration().negate()) : task.getActualStart();
+         LocalDateTime lateStart;
+         if (m_strategy == ScheduleStrategy.P6)
+         {
+            Duration taskDuration = task.getActualStart() == null ? task.getDuration() : task.getRemainingDuration();
+            lateStart = calendar.getDate(lateFinish, taskDuration.negate());
+         }
+         else
+         {
+            lateStart = task.getActualStart() == null ? calendar.getDate(lateFinish, task.getDuration().negate()) : task.getActualStart();
+         }
 
          task.setLateStart(lateStart);
          task.setLateFinish(lateFinish);
