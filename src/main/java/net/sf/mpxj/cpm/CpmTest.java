@@ -18,16 +18,22 @@ public class CpmTest
 {
    public static void main(String[] argv) throws Exception
    {
-      if(argv.length != 1)
+      if (argv.length != 1)
       {
-         System.out.println("Usage: CpmTest <folder or file>");
+         System.out.println("Usage: CpmTest <base folder>");
          return;
       }
 
-      CpmTest test = new CpmTest();
-
       File directory = new File(argv[0]);
-      File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".mpp"));
+
+      CpmTest test = new CpmTest();
+      test.process(new File(directory, "mpp"), ".mpp", ScheduleStrategy.MICROSOFT_PROJECT);
+      test.process(new File(directory, "xer"), ".xer", ScheduleStrategy.P6);
+   }
+
+   public void process(File directory, String suffix, ScheduleStrategy strategy) throws Exception
+   {
+      File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(suffix));
 
       for(File file : fileList)
       {
@@ -36,7 +42,7 @@ public class CpmTest
          {
             continue;
          }
-         test.process(ScheduleStrategy.MICROSOFT_PROJECT, file.getPath());
+         process(strategy, file.getPath());
       }
    }
 
@@ -203,6 +209,9 @@ public class CpmTest
       EXCLUDED_FILES.add("microsomal-finisher.mpp"); // TODO: late finish, project end determined by constrained task - use unconstrained early finish as project end?
       EXCLUDED_FILES.add("circulatory-collapse.mpp"); // TODO: needs calculation at assignment level?
       EXCLUDED_FILES.add("onrushing-stratification.mpp"); // MPP reading issue: missing predecessor
+      EXCLUDED_FILES.add("smoother-melodrama.xer"); // No dates - so nothing to use as a baseline
+      EXCLUDED_FILES.add("tender-workforce.xer"); // Can't import into P6 to debug
+      EXCLUDED_FILES.add("nasty-census.xer"); // ALAP weirdness
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
