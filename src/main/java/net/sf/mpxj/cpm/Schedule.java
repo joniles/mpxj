@@ -35,7 +35,16 @@ public class Schedule
       m_backwardPass = false;
       forwardPass(projectStartDate, tasks);
 
-      LocalDateTime projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+      LocalDateTime projectFinishDate = null;
+      if (m_strategy == ScheduleStrategy.P6)
+      {
+         projectFinishDate = m_file.getProjectProperties().getMustFinishBy();
+      }
+
+      if (projectFinishDate== null)
+      {
+         projectFinishDate = tasks.stream().map(Task::getEarlyFinish).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early finish date"));
+      }
 
       backwardPass(projectFinishDate, tasks);
       m_backwardPass = true;
@@ -156,7 +165,16 @@ public class Schedule
          }
          else
          {
-            earlyStart = task.getActualStart();
+            if (m_strategy == ScheduleStrategy.P6)
+            {
+               LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
+               earlyFinish = task.getActualFinish() == null ? calendar.getDate(addLevelingDelay(calendar, task.getActualStart(), task.getLevelingDelay()), task.getDuration()) : dataDate;
+               earlyStart = dataDate;
+            }
+            else
+            {
+               earlyStart = task.getActualStart();
+            }
          }
 
          if (earlyFinish == null)
