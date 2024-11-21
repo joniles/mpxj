@@ -240,10 +240,14 @@ public class Schedule
                // If we are at the start of the next period of work, we can move back to the end of the previous period of work
                LocalDateTime previousWorkFinish = calendar.getPreviousWorkFinish(lateFinish);
 
-               // TODO: this condition is not correct
-               if (!previousWorkFinish.isBefore(lateFinish) && calendar.getWork(previousWorkFinish, lateFinish, TimeUnit.HOURS).getDuration() == 0)
+               if (calendar.getWork(previousWorkFinish, lateFinish, TimeUnit.HOURS).getDuration() == 0)
                {
-                  lateFinish = previousWorkFinish;
+                  // TODO: this condition may need work, particularly for MS Project.
+                  // In some/many cases it allows late finish to be at the start of the next working day.
+                  if (m_strategy == ScheduleStrategy.P6 || !previousWorkFinish.isBefore(lateFinish))
+                  {
+                     lateFinish = previousWorkFinish;
+                  }
                }
             }
          }
