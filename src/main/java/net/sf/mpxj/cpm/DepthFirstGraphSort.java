@@ -55,6 +55,12 @@ public class DepthFirstGraphSort
                continue;
             }
 
+            // Ignore WBS Summary activities
+            if (task.getActivityType() == ActivityType.WBS_SUMMARY)
+            {
+               continue;
+            }
+
             visit(task);
          }
 

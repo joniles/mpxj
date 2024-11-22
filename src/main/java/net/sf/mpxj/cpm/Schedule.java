@@ -151,12 +151,14 @@ public class Schedule
                   }
 
                   case MUST_START_ON:
+                  case START_ON:
                   {
                      earlyStart = task.getConstraintDate();
                      break;
                   }
 
                   case MUST_FINISH_ON:
+                  case FINISH_ON:
                   {
                      earlyFinish = task.getConstraintDate();
                      earlyStart = calendar.getDate(earlyFinish, task.getDuration().negate());
@@ -169,9 +171,17 @@ public class Schedule
          {
             if (m_strategy == ScheduleStrategy.P6)
             {
-               LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
-               earlyFinish = task.getActualFinish() == null ? calendar.getDate(addLevelingDelay(calendar, task.getActualStart(), task.getLevelingDelay()), task.getDuration()) : dataDate;
-               earlyStart = dataDate;
+               if (task.getActualFinish() == null)
+               {
+                  earlyFinish = calendar.getDate(addLevelingDelay(calendar, task.getActualStart(), task.getLevelingDelay()), task.getDuration());
+                  earlyStart = calendar.getDate(earlyFinish, task.getRemainingDuration().negate());
+               }
+               else
+               {
+                  LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
+                  earlyFinish = dataDate;
+                  earlyStart = dataDate;
+               }
             }
             else
             {
@@ -277,7 +287,8 @@ public class Schedule
             {
                if (successors.isEmpty())
                {
-                  lateFinish = m_file.getProjectProperties().getStatusDate();
+                  //lateFinish = m_file.getProjectProperties().getStatusDate();
+                  lateFinish = projectFinishDate;
                }
                else
                {

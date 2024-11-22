@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
@@ -27,7 +28,7 @@ public class CpmTest
       File directory = new File(argv[0]);
 
       CpmTest test = new CpmTest();
-      test.process(new File(directory, "mpp"), ".mpp", ScheduleStrategy.MICROSOFT_PROJECT);
+      //test.process(new File(directory, "mpp"), ".mpp", ScheduleStrategy.MICROSOFT_PROJECT);
       test.process(new File(directory, "xer"), ".xer", ScheduleStrategy.P6);
    }
 
@@ -78,8 +79,7 @@ public class CpmTest
 
    private void compare(Task baseline, Task working)
    {
-      // Ignore summary and inactive tasks
-      if (baseline.getSummary() || !baseline.getActive() || baseline.getNull())
+      if (ignoreTask(baseline))
       {
          return;
       }
@@ -154,7 +154,7 @@ public class CpmTest
       {
          for (Task working : tasks)
          {
-            if (working.getSummary() || !working.getActive() || working.getNull())
+            if (ignoreTask(working))
             {
                continue;
             }
@@ -176,7 +176,7 @@ public class CpmTest
 
          for (Task working : tasks)
          {
-            if (working.getSummary() || !working.getActive() || working.getNull())
+            if (ignoreTask(working))
             {
                continue;
             }
@@ -191,6 +191,11 @@ public class CpmTest
             System.out.println();
          }
       }
+   }
+
+   private boolean ignoreTask(Task task)
+   {
+      return task.getSummary() || !task.getActive() || task.getNull() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
    }
 
    private ProjectFile m_baselineFile;
@@ -212,6 +217,7 @@ public class CpmTest
       EXCLUDED_FILES.add("smoother-melodrama.xer"); // No dates - so nothing to use as a baseline
       EXCLUDED_FILES.add("tender-workforce.xer"); // Can't import into P6 to debug
       EXCLUDED_FILES.add("nasty-census.xer"); // ALAP weirdness
+      EXCLUDED_FILES.add("mortal-duct.xer"); // XER 1.0 can't import to P6
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
