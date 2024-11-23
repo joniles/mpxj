@@ -28,10 +28,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import net.sf.mpxj.common.CharsetHelper;
 import net.sf.mpxj.common.InputStreamHelper;
@@ -169,9 +172,10 @@ public class ProjectCleanUtility
       byte[] data = InputStreamHelper.readAvailable(is);
       is.close();
 
-      processReplacements(data, Collections.singletonList(m_project.getProjectProperties()), false, false, PROJECT_FIELDS);
-      processReplacements(data, m_project.getTasks(), false, false, TASK_FIELDS);
-      processReplacements(data, m_project.getResources(), false, false, RESOURCE_FIELDS);
+      boolean xml = XML_FILE_FORMATS.contains(m_project.getProjectProperties().getFileType());
+      processReplacements(data, Collections.singletonList(m_project.getProjectProperties()), false, false, xml, PROJECT_FIELDS);
+      processReplacements(data, m_project.getTasks(), false, false, xml, TASK_FIELDS);
+      processReplacements(data, m_project.getResources(), false, false, xml, RESOURCE_FIELDS);
 
       FileOutputStream os = new FileOutputStream(output);
       os.write(data);
@@ -278,7 +282,7 @@ public class ProjectCleanUtility
     * @param nulTerminated true if a nul terminator should be included with the string
     * @param fields list of fields to extract
     */
-   private void processReplacements(byte[] data, List<? extends FieldContainer> items, boolean unicode, boolean nulTerminated, FieldType... fields)
+   private void processReplacements(byte[] data, List<? extends FieldContainer> items, boolean unicode, boolean nulTerminated, boolean xml, FieldType... fields)
    {
       //
       // Build a map of the replacements required
@@ -291,7 +295,14 @@ public class ProjectCleanUtility
             String oldText = (String) item.getCachedValue(field);
             if (oldText != null && oldText.length() > 1 && !replacements.containsKey(oldText))
             {
-               replacements.put(oldText, m_strategy.generateReplacementText(oldText));
+               String newText = m_strategy.generateReplacementText(oldText);
+               if (xml)
+               {
+                  oldText = escapeXml(oldText);
+                  newText = escapeXml(newText);
+               }
+
+               replacements.put(oldText, newText);
             }
          }
       }
@@ -342,7 +353,7 @@ public class ProjectCleanUtility
    private void processFile(DirectoryEntry parentDirectory, String fileName, List<? extends FieldContainer> items, boolean unicode, FieldType... fields) throws IOException
    {
       byte[] data = extractFile(parentDirectory, fileName);
-      processReplacements(data, items, unicode, true, fields);
+      processReplacements(data, items, unicode, true, false, fields);
       parentDirectory.createDocument(fileName, new ByteArrayInputStream(data));
    }
 
@@ -398,7 +409,7 @@ public class ProjectCleanUtility
 
          if (bytes.length > 2 && bytes[0] == -2 && bytes[1] == -1)
          {
-            // Skip the unicode identifier
+            // Skip the Unicode identifier
             start = 2;
          }
          result = new byte[bytes.length - start];
@@ -440,6 +451,54 @@ public class ProjectCleanUtility
       return (result);
    }
 
+   /**
+    * Quick and dirty XML escape.
+    *
+    * @param text text to escape
+    * @return escaped text
+    */
+   private String escapeXml(String text)
+   {
+      if (text == null || text.isEmpty())
+      {
+         return text;
+      }
+
+      StringBuilder sb = new StringBuilder();
+      for (int loop=0; loop < text.length(); loop++)
+      {
+         char c = text.charAt(loop);
+         switch(c)
+         {
+            case '&':
+            {
+               sb.append("&amp;");
+               break;
+            }
+
+            case '<':
+            {
+               sb.append("&lt;");
+               break;
+            }
+
+            case '>':
+            {
+               sb.append("&gt;");
+               break;
+            }
+
+            default:
+            {
+               sb.append(c);
+               break;
+            }
+         }
+      }
+
+      return sb.toString();
+   }
+
    private CleanStrategy m_strategy;
    private ProjectFile m_project;
 
@@ -453,17 +512,23 @@ public class ProjectCleanUtility
       ProjectField.COMMENTS,
       ProjectField.LAST_AUTHOR,
       ProjectField.MANAGER,
-      ProjectField.CATEGORY
+      ProjectField.CATEGORY,
+      ProjectField.NOTES
    };
 
    private static final TaskField[] TASK_FIELDS =
    {
-      TaskField.NAME
+      TaskField.NAME,
+      TaskField.NOTES
    };
 
    private static final ResourceField[] RESOURCE_FIELDS =
    {
       ResourceField.NAME,
-      ResourceField.INITIALS
+      ResourceField.INITIALS,
+      ResourceField.EMAIL_ADDRESS,
+      ResourceField.NOTES
    };
+
+   private static final Set<String> XML_FILE_FORMATS = new HashSet<>(Arrays.asList("CDP", "GNT", "GAN", "MSPDI", "PPX", "XML", "PMXML"));
 }
