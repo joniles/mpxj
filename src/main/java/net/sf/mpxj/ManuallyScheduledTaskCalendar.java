@@ -24,6 +24,7 @@ package net.sf.mpxj;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
@@ -44,8 +45,30 @@ public class ManuallyScheduledTaskCalendar extends ProjectCalendar
       super(calendar.getParentFile(), true);
       m_calendar = calendar;
       m_assignment = assignment;
-      m_assignmentStartDate = m_assignment.getStart().toLocalDate();
-      m_assignmentEndDate = m_assignment.getFinish().toLocalDate();
+
+      // If the assignment start/finish dates are not provided, fall back on the task then the project
+      LocalDateTime assignmentStart = assignment.getStart();
+      if (assignmentStart == null)
+      {
+         assignmentStart = assignment.getTask().getStart();
+         if (assignmentStart == null)
+         {
+            assignmentStart = assignment.getParentFile().getProjectProperties().getStartDate();
+         }
+      }
+
+      LocalDateTime assignmentFinish = assignment.getFinish();
+      if (assignmentFinish == null)
+      {
+         assignmentFinish = assignment.getTask().getFinish();
+         if (assignmentFinish == null)
+         {
+            assignmentFinish = assignment.getParentFile().getProjectProperties().getFinishDate();
+         }
+      }
+
+      m_assignmentStartDate = assignmentStart.toLocalDate();
+      m_assignmentEndDate = assignmentFinish.toLocalDate();
    }
 
    /**
