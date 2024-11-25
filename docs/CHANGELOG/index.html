@@ -291,9 +291,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1361-unreleased" class="md-nav__link">
+  <a href="#1371-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.6.1 (unreleased)
+      13.7.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1370-2024-11-25" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.7.0 (2024-11-25)
     </span>
   </a>
   
@@ -3993,9 +4002,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1361-unreleased" class="md-nav__link">
+  <a href="#1371-unreleased" class="md-nav__link">
     <span class="md-ellipsis">
-      13.6.1 (unreleased)
+      13.7.1 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1370-2024-11-25" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.7.0 (2024-11-25)
     </span>
   </a>
   
@@ -6339,9 +6357,18 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1361-unreleased">13.6.1 (unreleased)</h2>
+<h2 id="1371-unreleased">13.7.1 (unreleased)</h2>
+<h2 id="1370-2024-11-25">13.7.0 (2024-11-25)</h2>
 <ul>
 <li>Update the MPXJ ruby gem to allow access to calendar data.</li>
+<li>Mark the <code>ActivityCodeValue.getType()</code> method as deprecated. For clarity this method has been replaced by the new <code>ActivityCodeValue.getActivityCode()</code> method.</li>
+<li>Mark the <code>ActivityCodeValue.Builder.type()</code> method as deprecated. For clarity this method has been replaced by the new <code>ActivityCodeValue.Builder.activityCode()</code> method.</li>
+<li>Added the <code>Task.getActivityCodeValues()</code> method, which returns a <code>Map</code> of <code>ActivityCodeValue</code> instances, keyed by <code>ActivityCode</code>.</li>
+<li>Marked the <code>Task.getActivityCodes()</code> method as deprecated. Replaced with the <code>Task.getActivityCodeValues()</code> method which is more clearly named, and presents the activity code values in a more flexible form.</li>
+<li>Added the <code>Task.addActivityCodeValue()</code> method.</li>
+<li>Marked the <code>Task.addActivityCode()</code> method as deprecated. Replaced with the <code>Task.addActivityCodeValue()</code> method which is more clearly named.</li>
+<li>Further improvements to retrieval of custom field values read from MPP files.</li>
+<li>Ensure that missing resource assignment and task start and finish dates are handled gracefully when working with calendars for manually scheduled tasks.</li>
 </ul>
 <h2 id="1360-2024-11-06">13.6.0 (2024-11-06)</h2>
 <ul>
