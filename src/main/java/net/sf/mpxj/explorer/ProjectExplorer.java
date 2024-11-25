@@ -45,7 +45,6 @@ import javax.swing.UIManager;
 
 import com.jgoodies.binding.beans.PropertyAdapter;
 
-import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.primavera.PrimaveraPMFileReader;
 import net.sf.mpxj.primavera.PrimaveraXERFileReader;
@@ -278,7 +277,7 @@ public class ProjectExplorer
    {
       updateAndSaveRecents(file);
 
-      try (UniversalProjectReader.ProjectReaderProxy proxy = new UniversalProjectReader().getProjectReaderProxy(file);)
+      try (UniversalProjectReader.ProjectReaderProxy proxy = new UniversalProjectReader().getProjectReaderProxy(file))
       {
          if (proxy == null)
          {
