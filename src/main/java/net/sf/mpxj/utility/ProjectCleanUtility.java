@@ -280,6 +280,7 @@ public class ProjectCleanUtility
     * @param items items to extract field values from
     * @param unicode true if replacing unicode text
     * @param nulTerminated true if a nul terminator should be included with the string
+    * @param xml true if we're replacing test in an xml file
     * @param fields list of fields to extract
     */
    private void processReplacements(byte[] data, List<? extends FieldContainer> items, boolean unicode, boolean nulTerminated, boolean xml, FieldType... fields)
@@ -465,10 +466,10 @@ public class ProjectCleanUtility
       }
 
       StringBuilder sb = new StringBuilder();
-      for (int loop=0; loop < text.length(); loop++)
+      for (int loop = 0; loop < text.length(); loop++)
       {
          char c = text.charAt(loop);
-         switch(c)
+         switch (c)
          {
             case '&':
             {

@@ -475,12 +475,12 @@ public class ProjectExplorer
       ProjectReader reader = proxy.getProjectReader();
       if (reader instanceof PrimaveraXERFileReader)
       {
-         ((PrimaveraXERFileReader)reader).setLinkCrossProjectRelations(m_linkCrossProjectRelations);
+         ((PrimaveraXERFileReader) reader).setLinkCrossProjectRelations(m_linkCrossProjectRelations);
       }
 
       if (reader instanceof PrimaveraPMFileReader)
       {
-         ((PrimaveraPMFileReader)reader).setLinkCrossProjectRelations(m_linkCrossProjectRelations);
+         ((PrimaveraPMFileReader) reader).setLinkCrossProjectRelations(m_linkCrossProjectRelations);
       }
    }
 

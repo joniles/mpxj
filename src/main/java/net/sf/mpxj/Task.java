@@ -5912,7 +5912,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
          return getPercentageComplete();
       }
 
-      switch(type)
+      switch (type)
       {
          case UNITS:
          {

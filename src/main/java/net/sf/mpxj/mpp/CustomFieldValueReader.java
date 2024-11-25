@@ -67,7 +67,7 @@ abstract class CustomFieldValueReader
     */
    public void process()
    {
-      for (int loop=0; loop < m_outlineCodeFixedData.getItemCount(); loop++)
+      for (int loop = 0; loop < m_outlineCodeFixedData.getItemCount(); loop++)
       {
          byte[] fixedData = m_outlineCodeFixedData.getByteArrayValue(loop);
          if (fixedData == null)
@@ -118,7 +118,7 @@ abstract class CustomFieldValueReader
                // Replace the original instance in the table.
                // This ensures that the same instance is in the container and the lookup table.
                // TODO: is there a better way to do this? Should we generate the lookup table contents dynamically from the container?
-               for (int index=0; index< table.size(); index++)
+               for (int index = 0; index < table.size(); index++)
                {
                   if (table.get(index).getUniqueID().equals(item.getUniqueID()))
                   {

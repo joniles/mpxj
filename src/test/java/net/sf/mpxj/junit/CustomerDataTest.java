@@ -521,12 +521,12 @@ public class CustomerDataTest
             ProjectReader reader = proxy.getProjectReader();
             if (reader instanceof PrimaveraXERFileReader)
             {
-               ((PrimaveraXERFileReader)reader).setLinkCrossProjectRelations(true);
+               ((PrimaveraXERFileReader) reader).setLinkCrossProjectRelations(true);
             }
 
             if (reader instanceof PrimaveraPMFileReader)
             {
-               ((PrimaveraPMFileReader)reader).setLinkCrossProjectRelations(true);
+               ((PrimaveraPMFileReader) reader).setLinkCrossProjectRelations(true);
             }
 
             projects = proxy.readAll();

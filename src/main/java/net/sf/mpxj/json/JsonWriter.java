@@ -1440,7 +1440,7 @@ public final class JsonWriter extends AbstractProjectWriter
          return;
       }
 
-      Rate val = (Rate)value;
+      Rate val = (Rate) value;
       if (val.getAmount() != 0.0)
       {
          m_writer.writeNameValuePair(fieldName, val.getAmount() + "/" + val.getUnits());
