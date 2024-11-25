@@ -1,7 +1,17 @@
 # Changelog
 
-## 13.6.1 (unreleased)
+## 13.7.1 (unreleased)
+
+## 13.7.0 (2024-11-25)
 * Update the MPXJ ruby gem to allow access to calendar data.
+* Mark the `ActivityCodeValue.getType()` method as deprecated. For clarity this method has been replaced by the new `ActivityCodeValue.getActivityCode()` method.
+* Mark the `ActivityCodeValue.Builder.type()` method as deprecated. For clarity this method has been replaced by the new `ActivityCodeValue.Builder.activityCode()` method.
+* Added the `Task.getActivityCodeValues()` method, which returns a `Map` of `ActivityCodeValue` instances, keyed by `ActivityCode`.
+* Marked the `Task.getActivityCodes()` method as deprecated. Replaced with the `Task.getActivityCodeValues()` method which is more clearly named, and presents the activity code values in a more flexible form.
+* Added the `Task.addActivityCodeValue()` method.
+* Marked the `Task.addActivityCode()` method as deprecated. Replaced with the `Task.addActivityCodeValue()` method which is more clearly named.
+* Further improvements to retrieval of custom field values read from MPP files.
+* Ensure that missing resource assignment and task start and finish dates are handled gracefully when working with calendars for manually scheduled tasks.
 
 ## 13.6.0 (2024-11-06)
 * Added the `Task.getBaselineTask()` methods. For applications where a separate baseline schedule is present or a baseline has been manually added to the `ProjectFile` instance, these methods will allow you to access the underlying baseline task instance from the current task instance.
