@@ -11,8 +11,16 @@ public class ProjectTreeModel extends DefaultTreeModel
    /**
     * Constructor.
     */
-   public ProjectTreeModel()
+   public ProjectTreeModel(WriteOptions writeOptions)
    {
       super(new MpxjTreeNode());
+      m_writeOptions = writeOptions;
    }
+
+   public WriteOptions getWriteOptions()
+   {
+      return m_writeOptions;
+   }
+
+   private final WriteOptions m_writeOptions;
 }

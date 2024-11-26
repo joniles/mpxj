@@ -65,6 +65,7 @@ public class ProjectExplorer
    private boolean m_linkCrossProjectRelations;
    private boolean m_expandSubprojects;
    private boolean m_removeExternalTasks = true;
+   private final WriteOptions m_writeOptions = new WriteOptions();
    private final JMenuItem m_saveMenu = new JMenuItem("Save As...");
    private final JMenuItem m_cleanMenu = new JMenuItem("Clean...");
    private final JMenu m_recentMenu = new JMenu("Open Recent");
@@ -177,6 +178,14 @@ public class ProjectExplorer
       mntmRemoveExternalTasks.setEnabled(m_expandSubprojects);
       mnFile.add(mntmRemoveExternalTasks);
 
+      mnFile.addSeparator();
+
+      final JMenuItem mntmWriteTimephasedData = new JCheckBoxMenuItem("Write Timephased Data", m_writeOptions.getWriteTimephasedData());
+      mnFile.add(mntmWriteTimephasedData);
+
+      final JMenuItem mntmSplitTimephasedAsDays = new JCheckBoxMenuItem("Split Timephased Data as Days", m_writeOptions.getSplitTimephasedDataAsDays());
+      mnFile.add(mntmSplitTimephasedAsDays);
+
       //
       // Open
       //
@@ -224,6 +233,16 @@ public class ProjectExplorer
       //
       mntmRemoveExternalTasks.addActionListener(e -> m_removeExternalTasks = !m_removeExternalTasks);
 
+      //
+       // Write timephased data
+      //
+      mntmWriteTimephasedData.addActionListener(e -> m_writeOptions.toggleWriteTimephasedData());
+
+      //
+      // Split timephased data as days
+      //
+      mntmSplitTimephasedAsDays.addActionListener(e -> m_writeOptions.toggleSplitTimephasedDataAsDays());
+
       m_frame.getContentPane().add(m_tabbedPane);
 
       PropertyAdapter<FileChooserModel> openAdapter = new PropertyAdapter<>(m_fileChooserModel, "file", true);
@@ -262,7 +281,7 @@ public class ProjectExplorer
          configureReader(proxy);
          ProjectFile projectFile = proxy.read();
          expandSubprojects(file, projectFile);
-         m_tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile));
+         m_tabbedPane.add(file.getName(), new ProjectFilePanel(file, projectFile, m_writeOptions));
          m_saveMenu.setEnabled(true);
          m_cleanMenu.setEnabled(true);
       }
@@ -293,7 +312,7 @@ public class ProjectExplorer
          {
             String name = projectFiles.size() == 1 ? file.getName() : file.getName() + " (" + (index++) + ")";
             expandSubprojects(file, projectFile);
-            m_tabbedPane.add(name, new ProjectFilePanel(file, projectFile));
+            m_tabbedPane.add(name, new ProjectFilePanel(file, projectFile, m_writeOptions));
          }
          m_saveMenu.setEnabled(true);
          m_cleanMenu.setEnabled(true);
