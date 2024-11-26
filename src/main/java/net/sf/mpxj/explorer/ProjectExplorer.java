@@ -61,10 +61,7 @@ public class ProjectExplorer
    private static final String RECENT_FOLDERS = "RECENT_FOLDERS";
 
    protected JFrame m_frame;
-   private boolean m_openAll;
-   private boolean m_linkCrossProjectRelations;
-   private boolean m_expandSubprojects;
-   private boolean m_removeExternalTasks = true;
+   private final ReadOptions m_readOptions = new ReadOptions();
    private final WriteOptions m_writeOptions = new WriteOptions();
    private final JMenuItem m_saveMenu = new JMenuItem("Save As...");
    private final JMenuItem m_cleanMenu = new JMenuItem("Clean...");
@@ -168,14 +165,14 @@ public class ProjectExplorer
       final JMenuItem mntmOpenAll = new JCheckBoxMenuItem("Open All");
       mnFile.add(mntmOpenAll);
 
-      final JMenuItem mntmLinkCrossProjectRelations = new JCheckBoxMenuItem("Link Cross Project Relations", m_linkCrossProjectRelations);
+      final JMenuItem mntmLinkCrossProjectRelations = new JCheckBoxMenuItem("Link Cross Project Relations", m_readOptions.getLinkCrossProjectRelations());
       mnFile.add(mntmLinkCrossProjectRelations);
 
-      final JMenuItem mntmExpandSubprojects = new JCheckBoxMenuItem("Expand Subprojects", m_expandSubprojects);
+      final JMenuItem mntmExpandSubprojects = new JCheckBoxMenuItem("Expand Subprojects", m_readOptions.getExpandSubprojects());
       mnFile.add(mntmExpandSubprojects);
 
-      final JMenuItem mntmRemoveExternalTasks = new JCheckBoxMenuItem("Remove External Tasks", m_removeExternalTasks);
-      mntmRemoveExternalTasks.setEnabled(m_expandSubprojects);
+      final JMenuItem mntmRemoveExternalTasks = new JCheckBoxMenuItem("Remove External Tasks", m_readOptions.getRemoveExternalTasks());
+      mntmRemoveExternalTasks.setEnabled(m_readOptions.getExpandSubprojects());
       mnFile.add(mntmRemoveExternalTasks);
 
       mnFile.addSeparator();
@@ -190,7 +187,7 @@ public class ProjectExplorer
       // Open
       //
       mntmOpen.addActionListener(e -> {
-         if (m_openAll)
+         if (m_readOptions.getOpenAll())
          {
             m_openAllFileChooserController.openFileChooser();
          }
@@ -213,25 +210,25 @@ public class ProjectExplorer
       //
       // Open All
       //
-      mntmOpenAll.addActionListener(e -> m_openAll = !m_openAll);
+      mntmOpenAll.addActionListener(e -> m_readOptions.toggleOpenAll());
 
       //
       // Link Cross Project Relations
       //
-      mntmLinkCrossProjectRelations.addActionListener(e -> m_linkCrossProjectRelations = !m_linkCrossProjectRelations);
+      mntmLinkCrossProjectRelations.addActionListener(e -> m_readOptions.toggleLinkCrossProjectRelations());
 
       //
       // Expand Subprojects
       //
       mntmExpandSubprojects.addActionListener(e -> {
-         m_expandSubprojects = !m_expandSubprojects;
-         mntmRemoveExternalTasks.setEnabled(m_expandSubprojects);
+         m_readOptions.toggleExpandSubprojects();
+         mntmRemoveExternalTasks.setEnabled(m_readOptions.getExpandSubprojects());
       });
 
       //
       // Remove external tasks
       //
-      mntmRemoveExternalTasks.addActionListener(e -> m_removeExternalTasks = !m_removeExternalTasks);
+      mntmRemoveExternalTasks.addActionListener(e -> m_readOptions.toggleRemoveExternalTasks());
 
       //
        // Write timephased data
@@ -443,7 +440,7 @@ public class ProjectExplorer
    private void openRecentFile(String path)
    {
       File file = new File(path);
-      if (m_openAll)
+      if (m_readOptions.getOpenAll())
       {
          openAll(file);
       }
@@ -457,7 +454,7 @@ public class ProjectExplorer
    {
       File file = new File(path);
 
-      if (m_openAll)
+      if (m_readOptions.getOpenAll())
       {
          m_openAllFileChooserModel.setCurrentDirectory(file);
          m_openAllFileChooserController.openFileChooser();
@@ -477,10 +474,10 @@ public class ProjectExplorer
     */
    private void expandSubprojects(File file, ProjectFile projectFile)
    {
-      if (m_expandSubprojects)
+      if (m_readOptions.getExpandSubprojects())
       {
          projectFile.getProjectConfig().setSubprojectWorkingDirectory(file.getParentFile());
-         projectFile.expandSubprojects(m_removeExternalTasks);
+         projectFile.expandSubprojects(m_readOptions.getRemoveExternalTasks());
       }
    }
 
@@ -494,12 +491,12 @@ public class ProjectExplorer
       ProjectReader reader = proxy.getProjectReader();
       if (reader instanceof PrimaveraXERFileReader)
       {
-         ((PrimaveraXERFileReader) reader).setLinkCrossProjectRelations(m_linkCrossProjectRelations);
+         ((PrimaveraXERFileReader) reader).setLinkCrossProjectRelations(m_readOptions.getLinkCrossProjectRelations());
       }
 
       if (reader instanceof PrimaveraPMFileReader)
       {
-         ((PrimaveraPMFileReader) reader).setLinkCrossProjectRelations(m_linkCrossProjectRelations);
+         ((PrimaveraPMFileReader) reader).setLinkCrossProjectRelations(m_readOptions.getLinkCrossProjectRelations());
       }
    }
 

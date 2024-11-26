@@ -23,7 +23,7 @@
 package net.sf.mpxj.explorer;
 
 /**
- * Reptresents options used when writing project files.
+ * Represents options used when writing project files.
  */
 class WriteOptions
 {
