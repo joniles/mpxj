@@ -17,6 +17,11 @@ public class ProjectTreeModel extends DefaultTreeModel
       m_writeOptions = writeOptions;
    }
 
+   /**
+    * Retrieve the options used if this project is written to a file.
+    *
+    * @return write options
+    */
    public WriteOptions getWriteOptions()
    {
       return m_writeOptions;
