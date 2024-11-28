@@ -207,7 +207,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    /**
     * Returns true if the experimental feature to generate timephased data
-    * for tasks with no timephased data present.
+    * for tasks with no timephased data present is enabled.
     * NOTE: this feature is disabled by default.
     *
     * @return true if feature enabled
