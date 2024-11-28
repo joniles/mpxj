@@ -7,7 +7,7 @@
 	<body>
 		<release date="unreleased" version="13.7.1">
 			<action dev="joniles" type="update">When writing PMXML files, improve handling of P6 schedules where activity code sequence numbers are missing.</action>
-			<action dev="joniles" type="update">Added an *experimental* feature to `MSPDIWriter` to allow the writer to generate timephasred data when non is present. Disbaled by default, call the `setGenerateMissingTimephasedData` and pass `true` to enable.</action>
+			<action dev="joniles" type="update">Added an *experimental* feature to `MSPDIWriter` to allow the writer to generate timephased data when none is present. Disbaled by default, call the `setGenerateMissingTimephasedData` and pass `true` to enable.</action>
 		</release>
 		<release date="2024-11-25" version="13.7.0">
 			<action dev="joniles" type="update">Update the MPXJ ruby gem to allow access to calendar data.</action>
