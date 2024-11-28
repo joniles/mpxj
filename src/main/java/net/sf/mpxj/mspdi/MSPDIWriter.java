@@ -194,6 +194,30 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
+    * Pass true to this method to enable an experimental feature where
+    * timephased data is generated for tasks with no timephased data present.
+    * NOTE: this feature is disabled by default.
+    *
+    * @param value true to enable timephased data generation
+    */
+   public void setGenerateMissingTimephasedData(boolean value)
+   {
+      m_generateMissingTimephasedData = value;
+   }
+
+   /**
+    * Returns true if the experimental feature to generate timephased data
+    * for tasks with no timephased data present.
+    * NOTE: this feature is disabled by default.
+    *
+    * @return true if feature enabled
+    */
+   public boolean getGenerateMissingTimephasedData()
+   {
+      return m_generateMissingTimephasedData;
+   }
+
+   /**
     * Set the save version to use when generating an MSPDI file.
     *
     * @param version save version
@@ -2786,7 +2810,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
 
    private boolean m_writeTimephasedData;
 
-   private boolean m_generateMissingTimephasedData = true;
+   private boolean m_generateMissingTimephasedData;
 
    private boolean m_sourceIsPrimavera;
 
