@@ -44,12 +44,12 @@
     <MicrosoftProjectServerURL>1</MicrosoftProjectServerURL>
     <Autolink>1</Autolink>
     <NewTaskStartDate>0</NewTaskStartDate>
+    <NewTasksAreManual>0</NewTasksAreManual>
     <DefaultTaskEVMethod>0</DefaultTaskEVMethod>
     <ProjectExternallyEdited>1</ProjectExternallyEdited>
     <ActualsInSync>0</ActualsInSync>
     <RemoveFileProperties>0</RemoveFileProperties>
     <AdminProject>0</AdminProject>
-    <NewTasksAreManual>0</NewTasksAreManual>
     <ExtendedAttributes/>
     <Calendars>
         <Calendar>
@@ -268,6 +268,8 @@
             <UID>0</UID>
             <ID>0</ID>
             <Name>sample</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-07T08:00:00</CreateDate>
@@ -311,13 +313,13 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>1</UID>
             <ID>1</ID>
             <Name>First Task</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-07T08:00:00</CreateDate>
@@ -363,13 +365,13 @@
             <Rollup>1</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>2</UID>
             <ID>2</ID>
             <Name>Second Task</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-07T08:00:00</CreateDate>
@@ -415,13 +417,13 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>3</UID>
             <ID>3</ID>
             <Name>Third task</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-07T08:00:00</CreateDate>
@@ -460,13 +462,13 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>6</UID>
             <ID>4</ID>
             <Name>Recurring Task</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-07T08:00:00</CreateDate>
@@ -504,13 +506,13 @@
             <Rollup>1</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>7</UID>
             <ID>5</ID>
             <Name>Recurring Task 1</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-07T08:00:00</CreateDate>
@@ -549,13 +551,13 @@
             <Rollup>1</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>8</UID>
             <ID>6</ID>
             <Name>Recurring Task 2</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-07T08:00:00</CreateDate>
@@ -594,13 +596,13 @@
             <Rollup>1</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>19</UID>
             <ID>7</ID>
             <Name>Task Relationships</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -644,13 +646,13 @@
             <Rollup>1</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>9</UID>
             <ID>8</ID>
             <Name>Related Task 1a</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -688,13 +690,13 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>10</UID>
             <ID>9</ID>
             <Name>Related Task 1b</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -739,13 +741,13 @@
                 <LinkLag>0</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>11</UID>
             <ID>10</ID>
             <Name>Related Task 2a</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -783,13 +785,13 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>12</UID>
             <ID>11</ID>
             <Name>Related Task 2b</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -834,13 +836,13 @@
                 <LinkLag>4800</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>13</UID>
             <ID>12</ID>
             <Name>Related Task 3a</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -878,13 +880,13 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>14</UID>
             <ID>13</ID>
             <Name>Related Task 3b</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -929,13 +931,13 @@
                 <LinkLag>-4800</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>15</UID>
             <ID>14</ID>
             <Name>Related Task 4a</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -973,13 +975,13 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>16</UID>
             <ID>15</ID>
             <Name>Related Task 4b</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -1024,13 +1026,13 @@
                 <LinkLag>0</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>17</UID>
             <ID>16</ID>
             <Name>Related Task 5a</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -1068,13 +1070,13 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>18</UID>
             <ID>17</ID>
             <Name>Related Task 5b</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -1119,13 +1121,13 @@
                 <LinkLag>0</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>20</UID>
             <ID>18</ID>
             <Name>Related Task 6a</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -1164,13 +1166,13 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>21</UID>
             <ID>19</ID>
             <Name>Related Task 6b</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-01-15T08:00:00</CreateDate>
@@ -1216,13 +1218,13 @@
                 <LinkLag>0</LinkLag>
                 <LagFormat>5</LagFormat>
             </PredecessorLink>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>22</UID>
             <ID>20</ID>
             <Name>Resource Assignments</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>1</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-02-07T19:59:00</CreateDate>
@@ -1266,13 +1268,13 @@
             <Rollup>1</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>23</UID>
             <ID>21</ID>
             <Name>Assigned Task 1</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-02-07T19:59:00</CreateDate>
@@ -1316,13 +1318,13 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
         <Task>
             <UID>24</UID>
             <ID>22</ID>
             <Name>Assigned Task 2</Name>
+            <Active>1</Active>
+            <Manual>0</Manual>
             <Type>0</Type>
             <IsNull>0</IsNull>
             <CreateDate>2003-02-07T19:59:00</CreateDate>
@@ -1366,8 +1368,6 @@
             <Rollup>0</Rollup>
             <PhysicalPercentComplete>0</PhysicalPercentComplete>
             <EarnedValueMethod>0</EarnedValueMethod>
-            <Active>1</Active>
-            <Manual>0</Manual>
         </Task>
     </Tasks>
     <Resources>
