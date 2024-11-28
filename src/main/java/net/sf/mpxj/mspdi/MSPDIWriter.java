@@ -2295,7 +2295,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       work.setStart(start);
       work.setFinish(assignment.getFinish());
       work.setTotalAmount(assignment.getRemainingWork());
-      work.setAmountPerDay(Duration.getInstance(calendar.getMinutesPerDay(), TimeUnit.MINUTES));
+      work.setAmountPerDay(Duration.getInstance(NumberHelper.getInt(calendar.getMinutesPerDay()), TimeUnit.MINUTES));
       return Collections.singletonList(work);
    }
 
@@ -2322,7 +2322,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       work.setStart(assignment.getActualStart());
       work.setFinish(finish);
       work.setTotalAmount(assignment.getActualWork());
-      work.setAmountPerDay(Duration.getInstance(calendar.getMinutesPerDay(), TimeUnit.MINUTES));
+      work.setAmountPerDay(Duration.getInstance(NumberHelper.getInt(calendar.getMinutesPerDay()), TimeUnit.MINUTES));
       return Collections.singletonList(work);
    }
 

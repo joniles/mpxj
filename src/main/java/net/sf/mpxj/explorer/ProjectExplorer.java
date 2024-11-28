@@ -231,7 +231,7 @@ public class ProjectExplorer
       mntmRemoveExternalTasks.addActionListener(e -> m_readOptions.toggleRemoveExternalTasks());
 
       //
-       // Write timephased data
+      // Write timephased data
       //
       mntmWriteTimephasedData.addActionListener(e -> m_writeOptions.toggleWriteTimephasedData());
 

@@ -10,6 +10,8 @@ public class ProjectTreeModel extends DefaultTreeModel
 {
    /**
     * Constructor.
+    * 
+    * @param writeOptions writer options
     */
    public ProjectTreeModel(WriteOptions writeOptions)
    {

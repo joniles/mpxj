@@ -50,6 +50,7 @@ public class ProjectFilePanel extends JPanel
     *
     * @param file original file
     * @param projectFile MPP file to be displayed in this view.
+    * @param writeOptions writer options
     */
    public ProjectFilePanel(File file, ProjectFile projectFile, WriteOptions writeOptions)
    {
