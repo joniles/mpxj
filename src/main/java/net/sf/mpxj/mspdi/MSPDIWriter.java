@@ -1985,7 +1985,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
             double actualWork = (durationValue * percentComplete) / 100;
             double remainingWork = durationValue - actualWork;
 
-            dummy.setActualStart(task.getActualStart());
+            if (m_generateMissingTimephasedData)
+            {
+               // I'm being conservative here... I'm sure there is no issue with including
+               // this in the MSPDI file, but asI've only added this for the "generate
+               // missing timephased data" feature, I'll keep it optional for now.
+               dummy.setActualStart(task.getActualStart());
+            }
+
             dummy.setResourceUniqueID(MicrosoftProjectConstants.ASSIGNMENT_NULL_RESOURCE_ID);
             dummy.setWork(duration);
             dummy.setActualWork(Duration.getInstance(actualWork, durationUnits));
