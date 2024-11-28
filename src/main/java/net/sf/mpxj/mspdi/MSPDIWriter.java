@@ -194,6 +194,30 @@ public final class MSPDIWriter extends AbstractProjectWriter
    }
 
    /**
+    * Pass true to this method to enable an experimental feature where
+    * timephased data is generated for tasks with no timephased data present.
+    * NOTE: this feature is disabled by default.
+    *
+    * @param value true to enable timephased data generation
+    */
+   public void setGenerateMissingTimephasedData(boolean value)
+   {
+      m_generateMissingTimephasedData = value;
+   }
+
+   /**
+    * Returns true if the experimental feature to generate timephased data
+    * for tasks with no timephased data present is enabled.
+    * NOTE: this feature is disabled by default.
+    *
+    * @return true if feature enabled
+    */
+   public boolean getGenerateMissingTimephasedData()
+   {
+      return m_generateMissingTimephasedData;
+   }
+
+   /**
     * Set the save version to use when generating an MSPDI file.
     *
     * @param version save version
@@ -1961,6 +1985,14 @@ public final class MSPDIWriter extends AbstractProjectWriter
             double actualWork = (durationValue * percentComplete) / 100;
             double remainingWork = durationValue - actualWork;
 
+            if (m_generateMissingTimephasedData)
+            {
+               // I'm being conservative here... I'm sure there is no issue with including
+               // this in the MSPDI file, but asI've only added this for the "generate
+               // missing timephased data" feature, I'll keep it optional for now.
+               dummy.setActualStart(task.getActualStart());
+            }
+
             dummy.setResourceUniqueID(MicrosoftProjectConstants.ASSIGNMENT_NULL_RESOURCE_ID);
             dummy.setWork(duration);
             dummy.setActualWork(Duration.getInstance(actualWork, durationUnits));
@@ -2193,7 +2225,12 @@ public final class MSPDIWriter extends AbstractProjectWriter
     */
    private void writeAssignmentTimephasedData(ResourceAssignment mpx, Project.Assignments.Assignment xml)
    {
-      if (!m_writeTimephasedData || !mpx.getHasTimephasedData() || m_sourceIsPrimavera)
+      if (!m_writeTimephasedData || m_sourceIsPrimavera)
+      {
+         return;
+      }
+
+      if (!mpx.getHasTimephasedData() && !m_generateMissingTimephasedData)
       {
          return;
       }
@@ -2202,6 +2239,16 @@ public final class MSPDIWriter extends AbstractProjectWriter
       List<TimephasedWork> complete = mpx.getTimephasedActualWork();
       List<TimephasedWork> planned = mpx.getTimephasedWork();
       List<TimephasedWork> completeOvertime = mpx.getTimephasedActualOvertimeWork();
+
+      if ((planned == null || planned.isEmpty()) && m_generateMissingTimephasedData)
+      {
+         planned = generateTimephasedPlannedWork(mpx);
+      }
+
+      if ((complete == null || complete.isEmpty()) && m_generateMissingTimephasedData)
+      {
+         complete = generateTimephasedCompleteWork(mpx);
+      }
 
       complete = splitCompleteWork(calendar, planned, complete);
       planned = splitPlannedWork(calendar, planned, complete);
@@ -2223,6 +2270,60 @@ public final class MSPDIWriter extends AbstractProjectWriter
       {
          writeAssignmentTimephasedCostData(assignmentID, list, splitDays(calendar, mpx.getTimephasedBaselineCost(index)), TIMEPHASED_BASELINE_COST_TYPES[index]);
       }
+   }
+
+   private List<TimephasedWork> generateTimephasedPlannedWork(ResourceAssignment assignment)
+   {
+      if (assignment.getActualFinish() != null)
+      {
+         return null;
+      }
+
+      LocalDateTime start;
+      ProjectCalendar calendar = assignment.getEffectiveCalendar();
+
+      if (assignment.getActualStart() == null)
+      {
+         start = assignment.getStart();
+      }
+      else
+      {
+         start = calendar.getNextWorkStart(calendar.getDate(assignment.getActualStart(), assignment.getActualWork()));
+      }
+
+      TimephasedWork work = new TimephasedWork();
+      work.setStart(start);
+      work.setFinish(assignment.getFinish());
+      work.setTotalAmount(assignment.getRemainingWork());
+      work.setAmountPerDay(Duration.getInstance(calendar.getMinutesPerDay(), TimeUnit.MINUTES));
+      return Collections.singletonList(work);
+   }
+
+   private List<TimephasedWork> generateTimephasedCompleteWork(ResourceAssignment assignment)
+   {
+      if (assignment.getActualStart() == null)
+      {
+         return null;
+      }
+
+      LocalDateTime finish;
+      ProjectCalendar calendar = assignment.getEffectiveCalendar();
+
+      if (assignment.getActualFinish() == null)
+      {
+         finish = calendar.getDate(assignment.getActualStart(), assignment.getActualWork());
+      }
+      else
+      {
+         finish = assignment.getActualFinish();
+      }
+
+      TimephasedWork work = new TimephasedWork();
+      work.setStart(assignment.getActualStart());
+      work.setFinish(finish);
+      work.setTotalAmount(assignment.getActualWork());
+      work.setAmountPerDay(Duration.getInstance(calendar.getMinutesPerDay(), TimeUnit.MINUTES));
+      return Collections.singletonList(work);
    }
 
    private List<TimephasedWork> splitCompleteWork(ProjectCalendar calendar, List<TimephasedWork> planned, List<TimephasedWork> complete)
@@ -2715,6 +2816,8 @@ public final class MSPDIWriter extends AbstractProjectWriter
    private boolean m_splitTimephasedAsDays = true;
 
    private boolean m_writeTimephasedData;
+
+   private boolean m_generateMissingTimephasedData;
 
    private boolean m_sourceIsPrimavera;
 
