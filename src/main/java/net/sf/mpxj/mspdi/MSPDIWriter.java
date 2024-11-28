@@ -2249,6 +2249,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
 
       LocalDateTime start;
+      ProjectCalendar calendar = assignment.getEffectiveCalendar();
 
       if (assignment.getActualStart() == null)
       {
@@ -2256,7 +2257,6 @@ public final class MSPDIWriter extends AbstractProjectWriter
       }
       else
       {
-         ProjectCalendar calendar = assignment.getEffectiveCalendar();
          start = calendar.getNextWorkStart(calendar.getDate(assignment.getActualStart(), assignment.getActualWork()));
       }
 
@@ -2264,6 +2264,7 @@ public final class MSPDIWriter extends AbstractProjectWriter
       work.setStart(start);
       work.setFinish(assignment.getFinish());
       work.setTotalAmount(assignment.getRemainingWork());
+      work.setAmountPerDay(Duration.getInstance(calendar.getMinutesPerDay(), TimeUnit.MINUTES));
       return Collections.singletonList(work);
    }
 
@@ -2274,12 +2275,23 @@ public final class MSPDIWriter extends AbstractProjectWriter
          return null;
       }
 
-      LocalDateTime finish = assignment.getActualFinish() == null ? assignment.getEffectiveCalendar().getDate(assignment.getActualStart(), assignment.getActualWork()) : assignment.getActualFinish();
+      LocalDateTime finish;
+      ProjectCalendar calendar = assignment.getEffectiveCalendar();
+
+      if (assignment.getActualFinish() == null)
+      {
+         finish = calendar.getDate(assignment.getActualStart(), assignment.getActualWork());
+      }
+      else
+      {
+         finish = assignment.getActualFinish();
+      }
 
       TimephasedWork work = new TimephasedWork();
       work.setStart(assignment.getActualStart());
       work.setFinish(finish);
       work.setTotalAmount(assignment.getActualWork());
+      work.setAmountPerDay(Duration.getInstance(calendar.getMinutesPerDay(), TimeUnit.MINUTES));
       return Collections.singletonList(work);
    }
 
