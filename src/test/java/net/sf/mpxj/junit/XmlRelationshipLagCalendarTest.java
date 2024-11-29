@@ -40,7 +40,7 @@ public class XmlRelationshipLagCalendarTest
    @Test public void testProjectDefaultCalendar() throws Exception
    {
       ProjectFile xml = new PrimaveraPMFileReader().read(MpxjTestData.filePath("ProjectDefaultCalendar.xml"));
-      assertEquals(xml.getProjectProperties().getRelationshipLagCalendar(), RelationshipLagCalendar.PROJECT_DEFAULT);
+      assertEquals(RelationshipLagCalendar.PROJECT_DEFAULT, xml.getProjectProperties().getRelationshipLagCalendar());
    }
 
    /**
@@ -49,7 +49,7 @@ public class XmlRelationshipLagCalendarTest
    @Test public void testPredecessorCalendar() throws Exception
    {
       ProjectFile xml = new PrimaveraPMFileReader().read(MpxjTestData.filePath("PredecessorCalendar.xml"));
-      assertEquals(xml.getProjectProperties().getRelationshipLagCalendar(), RelationshipLagCalendar.PREDECESSOR);
+      assertEquals(RelationshipLagCalendar.PREDECESSOR, xml.getProjectProperties().getRelationshipLagCalendar());
    }
 
    /**
@@ -58,7 +58,7 @@ public class XmlRelationshipLagCalendarTest
    @Test public void testSuccessorCalendar() throws Exception
    {
       ProjectFile xml = new PrimaveraPMFileReader().read(MpxjTestData.filePath("SuccessorCalendar.xml"));
-      assertEquals(xml.getProjectProperties().getRelationshipLagCalendar(), RelationshipLagCalendar.SUCCESSOR);
+      assertEquals(RelationshipLagCalendar.SUCCESSOR, xml.getProjectProperties().getRelationshipLagCalendar());
    }
 
    /**
@@ -67,6 +67,6 @@ public class XmlRelationshipLagCalendarTest
    @Test public void testTwentyFourHourCalendar() throws Exception
    {
       ProjectFile xml = new PrimaveraPMFileReader().read(MpxjTestData.filePath("TwentyFourHourCalendar.xml"));
-      assertEquals(xml.getProjectProperties().getRelationshipLagCalendar(), RelationshipLagCalendar.TWENTY_FOUR_HOUR);
+      assertEquals(RelationshipLagCalendar.TWENTY_FOUR_HOUR, xml.getProjectProperties().getRelationshipLagCalendar());
    }
 }

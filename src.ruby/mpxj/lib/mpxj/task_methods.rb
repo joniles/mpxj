@@ -18,6 +18,13 @@ module MPXJ
       attribute_values['activity_codes']
     end
 
+    # Retrieve the Activity Code Values value
+    #
+    # @return Activity Code Values value
+    def activity_code_values
+      attribute_values['activity_code_values']
+    end
+
     # Retrieve the Activity ID value
     #
     # @return Activity ID value
@@ -6909,6 +6916,7 @@ module MPXJ
     ATTRIBUTE_TYPES = {
       'active' => :boolean,
       'activity_codes' => :activity_code_list,
+      'activity_code_values' => :activity_code_values,
       'activity_id' => :string,
       'activity_percent_complete' => :percentage,
       'activity_status' => :activity_status,

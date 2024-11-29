@@ -50,10 +50,11 @@ public class ProjectFilePanel extends JPanel
     *
     * @param file original file
     * @param projectFile MPP file to be displayed in this view.
+    * @param writeOptions writer options
     */
-   public ProjectFilePanel(File file, ProjectFile projectFile)
+   public ProjectFilePanel(File file, ProjectFile projectFile, WriteOptions writeOptions)
    {
-      ProjectTreeModel treeModel = new ProjectTreeModel();
+      ProjectTreeModel treeModel = new ProjectTreeModel(writeOptions);
       m_treeController = new ProjectTreeController(treeModel);
       setLayout(new GridLayout(0, 1, 0, 0));
       ProjectTreeView treeView = new ProjectTreeView(treeModel);

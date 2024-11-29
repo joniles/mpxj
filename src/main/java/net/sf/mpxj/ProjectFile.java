@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import net.sf.mpxj.common.NumberHelper;
@@ -1039,7 +1038,7 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    private final DataLinkContainer m_dataLinks = new DataLinkContainer();
    private final ExternalProjectContainer m_externalProjects = new ExternalProjectContainer(this);
    private final ProjectFile[] m_baselines = new ProjectFile[11];
-   private final Map<Integer, Map<Task,Task>> m_baselineTaskMap = new HashMap<>();
+   private final Map<Integer, Map<Task, Task>> m_baselineTaskMap = new HashMap<>();
    private final List<Exception> m_ignoredErrors = new ArrayList<>();
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
    private final ProjectFileSharedData m_shared;

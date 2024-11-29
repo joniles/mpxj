@@ -49,7 +49,7 @@ public class DefaultBaselineStrategy implements BaselineStrategy
       Map<Object, Task> map = baseline.getTasks().stream().filter(t -> getKeyForTask(t) != null).collect(Collectors.toMap(this::getKeyForTask, t -> t, (u, v) -> null));
 
       // Create a map from the current project tasks to the baseline projects tasks
-      Map<Task, Task> baselineTaskMap = project.getTasks().stream().filter(t-> map.get(getKeyForTask(t)) != null).collect(Collectors.toMap(t -> t, t-> map.get(getKeyForTask(t))));
+      Map<Task, Task> baselineTaskMap = project.getTasks().stream().filter(t -> map.get(getKeyForTask(t)) != null).collect(Collectors.toMap(t -> t, t -> map.get(getKeyForTask(t))));
 
       // Cache this map to support the Task.getBaselineTask() method
       project.setBaselineTaskMap(index, baselineTaskMap);

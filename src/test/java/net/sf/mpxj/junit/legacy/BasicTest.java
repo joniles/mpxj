@@ -255,10 +255,10 @@ public class BasicTest
 
       task1.addTask();
       List<Task> children = task1.getChildTasks();
-      assertEquals(children.size(), 2);
+      assertEquals(2, children.size());
 
       List<Task> toplevel = file.getChildTasks();
-      assertEquals(toplevel.size(), 1);
+      assertEquals(1, toplevel.size());
    }
 
    /**

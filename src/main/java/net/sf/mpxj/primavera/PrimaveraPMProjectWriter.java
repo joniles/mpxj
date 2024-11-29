@@ -29,7 +29,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -1780,7 +1779,7 @@ final class PrimaveraPMProjectWriter
    {
       List<ActivityCodeTypeType> codes = m_apibo.getActivityCodeType();
       List<ActivityCodeType> values = m_apibo.getActivityCode();
-      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(ActivityCode::getSequenceNumber)).forEach(c -> writeActivityCode(codes, values, c));
+      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCode(codes, values, c));
    }
 
    /**
@@ -1791,7 +1790,7 @@ final class PrimaveraPMProjectWriter
     */
    private void writeActivityCodes(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values)
    {
-      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT).sorted(Comparator.comparing(ActivityCode::getSequenceNumber)).forEach(c -> writeActivityCode(codes, values, c));
+      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCode(codes, values, c));
    }
 
    /**
