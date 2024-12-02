@@ -21,15 +21,23 @@ public class CpmTest
    {
       if (argv.length != 1)
       {
-         System.out.println("Usage: CpmTest <base folder>");
+         System.out.println("Usage: CpmTest <file or base folder>");
          return;
       }
 
-      File directory = new File(argv[0]);
-
+      File target = new File(argv[0]);
       CpmTest test = new CpmTest();
-      //test.process(new File(directory, "mpp"), ".mpp", ScheduleStrategy.MICROSOFT_PROJECT);
-      test.process(new File(directory, "xer"), ".xer", ScheduleStrategy.P6);
+
+      if (target.isDirectory())
+      {
+         test.process(new File(target, "mpp"), ".mpp", ScheduleStrategy.MICROSOFT_PROJECT);
+         //test.process(new File(target, "xer"), ".xer", ScheduleStrategy.PRIMAVERA_P6);
+      }
+      else
+      {
+         ScheduleStrategy strategy = target.getName().toLowerCase().endsWith(".mpp") ? ScheduleStrategy.MICROSOFT_PROJECT : ScheduleStrategy.PRIMAVERA_P6;
+         test.process(strategy, target.getPath());
+      }
    }
 
    public void process(File directory, String suffix, ScheduleStrategy strategy) throws Exception

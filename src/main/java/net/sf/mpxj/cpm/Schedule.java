@@ -38,7 +38,7 @@ public class Schedule
       forwardPass(projectStartDate, tasks);
 
       LocalDateTime projectFinishDate = null;
-      if (m_strategy == ScheduleStrategy.P6)
+      if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
       {
          projectFinishDate = m_file.getProjectProperties().getMustFinishBy();
       }
@@ -103,7 +103,7 @@ public class Schedule
                }
                else
                {
-                  earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+                  earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
                }
                earlyStart = calendar.getNextWorkStart(earlyStart);
             }
@@ -169,7 +169,7 @@ public class Schedule
          }
          else
          {
-            if (m_strategy == ScheduleStrategy.P6)
+            if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
             {
                if (task.getActualFinish() == null)
                {
@@ -274,7 +274,7 @@ public class Schedule
                {
                   // TODO: this condition may need work, particularly for MS Project.
                   // In some/many cases it allows late finish to be at the start of the next working day.
-                  if (m_strategy == ScheduleStrategy.P6 || !previousWorkFinish.isBefore(lateFinish))
+                  if (m_strategy == ScheduleStrategy.PRIMAVERA_P6 || !previousWorkFinish.isBefore(lateFinish))
                   {
                      lateFinish = previousWorkFinish;
                   }
@@ -283,7 +283,7 @@ public class Schedule
          }
          else
          {
-            if (m_strategy == ScheduleStrategy.P6)
+            if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
             {
                if (successors.isEmpty())
                {
@@ -301,7 +301,7 @@ public class Schedule
             }
          }
 
-         if (m_strategy == ScheduleStrategy.P6)
+         if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
          {
             // P6 moves the late finish date to the end of the working period on that day.
             LocalDateTime adjustedLateFinish = LocalTimeHelper.setEndTime(lateFinish, calendar.getFinishTime(lateFinish.toLocalDate()));
@@ -318,7 +318,7 @@ public class Schedule
          }
 
          LocalDateTime lateStart;
-         if (m_strategy == ScheduleStrategy.P6)
+         if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
          {
             Duration taskDuration = task.getActualStart() == null ? task.getDuration() : task.getRemainingDuration();
             lateStart = calendar.getDate(lateFinish, taskDuration.negate());
@@ -333,7 +333,7 @@ public class Schedule
       }
    }
 
-   private LocalDateTime calculateEarlyStart(ProjectCalendar taskCalendar, Relation relation)
+   private LocalDateTime calculateEarlyStart(ProjectCalendar taskCalendar, LocalDateTime projectStartDate, Relation relation)
    {
       Task predecessor = relation.getPredecessorTask();
 
@@ -360,13 +360,11 @@ public class Schedule
          case FINISH_FINISH:
          {
             LocalDateTime earlyStart = taskCalendar.getDate(predecessor.getEarlyFinish(), relation.getSuccessorTask().getDuration().negate());
-
             earlyStart = getLagCalendar(taskCalendar, relation).getDate(earlyStart, relation.getLag());
-
-//            if (earlyStart.isBefore(task.getEarlyStart()))
-//            {
-//               earlyStart = task.getEarlyStart();
-//            }
+            if (earlyStart.isBefore(projectStartDate))
+            {
+               earlyStart = projectStartDate;
+            }
             return earlyStart;
          }
 
@@ -392,7 +390,7 @@ public class Schedule
       {
          case START_START:
          {
-            if (m_strategy == ScheduleStrategy.P6)
+            if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
             {
                LocalDateTime lateStart = taskCalendar.getNextWorkStart(getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate()));
                lateFinish = taskCalendar.getDate(lateStart, predecessorTask.getDuration());
