@@ -30,13 +30,13 @@ public class CpmTest
 
       if (target.isDirectory())
       {
-         test.process(new File(target, "mpp"), ".mpp", ScheduleStrategy.MICROSOFT_PROJECT);
-         //test.process(new File(target, "xer"), ".xer", ScheduleStrategy.PRIMAVERA_P6);
+         //test.process(new File(target, "mpp"), ".mpp", ScheduleStrategy.MICROSOFT_PROJECT);
+         test.process(new File(target, "xer"), ".xer", ScheduleStrategy.PRIMAVERA_P6);
       }
       else
       {
          ScheduleStrategy strategy = target.getName().toLowerCase().endsWith(".mpp") ? ScheduleStrategy.MICROSOFT_PROJECT : ScheduleStrategy.PRIMAVERA_P6;
-         test.process(strategy, target.getPath());
+         test.process(target, strategy);
       }
    }
 
@@ -51,11 +51,11 @@ public class CpmTest
          {
             continue;
          }
-         process(strategy, file.getPath());
+         process(file, strategy);
       }
    }
 
-   public void process(ScheduleStrategy strategy, String file) throws Exception
+   public void process(File file, ScheduleStrategy strategy) throws Exception
    {
       System.out.print("Processing " + file + " ... ");
       m_forwardErrorCount = 0;
