@@ -200,9 +200,9 @@ public class Schedule
       }
    }
 
-   private void backwardPass(LocalDateTime projectFinishDate, List<Task> x) throws CpmException
+   private void backwardPass(LocalDateTime projectFinishDate, List<Task> forwardPassTasks) throws CpmException
    {
-      List<Task> tasks = new ArrayList<>(x);
+      List<Task> tasks = new ArrayList<>(forwardPassTasks);
       Collections.reverse(tasks);
 
       for (Task task : tasks)
@@ -323,6 +323,10 @@ public class Schedule
          {
             Duration taskDuration = task.getActualStart() == null ? task.getDuration() : task.getRemainingDuration();
             lateStart = calendar.getDate(lateFinish, taskDuration.negate());
+            if (task.getActivityType() == ActivityType.START_MILESTONE)
+            {
+               lateStart = calendar.getNextWorkStart(lateStart);
+            }
          }
          else
          {
