@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
@@ -47,7 +46,7 @@ public class CpmTest
       for(File file : fileList)
       {
          String name = file.getName().toLowerCase();
-         if (EXCLUDED_FILES.contains(name) || (!INCLUDED_FILES.isEmpty() && !INCLUDED_FILES.contains(name)))
+         if (EXCLUDED_FILES.contains(name))
          {
             continue;
          }
@@ -87,7 +86,7 @@ public class CpmTest
 
    private void compare(Task baseline, Task working)
    {
-      if (ignoreTask(baseline))
+      if (Schedule.ignoreTask(baseline))
       {
          return;
       }
@@ -162,7 +161,7 @@ public class CpmTest
       {
          for (Task working : tasks)
          {
-            if (ignoreTask(working))
+            if (Schedule.ignoreTask(working))
             {
                continue;
             }
@@ -184,7 +183,7 @@ public class CpmTest
 
          for (Task working : tasks)
          {
-            if (ignoreTask(working))
+            if (Schedule.ignoreTask(working))
             {
                continue;
             }
@@ -199,11 +198,6 @@ public class CpmTest
             System.out.println();
          }
       }
-   }
-
-   private boolean ignoreTask(Task task)
-   {
-      return task.getSummary() || !task.getActive() || task.getNull() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
    }
 
    private ProjectFile m_baselineFile;
@@ -269,11 +263,5 @@ public class CpmTest
       EXCLUDED_FILES.add("undisputed-empire.mpp");
       EXCLUDED_FILES.add("uninvited-friend.mpp");
       EXCLUDED_FILES.add("quickest-photoluminescence.mpp");
-   }
-
-   private static final Set<String> INCLUDED_FILES = new HashSet<>();
-   static
-   {
-      //INCLUDED_FILES.add("".toLowerCase());
    }
 }

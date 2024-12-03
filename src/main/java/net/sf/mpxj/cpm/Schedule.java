@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.ActivityType;
 import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
@@ -76,7 +77,7 @@ public class Schedule
             }
             else
             {
-               List<Relation> predecessors = task.getPredecessors().stream().filter(r -> r.getPredecessorTask().getActive()).collect(Collectors.toList());
+               List<Relation> predecessors = task.getPredecessors().stream().filter(r -> !ignoreTask(r.getPredecessorTask())).collect(Collectors.toList());
                if (predecessors.isEmpty())
                {
                   switch (task.getConstraintType())
@@ -206,7 +207,7 @@ public class Schedule
 
       for (Task task : tasks)
       {
-         List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> r.getSuccessorTask().getActive()).collect(Collectors.toList());
+         List<Relation> successors = m_file.getRelations().getRawSuccessors(task).stream().filter(r -> !ignoreTask(r.getSuccessorTask())).collect(Collectors.toList());
          ProjectCalendar calendar = task.getEffectiveCalendar();
          LocalDateTime lateFinish;
 
@@ -528,6 +529,11 @@ public class Schedule
             throw new UnsupportedOperationException("TODO: implemenet standard 24 hour calendar");
          }
       }
+   }
+
+   public static boolean ignoreTask(Task task)
+   {
+      return task.getSummary() || !task.getActive() || task.getNull() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
    }
 
    private final ScheduleStrategy m_strategy;
