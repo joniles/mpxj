@@ -403,7 +403,17 @@ public class Schedule
          {
             if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
             {
-               LocalDateTime lateStart = taskCalendar.getNextWorkStart(getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate()));
+               LocalDateTime lateStart;
+
+               if (successorTask.getActualStart() == null)
+               {
+                  lateStart = taskCalendar.getNextWorkStart(getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate()));
+               }
+               else
+               {
+                  lateStart = successorTask.getLateStart();
+               }
+
                lateFinish = taskCalendar.getDate(lateStart, predecessorTask.getRemainingDuration());
             }
             else
