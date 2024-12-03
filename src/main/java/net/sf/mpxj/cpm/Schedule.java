@@ -238,6 +238,7 @@ public class Schedule
                      break;
                   }
 
+                  case FINISH_ON:
                   case MUST_FINISH_ON:
                   {
                      lateFinish = task.getConstraintDate();
@@ -403,7 +404,7 @@ public class Schedule
             if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
             {
                LocalDateTime lateStart = taskCalendar.getNextWorkStart(getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate()));
-               lateFinish = taskCalendar.getDate(lateStart, predecessorTask.getDuration());
+               lateFinish = taskCalendar.getDate(lateStart, predecessorTask.getRemainingDuration());
             }
             else
             {
