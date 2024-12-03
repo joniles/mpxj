@@ -66,6 +66,8 @@ public class Schedule
          LocalDateTime earlyStart;
 
          LocalDateTime earlyFinish = null;
+         List<Relation> predecessors = task.getPredecessors().stream().filter(r -> !ignoreTask(r.getPredecessorTask())).collect(Collectors.toList());
+
          if (task.getActualStart() == null)
          {
             if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
@@ -77,7 +79,6 @@ public class Schedule
             }
             else
             {
-               List<Relation> predecessors = task.getPredecessors().stream().filter(r -> !ignoreTask(r.getPredecessorTask())).collect(Collectors.toList());
                if (predecessors.isEmpty())
                {
                   switch (task.getConstraintType())
@@ -174,8 +175,16 @@ public class Schedule
             {
                if (task.getActualFinish() == null)
                {
-                  earlyFinish = calendar.getDate(addLevelingDelay(calendar, task.getActualStart(), task.getLevelingDelay()), task.getDuration());
-                  earlyStart = calendar.getDate(earlyFinish, task.getRemainingDuration().negate());
+                  if (predecessors.isEmpty())
+                  {
+                     earlyFinish = calendar.getDate(addLevelingDelay(calendar, task.getActualStart(), task.getLevelingDelay()), task.getDuration());
+                     earlyStart = calendar.getDate(earlyFinish, task.getRemainingDuration().negate());
+                  }
+                  else
+                  {
+                     earlyStart = calendar.getNextWorkStart(predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
+                     earlyFinish = calendar.getDate(earlyStart, task.getRemainingDuration());
+                  }
                }
                else
                {
@@ -359,7 +368,11 @@ public class Schedule
 
          case START_START:
          {
-            return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyStart(), relation.getLag());
+            if (relation.getSuccessorTask().getActualStart() == null)
+            {
+               return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyStart(), relation.getLag());
+            }
+            return predecessor.getEarlyStart();
          }
 
          case FINISH_FINISH:
@@ -369,7 +382,7 @@ public class Schedule
             // but when the file is saved and reopened, the incorrect dates are shown again. Current versions of MS Project (2024?)
             // seem to be unaffected.
             LocalDateTime predecessorEarlyFinish = predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish();
-            LocalDateTime earlyStart = taskCalendar.getDate(predecessorEarlyFinish, relation.getSuccessorTask().getDuration().negate());
+            LocalDateTime earlyStart = taskCalendar.getDate(predecessorEarlyFinish, relation.getSuccessorTask().getRemainingDuration().negate());
             earlyStart = getLagCalendar(taskCalendar, relation).getDate(earlyStart, relation.getLag());
             if (earlyStart.isBefore(projectStartDate))
             {

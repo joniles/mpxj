@@ -221,7 +221,7 @@ public class CpmTest
       EXCLUDED_FILES.add("nasty-census.xer"); // ALAP weirdness
       EXCLUDED_FILES.add("mortal-duct.xer"); // XER 1.0 can't import to P6
       EXCLUDED_FILES.add("teenage-contest.encoding.xer"); // Aligns with MPXJ when scheduled
-      
+
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
 
