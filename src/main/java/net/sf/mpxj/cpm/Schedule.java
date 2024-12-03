@@ -359,7 +359,12 @@ public class Schedule
 
          case FINISH_FINISH:
          {
-            LocalDateTime earlyStart = taskCalendar.getDate(predecessor.getEarlyFinish(), relation.getSuccessorTask().getDuration().negate());
+            // There is an interesting bug in Project 2010, and possibly other versions, where the ES, and EF dates
+            // for the predecessor of an FF task are not set correctly. Calculating the project shows the correct dates,
+            // but when the file is saved and reopened, the incorrect dates are shown again. Current versions of MS Project (2024?)
+            // seem to be unaffected.
+            LocalDateTime predecessorEarlyFinish = predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish();
+            LocalDateTime earlyStart = taskCalendar.getDate(predecessorEarlyFinish, relation.getSuccessorTask().getDuration().negate());
             earlyStart = getLagCalendar(taskCalendar, relation).getDate(earlyStart, relation.getLag());
             if (earlyStart.isBefore(projectStartDate))
             {
