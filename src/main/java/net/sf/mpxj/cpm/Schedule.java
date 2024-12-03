@@ -289,7 +289,6 @@ public class Schedule
             {
                if (successors.isEmpty())
                {
-                  //lateFinish = m_file.getProjectProperties().getStatusDate();
                   lateFinish = projectFinishDate;
                }
                else
@@ -425,8 +424,21 @@ public class Schedule
 
          case FINISH_FINISH:
          {
-            //lateFinish = calendar.getDate(projectFinishDate, relation.getLag().negate());
-            lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateFinish(), relation.getLag().negate());
+            if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
+            {
+               if (predecessorTask.getActualFinish() == null)
+               {
+                  lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateFinish(), relation.getLag().negate());
+               }
+               else
+               {
+                  lateFinish = successorTask.getLateFinish();
+               }
+            }
+            else
+            {
+               lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateFinish(), relation.getLag().negate());
+            }
             break;
          }
 
@@ -448,11 +460,6 @@ public class Schedule
       {
          return projectFinishDate;
       }
-
-//      if (lateFinish.isBefore(predecessorTask.getEarlyFinish()))
-//      {
-//         return predecessorTask.getEarlyFinish();
-//      }
 
       return lateFinish;
    }
