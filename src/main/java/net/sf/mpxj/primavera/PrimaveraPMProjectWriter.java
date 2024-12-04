@@ -1121,7 +1121,7 @@ final class PrimaveraPMProjectWriter
       xml.setPlannedNonLaborUnits(getDurationInHours(WorkHelper.zeroIfNull(mpxj.getPlannedWorkNonlabor())));
       xml.setPrimaryConstraintType(ConstraintTypeHelper.getXmlFromInstance(mpxj.getConstraintType()));
       xml.setPrimaryConstraintDate(mpxj.getConstraintDate());
-      xml.setPrimaryResourceObjectId(mpxj.getPrimaryResourceID());
+      xml.setPrimaryResourceObjectId(mpxj.getPrimaryResourceUniqueID());
       xml.setPlannedDuration(getDurationInHours(mpxj.getPlannedDuration() == null ? mpxj.getDuration() : mpxj.getPlannedDuration()));
       xml.setPlannedFinishDate(plannedFinish);
       xml.setPlannedStartDate(plannedStart);
