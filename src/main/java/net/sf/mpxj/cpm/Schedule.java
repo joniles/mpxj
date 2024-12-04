@@ -368,11 +368,11 @@ public class Schedule
 
          case START_START:
          {
-            if (relation.getSuccessorTask().getActualStart() == null)
+            if (predecessor.getActualStart() != null)
             {
-               return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyStart(), relation.getLag());
+               return predecessor.getEarlyStart();
             }
-            return predecessor.getEarlyStart();
+            return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyStart(), relation.getLag());
          }
 
          case FINISH_FINISH:
