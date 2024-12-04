@@ -128,7 +128,7 @@ public class ResourceAssignmentFactory
          byte[] data2 = null;
          if (assnFixedData2 != null)
          {
-            data2 = assnFixedData2.getByteArrayValue(loop);
+            data2 = assnFixedData2.getByteArrayValue(assnFixedData.getIndexFromOffset(offset));
          }
 
          ResourceAssignment assignment = new ResourceAssignment(file, null);

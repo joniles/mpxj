@@ -4809,8 +4809,9 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Set the primary resource ID.
     *
     * @param value primary resource ID
+    * @deprecated use the setPrimaryResourceUniqueID method
     */
-   public void setPrimaryResourceID(Integer value)
+   @Deprecated public void setPrimaryResourceID(Integer value)
    {
       set(TaskField.PRIMARY_RESOURCE_ID, value);
    }
@@ -4819,12 +4820,53 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     * Retrieve the primary resource ID.
     *
     * @return primary resource ID
+    * @deprecated use the getPrimaryResourceUniqueID method
     */
-   public Integer getPrimaryResourceID()
+   @Deprecated public Integer getPrimaryResourceID()
    {
       return (Integer) get(TaskField.PRIMARY_RESOURCE_ID);
    }
 
+   /**
+    * Set the primary resource unique ID.
+    *
+    * @param value primary resource unique ID
+    */
+   public void setPrimaryResourceUniqueID(Integer value)
+   {
+      set(TaskField.PRIMARY_RESOURCE_ID, value);
+   }
+
+   /**
+    * Retrieve the primary resource unique ID.
+    *
+    * @return primary resource unique ID
+    */
+   public Integer getPrimaryResourceUniqueID()
+   {
+      return (Integer) get(TaskField.PRIMARY_RESOURCE_ID);
+   }
+
+   /**
+    * Retrieve the primary resource for this task.
+    *
+    * @return primary resource
+    */
+   public Resource getPrimaryResource()
+   {
+      return getParentFile().getResourceByUniqueID(getPrimaryResourceUniqueID());
+   }
+
+   /**
+    * Set the primary resource for this task.
+    *
+    * @param resource resource
+    */
+   public void setPrimaryResource(Resource resource)
+   {
+      setPrimaryResourceUniqueID(resource == null ? null : resource.getUniqueID());
+   }
+   
    /**
     * Set the activity ID.
     *

@@ -1010,6 +1010,7 @@ public enum TaskField implements FieldType
    PLANNED_DURATION(DataType.DURATION),
    PLANNED_WORK(DataType.WORK),
    SUSPEND_DATE(DataType.DATE),
+   // Deprecated: will be renamed PRIMARY_RESOURCE_UNIQUE_ID
    PRIMARY_RESOURCE_ID(DataType.INTEGER),
    ACTIVITY_ID(DataType.STRING),
    PERCENT_COMPLETE_TYPE(DataType.PERCENT_COMPLETE_TYPE),

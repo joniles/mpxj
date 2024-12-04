@@ -1337,7 +1337,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ACTIVITY_COLUMNS.put("status_code", t -> ActivityStatusHelper.getActivityStatus(t));
       ACTIVITY_COLUMNS.put("task_code", t -> getActivityID(t));
       ACTIVITY_COLUMNS.put("task_name", t -> StringHelper.stripControlCharacters(t.getName()));
-      ACTIVITY_COLUMNS.put("rsrc_id", t -> t.getPrimaryResourceID());
+      ACTIVITY_COLUMNS.put("rsrc_id", t -> t.getPrimaryResourceUniqueID());
       ACTIVITY_COLUMNS.put("total_float_hr_cnt", t -> t.getActivityStatus() == ActivityStatus.COMPLETED ? null : t.getTotalSlack());
       ACTIVITY_COLUMNS.put("free_float_hr_cnt", t -> t.getActivityStatus() == ActivityStatus.COMPLETED ? null : t.getFreeSlack());
       ACTIVITY_COLUMNS.put("remain_drtn_hr_cnt", t -> t.getRemainingDuration());

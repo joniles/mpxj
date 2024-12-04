@@ -1439,7 +1439,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setActivityID(row.getId());
          task.setActivityType(ActivityTypeHelper.getInstanceFromXml(row.getType()));
          task.setActivityStatus(ActivityStatusHelper.getInstanceFromXml(row.getStatus()));
-         task.setPrimaryResourceID(row.getPrimaryResourceObjectId());
+         task.setPrimaryResourceUniqueID(row.getPrimaryResourceObjectId());
          task.setSuspendDate(row.getSuspendDate());
          task.setResume(row.getResumeDate());
          task.setType(TaskTypeHelper.getInstanceFromXml(row.getDurationType()));
