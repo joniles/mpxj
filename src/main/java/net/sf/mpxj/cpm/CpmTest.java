@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -29,17 +30,16 @@ public class CpmTest
 
       if (target.isDirectory())
       {
-         //test.process(new File(target, "mpp"), ".mpp", ScheduleStrategy.MICROSOFT_PROJECT);
-         test.process(new File(target, "xer"), ".xer", ScheduleStrategy.PRIMAVERA_P6);
+         test.process(new File(target, "mpp"), ".mpp", MICROSOFT_PROJECT);
+         //test.process(new File(target, "xer"), ".xer", PRIMAVERA_P6);
       }
       else
       {
-         ScheduleStrategy strategy = target.getName().toLowerCase().endsWith(".mpp") ? ScheduleStrategy.MICROSOFT_PROJECT : ScheduleStrategy.PRIMAVERA_P6;
-         test.process(target, strategy);
+         test.process(target, target.getName().toLowerCase().endsWith(".mpp") ? MICROSOFT_PROJECT : PRIMAVERA_P6);
       }
    }
 
-   public void process(File directory, String suffix, ScheduleStrategy strategy) throws Exception
+   public void process(File directory, String suffix, Function<ProjectFile, Scheduler> scheduler) throws Exception
    {
       File[] fileList = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(suffix));
 
@@ -50,11 +50,11 @@ public class CpmTest
          {
             continue;
          }
-         process(file, strategy);
+         process(file, scheduler);
       }
    }
 
-   public void process(File file, ScheduleStrategy strategy) throws Exception
+   public void process(File file, Function<ProjectFile, Scheduler> scheduler) throws Exception
    {
       System.out.print("Processing " + file + " ... ");
       m_forwardErrorCount = 0;
@@ -63,7 +63,7 @@ public class CpmTest
       m_baselineFile = new UniversalProjectReader().read(file);
       m_workingFile = new UniversalProjectReader().read(file);
 
-      new Schedule(strategy, m_workingFile).process(m_workingFile.getProjectProperties().getStartDate());
+      scheduler.apply(m_workingFile).process(m_workingFile.getProjectProperties().getStartDate());
 
       for (Task baselineTask : m_baselineFile.getTasks())
       {
@@ -86,7 +86,7 @@ public class CpmTest
 
    private void compare(Task baseline, Task working)
    {
-      if (Schedule.ignoreTask(baseline))
+      if (MicrosoftScheduler.ignoreTask(baseline))
       {
          return;
       }
@@ -161,7 +161,7 @@ public class CpmTest
       {
          for (Task working : tasks)
          {
-            if (Schedule.ignoreTask(working))
+            if (MicrosoftScheduler.ignoreTask(working))
             {
                continue;
             }
@@ -183,7 +183,7 @@ public class CpmTest
 
          for (Task working : tasks)
          {
-            if (Schedule.ignoreTask(working))
+            if (MicrosoftScheduler.ignoreTask(working))
             {
                continue;
             }
@@ -204,6 +204,9 @@ public class CpmTest
    private ProjectFile m_workingFile;
    private int m_forwardErrorCount;
    private int m_backwardErrorCount;
+
+   private static final Function<ProjectFile, Scheduler> MICROSOFT_PROJECT = p -> new MicrosoftScheduler(p);
+   private static final Function<ProjectFile, Scheduler> PRIMAVERA_P6 = p -> new PrimaveraScheduler(p);
 
    private static final Set<String> EXCLUDED_FILES = new HashSet<>();
    static

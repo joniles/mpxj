@@ -19,11 +19,10 @@ import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalTimeHelper;
 
-public class Schedule
+public class PrimaveraScheduler implements Scheduler
 {
-   public Schedule(ScheduleStrategy strategy, ProjectFile file)
+   public PrimaveraScheduler(ProjectFile file)
    {
-      m_strategy = strategy;
       m_file = file;
    }
 
@@ -35,14 +34,10 @@ public class Schedule
          return;
       }
 
-      m_backwardPass = false;
       forwardPass(projectStartDate, tasks);
 
-      LocalDateTime projectFinishDate = null;
-      if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
-      {
-         projectFinishDate = m_file.getProjectProperties().getMustFinishBy();
-      }
+      LocalDateTime projectFinishDate = m_file.getProjectProperties().getMustFinishBy();
+
 
       if (projectFinishDate== null)
       {
@@ -50,12 +45,6 @@ public class Schedule
       }
 
       backwardPass(projectFinishDate, tasks);
-      m_backwardPass = true;
-
-      if (tasks.stream().anyMatch(t -> t.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE))
-      {
-         forwardPass(projectStartDate, tasks);
-      }
    }
 
    private void forwardPass(LocalDateTime projectStartDate, List<Task> tasks) throws CpmException
@@ -171,31 +160,24 @@ public class Schedule
          }
          else
          {
-            if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
+            if (task.getActualFinish() == null)
             {
-               if (task.getActualFinish() == null)
+               if (predecessors.isEmpty())
                {
-                  if (predecessors.isEmpty())
-                  {
-                     earlyFinish = calendar.getDate(addLevelingDelay(calendar, task.getActualStart(), task.getLevelingDelay()), task.getDuration());
-                     earlyStart = calendar.getDate(earlyFinish, task.getRemainingDuration().negate());
-                  }
-                  else
-                  {
-                     earlyStart = calendar.getNextWorkStart(predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
-                     earlyFinish = calendar.getDate(earlyStart, task.getRemainingDuration());
-                  }
+                  earlyFinish = calendar.getDate(addLevelingDelay(calendar, task.getActualStart(), task.getLevelingDelay()), task.getDuration());
+                  earlyStart = calendar.getDate(earlyFinish, task.getRemainingDuration().negate());
                }
                else
                {
-                  LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
-                  earlyFinish = dataDate;
-                  earlyStart = dataDate;
+                  earlyStart = calendar.getNextWorkStart(predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
+                  earlyFinish = calendar.getDate(earlyStart, task.getRemainingDuration());
                }
             }
             else
             {
-               earlyStart = task.getActualStart();
+               LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
+               earlyFinish = dataDate;
+               earlyStart = dataDate;
             }
          }
 
@@ -283,63 +265,41 @@ public class Schedule
 
                if (calendar.getWork(previousWorkFinish, lateFinish, TimeUnit.HOURS).getDuration() == 0)
                {
-                  // TODO: this condition may need work, particularly for MS Project.
-                  // In some/many cases it allows late finish to be at the start of the next working day.
-                  if (m_strategy == ScheduleStrategy.PRIMAVERA_P6 || !previousWorkFinish.isBefore(lateFinish))
-                  {
-                     lateFinish = previousWorkFinish;
-                  }
+                  lateFinish = previousWorkFinish;
                }
             }
          }
          else
          {
-            if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
+            if (successors.isEmpty())
             {
-               if (successors.isEmpty())
-               {
-                  lateFinish = projectFinishDate;
-               }
-               else
-               {
-                  lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, projectFinishDate, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
-               }
+               lateFinish = projectFinishDate;
             }
             else
             {
-               lateFinish = task.getActualFinish();
+               lateFinish = successors.stream().map(r -> calculateLateFinish(calendar, projectFinishDate, r)).min(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing late start date"));
             }
          }
 
-         if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
-         {
-            // P6 moves the late finish date to the end of the working period on that day.
-            LocalDateTime adjustedLateFinish = LocalTimeHelper.setEndTime(lateFinish, calendar.getFinishTime(lateFinish.toLocalDate()));
+         // P6 moves the late finish date to the end of the working period on that day.
+         LocalDateTime adjustedLateFinish = LocalTimeHelper.setEndTime(lateFinish, calendar.getFinishTime(lateFinish.toLocalDate()));
 
-            // There is some variability in how P6 represents this, e.g. 16:59 and 17:00 are equivalent
-            // Don't adjust the date if they are 1 minute apart to ensure the dates we produce are aligned with P6.
-            // Also, there may be an upper limit to how much P6 will push the end date forward,
-            // heer we're assuming no more than 4 hours (14400 seconds).
-            long differenceInSeconds = lateFinish.until(adjustedLateFinish, ChronoUnit.SECONDS);
-            if (differenceInSeconds > 60 && differenceInSeconds < 14400)
-            {
-               lateFinish = adjustedLateFinish;
-            }
+         // There is some variability in how P6 represents this, e.g. 16:59 and 17:00 are equivalent
+         // Don't adjust the date if they are 1 minute apart to ensure the dates we produce are aligned with P6.
+         // Also, there may be an upper limit to how much P6 will push the end date forward,
+         // heer we're assuming no more than 4 hours (14400 seconds).
+         long differenceInSeconds = lateFinish.until(adjustedLateFinish, ChronoUnit.SECONDS);
+         if (differenceInSeconds > 60 && differenceInSeconds < 14400)
+         {
+            lateFinish = adjustedLateFinish;
          }
 
          LocalDateTime lateStart;
-         if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
+         Duration taskDuration = task.getActualStart() == null ? task.getDuration() : task.getRemainingDuration();
+         lateStart = calendar.getDate(lateFinish, taskDuration.negate());
+         if (task.getActivityType() == ActivityType.START_MILESTONE)
          {
-            Duration taskDuration = task.getActualStart() == null ? task.getDuration() : task.getRemainingDuration();
-            lateStart = calendar.getDate(lateFinish, taskDuration.negate());
-            if (task.getActivityType() == ActivityType.START_MILESTONE)
-            {
-               lateStart = calendar.getNextWorkStart(lateStart);
-            }
-         }
-         else
-         {
-            lateStart = task.getActualStart() == null ? calendar.getDate(lateFinish, task.getDuration().negate()) : task.getActualStart();
+            lateStart = calendar.getNextWorkStart(lateStart);
          }
 
          task.setLateStart(lateStart);
@@ -355,15 +315,7 @@ public class Schedule
       {
          case FINISH_START:
          {
-            // MS Project only: If predecessor is ALAP task and backward pass has been run then use predecessor late finish
-            if (m_strategy == ScheduleStrategy.MICROSOFT_PROJECT && predecessor.getConstraintType() == ConstraintType.AS_LATE_AS_POSSIBLE && relation.getSuccessorTask().getConstraintType() != ConstraintType.AS_LATE_AS_POSSIBLE && m_backwardPass)
-            {
-               return getLagCalendar(taskCalendar, relation).getDate(predecessor.getLateFinish(), relation.getLag());
-            }
-            else
-            {
-               return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyFinish(), relation.getLag());
-            }
+            return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyFinish(), relation.getLag());
          }
 
          case START_START:
@@ -377,10 +329,6 @@ public class Schedule
 
          case FINISH_FINISH:
          {
-            // There is an interesting bug in Project 2010, and possibly other versions, where the ES, and EF dates
-            // for the predecessor of an FF task are not set correctly. Calculating the project shows the correct dates,
-            // but when the file is saved and reopened, the incorrect dates are shown again. Current versions of MS Project (2024?)
-            // seem to be unaffected.
             LocalDateTime predecessorEarlyFinish = predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish();
             LocalDateTime earlyStart = taskCalendar.getDate(predecessorEarlyFinish, relation.getSuccessorTask().getRemainingDuration().negate());
             earlyStart = getLagCalendar(taskCalendar, relation).getDate(earlyStart, relation.getLag());
@@ -413,44 +361,30 @@ public class Schedule
       {
          case START_START:
          {
-            if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
+            LocalDateTime lateStart;
+
+            if (successorTask.getActualStart() == null)
             {
-               LocalDateTime lateStart;
-
-               if (successorTask.getActualStart() == null)
-               {
-                  lateStart = taskCalendar.getNextWorkStart(getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate()));
-               }
-               else
-               {
-                  lateStart = successorTask.getLateStart();
-               }
-
-               lateFinish = taskCalendar.getDate(lateStart, predecessorTask.getRemainingDuration());
+               lateStart = taskCalendar.getNextWorkStart(getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate()));
             }
             else
             {
-               lateFinish = projectFinishDate;
+               lateStart = successorTask.getLateStart();
             }
+
+            lateFinish = taskCalendar.getDate(lateStart, predecessorTask.getRemainingDuration());
             break;
          }
 
          case FINISH_FINISH:
          {
-            if (m_strategy == ScheduleStrategy.PRIMAVERA_P6)
+            if (predecessorTask.getActualFinish() == null)
             {
-               if (predecessorTask.getActualFinish() == null)
-               {
-                  lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateFinish(), relation.getLag().negate());
-               }
-               else
-               {
-                  lateFinish = successorTask.getLateFinish();
-               }
+               lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateFinish(), relation.getLag().negate());
             }
             else
             {
-               lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateFinish(), relation.getLag().negate());
+               lateFinish = successorTask.getLateFinish();
             }
             break;
          }
@@ -536,11 +470,6 @@ public class Schedule
 
    private ProjectCalendar getLagCalendar(ProjectCalendar taskCalendar, Relation relation)
    {
-      if (m_strategy == ScheduleStrategy.MICROSOFT_PROJECT)
-      {
-         return taskCalendar;
-      }
-
       switch (m_file.getProjectProperties().getRelationshipLagCalendar())
       {
          case PREDECESSOR:
@@ -571,7 +500,5 @@ public class Schedule
       return task.getSummary() || !task.getActive() || task.getNull() || task.getActivityType() == ActivityType.LEVEL_OF_EFFORT || task.getActivityType() == ActivityType.WBS_SUMMARY;
    }
 
-   private final ScheduleStrategy m_strategy;
    private final ProjectFile m_file;
-   private boolean m_backwardPass;
 }
