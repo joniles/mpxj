@@ -93,7 +93,7 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
             }
             earlyStart = calendar.getNextWorkStart(earlyStart);
 
@@ -167,7 +167,7 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  earlyStart = calendar.getNextWorkStart(predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
+                  earlyStart = calendar.getNextWorkStart(predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date")));
                   earlyFinish = calendar.getDate(earlyStart, task.getRemainingDuration());
                }
             }
@@ -175,7 +175,7 @@ public class PrimaveraScheduler implements Scheduler
             {
                if (activityOutOfSequence)
                {
-                  earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+                  earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
                   earlyFinish = calendar.getDate(earlyStart, task.getRemainingDuration());
                }
                else
@@ -188,13 +188,13 @@ public class PrimaveraScheduler implements Scheduler
                   }
                   else
                   {
-                     // Need to pass outOfSequence flag to calculateEarlyStart?
-//                     earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
-//                     earlyFinish = calendar.getDate(earlyStart, task.getRemainingDuration());
-
                      LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
-                     earlyFinish = dataDate;
-                     earlyStart = dataDate;
+                     earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+                     if (earlyStart.isBefore(dataDate))
+                     {
+                        earlyStart = dataDate;
+                     }
+                     earlyFinish = earlyStart;
                   }
                }
             }
@@ -326,7 +326,7 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
-   private LocalDateTime calculateEarlyStart(ProjectCalendar taskCalendar, LocalDateTime projectStartDate, Relation relation)
+   private LocalDateTime calculateEarlyStart(ProjectCalendar taskCalendar, LocalDateTime projectStartDate, boolean activityOutOfSequence, Relation relation)
    {
       Task predecessor = relation.getPredecessorTask();
 
