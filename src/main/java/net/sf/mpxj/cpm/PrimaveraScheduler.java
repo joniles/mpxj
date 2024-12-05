@@ -191,9 +191,22 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
-                  LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
-                  earlyFinish = dataDate;
-                  earlyStart = dataDate;
+                  if (predecessors.isEmpty())
+                  {
+                     LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
+                     earlyFinish = dataDate;
+                     earlyStart = dataDate;
+                  }
+                  else
+                  {
+                     // Need to pass outOfSequence flag to calculateEarlyStart?
+//                     earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+//                     earlyFinish = calendar.getDate(earlyStart, task.getRemainingDuration());
+
+                     LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
+                     earlyFinish = dataDate;
+                     earlyStart = dataDate;
+                  }
                }
             }
          }
