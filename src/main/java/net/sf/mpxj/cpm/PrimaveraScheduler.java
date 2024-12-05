@@ -67,45 +67,35 @@ public class PrimaveraScheduler implements Scheduler
 
          if (task.getActualStart() == null)
          {
-            if (task.getTaskMode() == TaskMode.MANUALLY_SCHEDULED)
+            if (predecessors.isEmpty())
             {
-               // TODO: we need to be able to identify where NO start date has been supplied, which appears to trigger using ScheduledStart rather than Start
-               task.setEarlyStart(task.getStart());
-               task.setEarlyFinish(task.getFinish());
-               continue;
+               switch (task.getConstraintType())
+               {
+                  case START_NO_EARLIER_THAN:
+                  {
+                     earlyStart = task.getConstraintDate();
+                     break;
+                  }
+
+                  case FINISH_NO_EARLIER_THAN:
+                  {
+                     earlyFinish = task.getConstraintDate();
+                     earlyStart = calendar.getDate(earlyFinish, task.getDuration().negate());
+                     break;
+                  }
+
+                  default:
+                  {
+                     earlyStart = projectStartDate;
+                     break;
+                  }
+               }
             }
             else
             {
-               if (predecessors.isEmpty())
-               {
-                  switch (task.getConstraintType())
-                  {
-                     case START_NO_EARLIER_THAN:
-                     {
-                        earlyStart = task.getConstraintDate();
-                        break;
-                     }
-
-                     case FINISH_NO_EARLIER_THAN:
-                     {
-                        earlyFinish = task.getConstraintDate();
-                        earlyStart = calendar.getDate(earlyFinish, task.getDuration().negate());
-                        break;
-                     }
-
-                     default:
-                     {
-                        earlyStart = projectStartDate;
-                        break;
-                     }
-                  }
-               }
-               else
-               {
-                  earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
-               }
-               earlyStart = calendar.getNextWorkStart(earlyStart);
+               earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
             }
+            earlyStart = calendar.getNextWorkStart(earlyStart);
 
             if (task.getConstraintType() != null)
             {
