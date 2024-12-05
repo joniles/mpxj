@@ -15,7 +15,6 @@ import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.TaskMode;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.common.LocalTimeHelper;
 
@@ -64,6 +63,7 @@ public class PrimaveraScheduler implements Scheduler
 
          LocalDateTime earlyFinish = null;
          List<Relation> predecessors = task.getPredecessors().stream().filter(r -> !ignoreTask(r.getPredecessorTask())).collect(Collectors.toList());
+         boolean activityOutOfSequence = predecessors.stream().anyMatch(r -> activityOutOfSequence(r));
 
          if (task.getActualStart() == null)
          {
@@ -173,8 +173,7 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               boolean outOfSequence = outOfSequence(task);
-               if (outOfSequence)
+               if (activityOutOfSequence)
                {
                   earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
                   earlyFinish = calendar.getDate(earlyStart, task.getRemainingDuration());
@@ -515,7 +514,7 @@ public class PrimaveraScheduler implements Scheduler
       }
    }
 
-   private boolean outOfSequence(Relation relation)
+   private boolean activityOutOfSequence(Relation relation)
    {
       ActivityStatus predecessorStatus = relation.getPredecessorTask().getActivityStatus();
       ActivityStatus successorStatus = relation.getSuccessorTask().getActivityStatus();
@@ -551,11 +550,6 @@ public class PrimaveraScheduler implements Scheduler
             throw new UnsupportedOperationException("Unknown relation type");
          }
       }
-   }
-
-   private boolean outOfSequence(Task task)
-   {
-      return task.getPredecessors().stream().anyMatch(r -> outOfSequence(r));
    }
 
    public static boolean ignoreTask(Task task)
