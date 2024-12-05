@@ -180,15 +180,14 @@ public class PrimaveraScheduler implements Scheduler
                }
                else
                {
+                  LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
                   if (predecessors.isEmpty())
                   {
-                     LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
                      earlyFinish = dataDate;
                      earlyStart = dataDate;
                   }
                   else
                   {
-                     LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
                      earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
                      if (earlyStart.isBefore(dataDate))
                      {
@@ -348,7 +347,24 @@ public class PrimaveraScheduler implements Scheduler
 
          case FINISH_FINISH:
          {
-            LocalDateTime predecessorEarlyFinish = predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish();
+            LocalDateTime predecessorEarlyFinish;
+
+            if (predecessor.getActualFinish() == null)
+            {
+               predecessorEarlyFinish = predecessor.getEarlyFinish();
+            }
+            else
+            {
+               if (predecessor.getActualFinish().isBefore(predecessor.getEarlyFinish()))
+               {
+                  predecessorEarlyFinish = predecessor.getActualFinish();
+               }
+               else
+               {
+                  predecessorEarlyFinish = predecessor.getEarlyFinish();
+               }
+            }
+
             LocalDateTime earlyStart = taskCalendar.getDate(predecessorEarlyFinish, relation.getSuccessorTask().getRemainingDuration().negate());
             earlyStart = getLagCalendar(taskCalendar, relation).getDate(earlyStart, relation.getLag());
             if (earlyStart.isBefore(projectStartDate))
