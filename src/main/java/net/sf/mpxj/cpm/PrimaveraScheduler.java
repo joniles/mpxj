@@ -8,8 +8,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.sf.mpxj.ActivityStatus;
 import net.sf.mpxj.ActivityType;
-import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectFile;
@@ -28,6 +28,15 @@ public class PrimaveraScheduler implements Scheduler
 
    public void process(LocalDateTime projectStartDate) throws Exception
    {
+      ///  Out of sequence test
+//      for(Relation relation : m_file.getRelations())
+//      {
+//         if (outOfSequence(relation))
+//         {
+//            System.out.println("Out of sequence: " + relation);
+//         }
+//      }
+
       List<Task> tasks = new DepthFirstGraphSort(m_file).sort();
       if (tasks.isEmpty())
       {
@@ -37,7 +46,6 @@ public class PrimaveraScheduler implements Scheduler
       forwardPass(projectStartDate, tasks);
 
       LocalDateTime projectFinishDate = m_file.getProjectProperties().getMustFinishBy();
-
 
       if (projectFinishDate== null)
       {
@@ -175,9 +183,18 @@ public class PrimaveraScheduler implements Scheduler
             }
             else
             {
-               LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
-               earlyFinish = dataDate;
-               earlyStart = dataDate;
+               boolean outOfSequence = outOfSequence(task);
+               if (outOfSequence)
+               {
+                  earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
+                  earlyFinish = calendar.getDate(earlyStart, task.getRemainingDuration());
+               }
+               else
+               {
+                  LocalDateTime dataDate = m_file.getProjectProperties().getStatusDate();
+                  earlyFinish = dataDate;
+                  earlyStart = dataDate;
+               }
             }
          }
 
@@ -311,42 +328,86 @@ public class PrimaveraScheduler implements Scheduler
    {
       Task predecessor = relation.getPredecessorTask();
 
-      switch (relation.getType())
+      if (outOfSequence(relation))
       {
-         case FINISH_START:
+         switch (relation.getType())
          {
-            return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyFinish(), relation.getLag());
-         }
-
-         case START_START:
-         {
-            if (predecessor.getActualStart() != null)
+            case FINISH_START:
             {
-               return predecessor.getEarlyStart();
+               return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyFinish(), relation.getLag());
             }
-            return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyStart(), relation.getLag());
-         }
 
-         case FINISH_FINISH:
-         {
-            LocalDateTime predecessorEarlyFinish = predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish();
-            LocalDateTime earlyStart = taskCalendar.getDate(predecessorEarlyFinish, relation.getSuccessorTask().getRemainingDuration().negate());
-            earlyStart = getLagCalendar(taskCalendar, relation).getDate(earlyStart, relation.getLag());
-            if (earlyStart.isBefore(projectStartDate))
+            case START_START:
             {
-               earlyStart = projectStartDate;
+               if (predecessor.getActualStart() != null)
+               {
+                  return predecessor.getEarlyStart();
+               }
+               return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyStart(), relation.getLag());
             }
-            return earlyStart;
-         }
 
-         case START_FINISH:
-         {
-            return getLagCalendar(taskCalendar, relation).getDate(taskCalendar.getDate(predecessor.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
-         }
+            case FINISH_FINISH:
+            {
+               LocalDateTime predecessorEarlyFinish = predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish();
+               LocalDateTime earlyStart = taskCalendar.getDate(predecessorEarlyFinish, relation.getSuccessorTask().getRemainingDuration().negate());
+               earlyStart = getLagCalendar(taskCalendar, relation).getDate(earlyStart, relation.getLag());
+               if (earlyStart.isBefore(projectStartDate))
+               {
+                  earlyStart = projectStartDate;
+               }
+               return earlyStart;
+            }
 
-         default:
+            case START_FINISH:
+            {
+               return getLagCalendar(taskCalendar, relation).getDate(taskCalendar.getDate(predecessor.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+            }
+
+            default:
+            {
+               throw new UnsupportedOperationException();
+            }
+         }
+      }
+      else
+      {
+         switch (relation.getType())
          {
-            throw new UnsupportedOperationException();
+            case FINISH_START:
+            {
+               return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyFinish(), relation.getLag());
+            }
+
+            case START_START:
+            {
+               if (predecessor.getActualStart() != null)
+               {
+                  return predecessor.getEarlyStart();
+               }
+               return getLagCalendar(taskCalendar, relation).getDate(predecessor.getEarlyStart(), relation.getLag());
+            }
+
+            case FINISH_FINISH:
+            {
+               LocalDateTime predecessorEarlyFinish = predecessor.getActualFinish() == null ? predecessor.getEarlyFinish() : predecessor.getActualFinish();
+               LocalDateTime earlyStart = taskCalendar.getDate(predecessorEarlyFinish, relation.getSuccessorTask().getRemainingDuration().negate());
+               earlyStart = getLagCalendar(taskCalendar, relation).getDate(earlyStart, relation.getLag());
+               if (earlyStart.isBefore(projectStartDate))
+               {
+                  earlyStart = projectStartDate;
+               }
+               return earlyStart;
+            }
+
+            case START_FINISH:
+            {
+               return getLagCalendar(taskCalendar, relation).getDate(taskCalendar.getDate(predecessor.getEarlyStart(), relation.getSuccessorTask().getDuration().negate()), relation.getLag());
+            }
+
+            default:
+            {
+               throw new UnsupportedOperationException();
+            }
          }
       }
    }
@@ -357,49 +418,100 @@ public class PrimaveraScheduler implements Scheduler
       Task successorTask = relation.getSuccessorTask();
       LocalDateTime lateFinish;
 
-      switch (relation.getType())
+      if (outOfSequence(relation))
       {
-         case START_START:
+         switch (relation.getType())
          {
-            LocalDateTime lateStart;
-
-            if (successorTask.getActualStart() == null)
+            case START_START:
             {
-               lateStart = taskCalendar.getNextWorkStart(getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate()));
-            }
-            else
-            {
-               lateStart = successorTask.getLateStart();
+               LocalDateTime lateStart;
+
+               if (successorTask.getActualStart() == null)
+               {
+                  lateStart = taskCalendar.getNextWorkStart(getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate()));
+               }
+               else
+               {
+                  lateStart = successorTask.getLateStart();
+               }
+
+               lateFinish = taskCalendar.getDate(lateStart, predecessorTask.getRemainingDuration());
+               break;
             }
 
-            lateFinish = taskCalendar.getDate(lateStart, predecessorTask.getRemainingDuration());
-            break;
+            case FINISH_FINISH:
+            {
+               if (predecessorTask.getActualFinish() == null)
+               {
+                  lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateFinish(), relation.getLag().negate());
+               }
+               else
+               {
+                  lateFinish = successorTask.getLateFinish();
+               }
+               break;
+            }
+
+            case START_FINISH:
+            {
+               lateFinish = taskCalendar.getDate(successorTask.getLateFinish(), predecessorTask.getDuration());
+               lateFinish = getLagCalendar(taskCalendar, relation).getDate(lateFinish, relation.getLag().negate());
+               break;
+            }
+
+            default:
+            {
+               lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate());
+               break;
+            }
          }
-
-         case FINISH_FINISH:
+      }
+      else
+      {
+         switch (relation.getType())
          {
-            if (predecessorTask.getActualFinish() == null)
+            case START_START:
             {
-               lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateFinish(), relation.getLag().negate());
+               LocalDateTime lateStart;
+
+               if (successorTask.getActualStart() == null)
+               {
+                  lateStart = taskCalendar.getNextWorkStart(getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate()));
+               }
+               else
+               {
+                  lateStart = successorTask.getLateStart();
+               }
+
+               lateFinish = taskCalendar.getDate(lateStart, predecessorTask.getRemainingDuration());
+               break;
             }
-            else
+
+            case FINISH_FINISH:
             {
-               lateFinish = successorTask.getLateFinish();
+               if (predecessorTask.getActualFinish() == null)
+               {
+                  lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateFinish(), relation.getLag().negate());
+               }
+               else
+               {
+                  lateFinish = successorTask.getLateFinish();
+               }
+               break;
             }
-            break;
-         }
 
-         case START_FINISH:
-         {
-            lateFinish = taskCalendar.getDate(successorTask.getLateFinish(), predecessorTask.getDuration());
-            lateFinish = getLagCalendar(taskCalendar, relation).getDate(lateFinish, relation.getLag().negate());
-            break;
-         }
+            case START_FINISH:
+            {
+               lateFinish = taskCalendar.getDate(successorTask.getLateFinish(), predecessorTask.getDuration());
+               lateFinish = getLagCalendar(taskCalendar, relation).getDate(lateFinish, relation.getLag().negate());
+               break;
+            }
 
-         default:
-         {
-            lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate());
-            break;
+            default:
+            {
+               lateFinish = getLagCalendar(taskCalendar, relation).getDate(successorTask.getLateStart(), relation.getLag().negate());
+               break;
+            }
          }
       }
 
@@ -493,6 +605,49 @@ public class PrimaveraScheduler implements Scheduler
             throw new UnsupportedOperationException("TODO: implemenet standard 24 hour calendar");
          }
       }
+   }
+
+   private boolean outOfSequence(Relation relation)
+   {
+      ActivityStatus predecessorStatus = relation.getPredecessorTask().getActivityStatus();
+      ActivityStatus successorStatus = relation.getSuccessorTask().getActivityStatus();
+      if (predecessorStatus == ActivityStatus.NOT_STARTED && successorStatus == ActivityStatus.NOT_STARTED)
+      {
+         return false;
+      }
+
+      switch (relation.getType())
+      {
+         case FINISH_START:
+         {
+            return (predecessorStatus == ActivityStatus.NOT_STARTED || predecessorStatus == ActivityStatus.IN_PROGRESS) && (successorStatus == ActivityStatus.IN_PROGRESS || successorStatus == ActivityStatus.COMPLETED);
+         }
+
+         case START_START:
+         {
+            return predecessorStatus == ActivityStatus.NOT_STARTED && (successorStatus == ActivityStatus.IN_PROGRESS || successorStatus == ActivityStatus.COMPLETED);
+         }
+
+         case FINISH_FINISH:
+         {
+            return (predecessorStatus == ActivityStatus.NOT_STARTED || predecessorStatus == ActivityStatus.IN_PROGRESS) && successorStatus == ActivityStatus.COMPLETED;
+         }
+
+         case START_FINISH:
+         {
+            return predecessorStatus == ActivityStatus.NOT_STARTED && successorStatus == ActivityStatus.COMPLETED;
+         }
+
+         default:
+         {
+            throw new UnsupportedOperationException("Unknown relation type");
+         }
+      }
+   }
+
+   private boolean outOfSequence(Task task)
+   {
+      return task.getPredecessors().stream().anyMatch(r -> outOfSequence(r));
    }
 
    public static boolean ignoreTask(Task task)

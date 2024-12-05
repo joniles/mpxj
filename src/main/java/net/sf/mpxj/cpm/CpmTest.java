@@ -30,8 +30,8 @@ public class CpmTest
 
       if (target.isDirectory())
       {
-         test.process(new File(target, "mpp"), ".mpp", MICROSOFT_PROJECT);
-         //test.process(new File(target, "xer"), ".xer", PRIMAVERA_P6);
+         //test.process(new File(target, "mpp"), ".mpp", MICROSOFT_PROJECT);
+         test.process(new File(target, "xer"), ".xer", PRIMAVERA_P6);
       }
       else
       {
