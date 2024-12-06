@@ -226,6 +226,7 @@ public class CpmTest
       EXCLUDED_FILES.add("teenage-contest.encoding.xer"); // Aligns with MPXJ when scheduled
       EXCLUDED_FILES.add("orphic-chastisement.xer"); // Aligns with MPXJ when scheduled
       EXCLUDED_FILES.add("unlined-customhouse.xer"); // Aligns with MPXJ when scheduled
+      EXCLUDED_FILES.add("exhaustible-concussion.xer"); // Aligns with MPXJ when scheduled
 
       // Scheduled from end
       EXCLUDED_FILES.add("dietetic-phrasing.mpp");
