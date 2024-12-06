@@ -88,9 +88,35 @@ public class PrimaveraScheduler implements Scheduler
                earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
             }
 
-            if (task.getActivityType() != ActivityType.FINISH_MILESTONE)
+            switch (task.getActivityType())
             {
-               earlyStart = calendar.getNextWorkStart(earlyStart);
+               case FINISH_MILESTONE:
+               {
+                  // Don't adjust early start
+                  break;
+               }
+
+               case RESOURCE_DEPENDENT:
+               {
+                  // Always from the start of a working day
+                  earlyStart = calendar.getNextWorkStart(earlyStart);
+
+                  if (earlyStart.toLocalTime().isAfter(calendar.getStartTime(earlyStart.toLocalDate())))
+                  {
+                     LocalTime finishTime = calendar.getFinishTime(earlyStart.toLocalDate());
+                     earlyStart = LocalDateTime.of(earlyStart.toLocalDate(), finishTime);
+                     earlyStart = calendar.getNextWorkStart(earlyStart);
+                  }
+
+                  break;
+               }
+
+               default:
+               {
+                  // Next work start
+                  earlyStart = calendar.getNextWorkStart(earlyStart);
+                  break;
+               }
             }
 
             if (task.getConstraintType() != null)
