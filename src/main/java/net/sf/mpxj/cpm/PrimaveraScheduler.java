@@ -28,15 +28,6 @@ public class PrimaveraScheduler implements Scheduler
 
    public void process(LocalDateTime projectStartDate) throws Exception
    {
-      ///  Out of sequence test
-//      for(Relation relation : m_file.getRelations())
-//      {
-//         if (outOfSequence(relation))
-//         {
-//            System.out.println("Out of sequence: " + relation);
-//         }
-//      }
-
       List<Task> tasks = new DepthFirstGraphSort(m_file).sort();
       if (tasks.isEmpty())
       {
@@ -96,7 +87,11 @@ public class PrimaveraScheduler implements Scheduler
             {
                earlyStart = predecessors.stream().map(r -> calculateEarlyStart(calendar, projectStartDate, activityOutOfSequence, r)).max(Comparator.naturalOrder()).orElseThrow(() -> new CpmException("Missing early start date"));
             }
-            earlyStart = calendar.getNextWorkStart(earlyStart);
+
+            if (task.getActivityType() != ActivityType.FINISH_MILESTONE)
+            {
+               earlyStart = calendar.getNextWorkStart(earlyStart);
+            }
 
             if (task.getConstraintType() != null)
             {
