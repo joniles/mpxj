@@ -300,10 +300,9 @@ public class PrimaveraScheduler implements Scheduler
 
          // There is some variability in how P6 represents this, e.g. 16:59 and 17:00 are equivalent
          // Don't adjust the date if they are 1 minute apart to ensure the dates we produce are aligned with P6.
-         // Also, there may be an upper limit to how much P6 will push the end date forward,
-         // heer we're assuming no more than 4 hours (14400 seconds).
+         // Also, there also appears to be an upper limit to how much P6 will push the end date forward.
          long differenceInSeconds = lateFinish.until(adjustedLateFinish, ChronoUnit.SECONDS);
-         if (differenceInSeconds > 60 && differenceInSeconds < 14400)
+         if (differenceInSeconds > 60 && differenceInSeconds < 2580)
          {
             lateFinish = adjustedLateFinish;
          }
