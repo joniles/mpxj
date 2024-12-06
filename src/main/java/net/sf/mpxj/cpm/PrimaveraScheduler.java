@@ -428,7 +428,14 @@ public class PrimaveraScheduler implements Scheduler
 
          default:
          {
-            lateFinish = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate());
+            if(successorTask.getActualFinish() == null)
+            {
+               lateFinish = getDate(getLagCalendar(taskCalendar, relation), successorTask.getLateStart(), relation.getLag().negate());
+            }
+            else
+            {
+               lateFinish = successorTask.getLateStart();
+            }
             break;
          }
       }
