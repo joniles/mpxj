@@ -98,7 +98,7 @@ public class PrimaveraScheduler implements Scheduler
 
                case RESOURCE_DEPENDENT:
                {
-                  // Always from the start of a working day
+                  // TODO: we need to schedule based on the resource calendars. The code below is not correct.
                   earlyStart = calendar.getNextWorkStart(earlyStart);
 
                   if (earlyStart.toLocalTime().isAfter(calendar.getStartTime(earlyStart.toLocalDate())))
