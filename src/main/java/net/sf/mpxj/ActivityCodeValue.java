@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 /**
  * Represents an individual activity code value.
  */
-public final class ActivityCodeValue
+public final class ActivityCodeValue implements CodeValue
 {
    /**
     * Constructor.
@@ -65,6 +65,11 @@ public final class ActivityCodeValue
     * @return ActivityCode instance
     */
    public ActivityCode getActivityCode()
+   {
+      return m_activityCode;
+   }
+
+   public ActivityCode getParentCode()
    {
       return m_activityCode;
    }
