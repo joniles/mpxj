@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * Activity code type definition, contains a list of the valid
  * values for this activity code.
  */
-public final class ActivityCode implements Code
+public final class ActivityCode implements Code<ActivityCodeValue>
 {
    /**
     * Constructor.

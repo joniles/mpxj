@@ -2,7 +2,7 @@ package net.sf.mpxj;
 
 import java.util.List;
 
-public interface Code extends ProjectEntityWithUniqueID
+public interface Code<V extends CodeValue> extends ProjectEntityWithUniqueID
 {
    public Integer getUniqueID();
 
@@ -14,11 +14,11 @@ public interface Code extends ProjectEntityWithUniqueID
 
    public Integer getMaxLength();
 
-   public List<ActivityCodeValue> getValues();
+   public List<V> getValues();
 
-   public List<ActivityCodeValue> getChildValues();
+   public List<V> getChildValues();
 
-   public void addValue(ActivityCodeValue value);
+   public void  addValue(V value);
 
-   public ActivityCodeValue getValueByUniqueID(Integer id);
+   public V getValueByUniqueID(Integer id);
 }
