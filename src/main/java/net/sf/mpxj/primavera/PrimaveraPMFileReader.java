@@ -1463,8 +1463,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          task.setFinish(row.getFinishDate());
 
          // Note that planned finish is handled in the code below
-         populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START);
-         populateField(task, TaskField.FINISH, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH);
+         populateField(task, TaskField.START, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START, TaskField.EARLY_START);
+         populateField(task, TaskField.FINISH, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH, TaskField.EARLY_FINISH);
 
          //
          // We've tried the finish and actual finish fields... but we still have null.

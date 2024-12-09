@@ -1155,8 +1155,8 @@ final class PrimaveraReader
          ProjectCalendar cal = m_project.getCalendarByUniqueID(calId);
          task.setCalendar(cal);
 
-         populateField(task, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START);
-         populateField(task, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH, TaskField.PLANNED_FINISH);
+         populateField(task, TaskField.START, TaskField.ACTUAL_START, TaskField.REMAINING_EARLY_START, TaskField.PLANNED_START, TaskField.EARLY_START);
+         populateField(task, TaskField.FINISH, TaskField.ACTUAL_FINISH, TaskField.REMAINING_EARLY_FINISH, TaskField.PLANNED_FINISH, TaskField.EARLY_FINISH);
 
          // Calculate actual duration
          LocalDateTime actualStart = task.getActualStart();
