@@ -776,13 +776,13 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          if (code != null)
          {
             ActivityCodeValue value = new ActivityCodeValue.Builder(m_projectFile)
-               .activityCode(code)
+               .parentCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
                .name(typeValue.getCodeValue())
                .description(typeValue.getDescription())
                .color(ColorHelper.parseHtmlColor(typeValue.getColor()))
-               .parent(code.getValueByUniqueID(typeValue.getParentObjectId()))
+               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
                .build();
             code.addValue(value);
          }

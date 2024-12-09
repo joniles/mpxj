@@ -240,7 +240,7 @@ final class Phoenix5Reader extends AbstractProjectStreamReader
       for (Value typeValue : code.getValue())
       {
          ActivityCodeValue activityCodeValue = new ActivityCodeValue.Builder(m_projectFile)
-            .activityCode(activityCode)
+            .parentCode(activityCode)
             .sequenceNumber(Integer.valueOf(++activityCodeValueSequence))
             .name(typeValue.getName())
             .description(typeValue.getName())
