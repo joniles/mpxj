@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface CodeValue
 {
-   public Code getParentCode();
+   Code<? extends CodeValue> getParentCode();
 
    public Integer getUniqueID();
 
@@ -15,9 +15,9 @@ public interface CodeValue
 
    public String getDescription();
 
-   public CodeValue getParent();
+   public CodeValue getParentValue();
 
-   public Integer getParentUniqueID();
+   public Integer getParentValueUniqueID();
 
    public List<? extends CodeValue> getChildValues();
 }

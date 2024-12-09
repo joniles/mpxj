@@ -47,7 +47,7 @@ public abstract class AbstractCode<V extends CodeValue> implements Code<V>
 
    public List<V> getChildValues()
    {
-      return m_values.stream().filter(v -> v.getParent() == null).collect(Collectors.toList());
+      return m_values.stream().filter(v -> v.getParentValue() == null).collect(Collectors.toList());
    }
 
    /**

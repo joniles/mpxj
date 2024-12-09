@@ -24,13 +24,11 @@
 package net.sf.mpxj;
 
 import java.awt.Color;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Represents an individual activity code value.
  */
-public final class ActivityCodeValue implements CodeValue
+public final class ActivityCodeValue extends AbstractCodeValue<ActivityCodeValue.Builder, ActivityCodeValue, ActivityCode>
 {
    /**
     * Constructor.
@@ -39,13 +37,8 @@ public final class ActivityCodeValue implements CodeValue
     */
    private ActivityCodeValue(Builder builder)
    {
-      m_uniqueID = builder.m_sequenceProvider.getUniqueIdObjectSequence(ActivityCodeValue.class).syncOrGetNext(builder.m_uniqueID);
-      m_activityCode = builder.m_activityCode;
-      m_sequenceNumber = builder.m_sequenceNumber;
-      m_name = builder.m_name;
-      m_description = builder.m_description;
+      super(builder);
       m_color = builder.m_color;
-      m_parent = builder.m_parent;
    }
 
    /**
@@ -56,7 +49,7 @@ public final class ActivityCodeValue implements CodeValue
     */
    @Deprecated public ActivityCode getType()
    {
-      return m_activityCode;
+      return m_parentCode;
    }
 
    /**
@@ -66,52 +59,7 @@ public final class ActivityCodeValue implements CodeValue
     */
    public ActivityCode getActivityCode()
    {
-      return m_activityCode;
-   }
-
-   public ActivityCode getParentCode()
-   {
-      return m_activityCode;
-   }
-
-   /**
-    * Retrieves the unique ID for this value.
-    *
-    * @return unique ID
-    */
-   public Integer getUniqueID()
-   {
-      return m_uniqueID;
-   }
-
-   /**
-    * Retrieves the sequence number for this value.
-    *
-    * @return sequence number
-    */
-   public Integer getSequenceNumber()
-   {
-      return m_sequenceNumber;
-   }
-
-   /**
-    * Retrieves the value name.
-    *
-    * @return value name
-    */
-   public String getName()
-   {
-      return m_name;
-   }
-
-   /**
-    * Retrieves the value description.
-    *
-    * @return value description
-    */
-   public String getDescription()
-   {
-      return m_description;
+      return m_parentCode;
    }
 
    /**
@@ -129,9 +77,9 @@ public final class ActivityCodeValue implements CodeValue
     *
     * @return parent ActivityCodeValue
     */
-   public ActivityCodeValue getParent()
+   @Deprecated public ActivityCodeValue getParent()
    {
-      return m_parent;
+      return getParentValue();
    }
 
    /**
@@ -139,38 +87,18 @@ public final class ActivityCodeValue implements CodeValue
     *
     * @return parent ActivityCodeValue unique ID
     */
-   public Integer getParentUniqueID()
+   @Deprecated public Integer getParentUniqueID()
    {
-      return m_parent == null ? null : m_parent.getUniqueID();
+      return getParentValueUniqueID();
    }
 
-   /**
-    * Retrieve any children of this value.
-    *
-    * @return list of ActivityCodeValue instances
-    */
-   public List<ActivityCodeValue> getChildValues()
-   {
-      return m_activityCode.getValues().stream().filter(a -> a.m_parent == this).collect(Collectors.toList());
-   }
-
-   @Override public String toString()
-   {
-      return m_activityCode.getName() + ": " + m_name;
-   }
-
-   private final ActivityCode m_activityCode;
-   private final Integer m_uniqueID;
-   private final Integer m_sequenceNumber;
-   private final String m_name;
-   private final String m_description;
    private final Color m_color;
-   private final ActivityCodeValue m_parent;
+
 
    /**
     * ActivityCodeValue builder.
     */
-   public static class Builder
+   public static class Builder extends AbstractCodeValue.Builder<Builder, ActivityCodeValue, ActivityCode>
    {
       /**
        * Constructor.
@@ -179,7 +107,7 @@ public final class ActivityCodeValue implements CodeValue
        */
       public Builder(UniqueIdObjectSequenceProvider sequenceProvider)
       {
-         m_sequenceProvider = sequenceProvider;
+         super(sequenceProvider);
       }
 
       /**
@@ -190,86 +118,13 @@ public final class ActivityCodeValue implements CodeValue
        */
       public Builder from(ActivityCodeValue value)
       {
-         m_activityCode = value.m_activityCode;
+         m_parentCode = value.m_parentCode;
          m_uniqueID = value.m_uniqueID;
          m_sequenceNumber = value.m_sequenceNumber;
          m_name = value.m_name;
          m_description = value.m_description;
          m_color = value.m_color;
-         m_parent = value.m_parent;
-         return this;
-      }
-
-      /**
-       * Add parent activity code.
-       *
-       * @param value activity code
-       * @return builder
-       * @deprecated use activityCode instead
-       */
-      @Deprecated public Builder type(ActivityCode value)
-      {
-         m_activityCode = value;
-         return this;
-      }
-
-      /**
-       * Add parent activity code.
-       *
-       * @param value activity code
-       * @return builder
-       */
-      public Builder activityCode(ActivityCode value)
-      {
-         m_activityCode = value;
-         return this;
-      }
-
-      /**
-       * Add unique ID.
-       *
-       * @param value unique ID
-       * @return builder
-       */
-      public Builder uniqueID(Integer value)
-      {
-         m_uniqueID = value;
-         return this;
-      }
-
-      /**
-       * Add sequence number.
-       *
-       * @param value sequence number
-       * @return builder
-       */
-      public Builder sequenceNumber(Integer value)
-      {
-         m_sequenceNumber = value;
-         return this;
-      }
-
-      /**
-       * Add name.
-       *
-       * @param value name
-       * @return builder
-       */
-      public Builder name(String value)
-      {
-         m_name = value;
-         return this;
-      }
-
-      /**
-       * Add description.
-       *
-       * @param value description
-       * @return builder
-       */
-      public Builder description(String value)
-      {
-         m_description = value;
+         m_parentValue = value.m_parentValue;
          return this;
       }
 
@@ -286,14 +141,39 @@ public final class ActivityCodeValue implements CodeValue
       }
 
       /**
+       * Add parent activity code.
+       *
+       * @param value activity code
+       * @return builder
+       * @deprecated use activityCode instead
+       */
+      @Deprecated public Builder type(ActivityCode value)
+      {
+         m_parentCode = value;
+         return this;
+      }
+
+      /**
+       * Add parent activity code.
+       *
+       * @param value activity code
+       * @return builder
+       */
+      @Deprecated public Builder activityCode(ActivityCode value)
+      {
+         m_parentCode = value;
+         return this;
+      }
+
+      /**
        * Add parent value.
        *
        * @param value parent value
        * @return builder
        */
-      public Builder parent(ActivityCodeValue value)
+      @Deprecated public Builder parent(ActivityCodeValue value)
       {
-         m_parent = value;
+         m_parentValue = value;
          return this;
       }
 
@@ -307,13 +187,11 @@ public final class ActivityCodeValue implements CodeValue
          return new ActivityCodeValue(this);
       }
 
-      private final UniqueIdObjectSequenceProvider m_sequenceProvider;
-      private ActivityCode m_activityCode;
-      private Integer m_uniqueID;
-      private Integer m_sequenceNumber;
-      private String m_name;
-      private String m_description;
+      @Override protected Builder self()
+      {
+         return this;
+      }
+
       private Color m_color;
-      private ActivityCodeValue m_parent;
    }
 }

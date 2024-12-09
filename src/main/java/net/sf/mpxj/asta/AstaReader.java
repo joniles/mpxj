@@ -2239,12 +2239,12 @@ final class AstaReader
 
          ObjectSequence sequence = sequences.computeIfAbsent(code, x -> new ObjectSequence(1));
          ActivityCodeValue value = new ActivityCodeValue.Builder(m_project)
-            .activityCode(code)
+            .parentCode(code)
             .uniqueID(id)
             .sequenceNumber(sequence.getNext())
             .name(name)
             .description(description)
-            .parent(valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY")))
+            .parentValue(valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY")))
             .build();
          code.addValue(value);
          valueMap.put(value.getUniqueID(), value);
