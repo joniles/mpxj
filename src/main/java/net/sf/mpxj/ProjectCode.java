@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  * Project code type definition, contains a list of the valid
  * values for this project code.
  */
-public final class ProjectCode implements ProjectEntityWithUniqueID
+public final class ProjectCode implements Code
 {
    /**
     * Constructor.
@@ -46,95 +46,46 @@ public final class ProjectCode implements ProjectEntityWithUniqueID
       m_maxLength = builder.m_maxLength;
    }
 
-   /**
-    * Retrieve the project code unique ID.
-    *
-    * @return unique ID
-    */
    @Override public Integer getUniqueID()
    {
       return m_uniqueID;
    }
 
-   /**
-    * Retrieve the sequence number of this project code.
-    *
-    * @return sequence number
-    */
-   public Integer getSequenceNumber()
+   @Override public Integer getSequenceNumber()
    {
       return m_sequenceNumber;
    }
 
-   /**
-    * Retrieve the project code name.
-    *
-    * @return name
-    */
-   public String getName()
+   @Override public String getName()
    {
       return m_name;
    }
 
-   /**
-    * Retrieve the secure flag.
-    *
-    * @return secure flag
-    */
-   public boolean getSecure()
+   @Override public boolean getSecure()
    {
       return m_secure;
    }
 
-   /**
-    * Retrieve the max length.
-    *
-    * @return max length
-    */
-   public Integer getMaxLength()
+   @Override public Integer getMaxLength()
    {
       return m_maxLength;
    }
 
-   /**
-    * Retrieve a list of all values for this project code,
-    * including child values from the hierarchy.
-    *
-    * @return list of ProjectCodeValue instances
-    */
    public List<ProjectCodeValue> getValues()
    {
       return m_values;
    }
 
-   /**
-    * Retrieve a list of top level values for his project code.
-    * This excludes any child values from further down the
-    * hierarchy of values.
-    *
-    * @return list of ProjectCodeValue instances
-    */
    public List<ProjectCodeValue> getChildValues()
    {
       return m_values.stream().filter(v -> v.getParentValue() == null).collect(Collectors.toList());
    }
 
-   /**
-    * Add a value to this project code.
-    *
-    * @param value project code value
-    */
    public void addValue(ProjectCodeValue value)
    {
       m_values.add(value);
    }
 
-   /**
-    * Retrieve a value belonging to this project code using its unique ID.
-    *
-    * @param id project code value unique ID
-    * @return ProjectCodeValue instance or null
-    */
    public ProjectCodeValue getValueByUniqueID(Integer id)
    {
       if (id == null)

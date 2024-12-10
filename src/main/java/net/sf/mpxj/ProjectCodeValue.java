@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 /**
  * Represents an individual project code value.
  */
-public final class ProjectCodeValue
+public final class ProjectCodeValue implements CodeValue
 {
    /**
     * Constructor.
@@ -56,42 +56,22 @@ public final class ProjectCodeValue
       return m_projectCode;
    }
 
-   /**
-    * Retrieves the unique ID for this value.
-    *
-    * @return unique ID
-    */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return m_uniqueID;
    }
 
-   /**
-    * Retrieves the sequence number for this value.
-    *
-    * @return sequence number
-    */
-   public Integer getSequenceNumber()
+   @Override public Integer getSequenceNumber()
    {
       return m_sequenceNumber;
    }
 
-   /**
-    * Retrieves the value name.
-    *
-    * @return value name
-    */
-   public String getName()
+   @Override public String getName()
    {
       return m_name;
    }
 
-   /**
-    * Retrieves the value description.
-    *
-    * @return value description
-    */
-   public String getDescription()
+   @Override public String getDescription()
    {
       return m_description;
    }

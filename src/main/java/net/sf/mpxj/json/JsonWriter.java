@@ -42,6 +42,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.sf.mpxj.Availability;
+import net.sf.mpxj.Code;
+import net.sf.mpxj.CodeValue;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
@@ -1164,11 +1166,6 @@ public final class JsonWriter extends AbstractProjectWriter
          }
 
          case ACTIVITY_CODE_VALUES:
-         {
-            writeActivityCodeValues(fieldName, value);
-            break;
-         }
-
          case CODE_VALUES:
          {
             writeCodeValues(fieldName, value);
@@ -1787,21 +1784,6 @@ public final class JsonWriter extends AbstractProjectWriter
       }
    }
 
-   private void writeActivityCodeValues(String fieldName, Object value) throws IOException
-   {
-      if (!(value instanceof Map))
-      {
-         return;
-      }
-
-      @SuppressWarnings("unchecked")
-      Map<ActivityCode, ActivityCodeValue> map = (Map<ActivityCode, ActivityCodeValue>) value;
-      if (!map.isEmpty())
-      {
-         m_writer.writeList(fieldName, map.values().stream().map(ActivityCodeValue::getUniqueID).sorted().collect(Collectors.toList()));
-      }
-   }
-
    private void writeCodeValues(String fieldName, Object value) throws IOException
    {
       if (!(value instanceof Map))
@@ -1810,10 +1792,10 @@ public final class JsonWriter extends AbstractProjectWriter
       }
 
       @SuppressWarnings("unchecked")
-      Map<ProjectCode, ProjectCodeValue> map = (Map<ProjectCode, ProjectCodeValue>) value;
+      Map<? extends Code, ? extends CodeValue> map = (Map<? extends Code, ? extends CodeValue>) value;
       if (!map.isEmpty())
       {
-         m_writer.writeList(fieldName, map.values().stream().map(ProjectCodeValue::getUniqueID).sorted().collect(Collectors.toList()));
+         m_writer.writeList(fieldName, map.values().stream().map(CodeValue::getUniqueID).sorted().collect(Collectors.toList()));
       }
    }
 
