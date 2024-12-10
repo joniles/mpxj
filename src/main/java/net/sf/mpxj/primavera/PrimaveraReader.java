@@ -53,6 +53,9 @@ import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
 
+import net.sf.mpxj.ProjectCode;
+import net.sf.mpxj.ProjectCodeContainer;
+import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.Shift;
@@ -231,6 +234,28 @@ final class PrimaveraReader
       }
    }
 
+   public void processProjectCodes(List<Row> rows)
+   {
+      ProjectProperties properties = m_project.getProjectProperties();
+
+      for (Row row : rows)
+      {
+         ProjectCode code = m_project.getProjectCodes().getByUniqueID(row.getInteger("proj_catg_type_id"));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ProjectCodeValue value = code.getValueByUniqueID(row.getInteger("proj_catg_id"));
+         if (value == null)
+         {
+            continue;
+         }
+
+         properties.addProjectCodeValue(value);
+      }
+   }
+
    /**
     * Process locations.
     *
@@ -389,6 +414,48 @@ final class PrimaveraReader
                .description(row.getString("actv_code_name"))
                .color(ColorHelper.parseHexColor(row.getString("color")))
                .parentValue(code.getValueByUniqueID(row.getInteger("parent_actv_code_id")))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Read project code definitions.
+    *
+    * @param types project code type data
+    * @param typeValues project code value data
+    */
+   public void processProjectCodeDefinitions(List<Row> types, List<Row> typeValues)
+   {
+      ProjectCodeContainer container = m_project.getProjectCodes();
+      Map<Integer, ProjectCode> map = new HashMap<>();
+
+      for (Row row : types)
+      {
+         ProjectCode code = new ProjectCode.Builder(m_project)
+            .uniqueID(row.getInteger("proj_catg_type_id"))
+            .sequenceNumber(row.getInteger("seq_num"))
+            .name(row.getString("proj_catg_type"))
+            .maxLength(row.getInteger("proj_catg_short_len"))
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getInteger("proj_catg_id"), v -> v.getInteger("parent_proj_catg_id"));
+      for (Row row : typeValues)
+      {
+         ProjectCode code = map.get(row.getInteger("proj_catg_type_id"));
+         if (code != null)
+         {
+            ProjectCodeValue value = new ProjectCodeValue.Builder(m_project)
+               .projectCode(code)
+               .uniqueID(row.getInteger("proj_catg_id"))
+               .sequenceNumber(row.getInteger("seq_num"))
+               .name(row.getString("proj_catg_short_name"))
+               .description(row.getString("proj_catg_name"))
+               .parentValue(code.getValueByUniqueID(row.getInteger("parent_proj_catg_id")))
                .build();
             code.addValue(value);
          }

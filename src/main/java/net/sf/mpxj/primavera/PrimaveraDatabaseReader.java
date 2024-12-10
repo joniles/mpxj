@@ -126,6 +126,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             processWorkContours();
             processNotebookTopics();
             processUdfDefinitions();
+            processProjectCodeDefinitions();
             processActivityCodeDefinitions();
          }
 
@@ -223,6 +224,9 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       //
       List<Row> rows = getRows("select * from " + m_schema + "project where proj_id=?", m_projectID);
       m_reader.processProjectProperties(m_projectID, rows);
+
+      rows = getRows("select * from " + m_schema + "projpcat where proj_id=?", m_projectID);
+      m_reader.processProjectCodes(rows);
 
       //
       // Process PMDB-specific attributes
@@ -325,6 +329,16 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       List<Row> types = getRows("select * from " + m_schema + "actvtype where actv_code_type_id in (select distinct actv_code_type_id from taskactv where proj_id=?)", m_projectID);
       List<Row> typeValues = getRows("select * from " + m_schema + "actvcode where actv_code_id in (select distinct actv_code_id from taskactv where proj_id=?)", m_projectID);
       m_reader.processActivityCodeDefinitions(types, typeValues);
+   }
+
+   /**
+    * Process project code definitions.
+    */
+   private void processProjectCodeDefinitions() throws SQLException
+   {
+      List<Row> types = getRows("select * from " + m_schema + "pcattype where proj_catg_type_id in (select distinct proj_catg_type_id from projpcat where proj_id=?)", m_projectID);
+      List<Row> typeValues = getRows("select * from " + m_schema + "pcatval where proj_catg_id in (select distinct proj_catg_id from projpcat where proj_id=?)", m_projectID);
+      m_reader.processProjectCodeDefinitions(types, typeValues);
    }
 
    /**

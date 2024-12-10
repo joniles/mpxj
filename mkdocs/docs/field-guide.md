@@ -124,11 +124,12 @@ Planned Start| | | | | | | | | | | | | | |✓|✓|✓| | | | |
 Presentation Format| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Preserve Minimum Float When Leveling|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Preserve Scheduled Early and Late Dates|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Project Code Values|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Project Externally Edited| | | | | | | | | | |✓| | | | | | | | | | | | | 
 Project File Path| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Project ID| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Project Title|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
-Project Website URL| | | | | | | | | | | | | | | |✓| | | | | | | | 
+Project Website URL| | | | | | | | | | | | | | |✓|✓| | | | | | | | 
 Relationship Lag Calendar|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Resource Pool File| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Revision| | | | | | | | |✓| |✓| | | | | | | | | | | | | 
@@ -233,8 +234,8 @@ Estimated| | | | | | | |✓|✓| |✓| | | | | | | |✓| | | |
 Expanded|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Expected Finish| | | | | | | | | | | | | | |✓| |✓| | | | | | | 
 Expense Items|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
-External Early Start| | | | | | | | | | | | | | | | |✓| | | | | | | 
-External Late Finish| | | | | | | | | | | | | | | | |✓| | | | | | | 
+External Early Start| | | | | | | | | | | | | | |✓| |✓| | | | | | | 
+External Late Finish| | | | | | | | | | | | | | |✓| |✓| | | | | | | 
 External Project| | | | | | | | |✓| |✓| | | | | | | | | | | | | 
 External Task| | | | | | | | |✓| |✓| | | | | | | | | | | | | 
 Feature of Work| | | | | | | | | | | | | | | | | | | |✓| | | | 
@@ -289,7 +290,7 @@ Planned Work (Nonlabor)| | | | | | | | | | | | | | |✓|✓|✓| 
 Preleveled Finish| | | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Preleveled Start| | | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Primary Resource Unique ID| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
-Priority| |✓| | | |✓| |✓|✓|✓|✓| | |✓| |✓|✓| | | | | | | 
+Priority| |✓| | | |✓| |✓|✓|✓|✓| | |✓|✓|✓|✓| | | | | | | 
 Project| | | | | | | | |✓|✓|✓| | | | |✓|✓| | | | | | | 
 Recalc Outline Codes| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Recurring| | | | | | | | |✓|✓|✓| | | | | | | | | | | | | 
@@ -308,7 +309,7 @@ Remaining Work (Labor)| | | | | | | | | | | | | | |✓|✓|✓| |
 Remaining Work (Nonlabor)| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Resource Names| | | |✓| | | | | |✓| | | | | | | | | | | | | | 
 Responsibility Code| | | | | | | | | | | | | | | | | | | |✓| | | | 
-Resume|✓| | | | | | |✓|✓|✓|✓| | | | | |✓| | | | | | | 
+Resume|✓| | | | | | |✓|✓|✓|✓| | | |✓| |✓| | | | | | | 
 Resume No Earlier Than| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Resume Valid| | | | | | | | | | |✓| | | | | | | | | | | | | 
 Rollup| | | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
@@ -336,7 +337,7 @@ Subproject Task Unique ID| | | | | | | | |✓| | | | | | | | | 
 Subproject Tasks Unique ID Offset| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Summary|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| | | |✓|✓|✓
 Summary Progress| | | | | | | | |✓| | | | | | | | | | | | | | | 
-Suspend Date| | | | | | | | | | | | | | | | |✓| | | | | | | 
+Suspend Date| | | | | | | | | | | | | | |✓| |✓| | | | | | | 
 Task Calendar GUID| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Task Mode| | | | | | | | |✓| |✓| | | | | | | | | | | | | 
 Task Name|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
@@ -473,7 +474,7 @@ Baseline Estimated Duration| | | | | | | | |✓| | | | | | | | |
 Baseline Estimated Finish| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Baseline Estimated Start| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Baseline Finish|✓|✓|✓|✓| | | |✓|✓|✓|✓| | | |✓|✓|✓| | | | | | | 
-Baseline Fixed Cost| | | | | | | | |✓| | | | | | |✓| | | | | | | | 
+Baseline Fixed Cost| | | | | | | | |✓| | | | | |✓|✓| | | | | | | | 
 Baseline Fixed Cost Accrual| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Baseline Start|✓|✓|✓|✓| | | |✓|✓|✓|✓| | | |✓|✓|✓| | | | | | | 
 Baseline Work| | | | | | | |✓|✓|✓|✓| | | |✓|✓|✓| | | | | | | 
@@ -715,7 +716,7 @@ Cost Variance| | | | | | | |✓|✓|✓|✓| | | | | | | | | | 
 Created| | | | | | | | |✓| |✓| | | | |✓| | | | | | | | 
 Default Units|✓|✓|✓|✓| |✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| | |✓|✓|✓
 Description| | | | | | | | | | | | | | | | | | | | | | |✓| 
-Email Address|✓|✓| |✓| |✓| |✓|✓|✓|✓| | |✓| | |✓| | | | | |✓| 
+Email Address|✓|✓| |✓| |✓| |✓|✓|✓|✓| | |✓|✓| |✓| | | | | |✓| 
 GUID| | |✓|✓| | |✓| |✓| |✓| |✓| |✓|✓|✓| | | | | |✓| 
 Generic|✓| | | | | | | |✓| | | | | | | | | | | | | | | 
 Group| |✓| |✓| |✓| |✓|✓|✓|✓| | | | | | | | | | | | |✓
@@ -729,7 +730,7 @@ Initials|✓| | |✓| | | |✓|✓|✓|✓| | |✓| | | | |✓| | |
 Material Label|✓| |✓| | | | | |✓| |✓| |✓| |✓| |✓| | | | | | | 
 Max Units| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Name|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| | |✓|✓|✓
-Notes| |✓| |✓| | | |✓|✓|✓|✓| | | | |✓|✓| | | | | |✓|✓
+Notes| |✓| |✓| | | |✓|✓|✓|✓| | | |✓|✓|✓| | | | | |✓|✓
 Overallocated| | | | | | | |✓|✓|✓|✓| | | | | | | | | | | | | 
 Overtime Cost| | | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Overtime Rate| | | | | | | | |✓| | | | | | | | | | | | | | | 
@@ -1009,7 +1010,7 @@ CV| | | | | | | | | | |✓| | | | | | | | | | | | | 
 Calculate Costs From Units|✓|✓|✓|✓| |✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓| | |✓|✓|✓
 Confirmed| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Cost| | | | | | | |✓|✓|✓|✓| | | |✓|✓|✓| | | | | | | 
-Cost Account ID| | | | | | | | | | | | | | | |✓|✓| | | | | | | 
+Cost Account ID| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 
 Cost Rate Table| | | | | | | |✓|✓| |✓| | | | | | | | | | | | | 
 Cost Variance| | | | | | | | |✓|✓|✓| | | | | | | | | | | | | 
 Created| | | | | | | | |✓| |✓| | | | | | | | | | | | | 
