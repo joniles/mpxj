@@ -50,6 +50,8 @@ import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.GraphicalIndicator;
 import net.sf.mpxj.GraphicalIndicatorCriteria;
+import net.sf.mpxj.ProjectCode;
+import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.SkillLevel;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.common.DayOfWeekHelper;
@@ -226,6 +228,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeUserDefinedFields();
          writeCustomFields();
          writeWorkContours();
+         writeProjectCodes();
          writeActivityCodes();
          writeUnitsOfMeasure();
          writeCalendars();
@@ -321,17 +324,39 @@ public final class JsonWriter extends AbstractProjectWriter
     */
    private void writeActivityCodes() throws IOException
    {
-      if (!m_projectFile.getActivityCodes().isEmpty())
+      if (m_projectFile.getActivityCodes().isEmpty())
       {
-         List<ActivityCode> sortedActivityCodeList = new ArrayList<>(m_projectFile.getActivityCodes());
-         sortedActivityCodeList.sort(Comparator.comparing(ActivityCode::getName));
-         m_writer.writeStartList("activity_codes");
-         for (ActivityCode code : sortedActivityCodeList)
-         {
-            writeActivityCode(code);
-         }
-         m_writer.writeEndList();
+         return;
       }
+
+      List<ActivityCode> sortedActivityCodeList = new ArrayList<>(m_projectFile.getActivityCodes());
+      sortedActivityCodeList.sort(Comparator.comparing(ActivityCode::getName));
+      m_writer.writeStartList("activity_codes");
+      for (ActivityCode code : sortedActivityCodeList)
+      {
+         writeActivityCode(code);
+      }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write a list of activity codes.
+    */
+   private void writeProjectCodes() throws IOException
+   {
+      if (m_projectFile.getProjectCodes().isEmpty())
+      {
+         return;
+      }
+
+      List<ProjectCode> sortedProjectCodeList = new ArrayList<>(m_projectFile.getProjectCodes());
+      sortedProjectCodeList.sort(Comparator.comparing(ProjectCode::getName));
+      m_writer.writeStartList("project_codes");
+      for (ProjectCode code : sortedProjectCodeList)
+      {
+         writeProjectCode(code);
+      }
+      m_writer.writeEndList();
    }
 
    /**
@@ -1144,6 +1169,12 @@ public final class JsonWriter extends AbstractProjectWriter
             break;
          }
 
+         case CODE_VALUES:
+         {
+            writeCodeValues(fieldName, value);
+            break;
+         }
+
          case TASK_MODE:
          {
             writeTaskModeField(fieldName, value);
@@ -1539,6 +1570,30 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
+    * Write a project code to the JSON file.
+    *
+    * @param code ActivityCode.
+    */
+   private void writeProjectCode(ProjectCode code) throws IOException
+   {
+      m_writer.writeStartObject(null);
+
+      writeMandatoryIntegerField("unique_id", code.getUniqueID());
+      writeMandatoryIntegerField("sequence_number", code.getSequenceNumber());
+      writeStringField("name", code.getName());
+      if (!code.getValues().isEmpty())
+      {
+         m_writer.writeStartList("values");
+         for (ProjectCodeValue value : code.getValues().stream().sorted(Comparator.comparing(ProjectCodeValue::getUniqueID)).collect(Collectors.toList()))
+         {
+            writeProjectCodeValue(value);
+         }
+         m_writer.writeEndList();
+      }
+      m_writer.writeEndObject();
+   }
+
+   /**
     * Write an activity code value to the JSON file.
     *
     * @param value ActivityCodeValue.
@@ -1553,6 +1608,22 @@ public final class JsonWriter extends AbstractProjectWriter
       writeColorField("color", value.getColor());
       // Deprecated
       writeIntegerField("parent_unique_id", value.getParentValueUniqueID());
+      writeIntegerField("parent_value_unique_id", value.getParentValueUniqueID());
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Write a project code value to the JSON file.
+    *
+    * @param value ActivityCodeValue.
+    */
+   private void writeProjectCodeValue(ProjectCodeValue value) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeMandatoryIntegerField("unique_id", value.getUniqueID());
+      writeMandatoryIntegerField("sequence_number", value.getSequenceNumber());
+      writeStringField("name", value.getName());
+      writeStringField("description", value.getDescription());
       writeIntegerField("parent_value_unique_id", value.getParentValueUniqueID());
       m_writer.writeEndObject();
    }
@@ -1728,6 +1799,21 @@ public final class JsonWriter extends AbstractProjectWriter
       if (!map.isEmpty())
       {
          m_writer.writeList(fieldName, map.values().stream().map(ActivityCodeValue::getUniqueID).sorted().collect(Collectors.toList()));
+      }
+   }
+
+   private void writeCodeValues(String fieldName, Object value) throws IOException
+   {
+      if (!(value instanceof Map))
+      {
+         return;
+      }
+
+      @SuppressWarnings("unchecked")
+      Map<ProjectCode, ProjectCodeValue> map = (Map<ProjectCode, ProjectCodeValue>) value;
+      if (!map.isEmpty())
+      {
+         m_writer.writeList(fieldName, map.values().stream().map(ProjectCodeValue::getUniqueID).sorted().collect(Collectors.toList()));
       }
    }
 

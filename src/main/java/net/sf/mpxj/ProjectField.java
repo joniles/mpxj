@@ -204,7 +204,8 @@ public enum ProjectField implements FieldType
    BASELINE_CALENDAR_NAME(DataType.STRING),
    PROJECT_IS_BASELINE(DataType.BOOLEAN),
    PROJECT_WEBSITE_URL(DataType.STRING),
-   NOTES(DataType.NOTES);
+   NOTES(DataType.NOTES),
+   PROJECT_CODE_VALUES(DataType.CODE_VALUES);
 
    /**
     * Constructor.

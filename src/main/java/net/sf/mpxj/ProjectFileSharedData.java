@@ -126,6 +126,16 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    }
 
    /**
+    * Retrieves the project code configuration for this project.
+    *
+    * @return project codes
+    */
+   public ProjectCodeContainer getProjectCodes()
+   {
+      return m_projectCodes;
+   }
+
+   /**
     * Retrieves the shifts for this project.
     *
     * @return shifts
@@ -176,6 +186,7 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    private final CustomFieldContainer m_customFields = new CustomFieldContainer();
    private final UserDefinedFieldContainer m_userDefinedFields = new UserDefinedFieldContainer(m_customFields);
    private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer(this);
+   private final ProjectCodeContainer m_projectCodes = new ProjectCodeContainer(this);
    private final ShiftContainer m_shifts = new ShiftContainer(this);
    private final ShiftPeriodContainer m_shiftPeriods = new ShiftPeriodContainer(this);
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
@@ -190,6 +201,7 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
          NotesTopic.class.getName(),
          UserDefinedField.class.getName(),
          ActivityCode.class.getName(),
+         ProjectCode.class.getName(),
          Shift.class.getName(),
          ShiftPeriod.class.getName()));
 }

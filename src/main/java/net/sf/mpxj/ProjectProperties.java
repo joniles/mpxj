@@ -3582,6 +3582,26 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
    }
 
    /**
+    * Retrieve the project code values associated with this project.
+    *
+    * @return map of project code values
+    */
+   @SuppressWarnings("unchecked") public Map<ProjectCode, ProjectCodeValue> getProjectCodeValues()
+   {
+      return (Map<ProjectCode, ProjectCodeValue>) get(ProjectField.PROJECT_CODE_VALUES);
+   }
+
+   /**
+    * Assign a project code value to this project.
+    *
+    * @param value project code value
+    */
+   @SuppressWarnings("unchecked") public void addProjectCodeValue(ProjectCodeValue value)
+   {
+      ((Map<ProjectCode, ProjectCodeValue>) get(ProjectField.PROJECT_CODE_VALUES)).put(value.getProjectCode(), value);
+   }
+
+   /**
     * Maps a field index to a ProjectField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
@@ -3818,5 +3838,6 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
       CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT, p -> Integer.valueOf(10));
       CALCULATED_FIELD_MAP.put(ProjectField.ACTIVITY_ID_INCREMENT_BASED_ON_SELECTED_ACTIVITY, p -> Boolean.TRUE);
       CALCULATED_FIELD_MAP.put(ProjectField.PROJECT_IS_BASELINE, p -> Boolean.FALSE);
+      CALCULATED_FIELD_MAP.put(ProjectField.PROJECT_CODE_VALUES, p -> new HashMap<>());
    }
 }
