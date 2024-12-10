@@ -14,7 +14,6 @@
 			<action dev="joniles" type="update">Improve population of Task Start and Finish attributes when reading Primavera P6 schedules.</action>
 			<action dev="joniles" type="update">Marked the `ActivityCodeValue.getParent()` method as deprecated. Use `ActivityCodeValue.getParentValue()` instead.</action>
 			<action dev="joniles" type="update">Marked the `ActivityCodeValue.getParentUniqueID()` method as deprecated. Use `ActivityCodeValue.getParentValueUniqueID()` instead.</action>
-
 			<action dev="joniles" type="update">Marked the `ActivityCodeValue.Builder.parent()` method as deprecated. Use `ActivityCodeValue.Builder.parentValue()` instead.</action>
 		</release>
 		<release date="2024-11-25" version="13.7.0">
