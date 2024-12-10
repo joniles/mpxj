@@ -388,7 +388,7 @@ final class PrimaveraReader
                .name(row.getString("short_name"))
                .description(row.getString("actv_code_name"))
                .color(ColorHelper.parseHexColor(row.getString("color")))
-               .parent(code.getValueByUniqueID(row.getInteger("parent_actv_code_id")))
+               .parentValue(code.getValueByUniqueID(row.getInteger("parent_actv_code_id")))
                .build();
             code.addValue(value);
          }

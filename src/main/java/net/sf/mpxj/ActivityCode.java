@@ -150,7 +150,7 @@ public final class ActivityCode implements ProjectEntityWithUniqueID
     */
    public List<ActivityCodeValue> getChildValues()
    {
-      return m_values.stream().filter(v -> v.getParent() == null).collect(Collectors.toList());
+      return m_values.stream().filter(v -> v.getParentValue() == null).collect(Collectors.toList());
    }
 
    /**

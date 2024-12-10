@@ -1551,9 +1551,11 @@ public final class JsonWriter extends AbstractProjectWriter
       writeStringField("name", value.getName());
       writeStringField("description", value.getDescription());
       writeColorField("color", value.getColor());
-      if (value.getParent() != null)
+      if (value.getParentValue() != null)
       {
-         writeIntegerField("parent_unique_id", value.getParent().getUniqueID());
+         // Deprecated
+         writeIntegerField("parent_unique_id", value.getParentValue().getUniqueID());
+         writeIntegerField("parent_value_unique_id", value.getParentValue().getUniqueID());
       }
       m_writer.writeEndObject();
    }
