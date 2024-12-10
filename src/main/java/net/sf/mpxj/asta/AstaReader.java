@@ -2244,7 +2244,7 @@ final class AstaReader
             .sequenceNumber(sequence.getNext())
             .name(name)
             .description(description)
-            .parent(valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY")))
+            .parentValue(valueMap.get(row.getInteger("CODE_LIBRARY_ENTRY")))
             .build();
          code.addValue(value);
          valueMap.put(value.getUniqueID(), value);

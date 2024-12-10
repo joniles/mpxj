@@ -45,7 +45,7 @@ public final class ActivityCodeValue
       m_name = builder.m_name;
       m_description = builder.m_description;
       m_color = builder.m_color;
-      m_parent = builder.m_parent;
+      m_parentValue = builder.m_parentValue;
    }
 
    /**
@@ -123,10 +123,32 @@ public final class ActivityCodeValue
     * Retrieve the parent ActivityCodeValue.
     *
     * @return parent ActivityCodeValue
+    * @deprecated use getParentValue
     */
-   public ActivityCodeValue getParent()
+   @Deprecated public ActivityCodeValue getParent()
    {
-      return m_parent;
+      return m_parentValue;
+   }
+
+   /**
+    * Retrieve the parent ActivityCodeValue.
+    *
+    * @return parent ActivityCodeValue
+    */
+   public ActivityCodeValue getParentValue()
+   {
+      return m_parentValue;
+   }
+
+   /**
+    * Retrieve the parent ActivityCodeValue unique ID.
+    *
+    * @return parent ActivityCodeValue unique ID
+    * @deprecated use getParentValueUniqueID
+    */
+   @Deprecated public Integer getParentUniqueID()
+   {
+      return m_parentValue == null ? null : m_parentValue.getUniqueID();
    }
 
    /**
@@ -134,9 +156,9 @@ public final class ActivityCodeValue
     *
     * @return parent ActivityCodeValue unique ID
     */
-   public Integer getParentUniqueID()
+   public Integer getParentValueUniqueID()
    {
-      return m_parent == null ? null : m_parent.getUniqueID();
+      return m_parentValue == null ? null : m_parentValue.getUniqueID();
    }
 
    /**
@@ -146,7 +168,7 @@ public final class ActivityCodeValue
     */
    public List<ActivityCodeValue> getChildValues()
    {
-      return m_activityCode.getValues().stream().filter(a -> a.m_parent == this).collect(Collectors.toList());
+      return m_activityCode.getValues().stream().filter(a -> a.m_parentValue == this).collect(Collectors.toList());
    }
 
    @Override public String toString()
@@ -160,7 +182,7 @@ public final class ActivityCodeValue
    private final String m_name;
    private final String m_description;
    private final Color m_color;
-   private final ActivityCodeValue m_parent;
+   private final ActivityCodeValue m_parentValue;
 
    /**
     * ActivityCodeValue builder.
@@ -191,7 +213,7 @@ public final class ActivityCodeValue
          m_name = value.m_name;
          m_description = value.m_description;
          m_color = value.m_color;
-         m_parent = value.m_parent;
+         m_parentValue = value.m_parentValue;
          return this;
       }
 
@@ -285,10 +307,23 @@ public final class ActivityCodeValue
        *
        * @param value parent value
        * @return builder
+       * @deprecated use parentValue
        */
-      public Builder parent(ActivityCodeValue value)
+      @Deprecated public Builder parent(ActivityCodeValue value)
       {
-         m_parent = value;
+         m_parentValue = value;
+         return this;
+      }
+
+      /**
+       * Add parent value.
+       *
+       * @param value parent value
+       * @return builder
+       */
+      public Builder parentValue(ActivityCodeValue value)
+      {
+         m_parentValue = value;
          return this;
       }
 
@@ -309,6 +344,6 @@ public final class ActivityCodeValue
       private String m_name;
       private String m_description;
       private Color m_color;
-      private ActivityCodeValue m_parent;
+      private ActivityCodeValue m_parentValue;
    }
 }
