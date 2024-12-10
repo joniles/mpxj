@@ -1,5 +1,7 @@
 package net.sf.mpxj;
 
+import java.util.List;
+
 public interface Code extends ProjectEntityWithUniqueID
 {
    /**
@@ -36,4 +38,8 @@ public interface Code extends ProjectEntityWithUniqueID
     * @return max length
     */
    Integer getMaxLength();
+
+   List<? extends CodeValue> getValues();
+
+   List<? extends CodeValue> getChildValues();
 }

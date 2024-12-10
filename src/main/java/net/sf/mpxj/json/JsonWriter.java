@@ -52,8 +52,6 @@ import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.GenericCriteria;
 import net.sf.mpxj.GraphicalIndicator;
 import net.sf.mpxj.GraphicalIndicatorCriteria;
-import net.sf.mpxj.ProjectCode;
-import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.SkillLevel;
 import net.sf.mpxj.UnitOfMeasure;
 import net.sf.mpxj.common.DayOfWeekHelper;
@@ -230,7 +228,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeUserDefinedFields();
          writeCustomFields();
          writeWorkContours();
-         writeProjectCodes();
+         writeCodes("project_codes", m_projectFile.getProjectCodes());
          writeActivityCodes();
          writeUnitsOfMeasure();
          writeCalendars();
@@ -342,21 +340,21 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * Write a list of activity codes.
+    * Write a list of codes.
     */
-   private void writeProjectCodes() throws IOException
+   private void writeCodes(String label, List<? extends Code> codes) throws IOException
    {
-      if (m_projectFile.getProjectCodes().isEmpty())
+      if (codes.isEmpty())
       {
          return;
       }
 
-      List<ProjectCode> sortedProjectCodeList = new ArrayList<>(m_projectFile.getProjectCodes());
-      sortedProjectCodeList.sort(Comparator.comparing(ProjectCode::getName));
-      m_writer.writeStartList("project_codes");
-      for (ProjectCode code : sortedProjectCodeList)
+      List<? extends Code> sortedCodeList = new ArrayList<>(codes);
+      sortedCodeList.sort(Comparator.comparing(Code::getName));
+      m_writer.writeStartList(label);
+      for (Code code : sortedCodeList)
       {
-         writeProjectCode(code);
+         writeCode(code);
       }
       m_writer.writeEndList();
    }
@@ -1567,11 +1565,11 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * Write a project code to the JSON file.
+    * Write a code to the JSON file.
     *
     * @param code ActivityCode.
     */
-   private void writeProjectCode(ProjectCode code) throws IOException
+   private void writeCode(Code code) throws IOException
    {
       m_writer.writeStartObject(null);
 
@@ -1581,9 +1579,9 @@ public final class JsonWriter extends AbstractProjectWriter
       if (!code.getValues().isEmpty())
       {
          m_writer.writeStartList("values");
-         for (ProjectCodeValue value : code.getValues().stream().sorted(Comparator.comparing(ProjectCodeValue::getUniqueID)).collect(Collectors.toList()))
+         for (CodeValue value : code.getValues().stream().sorted(Comparator.comparing(CodeValue::getUniqueID)).collect(Collectors.toList()))
          {
-            writeProjectCodeValue(value);
+            writeCodeValue(value);
          }
          m_writer.writeEndList();
       }
@@ -1610,11 +1608,11 @@ public final class JsonWriter extends AbstractProjectWriter
    }
 
    /**
-    * Write a project code value to the JSON file.
+    * Write a code value to the JSON file.
     *
     * @param value ActivityCodeValue.
     */
-   private void writeProjectCodeValue(ProjectCodeValue value) throws IOException
+   private void writeCodeValue(CodeValue value) throws IOException
    {
       m_writer.writeStartObject(null);
       writeMandatoryIntegerField("unique_id", value.getUniqueID());

@@ -1,5 +1,7 @@
 package net.sf.mpxj;
 
+import java.util.List;
+
 public interface CodeValue
 {
    /**
@@ -29,4 +31,8 @@ public interface CodeValue
     * @return value description
     */
    String getDescription();
+
+   Integer getParentValueUniqueID();
+
+   List<? extends CodeValue> getChildValues();
 }
