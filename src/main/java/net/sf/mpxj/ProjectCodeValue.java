@@ -56,6 +56,11 @@ public final class ProjectCodeValue implements CodeValue
       return m_projectCode;
    }
 
+   public Integer getProjectCodeUniqueID()
+   {
+      return m_projectCode == null ? null : m_projectCode.getUniqueID();
+   }
+
    @Override public Integer getUniqueID()
    {
       return m_uniqueID;

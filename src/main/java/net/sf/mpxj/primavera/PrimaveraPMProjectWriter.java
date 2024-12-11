@@ -1902,7 +1902,7 @@ final class PrimaveraPMProjectWriter
    {
       CodeAssignmentType assignment = m_factory.createCodeAssignmentType();
       xml.getCode().add(assignment);
-      assignment.setTypeObjectId(NumberHelper.getInt(value.getActivityCode().getUniqueID()));
+      assignment.setTypeObjectId(NumberHelper.getInt(value.getActivityCodeUniqueID()));
       assignment.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
    }
 

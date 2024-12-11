@@ -69,6 +69,11 @@ public final class ActivityCodeValue implements CodeValue
       return m_activityCode;
    }
 
+   public Integer getActivityCodeUniqueID()
+   {
+      return m_activityCode == null ? null : m_activityCode.getUniqueID();
+   }
+
    /**
     * Retrieves the unique ID for this value.
     *
