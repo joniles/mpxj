@@ -604,7 +604,8 @@ public enum ResourceField implements FieldType
    DEFAULT_UNITS(DataType.UNITS),
    SHIFT_UNIQUE_ID(DataType.INTEGER),
    PRIMARY_ROLE_UNIQUE_ID(DataType.INTEGER),
-   FINISH(DataType.DATE);
+   FINISH(DataType.DATE),
+   RESOURCE_CODE_VALUES(DataType.CODE_VALUES);
 
    /**
     * Constructor.

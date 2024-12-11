@@ -258,10 +258,12 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
             processNotebookTopics();
             processUdfDefinitions();
             processProjectCodeDefinitions();
+            processResourceCodeDefinitions();
             processActivityCodeDefinitions();
          }
 
          processActivityCodeAssignments();
+         processResourceCodeAssignments();
          processUdfValues();
          processCalendars();
          processResources();
@@ -536,12 +538,31 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    }
 
    /**
+    * Process resource code definitions.
+    */
+   private void processResourceCodeDefinitions()
+   {
+      List<Row> types = getRows("rcattype", null, null);
+      List<Row> typeValues = getRows("rcatval", null, null);
+      m_reader.processResourceCodeDefinitions(types, typeValues);
+   }
+
+   /**
     * Process activity code assignments.
     */
    private void processActivityCodeAssignments()
    {
       List<Row> assignments = getRows("taskactv", null, null);
       m_reader.processActivityCodeAssignments(assignments);
+   }
+
+   /**
+    * Process resource code assignments.
+    */
+   private void processResourceCodeAssignments()
+   {
+      List<Row> assignments = getRows("rsrcrcat", null, null);
+      m_reader.processResourceCodeAssignments(assignments);
    }
 
    /**
@@ -1314,6 +1335,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       FIELD_TYPE_MAP.put("resume_date", DataType.DATE);
       FIELD_TYPE_MAP.put("role_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("rsrc_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("rsrc_catg_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("rsrc_catg_type_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("rsrc_catg_short_len", DataType.INTEGER);
       FIELD_TYPE_MAP.put("rsrc_role_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("rsrc_seq_num", DataType.INTEGER);
       FIELD_TYPE_MAP.put("scd_end_date", DataType.DATE);
@@ -1394,6 +1418,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       REQUIRED_TABLES.add("pcattype");
       REQUIRED_TABLES.add("pcatval");
       REQUIRED_TABLES.add("projpcat");
+      REQUIRED_TABLES.add("rcattype");
+      REQUIRED_TABLES.add("rcatval");
+      REQUIRED_TABLES.add("rsrcrcat");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();

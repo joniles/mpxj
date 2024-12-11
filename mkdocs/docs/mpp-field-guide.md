@@ -649,6 +649,7 @@ Remaining Cost|✓|✓|✓|✓
 Remaining Overtime Cost| |✓|✓|✓
 Remaining Overtime Work| |✓|✓|✓
 Remaining Work|✓|✓|✓|✓
+Resource Code Values Code Values|✓|✓|✓|✓
 Standard Rate| |✓|✓|✓
 Standard Rate Units| |✓|✓|✓
 Subproject Unique Resource ID| |✓|✓| 
