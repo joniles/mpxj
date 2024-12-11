@@ -45,7 +45,6 @@ public final class ProjectCodeValue implements CodeValue
       m_parentValue = builder.m_parentValue;
    }
 
-
    /**
     * Retrieves the parent project code.
     *
@@ -56,6 +55,11 @@ public final class ProjectCodeValue implements CodeValue
       return m_projectCode;
    }
 
+   /**
+    * Retrieves the parent project code unique ID.
+    *
+    * @return parent project code unique ID
+    */
    public Integer getProjectCodeUniqueID()
    {
       return m_projectCode == null ? null : m_projectCode.getUniqueID();
