@@ -1610,7 +1610,7 @@ public final class JsonWriter extends AbstractProjectWriter
    /**
     * Write a code value to the JSON file.
     *
-    * @param value ActivityCodeValue.
+    * @param value code value
     */
    private void writeCodeValue(CodeValue value) throws IOException
    {
