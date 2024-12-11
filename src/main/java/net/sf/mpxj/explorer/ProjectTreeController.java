@@ -700,7 +700,7 @@ public class ProjectTreeController
    }
 
    /**
-    * Add project codes to the tree.
+    * Add codes to the tree.
     *
     * @param parentNode parent tree node
     */

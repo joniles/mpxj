@@ -201,7 +201,9 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
          NotesTopic.class.getName(),
          UserDefinedField.class.getName(),
          ActivityCode.class.getName(),
+         ActivityCodeValue.class.getName(),
          ProjectCode.class.getName(),
+         ProjectCodeValue.class.getName(),
          Shift.class.getName(),
          ShiftPeriod.class.getName()));
 }
