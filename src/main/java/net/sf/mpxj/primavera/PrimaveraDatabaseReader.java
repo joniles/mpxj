@@ -226,7 +226,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       m_reader.processProjectProperties(m_projectID, rows);
 
       rows = getRows("select * from " + m_schema + "projpcat where proj_id=?", m_projectID);
-      m_reader.processProjectCodes(rows);
+      m_reader.processProjectCodeAssignments(rows);
 
       //
       // Process PMDB-specific attributes

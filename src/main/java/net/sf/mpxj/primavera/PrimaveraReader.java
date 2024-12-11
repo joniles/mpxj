@@ -234,7 +234,12 @@ final class PrimaveraReader
       }
    }
 
-   public void processProjectCodes(List<Row> rows)
+   /**
+    * Process project code assignments.
+    *
+    * @param rows project code assignments
+    */
+   public void processProjectCodeAssignments(List<Row> rows)
    {
       ProjectProperties properties = m_project.getProjectProperties();
 

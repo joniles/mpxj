@@ -553,7 +553,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processGlobalProperties(apibo);
          processActivityCodeDefinitions(activityCodeTypes, activityCodes);
          configureProjectCalendars();
-         processProjectCodes(codes);
+         processProjectCodeAssignments(codes);
          processTasks(wbs, wbsNotes, activities, getActivityNotes(activityNotes));
          processPredecessors(relationships);
          processAssignments(assignments);
@@ -678,7 +678,12 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       }
    }
 
-   private void processProjectCodes(List<CodeAssignmentType> codes)
+   /**
+    * Process project code assignments.
+    *
+    * @param codes project code assignments
+    */
+   private void processProjectCodeAssignments(List<CodeAssignmentType> codes)
    {
       ProjectProperties props = m_projectFile.getProjectProperties();
 
