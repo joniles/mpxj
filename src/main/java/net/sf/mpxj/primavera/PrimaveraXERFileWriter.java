@@ -1809,8 +1809,4 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_CODE_ASSIGNMENT_COLUMNS.put("proj_catg_type_id", v -> v.get("proj_catg_type_id"));
       PROJECT_CODE_ASSIGNMENT_COLUMNS.put("proj_catg_id", v -> v.get("proj_catg_id"));
    }
-
-
-   //   %T	PROJPCAT
-//%F	proj_id	proj_catg_type_id	proj_catg_id
 }
