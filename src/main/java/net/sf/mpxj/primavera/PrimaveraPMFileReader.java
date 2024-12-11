@@ -488,7 +488,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             processNotebookTopics(apibo);
             processUdfDefintions(apibo);
             processActivityCodeDefinitions(apibo.getActivityCodeType(), apibo.getActivityCode());
-            processProjectCodeDefinitions(apibo.getProjectCodeType(), apibo.getProjectCode());
+            processProjectCodeDefinitions(apibo);
             processShifts(apibo);
          }
 
@@ -822,15 +822,14 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Process project code definitions.
     *
-    * @param types list of project code types
-    * @param typeValues list of project code values
+    * @param apibo top level object
     */
-   private void processProjectCodeDefinitions(List<ProjectCodeTypeType> types, List<ProjectCodeType> typeValues)
+   private void processProjectCodeDefinitions(APIBusinessObjects apibo)
    {
       ProjectCodeContainer container = m_projectFile.getProjectCodes();
       Map<Integer, ProjectCode> map = new HashMap<>();
 
-      for (ProjectCodeTypeType type : types)
+      for (ProjectCodeTypeType type : apibo.getProjectCodeType())
       {
          ProjectCode code = new ProjectCode.Builder(m_projectFile)
             .uniqueID(type.getObjectId())
@@ -843,7 +842,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          map.put(code.getUniqueID(), code);
       }
 
-      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getObjectId(), v -> v.getParentObjectId());
+      List<ProjectCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getProjectCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
       for (ProjectCodeType typeValue : typeValues)
       {
          ProjectCode code = map.get(typeValue.getCodeTypeObjectId());

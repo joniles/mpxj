@@ -50,6 +50,8 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
 
+import net.sf.mpxj.ProjectCode;
+import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftPeriod;
 import net.sf.mpxj.SkillLevel;
@@ -112,6 +114,8 @@ import net.sf.mpxj.primavera.schema.ExpenseCategoryType;
 import net.sf.mpxj.primavera.schema.LocationType;
 import net.sf.mpxj.primavera.schema.NotebookTopicType;
 import net.sf.mpxj.primavera.schema.ObjectFactory;
+import net.sf.mpxj.primavera.schema.ProjectCodeType;
+import net.sf.mpxj.primavera.schema.ProjectCodeTypeType;
 import net.sf.mpxj.primavera.schema.ProjectNoteType;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
@@ -178,6 +182,7 @@ final class PrimaveraPMProjectWriter
             m_udf = project.getUDF();
 
             writeProjectProperties(project);
+            writeProjectCodes();
             writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
             writeCalendars(project.getCalendar());
             writeTasks();
@@ -204,6 +209,7 @@ final class PrimaveraPMProjectWriter
             writeShifts();
             writeProjectProperties(project);
             writeUnitsOfMeasure();
+            writeProjectCodes();
             writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
             writeCalendars(project.getCalendar());
             writeUDF();
@@ -1818,6 +1824,36 @@ final class PrimaveraPMProjectWriter
 
       Comparator<ActivityCodeValue> comparator = Comparator.comparing(ActivityCodeValue::getSequenceNumber).thenComparing(ActivityCodeValue::getUniqueID);
       code.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValue(xml, null, values, v, comparator));
+   }
+
+   /**
+    * Write project code definitions.
+    */
+   private void writeProjectCodes()
+   {
+      for (ProjectCode code : m_projectFile.getProjectCodes())
+      {
+         ProjectCodeTypeType xmlCode = m_factory.createProjectCodeTypeType();
+         m_apibo.getProjectCodeType().add(xmlCode);
+         xmlCode.setObjectId(code.getUniqueID());
+         xmlCode.setName(code.getName());
+         xmlCode.setSequenceNumber(code.getSequenceNumber());
+         xmlCode.setIsSecureCode(Boolean.valueOf(code.getSecure()));
+         xmlCode.setLength(code.getMaxLength());
+
+         for (ProjectCodeValue value : code.getValues())
+         {
+            ProjectCodeType xmlValue = m_factory.createProjectCodeType();
+            m_apibo.getProjectCode().add(xmlValue);
+
+            xmlValue.setObjectId(value.getUniqueID());
+            xmlValue.setCodeTypeObjectId(code.getUniqueID());
+            xmlValue.setCodeValue(value.getName());
+            xmlValue.setDescription(value.getDescription());
+            xmlValue.setParentObjectId(value.getParentValueUniqueID());
+            xmlValue.setSequenceNumber(value.getSequenceNumber());
+         }
+      }
    }
 
    /**

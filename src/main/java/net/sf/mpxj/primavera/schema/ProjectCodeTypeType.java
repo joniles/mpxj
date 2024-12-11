@@ -396,5 +396,4 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
    {
       this.weight = value;
    }
-
 }
