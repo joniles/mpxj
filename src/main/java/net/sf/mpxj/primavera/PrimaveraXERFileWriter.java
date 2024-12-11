@@ -61,6 +61,8 @@ import net.sf.mpxj.NotesTopic;
 import net.sf.mpxj.ParentNotes;
 import net.sf.mpxj.PercentCompleteType;
 import net.sf.mpxj.ProjectCalendar;
+import net.sf.mpxj.ProjectCode;
+import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
@@ -137,14 +139,17 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeShiftPeriods();
          writeLocations();
          writeNoteTypes();
+         writeProjectCodes();
          writeResourceCurves();
          writeUdfDefinitions();
          writeUnitsOfMeasure();
          writeCostAccounts();
+         writeProjectCodeValues();
          writeRoles();
          writeProject();
          writeRoleRates();
          writeCalendars();
+         writeProjectCodeAssignments();
          writeScheduleOptions();
          writeWBS();
          writeResources();
@@ -745,6 +750,66 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
 
       return result;
+   }
+
+   /**
+    * Write project codes.
+    */
+   private void writeProjectCodes()
+   {
+      if (m_file.getProjectCodes().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("PCATTYPE", PROJECT_CODE_COLUMNS);
+      m_file.getProjectCodes().stream().sorted(Comparator.comparing(ProjectCode::getUniqueID)).forEach(c -> m_writer.writeRecord(PROJECT_CODE_COLUMNS, c));
+   }
+
+   /**
+    * Write project code values.
+    */
+   private void writeProjectCodeValues()
+   {
+      if (m_file.getProjectCodes().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("PCATVAL", PROJECT_CODE_VALUE_COLUMNS);
+      m_file.getProjectCodes().stream().map(c -> c.getValues()).flatMap(Collection::stream).sorted(Comparator.comparing(ProjectCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(PROJECT_CODE_VALUE_COLUMNS, v));
+   }
+
+   /**
+    * Write project code assignments.
+    */
+   private void writeProjectCodeAssignments()
+   {
+      Map<ProjectCode, ProjectCodeValue> assignments = m_file.getProjectProperties().getProjectCodeValues();
+      if (assignments.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("PROJPCAT", PROJECT_CODE_ASSIGNMENT_COLUMNS);
+      Integer projectID = getProjectID(m_file.getProjectProperties().getUniqueID());
+      assignments.values().stream().sorted(Comparator.comparing(ProjectCodeValue::getProjectCodeUniqueID)).map(v -> populateProjectCodeAssignment(projectID, v)).forEach(a -> m_writer.writeRecord(PROJECT_CODE_ASSIGNMENT_COLUMNS, a));
+   }
+
+   /**
+    * Populate a map representing project code assignment record.
+    *
+    * @param projectID project ID
+    * @param value project code value
+    * @return map of fields
+    */
+   private Map<String, Object> populateProjectCodeAssignment(Integer projectID, ProjectCodeValue value)
+   {
+      Map<String, Object> map = new HashMap<>();
+      map.put("proj_id", projectID);
+      map.put("proj_catg_type_id", value.getProjectCodeUniqueID());
+      map.put("proj_catg_id", value.getUniqueID());
+      return map;
    }
 
    /**
@@ -1575,7 +1640,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_id", a -> a.getUniqueID());
       ACTIVITY_CODE_VALUE_COLUMNS.put("parent_actv_code_id", a -> a.getParentValueUniqueID());
-      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_type_id", a -> a.getActivityCode().getUniqueID());
+      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_type_id", a -> a.getActivityCodeUniqueID());
       ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_name", a -> StringHelper.stripControlCharacters(a.getDescription()));
       ACTIVITY_CODE_VALUE_COLUMNS.put("short_name", a -> StringHelper.stripControlCharacters(a.getName()));
       ACTIVITY_CODE_VALUE_COLUMNS.put("seq_num", a -> a.getSequenceNumber());
@@ -1587,7 +1652,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("task_id", p -> p.getFirst().getUniqueID());
-      ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_type_id", p -> p.getSecond().getActivityCode().getUniqueID());
+      ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_type_id", p -> p.getSecond().getActivityCodeUniqueID());
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_id", p -> p.getSecond().getUniqueID());
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("proj_id", p -> getProjectID(p.getFirst().getParentFile().getProjectProperties().getUniqueID()));
    }
@@ -1715,5 +1780,33 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ROLE_ASSIGNMENT_COLUMNS.put("rsrc_name", v -> v.get("rsrc_name"));
       ROLE_ASSIGNMENT_COLUMNS.put("rsrc_type", v -> v.get("rsrc_type"));
       ROLE_ASSIGNMENT_COLUMNS.put("rsrc_role_id", v -> v.get("rsrc_role_id"));
+   }
+
+   private static final Map<String, ExportFunction<ProjectCode>> PROJECT_CODE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      PROJECT_CODE_COLUMNS.put("proj_catg_type_id", c -> c.getUniqueID());
+      PROJECT_CODE_COLUMNS.put("seq_num", c -> c.getSequenceNumber());
+      PROJECT_CODE_COLUMNS.put("proj_catg_short_len", c -> c.getMaxLength());
+      PROJECT_CODE_COLUMNS.put("proj_catg_type", c -> c.getName());
+   }
+
+   private static final Map<String, ExportFunction<ProjectCodeValue>> PROJECT_CODE_VALUE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_id", v -> v.getUniqueID());
+      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_type_id", v -> v.getProjectCodeUniqueID());
+      PROJECT_CODE_VALUE_COLUMNS.put("seq_num", v -> v.getSequenceNumber());
+      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_short_name", v -> v.getName());
+      PROJECT_CODE_VALUE_COLUMNS.put("parent_proj_catg_id", v -> v.getParentValueUniqueID());
+      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_name", v -> v.getDescription());
+   }
+
+   private static final Map<String, ExportFunction<Map<String, Object>>> PROJECT_CODE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      PROJECT_CODE_ASSIGNMENT_COLUMNS.put("proj_id", v -> v.get("proj_id")) ;
+      PROJECT_CODE_ASSIGNMENT_COLUMNS.put("proj_catg_type_id", v -> v.get("proj_catg_type_id"));
+      PROJECT_CODE_ASSIGNMENT_COLUMNS.put("proj_catg_id", v -> v.get("proj_catg_id"));
    }
 }

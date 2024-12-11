@@ -50,6 +50,8 @@ import net.sf.mpxj.CustomFieldContainer;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
 
+import net.sf.mpxj.ProjectCode;
+import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftPeriod;
 import net.sf.mpxj.SkillLevel;
@@ -112,6 +114,8 @@ import net.sf.mpxj.primavera.schema.ExpenseCategoryType;
 import net.sf.mpxj.primavera.schema.LocationType;
 import net.sf.mpxj.primavera.schema.NotebookTopicType;
 import net.sf.mpxj.primavera.schema.ObjectFactory;
+import net.sf.mpxj.primavera.schema.ProjectCodeType;
+import net.sf.mpxj.primavera.schema.ProjectCodeTypeType;
 import net.sf.mpxj.primavera.schema.ProjectNoteType;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
@@ -178,7 +182,9 @@ final class PrimaveraPMProjectWriter
             m_udf = project.getUDF();
 
             writeProjectProperties(project);
-            writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
+            writeProjectCodeDefinitions();
+            writeProjectCodeAssignments(project.getCode());
+            writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
             writeCalendars(project.getCalendar());
             writeTasks();
             writeAssignments();
@@ -204,10 +210,12 @@ final class PrimaveraPMProjectWriter
             writeShifts();
             writeProjectProperties(project);
             writeUnitsOfMeasure();
-            writeActivityCodes(project.getActivityCodeType(), project.getActivityCode());
+            writeProjectCodeDefinitions();
+            writeProjectCodeAssignments(project.getCode());
+            writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
             writeCalendars(project.getCalendar());
             writeUDF();
-            writeActivityCodes();
+            writeActivityCodeDefinitions();
             writeCurrency();
             writeUserDefinedFieldDefinitions();
             writeExpenseCategories();
@@ -1775,11 +1783,11 @@ final class PrimaveraPMProjectWriter
    /**
     * Write Global and EPS activity code definitions.
     */
-   private void writeActivityCodes()
+   private void writeActivityCodeDefinitions()
    {
       List<ActivityCodeTypeType> codes = m_apibo.getActivityCodeType();
       List<ActivityCodeType> values = m_apibo.getActivityCode();
-      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCode(codes, values, c));
+      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() != ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c));
    }
 
    /**
@@ -1788,9 +1796,9 @@ final class PrimaveraPMProjectWriter
     * @param codes activity codes container
     * @param values activity code values container
     */
-   private void writeActivityCodes(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values)
+   private void writeActivityCodeDefinitions(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values)
    {
-      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCode(codes, values, c));
+      m_projectFile.getActivityCodes().stream().filter(c -> c.getScope() == ActivityCodeScope.PROJECT).sorted(Comparator.comparing(a -> a.getSequenceNumber() == null ? Integer.valueOf(0) : a.getSequenceNumber())).forEach(c -> writeActivityCodeDefinition(codes, values, c));
    }
 
    /**
@@ -1800,7 +1808,7 @@ final class PrimaveraPMProjectWriter
     * @param values activity code values container
     * @param code activity code
     */
-   private void writeActivityCode(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values, ActivityCode code)
+   private void writeActivityCodeDefinition(List<ActivityCodeTypeType> codes, List<ActivityCodeType> values, ActivityCode code)
    {
       ActivityCodeTypeType xml = m_factory.createActivityCodeTypeType();
       codes.add(xml);
@@ -1817,7 +1825,61 @@ final class PrimaveraPMProjectWriter
       }
 
       Comparator<ActivityCodeValue> comparator = Comparator.comparing(ActivityCodeValue::getSequenceNumber).thenComparing(ActivityCodeValue::getUniqueID);
-      code.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValue(xml, null, values, v, comparator));
+      code.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValueDefinition(xml, null, values, v, comparator));
+   }
+
+   /**
+    * Write project code definitions.
+    */
+   private void writeProjectCodeDefinitions()
+   {
+      for (ProjectCode code : m_projectFile.getProjectCodes())
+      {
+         ProjectCodeTypeType xmlCode = m_factory.createProjectCodeTypeType();
+         m_apibo.getProjectCodeType().add(xmlCode);
+         xmlCode.setObjectId(code.getUniqueID());
+         xmlCode.setName(code.getName());
+         xmlCode.setSequenceNumber(code.getSequenceNumber());
+         xmlCode.setIsSecureCode(Boolean.valueOf(code.getSecure()));
+         xmlCode.setLength(code.getMaxLength());
+
+         for (ProjectCodeValue value : code.getValues())
+         {
+            ProjectCodeType xmlValue = m_factory.createProjectCodeType();
+            m_apibo.getProjectCode().add(xmlValue);
+
+            xmlValue.setObjectId(value.getUniqueID());
+            xmlValue.setCodeTypeObjectId(code.getUniqueID());
+            xmlValue.setCodeValue(value.getName());
+            xmlValue.setDescription(value.getDescription());
+            xmlValue.setParentObjectId(value.getParentValueUniqueID());
+            xmlValue.setSequenceNumber(value.getSequenceNumber());
+         }
+      }
+   }
+
+   /**
+    * Write project code assignments.
+    *
+    * @param assignments project code assignments
+    */
+   private void writeProjectCodeAssignments(List<CodeAssignmentType> assignments)
+   {
+      m_projectFile.getProjectProperties().getProjectCodeValues().values().stream().sorted(Comparator.comparing(ProjectCodeValue::getUniqueID)).forEach(v -> writeProjectCodeAssignment(assignments, v));
+   }
+
+   /**
+    * Write a project code assignment.
+    *
+    * @param assignments project code assignments
+    * @param value project code value
+    */
+   private void writeProjectCodeAssignment(List<CodeAssignmentType> assignments, ProjectCodeValue value)
+   {
+      CodeAssignmentType xml = m_factory.createCodeAssignmentType();
+      assignments.add(xml);
+      xml.setTypeObjectId(value.getProjectCodeUniqueID());
+      xml.setValueObjectId(value.getUniqueID());
    }
 
    /**
@@ -1829,7 +1891,7 @@ final class PrimaveraPMProjectWriter
     * @param value value to write
     * @param comparator sort order for values
     */
-   private void writeActivityCodeValue(ActivityCodeTypeType code, ActivityCodeType parentValue, List<ActivityCodeType> values, ActivityCodeValue value, Comparator<ActivityCodeValue> comparator)
+   private void writeActivityCodeValueDefinition(ActivityCodeTypeType code, ActivityCodeType parentValue, List<ActivityCodeType> values, ActivityCodeValue value, Comparator<ActivityCodeValue> comparator)
    {
       ActivityCodeType xml = m_factory.createActivityCodeType();
       values.add(xml);
@@ -1842,7 +1904,7 @@ final class PrimaveraPMProjectWriter
       xml.setDescription(value.getDescription());
       xml.setColor(ColorHelper.getHtmlColor(value.getColor()));
 
-      value.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValue(code, xml, values, v, comparator));
+      value.getChildValues().stream().sorted(comparator).forEach(v -> writeActivityCodeValueDefinition(code, xml, values, v, comparator));
    }
 
    /**
@@ -1866,7 +1928,7 @@ final class PrimaveraPMProjectWriter
    {
       CodeAssignmentType assignment = m_factory.createCodeAssignmentType();
       xml.getCode().add(assignment);
-      assignment.setTypeObjectId(NumberHelper.getInt(value.getActivityCode().getUniqueID()));
+      assignment.setTypeObjectId(NumberHelper.getInt(value.getActivityCodeUniqueID()));
       assignment.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
    }
 

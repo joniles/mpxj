@@ -124,6 +124,7 @@ Planned Start| | | | | | | | | | | | | | |✓|✓|✓| | | | |
 Presentation Format| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Preserve Minimum Float When Leveling|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Preserve Scheduled Early and Late Dates|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
+Project Code Values|✓|✓|✓|✓|✓|✓|✓| |✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓|✓
 Project Externally Edited| | | | | | | | | | |✓| | | | | | | | | | | | | 
 Project File Path| | | | | | | | |✓| | | | | | | | | | | | | | | 
 Project ID| | | | | | | | | | | | | | |✓|✓|✓| | | | | | | 

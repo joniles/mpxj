@@ -102,6 +102,7 @@ PM Text|✓|✓|✓|✓
 Presentation Format| |✓|✓|✓
 Preserve Minimum Float When Leveling|✓|✓|✓|✓
 Preserve Scheduled Early and Late Dates|✓|✓|✓|✓
+Project Code Values|✓|✓|✓|✓
 Project File Path| |✓|✓|✓
 Project Title|✓|✓|✓|✓
 Relationship Lag Calendar|✓|✓|✓|✓

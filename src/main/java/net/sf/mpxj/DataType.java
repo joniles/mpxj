@@ -87,7 +87,8 @@ public enum DataType implements MpxjEnum
    TOTAL_SLACK_TYPE(54),
    RELATIONSHIP_LAG_CALENDAR(55),
    SCHEDULING_PROGRESSED_ACTIVITIES(56),
-   ACTIVITY_CODE_VALUES(57);
+   ACTIVITY_CODE_VALUES(57),
+   CODE_VALUES(58);
 
    /**
     * Private constructor.

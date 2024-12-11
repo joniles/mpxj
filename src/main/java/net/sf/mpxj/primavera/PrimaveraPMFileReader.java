@@ -47,6 +47,9 @@ import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.BaselineStrategy;
+import net.sf.mpxj.ProjectCode;
+import net.sf.mpxj.ProjectCodeContainer;
+import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftContainer;
@@ -68,6 +71,8 @@ import net.sf.mpxj.common.InputStreamHelper;
 import net.sf.mpxj.common.LocalDateHelper;
 import net.sf.mpxj.common.LocalDateTimeHelper;
 import net.sf.mpxj.primavera.schema.ActivityStepType;
+import net.sf.mpxj.primavera.schema.ProjectCodeType;
+import net.sf.mpxj.primavera.schema.ProjectCodeTypeType;
 import net.sf.mpxj.primavera.schema.ProjectListType;
 import net.sf.mpxj.primavera.schema.ResourceRoleType;
 import net.sf.mpxj.primavera.schema.ShiftPeriodType;
@@ -483,6 +488,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             processNotebookTopics(apibo);
             processUdfDefintions(apibo);
             processActivityCodeDefinitions(apibo.getActivityCodeType(), apibo.getActivityCode());
+            processProjectCodeDefinitions(apibo);
             processShifts(apibo);
          }
 
@@ -504,6 +510,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          List<ResourceAssignmentType> assignments;
          List<ActivityExpenseType> activityExpenseType;
          List<ActivityStepType> steps;
+         List<CodeAssignmentType> codes;
 
          if (projectObject instanceof ProjectType)
          {
@@ -520,6 +527,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             relationships = project.getRelationship();
             assignments = project.getResourceAssignment();
             activityExpenseType = project.getActivityExpense();
+            codes = project.getCode();
          }
          else
          {
@@ -536,6 +544,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             relationships = project.getRelationship();
             assignments = project.getResourceAssignment();
             activityExpenseType = project.getActivityExpense();
+            codes = project.getCode();
          }
 
          Map<Integer, Notes> wbsNotes = getWbsNotes(projectNotes);
@@ -544,6 +553,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          processGlobalProperties(apibo);
          processActivityCodeDefinitions(activityCodeTypes, activityCodes);
          configureProjectCalendars();
+         processProjectCodeAssignments(codes);
          processTasks(wbs, wbsNotes, activities, getActivityNotes(activityNotes));
          processPredecessors(relationships);
          processAssignments(assignments);
@@ -669,6 +679,31 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Process project code assignments.
+    *
+    * @param codes project code assignments
+    */
+   private void processProjectCodeAssignments(List<CodeAssignmentType> codes)
+   {
+      ProjectProperties props = m_projectFile.getProjectProperties();
+
+      for (CodeAssignmentType assignment : codes)
+      {
+         ProjectCode projectCode = m_projectFile.getProjectCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (projectCode == null)
+         {
+            continue;
+         }
+
+         ProjectCodeValue projectCodeValue = projectCode.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (projectCodeValue != null)
+         {
+            props.addProjectCodeValue(projectCodeValue);
+         }
+      }
+   }
+
+   /**
     * Process project properties.
     *
     * @param project xml container
@@ -782,6 +817,48 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
                .name(typeValue.getCodeValue())
                .description(typeValue.getDescription())
                .color(ColorHelper.parseHtmlColor(typeValue.getColor()))
+               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Process project code definitions.
+    *
+    * @param apibo top level object
+    */
+   private void processProjectCodeDefinitions(APIBusinessObjects apibo)
+   {
+      ProjectCodeContainer container = m_projectFile.getProjectCodes();
+      Map<Integer, ProjectCode> map = new HashMap<>();
+
+      for (ProjectCodeTypeType type : apibo.getProjectCodeType())
+      {
+         ProjectCode code = new ProjectCode.Builder(m_projectFile)
+            .uniqueID(type.getObjectId())
+            .sequenceNumber(type.getSequenceNumber())
+            .name(type.getName())
+            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
+            .maxLength(type.getLength())
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      List<ProjectCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getProjectCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
+      for (ProjectCodeType typeValue : typeValues)
+      {
+         ProjectCode code = map.get(typeValue.getCodeTypeObjectId());
+         if (code != null)
+         {
+            ProjectCodeValue value = new ProjectCodeValue.Builder(m_projectFile)
+               .projectCode(code)
+               .uniqueID(typeValue.getObjectId())
+               .sequenceNumber(typeValue.getSequenceNumber())
+               .name(typeValue.getCodeValue())
+               .description(typeValue.getDescription())
                .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
                .build();
             code.addValue(value);

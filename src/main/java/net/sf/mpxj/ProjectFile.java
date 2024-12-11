@@ -506,6 +506,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * Retrieves the project code configuration for this project.
+    *
+    * @return project codes
+    */
+   public ProjectCodeContainer getProjectCodes()
+   {
+      return m_shared.getProjectCodes();
+   }
+
+   /**
     * Retrieves the shifts for this project.
     *
     * @return shifts
