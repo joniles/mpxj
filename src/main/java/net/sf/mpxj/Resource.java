@@ -2716,6 +2716,26 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
    }
 
    /**
+    * Retrieve the role code values associated with this resource.
+    *
+    * @return map of role code values
+    */
+   @SuppressWarnings("unchecked") public Map<RoleCode, RoleCodeValue> getRoleCodeValues()
+   {
+      return (Map<RoleCode, RoleCodeValue>) get(ResourceField.ROLE_CODE_VALUES);
+   }
+
+   /**
+    * Assign a role code value to this resource.
+    *
+    * @param value resoroleurce code value
+    */
+   @SuppressWarnings("unchecked") public void addRoleCodeValue(RoleCodeValue value)
+   {
+      ((Map<RoleCode, RoleCodeValue>) get(ResourceField.ROLE_CODE_VALUES)).put(value.getRoleCode(), value);
+   }
+
+   /**
     * Maps a field index to a ResourceField instance.
     *
     * @param fields array of fields used as the basis for the mapping.
@@ -2870,6 +2890,16 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     * @return default value for resource code values
     */
    private Map<ResourceCode, ResourceCodeValue> defaultResourceCodeValues()
+   {
+      return new HashMap<>();
+   }
+
+   /**
+    * Supply a default value for the role code values.
+    *
+    * @return default value for role code values
+    */
+   private Map<RoleCode, RoleCodeValue> defaultRoleCodeValues()
    {
       return new HashMap<>();
    }
@@ -3029,6 +3059,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       CALCULATED_FIELD_MAP.put(ResourceField.ACTIVE, Resource::defaultActive);
       CALCULATED_FIELD_MAP.put(ResourceField.DEFAULT_UNITS, Resource::defaultDefaultUnits);
       CALCULATED_FIELD_MAP.put(ResourceField.RESOURCE_CODE_VALUES, Resource::defaultResourceCodeValues);
+      CALCULATED_FIELD_MAP.put(ResourceField.ROLE_CODE_VALUES, Resource::defaultRoleCodeValues);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();

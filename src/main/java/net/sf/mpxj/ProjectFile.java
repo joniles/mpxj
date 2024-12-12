@@ -526,6 +526,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * Retrieves the role code configuration for this project.
+    *
+    * @return role codes
+    */
+   public RoleCodeContainer getRoleCodes()
+   {
+      return m_shared.getRoleCodes();
+   }
+
+   /**
     * Retrieves the shifts for this project.
     *
     * @return shifts

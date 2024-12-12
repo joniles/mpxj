@@ -230,6 +230,7 @@ public final class JsonWriter extends AbstractProjectWriter
          writeWorkContours();
          writeCodes("project_codes", m_projectFile.getProjectCodes());
          writeCodes("resource_codes", m_projectFile.getResourceCodes());
+         writeCodes("role_codes", m_projectFile.getRoleCodes());
          writeActivityCodes();
          writeUnitsOfMeasure();
          writeCalendars();

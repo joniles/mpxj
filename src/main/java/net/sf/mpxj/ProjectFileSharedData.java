@@ -146,6 +146,16 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    }
 
    /**
+    * Retrieves the role code configuration for this project.
+    *
+    * @return role codes
+    */
+   public RoleCodeContainer getRoleCodes()
+   {
+      return m_roleCodes;
+   }
+
+   /**
     * Retrieves the shifts for this project.
     *
     * @return shifts
@@ -198,6 +208,7 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    private final ActivityCodeContainer m_activityCodes = new ActivityCodeContainer(this);
    private final ProjectCodeContainer m_projectCodes = new ProjectCodeContainer(this);
    private final ResourceCodeContainer m_resourceCodes = new ResourceCodeContainer(this);
+   private final RoleCodeContainer m_roleCodes = new RoleCodeContainer(this);
    private final ShiftContainer m_shifts = new ShiftContainer(this);
    private final ShiftPeriodContainer m_shiftPeriods = new ShiftPeriodContainer(this);
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
@@ -217,6 +228,8 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
          ProjectCodeValue.class.getName(),
          ResourceCode.class.getName(),
          ResourceCodeValue.class.getName(),
+         RoleCode.class.getName(),
+         RoleCodeValue.class.getName(),
          Shift.class.getName(),
          ShiftPeriod.class.getName()));
 }

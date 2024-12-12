@@ -54,6 +54,9 @@ import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.ResourceCode;
 import net.sf.mpxj.ResourceCodeContainer;
 import net.sf.mpxj.ResourceCodeValue;
+import net.sf.mpxj.RoleCode;
+import net.sf.mpxj.RoleCodeContainer;
+import net.sf.mpxj.RoleCodeValue;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftContainer;
 import net.sf.mpxj.ShiftPeriod;
@@ -80,6 +83,8 @@ import net.sf.mpxj.primavera.schema.ProjectListType;
 import net.sf.mpxj.primavera.schema.ResourceCodeType;
 import net.sf.mpxj.primavera.schema.ResourceCodeTypeType;
 import net.sf.mpxj.primavera.schema.ResourceRoleType;
+import net.sf.mpxj.primavera.schema.RoleCodeType;
+import net.sf.mpxj.primavera.schema.RoleCodeTypeType;
 import net.sf.mpxj.primavera.schema.ShiftPeriodType;
 import net.sf.mpxj.primavera.schema.ShiftType;
 import net.sf.mpxj.primavera.schema.UnitOfMeasureType;
@@ -495,6 +500,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             processActivityCodeDefinitions(apibo.getActivityCodeType(), apibo.getActivityCode());
             processProjectCodeDefinitions(apibo);
             processResourceCodeDefinitions(apibo);
+            processRoleCodeDefinitions(apibo);
             processShifts(apibo);
          }
 
@@ -733,6 +739,29 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Process role code assignments.
+    *
+    * @param codes role code assignments
+    */
+   private void processRoleCodeAssignments(Resource resource, List<CodeAssignmentType> codes)
+   {
+      for (CodeAssignmentType assignment : codes)
+      {
+         RoleCode code = m_projectFile.getRoleCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (code == null)
+         {
+            continue;
+         }
+
+         RoleCodeValue codeValue = code.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (codeValue != null)
+         {
+            resource.addRoleCodeValue(codeValue);
+         }
+      }
+   }
+
+   /**
     * Process project properties.
     *
     * @param project xml container
@@ -926,6 +955,48 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             ResourceCodeValue value = new ResourceCodeValue.Builder(m_projectFile)
                .resourceCode(code)
+               .uniqueID(typeValue.getObjectId())
+               .sequenceNumber(typeValue.getSequenceNumber())
+               .name(typeValue.getCodeValue())
+               .description(typeValue.getDescription())
+               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Process role code definitions.
+    *
+    * @param apibo top level object
+    */
+   private void processRoleCodeDefinitions(APIBusinessObjects apibo)
+   {
+      RoleCodeContainer container = m_projectFile.getRoleCodes();
+      Map<Integer, RoleCode> map = new HashMap<>();
+
+      for (RoleCodeTypeType type : apibo.getRoleCodeType())
+      {
+         RoleCode code = new RoleCode.Builder(m_projectFile)
+            .uniqueID(type.getObjectId())
+            .sequenceNumber(type.getSequenceNumber())
+            .name(type.getName())
+            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
+            .maxLength(type.getLength())
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      List<RoleCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getRoleCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
+      for (RoleCodeType typeValue : typeValues)
+      {
+         RoleCode code = map.get(typeValue.getCodeTypeObjectId());
+         if (code != null)
+         {
+            RoleCodeValue value = new RoleCodeValue.Builder(m_projectFile)
+               .roleCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
                .name(typeValue.getCodeValue())
@@ -1374,6 +1445,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setResourceID(role.getId());
          resource.setNotesObject(getHtmlNote(role.getResponsibilities()));
          resource.setSequenceNumber(role.getSequenceNumber());
+
+         //processRoleCodeAssignments(resource, role.getCode());
       }
    }
 
