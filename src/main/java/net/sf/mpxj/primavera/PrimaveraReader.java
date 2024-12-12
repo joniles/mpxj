@@ -895,7 +895,7 @@ final class PrimaveraReader
          defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
          resource.setDefaultUnits(defaultUnitsPerTime);
 
-         populateResourceCodes(resource);
+         populateResourceCodeValues(resource);
 
          m_eventManager.fireResourceReadEvent(resource);
       }
@@ -1422,7 +1422,7 @@ final class PrimaveraReader
     *
     * @param resource parent resource
     */
-   private void populateResourceCodes(Resource resource)
+   private void populateResourceCodeValues(Resource resource)
    {
       List<Row> list = m_resourceCodeAssignments.get(resource.getUniqueID());
       if (list == null)
