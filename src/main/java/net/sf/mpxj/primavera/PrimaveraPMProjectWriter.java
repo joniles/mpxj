@@ -1914,13 +1914,14 @@ final class PrimaveraPMProjectWriter
    {
       CodeAssignmentType xml = m_factory.createCodeAssignmentType();
       assignments.add(xml);
-      xml.setTypeObjectId(value.getProjectCodeUniqueID());
-      xml.setValueObjectId(value.getUniqueID());
+      xml.setTypeObjectId(NumberHelper.getInt(value.getProjectCodeUniqueID()));
+      xml.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
    }
 
    /**
     * Write resource code assignments.
     *
+    * @param resource parent resource
     * @param assignments resource code assignments
     */
    private void writeResourceCodeAssignments(Resource resource, List<CodeAssignmentType> assignments)
@@ -1938,8 +1939,8 @@ final class PrimaveraPMProjectWriter
    {
       CodeAssignmentType xml = m_factory.createCodeAssignmentType();
       assignments.add(xml);
-      xml.setTypeObjectId(value.getResourceCodeUniqueID());
-      xml.setValueObjectId(value.getUniqueID());
+      xml.setTypeObjectId(NumberHelper.getInt(value.getResourceCodeUniqueID()));
+      xml.setValueObjectId(NumberHelper.getInt(value.getUniqueID()));
    }
 
    /**

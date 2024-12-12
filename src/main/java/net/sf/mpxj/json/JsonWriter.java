@@ -343,8 +343,11 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a list of codes.
+    * 
+    * @param attributeName attribute name
+    * @param codes list of codes
     */
-   private void writeCodes(String label, List<? extends Code> codes) throws IOException
+   private void writeCodes(String attributeName, List<? extends Code> codes) throws IOException
    {
       if (codes.isEmpty())
       {
@@ -353,7 +356,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
       List<? extends Code> sortedCodeList = new ArrayList<>(codes);
       sortedCodeList.sort(Comparator.comparing(Code::getName));
-      m_writer.writeStartList(label);
+      m_writer.writeStartList(attributeName);
       for (Code code : sortedCodeList)
       {
          writeCode(code);

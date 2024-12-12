@@ -718,6 +718,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Process resource code assignments.
     *
+    * @param resource parent resource
     * @param codes resource code assignments
     */
    private void processResourceCodeAssignments(Resource resource, List<CodeAssignmentType> codes)
@@ -741,6 +742,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    /**
     * Process role code assignments.
     *
+    * @param resource parent resource
     * @param codes role code assignments
     */
    private void processRoleCodeAssignments(Resource resource, List<CodeAssignmentType> codes)

@@ -81,11 +81,22 @@ public final class RoleCode implements Code
       return m_values.stream().filter(v -> v.getParentValue() == null).collect(Collectors.toList());
    }
 
+   /**
+    * Add value to this code.
+    * 
+    * @param value new value
+    */
    public void addValue(RoleCodeValue value)
    {
       m_values.add(value);
    }
 
+   /**
+    * Retrieve a value by unique ID.
+    * 
+    * @param id unique ID
+    * @return value or null
+    */
    public RoleCodeValue getValueByUniqueID(Integer id)
    {
       if (id == null)

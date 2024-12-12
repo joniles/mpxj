@@ -81,11 +81,22 @@ public final class ResourceCode implements Code
       return m_values.stream().filter(v -> v.getParentValue() == null).collect(Collectors.toList());
    }
 
+   /**
+    * Add value to this code.
+    * 
+    * @param value new value
+    */
    public void addValue(ResourceCodeValue value)
    {
       m_values.add(value);
    }
 
+   /**
+    * Retrieve a value by unique ID.
+    * 
+    * @param id unique ID
+    * @return value or null
+    */
    public ResourceCodeValue getValueByUniqueID(Integer id)
    {
       if (id == null)

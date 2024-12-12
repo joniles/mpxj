@@ -703,6 +703,7 @@ public class ProjectTreeController
     * Add codes to the tree.
     *
     * @param parentNode parent tree node
+    * @param codes list of codes
     */
    private void addCodes(MpxjTreeNode parentNode, List<? extends Code> codes)
    {
