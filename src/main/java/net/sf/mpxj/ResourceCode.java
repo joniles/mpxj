@@ -71,12 +71,12 @@ public final class ResourceCode implements Code
       return m_maxLength;
    }
 
-   public List<ResourceCodeValue> getValues()
+   @Override public List<ResourceCodeValue> getValues()
    {
       return m_values;
    }
 
-   public List<ResourceCodeValue> getChildValues()
+   @Override public List<ResourceCodeValue> getChildValues()
    {
       return m_values.stream().filter(v -> v.getParentValue() == null).collect(Collectors.toList());
    }

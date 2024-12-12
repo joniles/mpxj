@@ -441,7 +441,6 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       rows = getRows("projpcat", "proj_id", m_projectID);
       m_reader.processProjectCodeAssignments(rows);
 
-
       //
       // Process XER-specific attributes
       //

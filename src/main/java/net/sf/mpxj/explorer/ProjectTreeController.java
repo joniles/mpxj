@@ -213,7 +213,7 @@ public class ProjectTreeController
 
       MpxjTreeNode projectCodesFolder = new MpxjTreeNode("Project Codes");
       projectNode.add(projectCodesFolder);
-      addCodes(projectCodesFolder,m_projectFile.getProjectCodes());
+      addCodes(projectCodesFolder, m_projectFile.getProjectCodes());
 
       m_model.setRoot(projectNode);
    }

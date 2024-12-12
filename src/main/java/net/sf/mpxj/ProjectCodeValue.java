@@ -84,7 +84,7 @@ public final class ProjectCodeValue implements CodeValue
    {
       return m_description;
    }
-   
+
    /**
     * Retrieve the parent ProjectCodeValue.
     *
@@ -100,7 +100,7 @@ public final class ProjectCodeValue implements CodeValue
     *
     * @return parent ProjectCodeValue unique ID
     */
-   public Integer getParentValueUniqueID()
+   @Override public Integer getParentValueUniqueID()
    {
       return m_parentValue == null ? null : m_parentValue.getUniqueID();
    }
@@ -110,7 +110,7 @@ public final class ProjectCodeValue implements CodeValue
     *
     * @return list of ProjectCodeValue instances
     */
-   public List<ProjectCodeValue> getChildValues()
+   @Override public List<ProjectCodeValue> getChildValues()
    {
       return m_projectCode.getValues().stream().filter(a -> a.m_parentValue == this).collect(Collectors.toList());
    }

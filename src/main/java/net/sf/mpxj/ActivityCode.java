@@ -95,7 +95,7 @@ public final class ActivityCode implements Code
     *
     * @return sequence number
     */
-   public Integer getSequenceNumber()
+   @Override public Integer getSequenceNumber()
    {
       return m_sequenceNumber;
    }
@@ -105,7 +105,7 @@ public final class ActivityCode implements Code
     *
     * @return name
     */
-   public String getName()
+   @Override public String getName()
    {
       return m_name;
    }
@@ -115,7 +115,7 @@ public final class ActivityCode implements Code
     *
     * @return secure flag
     */
-   public boolean getSecure()
+   @Override public boolean getSecure()
    {
       return m_secure;
    }
@@ -125,7 +125,7 @@ public final class ActivityCode implements Code
     *
     * @return max length
     */
-   public Integer getMaxLength()
+   @Override public Integer getMaxLength()
    {
       return m_maxLength;
    }
@@ -136,7 +136,7 @@ public final class ActivityCode implements Code
     *
     * @return list of ActivityCodeValue instances
     */
-   public List<ActivityCodeValue> getValues()
+   @Override public List<ActivityCodeValue> getValues()
    {
       return m_values;
    }
@@ -148,7 +148,7 @@ public final class ActivityCode implements Code
     *
     * @return list of ActivityCodeValue instances
     */
-   public List<ActivityCodeValue> getChildValues()
+   @Override public List<ActivityCodeValue> getChildValues()
    {
       return m_values.stream().filter(v -> v.getParentValue() == null).collect(Collectors.toList());
    }

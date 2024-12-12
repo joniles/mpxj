@@ -4866,7 +4866,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
    {
       setPrimaryResourceUniqueID(resource == null ? null : resource.getUniqueID());
    }
-   
+
    /**
     * Set the activity ID.
     *

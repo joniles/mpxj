@@ -84,7 +84,7 @@ public final class RoleCodeValue implements CodeValue
    {
       return m_description;
    }
-   
+
    /**
     * Retrieve the parent RoleCodeValue.
     *
@@ -100,7 +100,7 @@ public final class RoleCodeValue implements CodeValue
     *
     * @return parent RoleCodeValue unique ID
     */
-   public Integer getParentValueUniqueID()
+   @Override public Integer getParentValueUniqueID()
    {
       return m_parentValue == null ? null : m_parentValue.getUniqueID();
    }
@@ -110,7 +110,7 @@ public final class RoleCodeValue implements CodeValue
     *
     * @return list of RoleCodeValue instances
     */
-   public List<RoleCodeValue> getChildValues()
+   @Override public List<RoleCodeValue> getChildValues()
    {
       return m_roleCode.getValues().stream().filter(a -> a.m_parentValue == this).collect(Collectors.toList());
    }

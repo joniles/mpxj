@@ -71,12 +71,12 @@ public final class RoleCode implements Code
       return m_maxLength;
    }
 
-   public List<RoleCodeValue> getValues()
+   @Override public List<RoleCodeValue> getValues()
    {
       return m_values;
    }
 
-   public List<RoleCodeValue> getChildValues()
+   @Override public List<RoleCodeValue> getChildValues()
    {
       return m_values.stream().filter(v -> v.getParentValue() == null).collect(Collectors.toList());
    }

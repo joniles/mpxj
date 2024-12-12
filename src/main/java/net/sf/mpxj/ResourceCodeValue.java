@@ -84,7 +84,7 @@ public final class ResourceCodeValue implements CodeValue
    {
       return m_description;
    }
-   
+
    /**
     * Retrieve the parent ResourceCodeValue.
     *
@@ -100,7 +100,7 @@ public final class ResourceCodeValue implements CodeValue
     *
     * @return parent ResourceCodeValue unique ID
     */
-   public Integer getParentValueUniqueID()
+   @Override public Integer getParentValueUniqueID()
    {
       return m_parentValue == null ? null : m_parentValue.getUniqueID();
    }
@@ -110,7 +110,7 @@ public final class ResourceCodeValue implements CodeValue
     *
     * @return list of ResourceCodeValue instances
     */
-   public List<ResourceCodeValue> getChildValues()
+   @Override public List<ResourceCodeValue> getChildValues()
    {
       return m_resourceCode.getValues().stream().filter(a -> a.m_parentValue == this).collect(Collectors.toList());
    }

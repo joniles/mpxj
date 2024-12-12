@@ -850,7 +850,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceCodeAssignments()
    {
-      List<Map<String,Object>> assignments = m_file.getResources().stream()
+      List<Map<String, Object>> assignments = m_file.getResources().stream()
          .sorted(Comparator.comparing(Resource::getUniqueID))
          .map(r -> r.getResourceCodeValues().values().stream().sorted(Comparator.comparing(ResourceCodeValue::getResourceCodeUniqueID))
             .map(v -> populateResourceCodeAssignment(r.getUniqueID(), v)).collect(Collectors.toList()))
@@ -1874,7 +1874,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<Map<String, Object>>> PROJECT_CODE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
    static
    {
-      PROJECT_CODE_ASSIGNMENT_COLUMNS.put("proj_id", v -> v.get("proj_id")) ;
+      PROJECT_CODE_ASSIGNMENT_COLUMNS.put("proj_id", v -> v.get("proj_id"));
       PROJECT_CODE_ASSIGNMENT_COLUMNS.put("proj_catg_type_id", v -> v.get("proj_catg_type_id"));
       PROJECT_CODE_ASSIGNMENT_COLUMNS.put("proj_catg_id", v -> v.get("proj_catg_id"));
    }
@@ -1902,7 +1902,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private static final Map<String, ExportFunction<Map<String, Object>>> RESOURCE_CODE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
    static
    {
-      RESOURCE_CODE_ASSIGNMENT_COLUMNS.put("rsrc_id", v -> v.get("rsrc_id")) ;
+      RESOURCE_CODE_ASSIGNMENT_COLUMNS.put("rsrc_id", v -> v.get("rsrc_id"));
       RESOURCE_CODE_ASSIGNMENT_COLUMNS.put("rsrc_catg_type_id", v -> v.get("rsrc_catg_type_id"));
       RESOURCE_CODE_ASSIGNMENT_COLUMNS.put("rsrc_catg_id", v -> v.get("rsrc_catg_id"));
    }

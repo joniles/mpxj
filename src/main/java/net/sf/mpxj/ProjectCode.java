@@ -71,12 +71,12 @@ public final class ProjectCode implements Code
       return m_maxLength;
    }
 
-   public List<ProjectCodeValue> getValues()
+   @Override public List<ProjectCodeValue> getValues()
    {
       return m_values;
    }
 
-   public List<ProjectCodeValue> getChildValues()
+   @Override public List<ProjectCodeValue> getChildValues()
    {
       return m_values.stream().filter(v -> v.getParentValue() == null).collect(Collectors.toList());
    }

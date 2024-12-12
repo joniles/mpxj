@@ -84,7 +84,7 @@ public final class ActivityCodeValue implements CodeValue
     *
     * @return unique ID
     */
-   public Integer getUniqueID()
+   @Override public Integer getUniqueID()
    {
       return m_uniqueID;
    }
@@ -94,7 +94,7 @@ public final class ActivityCodeValue implements CodeValue
     *
     * @return sequence number
     */
-   public Integer getSequenceNumber()
+   @Override public Integer getSequenceNumber()
    {
       return m_sequenceNumber;
    }
@@ -104,7 +104,7 @@ public final class ActivityCodeValue implements CodeValue
     *
     * @return value name
     */
-   public String getName()
+   @Override public String getName()
    {
       return m_name;
    }
@@ -114,7 +114,7 @@ public final class ActivityCodeValue implements CodeValue
     *
     * @return value description
     */
-   public String getDescription()
+   @Override public String getDescription()
    {
       return m_description;
    }
@@ -166,7 +166,7 @@ public final class ActivityCodeValue implements CodeValue
     *
     * @return parent ActivityCodeValue unique ID
     */
-   public Integer getParentValueUniqueID()
+   @Override public Integer getParentValueUniqueID()
    {
       return m_parentValue == null ? null : m_parentValue.getUniqueID();
    }
@@ -176,7 +176,7 @@ public final class ActivityCodeValue implements CodeValue
     *
     * @return list of ActivityCodeValue instances
     */
-   public List<ActivityCodeValue> getChildValues()
+   @Override public List<ActivityCodeValue> getChildValues()
    {
       return m_activityCode.getValues().stream().filter(a -> a.m_parentValue == this).collect(Collectors.toList());
    }
