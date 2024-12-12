@@ -127,10 +127,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             processNotebookTopics();
             processUdfDefinitions();
             processProjectCodeDefinitions();
+            processResourceCodeDefinitions();
             processActivityCodeDefinitions();
          }
 
          processActivityCodeAssignments();
+         processResourceCodeAssignments();
          processUdfValues();
          processCalendars();
          processResources();
@@ -180,7 +182,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    public List<ProjectFile> readAll() throws MPXJException
    {
       Map<Integer, String> projects = listProjects();
-      List<ProjectFile> result = new ArrayList<>(projects.keySet().size());
+      List<ProjectFile> result = new ArrayList<>(projects.size());
       ProjectFileSharedData shared = new ProjectFileSharedData();
       m_readSharedData = true;
       for (Integer id : projects.keySet())
@@ -342,12 +344,31 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    }
 
    /**
+    * Process resource code definitions.
+    */
+   private void processResourceCodeDefinitions() throws SQLException
+   {
+      List<Row> types = getRows("select * from " + m_schema + "rcattype where rsrc_catg_type_id in (select distinct rsrc_catg_type_id from rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
+      List<Row> typeValues = getRows("select * from " + m_schema + "rcatval where rsrc_catg_id in (select distinct rsrc_catg_id from rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
+      m_reader.processResourceCodeDefinitions(types, typeValues);
+   }
+
+   /**
     * Process activity code assignments.
     */
    private void processActivityCodeAssignments() throws SQLException
    {
       List<Row> assignments = getRows("select * from " + m_schema + "taskactv where proj_id=?", m_projectID);
       m_reader.processActivityCodeAssignments(assignments);
+   }
+
+   /**
+    * Process resource code assignments.
+    */
+   private void processResourceCodeAssignments() throws SQLException
+   {
+      List<Row> assignments = getRows("select * from " + m_schema + "rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)", m_projectID);
+      m_reader.processResourceCodeAssignments(assignments);
    }
 
    /**

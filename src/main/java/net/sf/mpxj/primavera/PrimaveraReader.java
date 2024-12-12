@@ -57,6 +57,9 @@ import net.sf.mpxj.ProjectCode;
 import net.sf.mpxj.ProjectCodeContainer;
 import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.ProjectFileSharedData;
+import net.sf.mpxj.ResourceCode;
+import net.sf.mpxj.ResourceCodeContainer;
+import net.sf.mpxj.ResourceCodeValue;
 import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftContainer;
@@ -468,6 +471,48 @@ final class PrimaveraReader
    }
 
    /**
+    * Read resource code definitions.
+    *
+    * @param types resource code type data
+    * @param typeValues resource code value data
+    */
+   public void processResourceCodeDefinitions(List<Row> types, List<Row> typeValues)
+   {
+      ResourceCodeContainer container = m_project.getResourceCodes();
+      Map<Integer, ResourceCode> map = new HashMap<>();
+
+      for (Row row : types)
+      {
+         ResourceCode code = new ResourceCode.Builder(m_project)
+            .uniqueID(row.getInteger("rsrc_catg_type_id"))
+            .sequenceNumber(row.getInteger("seq_num"))
+            .name(row.getString("rsrc_catg_type"))
+            .maxLength(row.getInteger("rsrc_catg_short_len"))
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getInteger("rsrc_catg_id"), v -> v.getInteger("parent_rsrc_catg_id"));
+      for (Row row : typeValues)
+      {
+         ResourceCode code = map.get(row.getInteger("rsrc_catg_type_id"));
+         if (code != null)
+         {
+            ResourceCodeValue value = new ResourceCodeValue.Builder(m_project)
+               .resourceCode(code)
+               .uniqueID(row.getInteger("rsrc_catg_id"))
+               .sequenceNumber(row.getInteger("seq_num"))
+               .name(row.getString("rsrc_catg_short_name"))
+               .description(row.getString("rsrc_catg_name"))
+               .parentValue(code.getValueByUniqueID(row.getInteger("parent_rsrc_catg_id")))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
     * Process activity code assignments.
     *
     * @param assignments activity code assignments
@@ -478,6 +523,21 @@ final class PrimaveraReader
       {
          Integer taskID = row.getInteger("task_id");
          List<Row> list = m_activityCodeAssignments.computeIfAbsent(taskID, k -> new ArrayList<>());
+         list.add(row);
+      }
+   }
+
+   /**
+    * Process resource code assignments.
+    *
+    * @param assignments resource code assignments
+    */
+   public void processResourceCodeAssignments(List<Row> assignments)
+   {
+      for (Row row : assignments)
+      {
+         Integer resourceID = row.getInteger("rsrc_id");
+         List<Row> list = m_resourceCodeAssignments.computeIfAbsent(resourceID, k -> new ArrayList<>());
          list.add(row);
       }
    }
@@ -834,6 +894,8 @@ final class PrimaveraReader
          Number defaultUnitsPerTime = row.getDouble("def_qty_per_hr");
          defaultUnitsPerTime = defaultUnitsPerTime == null ? NumberHelper.DOUBLE_ZERO : Double.valueOf(defaultUnitsPerTime.doubleValue() * 100.0);
          resource.setDefaultUnits(defaultUnitsPerTime);
+
+         populateResourceCodeValues(resource);
 
          m_eventManager.fireResourceReadEvent(resource);
       }
@@ -1341,16 +1403,45 @@ final class PrimaveraReader
 
       for (Row row : list)
       {
-         ActivityCode activityCode = m_project.getActivityCodes().getByUniqueID(row.getInteger("actv_code_type_id"));
-         if (activityCode == null)
+         ActivityCode code = m_project.getActivityCodes().getByUniqueID(row.getInteger("actv_code_type_id"));
+         if (code == null)
          {
             continue;
          }
 
-         ActivityCodeValue value = activityCode.getValueByUniqueID(row.getInteger("actv_code_id"));
+         ActivityCodeValue value = code.getValueByUniqueID(row.getInteger("actv_code_id"));
          if (value != null)
          {
             task.addActivityCodeValue(value);
+         }
+      }
+   }
+
+   /**
+    * Read details of any resource codes assigned to this resource.
+    *
+    * @param resource parent resource
+    */
+   private void populateResourceCodeValues(Resource resource)
+   {
+      List<Row> list = m_resourceCodeAssignments.get(resource.getUniqueID());
+      if (list == null)
+      {
+         return;
+      }
+
+      for (Row row : list)
+      {
+         ResourceCode code = m_project.getResourceCodes().getByUniqueID(row.getInteger("rsrc_catg_type_id"));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ResourceCodeValue value = code.getValueByUniqueID(row.getInteger("rsrc_catg_id"));
+         if (value != null)
+         {
+            resource.addResourceCodeValue(value);
          }
       }
    }
@@ -2545,6 +2636,7 @@ final class PrimaveraReader
 
    private final Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
    private final Map<Integer, List<Row>> m_activityCodeAssignments = new HashMap<>();
+   private final Map<Integer, List<Row>> m_resourceCodeAssignments = new HashMap<>();
 
    private final ObjectSequence m_relationObjectID;
 

@@ -52,6 +52,8 @@ import java.time.DayOfWeek;
 
 import net.sf.mpxj.ProjectCode;
 import net.sf.mpxj.ProjectCodeValue;
+import net.sf.mpxj.ResourceCode;
+import net.sf.mpxj.ResourceCodeValue;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftPeriod;
 import net.sf.mpxj.SkillLevel;
@@ -120,6 +122,8 @@ import net.sf.mpxj.primavera.schema.ProjectNoteType;
 import net.sf.mpxj.primavera.schema.ProjectType;
 import net.sf.mpxj.primavera.schema.RelationshipType;
 import net.sf.mpxj.primavera.schema.ResourceAssignmentType;
+import net.sf.mpxj.primavera.schema.ResourceCodeType;
+import net.sf.mpxj.primavera.schema.ResourceCodeTypeType;
 import net.sf.mpxj.primavera.schema.ResourceCurveType;
 import net.sf.mpxj.primavera.schema.ResourceCurveValuesType;
 import net.sf.mpxj.primavera.schema.ResourceRateType;
@@ -182,7 +186,6 @@ final class PrimaveraPMProjectWriter
             m_udf = project.getUDF();
 
             writeProjectProperties(project);
-            writeProjectCodeDefinitions();
             writeProjectCodeAssignments(project.getCode());
             writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
             writeCalendars(project.getCalendar());
@@ -211,6 +214,7 @@ final class PrimaveraPMProjectWriter
             writeProjectProperties(project);
             writeUnitsOfMeasure();
             writeProjectCodeDefinitions();
+            writeResourceCodeDefinitions();
             writeProjectCodeAssignments(project.getCode());
             writeActivityCodeDefinitions(project.getActivityCodeType(), project.getActivityCode());
             writeCalendars(project.getCalendar());
@@ -916,6 +920,8 @@ final class PrimaveraPMProjectWriter
       xml.setMaxUnitsPerTime(defaultUnitsPerTime);
 
       xml.getUDF().addAll(writeUserDefinedFieldAssignments(FieldTypeClass.RESOURCE, false, mpxj));
+
+      writeResourceCodeAssignments(mpxj, xml.getCode());
    }
 
    /**
@@ -1859,6 +1865,36 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
+    * Write resource code definitions.
+    */
+   private void writeResourceCodeDefinitions()
+   {
+      for (ResourceCode code : m_projectFile.getResourceCodes())
+      {
+         ResourceCodeTypeType xmlCode = m_factory.createResourceCodeTypeType();
+         m_apibo.getResourceCodeType().add(xmlCode);
+         xmlCode.setObjectId(code.getUniqueID());
+         xmlCode.setName(code.getName());
+         xmlCode.setSequenceNumber(code.getSequenceNumber());
+         xmlCode.setIsSecureCode(Boolean.valueOf(code.getSecure()));
+         xmlCode.setLength(code.getMaxLength());
+
+         for (ResourceCodeValue value : code.getValues())
+         {
+            ResourceCodeType xmlValue = m_factory.createResourceCodeType();
+            m_apibo.getResourceCode().add(xmlValue);
+
+            xmlValue.setObjectId(value.getUniqueID());
+            xmlValue.setCodeTypeObjectId(code.getUniqueID());
+            xmlValue.setCodeValue(value.getName());
+            xmlValue.setDescription(value.getDescription());
+            xmlValue.setParentObjectId(value.getParentValueUniqueID());
+            xmlValue.setSequenceNumber(value.getSequenceNumber());
+         }
+      }
+   }
+
+   /**
     * Write project code assignments.
     *
     * @param assignments project code assignments
@@ -1879,6 +1915,30 @@ final class PrimaveraPMProjectWriter
       CodeAssignmentType xml = m_factory.createCodeAssignmentType();
       assignments.add(xml);
       xml.setTypeObjectId(value.getProjectCodeUniqueID());
+      xml.setValueObjectId(value.getUniqueID());
+   }
+
+   /**
+    * Write resource code assignments.
+    *
+    * @param assignments resource code assignments
+    */
+   private void writeResourceCodeAssignments(Resource resource, List<CodeAssignmentType> assignments)
+   {
+      resource.getResourceCodeValues().values().stream().sorted(Comparator.comparing(ResourceCodeValue::getUniqueID)).forEach(v -> writeResourceCodeAssignment(assignments, v));
+   }
+
+   /**
+    * Write a resource code assignment.
+    *
+    * @param assignments resource code assignments
+    * @param value resource code value
+    */
+   private void writeResourceCodeAssignment(List<CodeAssignmentType> assignments, ResourceCodeValue value)
+   {
+      CodeAssignmentType xml = m_factory.createCodeAssignmentType();
+      assignments.add(xml);
+      xml.setTypeObjectId(value.getResourceCodeUniqueID());
       xml.setValueObjectId(value.getUniqueID());
    }
 

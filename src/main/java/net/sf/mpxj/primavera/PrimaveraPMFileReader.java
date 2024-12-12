@@ -51,6 +51,9 @@ import net.sf.mpxj.ProjectCode;
 import net.sf.mpxj.ProjectCodeContainer;
 import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.ProjectFileSharedData;
+import net.sf.mpxj.ResourceCode;
+import net.sf.mpxj.ResourceCodeContainer;
+import net.sf.mpxj.ResourceCodeValue;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftContainer;
 import net.sf.mpxj.ShiftPeriod;
@@ -74,6 +77,8 @@ import net.sf.mpxj.primavera.schema.ActivityStepType;
 import net.sf.mpxj.primavera.schema.ProjectCodeType;
 import net.sf.mpxj.primavera.schema.ProjectCodeTypeType;
 import net.sf.mpxj.primavera.schema.ProjectListType;
+import net.sf.mpxj.primavera.schema.ResourceCodeType;
+import net.sf.mpxj.primavera.schema.ResourceCodeTypeType;
 import net.sf.mpxj.primavera.schema.ResourceRoleType;
 import net.sf.mpxj.primavera.schema.ShiftPeriodType;
 import net.sf.mpxj.primavera.schema.ShiftType;
@@ -489,6 +494,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             processUdfDefintions(apibo);
             processActivityCodeDefinitions(apibo.getActivityCodeType(), apibo.getActivityCode());
             processProjectCodeDefinitions(apibo);
+            processResourceCodeDefinitions(apibo);
             processShifts(apibo);
          }
 
@@ -689,16 +695,39 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
 
       for (CodeAssignmentType assignment : codes)
       {
-         ProjectCode projectCode = m_projectFile.getProjectCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
-         if (projectCode == null)
+         ProjectCode code = m_projectFile.getProjectCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (code == null)
          {
             continue;
          }
 
-         ProjectCodeValue projectCodeValue = projectCode.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
-         if (projectCodeValue != null)
+         ProjectCodeValue codeValue = code.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (codeValue != null)
          {
-            props.addProjectCodeValue(projectCodeValue);
+            props.addProjectCodeValue(codeValue);
+         }
+      }
+   }
+
+   /**
+    * Process resource code assignments.
+    *
+    * @param codes resource code assignments
+    */
+   private void processResourceCodeAssignments(Resource resource, List<CodeAssignmentType> codes)
+   {
+      for (CodeAssignmentType assignment : codes)
+      {
+         ResourceCode code = m_projectFile.getResourceCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ResourceCodeValue codeValue = code.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (codeValue != null)
+         {
+            resource.addResourceCodeValue(codeValue);
          }
       }
    }
@@ -855,6 +884,48 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             ProjectCodeValue value = new ProjectCodeValue.Builder(m_projectFile)
                .projectCode(code)
+               .uniqueID(typeValue.getObjectId())
+               .sequenceNumber(typeValue.getSequenceNumber())
+               .name(typeValue.getCodeValue())
+               .description(typeValue.getDescription())
+               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Process resource code definitions.
+    *
+    * @param apibo top level object
+    */
+   private void processResourceCodeDefinitions(APIBusinessObjects apibo)
+   {
+      ResourceCodeContainer container = m_projectFile.getResourceCodes();
+      Map<Integer, ResourceCode> map = new HashMap<>();
+
+      for (ResourceCodeTypeType type : apibo.getResourceCodeType())
+      {
+         ResourceCode code = new ResourceCode.Builder(m_projectFile)
+            .uniqueID(type.getObjectId())
+            .sequenceNumber(type.getSequenceNumber())
+            .name(type.getName())
+            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
+            .maxLength(type.getLength())
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      List<ResourceCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getResourceCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
+      for (ResourceCodeType typeValue : typeValues)
+      {
+         ResourceCode code = map.get(typeValue.getCodeTypeObjectId());
+         if (code != null)
+         {
+            ResourceCodeValue value = new ResourceCodeValue.Builder(m_projectFile)
+               .resourceCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
                .name(typeValue.getCodeValue())
@@ -1279,6 +1350,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setShiftUniqueID(xml.getShiftObjectId());
          resource.setPrimaryRoleUniqueID(xml.getPrimaryRoleObjectId());
 
+         processResourceCodeAssignments(resource, xml.getCode());
+
          populateUserDefinedFieldValues(resource, xml.getUDF());
 
          m_eventManager.fireResourceReadEvent(resource);
@@ -1428,9 +1501,9 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
       // Read Task entries and create tasks
       //
 
-      // If the schedule is using longest path to determine critical activities
+      // If the schedule is using longest path to determine critical activities,
       // we currently don't have enough information to correctly set this attribute.
-      // In this case we'll force the critical flag to false to avoid activities
+      // In this case we'll force the critical flag to false, which avoid activities
       // being incorrectly marked as critical.
       boolean forceCriticalToFalse = m_projectFile.getProjectProperties().getCriticalActivityType() == CriticalActivityType.LONGEST_PATH;
 

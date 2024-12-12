@@ -68,6 +68,8 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceCode;
+import net.sf.mpxj.ResourceCodeValue;
 import net.sf.mpxj.ResourceType;
 import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.Shift;
@@ -140,11 +142,13 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeLocations();
          writeNoteTypes();
          writeProjectCodes();
+         writeResourceCodes();
          writeResourceCurves();
          writeUdfDefinitions();
          writeUnitsOfMeasure();
          writeCostAccounts();
          writeProjectCodeValues();
+         writeResourceCodeValues();
          writeRoles();
          writeProject();
          writeRoleRates();
@@ -155,6 +159,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeResources();
          writeActivityCodes();
          writeResourceRates();
+         writeResourceCodeAssignments();
          writeRoleAssignments();
          writeActivities();
          writeWbsNotes();
@@ -809,6 +814,70 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       map.put("proj_id", projectID);
       map.put("proj_catg_type_id", value.getProjectCodeUniqueID());
       map.put("proj_catg_id", value.getUniqueID());
+      return map;
+   }
+
+   /**
+    * Write resource codes.
+    */
+   private void writeResourceCodes()
+   {
+      if (m_file.getResourceCodes().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("RCATTYPE", RESOURCE_CODE_COLUMNS);
+      m_file.getResourceCodes().stream().sorted(Comparator.comparing(ResourceCode::getUniqueID)).forEach(c -> m_writer.writeRecord(RESOURCE_CODE_COLUMNS, c));
+   }
+
+   /**
+    * Write resource code values.
+    */
+   private void writeResourceCodeValues()
+   {
+      if (m_file.getResourceCodes().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("RCATVAL", RESOURCE_CODE_VALUE_COLUMNS);
+      m_file.getResourceCodes().stream().map(c -> c.getValues()).flatMap(Collection::stream).sorted(Comparator.comparing(ResourceCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(RESOURCE_CODE_VALUE_COLUMNS, v));
+   }
+
+   /**
+    * Write resource code assignments.
+    */
+   private void writeResourceCodeAssignments()
+   {
+      List<Map<String,Object>> assignments = m_file.getResources().stream()
+         .sorted(Comparator.comparing(Resource::getUniqueID))
+         .map(r -> r.getResourceCodeValues().values().stream().sorted(Comparator.comparing(ResourceCodeValue::getResourceCodeUniqueID))
+            .map(v -> populateResourceCodeAssignment(r.getUniqueID(), v)).collect(Collectors.toList()))
+         .flatMap(Collection::stream).collect(Collectors.toList());
+
+      if (assignments.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("RSRCRCAT", RESOURCE_CODE_ASSIGNMENT_COLUMNS);
+      assignments.forEach(a -> m_writer.writeRecord(RESOURCE_CODE_ASSIGNMENT_COLUMNS, a));
+   }
+
+   /**
+    * Populate a map representing resource code assignment record.
+    *
+    * @param resourceID resource ID
+    * @param value resource code value
+    * @return map of fields
+    */
+   private Map<String, Object> populateResourceCodeAssignment(Integer resourceID, ResourceCodeValue value)
+   {
+      Map<String, Object> map = new HashMap<>();
+      map.put("rsrc_id", resourceID);
+      map.put("rsrc_catg_type_id", value.getResourceCodeUniqueID());
+      map.put("rsrc_catg_id", value.getUniqueID());
       return map;
    }
 
@@ -1808,5 +1877,33 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_CODE_ASSIGNMENT_COLUMNS.put("proj_id", v -> v.get("proj_id")) ;
       PROJECT_CODE_ASSIGNMENT_COLUMNS.put("proj_catg_type_id", v -> v.get("proj_catg_type_id"));
       PROJECT_CODE_ASSIGNMENT_COLUMNS.put("proj_catg_id", v -> v.get("proj_catg_id"));
+   }
+
+   private static final Map<String, ExportFunction<ResourceCode>> RESOURCE_CODE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      RESOURCE_CODE_COLUMNS.put("rsrc_catg_type_id", c -> c.getUniqueID());
+      RESOURCE_CODE_COLUMNS.put("seq_num", c -> c.getSequenceNumber());
+      RESOURCE_CODE_COLUMNS.put("rsrc_catg_short_len", c -> c.getMaxLength());
+      RESOURCE_CODE_COLUMNS.put("rsrc_catg_type", c -> c.getName());
+   }
+
+   private static final Map<String, ExportFunction<ResourceCodeValue>> RESOURCE_CODE_VALUE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_id", v -> v.getUniqueID());
+      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_type_id", v -> v.getResourceCodeUniqueID());
+      RESOURCE_CODE_VALUE_COLUMNS.put("seq_num", v -> v.getSequenceNumber());
+      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_short_name", v -> v.getName());
+      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_name", v -> v.getDescription());
+      RESOURCE_CODE_VALUE_COLUMNS.put("parent_rsrc_catg_id", v -> v.getParentValueUniqueID());
+   }
+
+   private static final Map<String, ExportFunction<Map<String, Object>>> RESOURCE_CODE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      RESOURCE_CODE_ASSIGNMENT_COLUMNS.put("rsrc_id", v -> v.get("rsrc_id")) ;
+      RESOURCE_CODE_ASSIGNMENT_COLUMNS.put("rsrc_catg_type_id", v -> v.get("rsrc_catg_type_id"));
+      RESOURCE_CODE_ASSIGNMENT_COLUMNS.put("rsrc_catg_id", v -> v.get("rsrc_catg_id"));
    }
 }
