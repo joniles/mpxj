@@ -940,7 +940,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceAssignmentCodeValues()
    {
-      if (m_file.getRoleCodes().isEmpty())
+      if (m_file.getResourceAssignmentCodes().isEmpty())
       {
          return;
       }
