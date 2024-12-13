@@ -343,7 +343,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
    /**
     * Write a list of codes.
-    * 
+    *
     * @param attributeName attribute name
     * @param codes list of codes
     */

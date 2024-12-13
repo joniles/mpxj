@@ -83,7 +83,7 @@ public final class ProjectCode implements Code
 
    /**
     * Add value to this code.
-    * 
+    *
     * @param value new value
     */
    public void addValue(ProjectCodeValue value)
@@ -93,7 +93,7 @@ public final class ProjectCode implements Code
 
    /**
     * Retrieve a value by unique ID.
-    * 
+    *
     * @param id unique ID
     * @return value or null
     */
