@@ -60,6 +60,9 @@ import net.sf.mpxj.ProjectFileSharedData;
 import net.sf.mpxj.ResourceCode;
 import net.sf.mpxj.ResourceCodeContainer;
 import net.sf.mpxj.ResourceCodeValue;
+import net.sf.mpxj.RoleCode;
+import net.sf.mpxj.RoleCodeContainer;
+import net.sf.mpxj.RoleCodeValue;
 import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftContainer;
@@ -513,6 +516,48 @@ final class PrimaveraReader
    }
 
    /**
+    * Read role code definitions.
+    *
+    * @param types role code type data
+    * @param typeValues role code value data
+    */
+   public void processRoleCodeDefinitions(List<Row> types, List<Row> typeValues)
+   {
+      RoleCodeContainer container = m_project.getRoleCodes();
+      Map<Integer, RoleCode> map = new HashMap<>();
+
+      for (Row row : types)
+      {
+         RoleCode code = new RoleCode.Builder(m_project)
+            .uniqueID(row.getInteger("role_catg_type_id"))
+            .sequenceNumber(row.getInteger("seq_num"))
+            .name(row.getString("role_catg_type"))
+            .maxLength(row.getInteger("role_catg_short_len"))
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getInteger("rsrc_catg_id"), v -> v.getInteger("parent_rsrc_catg_id"));
+      for (Row row : typeValues)
+      {
+         RoleCode code = map.get(row.getInteger("role_catg_type_id"));
+         if (code != null)
+         {
+            RoleCodeValue value = new RoleCodeValue.Builder(m_project)
+               .roleCode(code)
+               .uniqueID(row.getInteger("role_catg_id"))
+               .sequenceNumber(row.getInteger("seq_num"))
+               .name(row.getString("role_catg_short_name"))
+               .description(row.getString("role_catg_name"))
+               .parentValue(code.getValueByUniqueID(row.getInteger("parent_role_catg_id")))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
     * Process activity code assignments.
     *
     * @param assignments activity code assignments
@@ -538,6 +583,21 @@ final class PrimaveraReader
       {
          Integer resourceID = row.getInteger("rsrc_id");
          List<Row> list = m_resourceCodeAssignments.computeIfAbsent(resourceID, k -> new ArrayList<>());
+         list.add(row);
+      }
+   }
+
+   /**
+    * Process role code assignments.
+    *
+    * @param assignments role code assignments
+    */
+   public void processRoleCodeAssignments(List<Row> assignments)
+   {
+      for (Row row : assignments)
+      {
+         Integer resourceID = row.getInteger("role_id");
+         List<Row> list = m_roleCodeAssignments.computeIfAbsent(resourceID, k -> new ArrayList<>());
          list.add(row);
       }
    }
@@ -915,6 +975,8 @@ final class PrimaveraReader
          resource.setRole(true);
          resource.setUniqueID(m_roleClashMap.addID(resource.getUniqueID()));
          resource.setNotesObject(getNotes(resource.getNotes()));
+
+         populateRoleCodeValues(resource);
       }
    }
 
@@ -1442,6 +1504,35 @@ final class PrimaveraReader
          if (value != null)
          {
             resource.addResourceCodeValue(value);
+         }
+      }
+   }
+
+   /**
+    * Read details of any role codes assigned to this role.
+    *
+    * @param role parent role
+    */
+   private void populateRoleCodeValues(Resource role)
+   {
+      List<Row> list = m_roleCodeAssignments.get(role.getUniqueID());
+      if (list == null)
+      {
+         return;
+      }
+
+      for (Row row : list)
+      {
+         RoleCode code = m_project.getRoleCodes().getByUniqueID(row.getInteger("role_catg_type_id"));
+         if (code == null)
+         {
+            continue;
+         }
+
+         RoleCodeValue value = code.getValueByUniqueID(row.getInteger("role_catg_id"));
+         if (value != null)
+         {
+            role.addRoleCodeValue(value);
          }
       }
    }
@@ -2637,6 +2728,7 @@ final class PrimaveraReader
    private final Map<String, Map<Integer, List<Row>>> m_udfValues = new HashMap<>();
    private final Map<Integer, List<Row>> m_activityCodeAssignments = new HashMap<>();
    private final Map<Integer, List<Row>> m_resourceCodeAssignments = new HashMap<>();
+   private final Map<Integer, List<Row>> m_roleCodeAssignments = new HashMap<>();
 
    private final ObjectSequence m_relationObjectID;
 

@@ -128,11 +128,13 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             processUdfDefinitions();
             processProjectCodeDefinitions();
             processResourceCodeDefinitions();
+            processRoleCodeDefinitions();
             processActivityCodeDefinitions();
          }
 
          processActivityCodeAssignments();
          processResourceCodeAssignments();
+         processRoleCodeAssignments();
          processUdfValues();
          processCalendars();
          processResources();
@@ -328,9 +330,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processActivityCodeDefinitions() throws SQLException
    {
-      List<Row> types = getRows("select * from " + m_schema + "actvtype where actv_code_type_id in (select distinct actv_code_type_id from taskactv where proj_id=?)", m_projectID);
-      List<Row> typeValues = getRows("select * from " + m_schema + "actvcode where actv_code_id in (select distinct actv_code_id from taskactv where proj_id=?)", m_projectID);
-      m_reader.processActivityCodeDefinitions(types, typeValues);
+      if (m_tableNames.contains("ACTVTYPE") && m_tableNames.contains("ACTVCODE"))
+      {
+         List<Row> types = getRows("select * from " + m_schema + "actvtype where actv_code_type_id in (select distinct actv_code_type_id from taskactv where proj_id=?)", m_projectID);
+         List<Row> typeValues = getRows("select * from " + m_schema + "actvcode where actv_code_id in (select distinct actv_code_id from taskactv where proj_id=?)", m_projectID);
+         m_reader.processActivityCodeDefinitions(types, typeValues);
+      }
    }
 
    /**
@@ -338,9 +343,12 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processProjectCodeDefinitions() throws SQLException
    {
-      List<Row> types = getRows("select * from " + m_schema + "pcattype where proj_catg_type_id in (select distinct proj_catg_type_id from projpcat where proj_id=?)", m_projectID);
-      List<Row> typeValues = getRows("select * from " + m_schema + "pcatval where proj_catg_id in (select distinct proj_catg_id from projpcat where proj_id=?)", m_projectID);
-      m_reader.processProjectCodeDefinitions(types, typeValues);
+      if (m_tableNames.contains("PCATTYPE") && m_tableNames.contains("PCATVAL"))
+      {
+         List<Row> types = getRows("select * from " + m_schema + "pcattype where proj_catg_type_id in (select distinct proj_catg_type_id from projpcat where proj_id=?)", m_projectID);
+         List<Row> typeValues = getRows("select * from " + m_schema + "pcatval where proj_catg_id in (select distinct proj_catg_id from projpcat where proj_id=?)", m_projectID);
+         m_reader.processProjectCodeDefinitions(types, typeValues);
+      }
    }
 
    /**
@@ -348,9 +356,25 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processResourceCodeDefinitions() throws SQLException
    {
-      List<Row> types = getRows("select * from " + m_schema + "rcattype where rsrc_catg_type_id in (select distinct rsrc_catg_type_id from rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
-      List<Row> typeValues = getRows("select * from " + m_schema + "rcatval where rsrc_catg_id in (select distinct rsrc_catg_id from rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
-      m_reader.processResourceCodeDefinitions(types, typeValues);
+      if (m_tableNames.contains("RCATTYPE") && m_tableNames.contains("RCATVAL"))
+      {
+         List<Row> types = getRows("select * from " + m_schema + "rcattype where rsrc_catg_type_id in (select distinct rsrc_catg_type_id from rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
+         List<Row> typeValues = getRows("select * from " + m_schema + "rcatval where rsrc_catg_id in (select distinct rsrc_catg_id from rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
+         m_reader.processResourceCodeDefinitions(types, typeValues);
+      }
+   }
+
+   /**
+    * Process role code definitions.
+    */
+   private void processRoleCodeDefinitions() throws SQLException
+   {
+      if (m_tableNames.contains("ROLECATTYPE") && m_tableNames.contains("ROLECATVAL"))
+      {
+         List<Row> types = getRows("select * from " + m_schema + "rolecattype where role_catg_type_id in (select distinct role_catg_type_id from rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)))", m_projectID);
+         List<Row> typeValues = getRows("select * from " + m_schema + "rolecatval where role_catg_id in (select distinct role_catg_id from rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)))", m_projectID);
+         m_reader.processRoleCodeDefinitions(types, typeValues);
+      }
    }
 
    /**
@@ -358,8 +382,11 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processActivityCodeAssignments() throws SQLException
    {
-      List<Row> assignments = getRows("select * from " + m_schema + "taskactv where proj_id=?", m_projectID);
-      m_reader.processActivityCodeAssignments(assignments);
+      if (m_tableNames.contains("TASKACTV"))
+      {
+         List<Row> assignments = getRows("select * from " + m_schema + "taskactv where proj_id=?", m_projectID);
+         m_reader.processActivityCodeAssignments(assignments);
+      }
    }
 
    /**
@@ -367,8 +394,23 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     */
    private void processResourceCodeAssignments() throws SQLException
    {
-      List<Row> assignments = getRows("select * from " + m_schema + "rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)", m_projectID);
-      m_reader.processResourceCodeAssignments(assignments);
+      if (m_tableNames.contains("RSRCRCAT"))
+      {
+         List<Row> assignments = getRows("select * from " + m_schema + "rsrcrcat where rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)", m_projectID);
+         m_reader.processResourceCodeAssignments(assignments);
+      }
+   }
+
+   /**
+    * Process role code assignments.
+    */
+   private void processRoleCodeAssignments() throws SQLException
+   {
+      if (m_tableNames.contains("ROLERCAT"))
+      {
+         List<Row> assignments = getRows("select * from " + m_schema + "rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)", m_projectID);
+         m_reader.processRoleCodeAssignments(assignments);
+      }
    }
 
    /**
