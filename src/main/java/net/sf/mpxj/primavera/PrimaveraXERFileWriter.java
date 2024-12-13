@@ -71,6 +71,8 @@ import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceCode;
 import net.sf.mpxj.ResourceCodeValue;
 import net.sf.mpxj.ResourceType;
+import net.sf.mpxj.RoleCode;
+import net.sf.mpxj.RoleCodeValue;
 import net.sf.mpxj.SchedulingProgressedActivities;
 import net.sf.mpxj.Shift;
 import net.sf.mpxj.ShiftPeriod;
@@ -143,15 +145,18 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeNoteTypes();
          writeProjectCodes();
          writeResourceCodes();
+         writeRoleCodes();
          writeResourceCurves();
          writeUdfDefinitions();
          writeUnitsOfMeasure();
          writeCostAccounts();
          writeProjectCodeValues();
          writeResourceCodeValues();
+         writeRoleCodeValues();
          writeRoles();
          writeProject();
          writeRoleRates();
+         writeRoleCodeAssignments();
          writeCalendars();
          writeProjectCodeAssignments();
          writeScheduleOptions();
@@ -219,7 +224,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeRoles()
    {
       m_writer.writeTable("ROLES", ROLE_COLUMNS);
-      m_file.getResources().stream().filter(Resource::getRole).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> m_writer.writeRecord(ROLE_COLUMNS, r));
+      getSortedRoleStream().forEach(r -> m_writer.writeRecord(ROLE_COLUMNS, r));
    }
 
    /**
@@ -228,7 +233,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeRoleRates()
    {
       m_writer.writeTable("ROLERATE", ROLE_RATE_COLUMNS);
-      m_file.getResources().stream().filter(Resource::getRole).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeCostRateTableEntries(ROLE_RATE_COLUMNS, r));
+      getSortedRoleStream().forEach(r -> writeCostRateTableEntries(ROLE_RATE_COLUMNS, r));
    }
 
    /**
@@ -237,7 +242,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeResourceRates()
    {
       m_writer.writeTable("RSRCRATE", RESOURCE_RATE_COLUMNS);
-      m_file.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> writeCostRateTableEntries(RESOURCE_RATE_COLUMNS, r));
+      getSortedResourceStream().forEach(r -> writeCostRateTableEntries(RESOURCE_RATE_COLUMNS, r));
    }
 
    /**
@@ -281,7 +286,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeResources()
    {
       m_writer.writeTable("RSRC", RESOURCE_COLUMNS);
-      m_file.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID)).forEach(r -> m_writer.writeRecord(RESOURCE_COLUMNS, r));
+      getSortedResourceStream().forEach(r -> m_writer.writeRecord(RESOURCE_COLUMNS, r));
    }
 
    /**
@@ -566,7 +571,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private List<Map<String, Object>> writeResourceUdfValues()
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "RSRC".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
-      return m_file.getResources().stream().map(r -> writeUdfAssignments(fields, null, r.getUniqueID(), r)).flatMap(Collection::stream).collect(Collectors.toList());
+      return getSortedResourceStream().map(r -> writeUdfAssignments(fields, null, r.getUniqueID(), r)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
@@ -706,7 +711,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeRoleAssignments()
    {
-      List<Map<String, Object>> assignments = m_file.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID)).flatMap(r -> getRoleAssignments(r).stream()).collect(Collectors.toList());
+      List<Map<String, Object>> assignments = getSortedResourceStream().flatMap(r -> getRoleAssignments(r).stream()).collect(Collectors.toList());
       if (assignments.isEmpty())
       {
          return;
@@ -850,8 +855,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private void writeResourceCodeAssignments()
    {
-      List<Map<String, Object>> assignments = m_file.getResources().stream()
-         .sorted(Comparator.comparing(Resource::getUniqueID))
+      List<Map<String, Object>> assignments = getSortedResourceStream()
          .map(r -> r.getResourceCodeValues().values().stream().sorted(Comparator.comparing(ResourceCodeValue::getResourceCodeUniqueID))
             .map(v -> populateResourceCodeAssignment(r.getUniqueID(), v)).collect(Collectors.toList()))
          .flatMap(Collection::stream).collect(Collectors.toList());
@@ -866,7 +870,54 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * Populate a map representing resource code assignment record.
+    * Write role codes.
+    */
+   private void writeRoleCodes()
+   {
+      if (m_file.getRoleCodes().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("ROLECATTYPE", ROLE_CODE_COLUMNS);
+      m_file.getRoleCodes().stream().sorted(Comparator.comparing(RoleCode::getUniqueID)).forEach(c -> m_writer.writeRecord(ROLE_CODE_COLUMNS, c));
+   }
+
+   /**
+    * Write role code values.
+    */
+   private void writeRoleCodeValues()
+   {
+      if (m_file.getRoleCodes().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("ROLECATVAL", ROLE_CODE_VALUE_COLUMNS);
+      m_file.getRoleCodes().stream().map(c -> c.getValues()).flatMap(Collection::stream).sorted(Comparator.comparing(RoleCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(ROLE_CODE_VALUE_COLUMNS, v));
+   }
+
+   /**
+    * Write role code assignments.
+    */
+   private void writeRoleCodeAssignments()
+   {
+      List<Map<String, Object>> assignments = getSortedRoleStream()
+         .map(r -> r.getRoleCodeValues().values().stream().sorted(Comparator.comparing(RoleCodeValue::getRoleCodeUniqueID))
+            .map(v -> populateRoleCodeAssignment(r.getUniqueID(), v)).collect(Collectors.toList()))
+         .flatMap(Collection::stream).collect(Collectors.toList());
+
+      if (assignments.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("ROLERCAT", ROLE_CODE_ASSIGNMENT_COLUMNS);
+      assignments.forEach(a -> m_writer.writeRecord(ROLE_CODE_ASSIGNMENT_COLUMNS, a));
+   }
+
+   /**
+    * Populate a map representinga  resource code assignment record.
     *
     * @param resourceID resource ID
     * @param value resource code value
@@ -878,6 +929,22 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       map.put("rsrc_id", resourceID);
       map.put("rsrc_catg_type_id", value.getResourceCodeUniqueID());
       map.put("rsrc_catg_id", value.getUniqueID());
+      return map;
+   }
+
+   /**
+    * Populate a map representing a role code assignment record.
+    *
+    * @param roleID resource ID
+    * @param value role code value
+    * @return map of fields
+    */
+   private Map<String, Object> populateRoleCodeAssignment(Integer roleID, RoleCodeValue value)
+   {
+      Map<String, Object> map = new HashMap<>();
+      map.put("role_id", roleID);
+      map.put("role_catg_type_id", value.getRoleCodeUniqueID());
+      map.put("role_catg_id", value.getUniqueID());
       return map;
    }
 
@@ -1061,6 +1128,26 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private Stream<Task> getWbsStream()
    {
       return m_file.getTasks().stream().filter(Task::getSummary);
+   }
+
+   /**
+    * Retrieve a stream of resources.
+    *
+    * @return resource stream
+    */
+   private Stream<Resource> getSortedResourceStream()
+   {
+      return m_file.getResources().stream().filter(r -> !r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID));
+   }
+
+   /**
+    * Retrieve a stream of roles.
+    *
+    * @return role stream
+    */
+   private Stream<Resource> getSortedRoleStream()
+   {
+      return m_file.getResources().stream().filter(r -> r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID));
    }
 
    /**
@@ -1905,5 +1992,33 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_CODE_ASSIGNMENT_COLUMNS.put("rsrc_id", v -> v.get("rsrc_id"));
       RESOURCE_CODE_ASSIGNMENT_COLUMNS.put("rsrc_catg_type_id", v -> v.get("rsrc_catg_type_id"));
       RESOURCE_CODE_ASSIGNMENT_COLUMNS.put("rsrc_catg_id", v -> v.get("rsrc_catg_id"));
+   }
+
+   private static final Map<String, ExportFunction<RoleCode>> ROLE_CODE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      ROLE_CODE_COLUMNS.put("role_catg_type_id", c -> c.getUniqueID());
+      ROLE_CODE_COLUMNS.put("seq_num", c -> c.getSequenceNumber());
+      ROLE_CODE_COLUMNS.put("role_catg_short_len", c -> c.getMaxLength());
+      ROLE_CODE_COLUMNS.put("role_catg_type", c -> c.getName());
+   }
+
+   private static final Map<String, ExportFunction<RoleCodeValue>> ROLE_CODE_VALUE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      ROLE_CODE_VALUE_COLUMNS.put("role_catg_id", v -> v.getUniqueID());
+      ROLE_CODE_VALUE_COLUMNS.put("role_catg_type_id", v -> v.getRoleCodeUniqueID());
+      ROLE_CODE_VALUE_COLUMNS.put("seq_num", v -> v.getSequenceNumber());
+      ROLE_CODE_VALUE_COLUMNS.put("role_catg_short_name", v -> v.getName());
+      ROLE_CODE_VALUE_COLUMNS.put("role_catg_name", v -> v.getDescription());
+      ROLE_CODE_VALUE_COLUMNS.put("parent_role_catg_id", v -> v.getParentValueUniqueID());
+   }
+
+   private static final Map<String, ExportFunction<Map<String, Object>>> ROLE_CODE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      ROLE_CODE_ASSIGNMENT_COLUMNS.put("role_id", v -> v.get("role_id"));
+      ROLE_CODE_ASSIGNMENT_COLUMNS.put("role_catg_type_id", v -> v.get("role_catg_type_id"));
+      ROLE_CODE_ASSIGNMENT_COLUMNS.put("role_catg_id", v -> v.get("role_catg_id"));
    }
 }
