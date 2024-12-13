@@ -259,11 +259,13 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
             processUdfDefinitions();
             processProjectCodeDefinitions();
             processResourceCodeDefinitions();
+            processRoleCodeDefinitions();
             processActivityCodeDefinitions();
          }
 
          processActivityCodeAssignments();
          processResourceCodeAssignments();
+         processRoleCodeAssignments();
          processUdfValues();
          processCalendars();
          processResources();
@@ -547,6 +549,16 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    }
 
    /**
+    * Process role code definitions.
+    */
+   private void processRoleCodeDefinitions()
+   {
+      List<Row> types = getRows("rolecattype", null, null);
+      List<Row> typeValues = getRows("rolecatval", null, null);
+      m_reader.processRoleCodeDefinitions(types, typeValues);
+   }
+
+   /**
     * Process activity code assignments.
     */
    private void processActivityCodeAssignments()
@@ -562,6 +574,15 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
    {
       List<Row> assignments = getRows("rsrcrcat", null, null);
       m_reader.processResourceCodeAssignments(assignments);
+   }
+
+   /**
+    * Process role code assignments.
+    */
+   private void processRoleCodeAssignments()
+   {
+      List<Row> assignments = getRows("rolercat", null, null);
+      m_reader.processRoleCodeAssignments(assignments);
    }
 
    /**
@@ -1288,6 +1309,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       FIELD_TYPE_MAP.put("parent_actv_code_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("parent_proj_catg_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("parent_role_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("parent_role_catg_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("parent_rsrc_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("parent_wbs_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("pct_usage_0", DataType.NUMERIC);
@@ -1333,6 +1355,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       FIELD_TYPE_MAP.put("restart_date", DataType.DATE);
       FIELD_TYPE_MAP.put("resume_date", DataType.DATE);
       FIELD_TYPE_MAP.put("role_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("role_catg_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("role_catg_short_len", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("role_catg_type_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("rsrc_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("rsrc_catg_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("rsrc_catg_type_id", DataType.INTEGER);
@@ -1420,6 +1445,9 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       REQUIRED_TABLES.add("rcattype");
       REQUIRED_TABLES.add("rcatval");
       REQUIRED_TABLES.add("rsrcrcat");
+      REQUIRED_TABLES.add("rolecattype");
+      REQUIRED_TABLES.add("rolecatval");
+      REQUIRED_TABLES.add("rolercat");
    }
 
    private static final WbsRowComparatorXER WBS_ROW_COMPARATOR = new WbsRowComparatorXER();
