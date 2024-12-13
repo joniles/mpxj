@@ -538,7 +538,7 @@ final class PrimaveraReader
          map.put(code.getUniqueID(), code);
       }
 
-      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getInteger("rsrc_catg_id"), v -> v.getInteger("parent_rsrc_catg_id"));
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getInteger("role_catg_id"), v -> v.getInteger("parent_role_catg_id"));
       for (Row row : typeValues)
       {
          RoleCode code = map.get(row.getInteger("role_catg_type_id"));
