@@ -68,6 +68,8 @@ import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Relation;
 import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
+import net.sf.mpxj.ResourceAssignmentCode;
+import net.sf.mpxj.ResourceAssignmentCodeValue;
 import net.sf.mpxj.ResourceCode;
 import net.sf.mpxj.ResourceCodeValue;
 import net.sf.mpxj.ResourceType;
@@ -137,6 +139,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       try
       {
          writeHeader();
+         writeResourceAssignmentCodes();
          writeExpenseCategories();
          writeCurrencies();
          writeShifts();
@@ -150,6 +153,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeUdfDefinitions();
          writeUnitsOfMeasure();
          writeCostAccounts();
+         writeResourceAssignmentCodeValues();
          writeProjectCodeValues();
          writeResourceCodeValues();
          writeRoleCodeValues();
@@ -174,6 +178,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          writeActivityNotes();
          writePredecessors();
          writeResourceAssignments();
+         writeResourceAssignmentCodeAssignments();
          writeActivityCodeAssignments();
          writeUdfValues();
          m_writer.writeTrailer();
@@ -363,7 +368,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       }
 
       m_writer.writeTable("TASKRSRC", RESOURCE_ASSIGNMENT_COLUMNS);
-      m_file.getResourceAssignments().stream().filter(t -> isValidAssignment(t)).sorted(Comparator.comparing(ResourceAssignment::getUniqueID)).forEach(t -> m_writer.writeRecord(columns, t));
+      getSortedResourceAssignmentStream().forEach(t -> m_writer.writeRecord(columns, t));
    }
 
    /**
@@ -583,7 +588,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       Set<FieldType> fields = m_userDefinedFields.stream().filter(f -> "TASKRSRC".equals(FieldTypeClassHelper.getXerFromInstance(f))).collect(Collectors.toSet());
       Integer projectID = getProjectID(m_file.getProjectProperties().getUniqueID());
-      return m_file.getResourceAssignments().stream().map(a -> writeUdfAssignments(fields, projectID, a.getUniqueID(), a)).flatMap(Collection::stream).collect(Collectors.toList());
+      return getSortedResourceAssignmentStream().map(a -> writeUdfAssignments(fields, projectID, a.getUniqueID(), a)).flatMap(Collection::stream).collect(Collectors.toList());
    }
 
    /**
@@ -917,7 +922,56 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    }
 
    /**
-    * Populate a map representinga  resource code assignment record.
+    * Write resource assignment codes.
+    */
+   private void writeResourceAssignmentCodes()
+   {
+      if (m_file.getResourceAssignmentCodes().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("ASGNMNTCATTYPE", RESOURCE_ASSIGNMENT_CODE_COLUMNS);
+      m_file.getResourceAssignmentCodes().stream().sorted(Comparator.comparing(ResourceAssignmentCode::getUniqueID)).forEach(c -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_COLUMNS, c));
+   }
+
+   /**
+    * Write resource assignment code values.
+    */
+   private void writeResourceAssignmentCodeValues()
+   {
+      if (m_file.getRoleCodes().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("ASGNMNTCATVAL", RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS);
+      m_file.getResourceAssignmentCodes().stream().map(c -> c.getValues()).flatMap(Collection::stream).sorted(Comparator.comparing(ResourceAssignmentCodeValue::getUniqueID)).forEach(v -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS, v));
+   }
+
+   /**
+    * Write resource assignment code assignments.
+    */
+   private void writeResourceAssignmentCodeAssignments()
+   {
+      List<Map<String, Object>> assignments = getSortedResourceAssignmentStream()
+         .map(r -> r.getResourceAssignmentCodeValues().values().stream().sorted(Comparator.comparing(ResourceAssignmentCodeValue::getResourceAssignmentCodeUniqueID))
+            .map(v -> populateResourceAssignmentCodeAssignment(r.getUniqueID(), v)).collect(Collectors.toList()))
+         .flatMap(Collection::stream).collect(Collectors.toList());
+
+      if (assignments.isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeTable("ASGNMNTACAT", RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS);
+      assignments.forEach(a -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS, a));
+   }
+
+
+
+   /**
+    * Populate a map representing a resource code assignment record.
     *
     * @param resourceID resource ID
     * @param value resource code value
@@ -945,6 +999,24 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       map.put("role_id", roleID);
       map.put("role_catg_type_id", value.getRoleCodeUniqueID());
       map.put("role_catg_id", value.getUniqueID());
+      return map;
+   }
+
+   /**
+    * Populate a map representing a resource assignment code assignment record.
+    *
+    * @param resourceAssignmentID resource assignment ID
+    * @param value resource assignment code value
+    * @return map of fields
+    */
+   private Map<String, Object> populateResourceAssignmentCodeAssignment(Integer resourceAssignmentID, ResourceAssignmentCodeValue value)
+   {
+      // %F	taskrsrc_id	asgnmnt_catg_type_id	asgnmnt_catg_id	proj_id
+      Map<String, Object> map = new HashMap<>();
+      map.put("taskrsrc_id", resourceAssignmentID);
+      map.put("asgnmnt_catg_type_id", value.getResourceAssignmentCodeUniqueID());
+      map.put("asgnmnt_catg_id", value.getUniqueID());
+      map.put("proj_id", getProjectID(m_file.getProjectProperties().getUniqueID()));
       return map;
    }
 
@@ -1148,6 +1220,16 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private Stream<Resource> getSortedRoleStream()
    {
       return m_file.getResources().stream().filter(r -> r.getRole() && r.getUniqueID().intValue() != 0).sorted(Comparator.comparing(Resource::getUniqueID));
+   }
+
+   /**
+    * Retrieve a stream of resource assignments.
+    *
+    * @return resource assignment stream
+    */
+   private Stream<ResourceAssignment> getSortedResourceAssignmentStream()
+   {
+      return m_file.getResourceAssignments().stream().filter(t -> isValidAssignment(t)).sorted(Comparator.comparing(ResourceAssignment::getUniqueID));
    }
 
    /**
@@ -2020,5 +2102,34 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       ROLE_CODE_ASSIGNMENT_COLUMNS.put("role_id", v -> v.get("role_id"));
       ROLE_CODE_ASSIGNMENT_COLUMNS.put("role_catg_type_id", v -> v.get("role_catg_type_id"));
       ROLE_CODE_ASSIGNMENT_COLUMNS.put("role_catg_id", v -> v.get("role_catg_id"));
+   }
+
+   private static final Map<String, ExportFunction<ResourceAssignmentCode>> RESOURCE_ASSIGNMENT_CODE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_type_id", c -> c.getUniqueID());
+      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("seq_num", c -> c.getSequenceNumber());
+      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_short_len", c -> c.getMaxLength());
+      RESOURCE_ASSIGNMENT_CODE_COLUMNS.put("asgnmnt_catg_type", c -> c.getName());
+   }
+
+   private static final Map<String, ExportFunction<ResourceAssignmentCodeValue>> RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_id", v -> v.getUniqueID());
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_type_id", v -> v.getResourceAssignmentCodeUniqueID());
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("seq_num", v -> v.getSequenceNumber());
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_short_name", v -> v.getName());
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_name", v -> v.getDescription());
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("parent_asgnmnt_catg_id", v -> v.getParentValueUniqueID());
+   }
+
+   private static final Map<String, ExportFunction<Map<String, Object>>> RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS = new LinkedHashMap<>();
+   static
+   {
+      RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS.put("taskrsrc_id", v -> v.get("taskrsrc_id"));
+      RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS.put("asgnmnt_catg_type_id", v -> v.get("asgnmnt_catg_type_id"));
+      RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS.put("asgnmnt_catg_id", v -> v.get("asgnmnt_catg_id"));
+      RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS.put("proj_id", v -> v.get("proj_id"));
    }
 }
