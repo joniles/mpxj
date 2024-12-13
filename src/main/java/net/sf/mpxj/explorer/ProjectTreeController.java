@@ -223,6 +223,11 @@ public class ProjectTreeController
       projectNode.add(roleCodesFolder);
       addCodes(roleCodesFolder, m_projectFile.getRoleCodes());
 
+      MpxjTreeNode resourceAssignmentCodesFolder = new MpxjTreeNode("Resource Assignment Codes");
+      projectNode.add(resourceAssignmentCodesFolder);
+      addCodes(resourceAssignmentCodesFolder, m_projectFile.getResourceAssignmentCodes());
+
+
       m_model.setRoot(projectNode);
    }
 

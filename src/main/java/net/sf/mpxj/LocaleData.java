@@ -1669,6 +1669,7 @@ public final class LocaleData extends ListResourceBundle
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TIMEPHASED_BASELINE10_COST.getValue()] = "Timephased Baseline10 Cost";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.VARIABLE_RATE_UNITS.getValue()] = "Variable Rate Units";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.LEVELING_DELAY_UNITS.getValue()] = "Leveling Delay Units";
+      ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES.getValue()] = "Resource Assignment Code Values";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.TASK_ID.getValue()] = "Task ID";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.RESOURCE_ID.getValue()] = "Resource ID";

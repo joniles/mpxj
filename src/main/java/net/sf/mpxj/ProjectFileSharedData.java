@@ -156,6 +156,16 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    }
 
    /**
+    * Retrieves the resource assignment code configuration for this project.
+    *
+    * @return resource assignment codes
+    */
+   public ResourceAssignmentCodeContainer getResourceAssignmentCodes()
+   {
+      return m_resourceAssignmentCodes;
+   }
+
+   /**
     * Retrieves the shifts for this project.
     *
     * @return shifts
@@ -209,6 +219,7 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    private final ProjectCodeContainer m_projectCodes = new ProjectCodeContainer(this);
    private final ResourceCodeContainer m_resourceCodes = new ResourceCodeContainer(this);
    private final RoleCodeContainer m_roleCodes = new RoleCodeContainer(this);
+   private final ResourceAssignmentCodeContainer m_resourceAssignmentCodes = new ResourceAssignmentCodeContainer(this);
    private final ShiftContainer m_shifts = new ShiftContainer(this);
    private final ShiftPeriodContainer m_shiftPeriods = new ShiftPeriodContainer(this);
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
@@ -230,6 +241,8 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
          ResourceCodeValue.class.getName(),
          RoleCode.class.getName(),
          RoleCodeValue.class.getName(),
+         ResourceAssignmentCode.class.getName(),
+         ResourceAssignmentCodeValue.class.getName(),
          Shift.class.getName(),
          ShiftPeriod.class.getName()));
 }
