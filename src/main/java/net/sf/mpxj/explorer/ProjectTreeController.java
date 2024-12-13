@@ -215,6 +215,14 @@ public class ProjectTreeController
       projectNode.add(projectCodesFolder);
       addCodes(projectCodesFolder, m_projectFile.getProjectCodes());
 
+      MpxjTreeNode resourceCodesFolder = new MpxjTreeNode("Resource Codes");
+      projectNode.add(resourceCodesFolder);
+      addCodes(resourceCodesFolder, m_projectFile.getResourceCodes());
+
+      MpxjTreeNode roleCodesFolder = new MpxjTreeNode("Role Codes");
+      projectNode.add(roleCodesFolder);
+      addCodes(roleCodesFolder, m_projectFile.getRoleCodes());
+
       m_model.setRoot(projectNode);
    }
 

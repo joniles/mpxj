@@ -1448,7 +1448,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setNotesObject(getHtmlNote(role.getResponsibilities()));
          resource.setSequenceNumber(role.getSequenceNumber());
 
-         //processRoleCodeAssignments(resource, role.getCode());
+         processRoleCodeAssignments(resource, role.getCode());
       }
    }
 
