@@ -129,12 +129,14 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
             processProjectCodeDefinitions();
             processResourceCodeDefinitions();
             processRoleCodeDefinitions();
+            processResourceAssignmentCodeDefinitions();
             processActivityCodeDefinitions();
          }
 
          processActivityCodeAssignments();
          processResourceCodeAssignments();
          processRoleCodeAssignments();
+         processResourceAssignmentCodeAssignments();
          processUdfValues();
          processCalendars();
          processResources();
@@ -378,6 +380,19 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    }
 
    /**
+    * Process resource assignment code definitions.
+    */
+   private void processResourceAssignmentCodeDefinitions() throws SQLException
+   {
+      if (m_tableNames.contains("ASGNMNTCATTYPE") && m_tableNames.contains("ASGNMNTCATVAL"))
+      {
+         List<Row> types = getRows("select * from " + m_schema + "asgnmntcattype where asgnmnt_catg_type_id in (select distinct asgnmnt_catg_type_id from asgnmntacat where proj_id=?)", m_projectID);
+         List<Row> typeValues = getRows("select * from " + m_schema + "asgnmntcatval where asgnmnt_catg_id in (select distinct asgnmnt_catg_id from asgnmntacat where proj_id=?)", m_projectID);
+         m_reader.processResourceAssignmentCodeDefinitions(types, typeValues);
+      }
+   }
+
+   /**
     * Process activity code assignments.
     */
    private void processActivityCodeAssignments() throws SQLException
@@ -410,6 +425,18 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
       {
          List<Row> assignments = getRows("select * from " + m_schema + "rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)", m_projectID);
          m_reader.processRoleCodeAssignments(assignments);
+      }
+   }
+
+   /**
+    * Process resource assignment code assignments.
+    */
+   private void processResourceAssignmentCodeAssignments() throws SQLException
+   {
+      if (m_tableNames.contains("ASGNMNTACAT"))
+      {
+         List<Row> assignments = getRows("select * from " + m_schema + "asgnmntacat where proj_id=?", m_projectID);
+         m_reader.processResourceAssignmentCodeAssignments(assignments);
       }
    }
 
