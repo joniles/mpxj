@@ -8,6 +8,7 @@
 		<release date="unreleased" version="13.8.0">
 			<action dev="joniles" type="update">Added support for reading and writing Project Codes for Primavera P6 schedules.</action>
 			<action dev="joniles" type="update">Added support for reading and writing Resource Codes for Primavera P6 schedules.</action>
+			<action dev="joniles" type="update">Added support for reading and writing Role Codes for Primavera P6 schedules.</action>
 			<action dev="joniles" type="update">When writing PMXML files, improve handling of P6 schedules where activity code sequence numbers are missing.</action>
 			<action dev="joniles" type="update">Added an *experimental* feature to `MSPDIWriter` to allow the writer to generate timephased data when none is present. Disabled by default, call the `setGenerateMissingTimephasedData` and pass `true` to enable.</action>
 			<action dev="joniles" type="update">To improve consistency, the methods `Task.getPrimaryResourceID()` and `Task.setPrimaryResourceID()` have been marked as deprecated. Use the new `Task.getPrimaryResourceUniqueID()` and `Task.setPrimaryResourceUniqueID()` methods instead.</action>
