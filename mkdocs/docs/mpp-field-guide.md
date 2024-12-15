@@ -926,6 +926,7 @@ Remaining Cost| |✓|✓|✓
 Remaining Overtime Cost| |✓|✓|✓
 Remaining Overtime Work| |✓|✓|✓
 Remaining Work|✓|✓|✓|✓
+Resource Assignment Code Values|✓|✓|✓|✓
 Resource Request Type| | |✓|✓
 Resource Unique ID|✓|✓|✓|✓
 Response Pending| |✓|✓|✓
