@@ -503,7 +503,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    private void processRoles() throws SQLException
    {
       // TODO: handle exporting parent roles
-      List<Row> rows = getRows("select * from " + m_schema + "roles where delete_date is null and role_id in (select role_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null) order by seq_num", m_projectID);
+      List<Row> rows = getRows("select * from " + m_schema + "roles where delete_date is null and role_id in (select distinct role_id from " + m_schema + "taskrsrc where proj_id=? and delete_date is null union select distinct role_id from " + m_schema + "rsrc where delete_date is null and rsrc_id in (select rsrc_id from " + m_schema + "taskrsrc where proj_id=? and delete_date is null)) order by seq_num", m_projectID, m_projectID);
       m_reader.processRoles(rows);
    }
 
@@ -719,10 +719,10 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
     * which takes a single parameter.
     *
     * @param sql query statement
-    * @param var bind variable value
+    * @param vars bind variable values
     * @return result set
     */
-   private List<Row> getRows(String sql, Integer var) throws SQLException
+   private List<Row> getRows(String sql, Integer... vars) throws SQLException
    {
       allocateConnection();
 
@@ -730,7 +730,11 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
       try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         ps.setInt(1, NumberHelper.getInt(var));
+         for (int loop=0; loop < vars.length; loop++)
+         {
+            ps.setInt(loop+1, NumberHelper.getInt(vars[loop]));
+         }
+
          try (ResultSet rs = ps.executeQuery())
          {
             Map<String, Integer> meta = ResultSetHelper.populateMetaData(rs);
