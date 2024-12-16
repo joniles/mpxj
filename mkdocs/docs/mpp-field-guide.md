@@ -102,7 +102,6 @@ PM Text|✓|✓|✓|✓
 Presentation Format| |✓|✓|✓
 Preserve Minimum Float When Leveling|✓|✓|✓|✓
 Preserve Scheduled Early and Late Dates|✓|✓|✓|✓
-Project Code Values|✓|✓|✓|✓
 Project File Path| |✓|✓|✓
 Project Title|✓|✓|✓|✓
 Relationship Lag Calendar|✓|✓|✓|✓
@@ -149,7 +148,6 @@ Field|MPP8|MPP9|MPP12|MPP14
 % Complete|✓|✓|✓|✓
 % Work Complete|✓|✓|✓|✓
 Active|✓|✓|✓|✓
-Activity Code Values|✓|✓|✓|✓
 Activity Percent Complete|✓|✓|✓|✓
 Actual Cost|✓|✓|✓|✓
 Actual Duration|✓|✓|✓|✓
@@ -182,7 +180,6 @@ Earned Value Method| | |✓|✓
 Effort Driven|✓|✓|✓|✓
 Estimated| |✓|✓|✓
 Expanded|✓|✓|✓|✓
-Expense Items|✓|✓|✓|✓
 External Project| |✓|✓|✓
 External Task| |✓|✓|✓
 Finish|✓|✓|✓|✓
@@ -243,7 +240,6 @@ Sprint ID| | | |✓
 Start|✓|✓|✓|✓
 Start Slack|✓|✓|✓|✓
 Start Variance|✓|✓|✓|✓
-Steps|✓|✓|✓|✓
 Stop|✓|✓|✓|✓
 Subproject File| |✓|✓|✓
 Subproject GUID| | |✓|✓
@@ -649,8 +645,6 @@ Remaining Cost|✓|✓|✓|✓
 Remaining Overtime Cost| |✓|✓|✓
 Remaining Overtime Work| |✓|✓|✓
 Remaining Work|✓|✓|✓|✓
-Resource Code Values|✓|✓|✓|✓
-Role Code Values|✓|✓|✓|✓
 Standard Rate| |✓|✓|✓
 Standard Rate Units| |✓|✓|✓
 Subproject Unique Resource ID| |✓|✓| 
@@ -926,7 +920,6 @@ Remaining Cost| |✓|✓|✓
 Remaining Overtime Cost| |✓|✓|✓
 Remaining Overtime Work| |✓|✓|✓
 Remaining Work|✓|✓|✓|✓
-Resource Assignment Code Values|✓|✓|✓|✓
 Resource Request Type| | |✓|✓
 Resource Unique ID|✓|✓|✓|✓
 Response Pending| |✓|✓|✓

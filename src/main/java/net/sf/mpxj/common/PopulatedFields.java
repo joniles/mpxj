@@ -26,6 +26,7 @@ package net.sf.mpxj.common;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import net.sf.mpxj.AccrueType;
@@ -115,6 +116,16 @@ public class PopulatedFields<E extends Enum<E> & FieldType, T extends FieldConta
    private boolean fieldIsNotDefaultValue(Object value, FieldType type)
    {
       boolean result;
+
+      if (value instanceof Collection<?>)
+      {
+         return !((Collection<?>)value).isEmpty();
+      }
+
+      if (value instanceof Map<?,?>)
+      {
+         return !((Map<?,?>)value).isEmpty();
+      }
 
       switch (type.getDataType())
       {
