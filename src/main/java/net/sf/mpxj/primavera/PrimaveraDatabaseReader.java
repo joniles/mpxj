@@ -423,7 +423,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    {
       if (m_tableNames.contains("ROLERCAT"))
       {
-         List<Row> assignments = getRows("select * from " + m_schema + "rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null)", m_projectID);
+         List<Row> assignments = getRows("select * from " + m_schema + "rolercat where role_id in (select distinct role_id from " + m_schema + "rsrcrole where delete_date is null and rsrc_id in (select distinct rsrc_id from " + m_schema + "taskrsrc t where proj_id=? and delete_date is null))", m_projectID);
          m_reader.processRoleCodeAssignments(assignments);
       }
    }
