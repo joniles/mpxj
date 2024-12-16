@@ -2712,7 +2712,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    @SuppressWarnings("unchecked") public void addResourceCodeValue(ResourceCodeValue value)
    {
-      ((Map<ResourceCode, ResourceCodeValue>) get(ResourceField.RESOURCE_CODE_VALUES)).put(value.getResourceCode(), value);
+      ((Map<ResourceCode, ResourceCodeValue>) get(ResourceField.RESOURCE_CODE_VALUES)).put(value.getParentCode(), value);
    }
 
    /**
@@ -2732,7 +2732,7 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
     */
    @SuppressWarnings("unchecked") public void addRoleCodeValue(RoleCodeValue value)
    {
-      ((Map<RoleCode, RoleCodeValue>) get(ResourceField.ROLE_CODE_VALUES)).put(value.getRoleCode(), value);
+      ((Map<RoleCode, RoleCodeValue>) get(ResourceField.ROLE_CODE_VALUES)).put(value.getParentCode(), value);
    }
 
    /**

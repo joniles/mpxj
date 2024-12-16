@@ -45,22 +45,12 @@ public final class RoleCodeValue implements CodeValue
       m_parentValue = builder.m_parentValue;
    }
 
-   /**
-    * Retrieves the parent role code.
-    *
-    * @return RoleCode instance
-    */
-   public RoleCode getRoleCode()
+   @Override public RoleCode getParentCode()
    {
       return m_roleCode;
    }
 
-   /**
-    * Retrieves the parent role code unique ID.
-    *
-    * @return parent role code unique ID
-    */
-   public Integer getRoleCodeUniqueID()
+   @Override public Integer getParentCodeUniqueID()
    {
       return m_roleCode == null ? null : m_roleCode.getUniqueID();
    }

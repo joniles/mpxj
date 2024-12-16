@@ -808,7 +808,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
 
       m_writer.writeTable("PROJPCAT", PROJECT_CODE_ASSIGNMENT_COLUMNS);
       Integer projectID = getProjectID(m_file.getProjectProperties().getUniqueID());
-      assignments.values().stream().sorted(Comparator.comparing(ProjectCodeValue::getProjectCodeUniqueID)).map(v -> populateProjectCodeAssignment(projectID, v)).forEach(a -> m_writer.writeRecord(PROJECT_CODE_ASSIGNMENT_COLUMNS, a));
+      assignments.values().stream().sorted(Comparator.comparing(ProjectCodeValue::getParentCodeUniqueID)).map(v -> populateProjectCodeAssignment(projectID, v)).forEach(a -> m_writer.writeRecord(PROJECT_CODE_ASSIGNMENT_COLUMNS, a));
    }
 
    /**
@@ -822,7 +822,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       Map<String, Object> map = new HashMap<>();
       map.put("proj_id", projectID);
-      map.put("proj_catg_type_id", value.getProjectCodeUniqueID());
+      map.put("proj_catg_type_id", value.getParentCodeUniqueID());
       map.put("proj_catg_id", value.getUniqueID());
       return map;
    }
@@ -861,7 +861,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeResourceCodeAssignments()
    {
       List<Map<String, Object>> assignments = getSortedResourceStream()
-         .map(r -> r.getResourceCodeValues().values().stream().sorted(Comparator.comparing(ResourceCodeValue::getResourceCodeUniqueID))
+         .map(r -> r.getResourceCodeValues().values().stream().sorted(Comparator.comparing(ResourceCodeValue::getParentCodeUniqueID))
             .map(v -> populateResourceCodeAssignment(r.getUniqueID(), v)).collect(Collectors.toList()))
          .flatMap(Collection::stream).collect(Collectors.toList());
 
@@ -908,7 +908,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeRoleCodeAssignments()
    {
       List<Map<String, Object>> assignments = getSortedRoleStream()
-         .map(r -> r.getRoleCodeValues().values().stream().sorted(Comparator.comparing(RoleCodeValue::getRoleCodeUniqueID))
+         .map(r -> r.getRoleCodeValues().values().stream().sorted(Comparator.comparing(RoleCodeValue::getParentCodeUniqueID))
             .map(v -> populateRoleCodeAssignment(r.getUniqueID(), v)).collect(Collectors.toList()))
          .flatMap(Collection::stream).collect(Collectors.toList());
 
@@ -955,7 +955,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeResourceAssignmentCodeAssignments()
    {
       List<Map<String, Object>> assignments = getSortedResourceAssignmentStream()
-         .map(r -> r.getResourceAssignmentCodeValues().values().stream().sorted(Comparator.comparing(ResourceAssignmentCodeValue::getResourceAssignmentCodeUniqueID))
+         .map(r -> r.getResourceAssignmentCodeValues().values().stream().sorted(Comparator.comparing(ResourceAssignmentCodeValue::getParentCodeUniqueID))
             .map(v -> populateResourceAssignmentCodeAssignment(r.getUniqueID(), v)).collect(Collectors.toList()))
          .flatMap(Collection::stream).collect(Collectors.toList());
 
@@ -981,7 +981,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       Map<String, Object> map = new HashMap<>();
       map.put("rsrc_id", resourceID);
-      map.put("rsrc_catg_type_id", value.getResourceCodeUniqueID());
+      map.put("rsrc_catg_type_id", value.getParentCodeUniqueID());
       map.put("rsrc_catg_id", value.getUniqueID());
       return map;
    }
@@ -997,7 +997,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       Map<String, Object> map = new HashMap<>();
       map.put("role_id", roleID);
-      map.put("role_catg_type_id", value.getRoleCodeUniqueID());
+      map.put("role_catg_type_id", value.getParentCodeUniqueID());
       map.put("role_catg_id", value.getUniqueID());
       return map;
    }
@@ -1013,7 +1013,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       Map<String, Object> map = new HashMap<>();
       map.put("taskrsrc_id", resourceAssignmentID);
-      map.put("asgnmnt_catg_type_id", value.getResourceAssignmentCodeUniqueID());
+      map.put("asgnmnt_catg_type_id", value.getParentCodeUniqueID());
       map.put("asgnmnt_catg_id", value.getUniqueID());
       map.put("proj_id", getProjectID(m_file.getProjectProperties().getUniqueID()));
       return map;
@@ -1877,7 +1877,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_id", a -> a.getUniqueID());
       ACTIVITY_CODE_VALUE_COLUMNS.put("parent_actv_code_id", a -> a.getParentValueUniqueID());
-      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_type_id", a -> a.getActivityCodeUniqueID());
+      ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_type_id", a -> a.getParentCodeUniqueID());
       ACTIVITY_CODE_VALUE_COLUMNS.put("actv_code_name", a -> StringHelper.stripControlCharacters(a.getDescription()));
       ACTIVITY_CODE_VALUE_COLUMNS.put("short_name", a -> StringHelper.stripControlCharacters(a.getName()));
       ACTIVITY_CODE_VALUE_COLUMNS.put("seq_num", a -> a.getSequenceNumber());
@@ -1889,7 +1889,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("task_id", p -> p.getFirst().getUniqueID());
-      ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_type_id", p -> p.getSecond().getActivityCodeUniqueID());
+      ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_type_id", p -> p.getSecond().getParentCodeUniqueID());
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("actv_code_id", p -> p.getSecond().getUniqueID());
       ACTIVITY_CODE_ASSIGNMENT_COLUMNS.put("proj_id", p -> getProjectID(p.getFirst().getParentFile().getProjectProperties().getUniqueID()));
    }
@@ -2032,7 +2032,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_id", v -> v.getUniqueID());
-      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_type_id", v -> v.getProjectCodeUniqueID());
+      PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_type_id", v -> v.getParentCodeUniqueID());
       PROJECT_CODE_VALUE_COLUMNS.put("seq_num", v -> v.getSequenceNumber());
       PROJECT_CODE_VALUE_COLUMNS.put("proj_catg_short_name", v -> v.getName());
       PROJECT_CODE_VALUE_COLUMNS.put("parent_proj_catg_id", v -> v.getParentValueUniqueID());
@@ -2060,7 +2060,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_id", v -> v.getUniqueID());
-      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_type_id", v -> v.getResourceCodeUniqueID());
+      RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_type_id", v -> v.getParentCodeUniqueID());
       RESOURCE_CODE_VALUE_COLUMNS.put("seq_num", v -> v.getSequenceNumber());
       RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_short_name", v -> v.getName());
       RESOURCE_CODE_VALUE_COLUMNS.put("rsrc_catg_name", v -> v.getDescription());
@@ -2088,7 +2088,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       ROLE_CODE_VALUE_COLUMNS.put("role_catg_id", v -> v.getUniqueID());
-      ROLE_CODE_VALUE_COLUMNS.put("role_catg_type_id", v -> v.getRoleCodeUniqueID());
+      ROLE_CODE_VALUE_COLUMNS.put("role_catg_type_id", v -> v.getParentCodeUniqueID());
       ROLE_CODE_VALUE_COLUMNS.put("seq_num", v -> v.getSequenceNumber());
       ROLE_CODE_VALUE_COLUMNS.put("role_catg_short_name", v -> v.getName());
       ROLE_CODE_VALUE_COLUMNS.put("role_catg_name", v -> v.getDescription());
@@ -2116,7 +2116,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    static
    {
       RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_id", v -> v.getUniqueID());
-      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_type_id", v -> v.getResourceAssignmentCodeUniqueID());
+      RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_type_id", v -> v.getParentCodeUniqueID());
       RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("seq_num", v -> v.getSequenceNumber());
       RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_short_name", v -> v.getName());
       RESOURCE_ASSIGNMENT_CODE_VALUE_COLUMNS.put("asgnmnt_catg_name", v -> v.getDescription());

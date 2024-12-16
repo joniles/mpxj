@@ -3598,7 +3598,7 @@ public final class ProjectProperties extends AbstractFieldContainer<ProjectPrope
     */
    @SuppressWarnings("unchecked") public void addProjectCodeValue(ProjectCodeValue value)
    {
-      ((Map<ProjectCode, ProjectCodeValue>) get(ProjectField.PROJECT_CODE_VALUES)).put(value.getProjectCode(), value);
+      ((Map<ProjectCode, ProjectCodeValue>) get(ProjectField.PROJECT_CODE_VALUES)).put(value.getParentCode(), value);
    }
 
    /**

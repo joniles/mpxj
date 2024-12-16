@@ -3030,7 +3030,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
     */
    @SuppressWarnings("unchecked") public void addResourceAssignmentCodeValue(ResourceAssignmentCodeValue value)
    {
-      ((Map<ResourceAssignmentCode, ResourceAssignmentCodeValue>) get(AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES)).put(value.getResourceAssignmentCode(), value);
+      ((Map<ResourceAssignmentCode, ResourceAssignmentCodeValue>) get(AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES)).put(value.getParentCode(), value);
    }
 
    /**

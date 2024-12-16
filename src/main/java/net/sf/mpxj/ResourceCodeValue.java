@@ -45,22 +45,12 @@ public final class ResourceCodeValue implements CodeValue
       m_parentValue = builder.m_parentValue;
    }
 
-   /**
-    * Retrieves the parent resource code.
-    *
-    * @return ResourceCode instance
-    */
-   public ResourceCode getResourceCode()
+   @Override public ResourceCode getParentCode()
    {
       return m_resourceCode;
    }
 
-   /**
-    * Retrieves the parent resource code unique ID.
-    *
-    * @return parent resource code unique ID
-    */
-   public Integer getResourceCodeUniqueID()
+   @Override public Integer getParentCodeUniqueID()
    {
       return m_resourceCode == null ? null : m_resourceCode.getUniqueID();
    }
