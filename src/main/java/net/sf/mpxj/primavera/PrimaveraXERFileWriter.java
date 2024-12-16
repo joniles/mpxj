@@ -1011,7 +1011,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
     */
    private Map<String, Object> populateResourceAssignmentCodeAssignment(Integer resourceAssignmentID, ResourceAssignmentCodeValue value)
    {
-      // %F	taskrsrc_id	asgnmnt_catg_type_id	asgnmnt_catg_id	proj_id
       Map<String, Object> map = new HashMap<>();
       map.put("taskrsrc_id", resourceAssignmentID);
       map.put("asgnmnt_catg_type_id", value.getResourceAssignmentCodeUniqueID());
