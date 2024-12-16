@@ -1,6 +1,21 @@
 # Changelog
 
-## 13.7.1 (unreleased)
+## NOTE
+From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net.sf.mpxj-for-vb` packages will
+no longer be distributed. Please use the `MPXJ.Net` package instead.
+
+
+## 13.8.0 (unreleased)
+* Added support for reading and writing Project Codes, Resource Codes, Role Codes and Resource Assignment Codes for Primavera P6 schedules.
+* When writing PMXML files, improve handling of P6 schedules where activity code sequence numbers are missing.
+* Added an *experimental* feature to `MSPDIWriter` to allow the writer to generate timephased data when none is present. Disabled by default, call the `setGenerateMissingTimephasedData` and pass `true` to enable.
+* To improve consistency, the methods `Task.getPrimaryResourceID()` and `Task.setPrimaryResourceID()` have been marked as deprecated. Use the new `Task.getPrimaryResourceUniqueID()` and `Task.setPrimaryResourceUniqueID()` methods instead.
+* Added the methods `Task.getPrimaryResource()` and `Task.setPrimaryResource()`.
+* Improved accuracy of retrieving the resource assignment GUID attribute when reading MPP files (Contributed by Fabian Schmidt).
+* Improve population of Task Start and Finish attributes when reading Primavera P6 schedules.
+* Marked the `ActivityCodeValue.getParent()` method as deprecated. Use `ActivityCodeValue.getParentValue()` instead.
+* Marked the `ActivityCodeValue.getParentUniqueID()` method as deprecated. Use `ActivityCodeValue.getParentValueUniqueID()` instead.
+* Marked the `ActivityCodeValue.Builder.parent()` method as deprecated. Use `ActivityCodeValue.Builder.parentValue()` instead.
 
 ## 13.7.0 (2024-11-25)
 * Update the MPXJ ruby gem to allow access to calendar data.
