@@ -3014,6 +3014,26 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
    }
 
    /**
+    * Retrieve the resource assignment code values associated with this resource assignment.
+    *
+    * @return map of resource assignment code values
+    */
+   @SuppressWarnings("unchecked") public Map<ResourceAssignmentCode, ResourceAssignmentCodeValue> getResourceAssignmentCodeValues()
+   {
+      return (Map<ResourceAssignmentCode, ResourceAssignmentCodeValue>) get(AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES);
+   }
+
+   /**
+    * Assign a resource assignment code value to this resource assignment.
+    *
+    * @param value resource assignment code value
+    */
+   @SuppressWarnings("unchecked") public void addResourceAssignmentCodeValue(ResourceAssignmentCodeValue value)
+   {
+      ((Map<ResourceAssignmentCode, ResourceAssignmentCodeValue>) get(AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES)).put(value.getResourceAssignmentCode(), value);
+   }
+
+   /**
     * Retrieve the value of a field using its alias.
     *
     * @param alias field alias
@@ -3237,6 +3257,16 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       return Boolean.TRUE;
    }
 
+   /**
+    * Supply a default value for the resource assignment code values.
+    *
+    * @return default value for resource assignment code values
+    */
+   private Map<ResourceAssignmentCode, ResourceAssignmentCodeValue> defaultResourceAssignmentCodeValues()
+   {
+      return new HashMap<>();
+   }
+
    private TimephasedWorkContainer m_timephasedPlannedWork;
 
    private TimephasedWorkContainer m_timephasedActualWork;
@@ -3285,6 +3315,7 @@ public final class ResourceAssignment extends AbstractFieldContainer<ResourceAss
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_INDEX, ResourceAssignment::defaultRateIndex);
       CALCULATED_FIELD_MAP.put(AssignmentField.RATE_SOURCE, ResourceAssignment::defaultRateSource);
       CALCULATED_FIELD_MAP.put(AssignmentField.CALCULATE_COSTS_FROM_UNITS, ResourceAssignment::defaultCalculateCostsFromUnits);
+      CALCULATED_FIELD_MAP.put(AssignmentField.RESOURCE_ASSIGNMENT_CODE_VALUES, ResourceAssignment::defaultResourceAssignmentCodeValues);
    }
 
    private static final Map<FieldType, List<FieldType>> DEPENDENCY_MAP = new HashMap<>();

@@ -160,6 +160,10 @@ public class ProjectTreeController
       projectNode.add(resourcesFolder);
       addResources(resourcesFolder, m_projectFile);
 
+      MpxjTreeNode rolesFolder = new MpxjTreeNode("Roles");
+      projectNode.add(rolesFolder);
+      addRoles(rolesFolder, m_projectFile);
+
       MpxjTreeNode assignmentsFolder = new MpxjTreeNode("Assignments");
       projectNode.add(assignmentsFolder);
       addAssignments(assignmentsFolder, m_projectFile);
@@ -223,6 +227,11 @@ public class ProjectTreeController
       projectNode.add(roleCodesFolder);
       addCodes(roleCodesFolder, m_projectFile.getRoleCodes());
 
+      MpxjTreeNode resourceAssignmentCodesFolder = new MpxjTreeNode("Resource Assignment Codes");
+      projectNode.add(resourceAssignmentCodesFolder);
+      addCodes(resourceAssignmentCodesFolder, m_projectFile.getResourceAssignmentCodes());
+
+
       m_model.setRoot(projectNode);
    }
 
@@ -259,6 +268,11 @@ public class ProjectTreeController
    {
       for (Resource resource : file.getChildResources())
       {
+         if (resource.getRole())
+         {
+            continue;
+
+         }
          final Resource r = resource;
          MpxjTreeNode childNode = new MpxjTreeNode(resource)
          {
@@ -269,6 +283,34 @@ public class ProjectTreeController
          };
          parentNode.add(childNode);
          addResources(childNode, resource);
+      }
+   }
+
+   /**
+    * Add roles to the tree.
+    *
+    * @param parentNode parent tree node
+    * @param file resource container
+    */
+   private void addRoles(MpxjTreeNode parentNode, ChildResourceContainer file)
+   {
+      for (Resource role : file.getChildResources())
+      {
+         if (!role.getRole())
+         {
+            continue;
+
+         }
+         final Resource r = role;
+         MpxjTreeNode childNode = new MpxjTreeNode(role)
+         {
+            @Override public String toString()
+            {
+               return r.getName();
+            }
+         };
+         parentNode.add(childNode);
+         addRoles(childNode, role);
       }
    }
 

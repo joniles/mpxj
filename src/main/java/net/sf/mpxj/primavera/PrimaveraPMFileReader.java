@@ -51,6 +51,9 @@ import net.sf.mpxj.ProjectCode;
 import net.sf.mpxj.ProjectCodeContainer;
 import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.ProjectFileSharedData;
+import net.sf.mpxj.ResourceAssignmentCode;
+import net.sf.mpxj.ResourceAssignmentCodeContainer;
+import net.sf.mpxj.ResourceAssignmentCodeValue;
 import net.sf.mpxj.ResourceCode;
 import net.sf.mpxj.ResourceCodeContainer;
 import net.sf.mpxj.ResourceCodeValue;
@@ -80,6 +83,8 @@ import net.sf.mpxj.primavera.schema.ActivityStepType;
 import net.sf.mpxj.primavera.schema.ProjectCodeType;
 import net.sf.mpxj.primavera.schema.ProjectCodeTypeType;
 import net.sf.mpxj.primavera.schema.ProjectListType;
+import net.sf.mpxj.primavera.schema.ResourceAssignmentCodeType;
+import net.sf.mpxj.primavera.schema.ResourceAssignmentCodeTypeType;
 import net.sf.mpxj.primavera.schema.ResourceCodeType;
 import net.sf.mpxj.primavera.schema.ResourceCodeTypeType;
 import net.sf.mpxj.primavera.schema.ResourceRoleType;
@@ -501,6 +506,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             processProjectCodeDefinitions(apibo);
             processResourceCodeDefinitions(apibo);
             processRoleCodeDefinitions(apibo);
+            processResourceAssignmentCodeDefinitions(apibo);
             processShifts(apibo);
          }
 
@@ -764,6 +770,30 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
    }
 
    /**
+    * Process resource assignment code assignments.
+    *
+    * @param resourceAssignment parent resource assignment
+    * @param codes resource assignment code assignments
+    */
+   private void processResourceAssignmentCodeAssignments(ResourceAssignment resourceAssignment, List<CodeAssignmentType> codes)
+   {
+      for (CodeAssignmentType assignment : codes)
+      {
+         ResourceAssignmentCode code = m_projectFile.getResourceAssignmentCodes().getByUniqueID(Integer.valueOf(assignment.getTypeObjectId()));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ResourceAssignmentCodeValue codeValue = code.getValueByUniqueID(Integer.valueOf(assignment.getValueObjectId()));
+         if (codeValue != null)
+         {
+            resourceAssignment.addResourceAssignmentCodeValue(codeValue);
+         }
+      }
+   }
+
+   /**
     * Process project properties.
     *
     * @param project xml container
@@ -999,6 +1029,48 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          {
             RoleCodeValue value = new RoleCodeValue.Builder(m_projectFile)
                .roleCode(code)
+               .uniqueID(typeValue.getObjectId())
+               .sequenceNumber(typeValue.getSequenceNumber())
+               .name(typeValue.getCodeValue())
+               .description(typeValue.getDescription())
+               .parentValue(code.getValueByUniqueID(typeValue.getParentObjectId()))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
+    * Process resource assignment code definitions.
+    *
+    * @param apibo top level object
+    */
+   private void processResourceAssignmentCodeDefinitions(APIBusinessObjects apibo)
+   {
+      ResourceAssignmentCodeContainer container = m_projectFile.getResourceAssignmentCodes();
+      Map<Integer, ResourceAssignmentCode> map = new HashMap<>();
+
+      for (ResourceAssignmentCodeTypeType type : apibo.getResourceAssignmentCodeType())
+      {
+         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_projectFile)
+            .uniqueID(type.getObjectId())
+            .sequenceNumber(type.getSequenceNumber())
+            .name(type.getName())
+            .secure(BooleanHelper.getBoolean(type.isIsSecureCode()))
+            .maxLength(type.getLength())
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      List<ResourceAssignmentCodeType> typeValues = HierarchyHelper.sortHierarchy(apibo.getResourceAssignmentCode(), v -> v.getObjectId(), v -> v.getParentObjectId());
+      for (ResourceAssignmentCodeType typeValue : typeValues)
+      {
+         ResourceAssignmentCode code = map.get(typeValue.getCodeTypeObjectId());
+         if (code != null)
+         {
+            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_projectFile)
+               .resourceAssignmentCode(code)
                .uniqueID(typeValue.getObjectId())
                .sequenceNumber(typeValue.getSequenceNumber())
                .name(typeValue.getCodeValue())
@@ -2258,6 +2330,8 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             assignment.setTimephasedPlannedWork(timephasedPlannedWork);
             assignment.setTimephasedActualWork(timephasedActualWork);
             assignment.setTimephasedWork(timephasedRemainingWork);
+
+            processResourceAssignmentCodeAssignments(assignment, row.getCode());
 
             m_eventManager.fireAssignmentReadEvent(assignment);
          }

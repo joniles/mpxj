@@ -57,6 +57,9 @@ import net.sf.mpxj.ProjectCode;
 import net.sf.mpxj.ProjectCodeContainer;
 import net.sf.mpxj.ProjectCodeValue;
 import net.sf.mpxj.ProjectFileSharedData;
+import net.sf.mpxj.ResourceAssignmentCode;
+import net.sf.mpxj.ResourceAssignmentCodeContainer;
+import net.sf.mpxj.ResourceAssignmentCodeValue;
 import net.sf.mpxj.ResourceCode;
 import net.sf.mpxj.ResourceCodeContainer;
 import net.sf.mpxj.ResourceCodeValue;
@@ -558,6 +561,48 @@ final class PrimaveraReader
    }
 
    /**
+    * Read resource assignment code definitions.
+    *
+    * @param types resource assignment code type data
+    * @param typeValues resource assignment code value data
+    */
+   public void processResourceAssignmentCodeDefinitions(List<Row> types, List<Row> typeValues)
+   {
+      ResourceAssignmentCodeContainer container = m_project.getResourceAssignmentCodes();
+      Map<Integer, ResourceAssignmentCode> map = new HashMap<>();
+
+      for (Row row : types)
+      {
+         ResourceAssignmentCode code = new ResourceAssignmentCode.Builder(m_project)
+            .uniqueID(row.getInteger("asgnmnt_catg_type_id"))
+            .sequenceNumber(row.getInteger("seq_num"))
+            .name(row.getString("asgnmnt_catg_type"))
+            .maxLength(row.getInteger("asgnmnt_catg_short_len"))
+            .build();
+         container.add(code);
+         map.put(code.getUniqueID(), code);
+      }
+
+      typeValues = HierarchyHelper.sortHierarchy(typeValues, v -> v.getInteger("asgnmnt_catg_id"), v -> v.getInteger("parent_asgnmnt_catg_id"));
+      for (Row row : typeValues)
+      {
+         ResourceAssignmentCode code = map.get(row.getInteger("asgnmnt_catg_type_id"));
+         if (code != null)
+         {
+            ResourceAssignmentCodeValue value = new ResourceAssignmentCodeValue.Builder(m_project)
+               .resourceAssignmentCode(code)
+               .uniqueID(row.getInteger("asgnmnt_catg_id"))
+               .sequenceNumber(row.getInteger("seq_num"))
+               .name(row.getString("asgnmnt_catg_short_name"))
+               .description(row.getString("asgnmnt_catg_name"))
+               .parentValue(code.getValueByUniqueID(row.getInteger("parent_asgnmnt_catg_id")))
+               .build();
+            code.addValue(value);
+         }
+      }
+   }
+
+   /**
     * Process activity code assignments.
     *
     * @param assignments activity code assignments
@@ -598,6 +643,21 @@ final class PrimaveraReader
       {
          Integer resourceID = row.getInteger("role_id");
          List<Row> list = m_roleCodeAssignments.computeIfAbsent(resourceID, k -> new ArrayList<>());
+         list.add(row);
+      }
+   }
+
+   /**
+    * Process resource assignment code assignments.
+    *
+    * @param assignments resource assignment code assignments
+    */
+   public void processResourceAssignmentCodeAssignments(List<Row> assignments)
+   {
+      for (Row row : assignments)
+      {
+         Integer resourceAssignmentID = row.getInteger("taskrsrc_id");
+         List<Row> list = m_resourceAssignmentCodeAssignments.computeIfAbsent(resourceAssignmentID, k -> new ArrayList<>());
          list.add(row);
       }
    }
@@ -1538,6 +1598,35 @@ final class PrimaveraReader
    }
 
    /**
+    * Read details of any resource assignment codes assigned to this resource assignment.
+    *
+    * @param resourceAssignment parent resource assignment
+    */
+   private void populateResourceAssignmentCodeValues(ResourceAssignment resourceAssignment)
+   {
+      List<Row> list = m_resourceAssignmentCodeAssignments.get(resourceAssignment.getUniqueID());
+      if (list == null)
+      {
+         return;
+      }
+
+      for (Row row : list)
+      {
+         ResourceAssignmentCode code = m_project.getResourceAssignmentCodes().getByUniqueID(row.getInteger("asgnmnt_catg_type_id"));
+         if (code == null)
+         {
+            continue;
+         }
+
+         ResourceAssignmentCodeValue value = code.getValueByUniqueID(row.getInteger("asgnmnt_catg_id"));
+         if (value != null)
+         {
+            resourceAssignment.addResourceAssignmentCodeValue(value);
+         }
+      }
+   }
+
+   /**
     * Adds a user defined field value to a task.
     *
     * @param fieldType field type
@@ -2138,6 +2227,8 @@ final class PrimaveraReader
             assignment.setTimephasedActualWork(timephasedActualWork);
             assignment.setTimephasedWork(timephasedRemainingWork);
 
+            populateResourceAssignmentCodeValues(assignment);
+
             m_eventManager.fireAssignmentReadEvent(assignment);
          }
       }
@@ -2729,6 +2820,7 @@ final class PrimaveraReader
    private final Map<Integer, List<Row>> m_activityCodeAssignments = new HashMap<>();
    private final Map<Integer, List<Row>> m_resourceCodeAssignments = new HashMap<>();
    private final Map<Integer, List<Row>> m_roleCodeAssignments = new HashMap<>();
+   private final Map<Integer, List<Row>> m_resourceAssignmentCodeAssignments = new HashMap<>();
 
    private final ObjectSequence m_relationObjectID;
 
