@@ -37,6 +37,20 @@ public interface CodeValue
    Integer getUniqueID();
 
    /**
+    * Retrieve the parent Code.
+    *
+    * @return parent Code instance
+    */
+   Code getParentCode();
+
+   /**
+    * Retrieve the parent code's unique ID.
+    *
+    * @return parent code unique ID
+    */
+   Integer getParentCodeUniqueID();
+
+   /**
     * Retrieves the sequence number for this value.
     *
     * @return sequence number

@@ -45,22 +45,12 @@ public final class ProjectCodeValue implements CodeValue
       m_parentValue = builder.m_parentValue;
    }
 
-   /**
-    * Retrieves the parent project code.
-    *
-    * @return ProjectCode instance
-    */
-   public ProjectCode getProjectCode()
+   @Override public ProjectCode getParentCode()
    {
       return m_projectCode;
    }
 
-   /**
-    * Retrieves the parent project code unique ID.
-    *
-    * @return parent project code unique ID
-    */
-   public Integer getProjectCodeUniqueID()
+   @Override public Integer getParentCodeUniqueID()
    {
       return m_projectCode == null ? null : m_projectCode.getUniqueID();
    }

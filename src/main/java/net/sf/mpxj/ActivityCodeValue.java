@@ -52,7 +52,7 @@ public final class ActivityCodeValue implements CodeValue
     * Retrieves the parent activity code.
     *
     * @return ActivityCode instance
-    * @deprecated use getActivityCode instead
+    * @deprecated use getParentCode instead
     */
    @Deprecated public ActivityCode getType()
    {
@@ -63,18 +63,19 @@ public final class ActivityCodeValue implements CodeValue
     * Retrieves the parent activity code.
     *
     * @return ActivityCode instance
+    * @deprecated use getParentCode instead
     */
-   public ActivityCode getActivityCode()
+   @Deprecated public ActivityCode getActivityCode()
    {
       return m_activityCode;
    }
 
-   /**
-    * Retrieves the parent activity code unique ID.
-    *
-    * @return parent activity code unique ID
-    */
-   public Integer getActivityCodeUniqueID()
+   @Override public ActivityCode getParentCode()
+   {
+      return m_activityCode;
+   }
+
+   @Override public Integer getParentCodeUniqueID()
    {
       return m_activityCode == null ? null : m_activityCode.getUniqueID();
    }

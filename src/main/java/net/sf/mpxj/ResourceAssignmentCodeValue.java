@@ -45,22 +45,12 @@ public final class ResourceAssignmentCodeValue implements CodeValue
       m_parentValue = builder.m_parentValue;
    }
 
-   /**
-    * Retrieves the parent assignment code.
-    *
-    * @return ResourceAssignmentCode instance
-    */
-   public ResourceAssignmentCode getResourceAssignmentCode()
+   @Override public ResourceAssignmentCode getParentCode()
    {
       return m_resourceAssignmentCode;
    }
 
-   /**
-    * Retrieves the parent assignment code unique ID.
-    *
-    * @return parent assignment code unique ID
-    */
-   public Integer getResourceAssignmentCodeUniqueID()
+   @Override public Integer getParentCodeUniqueID()
    {
       return m_resourceAssignmentCode == null ? null : m_resourceAssignmentCode.getUniqueID();
    }
