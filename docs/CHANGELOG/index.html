@@ -291,9 +291,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1371-unreleased" class="md-nav__link">
+  <a href="#note" class="md-nav__link">
     <span class="md-ellipsis">
-      13.7.1 (unreleased)
+      NOTE
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1390-unreleased" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.9.0 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1380-2024-12-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.8.0 (2024-12-17)
     </span>
   </a>
   
@@ -4002,9 +4020,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1371-unreleased" class="md-nav__link">
+  <a href="#note" class="md-nav__link">
     <span class="md-ellipsis">
-      13.7.1 (unreleased)
+      NOTE
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1390-unreleased" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.9.0 (unreleased)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1380-2024-12-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      13.8.0 (2024-12-17)
     </span>
   </a>
   
@@ -6357,7 +6393,24 @@
 
 
 <h1 id="changelog">Changelog</h1>
-<h2 id="1371-unreleased">13.7.1 (unreleased)</h2>
+<h2 id="note">NOTE</h2>
+<p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages will
+no longer be distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
+<h2 id="1390-unreleased">13.9.0 (unreleased)</h2>
+<h2 id="1380-2024-12-17">13.8.0 (2024-12-17)</h2>
+<ul>
+<li>Added support for reading and writing Project Codes, Resource Codes, Role Codes and Resource Assignment Codes for Primavera P6 schedules.</li>
+<li>When writing PMXML files, improve handling of P6 schedules where activity code sequence numbers are missing.</li>
+<li>Added an <em>experimental</em> feature to <code>MSPDIWriter</code> to allow the writer to generate timephased data when none is present. Disabled by default, call the <code>setGenerateMissingTimephasedData</code> and pass <code>true</code> to enable.</li>
+<li>To improve consistency, the methods <code>Task.getPrimaryResourceID()</code> and <code>Task.setPrimaryResourceID()</code> have been marked as deprecated. Use the new <code>Task.getPrimaryResourceUniqueID()</code> and <code>Task.setPrimaryResourceUniqueID()</code> methods instead.</li>
+<li>Added the methods <code>Task.getPrimaryResource()</code> and <code>Task.setPrimaryResource()</code>.</li>
+<li>Improved accuracy of retrieving the resource assignment GUID attribute when reading MPP files (Contributed by Fabian Schmidt).</li>
+<li>Improve population of Task Start and Finish attributes when reading Primavera P6 schedules.</li>
+<li>Marked the <code>ActivityCodeValue.getParent()</code> method as deprecated. Use <code>ActivityCodeValue.getParentValue()</code> instead.</li>
+<li>Marked the <code>ActivityCodeValue.getParentUniqueID()</code> method as deprecated. Use <code>ActivityCodeValue.getParentValueUniqueID()</code> instead.</li>
+<li>Marked the <code>ActivityCodeValue.Builder.parent()</code> method as deprecated. Use <code>ActivityCodeValue.Builder.parentValue()</code> instead.</li>
+<li>Marked the <code>ActivityCodeValue.getActivityCode()</code> method as deprecated. Use <code>ActivityCodeValue.getParentCode()</code> instead.</li>
+</ul>
 <h2 id="1370-2024-11-25">13.7.0 (2024-11-25)</h2>
 <ul>
 <li>Update the MPXJ ruby gem to allow access to calendar data.</li>
