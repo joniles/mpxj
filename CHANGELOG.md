@@ -5,7 +5,9 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer be distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 13.8.0 (unreleased)
+## 13.9.0 (unreleased)
+
+## 13.8.0 (2024-12-17)
 * Added support for reading and writing Project Codes, Resource Codes, Role Codes and Resource Assignment Codes for Primavera P6 schedules.
 * When writing PMXML files, improve handling of P6 schedules where activity code sequence numbers are missing.
 * Added an *experimental* feature to `MSPDIWriter` to allow the writer to generate timephased data when none is present. Disabled by default, call the `setGenerateMissingTimephasedData` and pass `true` to enable.
@@ -16,6 +18,7 @@ no longer be distributed. Please use the `MPXJ.Net` package instead.
 * Marked the `ActivityCodeValue.getParent()` method as deprecated. Use `ActivityCodeValue.getParentValue()` instead.
 * Marked the `ActivityCodeValue.getParentUniqueID()` method as deprecated. Use `ActivityCodeValue.getParentValueUniqueID()` instead.
 * Marked the `ActivityCodeValue.Builder.parent()` method as deprecated. Use `ActivityCodeValue.Builder.parentValue()` instead.
+* Marked the `ActivityCodeValue.getActivityCode()` method as deprecated. Use `ActivityCodeValue.getParentCode()` instead.
 
 ## 13.7.0 (2024-11-25)
 * Update the MPXJ ruby gem to allow access to calendar data.

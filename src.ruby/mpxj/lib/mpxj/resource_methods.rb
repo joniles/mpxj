@@ -3420,6 +3420,13 @@ module MPXJ
       attribute_values['request_demand']
     end
 
+    # Retrieve the Resource Code Values value
+    #
+    # @return Resource Code Values value
+    def resource_code_values
+      attribute_values['resource_code_values']
+    end
+
     # Retrieve the Resource ID value
     #
     # @return Resource ID value
@@ -3439,6 +3446,13 @@ module MPXJ
     # @return Role value
     def role
       get_boolean_value(attribute_values['role'])
+    end
+
+    # Retrieve the Role Code Values value
+    #
+    # @return Role Code Values value
+    def role_code_values
+      attribute_values['role_code_values']
     end
 
     # Retrieve the Sequence Number value
@@ -4392,9 +4406,11 @@ module MPXJ
       'remaining_overtime_work' => :work,
       'remaining_work' => :work,
       'request_demand' => :string,
+      'resource_code_values' => :code_values,
       'resource_id' => :string,
       'response_pending' => :boolean,
       'role' => :boolean,
+      'role_code_values' => :code_values,
       'sequence_number' => :integer,
       'shift_unique_id' => :integer,
       'standard_rate' => :rate,
