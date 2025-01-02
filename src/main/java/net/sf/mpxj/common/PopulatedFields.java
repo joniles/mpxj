@@ -119,12 +119,12 @@ public class PopulatedFields<E extends Enum<E> & FieldType, T extends FieldConta
 
       if (value instanceof Collection<?>)
       {
-         return !((Collection<?>)value).isEmpty();
+         return !((Collection<?>) value).isEmpty();
       }
 
-      if (value instanceof Map<?,?>)
+      if (value instanceof Map<?, ?>)
       {
-         return !((Map<?,?>)value).isEmpty();
+         return !((Map<?, ?>) value).isEmpty();
       }
 
       switch (type.getDataType())

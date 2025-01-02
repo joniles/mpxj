@@ -968,8 +968,6 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       assignments.forEach(a -> m_writer.writeRecord(RESOURCE_ASSIGNMENT_CODE_ASSIGNMENT_COLUMNS, a));
    }
 
-
-
    /**
     * Populate a map representing a resource code assignment record.
     *

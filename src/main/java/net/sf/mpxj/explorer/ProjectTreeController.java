@@ -231,7 +231,6 @@ public class ProjectTreeController
       projectNode.add(resourceAssignmentCodesFolder);
       addCodes(resourceAssignmentCodesFolder, m_projectFile.getResourceAssignmentCodes());
 
-
       m_model.setRoot(projectNode);
    }
 
