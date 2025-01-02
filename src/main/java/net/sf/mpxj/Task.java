@@ -402,7 +402,7 @@ public final class Task extends AbstractFieldContainer<Task> implements Comparab
     */
    @SuppressWarnings("unchecked") public void addActivityCodeValue(ActivityCodeValue value)
    {
-      ((Map<ActivityCode, ActivityCodeValue>) get(TaskField.ACTIVITY_CODE_VALUES)).put(value.getActivityCode(), value);
+      ((Map<ActivityCode, ActivityCodeValue>) get(TaskField.ACTIVITY_CODE_VALUES)).put(value.getParentCode(), value);
    }
 
    /**

@@ -730,9 +730,9 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
 
       try (PreparedStatement ps = m_connection.prepareStatement(sql))
       {
-         for (int loop=0; loop < vars.length; loop++)
+         for (int loop = 0; loop < vars.length; loop++)
          {
-            ps.setInt(loop+1, NumberHelper.getInt(vars[loop]));
+            ps.setInt(loop + 1, NumberHelper.getInt(vars[loop]));
          }
 
          try (ResultSet rs = ps.executeQuery())
