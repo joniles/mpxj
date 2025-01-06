@@ -75,7 +75,7 @@ below.
 	
 	namespace MPXJ.Samples.HowToWrite;
 	
-	public class XERChatset
+	public class XERCharset
 	{
 	 	public void Write(ProjectFile project, string fileName)
 	 	{
