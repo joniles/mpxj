@@ -6397,6 +6397,9 @@
 <p>From version 14.0.0 onwards the <code>net.sf.mpxj</code>, <code>net.sf.mpxj-for-csharp</code> and <code>net.sf.mpxj-for-vb</code> packages will
 no longer be distributed. Please use the <code>MPXJ.Net</code> package instead.</p>
 <h2 id="1390-unreleased">13.9.0 (unreleased)</h2>
+<ul>
+<li>Updated PMXML schema to version 24.12.</li>
+</ul>
 <h2 id="1380-2024-12-17">13.8.0 (2024-12-17)</h2>
 <ul>
 <li>Added support for reading and writing Project Codes, Resource Codes, Role Codes and Resource Assignment Codes for Primavera P6 schedules.</li>
@@ -6521,7 +6524,7 @@ no longer be distributed. Please use the <code>MPXJ.Net</code> package instead.<
 <h2 id="1300-2024-06-20">13.0.0 (2024-06-20)</h2>
 <ul>
 <li>NOTE: this is a major release containing breaking changes. When updating from a 12.x release it is recommended that you first update to the most recent 12.x release and deal with any deprecation warnings before moving to this release.</li>
-<li>NOTE: the <a href="https://www.nuget.org/packages?q=net.sf.mpxj">original <code>net.sf.mpxj</code> NuGet packages</a> are now deprecated and will be replaced by the <a href="https://www.nuget.org/packages/MPXJ.Net">MPXJ.Net NuGet Package</a> in the next major MPXJ release. The <code>net.sf.mpxj</code> packages will continue to be maintained until then, at which point they will no longer be distributed. Please migrate your code to use MPXJ.Net at the earliest opportunity, and open an issue in the GitHUb issue tracker if you encounter problems.</li>
+<li>NOTE: the <a href="https://www.nuget.org/packages?q=net.sf.mpxj">original <code>net.sf.mpxj</code> NuGet packages</a> are now deprecated and will be replaced by the <a href="https://www.nuget.org/packages/MPXJ.Net">MPXJ.Net NuGet Package</a> in the next major MPXJ release. The <code>net.sf.mpxj</code> packages will continue to be maintained until then, at which point they will no longer be distributed. Please migrate your code to use MPXJ.Net at the earliest opportunity, and open an issue in the GitHub issue tracker if you encounter problems.</li>
 <li>Updated to use JAXB3. Among other things this change ensures compatibility with Spring Boot 3. Note that this may be a breaking change for you if you own application uses JAXB2.</li>
 <li>When reading P6 schedules, the custom properties (as retrieved using <code>ProjectProperties.getCustomProperties</code>) will no longer contain scheduling options. These are now all available as attributes of the <code>ProjectProperties</code> class.</li>
 <li>Removed redundant <code>setUniqueID</code> methods from immutable objects. These previously threw <code>UnsupportedOperationException</code> when called.</li>

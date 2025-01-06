@@ -6,6 +6,7 @@ no longer be distributed. Please use the `MPXJ.Net` package instead.
 
 
 ## 13.9.0 (unreleased)
+* Updated PMXML schema to version 24.12.
 
 ## 13.8.0 (2024-12-17)
 * Added support for reading and writing Project Codes, Resource Codes, Role Codes and Resource Assignment Codes for Primavera P6 schedules.
@@ -114,7 +115,7 @@ no longer be distributed. Please use the `MPXJ.Net` package instead.
 
 ## 13.0.0 (2024-06-20)
 * NOTE: this is a major release containing breaking changes. When updating from a 12.x release it is recommended that you first update to the most recent 12.x release and deal with any deprecation warnings before moving to this release.
-* NOTE: the [original `net.sf.mpxj` NuGet packages](https://www.nuget.org/packages?q=net.sf.mpxj) are now deprecated and will be replaced by the [MPXJ.Net NuGet Package](https://www.nuget.org/packages/MPXJ.Net) in the next major MPXJ release. The `net.sf.mpxj` packages will continue to be maintained until then, at which point they will no longer be distributed. Please migrate your code to use MPXJ.Net at the earliest opportunity, and open an issue in the GitHUb issue tracker if you encounter problems.
+* NOTE: the [original `net.sf.mpxj` NuGet packages](https://www.nuget.org/packages?q=net.sf.mpxj) are now deprecated and will be replaced by the [MPXJ.Net NuGet Package](https://www.nuget.org/packages/MPXJ.Net) in the next major MPXJ release. The `net.sf.mpxj` packages will continue to be maintained until then, at which point they will no longer be distributed. Please migrate your code to use MPXJ.Net at the earliest opportunity, and open an issue in the GitHub issue tracker if you encounter problems.
 * Updated to use JAXB3. Among other things this change ensures compatibility with Spring Boot 3. Note that this may be a breaking change for you if you own application uses JAXB2.
 * When reading P6 schedules, the custom properties (as retrieved using `ProjectProperties.getCustomProperties`) will no longer contain scheduling options. These are now all available as attributes of the `ProjectProperties` class.
 * Removed redundant `setUniqueID` methods from immutable objects. These previously threw `UnsupportedOperationException` when called.
