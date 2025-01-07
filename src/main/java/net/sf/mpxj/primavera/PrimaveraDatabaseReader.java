@@ -118,6 +118,7 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
          if (m_readSharedData)
          {
             m_readSharedData = false;
+            processCurrencies();
             processLocations();
             processShifts();
             processUnitsOfMeasure();
@@ -257,11 +258,21 @@ public final class PrimaveraDatabaseReader extends AbstractProjectReader
    }
 
    /**
+    * Select the currencies from the database.
+    */
+   private void processCurrencies() throws SQLException
+   {
+      if (m_tableNames.contains("CURRTYPE"))
+      {
+         m_reader.processCurrencies(getRows("select * from " + m_schema + "currtype"));
+      }
+   }
+
+   /**
     * Select the locations from the database.
     */
    private void processLocations() throws SQLException
    {
-      // Locations are a relative new feature - check for the presence of the table
       if (m_tableNames.contains("LOCATION"))
       {
          m_reader.processLocations(getRows("select * from " + m_schema + "location"));
