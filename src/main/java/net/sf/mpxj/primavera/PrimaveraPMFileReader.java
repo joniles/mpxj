@@ -47,6 +47,8 @@ import jakarta.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import net.sf.mpxj.BaselineStrategy;
+import net.sf.mpxj.Currency;
+import net.sf.mpxj.CurrencyContainer;
 import net.sf.mpxj.ProjectCode;
 import net.sf.mpxj.ProjectCodeContainer;
 import net.sf.mpxj.ProjectCodeValue;
@@ -495,6 +497,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          // Process common data
          if (readSharedData)
          {
+            processCurrencies(apibo);
             processLocations(apibo);
             processUnitsOfMeasure(apibo);
             processExpenseCategories(apibo);
@@ -1105,6 +1108,30 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
             .postalCode(c.getPostalCode())
             .latitude(c.getLatitude())
             .longitude(c.getLongitude())
+            .build()));
+   }
+
+   /**
+    * Process currencies.
+    *
+    * @param apibo top level object
+    */
+   private void processCurrencies(APIBusinessObjects apibo)
+   {
+      CurrencyContainer container = m_projectFile.getCurrencies();
+
+      apibo.getCurrency().forEach(c -> container.add(
+         new Currency.Builder(m_projectFile)
+            .uniqueID(c.getObjectId())
+            .currencyID(c.getId())
+            .name(c.getName())
+            .symbol(c.getSymbol())
+            .exchangeRate(c.getExchangeRate())
+            .decimalSymbol("Comma".equals(c.getDecimalSymbol()) ? "," : ".")
+            .numberOfDecimalPlaces(c.getDecimalPlaces())
+            .digitGroupingSymbol("Comma".equals(c.getDigitGroupingSymbol()) ? "," : ".")
+            .positiveCurrencyFormat(c.getPositiveSymbol())
+            .negativeCurrencyFormat(c.getNegativeSymbol())
             .build()));
    }
 

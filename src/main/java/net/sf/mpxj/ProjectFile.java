@@ -566,6 +566,16 @@ public final class ProjectFile implements ChildTaskContainer, ChildResourceConta
    }
 
    /**
+    * Retrieves the currencies for this project.
+    *
+    * @return currencies
+    */
+   public CurrencyContainer getCurrencies()
+   {
+      return m_shared.getCurrencies();
+   }
+
+   /**
     * Retrieves the data link configuration for this project.
     *
     * @return data links

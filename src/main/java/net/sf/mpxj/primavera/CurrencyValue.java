@@ -26,14 +26,14 @@ package net.sf.mpxj.primavera;
 /**
  * Represents a currency value when writing an XER file.
  */
-final class Currency
+final class CurrencyValue
 {
    /**
     * Constructor.
     *
     * @param number value to be wrapped
     */
-   public Currency(Number number)
+   public CurrencyValue(Number number)
    {
       m_number = number;
    }
@@ -56,10 +56,10 @@ final class Currency
     * @param number value to be wrapped
     * @return Currency instance or null
     */
-   public static final Currency getInstance(Number number)
+   public static final CurrencyValue getInstance(Number number)
    {
-      return number == null ? null : new Currency(number);
+      return number == null ? null : new CurrencyValue(number);
    }
 
-   public static final Currency ZERO = new Currency(Double.valueOf(0));
+   public static final CurrencyValue ZERO = new CurrencyValue(Double.valueOf(0));
 }

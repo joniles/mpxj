@@ -1524,7 +1524,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       PROJECT_COLUMNS.put("strgy_priority_num", p -> Integer.valueOf(100));
       PROJECT_COLUMNS.put("last_checksum", p -> "");
       PROJECT_COLUMNS.put("critical_drtn_hr_cnt", p -> Double.valueOf(p.getCriticalSlackLimit().convertUnits(TimeUnit.HOURS, p).getDuration()));
-      PROJECT_COLUMNS.put("def_cost_per_qty", p -> new Currency(Double.valueOf(100.0)));
+      PROJECT_COLUMNS.put("def_cost_per_qty", p -> new CurrencyValue(Double.valueOf(100.0)));
       PROJECT_COLUMNS.put("last_recalc_date", p -> p.getStatusDate());
       PROJECT_COLUMNS.put("plan_start_date", p -> p.getPlannedStart());
       PROJECT_COLUMNS.put("plan_end_date", p -> p.getMustFinishBy());
@@ -1605,8 +1605,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       WBS_COLUMNS.put("parent_wbs_id", t -> t.getParentTaskUniqueID());
       WBS_COLUMNS.put("ev_user_pct", t -> Integer.valueOf(6));
       WBS_COLUMNS.put("ev_etc_user_value", t -> Double.valueOf(0.88));
-      WBS_COLUMNS.put("orig_cost", t -> Currency.ZERO);
-      WBS_COLUMNS.put("indep_remain_total_cost", t -> Currency.ZERO);
+      WBS_COLUMNS.put("orig_cost", t -> CurrencyValue.ZERO);
+      WBS_COLUMNS.put("indep_remain_total_cost", t -> CurrencyValue.ZERO);
       WBS_COLUMNS.put("ann_dscnt_rate_pct", t -> "");
       WBS_COLUMNS.put("dscnt_period_type", t -> "");
       WBS_COLUMNS.put("indep_remain_work_qty", t -> Integer.valueOf(0));
@@ -1722,10 +1722,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("relag_drtn_hr_cnt", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("ot_factor", r -> null);
       RESOURCE_ASSIGNMENT_COLUMNS.put("cost_per_qty", r -> r.getOverrideRate());
-      RESOURCE_ASSIGNMENT_COLUMNS.put("target_cost", r -> Currency.getInstance(r.getPlannedCost()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", r -> Currency.getInstance(getActualRegularCost(r)));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_cost", r -> Currency.getInstance(r.getActualOvertimeCost()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_cost", r -> Currency.getInstance(r.getRemainingCost()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("target_cost", r -> CurrencyValue.getInstance(r.getPlannedCost()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_reg_cost", r -> CurrencyValue.getInstance(getActualRegularCost(r)));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_ot_cost", r -> CurrencyValue.getInstance(r.getActualOvertimeCost()));
+      RESOURCE_ASSIGNMENT_COLUMNS.put("remain_cost", r -> CurrencyValue.getInstance(r.getRemainingCost()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_start_date", r -> r.getActualStart());
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_end_date", r -> r.getActualFinish());
       RESOURCE_ASSIGNMENT_COLUMNS.put("restart_date", r -> r.getRemainingEarlyStart());
@@ -1741,7 +1741,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_ASSIGNMENT_COLUMNS.put("ts_pend_act_end_flag", r -> Boolean.FALSE);
       RESOURCE_ASSIGNMENT_COLUMNS.put("guid", r -> r.getGUID());
       RESOURCE_ASSIGNMENT_COLUMNS.put("rate_type", r -> RateTypeHelper.getXerFromInstance(r.getRateIndex()));
-      RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", r -> Currency.ZERO);
+      RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_cost", r -> CurrencyValue.ZERO);
       RESOURCE_ASSIGNMENT_COLUMNS.put("act_this_per_qty", r -> Integer.valueOf(0));
       RESOURCE_ASSIGNMENT_COLUMNS.put("curv_id", r -> CurveHelper.getCurveID(r.getWorkContour()));
       RESOURCE_ASSIGNMENT_COLUMNS.put("rsrc_type", r -> r.getResource() == null ? ResourceType.WORK : r.getResource().getType());
@@ -1803,10 +1803,10 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       EXPENSE_ITEM_COLUMNS.put("cost_name", i -> StringHelper.stripControlCharacters(i.getName()));
       EXPENSE_ITEM_COLUMNS.put("po_number", i -> i.getDocumentNumber());
       EXPENSE_ITEM_COLUMNS.put("vendor_name", i -> i.getVendor());
-      EXPENSE_ITEM_COLUMNS.put("act_cost", i -> Currency.getInstance(i.getActualCost()));
-      EXPENSE_ITEM_COLUMNS.put("cost_per_qty", i -> Currency.getInstance(i.getPricePerUnit()));
-      EXPENSE_ITEM_COLUMNS.put("remain_cost", i -> Currency.getInstance(i.getRemainingCost()));
-      EXPENSE_ITEM_COLUMNS.put("target_cost", i -> Currency.getInstance(i.getPlannedCost()));
+      EXPENSE_ITEM_COLUMNS.put("act_cost", i -> CurrencyValue.getInstance(i.getActualCost()));
+      EXPENSE_ITEM_COLUMNS.put("cost_per_qty", i -> CurrencyValue.getInstance(i.getPricePerUnit()));
+      EXPENSE_ITEM_COLUMNS.put("remain_cost", i -> CurrencyValue.getInstance(i.getRemainingCost()));
+      EXPENSE_ITEM_COLUMNS.put("target_cost", i -> CurrencyValue.getInstance(i.getPlannedCost()));
       EXPENSE_ITEM_COLUMNS.put("cost_load_type", i -> i.getAccrueType());
       EXPENSE_ITEM_COLUMNS.put("auto_compute_act_flag", i -> Boolean.valueOf(i.getAutoComputeActuals()));
       EXPENSE_ITEM_COLUMNS.put("target_qty", i -> i.getPlannedUnits());
