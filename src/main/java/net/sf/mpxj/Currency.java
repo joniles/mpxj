@@ -4,7 +4,7 @@ public class Currency implements ProjectEntityWithUniqueID
 {
    private Currency(Builder builder)
    {
-      m_uniqueID = builder.m_sequenceProvider.getUniqueIdObjectSequence(Currency.class).syncOrGetNext(builder.m_uniqueID);
+      m_uniqueID = builder.m_sequenceProvider == null ? builder.m_uniqueID : builder.m_sequenceProvider.getUniqueIdObjectSequence(Currency.class).syncOrGetNext(builder.m_uniqueID);
       m_currencyID = builder.m_currencyID;
       m_name = builder.m_name;
       m_symbol = builder.m_symbol;

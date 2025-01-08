@@ -49,6 +49,7 @@ import net.sf.mpxj.Availability;
 import net.sf.mpxj.CalendarType;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.Currency;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ExpenseCategory;
@@ -208,7 +209,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          "admin",
          "dbxDatabaseNoName",
          "Project Management",
-         CURRENCY_COLUMNS.get("curr_short_name")
+         DEFAULT_CURRENCY.getCurrencyID()
       };
 
       m_writer.writeHeader(data);
@@ -220,7 +221,14 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    private void writeCurrencies()
    {
       m_writer.writeTable("CURRTYPE", CURRENCY_COLUMNS);
-      m_writer.writeRecord(CURRENCY_COLUMNS.values().stream());
+      if (m_file.getCurrencies().isEmpty())
+      {
+         m_writer.writeRecord(CURRENCY_COLUMNS, DEFAULT_CURRENCY);
+      }
+      else
+      {
+         m_file.getCurrencies().forEach(c -> m_writer.writeRecord(CURRENCY_COLUMNS, c));
+      }
    }
 
    /**
@@ -1399,20 +1407,33 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       Object apply(T source);
    }
 
-   private static final Map<String, Object> CURRENCY_COLUMNS = new LinkedHashMap<>();
+   private static final Currency DEFAULT_CURRENCY = new Currency.Builder(null)
+      .uniqueID(1)
+      .numberOfDecimalPlaces(2)
+      .symbol("$")
+      .decimalSymbol(".")
+      .digitGroupingSymbol(",")
+      .positiveCurrencyFormat("#1.1")
+      .negativeCurrencyFormat("(#1.1)")
+      .name("US Dollar")
+      .currencyID("USD")
+      .exchangeRate(1.0)
+      .build();
+
+   private static final Map<String, ExportFunction<Currency>> CURRENCY_COLUMNS = new LinkedHashMap<>();
    static
    {
-      CURRENCY_COLUMNS.put("curr_id", "1");
-      CURRENCY_COLUMNS.put("decimal_digit_cnt", "2");
-      CURRENCY_COLUMNS.put("curr_symbol", "$");
-      CURRENCY_COLUMNS.put("decimal_symbol", ".");
-      CURRENCY_COLUMNS.put("digit_group_symbol", ",");
-      CURRENCY_COLUMNS.put("pos_curr_fmt_type", "#1.1");
-      CURRENCY_COLUMNS.put("neg_curr_fmt_type", "(#1.1)");
-      CURRENCY_COLUMNS.put("curr_type", "US Dollar");
-      CURRENCY_COLUMNS.put("curr_short_name", "USD");
-      CURRENCY_COLUMNS.put("group_digit_cnt", "3");
-      CURRENCY_COLUMNS.put("base_exch_rate", "1");
+      CURRENCY_COLUMNS.put("curr_id", c -> c.getUniqueID());
+      CURRENCY_COLUMNS.put("decimal_digit_cnt", c -> c.getNumberOfDecimalPlaces());
+      CURRENCY_COLUMNS.put("curr_symbol", c -> c.getSymbol());
+      CURRENCY_COLUMNS.put("decimal_symbol", c -> c.getDecimalSymbol());
+      CURRENCY_COLUMNS.put("digit_group_symbol", c -> c.getDigitGroupingSymbol());
+      CURRENCY_COLUMNS.put("pos_curr_fmt_type", c -> c.getPositiveCurrencyFormat());
+      CURRENCY_COLUMNS.put("neg_curr_fmt_type", c -> c.getNegativeCurrencyFormat());
+      CURRENCY_COLUMNS.put("curr_type", c -> c.getName());
+      CURRENCY_COLUMNS.put("curr_short_name", c -> c.getCurrencyID());
+      CURRENCY_COLUMNS.put("group_digit_cnt", c -> "3");
+      CURRENCY_COLUMNS.put("base_exch_rate", c -> c.getExchangeRate());
    }
 
    private static final Map<String, ExportFunction<Resource>> ROLE_COLUMNS = new LinkedHashMap<>();
@@ -1485,7 +1506,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("auto_compute_act_flag", r -> Boolean.TRUE);
       RESOURCE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       RESOURCE_COLUMNS.put("ot_flag", r -> Boolean.FALSE);
-      RESOURCE_COLUMNS.put("curr_id", r -> CURRENCY_COLUMNS.get("curr_id"));
+      RESOURCE_COLUMNS.put("curr_id", r -> DEFAULT_CURRENCY.getUniqueID());
       RESOURCE_COLUMNS.put("unit_id", r -> r.getUnitOfMeasureUniqueID());
       RESOURCE_COLUMNS.put("rsrc_type", r -> r.getType());
       RESOURCE_COLUMNS.put("location_id", r -> r.getLocationUniqueID());
