@@ -2698,6 +2698,7 @@ final class PrimaveraReader
       map.put(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID, "unit_id");
       map.put(ResourceField.SHIFT_UNIQUE_ID, "shift_id");
       map.put(ResourceField.PRIMARY_ROLE_UNIQUE_ID, "role_id");
+      map.put(ResourceField.CURRENCY_UNIQUE_ID, "curr_id");
 
       return map;
    }

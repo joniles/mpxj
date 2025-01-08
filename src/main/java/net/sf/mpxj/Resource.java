@@ -2735,6 +2735,26 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       ((Map<RoleCode, RoleCodeValue>) get(ResourceField.ROLE_CODE_VALUES)).put(value.getParentCode(), value);
    }
 
+   public Integer getCurrencyUniqueID()
+   {
+      return (Integer) get(ResourceField.CURRENCY_UNIQUE_ID);
+   }
+
+   public void setCurrencyUniqueID(Integer uniqueID)
+   {
+      set(ResourceField.CURRENCY_UNIQUE_ID, uniqueID);
+   }
+
+   public Currency getCurrency()
+   {
+      return getParentFile().getCurrencies().getByUniqueID(getCurrencyUniqueID());
+   }
+
+   public void setCurrency(Currency currency)
+   {
+      setCurrencyUniqueID(currency == null ? null : currency.getUniqueID());
+   }
+
    /**
     * Maps a field index to a ResourceField instance.
     *

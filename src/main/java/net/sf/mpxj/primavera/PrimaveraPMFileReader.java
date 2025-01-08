@@ -1521,6 +1521,7 @@ public final class PrimaveraPMFileReader extends AbstractProjectStreamReader
          resource.setUnitOfMeasureUniqueID(xml.getUnitOfMeasureObjectId());
          resource.setShiftUniqueID(xml.getShiftObjectId());
          resource.setPrimaryRoleUniqueID(xml.getPrimaryRoleObjectId());
+         resource.setCurrencyUniqueID(xml.getCurrencyObjectId());
 
          processResourceCodeAssignments(resource, xml.getCode());
 
