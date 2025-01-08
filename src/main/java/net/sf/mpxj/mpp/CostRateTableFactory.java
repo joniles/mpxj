@@ -118,6 +118,14 @@ final class CostRateTableFactory
                   endDate = endDate.minusMinutes(1);
                }
             }
+
+            // Heuristic to weed out invalid entries: if the timestamp has seconds
+            // the whole entry is likely to be invalid and can be ignored.
+            if (endDate.getSecond() != 0)
+            {
+               continue;
+            }
+
             entries.add(new CostRateTableEntry(null, endDate, costPerUse, standardRate, overtimeRate));
          }
       }
