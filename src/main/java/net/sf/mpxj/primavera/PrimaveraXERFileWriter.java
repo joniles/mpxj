@@ -209,7 +209,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
          "admin",
          "dbxDatabaseNoName",
          "Project Management",
-         DEFAULT_CURRENCY.getCurrencyID()
+         getDefaultCurrency().getCurrencyID()
       };
 
       m_writer.writeHeader(data);
@@ -1250,6 +1250,16 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    {
       Task task = assignment.getTask();
       return assignment.getResource() != null && task != null && task.getUniqueID().intValue() != 0 && !task.getSummary();
+   }
+
+   private Currency getDefaultCurrency()
+   {
+      Currency currency = m_file.getCurrencies().getByUniqueID(Integer.valueOf(1));
+      if (currency == null)
+      {
+         return DEFAULT_CURRENCY;
+      }
+      return currency;
    }
 
    /**
