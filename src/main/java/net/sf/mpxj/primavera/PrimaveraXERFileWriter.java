@@ -1424,8 +1424,8 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
    }
 
    private static final Currency DEFAULT_CURRENCY = new Currency.Builder(null)
-      .uniqueID(1)
-      .numberOfDecimalPlaces(2)
+      .uniqueID(Integer.valueOf(1))
+      .numberOfDecimalPlaces(Integer.valueOf(2))
       .symbol("$")
       .decimalSymbol(".")
       .digitGroupingSymbol(",")
@@ -1433,7 +1433,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       .negativeCurrencyFormat("(#1.1)")
       .name("US Dollar")
       .currencyID("USD")
-      .exchangeRate(1.0)
+      .exchangeRate(Double.valueOf(1.0))
       .build();
 
    private static final Map<String, ExportFunction<Currency>> CURRENCY_COLUMNS = new LinkedHashMap<>();

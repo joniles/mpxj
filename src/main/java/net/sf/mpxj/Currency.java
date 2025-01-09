@@ -25,7 +25,7 @@ package net.sf.mpxj;
 /**
  * Represents a currency.
  */
-public class Currency implements ProjectEntityWithUniqueID
+public final class Currency implements ProjectEntityWithUniqueID
 {
    /**
     * Constructor.
