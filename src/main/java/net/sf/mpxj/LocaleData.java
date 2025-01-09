@@ -1620,6 +1620,7 @@ public final class LocaleData extends ListResourceBundle
       RESOURCE_COLUMNS_ARRAY[ResourceField.PRIMARY_ROLE_UNIQUE_ID.getValue()] = "Primary Role Unique ID";
       RESOURCE_COLUMNS_ARRAY[ResourceField.RESOURCE_CODE_VALUES.getValue()] = "Resource Code Values";
       RESOURCE_COLUMNS_ARRAY[ResourceField.ROLE_CODE_VALUES.getValue()] = "Role Code Values";
+      RESOURCE_COLUMNS_ARRAY[ResourceField.CURRENCY_UNIQUE_ID.getValue()] = "Currency Unique ID";
 
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.START.getValue()] = "Start";
       ASSIGNMENT_COLUMNS_ARRAY[AssignmentField.ASSIGNMENT_UNITS.getValue()] = "Assignment Units";

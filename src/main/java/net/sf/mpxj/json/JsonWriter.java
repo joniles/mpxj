@@ -47,6 +47,7 @@ import net.sf.mpxj.CodeValue;
 import net.sf.mpxj.Column;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.Currency;
 import net.sf.mpxj.CustomFieldLookupTable;
 import net.sf.mpxj.CustomFieldValueMask;
 import net.sf.mpxj.GenericCriteria;
@@ -225,6 +226,7 @@ public final class JsonWriter extends AbstractProjectWriter
 
          m_writer.writeStartObject(null);
          writeProperties();
+         writeCurrencies();
          writeUserDefinedFields();
          writeCustomFields();
          writeWorkContours();
@@ -592,6 +594,45 @@ public final class JsonWriter extends AbstractProjectWriter
       writeStringField("abbreviation", uom.getAbbreviation());
       writeStringField("name", uom.getName());
       writeMandatoryIntegerField("sequence_number", uom.getSequenceNumber());
+      m_writer.writeEndObject();
+   }
+
+   /**
+    * Write currencies.
+    */
+   private void writeCurrencies() throws IOException
+   {
+      if (m_projectFile.getCurrencies().isEmpty())
+      {
+         return;
+      }
+
+      m_writer.writeStartList("currencies");
+      for (Currency currency : m_projectFile.getCurrencies())
+      {
+         writeCurrency(currency);
+      }
+      m_writer.writeEndList();
+   }
+
+   /**
+    * Write an individual currency.
+    *
+    * @param currency currency
+    */
+   private void writeCurrency(Currency currency) throws IOException
+   {
+      m_writer.writeStartObject(null);
+      writeMandatoryIntegerField("unique_id", currency.getUniqueID());
+      writeStringField("currency_id", currency.getCurrencyID());
+      writeStringField("name", currency.getName());
+      writeStringField("symbol", currency.getSymbol());
+      writeDoubleField("exchange_rate", currency.getExchangeRate());
+      writeStringField("decimal_symbol", currency.getDecimalSymbol());
+      writeMandatoryIntegerField("number_of_decimal_places", currency.getNumberOfDecimalPlaces());
+      writeStringField("digit_grouping_symbol", currency.getDigitGroupingSymbol());
+      writeStringField("positive_currency_format", currency.getPositiveCurrencyFormat());
+      writeStringField("negative_currency_format", currency.getNegativeCurrencyFormat());
       m_writer.writeEndObject();
    }
 

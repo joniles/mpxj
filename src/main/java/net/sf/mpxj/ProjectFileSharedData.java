@@ -186,6 +186,16 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    }
 
    /**
+    * Retrieves the currencies for this project.
+    *
+    * @return currencies
+    */
+   public CurrencyContainer getCurrencies()
+   {
+      return m_currencies;
+   }
+
+   /**
     * Retrieve the ObjectSequence instance used to generate Unique ID values for a given class.
     *
     * @param c target class
@@ -222,6 +232,7 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
    private final ResourceAssignmentCodeContainer m_resourceAssignmentCodes = new ResourceAssignmentCodeContainer(this);
    private final ShiftContainer m_shifts = new ShiftContainer(this);
    private final ShiftPeriodContainer m_shiftPeriods = new ShiftPeriodContainer(this);
+   private final CurrencyContainer m_currencies = new CurrencyContainer(this);
    private final Map<String, ObjectSequence> m_uniqueIdObjectSequences = new HashMap<>();
 
    private static final Set<String> HOSTED_CLASS_NAMES = new HashSet<>(
@@ -244,5 +255,6 @@ public class ProjectFileSharedData implements UniqueIdObjectSequenceProvider
          ResourceAssignmentCode.class.getName(),
          ResourceAssignmentCodeValue.class.getName(),
          Shift.class.getName(),
-         ShiftPeriod.class.getName()));
+         ShiftPeriod.class.getName(),
+         Currency.class.getName()));
 }

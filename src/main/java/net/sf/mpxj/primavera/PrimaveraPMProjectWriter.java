@@ -46,6 +46,7 @@ import net.sf.mpxj.CodeValue;
 import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostRateTable;
 import net.sf.mpxj.CostRateTableEntry;
+import net.sf.mpxj.Currency;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.CustomField;
 import net.sf.mpxj.CustomFieldContainer;
@@ -219,6 +220,7 @@ final class PrimaveraPMProjectWriter
             m_activityNotes = project.getActivityNote();
             m_udf = project.getUDF();
 
+            writeCurrencies();
             writeLocations();
             writeShifts();
             writeProjectProperties(project);
@@ -232,7 +234,6 @@ final class PrimaveraPMProjectWriter
             writeCalendars(project.getCalendar());
             writeUDF();
             writeActivityCodeDefinitions();
-            writeCurrency();
             writeUserDefinedFieldDefinitions();
             writeExpenseCategories();
             writeCostAccounts();
@@ -265,27 +266,59 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Create a handful of default currencies to keep Primavera happy.
+    * Write currencies.
     */
-   private void writeCurrency()
+   private void writeCurrencies()
    {
-      ProjectProperties props = m_projectFile.getProjectProperties();
-      CurrencyType currency = m_factory.createCurrencyType();
-      m_apibo.getCurrency().add(currency);
+      if (m_projectFile.getCurrencies().isEmpty())
+      {
+         // No currencies defined? Write a default currency based on the project properties.
+         ProjectProperties props = m_projectFile.getProjectProperties();
+         CurrencyType currency = m_factory.createCurrencyType();
+         m_apibo.getCurrency().add(currency);
 
-      String positiveSymbol = getCurrencyFormat(props.getSymbolPosition());
-      String negativeSymbol = "(" + positiveSymbol + ")";
+         String positiveSymbol = getCurrencyFormat(props.getSymbolPosition());
+         String negativeSymbol = "(" + positiveSymbol + ")";
 
-      currency.setDecimalPlaces(props.getCurrencyDigits());
-      currency.setDecimalSymbol(getSymbolName(props.getDecimalSeparator()));
-      currency.setDigitGroupingSymbol(getSymbolName(props.getThousandsSeparator()));
-      currency.setExchangeRate(Double.valueOf(1.0));
-      currency.setId("CUR");
-      currency.setName("Default Currency");
-      currency.setNegativeSymbol(negativeSymbol);
-      currency.setObjectId(DEFAULT_CURRENCY_ID);
-      currency.setPositiveSymbol(positiveSymbol);
-      currency.setSymbol(props.getCurrencySymbol());
+         currency.setDecimalPlaces(props.getCurrencyDigits());
+         currency.setDecimalSymbol(getSymbolName(props.getDecimalSeparator()));
+         currency.setDigitGroupingSymbol(getSymbolName(props.getThousandsSeparator()));
+         currency.setExchangeRate(Double.valueOf(1.0));
+         currency.setId("CUR");
+         currency.setName("Default Currency");
+         currency.setNegativeSymbol(negativeSymbol);
+         currency.setObjectId(DEFAULT_CURRENCY_ID);
+         currency.setPositiveSymbol(positiveSymbol);
+         currency.setSymbol(props.getCurrencySymbol());
+         return;
+      }
+
+      for (Currency currency : m_projectFile.getCurrencies())
+      {
+         CurrencyType xml = m_factory.createCurrencyType();
+         xml.setObjectId(currency.getUniqueID());
+         xml.setId(currency.getCurrencyID());
+         xml.setName(currency.getName());
+         xml.setSymbol(currency.getSymbol());
+         xml.setExchangeRate(currency.getExchangeRate());
+         xml.setDecimalSymbol(getSymbolName(currency.getDecimalSymbol()));
+         xml.setDecimalPlaces(currency.getNumberOfDecimalPlaces());
+         xml.setDigitGroupingSymbol(getSymbolName(currency.getDigitGroupingSymbol()));
+         xml.setPositiveSymbol(currency.getPositiveCurrencyFormat());
+         xml.setNegativeSymbol(currency.getNegativeCurrencyFormat());
+         m_apibo.getCurrency().add(xml);
+      }
+   }
+
+   /**
+    * Map the currency separator character to a symbol name.
+    *
+    * @param s currency separator string
+    * @return symbol name
+    */
+   private String getSymbolName(String s)
+   {
+      return s == null || s.isEmpty() ? null : getSymbolName(s.charAt(0));
    }
 
    /**
@@ -908,7 +941,7 @@ final class PrimaveraPMProjectWriter
       xml.setAutoComputeActuals(Boolean.TRUE);
       xml.setCalculateCostFromUnits(Boolean.valueOf(mpxj.getCalculateCostsFromUnits()));
       xml.setCalendarObjectId(mpxj.getCalendarUniqueID());
-      xml.setCurrencyObjectId(DEFAULT_CURRENCY_ID);
+      xml.setCurrencyObjectId(mpxj.getCurrencyUniqueID() == null ? DEFAULT_CURRENCY_ID : mpxj.getCurrencyUniqueID());
       xml.setEmailAddress(mpxj.getEmailAddress());
       xml.setEmployeeId(mpxj.getCode());
       xml.setGUID(DatatypeConverter.printUUID(mpxj.getGUID()));

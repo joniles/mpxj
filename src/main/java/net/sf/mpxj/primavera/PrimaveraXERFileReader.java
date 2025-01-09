@@ -249,6 +249,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
          if (m_readSharedData)
          {
             m_readSharedData = false;
+            processCurrencies();
             processLocations();
             processShifts();
             processUnitsOfMeasure();
@@ -454,6 +455,14 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       }
 
       processScheduleOptions();
+   }
+
+   /**
+    * Process currencies.
+    */
+   private void processCurrencies()
+   {
+      m_reader.processCurrencies(getRows("currtype", null, null));
    }
 
    /**
@@ -1283,6 +1292,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       FIELD_TYPE_MAP.put("asgnmnt_catg_short_len", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("asgnmnt_catg_type_id", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("base_clndr_id", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("base_exch_rate", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("clndr_data", DataType.STRING);
       FIELD_TYPE_MAP.put("clndr_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("clndr_name", DataType.STRING);
@@ -1299,6 +1309,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       FIELD_TYPE_MAP.put("critical_drtn_hr_cnt", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("cstr_date", DataType.DATE);
       FIELD_TYPE_MAP.put("cstr_date2", DataType.DATE);
+      FIELD_TYPE_MAP.put("curr_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("curv_id", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("day_hr_cnt", DataType.NUMERIC);
       FIELD_TYPE_MAP.put("decimal_digit_cnt", DataType.INTEGER);
@@ -1313,6 +1324,7 @@ public final class PrimaveraXERFileReader extends AbstractProjectStreamReader im
       FIELD_TYPE_MAP.put("fk_id", DataType.INTEGER);
       FIELD_TYPE_MAP.put("free_float_hr_cnt", DataType.DURATION);
       FIELD_TYPE_MAP.put("fy_start_month_num", DataType.INTEGER);
+      FIELD_TYPE_MAP.put("group_digit_cnt", DataType.INTEGER);
       FIELD_TYPE_MAP.put("indep_remain_total_cost", DataType.CURRENCY);
       FIELD_TYPE_MAP.put("indep_remain_work_qty", DataType.DURATION);
       FIELD_TYPE_MAP.put("lag_hr_cnt", DataType.DURATION);

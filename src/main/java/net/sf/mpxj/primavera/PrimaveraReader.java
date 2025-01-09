@@ -49,6 +49,8 @@ import net.sf.mpxj.CostAccount;
 import net.sf.mpxj.CostAccountContainer;
 import net.sf.mpxj.CostRateTableEntry;
 import net.sf.mpxj.CriticalActivityType;
+import net.sf.mpxj.Currency;
+import net.sf.mpxj.CurrencyContainer;
 import net.sf.mpxj.CurrencySymbolPosition;
 import net.sf.mpxj.DataType;
 import java.time.DayOfWeek;
@@ -295,6 +297,31 @@ final class PrimaveraReader
                .postalCode(row.getString("postal_code"))
                .latitude(row.getDouble("latitude"))
                .longitude(row.getDouble("longitude"))
+               .build()));
+   }
+
+   /**
+    * Process currencies.
+    *
+    * @param currencies currency data
+    */
+   public void processCurrencies(List<Row> currencies)
+   {
+      CurrencyContainer container = m_project.getCurrencies();
+      currencies.forEach(
+         row -> container.add(
+            new Currency.Builder(m_project)
+               .uniqueID(row.getInteger("curr_id"))
+               .numberOfDecimalPlaces(row.getInteger("decimal_digit_cnt"))
+               .symbol(row.getString("curr_symbol"))
+               .decimalSymbol(row.getString("decimal_symbol"))
+               .digitGroupingSymbol(row.getString("digit_group_symbol"))
+               .positiveCurrencyFormat(row.getString("pos_curr_fmt_type"))
+               .negativeCurrencyFormat(row.getString("neg_curr_fmt_type"))
+               .name(row.getString("curr_type"))
+               .currencyID(row.getString("curr_short_name"))
+               // group_digit_cnt
+               .exchangeRate(row.getDouble("base_exch_rate"))
                .build()));
    }
 
@@ -2671,6 +2698,7 @@ final class PrimaveraReader
       map.put(ResourceField.UNIT_OF_MEASURE_UNIQUE_ID, "unit_id");
       map.put(ResourceField.SHIFT_UNIQUE_ID, "shift_id");
       map.put(ResourceField.PRIMARY_ROLE_UNIQUE_ID, "role_id");
+      map.put(ResourceField.CURRENCY_UNIQUE_ID, "curr_id");
 
       return map;
    }
