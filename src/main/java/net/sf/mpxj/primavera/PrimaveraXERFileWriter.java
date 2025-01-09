@@ -1522,7 +1522,7 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       RESOURCE_COLUMNS.put("auto_compute_act_flag", r -> Boolean.TRUE);
       RESOURCE_COLUMNS.put("def_cost_qty_link_flag", r -> Boolean.valueOf(r.getCalculateCostsFromUnits()));
       RESOURCE_COLUMNS.put("ot_flag", r -> Boolean.FALSE);
-      RESOURCE_COLUMNS.put("curr_id", r -> DEFAULT_CURRENCY.getUniqueID());
+      RESOURCE_COLUMNS.put("curr_id", r -> r.getCurrencyUniqueID() == null ? DEFAULT_CURRENCY.getUniqueID() : r.getCurrencyUniqueID());
       RESOURCE_COLUMNS.put("unit_id", r -> r.getUnitOfMeasureUniqueID());
       RESOURCE_COLUMNS.put("rsrc_type", r -> r.getType());
       RESOURCE_COLUMNS.put("location_id", r -> r.getLocationUniqueID());
