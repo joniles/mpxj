@@ -2735,21 +2735,41 @@ public final class Resource extends AbstractFieldContainer<Resource> implements 
       ((Map<RoleCode, RoleCodeValue>) get(ResourceField.ROLE_CODE_VALUES)).put(value.getParentCode(), value);
    }
 
+   /**
+    * Retrieves the unique ID of the currency associated with this resource.
+    *
+    * @return currency unique ID
+    */
    public Integer getCurrencyUniqueID()
    {
       return (Integer) get(ResourceField.CURRENCY_UNIQUE_ID);
    }
 
+   /**
+    * Sets the unique ID of the currency associated with this resource.
+    *
+    * @param uniqueID currency unique ID
+    */
    public void setCurrencyUniqueID(Integer uniqueID)
    {
       set(ResourceField.CURRENCY_UNIQUE_ID, uniqueID);
    }
 
+   /**
+    * Retrieve the currency associated with this resource.
+    *
+    * @return Currency instance
+    */
    public Currency getCurrency()
    {
       return getParentFile().getCurrencies().getByUniqueID(getCurrencyUniqueID());
    }
 
+   /**
+    * Sets the currency associated with this resource.
+    *
+    * @param currency Currency instance
+    */
    public void setCurrency(Currency currency)
    {
       setCurrencyUniqueID(currency == null ? null : currency.getUniqueID());
