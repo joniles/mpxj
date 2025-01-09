@@ -5,8 +5,14 @@ From version 14.0.0 onwards the `net.sf.mpxj`, `net.sf.mpxj-for-csharp` and `net
 no longer be distributed. Please use the `MPXJ.Net` package instead.
 
 
-## 13.9.0 (unreleased)
+## 13.9.1 (unreleased)
+
+## 13.9.0 (2025-01-09)
+* Updated to POI 5.4.0
 * Updated PMXML schema to version 24.12.
+* Added support for reading and writing currencies for Primavera P6 schedules.
+* Improve recognition of dates displayed as NA in Microsoft Project when reading certain MPP file.
+* Ignore invalid cost rate table entries when reading certain MPP files.
 
 ## 13.8.0 (2024-12-17)
 * Added support for reading and writing Project Codes, Resource Codes, Role Codes and Resource Assignment Codes for Primavera P6 schedules.

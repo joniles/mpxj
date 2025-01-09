@@ -830,6 +830,13 @@ module MPXJ
       get_date_value(attribute_values['created'])
     end
 
+    # Retrieve the Currency Unique ID value
+    #
+    # @return Currency Unique ID value
+    def currency_unique_id
+      get_integer_value(attribute_values['currency_unique_id'])
+    end
+
     # Retrieve the CV value
     #
     # @return CV value
@@ -4036,6 +4043,7 @@ module MPXJ
       'cost_rate_table' => :short,
       'cost_variance' => :currency,
       'created' => :date,
+      'currency_unique_id' => :integer,
       'cv' => :currency,
       'date1' => :date,
       'date10' => :date,

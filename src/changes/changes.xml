@@ -5,7 +5,9 @@
 		<author email="jon@timephased.com">Jon Iles</author>
 	</properties>
 	<body>
-		<release date="unreleased" version="13.9.0">
+		<release date="unreleased" version="13.9.1">
+		</release>
+		<release date="2025-01-09" version="13.9.0">
 			<action dev="joniles" type="update">Updated to POI 5.4.0</action>
 			<action dev="joniles" type="update">Updated PMXML schema to version 24.12.</action>
 			<action dev="joniles" type="update">Added support for reading and writing currencies for Primavera P6 schedules.</action>
