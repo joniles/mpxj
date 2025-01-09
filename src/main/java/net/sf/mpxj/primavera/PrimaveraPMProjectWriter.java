@@ -266,7 +266,7 @@ final class PrimaveraPMProjectWriter
    }
 
    /**
-    * Create a handful of default currencies to keep Primavera happy.
+    * Write currencies.
     */
    private void writeCurrencies()
    {
