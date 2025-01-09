@@ -7,6 +7,7 @@
 	<body>
 		<release date="unreleased" version="13.9.0">
 			<action dev="joniles" type="update">Updated PMXML schema to version 24.12.</action>
+			<action dev="joniles" type="update">Added support for reading and writing currencies for Primavera P6 schedules.</action>
 			<action dev="joniles" type="update">Improve recognition of dates displayed as NA in Microsoft Project when reading certain MPP file.</action>
 			<action dev="joniles" type="update">Ignore invalid cost rate table entries when reading certain MPP files.</action>
 		</release>
