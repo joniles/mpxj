@@ -1252,6 +1252,12 @@ public class PrimaveraXERFileWriter extends AbstractProjectWriter
       return assignment.getResource() != null && task != null && task.getUniqueID().intValue() != 0 && !task.getSummary();
    }
 
+   /**
+    * Retrieves the "base" currency (expected to have unique ID 1), or if this is not
+    * present returns the default currency constant.
+    *
+    * @return Currency instance
+    */
    private Currency getDefaultCurrency()
    {
       Currency currency = m_file.getCurrencies().getByUniqueID(Integer.valueOf(1));
